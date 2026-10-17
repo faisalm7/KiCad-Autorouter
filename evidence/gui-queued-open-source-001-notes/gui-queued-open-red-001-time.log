@@ -1,0 +1,52 @@
+test_cached_project_or_candidate_identity_cannot_redirect_current_reader (tests.test_gui_export_inspection.ExportInspectionTests.test_cached_project_or_candidate_identity_cannot_redirect_current_reader) ... ok
+test_cancellation_and_source_changes_during_reader_prevent_path_delivery (tests.test_gui_export_inspection.ExportInspectionTests.test_cancellation_and_source_changes_during_reader_prevent_path_delivery) ... ok
+test_checked_path_requires_new_cli_result_and_retains_unique_checks (tests.test_gui_export_inspection.ExportInspectionTests.test_checked_path_requires_new_cli_result_and_retains_unique_checks) ... ok
+test_old_ready_state_cannot_override_failed_or_mismatched_fresh_reader (tests.test_gui_export_inspection.ExportInspectionTests.test_old_ready_state_cannot_override_failed_or_mismatched_fresh_reader) ... ok
+test_source_or_settings_change_after_worker_before_queued_open_refuses (tests.test_gui_export_inspection.ExportInspectionTests.test_source_or_settings_change_after_worker_before_queued_open_refuses) ... 
+  test_source_or_settings_change_after_worker_before_queued_open_refuses (tests.test_gui_export_inspection.ExportInspectionTests.test_source_or_settings_change_after_worker_before_queued_open_refuses) (mode='source') ... FAIL
+  test_source_or_settings_change_after_worker_before_queued_open_refuses (tests.test_gui_export_inspection.ExportInspectionTests.test_source_or_settings_change_after_worker_before_queued_open_refuses) (mode='settings') ... FAIL
+test_unchanged_queued_open_succeeds_and_cancel_skips_freshness (tests.test_gui_export_inspection.ExportInspectionTests.test_unchanged_queued_open_succeeds_and_cancel_skips_freshness) ... 
+  test_unchanged_queued_open_succeeds_and_cancel_skips_freshness (tests.test_gui_export_inspection.ExportInspectionTests.test_unchanged_queued_open_succeeds_and_cancel_skips_freshness) (cancelled=False) ... FAIL
+
+======================================================================
+FAIL: test_source_or_settings_change_after_worker_before_queued_open_refuses (tests.test_gui_export_inspection.ExportInspectionTests.test_source_or_settings_change_after_worker_before_queued_open_refuses) (mode='source')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_inspection.py", line 86, in test_source_or_settings_change_after_worker_before_queued_open_refuses
+    opener.assert_not_called();self.assertIsNone(window.flow)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 900, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'Popen' to not have been called. Called 1 times.
+Calls: [call(['/usr/bin/open', '-a', '/Applications/KiCad/KiCad.app', '/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmp11xtuyfa/output/autorouter-gui-3af653464c75440394bab042815155c7/export/validation/candidate/owned.kicad_pro'])].
+
+======================================================================
+FAIL: test_source_or_settings_change_after_worker_before_queued_open_refuses (tests.test_gui_export_inspection.ExportInspectionTests.test_source_or_settings_change_after_worker_before_queued_open_refuses) (mode='settings')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_inspection.py", line 86, in test_source_or_settings_change_after_worker_before_queued_open_refuses
+    opener.assert_not_called();self.assertIsNone(window.flow)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 900, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'Popen' to not have been called. Called 1 times.
+Calls: [call(['/usr/bin/open', '-a', '/Applications/KiCad/KiCad.app', '/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmp11xtuyfa/output/autorouter-gui-2b1bea2b97b3469aaad5b65678d1d1ca/export/validation/candidate/owned.kicad_pro'])].
+
+======================================================================
+FAIL: test_unchanged_queued_open_succeeds_and_cancel_skips_freshness (tests.test_gui_export_inspection.ExportInspectionTests.test_unchanged_queued_open_succeeds_and_cancel_skips_freshness) (cancelled=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_inspection.py", line 104, in test_unchanged_queued_open_succeeds_and_cancel_skips_freshness
+    fresh.assert_called_once_with();opener.assert_called_once()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'fresh' to be called once. Called 0 times.
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.122s
+
+FAILED (failures=3)
+real 0.54
+user 0.18
+sys 0.06

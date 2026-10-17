@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "kind": "gui-queued-open-final-source-review-v1",
+  "status": "one_material_receipt_type_freshness_finding",
+  "Native_executed": false,
+  "JVM_executed": false,
+  "tests_executed_by_reviewer": false,
+  "source_sha256": {
+    "autorouter/gui.py": "de2e9262c701d49a2a6ce07950a003040d44c6ed7a5bb96a5ea91a98fe5b57d9",
+    "tests/test_gui_export_inspection.py": "89bbd03ea511cbfef33c4c79156ac81ddffe0d2180376290f92673ee42022d8c",
+    "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+  },
+  "material_findings": [
+    {
+      "priority": "P2",
+      "file": "autorouter/gui.py",
+      "line": 345,
+      "title": "Parsed receipt equality admits bool/integer type-changing edits",
+      "concrete_counterexample": "Use the actual shape of an accepted export record cached after the background CLI reader. While Window.opened is queued, rewrite only export/export.json export_accepted from JSON true to JSON1. Python dict equality considers the current integer1 equal to the cached BooleanTrue, so read_record(...) != exported is false. review_export.evidence() excludes root export.json, and source/settings/target files remain unchanged. check_open_export_material therefore returns and the opener runs. The central reader explicitly requires export_accepted is True and would reject this now-malformed receipt. Changing schema1 to Booleantrue is another equal-under-Python edit.",
+      "impact": "A changed and invalid current export receipt can pass the callback's material guard and be presented as checked. The candidate itself remains unchanged in this counterexample; this does not demonstrate Native/routing acceptance forgery.",
+      "minimal_fix": "Compare existing canonical JSON representations of current and cached records, rather than Python dict equality, so Boolean/integer types remain distinct. The existing floor_route.canonical helper suffices with the current strict read_record parser. Alternatively capture/check the exact raw receipt hash in the existing background check. Keep the existing evidence witness and cancellation precedence.",
+      "focused_regression": "Create the same actual-flow queued-open fixture with a cached export_accepted:true/schema1 receipt. After successful inspect_path, rewrite only export_accepted to1, and separately schema totrue, using valid JSON. Deliver the extracted Window.opened callback with a mocked opener. Require no launch, cleared positive state and retained refusal. The present receipt mutation test writes invalid JSON bytes, which does not cover this coercive-equality case.",
+      "observation_status": "Source-derived concrete counterexample; not executed by this read-only reviewer."
+    }
+  ],
+  "accepted_closures": [
+    "flow.fresh immediately before the opener fixes the reproduced saved-source/settings queued-callback gap and uses existing refusal handling.",
+    "Cancel, closing and existing error branches precede freshness/material work and opening.",
+    "The existing review_export.evidence file/directory witness covers changed candidate/project, added rule files and other direct export evidence without Native/CLI or a new audit framework.",
+    "The focused tests use real temporary Workflow/source/settings/export material with a mocked background CLI/opener. New source/settings and candidate/new-rule/corrupt-receipt mutations, unchanged open, and cancellation precedence are covered. They remain authored controls rather than Native/GUI qualification."
+  ],
+  "limits": "After the type-equality fix, this remains bounded callback-time source/settings and direct export material consistency. It does not atomically bind external editor reads, revalidate every bound original/review/routing tree or rerun Native acceptance. Existing background semantic reader remains authority. Shared byte inventory has its existing256MiB/12000file bounds and is not constant-time.",
+  "review_boundary": "Read-only exact patch/helper/tests and retained focused log inspection only; no source edits, imports, tests, Native/JVM, network or recursive delegation. The only write is this review JSON."
+}

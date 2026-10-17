@@ -1,0 +1,48 @@
+test_queued_receipt_boolean_numeric_type_changes_refuse_open (tests.test_gui_export_inspection.ExportInspectionTests.test_queued_receipt_boolean_numeric_type_changes_refuse_open) ... 
+  test_queued_receipt_boolean_numeric_type_changes_refuse_open (tests.test_gui_export_inspection.ExportInspectionTests.test_queued_receipt_boolean_numeric_type_changes_refuse_open) (changed={'export_accepted': 1}) ... FAIL
+  test_queued_receipt_boolean_numeric_type_changes_refuse_open (tests.test_gui_export_inspection.ExportInspectionTests.test_queued_receipt_boolean_numeric_type_changes_refuse_open) (changed={'schema': True}) ... FAIL
+  test_queued_receipt_boolean_numeric_type_changes_refuse_open (tests.test_gui_export_inspection.ExportInspectionTests.test_queued_receipt_boolean_numeric_type_changes_refuse_open) (changed={'applied': 0}) ... FAIL
+
+======================================================================
+FAIL: test_queued_receipt_boolean_numeric_type_changes_refuse_open (tests.test_gui_export_inspection.ExportInspectionTests.test_queued_receipt_boolean_numeric_type_changes_refuse_open) (changed={'export_accepted': 1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_inspection.py", line 139, in test_queued_receipt_boolean_numeric_type_changes_refuse_open
+    opener.assert_not_called();self.assertIsNone(window.flow)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 900, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'Popen' to not have been called. Called 1 times.
+Calls: [call(['/usr/bin/open', '-a', '/Applications/KiCad/KiCad.app', '/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmpmus3ck5r/output/autorouter-gui-063eea73e8674bebb67da5761901d75f/export/validation/candidate/owned.kicad_pro'])].
+
+======================================================================
+FAIL: test_queued_receipt_boolean_numeric_type_changes_refuse_open (tests.test_gui_export_inspection.ExportInspectionTests.test_queued_receipt_boolean_numeric_type_changes_refuse_open) (changed={'schema': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_inspection.py", line 139, in test_queued_receipt_boolean_numeric_type_changes_refuse_open
+    opener.assert_not_called();self.assertIsNone(window.flow)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 900, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'Popen' to not have been called. Called 1 times.
+Calls: [call(['/usr/bin/open', '-a', '/Applications/KiCad/KiCad.app', '/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmpmus3ck5r/output/autorouter-gui-677c6b55e8de4502a7537457b62d2095/export/validation/candidate/owned.kicad_pro'])].
+
+======================================================================
+FAIL: test_queued_receipt_boolean_numeric_type_changes_refuse_open (tests.test_gui_export_inspection.ExportInspectionTests.test_queued_receipt_boolean_numeric_type_changes_refuse_open) (changed={'applied': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_export_inspection.py", line 139, in test_queued_receipt_boolean_numeric_type_changes_refuse_open
+    opener.assert_not_called();self.assertIsNone(window.flow)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 900, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'Popen' to not have been called. Called 1 times.
+Calls: [call(['/usr/bin/open', '-a', '/Applications/KiCad/KiCad.app', '/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmpmus3ck5r/output/autorouter-gui-5e11acee34c5484095ce826e4af258ca/export/validation/candidate/owned.kicad_pro'])].
+
+----------------------------------------------------------------------
+Ran 1 test in 0.079s
+
+FAILED (failures=3)
+real 0.26
+user 0.15
+sys 0.04

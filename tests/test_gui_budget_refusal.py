@@ -52,7 +52,7 @@ class GuiBudgetTests(unittest.TestCase):
         self.assertIn('cancelled', window.log.SetValue.call_args.args[0])
 
     def test_failed_opener_clears_positive_ui_and_shows_retained_reason(self):
-        flow = SimpleNamespace(ready={'route', 'export'}, records={'export':{}}, choice='accept')
+        flow = SimpleNamespace(ready={'route', 'export'}, records={'export':{}}, choice='accept', fresh=Mock(), check_open_export_material=Mock())
         window = SimpleNamespace(job=SimpleNamespace(cancel_requested=False), flow=flow, busy=True,
                                  inspected=Mock(), status=Mock(), log=Mock(), refresh=Mock(), closing=False)
         window.refused = lambda error: gt.window_method('refused')(window, error)

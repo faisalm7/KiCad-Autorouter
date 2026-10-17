@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "kind": "gui-queued-open-source-controls-v1",
+  "accepted": false,
+  "source_controls_passed": true,
+  "actual_GUI": false,
+  "Native_reexecuted": false,
+  "human_review": false,
+  "prior_installed_source": "0754615776e38ea34ebc83f5b9a66c458538e1d2",
+  "changed_runtime_modules": [
+    "autorouter/gui.py"
+  ],
+  "unchanged_runtime_modules": 43,
+  "source_sha256": {
+    "autorouter/gui.py": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844",
+    "tests/test_gui_export_inspection.py": "d5a37db3ea1446d1c1927d0e9342fcf7a8a22a19318f0290459d133f650300e9",
+    "tests/test_gui_budget_refusal.py": "d8237a2e183262e34fa0e604e8f0a1b4d5746647182b706bb4e062b377e21734"
+  },
+  "defects": [
+    "Queued source/settings mutation after worker completion still launched the checked project.",
+    "New material guard initially used Python dictionary equality, so valid JSON bool/int swaps escaped receipt comparison. This intermediate source and failing regression remain retained."
+  ],
+  "fix": "Before opening, recheck saved source/settings ownership and, for authoritative exports, compare canonical JSON receipt types/content plus the existing bounded export evidence census. Cancellation/closing precede these checks. No Native or central reader runs on the UI thread.",
+  "red_source_cost": {
+    "wall_seconds": 0.54,
+    "full_CPU_seconds": 0.24,
+    "user_CPU_seconds": 0.18,
+    "system_CPU_seconds": 0.06
+  },
+  "red_type_cost": {
+    "wall_seconds": 0.26,
+    "full_CPU_seconds": 0.19,
+    "user_CPU_seconds": 0.15,
+    "system_CPU_seconds": 0.04
+  },
+  "focused_green_costs": {
+    "green-001": {
+      "wall_seconds": 0.79,
+      "full_CPU_seconds": 0.43,
+      "user_CPU_seconds": 0.34,
+      "system_CPU_seconds": 0.09
+    },
+    "green-002": {
+      "wall_seconds": 0.82,
+      "full_CPU_seconds": 0.49,
+      "user_CPU_seconds": 0.4,
+      "system_CPU_seconds": 0.09
+    },
+    "green-003": {
+      "wall_seconds": 0.92,
+      "full_CPU_seconds": 0.62,
+      "user_CPU_seconds": 0.51,
+      "system_CPU_seconds": 0.11
+    }
+  },
+  "interrupted_full155": {
+    "status": "intentionally_cancelled_for_review_finding",
+    "cost": {
+      "wall_seconds": 79.12,
+      "full_CPU_seconds": 75.84,
+      "user_CPU_seconds": 58.14,
+      "system_CPU_seconds": 17.7
+    },
+    "cleanup_complete": true,
+    "not_a_pass": true
+  },
+  "full156": {
+    "passed": true,
+    "execution_sha256": "50ee31a1bb8b9930e982f073f09947e2c207d1e49722d65a3ad73b7589fe1b9e",
+    "cost": {
+      "wall_seconds": 270.9,
+      "full_CPU_seconds": 260.83,
+      "user_CPU_seconds": 210.65,
+      "system_CPU_seconds": 50.18
+    }
+  },
+  "actual_retained_export_material_readback": {
+    "schema": 1,
+    "passed": true,
+    "Native_reexecuted": false,
+    "GUI_executed": false,
+    "gui_sha256": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844",
+    "export_receipt_sha256": "f6d772151f3630bff9a7419c2f8106940e5883fd12438ede70d472e1070da2fa",
+    "retained_export": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-018/runtime/.runs/production-delivery-001/jobs/autorouter-gui-4b4489cb692747d7bb17ddbbd79f8fcb/export/export.json",
+    "material_files": 105,
+    "material_directories": 28,
+    "guard_wall_seconds": 0.04565108404494822,
+    "guard_parent_CPU_seconds": 0.033470000000000014,
+    "scope": "One execution of the new GUI pure bounded material guard on the unchanged actual018 Native export. No Native checker, process/tool probe, GUI or routing rerun. This is not new019 Native acceptance or an end-to-end runtime claim."
+  },
+  "actual_material_command_cost": {
+    "wall_seconds": 0.18,
+    "full_CPU_seconds": 0.13,
+    "user_CPU_seconds": 0.1,
+    "system_CPU_seconds": 0.03
+  },
+  "limitations": [
+    "Controller regressions execute actual callback code with mocked openers, not wx/Native qualification. Fresh installed qualification and actual GUI are separate.",
+    "Bounded byte reads are cooperative and non-atomic. They do not freeze a live editor or protect against hostile same-user changes after checks, SIGKILL or power loss.",
+    "The final export target/source/settings guard does not independently rerun Native or all upstream bound-tree validation; the fresh cancellable CLI reader remains mandatory in the inspection worker.",
+    "No routing completion, quality, speed, family, Windows or release claim. Research/authoring/independent AI review costs are separate and not zero; complete CPU for those activities is unknown."
+  ],
+  "files": [
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-current018-bounded-review-001.json",
+      "bytes": 3720,
+      "sha256": "713bb55bb41ae087ab507b3c48b08ceb1320cabd01dc7719abb32b6192193a59"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-fix-scope-review-001.json",
+      "bytes": 4321,
+      "sha256": "cfd8cc8cf909493acbfe070ea3efb6ea1212e05371f56be2699390df187b64a5"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-final-source-review-001.json",
+      "bytes": 4145,
+      "sha256": "af41486306b70d214adbb69c114434f0d45a301dac82c7ea7d7c3d0e92fcd7d8"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-canonical-review-001.json",
+      "bytes": 1614,
+      "sha256": "8f5b44fbe87b59f358b9a460f3bf06aff2b14100253adff4e3e435285311c200"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-precanonical.py",
+      "bytes": 52724,
+      "sha256": "de2e9262c701d49a2a6ce07950a003040d44c6ed7a5bb96a5ea91a98fe5b57d9"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/check-gui-queued-open-material-001.py",
+      "bytes": 1537,
+      "sha256": "ad9b1c8a0c0183aae31fff6bbae74c6a1fd895a8fab11101f73bfedc1a5200bc"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-material-readback-001/result.json",
+      "bytes": 873,
+      "sha256": "e28878e62f7f975bae6c0e051896da0402e4edbb69c816ce9eafaa60949e9fd0"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-material-readback-001-command.log",
+      "bytes": 110,
+      "sha256": "34c9bfd79ddc03ae1556663f3eec2c70815fd7cac761a9a3302ee1339c4f9104"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-material-readback-001-time.log",
+      "bytes": 29,
+      "sha256": "b5796cfe5aafde1244c771da60c50960bd0630e6c0e547e076e2124568d08690"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/run-full-integration-155.py",
+      "bytes": 11872,
+      "sha256": "b6b74c2c7d062b25983abde705b07af146fa31d5519680d95334599e4f0ff246"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/run-full-integration-156.py",
+      "bytes": 11932,
+      "sha256": "939627bd9080312aa625aa9d6e0cfb1209093cd390c5a3a6f21ebce719b12894"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-155/execution.json",
+      "bytes": 46719,
+      "sha256": "1484e41467bb3259080415a6e37db0aa90f87f823fe333566dc1b82061603810"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-155/command.log",
+      "bytes": 216650,
+      "sha256": "c23e8bc644792e14fad5777a31ad8cb6980eddd3587b2f011d3a951f5511bb31"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-155-command.log",
+      "bytes": 191,
+      "sha256": "500a0ad9861d0163b4e3ad571b85d0eac01fa6d2cb95eeb738bd14d66a6f9b2d"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-155-time.log",
+      "bytes": 32,
+      "sha256": "473e79f6490ca32de4a85cbcbd94200c5c5a84a0f7733d6c8c6da25fbc1c362b"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-156/execution.json",
+      "bytes": 46765,
+      "sha256": "50ee31a1bb8b9930e982f073f09947e2c207d1e49722d65a3ad73b7589fe1b9e"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-156/command.log",
+      "bytes": 325764,
+      "sha256": "7c1f1f333d506a6b11d7930aca9908ff23f7d3a1fa0d0921d87700af2b3ae43a"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-156-command.log",
+      "bytes": 197,
+      "sha256": "82f5fbe0ccf4a8f30fd64b2e603046719edf3fa2f7696bfb41a3ff44d42ab8da"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/full-integration-156-time.log",
+      "bytes": 34,
+      "sha256": "a8a5e976d1c0316b66d21e4859e425bc95dec7cd32f822ab3075393e97019a19"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/native-components-next-decision-current018-001.json",
+      "bytes": 5044,
+      "sha256": "0415a35699bd0e46021dc059bf031b4f9127aafe4cc5229358a9ff71c9b468ef"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-red-001-command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-red-001-time.log",
+      "bytes": 5147,
+      "sha256": "7dfd1402d37b1d45bcde16f3b6a63e88f3476e0849fa163dc07ecaec95ca31d6"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-type-red-001-command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-type-red-001-time.log",
+      "bytes": 4307,
+      "sha256": "15b8881434cd9e33e6762375cbed0b2aa7d028194da97c974b294e3944ef0cbc"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-green-001-command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-green-001-time.log",
+      "bytes": 3710,
+      "sha256": "29b6dd8c1db39887b9abd918eec1917f9cca404c005d3e154f4cadcc66eb4679"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-green-002-command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-green-002-time.log",
+      "bytes": 3890,
+      "sha256": "08b088a365eba65ddc6d912cef10d25e9f3f1844285c58d6d59a48e5b44196f5"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-green-003-command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/gui-queued-open-source-001-notes/gui-queued-open-green-003-time.log",
+      "bytes": 6359,
+      "sha256": "e8cad9f01e67fcb724fe141dfb8d8cf99abe337b5ac6ce3c032466ce9aede4b2"
+    }
+  ]
+}

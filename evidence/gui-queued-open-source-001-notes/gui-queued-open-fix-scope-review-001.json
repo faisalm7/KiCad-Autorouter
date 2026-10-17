@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "kind": "gui-queued-open-fix-scope-review-v1",
+  "status": "minimal_source_settings_fix_acceptable",
+  "material_findings_for_demonstrated_source_settings_fix": [],
+  "Native_executed": false,
+  "JVM_executed": false,
+  "tests_executed_by_reviewer": false,
+  "source_sha256": {
+    "autorouter/gui.py": "de2e9262c701d49a2a6ce07950a003040d44c6ed7a5bb96a5ea91a98fe5b57d9",
+    "tests/test_gui_export_inspection.py": "89bbd03ea511cbfef33c4c79156ac81ddffe0d2180376290f92673ee42022d8c",
+    "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+  },
+  "decision": "The minimal Window.opened flow.fresh() immediately before opening, inside the existing noncancelled/nonclosing branch and exception/refusal handling, is acceptable for the exact reproduced saved-source/settings/owned-workspace queued-callback gap. Preserve the historical red finding and fresh focused green evidence separately.",
+  "latest_source_readback": "Before closing this bounded review, lead added Workflow.check_open_export_material(): it compares current parsed export receipt to the cached checked export record and existing review_export.evidence(root) to its export_evidence. Window.opened calls it only for export, after flow.fresh and before launch, inside cancellation/closing/error precedence. This implements the bounded direct export-material recommendation without tools or a new framework; no material source finding in this closure. Focused material controls remain lead-owned and unexecuted by this reviewer.",
+  "target_material_recommendation": {
+    "needed_if_claiming_checked_export_bytes_still_current_at_callback": true,
+    "counterexample": "After the background export reader returns, edit the exported candidate PCB or project file before queued Window.opened runs. Original source/settings/owned-workspace are unchanged, so flow.fresh() alone does not detect it.",
+    "minimal_existing_shared_guard": "For export opening, compare review_export.evidence(export_root) with the cached previously checked export record's export_evidence immediately before the opener. This reuses the existing bounded file/directory witness and detects candidate, project, proof and unexpected added/removed export files. evidence() deliberately excludes export.json, so also compare the current export receipt to its checked cached record, or capture its exact raw hash during the existing worker check and recheck that hash.",
+    "bound_material_scope": "review_export.bound_material(cached_export['inputs']) is existing pure byte/receipt readback with no tools or consumers. It additionally rehashes bound source/candidate/review/routing input trees. Use it if the callback promises those inputs remain current; it is not required merely to close the demonstrated source/settings gap or seal direct export material. Avoid expanding to a central semantic checker on the UI thread.",
+    "bounds": "The existing witness uses the shared OUTPUT_BYTES256MiB/OUTPUT_FILES12000 and project limits. It is bounded but not a constant-time check; no new performance guarantee is established by this source inspection."
+  },
+  "ordering_and_limits": [
+    "Cancellation and closing must take precedence, without running freshness/material checks or opening anything. On a stale check exception, use the existing refused path to clear positive GUI state and preserve files.",
+    "No Native, CLI, central acceptance reader or new audit framework is needed for the callback fix. The existing background reader remains the semantic validation authority.",
+    "Callback freshness narrows the asynchronous queue interval. It cannot make the external editor's later file reads atomic with hashing; mutable local consistency is not authentication or a promise against all filesystem races.",
+    "The initially reviewed minimal patch closes the source/settings gap. The latest helper readback additionally seals direct export material and receipt semantics; it does not revalidate all bound original/review/routing trees or certify atomic editor reads. Fresh focused material controls remain separately required."
+  ],
+  "review_boundary": "Read-only source/helper inspection and this note only; no source edits, imports, tests, Native/JVM, network, process execution or recursive delegation."
+}

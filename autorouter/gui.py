@@ -333,6 +333,20 @@ class Workflow:
             raise ValueError('Inspection target is outside this separate project.')
         return target
 
+    def check_open_export_material(self):
+        """Seal the queued open gap using the existing bounded byte witness.
+
+        This is not another Native check or an atomic editor transaction.
+        The worker's current CLI reader remains the acceptance authority.
+        """
+        from . import review_export as ex
+        from .floor_route import canonical as canonical_json
+        exported = self.records['export']
+        root = self.workspace / 'export'
+        if (canonical_json(read_record(root / 'export.json')) != canonical_json(exported)
+                or ex.evidence(root) != exported.get('export_evidence')):
+            raise ValueError('Checked export changed while opening. Start a fresh preview; retained files were not reaccepted.')
+
 
 def check_improve_settings(config):
     """GUI-only operational minimum; the public strategy contract is unchanged."""
@@ -787,6 +801,10 @@ def main(argv=None):
             self.busy = False; self.job = None
             if not error and not cancelled and not self.closing:
                 try:
+                    # The inspection worker can finish before this queued UI
+                    # callback runs. Recheck saved inputs at the open boundary.
+                    self.flow.fresh()
+                    if kind == 'export': self.flow.check_open_export_material()
                     if kind == 'preview':
                         import webbrowser
                         webbrowser.open(target.as_uri())

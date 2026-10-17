@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "kind": "gui-current018-bounded-source-review-v1",
+  "status": "actionable_queued_open_freshness_gap",
+  "Native_executed": false,
+  "JVM_executed": false,
+  "tests_executed": false,
+  "network_used": false,
+  "source_sha256": {
+    "autorouter/gui.py": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7"
+  },
+  "material_findings": [
+    {
+      "priority": "P2",
+      "file": "autorouter/gui.py",
+      "line": 785,
+      "title": "Queued open callback does not recheck saved-source freshness",
+      "code_path": "act(open_export) background inspect() calls flow.inspect_path(), including the fresh export CLI reader, then job.check_live(), then wx.CallAfter(self.opened,...). Window.opened() checks only cancel_requested/closing before subprocess.Popen or webbrowser.open. It never calls flow.fresh() at UI delivery time.",
+      "concrete_counterexample": "Let the background export reader and inspect_path finish successfully, hold the queued wx.CallAfter callback, and change one byte of the saved source project. Then deliver opened('export',target,None) with cancel_requested=false and closing=false. Its current source path deterministically launches /usr/bin/open and retains ready state without examining the changed source. The same queued gap exists for review/preview targets. This is source-derived; no live GUI reproduction was performed in this read-only task.",
+      "impact": "Open checked export can launch after the source has become stale during the queue interval, despite the saved-source freshness precondition enforced earlier by inspect_path. This does not demonstrate routing acceptance or Native proof forgery.",
+      "smallest_regression_and_fix_scope": "Use the existing extracted Window.opened test helper with a real or mocked flow whose fresh() raises the saved-source-changed error at callback delivery, a noncancelled job, and a mocked opener. Assert no opener call, refusal text and cleared positive state. Recheck flow/source/settings ownership freshness in opened immediately before launch, with cancellation precedence and refusal behavior preserved. Do not run a central Native reader on the UI thread or claim that this eliminates all filesystem races."
+    }
+  ],
+  "nearby_checks_and_test_names": [
+    "CliJob serializes startup/cancel, refuses cancelled adoption before and after flow.adopt, joins its watchdog, reaps the child and closes stdout in finally.",
+    "Workflow.command requires completed stages and explicit accept intent before fresh export. Workflow.inspect_path(export) requires a new cancellable CLI reader, exact current candidate/project identity, target containment and fresh source/settings before returning.",
+    "tests/test_gui.py: test_cancelled_exit_zero_cannot_adopt; test_late_cancel_before_and_during_adoption_rejects_old_snapshot; test_queued_finish_checks_live_cancel_and_discards_ready_state; test_real_success_closes_captured_output_after_reaping.",
+    "tests/test_gui_export_inspection.py: test_old_ready_state_cannot_override_failed_or_mismatched_fresh_reader; test_cached_project_or_candidate_identity_cannot_redirect_current_reader; test_cancellation_and_source_changes_during_reader_prevent_path_delivery.",
+    "tests/test_gui_budget_refusal.py: test_cancelled_inspection_does_not_open_or_retain_positive_ui; test_failed_opener_clears_positive_ui_and_shows_retained_reason. These do not cover a source mutation after worker return and before opened callback delivery."
+  ],
+  "scope": "One bounded source finding in the requested cancellation/review-choice/export/open paths only. No source edits, imports, tests, processes, Native/JVM, network, qualification repeat or recursive delegation."
+}
