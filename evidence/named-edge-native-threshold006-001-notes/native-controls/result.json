@@ -1,0 +1,3263 @@
+{
+  "schema": 1,
+  "kind": "named-edge-native-threshold-controls-v1",
+  "accepted": false,
+  "passed": true,
+  "status": "completed",
+  "whole_project_drc_clean": false,
+  "production_admitted": false,
+  "routing_executed": false,
+  "budget_seconds": 180.0,
+  "plan_sha256": "e96f2701ab217bee2f183a0be2ec7442497ad1415ee4df1ad29023090bd84497",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+      "autorouter/gui.py": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7",
+      "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+      "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "141ace13a69e85084440ba5bc88a9482d4f48cdeff034a79a60be2dc139d0f62",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+      "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+      "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+      "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029",
+      "autorouter/review_view.py": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_class_evidence.py": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb",
+      "autorouter/schematic_classes.py": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "eea36e674d13039dcfbf56a5a7f2fc8c56ad877a",
+    "source_provenance": {
+      "kind": "git-checkout",
+      "git_head": "eea36e674d13039dcfbf56a5a7f2fc8c56ad877a",
+      "build_source": null,
+      "manifest_sha256": null
+    },
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "reused005": {
+    "failed_controller_sha256": "e67cf0954b6b12e4301521d2d78210d7a7705c4aca68f8a1d5ec60cabed7cba3",
+    "failed_material_sha256": {
+      "result.json": "dc604d384ea96e64e0add4c4ed0b3941abc738101c11d68ce9cc371f82d0633f",
+      "source-job/kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "source-job/kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "source-job/kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "source-job/kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "source-job/kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "source-job/kicad-config/10.0/kicad_common.json": "05c6ed577f809c36b1744d1763a1ca16d47e962319f37292bea7aded9675c622",
+      "source-job/kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "source-job/kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "source-job/source-drc-binding.json": "583f86366de3cb9c6df8c3981895a826b68968de85f3ef57fd37f11997f38e0b",
+      "source-job/source-drc-fields-audit-process.json": "71918e3c2872f7c307fe0744f724c86b297382ed460952f4eb714d4a54dfc20a",
+      "source-job/source-drc-fields-audit.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source-job/source-drc-fields-local-settings.json": "0aa5a7ca079c8fd7625406fd97a0f31ee19f6e73bf6243abfe12a6a0e549704d",
+      "source-job/source-drc-fields-netlist-process.json": "dec1fe31a943042256c6b69b53b3e2a379d7eb6eac87e5cd6695e4059062f52f",
+      "source-job/source-drc-fields-netlist.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source-job/source-drc-fields-proof.json": "8b7f47ce2b69fd8bd4d223389bb1947dac72bb8760eadebd863e4dc681533e12",
+      "source-job/source-drc-fields.json": "7bdfcbd3c6675752a5e9f401c156dcdadeb482c6f334be9641a28a68811a42cf",
+      "source-job/source-drc-fields.net": "8b9dbe2e2e7053a5da90be7e82ff86ca8457397e82ec93301605801a8949cf69",
+      "source-job/source-drc-input/owned-named-edge-literal300.kicad_pcb": "fb577c2a834b994ea0fceee5de7f4956c6b8dfcff87feea431248a8a7a858d2a",
+      "source-job/source-drc-input/owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "source-job/source-drc-input/owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "source-job/source-drc-input/owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4",
+      "source-job/source-drc-process.json": "2ee7e3fc2d37e67e07197bc3d25486d48c19165e38cae7df9c27ce369f921b34",
+      "source-job/source-drc.json": "d8645bc95e56525bd7ac8c3a9a9e8b1ba052ac33ead9993d34db154f15e03e1b",
+      "source-job/source-drc.log": "b9d282cd95aef1505987bb67437c77985cbd7ee035e5eebf27d9638e2d04c3be"
+    },
+    "failed_protocol_sha256": "c44d68b28855ff29d19023b42b0b6f874f3ffe527a7eb46727c8ae4e784fb54b",
+    "failed_result_sha256": "dc604d384ea96e64e0add4c4ed0b3941abc738101c11d68ce9cc371f82d0633f",
+    "failure_classification": "experiment-source-predicate-bug; source Native completed; no candidate Native executed",
+    "frozen_plan_sha256": "2b0f6e9f3719a5226b4b8e6b22fa5ffb486d09524cf645ee4bea6e4004a3f3f6",
+    "historical_inner_sample_costs": {
+      "charged_full_cpu_seconds": 6.055373,
+      "charged_wall_seconds": 6.838134874997195,
+      "inner_sample_full_cpu_seconds": 2.0553730000000003,
+      "inner_sample_wall_seconds": 2.838134874997195
+    },
+    "prepared_material_sha256": {
+      "original/owned-named-edge-literal300.kicad_pcb": "fb577c2a834b994ea0fceee5de7f4956c6b8dfcff87feea431248a8a7a858d2a",
+      "original/owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "original/owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "original/owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4",
+      "plan.json": "2b0f6e9f3719a5226b4b8e6b22fa5ffb486d09524cf645ee4bea6e4004a3f3f6",
+      "track_allowed_035/owned-named-edge-literal300.kicad_pcb": "76a1800fc0040a575396bf5c2d7c17ff18d79647f3111f1b59fa4a4ef4349e17",
+      "track_allowed_035/owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "track_allowed_035/owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "track_allowed_035/owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4",
+      "track_below_025/owned-named-edge-literal300.kicad_pcb": "3e59d7d0aa3608914b22d8dbf3ec77e43db3700ad491534db82a9be010ac9073",
+      "track_below_025/owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "track_below_025/owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "track_below_025/owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4",
+      "via_allowed_035/owned-named-edge-literal300.kicad_pcb": "bf69954a5923ca7adce08fe973659994c747e229b6ecdb79438bf09ae92d421e",
+      "via_allowed_035/owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "via_allowed_035/owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "via_allowed_035/owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4",
+      "via_below_025/owned-named-edge-literal300.kicad_pcb": "cc437a33156f9497f934cb7094e656ffb4143f86b7ca44633c39a4f886a86ba2",
+      "via_below_025/owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "via_below_025/owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "via_below_025/owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4"
+    },
+    "source_job": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job",
+    "source_job_material_sha256": {
+      "kicad-config/10.0/3d_viewer.json": "196678c94fed37c15510bb4b54d6e4eec989a0c3f9b4d30ff1be0d1425992bf3",
+      "kicad-config/10.0/cvpcb.json": "b93174a3b1470f1ce0e43c90268ce83976432c5210d906a3846ee7976ea9d272",
+      "kicad-config/10.0/eeschema.json": "ce1d47af13c60254b736992e8a387cf93b06c83f302e3aaa4c6836acb05d3502",
+      "kicad-config/10.0/fpedit.json": "e88988497732f32bf92cccd726d7d28ea7dfe1922d693448a38cb4c063f9d368",
+      "kicad-config/10.0/kicad.json": "026a2e3d05986b554bc6f5aa8590c69e847090527e0e718287e1005dbd905015",
+      "kicad-config/10.0/kicad_common.json": "05c6ed577f809c36b1744d1763a1ca16d47e962319f37292bea7aded9675c622",
+      "kicad-config/10.0/pcbnew.json": "f0822c67ee74c2e6189603de283b6d288e77a6a201c65d2f6b60afd119c95845",
+      "kicad-config/10.0/symbol_editor.json": "a3212dc53c3cbfd170a2bb6ae42db289bc6f4c3cf6df9abc4a5c856d22d2f86a",
+      "source-drc-binding.json": "583f86366de3cb9c6df8c3981895a826b68968de85f3ef57fd37f11997f38e0b",
+      "source-drc-fields-audit-process.json": "71918e3c2872f7c307fe0744f724c86b297382ed460952f4eb714d4a54dfc20a",
+      "source-drc-fields-audit.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source-drc-fields-local-settings.json": "0aa5a7ca079c8fd7625406fd97a0f31ee19f6e73bf6243abfe12a6a0e549704d",
+      "source-drc-fields-netlist-process.json": "dec1fe31a943042256c6b69b53b3e2a379d7eb6eac87e5cd6695e4059062f52f",
+      "source-drc-fields-netlist.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source-drc-fields-proof.json": "8b7f47ce2b69fd8bd4d223389bb1947dac72bb8760eadebd863e4dc681533e12",
+      "source-drc-fields.json": "7bdfcbd3c6675752a5e9f401c156dcdadeb482c6f334be9641a28a68811a42cf",
+      "source-drc-fields.net": "8b9dbe2e2e7053a5da90be7e82ff86ca8457397e82ec93301605801a8949cf69",
+      "source-drc-input/owned-named-edge-literal300.kicad_pcb": "fb577c2a834b994ea0fceee5de7f4956c6b8dfcff87feea431248a8a7a858d2a",
+      "source-drc-input/owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "source-drc-input/owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "source-drc-input/owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4",
+      "source-drc-process.json": "2ee7e3fc2d37e67e07197bc3d25486d48c19165e38cae7df9c27ce369f921b34",
+      "source-drc.json": "d8645bc95e56525bd7ac8c3a9a9e8b1ba052ac33ead9993d34db154f15e03e1b",
+      "source-drc.log": "b9d282cd95aef1505987bb67437c77985cbd7ee035e5eebf27d9638e2d04c3be"
+    }
+  },
+  "source_native": {
+    "opens": 2,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [ROUTE] of J1",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "e8265531-c5b4-5741-bade-c6d6464ba2d2"
+          },
+          {
+            "description": "PTH pad 1 [ROUTE] of J2",
+            "pos": {
+              "x": 26.0,
+              "y": 10.0
+            },
+            "uuid": "cb4c0456-32bb-5150-8616-70daa82848b6"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [GND] of J5",
+            "pos": {
+              "x": 12.0,
+              "y": 24.0
+            },
+            "uuid": "349b17bf-5387-5912-8879-18d81543d892"
+          },
+          {
+            "description": "PTH pad 1 [GND] of J6",
+            "pos": {
+              "x": 26.0,
+              "y": 24.0
+            },
+            "uuid": "0506eb0e-7666-5e1e-ad65-c831b6f03ec9"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 26.0,
+              "y": 10.0
+            },
+            "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J3",
+            "pos": {
+              "x": 12.0,
+              "y": 16.0
+            },
+            "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J4",
+            "pos": {
+              "x": 26.0,
+              "y": 16.0
+            },
+            "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J5",
+            "pos": {
+              "x": 12.0,
+              "y": 24.0
+            },
+            "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J6",
+            "pos": {
+              "x": 26.0,
+              "y": 24.0
+            },
+            "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "d8645bc95e56525bd7ac8c3a9a9e8b1ba052ac33ead9993d34db154f15e03e1b",
+      "binding_sha256": "583f86366de3cb9c6df8c3981895a826b68968de85f3ef57fd37f11997f38e0b",
+      "netlist_sha256": "8b9dbe2e2e7053a5da90be7e82ff86ca8457397e82ec93301605801a8949cf69",
+      "fields_sha256": "7bdfcbd3c6675752a5e9f401c156dcdadeb482c6f334be9641a28a68811a42cf",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 6,
+        "compared_field_count": 18,
+        "comparison_map": [
+          {
+            "reference": "J1",
+            "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+            }
+          },
+          {
+            "reference": "J2",
+            "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+            }
+          },
+          {
+            "reference": "J3",
+            "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+            }
+          },
+          {
+            "reference": "J4",
+            "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+            }
+          },
+          {
+            "reference": "J5",
+            "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+            }
+          },
+          {
+            "reference": "J6",
+            "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "49892505-620e-516d-ac01-8769076bcf0c",
+          "49e50246-40b0-539e-b2a2-254a15da7cb9",
+          "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+          "95b4f806-61cb-5421-b955-6e185f59e9e1",
+          "a4600528-ba86-559c-8b44-2fbd024aa367",
+          "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+        ],
+        "warning_hashes": [
+          "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+          "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+          "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+          "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+          "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+          "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+        ],
+        "native_export_sha256": "8b9dbe2e2e7053a5da90be7e82ff86ca8457397e82ec93301605801a8949cf69",
+        "observer_sha256": "61e00592d6bbc1906c8930479d0da59d4a7c643ef39f052e0d15a7b1584655d7",
+        "drc_report_sha256": "83f89809a073ef894a69c64bdc7cec9e3b3953cba9bbbcc54beb1c7bb539adb8"
+      },
+      "local_settings_guard_sha256": "0aa5a7ca079c8fd7625406fd97a0f31ee19f6e73bf6243abfe12a6a0e549704d"
+    }
+  },
+  "source_steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 1.2454756669467315,
+      "cpu_seconds": 0.583574,
+      "max_rss_bytes": 209289216,
+      "supervisor_cpu_seconds": 0.010685,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 207110144,
+      "sampled_peak_workdir_bytes": 88975,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-input/owned-named-edge-literal300.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc.log",
+      "log_bytes": 252,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job",
+      "signal_cancellation_enabled": true,
+      "pid": 56050,
+      "name": "source-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-input/owned-named-edge-literal300.kicad_prl",
+        "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "fb577c2a834b994ea0fceee5de7f4956c6b8dfcff87feea431248a8a7a858d2a",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/preparation/original/owned-named-edge-literal300.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4873772090068087,
+      "cpu_seconds": 0.466981,
+      "max_rss_bytes": 207601664,
+      "supervisor_cpu_seconds": 0.004531000000000007,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 64405504,
+      "sampled_peak_workdir_bytes": 102109,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-input/owned-named-edge-literal300.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job",
+      "signal_cancellation_enabled": true,
+      "pid": 56051,
+      "name": "source-drc-fields-netlist"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.405252417025622,
+      "cpu_seconds": 0.355471,
+      "max_rss_bytes": 88473600,
+      "supervisor_cpu_seconds": 0.0042019999999999835,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 34603008,
+      "sampled_peak_workdir_bytes": 106606,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-input/owned-named-edge-literal300.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job/source-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-005/native-controls/source-job",
+      "signal_cancellation_enabled": true,
+      "pid": 56066,
+      "name": "source-drc-fields-audit"
+    }
+  ],
+  "preparation_costs": {
+    "preparation_wall_seconds": 0.6837900829850696,
+    "preparation_full_cpu_seconds": 0.627943
+  },
+  "cases": [
+    {
+      "case": "track_allowed_035",
+      "kind": "track",
+      "x_mm": "6.55",
+      "positive": true,
+      "candidate_sha256": "76a1800fc0040a575396bf5c2d7c17ff18d79647f3111f1b59fa4a4ef4349e17",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "232aa53e266a131d6bd320a3de37b3e0ba29198cbcdf162445c9dd6c8d021f42",
+          "binding_sha256": "72b802f057b4c66307668f749c0f3973cc72ba54c3ba0ec06aa4bee20943be03",
+          "netlist_sha256": "cfc5ee6644a5841b03d5f0ee10c74cfefcd758255f10493b4fe657f9b8416174",
+          "fields_sha256": "7fdae227f11a8badb89f8ba05824311949d9fe5ff68af3edd7f8e798546478b8",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "49892505-620e-516d-ac01-8769076bcf0c",
+              "49e50246-40b0-539e-b2a2-254a15da7cb9",
+              "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+              "95b4f806-61cb-5421-b955-6e185f59e9e1",
+              "a4600528-ba86-559c-8b44-2fbd024aa367",
+              "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+            ],
+            "warning_hashes": [
+              "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+              "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+              "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+              "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+              "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+              "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+            ],
+            "native_export_sha256": "cfc5ee6644a5841b03d5f0ee10c74cfefcd758255f10493b4fe657f9b8416174",
+            "observer_sha256": "2aa9d937e958b9a97bd604af0efe797127096426a65bc6e0a2b073e58a09ee43",
+            "drc_report_sha256": "096cbeceba31fcf830f8bc09a9e7bd02fa649eea499c5d222ff03c6a19fc6902"
+          },
+          "local_settings_guard_sha256": "5073ab563770e12e9a9c4ca4705d8624045a4a2a73d76ca4935ee09b76883a4d"
+        }
+      },
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 1.0159227920230478,
+          "cpu_seconds": 0.46410799999999997,
+          "max_rss_bytes": 91881472,
+          "supervisor_cpu_seconds": 0.007491999999999943,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 89866240,
+          "sampled_peak_workdir_bytes": 98614,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/refill/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/refill-drc.log",
+          "log_bytes": 243,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63157,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/refill/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "76a1800fc0040a575396bf5c2d7c17ff18d79647f3111f1b59fa4a4ef4349e17",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/refill/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4135408329893835,
+          "cpu_seconds": 0.363833,
+          "max_rss_bytes": 88637440,
+          "supervisor_cpu_seconds": 0.005302999999999947,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 34226176,
+          "sampled_peak_workdir_bytes": 106135,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/candidate/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63172,
+          "name": "final-netclasses"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.9028195830178447,
+          "cpu_seconds": 0.510579,
+          "max_rss_bytes": 220856320,
+          "supervisor_cpu_seconds": 0.009676999999999936,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 211730432,
+          "sampled_peak_workdir_bytes": 136989,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc.log",
+          "log_bytes": 262,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63173,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "76a1800fc0040a575396bf5c2d7c17ff18d79647f3111f1b59fa4a4ef4349e17",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/candidate/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.47293795901350677,
+          "cpu_seconds": 0.464452,
+          "max_rss_bytes": 207650816,
+          "supervisor_cpu_seconds": 0.005467,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 64667648,
+          "sampled_peak_workdir_bytes": 150229,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-fields.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-fields-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63188,
+          "name": "final-drc-fields-netlist"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.34067179198609665,
+          "cpu_seconds": 0.334709,
+          "max_rss_bytes": 88539136,
+          "supervisor_cpu_seconds": 0.004493999999999998,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35127296,
+          "sampled_peak_workdir_bytes": 154765,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "fields",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-fields.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job/final-drc-fields-audit.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63189,
+          "name": "final-drc-fields-audit"
+        }
+      ],
+      "class_audit": {
+        "native": {
+          "passed": true,
+          "policy": {
+            "mode": "literal_two_class",
+            "literal_assignments": {
+              "ROUTE": "Power"
+            }
+          },
+          "native_nets": 3,
+          "nets": [
+            {
+              "name": "GND",
+              "netcode": 3,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "KEEP",
+              "netcode": 2,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "ROUTE",
+              "netcode": 1,
+              "copper_pad_count": 2,
+              "class": "Power,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Power",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "clearance_nm": {
+                  "name": "Power",
+                  "value_nm": 250000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_diameter_nm": {
+                  "name": "Power",
+                  "value_nm": 1200000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_drill_nm": {
+                  "name": "Power",
+                  "value_nm": 500000,
+                  "specified": true,
+                  "priority": 0
+                }
+              },
+              "width_nm": 400000,
+              "clearance_nm": 250000,
+              "via_diameter_nm": 1200000,
+              "via_drill_nm": 500000
+            }
+          ],
+          "routing_accepted": false
+        },
+        "route_dimensions": {
+          "passed": true,
+          "checked": {
+            "segments": 5,
+            "arcs": 0,
+            "vias": 0,
+            "protected": 1
+          },
+          "policy": "exact effective native targets for new routes; protected originals unchanged"
+        },
+        "candidate_sha256": "76a1800fc0040a575396bf5c2d7c17ff18d79647f3111f1b59fa4a4ef4349e17",
+        "project_sha256": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+        "native_map_file_sha256": "5dcd3dd225204e610c1b57e1cab6ffed540e1525c3e7cca27320d6d581b8e563"
+      }
+    },
+    {
+      "case": "track_below_025",
+      "kind": "track",
+      "x_mm": "6.45",
+      "positive": false,
+      "candidate_sha256": "3e59d7d0aa3608914b22d8dbf3ec77e43db3700ad491534db82a9be010ac9073",
+      "native": {
+        "opens": 0,
+        "blocking": 3,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2500 mm)",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 6.0,
+                  "y": 6.0
+                },
+                "uuid": "794b0c06-ec4f-5113-ac30-425d5adc2f5c"
+              },
+              {
+                "description": "Track [ROUTE] on F.Cu, length 5.5500 mm",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "030226d7-307a-5b33-8cb2-3dd20452db46"
+              }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+          },
+          {
+            "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2500 mm)",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 6.0,
+                  "y": 6.0
+                },
+                "uuid": "794b0c06-ec4f-5113-ac30-425d5adc2f5c"
+              },
+              {
+                "description": "Track [ROUTE] on F.Cu, length 2.0000 mm",
+                "pos": {
+                  "x": 6.45,
+                  "y": 10.0
+                },
+                "uuid": "6120f81e-5391-51e8-881f-a4c23f6311b7"
+              }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+          },
+          {
+            "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2500 mm)",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 6.0,
+                  "y": 6.0
+                },
+                "uuid": "794b0c06-ec4f-5113-ac30-425d5adc2f5c"
+              },
+              {
+                "description": "Track [ROUTE] on F.Cu, length 19.5500 mm",
+                "pos": {
+                  "x": 6.45,
+                  "y": 8.0
+                },
+                "uuid": "909ce620-6aec-55b4-807b-15753fa05ac8"
+              }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "cfabbf90f410b95975eddcdeeeba4a5888f30e419f1f6a8dd0d546720abe622c",
+          "binding_sha256": "edf63a27054a8fc805d6298e58bd6233c97ce7f0bfd3dd208e79171ab202d1e0",
+          "netlist_sha256": "a1f00c5403397133c1b982d85b8d557bb7a7ca9ed5d6d7df35ee2f9706b6dc61",
+          "fields_sha256": "672fccf4412fa5319ab93079da75137bb54f5a287100bb013fbf16071f785cf9",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "49892505-620e-516d-ac01-8769076bcf0c",
+              "49e50246-40b0-539e-b2a2-254a15da7cb9",
+              "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+              "95b4f806-61cb-5421-b955-6e185f59e9e1",
+              "a4600528-ba86-559c-8b44-2fbd024aa367",
+              "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+            ],
+            "warning_hashes": [
+              "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+              "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+              "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+              "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+              "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+              "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+            ],
+            "native_export_sha256": "a1f00c5403397133c1b982d85b8d557bb7a7ca9ed5d6d7df35ee2f9706b6dc61",
+            "observer_sha256": "c0ddcf83aeedd2ecd43b7d3a0807b4f82f2e041125346fcd0feef5bc3b86c2c4",
+            "drc_report_sha256": "2315eb5049817730cc01c9ea85adb98ba0469c7d10cee6029f0c788996ed9db3"
+          },
+          "local_settings_guard_sha256": "7dca9c7cafe578aa4dfc5e0df4f807c289fea99183b3312c0871013041422e8e"
+        }
+      },
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.7344830829533748,
+          "cpu_seconds": 0.410832,
+          "max_rss_bytes": 101777408,
+          "supervisor_cpu_seconds": 0.007603000000000026,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 89833472,
+          "sampled_peak_workdir_bytes": 101170,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/refill/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/refill-drc.log",
+          "log_bytes": 241,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63192,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/refill/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "3e59d7d0aa3608914b22d8dbf3ec77e43db3700ad491534db82a9be010ac9073",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/refill/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3467752080177888,
+          "cpu_seconds": 0.340165,
+          "max_rss_bytes": 88506368,
+          "supervisor_cpu_seconds": 0.0049559999999999604,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 34930688,
+          "sampled_peak_workdir_bytes": 108671,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/candidate/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63193,
+          "name": "final-netclasses"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.8315861250157468,
+          "cpu_seconds": 0.495071,
+          "max_rss_bytes": 220708864,
+          "supervisor_cpu_seconds": 0.00738900000000009,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 209584128,
+          "sampled_peak_workdir_bytes": 142076,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc.log",
+          "log_bytes": 260,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63194,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "3e59d7d0aa3608914b22d8dbf3ec77e43db3700ad491534db82a9be010ac9073",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/candidate/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.47411237499909475,
+          "cpu_seconds": 0.46633199999999997,
+          "max_rss_bytes": 207634432,
+          "supervisor_cpu_seconds": 0.0047559999999999825,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 64372736,
+          "sampled_peak_workdir_bytes": 155299,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-fields.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-fields-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63209,
+          "name": "final-drc-fields-netlist"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.34668641700409353,
+          "cpu_seconds": 0.337578,
+          "max_rss_bytes": 89473024,
+          "supervisor_cpu_seconds": 0.004334999999999978,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35127296,
+          "sampled_peak_workdir_bytes": 159849,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "fields",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-fields.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job/final-drc-fields-audit.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/track_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63210,
+          "name": "final-drc-fields-audit"
+        }
+      ],
+      "class_audit": {
+        "native": {
+          "passed": true,
+          "policy": {
+            "mode": "literal_two_class",
+            "literal_assignments": {
+              "ROUTE": "Power"
+            }
+          },
+          "native_nets": 3,
+          "nets": [
+            {
+              "name": "GND",
+              "netcode": 3,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "KEEP",
+              "netcode": 2,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "ROUTE",
+              "netcode": 1,
+              "copper_pad_count": 2,
+              "class": "Power,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Power",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "clearance_nm": {
+                  "name": "Power",
+                  "value_nm": 250000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_diameter_nm": {
+                  "name": "Power",
+                  "value_nm": 1200000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_drill_nm": {
+                  "name": "Power",
+                  "value_nm": 500000,
+                  "specified": true,
+                  "priority": 0
+                }
+              },
+              "width_nm": 400000,
+              "clearance_nm": 250000,
+              "via_diameter_nm": 1200000,
+              "via_drill_nm": 500000
+            }
+          ],
+          "routing_accepted": false
+        },
+        "route_dimensions": {
+          "passed": true,
+          "checked": {
+            "segments": 5,
+            "arcs": 0,
+            "vias": 0,
+            "protected": 1
+          },
+          "policy": "exact effective native targets for new routes; protected originals unchanged"
+        },
+        "candidate_sha256": "3e59d7d0aa3608914b22d8dbf3ec77e43db3700ad491534db82a9be010ac9073",
+        "project_sha256": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+        "native_map_file_sha256": "cc9b1ad7051c2a97249960b4e2cb29ce79d0d31bd52b03acb3c3cb7b7ae6e8aa"
+      }
+    },
+    {
+      "case": "via_allowed_035",
+      "kind": "via",
+      "x_mm": "6.95",
+      "positive": true,
+      "candidate_sha256": "bf69954a5923ca7adce08fe973659994c747e229b6ecdb79438bf09ae92d421e",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "e1fec27d8322ac9c987cd51c317a23a662653e22d495c6ae882b12c940754013",
+          "binding_sha256": "093013a56e319058f1fb60ba2e58cfa6225b8a65b972beed427ea3705eaaa719",
+          "netlist_sha256": "8fcb6ee418b5379c02fbedb1844c370f0e61bfc22af16b18a34922290b937952",
+          "fields_sha256": "3547335134722461ac430ba4fc189c33a7e42d2214283e3b822b5f0e4ca4367c",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "49892505-620e-516d-ac01-8769076bcf0c",
+              "49e50246-40b0-539e-b2a2-254a15da7cb9",
+              "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+              "95b4f806-61cb-5421-b955-6e185f59e9e1",
+              "a4600528-ba86-559c-8b44-2fbd024aa367",
+              "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+            ],
+            "warning_hashes": [
+              "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+              "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+              "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+              "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+              "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+              "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+            ],
+            "native_export_sha256": "8fcb6ee418b5379c02fbedb1844c370f0e61bfc22af16b18a34922290b937952",
+            "observer_sha256": "a219720e03069a3f9c1b9db470e020ee42f38aee0855fff43b3d01fe6bcd8150",
+            "drc_report_sha256": "6187ff2ac025a3b04232c2075a94718bd4437a5cce69cb9f8d1467595ed9d5a4"
+          },
+          "local_settings_guard_sha256": "d6b9d712485ffc6ff98880952d2a212a4e080e84562ce70b1a87700b8e07baa7"
+        }
+      },
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.6708610419882461,
+          "cpu_seconds": 0.406809,
+          "max_rss_bytes": 92028928,
+          "supervisor_cpu_seconds": 0.007091999999999876,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 89915392,
+          "sampled_peak_workdir_bytes": 98861,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/refill/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/refill-drc.log",
+          "log_bytes": 241,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63213,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/refill/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "bf69954a5923ca7adce08fe973659994c747e229b6ecdb79438bf09ae92d421e",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/refill/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3830857499851845,
+          "cpu_seconds": 0.36792299999999994,
+          "max_rss_bytes": 88588288,
+          "supervisor_cpu_seconds": 0.005773000000000028,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 34488320,
+          "sampled_peak_workdir_bytes": 106355,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/candidate/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63228,
+          "name": "final-netclasses"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.844910042011179,
+          "cpu_seconds": 0.510263,
+          "max_rss_bytes": 220839936,
+          "supervisor_cpu_seconds": 0.010577000000000059,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 220102656,
+          "sampled_peak_workdir_bytes": 137382,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc.log",
+          "log_bytes": 260,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63245,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "bf69954a5923ca7adce08fe973659994c747e229b6ecdb79438bf09ae92d421e",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/candidate/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.47360399999888614,
+          "cpu_seconds": 0.466366,
+          "max_rss_bytes": 207585280,
+          "supervisor_cpu_seconds": 0.00457300000000016,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 64520192,
+          "sampled_peak_workdir_bytes": 150551,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-fields.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-fields-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63250,
+          "name": "final-drc-fields-netlist"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3451352909905836,
+          "cpu_seconds": 0.33893399999999996,
+          "max_rss_bytes": 89620480,
+          "supervisor_cpu_seconds": 0.004035000000000011,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35143680,
+          "sampled_peak_workdir_bytes": 155088,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "fields",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-input/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-fields.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job/final-drc-fields-audit.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_allowed_035/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63251,
+          "name": "final-drc-fields-audit"
+        }
+      ],
+      "class_audit": {
+        "native": {
+          "passed": true,
+          "policy": {
+            "mode": "literal_two_class",
+            "literal_assignments": {
+              "ROUTE": "Power"
+            }
+          },
+          "native_nets": 3,
+          "nets": [
+            {
+              "name": "GND",
+              "netcode": 3,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "KEEP",
+              "netcode": 2,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "ROUTE",
+              "netcode": 1,
+              "copper_pad_count": 2,
+              "class": "Power,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Power",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "clearance_nm": {
+                  "name": "Power",
+                  "value_nm": 250000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_diameter_nm": {
+                  "name": "Power",
+                  "value_nm": 1200000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_drill_nm": {
+                  "name": "Power",
+                  "value_nm": 500000,
+                  "specified": true,
+                  "priority": 0
+                }
+              },
+              "width_nm": 400000,
+              "clearance_nm": 250000,
+              "via_diameter_nm": 1200000,
+              "via_drill_nm": 500000
+            }
+          ],
+          "routing_accepted": false
+        },
+        "route_dimensions": {
+          "passed": true,
+          "checked": {
+            "segments": 5,
+            "arcs": 0,
+            "vias": 1,
+            "protected": 1
+          },
+          "policy": "exact effective native targets for new routes; protected originals unchanged"
+        },
+        "candidate_sha256": "bf69954a5923ca7adce08fe973659994c747e229b6ecdb79438bf09ae92d421e",
+        "project_sha256": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+        "native_map_file_sha256": "fa4f6d611602e46e34f837e3b1dffc065126086152e9db582b287c4302dd25df"
+      }
+    },
+    {
+      "case": "via_below_025",
+      "kind": "via",
+      "x_mm": "6.85",
+      "positive": false,
+      "candidate_sha256": "cc437a33156f9497f934cb7094e656ffb4143f86b7ca44633c39a4f886a86ba2",
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Board edge clearance violation (board setup constraints edge clearance 0.3000 mm; actual 0.2500 mm)",
+            "items": [
+              {
+                "description": "Rectangle on Edge.Cuts",
+                "pos": {
+                  "x": 6.0,
+                  "y": 6.0
+                },
+                "uuid": "794b0c06-ec4f-5113-ac30-425d5adc2f5c"
+              },
+              {
+                "description": "Via [ROUTE] on F.Cu - B.Cu",
+                "pos": {
+                  "x": 6.85,
+                  "y": 8.0
+                },
+                "uuid": "6fb73ab3-1ffa-5f2d-b745-72d8c5d70896"
+              }
+            ],
+            "severity": "error",
+            "type": "copper_edge_clearance"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "58659c76d301f392d2ced09c61671dea6cf20fb773915fa6bb79741a795009dc",
+          "binding_sha256": "ec48be3adcb63efd9647eb24f7c15b1fcc0e45c370ede89d33632e3ea68d2225",
+          "netlist_sha256": "8fbaf380fe16a65f87745035fc0cf988d867b4ee4e6c0489dbbb36b112588f0b",
+          "fields_sha256": "0462247f6b22f92d80359b1d053e737915b8706df98be338ef52134368dfe5dd",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "49892505-620e-516d-ac01-8769076bcf0c",
+              "49e50246-40b0-539e-b2a2-254a15da7cb9",
+              "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+              "95b4f806-61cb-5421-b955-6e185f59e9e1",
+              "a4600528-ba86-559c-8b44-2fbd024aa367",
+              "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+            ],
+            "warning_hashes": [
+              "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+              "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+              "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+              "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+              "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+              "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+            ],
+            "native_export_sha256": "8fbaf380fe16a65f87745035fc0cf988d867b4ee4e6c0489dbbb36b112588f0b",
+            "observer_sha256": "c6b7c5268fc6b385589f2b889eb9d51d49cf582167bc4d834d5da78a78f1c53e",
+            "drc_report_sha256": "a498f29c84b55eeaeedb3f619fcdddfa4a090df6ee700482ee62747c77c5d4d5"
+          },
+          "local_settings_guard_sha256": "01ad9bc433b2faf59df84620b45d87689d29bc026d21788a6d65cf95dba970c4"
+        }
+      },
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.761438041983638,
+          "cpu_seconds": 0.40460999999999997,
+          "max_rss_bytes": 101941248,
+          "supervisor_cpu_seconds": 0.006397999999999904,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 89931776,
+          "sampled_peak_workdir_bytes": 99699,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/refill/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/refill-drc.log",
+          "log_bytes": 239,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63268,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/refill/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "cc437a33156f9497f934cb7094e656ffb4143f86b7ca44633c39a4f886a86ba2",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/refill/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3461356670013629,
+          "cpu_seconds": 0.339676,
+          "max_rss_bytes": 88473600,
+          "supervisor_cpu_seconds": 0.004493999999999998,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 34865152,
+          "sampled_peak_workdir_bytes": 107193,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/candidate/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63269,
+          "name": "final-netclasses"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.8382757079671137,
+          "cpu_seconds": 0.495419,
+          "max_rss_bytes": 220954624,
+          "supervisor_cpu_seconds": 0.007357999999999976,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 209715200,
+          "sampled_peak_workdir_bytes": 138987,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc.log",
+          "log_bytes": 258,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63270,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_prl",
+            "sha256": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "cc437a33156f9497f934cb7094e656ffb4143f86b7ca44633c39a4f886a86ba2",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/candidate/owned-named-edge-literal300.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.47384291602065787,
+          "cpu_seconds": 0.466325,
+          "max_rss_bytes": 207683584,
+          "supervisor_cpu_seconds": 0.004866999999999955,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 64421888,
+          "sampled_peak_workdir_bytes": 152195,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-fields.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-fields-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63285,
+          "name": "final-drc-fields-netlist"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3397942919982597,
+          "cpu_seconds": 0.33508099999999996,
+          "max_rss_bytes": 89423872,
+          "supervisor_cpu_seconds": 0.004017000000000159,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35143680,
+          "sampled_peak_workdir_bytes": 156723,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+            "fields",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-input/owned-named-edge-literal300.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-fields.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job/final-drc-fields-audit.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/threshold-prospective-006/native-controls/via_below_025/job",
+          "signal_cancellation_enabled": true,
+          "pid": 63286,
+          "name": "final-drc-fields-audit"
+        }
+      ],
+      "class_audit": {
+        "native": {
+          "passed": true,
+          "policy": {
+            "mode": "literal_two_class",
+            "literal_assignments": {
+              "ROUTE": "Power"
+            }
+          },
+          "native_nets": 3,
+          "nets": [
+            {
+              "name": "GND",
+              "netcode": 3,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "KEEP",
+              "netcode": 2,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "ROUTE",
+              "netcode": 1,
+              "copper_pad_count": 2,
+              "class": "Power,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Power",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "clearance_nm": {
+                  "name": "Power",
+                  "value_nm": 250000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_diameter_nm": {
+                  "name": "Power",
+                  "value_nm": 1200000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_drill_nm": {
+                  "name": "Power",
+                  "value_nm": 500000,
+                  "specified": true,
+                  "priority": 0
+                }
+              },
+              "width_nm": 400000,
+              "clearance_nm": 250000,
+              "via_diameter_nm": 1200000,
+              "via_drill_nm": 500000
+            }
+          ],
+          "routing_accepted": false
+        },
+        "route_dimensions": {
+          "passed": true,
+          "checked": {
+            "segments": 5,
+            "arcs": 0,
+            "vias": 1,
+            "protected": 1
+          },
+          "policy": "exact effective native targets for new routes; protected originals unchanged"
+        },
+        "candidate_sha256": "cc437a33156f9497f934cb7094e656ffb4143f86b7ca44633c39a4f886a86ba2",
+        "project_sha256": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+        "native_map_file_sha256": "1ea04aae8ab16a7277cca43e7ec5b148beb484563b7b8ef0e4dbd3ac48107abf"
+      }
+    }
+  ],
+  "publication_charge_seconds": 4.0,
+  "accounting_point": "Inner pre-final-replay sample plus conservative4s publication charge; not whole process lifetime. Actual final remaining gate and lead whole-process wall/CPU acceptance<=180s remain mandatory.",
+  "inner_sample_wall_seconds": 13.16399262502091,
+  "inner_sample_full_cpu_seconds": 10.153255,
+  "charged_wall_seconds": 17.16399262502091,
+  "charged_full_cpu_seconds": 14.153255
+}
