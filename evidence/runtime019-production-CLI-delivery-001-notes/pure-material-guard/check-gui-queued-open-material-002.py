@@ -1,0 +1,20 @@
+from pathlib import Path
+import json,sys,time,resource
+from types import SimpleNamespace
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True
+from autorouter import gui,pipeline as p,floor_route as f
+runtime=ROOT/'.runs/runtime-directory-019/runtime'
+child=f.read_json(runtime/'.runs/production-delivery-001/result.json');assert child['passed'] is True
+work=Path(child['workspace'])
+assert p.sha(ROOT/'autorouter/gui.py')==p.sha(runtime/'autorouter/gui.py')=='f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844'
+path=work/'export/export.json';before=p.sha(path);record=f.read_json(path);code=p.sha(ROOT/'autorouter/gui.py')
+start=time.monotonic();cpu=time.process_time()
+gui.Workflow.check_open_export_material(SimpleNamespace(workspace=work,records={'export':record}))
+wall=time.monotonic()-start;used=time.process_time()-cpu
+assert p.sha(path)==before and p.sha(ROOT/'autorouter/gui.py')==code
+out=ROOT/'.runs/gui-queued-open-material-readback-002';out.mkdir()
+(out/'result.json').write_text(json.dumps(dict(schema=1,passed=True,Native_reexecuted=False,GUI_executed=False,
+ gui_sha256=code,export_receipt_sha256=before,retained_export=str(path),material_files=len(record['export_evidence']['files']),
+ material_directories=len(record['export_evidence']['directories']),guard_wall_seconds=wall,guard_parent_CPU_seconds=used,
+ scope='One execution of the new GUI pure bounded material guard on the unchanged actual019 Native export, with exact root/installed GUI byte match. No Native checker, process/tool probe, GUI or routing rerun. This is not a new Native acceptance or an end-to-end runtime claim.'),indent=2)+'\n')
+print(json.dumps(dict(passed=True,guard_wall_seconds=wall,guard_parent_CPU_seconds=used)))

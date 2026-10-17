@@ -1,0 +1,2757 @@
+{
+  "schema": 1,
+  "kind": "actual-runtime019-protected-four-cu-production-CLI-delivery-v1",
+  "accepted": false,
+  "passed": true,
+  "Native_executed": true,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "321bc5bfdcb85c6975ee5b7e2accf09b6f43da84",
+  "qualified_source_commit": "321bc5bfdcb85c6975ee5b7e2accf09b6f43da84",
+  "preflight_checkpoint": "baef710711e0ee98b3af4f993623090e4472611c",
+  "protocol_sha256": "0795d8d191d9d30e9e4ec28a0874088f662a40ded186f99bc5d0f34f84369968",
+  "whole_wall_seconds": 37.09,
+  "whole_full_cpu_seconds": 32.13,
+  "whole_user_cpu_seconds": 26.92,
+  "whole_system_cpu_seconds": 5.21,
+  "inner_enclosure_sample_wall_seconds": 36.26245199999539,
+  "inner_enclosure_sample_full_cpu_seconds": 31.321257,
+  "inner_child_sample_wall_seconds": 32.78840454202145,
+  "inner_child_sample_full_cpu_seconds": 27.950438,
+  "workflow": [
+    "preview",
+    "route",
+    "rendered review",
+    "software accept intent",
+    "fresh Native export",
+    "current export check"
+  ],
+  "own_candidate_native": [
+    {
+      "stage": "route",
+      "candidate_sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "33f6e028df53e216bb3f5aff66450ae023d38b153d8a6988a4b3213ae39f2fca",
+          "binding_sha256": "a9228864b3e250678671d9865b4f39d9615ea8818d1434a89f52da585d7f35b3",
+          "netlist_sha256": "5af6cf9491125474c6b33771e2ebe73c4621418738777ae981d5dbd45acb13a4",
+          "fields_sha256": "d6fb96b3e68873d149d12c3eae6e3a6bb715f56a7c0dcdf3885d8a6202a365c5",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+              "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+              "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+              "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+              "e0f1e400-0345-5582-be29-ecfc38486330",
+              "e683e253-d3ba-5301-a19c-4d7511658da8"
+            ],
+            "warning_hashes": [
+              "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+              "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+              "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+              "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+              "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+              "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+            ],
+            "native_export_sha256": "5af6cf9491125474c6b33771e2ebe73c4621418738777ae981d5dbd45acb13a4",
+            "observer_sha256": "bbf4c0b9013ddf8890f2ea52aa0d720e87365bf96200874cd0318e396e92ac7e",
+            "drc_report_sha256": "da94cbdb58033c7300b4e0c730b6751b926bf67d4e4cb5006f7d848bf4589dd0"
+          },
+          "local_settings_guard_sha256": "423f806e41574ce17212674e3070bed4ca6af5a573cf43235cb7f0682f813513"
+        }
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 3,
+        "vias": 4,
+        "track_length_mm": 154.35980561473033,
+        "copper_layers": 4
+      },
+      "class_audit": {
+        "native": {
+          "passed": true,
+          "policy": {
+            "mode": "native-parent-dimensions-v1",
+            "resolution": "pinned native effective class and explicit parameter parents",
+            "source_class_names": [
+              "Default",
+              "POWER",
+              "SIGNAL",
+              "CRITICAL"
+            ],
+            "pattern_evaluation_in_python": false
+          },
+          "native_nets": 3,
+          "nets": [
+            {
+              "name": "GND",
+              "netcode": 3,
+              "copper_pad_count": 2,
+              "class": "SIGNAL,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 350000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "clearance_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_diameter_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 1000000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_drill_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 0
+                }
+              },
+              "width_nm": 350000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 1000000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "KEEP",
+              "netcode": 2,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "ROUTE",
+              "netcode": 1,
+              "copper_pad_count": 2,
+              "class": "POWER,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "POWER",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 1
+                },
+                "clearance_nm": {
+                  "name": "POWER",
+                  "value_nm": 250000,
+                  "specified": true,
+                  "priority": 1
+                },
+                "via_diameter_nm": {
+                  "name": "POWER",
+                  "value_nm": 1200000,
+                  "specified": true,
+                  "priority": 1
+                },
+                "via_drill_nm": {
+                  "name": "POWER",
+                  "value_nm": 500000,
+                  "specified": true,
+                  "priority": 1
+                }
+              },
+              "width_nm": 400000,
+              "clearance_nm": 250000,
+              "via_diameter_nm": 1200000,
+              "via_drill_nm": 500000
+            }
+          ],
+          "routing_accepted": false
+        },
+        "route_dimensions": {
+          "passed": true,
+          "checked": {
+            "segments": 9,
+            "arcs": 0,
+            "vias": 4,
+            "protected": 10
+          },
+          "policy": "exact effective native targets for new routes; protected originals unchanged"
+        },
+        "candidate_sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b",
+        "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+        "native_map_file_sha256": "aa98504c5da1ec25e6866840a9f30694a93e976e6dc2eadf87766e2d808571c8"
+      },
+      "schematic_class_final": {
+        "schema": 1,
+        "context": "native-route-flat-classes-v1",
+        "stage": "final",
+        "file": "final-classes-proof.json",
+        "sha256": "08b697c6eab01b6bf77c36f9200ff62797878a3a62aae9d414643b4a495fd9e7"
+      },
+      "final_native_sha256": "33f6e028df53e216bb3f5aff66450ae023d38b153d8a6988a4b3213ae39f2fca",
+      "map_sha256": "aa98504c5da1ec25e6866840a9f30694a93e976e6dc2eadf87766e2d808571c8",
+      "sample_wall_seconds": 11.655225666996557,
+      "sample_full_cpu_seconds": 8.567107000000002
+    },
+    {
+      "stage": "export",
+      "candidate_sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "f71f36818188617c3494ce085dc8ee16a08943784448efdb8a9cbf6bedf244a0",
+          "binding_sha256": "44a01acc5dc1614c5fd693c8214f10ec83f24edc3ef790f22697260b68c999f8",
+          "netlist_sha256": "a8625a06414f50341e602dc02ab8826ff23a1800544e507f73cbd7a1e2f55105",
+          "fields_sha256": "59d99cb226192bdf521801372e79cdce5685a53b4e151b5552cddff1698d924c",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+              "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+              "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+              "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+              "e0f1e400-0345-5582-be29-ecfc38486330",
+              "e683e253-d3ba-5301-a19c-4d7511658da8"
+            ],
+            "warning_hashes": [
+              "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+              "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+              "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+              "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+              "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+              "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+            ],
+            "native_export_sha256": "a8625a06414f50341e602dc02ab8826ff23a1800544e507f73cbd7a1e2f55105",
+            "observer_sha256": "f133106aa8eff0078cbe2f4738274ba96ca524c7b35b4769a8e7e63db6b77f0a",
+            "drc_report_sha256": "deb76a309f8f6fd356b5219c65aefce814e4cad7c92eaf92c2151ff876d329fd"
+          },
+          "local_settings_guard_sha256": "68e4e9c9292cb91742d567fec4e6f285648c49561aae5043e0fd0a72ec143308"
+        }
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 3,
+        "vias": 4,
+        "track_length_mm": 154.35980561473033,
+        "copper_layers": 4
+      },
+      "class_audit": {
+        "native": {
+          "passed": true,
+          "policy": {
+            "mode": "native-parent-dimensions-v1",
+            "resolution": "pinned native effective class and explicit parameter parents",
+            "source_class_names": [
+              "Default",
+              "POWER",
+              "SIGNAL",
+              "CRITICAL"
+            ],
+            "pattern_evaluation_in_python": false
+          },
+          "native_nets": 3,
+          "nets": [
+            {
+              "name": "GND",
+              "netcode": 3,
+              "copper_pad_count": 2,
+              "class": "SIGNAL,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 350000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "clearance_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_diameter_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 1000000,
+                  "specified": true,
+                  "priority": 0
+                },
+                "via_drill_nm": {
+                  "name": "SIGNAL",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 0
+                }
+              },
+              "width_nm": 350000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 1000000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "KEEP",
+              "netcode": 2,
+              "copper_pad_count": 2,
+              "class": "Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "Default",
+                  "value_nm": 300000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "clearance_nm": {
+                  "name": "Default",
+                  "value_nm": 200000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_diameter_nm": {
+                  "name": "Default",
+                  "value_nm": 800000,
+                  "specified": true,
+                  "priority": 2147483647
+                },
+                "via_drill_nm": {
+                  "name": "Default",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 2147483647
+                }
+              },
+              "width_nm": 300000,
+              "clearance_nm": 200000,
+              "via_diameter_nm": 800000,
+              "via_drill_nm": 400000
+            },
+            {
+              "name": "ROUTE",
+              "netcode": 1,
+              "copper_pad_count": 2,
+              "class": "POWER,Default",
+              "parameter_parents": {
+                "width_nm": {
+                  "name": "POWER",
+                  "value_nm": 400000,
+                  "specified": true,
+                  "priority": 1
+                },
+                "clearance_nm": {
+                  "name": "POWER",
+                  "value_nm": 250000,
+                  "specified": true,
+                  "priority": 1
+                },
+                "via_diameter_nm": {
+                  "name": "POWER",
+                  "value_nm": 1200000,
+                  "specified": true,
+                  "priority": 1
+                },
+                "via_drill_nm": {
+                  "name": "POWER",
+                  "value_nm": 500000,
+                  "specified": true,
+                  "priority": 1
+                }
+              },
+              "width_nm": 400000,
+              "clearance_nm": 250000,
+              "via_diameter_nm": 1200000,
+              "via_drill_nm": 500000
+            }
+          ],
+          "routing_accepted": false
+        },
+        "route_dimensions": {
+          "passed": true,
+          "checked": {
+            "segments": 9,
+            "arcs": 0,
+            "vias": 4,
+            "protected": 10
+          },
+          "policy": "exact effective native targets for new routes; protected originals unchanged"
+        },
+        "candidate_sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b",
+        "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+        "native_map_file_sha256": "52de8189ed79abf4e791047a433297a01457856c24a39f1dd81d79ebb293e348"
+      },
+      "schematic_class_final": {
+        "schema": 1,
+        "context": "native-route-flat-classes-v1",
+        "stage": "final",
+        "file": "final-classes-proof.json",
+        "sha256": "a99fc3ab1a145c9861fe45b450a9fdf9ba9be854d34c8c5831969c02c468ad52"
+      },
+      "final_native_sha256": "f71f36818188617c3494ce085dc8ee16a08943784448efdb8a9cbf6bedf244a0",
+      "map_sha256": "52de8189ed79abf4e791047a433297a01457856c24a39f1dd81d79ebb293e348",
+      "sample_wall_seconds": 7.4284214580548,
+      "sample_full_cpu_seconds": 6.095627
+    }
+  ],
+  "protected_routes": 10,
+  "original_source_sha256": {
+    "owned-four-copper-forced-inner.kicad_pcb": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+    "owned-four-copper-forced-inner.kicad_prl": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+    "owned-four-copper-forced-inner.kicad_pro": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+    "owned-four-copper-forced-inner.kicad_sch": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+  },
+  "original_source_unchanged": true,
+  "original_design_unchanged": true,
+  "native_edge_correction": {
+    "schema": 1,
+    "policy": "native-rectangular-edge-v1",
+    "applied": false,
+    "reason": "named class clearance exceeds exact inherited edge scope",
+    "source_sha256": {
+      "board": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+      "project": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    "input_sha256": "ef99a5410f36313a2780793826abe25d693c90db25265ad896066c3226b31668",
+    "output_sha256": "ef99a5410f36313a2780793826abe25d693c90db25265ad896066c3226b31668",
+    "native_project_modified": false,
+    "routing_accepted": false,
+    "requires_no_custom_rule_companion": true,
+    "context_sha256": "ddd40a91a181e601758b54d0c9ec3718663e4a51ad7b7a88a0980992dc2afa6b"
+  },
+  "whole_project_drc_clean": false,
+  "source_review": {
+    "schema": 1,
+    "kind": "runtime019-production-actual-review-v1",
+    "status": "no_material_finding",
+    "material_findings": [],
+    "Native_executed_by_reviewer": false,
+    "JVM_executed_by_reviewer": false,
+    "tests_or_central_checker_or_tool_probes_executed_by_reviewer": false,
+    "method": "Read-only current019 own receipts, raw reports, process/log metadata, bound input copies, source/module/tool/Python hashes and PRL flags. No rerouting, revalidation or history re-audit.",
+    "sha256": {
+      "protocol": "0795d8d191d9d30e9e4ec28a0874088f662a40ded186f99bc5d0f34f84369968",
+      "child_source": "ff970054da1744149f02da19778f605806258fac3bed99c7f668daa0e73e8853",
+      "outer_source": "eeea1f73926e2e940278838a931a26d39588f68f4cdb694a92d4a8fe23f50acc",
+      "runtime_manifest": "42fd4346ede4fc5035c4ff888716c1020f92412bd3609a588da6181f19a0a1b5",
+      "child_receipt": "ede49682f5cfa8f9a94b031b0ae0ff9e04478532779de3cf3e024dbb19353cce",
+      "outer_receipt": "86ad310560627a597dcb2d67e7f74fde319b34b0a0bb97c964a4e34e38261693",
+      "both_final_candidates": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b",
+      "route_receipt": "f48c6fbbdc29d6d5af3a7cfe50194b811c4e176367f81a7024c739c47f3a9e25",
+      "export_receipt": "f809becac10743a51c5200af13dda7025a0cdb8626f73056aaa5902dc88efb4f",
+      "route_final_native": "33f6e028df53e216bb3f5aff66450ae023d38b153d8a6988a4b3213ae39f2fca",
+      "export_final_native": "f71f36818188617c3494ce085dc8ee16a08943784448efdb8a9cbf6bedf244a0",
+      "route_final_classes": "08b697c6eab01b6bf77c36f9200ff62797878a3a62aae9d414643b4a495fd9e7",
+      "export_final_classes": "a99fc3ab1a145c9861fe45b450a9fdf9ba9be854d34c8c5831969c02c468ad52",
+      "gui_module": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844",
+      "edge_correction": "bf194d016b7116b735fd53a59f90364c4787ecb49cccf64fbd148c5431ff097e",
+      "external_command_log": "77282568bf623662dbfc42990a61c18dff23632de45f8e9313f6eb91deb32194",
+      "external_time_log": "044cfdc3cd0cbae31862c5839a73f7b3a25fe1289e34a83206b305780ecefd34"
+    },
+    "current_readback": {
+      "hash_bindings_checked": 156,
+      "hash_mismatches": 0,
+      "source_head": "321bc5bfdcb85c6975ee5b7e2accf09b6f43da84",
+      "root_and_installed_module_population_checked": 44,
+      "all44_module_hashes_match_frozen_context": true,
+      "tool_files_and_regular_coordinator_installed_python_hashes_match": true,
+      "child_tools_and_python_context_equal_protocol": true,
+      "child_bytes": 59007,
+      "actual_child_equals_outer_embedded_child": true,
+      "child_and_outer_passed_completed": true,
+      "outer_exit0_uncancelled_untruncated": true,
+      "six_cli_stages_exit0_uncancelled_untruncated": true,
+      "route_inner_steps": 14,
+      "export_inner_steps": 8,
+      "all22_inner_steps_cleanup_complete_untruncated_and_log_sizes_match": true,
+      "original_four_source_file_hashes_match": true,
+      "own_saved_refill_and_final_full_schematic_refill_drc_each": true,
+      "final_drc_input_copy_project_schematic_prl_hashes_match": true,
+      "raw_final_findings_and_ignored_checks_equal_own_receipts": true,
+      "class_proof_binding_map_netlist_and_field_process_hashes_match": true,
+      "class_partitions_each": 3,
+      "class_terminals_each": 6,
+      "field_components_each": 6,
+      "field_comparisons_each": 18,
+      "retained_route_invariants_unchanged": true,
+      "protected_import_matches": 10,
+      "dimension_audit_each": {
+        "segments": 9,
+        "arcs": 0,
+        "vias": 4,
+        "protected": 10
+      },
+      "recorded_drc_field_class_prl_bytes_unchanged_flags_restored": true,
+      "current_source_and_both_final_drc_class_prl_flags": 0,
+      "retained_final_export_reader_current": true
+    },
+    "native_each": {
+      "version": "10.0.0",
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 6,
+      "ignored_checks": 2,
+      "exclusions": 0,
+      "warning_scope": "All six raw J1-J6 Datasheet '~' versus blank schematic warnings remain and are bound to each candidate's conditional field proof. Final DRC exit5 is expected; six enclosing CLI stages exit0.",
+      "whole_project_drc_clean": false
+    },
+    "metrics_each": {
+      "copper_layers": 4,
+      "zones": 3,
+      "track_length_mm": 154.35980561473033,
+      "vias": 4
+    },
+    "edge_scope": "Original unused CRITICAL0.5mm exceeds inherited edge0.3mm. applied=false and exact named-class-clearance skip reason remain; input/output hashes are equal and Native project is unmodified. No additional correction admission is demonstrated.",
+    "costs": {
+      "external_whole_wall_seconds": 37.09,
+      "external_whole_user_seconds": 26.92,
+      "external_whole_system_seconds": 5.21,
+      "external_whole_full_cpu_seconds": 32.13,
+      "outer_inner_sample_wall_seconds": 36.26245199999539,
+      "outer_inner_sample_full_cpu_seconds": 31.321257,
+      "child_inner_sample_wall_seconds": 32.78840454202145,
+      "child_inner_sample_full_cpu_seconds": 27.950438,
+      "accounting": "One sequential fresh019 positive Route/export delivery, including reaped children and publication. Whole external wall/fullCPU satisfy260seconds. Inner samples are nested subsets and not additive; preparation/full156/curation/review and earlier controls remain separate."
+    },
+    "limits": "This is current019 own positive CLI/GUI-model delivery proof consistency on the exposed owned4Cu fixture. No central checker was rerun by this reviewer. Actual GUI interaction, the new GUI callback material guard, new019negative/cancellation qualification, unrelated-family breadth, C-over-B2 or quality/runtime gain, human/physical/electrical approval and release readiness are not established by this run. Lead's separate pure actual-export callback-guard exercise remains distinct from Native and live GUI proof."
+  },
+  "caveats": [
+    "One fresh019 installed current workflow on the same exposed owned4Cu family; no repeat016/pair001/importer004/threshold006. No new family, completion/quality/speed or C-over-B2 claim.",
+    "Only GUI differs from018, other43runtime modules including pipeline/Native acceptance/doctor exact. Actual six shipped CLI stages use the GUI model; no actual new GUI qualification or human approval. Same pinned Mac/apps/cache/fixed path, no relocation/standalone/clean-OS claim.",
+    "Every Route/export final has its own actual saved refill/fullSCH/class/dimension/original proof. Zeroopens/zeroblocking with sixwarnings/twoignored/zeroexclusions is not whole-project cleanliness or electrical suitability.",
+    "Original unusedCRITICAL0.5mm exceedsedge0.3mm, so input-specific named correction remains unapplied. No original requirement was changed to force admission.",
+    "Whole external command counts all conversion/attempt/validation/preview/selection/export/final readback/publication/exit costs. Inner samples are separately labeled. Research/authoring/AIreview/preparation/curation costs are separate and not zero.",
+    "Actual019GUI remains pending. Native017 mismatch/short/cancel controls stay separately scoped under the unchanged pipeline/route methods; no new019negative rerun claimed. Cooperative ownership does not certify hostile same-user resistance or permanent descendant absence."
+  ],
+  "files": [
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/choice.command.log",
+      "bytes": 36912,
+      "sha256": "e72ce5870c7c8fa59458c5aaf1fbd405b685a68f714faabb4c368f06f5019ab3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/choice.command.process.json",
+      "bytes": 816,
+      "sha256": "183eb6cd930653765b508e6814567d58fdd7987da5313e9e8e33f863af5d66d5"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/choice.process.json",
+      "bytes": 816,
+      "sha256": "183eb6cd930653765b508e6814567d58fdd7987da5313e9e8e33f863af5d66d5"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/export.command.log",
+      "bytes": 569,
+      "sha256": "252bb8e51320237e574f9782e82770be23de0bd4260ce27cb6baa8a750e0c360"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/export.command.process.json",
+      "bytes": 810,
+      "sha256": "e7cdd20b58d783f3401551f6c5c4d0dbc9175cf6c7394bd8714506e66e4c4f02"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/export.process.json",
+      "bytes": 810,
+      "sha256": "e7cdd20b58d783f3401551f6c5c4d0dbc9175cf6c7394bd8714506e66e4c4f02"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/choice/choice.json",
+      "bytes": 36912,
+      "sha256": "e72ce5870c7c8fa59458c5aaf1fbd405b685a68f714faabb4c368f06f5019ab3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/export.json",
+      "bytes": 107355,
+      "sha256": "f809becac10743a51c5200af13dda7025a0cdb8626f73056aaa5902dc88efb4f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/__init__.py",
+      "bytes": 107,
+      "sha256": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/__main__.py",
+      "bytes": 15718,
+      "sha256": "969ee3f7143dee26a0fa328ebffd0ad355ebcfe74c09c8cd99f48cc778db3f45"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/adapter.py",
+      "bytes": 21577,
+      "sha256": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/board_floor.py",
+      "bytes": 33888,
+      "sha256": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/chain_proposals.py",
+      "bytes": 7539,
+      "sha256": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/config.py",
+      "bytes": 1681,
+      "sha256": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/engine_angle.py",
+      "bytes": 15052,
+      "sha256": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/floor_context.py",
+      "bytes": 12830,
+      "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/floor_route.py",
+      "bytes": 35832,
+      "sha256": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/gui.py",
+      "bytes": 52817,
+      "sha256": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/handoff.py",
+      "bytes": 33637,
+      "sha256": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/layer_policy.py",
+      "bytes": 13053,
+      "sha256": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/legacy_zone.py",
+      "bytes": 9409,
+      "sha256": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/local_settings.py",
+      "bytes": 18648,
+      "sha256": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/native.py",
+      "bytes": 8811,
+      "sha256": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/native_connected.py",
+      "bytes": 17292,
+      "sha256": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/native_edge.py",
+      "bytes": 23818,
+      "sha256": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/netclass.py",
+      "bytes": 32508,
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/netclass_native.py",
+      "bytes": 2826,
+      "sha256": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/padless_alias.py",
+      "bytes": 36868,
+      "sha256": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/padless_alias_native.py",
+      "bytes": 11543,
+      "sha256": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/pipeline.py",
+      "bytes": 192775,
+      "sha256": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/placement_clearance.py",
+      "bytes": 12036,
+      "sha256": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/placement_strategy.py",
+      "bytes": 31730,
+      "sha256": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/placement_transform.py",
+      "bytes": 18902,
+      "sha256": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/pour_rule_area.py",
+      "bytes": 17636,
+      "sha256": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/pour_rule_area_native.py",
+      "bytes": 4945,
+      "sha256": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/preferences.py",
+      "bytes": 10901,
+      "sha256": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/provenance.py",
+      "bytes": 14386,
+      "sha256": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/recovery.py",
+      "bytes": 11225,
+      "sha256": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/review_export.py",
+      "bytes": 37365,
+      "sha256": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/review_view.py",
+      "bytes": 14200,
+      "sha256": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/routing_scope.py",
+      "bytes": 14108,
+      "sha256": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/runner.py",
+      "bytes": 22644,
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/schematic_class_evidence.py",
+      "bytes": 20108,
+      "sha256": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/schematic_classes.py",
+      "bytes": 22959,
+      "sha256": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/schematic_field_evidence.py",
+      "bytes": 18889,
+      "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/schematic_fields.py",
+      "bytes": 9958,
+      "sha256": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/sexpr.py",
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/strategy.py",
+      "bytes": 73195,
+      "sha256": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/thermal.py",
+      "bytes": 19650,
+      "sha256": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/thermal_contact.py",
+      "bytes": 11297,
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/thermal_geometry.py",
+      "bytes": 22611,
+      "sha256": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/code/thermal_worker.py",
+      "bytes": 15693,
+      "sha256": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-binding.json",
+      "bytes": 4480,
+      "sha256": "3a95aefed08ff4edd73b9364db25876e49465c53864cf03611645d30ea7e03dc"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-netlist-process.json",
+      "bytes": 2349,
+      "sha256": "8ecafbeb8bb75df7ecfda94e47dbffa7d2a52649b2c07118114454d1520631b6"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes-proof.json",
+      "bytes": 5281,
+      "sha256": "a99fc3ab1a145c9861fe45b450a9fdf9ba9be854d34c8c5831969c02c468ad52"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-classes.net",
+      "bytes": 9280,
+      "sha256": "3b5ee38b6965d4d23e0d174aadc752aa8fe834f5c7057cb35508c6238cdf4313"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-binding.json",
+      "bytes": 1613,
+      "sha256": "44a01acc5dc1614c5fd693c8214f10ec83f24edc3ef790f22697260b68c999f8"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields-audit-process.json",
+      "bytes": 2422,
+      "sha256": "0bb8b4cb2d9cc2330d07a5fda884fec7515acaa781ec16960c124046a23729ba"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields-local-settings.json",
+      "bytes": 2036,
+      "sha256": "68e4e9c9292cb91742d567fec4e6f285648c49561aae5043e0fd0a72ec143308"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields-netlist-process.json",
+      "bytes": 2365,
+      "sha256": "2873de9b4bf88cb03d11a7650b6c170a22f89e1d64b79bebbcd4c1e0b894d036"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields-proof.json",
+      "bytes": 4998,
+      "sha256": "f54e4053d4f46d673946a96d166dc0df862999290856a9a06a5f9037119ab667"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields.json",
+      "bytes": 2383,
+      "sha256": "59d99cb226192bdf521801372e79cdce5685a53b4e151b5552cddff1698d924c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-fields.net",
+      "bytes": 9276,
+      "sha256": "a8625a06414f50341e602dc02ab8826ff23a1800544e507f73cbd7a1e2f55105"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc-process.json",
+      "bytes": 3026,
+      "sha256": "f6e8c941d71a74d5d6397f252ac700dd23fe546102cd4b99fa8db6a0bb6d4957"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc.json",
+      "bytes": 3717,
+      "sha256": "f71f36818188617c3494ce085dc8ee16a08943784448efdb8a9cbf6bedf244a0"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-drc.log",
+      "bytes": 295,
+      "sha256": "da1a9d05e25def01fb7f6d50a817e16465e31b9afc90b8e4186cf0b6ddec9b41"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-netclass-audit.json",
+      "bytes": 3776,
+      "sha256": "68feabf7b1c526f25f1df8b4f0c6f3c716d1e9e54159fa736eadfe33b5598a4a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-netclasses-process.json",
+      "bytes": 2409,
+      "sha256": "e8141f9657d2450c4134a960c4c122b0986f2e71a753a54a1482e47e8e9a694e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-netclasses.json",
+      "bytes": 3651,
+      "sha256": "52de8189ed79abf4e791047a433297a01457856c24a39f1dd81d79ebb293e348"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/metrics-process.json",
+      "bytes": 2379,
+      "sha256": "d9e33a085c912cc8c76bd609c5b6192964981de2f573623c7c2f05e23a73fed2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/metrics.json",
+      "bytes": 148,
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/metrics.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/pour-before-refill.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/pour-keepout-audit-process.json",
+      "bytes": 2416,
+      "sha256": "ecb38b3284c077063db7db929e3a3d2267ec11d54b1a1cb0cfcac6bfae13a8fc"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/pour-keepout-audit.json",
+      "bytes": 4467,
+      "sha256": "1f86fa461ccb545b2fc8d3643e046ced486c0e68225f816964a3e31a52ad1fd1"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/pour-keepout-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/pre-refill.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 19024,
+      "sha256": "bf4a052614f52b265aa678353dfe057f07772dfdf9cf3291bd74fa739c8b3f04"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill-drc-binding.json",
+      "bytes": 1531,
+      "sha256": "98cd3ee7f8b4ad55a5f8081c85c8b16f3f72e82fd3ca757b8c2718fbcc4fb4a8"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill-drc-process.json",
+      "bytes": 3001,
+      "sha256": "c24feeb4cabb4e73d04f486f2b52c4f43d0298246c466cdea107264196171c35"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill-drc.json",
+      "bytes": 683,
+      "sha256": "e71aa7a02a13d1cd0007cc34a447eda6c4fb225371ce84cdf67fc105753e7d2e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/refill-drc.log",
+      "bytes": 276,
+      "sha256": "14465e55521a43c3f80de6d3a69ea2299053d2c66a0972811657c31477e1dbef"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/validation/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/before/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/before/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/before/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/before/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-B.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-B.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-B.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-B.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-B.Cu-input-binding.json",
+      "bytes": 1531,
+      "sha256": "bd81ff6c3a40c1c8aa7161cc85d047f96e2f17931e22af743aedf40a1ac506d2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-B.Cu-process.json",
+      "bytes": 3018,
+      "sha256": "33118a695f55978c85699d5e232e45b9c73797ba7f67b3e182d099f80e470a1e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-B.Cu.log",
+      "bytes": 230,
+      "sha256": "d2d7c1e8d491d23a86825aba9c449d27cfa33557c88fa44a9d5482f9be581097"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-F.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-F.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-F.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-F.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-F.Cu-input-binding.json",
+      "bytes": 1531,
+      "sha256": "e87982716010d05c1e7d10fe311ca8d0993fdcd7518cd67265c39a9ae89c5548"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-F.Cu-process.json",
+      "bytes": 3007,
+      "sha256": "f9c02b2d01f881867e252e1c9c500e74fa12afb591eb8debc28fbb282e10d04a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-F.Cu.log",
+      "bytes": 230,
+      "sha256": "c7a485f4af500c4543a4142afa3e6a92a0231430ba665f59789f0e281b1e8281"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In1.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In1.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In1.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In1.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In1.Cu-input-binding.json",
+      "bytes": 1533,
+      "sha256": "6a77a27823934dfc19d54fb262b8b6d7097b70bcd4c2318c6ad3e9bfc33a0e22"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In1.Cu-process.json",
+      "bytes": 3019,
+      "sha256": "e604439cddebdd1a62840b284a7be0474b3c41e54843f452b8cb5575b0cf788f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In1.Cu.log",
+      "bytes": 232,
+      "sha256": "a56e76b78c4479b33923d087f368b6d2ae05f2497b43f3d8cadfca8770523eef"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In2.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In2.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In2.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In2.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In2.Cu-input-binding.json",
+      "bytes": 1533,
+      "sha256": "49d1e859a1b98dfee3edbf8f737f2bca36cd1fd57b8baac9e33b0ce36d261cfa"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In2.Cu-process.json",
+      "bytes": 3020,
+      "sha256": "e80c821cdff384abfb9ac7e121089a30acc6b10e4fdbb84637ccdccede9c6b07"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/after-In2.Cu.log",
+      "bytes": 232,
+      "sha256": "2908cdbe752b2a4de53b36e623b74e696c12ca6cdebd723d24ba04183f90bbad"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-B.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-B.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-B.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-B.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-B.Cu-input-binding.json",
+      "bytes": 1531,
+      "sha256": "6fc61fdd6eb2c37eb34a33e099ee34edbffd043ea4e1bacd0a3fde4081469ce1"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-B.Cu-process.json",
+      "bytes": 3014,
+      "sha256": "450cbd580a7f7f403de2554471eb086e0c4c060c62deda8044fc16862154b03d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-B.Cu.log",
+      "bytes": 231,
+      "sha256": "26bffa09309d13b13534999341a1db874a9a2b2b0bc73ee1afc5336e92dec979"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-F.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-F.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-F.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-F.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-F.Cu-input-binding.json",
+      "bytes": 1531,
+      "sha256": "e20d7e4018db08c44406f342eecb986df6a1284728d7320b093a101ca22dde84"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-F.Cu-process.json",
+      "bytes": 3024,
+      "sha256": "d11fc0ced9020705c4906cee6af54a45419134399834ab40fac15594227bab00"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-F.Cu.log",
+      "bytes": 231,
+      "sha256": "90778655197a31aec26150945e16a74f144143317796216c4720f190463bd555"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In1.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In1.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In1.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In1.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In1.Cu-input-binding.json",
+      "bytes": 1533,
+      "sha256": "674ba962d2c4492295a87371e3f4512643f71302b762f1af438187aebd3ba6b0"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In1.Cu-process.json",
+      "bytes": 3026,
+      "sha256": "0377be97bfefaafde1fdbe147c9a71cf14ce4e3fdeb6c0c2918545c32c3ed87d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In1.Cu.log",
+      "bytes": 233,
+      "sha256": "e49987b70060bd583c75735559c396019422fdf013776fa4a4439cda01f76c36"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In2.Cu-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In2.Cu-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In2.Cu-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In2.Cu-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In2.Cu-input-binding.json",
+      "bytes": 1533,
+      "sha256": "5a11d39600a4eb825ac6dee95dec8a8a587c0bbb7cf4776bb722f87ec0bcc4e4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In2.Cu-process.json",
+      "bytes": 3024,
+      "sha256": "ab80a7404eb9a82b4abcf43fda8455b367dcda9ed6c57940ad8b9953fdb926a2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/before-In2.Cu.log",
+      "bytes": 233,
+      "sha256": "c2c9caa4521dc2d2fb70be66a39a453762a677e86bf8916fb9188367ed4e1781"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/after-B.Cu.svg",
+      "bytes": 2688,
+      "sha256": "1488dc78f0c098af93bad9b1677dd28de5d866ae0168fbb464f33f2150c1c6f4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/after-F.Cu.svg",
+      "bytes": 2953,
+      "sha256": "aa34649a217fa4004fd1d7a7909b3fcd9cd11e7ff83994dead61234e11775e1c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/after-In1.Cu.svg",
+      "bytes": 2441,
+      "sha256": "e26a57a62f2e97431874c8ce3b2581ea7c2f871ca87ded8add600cab0b87ac9f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/after-In2.Cu.svg",
+      "bytes": 3309,
+      "sha256": "595e888d34ddcd34775f397b9d3edc23d164f2a78b3db8c555550ad07be79473"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/before-B.Cu.svg",
+      "bytes": 2064,
+      "sha256": "fa76ba0609f0fed5c7e7198b7a080dfdde3e12e22ab6f545d7ae21c8861fe45f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/before-F.Cu.svg",
+      "bytes": 2063,
+      "sha256": "976106fabfe80157e8e4ff512af1675b83e25c5fc9f63426e3ef24bcc2d1943b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/before-In1.Cu.svg",
+      "bytes": 1653,
+      "sha256": "8497d7bd2d7a4e02c9b725b6d8f5eaab696b4bf22af22943079701a8100e3398"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/native-plots/before-In2.Cu.svg",
+      "bytes": 1653,
+      "sha256": "99855f2260fda3e5ef9446af67c4b51360056b9864180dde5bd9f175b2a501d9"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/after-B.Cu.svg",
+      "bytes": 2588,
+      "sha256": "ef83fb3e315e3f00f4b48e8952f53fc0faaf6dff7ae3b11889a87c9c6d84a6db"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/after-F.Cu.svg",
+      "bytes": 2853,
+      "sha256": "e9fd70e65ec2e5455640041aa1e23ab839438c651899d21574f815eab161abff"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/after-In1.Cu.svg",
+      "bytes": 2341,
+      "sha256": "78132619e5ea5b4490ae7f82820692699c7041e8e5488222239d9874a2240a64"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/after-In2.Cu.svg",
+      "bytes": 3209,
+      "sha256": "3e8f5ecba52f484aa5ba76446c10570038585893e3b1a3ae385b1626e8b03082"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/before-B.Cu.svg",
+      "bytes": 1964,
+      "sha256": "93a030d003566318dc86c3e7b3d4c56973d6cb3fa1839754acbb68192e0da861"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/before-F.Cu.svg",
+      "bytes": 1963,
+      "sha256": "0da2bf17a758c77a99d5c5d4042f0f2189426c1669ef438f2fa3553445447853"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/before-In1.Cu.svg",
+      "bytes": 1553,
+      "sha256": "40ee9315b0fa353eccea066bc2118a4b3991e67e1d9bea8a47e6779e12ebbea1"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/plot-work/plots/before-In2.Cu.svg",
+      "bytes": 1553,
+      "sha256": "0c6c83ebec6ca915d44a7fbf33a31180d699d17f7dd556712fe357990dca67e4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/preview.html",
+      "bytes": 3482,
+      "sha256": "5998f848659b398278e90b9ee834d9ccae4a78cbb6e504bbbd226f1dbd777230"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/project/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/project/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/project/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/project/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/review/review.json",
+      "bytes": 69711,
+      "sha256": "f8c0293909ad901b2f5855a56474b3aa2c39a5e4eae4e023fdb2497fdf58fdc3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/__init__.py",
+      "bytes": 107,
+      "sha256": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/__main__.py",
+      "bytes": 15718,
+      "sha256": "969ee3f7143dee26a0fa328ebffd0ad355ebcfe74c09c8cd99f48cc778db3f45"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/adapter.py",
+      "bytes": 21577,
+      "sha256": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/board_floor.py",
+      "bytes": 33888,
+      "sha256": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/chain_proposals.py",
+      "bytes": 7539,
+      "sha256": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/config.py",
+      "bytes": 1681,
+      "sha256": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/engine_angle.py",
+      "bytes": 15052,
+      "sha256": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/floor_context.py",
+      "bytes": 12830,
+      "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/floor_route.py",
+      "bytes": 35832,
+      "sha256": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/gui.py",
+      "bytes": 52817,
+      "sha256": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/handoff.py",
+      "bytes": 33637,
+      "sha256": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/layer_policy.py",
+      "bytes": 13053,
+      "sha256": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/legacy_zone.py",
+      "bytes": 9409,
+      "sha256": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/local_settings.py",
+      "bytes": 18648,
+      "sha256": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/native.py",
+      "bytes": 8811,
+      "sha256": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/native_connected.py",
+      "bytes": 17292,
+      "sha256": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/native_edge.py",
+      "bytes": 23818,
+      "sha256": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/netclass.py",
+      "bytes": 32508,
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/netclass_native.py",
+      "bytes": 2826,
+      "sha256": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/padless_alias.py",
+      "bytes": 36868,
+      "sha256": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/padless_alias_native.py",
+      "bytes": 11543,
+      "sha256": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/pipeline.py",
+      "bytes": 192775,
+      "sha256": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/placement_clearance.py",
+      "bytes": 12036,
+      "sha256": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/placement_strategy.py",
+      "bytes": 31730,
+      "sha256": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/placement_transform.py",
+      "bytes": 18902,
+      "sha256": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/pour_rule_area.py",
+      "bytes": 17636,
+      "sha256": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/pour_rule_area_native.py",
+      "bytes": 4945,
+      "sha256": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/preferences.py",
+      "bytes": 10901,
+      "sha256": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/provenance.py",
+      "bytes": 14386,
+      "sha256": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/recovery.py",
+      "bytes": 11225,
+      "sha256": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/review_export.py",
+      "bytes": 37365,
+      "sha256": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/review_view.py",
+      "bytes": 14200,
+      "sha256": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/routing_scope.py",
+      "bytes": 14108,
+      "sha256": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/runner.py",
+      "bytes": 22644,
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/schematic_class_evidence.py",
+      "bytes": 20108,
+      "sha256": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/schematic_classes.py",
+      "bytes": 22959,
+      "sha256": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/schematic_field_evidence.py",
+      "bytes": 18889,
+      "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/schematic_fields.py",
+      "bytes": 9958,
+      "sha256": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/sexpr.py",
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/strategy.py",
+      "bytes": 73195,
+      "sha256": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/thermal.py",
+      "bytes": 19650,
+      "sha256": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/thermal_contact.py",
+      "bytes": 11297,
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/thermal_geometry.py",
+      "bytes": 22611,
+      "sha256": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/code/thermal_worker.py",
+      "bytes": 15693,
+      "sha256": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/edge-adapter-input.dsn",
+      "bytes": 3302,
+      "sha256": "ef99a5410f36313a2780793826abe25d693c90db25265ad896066c3226b31668"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/engine-process.json",
+      "bytes": 3051,
+      "sha256": "a10dd04998799f52d4bdfd3ec1ee05e38e52050dba06a513c48d3d776a07e035"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/engine.log",
+      "bytes": 7269,
+      "sha256": "d58e1f5d934372b66cfe6ad466c2b40260819c538a7711738f4d1c2d0e1b9f7a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/export-netclasses.json",
+      "bytes": 3639,
+      "sha256": "5fb920ac74274817ce2dfbf802dde025b45f53854428b80b708cdb746dba3068"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/export-process.json",
+      "bytes": 2437,
+      "sha256": "68b5a7a9a4f82dd8cf2ca9bf8b3476a9fd4baef6622a753d1f00b49acbe02cb6"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/export.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-binding.json",
+      "bytes": 4196,
+      "sha256": "67d0277c9f2abbb4df8a9defad6ea69a050620475851d05e478eb61247f29ad4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-netlist-process.json",
+      "bytes": 2214,
+      "sha256": "760b14c969981b56d6cb07c841074989f921a8d65bd0df4ba54187687df208a2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes-proof.json",
+      "bytes": 5257,
+      "sha256": "08b697c6eab01b6bf77c36f9200ff62797878a3a62aae9d414643b4a495fd9e7"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-classes.net",
+      "bytes": 9268,
+      "sha256": "779bd77ca8e1dacc6cc51fe599a8531e6826be5ade0cce16e00492c31b98c404"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-binding.json",
+      "bytes": 1589,
+      "sha256": "a9228864b3e250678671d9865b4f39d9615ea8818d1434a89f52da585d7f35b3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields-audit-process.json",
+      "bytes": 2287,
+      "sha256": "d4a2b143bc75cfe9e75946aaae0a9658ed515e1644086861bfdc29fc3133c7df"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields-local-settings.json",
+      "bytes": 2012,
+      "sha256": "423f806e41574ce17212674e3070bed4ca6af5a573cf43235cb7f0682f813513"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields-netlist-process.json",
+      "bytes": 2229,
+      "sha256": "7d5831b3bd3c04e57fa0ff06c164fbab35c43638509689b5eb0d33f2bd31003d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields-proof.json",
+      "bytes": 4998,
+      "sha256": "2981263d5fed8a5aad964001f06248f9a1cb66cf8768fc2ba68e170d951749b2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields.json",
+      "bytes": 2371,
+      "sha256": "d6fb96b3e68873d149d12c3eae6e3a6bb715f56a7c0dcdf3885d8a6202a365c5"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-fields.net",
+      "bytes": 9264,
+      "sha256": "5af6cf9491125474c6b33771e2ebe73c4621418738777ae981d5dbd45acb13a4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 14991,
+      "sha256": "075ef2d7ea437eef8661e860e8fe1fb732aff0eeb930ccef10b858722f8f715b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc-process.json",
+      "bytes": 2889,
+      "sha256": "8ec0c7178475f723c5f8da2c1a7223ca8a2e26930c3fd39d6b0000acb506c76e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc.json",
+      "bytes": 3717,
+      "sha256": "33f6e028df53e216bb3f5aff66450ae023d38b153d8a6988a4b3213ae39f2fca"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-drc.log",
+      "bytes": 283,
+      "sha256": "c3dbb5c996e937a7364a0847d7a314cc22f46b453e23743b643ceeb108fd4c51"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-netclass-audit.json",
+      "bytes": 3776,
+      "sha256": "34586ea01c86edfeadc829c0a801b48ed22c972be1d11b7985c417eb162aa490"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-netclasses-process.json",
+      "bytes": 2284,
+      "sha256": "c3c9f45cec72b9db64e80c7b8a158b525a17108b30a2315daa6fb190fe682e5b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-netclasses.json",
+      "bytes": 3639,
+      "sha256": "aa98504c5da1ec25e6866840a9f30694a93e976e6dc2eadf87766e2d808571c8"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/import-process.json",
+      "bytes": 2436,
+      "sha256": "e9ed25d532033f3704e1a82b24fc83b46db6aa3c1e1ea65d4d4a3f1fc853b63a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/import.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/imported.kicad_pcb",
+      "bytes": 17658,
+      "sha256": "14aa76b732ff4e0c4284adc1be8217a138954e4d4ebe9fcd036916c5762fbe78"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/imported.kicad_prl",
+      "bytes": 2295,
+      "sha256": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/imported.kicad_pro",
+      "bytes": 10190,
+      "sha256": "3631a72147c106e6b0622ae9c7c303cf9f5c3edce234223a5d149c289c09219d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/imported.routes-only.json",
+      "bytes": 909,
+      "sha256": "b368b80eadcb641e5bf13e12334a804949314c893634a3a90caad5876fdcaac7"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/imported.routes-only.ses",
+      "bytes": 1258,
+      "sha256": "28e76918b9e6cd95590c991bcda9c9106b49122664fcb8fe3a4f1d204ec0cc73"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/metrics-process.json",
+      "bytes": 2243,
+      "sha256": "03666ca36436e4c9718e10846a5884380586e3adb0ea1c36414d760930262ba4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/metrics.json",
+      "bytes": 148,
+      "sha256": "e6415b89c88d2d033f397c438f8bde9d04a7069337312b1a82aebb2b103b4ed4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/metrics.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/native-edge-correction.json",
+      "bytes": 712,
+      "sha256": "bf194d016b7116b735fd53a59f90364c4787ecb49cccf64fbd148c5431ff097e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/native.dsn",
+      "bytes": 4440,
+      "sha256": "0486f21ffb75b03c1e8e3d88c893f2322daf3114df1f43ce8ade7cf848e0742e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/obstacles-process.json",
+      "bytes": 2251,
+      "sha256": "8b8c5bd84e199505cd69900d4c49e1d4cfdeb76d9032f9fbd2612756a2b4a92c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/obstacles.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/obstacles.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/pour-before-refill.kicad_pcb",
+      "bytes": 13703,
+      "sha256": "955f42980d74420440f1ab3214f12215a0eb58f5ad7e4b01b8aade43400f157b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/pour-corrected.dsn",
+      "bytes": 3488,
+      "sha256": "823447d64c71da5c9f785c54d0f58d2ea010eda87683f8552e8d0511b4eca7bd"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/pour-dsn-correction.json",
+      "bytes": 2213,
+      "sha256": "1b886ce3cdbdf3f71a1e66c2794827a91d8dcca934b732122b83b5457f8e297c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/pour-keepout-audit-process.json",
+      "bytes": 2290,
+      "sha256": "ed5ea89797aaeeac2ef250e0a67d5b45ef3c620db26957a1d0f39ceebe1ddd36"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/pour-keepout-audit.json",
+      "bytes": 4455,
+      "sha256": "24fc5d1f203f047497be891235bcd7393b5168ac61728f06bee93c27377719bb"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/pour-keepout-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/pre-refill.kicad_pcb",
+      "bytes": 13703,
+      "sha256": "955f42980d74420440f1ab3214f12215a0eb58f5ad7e4b01b8aade43400f157b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 19024,
+      "sha256": "bf4a052614f52b265aa678353dfe057f07772dfdf9cf3291bd74fa739c8b3f04"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill-drc-binding.json",
+      "bytes": 1507,
+      "sha256": "4247f345a71a6d5d00d23faa48789d0be3a8be6e16716e523bf7d26e8c500d8c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill-drc-process.json",
+      "bytes": 2863,
+      "sha256": "411a1bf00d1134aa29ba706b89f0cd76bccd1504d7bc78a68e26d2f8c8e3af8e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill-drc.json",
+      "bytes": 683,
+      "sha256": "fe204dc62b51d3717666851c3d8cd36036a6109cbe5b4f268c9bb56ef7a6fdb6"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/refill-drc.log",
+      "bytes": 264,
+      "sha256": "675de1602af37bc9ebe092298ea32109a6bfff22c656d562364a4999f8f8b6bf"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/result.json",
+      "bytes": 75691,
+      "sha256": "f48c6fbbdc29d6d5af3a7cfe50194b811c4e176367f81a7024c739c47f3a9e25"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/routes.ses",
+      "bytes": 2549,
+      "sha256": "c5af5fba21b6e26744baef4f962b762a2d89a6184efe1985e6c9391a2b1dc661"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/routing-preferences.json",
+      "bytes": 782,
+      "sha256": "88e2c5d8d49a1218e93223380581fdeb2e3db962909efc7ea4f8a664d82c94d1"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc-binding.json",
+      "bytes": 1520,
+      "sha256": "06528d001ffd469849f9459eabecc55f124870f7bc64f841ecadbc04ddae39fa"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc-process.json",
+      "bytes": 2858,
+      "sha256": "6e4d7b188d77ded03c4c5541f7fb9537d2b4daedc447e38617a92542d5805e6c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc.json",
+      "bytes": 1463,
+      "sha256": "134ab3889ef46ca56da4fa8cebf8a3af0be09240fecacb031ede1a2811072af2"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/source-drc.log",
+      "bytes": 252,
+      "sha256": "7f8dd4f93c87ae0845afa3072bdbedc2cbf5867346b20ab1d1b734196c38d10e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-binding.json",
+      "bytes": 4378,
+      "sha256": "807b5fa32319c66eaa1586529edc3e0b5b5a671acd9e7905474777198714a018"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-netlist-process.json",
+      "bytes": 2221,
+      "sha256": "667fb101123f1256a9639de38b7be87ae86b0260588428703d320774ea59de2f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes-proof.json",
+      "bytes": 5255,
+      "sha256": "a6e4169417640a6ba32b098f490fd58d504290826f67716fcf1120b2329305c7"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task-classes.net",
+      "bytes": 9267,
+      "sha256": "fc22fec635f50dac7db4aacac93330e55cf99536d3e57b6fb89471ea4d5d888d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task.alias-export.json",
+      "bytes": 4436,
+      "sha256": "cd237e496ba3fe186c0fe5481983edc3e06efd46e828a474f92eba052806cf2c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task.alias-source.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/route/task.dsn",
+      "bytes": 3302,
+      "sha256": "ef99a5410f36313a2780793826abe25d693c90db25265ad896066c3226b31668"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/settings.json",
+      "bytes": 204,
+      "sha256": "1d01bd77effac74bbba43a77efe89759950c64c8e7d8342035abe89e9688420d"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/preview.command.log",
+      "bytes": 2583,
+      "sha256": "88013ce218b95b0c61f0ee0e37adc388043314db9f435f93c5be8841661a9345"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/preview.command.process.json",
+      "bytes": 765,
+      "sha256": "ff12b49193470b1880b9e196464be1009bcbdcdab68e645122ec9005d75fcdd0"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/preview.process.json",
+      "bytes": 765,
+      "sha256": "ff12b49193470b1880b9e196464be1009bcbdcdab68e645122ec9005d75fcdd0"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/result.json",
+      "bytes": 59007,
+      "sha256": "ede49682f5cfa8f9a94b031b0ae0ff9e04478532779de3cf3e024dbb19353cce"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/review.command.log",
+      "bytes": 69711,
+      "sha256": "f8c0293909ad901b2f5855a56474b3aa2c39a5e4eae4e023fdb2497fdf58fdc3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/review.command.process.json",
+      "bytes": 798,
+      "sha256": "1f33d76c1883f2f78a11351ae26243e4a1cef9ea7c2cc563c0de414198ac2770"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/review.process.json",
+      "bytes": 798,
+      "sha256": "1f33d76c1883f2f78a11351ae26243e4a1cef9ea7c2cc563c0de414198ac2770"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/route.command.log",
+      "bytes": 553,
+      "sha256": "fe0db3fd84598eed334ddd60a2df6a3959b57c624fefc358e0dacfea7f2f30f4"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/route.command.process.json",
+      "bytes": 954,
+      "sha256": "2a8885afd23536091e9393b5f6717e47f00b219be5ce83499f84fe5b2230684b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/route.process.json",
+      "bytes": 954,
+      "sha256": "2a8885afd23536091e9393b5f6717e47f00b219be5ce83499f84fe5b2230684b"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/source/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/source/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/source/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/source/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/verify_export.command.log",
+      "bytes": 809,
+      "sha256": "3999ab211ac4012e7d4b90bb78b4c8140a966fc9c1795e82f1e20a291718dc4c"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/verify_export.command.process.json",
+      "bytes": 595,
+      "sha256": "71ff6484ef1212697b685b65c6002584c209e90e07a30e6b5f947f483438d902"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/workflow/verify_export.process.json",
+      "bytes": 595,
+      "sha256": "71ff6484ef1212697b685b65c6002584c209e90e07a30e6b5f947f483438d902"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/enclosure/command.log",
+      "bytes": 147,
+      "sha256": "5d333cc0308dcb79a4c7b2b5d3855f360a581fbbd43cbc5e08bddd6bccc456c0"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/enclosure/command.process.json",
+      "bytes": 809,
+      "sha256": "5ca5fdbf76160b9976cd057d545f263cffcbe84f5fc6eda2e2519309131694fa"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/enclosure/result.json",
+      "bytes": 70214,
+      "sha256": "86ad310560627a597dcb2d67e7f74fde319b34b0a0bb97c964a4e34e38261693"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/controllers/qualify-runtime019-production-001.py",
+      "bytes": 12638,
+      "sha256": "ff970054da1744149f02da19778f605806258fac3bed99c7f668daa0e73e8853"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/controllers/run-runtime019-production-001.py",
+      "bytes": 8873,
+      "sha256": "eeea1f73926e2e940278838a931a26d39588f68f4cdb694a92d4a8fe23f50acc"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/controllers/runtime019-production-actual-review-001.json",
+      "bytes": 5641,
+      "sha256": "2bb42c46751e4e4d619b76d6e6f819d0bc6363f1c614f854e40c886ff7d6cdf3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/controllers/runtime019-production-execution-001-command.log",
+      "bytes": 132,
+      "sha256": "77282568bf623662dbfc42990a61c18dff23632de45f8e9313f6eb91deb32194"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/controllers/runtime019-production-execution-001-time.log",
+      "bytes": 31,
+      "sha256": "044cfdc3cd0cbae31862c5839a73f7b3a25fe1289e34a83206b305780ecefd34"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/controllers/production-delivery-protocol-frozen-001.json",
+      "bytes": 57561,
+      "sha256": "0795d8d191d9d30e9e4ec28a0874088f662a40ded186f99bc5d0f34f84369968"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/pure-material-guard/check-gui-queued-open-material-002.py",
+      "bytes": 1773,
+      "sha256": "d517d218ca221241a1cc0ca316bd3afc35fe2a84a6c9c986c9de75e0f8caa04f"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/pure-material-guard/gui-queued-open-material-readback-002/result.json",
+      "bytes": 912,
+      "sha256": "970c6d3d1bc4d82c4876acb5de2838a43ccb8a2ea4d4df6d134c091c9dc5e0a3"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/pure-material-guard/gui-queued-open-material-readback-002-command.log",
+      "bytes": 108,
+      "sha256": "7bce16cdabd779377e848f2ad3a600a66a39f8e289dead4bed25f8a54490dd05"
+    },
+    {
+      "path": "evidence/runtime019-production-CLI-delivery-001-notes/pure-material-guard/gui-queued-open-material-readback-002-time.log",
+      "bytes": 29,
+      "sha256": "0552c56a8615f3de097f23dff66fddef3867fa539ed0ed8f0e5dafc3659124e0"
+    }
+  ],
+  "pure_new_GUI_material_guard": {
+    "schema": 1,
+    "passed": true,
+    "Native_reexecuted": false,
+    "GUI_executed": false,
+    "gui_sha256": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844",
+    "export_receipt_sha256": "f809becac10743a51c5200af13dda7025a0cdb8626f73056aaa5902dc88efb4f",
+    "retained_export": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime/.runs/production-delivery-001/jobs/autorouter-gui-313a428e449242e58f9302ad127d9a32/export/export.json",
+    "material_files": 105,
+    "material_directories": 28,
+    "guard_wall_seconds": 0.0444054999970831,
+    "guard_parent_CPU_seconds": 0.03373000000000001,
+    "scope": "One execution of the new GUI pure bounded material guard on the unchanged actual019 Native export, with exact root/installed GUI byte match. No Native checker, process/tool probe, GUI or routing rerun. This is not a new Native acceptance or an end-to-end runtime claim."
+  },
+  "pure_new_GUI_material_guard_external_cost": {
+    "wall_seconds": 0.18,
+    "full_CPU_seconds": 0.12000000000000001,
+    "qualification": "Separate pure byte-guard qualification after completedCLI delivery; no Native or actualGUI reexecution. Not included in six-stageCLI cost; actual GUI opening/runtime remains unqualified."
+  }
+}

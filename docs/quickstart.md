@@ -1,5 +1,7 @@
 # Run a local demo
 
+Current installed CLI qualification is [runtime019](../evidence/runtime019-production-CLI-delivery-001.json), built from `321bc5bfdcb85c6975ee5b7e2accf09b6f43da84`, on an owned protected four-layer source. Its [prepared GUI](../evidence/gui-runtime019-067-prepared-001.json) is not live-tested. The public LED demonstration below retains its separately identified historical installation/evaluation evidence; it was not rerun or relabelled as runtime019. See [installation limits](install-test.md).
+
 This experimental tool runs on the qualified Mac with KiCad10.0.0, Java25.0.2 and Python3.11. Normal routing needs no AI account or internet. Installation and the explicit public demo download use the internet; private boards are not uploaded. Original files stay unchanged and every route goes into a separate project.
 
 Use Terminal in the checkout. In the existing project, keep the prepared `.venv`; start with the doctor command. In a new checkout, create it with `python3.11 -m venv .venv` and run `.venv/bin/python scripts/setup_engine.py` first. The installer verifies the pinned engine. Existing Mac applications are reused.

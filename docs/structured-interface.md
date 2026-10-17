@@ -4,7 +4,7 @@ The graphical controller calls the same offline CLI as Terminal users. It passes
 
 | Action | CLI | Result / authority |
 |---|---|---|
-| Check environment | `doctor` | Actual pinned tool/version/hash readiness; no board validation. |
+| Check environment | `doctor` | Actual pinned tool/version/hash readiness, successful KiCad/Python/Java probes and recognizable Java version output; no board validation. |
 | Preview support and choices | `preview BOARD --settings FILE` | Resolved source identity/settings/protected-route counts; static only. |
 | Route a copied project | `route BOARD --settings FILE --output NEW` | `NEW/result.json`; `accepted`, status, source/candidate hashes, tools, all native findings and compute. Exit0 alone is insufficient. |
 | Verify retained result | `check-result RESULT` | Complete shared source/evidence/original-design consistency checks; does not run a new DRC. |
@@ -18,3 +18,5 @@ Commands returning failure, cancellation, stale inputs, unsupported features or 
 The runtime preserves schema-specific readers for historical evidence. New preference snapshots use schema2 with `defaults_policy: corrected-standard-v1`; schema1 retains original stock defaults. A preset remains schema1 and fully names its chosen settings. No schema migration edits old receipts or source projects. Unsupported fields/unknown policies reject instead of falling back.
 
 Keep review copies and authoritative exports distinct. The separate-project interface requires saved, correctly identified, closed source editors; it cannot detect arbitrary unsaved buffers, modify a live editor transactionally or promise undo. A future client must use these same guards, not treat a displayed success message as independent validation.
+
+Current installed CLI evidence is [runtime019](../evidence/runtime019-production-CLI-delivery-001.json). The [queued-open guard](../evidence/gui-queued-open-source-001.json) checks source/settings and export byte witnesses at GUI delivery; it does not replace the worker reader or establish atomic live-editor application. Current GUI interaction remains unqualified.
