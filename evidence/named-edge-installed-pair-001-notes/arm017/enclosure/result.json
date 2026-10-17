@@ -1,0 +1,1766 @@
+{
+  "schema": 1,
+  "kind": "installed-named-edge-pair-enclosure-v1",
+  "accepted": false,
+  "passed": true,
+  "status": "completed",
+  "arm": "017",
+  "protocol_sha256": "929553786a1c5f77fcfaecdfecb8ca2c3f64a62f67173f1604e2a556d08aaf5c",
+  "process": {
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-child-001.py",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/named-edge-installed-pair-001/PROTOCOL.frozen-001.json",
+      "--protocol-sha256",
+      "929553786a1c5f77fcfaecdfecb8ca2c3f64a62f67173f1604e2a556d08aaf5c",
+      "--arm",
+      "017"
+    ],
+    "exit_code": 0,
+    "cancel_requested": false,
+    "log_truncated": false,
+    "log_bytes": 148,
+    "wall_seconds": 26.981865916983224,
+    "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+  },
+  "child": {
+    "schema": 1,
+    "kind": "installed-named-edge-pair-arm-v1",
+    "accepted": false,
+    "passed": true,
+    "status": "completed",
+    "arm": "017",
+    "actual_GUI": false,
+    "human_review": false,
+    "tools": {
+      "implementation_sha256": {
+        "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+        "autorouter/__main__.py": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c",
+        "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+        "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+        "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+        "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+        "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+        "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+        "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+        "autorouter/gui.py": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7",
+        "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+        "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+        "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+        "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+        "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+        "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+        "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+        "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+        "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+        "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+        "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+        "autorouter/pipeline.py": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400",
+        "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+        "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+        "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+        "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+        "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+        "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+        "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+        "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+        "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029",
+        "autorouter/review_view.py": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac",
+        "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+        "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+        "autorouter/schematic_class_evidence.py": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb",
+        "autorouter/schematic_classes.py": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9",
+        "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+        "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+        "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+        "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+        "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+        "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+        "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+        "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+      },
+      "git_head": "4d155f5c4c07e1c10b8c64a6f982fed02ea2dfbc",
+      "source_provenance": {
+        "kind": "runtime-directory-v1",
+        "git_head": "4d155f5c4c07e1c10b8c64a6f982fed02ea2dfbc",
+        "build_source": {
+          "files_sha256": {
+            "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+            "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+            "autorouter/__main__.py": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c",
+            "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+            "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+            "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+            "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+            "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+            "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+            "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+            "autorouter/gui.py": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7",
+            "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+            "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+            "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+            "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+            "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+            "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+            "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+            "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+            "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+            "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+            "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+            "autorouter/pipeline.py": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400",
+            "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+            "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+            "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+            "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+            "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+            "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+            "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+            "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+            "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029",
+            "autorouter/review_view.py": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac",
+            "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+            "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+            "autorouter/schematic_class_evidence.py": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb",
+            "autorouter/schematic_classes.py": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9",
+            "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+            "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+            "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+            "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+            "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+            "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+            "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+            "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+            "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+            "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+            "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+          },
+          "git_head": "4d155f5c4c07e1c10b8c64a6f982fed02ea2dfbc",
+          "kind": "git-checkout"
+        },
+        "manifest_sha256": "f14d8b2f1d28af5c11ad585233ae03e71baa9f48a25078d090b3cc814c2a8e55"
+      },
+      "kicad": "10.0.0",
+      "freerouting": "2.5.0",
+      "files": {
+        "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+        "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+      },
+      "network": "engine sandbox-exec deny network*",
+      "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+      "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+      "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+    },
+    "python_context": {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+      "resolved_path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+      "sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+      "bytes": 33816,
+      "version": [
+        3,
+        11,
+        9
+      ],
+      "implementation": "cpython"
+    },
+    "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6",
+    "protocol_sha256": "929553786a1c5f77fcfaecdfecb8ca2c3f64a62f67173f1604e2a556d08aaf5c",
+    "processes": [
+      {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "preview",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/source/owned-named-edge-literal300.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/settings.json"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 1061,
+        "wall_seconds": 0.10035204200539738,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/source/owned-named-edge-literal300.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/settings.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/route"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 539,
+        "wall_seconds": 9.534683624980971,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-copy",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/route/result.json",
+          "--render",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/review"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 46693,
+        "wall_seconds": 3.427547750005033,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/review/review.json",
+          "--choice",
+          "accept",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/choice"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 34029,
+        "wall_seconds": 1.6758036249666475,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/choice/choice.json",
+          "--seconds",
+          "90",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/export"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 590,
+        "wall_seconds": 6.937456541985739,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export-check",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/export/export.json"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 832,
+        "wall_seconds": 2.0087380000040866,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      }
+    ],
+    "accounting_point": "Inner pre-final-publication sample; outer reaped-process wall/full parent+waited-child CPU and external260s gates are mandatory.",
+    "qualification": "One exposed owned literal300 family; adapter fidelity and installed delivery qualification, not C-over-B2/new-family/quality-superiority evidence.",
+    "source_sha256": {
+      "owned-named-edge-literal300.kicad_pcb": "fb577c2a834b994ea0fceee5de7f4956c6b8dfcff87feea431248a8a7a858d2a",
+      "owned-named-edge-literal300.kicad_prl": "8dbd59d093c1500f64575e68bef972724af788edc7e5d79a32ea8189f303ed4e",
+      "owned-named-edge-literal300.kicad_pro": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+      "owned-named-edge-literal300.kicad_sch": "504dc8c95fae9a400dcbcc488cc5e16a7556815dadf890cd53126311963619e4"
+    },
+    "protected_routes": 1,
+    "own_candidate_native": [
+      {
+        "stage": "route",
+        "candidate_sha256": "2d6720438f12936a5f5e51582f95d12cd1796919fbdf6698df1f19f8c1257d47",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 10.0
+                  },
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "16e22298c65bf64985aad00bca3894e5741d355811937c6d96ac924a48c9f037",
+            "binding_sha256": "b81f63748b3792bb6c589fd7e8eabcd0b5e853ff0f610aee56fe979c8048c100",
+            "netlist_sha256": "16f1d3c680b9073a41226f321b4ac6bb749613c10fc5f64f5d3920eef637e24d",
+            "fields_sha256": "b49e49b1b138d6de9d5d6d45b1e779577bc2e2ab26f0d50da6c58d2e6c126180",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "49892505-620e-516d-ac01-8769076bcf0c",
+                "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              ],
+              "warning_hashes": [
+                "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+                "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+                "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+                "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+                "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+                "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+              ],
+              "native_export_sha256": "16f1d3c680b9073a41226f321b4ac6bb749613c10fc5f64f5d3920eef637e24d",
+              "observer_sha256": "22905a31e86e7e0d295929f99b8f7958e5cf3119c498b8401068c9e55afb1cf5",
+              "drc_report_sha256": "b09ffc14fa7e0bfc6b07ca1569d1e43712252b49edf25f549a80fc2c5f3ee554"
+            },
+            "local_settings_guard_sha256": "d802fa394ff80d84a00a9a0cb7d5002cf92b8584fb1cdc105345d84de1d8d14a"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 0,
+          "vias": 0,
+          "track_length_mm": 42.0,
+          "copper_layers": 2
+        },
+        "class_audit": {
+          "native": {
+            "passed": true,
+            "policy": {
+              "mode": "literal_two_class",
+              "literal_assignments": {
+                "ROUTE": "Power"
+              }
+            },
+            "native_nets": 3,
+            "nets": [
+              {
+                "name": "GND",
+                "netcode": 3,
+                "copper_pad_count": 2,
+                "class": "Default",
+                "parameter_parents": {
+                  "width_nm": {
+                    "name": "Default",
+                    "value_nm": 300000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "clearance_nm": {
+                    "name": "Default",
+                    "value_nm": 200000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_diameter_nm": {
+                    "name": "Default",
+                    "value_nm": 800000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_drill_nm": {
+                    "name": "Default",
+                    "value_nm": 400000,
+                    "specified": true,
+                    "priority": 2147483647
+                  }
+                },
+                "width_nm": 300000,
+                "clearance_nm": 200000,
+                "via_diameter_nm": 800000,
+                "via_drill_nm": 400000
+              },
+              {
+                "name": "KEEP",
+                "netcode": 2,
+                "copper_pad_count": 2,
+                "class": "Default",
+                "parameter_parents": {
+                  "width_nm": {
+                    "name": "Default",
+                    "value_nm": 300000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "clearance_nm": {
+                    "name": "Default",
+                    "value_nm": 200000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_diameter_nm": {
+                    "name": "Default",
+                    "value_nm": 800000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_drill_nm": {
+                    "name": "Default",
+                    "value_nm": 400000,
+                    "specified": true,
+                    "priority": 2147483647
+                  }
+                },
+                "width_nm": 300000,
+                "clearance_nm": 200000,
+                "via_diameter_nm": 800000,
+                "via_drill_nm": 400000
+              },
+              {
+                "name": "ROUTE",
+                "netcode": 1,
+                "copper_pad_count": 2,
+                "class": "Power,Default",
+                "parameter_parents": {
+                  "width_nm": {
+                    "name": "Power",
+                    "value_nm": 400000,
+                    "specified": true,
+                    "priority": 0
+                  },
+                  "clearance_nm": {
+                    "name": "Power",
+                    "value_nm": 250000,
+                    "specified": true,
+                    "priority": 0
+                  },
+                  "via_diameter_nm": {
+                    "name": "Power",
+                    "value_nm": 1200000,
+                    "specified": true,
+                    "priority": 0
+                  },
+                  "via_drill_nm": {
+                    "name": "Power",
+                    "value_nm": 500000,
+                    "specified": true,
+                    "priority": 0
+                  }
+                },
+                "width_nm": 400000,
+                "clearance_nm": 250000,
+                "via_diameter_nm": 1200000,
+                "via_drill_nm": 500000
+              }
+            ],
+            "routing_accepted": false
+          },
+          "route_dimensions": {
+            "passed": true,
+            "checked": {
+              "segments": 2,
+              "arcs": 0,
+              "vias": 0,
+              "protected": 1
+            },
+            "policy": "exact effective native targets for new routes; protected originals unchanged"
+          },
+          "candidate_sha256": "2d6720438f12936a5f5e51582f95d12cd1796919fbdf6698df1f19f8c1257d47",
+          "project_sha256": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+          "native_map_file_sha256": "e6a91af8b11979032f03095e56aa3c5ea410a3122b3298bdbf4dbc59538dcf65"
+        },
+        "final_native_sha256": "16e22298c65bf64985aad00bca3894e5741d355811937c6d96ac924a48c9f037",
+        "map_sha256": "e6a91af8b11979032f03095e56aa3c5ea410a3122b3298bdbf4dbc59538dcf65",
+        "sample_wall_seconds": 8.504074166005012,
+        "sample_full_cpu_seconds": 6.057222
+      },
+      {
+        "stage": "export",
+        "candidate_sha256": "2d6720438f12936a5f5e51582f95d12cd1796919fbdf6698df1f19f8c1257d47",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 10.0
+                  },
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "1b7ad2b4a21167b603dbb0d89d73fe8fb9a84f1f30165ae9c0dd3a85278f2ff9",
+            "binding_sha256": "0d081537115246a709ad7bdb0ea2b5963bb1e86f606ccf16ca6b1e6c5027a539",
+            "netlist_sha256": "61057dbf0595fe1eb2b0e9124d70ed68e847f396f6bbdc6cf680f7db8f68759d",
+            "fields_sha256": "a225e2d6c60ec9bbf6383feab10c864a5be4f3d92b193513eb46f4b2fd97cf8f",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "49892505-620e-516d-ac01-8769076bcf0c",
+                "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              ],
+              "warning_hashes": [
+                "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+                "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+                "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+                "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+                "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+                "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+              ],
+              "native_export_sha256": "61057dbf0595fe1eb2b0e9124d70ed68e847f396f6bbdc6cf680f7db8f68759d",
+              "observer_sha256": "30036b3e86ba836d8968a53e6491bf2691ec4dfc789f4331d070da056dd3a4b3",
+              "drc_report_sha256": "60fce6aa23ddc7d909c14c38172e6327c158d369914efca54f1ec7d7eb3cc5be"
+            },
+            "local_settings_guard_sha256": "4f3926c777cceb806a47eeb06413bc33f1c755bd4fe5a675dd095924c9b42c79"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 0,
+          "vias": 0,
+          "track_length_mm": 42.0,
+          "copper_layers": 2
+        },
+        "class_audit": {
+          "native": {
+            "passed": true,
+            "policy": {
+              "mode": "literal_two_class",
+              "literal_assignments": {
+                "ROUTE": "Power"
+              }
+            },
+            "native_nets": 3,
+            "nets": [
+              {
+                "name": "GND",
+                "netcode": 3,
+                "copper_pad_count": 2,
+                "class": "Default",
+                "parameter_parents": {
+                  "width_nm": {
+                    "name": "Default",
+                    "value_nm": 300000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "clearance_nm": {
+                    "name": "Default",
+                    "value_nm": 200000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_diameter_nm": {
+                    "name": "Default",
+                    "value_nm": 800000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_drill_nm": {
+                    "name": "Default",
+                    "value_nm": 400000,
+                    "specified": true,
+                    "priority": 2147483647
+                  }
+                },
+                "width_nm": 300000,
+                "clearance_nm": 200000,
+                "via_diameter_nm": 800000,
+                "via_drill_nm": 400000
+              },
+              {
+                "name": "KEEP",
+                "netcode": 2,
+                "copper_pad_count": 2,
+                "class": "Default",
+                "parameter_parents": {
+                  "width_nm": {
+                    "name": "Default",
+                    "value_nm": 300000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "clearance_nm": {
+                    "name": "Default",
+                    "value_nm": 200000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_diameter_nm": {
+                    "name": "Default",
+                    "value_nm": 800000,
+                    "specified": true,
+                    "priority": 2147483647
+                  },
+                  "via_drill_nm": {
+                    "name": "Default",
+                    "value_nm": 400000,
+                    "specified": true,
+                    "priority": 2147483647
+                  }
+                },
+                "width_nm": 300000,
+                "clearance_nm": 200000,
+                "via_diameter_nm": 800000,
+                "via_drill_nm": 400000
+              },
+              {
+                "name": "ROUTE",
+                "netcode": 1,
+                "copper_pad_count": 2,
+                "class": "Power,Default",
+                "parameter_parents": {
+                  "width_nm": {
+                    "name": "Power",
+                    "value_nm": 400000,
+                    "specified": true,
+                    "priority": 0
+                  },
+                  "clearance_nm": {
+                    "name": "Power",
+                    "value_nm": 250000,
+                    "specified": true,
+                    "priority": 0
+                  },
+                  "via_diameter_nm": {
+                    "name": "Power",
+                    "value_nm": 1200000,
+                    "specified": true,
+                    "priority": 0
+                  },
+                  "via_drill_nm": {
+                    "name": "Power",
+                    "value_nm": 500000,
+                    "specified": true,
+                    "priority": 0
+                  }
+                },
+                "width_nm": 400000,
+                "clearance_nm": 250000,
+                "via_diameter_nm": 1200000,
+                "via_drill_nm": 500000
+              }
+            ],
+            "routing_accepted": false
+          },
+          "route_dimensions": {
+            "passed": true,
+            "checked": {
+              "segments": 2,
+              "arcs": 0,
+              "vias": 0,
+              "protected": 1
+            },
+            "policy": "exact effective native targets for new routes; protected originals unchanged"
+          },
+          "candidate_sha256": "2d6720438f12936a5f5e51582f95d12cd1796919fbdf6698df1f19f8c1257d47",
+          "project_sha256": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d",
+          "native_map_file_sha256": "b140a1b7897fca7d4436983a1d0adb747fd2674cd11cb568c94bc2f199efe159"
+        },
+        "final_native_sha256": "1b7ad2b4a21167b603dbb0d89d73fe8fb9a84f1f30165ae9c0dd3a85278f2ff9",
+        "map_sha256": "b140a1b7897fca7d4436983a1d0adb747fd2674cd11cb568c94bc2f199efe159",
+        "sample_wall_seconds": 5.443521333974786,
+        "sample_full_cpu_seconds": 4.813746999999999
+      }
+    ],
+    "edge_transport": {
+      "schema": 1,
+      "policy": "native-rectangular-edge-v1",
+      "applied": true,
+      "reason": "exact original edge minimum encoded for default/SMD/self pairs",
+      "source_sha256": {
+        "board": "fb577c2a834b994ea0fceee5de7f4956c6b8dfcff87feea431248a8a7a858d2a",
+        "project": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d"
+      },
+      "input_sha256": "b6aded887a85c8d3027d49edc5f2a15a858439a26b0df0ef18eae25dd0c27654",
+      "output_sha256": "b0489f30bb908f9484863850feea7aa1ec8131e669c3af2981df3ee963367ac9",
+      "native_project_modified": false,
+      "routing_accepted": false,
+      "requires_no_custom_rule_companion": true,
+      "context_sha256": "c6e544d9fe754b0d34c136f8ed252ca93aeb4c6a393780658ee7af8f6cd79f10",
+      "rect_um": [
+        "6000",
+        "-30000",
+        "32000",
+        "-6000"
+      ],
+      "source_edge_sha256": "4496f280109b789dcef9702b4f51d2f077449a668b2168ba945f98bae9587857",
+      "requested_clearance_um": "300",
+      "named_class_scope": {
+        "policy": "known-named-inherited-edge-prototype-v1",
+        "source_policy": "literal_two_class",
+        "source_classes": {
+          "Default": {
+            "width_um": "300",
+            "clearance_um": "200"
+          },
+          "Power": {
+            "width_um": "400",
+            "clearance_um": "250"
+          }
+        },
+        "allow_default_composites": true
+      },
+      "original_min_copper_edge_clearance_mm": "0.3",
+      "clearance_class": "kicadedge",
+      "exact_edge_only_ast_edit": true,
+      "dsn_class_identities": [
+        "Power,Default",
+        "kicad_default"
+      ],
+      "native_class_mapping_required": true,
+      "loaded_named_matrix_qualified": false
+    },
+    "edge_transport_sha256": "cc03b71bd4b9bc94687f6b26bfc41616c0275df0542fb81cc4382ade4558d4d0",
+    "native_dsn_sha256": "9fdc518be4d794d636226f2fb1d67c08e5e6fe5110b72b4a6a046f309a9698b5",
+    "raw_declared_global_clearance_um": "200",
+    "raw_declared_clearance_caveat": "Declared global value only. Prior004 full-manager edge observations are separately bound; this is not a fresh manager experiment.",
+    "route_sha256": "a787a26c73d2046b63c9bd2354e30f2db3fa054986454dac755db1af95160680",
+    "export_sha256": "613c72b0f4531702baa6e8dc4950b433d064c78275732662f25cfe09a567ec05",
+    "checked_export": {
+      "current": true,
+      "export_accepted": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/export/validation/candidate/owned-named-edge-literal300.kicad_pcb",
+      "candidate_sha256": "2d6720438f12936a5f5e51582f95d12cd1796919fbdf6698df1f19f8c1257d47",
+      "original_routing_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/route/result.json",
+      "applied": false,
+      "fresh_native_run_performed_by_check": false,
+      "warning": "Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval."
+    },
+    "whole_project_drc_clean": false,
+    "observations": {
+      "route": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/route/result.json",
+        "sha256": "a787a26c73d2046b63c9bd2354e30f2db3fa054986454dac755db1af95160680",
+        "status": "routing_accepted",
+        "accepted": true,
+        "export_accepted": null,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/route/candidate/owned-named-edge-literal300.kicad_pcb",
+        "candidate_sha256": "2d6720438f12936a5f5e51582f95d12cd1796919fbdf6698df1f19f8c1257d47",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 10.0
+                  },
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "16e22298c65bf64985aad00bca3894e5741d355811937c6d96ac924a48c9f037",
+            "binding_sha256": "b81f63748b3792bb6c589fd7e8eabcd0b5e853ff0f610aee56fe979c8048c100",
+            "netlist_sha256": "16f1d3c680b9073a41226f321b4ac6bb749613c10fc5f64f5d3920eef637e24d",
+            "fields_sha256": "b49e49b1b138d6de9d5d6d45b1e779577bc2e2ab26f0d50da6c58d2e6c126180",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "49892505-620e-516d-ac01-8769076bcf0c",
+                "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              ],
+              "warning_hashes": [
+                "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+                "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+                "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+                "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+                "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+                "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+              ],
+              "native_export_sha256": "16f1d3c680b9073a41226f321b4ac6bb749613c10fc5f64f5d3920eef637e24d",
+              "observer_sha256": "22905a31e86e7e0d295929f99b8f7958e5cf3119c498b8401068c9e55afb1cf5",
+              "drc_report_sha256": "b09ffc14fa7e0bfc6b07ca1569d1e43712252b49edf25f549a80fc2c5f3ee554"
+            },
+            "local_settings_guard_sha256": "d802fa394ff80d84a00a9a0cb7d5002cf92b8584fb1cdc105345d84de1d8d14a"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 0,
+          "vias": 0,
+          "track_length_mm": 42.0,
+          "copper_layers": 2
+        },
+        "reason": null,
+        "native_edge_correction": {
+          "schema": 1,
+          "policy": "native-rectangular-edge-v1",
+          "applied": true,
+          "reason": "exact original edge minimum encoded for default/SMD/self pairs",
+          "source_sha256": {
+            "board": "fb577c2a834b994ea0fceee5de7f4956c6b8dfcff87feea431248a8a7a858d2a",
+            "project": "5b100d74cefa7dc84ad47ca75e842f6ac66829de944ad5b7026781984800d15d"
+          },
+          "input_sha256": "b6aded887a85c8d3027d49edc5f2a15a858439a26b0df0ef18eae25dd0c27654",
+          "output_sha256": "b0489f30bb908f9484863850feea7aa1ec8131e669c3af2981df3ee963367ac9",
+          "native_project_modified": false,
+          "routing_accepted": false,
+          "requires_no_custom_rule_companion": true,
+          "context_sha256": "c6e544d9fe754b0d34c136f8ed252ca93aeb4c6a393780658ee7af8f6cd79f10",
+          "rect_um": [
+            "6000",
+            "-30000",
+            "32000",
+            "-6000"
+          ],
+          "source_edge_sha256": "4496f280109b789dcef9702b4f51d2f077449a668b2168ba945f98bae9587857",
+          "requested_clearance_um": "300",
+          "named_class_scope": {
+            "policy": "known-named-inherited-edge-prototype-v1",
+            "source_policy": "literal_two_class",
+            "source_classes": {
+              "Default": {
+                "width_um": "300",
+                "clearance_um": "200"
+              },
+              "Power": {
+                "width_um": "400",
+                "clearance_um": "250"
+              }
+            },
+            "allow_default_composites": true
+          },
+          "original_min_copper_edge_clearance_mm": "0.3",
+          "clearance_class": "kicadedge",
+          "exact_edge_only_ast_edit": true,
+          "dsn_class_identities": [
+            "Power,Default",
+            "kicad_default"
+          ],
+          "native_class_mapping_required": true,
+          "loaded_named_matrix_qualified": false
+        },
+        "whole_project_drc_clean": false
+      },
+      "export": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/export/export.json",
+        "sha256": "613c72b0f4531702baa6e8dc4950b433d064c78275732662f25cfe09a567ec05",
+        "status": "export_validated",
+        "accepted": null,
+        "export_accepted": true,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/jobs/autorouter-gui-676ad51abc984005906b14cc9bff32c6/export/validation/candidate/owned-named-edge-literal300.kicad_pcb",
+        "candidate_sha256": "2d6720438f12936a5f5e51582f95d12cd1796919fbdf6698df1f19f8c1257d47",
+        "native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "findings": [
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J1",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 10.0
+                  },
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J2",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 10.0
+                  },
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J3",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 16.0
+                  },
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J4",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 16.0
+                  },
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J5",
+                  "pos": {
+                    "x": 12.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            },
+            {
+              "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+              "items": [
+                {
+                  "description": "Footprint J6",
+                  "pos": {
+                    "x": 26.0,
+                    "y": 24.0
+                  },
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c"
+                }
+              ],
+              "severity": "warning",
+              "type": "footprint_symbol_field_mismatch"
+            }
+          ],
+          "field_parity": {
+            "schema": 1,
+            "policy": "datasheet-absence-only-v1",
+            "native_report_sha256": "1b7ad2b4a21167b603dbb0d89d73fe8fb9a84f1f30165ae9c0dd3a85278f2ff9",
+            "binding_sha256": "0d081537115246a709ad7bdb0ea2b5963bb1e86f606ccf16ca6b1e6c5027a539",
+            "netlist_sha256": "61057dbf0595fe1eb2b0e9124d70ed68e847f396f6bbdc6cf680f7db8f68759d",
+            "fields_sha256": "a225e2d6c60ec9bbf6383feab10c864a5be4f3d92b193513eb46f4b2fd97cf8f",
+            "qualification": {
+              "qualified": true,
+              "policy": "datasheet-effective-empty-v1",
+              "component_count": 6,
+              "compared_field_count": 18,
+              "comparison_map": [
+                {
+                  "reference": "J1",
+                  "uuid": "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J1"
+                  }
+                },
+                {
+                  "reference": "J2",
+                  "uuid": "d34db9bd-57a2-5c80-9195-faa8879c0cbf",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J2"
+                  }
+                },
+                {
+                  "reference": "J3",
+                  "uuid": "a4600528-ba86-559c-8b44-2fbd024aa367",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J3"
+                  }
+                },
+                {
+                  "reference": "J4",
+                  "uuid": "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J4"
+                  }
+                },
+                {
+                  "reference": "J5",
+                  "uuid": "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J5"
+                  }
+                },
+                {
+                  "reference": "J6",
+                  "uuid": "49892505-620e-516d-ac01-8769076bcf0c",
+                  "schematic_fields": {
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6",
+                    "Datasheet": "",
+                    "Description": "Project-owned transport diagnostic one-pin terminal"
+                  },
+                  "pcb_fields": {
+                    "Datasheet": "~",
+                    "Description": "Project-owned transport diagnostic one-pin terminal",
+                    "OwnedTransportIdentity": "owned-named-edge-literal300-v1:J6"
+                  }
+                }
+              ],
+              "warning_uuids": [
+                "49892505-620e-516d-ac01-8769076bcf0c",
+                "49e50246-40b0-539e-b2a2-254a15da7cb9",
+                "71bddd10-0425-50e7-85a4-e1ce5a02d84b",
+                "95b4f806-61cb-5421-b955-6e185f59e9e1",
+                "a4600528-ba86-559c-8b44-2fbd024aa367",
+                "d34db9bd-57a2-5c80-9195-faa8879c0cbf"
+              ],
+              "warning_hashes": [
+                "5ec64844820eb2a48d031eddb99e9bdf6ee00a438724808a90d519c68713e122",
+                "8879e9677937b44f267d3d327af15dca70608258d127a0a2d1168c65fab98d7a",
+                "c86b82c6a25c145980a6bb1b580e2f61e4ed11213abe00f449810801ccff72db",
+                "dc3dc92f90a287ff07a5b34ce1671f65d6201fa07a2211fb917e3984569f5dd8",
+                "de37c9e2f6f8af6f607c17965792d7db2b25251d860225c416c5e3548a6384ba",
+                "e85085cec2e5993c625c4ffed59f898093fd11354f3c2835c3a934a8840fa1c1"
+              ],
+              "native_export_sha256": "61057dbf0595fe1eb2b0e9124d70ed68e847f396f6bbdc6cf680f7db8f68759d",
+              "observer_sha256": "30036b3e86ba836d8968a53e6491bf2691ec4dfc789f4331d070da056dd3a4b3",
+              "drc_report_sha256": "60fce6aa23ddc7d909c14c38172e6327c158d369914efca54f1ec7d7eb3cc5be"
+            },
+            "local_settings_guard_sha256": "4f3926c777cceb806a47eeb06413bc33f1c755bd4fe5a675dd095924c9b42c79"
+          }
+        },
+        "metrics": {
+          "version": "10.0.0",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 0,
+          "vias": 0,
+          "track_length_mm": 42.0,
+          "copper_layers": 2
+        },
+        "reason": null,
+        "native_edge_correction": null,
+        "whole_project_drc_clean": false
+      }
+    },
+    "inner_sample_wall_seconds": 24.784278000006452,
+    "inner_sample_full_cpu_seconds": 21.365401
+  },
+  "scope": "One frozen installed016/currentDefault-only versus future017 qualified knownnamed edge transport, same retained owned literal300/sourceconstraints and six-stage CLI GUI-model workflow. Adapter fidelity/product-delivery qualification, no C-over-B2/new-family/held-out/actualGUI/human/physical/electrical claim; completion or quality ties remain ties.",
+  "coordinator_tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c",
+      "autorouter/adapter.py": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+      "autorouter/gui.py": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7",
+      "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8",
+      "autorouter/native.py": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+      "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413",
+      "autorouter/padless_alias_native.py": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002",
+      "autorouter/pipeline.py": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+      "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+      "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+      "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029",
+      "autorouter/review_view.py": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_class_evidence.py": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb",
+      "autorouter/schematic_classes.py": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+      "autorouter/thermal.py": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "5f7552f95360624e22b39cfb57bf50adc69d4bcc",
+    "source_provenance": {
+      "kind": "git-checkout",
+      "git_head": "5f7552f95360624e22b39cfb57bf50adc69d4bcc",
+      "build_source": null,
+      "manifest_sha256": null
+    },
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "coordinator_python": {
+    "path": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+    "resolved_path": "/Users/faisal/.pyenv/versions/3.11.9/bin/python3.11",
+    "sha256": "11019d860d2db6de27cf71881546ea451f3931ad3280fcc9ae2ce18ef8d989b5",
+    "bytes": 33816,
+    "version": [
+      3,
+      11,
+      9
+    ],
+    "implementation": "cpython"
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/named-edge-installed-pair-001-arm017/result.json",
+  "child_receipt_sha256": "a8ce2f3240d37b5e822abf0c2eed67c447a5ac4e321e33fac03edc4840f8d7cc",
+  "child_receipt_bytes": 73032,
+  "child_receipt_error": null,
+  "accounting_point": "Inner sample through reaped child/publication; external complete command wall/fullCPU<=260s remains mandatory. No build/research/authoring cost is hidden in this workflow figure.",
+  "inner_sample_wall_seconds": 27.898526582983322,
+  "inner_sample_full_cpu_seconds": 24.375246999999998
+}
