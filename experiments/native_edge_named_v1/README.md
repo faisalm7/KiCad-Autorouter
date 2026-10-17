@@ -1,7 +1,8 @@
 # Prospective known-named edge importer prerequisite
 
-Java remains uncompiled and unexecuted. The lead completed three actual Native
-export/map prerequisites; no importer matrix or routing result has been obtained. Ordinary production callers of
+Current observer004 remains uncompiled and unexecuted. Prior001 compiled and
+failed closed after four raw loads; no nine-load matrix pass or routing result has
+been obtained. The lead completed three actual Native export/map prerequisites. Ordinary production callers of
 native_edge.derive_context keep experimental_named_classes=False and the original
 Default-only behavior/reason. Only the experiment may pass literal Boolean true.
 
@@ -110,74 +111,94 @@ boards. Source and generated design files are GPL-3.0-or-later; no acquisitions,
 external assets or private inputs are involved.
 
 The current source freeze is
-`.runs/native-edge-named-preparation-001/source-plan-003.json`, SHA256
-`177127094aced9c28656bb545adb36f961f256ccc8c9e8d6ef04beb745d4eaac`.
-The prior002 freeze and actual completed Native preparation remain intact. The
-Native preparation result SHA256 is
-`6580eaf8f83a7a60d007f6c8898b07260b3671137cd32c8ce13acedcc7f6cad5`;
-its actual costs are2.952459wall/2.631385fullCPU seconds. Lead reported external
-supervisor costs3.56wall/3.22CPU separately. These are Native export/map preparation
-costs, not routing or candidate validation. No exports were repeated.
+`.runs/native-edge-named-preparation-001/source-plan-004.json`, SHA256
+`9c474eba7acb0d89808b2f71b9ff134a90d3723840b12c89ea3c9d21f6033faa`.
+The new protocol is `import-protocol-004.json`, SHA256
+`67766d0b978dc47ac1398bb3d0891125cfb83ef3b41d0855e6e8e972500920be`.
+All nine DSNs and four correction records in `import-inputs/` are reused byte-exact.
+Old plans001/002/003, protocol003, Native preparation, failed partial pure freeze
+and failed JVM001 remain intact. The next worker output is a fresh
+`import-execution-004/`; existing `import-execution/` is the failed001 evidence.
 
-Pure freeze001 failed before any JVM because a singleton rule lookup saw the
-intentional original+edge rule pair. The three partial files survive unchanged in
-`import-inputs-failed-001/`; `import-freeze-failure-001.json` records the reported
-exception and that original stdout/stderr and pure failure costs were not retained.
-No log or missing cost was reconstructed. The bounded correction now selects only
-an exact original width/default/SMD rule followed by the exact added edge block.
-Unknown/missing/reversed/additional rules refuse. Two targeted pure controls pass
-(.033test/.20wall/.15CPU), retained as `pure-freeze-controls-003{.log,-time.log}`.
-They test the two-rule defect and rejection of changed Native code, alias/class
-semantics, source packet or tools; they establish no loaded matrix correctness.
+Three Native exports/maps completed once under002, result SHA256
+`6580eaf8f83a7a60d007f6c8898b07260b3671137cd32c8ce13acedcc7f6cad5`.
+Actual receipt costs2.952459wall/2.631385fullCPU seconds; lead reported external
+supervisor costs3.56wall/3.22CPU separately. No Native exports were rerun. Reuse
+requires every original source packet, all Native/runtime modules including alias
+and class helpers, owned generator, lock and tools to remain exact. Only the
+import observer, pure driver and regression may change. Each retained Native argv
+is the pinned Python export helper; Java observer code never executed in those
+exports. All actual process/log/zero-alias/class proofs and the entire preparation
+tree are replayed. Changed/missing/corrupt prerequisites refuse; `prepare-native`
+explicitly refuses rerunning the completed linked preparation.
 
-New003 explicitly links prior002 and the exact actual Native-preparation receipt.
-Reuse requires every original source packet, all runtime modules (including
-native.py, alias and class helpers), Java observer, generator, lock and dependency
-pins to remain exact. Only this pure driver and its regression file may differ.
-All three actual export process/log/zero-alias/class proofs are replayed, and the
-complete preparation tree is frozen. Changed/missing/corrupt evidence refuses.
-`prepare-native` now explicitly refuses rerunning this linked completed preparation.
-All original draft/source evidence is preserved.
+The first pure freeze failure was an incorrect singleton rule lookup on the
+intentional original+edge rule pair. Its three partial files remain in
+`import-inputs-failed-001/`, and `import-freeze-failure-001.json` explicitly records
+that original stdout/stderr and failure costs were not retained. No log/cost was
+invented. The fixed selector requires the exact original global rule followed by
+the exact three-pair added edge rule; extra/reversed/missing/changed rules refuse.
 
-The successful new pure import freeze is `import-protocol.json`, SHA256
-`052fe7a2896645ea3dfa0981a29a97a6b59b2d904c1f9402785f1207645202a4`.
-It freezes nine actual raw/corrected/eager DSNs plus four correction records,
-original/current source hashes, before/after class proofs, byte-exact Default/False
-refusals and reconstructed nonedge AST. Source-plan003 pure freeze cost0.219s external
-wall and import freeze0.177s external wall; research authoring/review costs were not
-measured. This corrected continuation is not an unattended first-attempt result.
+Actual JVM001 then compiled and loaded the four raw cases, each failing the
+Class0 reachability check on ComponentOutline before corrected/negative loads.
+`import-execution/{result.json,observation.json,command.log,importer-process.json}`
+retain the actual failure. It was not a nine-load run or matrix pass. Internal
+costs1.712105wall/2.305493CPU; lead reported external2.34wall/2.91CPU separately.
+New004 links those exact failed bytes and prior protocol; it does not erase or
+relabel that attempt as unattended success.
 
-The controller keeps temporary whole-phase SIGINT/SIGTERM handlers through final
-publication and restores previous handlers; the shared runner owns active-child
-cancellation. Expired whole wall/fullCPU budget reports `budget_exceeded`. Three
-prior authored controller controls passed with real self-signals and mocked workers
-(`controller-controls-002{.log,-time.log}`, .010test/.18wall/.12CPU). Those are process
-controls, not Native/importer proof.
+The bounded instrumentation correction uses the exact official
+[ComponentOutline source](https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/board/model/items/ComponentOutline.java)
+and static pinned-JAR bytecode. Local-only source/proof files are under
+`component-outline-proof-004/` (source SHA256
+`36cabd4b2fd3080dcee6a6921ada2201791f3572d2d7b4b23032b8d47e0b0f12`, class SHA256
+`14cd07eca7081883893babb2cd277b8722c68d4b843e3c9e84189a76b369c436`). No third-party
+source was selected for public commit. The exact class has no net membership,
+uses the zero clearance class, supplies no routing-search tile shapes, and its
+Item-argument obstacle method rejects no overlapping item. This does not assert
+that inherited net-number obstacle methods return false.
 
-The observer does not assume Class0 is unreachable. It observes every actual
-non-outline imported item, trace class, routed default and via-info override and
-refuses Class0, unnamed or outline class assignments. Only the explicit NONE enum
-is nonroutable. The exact pinned enum fields NONE/TRACE/VIA/PIN/SMD/AREA were read
-statically from the retained JAR, not executed (enum class SHA256
-`972d84f7646d32b3516e706b4ca8a6b5f0939cd68c0d5a62cad1fc4df1615a37`). Unknown enums
-refuse. Raw class-index and reachability observations accompany normalized
-comparisons; a fixed case reaching Class0 fails rather than receiving a waiver.
+Only exact ComponentOutline.class with observed nets0, index0/null,
+tileShapeCount0 and isObstacle(Item)false receives a display-only exception.
+Subclasses and unknown types receive none. Its raw index/name/flags remain in
+`display_only_ComponentOutline_raw_reachability`, and it remains in the complete
+item assignment census/equality. All copper, trace, routed TRACE/VIA/PIN/SMD/AREA
+default and via-info gates remain strict. Only the exact known NONE enum remains
+nonroutable; unknown enums refuse.
+
+Positive raw/corrected loads cannot use a Class0 diagnostic exception. Only the
+explicit eager-negative load may retain a known routedClass0/null assignment
+violation after successful full-manager loading. This preserves the actual
+observation instead of losing it. A negative qualifies only from such a known
+assignment violation or an actual normalized nonedge/default/item/via assignment
+difference. Unknown index/name/enum, parse/import error or missing observation
+never qualifies. Full native source/class binding, exact input bytes and all
+other positive matrix predicates remain mandatory.
+
+The driver captures and hashes actual worker log/observation diagnostics before
+shared process checking rejects a nonzero exit. The diagnostics stay explicitly
+nonaccepting, and a witness binds those bytes through publication even for failures.
+Cancelled workers retain cancellation; phase-wide signal handlers and explicit
+budget_exceeded status remain. Four targeted pure controls passed
+(.058test/.24wall/.17CPU), retained as `pure-observer-controls-004{.log,-time.log}`.
+They replay retained failed evidence without workers and cover nonzero diagnostics,
+cancellation, rule selection and Native-preparation provenance. They do not prove
+new Java compilation, ComponentOutline runtime observations or importer matrices.
 
 After lead review, source/protocol checkpoint and an explicitly available
 foreground lane, the only remaining worker command is:
 
 ```sh
-.venv/bin/python -B experiments/native_edge_named_v1/driver.py run-import --sha256 052fe7a2896645ea3dfa0981a29a97a6b59b2d904c1f9402785f1207645202a4 --allow-jvm
+.venv/bin/python -B experiments/native_edge_named_v1/driver.py run-import --sha256 67766d0b978dc47ac1398bb3d0891125cfb83ef3b41d0855e6e8e972500920be --allow-jvm
 ```
 
-The existing runner executes one sandboxed Java source-launcher command with nine
-fixed full-manager loads, no routing. Whole phase wall/fullCPU cap60s includes
-verification, compile/load and publication, with a2s publication reserve. Native
-preparation/source-freeze costs remain separately visible research costs in the
-final record. The existing shared lane lock, denied network, cancellation/group
-cleanup and polled1GiBgroupRSS/32MiBworkdir bounds remain mandatory. Polling is not a
-hard aggregate CPU/memory quota. The actual process, untruncated log, observation
-and frozen inputs stay byte-bound through the shared publisher. `accepted`,
-`production_admitted`, `routing_executed` and `native_executed` remain false in the
-importer result even if importer checks pass. The original fixed-fixture and later
-unchanged-rule Native/candidate gates above are not waived.
+The shared runner executes one sandboxed source-launcher command, nine fixed
+full-manager loads, no routing. Whole phase wall/fullCPU cap60s includes checks,
+compile/load and publication, with a2s reserve. Prior preparation/failed attempts,
+pure checks and additional authoring/review remain separate research costs; they
+are not hidden or called router runtime. Authoring/review costs were not measured.
+The existing shared lane lock, denied network, cancellation/group cleanup and
+polled1GiBgroupRSS/32MiBworkdir bounds remain mandatory. Polling is not a hard
+aggregate quota. `accepted`, `production_admitted`, `routing_executed` and
+`native_executed` remain false even if importer checks pass. Later original-rule
+Native controls and routing/candidate qualification above are not waived.

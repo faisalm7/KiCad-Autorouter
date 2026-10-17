@@ -98,5 +98,25 @@ class PhaseControls(unittest.TestCase):
             else:changed['tool_sha256'][next(iter(changed['tool_sha256']))]='0'*64
             with self.subTest(mutation=mutation),self.assertRaises(d.p.Rejected):d.check_preparation_reuse(changed)
 
+    def test_failed_importer_diagnostics_survive_the_nonzero_process_refusal(self):
+        # Read-only replay of the actual retained failed001. No Java or Native
+        # process starts; diagnostics cannot become an accepted result.
+        directory=d.BASE/'import-execution';record=d.f.read_json(directory/'result.json')
+        with self.assertRaisesRegex(d.p.Rejected,'process provenance'):
+            d.check_importer_process_with_diagnostics(directory,record,record['argv'])
+        observed=d.f.read_json(directory/'observation.json');diag=record['worker_diagnostics']
+        self.assertTrue(diag['diagnostic_only']);self.assertFalse(diag['routing_accepted'])
+        self.assertFalse(diag['process_success_established']);self.assertFalse(record['passed'])
+        self.assertEqual(diag['observation']['data'],observed)
+        self.assertEqual(diag['observation']['sha256'],d.digest(d.read(directory/'observation.json')))
+        self.assertIn('named edge importer controls failed',diag['log']['tail'])
+
+    def test_cancelled_importer_diagnostics_do_not_downgrade_cancellation(self):
+        directory=d.BASE/'import-execution';record=d.f.read_json(directory/'result.json')
+        record['steps'][0]['status']='cancelled'
+        with self.assertRaises(KeyboardInterrupt):
+            d.check_importer_process_with_diagnostics(directory,record,record['argv'])
+        self.assertTrue(record['worker_diagnostics']['diagnostic_only']);self.assertFalse(record['passed'])
+
 
 if __name__=='__main__':unittest.main()

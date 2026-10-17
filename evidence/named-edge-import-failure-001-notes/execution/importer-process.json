@@ -1,0 +1,48 @@
+{
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+    "-Xmx512m",
+    "-XX:ActiveProcessorCount=1",
+    "-Djava.awt.headless=true",
+    "--class-path",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/freerouting-2.5.0.jar",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/native_edge_named_v1/NamedEdgeManagerProbe.java",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/import-inputs",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/import-execution/observation.json"
+  ],
+  "cleanup_complete": true,
+  "cpu_seconds": 1.549407,
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/import-execution",
+  "exit_code": 1,
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-edge-named-preparation-001/import-execution/command.log",
+  "log_bytes": 430,
+  "log_truncated": false,
+  "max_rss_bytes": 262914048,
+  "monitor_cpu_seconds": 0.0,
+  "name": "importer",
+  "pid": 35167,
+  "resource_accounting": {
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "memory_limit_enforced": false,
+    "method": "wait4 child rusage",
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds",
+    "native_rss_unit": "bytes",
+    "rss_scope": "kernel peak, not simultaneous process-tree total"
+  },
+  "resource_guards": {
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed.",
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 33554432,
+    "os_enforced": false,
+    "poll_interval_seconds": 0.25
+  },
+  "sampled_peak_group_rss_bytes": 258179072,
+  "sampled_peak_workdir_bytes": 1394,
+  "signal_cancellation_enabled": true,
+  "status": "nonzero_exit",
+  "supervisor_cpu_seconds": 0.004476999999999953,
+  "wall_seconds": 0.8613335000118241
+}

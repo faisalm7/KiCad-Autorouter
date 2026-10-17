@@ -28,13 +28,26 @@ from autorouter.runner import run
 from experiments.native_edge_named_v1 import fixture
 
 BASE = ROOT / '.runs/native-edge-named-preparation-001'
-PLAN = BASE / 'source-plan-003.json'
+PLAN = BASE / 'source-plan-004.json'
+IMPORT_PROTOCOL = BASE / 'import-protocol-004.json'
+IMPORT_EXECUTION = BASE / 'import-execution-004'
 PRIOR_PLAN = BASE / 'source-plan-002.json'
 PRIOR_PLAN_PIN = 'aa894a2385930c59f2dde55da4f01175391ef89b5aed661e62a4524875795b3b'
 PREPARATION_PIN = '6580eaf8f83a7a60d007f6c8898b07260b3671137cd32c8ce13acedcc7f6cad5'
 PURE_FREEZE_CORRECTION_FILES = frozenset((
     'experiments/native_edge_named_v1/driver.py',
-    'experiments/native_edge_named_v1/test_controller.py'))
+    'experiments/native_edge_named_v1/test_controller.py',
+    'experiments/native_edge_named_v1/NamedEdgeManagerProbe.java'))
+PRIOR_IMPORT_PLAN_PIN = '177127094aced9c28656bb545adb36f961f256ccc8c9e8d6ef04beb745d4eaac'
+PRIOR_IMPORT_PROTOCOL_PIN = '052fe7a2896645ea3dfa0981a29a97a6b59b2d904c1f9402785f1207645202a4'
+FAILED_IMPORT_PINS = {
+    'command.log': '7031af64774e00ca21f871f3017bafb097953e5b62b78e05a7585b2aa0561169',
+    'importer-process.json': 'fc518075c3a2acd5ed4016aebd7022f85a6eb9fcbda37ee19a09f8aa5f9e7388',
+    'observation.json': '896b6da253241d8f8f80ae59877e791107c9eb85bf0ee15a14553d46eaf5d65b',
+    'result.json': '7ce65fab8d4b36b4e5a5020c089f74170ea1a7a63be5a06ea0e0d428a0c31659'}
+OUTLINE_PROOF_PINS = {
+    'component-outline-proof-004/proof.json': '42360c20f9736af3530af1270147c2ba645f2e79d4530039e8ad1ba473024d7a',
+    'component-outline-proof-004/ComponentOutline.java': '36cabd4b2fd3080dcee6a6921ada2201791f3572d2d7b4b23032b8d47e0b0f12'}
 HERE = Path(__file__).resolve().parent
 RETAINED = ROOT / '.runs/four-cu-class-native-001/native1000'
 CASES = ('literal300', 'parent300', 'underscore300', 'literal250')
@@ -93,6 +106,8 @@ def check_source_plan(plan):
     if 'reused_native_preparation' in plan:
         _, link = check_preparation_reuse(plan)
         require(link == plan['reused_native_preparation'], 'reused Native preparation provenance changed')
+    if 'reused_import_inputs_after_failed001' in plan:
+        require(check_import_reuse() == plan['reused_import_inputs_after_failed001'], 'prior failed importer/input evidence changed')
 
 
 def export_proof(directory, data, board, dsn, mapping, *, historical_source=None, sandboxed=True):
@@ -141,21 +156,24 @@ def check_retained():
 
 
 def check_preparation_reuse(plan):
-    """Replay the exact completed exports; only the pure freeze driver changed.
+    """Replay the exact completed exports; only import observer/driver changed.
 
     No old receipt selects tools or excuses changed Native code, source packets,
     process evidence, alias observations or class semantics. The full runtime,
-    Java observer, owned generator and lock pin populations must remain exact.
+    owned generator and lock pin populations must remain exact. Every Native
+    process argv is the pinned Python export helper; the Java observer was never
+    part of these completed Native operations and cannot excuse helper changes.
     """
     prior = frozen(PRIOR_PLAN, PRIOR_PLAN_PIN)
     require(prior.get('schema') == 1 and prior.get('kind') == 'named-edge-source-plan-v1'
             and prior.get('accepted') is False and prior.get('production_admitted') is False,
             'prior Native source plan scope differs')
     old, current = prior['code_sha256'], plan['code_sha256']
+    require(current == code_pins(), 'current observer/driver/runtime bytes differ from supplied pins')
     require(set(old) == set(current), 'Native prerequisite code population changed')
     changed = sorted(name for name in old if old[name] != current[name])
     require(set(changed) <= PURE_FREEZE_CORRECTION_FILES,
-            'only the pure freeze driver and its regression may change for export reuse')
+            'only the import observer, pure driver and regression may change for export reuse')
     require(plan['sources'] == prior['sources'] and plan['tool_sha256'] == prior['tool_sha256']
             and plan['retained_sha256'] == prior['retained_sha256']
             and plan['retained_control'] == prior['retained_control'],
@@ -191,12 +209,45 @@ def check_preparation_reuse(plan):
                          native_preparation_sha256=PREPARATION_PIN,
                          native_preparation_material_sha256=inventory(BASE/'native-preparation'),
                          permitted_changed_pure_files=changed, export_proofs=proofs,
-                         unchanged_all_runtime_helpers_observer_generator_lock_and_tools=True,
+                         unchanged_all_native_runtime_helpers_generator_lock_and_tools=True,
+                         observer_never_executed_in_native_export_argv=True,
                          native_exports_reused=3, native_exports_rerun=False)
 
 
+def check_import_reuse():
+    """Bind the completed failed001 and unchanged inputs; no worker replay."""
+    previous = frozen(BASE/'source-plan-003.json', PRIOR_IMPORT_PLAN_PIN)
+    protocol = frozen(BASE/'import-protocol.json', PRIOR_IMPORT_PROTOCOL_PIN)
+    require(protocol['source_plan_sha256'] == PRIOR_IMPORT_PLAN_PIN
+            and protocol['source_plan_code_sha256'] == previous['code_sha256'], 'old importer freeze differs')
+    require(inventory(BASE/'import-inputs') == protocol['input_sha256'], 'old frozen importer inputs changed')
+    failed = BASE/'import-execution'
+    require(inventory(failed) == FAILED_IMPORT_PINS, 'failed001 actual worker evidence changed')
+    data = f.read_json(failed/'result.json')
+    require(data.get('status') == 'failed' and data.get('passed') is False
+            and data.get('accepted') is False and data.get('production_admitted') is False
+            and data.get('routing_executed') is False and data.get('native_executed') is False
+            and data.get('protocol_sha256') == PRIOR_IMPORT_PROTOCOL_PIN, 'old importer must remain failed/unadmitted')
+    f.process_check(failed, data, 'importer', data['argv'], allowed=(1,))
+    observed = f.read_json(failed/'observation.json')
+    require(observed.get('matrix_checks_passed') is False
+            and [row.get('case') for row in observed.get('cases', [])] == list(CASES)
+            and all(row.get('matrix_checks_passed') is False and
+                    'reachable Class0/invalid clearance class: item:' in row.get('error', '') and
+                    row.get('error', '').endswith('app.freerouting.board.model.items.ComponentOutline')
+                    for row in observed['cases']), 'failed001 class-zero diagnostic differs')
+    checked_pins({str((BASE/name).relative_to(ROOT)): pin for name,pin in OUTLINE_PROOF_PINS.items()})
+    return dict(prior_source_plan_sha256=PRIOR_IMPORT_PLAN_PIN, prior_import_protocol_sha256=PRIOR_IMPORT_PROTOCOL_PIN,
+                failed001_material_sha256=FAILED_IMPORT_PINS, prior_inputs_sha256=protocol['input_sha256'],
+                component_outline_static_proof_sha256=OUTLINE_PROOF_PINS,
+                prior_attempt_passed=False, prior_raw_loads_before_instrumentation_failure=4,
+                prior_complete_nine_loads=False, prior_internal_wall_seconds=data['wall_seconds'],
+                prior_internal_full_cpu_seconds=data['full_cpu_seconds'],
+                failed001_repeated=False, input_bytes_reused=True)
+
+
 def source_freeze():
-    require(not PLAN.exists() and not PLAN.is_symlink(), 'fresh source-plan003 required')
+    require(not PLAN.exists() and not PLAN.is_symlink(), 'fresh source-plan004 required')
     h.real_path(BASE, existing=BASE.exists())
     BASE.mkdir(exist_ok=True); (BASE / 'sources').mkdir(exist_ok=True)
     result = dict(schema=1, kind='named-edge-source-plan-v1', accepted=False, production_admitted=False,
@@ -217,10 +268,11 @@ def source_freeze():
     retained_paths += [RETAINED / 'route/task.dsn', RETAINED / 'route/task.alias-export.json', RETAINED / 'route/task.alias-source.kicad_pcb']
     result['retained_sha256'] = pins(retained_paths)
     _, result['reused_native_preparation'] = check_preparation_reuse(result)
+    result['reused_import_inputs_after_failed001'] = check_import_reuse()
     check_source_plan(result)
     result.update(preparation_wall_seconds=time.monotonic()-START, preparation_full_cpu_seconds=cpu()-CPU0)
-    draft=PRIOR_PLAN
-    if draft.exists():result['supersedes_source_plan_after_pure_freeze_failure']=dict(path=str(draft),sha256=digest(read(draft)))
+    draft=BASE/'source-plan-003.json'
+    if draft.exists():result['supersedes_source_plan_after_observer_instrumentation_failure']=dict(path=str(draft),sha256=digest(read(draft)))
     save(PLAN, result)
     return dict(source_plan=str(PLAN), sha256=digest(read(PLAN)), workers_executed=False)
 
@@ -311,7 +363,11 @@ def import_freeze(plan_pin, preparation_pin):
             and prepared.get('accepted') is False
             and prepared.get('production_admitted') is False, 'Native preparation did not complete')
     require(len(prepared['rows']) == 3 and [r['case'] for r in prepared['rows']] == list(fixture.CASES), 'exact three Native prerequisites required')
-    out = BASE/'import-inputs'; require(not out.exists(), 'fresh import freeze required'); out.mkdir(); cases=[]
+    out = BASE/'import-inputs'; cases=[]
+    old_inputs = plan['reused_import_inputs_after_failed001']['prior_inputs_sha256']
+    require(inventory(out) == old_inputs, 'exact unchanged prior importer inputs required')
+    def reuse_input(path, raw):
+        require(read(path) == raw, 'rederived pure input differs; preserve old inputs: '+path.name)
     for name in CASES:
         if name == 'parent300':
             source=Path(plan['retained_control']['source']); directory=RETAINED/'route'; data=f.read_json(directory/'result.json')
@@ -334,8 +390,8 @@ def import_freeze(plan_pin, preparation_pin):
         require(restored==before, 'nonedge AST changed')
         parent=context['named_class_scope']['source_policy']==nc.PARENT_POLICY
         after_audit=nc.audit_mapping(a._parse_dsn(changed.decode()),f.read_json(mapping),json.loads(project_raw),parent_policy=parent)
-        for suffix,value in (('raw',raw),('corrected',changed)):write(out/(name+'-'+suffix+'.dsn'),value)
-        save(out/(name+'-correction.json'),correction)
+        for suffix,value in (('raw',raw),('corrected',changed)):reuse_input(out/(name+'-'+suffix+'.dsn'),value)
+        reuse_input(out/(name+'-correction.json'),(json.dumps(correction,sort_keys=True,indent=2,allow_nan=False)+'\n').encode())
         cases.append(dict(case=name,source=str(source),source_hashes=inventory(source.parent),export_proof=proof,
                           original_edge_um=context['requested_clearance_um'], correction=correction,corrected_class_audit=after_audit))
         if name=='literal300':
@@ -346,33 +402,59 @@ def import_freeze(plan_pin, preparation_pin):
             require(len(named)==1 and edge._number(sx.one(sx.one(named[0],'rule'),'clearance')[1])>global_gap, 'eager-row negative needs a named clearance above global')
             pair=sx.unquote(named[0][1])+'_'+edge.CLASS
             sx.children(structure,'rule')[-1].append(['clearance','300',['type',pair]])
-            write(out/'literal300-eager-control.dsn',a._dump_dsn(eager).encode())
+            reuse_input(out/'literal300-eager-control.dsn',a._dump_dsn(eager).encode())
     record=dict(schema=1,kind='named-edge-import-protocol-v1',accepted=False,production_admitted=False,
                 source_plan_sha256=plan_pin,native_preparation_sha256=preparation_pin,source_plan_code_sha256=plan['code_sha256'],
                 native_preparation_source_plan_sha256=prepared['source_plan_sha256'],
                 reused_native_preparation=plan['reused_native_preparation'],
+                reused_import_inputs_after_failed001=plan['reused_import_inputs_after_failed001'],
                 tool_sha256=plan['tool_sha256'],cases=cases,input_sha256=inventory(out),importer_loads=9,
                 budget_seconds=CAP,max_log_bytes=512*1024,max_group_rss_bytes=1024**3,max_workdir_bytes=LIMIT,
                 scope='One actual full-manager inheritance prerequisite. Retained parent export reused without Native rerun; three new Native exports separate preparation cost. No routing or product admission.')
-    save(BASE/'import-protocol.json',record)
-    return dict(import_protocol=str(BASE/'import-protocol.json'),sha256=digest(read(BASE/'import-protocol.json')),workers_executed=False)
+    require(inventory(out) == old_inputs, 'prior input bytes changed during new freeze')
+    save(IMPORT_PROTOCOL,record)
+    return dict(import_protocol=str(IMPORT_PROTOCOL),sha256=digest(read(IMPORT_PROTOCOL)),workers_executed=False)
+
+
+def check_importer_process_with_diagnostics(directory, record, argv):
+    """Keep actual diagnostics before rejecting nonzero; never admit them."""
+    diagnostics = dict(diagnostic_only=True, routing_accepted=False, process_success_established=False)
+    for key, name in (('log', 'command.log'), ('observation', 'observation.json')):
+        path = directory/name
+        try:
+            raw = pc.read_bytes(path, 512*1024)
+            item = dict(path=str(path), bytes=len(raw), sha256=digest(raw))
+            if key == 'log': item['tail'] = raw[-4096:].decode('utf-8', errors='replace')
+            else:
+                item['data'] = f.read_json(path)
+                require(read(path) == raw, 'diagnostic observation changed during capture')
+            diagnostics[key] = item
+        except (Exception, KeyboardInterrupt) as exc:
+            diagnostics[key] = dict(path=str(path), unavailable=type(exc).__name__+': '+str(exc))
+            if isinstance(exc, KeyboardInterrupt):
+                record['worker_diagnostics'] = diagnostics
+                raise
+    record['worker_diagnostics'] = diagnostics
+    if any(step.get('name') == 'importer' and step.get('status') == 'cancelled' for step in record.get('steps', [])):
+        raise KeyboardInterrupt
+    return f.process_check(directory, record, 'importer', argv)
 
 
 @cancellable_phase
 def execute_import(pin):
-    protocol=frozen(BASE/'import-protocol.json',pin); plan=frozen(PLAN,protocol['source_plan_sha256']);check_source_plan(plan)
+    protocol=frozen(IMPORT_PROTOCOL,pin); plan=frozen(PLAN,protocol['source_plan_sha256']);check_source_plan(plan)
     require(protocol.get('kind')=='named-edge-import-protocol-v1' and protocol.get('importer_loads')==9
             and protocol.get('accepted') is False and protocol.get('production_admitted') is False, 'import scope changed')
     frozen(BASE/'native-preparation/result.json',protocol['native_preparation_sha256'])
     inputs=BASE/'import-inputs';require(inventory(inputs)==protocol['input_sha256'],'frozen importer inputs changed')
-    out=BASE/'import-execution';require(not out.exists(),'fresh importer execution required');out.mkdir();owner={};h.capture_destination(owner,out)
+    out=IMPORT_EXECUTION;require(not out.exists(),'fresh importer execution004 required');out.mkdir();owner={};h.capture_destination(owner,out)
     tools=p.tool_manifest();argv=[*f.SANDBOX,str(c.JAVA),'-Xmx512m','-XX:ActiveProcessorCount=1','-Djava.awt.headless=true','--class-path',str(c.JAR),str(HERE/'NamedEdgeManagerProbe.java'),str(inputs),str(out/'observation.json')]
     record=dict(schema=1,kind='named-edge-import-execution-v1',accepted=False,passed=False,status='incomplete',production_admitted=False,
                 routing_executed=False,native_executed=False,protocol_sha256=pin,tools=tools,budget_seconds=CAP,argv=argv,
                 preparation_costs=f.read_json(BASE/'native-preparation/result.json'),source_freeze_costs={k:plan[k] for k in ('preparation_wall_seconds','preparation_full_cpu_seconds')})
     witness=None
     def stable():
-        h.owned_destination(owner);frozen(BASE/'import-protocol.json',pin);check_source_plan(plan)
+        h.owned_destination(owner);frozen(IMPORT_PROTOCOL,pin);check_source_plan(plan)
         frozen(BASE/'native-preparation/result.json',protocol['native_preparation_sha256'])
         require(p.tool_manifest()==tools and inventory(inputs)==protocol['input_sha256'],'importer tool/input freeze changed')
         if witness is not None:
@@ -386,7 +468,8 @@ def execute_import(pin):
             stable();process=run(argv,cwd=out,log=out/'command.log',timeout=max(.001,remaining()-2),max_log_bytes=512*1024,
                                  max_group_rss_bytes=1024**3,max_workdir_bytes=LIMIT)
             process['name']='importer';save(out/'importer-process.json',process);record['steps']=[process]
-            f.process_check(out,record,'importer',argv)
+            witness=inventory(out)
+            check_importer_process_with_diagnostics(out,record,argv)
             require(process['log_truncated'] is False and process['signal_cancellation_enabled'] is True,'importer log/cancellation unavailable')
             observed=f.read_json(out/'observation.json')
             require(observed.get('matrix_checks_passed') is True and observed.get('routing_executed') is False
@@ -396,9 +479,27 @@ def execute_import(pin):
                 name=row['case']
                 if name=='eager_named_row_negative':
                     require(row.get('initialization_change_detected') is True and row['observation']['input_sha256']==protocol['input_sha256']['literal300-eager-control.dsn'],'qualified eager-row semantic negative absent')
+                    negative=row['observation']; violations=negative.get('known_reachable_class0_violations')
+                    require(negative.get('actual_full_manager_load_completed') is True and negative.get('eager_diagnostic_only') is True
+                            and type(violations) is list and all(type(v) is dict and v.get('code')=='reachable_class0'
+                                and type(v.get('index')) is int and v['index']==0 and v.get('name')=='null'
+                                and type(v.get('source')) is str and v['source'] for v in violations),
+                            'eager-case reachability diagnostic is unknown/unqualified')
+                    require(row.get('known_class0_assignment_violation') is bool(violations)
+                            and negative.get('class0_reachable_in_routed_scope') is bool(violations)
+                            and (bool(violations) or any(row['checks'].get(key) is False for key in
+                                ('same_exact_nonedge_matrix_all_layers','same_trace_and_default_item_classes_and_via_rules',
+                                 'same_via_info_overrides','same_imported_item_assignment_census'))),
+                            'eager negative lacks actual known assignment/nonedge violation')
                 else:
                     require(row.get('matrix_checks_passed') is True and row['checks'] and all(value is True for value in row['checks'].values()),'actual matrix/assignment predicate failed')
-                    for kind in ('raw','corrected'):require(row[kind]['input_sha256']==protocol['input_sha256'][name+'-'+kind+'.dsn'],'actual loaded bytes differ')
+                    for kind in ('raw','corrected'):
+                        positive=row[kind]
+                        require(positive['input_sha256']==protocol['input_sha256'][name+'-'+kind+'.dsn'],'actual loaded bytes differ')
+                        require(positive.get('actual_full_manager_load_completed') is True and positive.get('eager_diagnostic_only') is False
+                                and positive.get('known_reachable_class0_violations') == []
+                                and positive.get('class0_reachable_in_routed_scope') is False,
+                                'positive cannot use eager-case Class0 diagnostic exception')
             require(remaining()>2,'importer publication reserve exhausted')
             record.update(passed=True,status='completed',observation_sha256=digest(read(out/'observation.json')),
                           actual_imports=9,log_sha256=digest(read(out/'command.log')))

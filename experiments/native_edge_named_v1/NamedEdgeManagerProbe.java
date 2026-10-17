@@ -5,6 +5,7 @@ import app.freerouting.core.RoutingJob;
 import app.freerouting.settings.*;
 import app.freerouting.settings.sources.*;
 import app.freerouting.board.facade.RoutingBoard;
+import app.freerouting.board.model.items.ComponentOutline;
 import app.freerouting.rules.DefaultItemClearanceClasses.ItemClass;
 import com.google.gson.Gson;
 import java.io.ByteArrayInputStream;
@@ -13,7 +14,8 @@ import java.security.MessageDigest;
 import java.util.*;
 
 /** Prospective import-only extension of the retained CellScanEdgeManagerProbe.
- * Never runs routing/optimization. Compile/load and all observations are unrun.
+ * Never runs routing/optimization. One prior revision failed closed after four
+ * raw loads; this exact ComponentOutline instrumentation revision is unrun.
  */
 public final class NamedEdgeManagerProbe {
   static final Gson JSON = new Gson();
@@ -22,14 +24,21 @@ public final class NamedEdgeManagerProbe {
   static final Set<String> ITEM_ENUM = Set.of("NONE", "TRACE", "VIA", "PIN", "SMD", "AREA");
 
   static void reached(int index, app.freerouting.rules.ClearanceMatrix matrix,
-                      String source, SortedMap<String, Object> observations) {
-    if (index <= 0 || index >= matrix.getClassCount())
-      throw new IllegalArgumentException("reachable Class0/invalid clearance class: " + source);
+                      String source, SortedMap<String, Object> observations,
+                      boolean eagerDiagnostic, List<Map<String, Object>> violations) {
+    if (index < 0 || index >= matrix.getClassCount())
+      throw new IllegalArgumentException("invalid clearance class index: " + source);
     String name = matrix.getName(index);
+    if (observations.put(source, Map.of("index", index, "name", String.valueOf(name))) != null)
+      throw new IllegalArgumentException("duplicate reachable assignment source");
+    if (index == 0 && "null".equals(name)) {
+      if (!eagerDiagnostic)
+        throw new IllegalArgumentException("reachable Class0 clearance class: " + source);
+      violations.add(Map.of("code", "reachable_class0", "source", source, "index", index, "name", name));
+      return; // Only this explicit known eager-case semantic violation survives.
+    }
     if (name == null || name.isBlank() || name.equals("null") || name.equals("board_edge") || name.equals("kicadedge"))
       throw new IllegalArgumentException("reachable unnamed/outline clearance class: " + source);
-    if (observations.put(source, Map.of("index", index, "name", name)) != null)
-      throw new IllegalArgumentException("duplicate reachable assignment source");
   }
 
   record Snapshot(Map<String, Object> observation,
@@ -39,7 +48,9 @@ public final class NamedEdgeManagerProbe {
                   SortedMap<String, Integer> items,
                   String outline, int layers) {}
 
-  static Snapshot load(Path path) throws Exception {
+  static Snapshot load(Path path) throws Exception { return load(path, false); }
+
+  static Snapshot load(Path path, boolean eagerDiagnostic) throws Exception {
     if (Files.isSymbolicLink(path) || !Files.isRegularFile(path) || Files.size(path) > 1024 * 1024)
       throw new IllegalArgumentException("bounded real DSN input required");
     byte[] raw = Files.readAllBytes(path);
@@ -62,6 +73,8 @@ public final class NamedEdgeManagerProbe {
     String outline = m.getName(board.getOutline().clearanceClassIndex());
     if (!"null".equals(m.getName(0))) throw new IllegalArgumentException("exact Class0 identity required");
     var reached = new TreeMap<String, Object>();
+    var violations = new ArrayList<Map<String, Object>>();
+    var displayOutlines = new TreeMap<String, Object>();
     var indices = new TreeMap<String, Integer>();
     var enumNames = new TreeSet<String>();
     for (ItemClass kind : ItemClass.values()) enumNames.add(kind.name());
@@ -85,13 +98,13 @@ public final class NamedEdgeManagerProbe {
     var netClasses = new TreeMap<String, Object>();
     for (int i = 0; i < board.rules.netClasses.count(); i++) {
       var cls = board.rules.netClasses.get(i); var defaults = new TreeMap<String, String>();
-      reached(cls.getTraceClearanceClass(), m, "netclass:" + cls.getName() + ":trace", reached);
+      reached(cls.getTraceClearanceClass(), m, "netclass:" + cls.getName() + ":trace", reached, eagerDiagnostic, violations);
       for (ItemClass kind : ItemClass.values()) {
         int index = cls.defaultItemClearanceClasses.get(kind);
         if (index < 0 || index >= m.getClassCount())
           throw new IllegalArgumentException("invalid explicit item-default clearance index");
         if (!kind.name().equals("NONE"))
-          reached(index, m, "netclass:" + cls.getName() + ":default:" + kind.name(), reached);
+          reached(index, m, "netclass:" + cls.getName() + ":default:" + kind.name(), reached, eagerDiagnostic, violations);
         defaults.put(kind.name(), m.getName(index));
       }
       var viaRule = new ArrayList<String>();
@@ -109,7 +122,7 @@ public final class NamedEdgeManagerProbe {
     var vias = new TreeMap<String, Object>();
     for (int i = 0; i < board.rules.viaInfos.count(); i++) {
       var via = board.rules.viaInfos.get(i);
-      reached(via.getClearanceClassIndex(), m, "via-info:" + via.getName(), reached);
+      reached(via.getClearanceClassIndex(), m, "via-info:" + via.getName(), reached, eagerDiagnostic, violations);
       if (vias.put(via.getName(), Map.of("clearance_class", m.getName(via.getClearanceClassIndex()),
           "padstack", via.getPadstack().name, "attach_smd_allowed", via.attachSmdAllowed())) != null)
         throw new IllegalArgumentException("duplicate via info");
@@ -120,14 +133,32 @@ public final class NamedEdgeManagerProbe {
     int itemIndex = 0;
     for (var item : board.getItems()) {
       if (item == board.getOutline()) continue;
-      reached(item.clearanceClassIndex(), m, "item:" + itemIndex++ + ":" + item.getClass().getName(), reached);
+      String identity = "item:" + itemIndex++ + ":" + item.getClass().getName();
+      if (item.getClass() == ComponentOutline.class) {
+        // Exact pinned class: empty nets, zero search-tree shapes, Item overload
+        // always false. Do not extend this exception to subclasses, copper,
+        // obstacle areas or inherited isObstacle(net)/isTraceObstacle(net).
+        var display = (ComponentOutline)item;
+        if (item.netCount() != 0 || item.clearanceClassIndex() != 0 || !"null".equals(m.getName(0))
+            || item.tileShapeCount() != 0 || item.isObstacle(item))
+          throw new IllegalArgumentException("ComponentOutline display-only predicates differ");
+        displayOutlines.put(identity, Map.of("index", 0, "name", m.getName(0), "net_count", item.netCount(),
+            "tile_shape_count", item.tileShapeCount(), "obstacle_Item_overload", item.isObstacle(item),
+            "is_front", display.isFront(), "is_courtyard", display.isCourtyard(),
+            "is_fabrication", display.isFabrication(), "is_closed", display.isClosed()));
+      } else {
+        reached(item.clearanceClassIndex(), m, identity, reached, eagerDiagnostic, violations);
+      }
       var nets = new TreeSet<String>();
       for (int i = 0; i < item.netCount(); i++) {
         var net = board.rules.nets.get(item.getNetNumber(i));
         if (net == null) throw new IllegalArgumentException("unknown imported item net");
         nets.add(net.name);
       }
-      String key = JSON.toJson(List.of(item.getClass().getName(), nets, m.getName(item.clearanceClassIndex())));
+      Object displayFlags = item.getClass() == ComponentOutline.class
+          ? List.of(((ComponentOutline)item).isFront(), ((ComponentOutline)item).isCourtyard(),
+                    ((ComponentOutline)item).isFabrication(), ((ComponentOutline)item).isClosed()) : List.of();
+      String key = JSON.toJson(List.of(item.getClass().getName(), nets, m.getName(item.clearanceClassIndex()), displayFlags));
       items.merge(key, 1, Integer::sum);
     }
     var observation = new LinkedHashMap<String, Object>();
@@ -137,8 +168,12 @@ public final class NamedEdgeManagerProbe {
     observation.put("outline_class", outline); observation.put("layers", layers);
     observation.put("matrix_um", matrix); observation.put("matrix_class_indices", indices);
     observation.put("actual_nonoutline_trace_defaults_via_reachability", reached);
+    observation.put("display_only_ComponentOutline_raw_reachability", displayOutlines);
+    observation.put("known_reachable_class0_violations", violations);
+    observation.put("eager_diagnostic_only", eagerDiagnostic);
+    observation.put("actual_full_manager_load_completed", true);
     observation.put("item_default_enum_names", enumNames);
-    observation.put("class0_reachable_in_routed_scope", false);
+    observation.put("class0_reachable_in_routed_scope", !violations.isEmpty());
     observation.put("none_enum_is_explicit_nonroutable_default", true);
     observation.put("net_classes", netClasses);
     observation.put("via_infos", vias); observation.put("item_assignment_census", items);
@@ -200,13 +235,15 @@ public final class NamedEdgeManagerProbe {
                         "checks", checks, "matrix_checks_passed", current));
         passed &= current;
         if (name.equals("literal300")) {
-          var eager = load(directory.resolve("literal300-eager-control.dsn"));
+          var eager = load(directory.resolve("literal300-eager-control.dsn"), true);
           var negative = compare(raw, eager, 300.0, 2);
-          boolean detected = !negative.get("same_exact_nonedge_matrix_all_layers")
+          boolean class0Violation = !((List<?>)eager.observation.get("known_reachable_class0_violations")).isEmpty();
+          boolean detected = class0Violation || !negative.get("same_exact_nonedge_matrix_all_layers")
               || !negative.get("same_trace_and_default_item_classes_and_via_rules")
               || !negative.get("same_via_info_overrides") || !negative.get("same_imported_item_assignment_census");
           rows.add(Map.of("case", "eager_named_row_negative", "observation", eager.observation,
-                          "checks", negative, "initialization_change_detected", detected));
+                          "checks", negative, "known_class0_assignment_violation", class0Violation,
+                          "initialization_change_detected", detected));
           passed &= detected;
         }
       } catch (Exception failure) {

@@ -1,0 +1,32 @@
+{
+  "http": {
+    "content_type": "text/plain; charset=utf-8",
+    "etag": "\"37b69ae6a731e77185bfb1b0b43a050e1461eb96040b3f117ad2a5173e2f8b1b\""
+  },
+  "inferred_scope": "Display-only exact ComponentOutline exemption in this fixed importer observer; never waive copper/default/trace/via/pin/SMD/area gates.",
+  "jar_entry": "app/freerouting/board/model/items/ComponentOutline.class",
+  "jar_entry_bytes": 7534,
+  "jar_entry_sha256": "14cd07eca7081883893babb2cd277b8722c68d4b843e3c9e84189a76b369c436",
+  "limitation": "Inherited Item.isObstacle(net)/isTraceObstacle(net) are not asserted false; exception relies on exactclass plus no nets/zero routing-search shapes and explicit Item overload. Runtime must observe these predicates, preserve rawClass0 and full item census, and reject otherClass0 assignments.",
+  "official_commit": "b647a2f824cfbc54bc4dcaee71b03b7cd945eb76",
+  "pinned_jar_sha256": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+  "redistribution": "Source stored only under ignored local .runs; no new third-party source selected for public commit. License lead retained in .runs/custom-pad-transport-options-001/license-status.json; not relabeled as project-owned.",
+  "schema": 1,
+  "scope": "Bounded static source/JAR inspection; no JVM, Native or code execution. Cached third-party source is local-only, not selected for publication.",
+  "source_bytes": 6324,
+  "source_file": "ComponentOutline.java",
+  "source_semantics": [
+    "Exact ComponentOutline extends Item; constructor supplies empty net array and clearance0.",
+    "isObstacle(Item) returns false.",
+    "tileShapeCount returns0 and calculateTreeShapes returns empty array; no routing search-tree tile shapes.",
+    "Item classification is COMPONENT_OUTLINE; exact source type is not electrical copper."
+  ],
+  "source_sha256": "36cabd4b2fd3080dcee6a6921ada2201791f3572d2d7b4b23032b8d47e0b0f12",
+  "static_bytecode_observed": {
+    "calculateTreeShapes(ShapeSearchTree)": "03bd0039b0 = iconst_0; anewarray TileShape; areturn",
+    "constructor": "Starts with aload_0; iconst_0; newarray int; iconst_0 before Item.<init>, matching empty nets and clearance0.",
+    "isObstacle(Item)": "03ac = iconst_0; ireturn",
+    "tileShapeCount()": "03ac = iconst_0; ireturn"
+  },
+  "url": "https://raw.githubusercontent.com/freerouting/freerouting/b647a2f824cfbc54bc4dcaee71b03b7cd945eb76/src/main/java/app/freerouting/board/model/items/ComponentOutline.java"
+}
