@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "kind": "bounded-read-only-explicit1007-cooperative-enclosure-review",
+  "status": "one-signal-bridge-blocker-open",
+  "source_sha256": {
+    ".runs/run-native1007-delivery-002.py": "4a8142a313e8168996c180eb6c90e8b0ec5c5503d3fd864b06ca31046e0b0b50",
+    ".runs/native1007-delivery-child-002.py": "8f4c9f430eab1fd99f095fe3336ed6ff920878a39a832fc26c08a9f71bc994dd"
+  },
+  "preserved_v1_sha256": {
+    ".runs/run-native1007-delivery-001.py": "81cf9f821bcc653288a988840e3cb9cd8035a88e62fcebdef4455bc0ddf3e525",
+    ".runs/native1007-delivery-child-001.py": "f0db30fe6c42159e2743be1ef7cb83bae56241ec4c20cedc121764274293e6b6"
+  },
+  "findings": [
+    {
+      "priority": "P1",
+      "title": "Synchronous main-thread signal bridge can re-enter CliJob's non-reentrant lock",
+      "locations": [
+        ".runs/run-native1007-delivery-002.py:execute signal.signal(... lambda: job.cancel())",
+        ".runs/run-native1007-delivery-002.py:execute main-thread job.run and fresh job.check_live",
+        "autorouter/gui.py:CliJob.__init__, cancel, check_live and run"
+      ],
+      "precise_counterexample": "CliJob.run holds self._lock on the same main thread while checking cancellation and constructing Popen. If SIGINT or SIGTERM arrives in that region, Python invokes the enclosure handler on that main thread; handler calls job.cancel, which tries to acquire the already-held non-reentrant threading.Lock. The interrupted code cannot resume to release it. The same re-entrant path exists for a signal during main-thread check_live or cancel. This can deadlock the coordinator supervisor, leave the shared lane held, and prevent cooperative cancellation from reaching the actual child.",
+      "required_resolution": "Keep the enclosure signal bridge from synchronously acquiring CliJob locks in a main-thread signal handler. Reuse the product's deferred/cooperative cancellation contract without forced coordinator termination; no new worker-ownership framework is required. Preserve the existing late live-cancel checks and lane lifetime.",
+      "review_note": "The earlier advice to bridge signals through job.cancel omitted this main-thread lock re-entry condition; this review corrects that omission.",
+      "execution_status": "Source-derived path only; no hanging control, test or Native process executed."
+    }
+  ],
+  "resolved_v1_findings": [
+    {
+      "title": "Forced coordinator termination could interrupt inner worker cleanup",
+      "readback": "The new enclosure calls existing CliJob.run, whose watchdog sends SIGINT and waits; it does not force-kill the coordinator or manufacture cleanup_complete. The shared lane encloses job execution, retained evidence readback and final publication. The scope explicitly disclaims permanent descendant certification, aggregate RSS observation and a hard whole-time quota.",
+      "status": "cooperative-contract source correction present, subject to the signal bridge finding"
+    },
+    {
+      "title": "Cold preparation was excluded from the original whole-slice budget",
+      "readback": "Both outer and child subtract recorded preparation wall/full-CPU costs plus the explicit conservative 2-second preparation-publication budget charge from their reserves. Both add the charged preparation costs to recorded totals. The protocol labels the charge as a budget charge rather than measured runtime and retains the complete outer 180-second acceptance scope.",
+      "status": "source-resolved; no cost measured or Native executed"
+    }
+  ],
+  "other_specific_seams_reviewed": [
+    "Outer qualification requires child passed/completed, accepted=false, production_admitted=false, exact frozen tools, exit0, cancel_requested=false and no truncated coordinator log.",
+    "fresh calls job.check_live before and after a positive material readback. A post-f.publish live-cancel exception is passed through existing f.publish with a failing stable callback, archiving a canonical positive and correcting passed/status through account.",
+    "Outer account clears passed on cancellation or any noncompleted status; child account retains the same noncompleted-status clearing and terminal-status exit check.",
+    "No outer cleanup_complete or whole-tree RSS claim is introduced. Existing inner worker time/log/RSS/disk/network guards remain, and completed material inventories retain the existing bounded reader.",
+    "Flat owned board name and exact actual route source/hash correspondence remain required. Version/context/whole-board scope and software-intent versus human/application distinctions are unchanged."
+  ],
+  "actions": {
+    "source_edits": false,
+    "tests_Native_JVM_GUI_CI_Git": false,
+    "delegation": false,
+    "only_write": ".runs/native1007-delivery-prospective-001/enclosure-review-002.json"
+  },
+  "limits": "Read-only review of the requested v2 seams only. Parent-reported authored controller controls and test-suite outcomes were not rerun or independently established here. No --prepare, Native execution, measured new cost, production support qualification or broad investigation."
+}
