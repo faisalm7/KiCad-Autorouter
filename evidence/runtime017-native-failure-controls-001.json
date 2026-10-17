@@ -1,0 +1,2519 @@
+{
+  "schema": 1,
+  "kind": "actual-installed-runtime017-three-native-failure-controls-v1",
+  "accepted": false,
+  "controls_passed": true,
+  "Native_executed": true,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "4d155f5c4c07e1c10b8c64a6f982fed02ea2dfbc",
+  "protocol_sha256": "13e018bb7d9f4a518e522ae6d053dc5dd9eb6f90d1350a6f394d284d7c91238f",
+  "preflight_checkpoint": "4a19dc5c01984a1883970f8b622484fccfc67ba9",
+  "whole_wall_seconds": 19.67,
+  "whole_full_cpu_seconds": 16.13,
+  "whole_user_cpu_seconds": 13.31,
+  "whole_system_cpu_seconds": 2.82,
+  "inner_enclosure_sample_wall_seconds": 18.89181208302034,
+  "inner_enclosure_sample_full_cpu_seconds": 15.364066999999999,
+  "inner_child_sample_wall_seconds": 14.40653687500162,
+  "inner_child_sample_full_cpu_seconds": 11.164216999999999,
+  "checks": [
+    {
+      "name": "class_mismatch_before_engine",
+      "passed": true,
+      "reason": "ClassIdentityMismatch: flat class parity: class_identity_mismatch on ROUTE: SCH='CRITICAL,POWER,Default', PCB='POWER,Default'",
+      "receipt_sha256": "04577a9202cbbabce67400f684fb260f7e27fe9e3f1faa5eac8962d3498413dc",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.5347386249923147,
+          "cpu_seconds": 0.504663,
+          "max_rss_bytes": 102236160,
+          "supervisor_cpu_seconds": 0.01610099999999992,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 100548608,
+          "sampled_peak_workdir_bytes": 1159719,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/source-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/source-drc.log",
+          "log_bytes": 205,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11523,
+          "name": "source-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+            "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.57491166703403,
+          "cpu_seconds": 0.487958,
+          "max_rss_bytes": 109871104,
+          "supervisor_cpu_seconds": 0.008183999999999969,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 107806720,
+          "sampled_peak_workdir_bytes": 1188007,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/autorouter/native.py",
+            "export",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/task.dsn",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/export-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/export.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11524,
+          "name": "export"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.5231971250032075,
+          "cpu_seconds": 0.487245,
+          "max_rss_bytes": 207634432,
+          "supervisor_cpu_seconds": 0.005779999999999674,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 64061440,
+          "sampled_peak_workdir_bytes": 1227730,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/task-classes.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route/task-classes-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/mismatch-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11546,
+          "name": "task-classes-netlist"
+        }
+      ]
+    },
+    {
+      "name": "same_original_native_short",
+      "passed": true,
+      "report_sha256": "4e2cbc4f53cd8beb45380f6a3c24a19765dbde014c32b9413f85be9975f6a9ef",
+      "native": {
+        "opens": 0,
+        "blocking": 4,
+        "warnings": 6,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Items shorting two nets (nets ROUTE and KEEP)",
+            "items": [
+              {
+                "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+              },
+              {
+                "description": "PTH pad 1 [KEEP] of J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "ca339694-8b2b-58c9-a2f4-20a73ca6b56a"
+              }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+          },
+          {
+            "description": "Tracks crossing",
+            "items": [
+              {
+                "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+              },
+              {
+                "description": "Track [KEEP] on F.Cu, length 14.0000 mm",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "e1148041-89d4-534a-9917-7d47264ecd26"
+              }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+          },
+          {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+              {
+                "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+              },
+              {
+                "description": "PTH pad 1 [KEEP] of J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "ca339694-8b2b-58c9-a2f4-20a73ca6b56a"
+              }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+          },
+          {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+              {
+                "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+              },
+              {
+                "description": "PTH pad 1 [KEEP] of J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "ca339694-8b2b-58c9-a2f4-20a73ca6b56a"
+              }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 12.0,
+                  "y": 10.0
+                },
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 26.0,
+                  "y": 10.0
+                },
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 12.0,
+                  "y": 16.0
+                },
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 26.0,
+                  "y": 16.0
+                },
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 12.0,
+                  "y": 24.0
+                },
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 26.0,
+                  "y": 24.0
+                },
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "9fe4e8a82cf862f795f20c406dbba819b297db51c482b16284d8610481e81000",
+          "binding_sha256": "0a2fb910b3e339aeb5b4d887e746eca8a94ded66e3bbc5094ad8bbcfd144ea04",
+          "netlist_sha256": "9fe775478041a3e6d877880c860639ecb181e3fdb8d3876531ee19a8f1baf9b5",
+          "fields_sha256": "5a2effd8f2e8bf5a89502f0f7772264559723f92c9721ccb828a7e01dd3d6a92",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 6,
+            "compared_field_count": 18,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+                "schematic_fields": {
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                  "Datasheet": "",
+                  "Description": "Project-owned transport diagnostic one-pin terminal"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Project-owned transport diagnostic one-pin terminal",
+                  "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+              "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+              "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+              "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+              "e0f1e400-0345-5582-be29-ecfc38486330",
+              "e683e253-d3ba-5301-a19c-4d7511658da8"
+            ],
+            "warning_hashes": [
+              "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+              "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+              "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+              "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+              "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+              "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+            ],
+            "native_export_sha256": "9fe775478041a3e6d877880c860639ecb181e3fdb8d3876531ee19a8f1baf9b5",
+            "observer_sha256": "beea013d2fb3cc96b86e38ba4b09d2a91438b85f008846ca5d2948db994fda1b",
+            "drc_report_sha256": "e7d26e864e939061d59fc8458531974f38dda11fc2d5166fea319107d10b0fcb"
+          },
+          "local_settings_guard_sha256": "a031be784c533456ff6e03f8a60418a685d9aeec70d29541e2a3eec4d1436daa"
+        }
+      },
+      "protected_routes": 10
+    },
+    {
+      "name": "real_engine_cancel",
+      "passed": true,
+      "observation": {
+        "stage": "engine",
+        "log_bytes": 75
+      },
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/production-delivery-001/source/owned-four-copper-forced-inner.kicad_pcb",
+          "--seconds",
+          "90",
+          "--adapter",
+          "both",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route"
+        ],
+        "exit_code": 2,
+        "cancel_requested": true,
+        "log_truncated": false,
+        "log_bytes": 151,
+        "wall_seconds": 3.3360956250107847,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "receipt_sha256": "e64c3d670224a32dd06cb9a4ad0fd3d7189c73892d853321724854e89da040c6",
+      "reason": "interrupted route",
+      "positive_reader_refusal": "receipt is not an accepted routing result",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 1.0653060409822501,
+          "cpu_seconds": 0.421191,
+          "max_rss_bytes": 102187008,
+          "supervisor_cpu_seconds": 0.011415000000000008,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 100450304,
+          "sampled_peak_workdir_bytes": 1160006,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/source-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/source-drc.log",
+          "log_bytes": 203,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11591,
+          "name": "source-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+            "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.46254445804515854,
+          "cpu_seconds": 0.44932099999999997,
+          "max_rss_bytes": 113999872,
+          "supervisor_cpu_seconds": 0.006440000000000001,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35028992,
+          "sampled_peak_workdir_bytes": 1188271,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/autorouter/native.py",
+            "export",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/task.dsn",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/export-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/export.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11608,
+          "name": "export"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4763305410160683,
+          "cpu_seconds": 0.461158,
+          "max_rss_bytes": 207634432,
+          "supervisor_cpu_seconds": 0.004712999999999967,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 64700416,
+          "sampled_peak_workdir_bytes": 1227981,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/task-classes.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/task-classes-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11609,
+          "name": "task-classes-netlist"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.33680862496839836,
+          "cpu_seconds": 0.330519,
+          "max_rss_bytes": 89997312,
+          "supervisor_cpu_seconds": 0.004838999999999982,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 35192832,
+          "sampled_peak_workdir_bytes": 1243791,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/autorouter/native.py",
+            "obstacles",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/obstacles.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/obstacles.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11610,
+          "name": "obstacles"
+        },
+        {
+          "status": "cancelled",
+          "exit_code": -9,
+          "wall_seconds": 0.6237134170369245,
+          "cpu_seconds": 0.484665,
+          "max_rss_bytes": 115884032,
+          "supervisor_cpu_seconds": 0.006848999999999994,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 86343680,
+          "sampled_peak_workdir_bytes": 1249626,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+            "-Xms128m",
+            "-Xmx2g",
+            "-XX:ActiveProcessorCount=1",
+            "-Djava.awt.headless=true",
+            "-jar",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.tools/freerouting-2.5.0.jar",
+            "--gui.enabled=false",
+            "--api_server.enabled=false",
+            "--mcp_server.enabled=false",
+            "-da",
+            "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/engine-config",
+            "--logging.file.enabled=false",
+            "--router.autorouter.max_passes=30",
+            "--router.job_timeout=00:00:47",
+            "--router.automatic_neckdown=false",
+            "--router.fanout.enabled=false",
+            "--router.neck_width_um=0",
+            "--router.optimizer.max_threads=1",
+            "--router.optimizer.max_passes=10",
+            "--router.optimizer.timeout=00:00:30",
+            "-de",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/task.dsn",
+            "-do",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/routes.ses"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route/engine.log",
+          "log_bytes": 75,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-017/runtime/.runs/failure-controls-001/cancel-route",
+          "signal_cancellation_enabled": true,
+          "pid": 11611,
+          "cancel_signal": "SIGINT",
+          "name": "engine"
+        }
+      ]
+    }
+  ],
+  "short_candidate": {
+    "candidate_sha256": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7",
+    "native": {
+      "opens": 0,
+      "blocking": 4,
+      "warnings": 6,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Items shorting two nets (nets ROUTE and KEEP)",
+          "items": [
+            {
+              "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+              "pos": {
+                "x": 12.0,
+                "y": 10.0
+              },
+              "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+            },
+            {
+              "description": "PTH pad 1 [KEEP] of J3",
+              "pos": {
+                "x": 12.0,
+                "y": 16.0
+              },
+              "uuid": "ca339694-8b2b-58c9-a2f4-20a73ca6b56a"
+            }
+          ],
+          "severity": "error",
+          "type": "shorting_items"
+        },
+        {
+          "description": "Tracks crossing",
+          "items": [
+            {
+              "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+              "pos": {
+                "x": 12.0,
+                "y": 10.0
+              },
+              "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+            },
+            {
+              "description": "Track [KEEP] on F.Cu, length 14.0000 mm",
+              "pos": {
+                "x": 12.0,
+                "y": 16.0
+              },
+              "uuid": "e1148041-89d4-534a-9917-7d47264ecd26"
+            }
+          ],
+          "severity": "error",
+          "type": "tracks_crossing"
+        },
+        {
+          "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+          "items": [
+            {
+              "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+              "pos": {
+                "x": 12.0,
+                "y": 10.0
+              },
+              "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+            },
+            {
+              "description": "PTH pad 1 [KEEP] of J3",
+              "pos": {
+                "x": 12.0,
+                "y": 16.0
+              },
+              "uuid": "ca339694-8b2b-58c9-a2f4-20a73ca6b56a"
+            }
+          ],
+          "severity": "error",
+          "type": "hole_clearance"
+        },
+        {
+          "description": "Front solder mask aperture bridges items with different nets",
+          "items": [
+            {
+              "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+              "pos": {
+                "x": 12.0,
+                "y": 10.0
+              },
+              "uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1"
+            },
+            {
+              "description": "PTH pad 1 [KEEP] of J3",
+              "pos": {
+                "x": 12.0,
+                "y": 16.0
+              },
+              "uuid": "ca339694-8b2b-58c9-a2f4-20a73ca6b56a"
+            }
+          ],
+          "severity": "error",
+          "type": "solder_mask_bridge"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J1",
+              "pos": {
+                "x": 12.0,
+                "y": 10.0
+              },
+              "uuid": "e0f1e400-0345-5582-be29-ecfc38486330"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J2",
+              "pos": {
+                "x": 26.0,
+                "y": 10.0
+              },
+              "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J3",
+              "pos": {
+                "x": 12.0,
+                "y": 16.0
+              },
+              "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J4",
+              "pos": {
+                "x": 26.0,
+                "y": 16.0
+              },
+              "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J5",
+              "pos": {
+                "x": 12.0,
+                "y": 24.0
+              },
+              "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        },
+        {
+          "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+          "items": [
+            {
+              "description": "Footprint J6",
+              "pos": {
+                "x": 26.0,
+                "y": 24.0
+              },
+              "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_field_mismatch"
+        }
+      ],
+      "field_parity": {
+        "schema": 1,
+        "policy": "datasheet-absence-only-v1",
+        "native_report_sha256": "9fe4e8a82cf862f795f20c406dbba819b297db51c482b16284d8610481e81000",
+        "binding_sha256": "0a2fb910b3e339aeb5b4d887e746eca8a94ded66e3bbc5094ad8bbcfd144ea04",
+        "netlist_sha256": "9fe775478041a3e6d877880c860639ecb181e3fdb8d3876531ee19a8f1baf9b5",
+        "fields_sha256": "5a2effd8f2e8bf5a89502f0f7772264559723f92c9721ccb828a7e01dd3d6a92",
+        "qualification": {
+          "qualified": true,
+          "policy": "datasheet-effective-empty-v1",
+          "component_count": 6,
+          "compared_field_count": 18,
+          "comparison_map": [
+            {
+              "reference": "J1",
+              "uuid": "e0f1e400-0345-5582-be29-ecfc38486330",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J1"
+              }
+            },
+            {
+              "reference": "J2",
+              "uuid": "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J2"
+              }
+            },
+            {
+              "reference": "J3",
+              "uuid": "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J3"
+              }
+            },
+            {
+              "reference": "J4",
+              "uuid": "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J4"
+              }
+            },
+            {
+              "reference": "J5",
+              "uuid": "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J5"
+              }
+            },
+            {
+              "reference": "J6",
+              "uuid": "e683e253-d3ba-5301-a19c-4d7511658da8",
+              "schematic_fields": {
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6",
+                "Datasheet": "",
+                "Description": "Project-owned transport diagnostic one-pin terminal"
+              },
+              "pcb_fields": {
+                "Datasheet": "~",
+                "Description": "Project-owned transport diagnostic one-pin terminal",
+                "OwnedTransportIdentity": "owned-four-copper-forced-inner-v1:J6"
+              }
+            }
+          ],
+          "warning_uuids": [
+            "4fc3d2bc-21d8-5e0f-b345-e61931018efd",
+            "c7f956cb-4807-5b32-b814-9a00b5a214cb",
+            "daa8e6d3-a954-500e-a3e8-890bab8ea182",
+            "dc506506-6ca3-5466-b5a7-8cb9e70d1fe1",
+            "e0f1e400-0345-5582-be29-ecfc38486330",
+            "e683e253-d3ba-5301-a19c-4d7511658da8"
+          ],
+          "warning_hashes": [
+            "11c7952f45ce5545d7f8df269362f47ce73052d0a7246834c5bcd3ce2739b968",
+            "319b07ba68191f14f159da72471bce67ea36c0e4692f3ec4c675f6fa1bad239e",
+            "9b0a7f32e1ccbcfc4f30c5bd69f6504002525418c3a2fa520f72b7dde1c6742a",
+            "9d4a4c9575b1202251cd304ceda22553482c6cd3e28effd92f922549129a439d",
+            "af9064e596738de4bb0ee2b6134759c308d6ffe4e87fcd7c62ed43cbda9fcf45",
+            "e958dc8f14cb9843b9143fb1a7490349c3b78bc2ca848c63eb7c327333f72e2e"
+          ],
+          "native_export_sha256": "9fe775478041a3e6d877880c860639ecb181e3fdb8d3876531ee19a8f1baf9b5",
+          "observer_sha256": "beea013d2fb3cc96b86e38ba4b09d2a91438b85f008846ca5d2948db994fda1b",
+          "drc_report_sha256": "e7d26e864e939061d59fc8458531974f38dda11fc2d5166fea319107d10b0fcb"
+        },
+        "local_settings_guard_sha256": "a031be784c533456ff6e03f8a60418a685d9aeec70d29541e2a3eec4d1436daa"
+      }
+    },
+    "class_metadata": {
+      "schema": 1,
+      "context": "native-route-flat-classes-v1",
+      "stage": "final",
+      "file": "final-classes-proof.json",
+      "sha256": "008c77c9d238801b16be7fd70ead7c819312cb90794c04e42cf846fa771a92f7"
+    },
+    "class_audit": {
+      "native": {
+        "passed": true,
+        "policy": {
+          "mode": "native-parent-dimensions-v1",
+          "resolution": "pinned native effective class and explicit parameter parents",
+          "source_class_names": [
+            "Default",
+            "POWER",
+            "SIGNAL",
+            "CRITICAL"
+          ],
+          "pattern_evaluation_in_python": false
+        },
+        "native_nets": 3,
+        "nets": [
+          {
+            "name": "GND",
+            "netcode": 3,
+            "copper_pad_count": 2,
+            "class": "SIGNAL,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "SIGNAL",
+                "value_nm": 350000,
+                "specified": true,
+                "priority": 0
+              },
+              "clearance_nm": {
+                "name": "SIGNAL",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_diameter_nm": {
+                "name": "SIGNAL",
+                "value_nm": 1000000,
+                "specified": true,
+                "priority": 0
+              },
+              "via_drill_nm": {
+                "name": "SIGNAL",
+                "value_nm": 400000,
+                "specified": true,
+                "priority": 0
+              }
+            },
+            "width_nm": 350000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 1000000,
+            "via_drill_nm": 400000
+          },
+          {
+            "name": "KEEP",
+            "netcode": 2,
+            "copper_pad_count": 2,
+            "class": "Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "Default",
+                "value_nm": 300000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "clearance_nm": {
+                "name": "Default",
+                "value_nm": 200000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_diameter_nm": {
+                "name": "Default",
+                "value_nm": 800000,
+                "specified": true,
+                "priority": 2147483647
+              },
+              "via_drill_nm": {
+                "name": "Default",
+                "value_nm": 400000,
+                "specified": true,
+                "priority": 2147483647
+              }
+            },
+            "width_nm": 300000,
+            "clearance_nm": 200000,
+            "via_diameter_nm": 800000,
+            "via_drill_nm": 400000
+          },
+          {
+            "name": "ROUTE",
+            "netcode": 1,
+            "copper_pad_count": 2,
+            "class": "POWER,Default",
+            "parameter_parents": {
+              "width_nm": {
+                "name": "POWER",
+                "value_nm": 400000,
+                "specified": true,
+                "priority": 1
+              },
+              "clearance_nm": {
+                "name": "POWER",
+                "value_nm": 250000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_diameter_nm": {
+                "name": "POWER",
+                "value_nm": 1200000,
+                "specified": true,
+                "priority": 1
+              },
+              "via_drill_nm": {
+                "name": "POWER",
+                "value_nm": 500000,
+                "specified": true,
+                "priority": 1
+              }
+            },
+            "width_nm": 400000,
+            "clearance_nm": 250000,
+            "via_diameter_nm": 1200000,
+            "via_drill_nm": 500000
+          }
+        ],
+        "routing_accepted": false
+      },
+      "route_dimensions": {
+        "passed": true,
+        "checked": {
+          "segments": 10,
+          "arcs": 0,
+          "vias": 4,
+          "protected": 10
+        },
+        "policy": "exact effective native targets for new routes; protected originals unchanged"
+      },
+      "candidate_sha256": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7",
+      "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "native_map_file_sha256": "27d46bd3fea4f9c34a927bddfe119dbc3d46a198a02f23b0c75f854f4d8d16e1"
+    },
+    "protected_routes": 10,
+    "final_native_sha256": "9fe4e8a82cf862f795f20c406dbba819b297db51c482b16284d8610481e81000"
+  },
+  "positive_prerequisite_evidence": "evidence/runtime017-production-CLI-delivery-001.json",
+  "positive_prerequisite_receipt_sha256": "1024f98ad198993005f59f75e848f265b991fdd000b436649556b29800ca4191",
+  "positive_untouched": true,
+  "positive_final_current_replay": "Required by the frozen child final callback; successful shared publication/process and unchanged actual source/candidate/Native artifacts bind this replay. No positive reroute or relocated history.",
+  "actual_review": {
+    "schema": 1,
+    "kind": "runtime017-failure-controls-actual-review-v1",
+    "status": "no_material_finding",
+    "material_findings": [],
+    "Native_executed_by_reviewer": false,
+    "JVM_executed_by_reviewer": false,
+    "tests_or_central_checker_executed_by_reviewer": false,
+    "method": "Bounded read-only retained raw reports, receipts, process records, hashes, source packets and PRL flags; no worker execution or full-checker rerun.",
+    "sha256": {
+      "frozen_protocol": "13e018bb7d9f4a518e522ae6d053dc5dd9eb6f90d1350a6f394d284d7c91238f",
+      "child_source": "0325f45697825ff10d0d1795b3aeae605a8e5076857555c088e41fabd392e08a",
+      "outer_source": "288063ebc20b9fe969e8ba9454670bfa3d25c529d1ecdc0452e459c86a70ebed",
+      "child_receipt": "8f681cf7f0bb573b6a8d02dbc16d0d579b13eec41a43eaf190bec62a33f44a44",
+      "outer_receipt": "3afde83257d80b3f2e6cd5ad91231dbb6fda3281a0b52c16137d4f93cf0e97f7",
+      "unchanged_positive_receipt": "1024f98ad198993005f59f75e848f265b991fdd000b436649556b29800ca4191",
+      "mismatch_receipt": "04577a9202cbbabce67400f684fb260f7e27fe9e3f1faa5eac8962d3498413dc",
+      "short_control": "4e2cbc4f53cd8beb45380f6a3c24a19765dbde014c32b9413f85be9975f6a9ef",
+      "short_candidate": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7",
+      "short_final_native": "9fe4e8a82cf862f795f20c406dbba819b297db51c482b16284d8610481e81000",
+      "cancel_receipt": "e64c3d670224a32dd06cb9a4ad0fd3d7189c73892d853321724854e89da040c6",
+      "external_command_log": "2a44ca9a775565a1610ee4e455be030ee4c0eb37058a488b37df5e7645591d49",
+      "external_time_log": "8242657c73ddd90c2f1f7ed1eafd459ba64e3c424e416fe009db7d79385ba5cf"
+    },
+    "binding_readback": {
+      "hash_bindings_checked": 39,
+      "hash_mismatches": 0,
+      "child_bytes": 49930,
+      "actual_child_equals_outer_embedded_child": true,
+      "outer_process_exit_code": 0,
+      "outer_process_cancel_requested": false,
+      "outer_process_log_truncated": false,
+      "outer_and_child_completed_controls_passed": true,
+      "routing_accepted": false,
+      "positive_and_mismatch_four_file_packets_match_pins": true,
+      "retained_inner_step_records_checked_for_cleanup_and_log_size": 15,
+      "all_checked_cleanup_complete_and_untruncated": true,
+      "short_drc_class_field_netlist_observer_and_input_copy_bindings_match": true,
+      "short_final_drc_and_class_prl_current_flags": 0,
+      "recorded_prl_bytes_unchanged_and_flags_restored": true
+    },
+    "controls": [
+      {
+        "name": "class_mismatch_before_engine",
+        "passed": true,
+        "reason": "ClassIdentityMismatch: flat class parity: class_identity_mismatch on ROUTE: SCH='CRITICAL,POWER,Default', PCB='POWER,Default'",
+        "actual_task_class_netlist_observed": true,
+        "engine_step_or_log_present": false
+      },
+      {
+        "name": "same_original_native_short",
+        "passed": true,
+        "native_version": "10.0.0",
+        "opens": 0,
+        "blocking": 4,
+        "warnings": 6,
+        "ignored_checks": 2,
+        "exclusions": 0,
+        "error_types": [
+          "shorting_items",
+          "tracks_crossing",
+          "hole_clearance",
+          "solder_mask_bridge"
+        ],
+        "all_errors_identify_added_segment_uuid": "01b64a9f-43a9-5357-8e26-49d18f9010f1",
+        "saved_refill_and_final_full_schematic_drc_retained": true,
+        "class_partitions": 3,
+        "class_terminals": 6,
+        "protected_original_routes": 10,
+        "dimension_audit": {
+          "segments": 10,
+          "arcs": 0,
+          "vias": 4,
+          "protected": 10
+        },
+        "warning_scope": "Six original J1-J6 Datasheet '~' versus blank schematic warnings remain raw and conditionally proven; no warning waiver or additional ignored check.",
+        "routing_accepted": false
+      },
+      {
+        "name": "real_engine_cancel",
+        "passed": true,
+        "observed_nonempty_engine_log_bytes": 75,
+        "cli_exit_code": 2,
+        "cli_cancel_requested": true,
+        "engine_status": "cancelled",
+        "engine_cancel_signal": "SIGINT",
+        "engine_exit_code": -9,
+        "engine_process_journal_equals_receipt_step": true,
+        "route_status": "cancelled",
+        "route_reason": "interrupted route",
+        "accepted": false,
+        "import_or_final_native_or_final_class_proof_present": false,
+        "positive_reader_refusal": "receipt is not an accepted routing result",
+        "interpretation": "Actual deliberate cancellation requested SIGINT and the existing runner reported cleanup complete. The recorded engine exit is -9; this is not evidence that the engine terminated from SIGINT alone."
+      }
+    ],
+    "positive_preservation": "The actual positive receipt retains SHA1024f98a and original absolute paths. Source bytes match its packet pins. The completed frozen controller records initial full-current replay and requires final full positive route/export replay before publication; this review does not rerun those readers.",
+    "costs": {
+      "external_whole_wall_seconds": 19.67,
+      "external_whole_user_seconds": 13.31,
+      "external_whole_system_seconds": 2.82,
+      "external_whole_full_cpu_seconds": 16.13,
+      "outer_inner_sample_wall_seconds": 18.89181208302034,
+      "outer_inner_sample_full_cpu_seconds": 15.364066999999999,
+      "child_inner_sample_wall_seconds": 14.40653687500162,
+      "child_inner_sample_full_cpu_seconds": 11.164216999999999,
+      "accounting": "One actual control execution under the frozen protocol, including reaped children and publication. External whole costs satisfy the 260-second wall/fullCPU gate; inner costs are nested subsets. Preparation, prior positive run and review costs are separate."
+    },
+    "limits": "These are actual failure-control and safe-delivery prerequisites on the exposed owned fixture. No new positive reroute, routing gain, unrelated-family breadth, actual GUI, human/electrical approval, zero-warning whole-project cleanliness or release-readiness claim follows."
+  },
+  "caveats": [
+    "Three fresh current017 controls: mismatch refuses before engine; exact original-rule short rejects fourblocking types; realengine SIGINT request yields acceptedFalse/statuscancelled, recorded cleanup and no final Native/fallback proof. Recorded engine exit is -9; do not claim termination by SIGINT alone.",
+    "The deliberately shorted candidate has its own savedrefill/fullSCH/field/class/dimension/original proof,0opens/4blocking/6warnings/2ignored/0exclusions and10protected items. No original source or requirement changed.",
+    "Completed current017positive stays untouched at original absolute paths. Authored late source/candidate/class/admission-marker regressions stay in full153 and are not relabeled Native controls.",
+    "Whole external wall/fullCPU includes all current control/copy/Native/cancel/final readback/publication/exit work. Inner samples are nested subsets. Prior positive, preparation/authoring/AIreview/curation are separate costs, not zero.",
+    "No added completion/family/route-quality/B2 superiority/actualGUI/human/physical/electrical/release claim. Cooperative cleanup observations do not certify permanent descendant absence or hostile same-user resistance."
+  ],
+  "files": [
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-cli.log",
+      "bytes": 151,
+      "sha256": "d1e6ddf21b834b2694bd8756e7069716edb8e10d0cd43a28366a7d9091984362"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-cli.process.json",
+      "bytes": 757,
+      "sha256": "0ee21dce6f7a5bb6a7d39cae6528415c20362f88c88e5fdae75a98b879cf3b34"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/__init__.py",
+      "bytes": 107,
+      "sha256": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/__main__.py",
+      "bytes": 15345,
+      "sha256": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/adapter.py",
+      "bytes": 21577,
+      "sha256": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/board_floor.py",
+      "bytes": 33888,
+      "sha256": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/chain_proposals.py",
+      "bytes": 7539,
+      "sha256": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/config.py",
+      "bytes": 1681,
+      "sha256": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/engine_angle.py",
+      "bytes": 15052,
+      "sha256": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/floor_context.py",
+      "bytes": 12830,
+      "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/floor_route.py",
+      "bytes": 35832,
+      "sha256": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/gui.py",
+      "bytes": 51782,
+      "sha256": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/handoff.py",
+      "bytes": 33637,
+      "sha256": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/layer_policy.py",
+      "bytes": 13053,
+      "sha256": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/legacy_zone.py",
+      "bytes": 9409,
+      "sha256": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/local_settings.py",
+      "bytes": 18648,
+      "sha256": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/native.py",
+      "bytes": 8811,
+      "sha256": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/native_connected.py",
+      "bytes": 17292,
+      "sha256": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/native_edge.py",
+      "bytes": 23818,
+      "sha256": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/netclass.py",
+      "bytes": 32508,
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/netclass_native.py",
+      "bytes": 2826,
+      "sha256": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/padless_alias.py",
+      "bytes": 36868,
+      "sha256": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/padless_alias_native.py",
+      "bytes": 11543,
+      "sha256": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/pipeline.py",
+      "bytes": 192775,
+      "sha256": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/placement_clearance.py",
+      "bytes": 12036,
+      "sha256": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/placement_strategy.py",
+      "bytes": 31730,
+      "sha256": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/placement_transform.py",
+      "bytes": 18902,
+      "sha256": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/pour_rule_area.py",
+      "bytes": 17636,
+      "sha256": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/pour_rule_area_native.py",
+      "bytes": 4945,
+      "sha256": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/preferences.py",
+      "bytes": 10901,
+      "sha256": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/provenance.py",
+      "bytes": 14386,
+      "sha256": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/recovery.py",
+      "bytes": 11225,
+      "sha256": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/review_export.py",
+      "bytes": 37365,
+      "sha256": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/review_view.py",
+      "bytes": 14200,
+      "sha256": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/routing_scope.py",
+      "bytes": 14108,
+      "sha256": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/runner.py",
+      "bytes": 22644,
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/schematic_class_evidence.py",
+      "bytes": 20108,
+      "sha256": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/schematic_classes.py",
+      "bytes": 22959,
+      "sha256": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/schematic_field_evidence.py",
+      "bytes": 18889,
+      "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/schematic_fields.py",
+      "bytes": 9958,
+      "sha256": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/sexpr.py",
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/strategy.py",
+      "bytes": 73195,
+      "sha256": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/thermal.py",
+      "bytes": 19650,
+      "sha256": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/thermal_contact.py",
+      "bytes": 11297,
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/thermal_geometry.py",
+      "bytes": 22611,
+      "sha256": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/code/thermal_worker.py",
+      "bytes": 15693,
+      "sha256": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/edge-adapter-input.dsn",
+      "bytes": 3253,
+      "sha256": "0929848c8ad8d8e8ba69717efc15a643f78bcd4828879a6349b83fb46e0eaadd"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/engine-process.json",
+      "bytes": 2837,
+      "sha256": "a4d9b1321c53c58a81f291081ac23eafece215553ecff4c7620ca5904fa4fb95"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/engine.log",
+      "bytes": 75,
+      "sha256": "6b46f5473d169d97a688ea29fe2f4377534dc2a190a4bcba3dbc6b6912e15b00"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/export-netclasses.json",
+      "bytes": 3590,
+      "sha256": "d10cf458016d389062b96f3e25bcc0905a19c51c746c3ef6df67f38f21ff069d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/export-process.json",
+      "bytes": 2205,
+      "sha256": "de3b079cbd0e32aa80f51ebe99889962b4edc829bb575a962488a3759db30d2d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/export.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/native-edge-correction.json",
+      "bytes": 712,
+      "sha256": "ed0145c23fff0f78c937211d2b38907911ca54cc3c141b6be9706ad934d5d786"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/native.dsn",
+      "bytes": 4391,
+      "sha256": "0a21e4ee72898f7780d5514a3a192dc8cff185850cd60727acd5bf58a39c3ac4"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/obstacles-process.json",
+      "bytes": 2056,
+      "sha256": "6beb2f88db1512ebe47a4262909660b74ee02a2592c95d35786b5f8d5663dad1"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/obstacles.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/obstacles.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/pour-corrected.dsn",
+      "bytes": 3439,
+      "sha256": "3cc87f3702f16a871b20ae05bfe5e5e2cdc6f4b0fcbcd7c7d4d9455bd8c1394b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/pour-dsn-correction.json",
+      "bytes": 2213,
+      "sha256": "11a08497825617f540261a698fd1d1d09adb5330139e38b8796edcf1cb7c6429"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/result.json",
+      "bytes": 38363,
+      "sha256": "e64c3d670224a32dd06cb9a4ad0fd3d7189c73892d853321724854e89da040c6"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/routing-preferences.json",
+      "bytes": 300,
+      "sha256": "a08ac89733c3ab36b11578c81e0e9e0367a9716e8575359722b72739da960c28"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc-binding.json",
+      "bytes": 1422,
+      "sha256": "d2ecee1afcfbbbb83f1f18fd5cbd0d726da1c37b0cf1928714edebdac7a2447c"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc-process.json",
+      "bytes": 2613,
+      "sha256": "53cac3c4f1ee217299a88fa9b55f18072b8dc2e869fcfb48d292d3c49ff9af1e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc.json",
+      "bytes": 1463,
+      "sha256": "446f3c6a76608da53a446fe09c8e598024121eb6525edff8c7c2e3f863a34e08"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/source-drc.log",
+      "bytes": 203,
+      "sha256": "77331849ceaf73198808954099382e48331410843f7e52d8331d18278e41ec83"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-binding.json",
+      "bytes": 3937,
+      "sha256": "f79f2f3ee12b44190f4134b2bddaf67339bbaa3b0e1181b84e3dc3b4f4594bb4"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-netlist-process.json",
+      "bytes": 2013,
+      "sha256": "ca57f0d00897aea229df518dd75d945257e5282d583fe8fe8b67456f6687881a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes-proof.json",
+      "bytes": 5157,
+      "sha256": "c5c56348d8fd5da9e557244951571655190d3dd7e12f246a5b234cf0f386dc39"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task-classes.net",
+      "bytes": 9218,
+      "sha256": "595b87bfd8ed340bbc810541448d5793ddf886124b115aeddaf13d1ac2a7ac6b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task.alias-export.json",
+      "bytes": 4289,
+      "sha256": "acdbbd10cba339e9882a8f78ed7063c8cc00ef9bfa5d0b57576991e8266ea4f4"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task.alias-source.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/cancel-route/task.dsn",
+      "bytes": 3253,
+      "sha256": "0929848c8ad8d8e8ba69717efc15a643f78bcd4828879a6349b83fb46e0eaadd"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8786,
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/__init__.py",
+      "bytes": 107,
+      "sha256": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/__main__.py",
+      "bytes": 15345,
+      "sha256": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/adapter.py",
+      "bytes": 21577,
+      "sha256": "a99a389f8ff8d11b5c28507e524b823f3b906d703e2faa4dd34496a642517ac3"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/board_floor.py",
+      "bytes": 33888,
+      "sha256": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/chain_proposals.py",
+      "bytes": 7539,
+      "sha256": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/config.py",
+      "bytes": 1681,
+      "sha256": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/engine_angle.py",
+      "bytes": 15052,
+      "sha256": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/floor_context.py",
+      "bytes": 12830,
+      "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/floor_route.py",
+      "bytes": 35832,
+      "sha256": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/gui.py",
+      "bytes": 51782,
+      "sha256": "b63e0fd836117fd4942c2a90d7f37e437d925cb275538ba2dfa14020c24972a7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/handoff.py",
+      "bytes": 33637,
+      "sha256": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/layer_policy.py",
+      "bytes": 13053,
+      "sha256": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/legacy_zone.py",
+      "bytes": 9409,
+      "sha256": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/local_settings.py",
+      "bytes": 18648,
+      "sha256": "a2ab6296b637ace500f1cdbdd62de0cd9c1803cfc17e38906ced497c1aef21c8"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/native.py",
+      "bytes": 8811,
+      "sha256": "d7e3140cee40d0a618c5c699cdada4d833a04d76f8fe06e8b823b4f490f2e9b6"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/native_connected.py",
+      "bytes": 17292,
+      "sha256": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/native_edge.py",
+      "bytes": 23818,
+      "sha256": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/netclass.py",
+      "bytes": 32508,
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/netclass_native.py",
+      "bytes": 2826,
+      "sha256": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/padless_alias.py",
+      "bytes": 36868,
+      "sha256": "f359a89e3c48703058490c22d9591b5f916cd22a8b734c50e1c9191e501c1413"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/padless_alias_native.py",
+      "bytes": 11543,
+      "sha256": "7d06683b834f0211c82d87d7c982f6c39960e841627cd5e98f58a7913f501002"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/pipeline.py",
+      "bytes": 192775,
+      "sha256": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/placement_clearance.py",
+      "bytes": 12036,
+      "sha256": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/placement_strategy.py",
+      "bytes": 31730,
+      "sha256": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/placement_transform.py",
+      "bytes": 18902,
+      "sha256": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/pour_rule_area.py",
+      "bytes": 17636,
+      "sha256": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/pour_rule_area_native.py",
+      "bytes": 4945,
+      "sha256": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/preferences.py",
+      "bytes": 10901,
+      "sha256": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/provenance.py",
+      "bytes": 14386,
+      "sha256": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/recovery.py",
+      "bytes": 11225,
+      "sha256": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/review_export.py",
+      "bytes": 37365,
+      "sha256": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/review_view.py",
+      "bytes": 14200,
+      "sha256": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/routing_scope.py",
+      "bytes": 14108,
+      "sha256": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/runner.py",
+      "bytes": 22644,
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/schematic_class_evidence.py",
+      "bytes": 20108,
+      "sha256": "370908bf8dd0b27a41bf2ccf27b45ebc445bb3ed42b4425113f585a5d84e64cb"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/schematic_classes.py",
+      "bytes": 22959,
+      "sha256": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/schematic_field_evidence.py",
+      "bytes": 18889,
+      "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/schematic_fields.py",
+      "bytes": 9958,
+      "sha256": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/sexpr.py",
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/strategy.py",
+      "bytes": 73195,
+      "sha256": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/thermal.py",
+      "bytes": 19650,
+      "sha256": "2fa7ff7260ba6e8b5a8003d8e1f51314b5ff548ef635fb94b29bdee4c741102d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/thermal_contact.py",
+      "bytes": 11297,
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/thermal_geometry.py",
+      "bytes": 22611,
+      "sha256": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/code/thermal_worker.py",
+      "bytes": 15693,
+      "sha256": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/export-netclasses.json",
+      "bytes": 3592,
+      "sha256": "52bc4e19a528ee04aaefdabd774be77061286555328e9e993b14a60977f4c758"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/export-process.json",
+      "bytes": 2202,
+      "sha256": "bff2af49c9ed14a9ff2a2cc52808343281e655c1fd6825033774fc40bbe20179"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/export.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/native.dsn",
+      "bytes": 4393,
+      "sha256": "68fbb0c6139c0170583e33c13da38d7b8b1787b3b4510eb9c1bd1e4d89db68c7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/result.json",
+      "bytes": 24727,
+      "sha256": "04577a9202cbbabce67400f684fb260f7e27fe9e3f1faa5eac8962d3498413dc"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/snapshot/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8786,
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc-binding.json",
+      "bytes": 1426,
+      "sha256": "89861881666c04320efee13d6ac11121c9f6b3d0c9930c39193f9e28a302ca7a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8786,
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc-process.json",
+      "bytes": 2622,
+      "sha256": "006e9ecdfa8d38c6f3ea12632f81a58a1ad149812be9f75afbf1a377eb8f67f4"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc.json",
+      "bytes": 1463,
+      "sha256": "33de461524b317c853b544259d6df4e4576caffcc31ef03ac90150232f1c6ee1"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/source-drc.log",
+      "bytes": 205,
+      "sha256": "078a1c6a5fda995801a04927455e99f659447088bd8acaf44c064b9ebb33ca59"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes-binding.json",
+      "bytes": 3955,
+      "sha256": "0718d4d06eeb6b41f7898f4ddd47b936cb2eba8c02482beacffd0b37df48314d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8786,
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes-netlist-process.json",
+      "bytes": 2021,
+      "sha256": "ef3d82db34aeee2dc8119d0942726891f6c871db21735714d64acfd366b87896"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task-classes.net",
+      "bytes": 9229,
+      "sha256": "36285658e2c628d602fa94d8fc69a0f9363164999a1228df12ff2d933eb4092b"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task.alias-export.json",
+      "bytes": 4295,
+      "sha256": "8691664a71a674a4d57068aa01ea66727b98cf1bfc8ef05851843fd424efae58"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task.alias-source.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/mismatch-route/task.dsn",
+      "bytes": 4393,
+      "sha256": "68fbb0c6139c0170583e33c13da38d7b8b1787b3b4510eb9c1bd1e4d89db68c7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/result.json",
+      "bytes": 49930,
+      "sha256": "8f681cf7f0bb573b6a8d02dbc16d0d579b13eec41a43eaf190bec62a33f44a44"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-control.json",
+      "bytes": 33484,
+      "sha256": "4e2cbc4f53cd8beb45380f6a3c24a19765dbde014c32b9413f85be9975f6a9ef"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 15114,
+      "sha256": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/candidate/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/candidate/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/candidate/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-binding.json",
+      "bytes": 3836,
+      "sha256": "b17e71c1be9057a3d05c56d2ca941d5c2e7bfe45ee7b118a1e0c49eaa30f3f5d"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 15114,
+      "sha256": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-netlist-process.json",
+      "bytes": 2031,
+      "sha256": "48227aee09b66187c253e7365c10f42c94511fb0ea0ed371f88d409c74109c18"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes-proof.json",
+      "bytes": 5167,
+      "sha256": "008c77c9d238801b16be7fd70ead7c819312cb90794c04e42cf846fa771a92f7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-classes.net",
+      "bytes": 9223,
+      "sha256": "724948786e9dc9797fce09962b34b49c400a5f39d6b861f73b1a292ca3d8a3cd"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-binding.json",
+      "bytes": 1499,
+      "sha256": "0a2fb910b3e339aeb5b4d887e746eca8a94ded66e3bbc5094ad8bbcfd144ea04"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields-audit-process.json",
+      "bytes": 2107,
+      "sha256": "e9734af78641c5a71d24f1372767c0a988f5d5073892edc29d9577e597596aa9"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields-local-settings.json",
+      "bytes": 1922,
+      "sha256": "a031be784c533456ff6e03f8a60418a685d9aeec70d29541e2a3eec4d1436daa"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields-netlist-process.json",
+      "bytes": 2035,
+      "sha256": "c2f093b75c2f3ec59d1e917c9da2d088b437fd173362766adde9f48c2be19ce9"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields-netlist.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields-proof.json",
+      "bytes": 4998,
+      "sha256": "759f1037499c65f4eb08f219f8feca0e8150a8f2e5959ea0681e8e780c8f3598"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields.json",
+      "bytes": 2326,
+      "sha256": "5a2effd8f2e8bf5a89502f0f7772264559723f92c9721ccb828a7e01dd3d6a92"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-fields.net",
+      "bytes": 9219,
+      "sha256": "9fe775478041a3e6d877880c860639ecb181e3fdb8d3876531ee19a8f1baf9b5"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-input/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 15114,
+      "sha256": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-input/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-input/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-input/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc-process.json",
+      "bytes": 2663,
+      "sha256": "113f62058c1fbc4611d004519caa804932e33ccb22c3ed20b785a30c786c2437"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc.json",
+      "bytes": 6948,
+      "sha256": "9fe4e8a82cf862f795f20c406dbba819b297db51c482b16284d8610481e81000"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-drc.log",
+      "bytes": 238,
+      "sha256": "0158d305490c8e1b00d304dd307976efff0451dcf8e02c4ce699b94ad339a348"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-netclass-audit.json",
+      "bytes": 3777,
+      "sha256": "30c26e7c8a4be90af02de7b8c8e10d638fbc9888be75361c45268af02281c566"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-netclasses-process.json",
+      "bytes": 2092,
+      "sha256": "5ecf7c9d466e40c4befb94c1f294695b1ae0d1b88d6b4fdf23b66c0e8b8dc574"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-netclasses.json",
+      "bytes": 3594,
+      "sha256": "27d46bd3fea4f9c34a927bddfe119dbc3d46a198a02f23b0c75f854f4d8d16e1"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/pour-before-refill.kicad_pcb",
+      "bytes": 15114,
+      "sha256": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/pour-keepout-audit-process.json",
+      "bytes": 2108,
+      "sha256": "ac6f5d0f700868d4b55938807faac16f4cc24bd660e4aa7006f8ff7b71c2c5e7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/pour-keepout-audit.json",
+      "bytes": 4410,
+      "sha256": "85953bcaf9bf976b03fb80871b96e0332cdb1652a0e6eee2ffce277dfdd0787a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/pour-keepout-audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/pre-refill.kicad_pcb",
+      "bytes": 15114,
+      "sha256": "776a01d94201c08ebd5deef478542e6f6d252bdf59b7b1abfb60be21abd8fea7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 19162,
+      "sha256": "c349bd3add60c78e48175782a3f8db1fa0e5804a0c47b44f322180efc6d100a3"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8783,
+      "sha256": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill-drc-binding.json",
+      "bytes": 1417,
+      "sha256": "d739490b19f6eadc2a50116c0f09cdb4934ebd183136a0c43d34d73c8895f30f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill-drc-process.json",
+      "bytes": 2632,
+      "sha256": "bd4574a88f9ea590f3018597c777f28854b7be5c80cd7b13140d36313c5b8531"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill-drc.json",
+      "bytes": 3914,
+      "sha256": "c4e8c527b8e362ed74ea098f174b48aea1d36c6c833ed78cf3cbfe54c25bbd75"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controls/short-validation/refill-drc.log",
+      "bytes": 219,
+      "sha256": "53d7f2ba88697578e7a8281bfb44685bebc58c96571500c065f76fd5fef1648f"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/enclosure/command.log",
+      "bytes": 181,
+      "sha256": "5e3cc2b30479d7e8016b8c43191aa03a506f3d8c48095ef8983f72ad565c8570"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/enclosure/command.process.json",
+      "bytes": 786,
+      "sha256": "430307ae8971b8bcd00972cec38f1cbc82995124e688fd880d5cb20f00d502d1"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/enclosure/result.json",
+      "bytes": 60561,
+      "sha256": "3afde83257d80b3f2e6cd5ad91231dbb6fda3281a0b52c16137d4f93cf0e97f7"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/original-mismatch/owned-four-copper-forced-inner.kicad_pcb",
+      "bytes": 11960,
+      "sha256": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/original-mismatch/owned-four-copper-forced-inner.kicad_prl",
+      "bytes": 189,
+      "sha256": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/original-mismatch/owned-four-copper-forced-inner.kicad_pro",
+      "bytes": 2964,
+      "sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/original-mismatch/owned-four-copper-forced-inner.kicad_sch",
+      "bytes": 8786,
+      "sha256": "8eb96d2088fbcd9202b008e85083549e198f963cf414dd4cbf1d261c65f07add"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controllers/qualify-runtime017-controls-001.py",
+      "bytes": 20077,
+      "sha256": "0325f45697825ff10d0d1795b3aeae605a8e5076857555c088e41fabd392e08a"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controllers/run-runtime017-controls-001.py",
+      "bytes": 9837,
+      "sha256": "288063ebc20b9fe969e8ba9454670bfa3d25c529d1ecdc0452e459c86a70ebed"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controllers/runtime017-controls-actual-review-001.json",
+      "bytes": 5754,
+      "sha256": "7e5efb8d7e31a42165b427ec7c97787e218d7ac10adcc99b4e614e9481386d3c"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controllers/runtime017-controls-execution-001-command.log",
+      "bytes": 166,
+      "sha256": "2a44ca9a775565a1610ee4e455be030ee4c0eb37058a488b37df5e7645591d49"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controllers/runtime017-controls-execution-001-time.log",
+      "bytes": 31,
+      "sha256": "8242657c73ddd90c2f1f7ed1eafd459ba64e3c424e416fe009db7d79385ba5cf"
+    },
+    {
+      "path": "evidence/runtime017-native-failure-controls-001-notes/controllers/runtime017-controls-001-protocol-frozen.json",
+      "bytes": 28421,
+      "sha256": "13e018bb7d9f4a518e522ae6d053dc5dd9eb6f90d1350a6f394d284d7c91238f"
+    }
+  ]
+}
