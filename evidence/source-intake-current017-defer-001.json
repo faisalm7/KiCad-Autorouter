@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "kind": "bounded-two-lead-current017-intake-defer-v1",
+  "accepted": false,
+  "passed": false,
+  "decision": "defer_both_leads",
+  "status": "budget_exceeded_defer",
+  "research_wall_seconds": 213.91351795196533,
+  "artifact_closure_wall_seconds": 271.5716269016266,
+  "whole_full_cpu_seconds": null,
+  "HTTP_requests": 3,
+  "HTTP_helper_calls": 5,
+  "received_bytes": 34712,
+  "wall_limit_seconds": 180,
+  "byte_limit": 2097152,
+  "limits_exceeded": true,
+  "Native_executed": false,
+  "JVM_executed": false,
+  "CAD_bytes_acquired": 0,
+  "leads": [
+    {
+      "blocker": "The explicitly considered repository identifier returned GitHub404; no revision, source or rights could be verified. No renamed-repository search was added.",
+      "decision": "defer",
+      "error": "ValueError: HTTP status 404",
+      "repository": "sparkfun/SparkFun_Qwiic_Button"
+    },
+    {
+      "Eagle_hardware_files": [
+        {
+          "bytes": 1908878,
+          "git_blob": "a7778dd763f621d7f38df36fe899b08ce9edea3e",
+          "path": "Hardware/Production/SparkFun_Qwiic_Buzzer-Panel.brd"
+        },
+        {
+          "bytes": 256192,
+          "git_blob": "f9ac575fb96fc0007f7aa714dc82531b357abb63",
+          "path": "Hardware/SparkFun_Qwiic_Buzzer.brd"
+        },
+        {
+          "bytes": 1292192,
+          "git_blob": "3e088bdec47c3751c27619823a5f97077265763d",
+          "path": "Hardware/SparkFun_Qwiic_Buzzer.sch"
+        }
+      ],
+      "blocker": "Exact complete upstream tree contains Eagle.brd/.sch hardware only and no.kicad_pcb/.kicad_pro/.kicad_sch. It cannot supply the requested unchanged complete native KiCad project; no conversion or new support investigation is proposed.",
+      "decision": "defer",
+      "entries": 109,
+      "files": [
+        {
+          "mode": "100644",
+          "path": "LICENSE.md",
+          "sha": "e64bd4ef35dab8bab46d8dfe2833a13d2e95b852",
+          "size": 2883,
+          "type": "blob",
+          "url": "https://api.github.com/repos/sparkfun/SparkFun_Qwiic_Buzzer/git/blobs/e64bd4ef35dab8bab46d8dfe2833a13d2e95b852"
+        },
+        {
+          "mode": "100644",
+          "path": "README.md",
+          "sha": "dabc6299662c44de40485311a9720fd2bdb5f62a",
+          "size": 4415,
+          "type": "blob",
+          "url": "https://api.github.com/repos/sparkfun/SparkFun_Qwiic_Buzzer/git/blobs/dabc6299662c44de40485311a9720fd2bdb5f62a"
+        },
+        {
+          "mode": "100644",
+          "path": "docs/javascript/README.md",
+          "sha": "c67e49c260b2cc4926316bcf9a27f7b0fed1ae32",
+          "size": 149,
+          "type": "blob",
+          "url": "https://api.github.com/repos/sparkfun/SparkFun_Qwiic_Buzzer/git/blobs/c67e49c260b2cc4926316bcf9a27f7b0fed1ae32"
+        },
+        {
+          "mode": "100644",
+          "path": "overrides/README.md",
+          "sha": "4932d1a4a42a8e0516fdec0b9e836b6bd8b19e9c",
+          "size": 143,
+          "type": "blob",
+          "url": "https://api.github.com/repos/sparkfun/SparkFun_Qwiic_Buzzer/git/blobs/4932d1a4a42a8e0516fdec0b9e836b6bd8b19e9c"
+        }
+      ],
+      "native_KiCad_files": [],
+      "repository": "sparkfun/SparkFun_Qwiic_Buzzer",
+      "revision": "c6be60f1dea6db2bfb4b55cf7b543160fb68c8b6",
+      "tree": "07d481049ad79532cc7047ceb1af0f151429b230",
+      "truncated": false
+    }
+  ],
+  "rights_status": "Not qualified: creator hardware grant/fulllicense body not fetched or read before deadline. File-level rights/ancestry/electrical suitability unverified; no acquisition/publishing recommendation.",
+  "accounting_correction": "Original decision.json counted5helper calls as5HTTPrequests. Exactly3calls obtained HTTPstatus (one404,two200);2notice helper calls raised deadline TimeoutError before opener.open and produced zero-byte raw artifacts. The213.9135s wall overrun remains a failed180s intake, not a passing bounded screen.",
+  "accounting": {
+    "final_phase_process_CPU_seconds": 0.0008500000000000035,
+    "limitation": "Elapsed research wall counts all model/inspection gaps since first local read. Initial/source-inspection/fetch command fullCPU was not instrumented end-to-end; no CPU total is invented.",
+    "whole_session_full_CPU_seconds": null
+  },
+  "raw_corrected_receipt_sha256": "cd492a23ea9a9d64c1a608f2bb695b8cbd8107e3aa3ba205ff51acf9b16f2ef4",
+  "original_receipt_preserved": true,
+  "previous_25_population_unchanged": true,
+  "added_admitted_families": 0,
+  "scope": "Two fixed new development leads only; every considered lead/failedHTTP retained. No family-independence, hardware suitability, license clearance, holdout, support or routing-quality claim. Existing25project unsupported denominator and source constraints unchanged."
+}

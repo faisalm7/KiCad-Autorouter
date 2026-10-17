@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "kind": "doctor-readiness-source-review-v1",
+  "status": "actionable_readiness_false_positive",
+  "Native_executed": false,
+  "JVM_executed": false,
+  "tests_executed": false,
+  "source_sha256": {
+    "autorouter/__main__.py": "ff5ea2792dd70e321b61d6cd47f9f03bdebdd6383817587f836e0e563bd2798c",
+    "autorouter/pipeline.py": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400",
+    "tests/test_runtime_source_integration.py": "44a32d49b4b0f3fe730a1fa57defe98f8d90e569b558501ce42af2ab324a3048",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "material_findings": [
+    {
+      "priority": "P2",
+      "file": "autorouter/__main__.py",
+      "line": 96,
+      "finding": "doctor readiness ignores Java execution entirely and ignores KiCad/pcbnew probe exit status.",
+      "concrete_counterexample": "On an otherwise healthy pinned installation, removing execute permission from the same Java launcher preserves is_file and SHA256. tool_manifest still verifies its bytes/provenance; subprocess.run raises PermissionError, doctor stores checks.java_version.error, yet ready remains true and the doctor CLI exits 0. A Java loader failure, timeout or nonzero exit has the same omitted predicate. Separately, a KiCad/pcbnew probe returning exit 1 with combined output exactly '10.0.0' also satisfies the current readiness expression.",
+      "why_manifest_does_not_close_it": "tool_manifest hashes is_file paths against the lock, checks source provenance, and returns the pinned default KiCad version string. It does not inspect executable mode or run version probes, and does not prove dynamic library/JVM availability. Its default experimental_native_version(None) returns the literal '10.0.0'. Launcher byte identity cannot establish current executability.",
+      "impact": "Installation diagnostics can report ready and success exit 0 for a toolchain that cannot execute the engine. Actual routing still fails closed at its own process/Native checks; this is not demonstrated routing false acceptance."
+    }
+  ],
+  "minimal_fix_scope": [
+    "Change only doctor readiness: require all three version-probe rows to exist without error and have exit == 0, retain both exact KiCad/pcbnew '10.0.0' output checks, and require a nonempty recognizable Java -version result. Preserve the existing byte pins, provenance, platform and sandbox predicates.",
+    "Do not change tool_manifest, tool paths, supported versions, routing/Native acceptance, installer architecture or retained runtime files to fix this diagnostic predicate. If exact Java major matching is added, derive its expectation from the already qualified pinned tool contract rather than inventing a broader JDK support policy."
+  ],
+  "minimal_pure_mock_regression": {
+    "location": "tests/test_runtime_source_integration.py or one small focused doctor test file",
+    "setup": "Mock p.tool_manifest to the existing valid source_provenance identity, configured file presence/SHA values, Darwin and sandbox availability. Mock cli.subprocess.run by exact argv; do not execute any tool.",
+    "positive": "KiCad and pcbnew probes return exit 0/output '10.0.0'; Java returns exit 0 with its ordinary version banner, including the stderr-only output form. Expect ready true.",
+    "negative_cases": [
+      "Both native probes succeed, Java raises PermissionError: expect ready false and retained checks.java_version.error.",
+      "Both native probes succeed, Java raises subprocess.TimeoutExpired: expect ready false.",
+      "Java returns nonzero while emitting a normal-looking version banner: expect ready false.",
+      "Java returns zero with empty output: expect ready false.",
+      "Independently give kicad_version or pcbnew_version exit 1 with output exactly '10.0.0': expect ready false."
+    ],
+    "existing_tests": "The current provenance tests verify missing provenance avoids execution and build identity is retained. Their generic exit-0/'10.0.0' mock does not assert ready and does not cover Java failure or native nonzero-exit output. Existing explicit Native-toolchain tests cover byte/record pinning, not doctor process readiness."
+  },
+  "review_boundary": "Read-only source/test inspection only. No permission changes, tools, Native/JVM, tests, installer work or runtime edits were performed."
+}

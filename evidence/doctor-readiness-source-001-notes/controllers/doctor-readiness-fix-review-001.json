@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "kind": "doctor-readiness-fix-source-review-v1",
+  "status": "no_material_finding",
+  "material_findings": [],
+  "Native_executed": false,
+  "JVM_executed": false,
+  "tests_executed_by_reviewer": false,
+  "source_sha256": {
+    "autorouter/__main__.py": "969ee3f7143dee26a0fa328ebffd0ad355ebcfe74c09c8cd99f48cc778db3f45",
+    "tests/test_doctor_readiness.py": "a3cb06cebf76c354d1b9b607752fc3055a1e78d2fc4de4ba9ce1519ec66939da",
+    "autorouter/pipeline.py": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400",
+    "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+  },
+  "checked_closures": [
+    "All three actual version probes now require exit 0 and absence of an error field, closing Java PermissionError/timeout/nonzero and KiCad/pcbnew nonzero-with-correct-output readiness false positives.",
+    "Exact KiCad and pcbnew version output checks remain '10.0.0'; existing tool/provenance/hash/platform/sandbox predicates remain required.",
+    "The Java banner predicate requires an anchored openjdk/java version line with a quoted numeric-leading version, rejecting empty/unrecognized output. Multiline matching permits ordinary diagnostic preambles and the actual retained stderr OpenJDK25.0.2 banner. It is a recognizable-output check, not authority to support other Java binaries or versions: existing tool byte pins still apply.",
+    "Missing provenance leaves all probe rows absent; the new get/short-circuit predicate safely returns not ready without execution, preserving the existing test behavior.",
+    "No routing acceptance, Native version policy, tool pin, executable path or retained installed-runtime source is changed by this doctor-only predicate fix."
+  ],
+  "retained_validation_readback": {
+    "red_log_sha256": "735a8e365cda7bf66662d1181a80472384eecc047d7f135cfe06875223dbcdd3",
+    "red": "8 authored tests, 7 expected failures; 0.21 whole wall / 0.12 user+system CPU seconds.",
+    "green_log_sha256": "345e1ec3d8664d10a4c70c6f0e556cc2d7c0c2dfe80dc2d2bcd2aefebc36a027",
+    "green": "8 new plus 5 existing tests pass; 0.315 test / 0.49 whole wall / 0.38 user+system CPU seconds.",
+    "installed017_doctor_execution_sha256": "5e505e474204d2f5bdcdb78d959a3fee9cf15f4737f1bc5f5ea4c0aa8118f2bd",
+    "installed017": "Retained actual existing017 doctor output reports successful exit0 KiCad10.0.0/pcbnew10.0.0/OpenJDK25.0.2 probes and ready=true, with reaped/untruncated process. This unchanged installed runtime is not fresh execution of the new source predicate."
+  },
+  "scope": "Narrow read-only source and retained-log review, without tests/tools/Native/JVM or edits outside this review JSON. The fresh018 build/qualification of the changed CLI remains separate; doctor readiness is not proof of routing correctness, GUI operation, comparative gain or release readiness."
+}

@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -93,7 +94,11 @@ def doctor():
             r=subprocess.run(argv,capture_output=True,text=True,timeout=15)
             checks[name]={'exit':r.returncode,'output':(r.stdout+r.stderr).strip()}
         except Exception as e: checks[name]={'error':str(e)}
-    ok=checks['runtime_provenance']['verified'] is True and all(checks[k]['present'] for k in ['kicad_cli','kicad_python','java','engine']) and checks.get('kicad_version',{}).get('output')=='10.0.0' and checks.get('pcbnew_version',{}).get('output')=='10.0.0' and checks['engine'].get('sha256')==c.JAR_SHA256 and platform.system()=='Darwin' and shutil.which('sandbox-exec') is not None
+    probes_ready=all(checks.get(name,{}).get('exit')==0 and 'error' not in checks[name]
+                     for name in ('kicad_version','pcbnew_version','java_version'))
+    java_ready=re.search(r'(?m)^(?:openjdk|java) version "[0-9][^"\n]*"',
+                         checks.get('java_version',{}).get('output','')) is not None
+    ok=checks['runtime_provenance']['verified'] is True and all(checks[k]['present'] for k in ['kicad_cli','kicad_python','java','engine']) and probes_ready and java_ready and checks.get('kicad_version',{}).get('output')=='10.0.0' and checks.get('pcbnew_version',{}).get('output')=='10.0.0' and checks['engine'].get('sha256')==c.JAR_SHA256 and platform.system()=='Darwin' and shutil.which('sandbox-exec') is not None
     return {'ready':ok,'platform':platform.platform(),'workspace':str(c.ROOT),'checks':checks,'qualified_scope':'experimental CLI; no GUI or comparative improvement claim','setup_network_required':True,'route_network_required':False}
 
 def main():

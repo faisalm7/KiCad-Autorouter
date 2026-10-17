@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "kind": "doctor-readiness-execution-failure-fix-v1",
+  "accepted": false,
+  "implemented": true,
+  "Native_board_validation_executed": false,
+  "actual_GUI": false,
+  "changed_product_files": [
+    "autorouter/__main__.py"
+  ],
+  "main_sha256": "969ee3f7143dee26a0fa328ebffd0ad355ebcfe74c09c8cd99f48cc778db3f45",
+  "pipeline_sha256": "bfc3f2388d73df7f5000ff35f86d3d72e4dd380ba52e13acfb0630ed7c2e9400",
+  "unchanged_other_runtime_modules": 43,
+  "defect": "Readiness ignored Java launch/errors/nonzero/empty/unrecognized output and native probe nonzero status with valid-looking10.0.0 output. Actual routing still fails closed; no routing false acceptance demonstrated.",
+  "correction": "All three actual probes must succeed without an error; native versions stay exact10.0.0, Java needs a recognized version banner and existing byte/provenance pins remain authoritative. No tool/version/permission/Native acceptance changes.",
+  "red": {
+    "methods": 8,
+    "failures": 7,
+    "whole_wall_seconds": 0.21,
+    "whole_full_cpu_seconds": 0.12,
+    "scope": "Pure mocked reproducible false-ready controls; no tool permissions modified."
+  },
+  "green": {
+    "methods": 13,
+    "failures": 0,
+    "test_seconds": 0.315,
+    "whole_wall_seconds": 0.49,
+    "whole_full_cpu_seconds": 0.38,
+    "scope": "Eight focused readiness methods plus five existing provenance regressions; mocked tools."
+  },
+  "actual_healthy_doctor": {
+    "installed017_pre_fix": {
+      "ready": true,
+      "whole_wall_seconds": 1.41,
+      "whole_full_cpu_seconds": 0.97
+    },
+    "source_checkout_post_fix": {
+      "ready": true,
+      "whole_wall_seconds": 1.14,
+      "whole_full_cpu_seconds": 0.9
+    },
+    "actual_tool_version_probes": true,
+    "Native_board_validation": false,
+    "scope": "Actual CLI/KiCad Python/Java version probes under existing bounded network-denied runner. Source checkout run was before this source commit with exact changed hash recorded; no fresh018 installation claim."
+  },
+  "full_integration_pending": true,
+  "fresh_runtime018_pending": true,
+  "caveats": [
+    "Full153/current installed017Native and GUI014 proofs keep their exact prior scope; no source hash relabeling.",
+    "This is an installation diagnostic correctness fix, not routing-quality/completion/family or platform improvement.",
+    "Independent AI review is source/readback only; not human PCB review. Research/authoring/review/curation costs are separate, not zero."
+  ],
+  "files": [
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/doctor-readiness-review-001.json",
+      "bytes": 4363,
+      "sha256": "de72c7f9e3a8aa4791f857107487ee0d8ac7d35b28d97fc7bf10da24e26a456a"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/doctor-readiness-fix-review-001.json",
+      "bytes": 2879,
+      "sha256": "4ff24f5af793a13b98640b3102274d480e745333bf5e86a70e30bf46e4cce3c2"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/doctor-readiness-red-001-command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/doctor-readiness-red-001-time.log",
+      "bytes": 5191,
+      "sha256": "735a8e365cda7bf66662d1181a80472384eecc047d7f135cfe06875223dbcdd3"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/doctor-readiness-green-001-command.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/doctor-readiness-green-001-time.log",
+      "bytes": 2242,
+      "sha256": "345e1ec3d8664d10a4c70c6f0e556cc2d7c0c2dfe80dc2d2bcd2aefebc36a027"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/check-runtime017-doctor-001.py",
+      "bytes": 1546,
+      "sha256": "bc69ceb95b5378814ff8f2e8308edbced46d13227395cd2b3745e26587683e6b"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/check-runtime017-doctor-001-command.log",
+      "bytes": 151,
+      "sha256": "654dd74cb96f78a88d75fd64c75035499f6ec7927c1af533aa8f7b52b2dbc0db"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/check-runtime017-doctor-001-time.log",
+      "bytes": 29,
+      "sha256": "287e2db06a37c066f9857ec153e7e1ccd396c00a771908bf93e201de29544d86"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/check-root-doctor-fixed-001.py",
+      "bytes": 1498,
+      "sha256": "274d0e04cdf28e0f766a1fe2525e0bff8ca2f0467fe3d5d8d5ffddef6e04b2be"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/check-root-doctor-fixed-001-command.log",
+      "bytes": 115,
+      "sha256": "7e3be447fbe9c1a92aca289df63301a8ed31f5e331fff16f27cbfcf557d520ed"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/check-root-doctor-fixed-001-time.log",
+      "bytes": 29,
+      "sha256": "aacf158e2954b18ace8bb55188d9a17f734b4cd9975f3147469661ce57c3a84c"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/controllers/prepare-runtime-directory-018.py",
+      "bytes": 9642,
+      "sha256": "b310bfd3de433dcfa7ec96827cb38f742081381fe1045e8a0c2fee347bc278ee"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/runtime017-doctor-001/command.log",
+      "bytes": 7395,
+      "sha256": "06ac66de3250ae69cf89c0e60c0a8d9821189a9a55800cf1fb1e56c3fcf28dcf"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/runtime017-doctor-001/execution.json",
+      "bytes": 2310,
+      "sha256": "5e505e474204d2f5bdcdb78d959a3fee9cf15f4737f1bc5f5ea4c0aa8118f2bd"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/root-doctor-fixed-001/command.log",
+      "bytes": 1838,
+      "sha256": "60056c4c54c988c5cfd74801890f9f9a607d892dffcbee982095091b08202d97"
+    },
+    {
+      "path": "evidence/doctor-readiness-source-001-notes/root-doctor-fixed-001/execution.json",
+      "bytes": 2228,
+      "sha256": "02d9c112a3007852e34190228ffdbc6ed65ceead94a4e75ee514c9267c45d935"
+    }
+  ]
+}

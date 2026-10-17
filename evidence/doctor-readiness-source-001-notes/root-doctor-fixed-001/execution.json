@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "passed": true,
+  "accepted": false,
+  "actual_installed_doctor": true,
+  "report_sha256": "60056c4c54c988c5cfd74801890f9f9a607d892dffcbee982095091b08202d97",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.0184633749886416,
+    "cpu_seconds": 0.812819,
+    "max_rss_bytes": 135233536,
+    "supervisor_cpu_seconds": 0.006490999999999997,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 164823040,
+    "sampled_peak_workdir_bytes": 1838,
+    "resource_guards": {
+      "max_group_rss_bytes": 536870912,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');sys.argv=[\"autorouter\",\"doctor\"];runpy.run_module(\"autorouter\",run_name=\"__main__\")"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/root-doctor-fixed-001/command.log",
+    "log_bytes": 1838,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/root-doctor-fixed-001",
+    "signal_cancellation_enabled": true,
+    "pid": 17138
+  },
+  "scope": "Actual fixedrootCLI doctor/tool version probes only, not Native board routing/validation or missing-Java execution qualification. Missing/failing tools are authored regression controls separately."
+}

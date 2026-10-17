@@ -1,6 +1,6 @@
 # Current status
 
-This is an experimental local tool, not a completed release or a demonstrated general improvement over strong Freerouting. Work continues in this Mac checkout on `rebuild/local-20261010-015447`; checkpoint `4a19dc5c01984a1883970f8b622484fccfc67ba9` has verified GitHub SHA and file read-back. Historical measurements and failures remain in their original evidence records and Git history.
+This is an experimental local tool, not a completed release or a demonstrated general improvement over strong Freerouting. Work continues in this Mac checkout on `rebuild/local-20261010-015447`; checkpoint `4a19dc5c01984a1883970f8b622484fccfc67ba9` has verified GitHub SHA and file read-back. Historical measurements and failures remain in their original evidence records and Git history. The latest root-only [doctor readiness correction](evidence/doctor-readiness-source-001.json) now fixes reproduced false-ready cases with targeted regressions and actual healthy version probes; full integration and fresh018qualification are pending. Installed017below remains unchanged and separately qualified.
 
 | Area | What is established | What remains |
 |---|---|---|
