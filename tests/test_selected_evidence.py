@@ -97,6 +97,7 @@ class SelectedEvidence(unittest.TestCase):
 
     def test_rehashed_adapter_input_cannot_change_native_exported_class_rules(self):
         x=self.fixture;x.data['adapter']='both';x.data['routing_preferences']['effective']['adapter']='both'
+        x.data['native_edge_admission_policy']=p.NAMED_EDGE_ADMISSION_POLICY
         path=x.run/'routing-preferences.json';request={'captured':None,
             'effective':pref.resolve(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'both'}),
             'snapshot':pref.snapshot(overrides={'scope':'selected_nets','nets':['GND'],'profile':'completion-only','adapter':'both'})}

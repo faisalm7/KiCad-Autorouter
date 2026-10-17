@@ -18,17 +18,8 @@ class CompletedNegativeTests(unittest.TestCase):
         result_fixture.ResultFreshnessTests.setUp(self)
         self.data.update(adapter='both', baseline='B2_tuned', engine_profile='tuned', scoring_variant='via_low')
         mark_authored_receipt(self.run, self.data, test_root=self.root)
-        # Author the mandatory corrected-adapter chain too. This fixture has
-        # no applicable edge correction; it still requires the explicit witness.
-        from autorouter import adapter, native_edge
-        adapted,transformation=adapter.adapt_bytes((self.run/'native.dsn').read_bytes(),'both',[])
-        corrected,edge=native_edge.correct(adapted,p.native_edge_context(self.source))
-        (self.run/'edge-adapter-input.dsn').write_bytes(adapted)
-        (self.run/'task.dsn').write_bytes(corrected)
-        p.save_json(self.run/'obstacles.json',[])
-        p.save_json(self.run/'native-edge-correction.json',edge)
-        self.data.update(adapter_transformations=transformation,native_edge_correction=edge,
-                         task_dsn_sha256=p.sha(self.run/'task.dsn'))
+        # The shared current-producer fixture also authors its exact no-op
+        # corrected-adapter chain; do not overwrite it with a legacy context.
         self.native_outcome(negative=True)
 
     def native_outcome(self, *, negative):

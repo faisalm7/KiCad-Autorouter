@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "kind": "retained-full152-authored-fixture-failure-and-targeted-correction",
+  "accepted": false,
+  "passed": false,
+  "Native_executed": false,
+  "actual_GUI": false,
+  "source_head": "d0c17ef857ce8b91906077f0ebc4e09c98d46c73",
+  "full152": {
+    "methods": 1948,
+    "failures": 6,
+    "errors": 7,
+    "test_seconds": 265.209,
+    "external_wall_seconds": 266.55,
+    "external_full_cpu_seconds": 256.73
+  },
+  "failure_diagnosis": [
+    "Rejected-attempt fixture overwrote shared current-producer edge proof with a legacy context, so exact readback correctly refused the changed record.",
+    "Selected corrected-input fixture changed adapter after initial setup without the mandatory current-producer epoch.",
+    "Padstack policy fixtures changed adapter after inserting their deliberately invalid findings; missing epoch prevented reaching the intended strict policy failure. Setup now constructs the complete adapter proof before introducing findings."
+  ],
+  "correction": {
+    "runtime_changed": false,
+    "tests_changed": [
+      "tests/test_rejected_attempt.py",
+      "tests/test_selected_evidence.py",
+      "tests/test_padstack_policy.py"
+    ],
+    "native_policy_weakened": false,
+    "all_intended_fault_assertions_retained": true,
+    "targeted008": {
+      "passed": true,
+      "methods": 33,
+      "test_seconds": 19.874,
+      "external_wall_seconds": 20.09,
+      "external_full_cpu_seconds": 19.96
+    },
+    "targeted007": "14rejected-attempt methods passed; two test modules failed import under the wrong targeted module-name invocation.008 uses established tests discovery import path; no product change."
+  },
+  "pending": [
+    "Full153 at corrected committed fixtures",
+    "Curated017/frozen installed pair/native qualification",
+    "Actual GUI and all original scientific/platform/restoration/external gates"
+  ],
+  "files": [
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/execution.json",
+      "sha256": "0563c49e9577e96026cbc87cb01bc4f0ea99970236df97f35f8cc0cd607a656a",
+      "bytes": 46659
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/command.log",
+      "sha256": "9dbb18863a210e91edb1c69adb5663fdfb06c0786f04bfb23fcb3401fc1e9950",
+      "bytes": 340655
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/run-full-integration-152.py",
+      "sha256": "9243cab990bea71d7e5b9c5e7b0a270a286685bd425ef805e17b7c66e2a38bae",
+      "bytes": 11756
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/full-integration-152-command.log",
+      "sha256": "487e742201e4459fcbcd89609f02179755685f5ce7696db6200a4b444dc98565",
+      "bytes": 201
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/full-integration-152-time.log",
+      "sha256": "9915a93b1d7869c3426601e3dd0b4216b880b2d0cea22a9d4bd75cfdd12c1072",
+      "bytes": 34
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/named-edge-authored-fixtures-targeted-007.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/named-edge-authored-fixtures-targeted-007-time.log",
+      "sha256": "0dc816665b235cb378c5608cdfe88c1d7c9b16e1828a7dc62381a9681fa8e771",
+      "bytes": 1578
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/named-edge-authored-fixtures-targeted-008.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "evidence/named-edge-full152-fixture-failure-001-notes/named-edge-authored-fixtures-targeted-008-time.log",
+      "sha256": "fe2dbacde6d6d56bef53640630200906f75fdc6a69365e69c5b12aabbe00bcc4",
+      "bytes": 5971
+    }
+  ]
+}

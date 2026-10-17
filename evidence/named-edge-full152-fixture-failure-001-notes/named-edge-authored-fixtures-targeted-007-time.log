@@ -1,0 +1,34 @@
+..............EE
+======================================================================
+ERROR: test_selected_evidence (unittest.loader._FailedTest.test_selected_evidence)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_selected_evidence
+Traceback (most recent call last):
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/loader.py", line 162, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_selected_evidence.py", line 7, in <module>
+    import test_result as fixtures
+ModuleNotFoundError: No module named 'test_result'
+
+
+======================================================================
+ERROR: test_padstack_policy (unittest.loader._FailedTest.test_padstack_policy)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_padstack_policy
+Traceback (most recent call last):
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/loader.py", line 162, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_padstack_policy.py", line 11, in <module>
+    import test_result as receipt_support
+ModuleNotFoundError: No module named 'test_result'
+
+
+----------------------------------------------------------------------
+Ran 16 tests in 12.751s
+
+FAILED (errors=2)
+real 12.96
+user 11.22
+sys 0.82

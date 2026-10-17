@@ -143,8 +143,11 @@ class PolicyReceiptControls(unittest.TestCase):
         self.assertFalse(target.exists())
 
     def test_quality_and_paired_c_arm_cannot_admit_rehashed_critical_warning(self):
-        case = self.case; data = self.install_finding()
+        case = self.case; data = case.data
         data.update(adapter='both',engine_profile='tuned',proposal_policy='feedback',incumbent_baseline='B2_tuned')
+        from tests.normal_prl_fixture import mark_authored_receipt
+        mark_authored_receipt(case.run,data,test_root=case.root)
+        data=self.install_finding()
         (case.run/'incumbent').mkdir()
         incumbent = case.run/'incumbent/result.json'
         incumbent.write_text(json.dumps(dict(data)))
@@ -157,8 +160,11 @@ class PolicyReceiptControls(unittest.TestCase):
                 self.assertIn('policy-critical',row['receipt_verification_error'])
 
     def portfolio_row(self):
-        case = self.case; data = self.install_finding()
+        case = self.case; data = case.data
         data.update(adapter='both',engine_profile='tuned',scoring_variant='via_default')
+        from tests.normal_prl_fixture import mark_authored_receipt
+        mark_authored_receipt(case.run,data,test_root=case.root)
+        data=self.install_finding()
         engine = p.engine_profile_settings('tuned',120,scoring_variant='via_default')
         engine.update(outer_task_wall_budget_seconds=120,outer_task_cpu_budget_seconds=120)
         step = {'name':'engine','argv':p.engine_argv(case.run,engine['argv']),'cwd':str(case.run),'status':'success',
