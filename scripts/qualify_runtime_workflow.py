@@ -4,21 +4,26 @@ from pathlib import Path
 START=time.monotonic()
 def cpu():return sum(x.ru_utime+x.ru_stime for x in (resource.getrusage(resource.RUSAGE_SELF),resource.getrusage(resource.RUSAGE_CHILDREN)))
 CPU0=cpu()
-ap=argparse.ArgumentParser();ap.add_argument('--runtime',required=True);ap.add_argument('--source',required=True);ap.add_argument('--output',required=True);ap.add_argument('--method',choices=['route','improve'],required=True);a=ap.parse_args()
+ap=argparse.ArgumentParser();ap.add_argument('--runtime',required=True);ap.add_argument('--source',required=True);ap.add_argument('--output',required=True);ap.add_argument('--method',choices=['route','improve'],required=True);ap.add_argument('--settings',help='Explicit immutable settings for this qualification, using the existing product schema');a=ap.parse_args()
 runtime=Path(a.runtime);sys.path.insert(0,str(runtime));sys.dont_write_bytecode=True
 from autorouter import config as c,pipeline as p,gui,handoff as h,floor_route as f,preferences as pref,review_export as ex,provenance as pv
 assert c.ROOT==runtime and Path(sys.prefix).resolve()==runtime/'.venv'
 source=Path(a.source);original=p.tree_hash(source.parent);tools=p.tool_manifest();assert tools['source_provenance']['kind']==pv.KIND
 out=Path(a.output);out.mkdir();owner={};h.capture_destination(owner,out);selfpin=p.sha(Path(__file__))
-settings=dict(pref.DEFAULTS,seconds=90)
-if a.method=='improve':settings=gui.improve_preset(settings)
+settings_path=Path(a.settings) if a.settings is not None else None
+settings_sha256=p.sha(settings_path) if settings_path is not None else None
+settings=pref.resolve(pref.load(settings_path)) if settings_path is not None else dict(pref.DEFAULTS,seconds=90)
+if a.method=='improve':
+ if settings_path is None:settings=gui.improve_preset(settings)
+ else:gui.check_improve_settings(settings)
 def fresh():
  assert p.sha(Path(__file__))==selfpin and p.tree_hash(source.parent)==original and p.tool_manifest()==tools
+ assert settings_path is None or p.sha(settings_path)==settings_sha256
  assert h.owned_destination(owner)==out
  for name,module in tuple(sys.modules.items()):
   if name.split('.')[0]=='autorouter' and getattr(module,'__file__',None):assert Path(module.__file__).resolve().is_relative_to(runtime),name
 fresh();flow=gui.Request(str(source),str(out),json.dumps(settings),True,a.method).prepare();processes=[]
-report=dict(schema=1,accepted=False,workflow_delivered=False,status='failed',actual_GUI=False,human_review=False,method=a.method,source=str(source),source_hashes=original,tools=tools,settings=settings,workspace=str(flow.workspace),driver_sha256=selfpin,processes=processes,whole_budget_seconds=240,scope='New curated runtime using actual production Request/Workflow/CliJob/CLI and native proof readers, owned complete schematic and protected copper. SOFTWARE TEST accept intent; no actual window/human/comparative/standalone claim.')
+report=dict(schema=1,accepted=False,workflow_delivered=False,status='failed',actual_GUI=False,human_review=False,method=a.method,source=str(source),source_hashes=original,tools=tools,settings=settings,settings_path=str(settings_path) if settings_path is not None else None,settings_sha256=settings_sha256,workspace=str(flow.workspace),driver_sha256=selfpin,processes=processes,whole_budget_seconds=240,scope='New curated runtime using actual production Request/Workflow/CliJob/CLI and native proof readers, owned complete schematic and protected copper. SOFTWARE TEST accept intent; no actual window/human/comparative/standalone claim.')
 try:
  for stage in ('preview','route','review','choice','export','verify_export'):
   fresh();left=min(225-(time.monotonic()-START),225-(cpu()-CPU0));assert left>1,'delivery reserve exhausted'
