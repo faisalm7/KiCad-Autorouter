@@ -75,6 +75,8 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+          sparse-checkout: scripts/windows_native_slice
+          sparse-checkout-cone-mode: true
       - name: Non-admitting AppContainer token, TCP and descendant cancellation canary
         shell: pwsh
         run: ./scripts/windows_native_slice/appcontainer_diagnostic.ps1

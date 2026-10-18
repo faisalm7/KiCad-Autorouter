@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "kind": "actual-Windows007-first-attempt-checkout-refusal",
+  "recorded_utc": "2026-10-18T06:42:22.653288+00:00",
+  "run": {
+    "id": 39104874390,
+    "head_sha": "b178ac64d555b7850152de82cfe2a3dd9a0cc313",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-10-18T06:40:25Z",
+    "updated_at": "2026-10-18T06:40:51Z",
+    "run_started_at": "2026-10-18T06:40:25Z",
+    "html_url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39104874390",
+    "event": "workflow_dispatch",
+    "run_attempt": 1
+  },
+  "jobs": [
+    {
+      "id": 117608443913,
+      "name": "windows-appcontainer",
+      "status": "completed",
+      "conclusion": "failure",
+      "started_at": "2026-10-18T06:40:28Z",
+      "completed_at": "2026-10-18T06:40:50Z",
+      "labels": [
+        "windows-2022"
+      ],
+      "runner_name": "GitHub Actions 1000000013",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-18T06:40:29Z",
+          "completed_at": "2026-10-18T06:40:29Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 2,
+          "started_at": "2026-10-18T06:40:29Z",
+          "completed_at": "2026-10-18T06:40:47Z"
+        },
+        {
+          "name": "Non-admitting AppContainer token, TCP and descendant cancellation canary",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 3,
+          "started_at": "2026-10-18T06:40:47Z",
+          "completed_at": "2026-10-18T06:40:47Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-18T06:40:47Z",
+          "completed_at": "2026-10-18T06:40:49Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-18T06:40:49Z",
+          "completed_at": "2026-10-18T06:40:49Z"
+        }
+      ]
+    },
+    {
+      "id": 117608444643,
+      "name": "controls",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-18T06:40:26Z",
+      "completed_at": "2026-10-18T06:40:26Z",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "id": 117608444825,
+      "name": "windows-native",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-18T06:40:26Z",
+      "completed_at": "2026-10-18T06:40:26Z",
+      "labels": [
+        "windows-2022"
+      ],
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "id": 117608464179,
+      "name": "windows-isolation",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-18T06:40:33Z",
+      "completed_at": "2026-10-18T06:40:26Z",
+      "labels": [
+        "windows-2022"
+      ],
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "id": 117608470493,
+      "name": "windows-metadata",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-18T06:40:35Z",
+      "completed_at": "2026-10-18T06:40:26Z",
+      "labels": [
+        "windows-2022"
+      ],
+      "runner_name": null,
+      "steps": []
+    }
+  ],
+  "provider_timing": {
+    "billable": {
+      "WINDOWS": {
+        "total_ms": 0,
+        "jobs": 4,
+        "job_runs": [
+          {
+            "job_id": 117608443913,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117608444825,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117608464179,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117608470493,
+            "duration_ms": 0
+          }
+        ]
+      },
+      "UBUNTU": {
+        "total_ms": 0,
+        "jobs": 1,
+        "job_runs": [
+          {
+            "job_id": 117608444643,
+            "duration_ms": 0
+          }
+        ]
+      }
+    },
+    "run_duration_ms": 26000
+  },
+  "artifacts": {
+    "total_count": 0
+  },
+  "CI_log": {
+    "path": "evidence/windows-appcontainer007-actual001/CI.log",
+    "bytes": 42565,
+    "sha256": "ac181cc5e3039b3a8acbe3cce707c3ddd12e27901800914e16b01d00e1ab8122"
+  },
+  "failure": "Full checkout failed on two long retained Sonde evidence paths. Actual canary step skipped before Python, compiler, AppContainer or Native/JVM.",
+  "canary_executed": false,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "global_changes": false,
+  "AppContainer_profile_ACL_cleanup": "not applicable: controller never started; no such resources created",
+  "process_and_controller_CPU_seconds": null,
+  "workflow_seconds": 26,
+  "job_seconds": 22,
+  "decision": "Use only the single allowed follow-up with official checkout sparse source scope. No evidence deleted/renamed, no global long-path setting or guard change. First failure remains visible."
+}
