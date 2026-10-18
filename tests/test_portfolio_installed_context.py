@@ -643,6 +643,19 @@ class ComparisonPortfolioAPITests(unittest.TestCase):
         self.assertIn('readbacks exceeded assigned',result['reason'])
         self.assertGreaterEqual(self.cpu,12.*len(self.calls)+70.*len(self.readers))
 
+    def test_shared_cross_root_guard_runs_after_all_material_metadata_helpers(self):
+        from autorouter import local_settings as local
+        def grouped(packets, cli):
+            self.assertEqual(self.events[-3:], ['metadata']*3)
+            self.assertEqual(len(packets), 3)
+            self.assertEqual(cli, m.c.CLI)
+            raise m.p.Rejected('cross-root metadata fault fixture')
+        with patch.object(local, 'check_final_events', side_effect=grouped) as replay:
+            result = self.run_portfolio()
+        replay.assert_called_once()
+        self.assertFalse(result['comparison_eligible']); self.assertIsNone(result['selected'])
+        self.assertIn('cross-root metadata fault fixture', result['reason'])
+
     def test_final_administration_tool_callback_cannot_escape_metadata_replay(self):
         self.late_metadata_fault=True;result=self.run_portfolio()
         self.assertTrue(self.metadata_dirty);self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])

@@ -289,3 +289,27 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None,native_t
     # Repeat current flags after all process/journal/code and tool-pin reads.
     for cwd,binding,process,failed in stages:check_event(cwd,binding,process,allow_worker_failure=failed)
     return imports
+
+
+def check_final_events(packets, cli, *, pairs=()):
+    """Finish all field/journal reads before replaying every owned PRL event.
+
+    Complete per-root lineage/census checks remain each caller's prerequisite.
+    This composes their metadata guards without a later root's material read
+    escaping an earlier root's last flag check. It authenticates no history.
+    """
+    from . import floor_route as f, schematic_field_evidence as fields
+    pending = list(pairs)
+    for folder, data in packets:
+        if fields.has_fields(data.get('native', {}).get('findings', [])):
+            fields.check_local_settings(folder, 'final-drc', f.read_json(Path(folder) / 'final-drc-binding.json'))
+        for step in data.get('steps', []):
+            argv = step.get('argv', [])
+            if (argv[:3] == [str(cli), 'pcb', 'drc']
+                    or argv[:len(f.SANDBOX) + 3] == [*f.SANDBOX, str(cli), 'pcb', 'drc']):
+                root = Path(step['cwd']); name = step['name']
+                binding = f.read_json(root / (name + '-binding.json'))
+                process = f.process_check(root, data, name, argv, allowed=(0, 5))
+                pending.append((root, binding, process))
+    for root, binding, process in pending:
+        check_event(root, binding, process)

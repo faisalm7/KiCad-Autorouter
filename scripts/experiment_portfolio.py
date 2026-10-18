@@ -1014,9 +1014,12 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                         raise p.Rejected('comparison final caller/evidence changed')
                 # LAST: no Context, tool or complete-material callback may
                 # follow these shared field/all-Native PRL metadata replays.
-                for row in summary['trials']:
-                    p.check_experimental_local_settings(Path(row['result']).parent,
-                        f.read_json(Path(row['result'])),None)
+                packets = [(Path(row['result']).parent, f.read_json(Path(row['result'])))
+                           for row in summary['trials']]
+                for folder, data in packets:
+                    p.check_experimental_local_settings(folder, data, None)
+                from autorouter import local_settings as local
+                local.check_final_events(packets, c.CLI)
                 if f.canonical(f.read_json(out/'portfolio-summary.json')) != f.canonical(summary):
                     raise p.Rejected('comparison final read-only summary changed')
             if remaining() < 0:

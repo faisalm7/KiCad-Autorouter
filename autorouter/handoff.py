@@ -122,23 +122,8 @@ def delivery_guards(receipt, report, native_toolchain, preview=None, destination
         p.check_experimental_local_settings(folder, data, native_toolchain)
     if material is not None:material()
     if comparison:cmp.require_context(comparison_context)
-    from . import local_settings as local, schematic_field_evidence as fields
-    # The central checks above validate complete lineage and tool bytes. Finish
-    # with existing PRL-only readers for all roots, including plot-input copies.
-    cli=c.CLI if comparison else native_toolchain.cli
-    for folder, data in packets:
-        if fields.has_fields(data.get('native', {}).get('findings', [])):
-            fields.check_local_settings(folder, 'final-drc', f.read_json(Path(folder) / 'final-drc-binding.json'))
-        for step in data.get('steps', []):
-            argv = step.get('argv', [])
-            if (argv[:3] == [str(cli), 'pcb', 'drc']
-                    or argv[:len(f.SANDBOX) + 3] == [*f.SANDBOX, str(cli), 'pcb', 'drc']):
-                root = Path(step['cwd']); name = step['name']
-                binding = f.read_json(root / (name + '-binding.json'))
-                process = f.process_check(root, data, name, argv, allowed=(0, 5))
-                pairs.append((root, binding, process))
-    for root, binding, process in pairs:
-        local.check_event(root, binding, process)
+    from . import local_settings as local
+    local.check_final_events(packets, c.CLI if comparison else native_toolchain.cli, pairs=pairs)
 
 
 def review_policy(report, directory, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
