@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "kind": "Windows010-bounded-source-and-primary-document-disposition-v1",
+  "decision": "defer_without_implementation_or_dispatch",
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "Native_executed": false,
+  "CI_dispatched": false,
+  "source_code_edits": 0,
+  "tests_executed": 0,
+  "local_compilation_executed": 0,
+  "Git_executed": false,
+  "review_type": "AI-only source judgment; not a Windows execution or human security/PCB review",
+  "source_files": {
+    ".runs/windows010-wfp-prerequisite-lead-001.json": {
+      "bytes": 3166,
+      "sha256": "7e0226a1999017069758eae6e152cb00bcee225e5299b8d7a52ee0caf09ee520"
+    },
+    "evidence/windows-appcontainer009-actual001.json": {
+      "bytes": 15080,
+      "sha256": "9c15f74e22323594c00fceca302657b7fbfe0a4df8bc895fdd0eabbc17c2d0ca"
+    },
+    "scripts/windows_native_slice/appcontainer_probe.c": {
+      "bytes": 7296,
+      "sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4"
+    },
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": {
+      "bytes": 2063,
+      "sha256": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+    },
+    "scripts/windows_native_slice/appcontainer_canary.py": {
+      "bytes": 13678,
+      "sha256": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4"
+    },
+    "scripts/windows_native_slice/appcontainer_launch.py": {
+      "bytes": 25595,
+      "sha256": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d"
+    },
+    "scripts/windows_native_slice/windows_process.py": {
+      "bytes": 27785,
+      "sha256": "8d61277d1db5cc9d4e4c7ffb98a745d13fe55953d44531bdaaadcbc9b39cbb6d"
+    },
+    ".github/workflows/manual-python-controls.yml": {
+      "bytes": 3074,
+      "sha256": "351cd8ec6a537a1db5fa80f95afe86ec023bdf1a0dbe9918b28a3fec248d2c11"
+    }
+  },
+  "original_failure": {
+    "evidence": "evidence/windows-appcontainer009-actual001.json",
+    "preserved_unchanged": true,
+    "actual": "Parent zero-capability AppContainer observed; owned loopback TCP10060timeout failed strict10013denial. Public/child/cancellation/Native absent; this remains failure.",
+    "no_timeout_reclassification": true,
+    "no_installer_retry": true
+  },
+  "hypothesis_not_implemented": "A dynamic authorization-layer BLOCK with exactly one EQUAL ALE_PACKAGE_ID/FWP_SID condition, bound only to the freshly creator-owned package SID, may cause explicit denial. Filter add/readback privileges,10013behavior and protocol coverage remain unproved.",
+  "concrete_blockers": [
+    {
+      "id": "host-owner-hook",
+      "source": "appcontainer_launch.py:248-286; appcontainer_canary.py:165-205; appcontainer_probe.c:124-130",
+      "finding": "Fresh SID ownership is inside AppContainerLaunch. The C probe runs after resume in the zero-capability AppContainer; it is not a qualified privileged WFP owner. PowerShell has no creator-owned SID/pre-resume filter hook. Do not take authority from later probe stdout or race filter installation against connect."
+    },
+    {
+      "id": "crash-lifetime",
+      "source": "windows_process.py:_run_job and finally cleanup; appcontainer_launch.py:__exit__",
+      "finding": "A WFP dynamic session owned by the same controller ends when that controller terminates. Existing normal cleanup terminates/waits the owned Job and queries ActiveProcesses0 while alive; abrupt controller death removes that observation path. No inspected contract orders dynamic filter removal after completion of Job kill-on-close child termination. The resulting ordering gap is unproved, not an observed exploit and not solved by automatic object cleanup.",
+      "required_before_iteration": "Review a concrete bounded owner/handle lifetime design guaranteeing deny remains through every live owned child, including controller/helper crash and cancellation order, plus exact filter absence queries after safe teardown. Do not introduce a persistent service, broad supervisor, persistent/global rules or allow-rule workaround under this task."
+    },
+    {
+      "id": "coverage-protocol",
+      "source": "appcontainer_canary.py:check_tokens and main; appcontainer_probe.c:tcp_probe/wmain",
+      "finding": "Existing controller requires exactly four IPv4 TCP observations and only owns IPv4 TCP outside-positive fixtures. Probe short-circuits after the first unknown outcome. Parent/child IPv6 TCP and IPv4/IPv6 UDP outside-positive, explicit denial and after-positive gates do not exist. Adding only filters or extra ignored rows cannot satisfy010coverage.",
+      "required_before_iteration": "Freeze all required reachable endpoints and owned protocol fixtures before outcomes; collect all required parent/child observations without resuming on token mismatch, preserve strict10013predicates, cancellation/Job/ACL/output/time gates and mandatory teardown checks. Missing family/privilege/API/positive control must defer, never weaken predicates."
+    }
+  ],
+  "exact_future_hook_proposal_not_authorized_or_implemented": [
+    "AppContainerLaunch.__enter__: after validating fresh SID and owned profile storage (~248-286), install a separately reviewed host-side SID-only guard before any process can resume; guard owns a valid copied SID if its lifetime extends beyond profile cleanup.",
+    "AppContainerLaunch.check_contract (~311-337): requery exact owned dynamic session/sublayer/filter keys, layer, BLOCK action, condition count1/EQUAL/package SID before every existing suspended-process ResumeThread; no zero-condition/global transient filter.",
+    "AppContainerLaunch.__exit__ (~417+): keep guard active through existing owned-job zero-active verification; after safe close, use an independently opened query session to verify exact filter/sublayer absence. Preserve original ACL restoration, profile/storage checks and failure receipts.",
+    "appcontainer_canary.py main/check_tokens plus appcontainer_probe.c: add bounded positive/denial/after-positive IPv4/IPv6 TCP/UDP fixtures and collect-all observations. This needs coordinated controller/guard edit ownership beyond C/PowerShell plus a self-contained helper. Existing workflow limit remains180s; proposed guard-only attempt must fit it, not edit/increase it."
+  ],
+  "primary_sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmengineopen0",
+      "observed_documentation": "Dynamic-session objects are removed when the session ends; process termination closes the session. Engine OPEN access required. This establishes cleanup semantics, not relative Job-child termination order."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/filtering-condition-identifiers-",
+      "observed_documentation": "ALE_PACKAGE_ID identifies an AppContainer SID and uses FWP_SID. Condition availability is layer-dependent; no execution inferred."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/management-filtering-layer-identifiers-",
+      "observed_documentation": "ALE authorization layers are distinct from bind/listen/resource layers; documentation does not establish10013for this host or comprehensive denial."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmfilteradd0",
+      "observed_documentation": "Filter creation requires ADD/ADD_LINK access. The SDK zero-condition example affects all application traffic and must not be copied. Exact SID condition/readback is mandatory."
+    }
+  ],
+  "admin_limit": "A future successful elevated hosted-runner guard-only prototype would not qualify ordinary nonadmin Windows installation/product support. Privileged access/helper architecture and full lifecycle/network safeguards remain separate gates.",
+  "scope_and_cost": "Bounded local source inspection and primary Microsoft documentation reads only. No source/Windows policy/workflow changes, compiler, installer, tests, Native worker, CI dispatch, machine-global toggle or allow rule. Interactive research/AI cost was not independently measured and is notzero.",
+  "continuation": "No further Windows implementation or execution is planned under010 without the concrete lifecycle/infrastructure prerequisite and a separately reviewed frozen protocol. Lead continues Mac current-method comparison."
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-18T21:10:46.579371+00:00",
+  "kind": "bounded-prospective-primary-source-prerequisite-not-implementation-or-test",
+  "Windows_support": false,
+  "Native_run": false,
+  "CI_dispatched": false,
+  "prior_failed_gate": "evidence/windows-appcontainer009-actual001.json",
+  "specific_failure": "AppContainer parent0capabilities observed but loopback connect returned10060timeout instead of explicit10013 denial; children/public/cancel/Native absent.",
+  "hypothesis": "A dynamic Windows Filtering Platform authorization-layer BLOCK tied only to the freshly owned AppContainer package SID could cause explicit denial for all its network-using descendants. This differs causally from another installer or unchanged token retry. No router/dependencies should be acquired until a bounded guard-only probe passes.",
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmengineopen0",
+      "checked": "FWPM_SESSION_FLAG_DYNAMIC gives session-lifetime objects removed when session closes or owner process terminates; requires filter-engine access. Documentation, not reproduced."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/filtering-condition-identifiers-",
+      "checked": "FWPM_CONDITION_ALE_PACKAGE_ID identifies AppContainer SID (FWP_SID). Documentation, not reproduced."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/management-filtering-layer-identifiers-",
+      "checked": "ALE connect/receive authorization layers cover outgoing connect/nonTCP first send and incoming accept/nonTCP first receive; resource/listen layers are separate. Exact conditions/version/loopback behavior and full protocol coverage remain untested."
+    },
+    {
+      "url": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners",
+      "checked": "Standard Windows runner docs describe administrator configuration. No request/change to this Mac security or selfhosted runner. Fresh public-repo zero-cost/storage authorization checks still required before CI."
+    }
+  ],
+  "bounded_next": "First review actual existing probe/source and API conditions. If justified, one <=300s zero-artifact guard-only standardWindows CI with positive outside-container connectivity and explicit parent/child IPv4/IPv6 TCP/UDP denial, exact filter/token/ACL/Job/time/log/cleanup evidence; no package download/Native. Stop/defer on missing privilege/API/cleanup/control instead of weakening predicates or repeating installers.",
+  "scope_limits": "This is a research lead with newly checked primary documentation only, not source implementation, proof that WFP returns10013, runtime safeguard, Windows portability or supported product. Admin-only CI success would not qualify a nonadmin user installer; privileged-helper/service architecture remains separate security/release gate. No full network threat-model claim (e.g. hostile sameuser, arbitrary IPC) inferred.",
+  "cost": "Bounded web/source reading during Mac full176; no Native/engine/CI contender. Interactive research/AI CPU not independently measured, notzero."
+}

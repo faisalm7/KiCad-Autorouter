@@ -19,4 +19,4 @@ The runtime preserves schema-specific readers for historical evidence. New prefe
 
 Keep review copies and authoritative exports distinct. The separate-project interface requires saved, correctly identified, closed source editors; it cannot detect arbitrary unsaved buffers, modify a live editor transactionally or promise undo. A future client must use these same guards, not treat a displayed success message as independent validation.
 
-Current installed CLI evidence is [runtime032](../evidence/runtime032-native-controls-001.json). The [queued-open guard](../evidence/gui-queued-open-source-001.json) checks source/settings and export byte witnesses at GUI delivery; it does not replace the worker reader or establish atomic live-editor application. Current GUI interaction remains unqualified.
+Current installed CLI evidence is [runtime033](../evidence/runtime033-ordinary-install-001.json). The [queued-open guard](../evidence/gui-queued-open-source-001.json) checks source/settings and export byte witnesses at GUI delivery; it does not replace the worker reader or establish atomic live-editor application. Current GUI interaction remains unqualified.
