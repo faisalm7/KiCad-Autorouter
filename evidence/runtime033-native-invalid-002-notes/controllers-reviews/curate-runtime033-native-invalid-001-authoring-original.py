@@ -1,0 +1,28 @@
+"""Reuse the existing bounded evidence retention for actual critical controls."""
+from pathlib import Path
+import ast,datetime,hashlib,json,sys
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True
+from autorouter import pipeline as p,floor_route as f,placement_clearance as io
+notes=ROOT/'evidence/runtime033-native-invalid-001-notes';assert not notes.exists()
+refs={};files=[];material=[];total=0
+for name in ('runtime033-ordinary-install-001','runtime032-native-controls-001','runtime032-negative-portfolio-002','runtime022-thermal-export-control-001'):
+ data=f.read_json(ROOT/('evidence/'+name+'.json'));index=ROOT/data['files_index']['path'];assert p.sha(index)==data['files_index']['sha256'];idx=f.read_json(index)
+ for row in idx.get('files',[])+idx.get('material',[]):refs.setdefault(row['sha256'],row.get('path',row.get('retained')))
+helper=ROOT/'.runs/curate-runtime030-native-workflow-qualification-001.py'
+functions=[n for n in ast.parse(helper.read_text()).body if isinstance(n,ast.FunctionDef) and n.name in ('retain','tree','cost')];assert len(functions)==3
+exec(compile(ast.Module(body=functions,type_ignores=[]),str(helper),'exec'))
+base=ROOT/'.runs/runtime033-ordinary-native-invalid-001';plan=f.read_json(base/'protocol.json');out=Path(plan['output'])
+outer=f.read_json(base/'enclosure/result.json');result=f.read_json(out/'result.json')
+assert outer['passed'] and result['control_passed'] and all(row['control_observed'] for row in result['cases'])
+tree(base,Path('enclosure'));tree(out,Path('cases'))
+for name in ('qualify-runtime033-ordinary-native-invalid-001.py','freeze-runtime033-ordinary-native-invalid-001.py','runtime033-ordinary-native-invalid-preparation-001.json','runtime033-ordinary-native-invalid-source-review-001.json','runtime033-ordinary-native-invalid-result-review-001.json','runtime033-ordinary-native-invalid-001-controller.log','runtime033-ordinary-native-invalid-001-time.log','prepare-runtime033-method-material-001.py','prepare-runtime033-method-material-002.py','runtime033-method-material-001-controller.log','runtime033-method-material-001-time.log','runtime033-method-material-002-controller.log','runtime033-method-material-002-time.log'):
+ path=ROOT/'.runs'/name
+ if name=='runtime033-ordinary-native-invalid-result-review-001.json' and not path.exists():continue
+ retain(path,Path('controllers-reviews')/name)
+for name in ('runtime033-method-material-001','runtime033-method-material-002'):tree(ROOT/'.runs'/name,Path('method-preparation')/name)
+for name in ('freeze-runtime033-interf-current-comparison-001.py','runtime033-six-arm-prefreeze-source-review-001.json'):
+ retain(ROOT/'.runs'/name,Path('controllers-reviews')/name)
+retain(Path(__file__),Path('controllers-reviews')/Path(__file__).name)
+p.save_json(notes/'files.json',dict(schema=1,files=files,material=material))
+p.save_json(ROOT/'evidence/runtime033-native-invalid-001.json',dict(schema=1,kind='runtime033-ordinary-actual-native-critical-invalid-controls-v1',recorded_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),project_complete=False,accepted=False,production_admitted=False,actual_GUI=False,human_review=False,source_head=plan['source_head'],runtime_manifest_sha256=plan['runtime_manifest_sha256'],protocol_sha256=p.sha(base/'protocol.json'),passed=True,complete_cost=cost(ROOT/'.runs/runtime033-ordinary-native-invalid-001-time.log'),cases=[dict(label=row['label'],control_observed=row['control_observed'],Native_counts=[row['native'][key] for key in ('opens','blocking','warnings','exclusions')],rejection=row['rejection'],protected_routes=row['protected_routes'],Native_diagnostic_routing_accepted=row.get('Native_diagnostic_routing_accepted')) for row in result['cases']],implementation='Fresh owned copies of033 partial standard90/both positive with four protected records. Actual original-rule/full-schematic Native rejects injected short. A1nm locked-width change is Native-clean yet exact protected invariant refuses before further normalization. Both current ordinary whole/partial positives rechecked with final shared all-root metadata guard.',source_rights='Project-owned generated geometry/schematic GPL; unchanged original KiCad demo settings/project retain CC-BY-SA-4.0 notices in linked ordinary milestone. No private/source-reference/engine/app data.',accounting='Complete external exit includes independent current positive readbacks and all Native controls/guards. Retained preliminary tools/default query001 failed on mappingproxy JSON serialization before Native; fresh002 corrected dict conversion. Authoring/source+result AI review/freezing/preparation/curation additional. No nested CPU double counting; unknown interactive cost notzero.',limits='Correctness controls only. No engine rerun, routing-quality gain, ordinary standard-negative CLI, GUI, Windows, independent human/physical or restoration qualification. Critical short/protected invariants qualify exactly033; prior032 controls remain historical.',backup_scope='Essential sanitized proof for audited Git checkpoint. Newer full raw remains on this Mac outside008/010; no full raw backup or new restoration claimed.',files_index=dict(path=str((notes/'files.json').relative_to(ROOT)),sha256=p.sha(notes/'files.json'))))
+print(json.dumps(dict(files=len(files),bytes=total,material=len(material),passed=True,routing_gain=False)))

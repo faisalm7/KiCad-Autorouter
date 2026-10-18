@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "kind": "runtime033-ordinary-native-invalid-source-review-v1",
+  "recorded_utc": "2026-10-18T21:30:02.234466+00:00",
+  "reviewer": "preset_picker_review",
+  "independent_AI_review": true,
+  "scope": "Read-only source and preparation review, including the final corrected width-control predicate. No execution, tests, Native, Git, or protocol freeze.",
+  "pins": {
+    ".runs/qualify-runtime033-ordinary-native-invalid-001.py": {
+      "sha256": "66ac571b737d66b7d5a2dfb9ddffc18aa5cbdb7873079949557f1b79a3577eda",
+      "bytes": 22816
+    },
+    ".runs/runtime033-ordinary-native-invalid-preparation-001.json": {
+      "sha256": "f2c8806fb046b3963e8f12a4a4051a1b24ec2955151a55f9e822c6d971966d2c",
+      "bytes": 10053
+    }
+  },
+  "decision": "No remaining blocking source inconsistency found within the reviewed controller/preparation scope; prospective execution only.",
+  "resolved_finding": {
+    "issue": "Initial protected-width control recorded Native diagnostic acceptance but did not require it before setting control_observed.",
+    "consequence": "Unexpected Native rejection could have been counted as the intended Native-clean versus exact protected-invariant control.",
+    "resolution": "The final source requires p.native_accepted(native) and exact opens/blocking/warnings/exclusions counts [0,0,0,0] after retaining the diagnostic and exact invariant refusal, before control_observed=True.",
+    "execution_status": "Fixed before execution; no actual Native counterexample or run was performed by this reviewer."
+  },
+  "verified_contracts": [
+    "Caller-declared, separately pinned ordinary whole4Cu and partial2Cu positive prerequisites are checked with ordinary central Route and export readers, without comparison Context authority.",
+    "The prospective control uses the actual partial2Cu source, standard/both/scoringNone/90-second route binding, all four caller-derived protected records, selected 10.0.7, source a476a0a0647bc51889d291e3e6e2598f4ec24370 and manifest 115c881aa04a34bf642c57d5af312fe692d1aff013bed095caa3856a614f3987.",
+    "Actual retained prerequisite protocol/execution/result fields were read for path, scope, budget, driver, workspace and receipt-pin compatibility. Both source outputs matched the preparation table; this was not a new independent Native readback.",
+    "Short control requires actual Native rejection with blocking shorting_items, immutable original design and exact protected records.",
+    "Width control mutates one original locked segment by exactly 1 nm, requires exact protected route changed refusal before additional Native calls, preserves invalid bytes, and now separately requires clean Native counts.",
+    "Fresh owned output, controller/protocol/runtime/tool/source/positive-material checks, shared stage readers, source immutability, 180-second whole caps and failure/cancellation publication remain mandatory.",
+    "Final central and stage/tool/material reads precede shared local.check_final_events across positive Route/export/plot and owned diagnostic packets; only clock/cap accounting follows.",
+    "All product, routing, export and Native admission flags remain false. This is a negative-control qualification helper, not a product success or comparison result."
+  ],
+  "limits": [
+    "No new Native calls, board modification, source tests, installer, GUI, CI, Git operation, or external research were performed.",
+    "No protocol was frozen or executed by this review. Actual clean width diagnostic, deliberate short rejection, protected invariant refusal, cancellation/cleanup and total costs remain lead-owned runtime observations.",
+    "Review does not qualify current GUI, Windows, broad routing superiority, electrical suitability, human review, physical validation, clean-OS installation or restoration."
+  ]
+}
