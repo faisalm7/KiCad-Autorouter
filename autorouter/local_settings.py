@@ -151,23 +151,35 @@ def check_event(directory,binding,process,*,allow_worker_failure=False):
 
 def policy_declaration(raw,*,name='NORMAL_DRC_LOCAL_SETTINGS_POLICY',expected=JOB_POLICY):
     """Inspect bounded captured code as data; never execute a receipt's source."""
+    return policy_declarations(raw,{name:expected})[name]
+
+
+def policy_declarations(raw,policies):
+    """Check related declarations in one parse, with the same strict guards."""
     import ast
     if type(raw) is not bytes or len(raw)>1024**2:raise p.Rejected('bounded captured pipeline source required')
+    if (type(policies) is not dict or not 1<=len(policies)<=8
+            or any(type(name)is not str or type(value)is not str for name,value in policies.items())):
+        raise p.Rejected('bounded expected policy namespace required')
     try:tree=ast.parse(raw)
     except (SyntaxError,ValueError,RecursionError) as exc:raise p.Rejected('invalid captured pipeline policy source') from exc
-    declarations=[]
+    declarations={name:[] for name in policies}
     for node in ast.walk(tree):
         targets=node.targets if isinstance(node,ast.Assign) else [node.target] if isinstance(node,(ast.AnnAssign,ast.AugAssign,ast.NamedExpr)) else []
-        if any(isinstance(item,ast.Name) and item.id==name for target in targets for item in ast.walk(target)):
-            declarations.append(node)
-    if not declarations:return None
-    node=declarations[0]
-    if (len(declarations)!=1 or node not in tree.body or not isinstance(node,(ast.Assign,ast.AnnAssign))
-            or (isinstance(node,ast.Assign) and (len(node.targets)!=1 or not isinstance(node.targets[0],ast.Name)))
-            or (isinstance(node,ast.AnnAssign) and not isinstance(node.target,ast.Name))
-            or not isinstance(node.value,ast.Constant) or type(node.value.value) is not str or node.value.value!=expected):
-        raise p.Rejected('ambiguous or unsupported captured normal DRC policy')
-    return expected
+        names={item.id for target in targets for item in ast.walk(target) if isinstance(item,ast.Name)}
+        for name in names.intersection(policies):declarations[name].append(node)
+    result={}
+    for name,expected in policies.items():
+        declared=declarations[name]
+        if not declared:result[name]=None;continue
+        node=declared[0]
+        if (len(declared)!=1 or node not in tree.body or not isinstance(node,(ast.Assign,ast.AnnAssign))
+                or (isinstance(node,ast.Assign) and (len(node.targets)!=1 or not isinstance(node.targets[0],ast.Name)))
+                or (isinstance(node,ast.AnnAssign) and not isinstance(node.target,ast.Name))
+                or not isinstance(node.value,ast.Constant) or type(node.value.value) is not str or node.value.value!=expected):
+            raise p.Rejected('ambiguous or unsupported captured normal DRC policy')
+        result[name]=expected
+    return result
 
 
 def check_normal_policy(directory,data,*,max_bytes=None,max_files=None,native_toolchain=None):

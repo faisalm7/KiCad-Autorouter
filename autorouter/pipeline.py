@@ -28,6 +28,8 @@ ROUTES={'segment','via','arc'}
 NORMAL_DRC_LOCAL_SETTINGS_POLICY='job-owned-prl-immutable-v1'
 SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
+PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'
+NORMAL_PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'
 NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
@@ -558,8 +560,25 @@ def normal_selected_import_policy(original,names):
     from . import routing_scope as rs,board_floor as g
     names=rs.validate_names(names);protected=rs.protected_routes(original,names)
     _,resolve=g.source_net_identity(original)
-    return ('exact_non_uuid_lock_position_v2' if any(resolve(sx.one(route,'net')) in names for route in protected)
+    return (normal_strict_import_policy(original,protected) if any(resolve(sx.one(route,'net')) in names for route in protected)
             else SELECTED_PROPOSAL_IMPORT_POLICY)
+
+
+def legacy_via_omitted(route):
+    return (route[0]=='via' and not any(sx.children(route,key)
+            for key in ('capping','covering','plugging','filling')))
+
+
+def normal_strict_import_policy(original,protected):
+    """Only the qualified legacy source population has implicit OFF modes.
+
+    Pinned KiCad10 parser <20250228: omission is OFF; modern omission inherits.
+    Restrict admission to our already supported20241229 source format. Final
+    reconstruction always restores the entire literal original via record.
+    """
+    return (PROTECTED_VIA_IMPORT_POLICY if sx.children(original,'version')==[['version','20241229']]
+            and any(legacy_via_omitted(route) for route in protected)
+            else 'exact_non_uuid_lock_position_v2')
 
 
 def routing_task(original,scope,names=None):
@@ -584,14 +603,26 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
     Genuine older producers retain their original strict readback contract.
     """
     experimental_native_version(native_toolchain)
-    from .local_settings import canonical,policy_declaration
+    from .local_settings import canonical,policy_declarations
     from .placement_clearance import read_bytes
     root=canonical(Path(directory));producer=root/'code/pipeline.py'
     raw=read_bytes(producer,1024**2)
     if hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
         raise Rejected('normal selected import producer differs')
-    policy=policy_declaration(raw,name='NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY',expected=SELECTED_PROPOSAL_IMPORT_POLICY)
+    requested={'NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY':SELECTED_PROPOSAL_IMPORT_POLICY}
+    if input_policy=='native':requested['NORMAL_PROTECTED_VIA_IMPORT_POLICY']=PROTECTED_VIA_IMPORT_POLICY
+    declarations=policy_declarations(raw,requested)
+    policy=declarations['NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY']
     marker=data.get('tools',{}).get('normal_selected_proposal_import_policy')
+    strict_declaration=None
+    if input_policy=='native':
+        strict_declaration=declarations['NORMAL_PROTECTED_VIA_IMPORT_POLICY']
+        strict_marker=data.get('tools',{}).get('normal_protected_via_import_policy')
+        if strict_declaration is None:
+            if strict_marker is not None or b'\ndef normal_strict_import_policy(' in raw:
+                raise Rejected('normal protected via source declaration missing')
+        elif strict_marker!=strict_declaration or policy is None:
+            raise Rejected('normal protected via tool/selected source declaration missing')
     if policy is None:
         if marker is not None:raise Rejected('normal selected import source declaration missing')
         return None
@@ -601,6 +632,8 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
     # input_policy is derived by the existing receipt_policy/recognize readers,
     # never directly from a JSON label. Nested incumbents have their own receipt.
     if input_policy!='native':return None
+    strict_policy=(normal_strict_import_policy(original,protected_for_record(data,original))
+        if strict_declaration is not None and native_toolchain is None else 'exact_non_uuid_lock_position_v2')
     if type(data.get('schema')) is not int or data['schema']!=1:raise Rejected('normal import requires native schema1')
     if not direct:
         # Only recognized native parent methods can lack an own import. A
@@ -670,12 +703,14 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
     if not isinstance(binding,dict):raise Rejected('current normal import requires complete proof, including zero protection')
     names=selected_scope_names(data)
     if names is None:
-        if binding.get('policy')!='exact_non_uuid_lock_position_v2':
+        if binding.get('policy')!=strict_policy:
             raise Rejected('nonselected normal import requires strict policy')
-        return {}
+        return {'strict_expected_policy':strict_policy} if strict_policy==PROTECTED_VIA_IMPORT_POLICY else {}
     required=normal_selected_import_policy(original,names)
+    if required!=policy:required=strict_policy
     if binding.get('policy')!=required:raise Rejected('normal selected import policy differs from original locks')
-    return {'expected_policy':policy,'selected_names':names} if required==policy else {}
+    if required==policy:return {'expected_policy':policy,'selected_names':names}
+    return {'strict_expected_policy':strict_policy} if strict_policy==PROTECTED_VIA_IMPORT_POLICY else {}
 
 
 def transplant_routes(original, imported, *, protected=(), audit=None, policy='exact_non_uuid_v1', selected_names=None):
@@ -713,8 +748,12 @@ def transplant_routes(original, imported, *, protected=(), audit=None, policy='e
                 transplanted_routes_sha256=hashlib.sha256(sx.dump(routes(out)).encode()).hexdigest())
         return out
     if selected_names is not None:raise Rejected('explicit selected names require the selected proposal policy')
-    if policy not in {'exact_non_uuid_v1','exact_non_uuid_lock_position_v2'}:
+    if policy not in {'exact_non_uuid_v1','exact_non_uuid_lock_position_v2',PROTECTED_VIA_IMPORT_POLICY}:
         raise Rejected('unknown protected import policy')
+    legacy_vias=policy==PROTECTED_VIA_IMPORT_POLICY
+    if legacy_vias and (sx.children(original,'version')!=[['version','20241229']]
+            or sx.children(imported,'version')!=[['version','20260206']]):
+        raise Rejected('protected legacy via policy requires exact source/import formats')
     imported_routes=[convert_route_nets(n,imported,original) for n in routes(imported)]
     reconciled=[]
     if protected:
@@ -728,7 +767,7 @@ def transplant_routes(original, imported, *, protected=(), audit=None, policy='e
             return ids[0][1]
         def signature(route):
             fields=[n for n in route if not isinstance(n,list) or not n or n[0]!='uuid']
-            if policy=='exact_non_uuid_lock_position_v2':
+            if policy in {'exact_non_uuid_lock_position_v2',PROTECTED_VIA_IMPORT_POLICY}:
                 locks=[n for n in fields if n=='locked' or isinstance(n,list) and n and n[0]=='locked']
                 if len(locks)>1 or locks and locks[0]!=['locked','yes']:
                     raise Rejected('protected import requires absent or single explicit locked yes')
@@ -739,24 +778,37 @@ def transplant_routes(original, imported, *, protected=(), audit=None, policy='e
         for route in routes(original):
             key=sx.dump(route)
             original_counts[key]=original_counts.get(key,0)+1
-        matches={}
+        matches={};legacy_matches={}
+        off_fields={'capping':['capping','no'],
+            'covering':['covering',['front','no'],['back','no']],
+            'plugging':['plugging',['front','no'],['back','no']],
+            'filling':['filling','no']}
         for index,route in enumerate(imported_routes):
             matches.setdefault(signature(route),[]).append(index)
+            # A separate map prevents explicit source values or modern inherited
+            # omission from using this rule. Require all six explicit OFF values,
+            # once each, with no extra subfields; no general flag stripping.
+            if legacy_vias and route[0]=='via' and all(sx.children(route,key)==[value] for key,value in off_fields.items()):
+                stripped=[node for node in route if not isinstance(node,list) or not node or node[0] not in off_fields]
+                legacy_matches.setdefault(signature(stripped),[]).append(index)
+        def matching(route):
+            return (legacy_matches if legacy_vias and legacy_via_omitted(route) else matches).get(signature(route),[])
         used=set()
         for route in protected:
             if original_counts.get(sx.dump(route))!=1:
                 raise Rejected('protected import route is not a unique original')
             identity(route)
-            indices=matches.get(signature(route),[])
+            indices=matching(route)
             if len(indices)!=1 or indices[0] in used:
                 raise Rejected('protected route missing, changed or ambiguous after import')
             used.add(indices[0])
         ids=[identity(route) for route in imported_routes]
         if len(set(ids))!=len(ids):raise Rejected('duplicate imported route UUID')
         for route in protected:
-            index=matches[signature(route)][0]
+            index=matching(route)[0]
             reconciled.append({'original_uuid':identity(route),'imported_uuid':identity(imported_routes[index]),
-                'non_uuid_sha256':hashlib.sha256(signature(route).encode()).hexdigest()})
+                'non_uuid_sha256':hashlib.sha256(signature(route).encode()).hexdigest(),
+                **({'legacy_explicit_off_restored':True} if legacy_vias and legacy_via_omitted(route) else {})})
             imported_routes[index]=copy.deepcopy(route)
         ids=[identity(route) for route in imported_routes]
         if len(set(ids))!=len(ids):raise Rejected('restored protected route UUID collision')
@@ -769,8 +821,13 @@ def transplant_routes(original, imported, *, protected=(), audit=None, policy='e
     return out
 
 
-def check_protected_import(directory, data, original, candidate, protected, *, expected_policy=None, selected_names=None):
+def check_protected_import(directory, data, original, candidate, protected, *, expected_policy=None, selected_names=None, strict_expected_policy=None):
     binding=data.get('protected_route_import')
+    if strict_expected_policy is not None or isinstance(binding,dict) and binding.get('policy')==PROTECTED_VIA_IMPORT_POLICY:
+        if (strict_expected_policy!=PROTECTED_VIA_IMPORT_POLICY or expected_policy is not None or selected_names is not None
+                or not isinstance(binding,dict) or binding.get('policy')!=strict_expected_policy
+                or normal_strict_import_policy(original,protected)!=strict_expected_policy):
+            raise Rejected('source-derived strict protected via readback proof required')
     proposal_readback=(expected_policy is not None or selected_names is not None
         or isinstance(binding,dict) and binding.get('policy')==SELECTED_PROPOSAL_IMPORT_POLICY)
     if proposal_readback:
@@ -1360,6 +1417,7 @@ def tool_manifest(*,native_toolchain=None):
     return {'implementation_sha256':implementation,'git_head':identity['git_head'],'source_provenance':identity,'kicad':version,'freerouting':'2.5.0','files':files,'network':'engine sandbox-exec deny network*',
             'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY,
             'normal_selected_proposal_import_policy':NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY,
+            'normal_protected_via_import_policy':NORMAL_PROTECTED_VIA_IMPORT_POLICY,
             'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY,
             **({'experimental_native_toolchain':native_toolchain.record()} if native_toolchain is not None else {})}
 
@@ -2209,7 +2267,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         imported=output/'imported.kicad_pcb'
         job.native('import','import',candidate,imported,output/'routes.ses')
         reconciliation={}
-        import_policy=normal_selected_import_policy(original,selected) if selected is not None else 'exact_non_uuid_lock_position_v2'
+        import_policy=(normal_selected_import_policy(original,selected) if selected is not None else
+            normal_strict_import_policy(original,protected) if native_toolchain is None else 'exact_non_uuid_lock_position_v2')
         sx.write(candidate,transplant_routes(task,sx.read(imported),protected=protected,audit=reconciliation,
             policy=import_policy,
             **({'selected_names':selected} if import_policy==SELECTED_PROPOSAL_IMPORT_POLICY else {})))

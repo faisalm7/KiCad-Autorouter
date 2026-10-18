@@ -9,12 +9,32 @@ from pathlib import Path
 import shutil
 import stat
 import unittest
+from unittest.mock import patch
 from autorouter import pipeline as p, floor_route as f, local_settings as ls
 from tests import test_result as fixture
 from tests.normal_prl_fixture import mark_authored_receipt
 
 
 class PolicyDeclarationControls(unittest.TestCase):
+    def test_batch_parses_once_and_checks_every_requested_policy(self):
+        import ast
+        raw=b"FIRST='one'\nSECOND: str='two'\n"
+        with patch('ast.parse',wraps=ast.parse) as parsed:
+            self.assertEqual(ls.policy_declarations(raw,{'FIRST':'one','SECOND':'two'}),{'FIRST':'one','SECOND':'two'})
+            parsed.assert_called_once_with(raw)
+        for changed in (raw+b"SECOND='two'\n",b"FIRST='one'\nif True:\n SECOND='two'\n",raw.replace(b"'two'",b"'wrong'")):
+            with self.subTest(raw=changed),self.assertRaises(p.Rejected):
+                ls.policy_declarations(changed,{'FIRST':'one','SECOND':'two'})
+
+    def test_batch_absence_and_changed_bytes_never_reuse_prior_result(self):
+        expected={'FIRST':'one','SECOND':'two'}
+        self.assertEqual(ls.policy_declarations(b"FIRST='one'\n",expected),{'FIRST':'one','SECOND':None})
+        self.assertEqual(ls.policy_declarations(b"FIRST='one'\nSECOND='two'\n",expected),expected)
+        with self.assertRaises(p.Rejected):ls.policy_declarations(b"FIRST='one'\nSECOND='bad'\n",expected)
+        for policies in ({},{str(i):'x' for i in range(9)},{True:'x'},{'FIRST':False}):
+            with self.subTest(policies=policies),self.assertRaises(p.Rejected):
+                ls.policy_declarations(b"FIRST='one'\n",policies)
+
     def test_exact_literal_and_annotated_declaration(self):
         for declaration in (f"NORMAL_DRC_LOCAL_SETTINGS_POLICY={ls.JOB_POLICY!r}\n",
                             f"NORMAL_DRC_LOCAL_SETTINGS_POLICY: str={ls.JOB_POLICY!r}\n"):

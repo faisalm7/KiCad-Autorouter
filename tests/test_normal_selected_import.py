@@ -133,6 +133,27 @@ class NormalSelectedImportControls(unittest.TestCase):
         data.pop('protected_route_import')
         with self.assertRaisesRegex(p.Rejected,'complete proof'):check()
 
+    def test_current_strict_source_declaration_and_tool_marker_cannot_downgrade(self):
+        for fault in (None,'marker_deleted','marker_changed','literal_deleted','literal_and_marker_deleted','unknown_literal','older_policy_and_proof_deleted'):
+            with self.subTest(fault=fault):
+                root,data,_,_,check=self.make(selected=False)
+                producer=root/'code/pipeline.py'
+                raw=Path(p.__file__).read_text()
+                literal="NORMAL_PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'"
+                data['tools']['normal_protected_via_import_policy']=p.PROTECTED_VIA_IMPORT_POLICY
+                if fault in ('marker_deleted','literal_and_marker_deleted'):
+                    data['tools'].pop('normal_protected_via_import_policy')
+                if fault=='marker_changed':data['tools']['normal_protected_via_import_policy']='unknown'
+                if fault in ('literal_deleted','literal_and_marker_deleted'):raw=raw.replace(literal,'# removed declaration')
+                if fault=='unknown_literal':raw=raw.replace(literal,"NORMAL_PROTECTED_VIA_IMPORT_POLICY='unknown'")
+                if fault=='older_policy_and_proof_deleted':
+                    raw=raw.replace("NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'",'# removed older declaration')
+                    data['tools'].pop('normal_selected_proposal_import_policy');data.pop('protected_route_import')
+                producer.write_text(raw);data['tools']['implementation_sha256']['autorouter/pipeline.py']=p.sha(producer)
+                if fault is None:self.assertEqual(check(),{})
+                else:
+                    with self.assertRaises(p.Rejected):check()
+
     def test_deleted_import_population_and_unrecognized_nested_worker_refuse(self):
         for nested,scope in ((False,'selected_nets'),(False,'whole_board_unlocked_routing'),(True,'selected_nets'),(True,'whole_board_unlocked_routing')):
             with self.subTest(nested=nested,scope=scope):

@@ -66,6 +66,9 @@ class RejectedThermalIncumbentNamedEdge(unittest.TestCase):
             'validated_input_sha256'] = p.sha(work / 'refill' / source.name)
 
         # Captured bytes are inspected as data; no captured code is executed.
+        # This fixture replaces the minimal historical producer with current
+        # code, so author its current declaration before any deliberate faults.
+        child['tools']['normal_protected_via_import_policy']=p.NORMAL_PROTECTED_VIA_IMPORT_POLICY
         code = root / 'code'
         package = Path(p.__file__).resolve().parent
         for name in ('pipeline.py', 'recovery.py', 'native_edge.py'):

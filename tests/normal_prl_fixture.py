@@ -237,6 +237,7 @@ def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_
     if not updates:raise AssertionError('no authored DRC stages to declare')
     data['tools']['normal_drc_local_settings_policy']=policy
     data['tools']['normal_selected_proposal_import_policy']=p.NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY
+    data['tools']['normal_protected_via_import_policy']=p.NORMAL_PROTECTED_VIA_IMPORT_POLICY
     data['tools']['normal_native_export_alias_policy']=p.NORMAL_NATIVE_EXPORT_ALIAS_POLICY
     for binding_path,binding,process_path,process,step in updates:
         p.save_json(binding_path,binding);p.save_json(process_path,process)

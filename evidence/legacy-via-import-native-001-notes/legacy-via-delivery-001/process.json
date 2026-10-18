@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 15.93025883298833,
+  "cpu_seconds": 13.659362999999999,
+  "max_rss_bytes": 239763456,
+  "supervisor_cpu_seconds": 0.134318,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 239861760,
+  "sampled_peak_workdir_bytes": 1612247,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 134217728,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "-c",
+    "import sys,json;sys.path.insert(0,sys.argv[1]);from pathlib import Path;from autorouter.handoff import review_copy,review_choice;from autorouter.review_export import export,check_export;r=Path(sys.argv[2]);review_copy(sys.argv[3],r/\"review\",render=True);review_choice(r/\"review/review.json\",r/\"choice\",\"accept\");d=export(r/\"choice/choice.json\",r/\"export\",120);print(json.dumps({k:d.get(k) for k in (\"status\",\"export_accepted\",\"candidate_sha256\",\"wall_seconds\",\"total_cpu_seconds\")}));print(json.dumps(check_export(r/\"export/export.json\")));sys.exit(0 if d.get(\"export_accepted\") else 2)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-via-delivery-001",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-via-green-002/route/result.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-via-delivery-001/command.log",
+  "log_bytes": 818,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/legacy-via-delivery-001",
+  "signal_cancellation_enabled": true,
+  "pid": 23566
+}

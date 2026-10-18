@@ -1,0 +1,22 @@
+{
+  "contract": {
+    "strict_expected_policy": "legacy-via-off-source-v3"
+  },
+  "refusals": [
+    {
+      "fault": "policy_downgrade",
+      "reason": "nonselected normal import requires strict policy"
+    },
+    {
+      "fault": "proof_deleted",
+      "reason": "current normal import requires complete proof, including zero protection"
+    },
+    {
+      "fault": "tool_marker_deleted",
+      "reason": "normal protected via tool/selected source declaration missing"
+    }
+  ],
+  "source_bound": true,
+  "receipt_unchanged_sha256": "5459932d56c699906ad864ebe7e23be8d44e1cf2213b695691df72eaf3d4ac37",
+  "scope": "In-memory actual receipt controls through shared normal contract; no native rerun, no retained byte mutation."
+}
