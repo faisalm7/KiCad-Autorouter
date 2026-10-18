@@ -2375,7 +2375,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         report['whole_project_drc_clean']=valid and report['native']['warnings']==0
         preferences_fresh(output,_preferences)
     except KeyboardInterrupt:
-        if _preferences is None and class_requirement is None:raise
+        if _preferences is None and class_requirement is None and comparison_context is None:raise
         report.update(accepted=False,status='cancelled',reason='interrupted route')
     except Exception as exc:
         report['reason']=type(exc).__name__+': '+str(exc)

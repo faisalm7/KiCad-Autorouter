@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.runs/qualify-native7-comparison-route-child-001.py", line 22, in <module>
+    route=p.route(source,out/'route',seconds=plan['route_seconds'],adapter='both',engine_profile=plan['profile'],**ctx)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/autorouter/pipeline.py", line 2128, in route
+    return _route(source,output,seconds,keep_existing,adapter,engine_profile,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/autorouter/pipeline.py", line 2342, in _route
+    job.step('engine',engine_argv(output,engine_settings,profile=engine_profile))
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/autorouter/pipeline.py", line 1058, in step
+    if result['status']=='cancelled':raise KeyboardInterrupt
+                                     ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

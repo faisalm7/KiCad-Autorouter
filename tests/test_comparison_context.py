@@ -4,15 +4,18 @@ The tools/source identity provider is stubbed. Captured source policy, bounded
 file readers, context sealing, exact engine settings and dispatch are real.
 No test executes KiCad, Java, Git, a sandbox or an installed workflow.
 """
+import ast
 import copy
 import json
 from pathlib import Path
 import shutil
 import tempfile
+import time
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-from autorouter import comparison as cmp, config as c, pipeline as p
+from autorouter import comparison as cmp, config as c, floor_route as f, pipeline as p
 from autorouter import placement_clearance as pc, provenance as pv
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -214,6 +217,73 @@ class ComparisonContextControls(unittest.TestCase):
         row['status'] = 'cancelled'; p.save_json(self.receipt, row)
         with self.assertRaisesRegex(p.Rejected, 'completed-negative routing contract'):
             p.check_rejected_routing_attempt(self.receipt, comparison_context=self.context)
+
+    def test_direct_comparison_interrupt_publishes_durable_cancelled_receipt(self):
+        # Reuse the existing AST publication-control pattern: the interrupt
+        # handler and entire following publication tail are exact production
+        # nodes. Only the expensive route body is an authored worker interrupt.
+        # The durable process row is synthetic, never Native cleanup evidence.
+        source = Path(p.__file__)
+        producer = next(node for node in ast.parse(source.read_bytes()).body
+                        if isinstance(node, ast.FunctionDef) and node.name == '_route')
+        guarded = [node for node in producer.body if isinstance(node, ast.Try)
+                   and any(isinstance(handler.type, ast.Name)
+                           and handler.type.id == 'KeyboardInterrupt'
+                           for handler in node.handlers)]
+        self.assertEqual(len(guarded), 1)
+        index = producer.body.index(guarded[0])
+        interrupt = ast.parse('try:\n    interrupt_worker()\nexcept KeyboardInterrupt:\n    pass\n').body[0]
+        interrupt.handlers = copy.deepcopy(guarded[0].handlers)
+        wrapper = ast.FunctionDef(name='publication_control',
+            args=ast.arguments(posonlyargs=[], args=[], kwonlyargs=[], kw_defaults=[], defaults=[]),
+            body=[interrupt, *copy.deepcopy(producer.body[index + 1:])], decorator_list=[])
+        module = ast.fix_missing_locations(ast.Module(body=[wrapper], type_ignores=[]))
+        process = dict(name='engine', cwd=str(self.output), status='cancelled',
+                       exit_code=-15, cleanup_complete=True, wall_seconds=0.,
+                       cpu_seconds=0., monitor_cpu_seconds=0., max_rss_bytes=0)
+        p.save_json(self.output / 'engine-process.json', process)
+
+        def interrupt_worker():
+            raise KeyboardInterrupt('authored completed-worker cancellation')
+
+        for context in (self.context, None):
+            with self.subTest(explicit_comparison=context is not None):
+                self.receipt.unlink(missing_ok=True)
+                report = copy.deepcopy(self.data)
+                report.update(accepted=False, status='validator_error')
+                started = time.monotonic()
+                job = SimpleNamespace(steps=[copy.deepcopy(process)], started=started,
+                                      cpu_started=time.process_time(), deadline=started + 120)
+                namespace = dict(vars(p))
+                namespace.update(report=report, job=job, output=self.output,
+                    source=self.source, seconds=120, comparison=cmp,
+                    comparison_context=context, _preferences=None, class_requirement=None,
+                    native_toolchain=None, experimental_schematic_parity=False,
+                    _fanout_enabled=None, engine_profile='tuned',
+                    operation_children=f.child_cpu(), interrupt_worker=interrupt_worker)
+                exec(compile(module, str(source), 'exec'), namespace)
+                if context is None:
+                    # Preserve the pre-existing legacy no-preferences behavior.
+                    with self.assertRaises(KeyboardInterrupt):namespace['publication_control']()
+                    self.assertFalse(self.receipt.exists())
+                    continue
+                result = namespace['publication_control']()
+                durable = f.read_json(self.receipt)
+                self.assertEqual(result, durable)
+                self.assertEqual(durable['status'], 'cancelled')
+                self.assertEqual(durable['reason'], 'interrupted route')
+                self.assertIs(durable['accepted'], False)
+                self.assertIs(durable['production_admitted'], False)
+                self.assertIs(durable['whole_project_drc_clean'], False)
+                self.assertEqual(durable['steps'], [process])
+                self.assertEqual(f.read_json(self.output / 'engine-process.json'), process)
+                self.assertIn('control_child_cpu_seconds', durable)
+                self.assertTrue(cmp.check_record(self.output, durable, self.context))
+                with self.assertRaisesRegex(p.Rejected, 'explicit caller context'):
+                    p.check_result(self.receipt)
+                self.assertEqual(p.tree_hash(self.project), self.hashes)
+                self.assertNotIn('candidate', durable)
+                self.assertFalse((self.output / 'export').exists())
 
     def test_production_consumers_and_sidecar_alias_refuse(self):
         with self.assertRaises(p.Rejected):p.check_experimental_route(self.data)
