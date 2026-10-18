@@ -10,6 +10,137 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]/'scripts/windows_native_slice'
 
 class WindowsProbeControls(unittest.TestCase):
+    def process_function(self,name,**scope):
+        tree=ast.parse((ROOT/'windows_process.py').read_text())
+        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name==name)
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
+        return scope[name]
+
+    def test_setup_main_poll_uses_retained_handle_and_never_waits(self):
+        calls=[];handle=object();process=SimpleNamespace(hProcess=handle,dwProcessId=51)
+        code=lambda:SimpleNamespace(value=0)
+        def wait(h,millis):
+            self.assertIs(h,handle);self.assertEqual(millis,0);calls.append('wait');return 258
+        def exit_code(*args):calls.append('exit');return True
+        kernel=SimpleNamespace(WaitForSingleObject=wait,GetExitCodeProcess=exit_code)
+        poll=self.process_function('_poll_setup_main',K=kernel,W=SimpleNamespace(DWORD=code),C=SimpleNamespace(byref=lambda x:x,get_last_error=lambda:6))
+        self.assertEqual(poll(process),dict(pid=51,state='running',exit_code=None,wait_result=258))
+        self.assertEqual(calls,['wait'])
+        kernel.WaitForSingleObject=lambda h,millis:0
+        observed=poll(process)
+        self.assertEqual((observed['state'],observed['exit_code']),('exited',0))
+        # A signaled process may legitimately have exited with STILL_ACTIVE's number.
+        kernel.GetExitCodeProcess=lambda h,out:setattr(out,'value',259) or True
+        self.assertEqual(poll(process)['exit_code'],259)
+
+    def test_setup_main_poll_failure_is_explicit_unknown(self):
+        process=SimpleNamespace(hProcess=object(),dwProcessId=51)
+        kernel=SimpleNamespace(WaitForSingleObject=lambda *args:0xffffffff,GetExitCodeProcess=lambda *args:False)
+        poll=self.process_function('_poll_setup_main',K=kernel,W=SimpleNamespace(DWORD=lambda:SimpleNamespace(value=0)),C=SimpleNamespace(byref=lambda x:x,get_last_error=lambda:6))
+        observed=poll(process)
+        self.assertEqual((observed['state'],observed['exit_code']),('unknown',None))
+        self.assertEqual(observed['error'],dict(api='WaitForSingleObject',winerror=6))
+        kernel.WaitForSingleObject=lambda *args:0
+        self.assertEqual(poll(process)['error'],dict(api='GetExitCodeProcess',winerror=6))
+        kernel.WaitForSingleObject=lambda *args:(_ for _ in ()).throw(OSError('mock API failure'))
+        self.assertEqual(poll(process)['state'],'unknown')
+
+    def setup_job_snapshot(self,*,query_ok=True,assigned=2,listed=2,pids=(51,52)):
+        job=object();calls=[]
+        def query(h,kind,out,size,unused):
+            self.assertIs(h,job);self.assertEqual(kind,3);calls.append('owned-job-only')
+            out.NumberOfAssignedProcesses=assigned;out.NumberOfProcessIdsInList=listed
+            out.ProcessIdList=list(pids)+[0]*32
+            return query_ok
+        observe=self.process_function('_observe_setup_job',K=SimpleNamespace(QueryInformationJobObject=query),
+                                      JOBPIDS=lambda:SimpleNamespace(),C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0,get_last_error=lambda:234))
+        result=observe(job,SimpleNamespace(ActiveProcesses=2,TotalProcesses=3),29.99,'before_termination',dict(state='exited',exit_code=0,pid=51))
+        self.assertEqual(calls,['owned-job-only'])
+        return result
+
+    def test_setup_snapshot_only_lists_owned_job_pids_and_disclaims_identity(self):
+        result=self.setup_job_snapshot()
+        self.assertEqual(result['status'],'observed')
+        self.assertEqual(result['members']['pids'],[51,52])
+        self.assertIs(result['members']['image_identity_observed'],False)
+        self.assertIs(result['snapshots_atomic'],False)
+        self.assertEqual((result['accounting_active_processes'],result['accounting_total_processes']),(2,3))
+
+    def test_setup_snapshot_failures_truncation_and_bad_pids_remain_unknown(self):
+        for options in (dict(query_ok=False),dict(assigned=33),dict(listed=33),dict(assigned=3,listed=2),dict(assigned=1,listed=2),dict(pids=(51,51)),dict(pids=(51,0))):
+            with self.subTest(options=options):
+                result=self.setup_job_snapshot(**options)
+                self.assertEqual(result['status'],'unknown')
+                self.assertEqual(result['members']['pids'],[])
+
+    def iterate_setup_job(self,*,main_state='exited',exit_code=0,snapshot_status='observed',elapsed=(1,31),owned_setup=True,active_sequence=None,main_states=None):
+        """Real polling block only; mocked API observations are not Windows proof."""
+        tree=ast.parse((ROOT/'windows_process.py').read_text())
+        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_run_job')
+        loop=next(n for n in ast.walk(fn) if isinstance(n,ast.While));events=[];clock=iter(elapsed)
+        active_values=iter(active_sequence) if active_sequence is not None else None
+        main_values=iter(main_states) if main_states is not None else None
+        account=SimpleNamespace(ActiveProcesses=2,TotalProcesses=3,TotalUserTime=0,TotalKernelTime=0)
+        def query(*args):
+            if active_values is not None:account.ActiveProcesses=next(active_values)
+            return True
+        def terminate(*args):events.append('terminate');account.ActiveProcesses=0;return True
+        def observe(job,sample,when,trigger,main):
+            events.append(('snapshot',trigger,sample.ActiveProcesses,main['state'],main['exit_code']))
+            return dict(status=snapshot_status,main=main,trigger=trigger)
+        def poll(process):
+            events.append('main_poll')
+            state,code=next(main_values) if main_values is not None else (main_state,exit_code)
+            return dict(state=state,exit_code=code)
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd=Path(tmp);log=cwd/'job.log';log.touch()
+            scope=dict(ACCOUNT=lambda:account,K=SimpleNamespace(QueryInformationJobObject=query,TerminateJobObject=terminate),
+                       C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0),job=1,process=object(),
+                       yes=lambda value:self.assertTrue(value),time=SimpleNamespace(monotonic=lambda:next(clock,31),sleep=lambda value:None),
+                       started=0,seconds=30,cancel_after=None,reason=None,log=log,cwd=cwd,root=cwd,safe=lambda path,root:path,
+                       owned_setup=owned_setup,setup_termination_observed=False,setup_observations=[],last_main_state=None,setup_main_polls=0,
+                       _poll_setup_main=poll,_observe_setup_job=observe)
+            exec(compile(ast.fix_missing_locations(ast.Module(body=[loop],type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
+            return scope,events
+
+    def test_setup_main_zero_does_not_finish_or_drain_job_before_original_timeout(self):
+        scope,events=self.iterate_setup_job()
+        self.assertEqual(scope['reason'],'budget_exceeded')
+        self.assertEqual(scope['setup_main_polls'],2)
+        self.assertEqual(events[-2:],[('snapshot','before_termination',2,'exited',0),'terminate'])
+        self.assertEqual(len(scope['setup_observations']),2)
+        self.assertIs(scope['setup_observations'][-1]['before_termination'],True)
+
+    def test_setup_main_nonzero_does_not_bypass_original_job_timeout(self):
+        scope,events=self.iterate_setup_job(exit_code=2)
+        self.assertEqual(scope['reason'],'budget_exceeded')
+        self.assertEqual(events[-2:],[('snapshot','before_termination',2,'exited',2),'terminate'])
+
+    def test_setup_unknown_main_or_query_never_passes(self):
+        for options in (dict(main_state='unknown',exit_code=None),dict(snapshot_status='unknown')):
+            with self.subTest(options=options):
+                scope,events=self.iterate_setup_job(elapsed=(1,1),**options)
+                self.assertEqual(scope['reason'],'process_diagnostic_unknown')
+                self.assertEqual(events[-1],'terminate')
+                self.assertIs(scope['setup_observations'][0]['before_termination'],True)
+
+    def test_setup_diagnostics_preserve_prior_budget_failure_and_do_not_touch_ordinary_jobs(self):
+        scope,events=self.iterate_setup_job(main_state='unknown',exit_code=None,elapsed=(31,31))
+        self.assertEqual(scope['reason'],'budget_exceeded')
+        scope,events=self.iterate_setup_job(owned_setup=False)
+        self.assertEqual(scope['reason'],'budget_exceeded')
+        self.assertEqual(events,['terminate'])
+        self.assertEqual(scope['setup_observations'],[])
+
+    def test_setup_natural_exit_records_bounded_transitions_without_termination(self):
+        scope,events=self.iterate_setup_job(elapsed=(1,2,3),active_sequence=(2,1,0),
+                                            main_states=(('running',None),('exited',0),('exited',0)))
+        self.assertIsNone(scope['reason'])
+        self.assertEqual([x['trigger'] for x in scope['setup_observations']],['initial','main_state_changed','job_inactive'])
+        self.assertEqual(scope['setup_main_polls'],3)
+        self.assertNotIn('terminate',events)
+        self.assertTrue(all(not x['before_termination'] for x in scope['setup_observations']))
+
     def canary_function(self,name,**scope):
         tree=ast.parse((ROOT/'appcontainer_canary.py').read_text())
         fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name==name)
@@ -146,7 +277,7 @@ class WindowsProbeControls(unittest.TestCase):
             with log.open('wb') as stream:stream.truncate(log_bytes)
             with (cwd/'output').open('wb') as stream:stream.truncate(scratch_bytes)
             for index in range(entries):(cwd/str(index)).touch()
-            scope=dict(ACCOUNT=lambda:account,K=SimpleNamespace(QueryInformationJobObject=lambda *args:True),C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0),job=1,yes=lambda value:self.assertTrue(value),time=SimpleNamespace(monotonic=lambda:elapsed),started=0,seconds=30,cancel_after=None,reason=None,log=log,cwd=cwd,root=cwd,safe=lambda path,root:path)
+            scope=dict(ACCOUNT=lambda:account,K=SimpleNamespace(QueryInformationJobObject=lambda *args:True),C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0),job=1,yes=lambda value:self.assertTrue(value),time=SimpleNamespace(monotonic=lambda:elapsed),started=0,seconds=30,cancel_after=None,reason=None,log=log,cwd=cwd,root=cwd,safe=lambda path,root:path,owned_setup=False)
             exec(compile(ast.fix_missing_locations(ast.Module(body=[loop],type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
             return scope['reason']
 

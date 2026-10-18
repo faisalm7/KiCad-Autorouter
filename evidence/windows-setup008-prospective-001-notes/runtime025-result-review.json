@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "kind": "runtime025-retained-results-independent-AI-review",
+  "recorded_utc": "2026-10-18T14:49:26.408198+00:00",
+  "reviewer": "preset_picker_review subordinate AI",
+  "scope": "Read-only retained025 evidence review. No Native/JVM/GUI/tests/curation rerun or production edit. Only this review receipt authored. Existing pure S-expression helpers used for immutable-design and protected-copper comparisons.",
+  "accepted": false,
+  "project_complete": false,
+  "human_review": false,
+  "actual_GUI_qualified": false,
+  "concrete_correctness_defects_found": [],
+  "packets": [
+    {
+      "path": "evidence/runtime025-installed-CLI-001.json",
+      "sha256": "d3d0ec60084a128ee8baa190b55d5bc84c7bc160f3f7a0cd0d5a07e5e5ded7b6",
+      "file_rows": 95,
+      "retained_bytes": 701086,
+      "pins_match": true,
+      "authoritative_index": {
+        "path": "evidence/runtime025-installed-CLI-001-notes/files-002.json",
+        "sha256": "9a817f3ebd9b7557b83eab4b3bc9066c4ca27425f6b00c94b9aa2032fd9c305c"
+      }
+    },
+    {
+      "path": "evidence/runtime025-installed-partial-CLI-001.json",
+      "sha256": "3181066ae760cf0ff00ac34a352edff657cf73a59936dd5cd59c2153ae9afdb4",
+      "file_rows": 49,
+      "retained_bytes": 2500865,
+      "pins_match": true,
+      "authoritative_index": {
+        "path": "evidence/runtime025-installed-partial-CLI-001-notes/files-003.json",
+        "sha256": "77b9ee1b60b94e4b149b18a2c64ee9e475e1ba8e9c0a0fc85dba0efc5c537cbc"
+      }
+    },
+    {
+      "path": "evidence/runtime025-controls-compatibility-001.json",
+      "sha256": "3c0635ca0dff80dda5541fc590d5b779ccca5fe08817a2820b7c10768abd67b6",
+      "file_rows": 202,
+      "retained_bytes": 4231834,
+      "pins_match": true,
+      "authoritative_index": null
+    }
+  ],
+  "source_head": "54347108aba84c3544228cf207bee42713974b87",
+  "manifest_sha256": "0be49c969a0c6939eed825bbe2a0ec426acfe3362554b978ddf1a3d18b02920c",
+  "module_binding": {
+    "module_count": 45,
+    "modules_match_current_source_runtime_manifest_and_full166_protocol": true,
+    "full166_execution_sha256": "abc501edd1833b12690d5b1efa5cc3da0453e4640f54b4d123b1c2ba7c7d5f18",
+    "recorded_passed": true,
+    "rerun_by_reviewer": false
+  },
+  "positives": {
+    "whole": {
+      "six_stages_exit_zero": true,
+      "route_and_export_native_version": "10.0.7",
+      "route_and_export_counts_opens_blocking_warnings_exclusions": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "protected_exact": 10,
+      "candidate_sha256": "a0c20a14b998894dbf7a59fc567319554458a9b629cf99625551253fa0855843",
+      "candidate_report_pins_full_schematic_original_rules_immutable_design_checked": true,
+      "source_four_files_unchanged": true,
+      "whole_project_drc_clean": false
+    },
+    "partial": {
+      "six_stages_exit_zero": true,
+      "route_and_export_native_version": "10.0.7",
+      "route_and_export_counts_opens_blocking_warnings_exclusions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "protected_exact": 4,
+      "candidate_sha256": "7d353c5025e16e89b74211984e419328029a3fa7969cb58524b57d599116b3a6",
+      "candidate_report_pins_full_schematic_original_rules_immutable_design_checked": true,
+      "source_four_files_unchanged": true,
+      "whole_project_drc_clean": true
+    }
+  },
+  "negatives": [
+    {
+      "label": "whole-short",
+      "exact_mutation_against_pinned_positive": "One added6mm ROUTE segment; original immutable design and all prior routes unchanged.",
+      "native_version": "10.0.7",
+      "native_counts": [
+        0,
+        4,
+        6,
+        0
+      ],
+      "full_schematic": true,
+      "rejection": "actual original-rule full-schematic Native short",
+      "routing_accepted": false
+    },
+    {
+      "label": "partial-protected-width",
+      "exact_mutation_against_pinned_positive": "Exactly one protected segment width0.3->0.300001mm; all other route fields/items and immutable design unchanged.",
+      "native_version": "10.0.7",
+      "native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "full_schematic": true,
+      "Native_diagnostic_routing_accepted": true,
+      "rejection": "protected route changed",
+      "routing_accepted": false
+    }
+  ],
+  "default1000": {
+    "six_stages_exit_zero": true,
+    "route_and_export_native_version": "10.0.0",
+    "route_and_export_counts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "protected_exact": 4,
+    "candidate_sha256": "c356acdc927e12029d1bf2a9f64b6e6f2fcefe82a1e98560103a6d2e0392fb66",
+    "candidate_report_full_schematic_original_design_and_module_proofs_checked": true,
+    "source_four_files_unchanged": true,
+    "manifest_schema1_implicit_default1000": true
+  },
+  "accounting": {
+    "whole_complete_exit_wall_cpu": [
+      34.11,
+      31.17
+    ],
+    "partial_complete_exit_wall_cpu": [
+      29.66,
+      26.44
+    ],
+    "selected1007_preparation_doctor_wall_cpu": [
+      2.83,
+      1.95
+    ],
+    "negative_controls_complete_exit_wall_cpu": [
+      10.85,
+      9.64
+    ],
+    "negative_startup_syntax_failure_wall_cpu": [
+      0.01,
+      0.0
+    ],
+    "default1000_delivery_wall_cpu": [
+      31.47,
+      26.46
+    ],
+    "default1000_preparation_wall_cpu": [
+      2.54,
+      1.89
+    ],
+    "complete_time_logs_match_reported_user_plus_system": true,
+    "nested_samples_are_separate_not_summed": true,
+    "authoring_AI_review_curation_extra_uninstrumented": true
+  },
+  "curation_history": {
+    "whole_original_files_json_and_curator001_retained_separately_from_current_files002": true,
+    "whole_historical_files_json_pins_checked": true,
+    "obsolete_full163_metadata_failure_disclosed": true,
+    "negative_startup_syntax_error_retained_no_native_executed": true,
+    "partial_420_sentence_finding": "Resolved: actual scope90/90; original first-curation text preserved; files003 now authoritative, dependent packet and controls reference pins match. Correction annotation retains the historical420 example explicitly.",
+    "old_indices_are_historical_not_current_qualification": true
+  },
+  "limits": [
+    "Independent AI evidence consistency review, not human review or a fresh Native rerun.",
+    "Owned exposed related fixtures only; no comparative routing gain or breadth claim.",
+    "GUI071 prepared only, not qualified.",
+    "No Windows, electrical, physical, restoration or formal-release qualification."
+  ]
+}

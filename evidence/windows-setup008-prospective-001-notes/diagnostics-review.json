@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "kind": "windows008-prospective-diagnostics-independent-AI-source-review",
+  "recorded_utc": "2026-10-18T14:54:15.694278+00:00",
+  "scope": "Read-only review of the two-file prospective diagnostic diff, change note and dated008 assessment. No imports of Windows substrate, Windows APIs, Native, test execution, CI, GUI, edits to production or delegation. Only this review receipt authored.",
+  "reviewer": "preset_picker_review subordinate AI",
+  "source_pins": [
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "sha256": "274b24537b259774a9f6004211104b6cc4aefa86e4c65ac9122741052ea66fd1",
+      "bytes": 22949
+    },
+    {
+      "path": "tests/test_windows_probe_controls.py",
+      "sha256": "70b48ca94e930d609f37c710cacc445e3ad4933b8e8bcf782e235071eded5451",
+      "bytes": 20820
+    },
+    {
+      "path": ".runs/windows008-diagnostic-change-001.md",
+      "sha256": "725db8cfb8bd4adca85f414984ff64b589b32c9677da90835a3802628dcacab5",
+      "bytes": 4515
+    },
+    {
+      "path": ".runs/windows008-setup-assessment-001.md",
+      "sha256": "6a49c838c449ff88bb4972a1ce68d32d2f66d4af9db7dc83063d0e14fc2b459b",
+      "bytes": 5086
+    }
+  ],
+  "accepted": false,
+  "Windows_qualified": false,
+  "Native_admitted": false,
+  "human_review": false,
+  "findings": [
+    {
+      "severity": "minor diagnostic correctness",
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "function": "_observe_setup_job",
+      "finding": "A successful query with listed_processes<assigned_processes and both<=32 is marked observed and not truncated. The documented list is incomplete in this relation.",
+      "example": {
+        "query_ok": true,
+        "assigned_processes": 3,
+        "listed_processes": 2,
+        "pids": [
+          51,
+          52
+        ]
+      },
+      "minimum_fix": "Require0<=listed==assigned<=32 before observed; mark listed<assigned as truncated/unknown. Preserve existing refusal and cleanup. Add assigned3/listed2 control; optionally malformed listed>assigned control.",
+      "impact": "Setup diagnostic completeness only. No demonstrated admission or cleanup bypass; setup unknown already fails closed.",
+      "source": "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_basic_process_id_list",
+      "status": "resolved by lead before prospective dispatch",
+      "resolution": "Current code marks count<assigned truncated and requires0<=count==assigned<=32 for observed. Added both assigned3/listed2 and malformed assigned1/listed2 controls; unknown remains fail-closed."
+    }
+  ],
+  "checked": {
+    "Windows_native_layout_reasoning": "DWORD, DWORD, ULONG_PTR[32] matches documented ABI under native Windows ctypes:32-bit DWORD and pointer-sized array, default alignment. Not executed or measured on Windows.",
+    "query_api_binding": "Existing QueryInformationJobObject handle/int/LPVOID/DWORD/optional length bindings and info class3 match primary documentation. Fixed buffer size is passed with byref; no child PID handles opened.",
+    "main_handle": "Retained CreateProcess main handle polled with WaitForSingleObject0; GetExitCodeProcess only after signal;259 is valid exited result after signal. Unknown failures remain explicit.",
+    "completion": "No main-zero/nonzero shortcut; original ActiveProcesses==0 completion, final wait/exit/accounting and finally cleanup unchanged.",
+    "bounds": "Diagnostic block setup-only,32PID capacity,4snapshot limit, unchanged wall/fullJobCPU/log/scratch/entry/memory/cancel fences. Added work charged in same loop; no bypass or deadline increase.",
+    "pretermination": "Before-first-termination snapshot requested while active; subsequent observations stop, avoiding post-termination exit as prior natural exit. Snapshots correctly disclose non-atomic accounting/main/membership and absent child image/stable-identity proof.",
+    "failure_reason": "Unknown adds failure only when no prior reason; cannot clear prior cancellation/resource failure.",
+    "scope": "Both exact compiler authoring and fixed DNS owned setup may observe; ordinary firewall/AppContainer/Native path makes no new diagnostic calls. No setup admission/cleanup/network flags changed.",
+    "tests_inspection": "New tests inspect actual extracted polling/helper bodies with mocked observations. The previously missing successful-but-incomplete query relation is now covered by assigned3/listed2, plus malformed assigned1/listed2. These do not exercise Windows ABI."
+  },
+  "primary_sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-jobobject_basic_process_id_list",
+      "checked": "2026-10-18",
+      "supports": "Member types, variable array and incomplete list when returned count<assigned count."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-queryinformationjobobject",
+      "checked": "2026-10-18",
+      "supports": "Signature, info class3, byte buffer size, optional return length and BOOL/error semantics."
+    }
+  ],
+  "qualification_limits": [
+    "Independent AI source review only; no actual008 dispatch or Windows success result.",
+    "Existing007actual002 remains failed and is not reclassified.",
+    "Compiler initializer remains untested on Windows; prospectivediagnostic does not establish the lingering-process cause.",
+    "Root owns targeted checks and any bounded zero-cost008 dispatch after source review/integration."
+  ],
+  "remaining_concrete_findings": [],
+  "lead_targeted_result_read_only": {
+    "path": ".runs/windows008-diagnostics-targeted-002.log",
+    "sha256": "39b07f78b66f3bb6ef9562df27dc98b400172db8f4c9561c6142964734f8eb80",
+    "tests": 29,
+    "unittest_wall_seconds": 0.965,
+    "skipped": 1,
+    "result": "OK(skipped=1)",
+    "external_wall_user_sys": [
+      1.05,
+      0.23,
+      0.39
+    ],
+    "rerun_by_reviewer": false
+  },
+  "prior_authored_receipt_preserved": {
+    "path": ".runs/windows008-diagnostics-review-pre-resolution-001.json",
+    "sha256": "54fbc4f46028523fdca539cd6b975783109ae635235269c6615454c0badc8362",
+    "note": "Lead applied the completeness correction while the initial receipt was authored; its captured source/test pins already corresponded to corrected bytes but its finding text described the pre-correction issue. This final receipt resolves that timing ambiguity."
+  }
+}

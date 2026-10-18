@@ -9,6 +9,7 @@ class IO(C.Structure):_fields_=[(n,C.c_ulonglong) for n in ('ReadOperationCount'
 class BASIC(C.Structure):_fields_=[('PerProcessUserTimeLimit',C.c_longlong),('PerJobUserTimeLimit',C.c_longlong),('LimitFlags',W.DWORD),('MinimumWorkingSetSize',C.c_size_t),('MaximumWorkingSetSize',C.c_size_t),('ActiveProcessLimit',W.DWORD),('Affinity',C.c_size_t),('PriorityClass',W.DWORD),('SchedulingClass',W.DWORD)]
 class LIMIT(C.Structure):_fields_=[('BasicLimitInformation',BASIC),('IoInfo',IO),('ProcessMemoryLimit',C.c_size_t),('JobMemoryLimit',C.c_size_t),('PeakProcessMemoryUsed',C.c_size_t),('PeakJobMemoryUsed',C.c_size_t)]
 class ACCOUNT(C.Structure):_fields_=[(n,C.c_longlong) for n in ('TotalUserTime','TotalKernelTime','ThisPeriodTotalUserTime','ThisPeriodTotalKernelTime')]+[(n,W.DWORD) for n in ('TotalPageFaultCount','TotalProcesses','ActiveProcesses','TotalTerminatedProcesses')]
+class JOBPIDS(C.Structure):_fields_=[('NumberOfAssignedProcesses',W.DWORD),('NumberOfProcessIdsInList',W.DWORD),('ProcessIdList',C.c_size_t*32)]
 class FILEINFO(C.Structure):_fields_=[('dwFileAttributes',W.DWORD),('ftCreationTime',W.FILETIME),('ftLastAccessTime',W.FILETIME),('ftLastWriteTime',W.FILETIME),('dwVolumeSerialNumber',W.DWORD),('nFileSizeHigh',W.DWORD),('nFileSizeLow',W.DWORD),('nNumberOfLinks',W.DWORD),('nFileIndexHigh',W.DWORD),('nFileIndexLow',W.DWORD)]
 class STARTUP(C.Structure):_fields_=[('cb',W.DWORD),('lpReserved',W.LPWSTR),('lpDesktop',W.LPWSTR),('lpTitle',W.LPWSTR),('dwX',W.DWORD),('dwY',W.DWORD),('dwXSize',W.DWORD),('dwYSize',W.DWORD),('dwXCountChars',W.DWORD),('dwYCountChars',W.DWORD),('dwFillAttribute',W.DWORD),('dwFlags',W.DWORD),('wShowWindow',W.WORD),('cbReserved2',W.WORD),('lpReserved2',C.POINTER(C.c_byte)),('hStdInput',W.HANDLE),('hStdOutput',W.HANDLE),('hStdError',W.HANDLE)]
 class PROCESS(C.Structure):_fields_=[('hProcess',W.HANDLE),('hThread',W.HANDLE),('dwProcessId',W.DWORD),('dwThreadId',W.DWORD)]
@@ -59,11 +60,45 @@ def run(argv,*,cwd,log,root,firewall_check,seconds=30,cancel_after=None,appconta
  else:result.pop('_suspended_token')
  return result
 
+def _poll_setup_main(process):
+ """Observe the retained main handle without waiting or reopening a PID."""
+ result=dict(pid=int(process.dwProcessId),state='unknown',exit_code=None)
+ try:
+  wait=int(K.WaitForSingleObject(process.hProcess,0));result['wait_result']=wait
+  if wait==258:result['state']='running'
+  elif wait==0:
+   code=W.DWORD()
+   if K.GetExitCodeProcess(process.hProcess,C.byref(code)):result.update(state='exited',exit_code=int(code.value))
+   else:result['error']=dict(api='GetExitCodeProcess',winerror=int(C.get_last_error()))
+  else:result['error']=dict(api='WaitForSingleObject',winerror=int(C.get_last_error()))
+ except Exception as error:result['error']=dict(exception=type(error).__name__,message=str(error)[:256])
+ return result
+
+def _observe_setup_job(job,account,elapsed,trigger,main):
+ """Bounded Job-only PID snapshot; PID image/exit identities are unobserved."""
+ members=dict(status='unknown',capacity=32,pids=[],image_identity_observed=False,
+              identity_scope='Point-in-time owned Job PID list only; no child PID opened or stable child identity established.')
+ try:
+  listing=JOBPIDS();ok=K.QueryInformationJobObject(job,3,C.byref(listing),C.sizeof(listing),None)
+  error=int(C.get_last_error()) if not ok else None
+  count=int(listing.NumberOfProcessIdsInList);assigned=int(listing.NumberOfAssignedProcesses)
+  members.update(assigned_processes=assigned,listed_processes=count,truncated=count<assigned or assigned>32 or count>32)
+  if ok and 0<=count==assigned<=32:
+   pids=[int(listing.ProcessIdList[index]) for index in range(count)]
+   if len(set(pids))==count and all(pid>0 for pid in pids):members.update(status='observed',pids=pids)
+   else:members['error']=dict(message='Invalid or duplicate Job PID list')
+  else:members['error']=dict(api='QueryInformationJobObject(JobObjectBasicProcessIdList)',winerror=error)
+ except Exception as error:members['error']=dict(exception=type(error).__name__,message=str(error)[:256])
+ return dict(trigger=trigger,elapsed_seconds=elapsed,main=main,members=members,
+             accounting_active_processes=int(account.ActiveProcesses),accounting_total_processes=int(account.TotalProcesses),
+             snapshots_atomic=False,status='observed' if main['state']!='unknown' and members['status']=='observed' else 'unknown')
+
 def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,launch_contract=None,owned_setup=False):
  """Shared owned process lifecycle only; public entry points own admission gates."""
  exe=Path(argv[0]).resolve(strict=True)
  job=K.CreateJobObjectW(None,None);yes(job);limits=LIMIT();limits.BasicLimitInformation.LimitFlags=0x2000|0x200|4;limits.BasicLimitInformation.PerJobUserTimeLimit=int(seconds*10_000_000);limits.JobMemoryLimit=2*1024**3
  process=PROCESS();started=time.monotonic();reason=None;created=False;assigned=False;token_proof=None
+ setup_observations=[];last_main_state=None;setup_termination_observed=False;setup_main_polls=0
  try:
   yes(K.SetInformationJobObject(job,9,C.byref(limits),C.sizeof(limits)))
   # A regular owned file replaces pipe reader threads; parent alone retains its fd.
@@ -96,11 +131,27 @@ def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,lau
      if entries>4000:raise RuntimeError('scratch entry bound')
      if path.is_file():total+=path.stat().st_size
     if total>128*1024**2:reason='scratch_limit'
+    if owned_setup and not setup_termination_observed:
+     main=_poll_setup_main(process);setup_main_polls+=1
+     if main['state']=='unknown':reason=reason or 'process_diagnostic_unknown'
+     state=(main['state'],main['exit_code'])
+     trigger=('before_termination' if reason and account.ActiveProcesses else 'job_inactive' if account.ActiveProcesses==0
+              else 'initial' if not setup_observations else 'main_state_changed' if state!=last_main_state else None)
+     if trigger:
+      observation=_observe_setup_job(job,account,elapsed,trigger,main)
+      if observation['status']=='unknown':reason=reason or 'process_diagnostic_unknown'
+      observation.update(before_termination=bool(reason and account.ActiveProcesses),termination_reason=reason)
+      if len(setup_observations)>=4:raise RuntimeError('owned setup diagnostic observation bound')
+      setup_observations.append(observation)
+     last_main_state=state
+     if reason and account.ActiveProcesses:setup_termination_observed=True
     if account.ActiveProcesses==0:break
     if reason:yes(K.TerminateJobObject(job,130 if reason=='cancelled' else 2))
     time.sleep(.02)
    yes(K.WaitForSingleObject(process.hProcess,5000)==0);code=W.DWORD();yes(K.GetExitCodeProcess(process.hProcess,C.byref(code)));yes(K.QueryInformationJobObject(job,1,C.byref(account),C.sizeof(account),None));yes(account.ActiveProcesses==0)
-  return dict(argv=argv,cwd=str(cwd),log=str(log),log_sha256=digest(log),status=reason or ('success' if code.value==0 else 'nonzero_exit'),exit_code=code.value,cleanup_complete=True,wall_seconds=time.monotonic()-started,full_job_cpu_seconds=(account.TotalUserTime+account.TotalKernelTime)/10_000_000,process_count=account.TotalProcesses,_suspended_token=token_proof,limits=dict(bytes=128*1024**2,rss=2*1024**3,log=256*1024,entries=4000,seconds=seconds),os_job_memory_limit=True,scope='Owned pinned tool process job; not hostile-code sandbox or main product runner.')
+  result=dict(argv=argv,cwd=str(cwd),log=str(log),log_sha256=digest(log),status=reason or ('success' if code.value==0 else 'nonzero_exit'),exit_code=code.value,cleanup_complete=True,wall_seconds=time.monotonic()-started,full_job_cpu_seconds=(account.TotalUserTime+account.TotalKernelTime)/10_000_000,process_count=account.TotalProcesses,_suspended_token=token_proof,limits=dict(bytes=128*1024**2,rss=2*1024**3,log=256*1024,entries=4000,seconds=seconds),os_job_memory_limit=True,scope='Owned pinned tool process job; not hostile-code sandbox or main product runner.')
+  if owned_setup:result['setup_process_observations']=dict(main_polls=setup_main_polls,max_snapshots=4,snapshots=setup_observations,completion_semantics_changed=False)
+  return result
  finally:
   cleanup_errors=[];reaped=not created
   def cleanup(label,action):
