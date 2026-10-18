@@ -25,7 +25,7 @@ import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from autorouter import config as c, pipeline as p, floor_route as f, placement_clearance as pc
-from autorouter import provenance as pv, runner as runtime_runner
+from autorouter import provenance as pv, runner as runtime_runner, comparison as cmp
 from scripts import experiment_quality as q
 
 BUDGET = 120.0
@@ -36,6 +36,7 @@ INSTALLED_TRIAL_RESERVE_POLICY = 'installed-route-readback-reserve-v1'
 # Six classifications/replays at that observed rate need26.44s;30s is a fixed
 # planning reserve, not a runtime bound. All actual costs and caps still apply.
 INSTALLED_TRIAL_READBACK_RESERVE = 30.0
+COMPARISON_API_POLICY = 'installed-native7-scored-portfolio-api-v2'
 VARIANTS = ('via_default', 'via_low', 'via_high')
 SCRIPT = Path(__file__).resolve()
 RESUME_POLICY = 'single-default-strict-targets-resume-v1'
@@ -62,6 +63,8 @@ class InstalledContext:
     administration_head: str
     administration_files_sha256: dict[str, str]
     controller: Path
+    comparison_policy: object = None
+    comparison_output: object = None
     _seal: str = field(init=False, repr=False)
 
     def __post_init__(self):
@@ -69,6 +72,14 @@ class InstalledContext:
             if not isinstance(getattr(self, name), Path):
                 raise p.Rejected('installed context requires explicit Path fields')
             pv.canonical(getattr(self, name))
+        if self.comparison_policy is not None or self.comparison_output is not None:
+            if (type(self.comparison_policy) is not str or self.comparison_policy != COMPARISON_API_POLICY
+                    or not isinstance(self.comparison_output, Path)):
+                raise p.Rejected('explicit fixed comparison API policy/output required')
+            pv.canonical(self.comparison_output)
+            if (self.comparison_output.parent != self.runtime / '.runs'
+                    or not self.comparison_output.name.startswith(cmp.PREFIX)):
+                raise p.Rejected('comparison portfolio requires direct reserved runtime output')
         if (type(self.family) is not str or not 1 <= len(self.family) <= 256
                 or type(self.tools) is not dict or type(self.administration_head) is not str
                 or pv._HEAD.fullmatch(self.administration_head) is None):
@@ -99,15 +110,26 @@ class InstalledContext:
         object.__setattr__(self, '_seal', sealed)
 
     def record(self):
-        return {'kind': 'installed-cli-portfolio-context-v1', 'runtime': str(self.runtime),
+        result = {'kind': 'installed-cli-portfolio-context-v1', 'runtime': str(self.runtime),
             'board': str(self.board), 'family': self.family, 'tools': self.tools,
             'source_hashes': self.source_hashes, 'administration_root': str(self.administration_root),
             'administration_head': self.administration_head,
             'administration_files_sha256': self.administration_files_sha256, 'controller': str(self.controller)}
+        if self.comparison_policy is not None:
+            result.update(kind=COMPARISON_API_POLICY, comparison_policy=self.comparison_policy,
+                          comparison_output=str(self.comparison_output))
+        return result
 
     def check(self):
         if f.canonical(self.record()) != self._seal:
             raise p.Rejected('installed context expectations changed')
+        if self.comparison_policy is not None:
+            pv.canonical(self.comparison_output)
+            if (c.NATIVE_VERSION != '10.0.7' or cmp.POLICY != 'selected-native7-fixed-comparison-v2'
+                    or self.tools.get('comparison_route_policy') != cmp.POLICY
+                    or self.tools.get('source_provenance', {}).get('native_version') != '10.0.7'
+                    or Path(cmp.__file__).resolve().parents[1] != self.runtime):
+                raise p.Rejected('comparison portfolio requires selected7 v2 runtime modules/policy')
         for path in (self.runtime, self.board, self.administration_root, self.controller):
             pv.canonical(path)
         if (c.ROOT != self.runtime or q.p is not p or q.c is not c
@@ -185,7 +207,7 @@ def _check_installed_process(process, assigned, argv, *, negative=False):
         raise p.Rejected('installed CLI process failed, exceeded bounds or cleanup/log evidence unavailable')
 
 
-def _installed_negative_readback(receipt, board, frozen, assigned, variant):
+def _installed_negative_readback(receipt, board, frozen, assigned, variant, *, comparison_context=None):
     """The central diagnostic reader proves failure; this binds our assignment."""
     digest = pv.file_digest(receipt, 32 * 1024**2)[0]
     data = f.read_json(receipt)
@@ -198,7 +220,8 @@ def _installed_negative_readback(receipt, board, frozen, assigned, variant):
             or not q.finite_nonnegative(assigned) or not 0 < assigned <= MAX_OPERATIONAL_BUDGET
             or data.get('budget_seconds') != assigned or data.get('cpu_budget_seconds') != assigned):
         raise p.Rejected('negative trial differs from frozen portfolio assignment')
-    checked = p.check_rejected_routing_attempt(receipt)
+    checked = (p.check_rejected_routing_attempt(receipt, comparison_context=comparison_context)
+               if comparison_context is not None else p.check_rejected_routing_attempt(receipt))
     reasons = data.get('native_rejection_reasons')
     if (type(checked) is not dict or checked.get('current') is not False
             or checked.get('validated_rejection') is not True or checked.get('routing_accepted') is not False
@@ -248,6 +271,37 @@ def _installed_evidence(directory):
     return result
 
 
+def _comparison_trial(frozen, variant):
+    identity = frozen.get('installed_context', {})
+    if identity.get('comparison_policy') != COMPARISON_API_POLICY:
+        return None
+    output = Path(identity['comparison_output'])
+    return output.with_name(output.name + '-' + f'{VARIANTS.index(variant)+1:02d}-' + variant) / 'route'
+
+
+def _comparison_authority(row, board, frozen, context):
+    expected = _comparison_trial(frozen, row['id'])
+    if expected is None:
+        if context is not None: raise p.Rejected('comparison context on ordinary portfolio')
+        return False
+    cmp.require_context(context)
+    if (context.source != board or context.output != expected or context.output != Path(row['result']).parent
+            or context.adapter != 'both' or context.profile != 'tuned' or context.scoring_variant != row['id']
+            or context.seconds != _trial_route_allowance(row, frozen)
+            or context.tools != frozen['tools'] or context.source_hashes != frozen['source_hashes']):
+        raise p.Rejected('comparison trial differs from live caller assignment')
+    return True
+
+
+def _comparison_evidence(directory):
+    # API calls have no enclosing CLI process. Native worker journals remain
+    # real pipeline evidence; do not author a synthetic process row here.
+    return {**{key: {'file': str(path), 'sha256': pv.file_digest(path, 32*1024**2)[0]}
+               for key, path in (('result', directory/'result.json'),
+                                 ('rejection', directory.parent/'api-rejection.json')) if path.is_file()},
+            'material': f.evidence_inventory(directory)}
+
+
 def _trial_route_allowance(row, frozen):
     """Separate an opt-in route budget from its unchanged trial allowance.
 
@@ -260,7 +314,9 @@ def _trial_route_allowance(row, frozen):
     protocol_keys = {'installed_trial_accounting_policy', 'trial_readback_reserve_seconds'}
     protocol = {}
     if 'installed_context' in frozen:
-        path = Path(row['result']).parent.parent / 'protocol.json'
+        api = _comparison_trial(frozen, row['id'])
+        path = (Path(frozen['installed_context']['comparison_output']) if api is not None
+                else Path(row['result']).parent.parent) / 'protocol.json'
         if path.exists() or path.is_symlink():
             protocol = f.read_json(path)
             if type(protocol) is not dict:
@@ -295,17 +351,26 @@ def _verify_installed_evidence(row, board, frozen, *, negative=False):
         negative=negative)
 
 
-def verify_negative_row(row, board, frozen):
+def verify_negative_row(row, board, frozen, *, comparison_context=None):
     """Never promotes a negative to an eligible candidate or positive reader."""
     if row.get('accepted_in_trial_receipt') is not False or row.get('eligible') is not False or row.get('id') not in VARIANTS:
         raise p.Rejected('negative portfolio row claims acceptance or unknown variant')
-    _verify_installed_evidence(row, board, frozen, negative=True)
+    api = _comparison_authority(row, board, frozen, comparison_context)
+    def evidence():
+        if api:
+            if (_comparison_evidence(Path(row['result']).parent) != row.get('installed_api')
+                    or p.sha(Path(row['result'])) != row['result_sha256']):
+                raise p.Rejected('comparison API retained evidence changed')
+        else: _verify_installed_evidence(row, board, frozen, negative=True)
+    evidence()
     receipt = Path(row['result'])
-    checked = _installed_negative_readback(receipt, board, frozen, _trial_route_allowance(row, frozen), row['id'])
-    if (f.canonical(checked) != f.canonical(f.read_json(receipt.parent.with_suffix('.cli-rejection.json')))
+    checked = _installed_negative_readback(receipt, board, frozen, _trial_route_allowance(row, frozen), row['id'],
+                                         comparison_context=comparison_context)
+    diagnostic = receipt.parent.parent/'api-rejection.json' if api else receipt.parent.with_suffix('.cli-rejection.json')
+    if (f.canonical(checked) != f.canonical(f.read_json(diagnostic))
             or 'negative_readback' in row and f.canonical(checked) != f.canonical(row['negative_readback'])):
         raise p.Rejected('retained negative diagnostic changed')
-    _verify_installed_evidence(row, board, frozen, negative=True)
+    evidence()
     return checked
 
 
@@ -338,7 +403,7 @@ def freeze(board):
     return frozen
 
 
-def verify_row(row, board, frozen):
+def verify_row(row, board, frozen, *, comparison_context=None):
     """Consistency check before ranking and again at final selection.
 
     p.check_result checks immutable/native evidence. This additional check binds
@@ -358,7 +423,11 @@ def verify_row(row, board, frozen):
             raise p.Rejected('trial differs from its recorded allocation')
     receipt = Path(row['result'])
     route_allowance = _trial_route_allowance(row, frozen)
-    if 'installed_context' in frozen:
+    api = _comparison_authority(row, board, frozen, comparison_context)
+    if api:
+        if _comparison_evidence(receipt.parent) != row.get('installed_api'):
+            raise p.Rejected('comparison API retained evidence changed')
+    elif 'installed_context' in frozen:
         _verify_installed_evidence(row, board, frozen)
     if receipt.is_symlink() or p.sha(receipt) != row['result_sha256']:
         raise p.Rejected('trial receipt changed')
@@ -391,7 +460,8 @@ def verify_row(row, board, frozen):
     process = receipt.parent/'engine-process.json'
     if process.is_symlink() or json.loads(process.read_text()) != engine_step:
         raise p.Rejected('engine step differs from retained process')
-    verified = p.check_result(receipt)
+    verified = (p.check_result(receipt, comparison_context=comparison_context)
+                if api else p.check_result(receipt))
     metrics = data.get('metrics', {})
     if not valid_metrics(metrics):
         raise p.Rejected('invalid native trial metrics')
@@ -533,7 +603,19 @@ def trial_freeze(protocol,row):
 def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET,
                resume_plan=None, resume_plan_sha256=None, allocation='remaining',
                outer_ceiling=MAX_OPERATIONAL_BUDGET, installed_context=None,
-               installed_trial_policy=None):
+               installed_trial_policy=None, comparison_contexts=None):
+    """API callers retain comparison_contexts[selected['id']] for h/ex delivery.
+
+    The explicit empty registry receives the live, prospectively assigned
+    Context objects, never reconstructed authority from the returned index.
+    A shared external worker enclosure must count startup and complete exit.
+    """
+    api = type(installed_context) is InstalledContext and installed_context.comparison_policy is not None
+    if (api and (type(comparison_contexts) is not dict or comparison_contexts
+                 or installed_trial_policy != INSTALLED_TRIAL_RESERVE_POLICY)
+            or not api and comparison_contexts is not None):
+        raise p.Rejected('comparison API requires empty caller registry and fixed trial reserve')
+    live_contexts = {}
     if guidance_policy not in (None,'placement-search-v1'):raise p.Rejected('unsupported portfolio guidance')
     if (allocation not in ('remaining','balanced') or not q.finite_nonnegative(outer_ceiling)
             or not 60<=outer_ceiling<=MAX_OPERATIONAL_BUDGET
@@ -555,6 +637,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
     prior_wall=prior_cpu=0.;basis=None
     started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
     out = Path(out).resolve()
+    if api and out != installed_context.comparison_output:
+        raise p.Rejected('comparison portfolio output differs from sealed caller')
     if resume_plan is not None:
         raw=pc.read_bytes(_resume_path(resume_plan),32*1024*1024)
         if hashlib.sha256(raw).hexdigest()!=resume_plan_sha256:raise p.Rejected('resume plan pin differs')
@@ -579,6 +663,10 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
     if installed_trial_policy is not None:
         summary.update(installed_trial_accounting_policy=installed_trial_policy,
                        trial_readback_reserve_seconds=INSTALLED_TRIAL_READBACK_RESERVE)
+    if api:
+        summary.update(comparison_api_policy=COMPARISON_API_POLICY, accepted=False,
+                       production_admitted=False, project_complete=False,
+                       execution='Direct API inside externally bounded worker; no enclosing CLI process per trial')
 
     def totals():
         return prior_wall+time.monotonic() - started, prior_cpu+q.total_process_cpu() - cpu_started
@@ -644,6 +732,11 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                 trial_readback_reserve_seconds=INSTALLED_TRIAL_READBACK_RESERVE,
                 route_allocation='trial assignment minus fixed30s negative classification/replay reserve; '
                     'existing per-trial invocation/negative replay caps and global accounting remain mandatory')
+        if api:
+            protocol.update(comparison_api_policy=COMPARISON_API_POLICY,
+                trial_outputs={name: str(_comparison_trial(frozen, name)) for name in VARIANTS},
+                authority='Caller retains each live Context assigned before invocation, including winning delivery context; no receipt-derived authority',
+                production_admitted=False)
         if basis:
             protocol.update(schema=2,resume=basis)
             if basis['plan']['policy']==COMPLETED_PREFIX_POLICY:
@@ -657,11 +750,30 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             if installed_context is not None: installed_context.check()
             else: q.verify_freeze(frozen,board)
             if basis:verify_resume_basis(basis)
-        def verified(row):return verify_row(row,board,trial_freeze(protocol,row))
+        def caller(row):
+            if not api: return None
+            context = live_contexts.get(row['id'])
+            if context is None or comparison_contexts.get(row['id']) is not context:
+                raise p.Rejected('caller comparison Context registry changed')
+            return context
+        def verified(row):
+            return verify_row(row,board,trial_freeze(protocol,row),
+                              **({'comparison_context':caller(row)} if api else {}))
+        def recheck_positive(row):
+            start_wall,start_cpu=time.monotonic(),q.total_process_cpu()
+            try:return verified(row)
+            finally:
+                row['positive_readback_wall_seconds']=row.get('positive_readback_wall_seconds',0.)+time.monotonic()-start_wall
+                row['positive_readback_cpu_seconds']=row.get('positive_readback_cpu_seconds',0.)+q.total_process_cpu()-start_cpu
+                if any(not q.finite_nonnegative(value) or value>row['assigned_seconds'] for value in (
+                        row['invocation_wall_seconds']+row['positive_readback_wall_seconds'],
+                        row['invocation_cpu_seconds']+row['positive_readback_cpu_seconds'])):
+                    raise p.Rejected('positive trial plus readbacks exceeded assigned wall/CPU allowance')
         def recheck_negative(row):
             start_wall, start_cpu = time.monotonic(), q.total_process_cpu()
             try:
-                return verify_negative_row(row, board, frozen)
+                return verify_negative_row(row, board, frozen,
+                    **({'comparison_context':caller(row)} if api else {}))
             finally:
                 row['negative_readback_wall_seconds'] = row.get('negative_readback_wall_seconds', 0.) + time.monotonic() - start_wall
                 row['negative_readback_cpu_seconds'] = row.get('negative_readback_cpu_seconds', 0.) + q.total_process_cpu() - start_cpu
@@ -686,11 +798,25 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                         'trial_readback_reserve_seconds':INSTALLED_TRIAL_READBACK_RESERVE} if installed_trial_policy is not None else {})}
                     for name in VARIANTS[index:]]
                 break
-            directory = out / f'{index + 1:02d}-{variant}'
+            directory = _comparison_trial(frozen,variant) if api else out / f'{index + 1:02d}-{variant}'
             before_wall, before_cpu = time.monotonic(), q.total_process_cpu()
             trial_started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
             try:
-                result = (_installed_attempt(installed_context, directory, route_allowance, variant)
+                if api:
+                    authority=cmp.Context(board,directory,'tuned',route_allowance,
+                        installed_context.tools,installed_context.source_hashes,
+                        adapter='both',scoring_variant=variant)
+                    live_contexts[variant]=authority;comparison_contexts[variant]=authority
+                    directory.parent.mkdir()
+                    result=p.route(board,directory,route_allowance,False,'both','tuned',
+                                   scoring_variant=variant,comparison_context=authority)
+                    if q.cancelled(result):raise KeyboardInterrupt
+                    if result.get('accepted') is not True:
+                        diagnostic=_installed_negative_readback(directory/'result.json',board,frozen,
+                            route_allowance,variant,comparison_context=authority)
+                        p.save_json(directory.parent/'api-rejection.json',diagnostic)
+                else:
+                    result = (_installed_attempt(installed_context, directory, route_allowance, variant)
                           if installed_context is not None else
                           p.route(board, directory, assigned, False, 'both', 'tuned', scoring_variant=variant)
                           if guidance_policy is None else
@@ -709,7 +835,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                     **({'installed_trial_accounting_policy':installed_trial_policy,
                         'route_allowance_seconds':route_allowance,
                         'trial_readback_reserve_seconds':INSTALLED_TRIAL_READBACK_RESERVE} if installed_trial_policy is not None else {}),
-                    **({'installed_cli': _installed_evidence(directory)} if installed_context is not None else {})})
+                    **({'installed_api': _comparison_evidence(directory)} if api and directory.is_dir() else
+                       {'installed_cli': _installed_evidence(directory)} if installed_context is not None and not api else {})})
                 raise
             trial_wall, trial_cpu = time.monotonic() - before_wall, q.total_process_cpu() - before_cpu
             receipt = directory / 'result.json'
@@ -735,7 +862,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                 row.update(installed_trial_accounting_policy=installed_trial_policy,
                     route_allowance_seconds=route_allowance,
                     trial_readback_reserve_seconds=INSTALLED_TRIAL_READBACK_RESERVE)
-            if installed_context is not None: row['installed_cli'] = _installed_evidence(directory)
+            if api: row['installed_api'] = _comparison_evidence(directory)
+            elif installed_context is not None: row['installed_cli'] = _installed_evidence(directory)
             summary['trials'].append(row)
             if q.cancelled(result):
                 raise KeyboardInterrupt
@@ -750,7 +878,8 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                         verified(row)
                         row['eligible'] = True
                 elif installed_context is not None:
-                    row['negative_readback'] = verify_negative_row(row, board, frozen)
+                    row['negative_readback'] = verify_negative_row(row, board, frozen,
+                        **({'comparison_context':caller(row)} if api else {}))
                     row['validated_rejection'] = True
             finally:
                 if installed_context is not None:
@@ -767,7 +896,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         # stale losers must not remain an apparently valid stronger baseline.
         for row in summary['trials']:
             if row['eligible']:
-                verified(row)
+                (recheck_positive if api else verified)(row)
             elif installed_context is not None and row.get('validated_rejection') is True:
                 recheck_negative(row)
         stable()
@@ -775,7 +904,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         candidates = [row for row in summary['trials'] if row['eligible']]
         if candidates:
             chosen = min(candidates, key=rank)
-            selected_check = verified(chosen)
+            selected_check = (recheck_positive if api else verified)(chosen)
             summary['selected'] = {key: chosen[key] for key in ('id', 'result', 'result_sha256', 'candidate', 'candidate_sha256', 'native_report_sha256', 'vias', 'length_mm')}
             summary['selected']['consistency'] = selected_check
             stable()
@@ -856,6 +985,40 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                 installed_context.check()
                 if f.canonical(f.read_json(out / 'portfolio-summary.json')) != f.canonical(summary):
                     raise p.Rejected('installed final read-only fence summary changed')
+            if api and summary['status'] in ('completed', 'no_valid_candidate'):
+                # Keep the literal stored timing sample: final replays use
+                # private rows and are still charged by totals/external exit.
+                for row in summary['trials']:
+                    (recheck_positive if row.get('eligible') else recheck_negative)(copy.deepcopy(row))
+                installed_context.check()
+                if pc.inventory(board.parent) != frozen['source_hashes']:
+                    raise p.Rejected('comparison final source changed')
+                for name,digest in frozen['files_sha256'].items():
+                    if (pv.file_digest(c.ROOT/name)[0] != digest
+                            or pv.file_digest(out/'frozen-code'/name)[0] != digest):
+                        raise p.Rejected('comparison final runtime changed')
+                for name,digest in installed_context.administration_files_sha256.items():
+                    if (pv.file_digest(installed_context.administration_root/name)[0] != digest
+                            or pv.file_digest(out/'frozen-administration'/name)[0] != digest):
+                        raise p.Rejected('comparison final administration changed')
+                for name,digest in frozen['tools']['files'].items():
+                    # Tool payloads include the large pinned engine; the2MiB
+                    # owned-source reader is not its validity contract.
+                    if p.sha(Path(name)) != digest:
+                        raise p.Rejected('comparison final tool changed')
+                for row in summary['trials']:
+                    authority=caller(row)
+                    if (f.canonical(authority.record()) != authority._seal
+                            or _comparison_evidence(Path(row['result']).parent) != row['installed_api']
+                            or p.sha(Path(row['result'])) != row['result_sha256']):
+                        raise p.Rejected('comparison final caller/evidence changed')
+                # LAST: no Context, tool or complete-material callback may
+                # follow these shared field/all-Native PRL metadata replays.
+                for row in summary['trials']:
+                    p.check_experimental_local_settings(Path(row['result']).parent,
+                        f.read_json(Path(row['result'])),None)
+                if f.canonical(f.read_json(out/'portfolio-summary.json')) != f.canonical(summary):
+                    raise p.Rejected('comparison final read-only summary changed')
             if remaining() < 0:
                 account(); p.save_json(out / 'portfolio-summary.json', summary)
     except KeyboardInterrupt:

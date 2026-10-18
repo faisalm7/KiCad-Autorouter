@@ -431,4 +431,246 @@ class InstalledPortfolioContextTests(unittest.TestCase):
         self.assertTrue(verify.called); self.assertNotIn('installed_cli', result['trials'][0])
 
 
+class ComparisonPortfolioAPITests(unittest.TestCase):
+    """No Git/Native/process execution; real seals, allocation and file readers.
+
+    Authored engine rows below are fixtures, never actual execution evidence.
+    Existing CLI/Git fixture controls above remain a separate integration gate.
+    """
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.base = Path(self.tmp.name).resolve(); self.runtime = self.base/'runtime'
+        (self.runtime/'.runs').mkdir(parents=True); (self.runtime/'.venv').mkdir()
+        self.admin = self.base/'admin'; (self.admin/'scripts').mkdir(parents=True)
+        admin = {'scripts/experiment_portfolio.py': Path(m.__file__).read_bytes(),
+                 'scripts/experiment_quality.py': Path(m.q.__file__).read_bytes(),
+                 'scripts/controller.py': b'# inert caller fixture\n'}
+        self.blobs = {hashlib.sha1(raw).hexdigest(): raw for raw in admin.values()}
+        for name,raw in admin.items(): (self.admin/name).write_bytes(raw)
+        self.board = self.base/'source/owned.kicad_pcb'; self.board.parent.mkdir()
+        for suffix,raw in (('.kicad_pcb',b'(kicad_pcb)\n'),('.kicad_pro',b'{}\n'),
+                           ('.kicad_sch',b'(kicad_sch)\n')):
+            self.board.with_suffix(suffix).write_bytes(raw)
+        self.hashes=m.pc.inventory(self.board.parent)
+        modules=(m.p,m.pc,m.f,m.pv,m.runtime_runner,m.cmp); implementation={}
+        for module in modules:
+            path=self.runtime/'autorouter'/Path(module.__file__).name
+            path.parent.mkdir(exist_ok=True);path.write_bytes(Path(module.__file__).read_bytes())
+            implementation[str(path.relative_to(self.runtime))]=hashlib.sha256(path.read_bytes()).hexdigest()
+        for name in ('toolchain.lock.json',m.pv.MANIFEST):(self.runtime/name).write_bytes(b'{}')
+        self.tools=dict(implementation_sha256=implementation,git_head='a'*40,files={},kicad='10.0.7',
+            comparison_route_policy=m.cmp.POLICY,source_provenance=dict(kind=m.pv.KIND,
+            native_version='10.0.7',manifest_sha256=hashlib.sha256(b'{}').hexdigest()))
+        self.output=self.runtime/'.runs/native7-comparison-portfolio-control';self.registry={}
+        self.wall=self.cpu=0.;self.calls=[];self.readers=[];self.events=[];self.mode='positive'
+        self.after_second=None;self.after_third=None;self.reader_error=None;self.read_cost=0.
+        self.summary_published=False;self.final_scores=set();self.metadata_dirty=False;self.late_metadata_fault=False
+        changes=[patch.object(m.c,'ROOT',self.runtime),patch.object(m.c,'NATIVE_VERSION','10.0.7'),
+            patch.object(m,'SCRIPT',self.admin/'scripts/experiment_portfolio.py'),
+            patch.object(m.q,'__file__',str(self.admin/'scripts/experiment_quality.py')),
+            patch.object(sys,'executable',str(self.runtime/'.venv/bin/python')),
+            patch.object(sys,'prefix',str(self.runtime/'.venv')),
+            patch.object(m.pv,'git_head',return_value='a'*40),patch.object(m.pv,'_git',side_effect=self.git_bytes),
+            patch.object(m.p,'tool_manifest',side_effect=self.manifest),patch.object(m.p,'check_storage'),
+            patch.object(m.p,'route',side_effect=self.route),patch.object(m.p,'check_result',side_effect=self.checked),
+            patch.object(m.p,'check_rejected_routing_attempt',side_effect=self.rejected),
+            patch.object(m.p,'check_experimental_local_settings',side_effect=self.metadata),
+            patch.object(m.runtime_runner,'run',side_effect=AssertionError('API invented CLI execution')),
+            patch.object(m.subprocess,'run',side_effect=AssertionError('test attempted subprocess/Git')),
+            patch.object(m.time,'monotonic',side_effect=lambda:self.wall),
+            patch.object(m.q,'total_process_cpu',side_effect=lambda:self.cpu)]
+        changes += [patch.object(module,'__file__',str(self.runtime/'autorouter'/Path(module.__file__).name))
+                    for module in modules]
+        for change in changes:change.start();self.addCleanup(change.stop)
+        self.context=m.InstalledContext(self.runtime,self.board,'owned-exposed-fixture',
+            copy.deepcopy(self.tools),dict(self.hashes),self.admin,'a'*40,
+            {name:hashlib.sha256(raw).hexdigest() for name,raw in admin.items()},self.admin/'scripts/controller.py',
+            comparison_policy=m.COMPARISON_API_POLICY,comparison_output=self.output)
+
+    def git_bytes(self,root,*argv,**kwargs):
+        if argv[0]=='status':return b''
+        if argv[0]=='ls-tree':
+            return b''.join(b'100644 blob '+hashlib.sha1((self.admin/name).read_bytes()).hexdigest().encode()+
+                b'\t'+name.encode()+b'\0' for name in argv[argv.index('--')+1:])
+        if argv[:2]==('cat-file','-s'):return str(len(self.blobs[argv[2]])).encode()
+        if argv[:2]==('cat-file','blob'):return self.blobs[argv[2]]
+        raise AssertionError('unexpected Git reader call '+repr(argv))
+
+    def manifest(self):
+        self.events.append('tools')
+        if self.late_metadata_fault and self.final_scores==set(m.VARIANTS):self.metadata_dirty=True
+        return copy.deepcopy(self.tools)
+
+    def metadata(self,*args):
+        self.events.append('metadata')
+        if self.metadata_dirty:raise m.p.Rejected('late owned PRL metadata fault')
+
+    def route(self,board,directory,seconds,keep,adapter,profile,*,scoring_variant,comparison_context):
+        self.calls.append((scoring_variant,seconds,comparison_context,directory))
+        self.assertIs(self.registry[scoring_variant],comparison_context)
+        self.assertEqual((board,keep,adapter,profile),(self.board,False,'both','tuned'))
+        comparison_context.check();directory.mkdir();(directory/'code').mkdir()
+        for name in ('comparison.py','pipeline.py'):
+            (directory/'code'/name).write_bytes((self.runtime/'autorouter'/name).read_bytes())
+        self.wall+=9.;self.cpu+=12.
+        engine=m.p.engine_profile_settings('tuned',seconds,scoring_variant=scoring_variant)
+        engine.update(outer_task_wall_budget_seconds=seconds,outer_task_cpu_budget_seconds=seconds)
+        step=dict(name='engine',argv=['authored-worker-fixture',*engine['argv']],status='success',exit_code=0,cleanup_complete=True)
+        m.p.save_json(directory/'engine-process.json',step)
+        negative=self.mode=='negative' or self.mode=='mixed' and len(self.calls)==2
+        data=dict(schema=1,source=str(board),source_hashes=dict(self.hashes),tools=copy.deepcopy(self.tools),
+            engine_profile=profile,baseline='B2_tuned',adapter=adapter,scoring_variant=scoring_variant,
+            scope='whole_board_unlocked_routing',budget_seconds=seconds,cpu_budget_seconds=seconds,
+            schematic_parity='checked by final native DRC',status='drc_rejected' if negative else 'routing_accepted',
+            accepted=not negative,candidate=str(directory/'candidate'/board.name),candidate_sha256='a'*64,
+            native_report_sha256='b'*64,native_rejection_reasons=['native opens=1'] if negative else [],
+            native=dict(opens=int(negative),blocking=0,warnings=0,exclusions=0),
+            metrics=dict(vias=2,track_length_mm=100.-len(self.calls)),engine_budget=engine,steps=[step])
+        if len(self.calls)==2 and self.mode in ('cancelled','unsupported'):data.update(accepted=False,status=self.mode)
+        m.cmp.bind(directory,data,comparison_context);m.p.save_json(directory/'result.json',data)
+        if len(self.calls)==2 and self.after_second:self.after_second()
+        if len(self.calls)==3 and self.after_third:self.after_third()
+        return data
+
+    def reader(self,receipt,context,negative):
+        self.readers.append((negative,context));self.cpu+=self.read_cost
+        if self.reader_error:raise self.reader_error
+        data=m.f.read_json(receipt);m.cmp.check_record(receipt.parent,data,context)
+        if self.summary_published:self.final_scores.add(context.scoring_variant)
+        return data
+
+    def checked(self,receipt,*,comparison_context):
+        d=self.reader(receipt,comparison_context,False)
+        return dict(current=True,applied=False,candidate=d['candidate'],candidate_sha256=d['candidate_sha256'],production_admitted=False)
+
+    def rejected(self,receipt,*,comparison_context):
+        d=self.reader(receipt,comparison_context,True)
+        return dict(current=False,applied=False,validated_rejection=True,routing_accepted=False,
+            candidate=d['candidate'],candidate_sha256=d['candidate_sha256'],native_report_sha256=d['native_report_sha256'],
+            native_rejection_reasons=d['native_rejection_reasons'],receipt_sha256=m.p.sha(receipt),production_admitted=False)
+
+    def run_portfolio(self,**kwargs):
+        save=m.p.save_json
+        def published(path,data):
+            result=save(path,data)
+            if Path(path)==self.output/'portfolio-summary.json' and data.get('comparison_eligible'):
+                self.summary_published=True
+            return result
+        with patch.object(m.p,'save_json',side_effect=published):
+            return m.experiment(self.output,installed_context=self.context,comparison_contexts=self.registry,
+                installed_trial_policy=m.INSTALLED_TRIAL_RESERVE_POLICY,allocation='balanced',budget=420.,**kwargs)
+
+    def test_live_contexts_fixed_order_reserved_paths_no_cli_and_winning_delivery_authority(self):
+        result=self.run_portfolio();self.assertTrue(result['comparison_eligible'])
+        self.assertEqual([x[0] for x in self.calls],list(m.VARIANTS))
+        self.assertEqual([x[1] for x in self.calls],[105.,166.5,351.])
+        self.assertFalse(result['accepted']);self.assertFalse(result['production_admitted'])
+        self.assertEqual(self.events[-3:],['metadata']*3)
+        for variant,seconds,context,directory in self.calls:
+            self.assertIs(self.registry[variant],context);self.assertEqual(context.scoring_variant,variant)
+            self.assertEqual(directory.parent.parent,self.runtime/'.runs');self.assertEqual(directory.name,'route')
+            self.assertTrue(directory.parent.name.startswith(m.cmp.PREFIX));self.assertNotIn(self.output,directory.parents)
+        winner=self.registry[result['selected']['id']]
+        self.assertEqual(m.cmp.delivery_record(winner)['comparison_delivery_context']['route'],result['selected']['result'])
+        self.assertTrue(all(context is self.registry[context.scoring_variant] for _,context in self.readers))
+        self.assertTrue(all('installed_api' in row and 'installed_cli' not in row for row in result['trials']))
+
+    def test_completed_negative_never_eligible_and_all_three_are_retained(self):
+        self.mode='negative';result=self.run_portfolio()
+        self.assertEqual(result['status'],'no_valid_candidate');self.assertIsNone(result['selected'])
+        self.assertTrue(result['all_variants_attempted'])
+        self.assertTrue(all(row['validated_rejection'] and not row['eligible'] for row in result['trials']))
+        self.assertTrue(all(negative for negative,_ in self.readers))
+
+    def test_mixed_positive_negative_uses_same_live_context_on_late_replays(self):
+        self.mode='mixed';result=self.run_portfolio();self.assertTrue(result['comparison_eligible'])
+        self.assertTrue(result['trials'][1]['validated_rejection']);self.assertEqual(result['selected']['id'],'via_high')
+        self.assertGreater(len([x for x in self.readers if x[0]]),3)
+
+    def test_cancel_after_incumbent_is_terminal_without_fallback(self):
+        self.mode='cancelled';result=self.run_portfolio()
+        self.assertEqual(result['status'],'cancelled')
+        self.assertIsNone(result['selected']);self.assertFalse(result['comparison_eligible'])
+        self.assertEqual(len(self.calls),2);self.assertTrue(result['trials'][0]['eligible'])
+
+    def test_unsupported_does_not_become_completed_native_failure(self):
+        self.mode='unsupported';result=self.run_portfolio()
+        self.assertEqual(result['status'],'invalidated');self.assertIsNone(result['selected'])
+        self.assertNotIn('validated_rejection',result['trials'][-1]);self.assertEqual(len(self.calls),2)
+
+    def test_missing_replaced_or_wrong_context_refuses_instead_of_receipt_authority(self):
+        result=self.run_portfolio();row=result['trials'][0];frozen=m.f.read_json(self.output/'protocol.json')['freeze']
+        for context in (None,self.registry['via_high']):
+            with self.subTest(context=context),self.assertRaises(m.p.Rejected):
+                m.verify_row(row,self.board,frozen,comparison_context=context)
+        with self.assertRaises(m.p.Rejected):m.verify_row(row,self.board,frozen)
+
+    def test_registry_change_invalidates_existing_winner(self):
+        self.after_second=lambda:self.registry.pop('via_default')
+        result=self.run_portfolio();self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertIn('registry changed',result['reason'])
+
+    def test_stale_source_or_retained_receipt_invalidates_whole_portfolio(self):
+        self.after_second=lambda:self.board.with_suffix('.kicad_pro').write_bytes(b'{"changed":true}')
+        result=self.run_portfolio();self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertEqual(len(self.calls),2)
+
+    def test_retained_result_change_after_three_trials_cannot_keep_winner(self):
+        def tamper():
+            receipt=self.calls[0][3]/'result.json'
+            row=m.f.read_json(receipt);row['candidate_sha256']='c'*64;m.p.save_json(receipt,row)
+        self.after_third=tamper;result=self.run_portfolio()
+        self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertEqual(len(self.calls),3);self.assertIn('evidence changed',result['reason'])
+
+    def test_combined_context_marker_deletion_cannot_choose_cli_fallback(self):
+        def tamper():
+            directory=self.calls[0][3];(directory/m.cmp.SIDECAR).unlink()
+            row=m.f.read_json(directory/'result.json');row.pop('comparison_route');row.pop('production_admitted')
+            m.p.save_json(directory/'result.json',row)
+        self.after_third=tamper;result=self.run_portfolio()
+        self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertEqual(len(self.calls),3);self.assertIn('evidence changed',result['reason'])
+
+    def test_reader_refusal_and_readback_cpu_exhaustion_do_not_fallback(self):
+        self.after_second=lambda:setattr(self,'reader_error',m.p.Rejected('invalid actual proof fixture'))
+        result=self.run_portfolio();self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertEqual(len(self.calls),2);self.assertTrue(result['trials'][0]['eligible'])
+
+    def test_positive_replay_cost_is_charged_to_assignment_and_whole_cpu(self):
+        self.read_cost=70.;result=self.run_portfolio()
+        self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertIn('readbacks exceeded assigned',result['reason'])
+        self.assertGreaterEqual(self.cpu,12.*len(self.calls)+70.*len(self.readers))
+
+    def test_final_administration_tool_callback_cannot_escape_metadata_replay(self):
+        self.late_metadata_fault=True;result=self.run_portfolio()
+        self.assertTrue(self.metadata_dirty);self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertIn('late owned PRL metadata fault',result['reason'])
+
+    def test_final_tool_readback_does_not_apply_owned_source_file_size_limit(self):
+        tool=self.base/'owned-inert-large-tool';tool.write_bytes(b'x'*(m.pv.MAX_FILE_BYTES+1))
+        self.tools['files'][str(tool)]=hashlib.sha256(tool.read_bytes()).hexdigest()
+        self.context=replace(self.context,tools=copy.deepcopy(self.tools))
+        result=self.run_portfolio();self.assertTrue(result['comparison_eligible'])
+
+    def test_retained_administration_drift_cannot_keep_valid_trial_winner(self):
+        self.after_third=lambda:(self.output/'frozen-administration/scripts/controller.py').write_bytes(b'changed')
+        result=self.run_portfolio();self.assertFalse(result['comparison_eligible']);self.assertIsNone(result['selected'])
+        self.assertIn('final administration changed',result['reason'])
+
+    def test_api_choice_output_registry_and_reserve_are_explicit_sealed_requirements(self):
+        for changes in ({'comparison_policy':'unknown'}, {'comparison_output':self.runtime/'.runs/ordinary'},
+                        {'comparison_policy':None}, {'comparison_output':None}):
+            with self.subTest(changes=changes),self.assertRaises(m.p.Rejected):replace(self.context,**changes)
+        for extra in ({'comparison_contexts':None},{'comparison_contexts':{'via_default':object()}},
+                      {'installed_trial_policy':None}):
+            args=dict(installed_context=self.context,comparison_contexts={},installed_trial_policy=m.INSTALLED_TRIAL_RESERVE_POLICY)
+            args.update(extra)
+            with self.subTest(extra=extra),self.assertRaises(m.p.Rejected):m.experiment(self.output,**args)
+        with patch.object(m.c,'NATIVE_VERSION','10.0.0'),self.assertRaises(m.p.Rejected):self.context.check()
+        object.__setattr__(self.context,'comparison_policy',None)
+        with self.assertRaisesRegex(m.p.Rejected,'expectations changed'):self.context.check()
+
+
 if __name__ == '__main__': unittest.main()
