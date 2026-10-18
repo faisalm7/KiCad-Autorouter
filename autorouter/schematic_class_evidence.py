@@ -194,13 +194,24 @@ def _companions(source, project_raw, schematic_raw):
 
 
 def _worker(directory, data, name, base_argv):
-    """Only the two existing supported caller prefixes; exact shared replay."""
+    """Bind the exact worker, using the shared task-export command grammar.
+
+    Class parity proves this map's source and process, not copper admission.
+    The central import contract independently requires the captured producer's
+    paired protection flags; historical unflagged exports retain their proof.
+    Never normalize the actual argv stored in the binding/process witness.
+    """
     process_path = directory/(name+'-process.json')
     raw = pc.read_bytes(process_path, q.MAX_BYTES); process = preferences._parse(raw, q.MAX_BYTES)
     if type(process) is not dict:
         _fail('process object required')
     argv = process.get('argv')
-    if argv not in (base_argv, [*f.SANDBOX, *base_argv]):
+    matches = argv in (base_argv, [*f.SANDBOX, *base_argv])
+    if name == 'export':
+        from .adapter import native_command_parser
+        parsed = native_command_parser(with_task_copper=True)(argv, 'export')
+        matches = parsed is not None and parsed[0] == base_argv
+    if not matches:
         _fail('actual process command differs: ' + name)
     checked = f.process_check(directory, data, name, argv)
     log = directory/(name+'.log'); log_raw = pc.read_bytes(log, MAX_LOG_BYTES)

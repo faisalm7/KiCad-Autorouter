@@ -1,0 +1,46 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 1,
+  "wall_seconds": 0.3337109169806354,
+  "cpu_seconds": 0.297282,
+  "max_rss_bytes": 137379840,
+  "supervisor_cpu_seconds": 0.00405500000000001,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 134905856,
+  "sampled_peak_workdir_bytes": 2454,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 268435456,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-020/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_runtime_workflow.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-020/runtime",
+    "--source",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/source-matching/owned-four-copper-forced-inner.kicad_pcb",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-020/runtime/.runs/production-delivery-001",
+    "--method",
+    "route"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-020/cli-workflow-001-run/command.log",
+  "log_bytes": 578,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-020/cli-workflow-001-run",
+  "signal_cancellation_enabled": true,
+  "pid": 82426
+}

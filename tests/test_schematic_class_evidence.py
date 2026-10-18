@@ -69,7 +69,7 @@ class SchematicClassEvidenceControls(unittest.TestCase):
         self.fixture = prior.FlatClassParityControls(); self.fixture.setUp()
         self.count = 0
 
-    def case(self, stage='task'):
+    def case(self, stage='task', *, fixed=False, sandboxed=False):
         self.count += 1; root = self.root/str(self.count); root.mkdir(); candidate = root/'candidate'; candidate.mkdir()
         board = candidate/Path(self.fixture.source).name
         board.write_bytes(self.fixture.board_raw)
@@ -85,6 +85,10 @@ class SchematicClassEvidenceControls(unittest.TestCase):
                 'export' if stage == 'task' else 'netclasses', str(board),
                 str(root/'task.dsn') if stage == 'task' else str(map_path)]
         if stage == 'task': argv.append(str(map_path))
+        if fixed:
+            from autorouter.task_copper import FLAG
+            argv.append(FLAG)
+        if sandboxed: argv = [*e.f.SANDBOX, *argv]
         job.journal(name, argv)
         return {'job': job, 'board': board, 'map': map_path, 'stage': stage,
             'raw': {'board_raw': pc.read_bytes(board), 'project_raw': pc.read_bytes(board.with_suffix('.kicad_pro')),
@@ -122,6 +126,38 @@ class SchematicClassEvidenceControls(unittest.TestCase):
                 binding = e._json(e.paths(case['job'].out, stage)['binding'])
                 self.assertIs(binding['protection']['flags_restored'], True)
                 self.assertIs(binding['protection']['bytes_unchanged'], True)
+
+    def test_protected_task_export_collect_replay_binds_actual_flag_and_prefix(self):
+        # The real installed020 failure: the map worker now has this flag.
+        # Authored journals test plumbing only; Native integration is separate.
+        for sandboxed in (False, True):
+            with self.subTest(sandboxed=sandboxed):
+                case = self.case(fixed=True, sandboxed=sandboxed)
+                self.collect(case); self.check(case)
+                binding = e._json(e.paths(case['job'].out, 'task')['binding'])
+                actual = case['job'].steps[0]['argv']
+                self.assertEqual(binding['map_worker']['argv'], actual)
+                self.assertEqual(actual[-1], '--task-copper-fixed')
+                # Even a syntactically valid reauthored command cannot reuse
+                # the old binding after its actual protection flag changes.
+                worker = case['job'].steps[0]; worker['argv'] = actual[:-1]
+                (case['job'].out/'export-process.json').write_bytes(raw_json(worker))
+                self.refused(case)
+
+    def test_task_export_command_grammar_and_unflagged_final_map_remain_exact(self):
+        for fault in ('repeated', 'misplaced', 'unknown', 'prefix', 'final'):
+            with self.subTest(fault=fault):
+                case = self.case('final' if fault == 'final' else 'task', fixed=True)
+                worker = case['job'].steps[0]; argv = worker['argv']
+                if fault == 'repeated': argv.append('--task-copper-fixed')
+                elif fault == 'misplaced': argv.insert(3, argv.pop())
+                elif fault == 'unknown': argv[-1] = '--unknown-protection'
+                elif fault == 'prefix': argv[0] = '/unqualified/python'
+                name = worker['name']
+                (case['job'].out/(name+'-process.json')).write_bytes(raw_json(worker))
+                with self.assertRaises((ValueError, p.Rejected)):
+                    self.collect(case)
+                self.assertFalse(e.paths(case['job'].out, case['stage'])['proof'].exists())
 
     def test_requirement_is_pending_only_and_unchanged_no_flag_returns_none(self):
         case = self.case(); before = pc.inventory(case['board'].parent)
