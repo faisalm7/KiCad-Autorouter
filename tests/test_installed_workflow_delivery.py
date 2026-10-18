@@ -61,6 +61,17 @@ class InstalledDeliveryControls(unittest.TestCase):
         result=driver.read_attempt(self.route)
         self.assertIs(result['accepted'],False);self.assertEqual(result['source_drc'],{'opens':2})
 
+    def test_protocol_keeps_complete_old_and_thermal_populations_separate(self):
+        for kind, arms in (('installed-workflow-exposed-comparison-v1', driver.ORIGINAL_ARMS),
+                           ('installed-workflow-thermal-comparison-v2', driver.THERMAL_ARMS)):
+            plan = dict(kind=kind, arms=list(arms))
+            self.assertEqual(driver.protocol_arms(plan), arms)
+            for bad in (list(arms[:-1]), list(reversed(arms)), [*arms, arms[-1]], None):
+                with self.subTest(kind=kind, bad=bad), self.assertRaises(p.Rejected):
+                    driver.protocol_arms(dict(plan, arms=bad))
+        for bad in ({}, [], {'kind': True}, {'kind': 'unqualified', 'arms': list(driver.THERMAL_ARMS)}):
+            with self.subTest(bad=bad), self.assertRaises(p.Rejected): driver.protocol_arms(bad)
+
 
 class InstalledPairedNegativeReader(unittest.TestCase):
     def setUp(self):

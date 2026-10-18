@@ -18,6 +18,21 @@ def cpu():
     return sum(row.ru_utime + row.ru_stime for row in
                (resource.getrusage(resource.RUSAGE_SELF), resource.getrusage(resource.RUSAGE_CHILDREN)))
 CPU0 = cpu()
+ORIGINAL_ARMS = ('B0', 'B1', 'B2_portfolio', 'B2_stronger', 'C_single')
+THERMAL_ARMS = ('B0', 'B1', 'B2_tuned', 'B2_completion', 'B2_portfolio', 'C_single', 'C_thermal')
+
+
+def protocol_arms(plan):
+    """Two exact exposed-development protocols; never accept a partial matrix."""
+    from autorouter import pipeline as p
+    kinds = {'installed-workflow-exposed-comparison-v1': ORIGINAL_ARMS,
+             'installed-workflow-thermal-comparison-v2': THERMAL_ARMS}
+    if type(plan) is not dict or type(plan.get('kind')) is not str:
+        raise p.Rejected('Frozen installed comparison protocol required.')
+    expected = kinds.get(plan['kind'])
+    if expected is None or plan.get('arms') != list(expected):
+        raise p.Rejected('Frozen installed comparison arm population differs.')
+    return expected
 
 
 def read_attempt(path):
@@ -33,7 +48,8 @@ def read_attempt(path):
             raise ValueError('Partial route receipt malformed or changed.')
         result.update(status=data.get('status'), accepted=data.get('accepted'), reason=data.get('reason'),
             source_drc=data.get('source_drc'), native=data.get('native'),
-            native_rejection_reasons=data.get('native_rejection_reasons'), metrics=data.get('metrics'))
+            native_rejection_reasons=data.get('native_rejection_reasons'), metrics=data.get('metrics'),
+            incumbent=data.get('incumbent'), repair=data.get('repair'), recovery_needed=data.get('recovery_needed'))
     except Exception as exc:
         result['read_error'] = type(exc).__name__ + ': ' + str(exc)
     return result
@@ -64,7 +80,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('runtime', 'protocol', 'protocol-sha256', 'output'):
         parser.add_argument('--' + name, required=True)
-    parser.add_argument('--arm', choices=('B0', 'B1', 'B2_portfolio', 'B2_stronger', 'C_single'), required=True)
+    parser.add_argument('--arm', choices=tuple(dict.fromkeys((*ORIGINAL_ARMS, *THERMAL_ARMS))), required=True)
     args = parser.parse_args()
     runtime = Path(args.runtime)
     sys.path.insert(0, str(runtime))
@@ -81,9 +97,9 @@ def main():
     if p.sha(protocol_path) != args.protocol_sha256:
         raise p.Rejected('Frozen protocol hash differs.')
     plan = f.read_json(protocol_path)
+    arms = protocol_arms(plan)
     if (type(plan) is not dict or type(plan.get('schema')) is not int or plan.get('schema') != 1
-            or plan.get('kind') != 'installed-workflow-exposed-comparison-v1'
-            or plan.get('runtime') != str(runtime) or plan.get('arms') != ['B0', 'B1', 'B2_portfolio', 'B2_stronger', 'C_single']
+            or args.arm not in arms or plan.get('runtime') != str(runtime)
             or plan.get('routing_seconds') != 105 or plan.get('method_wall_cpu_cap_seconds') != 120
             or plan.get('delivery_wall_cpu_cap_seconds') != 240 or plan.get('allocation') != 'remaining'):
         raise p.Rejected('Unsupported frozen comparison protocol or budgets.')
@@ -106,7 +122,7 @@ def main():
         controller_sha256=selfpin, source=str(board), source_hashes=plan['source_hashes'],
         tools=plan['tools'], processes=[], routing_seconds=105, method_wall_cpu_cap_seconds=120,
         delivery_wall_cpu_cap_seconds=240, external_complete_exit_required=True,
-        scope='Actual installed product. Exposed development; software test intent only. B2_portfolio uses the external fixed portfolio; B2_stronger uses the installed experimental free-angle/global-width API. Both use production review/export CLI; each has its own full budget, no pooled best-of claim. No human, physical or superiority claim.')
+        scope='Actual installed product. Exposed development; software test intent only. B2_portfolio uses the external fixed portfolio; B2_stronger is experimental free-angle/global-width; C_thermal is the existing experimental recovery CLI, not the default or graphical optimizer. All use production review/export CLI, equal105 routing allocations/120method caps/240whole-delivery caps; no pooled best-of, human, physical or superiority claim.')
 
     def fresh():
         if (p.sha(protocol_path) != args.protocol_sha256 or p.sha(Path(__file__)) != selfpin
@@ -138,7 +154,8 @@ def main():
     settings = dict(pref.DEFAULTS, seconds=105)
     if args.arm == 'B0': settings.update(adapter='none', profile='standard')
     elif args.arm == 'B1': settings.update(adapter='both', profile='standard')
-    elif args.arm in ('B2_portfolio', 'B2_stronger'): settings.update(adapter='both', profile='tuned')
+    elif args.arm in ('B2_portfolio', 'B2_stronger', 'B2_tuned'): settings.update(adapter='both', profile='tuned')
+    elif args.arm in ('B2_completion', 'C_thermal'): settings.update(adapter='both', profile='completion-only')
     else: settings = gui.improve_preset(settings)
     report['settings'] = settings
     flow = gui.Request(str(board), str(out), json.dumps(settings), True,
@@ -156,6 +173,11 @@ def main():
             if result.get('comparison_eligible') is not True or result.get('selected') is None:
                 raise p.Rejected('Fixed installed portfolio returned no eligible candidate: ' + str(result.get('status')))
             receipt = Path(result['selected']['result'])
+            p.check_result(receipt)
+        elif args.arm == 'C_thermal':
+            receipt = out / 'thermal-route/result.json'
+            cli('thermal_route', [str(runtime / '.venv/bin/python'), '-B', '-m', 'autorouter',
+                'recover', str(board), '--seconds', '105', '--output', str(receipt.parent)])
             p.check_result(receipt)
         elif args.arm == 'B2_stronger':
             # Predeclared stronger comparator, using the installed experimental
@@ -177,7 +199,7 @@ def main():
                       selected_route_receipt=str(receipt), selected_route_sha256=p.sha(receipt))
         if max(report['method_wall_seconds'], report['method_full_cpu_seconds']) > 120:
             raise p.Rejected('Complete routing/selection/readback exceeded method cap.')
-        if args.arm in ('B2_portfolio', 'B2_stronger'):
+        if args.arm in ('B2_portfolio', 'B2_stronger', 'C_thermal'):
             python = [str(runtime / '.venv/bin/python'), '-B', '-m', 'autorouter']
             commands = [('review', ['review-copy', str(receipt), '--render', '--output', str(out / 'review')]),
                 ('choice', ['review-choice', str(out / 'review/review.json'), '--choice', 'accept', '--output', str(out / 'choice')]),
@@ -205,7 +227,9 @@ def main():
     if method_start is not None and 'method_wall_seconds' not in report:
         report.update(method_wall_seconds=time.monotonic() - method_start, method_full_cpu_seconds=cpu() - method_cpu)
     # Never omit partial/failed producer evidence when a UI adoption refused it.
-    route_file = out / 'stronger-route/result.json' if args.arm == 'B2_stronger' else flow.workspace / 'route/result.json'
+    route_file = (out / 'stronger-route/result.json' if args.arm == 'B2_stronger'
+        else out / 'thermal-route/result.json' if args.arm == 'C_thermal'
+        else flow.workspace / 'route/result.json')
     if route_file.is_file():
         report['route_attempt'] = read_attempt(route_file)
         if 'read_error' in report['route_attempt']:
