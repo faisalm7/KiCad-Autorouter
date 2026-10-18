@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.48067949997493997,
+  "cpu_seconds": 0.4543,
+  "max_rss_bytes": 126697472,
+  "supervisor_cpu_seconds": 0.006558000000000064,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 70680576,
+  "sampled_peak_workdir_bytes": 1260523,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 268435456,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/autorouter/native.py",
+    "pour-audit",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/production-whole4Cu-delivery-001/autorouter-gui-2210f277701249c9b3c2a69a9365b5cc/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/production-whole4Cu-delivery-001/autorouter-gui-2210f277701249c9b3c2a69a9365b5cc/export/validation/pour-keepout-audit.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/production-whole4Cu-delivery-001/autorouter-gui-2210f277701249c9b3c2a69a9365b5cc/export/validation/pour-keepout-audit.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/production-whole4Cu-delivery-001/autorouter-gui-2210f277701249c9b3c2a69a9365b5cc/export/validation",
+  "signal_cancellation_enabled": true,
+  "pid": 91572,
+  "name": "pour-keepout-audit"
+}
