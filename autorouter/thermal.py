@@ -122,6 +122,155 @@ def _check_geometry_identity(geometry):
         raise p.Rejected('thermal geometry native identity differs from selected tools')
 
 
+PARENT_POLICY='native-thermal-parent-selection-v1'
+
+
+def parent_profile():
+    """The selected tools determine this method's fixed incumbent, never JSON."""
+    if cfg.NATIVE_VERSION=='10.0.0':return 'completion-only'
+    if cfg.NATIVE_VERSION=='10.0.7':return 'standard'
+    raise p.Rejected('unsupported thermal parent Native version')
+
+
+def check_parent_scope(directory,data):
+    """Keep old0 receipts distinct; a new producer cannot delete its policy."""
+    from .local_settings import policy_declarations
+    from .placement_clearance import read_bytes
+    directory=Path(directory);producer=directory/'code/recovery.py'
+    raw=read_bytes(producer,1024**2)
+    if p.sha(producer)!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/recovery.py'):
+        raise p.Rejected('thermal parent producer differs')
+    declarations=policy_declarations(raw,{'THERMAL_PARENT_POLICY':PARENT_POLICY})
+    policy=declarations['THERMAL_PARENT_POLICY']
+    marker=data.get('thermal_parent_policy')
+    if policy is None:
+        if (marker is not None or cfg.NATIVE_VERSION!='10.0.0'
+                or b'thermal_parent_policy' in raw or b'parent_profile' in raw):
+            raise p.Rejected('thermal parent policy missing from producer')
+        return False
+    budget=data.get('budget_seconds')
+    if (marker!=policy or data.get('schema')!=1 or type(data.get('schema')) is not int
+            or data.get('strategy')!='native_validated_thermal_bridge'
+            or data.get('baseline')!='C-prototype' or data.get('adapter')!='both'
+            or data.get('scope')!='whole_board_unlocked_routing'
+            or data.get('engine_profile')!=parent_profile()
+            or data.get('input_policy','native')!='native'
+            or isinstance(budget,bool) or not isinstance(budget,(int,float)) or not math.isfinite(budget) or not 90<=budget<=900
+            or data.get('cpu_budget_seconds')!=budget
+            or data.get('recovery_reserve_seconds')!=40.0 or data.get('finalization_reserve_seconds')!=15.0
+            or any(k in data for k in ('routing_preferences','guidance_policy','scoring_variant','experimental_contact'))):
+        raise p.Rejected('thermal parent policy or fixed scope differs')
+    return True
+
+
+def _check_trial_steps(repairdir,data,trials):
+    """Reuse shared process provenance and retain every attempted trial cost."""
+    from .floor_route import read_json,canonical,process_check
+    observed=[read_json(repairdir/'thermal-geometry-process.json')]
+    for order,item in enumerate(trials,1):
+        trialroot=repairdir/('trial-%02d'%order);steps=item.get('steps')
+        if item.get('id')!=trialroot.name or not isinstance(steps,list) or not steps:
+            raise p.Rejected('thermal trial process population differs')
+        journals=set()
+        for count,path in enumerate(trialroot.iterdir(),1):
+            if count>256:raise p.Rejected('thermal trial directory exceeds bounds')
+            if path.name.endswith('-process.json'):journals.add(path.name[:-len('-process.json')])
+        if len(steps)!=len(journals) or {s.get('name') for s in steps}!=journals:
+            raise p.Rejected('thermal trial omitted or duplicated a process journal')
+        for step in steps:
+            if (step.get('cwd')!=str(trialroot) or not isinstance(step.get('name'),str)
+                    or '/' in step['name'] or step['name'].startswith('.')):
+                raise p.Rejected('thermal trial process receipt differs')
+            # Native DRC adds its input hash/output to the live step after the
+            # process journal is saved. The shared reader checks that binding;
+            # every journal field must still agree with the enriched step.
+            process=read_json(trialroot/(step['name']+'-process.json'))
+            process_check(trialroot,{'steps':steps},step['name'],process['argv'],allowed=(process['exit_code'],))
+            if set(step)-set(process)-{'validated_input_sha256','emitted_candidate'}:
+                raise p.Rejected('thermal trial process has unexpected fields')
+        observed.extend(steps)
+    actual=[s for s in data['steps'] if Path(s.get('cwd','/')).is_relative_to(repairdir)]
+    if canonical(actual)!=canonical(observed):raise p.Rejected('thermal parent omitted or duplicated repair compute')
+
+
+def check_parent_selection(directory,data,incumbent):
+    """Bind the new method to its exact selected, independently checked trial.
+
+    Final whole-project validation remains mandatory in the central reader.
+    These checks establish method lineage, not electrical suitability.
+    """
+    from .floor_route import read_json,canonical,check_drc_stage,process_check,SANDBOX
+    directory=Path(directory)
+    if not check_parent_scope(directory,data):return
+    child=directory/'incumbent';base=child/'candidate'/Path(data['source']).name
+    if incumbent.get('accepted') is True:
+        if (data.get('recovery_needed') is not False or data.get('repair') is not None
+                or data.get('candidate_sha256')!=incumbent.get('candidate_sha256')
+                or (directory/'recovery').exists()):
+            raise p.Rejected('thermal accepted-incumbent selection differs')
+        return
+    repairdir=directory/'recovery';repair=read_json(repairdir/'repair.json')
+    if (data.get('recovery_needed') is not True or canonical(data.get('repair'))!=canonical(repair)
+            or repair.get('status')!='validated_trial_candidate' or repair.get('validation_passed') is not True
+            or repair.get('routing_accepted') is not False or repair.get('comparison_eligible') is not False
+            or 'experimental_contact' in repair or 'proposal_policy' in repair):
+        raise p.Rejected('thermal repaired selection differs')
+    geometry=repairdir/'geometry.json';proposals=repairdir/'proposals.json'
+    if repair.get('geometry_receipt')!=str(geometry) or repair.get('proposal_receipt')!=str(proposals):
+        raise p.Rejected('thermal selected observation paths differ')
+    g=read_json(geometry);request=read_json(repairdir/'request.json');proposal=read_json(proposals)
+    _check_geometry_identity(g)
+    expected=_report_binding(base,child/'final-drc.json',child/'final-drc-binding.json',data['source_hashes'],incumbent['native'])
+    if (request!={'schema':1,'candidate_files':expected,'final_drc_sha256':p.sha(child/'final-drc.json')}
+            or g.get('status')!='observations_complete' or g.get('source_unchanged') is not True
+            or g.get('board_sha256')!=p.sha(base) or g.get('project_sha256')!=expected[base.with_suffix('.kicad_pro').name]
+            or g.get('finding')!=sole_thermal(incumbent['native']) or 'mode' in g):
+        raise p.Rejected('thermal selected observation binding differs')
+    if (p.tree_hash(repairdir/'input')!=expected or p.sha(repairdir/'input-drc.json')!=p.sha(child/'final-drc.json')
+            or p.sha(repairdir/'worker.py')!=data['tools']['implementation_sha256'].get('autorouter/thermal_worker.py')
+            or p.tree_hash(repairdir/'code')!={Path(k).name:v for k,v in data['tools']['implementation_sha256'].items()}):
+        raise p.Rejected('thermal selected worker/input provenance differs')
+    worker=[str(cfg.PYTHON),'-B',str(repairdir/'worker.py'),str(repairdir/'input'/base.name),str(repairdir/'request.json'),str(geometry),cfg.NATIVE_VERSION,str(cfg.PYTHON),str(cfg.PCBNEW)]
+    process_check(repairdir,data,'thermal-geometry',[*SANDBOX,*worker])
+    geom.verify_proposals(g,proposal,remaining_seconds=lambda:8)
+    trials=repair.get('trials')
+    if not isinstance(trials,list) or not 1<=len(trials)<=4:raise p.Rejected('thermal trial population differs')
+    _check_trial_steps(repairdir,data,trials)
+    matches=[t for t in trials if t.get('validation_passed') is True]
+    if len(matches)!=1:raise p.Rejected('thermal selected trial ambiguous')
+    trial=matches[0];index=trial.get('proposal_index');choices=proposal['path_certificate_candidates']
+    if type(index) is not int or not 0<=index<len(choices):raise p.Rejected('thermal selected proposal differs')
+    trialdir=repairdir/('trial-%02d'%(index+1));selected=trialdir/'candidate'/base.name
+    if (trial.get('id')!=trialdir.name or trial.get('status')!='validated'
+            or trial.get('candidate')!=str(selected) or repair.get('candidate')!=str(selected)
+            or trial.get('candidate_sha256')!=p.sha(selected) or repair.get('candidate_sha256')!=p.sha(selected)
+            or data.get('candidate_sha256')!=p.sha(selected)):
+        raise p.Rejected('thermal final selection is not the validated trial')
+    p.verify_candidate_files(selected,data['source_hashes'],p.sha(selected))
+    node=choices[index]
+    uid=str(uuid.uuid5(uuid.NAMESPACE_URL,'thermal-repair:'+p.sha(base)+':'+p.sha(proposals)+':'+str(index)))
+    expected_node=['segment',['start',*map(geom.mm,node['start_nm'])],['end',*map(geom.mm,node['end_nm'])],['width',geom.mm(node['width_nm'])],['layer','"'+node['layer']+'"'],['net',str(node['net_code'])],['uuid','"'+uid+'"']]
+    before=sx.read(base);after=sx.read(selected)
+    if (p.immutable(after)!=p.immutable(before) or p.routes(after)!=p.routes(before)+[expected_node]
+            or geom.fill_binding(after,g,sx)!=geom.fill_binding(before,g,sx)):
+        raise p.Rejected('thermal selected trial changed more than its certified bridge')
+    # Reuse the actual stage reader, including original rules, full schematic,
+    # exact argv, local settings and retained final input. No Native is cached.
+    trialdata={**data,'steps':trial['steps']};native=check_drc_stage(trialdir,trialdata,'final-drc',selected,trialdir/'final-drc-input'/base.name,False,{**data['source_hashes'],base.name:p.sha(selected)},schematic_parity=base.with_suffix('.kicad_sch').name in data['source_hashes'])
+    refill=trialdir/'refill'/base.name
+    check_drc_stage(trialdir,trialdata,'refill-drc',refill,refill,True,{**data['source_hashes'],base.name:p.sha(trialdir/'pre-refill.kicad_pcb')})
+    mapping=trialdir/'final-netclasses.json'
+    map_names=[s['name'] for s in trial['steps'] if s['name'] in {'final-netclasses','thermal-final-netclasses'}]
+    if len(map_names)!=1:raise p.Rejected('thermal selected class-map worker missing or ambiguous')
+    process_check(trialdir,trialdata,map_names[0],[*SANDBOX,str(cfg.PYTHON),str(cfg.ROOT/'autorouter/native.py'),'netclasses',str(selected),str(mapping)])
+    if (native!=trial.get('native') or not p.native_accepted(native) or p.sha(mapping)!=trial.get('final_map_sha256')
+            or p.sha(trialdir/'final-drc.json')!=trial.get('native_report_sha256')):
+        raise p.Rejected('thermal selected Native evidence differs')
+    warnings=lambda n:{(finding['type'],tuple(sorted(i['uuid'] for i in finding['items']))) for finding in n['findings'] if finding['severity']=='warning'}
+    if not warnings(native)<=warnings(incumbent['native']):raise p.Rejected('thermal selected trial added warnings')
+    _audit_map(selected,p.protected_for_record(data,p.preflight(Path(data['source']))),read_json(mapping))
+
+
 def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_routes,native_summary,*,report_path,binding_path,remaining_seconds,out,experimental_contact=False):
     """Fresh candidate/report -> geometry -> <=4 proposals -> native trial.
 

@@ -101,16 +101,17 @@ def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing
                          adapter='both', scoring=None):
     """Keep a selected tool version from silently admitting unqualified modes.
 
-    The 1007 ordinary-runtime qualification starts with corrected standard
-    whole/partial Route only. Existing 1000 advanced contracts stay intact.
+    The 1007 ordinary Route/Preview remains corrected standard whole/partial.
+    The separate fixed thermal method reuses standard whole-board Route.
+    Existing 1000 advanced contracts stay intact.
     This is a capability guard, never a fallback or a validation pass.
     """
     if c.NATIVE_VERSION == '10.0.0':return
-    if (c.NATIVE_VERSION != '10.0.7' or purpose != 'route'
-            or scope not in {'whole_board_unlocked_routing','partial_completion'}
+    scopes={'whole_board_unlocked_routing','partial_completion'} if purpose=='route' else {'whole_board_unlocked_routing'} if purpose=='thermal-recovery' else set()
+    if (c.NATIVE_VERSION != '10.0.7' or scope not in scopes
             or guidance != 'native' or layers != 'source_all' or profile != 'standard'
             or adapter != 'both' or scoring is not None):
-        raise Rejected('unsupported: selected Native version currently permits only corrected-standard whole/partial Route on all source layers; optimization and other combinations require separate qualification')
+        raise Rejected('unsupported: selected Native version permits corrected-standard whole/partial Route or fixed whole-board thermal recovery on all source layers; other combinations require separate qualification')
 
 
 
@@ -653,6 +654,8 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
     if marker!=policy:raise Rejected('normal selected import tool declaration missing')
     if imports is None:raise Rejected('normal selected import requires qualified Native import census')
     direct=[row for row in imports if row['cwd']==str(root)]
+    if direct and data.get('strategy')=='native_validated_thermal_bridge':
+        raise Rejected('thermal parent requires its checked incumbent, not a direct import')
     # input_policy is derived by the existing receipt_policy/recognize readers,
     # never directly from a JSON label. Nested incumbents have their own receipt.
     if input_policy!='native':return None
@@ -692,9 +695,25 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
             check_incumbent_scoring(root,data)
         else:
             from . import thermal
+            strict_parent=thermal.check_parent_scope(root,data)
+            expected_profile=thermal.parent_profile() if strict_parent else 'completion-only'
+            if strict_parent:
+                # A rejected incumbent does not pass the positive result reader.
+                # Replay its actual configuration and complete budget here too;
+                # a profile label cannot conceal a differently tuned child.
+                check_normal_engine_provenance(child,inc)
+                check_engine_profile_record(inc,child)
+                check_resource_accounting(inc)
+                if (inc.get('baseline')!=engine_baseline(expected_profile,'both')
+                        or inc.get('budget_seconds')!=data.get('incumbent_assigned_seconds')
+                        or inc.get('cpu_budget_seconds')!=data.get('incumbent_assigned_seconds')
+                        or not 5<=inc['budget_seconds']<=data['budget_seconds']-40.0
+                        or any(k in inc for k in ('engine_fanout_override','engine_optimizer_override',
+                            'engine_angle_binding','engine_planning_clearance_margin_nm','engine_global_width_policy'))):
+                    raise Rejected('thermal incumbent configuration or assigned budget differs')
             expected={'receipt':str(child/'result.json'),'receipt_sha256':sha(child/'result.json'),
                 'status':inc.get('status'),'accepted':inc.get('accepted')}
-            if (encode(data.get('incumbent'))!=encode(expected) or inc.get('engine_profile')!='completion-only'
+            if (encode(data.get('incumbent'))!=encode(expected) or inc.get('engine_profile')!=expected_profile
                     or type(inc.get('accepted')) is not bool):raise Rejected('thermal parent incumbent binding differs')
             if inc['accepted']:check_result(child/'result.json')
             elif inc.get('status')=='drc_rejected' and thermal.sole_thermal(inc.get('native')) is not None:
@@ -703,6 +722,7 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
                 check_pour_evidence(child,inc,original,child_candidate,_known_named_edge=known_named)
                 check_native_edge_transport(child,inc,_known_named_edge=known_named)
             else:raise Rejected('thermal parent incumbent is not a qualified original Native outcome')
+            thermal.check_parent_selection(root,data,inc)
         return None
     pins=data['tools']['implementation_sha256']
     for name in ('adapter.py','routing_scope.py','board_floor.py','preferences.py','sexpr.py'):
@@ -2613,10 +2633,15 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     data=read_json(path)
     check_experimental_route(data,native_toolchain,experimental_schematic_parity)
     if native_toolchain is None and c.NATIVE_VERSION!='10.0.0':
-        if data.get('schema')!=1 or data.get('strategy') is not None or data.get('input_policy','native')!='native':
+        if data.get('schema')!=1 or data.get('strategy') not in (None,'native_validated_thermal_bridge') or data.get('input_policy','native')!='native':
             raise Rejected('unsupported: selected Native version has no qualified advanced receipt lineage')
+        purpose='route'
+        if data.get('strategy')=='native_validated_thermal_bridge':
+            from .thermal import check_parent_scope
+            if not check_parent_scope(path.parent,data):raise Rejected('selected Native thermal parent requires its exact source policy')
+            purpose='thermal-recovery'
         effective=data.get('routing_preferences',{}).get('effective',{})
-        require_native_scope(scope=data.get('scope'),guidance=effective.get('guidance','native'),
+        require_native_scope(purpose=purpose,scope=data.get('scope'),guidance=effective.get('guidance','native'),
             layers=effective.get('layers','source_all'),profile=data.get('engine_profile'),
             adapter=data.get('adapter'),scoring=data.get('scoring_variant'))
     from .engine_angle import check as check_engine_angle

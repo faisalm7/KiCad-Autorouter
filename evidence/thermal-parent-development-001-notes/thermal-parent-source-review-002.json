@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "kind": "bounded-thermal-parent-reserve-budget-delta-review",
+  "recorded_utc": "2026-10-18T16:43:36.411977+00:00",
+  "reviewer": "separate AI source reviewer",
+  "scope": "Only the reserve/budget additions since source-review001 and their immediate compatibility fix. Read-only; no tests, Native, GUI, network or other research. Only this002 JSON authored.",
+  "prior_review": {
+    "path": ".runs/thermal-parent-source-review-001.json",
+    "sha256": "2ca20d89f8d697b2bf290cba16b92143deaa61ba3a982cd89eab5b1bf7b0e67c"
+  },
+  "reviewed_files": [
+    {
+      "path": "autorouter/pipeline.py",
+      "sha256": "1c23c2ac94d57c35c47dcaa346d17ff2464128384c0ea45f84d4ebf138b4a385"
+    },
+    {
+      "path": "autorouter/recovery.py",
+      "sha256": "8d99b1b4a1bb4cd295bb41465c6a891dd9f3192e7d1603bbd98adf7b507cb04a"
+    },
+    {
+      "path": "autorouter/thermal.py",
+      "sha256": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41"
+    },
+    {
+      "path": "tests/test_thermal_parent.py",
+      "sha256": "60ba01cbd41cf16934c0a8310d43376336d274c6babcc4c8e5654fc8ae1765b5"
+    }
+  ],
+  "verdict": "The initial numeric policy-helper call was a concrete blocker and is now removed in the final delta inspected. No remaining blocking defect identified in these reserve/budget additions. Frozen-source targeted/full tests and later actual Native qualification remain required.",
+  "findings": [
+    {
+      "id": "D1",
+      "priority": 1,
+      "status": "resolved in final reviewed source; reviewer did not execute tests",
+      "title": "Numeric requests were incompatible with the existing string-only policy AST helper",
+      "initial_evidence": "check_parent_scope initially called local_settings.policy_declarations with RECOVERY_RESERVE:40.0 and FINAL_RESERVE:15.0. That helper requires expected values and declaration constants to be strings, so every parent scope check would fail before validation.",
+      "resolution": "Final code calls the existing helper only for THERMAL_PARENT_POLICY. Numeric AST requests/comparisons were removed; no global helper broadening or new numeric parser. Current audited recovery.py still declares40.0/15.0, its complete captured source digest remains checked, and receipt reserve fields are independently required to equal40.0/15.0.",
+      "lead_reported_execution": "Lead confirmed targeted008 failed on this incompatibility before Native; that failure is not counted as a pass. Reviewer did not rerun it."
+    }
+  ],
+  "final_delta_checks": [
+    "Strict new-policy parent budget_seconds must be a finite nonboolean int/float from90 through900. cpu_budget_seconds must equal that validated budget.",
+    "Strict parent receipt requires recovery_reserve_seconds40.0 and finalization_reserve_seconds15.0. These are record constants under the audited source/policy contract; no claim remains that the generic string helper parses numeric declarations.",
+    "After existing child resource-accounting checks, incumbent wall and CPU budgets must equal the parent incumbent_assigned_seconds and be at least5 and at most parentbudget minus40.0.",
+    "The producer still declares FINAL_RESERVE15.0 and RECOVERY_RESERVE40.0 and uses its existing shared wall/full-CPU remaining computation. Other incumbent engine/profile and selection checks from source-review001 were outside this delta.",
+    "Authored fixture now includes parent wall/CPU budget and40/15 reserve fields; mutations include boolean/too-small parent budgets, mismatched CPU budget, and altered reserves. Reviewer inspected these additions but ran no tests."
+  ],
+  "open_blocking_findings": [],
+  "limits": [
+    "Static delta review only; target009/full suite results belong to the lead and are pending at this review.",
+    "No actual Native qualification of the new parent source is established.",
+    "Prior source-review001 findings and residual limits continue to apply; this delta review does not broaden scope."
+  ]
+}

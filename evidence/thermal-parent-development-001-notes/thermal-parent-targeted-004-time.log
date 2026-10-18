@@ -1,0 +1,36 @@
+.........................................................................E..............
+======================================================================
+ERROR: test_actual_tool_path_change_fails_closed (tests.test_validation_readback.ReadbackSession.test_actual_tool_path_change_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 145, in test_actual_tool_path_change_fails_closed
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2528, in check_result
+    result=_check_result_uncached(target)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: routing evidence changed during full readback
+
+----------------------------------------------------------------------
+Ran 88 tests in 50.558s
+
+FAILED (errors=1)
+real 50.75
+user 41.02
+sys 7.55
+           283820032  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1683715  page reclaims
+                2675  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1157  voluntary context switches
+               28661  involuntary context switches
+        559667077530  instructions retired
+        176928541323  cycles elapsed
+           278856448  peak memory footprint

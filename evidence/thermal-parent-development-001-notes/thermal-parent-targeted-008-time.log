@@ -1,0 +1,176 @@
+======================================================================
+ERROR: test_accepted_incumbent_cannot_be_replaced_or_claim_repair (tests.test_thermal_parent.ThermalParentPolicyTests.test_accepted_incumbent_cannot_be_replaced_or_claim_repair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 74, in test_accepted_incumbent_cannot_be_replaced_or_claim_repair
+    t.check_parent_selection(self.root,self.data,self.inc)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/thermal.py", line 206, in check_parent_selection
+    if not check_parent_scope(directory,data):return
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/thermal.py", line 143, in check_parent_scope
+    declarations=policy_declarations(raw,{'THERMAL_PARENT_POLICY':PARENT_POLICY,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 163, in policy_declarations
+    raise p.Rejected('bounded expected policy namespace required')
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+======================================================================
+ERROR: test_known_legacy_declaration_remains0_only (tests.test_thermal_parent.ThermalParentPolicyTests.test_known_legacy_declaration_remains0_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 52, in test_known_legacy_declaration_remains0_only
+    self.assertFalse(t.check_parent_scope(self.root,self.data))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/thermal.py", line 143, in check_parent_scope
+    declarations=policy_declarations(raw,{'THERMAL_PARENT_POLICY':PARENT_POLICY,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 163, in policy_declarations
+    raise p.Rejected('bounded expected policy namespace required')
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+======================================================================
+ERROR: test_profile_is_selected_from_trusted_version (tests.test_thermal_parent.ThermalParentPolicyTests.test_profile_is_selected_from_trusted_version)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 28, in test_profile_is_selected_from_trusted_version
+    self.assertTrue(t.check_parent_scope(self.root,self.data))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/thermal.py", line 143, in check_parent_scope
+    declarations=policy_declarations(raw,{'THERMAL_PARENT_POLICY':PARENT_POLICY,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 163, in policy_declarations
+    raise p.Rejected('bounded expected policy namespace required')
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+======================================================================
+FAIL: test_current_producer_cannot_repin_after_deleting_policy_declaration (tests.test_thermal_parent.ThermalParentPolicyTests.test_current_producer_cannot_repin_after_deleting_policy_declaration)
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 70, in test_current_producer_cannot_repin_after_deleting_policy_declaration
+    with self.assertRaisesRegex(p.Rejected,'policy missing'):
+AssertionError: "policy missing" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory) (field='recovery_needed', value=False)
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 94, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.subTest(field=field,value=value),self.assertRaisesRegex(p.Rejected,'repaired selection'):
+AssertionError: "repaired selection" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory) (field='repair', value=None)
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 94, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.subTest(field=field,value=value),self.assertRaisesRegex(p.Rejected,'repaired selection'):
+AssertionError: "repaired selection" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory) (field='repair', value={})
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 94, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.subTest(field=field,value=value),self.assertRaisesRegex(p.Rejected,'repaired selection'):
+AssertionError: "repaired selection" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory) (field='validation_passed')
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 100, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.subTest(field=field),self.assertRaisesRegex(p.Rejected,'repaired selection'):
+AssertionError: "repaired selection" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory) (field='routing_accepted')
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 100, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.subTest(field=field),self.assertRaisesRegex(p.Rejected,'repaired selection'):
+AssertionError: "repaired selection" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory) (field='comparison_eligible')
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 100, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.subTest(field=field),self.assertRaisesRegex(p.Rejected,'repaired selection'):
+AssertionError: "repaired selection" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory) (field='experimental_contact')
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 100, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.subTest(field=field),self.assertRaisesRegex(p.Rejected,'repaired selection'):
+AssertionError: "repaired selection" does not match "bounded expected policy namespace required"
+
+======================================================================
+FAIL: test_repair_flag_and_retained_receipt_are_mandatory (tests.test_thermal_parent.ThermalParentPolicyTests.test_repair_flag_and_retained_receipt_are_mandatory)
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: bounded expected policy namespace required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_thermal_parent.py", line 103, in test_repair_flag_and_retained_receipt_are_mandatory
+    with self.assertRaisesRegex(p.Rejected,'observation paths'):
+AssertionError: "observation paths" does not match "bounded expected policy namespace required"
+
+----------------------------------------------------------------------
+Ran 80 tests in 1.658s
+
+FAILED (failures=9, errors=3)
+real 1.83
+user 1.35
+sys 0.23
+            58163200  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                7721  page reclaims
+                 140  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 285  voluntary context switches
+                5034  involuntary context switches
+         19268997740  instructions retired
+          5711135823  cycles elapsed
+            48906768  peak memory footprint

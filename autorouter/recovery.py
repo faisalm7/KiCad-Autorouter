@@ -18,6 +18,7 @@ from . import config as c, pipeline as p, sexpr as sx
 
 FINAL_RESERVE = 15.0
 RECOVERY_RESERVE = 40.0
+THERMAL_PARENT_POLICY = 'native-thermal-parent-selection-v1'
 
 
 def child_cpu():
@@ -27,7 +28,8 @@ def child_cpu():
 
 def recover(source, output, seconds=120):
     """Keep cancellation active between native stages and final receipt writes."""
-    p.require_native_scope(purpose='thermal-recovery')
+    p.require_native_scope(purpose='thermal-recovery',scope='whole_board_unlocked_routing',
+                           guidance='native',layers='source_all',profile='standard',adapter='both')
     def interrupted(signum, frame):
         raise KeyboardInterrupt
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
@@ -41,6 +43,8 @@ def recover(source, output, seconds=120):
 
 
 def _recover(source, output, seconds):
+    from .thermal import parent_profile
+    profile=parent_profile()
     started, parent_start, child_start = time.monotonic(), time.process_time(), child_cpu()
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 90 <= seconds <= 900:
         raise p.Rejected("thermal recovery budget must be 90–900 seconds")
@@ -53,7 +57,8 @@ def _recover(source, output, seconds):
     job.started, job.deadline, job.cpu_started = started, started + seconds, parent_start
     report = {"schema": 1, "status": "rejected", "accepted": False, "baseline": "C-prototype",
               "strategy": "native_validated_thermal_bridge", "adapter": "both",
-              "engine_profile": "completion-only", "scope": "whole_board_unlocked_routing",
+              "engine_profile": profile, "scope": "whole_board_unlocked_routing",
+              "thermal_parent_policy": THERMAL_PARENT_POLICY,
               "source": str(source), "budget_seconds": seconds, "cpu_budget_seconds": seconds,
               "cpu_budget_enforcement": "cooperative assignment and postcompletion acceptance cap; no OS total-CPU quota",
               "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -118,7 +123,7 @@ def _recover(source, output, seconds):
         stable()
         assigned = remaining(RECOVERY_RESERVE)
         report["incumbent_assigned_seconds"] = assigned
-        incumbent = p.route(source, output / "incumbent", assigned, False, "both", "completion-only")
+        incumbent = p.route(source, output / "incumbent", assigned, False, "both", profile)
         job.steps.extend(dict(step, phase="incumbent") for step in incumbent.get("steps", []))
         report.update(incumbent={"receipt":str(output / "incumbent/result.json"),
                                   "receipt_sha256":p.sha(output / "incumbent/result.json"),

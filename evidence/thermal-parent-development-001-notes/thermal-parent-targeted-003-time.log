@@ -1,0 +1,37 @@
+======================================================================
+ERROR: test_validation_readback (unittest.loader._FailedTest.test_validation_readback)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_validation_readback
+Traceback (most recent call last):
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/loader.py", line 162, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 6, in <module>
+    import test_placement_policy as fixture
+ModuleNotFoundError: No module named 'test_placement_policy'
+
+
+----------------------------------------------------------------------
+Ran 65 tests in 2.311s
+
+FAILED (errors=1)
+real 2.44
+user 1.22
+sys 0.20
+            57999360  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                5733  page reclaims
+                  32  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 122  voluntary context switches
+                2956  involuntary context switches
+         17539648605  instructions retired
+          5075779049  cycles elapsed
+            48120312  peak memory footprint

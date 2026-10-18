@@ -3,7 +3,7 @@ import copy,json,os,signal,sys,tempfile,unittest,types
 from pathlib import Path
 from unittest.mock import patch
 ROOT=next(parent for parent in Path(__file__).resolve().parents if (parent/'autorouter/pipeline.py').is_file());sys.path.insert(0,str(ROOT))
-from autorouter import recovery as r,pipeline as p,sexpr as sx
+from autorouter import recovery as r,pipeline as p,sexpr as sx,thermal as real_thermal
 NATIVE={'opens':0,'blocking':0,'warnings':0,'exclusions':0,'ignored_checks':[],'findings':[]}
 
 class Harness:
@@ -39,6 +39,7 @@ class Harness:
  def run(self):
   owner=self;real_job=p.Job;real_save=p.save_json
   thermal=types.ModuleType('autorouter.thermal')
+  thermal.parent_profile=real_thermal.parent_profile
   def repair(job,original,candidate,hashes,protected,native,**kwargs):
    if owner.mode=='repair_false':return {'validation_passed':False,'status':'unsupported'}
    target=Path(kwargs['out'])/'candidate'/candidate.name;target.parent.mkdir(parents=True)

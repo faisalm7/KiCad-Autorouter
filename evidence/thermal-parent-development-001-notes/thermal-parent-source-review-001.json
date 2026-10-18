@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "kind": "bounded-skeptical-thermal-parent-source-review",
+  "recorded_utc": "2026-10-18T16:42:05.966087+00:00",
+  "reviewer": "separate AI source reviewer",
+  "human_PCB_review": false,
+  "scope": "Narrow read-only review of the requested working diff, relevant existing shared process/Native/receipt/cache/geometry readers, and exact already-retained SharedJob step shapes. No code/docs edits, tests, Native/JVM, GUI, network, process control or delegation. Only this JSON authored.",
+  "reviewed_head": "9b6f8a313d3cf51641c5ca6cc2d6f2e29942acae",
+  "reviewed_tracked_diff_sha256": "a43c0bd55ef03edb07c3b943748e47a6819a1348b4f8dd0bc83a81cb0d658398",
+  "reviewed_files": [
+    {
+      "path": "autorouter/pipeline.py",
+      "sha256": "30b398448b9f4804664d27e834715a32463b245796976c02969c79eea8233f8a"
+    },
+    {
+      "path": "autorouter/recovery.py",
+      "sha256": "8d99b1b4a1bb4cd295bb41465c6a891dd9f3192e7d1603bbd98adf7b507cb04a"
+    },
+    {
+      "path": "autorouter/thermal.py",
+      "sha256": "bac2732d4cf7a43025cb5f8f3439b9923c9550f456aec5bded1fa7932f87a86f"
+    },
+    {
+      "path": "tests/test_thermal_parent.py",
+      "sha256": "0ee43463a134b7d9e882590e9eddf9527aa92fd487a2d6c03f69a36ed1167aa2"
+    },
+    {
+      "path": "tests/test_selected_native_scope.py",
+      "sha256": "d896967202f59b8204c067a51d6046a51e8c1e62f146896838ffb571019bd9a5"
+    },
+    {
+      "path": "tests/test_named_edge_parent.py",
+      "sha256": "c02d7955cea6fa8ac645e2a4cc0c801673ce2bc2174d8010700ad729ea305e86"
+    },
+    {
+      "path": "tests/test_recovery.py",
+      "sha256": "d4b1daf638195aa3ffa87b88ff48eea24445088e562b1d789fb3e1a809d09381"
+    }
+  ],
+  "verdict": "Five concrete initial source issues were reported to the lead and addressed in the final working source inspected here. No remaining blocking defect identified in this bounded source review. This is not test or Native qualification: freeze these exact bytes, complete the lead-owned regression/full checks, then qualify new parent lineage with actual Native evidence before claiming support.",
+  "findings": [
+    {
+      "id": "F1",
+      "priority": 1,
+      "status": "resolved in reviewed working source; regression execution pending",
+      "title": "Exact process/step equality rejected genuine repaired results",
+      "initial_path": "autorouter/thermal.py check_parent_selection trial loop",
+      "evidence": "Actual retained SharedJob DRC steps have validated_input_sha256 and emitted_candidate added after the process journal was saved. Initial whole canonical equality rejected them. Exact retained component differences are recorded below; no Native was rerun.",
+      "resolution": "New _check_trial_steps reuses shared process_check to require every retained process field in the enriched step, permits only the two DRC binding fields beyond the journal, and final/refill check_drc_stage independently checks input binding."
+    },
+    {
+      "id": "F2",
+      "priority": 1,
+      "status": "resolved in reviewed working source; regression execution pending",
+      "title": "Direct route could bypass parent selection lineage",
+      "initial_path": "autorouter/pipeline.py normal_import_contract direct branch",
+      "evidence": "New strict thermal scope could be presented with an ordinary own import. Because parent selection was only checked when no direct import existed, that path skipped incumbent/repair/compute selection checks.",
+      "resolution": "normal_import_contract now rejects any direct import with strategy native_validated_thermal_bridge before the direct/parent branch. New authored direct-route impersonation control covers the refusal."
+    },
+    {
+      "id": "F3",
+      "priority": 2,
+      "status": "resolved for recognizable current producer deletion; regression execution pending",
+      "title": "Deleted declaration could masquerade as legacy0",
+      "initial_path": "autorouter/thermal.py check_parent_scope",
+      "evidence": "Initial absence of THERMAL_PARENT_POLICY treated any hash-matching no-declaration producer as legacy0. Removing only the current declaration and marker while leaving new parent code could skip strict selection.",
+      "resolution": "Absent declaration now refuses selected7, any marker, and recognizable current thermal_parent_policy/parent_profile producer tokens. New authored control deletes declaration from current captured source and repins it. Genuine pre-policy0 receipts retain their explicitly limited legacy path; this remains local consistency rather than source authentication."
+    },
+    {
+      "id": "F4",
+      "priority": 2,
+      "status": "resolved in reviewed working source; regression execution pending",
+      "title": "Rejected incumbent profile label was not replayed against actual engine",
+      "initial_path": "autorouter/pipeline.py normal_import_contract thermal parent branch",
+      "evidence": "Accepted child got check_result, but sole-thermal rejected child originally had only import/adapter/native checks plus a profile string comparison. Its actual engine budget/argv and child accounting were not replayed.",
+      "resolution": "Strict parent now calls check_normal_engine_provenance, check_engine_profile_record and check_resource_accounting for the incumbent; checks exact expected baseline, assigned wall/CPU budget, and disallows engine overrides before accepting either selection branch."
+    },
+    {
+      "id": "F5",
+      "priority": 2,
+      "status": "resolved in reviewed working source; regression execution pending",
+      "title": "Omitted map worker could hide compute while its journal remained",
+      "initial_path": "autorouter/thermal.py _check_trial_steps",
+      "evidence": "Initially observed trial steps were built only from the declared steps. Deleting final-netclasses from both trial and parent lists could keep list equality and CPU algebra while its retained worker journal/map remained. Existing DRC census does not independently census class-map workers.",
+      "resolution": "New bounded trial directory census requires exact unique *-process.json names/counts to match trial steps, then shared process_check compares each journal. Selected trial also requires exactly one class-map worker and its exact sandbox/Python/native.py/netclasses argv. Added authored controls cover missing journal rows and omitted/duplicated parent compute."
+    }
+  ],
+  "open_blocking_findings": [],
+  "existing_actual_SharedJob_shape": {
+    "component_path": ".runs/runtime-directory-027/runtime/.runs/thermal-identity-native7-001/component-result.json",
+    "component_sha256": "b6025d23af504401fd28bb1f89ae60ad2f677f78592ac6dab16a380aac47f671",
+    "scope": "Already-retained source119b component is used only to inspect actual argv/journal/enriched-step shape; no claim it qualifies this new parent code.",
+    "trial_steps": [
+      {
+        "name": "refill-drc",
+        "process_path": ".runs/runtime-directory-027/runtime/.runs/thermal-identity-native7-001/recovery/trial-01/refill-drc-process.json",
+        "process_sha256": "aa5f9fe29e903d3ef652f0183416961db3db94003b0b73c8d0da2698af1881e3",
+        "extra_step_fields": [
+          "emitted_candidate",
+          "validated_input_sha256"
+        ],
+        "all_process_fields_match_step": true
+      },
+      {
+        "name": "final-netclasses",
+        "process_path": ".runs/runtime-directory-027/runtime/.runs/thermal-identity-native7-001/recovery/trial-01/final-netclasses-process.json",
+        "process_sha256": "0fb7130b1c92b3ba7c7b54ba6c593bd7dbbdab65a556292f2ef13d187fc19788",
+        "extra_step_fields": [],
+        "all_process_fields_match_step": true
+      },
+      {
+        "name": "final-drc",
+        "process_path": ".runs/runtime-directory-027/runtime/.runs/thermal-identity-native7-001/recovery/trial-01/final-drc-process.json",
+        "process_sha256": "7a8fc30669762248dd500c78a8f5b9c87c064e4d868ae5af6bd9e4d1b59dbae2",
+        "extra_step_fields": [
+          "emitted_candidate",
+          "validated_input_sha256"
+        ],
+        "all_process_fields_match_step": true
+      }
+    ]
+  },
+  "final_source_checks": [
+    "Parent profile comes from trusted selected version:10.0.0 completion-only,10.0.7 standard; unknown versions refuse.",
+    "Ordinary selected7 Route/Preview remains corrected standard whole/partial only. New distinct thermal-recovery purpose is fixed whole-board native/source-all/standard/both, with no preference/scoring/contact broadening.",
+    "Current parent policy is derived from pinned captured recovery.py declaration and required receipt marker, not a receipt-selected tool profile.",
+    "Accepted incumbent must be selected byte-for-byte, no repair state or recovery directory. Repaired selection must match retained repair, request, loaded identity, original report/input/code, independently verified proposals and exactly one selected Native-valid trial.",
+    "Selected board must contain exactly the geometry-derived deterministic-UUID bridge, original nonrouting content, protected content and unchanged saved target fill. Trial final/refill Native stages, original companions, full schematic when present, map hash/worker and warning non-regression remain required.",
+    "Parent declared incumbent steps must match the complete child steps with incumbent phase; repaired process population is bounded and compared to parent rows; child and whole-parent resource arithmetic remain checked.",
+    "Existing central reader still verifies final emitted parent candidate, original rules/Native DRC/metrics/DRC severity exclusions, mutable input freshness and tool pins. New helpers are module-level in thermal, already included by validation_readback_session live callable/constant witness; cache does not rerun or replace fresh Native acceptance."
+  ],
+  "tests_reviewed_not_executed": [
+    "fixed profile/source marker/declaration deletion controls",
+    "accepted/repaired selection refusals",
+    "enriched DRC process and compute omission/duplication controls",
+    "direct parent impersonation refusal",
+    "rejected incumbent engine provenance controls",
+    "selected7 ordinary scope controls",
+    "legacy named-edge parent compatibility mocks"
+  ],
+  "residual_limits": [
+    "No new Native qualification of parent/recovery/central advanced reader source was performed by this reviewer. Prior diagnostic components cannot substitute for fresh normal-parent evidence.",
+    "Readback receipts and captured code are mutable local consistency evidence, not authentication against complete coherent history fabrication.",
+    "Legacy0 no-policy compatibility retains old limitations; new strict policy does not retroactively invent missing historical evidence.",
+    "Runtime, final publication/cancellation and full wall/CPU ceilings require frozen-source integration checks. Geometry verification budgets use the existing pure helper caps; this review did not execute them.",
+    "Actual source/Native invalid/cancel/delivery qualification, independent board breadth, fair B0/B1/B2/C improvement, human PCB review and electrical/physical validation remain separate gates."
+  ],
+  "lead_reported_context_not_claimed_as_a_pass": "Lead reports one targeted004 in-session readback failed while source edits were active; it is retained as failure. Root owns exact final frozen-source test statistics and subsequent Native controls.",
+  "backup_scope": "On-Mac source review receipt only; no remote push/restore verification performed by reviewer."
+}

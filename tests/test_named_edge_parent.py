@@ -1,7 +1,7 @@
 """Authored thermal-parent admission controls, never Native evidence.
 
 Reuse the synthetic saved-import/refill builder and named DSN transform inputs.
-Only the unrelated final thermal report binding is mocked. The real import
+Only unrelated final thermal report/selection bindings are mocked. The real import
 census, recursive import contract, captured policy and named edge replay run.
 """
 import copy
@@ -135,6 +135,8 @@ class RejectedThermalIncumbentNamedEdge(unittest.TestCase):
         self.assertNotIn('native_edge_admission_policy', parent)
         before = pc.inventory(root)
         with patch.object(thermal, '_report_binding') as report_binding, \
+                patch.object(thermal,'check_parent_scope',return_value=False), \
+                patch.object(thermal,'check_parent_selection'), \
                 patch.object(p, 'check_named_edge_policy', wraps=p.check_named_edge_policy) as policy, \
                 patch.object(p, 'check_native_edge_transport', wraps=p.check_native_edge_transport) as edge, \
                 patch.object(p, 'check_result', side_effect=AssertionError('rejected child is not accepted')):
@@ -159,7 +161,8 @@ class RejectedThermalIncumbentNamedEdge(unittest.TestCase):
                     child.pop('native_edge_admission_policy', None)
                 else:
                     child['native_edge_admission_policy'] = marker
-                with patch.object(thermal, '_report_binding') as report_binding:
+                with patch.object(thermal, '_report_binding') as report_binding, \
+                        patch.object(thermal,'check_parent_scope',return_value=False):
                     with self.assertRaisesRegex(p.Rejected, 'named edge admission policy'):
                         check()  # Refreshes the parent's exact child-receipt hash.
                 report_binding.assert_called_once()
@@ -168,10 +171,20 @@ class RejectedThermalIncumbentNamedEdge(unittest.TestCase):
     def test_intact_marker_still_requires_child_edge_engine_input(self):
         _, work, _, _, check = self.parent_fixture()
         (work / 'task.dsn').write_bytes((work / 'native.dsn').read_bytes())
-        with patch.object(thermal, '_report_binding') as report_binding:
+        with patch.object(thermal, '_report_binding') as report_binding, \
+                patch.object(thermal,'check_parent_scope',return_value=False):
             with self.assertRaisesRegex(p.Rejected, 'native edge correction input'):
                 check()
         report_binding.assert_called_once()
+
+    def test_new_parent_requires_rejected_child_engine_journal_too(self):
+        _,_,_,_,check=self.parent_fixture()
+        # This authored child has Native/import evidence but no engine journal.
+        # It must fail the existing configuration reader before selection can
+        # trust the rejected child's profile label.
+        with patch.object(thermal,'check_parent_scope',return_value=True):
+            with self.assertRaisesRegex(p.Rejected,'requires retained engine budget/journal'):
+                check()
 
 
 if __name__ == '__main__':
