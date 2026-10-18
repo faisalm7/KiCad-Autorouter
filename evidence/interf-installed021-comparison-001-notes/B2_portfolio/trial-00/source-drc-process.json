@@ -1,0 +1,53 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 1.3864192080218345,
+  "cpu_seconds": 0.814936,
+  "max_rss_bytes": 250675200,
+  "supervisor_cpu_seconds": 0.014442999999999984,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 238272512,
+  "sampled_peak_workdir_bytes": 5167810,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default/source-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default/source-drc-input/interf_u.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default/source-drc.log",
+  "log_bytes": 242,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default",
+  "signal_cancellation_enabled": true,
+  "pid": 4329,
+  "name": "source-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": false
+  }
+}

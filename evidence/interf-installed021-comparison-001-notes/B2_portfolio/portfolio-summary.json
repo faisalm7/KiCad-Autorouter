@@ -1,0 +1,522 @@
+{
+  "schema": 1,
+  "kind": "experimental_baseline_portfolio",
+  "status": "invalidated",
+  "comparison_eligible": false,
+  "selected": null,
+  "trials": [
+    {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 89.363152,
+      "guidance_policy": null,
+      "remaining_wall_full_cpu_seconds_at_assignment": 104.363152,
+      "unattempted_variants_at_assignment": 3,
+      "allocation": "remaining",
+      "started_utc": "2026-10-18T04:12:58.408479+00:00",
+      "finished_utc": "2026-10-18T04:13:58.822754+00:00",
+      "status": "drc_rejected",
+      "reason": null,
+      "accepted_in_trial_receipt": false,
+      "eligible": false,
+      "invocation_wall_seconds": 63.59401474997867,
+      "invocation_cpu_seconds": 82.528981,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default/result.json",
+      "result_sha256": "720abaab67eb427d8cd15f014fc37aa7aa175330e8cbe4067e2ae5290930afbe",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default/candidate/interf_u.kicad_pcb",
+      "candidate_sha256": "dc3c346a6481c4baf3420e2a8a2568288fdf7d89d2fa3541a62cb81aee78f6ee",
+      "native_report_sha256": "65c54b342d6cfc7189f1ac53fa3d59563ee035e1147ee0ee6be42148a137ceab",
+      "vias": 35,
+      "length_mm": 4994.887951015416,
+      "peak_child_rss_bytes": 541212672,
+      "peak_polled_group_rss_bytes": 540573696,
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 22,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad C4 [GND] of U9",
+                "pos": {
+                  "x": 150.495,
+                  "y": 72.39
+                },
+                "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 83.185,
+                  "y": 83.82
+                },
+                "uuid": "00000000-0000-0000-0000-000032307de2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 121.305,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ecf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 121.305,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ed4"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 170.688,
+                  "y": 52.197
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dcf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dca"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 159.385,
+                  "y": 111.76
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dc0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 155.58,
+                  "y": 38.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.71,
+                  "y": 38.08
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+            "items": [
+              {
+                "description": "Footprint JP1",
+                "pos": {
+                  "x": 116.205,
+                  "y": 105.41
+                },
+                "uuid": "00000000-0000-0000-0000-000032568d1e"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+            "items": [
+              {
+                "description": "Footprint P1",
+                "pos": {
+                  "x": 182.1,
+                  "y": 72.4
+                },
+                "uuid": "00000000-0000-0000-0000-00005a4472d7"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 117.475,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 127.635,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 92.075,
+                  "y": 57.15
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c08c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 151.765,
+                  "y": 41.91
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 171.958,
+                  "y": 42.037
+                },
+                "uuid": "00000000-0000-0000-0000-0000322d32a0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+            "items": [
+              {
+                "description": "Footprint RR1",
+                "pos": {
+                  "x": 95.885,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-00005a44c66d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 151.765,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8d1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 95.885,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8ef"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U3",
+                "pos": {
+                  "x": 123.825,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e90d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+            "items": [
+              {
+                "description": "Footprint U5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 76.2
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae55"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U8",
+                "pos": {
+                  "x": 123.825,
+                  "y": 112.903
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae87"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint X1",
+                "pos": {
+                  "x": 113.665,
+                  "y": 92.71
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          }
+        ]
+      },
+      "installed_cli": {
+        "process": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default.cli-process.json",
+          "sha256": "30a3cb83d8a0cf9a43b6c8ec40d6ae5fbcc0af9864e3f4913c5dd9cce6eaf987"
+        },
+        "log": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default.cli.log",
+          "sha256": "44ee55b09ff1c9da0853618f3a3e47d64f09373e7a10f63ad2cc1ec537e23b4d"
+        },
+        "result": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default/result.json",
+          "sha256": "720abaab67eb427d8cd15f014fc37aa7aa175330e8cbe4067e2ae5290930afbe"
+        },
+        "rejection": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default.cli-rejection.json",
+          "sha256": "7eb8fa579fd9b1e68aa6f525ac5291352d38ae35bfd723707ab9b31029c3377d"
+        }
+      },
+      "negative_readback": {
+        "current": false,
+        "validated_rejection": true,
+        "routing_accepted": false,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-021/runtime/.runs/interf-installed021-comparison-001/B2_portfolio/portfolio/01-via_default/candidate/interf_u.kicad_pcb",
+        "candidate_sha256": "dc3c346a6481c4baf3420e2a8a2568288fdf7d89d2fa3541a62cb81aee78f6ee",
+        "native_report_sha256": "65c54b342d6cfc7189f1ac53fa3d59563ee035e1147ee0ee6be42148a137ceab",
+        "native_rejection_reasons": [
+          "native blocking=1",
+          "native error finding: starved_thermal",
+          "policy-critical native finding: starved_thermal (error)"
+        ],
+        "receipt_sha256": "720abaab67eb427d8cd15f014fc37aa7aa175330e8cbe4067e2ae5290930afbe",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Completed Native rejection only; no route acceptance, infeasibility proof or fresh validation."
+      },
+      "validated_rejection": true,
+      "negative_readback_wall_seconds": 8.81874254194554,
+      "negative_readback_cpu_seconds": 8.81258600000001
+    }
+  ],
+  "pareto_frontier": [],
+  "guidance_policy": null,
+  "wall_budget_seconds": 105,
+  "cpu_budget_seconds": 105,
+  "allocation": "remaining",
+  "operational_outer_ceiling_seconds": 120,
+  "cpu_enforcement": "postcompletion acceptance cap; no total-CPU preemption",
+  "selection_rule": "minimum (native via count, native track length, fixed attempt index)",
+  "started_utc": "2026-10-18T04:12:57.979645+00:00",
+  "host_load_average_1_5_15_minutes_begin": [
+    3.67431640625,
+    3.98779296875,
+    4.22802734375
+  ],
+  "claims_limit": "exposed development experiment; no population superiority or electrical adequacy claim",
+  "receipt_scope": "selected trial receipt charges that trial only; this summary charges the entire portfolio",
+  "physical_electrical_validation": false,
+  "applied": false,
+  "protocol_sha256": "65508a422c8351d44b8e578a0edfbaaf08fd3ce01a541681f3ce521d4e1e6974",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-interf-u/interf_u.kicad_pcb",
+  "family": "kicad-interf-u",
+  "stop_reason": "insufficient remaining budget for another attempt and reserves",
+  "skipped_variants": [
+    {
+      "id": "via_low",
+      "reason": "insufficient remaining budget for another attempt and reserves",
+      "available_wall_full_cpu_seconds": 21.61543300000001,
+      "allocation": "remaining",
+      "assigned_if_started_seconds": 6.61543300000001
+    },
+    {
+      "id": "via_high",
+      "reason": "insufficient remaining budget for another attempt and reserves",
+      "available_wall_full_cpu_seconds": 21.61543300000001,
+      "allocation": "remaining",
+      "assigned_if_started_seconds": 6.61543300000001
+    }
+  ],
+  "accounting_point": "sample before summary write; caps checked again after write; over-cap correction can finish outside cap; final read-only negative/source/summary fence is included in acceptance caps but outside stored timing/readback counters; complete external whole-process accounting is required",
+  "finished_utc": "2026-10-18T04:14:05.354658+00:00",
+  "host_load_average_1_5_15_minutes_end": [
+    3.83056640625,
+    3.98291015625,
+    4.20751953125
+  ],
+  "peak_child_rss_bytes": 541212672,
+  "peak_polled_group_rss_bytes": 540573696,
+  "wall_seconds": 74.1351458330173,
+  "total_cpu_seconds": 93.059432,
+  "attempted_variants": [
+    "via_default"
+  ],
+  "unattempted_variants": [
+    "via_low",
+    "via_high"
+  ],
+  "all_variants_attempted": false,
+  "reason": "Rejected: negative trial plus diagnostic readbacks exceeded assigned wall/CPU allowance"
+}

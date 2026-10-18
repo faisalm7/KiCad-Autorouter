@@ -30,3 +30,5 @@ Development beyond019 has [candidate-bound legacy-via controls](../evidence/lega
 
 
 Current integration:020failed closed; the shared class-reader correction passes full161and both fresh021CLI workflows. Actual021GUI068 remains pending at a tool window/input failure.019GUI evidence is retained separately.
+
+High integration/measurement findings: [Fresh Interf021seven-arm study](../evidence/interf-installed021-comparison-001.json) delivered no candidates. Thermal repair has Native0/0/22but its redundant `-B` prefix fails the exact reader; keep that reader strict and use the canonical shared producer. B2portfolio exceeds its per-trial diagnostic envelope, so it is not a completed efficacy comparator. Preserve both failures and qualify any corrected implementation freshly. [Windows primary-doc review](../evidence/windows-isolation006-descendant-gap-review-001.json) retains the missing cross-image descendant network-denial guarantee; no Native admission or newCI ran.

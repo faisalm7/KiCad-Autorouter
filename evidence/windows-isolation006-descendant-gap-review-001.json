@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "kind": "windows006-primary-docs-descendant-gap-review-v1",
+  "recorded_utc": "2026-10-18T04:17:27.738768+00:00",
+  "reviewer": "windows005_gate AI specialist",
+  "Native_executed": false,
+  "CI_executed": false,
+  "source_edits": false,
+  "admission": false,
+  "Windows_supported": false,
+  "script_sha256": {
+    "scripts/windows_native_slice/firewall_gate.ps1": "476f30f1819b52a880702dd9e3634e4e81dedfb7bea248ac2593e29034adce60",
+    "scripts/windows_native_slice/isolation_diagnostic.ps1": "4a442b3ad6c33a32194522298670727c113e6d3e4384d03c41d5e93075a07fdd"
+  },
+  "inspected_actual006_sha256": "a9f16c006163b193834ea1432467d602df5435fd36335fb741e19862d13bae56",
+  "references": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/wmi/wfascimprov/msft-netfirewallrule",
+      "supports": "EnforcementStatus is an array of current-enforcement values including Full and InactiveProfile;006unindexedstrings do not bind status to each profile/future transition."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-firewall/best-practices-configuring",
+      "supports": "Program filtering identifies an executable path."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/filtering-condition-identifiers-",
+      "supports": "WFPapplicationidentity is a fully qualified device path, rather than a process ancestry guarantee."
+    }
+  ],
+  "inference": "The006two per-program rules do not establish inherited denial for a descendant using a different executable image. A typedstatusadapter or containsEnforced cannot supply that missing guarantee. Package=null remains separately unresolved.",
+  "decision": "Defer Native admission; preserve both guards. Need a qualified containment primitive covering child images and profile transitions before transport canaries/real Native slice. No repeated diagnostic/installer/CI, Mac/security change, spending or status waiver.",
+  "cost": "Read-only source/evidence plus official primary documentation lookup; CPU/network research costs were not instrumented, notzero. No Native/JVM/CI execution."
+}
