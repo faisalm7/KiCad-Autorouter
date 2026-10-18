@@ -75,12 +75,13 @@ class RetainedSelection(unittest.TestCase):
 
     def test_unqualified_selected_receipt_stops_before_review_or_native(self):
         receipt=self.receipt();controller=Path(q.__file__).read_bytes()
-        with patch.object(q.p,'check_storage'),patch.object(q.p,'tool_manifest',return_value={'git_head':'a'*40}),\
+        with patch.object(q.p,'check_storage') as storage,patch.object(q.p,'tool_manifest',return_value={'git_head':'a'*40}),\
                 patch.object(q.subprocess,'run',return_value=SimpleNamespace(stdout=controller)),\
                 patch.object(q.p,'check_result',side_effect=q.p.Rejected('unqualified retained receipt')) as check,\
                 patch.object(q.h,'review_copy') as review,patch.object(q.e,'export') as export:
             result=q.qualify(self.root/'.runs/refused',run_native=True,receipt=receipt,render=True)
         check.assert_called_once_with(receipt);review.assert_not_called();export.assert_not_called()
+        storage.assert_called_once_with(active_root=self.root/'.runs/refused')
         self.assertFalse(result['controls_passed']);self.assertFalse(result['accepted'])
         self.assertIn('unqualified retained receipt',result['reason'])
         self.assertEqual(result['cases'],[])

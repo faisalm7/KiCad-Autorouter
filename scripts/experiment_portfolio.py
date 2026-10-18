@@ -31,6 +31,11 @@ from scripts import experiment_quality as q
 BUDGET = 120.0
 MAX_OPERATIONAL_BUDGET = 900.0
 FINAL_RESERVE = 15.0
+INSTALLED_TRIAL_RESERVE_POLICY = 'installed-route-readback-reserve-v1'
+# The exposed Interf failure spent8.812586 CPU seconds on two late replays.
+# Six classifications/replays at that observed rate need26.44s;30s is a fixed
+# planning reserve, not a runtime bound. All actual costs and caps still apply.
+INSTALLED_TRIAL_READBACK_RESERVE = 30.0
 VARIANTS = ('via_default', 'via_low', 'via_high')
 SCRIPT = Path(__file__).resolve()
 RESUME_POLICY = 'single-default-strict-targets-resume-v1'
@@ -243,14 +248,50 @@ def _installed_evidence(directory):
     return result
 
 
+def _trial_route_allowance(row, frozen):
+    """Separate an opt-in route budget from its unchanged trial allowance.
+
+    The retained protocol forces the policy even if all row markers disappear.
+    Genuine old rows/protocols keep the exact original assignment interpretation.
+    This changes allocation only; no diagnostic, process or final fence is waived.
+    """
+    keys = {'installed_trial_accounting_policy', 'route_allowance_seconds',
+            'trial_readback_reserve_seconds'}
+    protocol_keys = {'installed_trial_accounting_policy', 'trial_readback_reserve_seconds'}
+    protocol = {}
+    if 'installed_context' in frozen:
+        path = Path(row['result']).parent.parent / 'protocol.json'
+        if path.exists() or path.is_symlink():
+            protocol = f.read_json(path)
+            if type(protocol) is not dict:
+                raise p.Rejected('installed trial protocol must be an object')
+    if not keys.intersection(row) and not protocol_keys.intersection(protocol):
+        return row['assigned_seconds']
+    assigned = row.get('assigned_seconds')
+    route = row.get('route_allowance_seconds')
+    if ('installed_context' not in frozen or not keys <= row.keys()
+            or row.get('installed_trial_accounting_policy') != INSTALLED_TRIAL_RESERVE_POLICY
+            or protocol.get('installed_trial_accounting_policy') != INSTALLED_TRIAL_RESERVE_POLICY
+            or not q.finite_nonnegative(row.get('trial_readback_reserve_seconds'))
+            or row['trial_readback_reserve_seconds'] != INSTALLED_TRIAL_READBACK_RESERVE
+            or protocol.get('trial_readback_reserve_seconds') != INSTALLED_TRIAL_READBACK_RESERVE
+            or f.canonical(protocol.get('freeze')) != f.canonical(frozen)
+            or not q.finite_nonnegative(assigned) or not 0 < assigned <= MAX_OPERATIONAL_BUDGET
+            or not q.finite_nonnegative(route) or route <= 0
+            or route != assigned - INSTALLED_TRIAL_READBACK_RESERVE):
+        raise p.Rejected('installed trial route/readback reservation differs from frozen protocol')
+    return route
+
+
 def _verify_installed_evidence(row, board, frozen, *, negative=False):
     receipt = Path(row['result']); runtime = Path(frozen['installed_context']['runtime'])
     expected = {'process', 'log', 'result'} | ({'rejection'} if negative else set())
     if (_installed_evidence(receipt.parent) != row.get('installed_cli')
             or set(row.get('installed_cli', {})) != expected or p.sha(receipt) != row['result_sha256']):
         raise p.Rejected('installed CLI retained process/log/result changed')
+    route_allowance = _trial_route_allowance(row, frozen)
     _check_installed_process(f.read_json(receipt.parent.with_suffix('.cli-process.json')),
-        row['assigned_seconds'], _installed_command(runtime, board, receipt.parent, row['assigned_seconds'], row['id']),
+        route_allowance, _installed_command(runtime, board, receipt.parent, route_allowance, row['id']),
         negative=negative)
 
 
@@ -260,7 +301,7 @@ def verify_negative_row(row, board, frozen):
         raise p.Rejected('negative portfolio row claims acceptance or unknown variant')
     _verify_installed_evidence(row, board, frozen, negative=True)
     receipt = Path(row['result'])
-    checked = _installed_negative_readback(receipt, board, frozen, row['assigned_seconds'], row['id'])
+    checked = _installed_negative_readback(receipt, board, frozen, _trial_route_allowance(row, frozen), row['id'])
     if (f.canonical(checked) != f.canonical(f.read_json(receipt.parent.with_suffix('.cli-rejection.json')))
             or 'negative_readback' in row and f.canonical(checked) != f.canonical(row['negative_readback'])):
         raise p.Rejected('retained negative diagnostic changed')
@@ -316,6 +357,7 @@ def verify_row(row, board, frozen):
                 or row['assigned_seconds']!=(row['remaining_wall_full_cpu_seconds_at_assignment']-FINAL_RESERVE)/(row['unattempted_variants_at_assignment'] if row['allocation']=='balanced' else 1)):
             raise p.Rejected('trial differs from its recorded allocation')
     receipt = Path(row['result'])
+    route_allowance = _trial_route_allowance(row, frozen)
     if 'installed_context' in frozen:
         _verify_installed_evidence(row, board, frozen)
     if receipt.is_symlink() or p.sha(receipt) != row['result_sha256']:
@@ -327,16 +369,16 @@ def verify_row(row, board, frozen):
             or (row.get('guidance_policy')=='placement-search-v1' and (data.get('schema')!=4 or data.get('input_policy')!='placement-search-v1'))
             or (row.get('guidance_policy') is None and data.get('input_policy') is not None)
             or data.get('scope') != 'whole_board_unlocked_routing'
-            or data.get('budget_seconds') != row['assigned_seconds']
-            or data.get('cpu_budget_seconds') != row['assigned_seconds']):
+            or data.get('budget_seconds') != route_allowance
+            or data.get('cpu_budget_seconds') != route_allowance):
         raise p.Rejected('trial differs from frozen portfolio contract')
     engine = data.get('engine_budget', {})
     width_guard=p.check_minimum_width_record(data,receipt.parent)
     expected = p.engine_profile_settings('tuned', engine.get('remaining_outer_wall_seconds_at_assignment'),
         strict_class_targets=data.get('netclass_policy') is not None or row.get('guidance_policy')=='placement-search-v1' or width_guard is not None, scoring_variant=row['id'])
     if (any(engine.get(key) != value for key, value in expected.items())
-            or engine.get('outer_task_wall_budget_seconds') != row['assigned_seconds']
-            or engine.get('outer_task_cpu_budget_seconds') != row['assigned_seconds']):
+            or engine.get('outer_task_wall_budget_seconds') != route_allowance
+            or engine.get('outer_task_cpu_budget_seconds') != route_allowance):
         raise p.Rejected('trial engine profile differs from declared variant')
     engine_steps = [step for step in data.get('steps', []) if step.get('name') == 'engine']
     if len(engine_steps) != 1:
@@ -490,7 +532,8 @@ def trial_freeze(protocol,row):
 
 def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET,
                resume_plan=None, resume_plan_sha256=None, allocation='remaining',
-               outer_ceiling=MAX_OPERATIONAL_BUDGET, installed_context=None):
+               outer_ceiling=MAX_OPERATIONAL_BUDGET, installed_context=None,
+               installed_trial_policy=None):
     if guidance_policy not in (None,'placement-search-v1'):raise p.Rejected('unsupported portfolio guidance')
     if (allocation not in ('remaining','balanced') or not q.finite_nonnegative(outer_ceiling)
             or not 60<=outer_ceiling<=MAX_OPERATIONAL_BUDGET
@@ -498,6 +541,10 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
         raise p.Rejected('invalid bounded portfolio allowance or allocation')
     if resume_plan is not None and (allocation!='remaining' or budget>BUDGET):
         raise p.Rejected('resume requires legacy remaining allocation within120')
+    if installed_trial_policy not in (None, INSTALLED_TRIAL_RESERVE_POLICY):
+        raise p.Rejected('unknown installed trial accounting policy')
+    if installed_trial_policy is not None and (installed_context is None or resume_plan is not None):
+        raise p.Rejected('trial readback reservation requires a fresh installed context')
     started, cpu_started = time.monotonic(), q.total_process_cpu()
     if installed_context is not None:
         if (type(installed_context) is not InstalledContext or guidance_policy is not None
@@ -529,6 +576,9 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                'claims_limit': 'exposed development experiment; no population superiority or electrical adequacy claim',
                'receipt_scope': 'selected trial receipt charges that trial only; this summary charges the entire portfolio',
                'physical_electrical_validation': False, 'applied': False}
+    if installed_trial_policy is not None:
+        summary.update(installed_trial_accounting_policy=installed_trial_policy,
+                       trial_readback_reserve_seconds=INSTALLED_TRIAL_READBACK_RESERVE)
 
     def totals():
         return prior_wall+time.monotonic() - started, prior_cpu+q.total_process_cpu() - cpu_started
@@ -589,6 +639,11 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                     'validation': 'every accepted trial receives native validation; final selection rechecks exact unchanged receipt/candidate. No candidate is copied or mutated during selection.',
                     'cpu_accounting': 'RUSAGE_SELF + RUSAGE_CHILDREN deltas over this whole invocation, including all setup, attempts, checks, and selection; never sum nested receipt CPU into this value',
                     'claim_scope': summary['claims_limit']}
+        if installed_trial_policy is not None:
+            protocol.update(installed_trial_accounting_policy=installed_trial_policy,
+                trial_readback_reserve_seconds=INSTALLED_TRIAL_READBACK_RESERVE,
+                route_allocation='trial assignment minus fixed30s negative classification/replay reserve; '
+                    'existing per-trial invocation/negative replay caps and global accounting remain mandatory')
         if basis:
             protocol.update(schema=2,resume=basis)
             if basis['plan']['policy']==COMPLETED_PREFIX_POLICY:
@@ -620,19 +675,22 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             available = remaining()
             unattempted = len(VARIANTS)-index
             assigned = (available-FINAL_RESERVE) / (unattempted if allocation=='balanced' else 1)
+            route_allowance = assigned - (INSTALLED_TRIAL_READBACK_RESERVE if installed_trial_policy is not None else 0.)
             # Do not start expensive preparation when even the current engine
             # minimum cannot fit. route() repeats this check after preparation.
-            if assigned < p.ENGINE_GRACE_RESERVE_SECONDS + p.ENGINE_NATIVE_RESERVE_SECONDS + 1:
+            if route_allowance < p.ENGINE_GRACE_RESERVE_SECONDS + p.ENGINE_NATIVE_RESERVE_SECONDS + 1:
                 summary['stop_reason'] = 'insufficient remaining budget for another attempt and reserves'
                 summary['skipped_variants'] = [{'id':name,'reason':summary['stop_reason'],
-                    'available_wall_full_cpu_seconds':available,'allocation':allocation,'assigned_if_started_seconds':assigned}
+                    'available_wall_full_cpu_seconds':available,'allocation':allocation,'assigned_if_started_seconds':assigned,
+                    **({'route_allowance_if_started_seconds':route_allowance,
+                        'trial_readback_reserve_seconds':INSTALLED_TRIAL_READBACK_RESERVE} if installed_trial_policy is not None else {})}
                     for name in VARIANTS[index:]]
                 break
             directory = out / f'{index + 1:02d}-{variant}'
             before_wall, before_cpu = time.monotonic(), q.total_process_cpu()
             trial_started_utc = datetime.datetime.now(datetime.timezone.utc).isoformat()
             try:
-                result = (_installed_attempt(installed_context, directory, assigned, variant)
+                result = (_installed_attempt(installed_context, directory, route_allowance, variant)
                           if installed_context is not None else
                           p.route(board, directory, assigned, False, 'both', 'tuned', scoring_variant=variant)
                           if guidance_policy is None else
@@ -648,6 +706,9 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                     'invocation_wall_seconds': time.monotonic() - before_wall,
                     'invocation_cpu_seconds': q.total_process_cpu() - before_cpu,
                     'directory': str(directory),
+                    **({'installed_trial_accounting_policy':installed_trial_policy,
+                        'route_allowance_seconds':route_allowance,
+                        'trial_readback_reserve_seconds':INSTALLED_TRIAL_READBACK_RESERVE} if installed_trial_policy is not None else {}),
                     **({'installed_cli': _installed_evidence(directory)} if installed_context is not None else {})})
                 raise
             trial_wall, trial_cpu = time.monotonic() - before_wall, q.total_process_cpu() - before_cpu
@@ -670,6 +731,10 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                    'peak_child_rss_bytes': result.get('peak_child_rss_bytes'),
                    'peak_polled_group_rss_bytes': max([step.get('sampled_peak_group_rss_bytes') or 0 for step in result.get('steps', [])] + [0]),
                    'native': result.get('native')}
+            if installed_trial_policy is not None:
+                row.update(installed_trial_accounting_policy=installed_trial_policy,
+                    route_allowance_seconds=route_allowance,
+                    trial_readback_reserve_seconds=INSTALLED_TRIAL_READBACK_RESERVE)
             if installed_context is not None: row['installed_cli'] = _installed_evidence(directory)
             summary['trials'].append(row)
             if q.cancelled(result):

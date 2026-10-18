@@ -78,7 +78,10 @@ class _SharedJob(p.Job):
         live=cfg.ROOT/'autorouter/native.py'
         if Path(self.native_helper).is_symlink() or p.sha(self.native_helper)!=p.sha(live):
             raise p.Rejected('thermal native helper differs from captured code')
-        return self.step(name,[cfg.PYTHON,'-B',live,action,board,output,*extra])
+        # Use the same exact caller-pinned command as normal validation. The
+        # inherited environment already disables bytecode. A separate spelling
+        # here can run successfully yet fail the shared publication reader.
+        return super().native(name,action,board,output,*extra)
 
 def _audit_map(candidate, protected, mapping):
     # Explicit even if a caller's broad netclass policy omits Default-only work.

@@ -71,7 +71,7 @@ def qualify(output,*,run_native=False,receipt=None,render=False):
         record['within_budget']=record['wall_seconds']<=SECONDS and record['total_cpu_seconds']<=SECONDS
         record['controls_passed']=(record['status']=='completed' and record['within_budget'] and len(record['cases'])==len(cases) and all(x.get('passed') is True for x in record['cases']))
     try:
-        p.check_storage();tools=p.tool_manifest();code=p.sha(Path(__file__));record.update(tools=tools,controller_sha256=code)
+        p.check_storage(active_root=out);tools=p.tool_manifest();code=p.sha(Path(__file__));record.update(tools=tools,controller_sha256=code)
         raw=subprocess.run(['git','show',tools['git_head']+':scripts/qualify_review_export.py'],cwd=c.ROOT,capture_output=True,check=True,timeout=10).stdout
         if hashlib.sha256(raw).hexdigest()!=code:raise p.Rejected('commit exact qualification controller before native execution')
         frozen=[]

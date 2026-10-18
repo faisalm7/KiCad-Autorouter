@@ -112,7 +112,14 @@ class Controls(unittest.TestCase):
             job=t._SharedJob(SimpleNamespace(steps=[]),root/'job',lambda:4,capture)
             with patch.object(job,'step',return_value={'status':'success'}) as launch:
                 job.native('map','netclasses',root/'board',root/'map')
-                self.assertEqual(launch.call_args.args[1],[t.cfg.PYTHON,'-B',live,'netclasses',root/'board',root/'map'])
+                argv=launch.call_args.args[1]
+                self.assertEqual(argv,[t.cfg.PYTHON,live,'netclasses',root/'board',root/'map'])
+                # Actual021 reached Native0/0/22, then failed this reader on
+                # the redundant -B spelling. Exercise producer and consumer
+                # together; retain exact-prefix rejection rather than waive it.
+                from autorouter.adapter import native_command_parser
+                native_command_parser(data={'steps':[{'argv':[str(v) for v in argv]}]})
+                self.assertEqual(job.env['PYTHONDONTWRITEBYTECODE'],'1')
                 launch.reset_mock();capture.write_text('changed')
                 with self.assertRaises(t.p.Rejected):job.native('map','netclasses',root/'board',root/'map')
                 launch.assert_not_called()
