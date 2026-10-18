@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 141.30802604201017,
+  "cpu_seconds": 159.750841,
+  "max_rss_bytes": 396115968,
+  "supervisor_cpu_seconds": 0.349901,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 482754560,
+  "sampled_peak_workdir_bytes": 344,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/qualify-current-method-001.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime033-interf-current-comparison-001/Cthermal/protocol.json",
+    "--protocol-sha256",
+    "e3fdc22e8d412c0d248dfdbab760217d48394e7d713b84fd2dc9b37e6a1d4229"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime033-interf-current-comparison-001/Cthermal/enclosure/command.log",
+  "log_bytes": 344,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime033-interf-current-comparison-001/Cthermal/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 50193
+}

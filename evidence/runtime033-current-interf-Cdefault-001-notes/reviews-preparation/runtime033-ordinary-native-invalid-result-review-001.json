@@ -1,0 +1,100 @@
+{
+  "checks": {
+    "candidate_report_fullSCH_stage_bindings": true,
+    "cases": [
+      {
+        "Native_calls": 2,
+        "Native_counts": [
+          0,
+          4,
+          0,
+          0
+        ],
+        "all_cleanup_complete": true,
+        "candidate_sha256": "3d7230cf83260d4ff0aa15dedd6b8839ca2bbadd16ec65042492f1da73442c3b",
+        "case": "partial-short",
+        "observed_rejection": "actual original-rule full-schematic Native short",
+        "protected_routes": 4
+      },
+      {
+        "Native_calls": 1,
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "all_cleanup_complete": true,
+        "candidate_sha256": "314c368e221be334807e23b67d5aa9b8e098aa2a5ee7be4021bfe05b3b828291",
+        "case": "partial-protected-width",
+        "observed_rejection": "protected route changed",
+        "protected_routes": 4
+      }
+    ],
+    "complete_invalid_material_current": true,
+    "complete_invalid_material_files": 56,
+    "outer_complete_evidence_and_child_binding": true,
+    "outer_exit0_cleanup_and_protocol_argv": true,
+    "positive_prerequisites": {
+      "partial2Cu": {
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "artifact_source_pins_current": true,
+        "protected_routes": 4
+      },
+      "whole4Cu": {
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "artifact_source_pins_current": true,
+        "protected_routes": 10
+      }
+    },
+    "runtime_tools_modules_exact": true,
+    "shared_final_PRL_packets": 6,
+    "shared_final_cross_root_PRL_replay": true,
+    "shared_final_plot_pairs": 12
+  },
+  "child_result_sha256": "b64b522ac415daaf65d8115de6e6d45d28a95b7555fe18d80cf2aad39332b9f5",
+  "controller_sha256": "66ac571b737d66b7d5a2dfb9ddffc18aa5cbdb7873079949557f1b79a3577eda",
+  "cost": {
+    "child_sample_before_final_readbacks_CPU_seconds": 7.306452,
+    "child_sample_before_final_readbacks_wall_seconds": 8.53061183396494,
+    "enclosure_full_CPU_seconds": 12.901611,
+    "enclosure_wall_seconds": 14.281163332983851,
+    "external_full_CPU_seconds": 12.93,
+    "external_time_log_sha256": "6cd999d2128c984be07916cc58e113c58b92fa6a485c5e2564027bf0858a9bbc",
+    "external_wall_seconds": 14.32,
+    "nested_costs_are_not_additional": true,
+    "whole_wall_full_CPU_cap_seconds": 180
+  },
+  "enclosure_result_sha256": "5199adfc2d2d6f26a224552a493b1e4aa57fb215d53538da836c64eb383900bb",
+  "findings": [],
+  "kind": "runtime033-ordinary-native-invalid-AI-readback-review-v1",
+  "limitations": [
+    "Two owned-copy invalid controls on one partial2Cu fixture with four protected routes; no routing-quality, general completion, GUI, human or physical validation claim.",
+    "No cancellation, crash or all-phase coverage from this run.",
+    "The frozen controller executed ordinary central Route/export readers. This review replays file/semantic/shared Native stage/process/final PRL readers and does not invoke tool_manifest or rerun the full central readers.",
+    "Invalid candidates produce no acceptance/export. Existing frozen whole/partial positives are prerequisites.",
+    "Outer2MiB workdir bound covers enclosure logs only; Native worker guards are separate, not an aggregate2MiB evidence cap."
+  ],
+  "protocol_sha256": "e753d83d87048510ca4dee22a4fef3665fca6abc881db66ebf9c1eb9aedf9a17",
+  "readback_preflight_failure": "Initial inline readback had unmatched-parenthesis SyntaxError before execution; no Native/tests/source changes or receipt were produced. Corrected inline readback follows.",
+  "review_readback_cost": {
+    "CPU_seconds": 0.15727299999999997,
+    "separate_from_experiment": true,
+    "wall_seconds": 0.20944145799148828
+  },
+  "reviewer_independence": "AI readback; this agent authored the controller earlier. Not independent author review, human PCB review or new Native execution.",
+  "runtime_manifest_sha256": "115c881aa04a34bf642c57d5af312fe692d1aff013bed095caa3856a614f3987",
+  "schema": 1,
+  "source_head": "a476a0a0647bc51889d291e3e6e2598f4ec24370",
+  "verdict": "bounded_retained_controls_pass_no_concrete_mismatch"
+}
