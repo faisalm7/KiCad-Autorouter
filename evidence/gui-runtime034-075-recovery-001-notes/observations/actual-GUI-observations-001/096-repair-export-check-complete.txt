@@ -1,0 +1,137 @@
+Window: "KiCad Autorouter — separate project", App: Python.
+0 standard window KiCad Autorouter — separate project, Secondary Actions: Raise
+	1 text Saved PCB
+	2 text field (settable) /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/recovery-controls-001/repair/project/interf_u.kicad_pcb
+	3 button Browse…
+	4 text Output folder
+	5 text field (settable) /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/jobs
+	6 button Browse…
+	7 text Method
+	8 pop up button Thermal recovery (experimental; fixed whole-board method)
+	9 text Routing and protection
+	10 pop up button Reroute unlocked; keep locked copper
+	11 text Routing profile
+	12 pop up button Standard
+	13 text Interchange corrections
+	14 pop up button Both corrections
+	15 text Allowed new copper
+	16 pop up button All source copper
+	17 text Via preference
+	18 pop up button Engine default
+	19 text Whole recovery-method budget (seconds)
+	20 text field (settable) 420
+	21 text Selected nets (one exact name per line)
+	22 scroll area Secondary Actions: Scroll Up, Scroll Down
+		23 text entry area (settable)
+		24 scroll bar (disabled, settable, float) 0
+	25 text Experimental thermal recovery has a validated completion result on one exposed board family; it is not general routing or
+electrical certification. Requires KiCad 10.0.7, two copper layers, whole-board unlocked routing, Native guidance, standard/both,
+all source layers and default via cost. The 90–900 s method budget includes the incumbent, repair attempts and final validation;
+internal reserves are inside it. Fresh export has a separate budget. Failed/cancelled work and its incumbent are retained; no
+automatic application, acceptance intent or fallback. Fresh export adds separate Native validation after acceptance: 30–120 seconds, derived from the captured routing or
+recovery-method budget. That budget is unchanged.
+	26 button Load settings…
+	27 button Save settings as…
+	28 checkbox I saved and CLOSED the source PCB and schematic editors. The exact paths above are correct., Value: 1
+	29 checkbox Value: 1, I inspected all findings and CLOSED the review editors/project. My choice is intent, not PCB certification.
+	30 button Preview
+	31 button (disabled) Recover (experimental)
+	32 button (disabled) Create review
+	33 button (disabled) Cancel
+	34 button Open preview
+	35 button Open review project
+	36 button (disabled) Accept intent
+	37 button (disabled) Reject intent
+	38 button (disabled) Fresh export
+	39 button Open checked export
+	40 text export completed. Separate workspace: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/jobs/autorouter-gui-702dbdd14b7d42879a269881e4531d5c
+	41 scroll area Secondary Actions: Scroll Up, Scroll Down
+		42 text entry area Fresh separate-project export
+Status: export validated
+Experimental thermal recovery has a validated completion result on one exposed board family; it is not general routing or electrical certification. Requires KiCad 10.0.7, two copper layers, whole-board unlocked routing, Native guidance, standard/both, all source layers and default via cost. The 90–900 s method budget includes the incumbent, repair attempts and final validation; internal reserves are inside it. Fresh export has a separate budget. Failed/cancelled work and its incumbent are retained; no automatic application, acceptance intent or fallback.
+Full workflow receipt: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/jobs/autorouter-gui-702dbdd14b7d42879a269881e4531d5c/export/export.json
+Full findings receipt: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/jobs/autorouter-gui-702dbdd14b7d42879a269881e4531d5c/export/export.json
+Original saved PCB: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/recovery-controls-001/repair/project/interf_u.kicad_pcb
+Separate project: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/jobs/autorouter-gui-702dbdd14b7d42879a269881e4531d5c/export/validation/candidate/interf_u.kicad_pro
+Candidate PCB: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/jobs/autorouter-gui-702dbdd14b7d42879a269881e4531d5c/export/validation/candidate/interf_u.kicad_pcb
+Routing/protection: Reroute unlocked copper; preserve locked routing
+Whole recovery-method budget: 120.0 s, including incumbent routing, repair and final validation.
+Additional Native export-validation budget: 120.0 s after acceptance.
+Original-design checks passed; source geometry and protected routing retained.
+Schematic: checked by final native DRC
+Route: 4996.393150 mm track; 35 vias
+Board: 25 footprints; 379 pads; 1 zones; 2 copper layers
+Native findings: 0 opens; 0 blocking; 22 warnings; 0 exclusions
+The whole project is not DRC-clean; inspect every finding below.
+Separate-project workflow only; no live-board application or physical/electrical approval.
+Fresh original-rule Native validation; the original source is not overwritten.
+Physical/electrical and manufacturing validation remains separate.
+
+Ignored checks (7 retained):
+1. Footprint has no courtyard defined [missing_courtyard]
+2. Copper connection too narrow [connection_width]
+3. Track endpoint not centered on via [track_not_centered_on_via]
+4. Tuning profile track geometries [tuning_profile_track_geometries]
+5. Footprint doesn't match symbol's footprint filters [footprint_filters_mismatch]
+6. PTH inside courtyard [pth_inside_courtyard]
+7. NPTH inside courtyard [npth_inside_courtyard]
+
+Findings (22 retained):
+1. WARNING: interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint C1 at 83.185, 83.82 mm
+2. WARNING: interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm) [footprint_symbol_mismatch]
+   Footprint C2 at 121.305, 91.44 mm
+3. WARNING: interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm) [footprint_symbol_mismatch]
+   Footprint C3 at 121.305, 99.06 mm
+4. WARNING: interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint C4 at 170.688, 52.197 mm
+5. WARNING: interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint C5 at 86.995, 113.03 mm
+6. WARNING: interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint C6 at 159.385, 111.76 mm
+7. WARNING: interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm) [footprint_symbol_mismatch]
+   Footprint D1 at 155.58, 38.06 mm
+8. WARNING: interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm) [footprint_symbol_mismatch]
+   Footprint D2 at 165.71, 38.08 mm
+9. WARNING: interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical) [footprint_symbol_mismatch]
+   Footprint JP1 at 116.205, 105.41 mm
+10. WARNING: interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm) [footprint_symbol_mismatch]
+   Footprint P1 at 182.1, 72.4 mm
+11. WARNING: interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint R1 at 117.475, 99.06 mm
+12. WARNING: interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint R2 at 127.635, 91.44 mm
+13. WARNING: interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint R3 at 92.075, 57.15 mm
+14. WARNING: interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint R4 at 151.765, 41.91 mm
+15. WARNING: interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal) [footprint_symbol_mismatch]
+   Footprint R5 at 171.958, 42.037 mm
+16. WARNING: interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10) [footprint_symbol_mismatch]
+   Footprint RR1 at 95.885, 113.03 mm
+17. WARNING: interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm) [footprint_symbol_mismatch]
+   Footprint U1 at 151.765, 124.46 mm
+18. WARNING: interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm) [footprint_symbol_mismatch]
+   Footprint U2 at 95.885, 124.46 mm
+19. WARNING: interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm) [footprint_symbol_mismatch]
+   Footprint U3 at 123.825, 124.46 mm
+20. WARNING: interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm) [footprint_symbol_mismatch]
+   Footprint U5 at 86.995, 76.2 mm
+21. WARNING: interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm) [footprint_symbol_mismatch]
+   Footprint U8 at 123.825, 112.903 mm
+22. WARNING: interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal) [footprint_symbol_mismatch]
+   Footprint X1 at 113.665, 92.71 mm
+		43 scroll bar (settable, float) 0
+			44 value indicator (settable, float) 0
+			45 increment arrow button
+			46 decrement arrow button
+			47 increment page button
+			48 decrement page button
+	49 close button
+	50 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	51 minimize button
+	52 text KiCad Autorouter — separate project
+53 menu bar
+	54 Python
+
+The focused UI element is 0 standard window KiCad Autorouter — separate project, Secondary Actions: Raise
