@@ -1,0 +1,286 @@
+{
+  "schema": 1,
+  "kind": "bounded-skeptical-runtime026-GUI072-result-review",
+  "recorded_utc": "2026-10-18T15:46:21.805209+00:00",
+  "reviewer": "separate AI reviewer",
+  "human_PCB_review": false,
+  "physical_electrical_validation": false,
+  "scope": "One bounded read-only review of the corrected GUI072 result packet and exact listed material/reference files. No Native, Java/engine, tests, GUI, CI or network execution; no archive scan, new verifier framework, production or documentation edits. Existing pure/shared proof readers and source parsers used.",
+  "verdict": "No blocking correctness/evidence mismatch found in corrected packet within the declared seven-job, one exposed owned2Cu partial-family GUI qualification scope.",
+  "inputs": {
+    "evidence": {
+      "path": "evidence/gui-runtime026-072-native-controls-001.json",
+      "sha256": "554e66490851f33e2dd23d7098569ba78543210540ed890a9cce6bbbaee2b5d5"
+    },
+    "files_index": {
+      "path": "evidence/gui-runtime026-072-native-controls-001-notes/files.json",
+      "sha256": "149fb4217090fbbcf65f1c06e6b164e653e1e8ed69ff6b39dead51781089ef8a"
+    },
+    "runtime_manifest": {
+      "path": ".runs/runtime-directory-026/runtime/runtime-distribution.json",
+      "sha256": "5371d08ccf5a0ae2e0c4024f752baca28f034c3b3cb50ade308e8e5e12e36fe5"
+    },
+    "source_head": "1117de080524072046a61522845facd5d4c68575",
+    "reference_records": [
+      {
+        "path": "evidence/runtime026-installed-CLI-001.json",
+        "sha256": "aab3ec39b145200ebb11bbb0e79c5fabb5f634dece6293bc189080ebc50d8b37"
+      },
+      {
+        "path": "evidence/runtime026-installed-partial-CLI-001.json",
+        "sha256": "a57f5cd3bc35f3e95820aff17a1fe1cf268b97a384e484b2b6bd3ae84b42613d"
+      },
+      {
+        "path": "evidence/gui-runtime019-067-native-controls-001.json",
+        "sha256": "83fd347c2ee8af0d0a77053f88374a706f26e8bc05610e1eca8515423e17e371"
+      }
+    ],
+    "license_reference": {
+      "path": "LICENSE",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "scope": "Project-owned fixture/controller; existing source/code/license bytes are shared by exact hash, not relicensed."
+    },
+    "curation_correction": {
+      "path": ".runs/curation-runtime026-GUI072-first-name-001/correction.json",
+      "sha256": "4ba622f100fb0c39fe9133767417669b2d7fc6f5eb979fe7c5a34a2ca70731ad"
+    }
+  },
+  "checks": {
+    "listed_copied_files": 336,
+    "listed_material_rows": 713,
+    "copied_bytes": 17600460,
+    "all_listed_original_retained_hashes_and_sizes_match": true,
+    "all_three_reference_record_hashes_match": true,
+    "top_files_equal_index_files": true,
+    "immutable_runtime_files_checked": 50,
+    "git_source_files_checked_against_1117": 49,
+    "runtime_native_version": "10.0.7",
+    "engine_version": "2.5.0",
+    "runtime_and_actual_native_java_engine_pins_checked_by_existing_readers": true,
+    "final_original_source_hashes_match": true,
+    "original_source_hashes": {
+      "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+      "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+      "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+      "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    "six_route_proofs": {
+      "labels": [
+        "positive",
+        "high_budget",
+        "reject",
+        "source_control",
+        "settings_control",
+        "export_control"
+      ],
+      "all_candidate_hashes_bound": true,
+      "all_original_nonrouting_semantics_match": true,
+      "protected_items_each": 4,
+      "all_protected_items_preserved": true,
+      "opens_blocking_warnings_exclusions_each": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "full_schematic_parity_each": "checked by final native DRC",
+      "whole_project_DRC_clean_each_under_preserved_original_ignored_checks": true
+    },
+    "five_preopen_export_proofs": {
+      "labels": [
+        "positive",
+        "high_budget",
+        "source_control",
+        "settings_control",
+        "export_control"
+      ],
+      "all_snapshot_tree_hashes_match": true,
+      "each_own_saved_route_and_export_current_proof": true,
+      "all_candidate_and_final_report_hashes_bound": true,
+      "all_original_nonrouting_semantics_match": true,
+      "protected_items_each": 4,
+      "opens_blocking_warnings_exclusions_each": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "full_schematic_parity_each": "checked by final native DRC"
+    },
+    "shared_DRC_stage_reader_checks": {
+      "count": 22,
+      "stages": "refill-drc and final-drc for six accepted routes and five exports",
+      "all_passed": true,
+      "fresh_native_run_performed": false
+    },
+    "current_shared_readers": {
+      "positive_route": "current true",
+      "high_budget_route": "current true",
+      "high_budget_export": "current true",
+      "positive_export_after_editor_open": "Rejected: export inputs/runtime/evidence changed"
+    },
+    "native_ignored_checks_preserved": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "source_native_control_before_routing": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0
+    },
+    "independent_controls": {
+      "source": "Copied source PRO has exactly the recorded appended newline, before/after hashes match; later GUI refusal retained, checked-open disabled, no editor open requested.",
+      "settings": "Own captured settings has exactly the recorded appended newline, before/after hashes match; later GUI refusal retained, checked-open disabled, no editor open requested.",
+      "export": "Own current export receipt differs from saved positive snapshot only by export_accepted true becoming integer 1; before/after hashes match; actual bounded inspect-export exit 2 and GUI refusal retained.",
+      "preopen_proofs_precede_mutations": "Retained own positive proofs and mutation receipts identify the saved preimages; exact mutations and subsequent refusal timestamps checked.",
+      "queued_race_forced_in_actual_GUI": false
+    },
+    "explicit_reject": {
+      "choice": "reject",
+      "choice_recorded": true,
+      "export_exists": false
+    },
+    "actual_cancellation": {
+      "stage": "engine",
+      "requested_signal": "SIGINT",
+      "worker_final_exit_code": -9,
+      "cleanup_complete": true,
+      "accepted": false,
+      "export_exists": false,
+      "GUI_command_exit_code": 2,
+      "GUI_cancel_requested": true,
+      "scope": "Recorded observed engine cancellation only; no SIGINT-only, all-phase or permanent-descendant absence inference."
+    },
+    "GUI_observation_provenance": "Lead/CUA observations retained; reviewer did not independently operate or observe pixels. No saved screenshot pixels are claimed.",
+    "GUI_observations_consistent_with_retained_receipts": [
+      "toolbar launch",
+      "plain-text invalid and 0 focus-loss refusals with no workspace",
+      "90 preset load/save",
+      "F.Cu/B.Cu before/after rendering and browser page",
+      "accept without acknowledgment refusal then explicit accept",
+      "90 fresh export checked then rendered in KiCad and closed without PCB edits",
+      "420 route budget with 120 additional export-validation budget, export not opened in editor"
+    ]
+  },
+  "accounting": {
+    "scope": "38 bounded GUI command journals plus nested route/export costs retained; command wall and nested costs overlap and must not be added as disjoint compute. Whole interactive wall/full CPU including editor, browser, authoring, idle, curation and AI review remain unmeasured, not zero.",
+    "command_journals": 38,
+    "route_nested_costs": [
+      {
+        "label": "positive",
+        "budget_seconds": 90,
+        "wall_seconds": 7.8192953329999,
+        "total_cpu_seconds": 5.6596280000000005
+      },
+      {
+        "label": "high_budget",
+        "budget_seconds": 420,
+        "wall_seconds": 8.005953665997367,
+        "total_cpu_seconds": 5.600423
+      },
+      {
+        "label": "cancel",
+        "budget_seconds": 90,
+        "wall_seconds": 4.084058417007327,
+        "total_cpu_seconds": 2.985079
+      },
+      {
+        "label": "reject",
+        "budget_seconds": 90,
+        "wall_seconds": 7.403356084018014,
+        "total_cpu_seconds": 5.590008
+      },
+      {
+        "label": "source_control",
+        "budget_seconds": 90,
+        "wall_seconds": 7.916150541976094,
+        "total_cpu_seconds": 5.485194
+      },
+      {
+        "label": "settings_control",
+        "budget_seconds": 90,
+        "wall_seconds": 7.350275042001158,
+        "total_cpu_seconds": 5.521365
+      },
+      {
+        "label": "export_control",
+        "budget_seconds": 90,
+        "wall_seconds": 7.236684790987056,
+        "total_cpu_seconds": 5.467688999999999
+      }
+    ],
+    "export_nested_costs": [
+      {
+        "label": "positive",
+        "budget_seconds": 90.0,
+        "wall_seconds": 5.020231165981386,
+        "total_cpu_seconds": 4.235017,
+        "within_budget": true
+      },
+      {
+        "label": "high_budget",
+        "budget_seconds": 120.0,
+        "wall_seconds": 6.71154716599267,
+        "total_cpu_seconds": 4.37534,
+        "within_budget": true
+      },
+      {
+        "label": "source_control",
+        "budget_seconds": 90.0,
+        "wall_seconds": 5.012246125028469,
+        "total_cpu_seconds": 4.239473,
+        "within_budget": true
+      },
+      {
+        "label": "settings_control",
+        "budget_seconds": 90.0,
+        "wall_seconds": 6.271386582986452,
+        "total_cpu_seconds": 4.356351,
+        "within_budget": true
+      },
+      {
+        "label": "export_control",
+        "budget_seconds": 90.0,
+        "wall_seconds": 7.479029000038281,
+        "total_cpu_seconds": 4.716845,
+        "within_budget": true
+      }
+    ],
+    "shared_resource_accounting_passed_for_all_six_positive_routes_and_five_exports": true,
+    "comparison_or_routing_speed_claim_supported": false
+  },
+  "findings": [
+    {
+      "id": "I1",
+      "severity": "informational",
+      "title": "Checked 90-second export became stale after editor opening",
+      "evidence": "Pure shared export reader now rejects; candidate PCB hash remains unchanged. KiCad changed candidate .kicad_pro/.kicad_prl and created a backups directory/ZIP. Saved pre-open snapshot remains exact. Packet explicitly does not infer current acceptance after editor/control changes.",
+      "disposition": "Keep the saved pre-open Native proof and later editor state distinct. Do not describe the now-opened export project as byte-unchanged or currently accepted without a new validated export. No corrective production change requested."
+    },
+    {
+      "id": "I2",
+      "severity": "resolved curation defect",
+      "title": "First derived packet was incorrectly named 070",
+      "evidence": "The first full wrong-name curation is preserved at .runs/curation-runtime026-GUI072-first-name-001 with correction.json. Corrected 072 packet/index and every exact listed byte/hash pass this review.",
+      "disposition": "Corrected derived filenames only; no Native/GUI experiments rerun or overwritten."
+    }
+  ],
+  "release_blocking_findings": [],
+  "remaining_unqualified": [
+    "generalized routing superiority or completion/quality improvement",
+    "independent board-family breadth",
+    "forced actual queued-callback race",
+    "all-phase cancellation",
+    "permanent descendant absence",
+    "live editor application or undo",
+    "unsaved editor-buffer detection",
+    "human PCB review",
+    "physical/electrical/manufacturing validation",
+    "full release qualification",
+    "Windows qualification from this Mac result"
+  ],
+  "backup_scope": "This review checked exact retained files in the selected on-Mac checkout. It did not perform remote backup verification or restoration. Full raw workspaces, binaries and unsaved screenshot pixels are outside the curated text packet; no independent disk-failure protection is inferred.",
+  "not_reviewed": "Windows009 failure and already checkpointed runtime026 CLI results were not re-reviewed; three old evidence records were used only as exact-hash material-reference indexes.",
+  "final_source_unchanged_confirmed": true
+}
