@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "kind": "install-distribution-implementation-handoff-v1",
+  "recorded_utc": "2026-10-18T17:23:02.735648+00:00",
+  "authored_by": "preset_picker_review subordinate AI",
+  "scope": "Truthful handoff of earlier tool-transcript test outputs only. No rerun, Native/install/Git/network command or source edit. This JSON is a transcript-derived summary, not a raw execution log or an external timing receipt.",
+  "raw_log_status": "No durable raw test log was written by this agent for either run below. Existing .runs/install-distribution-targeted-001.log and002.log were not created/read/attributed by this handoff. Do not present this JSON as those raw logs.",
+  "tests": [
+    {
+      "label": "prior distribution patch before bounded provenance-Git safeguard revision",
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_install_smoke",
+        "-v"
+      ],
+      "result": "OK",
+      "tests_run": 29,
+      "unittest_reported_elapsed_seconds": 1.213,
+      "durable_raw_log_path": null,
+      "complete_external_wall_seconds": null,
+      "complete_external_cpu_seconds": null,
+      "tool_transcript_reference": {
+        "exec_session_id": 62589,
+        "initial_output_chunk": "38ada5",
+        "completion_output_chunk": "cf27f5"
+      },
+      "retained_completion_text": "Ran 29 tests in 1.213s\n\nOK",
+      "source_pins_at_handoff": {
+        "scripts/install_smoke.py": "977dfe8c699c9ade974588c1d0aad33685a49cbfe94828b8becfa7d6ca311a07",
+        "tests/test_install_smoke.py": "e44ed13687c8f95d4854591ebaa2ecd77d0978e33f73e21a2220281bd59b3ee2"
+      },
+      "interpretation": "Superseded source stage; did not close subsequently identified direct provenance-Git safeguard issue."
+    },
+    {
+      "label": "final bounded provenance-Git safeguard revision",
+      "argv": [
+        ".venv/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_install_smoke",
+        "-v"
+      ],
+      "result": "OK",
+      "tests_run": 32,
+      "unittest_reported_elapsed_seconds": 1.505,
+      "durable_raw_log_path": null,
+      "complete_external_wall_seconds": null,
+      "complete_external_cpu_seconds": null,
+      "tool_transcript_reference": {
+        "exec_session_id": 5764,
+        "initial_output_chunk": "a68817",
+        "completion_output_chunk": "5a189a"
+      },
+      "retained_completion_text": "Ran 32 tests in 1.505s\n\nOK",
+      "source_pins_at_handoff": {
+        "scripts/install_smoke.py": "3a53d368155e6decf47665e0bd97f046f28aa580dd1fc9534b75866e31c5ecef",
+        "tests/test_install_smoke.py": "21c79fe0bc67462cfb83f2a95a07de4a7064f39a1d30bc9bad0909903d4aa433"
+      },
+      "interpretation": "All child commands/Git observations mocked; tiny real owned files and curated builder exercise sequencing and safeguards. This is not an actual Git, installer or Native qualification."
+    }
+  ],
+  "timing_limit": "The exec tool initial wait/poll durations are not an enclosing complete-process time/CPU measurement. They were not summed or relabelled as such. No additional research/authoring cost estimate is fabricated.",
+  "lead_reported_separate_validation": {
+    "independently_reread_here": false,
+    "scope": "Disjoint existing provenance/source-integration targeted tests run by lead, not this agent",
+    "tests": 19,
+    "unittest_reported_elapsed_seconds": 3.608,
+    "lead_reported_external_wall_seconds": 4.06,
+    "lead_reported_external_cpu_seconds": 2.95,
+    "durable_log_path": "Lead-owned; not supplied in this handoff"
+  },
+  "remaining_gate": "Independent review and a checkpointed fresh actual distribution installation/Native qualification remain lead responsibilities; existing runtime026/028 evidence is unchanged."
+}

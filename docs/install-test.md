@@ -15,3 +15,14 @@ A fresh equivalent product/JAR/manifest/copied-interpreter payload needs at leas
 Unmet installation gates remain: clean OS/account dependency setup, relocation, standalone dependencies/application/package and broader version/architecture testing. A new directory records a new root/manifest and cannot inherit old receipts. Any changed installer/product needs appropriate fresh checks; source/full integration and restoration belong at their established milestone cadence. No formal binary/package release or redistribution compliance is established.
 
 Historical [025 CLI/invalid/default1000](../evidence/runtime025-controls-compatibility-001.json) passes and [GUI071 budget failure](../evidence/runtime025-GUI071-budget-refusal-failure-001.json) remain distinct. [023 GUI controls](../evidence/gui-runtime023-070-native-controls-001.json), [017 negatives](../evidence/runtime017-native-failure-controls-001.json) and older installation evidence retain their original source scope. Missing/stale/cancelled proof cannot authorize export. Cooperative process/byte guards are not a hostile-writer or power-loss guarantee.
+
+
+The [revised distribution installation](../evidence/install-distribution-native-001.json), source `a71a39725539061bc33bce687caf712f77e1f529`, now closes the source-history/archive dependency in product-native mode. The actual fresh runtime029 installation passed copied-venv identity, selected10.0.7 doctor, owned-fixture Native Route and current result verification in **23.56wall/20.29CPU seconds**, with72,722,111 logical scratch bytes. Its manifest is `ae9ef31828e36a918d430b4a7bf9223241d78b098a87e4b64e89aa89b07fa870`;49 selected product files are copied, with the fixed smoke PCB/PRO/PRL in a separate sibling directory.556 bounded source-Git observations are retained and charged; no Git history is fetched and no research archive is inventoried. Full170 passes separately. The smoke source has2 expected opens, final0opens/0blocking/0warnings; it has no native schematic, so this does not establish schematic parity. It is Route/check qualification, not six-stage delivery or actual GUI qualification.
+
+To reproduce that mode after committing selected product/installer/fixture changes, choose a fresh output:
+
+```sh
+.venv/bin/python -B scripts/install_smoke.py --source-mode distribution --native-version 10.0.7 --output .runs/my-fresh-install
+```
+
+The existing029 artifact is `.runs/runtime-directory-029/runtime`. GUI073 inputs/launcher are prepared; actual current-build GUI qualification remains pending. Keep026 unchanged as the GUI-qualified instance. This mode reuses existing pinned Mac applications and the verified local-only engine cache. It does not change full/source-backed placement mode, raise its historical bounds, test a clean OS or authorize a formal package. Raw NUL-containing Git logs remain on this Mac; public process receipts and independent readback are essential evidence, not a full newer-artifact backup.

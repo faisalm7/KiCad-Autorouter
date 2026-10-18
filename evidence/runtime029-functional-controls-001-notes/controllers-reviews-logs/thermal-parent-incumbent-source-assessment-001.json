@@ -1,0 +1,131 @@
+{
+  "evidence": {
+    ".runs/runtime-directory-029/runtime/.runs/thermal-parent-incumbent-functional-001/thermal-route/result.json": {
+      "bytes": 1962,
+      "sha256": "89cf272e55a3991b017aeb786e33989e8b96f8085c9003bacb12de0bd474038e"
+    },
+    ".runs/task-copper-fixed-alias-native-004/source/owned1007-transport.kicad_pcb": {
+      "bytes": 11351,
+      "sha256": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128"
+    },
+    ".runs/task-copper-fixed-alias-native-004/source/owned1007-transport.kicad_prl": {
+      "bytes": 178,
+      "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b"
+    },
+    ".runs/task-copper-fixed-alias-native-004/source/owned1007-transport.kicad_pro": {
+      "bytes": 2128,
+      "sha256": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f"
+    },
+    ".runs/task-copper-fixed-alias-native-004/source/owned1007-transport.kicad_sch": {
+      "bytes": 8280,
+      "sha256": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    ".runs/thermal-parent-incumbent7-controls-001/execution.json": {
+      "bytes": 3157,
+      "sha256": "755c5c5d1fd64e772807d406c988e2483f742b9c1555a21348a8d04c9dd71746"
+    },
+    ".runs/thermal-parent-incumbent7-controls-001/protocol.json": {
+      "bytes": 7497,
+      "sha256": "6ad934b7cdeb625c5149a90a2b6d4539f08c25bbb8cabc6ace0566724bbb730f"
+    },
+    "autorouter/pipeline.py": {
+      "bytes": 202985,
+      "sha256": "1c23c2ac94d57c35c47dcaa346d17ff2464128384c0ea45f84d4ebf138b4a385"
+    },
+    "autorouter/recovery.py": {
+      "bytes": 11589,
+      "sha256": "8d99b1b4a1bb4cd295bb41465c6a891dd9f3192e7d1603bbd98adf7b507cb04a"
+    },
+    "autorouter/thermal.py": {
+      "bytes": 31384,
+      "sha256": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41"
+    }
+  },
+  "judgment": {
+    "Native_pass_claimed": false,
+    "blocking_issue_in_proposed_scope": null,
+    "defensible": true,
+    "not_an_unsupported_bypass": "No original feature is deleted from the failed source, no validation guard is bypassed, and no rule is relaxed. The distinct fixture exercises a different already-supported input subset. The failed input stays visible in support coverage.",
+    "scope": "A separate predeclared no-repair/accepted-incumbent branch control on the existing unchanged unflagged2Cu owned fixture is defensible. It does not establish thermal recovery support for the rejected flagged4Cu source."
+  },
+  "kind": "thermal-parent-incumbent-source-assessment-v1",
+  "line_references": {
+    "accepted_incumbent_branch": 135,
+    "accepted_selection_guard": 196,
+    "central_reader_preflight": 2731,
+    "ordinary_only_class_context": 453,
+    "recover_preflight": 111,
+    "source_class_guard": 401
+  },
+  "observations": {
+    "failure": {
+      "cleanup_complete": true,
+      "controls_passed": false,
+      "execution": ".runs/thermal-parent-incumbent7-controls-001/execution.json",
+      "interpretation": "Actual control001 did not qualify the accepted-incumbent branch. Recovery rejected during initial preflight before incumbent routing. Preserve its exact unsupported reason and cost; do not count it as a passing negative qualification or replace its path.",
+      "lead_reported_external_CPU_seconds": 1.15,
+      "lead_reported_external_wall_seconds": 1.29,
+      "no_recovery_Native_or_engine_steps": true,
+      "reason": "Rejected: unsupported: schematic class intent not qualified: schematic netclass_flag unsupported: PCB class membership and inheritance are not independently verified: owned-four-copper-forced-inner.kicad_sch",
+      "receipt": ".runs/runtime-directory-029/runtime/.runs/thermal-parent-incumbent-functional-001/thermal-route/result.json",
+      "recovery_steps": 0,
+      "stored_complete_full_CPU_seconds": 1.1255080000000002,
+      "stored_complete_wall_seconds": 1.2592748330207542,
+      "workflow_delivered": false
+    },
+    "guard_design": {
+      "central_reader_boundary": "class_context_for_record returns None whenever strategy is present. Central check_result derives this context and calls preflight on the original source; check_route_class_evidence then requires valid task/final proof for flagged ordinary Route.",
+      "ordinary_route_authority": "check_schematic_class_support permits flagged flat source static eligibility only under native-route-flat-classes-v1 and then requires source-derived task/final Native class evidence.",
+      "recovery_initial_preflight": "recovery._recover invokes p.preflight(source) with no class_context before p.route or any Native job stage.",
+      "support_expansion_assessment": "Propagating class context alone into recovery would be insufficient. Supporting flagged thermal parents needs a broader explicitly qualified producer/receipt/class-evidence lineage change, beyond this branch control."
+    },
+    "separate_fixture": {
+      "DRC_exclusions": [],
+      "board": "owned1007-transport.kicad_pcb",
+      "board_format": "20241229",
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "designated_locked_route_items": 1,
+      "eligibility_level": "Static parsing and relevant existing source guards inspected only. No preflight/test/Native execution was performed by reviewer. Future actual execution must pass every unchanged guard.",
+      "hierarchy_sheets": 0,
+      "netclass_assignments": null,
+      "netclass_flags": 0,
+      "netclass_patterns": [],
+      "pads": 6,
+      "project_classes": [
+        "Default"
+      ],
+      "root": ".runs/task-copper-fixed-alias-native-004/source",
+      "schematic_format": "20250114",
+      "schematic_present": true,
+      "source_route_items": 4,
+      "zones": 1
+    }
+  },
+  "recorded_utc": "2026-10-18T17:34:19.696021+00:00",
+  "required_limits": [
+    "Retain control001, its frozen protocol, raw rejection and all costs unchanged. Keep the flagged4Cu project unsupported for thermal recovery; ordinary B1 class support does not imply parent-strategy support.",
+    "Freeze a new control ID/protocol before running on exactly the existing2Cu source bytes. Preserve all four PCB/PRO/PRL/SCH files, rules/severities/exclusions, nets, geometry, routing and zones. Never remove the4Cu netclass_flag or copy its rules into a weaker source.",
+    "Declare expected recovery_needed=False and repair=None before execution. Require an own fresh standard/B1 incumbent accepted under selected10.0.7, exact incumbent candidate hash selected by parent, no recovery directory/trial, and final original-rule Native validation of the exact parent candidate. Unexpected rejection or repair-needed outcome is a failed branch control; no retrospective relabeling.",
+    "Bind delivery review/accept/export/check and freshly validated export to this own candidate/source/selected-profile lineage using the existing driver. Require immutable originals and exact observed protected routing preservation.",
+    "This fixture has1 designated protected route item, not10. Any successful control qualifies only its actual2Cu/protected1/no-repair subset; no4Cu/protected10, repaired-branch protected copper, broader netclass support or all-input guarantee.",
+    "Count complete wall and waited CPU including preview, incumbent, parent validation, delivery/export/check and failures under frozen finite budgets. Keep no equal-budget comparison, added-completion, benchmark win, independent-family or generalized quality claim.",
+    "Use the exposed owned fixture as a diagnostic control only. Actual GUI, live application/undo, human PCB review and physical/electrical validation remain separate; AI assessment is not human review."
+  ],
+  "reviewer": "AI subagent /root/gui072_result_review; not human PCB review",
+  "schema": 1,
+  "scope": {
+    "Git_executed": false,
+    "Native_executed": false,
+    "authored_only": ".runs/thermal-parent-incumbent-source-assessment-001.json",
+    "delegation": false,
+    "full_investigation": false,
+    "network_used": false,
+    "read_only_assessment": true,
+    "source_or_rules_edited": false,
+    "tests_executed": false
+  },
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local"
+}
