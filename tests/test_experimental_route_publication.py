@@ -31,6 +31,7 @@ class LateRoutePublicationMetadata(unittest.TestCase):
         clock={'now':10.0}
         def intake(*args):clock['now']=41.0;return {'controlled_intake':True}
         namespace=dict(vars(p));namespace.update(native_toolchain=object(),experimental_schematic_parity=True,
+            comparison_context=None,output=self.run,
             settings_path=None,preference_overrides=None,_preferences=None,_fanout_enabled=None,_optimizer_enabled=None,_engine_clearance_margin_nm=None,_engine_global_width_policy=None,keep_existing=False,
             adapter='none',engine_profile='standard',scoring_variant=None,guidance_policy='native',
             experimental_route_record=intake,time=SimpleNamespace(monotonic=lambda:clock['now'],process_time=lambda:clock['now']))
@@ -99,7 +100,7 @@ class LateRoutePublicationMetadata(unittest.TestCase):
                     source=self.source, before=self.data['source_hashes'],
                     completed=f.evidence_inventory(self.run),
                     evidence_inventory=f.evidence_inventory,
-                    native_toolchain=nt, _preferences=None, _fanout_enabled=None, engine_profile='standard',class_requirement=None,
+                    native_toolchain=nt, comparison_context=None, _preferences=None, _fanout_enabled=None, engine_profile='standard',class_requirement=None,
                     preferences_fresh=lambda *_: None,
                     tool_manifest=manifest, check_normal_policy=policy)
                 exec(compile(ast.Module(body=[stable], type_ignores=[]),

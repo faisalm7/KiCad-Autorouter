@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-18T18:06:51.926049+00:00",
+  "kind": "bounded-fixed-comparison-delivery-extension-assessment-v1",
+  "author": "Lead synthesis of independent implementer source assessment; not Native evidence",
+  "estimated_additional_production_lines": [
+    140,
+    200
+  ],
+  "files": [
+    "autorouter/comparison.py",
+    "autorouter/handoff.py",
+    "autorouter/review_view.py",
+    "autorouter/review_export.py"
+  ],
+  "decision": "Checkpoint reviewed first Route slice before bounded delivery implementation. No Native or new runtime until coherent source freeze, targeted tests and skeptical review.",
+  "mechanism": [
+    "Retain exactly the live caller-owned comparison.Context across Route, rendered review, explicit software choice and fresh export/readback; never derive authority from receipt.",
+    "Keep Native worker kwargs separate from application comparison_context. Native toolchain stays None for corrected normal transport; do not leak comparison_context into FloorJob, native helpers or check_drc_stage.",
+    "Re-use existing 30-second handoff and 30\u2013120-second export caps, process/cancellation, full-schematic Native, original rules/design/protected and byte/metadata validation.",
+    "Require explicit non-admission markers, a common reserved parent outside the immutable Route evidence subtree, source/tool/context freshness before and after all material reads; omitted/wrong/default context refuses even after marker deletion."
+  ],
+  "scope": [
+    "Fixed standard/tuned corrected whole/native/allsource/no scoring/overrides only.",
+    "No GUI/ordinary CLI context access, portfolio/scoring/B0 rewrite, new validator framework or supported-platform promotion."
+  ],
+  "qualification_pending": [
+    "Fresh Native positive through rendered review/intent/fresh export and caller-bound check.",
+    "Completed Native negative; deliberate invalid/protected/rule controls; observed owned-child cancellation and false receipts/no export.",
+    "Omitted/wrong context and source/tools/sidecar/choice/export mutation controls.",
+    "Full integration/install/native qualification for changed candidate; current029 GUI remains separate and pending."
+  ],
+  "executed": false,
+  "project_complete": false
+}

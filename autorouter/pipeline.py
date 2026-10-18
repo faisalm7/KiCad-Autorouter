@@ -33,6 +33,7 @@ NORMAL_PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'
 NORMAL_TASK_COPPER_FIXED_POLICY='native-task-copper-fixed-v1'
 NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
+COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v1'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
@@ -1483,6 +1484,7 @@ def tool_manifest(*,native_toolchain=None):
             'normal_protected_via_import_policy':NORMAL_PROTECTED_VIA_IMPORT_POLICY,
             'normal_task_copper_fixed_policy':NORMAL_TASK_COPPER_FIXED_POLICY,
             'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY,
+            'comparison_route_policy':COMPARISON_ROUTE_POLICY,
             **({'experimental_native_toolchain':native_toolchain.record()} if native_toolchain is not None else {})}
 
 def optimizer_threshold_audit(log, expected_percent):
@@ -2117,7 +2119,7 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None):
     """Keep cancellation active between workers and through final publication."""
     def interrupted(*_):raise KeyboardInterrupt
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
@@ -2128,15 +2130,21 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             preference_overrides=preference_overrides,_preferences=_preferences,native_toolchain=native_toolchain,
             experimental_schematic_parity=experimental_schematic_parity,_fanout_enabled=_fanout_enabled,
             _optimizer_enabled=_optimizer_enabled,_engine_clearance_margin_nm=_engine_clearance_margin_nm,
-            _engine_global_width_policy=_engine_global_width_policy)
+            _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context)
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
 
 
-def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None):
+def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
+    from . import comparison
+    if comparison_context is not None:
+        if native_toolchain is not None or experimental_schematic_parity is not False:raise Rejected('comparison cannot mix experimental Native authority')
+        comparison.authorize(comparison_context,source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy,
+            (settings_path,preference_overrides,_preferences,_fanout_enabled,_optimizer_enabled,_engine_clearance_margin_nm,_engine_global_width_policy))
+    elif comparison.marked(output):raise Rejected('reserved comparison output requires explicit caller context')
     if _engine_global_width_policy is not None and (type(_engine_global_width_policy)is not str
             or _engine_global_width_policy!=ENGINE_GLOBAL_WIDTH_POLICY or type(_engine_clearance_margin_nm)is not int
             or _engine_clearance_margin_nm!=20000 or engine_profile!='tuned-free-angle'
@@ -2180,7 +2188,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     if engine_profile=='tuned-free-angle' and (keep_existing is not False or adapter!='both'
             or guidance_policy!='native' or _preferences is not None or native_toolchain is not None):
         raise Rejected('unsupported: free-angle baseline requires ordinary native corrected whole-board route')
-    if native_toolchain is None:
+    if native_toolchain is None and comparison_context is None:
         effective=_preferences['effective'] if _preferences else {}
         require_native_scope(scope=effective.get('scope','partial_completion' if keep_existing else 'whole_board_unlocked_routing'),
             guidance=guidance_policy,layers=effective.get('layers','source_all'),
@@ -2191,9 +2199,9 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
     if engine_profile not in {'standard','tuned','completion-only','tuned-free-angle'}: raise Rejected('unknown engine profile')
     engine_scoring_settings(scoring_variant)
-    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.monotonic()
+    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or comparison_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.monotonic()
     operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
-    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.process_time()
+    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or comparison_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.process_time()
     from .local_settings import canonical
     canonical(Path(source).absolute());canonical(Path(output).absolute())
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
@@ -2221,6 +2229,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     if _engine_clearance_margin_nm is not None:report['engine_planning_clearance_margin_nm']=_engine_clearance_margin_nm
     if _engine_global_width_policy is not None:report['engine_global_width_policy']=_engine_global_width_policy
     class_requirement=None
+    if comparison_context is not None:comparison.bind(output,report,comparison_context)
     try:
         capture_preferences(report,output,_preferences)
         before=tree_hash(source.parent); report['source_hashes']=before
@@ -2398,6 +2407,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             report.update(accepted=False,status='budget_exceeded')
         if not report['accepted']:report['whole_project_drc_clean']=False
     def stable():
+        if comparison_context is not None:comparison.require_context(comparison_context)
         if report['accepted']:
             if tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))!=report['tools']:raise Rejected('runtime changed during preference publication')
             if evidence_inventory(output)!=completed:raise Rejected('completed preference routing evidence changed')
@@ -2412,7 +2422,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         if report['accepted'] and class_requirement is not None:
             check_route_class_evidence(output,report,original,candidate,class_context=class_context)
     return publish(output,report,stable,account,remaining,
-        result_checker=(lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
+        result_checker=(lambda file:check_result(file,comparison_context=comparison_context)) if comparison_context is not None else
+        (lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
 
 
 _readback_session=ContextVar('autorouter_validated_readback_session',default=None)
@@ -2502,11 +2513,16 @@ def _readback_witness(path,data,state):
     return (evidence,original,tuple(sorted(local_metadata)),runtime,live)
 
 
-def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False):
+def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Check evidence; optional scoped reuse never substitutes fresh native DRC."""
     try:c.current_native_selection()
     except (ValueError,OSError) as exc:raise Rejected('selected native toolchain changed: '+str(exc)) from exc
     experimental_route_record(native_toolchain,experimental_schematic_parity)
+    from . import comparison
+    if comparison_context is not None:
+        comparison.require_context(comparison_context)
+        return _check_result_uncached(path,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity,comparison_context=comparison_context)
+    if comparison.marked(Path(path).parent):return _check_result_uncached(path)
     if native_toolchain is not None:
         return _check_result_uncached(path,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)
     state=_readback_session.get()
@@ -2521,7 +2537,7 @@ def check_result(path, *, native_toolchain=None, experimental_schematic_parity=F
                 or type(data.get('schema')) is not int or data['schema'] not in (1,3,4,5)
                 or data.get('accepted') is not True or data.get('status')!='routing_accepted'
                 or 'diagnostic_schema' in data or 'production_qualified' in data
-                or any(key in data for key in ('experimental_route_policy','experimental_native_toolchain','production_admitted'))):
+                or any(key in data for key in ('experimental_route_policy','experimental_native_toolchain','production_admitted','comparison_route'))):
             return _check_result_uncached(path)
         if data['schema']==1:
             try:native=receipt_policy(data,target.parent)=='native'
@@ -2598,23 +2614,27 @@ def check_resource_accounting(data, *, child_key='child_cpu_seconds'):
         raise Rejected('inconsistent CPU accounting')
 
 
-def check_rejected_routing_attempt(path):
-    """Diagnose one completed ordinary tuned failure; never authorize a candidate.
+def check_rejected_routing_attempt(path, *, comparison_context=None):
+    """Diagnose a completed tuned or explicit fixed comparison failure; never apply.
 
     This bypasses the positive readback cache. All retained Native, process,
     source, rule and budget checks still run; no fresh Native execution occurs.
     Cancellation, stale inputs and invalid/incomplete evidence raise.
     """
+    if comparison_context is not None:
+        from .comparison import require_context
+        require_context(comparison_context)
     from .placement_clearance import read_bytes
     target=Path(path).absolute()
     read_bytes(target)  # Refuse symlink aliases before the common body resolves.
     if target.name!='result.json' or target!=target.resolve(strict=True):
         raise Rejected('completed-negative reader requires canonical result.json')
-    return _check_result_uncached(target,_rejected_attempt=True)
+    return (_check_result_uncached(target,_rejected_attempt=True,comparison_context=comparison_context)
+        if comparison_context is not None else _check_result_uncached(target,_rejected_attempt=True))
 
 
 def _check_result_uncached(path, *, native_toolchain=None, experimental_schematic_parity=False,
-                           _rejected_attempt=False):
+                           _rejected_attempt=False, comparison_context=None):
     """Check local evidence consistency; this is not authentication or fresh DRC.
 
     All receipts are mutable local JSON. A party rewriting the complete evidence
@@ -2631,8 +2651,13 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
-    check_experimental_route(data,native_toolchain,experimental_schematic_parity)
-    if native_toolchain is None and c.NATIVE_VERSION!='10.0.0':
+    from . import comparison
+    is_comparison=comparison.check_record(path.parent,data,comparison_context)
+    if is_comparison:
+        if native_toolchain is not None or experimental_schematic_parity is not False:raise Rejected('comparison cannot mix experimental Native authority')
+        comparison_material=tree_hash(path.parent)
+    else:check_experimental_route(data,native_toolchain,experimental_schematic_parity)
+    if not is_comparison and native_toolchain is None and c.NATIVE_VERSION!='10.0.0':
         if data.get('schema')!=1 or data.get('strategy') not in (None,'native_validated_thermal_bridge') or data.get('input_policy','native')!='native':
             raise Rejected('unsupported: selected Native version has no qualified advanced receipt lineage')
         purpose='route'
@@ -2677,10 +2702,11 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     if _rejected_attempt:
         # Closed diagnostic scope, independent of the positive acceptance API.
         # Derive native policy above; ordinary receipts omit input_policy.
+        negative_profile=comparison_context.profile if is_comparison else 'tuned'
         if (type(data.get('schema')) is not int or data['schema']!=1
                 or data.get('accepted') is not False or data.get('status')!='drc_rejected'
-                or data.get('baseline')!='B2_tuned' or data.get('adapter')!='both'
-                or data.get('engine_profile')!='tuned' or input_policy!='native'
+                or data.get('baseline')!=engine_baseline(negative_profile,'both') or data.get('adapter')!='both'
+                or data.get('engine_profile')!=negative_profile or input_policy!='native'
                 or data.get('scope')!='whole_board_unlocked_routing'
                 or any(key in data for key in ('strategy','input_policy','guidance_policy',
                     'diagnostic_schema','production_qualified','engine_angle_binding',
@@ -2942,9 +2968,14 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         if bounded_evidence(path.parent)!=readback_material:
             raise Rejected('complete preference routing evidence changed during readback')
         check_event(path.parent,binding,process)
+    if is_comparison:
+        comparison.check_record(path.parent,data,comparison_context)
+        if tree_hash(path.parent)!=comparison_material or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
+            raise Rejected('comparison evidence changed during readback')
+        result.update(comparison_route_policy=COMPARISON_ROUTE_POLICY,production_admitted=False)
     if _rejected_attempt:
         # Return only after the late evidence/source/process freshness guards.
-        return {'current':False,'validated_rejection':True,'routing_accepted':False,
+        return {**({'comparison_route_policy':COMPARISON_ROUTE_POLICY,'production_admitted':False} if is_comparison else {}),'current':False,'validated_rejection':True,'routing_accepted':False,
             'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
             'native_report_sha256':data['native_report_sha256'],
             'native_rejection_reasons':reasons,'receipt_sha256':receipt_digest,'applied':False,

@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "kind": "native7-comparison-context-implementation-handoff-v1",
+  "recorded_utc": "2026-10-18T18:05:00.806292+00:00",
+  "scope": "Development source/API only: caller-bound fixed whole/native/source-all/both corrected transport with existing standard or tuned profile. Not a qualified installed or delivery workflow.",
+  "source": [
+    {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/comparison.py",
+      "sha256": "92ab3c01f50d301b09502f9d2c2890cae93fba2583586c3a0863c112ffeb25a5",
+      "bytes": 7486
+    },
+    {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py",
+      "sha256": "68801b8001cd36619f13c3742ca86b5381e18bb85e3b09e1b9d338e33d8a0fa8",
+      "bytes": 205953
+    },
+    {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_context.py",
+      "sha256": "c00f634e0ef00f7c0f274b85e65e07096b8edb9c671d154678dfe958db1bf7dc",
+      "bytes": 17036
+    }
+  ],
+  "production_line_scope": {
+    "parent_measured_git_numstat": true,
+    "pipeline_added": 49,
+    "pipeline_removed": 18,
+    "new_comparison_lines": 134,
+    "net_production_added": 165,
+    "added": 183,
+    "removed": 18,
+    "maximum_authorized_net_production_lines": 200,
+    "measurement_note": "Git count independently supplied by lead; this agent did not invoke Git."
+  },
+  "api": {
+    "context": "exact autorouter.comparison.Context(source:Path, output:Path, profile:standard|tuned, seconds:5..900, tools:dict, source_hashes:dict)",
+    "route": "pipeline.route(..., keep_existing=False, adapter=both, engine_profile=context.profile, guidance_policy=native, comparison_context=context)",
+    "positive_reader": "pipeline.check_result(path, comparison_context=context)",
+    "completed_negative_reader": "pipeline.check_rejected_routing_attempt(path, comparison_context=context)",
+    "authority": "Caller supplies and retains context; no context reconstruction from receipt. Selected native7 curated runtime only. Product/GUI and ordinary readers remain closed.",
+    "output": "canonical runtime/.runs path with independent native7-comparison- prefix component; sidecar alone cannot authorize an ordinary path"
+  },
+  "controls": [
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-targeted-001.log",
+        "sha256": "fd05f1184ec7845231dd436f64ca0f8c7ee87b6c88d4d9ddcf1086a401c6b653",
+        "bytes": 23119
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_context -v",
+      "tests": 13,
+      "passed": false,
+      "failures": 2,
+      "errors": 2,
+      "unittest_seconds": 0.41,
+      "external_wall_seconds": 0.59,
+      "external_user_seconds": 0.44,
+      "external_system_seconds": 0.08,
+      "external_cpu_seconds": 0.52,
+      "disposition": "Retained initial failed unit controls: authored fixture used wrong engine argument/key and exact declaration whitespace, and expected narrower exception types than fail-closed readers. No Native. A separate real hardening issue noticed during review replaced generic sidecar SHA with bounded/no-alias provenance read."
+    },
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-targeted-002.log",
+        "sha256": "0050295dd8cc10fd864ba5b4d2aa313d42a7e4cde81f99f07680b7bde8f16fd3",
+        "bytes": 3695
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_context -v",
+      "tests": 15,
+      "passed": true,
+      "unittest_seconds": 0.482,
+      "external_wall_seconds": 0.61,
+      "external_user_seconds": 0.48,
+      "external_system_seconds": 0.08,
+      "external_cpu_seconds": 0.56,
+      "source_comparison_sha256": "45c49f152647bfc03c889dcbb5e8595a4d58a581575ac0bf0c8494164c2e8347",
+      "superseded_by_source_fix": true
+    },
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-targeted-003.log",
+        "sha256": "f39643b46c1e612743d8d008400ebe62d930b119a3cda09a8e1a691fba9da599",
+        "bytes": 3695
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_context -v",
+      "tests": 15,
+      "passed": true,
+      "unittest_seconds": 0.459,
+      "external_wall_seconds": 0.59,
+      "external_user_seconds": 0.46,
+      "external_system_seconds": 0.07,
+      "external_cpu_seconds": 0.53,
+      "final_source_pins_match": true,
+      "reason_for_rerun": "Independent reviewer found constructor broad marked() could accept ordinary existing path with sidecar. Constructor now requires reserved prefix independently; exact regression added. This justified changed-source rerun."
+    }
+  ],
+  "agent_unit_execution_totals": {
+    "external_wall_seconds": 1.79,
+    "external_cpu_seconds": 1.61,
+    "scope": "All three recorded unit invocations, including failed initial attempt. Research/authoring/independent review cost is separate and not measured by these process logs."
+  },
+  "independent_review": {
+    "reviewer": "gui072_result_review",
+    "status": "Final source review pending at handoff authoring; namespace finding fixed and final pins sent. AI review is not human PCB review."
+  },
+  "parent_reported_disjoint_controls": {
+    "tests": 20,
+    "passed": true,
+    "unittest_seconds": 1.909,
+    "external_wall_seconds": 2.12,
+    "external_cpu_seconds": 1.97,
+    "raw_paths": [
+      ".runs/native7-comparison-existing-targeted-001.log",
+      ".runs/native7-comparison-existing-targeted-time-001.log"
+    ],
+    "scope": "Existing selected scope/explicit context/publication/import tests. Not executed or rehashed by this agent; comparison bounded-sidecar source changed around this run so no final module-pin claim."
+  },
+  "acceptance_and_limits": {
+    "native_executed": false,
+    "engine_executed": false,
+    "git_or_network_executed_by_agent": false,
+    "build_or_installed_runtime_changed": false,
+    "gui_qualified": false,
+    "delivery_qualified": false,
+    "portfolio_supported": false,
+    "ordinary_route_capability_guard_widened": false,
+    "production_admitted": false,
+    "routing_effectiveness_measured": false,
+    "full_integration_run": false,
+    "remaining": "Independent source review, milestone integration checks, and a coherent explicit-context review/fresh-export seam before any new Native/build qualification. Existing installed029 remains immutable; positive delivery, invalid native controls, cancellation and stale-source/receipt/tool controls remain unqualified for this new slice."
+  }
+}

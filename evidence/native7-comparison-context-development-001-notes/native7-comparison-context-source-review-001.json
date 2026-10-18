@@ -1,0 +1,230 @@
+{
+  "conclusion": {
+    "GUI_or_export_admission": false,
+    "blocking_findings": 0,
+    "comparison_result_or_superiority_claim": false,
+    "new_Native_qualification": false,
+    "open_material_findings": [],
+    "production_admission": false,
+    "source_review_result": "No remaining concrete false acceptance, fixed-scope escape, caller-binding omission or cache/freshness blocker found in this final bounded diff. Two concrete source-boundary findings were corrected before final pinning."
+  },
+  "evidence": {
+    ".runs/comparison-targeted-003.log": {
+      "bytes": 3695,
+      "sha256": "f39643b46c1e612743d8d008400ebe62d930b119a3cda09a8e1a691fba9da599"
+    },
+    ".runs/runtime-directory-029/runtime/autorouter/pipeline.py": {
+      "bytes": 202985,
+      "sha256": "1c23c2ac94d57c35c47dcaa346d17ff2464128384c0ea45f84d4ebf138b4a385"
+    },
+    ".runs/runtime-directory-029/runtime/runtime-distribution.json": {
+      "bytes": 10782,
+      "sha256": "ae9ef31828e36a918d430b4a7bf9223241d78b098a87e4b64e89aa89b07fa870"
+    },
+    "autorouter/comparison.py": {
+      "bytes": 7486,
+      "sha256": "92ab3c01f50d301b09502f9d2c2890cae93fba2583586c3a0863c112ffeb25a5"
+    },
+    "autorouter/config.py": {
+      "bytes": 8680,
+      "sha256": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd"
+    },
+    "autorouter/floor_route.py": {
+      "bytes": 35882,
+      "sha256": "a101429cfee4f82602196c88941efccaa6bea012f163e608eec34038867e9b25"
+    },
+    "autorouter/gui.py": {
+      "bytes": 54165,
+      "sha256": "3f43890584c18dda98143a5b6e6f0087c917590aced57bb3c199ea6ab1280ca9"
+    },
+    "autorouter/local_settings.py": {
+      "bytes": 19278,
+      "sha256": "dbbdc3c667f2ca26e91006af8935e31c20de9a21ef9325f7bbe78a07fd5d8624"
+    },
+    "autorouter/pipeline.py": {
+      "bytes": 205953,
+      "sha256": "68801b8001cd36619f13c3742ca86b5381e18bb85e3b09e1b9d338e33d8a0fa8"
+    },
+    "autorouter/placement_clearance.py": {
+      "bytes": 12036,
+      "sha256": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41"
+    },
+    "autorouter/provenance.py": {
+      "bytes": 14932,
+      "sha256": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de"
+    },
+    "autorouter/review_export.py": {
+      "bytes": 37544,
+      "sha256": "2ed5b7849b8c86e1cc6ff415cbb340ad972bf3ce2c367499c39d875941303833"
+    },
+    "tests/test_comparison_context.py": {
+      "bytes": 17036,
+      "sha256": "c00f634e0ef00f7c0f274b85e65e07096b8edb9c671d154678dfe958db1bf7dc"
+    },
+    "tests/test_experimental_route_publication.py": {
+      "bytes": 6906,
+      "sha256": "6f24f4677bf5b3dae87f11d467b76359b6c742af6b19943a833238d6f90ece2a"
+    }
+  },
+  "installed029_preservation": {
+    "all_immutable_file_hashes_match": true,
+    "comparison_module_not_added_to_installed029": true,
+    "immutable_files_checked": 50,
+    "manifest_sha256": "ae9ef31828e36a918d430b4a7bf9223241d78b098a87e4b64e89aa89b07fa870",
+    "qualification_limit": "Current source change is not installed029 qualification. Existing029 Native/CLI results remain evidence for their exact old bytes; GUI073 remains pending and is not claimed here."
+  },
+  "kind": "native7-comparison-context-source-review-v1",
+  "line_references": {
+    "autorouter/comparison.py": {
+      "class Context": [
+        24
+      ],
+      "def authorize": [
+        85
+      ],
+      "def check(self)": [
+        60
+      ],
+      "def check_record": [
+        103
+      ],
+      "def marked": [
+        79
+      ],
+      "forbidden=": [
+        114
+      ]
+    },
+    "autorouter/pipeline.py": {
+      "COMPARISON_ROUTE_POLICY=": [
+        36
+      ],
+      "def _check_result_uncached(": [
+        2636
+      ],
+      "def _route(": [
+        2138
+      ],
+      "def check_rejected_routing_attempt(": [
+        2617
+      ],
+      "def check_result(": [
+        2516
+      ],
+      "def route(": [
+        2122
+      ],
+      "if is_comparison:": [
+        2656,
+        2971
+      ],
+      "if native_toolchain is None and comparison_context is None:": [
+        2191
+      ]
+    }
+  },
+  "patch_size": {
+    "cap": 200,
+    "meaning": "The <=200 requirement means net production source lines, not board-net count or a new route-time cap. No board-net eligibility restriction was added.",
+    "net_production_lines": 165,
+    "new_comparison_module_lines": 134,
+    "pipeline_added_lines": 49,
+    "pipeline_removed_lines": 18
+  },
+  "recorded_utc": "2026-10-18T18:06:50.931600+00:00",
+  "residual_limits": [
+    "No Native or actual installed comparison run has qualified this new code. Review is a prerequisite, not admission or a measured B1/B2 result.",
+    "Only fixed standard/tuned corrected whole/native/source-all routing with complete native schematic is in this slice. No portfolio, repeated restart controller, quality strategy, source eligibility broadening, GUI/review/export or default promotion.",
+    "Local manifests/receipts are integrity/consistency records, not signatures. A party rewriting the whole evidence/code/caller expectation set is outside this authentication boundary.",
+    "Failure and unsupported coverage, complete end-to-end/context preparation costs and source family exposure still need an explicitly frozen future comparison protocol.",
+    "Ordinary new-code regressions require lead integration checks; this reviewer did not run fullsuite, build a runtime or execute GUI/Native.",
+    "AI review is not human PCB review, physical/electrical validation, manufacturing approval, fresh-OS/Windows qualification, formal publication or verified off-Mac backup."
+  ],
+  "resolved_findings": [
+    {
+      "counterexample_not_executed": "Take an otherwise matching fixed record and add engine_fanout_override=None (or one of the other alternate-mode marker keys). The initial comparison.check_record fixed-scope predicate did not reject presence of that field. The final predicate rejects any presence, independently of lower readers.",
+      "disposition": "Resolved. check_record now refuses the full explicit override/guidance/experimental/pruning/incumbent-scoring marker set, including fields set to None. Focused control enumerates each marker.",
+      "id": "N7CC-001",
+      "initial_issue": "Live authorize rejected optional fanout/optimizer/clearance/global-width arguments, but initial check_record did not forbid corresponding retained override markers. A receipt carrying engine_fanout_override, engine_optimizer_override, engine_angle_binding, engine_planning_clearance_margin_nm or engine_global_width_policy could therefore leave the fixed-settings contract and reach optional lower reader paths. This was a scope-boundary omission, not an executed Native false-acceptance reproduction.",
+      "regression_control": "test_retained_settings_markers_cannot_expand_fixed_scope",
+      "severity": "P2",
+      "title": "Retained alternate engine/settings markers were not rejected by the fixed comparison contract"
+    },
+    {
+      "disposition": "Resolved. Context now independently requires at least one native7-comparison- path component and runtime/.runs ancestry. Broad marked() remains detection only. Ordinary directory plus existing sidecar is explicitly tested to remain ineligible.",
+      "final_comparison_source_sha256": "92ab3c01f50d301b09502f9d2c2890cae93fba2583586c3a0863c112ffeb25a5",
+      "id": "N7CC-002",
+      "initial_issue": "Context.__post_init__ initially used marked(output) to require reserved output. marked is deliberately broad and also accepts any existing comparison-context.json sidecar. A caller could therefore construct/check a context for an ordinary existing output directory by placing a sidecar there, removing the unconditional path-based marker-deletion guard for retained readback. Live Job would refuse a preexisting directory; the concrete missing invariant concerned context/readback eligibility.",
+      "initial_source_sha256": "45c49f152647bfc03c889dcbb5e8595a4d58a581575ac0bf0c8494164c2e8347",
+      "regression_control": "test_reserved_output_and_complete_schematic_are_not_optional",
+      "reproducible_static_counterexample_not_executed": [
+        "Given otherwise valid selected7 curated tools/source: ordinary = runtime / '.runs' / 'ordinary'; ordinary.mkdir()",
+        "(ordinary / 'comparison-context.json').write_text('{}\\n')",
+        "Context(source, ordinary, 'standard', 120, tools, source_hashes) passed the initial namespace predicate because marked(ordinary) was true; Context.check had no independent prefix check."
+      ],
+      "severity": "P2",
+      "title": "Existing sidecar could grant comparison eligibility outside reserved output namespace"
+    }
+  ],
+  "reviewed_contract": {
+    "cache": "Both context-bearing positive calls and completed-negative calls avoid invocation cache reuse. Marker-bearing ordinary calls also bypass cached ordinary results; in-place marker deletion cannot remove the reserved pathname. Source/tools/caller mutation is rechecked before and after readback.",
+    "caller_authority": "Only exact Context type is accepted. It owns canonical source/output, standard|tuned profile, finite typed5..900 budget, exact complete-source hashes and complete tools manifest. Canonical JSON seal detects nested tools/source-map mutation. Context expectations come from the caller, never solely from the receipt.",
+    "compute": "The route entry wall/process CPU sample is used for comparison jobs before caller/context/tool/source validation. Existing5..900 task budget, parent/waited-child CPU accounting, engine profile assignment, external worker guards and guarded publication remain. Future fair comparisons must charge the enclosing caller/context preparation too; no measured comparison follows from this source review.",
+    "deletion_downgrade": "With no caller context, reserved path, sidecar or comparison_route receipt marker routes immediately to refusal rather than cached ordinary success. Deleting receipt selectors and sidecar together still leaves the mandatory reserved pathname. Missing sidecar or markers also fail explicit-context readback. Copied/re-authored complete local histories are not authenticated by this design.",
+    "fixed_request": "Whole-board unlocked routing, Native guidance, all source layers, corrected adapter both, no scoring, no captured preference/settings or engine override arguments. Source PCB/PRO/SCH companions are mandatory; ordinary preflight and unsupported-feature rules remain in force.",
+    "negative_readback": "check_rejected_routing_attempt requires the same explicit context for marked comparison evidence, bypasses positive cache, and accepts only a completed drc_rejected outcome for that exact standard/tuned baseline with valid Native/engine/resource evidence. Cancellation, unsupported/missing/malformed validation and incomplete cleanup are not validated rejection. Negative return remains routing_accepted=False/current=False/production_admitted=False.",
+    "ordinary_consumers": "No comparison-context option was added to CLI/GUI/review/export. Ordinary selected7 Route retains its existing capability gate when comparison_context is None, and existing production consumers call the central reader without context and therefore refuse marked comparison evidence. No ordinary profile/default promotion is introduced.",
+    "positive_readback": "check_result with context validates the exact caller, always uses the uncached reader and passes the same object through. check_record binds exact output, source, hashes, tools, policy, baseline, profile, scope, budget, CPU budget, parity and sidecar bytes; captured pipeline/comparison policy declarations and hashes are required. All ordinary accepted-result validation still runs. Final callback rechecks context/current source/tools plus complete output and receipt bytes after late readers. Result carries production_admitted=False.",
+    "selected_profile": "Context.check requires actual selected10.0.7, a curated runtime-directory-v1 identity with native_version10.0.7, the exact policy and fresh p.tool_manifest equality. Config/native role pin checks remain unchanged; copied/mixed version labels cannot select the validator.",
+    "source_policy_deletion": "Both retained pipeline COMPARISON_ROUTE_POLICY and comparison POLICY must exist as the exact known source declaration, with retained byte hashes matching caller tools. The focused control deletes each declaration and reauthors its synthetic pin; the explicit declaration check still refuses.",
+    "transport": "comparison_context bypasses only the selected-version capability-dispatch call. It does not replace the ordinary routing engine, DSN/SES transport, semantic/original rules, protected import, zone refill, Native/schema/parity, class/field, engine journal or compute validation. native_toolchain remains None and mixing explicit experimental Native authority is refused."
+  },
+  "reviewer": "AI subagent /root/gui072_result_review; independent bounded source read, not human PCB review",
+  "schema": 1,
+  "scope": {
+    "GUI_executed": false,
+    "Git_executed": false,
+    "JVM_executed": false,
+    "Native_executed": false,
+    "authored_only": ".runs/native7-comparison-context-source-review-001.json",
+    "baseline": "Exact existing immutable runtime029 pipeline plain file; new comparison module is additive. No Git command was used.",
+    "delegation": false,
+    "final_ready_signal": "Implementation agent and lead both marked final patch ready; final hashes captured only after the reserved-namespace correction.",
+    "network_used": false,
+    "reviewed_controls": [
+      "tests/test_comparison_context.py",
+      "mechanical closure bindings in tests/test_experimental_route_publication.py"
+    ],
+    "reviewed_production_changes": [
+      "autorouter/comparison.py",
+      "autorouter/pipeline.py"
+    ],
+    "runtime_build_or_full_suite": false,
+    "source_edits": false,
+    "tests_executed_by_reviewer": false
+  },
+  "tests_read": {
+    "existing_seam_run_status": "Lead reports20 existing seams passed1.909s unittest /2.12s external wall /1.97CPU. Not rerun or independently certified here.",
+    "focused_methods": [
+      "test_typed_caller_fixed_source_and_existing_profiles",
+      "test_reserved_output_and_complete_schematic_are_not_optional",
+      "test_caller_seal_rejects_mutation_or_selected_runtime_drift",
+      "test_source_addition_or_changed_live_tool_manifest_is_stale",
+      "test_request_changes_and_optional_overrides_refuse_before_dispatch",
+      "test_live_context_cannot_bypass_normal_transport_or_accounting",
+      "test_record_is_bound_to_exact_context_and_captured_policy",
+      "test_retained_settings_markers_cannot_expand_fixed_scope",
+      "test_policy_deletion_cannot_be_reauthored_as_a_new_valid_source_pin",
+      "test_default_reader_refuses_even_combined_receipt_and_sidecar_deletion",
+      "test_explicit_reader_bypasses_cache_and_preserves_caller_identity",
+      "test_positive_and_completed_negative_keep_normal_engine_validation",
+      "test_production_consumers_and_sidecar_alias_refuse",
+      "test_sidecar_is_bounded_and_strict_even_with_a_reauthored_digest",
+      "test_bind_and_retained_readback_recheck_source_after_authorization"
+    ],
+    "focused_run_status": "Implementation/lead report focused00315 pure controls passed,0.459s unittest /0.59s external wall /0.53CPU. Raw log retained and pinned; reviewer did not execute it. Initial fixture failure001 remains separately retained by lead; this review does not promote it to pass.",
+    "mechanical_existing_control_changes": "The AST-extracted _route intake fixture receives comparison_context=None and output=self.run; extracted stable receives comparison_context=None. Existing explicit-pin entry accounting, late PRL-byte preservation and changed-restored-flag invalidation assertions remain visible. No actual closure was weakened to fit the fixtures.",
+    "proof_limit": "Tools/source identity is stubbed and tiny authored files are used in the focused controls. These tests establish software refusal/dispatch behavior only, not Native routing, installed runtime support or a fair baseline result."
+  },
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local"
+}
