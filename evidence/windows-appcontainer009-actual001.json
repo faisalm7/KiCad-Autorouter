@@ -1,0 +1,365 @@
+{
+  "schema": 1,
+  "kind": "actual-Windows009-failed-non-admitting-canary",
+  "recorded_utc": "2026-10-18T15:28:34.602267+00:00",
+  "run_id": 39139905369,
+  "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39139905369",
+  "source_head": "1117de080524072046a61522845facd5d4c68575",
+  "passed": false,
+  "Native_admitted": false,
+  "Native_executed": false,
+  "GUI": false,
+  "product_support": false,
+  "project_complete": false,
+  "specific_observation": "Both exact owned compiler roles returned verified executable outputs and zero-active cleanup; role1 required explicitly reported Job finalization after observed main exit0. Actual parent zero-capability AppContainer token was observed. Loopback TCP returned WSA10060 timeout, not the required explicit10013 denial; exit68 short-circuited public/child observations. No cancellation case or Native ran.",
+  "setup": [
+    {
+      "kind": "fixed-owned-DNS-helper",
+      "role": null,
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.13999999999998636,
+      "full_job_cpu_seconds": 0.046875,
+      "cumulative_process_count": 2,
+      "cleanup_complete": true,
+      "limits": {
+        "bytes": 134217728,
+        "rss": 2147483648,
+        "log": 262144,
+        "entries": 4000,
+        "seconds": 5
+      },
+      "log_sha256": "3993dc30304b3d257e8fdbbffcb3efe39cd2c131f20198eea8b322a0369e74ab",
+      "completion_semantics_changed": false
+    },
+    {
+      "kind": "fixed-owned-C-canary-build",
+      "role": 1,
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 5.515999999999963,
+      "full_job_cpu_seconds": 0.875,
+      "cumulative_process_count": 4,
+      "cleanup_complete": true,
+      "limits": {
+        "bytes": 134217728,
+        "rss": 2147483648,
+        "log": 262144,
+        "entries": 4000,
+        "seconds": 30
+      },
+      "log_sha256": "8900ac7f6230e3a34d2a8e0acd8a6eccc9b6a7ea681a36ce6452542fee497242",
+      "compiler_output": {
+        "path": "D:\\a\\_temp\\kicad-appcontainer007-70450c034a3545f19fefa5c8f9a3a2c4-setup\\probe-parent.exe",
+        "role": 1,
+        "bytes": 151552,
+        "sha256": "f68005ab31336685841d7d4699dc565bd4bb26c98589bdb4665226bcd774086a",
+        "file_id": [
+          1579404665,
+          65536,
+          306
+        ],
+        "validated": true,
+        "validation_after_job_reaped": true,
+        "format": "AMD64 PE32+ executable; actual canary controls still required"
+      },
+      "compiler_finalization": {
+        "kind": "exact-owned-C-build-main-zero-then-job-reap-v1",
+        "role": 1,
+        "main": {
+          "pid": 5672,
+          "state": "exited",
+          "exit_code": 0,
+          "wait_result": 0
+        },
+        "main_observed_elapsed_seconds": 5.484999999999957,
+        "accounting_active_before_request": 1,
+        "member_snapshot": {
+          "status": "observed",
+          "capacity": 32,
+          "pids": [
+            1852
+          ],
+          "image_identity_observed": false,
+          "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+          "assigned_processes": 1,
+          "listed_processes": 1,
+          "truncated": false
+        },
+        "termination_exit_code": 130,
+        "termination_requested": true,
+        "terminate_job_succeeded": true,
+        "remaining_members_natural_completion_claimed": false,
+        "zero_active_processes_verified": true
+      },
+      "completion_semantics_changed": true
+    },
+    {
+      "kind": "fixed-owned-C-canary-build",
+      "role": 2,
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3120000000000118,
+      "full_job_cpu_seconds": 0.21875,
+      "cumulative_process_count": 3,
+      "cleanup_complete": true,
+      "limits": {
+        "bytes": 134217728,
+        "rss": 2147483648,
+        "log": 262144,
+        "entries": 4000,
+        "seconds": 30
+      },
+      "log_sha256": "8900ac7f6230e3a34d2a8e0acd8a6eccc9b6a7ea681a36ce6452542fee497242",
+      "compiler_output": {
+        "path": "D:\\a\\_temp\\kicad-appcontainer007-70450c034a3545f19fefa5c8f9a3a2c4-setup\\probe-child.exe",
+        "role": 2,
+        "bytes": 140800,
+        "sha256": "959006b1da41c6e4db5276e6dcc26cd65e5df617f3e5913cbb658e1602e779c6",
+        "file_id": [
+          1579404665,
+          65536,
+          310
+        ],
+        "validated": true,
+        "validation_after_job_reaped": true,
+        "format": "AMD64 PE32+ executable; actual canary controls still required"
+      },
+      "completion_semantics_changed": false
+    }
+  ],
+  "canary_actual": {
+    "case_count": 1,
+    "case_label": "denial",
+    "status": "nonzero_exit",
+    "exit_code": 68,
+    "wall_seconds": 2.0469999999999686,
+    "full_job_cpu_seconds": 0.015625,
+    "cumulative_process_count": 2,
+    "cleanup_complete": true,
+    "log_sha256": "1bddd361eaeb6266b8600c43405758106078417187e78e4e43ba0eb6a9c6b0a2",
+    "limits": {
+      "bytes": 134217728,
+      "entries": 4000,
+      "log": 262144,
+      "rss": 2147483648,
+      "seconds": 15
+    },
+    "parent_token_before_resume": {
+      "capability_count": 0,
+      "checked_before_resume": true,
+      "is_appcontainer": true,
+      "pid": 5468,
+      "profile_sid": "S-1-15-2-1893859554-2826941155-3150612018-1409449442-1624862229-131949866-2875030944"
+    },
+    "records": [
+      {
+        "capabilities": 0,
+        "is_appcontainer": 1,
+        "kind": "self_token",
+        "pid": 5468,
+        "role": 1,
+        "sid": "S-1-15-2-1893859554-2826941155-3150612018-1409449442-1624862229-131949866-2875030944"
+      },
+      {
+        "connected": false,
+        "endpoint": "owned_loopback",
+        "explicit_access_denied": false,
+        "kind": "tcp",
+        "pid": 5468,
+        "role": 1,
+        "wsa_error": 10060
+      }
+    ],
+    "independently_positive_connections_before": [
+      {
+        "connected": true,
+        "endpoint": "owned_loopback",
+        "payload_bytes_sent": 0
+      },
+      {
+        "connected": true,
+        "endpoint": "public_ipv4",
+        "payload_bytes_sent": 0
+      }
+    ],
+    "independently_positive_connections_after": null,
+    "parent_public_ipv4_observed": false,
+    "suspended_child_token_observed": false,
+    "child_self_token_observed": false,
+    "child_TCP_observed": false,
+    "cancellation_case_executed": false,
+    "reported_errors": [
+      "RuntimeError: Both actual executable tokens and suspended-child observation required"
+    ]
+  },
+  "cleanup": {
+    "all_owned_jobs_reaped": true,
+    "cleanup_complete": true,
+    "errors": [],
+    "original_dacls_restored": true,
+    "profile_delete_hresult": 0,
+    "profile_registry_absence_not_queried": true,
+    "profile_storage_absent": true,
+    "scope_files_retained": "D:\\a\\_temp\\kicad-appcontainer007-70450c034a3545f19fefa5c8f9a3a2c4",
+    "owned_server_thread_reaped": true,
+    "scope": "Recorded owned Job/ACL/profile-storage/server cleanup only. Registry absence was not queried; no global firewall/security changes or broad cleanup guarantee inferred."
+  },
+  "complete_accounting": {
+    "provider_run_duration_seconds": 25.0,
+    "provider_billable": {
+      "WINDOWS": {
+        "total_ms": 0,
+        "jobs": 4,
+        "job_runs": [
+          {
+            "job_id": 117712000399,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117712001270,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117712001276,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117712031911,
+            "duration_ms": 0
+          }
+        ]
+      },
+      "UBUNTU": {
+        "total_ms": 0,
+        "jobs": 1,
+        "job_runs": [
+          {
+            "job_id": 117712001313,
+            "duration_ms": 0
+          }
+        ]
+      }
+    },
+    "controller_wall_seconds_before_report": 8.235000000000014,
+    "enclosure_wall_seconds_before_exit": 9.5972772,
+    "controller_CPU_seconds_before_report": 0.09375,
+    "measured_distinct_setup_and_canary_Job_CPU_seconds_subtotal": 1.15625,
+    "measured_Job_plus_controller_CPU_seconds_before_report_subtotal": 1.25,
+    "whole_CI_CPU_seconds": null,
+    "post_report_exit_CPU_seconds": null,
+    "artifacts_uploaded_reported": 0,
+    "artifact_API_inventory_inspected": false,
+    "accounting": "Stage costs are nested in controller/enclosure/run wall times and must not be added to them. Distinct Job CPU subtotals include exited descendants; controller CPU is separate. Measured subtotal is not whole CI CPU. Provider zero billable timing is recorded as returned, not zero resource use."
+  },
+  "source_pins": [
+    {
+      "path": "scripts/windows_native_slice/appcontainer_probe.c",
+      "commit": "1117de080524072046a61522845facd5d4c68575",
+      "git_blob_bytes": 7296,
+      "git_blob_sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+      "computed_CRLF_bytes": 7460,
+      "actual_runner_sha256": "26fb292cee7db9c7d2fb67a185030158a1638238f8cf7531df344d29aac9c49d",
+      "computed_CRLF_matches_actual_reported_hash": true
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_canary.py",
+      "commit": "1117de080524072046a61522845facd5d4c68575",
+      "git_blob_bytes": 13678,
+      "git_blob_sha256": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4",
+      "computed_CRLF_bytes": 13918,
+      "actual_runner_sha256": "2dae8b51ae5854e3ac4b2b5b4bf879e307efd4dcba295d1363103a5c94b674a7",
+      "computed_CRLF_matches_actual_reported_hash": true
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_dns.py",
+      "commit": "1117de080524072046a61522845facd5d4c68575",
+      "git_blob_bytes": 505,
+      "git_blob_sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+      "computed_CRLF_bytes": 517,
+      "actual_runner_sha256": "7fda8873716acdc2287f862ce6dff56ca95c6be1d3988d0ccc1027689ab15517",
+      "computed_CRLF_matches_actual_reported_hash": true
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "commit": "1117de080524072046a61522845facd5d4c68575",
+      "git_blob_bytes": 25595,
+      "git_blob_sha256": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d",
+      "computed_CRLF_bytes": 26072,
+      "actual_runner_sha256": "599acd30ff006ccc64b049b21fae2de7f398ba5463c15c8c3fec6b7a9920599c",
+      "computed_CRLF_matches_actual_reported_hash": true
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "commit": "1117de080524072046a61522845facd5d4c68575",
+      "git_blob_bytes": 27785,
+      "git_blob_sha256": "8d61277d1db5cc9d4e4c7ffb98a745d13fe55953d44531bdaaadcbc9b39cbb6d",
+      "computed_CRLF_bytes": 28117,
+      "actual_runner_sha256": "3ec5a3a7655ef3c19d09b262a115d6f7afb63718389edc8e084150f63ef0b5be",
+      "computed_CRLF_matches_actual_reported_hash": true
+    }
+  ],
+  "scope": "Owned public-repository GitHub-hosted logs and source-pinned assessment. A second AI review is not human engineering review. Whole CI CPU and post-report exit CPU unknown. Nested wall samples must not be summed; provider billable0 does not mean zero compute. Research/authoring/curation/AI review are additional and incompletely instrumented.",
+  "attempts_used": 1,
+  "attempts_maximum": 1,
+  "no_retry_in_this_protocol": true,
+  "decision": "009 setup prerequisite progressed, but equivalent network/descendant/cancellation safeguards remain unproved. Keep Windows Native admission false. Defer further Windows execution and continue Mac product work. Any future collect-all diagnostic is an unimplemented, separately bounded causal prerequisite, not a solution or permission to weaken explicit denial.",
+  "remaining_gate": {
+    "concrete": "The required explicit10013 denial was not observed even for parent loopback. A timeout cannot distinguish the required enforced-denial guarantee. Different-executable child token inheritance/denial, public endpoint denial, after-positive reachability and actual descendant cancellation remain unobserved. Strict firewall005/006 admission remains unresolved; this AppContainer observation does not replace it or qualify Native.",
+    "smallest_future_causal_prerequisite": {
+      "implemented": false,
+      "execution_authorized_by_assessment": false,
+      "hypothesis": "If Windows is explicitly reopened later, one bounded non-admitting collect-all diagnostic could retain both parent TCP endpoint outcomes and suspended/self child token and child endpoint outcomes despite an unknown first network result; aggregate failure after collection. Keep original Job/output limits, zero-capability/SID checks, cleanup and the strict explicit10013 predicate. Do not resume a child on token mismatch or invent denial for timeouts. Cancellation needs its own actual observed descendant case; collect-all network diagnostics alone cannot qualify it.",
+      "scope": "This only removes an evidenced diagnostic short circuit; it does not solve the10060 cause or establish equivalent active/future-profile network denial. No installer loop, broader redesign, new research or further run recommended now."
+    }
+  },
+  "old007_008_unchanged": true,
+  "prospective": {
+    "path": "evidence/windows-compiler009-prospective-001.json",
+    "bytes": 6932,
+    "sha256": "da52eef8c7e92346ac7943cf272a5dfde83e5f9f70ba1b94fb47edff8374ebd6"
+  },
+  "files": [
+    {
+      "path": "evidence/windows-appcontainer009-actual001-notes/CI.log",
+      "bytes": 67344,
+      "sha256": "d99bc97961de90e069127c493131f380671e094bd8524327360315d534086b57"
+    },
+    {
+      "path": "evidence/windows-appcontainer009-actual001-notes/dispatch-intent.json",
+      "bytes": 557,
+      "sha256": "02aaf4df3787efd903d3face88b9221be2121a939d2afdeb863204ff03c47755"
+    },
+    {
+      "path": "evidence/windows-appcontainer009-actual001-notes/dispatch.json",
+      "bytes": 748,
+      "sha256": "f39e72afd6d0aada1ba752656c22650ed1ddee5ed8d2e066c74a435ef1522920"
+    },
+    {
+      "path": "evidence/windows-appcontainer009-actual001-notes/run.json",
+      "bytes": 12579,
+      "sha256": "d5c8f5e7814507b5df602f38c1ae9f27653289fa673286347e2165538f50290a"
+    },
+    {
+      "path": "evidence/windows-appcontainer009-actual001-notes/timing.json",
+      "bytes": 331,
+      "sha256": "9521226f2e3d4bcd9cf7c9db085ab3795b2aee84fb403b9a61556a011e63a810"
+    },
+    {
+      "path": "evidence/windows-appcontainer009-actual001-notes/independent-AI-assessment.json",
+      "bytes": 15087,
+      "sha256": "316ffa7e059d48c1aa772ab57bd975af2331ae8f1f10d2e1c62454516fb33491"
+    },
+    {
+      "path": "evidence/windows-appcontainer009-actual001-notes/extracted-owned-records.json",
+      "bytes": 49869,
+      "sha256": "68b4b1e1da76ecd093181ba034d217b6456806fc6c28a001e51f38fd164ac70f"
+    }
+  ],
+  "file_index": {
+    "path": "evidence/windows-appcontainer009-actual001-notes/files.json",
+    "bytes": 1440,
+    "sha256": "18b27b55802dd03e388ca369af6000853fb469997ef8d46ae5ee1309ccceb7b4"
+  },
+  "new_raw_full_backup": false
+}
