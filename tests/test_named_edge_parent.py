@@ -73,6 +73,8 @@ class RejectedThermalIncumbentNamedEdge(unittest.TestCase):
         package = Path(p.__file__).resolve().parent
         for name in ('pipeline.py', 'recovery.py', 'native_edge.py'):
             (code / name).write_bytes((package / name).read_bytes())
+        from tests.test_task_copper_contract import author_current_task_copper
+        author_current_task_copper(root,child)
         child['tools']['implementation_sha256'] = {
             'autorouter/' + path.name: p.sha(path) for path in code.iterdir()}
         shutil.copytree(code, work / 'code')

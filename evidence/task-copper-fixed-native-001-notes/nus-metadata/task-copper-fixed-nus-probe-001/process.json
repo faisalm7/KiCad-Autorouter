@@ -1,0 +1,40 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 13.026420957990922,
+  "cpu_seconds": 10.139222,
+  "max_rss_bytes": 235732992,
+  "supervisor_cpu_seconds": 0.12683200000000003,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 229785600,
+  "sampled_peak_workdir_bytes": 2484376,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 134217728,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/task_copper_fixed_v1/driver.py",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/nus-original-native-001/original/src/usb_led.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-nus-probe-001/route"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-nus-probe-001/command.log",
+  "log_bytes": 9849,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-nus-probe-001",
+  "signal_cancellation_enabled": true,
+  "pid": 50962
+}

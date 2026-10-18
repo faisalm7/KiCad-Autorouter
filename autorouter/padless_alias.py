@@ -138,7 +138,7 @@ def artifact_paths(output):
         ('before','.alias-before.kicad_pcb'),('after','.alias-after.kicad_pcb'))}
 
 
-def export_board(board,source,output,pcbnew,*,mapping,before):
+def export_board(board,source,output,pcbnew,*,mapping,before,exporter=None):
     """Export on the loaded board; retain the exact input before later routing.
 
     Zero aliases are an explicit rederivable census. An unsafe plan never falls
@@ -159,8 +159,8 @@ def export_board(board,source,output,pcbnew,*,mapping,before):
     if binding['aliases']:
         if pcbnew.GetBuildVersion()!='10.0.0':raise ValueError('alias geometry requires qualified Native10.0.0')
         from .padless_alias_native import emit
-        observation=emit(board,raw,binding,output,pcbnew)
-    elif pcbnew.ExportSpecctraDSN(board,str(output)) is not True:
+        observation=emit(board,raw,binding,output,pcbnew,exporter=exporter)
+    elif (pcbnew.ExportSpecctraDSN if exporter is None else exporter)(board,str(output)) is not True:
         raise ValueError('native DSN export failed')
     dsn=read_bytes(output,20*1024**2)
     if not dsn:raise ValueError('empty native DSN export')

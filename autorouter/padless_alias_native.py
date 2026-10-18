@@ -109,7 +109,7 @@ def without_authorized_reference_display(observation,binding,during=False):
     return result
 
 
-def emit(board,raw_source,binding,dsn_path,pcbnew):
+def emit(board,raw_source,binding,dsn_path,pcbnew,*,exporter=None):
     """Export with aliases in memory; save only before and after restoration.
 
     The caller owns the final JSON/proof and complete input-project witness.
@@ -130,17 +130,17 @@ def emit(board,raw_source,binding,dsn_path,pcbnew):
         if path.exists() or path.is_symlink():raise ValueError('fresh exclusive native alias output required')
     before=observe(board,pcbnew);events=[{'phase':'before_alias','observation':before}]
     if not pcbnew.SaveBoard(str(before_board),board):raise ValueError('native original-reference emission failed')
-    def exporter(native):
+    def export_with_observation(native):
         during=observe(native,pcbnew)
         if without_authorized_reference_display(during,binding,True)!=without_authorized_reference_display(before,binding):
             raise ValueError('native copper/electrical/field geometry changed during aliases')
         events.append({'phase':'during_alias','observation':during})
-        exported=pcbnew.ExportSpecctraDSN(native,str(dsn))
+        exported=(pcbnew.ExportSpecctraDSN if exporter is None else exporter)(native,str(dsn))
         after_export=observe(native,pcbnew)
         if after_export!=during:raise ValueError('export changed native state while aliases active')
         events.append({'phase':'after_export','observation':after_export})
         return exported
-    result=padless_alias.native_export(board,raw_source,binding,exporter,lambda b:observe(b,pcbnew))
+    result=padless_alias.native_export(board,raw_source,binding,export_with_observation,lambda b:observe(b,pcbnew))
     restored=observe(board,pcbnew)
     if restored!=before:raise ValueError('native board changed after alias restoration')
     if not pcbnew.SaveBoard(str(after_board),board):raise ValueError('native restored-reference emission failed')

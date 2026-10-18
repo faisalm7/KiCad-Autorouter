@@ -1,0 +1,21 @@
+..........................................E.......................
+======================================================================
+ERROR: test_current_strict_source_declaration_and_tool_marker_cannot_downgrade (tests.test_normal_selected_import.NormalSelectedImportControls.test_current_strict_source_declaration_and_tool_marker_cannot_downgrade) (fault=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_normal_selected_import.py", line 153, in test_current_strict_source_declaration_and_tool_marker_cannot_downgrade
+    if fault is None:self.assertEqual(check(),{})
+                                      ^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_normal_selected_import.py", line 72, in check
+    contract=p.normal_import_contract(root,data,imports,input_policy=policy,original=original)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 623, in normal_import_contract
+    check_contract(root,data,imports,declaration=declarations['NORMAL_TASK_COPPER_FIXED_POLICY'],native_toolchain=native_toolchain)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/task_copper.py", line 122, in check_contract
+    raise p.Rejected('task copper pipeline/Native/tool declaration differs')
+autorouter.pipeline.Rejected: task copper pipeline/Native/tool declaration differs
+
+----------------------------------------------------------------------
+Ran 66 tests in 6.176s
+
+FAILED (errors=1)

@@ -9,6 +9,7 @@ from autorouter.netclass_native import observe_class
 
 FIXED_PLACEMENT_SESSION_POLICY='fixed-placement-session-v1'
 EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
+TASK_COPPER_FIXED_POLICY='native-task-copper-fixed-v1'
 
 def file_hash(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -64,6 +65,14 @@ def main():
         sys.argv=[sys.argv[0],*sys.argv[3:]]
     elif pcbnew.GetBuildVersion()!='10.0.0':
         raise RuntimeError('production native worker requires exact10.0.0')
+    from autorouter import task_copper
+    fixed=task_copper.FLAG in sys.argv[1:]
+    if fixed:
+        if (sys.argv.count(task_copper.FLAG)!=1 or sys.argv[-1]!=task_copper.FLAG
+                or sys.argv[1] not in ('export','import') or pcbnew.GetBuildVersion()!='10.0.0'
+                or task_copper.POLICY!=TASK_COPPER_FIXED_POLICY):
+            raise RuntimeError('unqualified Native task copper flag')
+        sys.argv=sys.argv[:-1]
     action, source, output = sys.argv[1:4]
     mapping_requested = action == 'netclasses' or (action == 'export' and len(sys.argv) == 5)
     before = (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))) if mapping_requested or action in ('export','pour-audit') else None
@@ -75,7 +84,9 @@ def main():
         mapping = netclasses(board, source, before) if mapping_requested else None
         from autorouter.padless_alias import export_board,POLICY
         if POLICY!=EXPORT_ALIAS_POLICY:raise RuntimeError('Native export alias policy differs')
-        export_board(board,source,output,pcbnew,mapping=mapping,before=before)
+        exporter=(lambda native,path:task_copper.invoke(native,source,pcbnew,
+            lambda:pcbnew.ExportSpecctraDSN(native,path))) if fixed else None
+        export_board(board,source,output,pcbnew,mapping=mapping,before=before,exporter=exporter)
         if mapping_requested:
             if before != (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))):
                 raise RuntimeError('Board or project changed during DSN export')
@@ -91,7 +102,10 @@ def main():
         session_path=Path(output).with_suffix('.routes-only.ses')
         with session_path.open('xb') as stream:stream.write(filtered)
         session_record.update(source_session=str(Path(sys.argv[4])),import_session=str(session_path))
-        if not pcbnew.ImportSpecctraSES(board, str(session_path)):
+        imported=(task_copper.invoke(board,source,pcbnew,
+            lambda:pcbnew.ImportSpecctraSES(board,str(session_path)),importing=True)
+            if fixed else pcbnew.ImportSpecctraSES(board,str(session_path)))
+        if not imported:
             raise RuntimeError('SES import failed')
         pcbnew.SaveBoard(output, board)
         session_record['imported_board_sha256']=file_hash(output)

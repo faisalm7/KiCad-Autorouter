@@ -1,0 +1,41 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 12.764719375001732,
+  "cpu_seconds": 8.464541,
+  "max_rss_bytes": 235814912,
+  "supervisor_cpu_seconds": 0.09747499999999998,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 235814912,
+  "sampled_peak_workdir_bytes": 1378774,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 134217728,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "-c",
+    "import sys,json;from autorouter.pipeline import route,check_result;r=route(sys.argv[1],sys.argv[2],seconds=90,keep_existing=True,adapter=\"both\");print(json.dumps({k:r.get(k) for k in (\"accepted\",\"status\",\"reason\")}));print(json.dumps(check_result(sys.argv[2]+\"/result.json\"))) if r.get(\"accepted\") else None;sys.exit(0 if r.get(\"accepted\") else 2)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-probe-001/source/owned1007-transport.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-native-001/route"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-native-001/command.log",
+  "log_bytes": 538,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-native-001",
+  "signal_cancellation_enabled": true,
+  "pid": 53016
+}

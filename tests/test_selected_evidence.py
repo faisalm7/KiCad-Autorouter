@@ -55,7 +55,7 @@ class SelectedEvidence(unittest.TestCase):
         # syntax/provenance, never evidence that SES produced this board.
         session=x.run/'routes.ses'
         process={'name':'import','argv':[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),
-                    'import',str(x.candidate),str(imported),str(session)],'cwd':str(x.run),
+                    'import',str(x.candidate),str(imported),str(session),'--task-copper-fixed'],'cwd':str(x.run),
                  'status':'success','exit_code':0,'cleanup_complete':True,
                  'wall_seconds':0.1,'cpu_seconds':0.1,'monitor_cpu_seconds':0.}
         p.save_json(x.run/'import-process.json',process);x.data['steps'].insert(1,process)

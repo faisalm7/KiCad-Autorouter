@@ -139,6 +139,11 @@ class NormalSelectedImportControls(unittest.TestCase):
                 root,data,_,_,check=self.make(selected=False)
                 producer=root/'code/pipeline.py'
                 raw=Path(p.__file__).read_text()
+                # Current captured source also declares paired task-copper
+                # workers. Author that synthetic contract before this test's
+                # independent strict-via declaration fault.
+                from tests.test_task_copper_contract import author_current_task_copper
+                author_current_task_copper(root,data)
                 literal="NORMAL_PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'"
                 data['tools']['normal_protected_via_import_policy']=p.PROTECTED_VIA_IMPORT_POLICY
                 if fault in ('marker_deleted','literal_and_marker_deleted'):

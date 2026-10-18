@@ -30,6 +30,7 @@ SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY='selected-proposals-exact-source-v1'
 PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'
 NORMAL_PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'
+NORMAL_TASK_COPPER_FIXED_POLICY='native-task-copper-fixed-v1'
 NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
@@ -610,12 +611,18 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
     if hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
         raise Rejected('normal selected import producer differs')
     requested={'NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY':SELECTED_PROPOSAL_IMPORT_POLICY}
-    if input_policy=='native':requested['NORMAL_PROTECTED_VIA_IMPORT_POLICY']=PROTECTED_VIA_IMPORT_POLICY
+    if input_policy=='native':
+        requested['NORMAL_PROTECTED_VIA_IMPORT_POLICY']=PROTECTED_VIA_IMPORT_POLICY
+        requested['NORMAL_TASK_COPPER_FIXED_POLICY']='native-task-copper-fixed-v1'
     declarations=policy_declarations(raw,requested)
     policy=declarations['NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY']
     marker=data.get('tools',{}).get('normal_selected_proposal_import_policy')
     strict_declaration=None
     if input_policy=='native':
+        if declarations['NORMAL_TASK_COPPER_FIXED_POLICY'] is None and b'from .task_copper import check_contract' in raw:
+            raise Rejected('task copper pipeline source declaration missing')
+        from .task_copper import check_contract
+        check_contract(root,data,imports,declaration=declarations['NORMAL_TASK_COPPER_FIXED_POLICY'],native_toolchain=native_toolchain)
         strict_declaration=declarations['NORMAL_PROTECTED_VIA_IMPORT_POLICY']
         strict_marker=data.get('tools',{}).get('normal_protected_via_import_policy')
         if strict_declaration is None:
@@ -1418,6 +1425,7 @@ def tool_manifest(*,native_toolchain=None):
             'normal_drc_local_settings_policy':NORMAL_DRC_LOCAL_SETTINGS_POLICY,
             'normal_selected_proposal_import_policy':NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY,
             'normal_protected_via_import_policy':NORMAL_PROTECTED_VIA_IMPORT_POLICY,
+            'normal_task_copper_fixed_policy':NORMAL_TASK_COPPER_FIXED_POLICY,
             'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY,
             **({'experimental_native_toolchain':native_toolchain.record()} if native_toolchain is not None else {})}
 
@@ -2196,12 +2204,13 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         if selected is not None and parent_classes:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
         if policy is None and native_toolchain is None:
-            job.native('export','export',candidate,output/'task.dsn')
+            job.native('export','export',candidate,output/'task.dsn','--task-copper-fixed')
             shutil.copy2(output/'task.dsn',output/'native.dsn')
         else:
             from .netclass import audit_dsn
             mapping=output/'export-netclasses.json'
-            job.native('export','export',candidate,output/'task.dsn',mapping)
+            job.native('export','export',candidate,output/'task.dsn',mapping,
+                *(['--task-copper-fixed'] if native_toolchain is None else []))
             native_classes=json.loads(mapping.read_text())
             # The task contains only protected routes, and its original rules.
             audit_candidate_netclasses(candidate,protected,native_classes,native_toolchain=native_toolchain)
@@ -2265,7 +2274,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             report['optimizer_threshold_audit']=optimizer_threshold_audit(output/'engine.log',0.1)
         if not (output/'routes.ses').is_file(): raise Rejected('engine emitted no SES')
         imported=output/'imported.kicad_pcb'
-        job.native('import','import',candidate,imported,output/'routes.ses')
+        job.native('import','import',candidate,imported,output/'routes.ses',
+            *(['--task-copper-fixed'] if native_toolchain is None else []))
         reconciliation={}
         import_policy=(normal_selected_import_policy(original,selected) if selected is not None else
             normal_strict_import_policy(original,protected) if native_toolchain is None else 'exact_non_uuid_lock_position_v2')
@@ -2357,13 +2367,13 @@ def validation_readback_session():
     """
     from . import (adapter,board_floor,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
                    native_edge,netclass,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
-                   placement_transform,pour_rule_area,preferences,runner,strategy,
+                   placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
                    schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,engine_angle,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
-             routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence)
+             routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,task_copper)
     existing=_readback_session.get()
     state=existing if existing is not None else {'entries':{},'modules':modules}
     token=_readback_session.set(state)

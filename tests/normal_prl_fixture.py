@@ -48,7 +48,7 @@ def _authored_normal_export(directory,data,*,raw_dsn=None,task_dsn=None):
     p.save_json(paths['proof'],proof);log=directory/'export.log';log.write_bytes(b'')
     worker=dict(name='export',cwd=str(directory),status='success',exit_code=0,cleanup_complete=True,
         wall_seconds=0,cpu_seconds=0,monitor_cpu_seconds=0,log=str(log),log_bytes=0,log_truncated=False,
-        argv=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),'export',str(candidate),str(output)])
+        argv=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),'export',str(candidate),str(output),'--task-copper-fixed'])
     p.save_json(directory/'export-process.json',worker);data['steps'].append(copy.deepcopy(worker))
     data.update(task_sha256=aliases.sha(raw),native_dsn_sha256=p.sha(directory/'native.dsn'),task_dsn_sha256=p.sha(output))
 
@@ -238,6 +238,7 @@ def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_
     data['tools']['normal_drc_local_settings_policy']=policy
     data['tools']['normal_selected_proposal_import_policy']=p.NORMAL_SELECTED_PROPOSAL_IMPORT_POLICY
     data['tools']['normal_protected_via_import_policy']=p.NORMAL_PROTECTED_VIA_IMPORT_POLICY
+    data['tools']['normal_task_copper_fixed_policy']=p.NORMAL_TASK_COPPER_FIXED_POLICY
     data['tools']['normal_native_export_alias_policy']=p.NORMAL_NATIVE_EXPORT_ALIAS_POLICY
     for binding_path,binding,process_path,process,step in updates:
         p.save_json(binding_path,binding);p.save_json(process_path,process)
@@ -246,8 +247,8 @@ def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_
         # Explicitly authored SES syntax/process metadata for current-code
         # receipt tests. No claim that these bytes produced the fixture board.
         for step in data['steps']:
-            argv=step.get('argv');args=argv[len(f.SANDBOX):] if type(argv) is list and argv[:len(f.SANDBOX)]==f.SANDBOX else argv
-            if type(args) is not list or args[:3]!=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),'import']:continue
+            argv=step.get('argv');args=adapter.native_command_parser()(argv,'import')
+            if args is None:continue
             if len(args)!=6:raise AssertionError('authored import command must have source/output/session')
             folder=ls.canonical(Path(step['cwd']));board,output,session=(ls.canonical(Path(n))for n in args[3:])
             if (root not in folder.parents or output.parent!=folder
@@ -265,4 +266,20 @@ def mark_authored_receipt(directory,data,*,test_root,fixed_imports=False,normal_
             proof.update(source_session=str(session),import_session=str(derived),imported_board_sha256=p.sha(output))
             p.save_json(derived.with_suffix('.json'),proof)
     if authored_engine:_authored_normal_engine(directory,data)
+    if data.get('schema')==1 and data.get('input_policy','native')=='native':
+        # Model the current normal worker contract during fixture construction.
+        # These are zero-cost authored process declarations, never measured
+        # Native locking. Do not call this builder after a deliberate fault.
+        from autorouter.task_copper import FLAG
+        parse=adapter.native_command_parser()
+        for step in data['steps']:
+            if not any(parse(step.get('argv'),action) is not None for action in ('export','import')):continue
+            journal=ls.canonical(Path(step['cwd'])/(step['name']+'-process.json'))
+            process=f.read_json(journal)
+            if process.get('argv')!=step['argv']:
+                raise AssertionError('task copper setup requires an unchanged authored worker')
+            if FLAG not in step['argv'] and (process.get('wall_seconds')!=0 or process.get('cpu_seconds')!=0):
+                raise AssertionError('task copper setup requires an unchanged zero-cost authored worker')
+            if FLAG not in step['argv']:
+                step['argv'].append(FLAG);process['argv'].append(FLAG);p.save_json(journal,process)
     return len(updates)

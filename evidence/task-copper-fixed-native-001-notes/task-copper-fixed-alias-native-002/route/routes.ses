@@ -1,0 +1,60 @@
+(session task
+  (base_design task)
+  (placement
+    (resolution um 10)
+    (component "owned1007_transport_terminal"
+      (place J1 120000 -100000 front 0)
+      (place J2 260000 -100000 front 0)
+      (place J3 120000 -160000 front 0)
+      (place J4 260000 -160000 front 0)
+      (place J5 120000 -240000 front 0)
+      (place J6 260000 -240000 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "10.0.0")
+    )
+    (library_out 
+      (padstack "Via[0-1]_800:400_um"
+        (shape
+          (circle F.Cu 8000 0 0)
+        )
+        (shape
+          (circle B.Cu 8000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net ROUTE
+        (wire
+          (path F.Cu 3000
+            260000 -100000
+            120000 -100000
+          )
+        )
+      )
+      (net KEEP
+        (wire
+          (path F.Cu 3000
+            190000 -160000
+            210000 -160000
+          )
+        )
+      )
+      (net GND
+        (wire
+          (path F.Cu 3000
+            260000 -240000
+            120000 -240000
+          )
+        )
+      )
+    )
+  )
+)

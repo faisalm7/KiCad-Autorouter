@@ -64,7 +64,7 @@ def fixed_placement_session(raw):
         original_footprint_poses_preserved_by_omission=True,routing_accepted=False)
 
 
-def native_command_parser(native_toolchain=None, *, data=None):
+def native_command_parser(native_toolchain=None, *, data=None, with_task_copper=False):
     """Exact caller-pinned Native prefix; normalize a local copy, never argv.
 
     A visible Native script/experimental flag with a different prefix is an
@@ -72,6 +72,8 @@ def native_command_parser(native_toolchain=None, *, data=None):
     """
     from . import pipeline as p
     from .floor_route import SANDBOX, canonical as encode
+    from .task_copper import FLAG
+    if type(with_task_copper) is not bool:raise p.Rejected('typed Native parser protection context required')
     prefix=p.native_prefix(native_toolchain)
     if data is not None:
         if type(data) is not dict:raise p.Rejected('Native reader receipt must be an object')
@@ -93,11 +95,18 @@ def native_command_parser(native_toolchain=None, *, data=None):
         tail=args[len(prefix):]
         if not tail:raise p.Rejected('missing Native command action')
         if tail[0].startswith('-'):raise p.Rejected('unexpected Native command flag')
+        fixed=FLAG in tail
+        if fixed:
+            if tail.count(FLAG)!=1 or tail[-1]!=FLAG or tail[0] not in {'export','import'} or native_toolchain is not None:
+                raise p.Rejected('unqualified task copper Native flag')
+            tail=tail[:-1]
+        if any(value.startswith('--') for value in tail[1:]):raise p.Rejected('unexpected Native operation flag')
         if tail[0]!=action:return None
         arities={'export':(3,4),'import':(4,)}
         if action not in arities or len(tail) not in arities[action]:
             raise p.Rejected('unqualified caller-pinned Native command arity')
-        return [*prefix[:2],*tail]
+        normalized=[*prefix[:2],*tail]
+        return (normalized,fixed) if with_task_copper else normalized
     # Validate visible Native prefixes even before genuine legacy-policy exits.
     if data is not None:
         for step in data.get('steps', []):

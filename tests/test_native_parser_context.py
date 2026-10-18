@@ -45,7 +45,11 @@ class ExplicitParserContextControls(unittest.TestCase):
             sandbox = f.SANDBOX if argv[:len(f.SANDBOX)] == f.SANDBOX else []
             args = argv[len(sandbox):]
             if args[:2] == [str(c.PYTHON), str(c.ROOT / 'autorouter/native.py')]:
-                step['argv'] = [*sandbox, *p.native_prefix(self.nt), *args[2:]]
+                # Author the separately qualified explicit Native path. Its
+                # worker never enables the production10.0.0 task-copper flag.
+                from autorouter.task_copper import FLAG
+                step['argv'] = [*sandbox, *p.native_prefix(self.nt),
+                                *(value for value in args[2:] if value != FLAG)]
             elif args[:3] == [str(c.CLI), 'pcb', 'drc']:
                 step['argv'] = [*sandbox, str(self.nt.cli), *args[1:]]
                 path = Path(step['cwd']) / (step['name'] + '-binding.json')

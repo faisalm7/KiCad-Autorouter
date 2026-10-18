@@ -1,0 +1,36 @@
+..................................EF.....................................................................................
+======================================================================
+ERROR: test_normal_policy_explicit_drc_cli_binding_and_omission_checks (tests.test_native_parser_context.ExplicitParserContextControls.test_normal_policy_explicit_drc_cli_binding_and_omission_checks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native_parser_context.py", line 188, in test_normal_policy_explicit_drc_cli_binding_and_omission_checks
+    ls.check_normal_policy(owned.run, owned.data, native_toolchain=self.nt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 186, in check_normal_policy
+    try:return _check_normal_policy(directory,data,max_bytes=max_bytes,max_files=max_files,native_toolchain=native_toolchain)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/local_settings.py", line 200, in _check_normal_policy
+    native_command_parser(native_toolchain,data=data)  # Typed context before legacy-policy exits.
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 113, in native_command_parser
+    if type(step) is dict:command(step.get('argv'), 'export')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/adapter.py", line 101, in command
+    raise p.Rejected('unqualified task copper Native flag')
+autorouter.pipeline.Rejected: unqualified task copper Native flag
+
+======================================================================
+FAIL: test_normal_policy_other_drc_cli_is_rejected_before_census_filtering (tests.test_native_parser_context.ExplicitParserContextControls.test_normal_policy_other_drc_cli_is_rejected_before_census_filtering)
+----------------------------------------------------------------------
+autorouter.pipeline.Rejected: unqualified task copper Native flag
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native_parser_context.py", line 211, in test_normal_policy_other_drc_cli_is_rejected_before_census_filtering
+    with self.assertRaisesRegex(p.Rejected, 'DRC prefix'):
+AssertionError: "DRC prefix" does not match "unqualified task copper Native flag"
+
+----------------------------------------------------------------------
+Ran 121 tests in 11.955s
+
+FAILED (failures=1, errors=1)
