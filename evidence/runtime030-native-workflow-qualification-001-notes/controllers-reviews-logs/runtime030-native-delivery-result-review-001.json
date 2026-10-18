@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "kind": "runtime030-independent-native-delivery-readback",
+  "recorded_utc": "2026-10-18T19:14:13.305308+00:00",
+  "reviewer": "Independent AI; no human PCB approval",
+  "accepted": false,
+  "project_complete": false,
+  "readbacks_passed": true,
+  "concrete_findings": [],
+  "source_head": "a658e62c71204f7242a66c695f22a1b3e2263482",
+  "manifest_sha256": "308b644b34ca62ca4252a1cd9b583d7df037eb34da902be36d8076a64716e111",
+  "native": "10.0.7",
+  "module_binding": "All46 installed module pins equal full172 captured sources/tools; fresh installed tool manifest equals both frozen comparison caller tools. Verified before authoring this compact receipt.",
+  "cases": [
+    {
+      "case": "comparison-standard_positive",
+      "protocol": "475e007f6104e7e4e73105fa225926aa0bf461c634369590db73658473477494",
+      "child": "0c046f6054157ca185687c3d0d07b1f58fa748d2c25a0b495bae29efac96a435",
+      "external_wall_cpu": [
+        118.12,
+        114.59
+      ],
+      "current": true,
+      "source_unchanged": true,
+      "protected": 1,
+      "source_counts": [
+        2,
+        0,
+        1,
+        0
+      ],
+      "final_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "candidate": "6e472d6a5db2b74c5f9b120f685a027f6d35d7f5a6a64b47bc97bcc5ddc4ecac"
+    },
+    {
+      "case": "comparison-tuned_variant",
+      "protocol": "663ff3068582576360e18793c662af1de176503c05312aee42d4cad5bcff89d1",
+      "child": "cd3131bf3c6ac4d16580ae7a7398b3564c48d990226321302126a001eca86185",
+      "external_wall_cpu": [
+        119.19,
+        115.35
+      ],
+      "current": true,
+      "source_unchanged": true,
+      "protected": 1,
+      "source_counts": [
+        2,
+        0,
+        1,
+        0
+      ],
+      "final_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "candidate": "51a9fc0427cdd53413c53bc9bdaf3b160474654e6b20aa2f72b78bfa41dfffaf"
+    },
+    {
+      "case": "ordinary-whole4Cu",
+      "protocol": "8725b8ec4d8319551d05f0885b00478a408a9c0a67bae18841783cd75079113a",
+      "child": "087783b6cd509997c9192a20dfbb8243f4b1bf17b590892bb30a78a817331fed",
+      "external_wall_cpu": [
+        34.89,
+        31.72
+      ],
+      "current": true,
+      "source_unchanged": true,
+      "protected": 10,
+      "source_counts": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "final_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "candidate": "bab02d02ebb95e54ec9016f81c0eb5e7dd215493852ef57c66694808c6dc7d62"
+    },
+    {
+      "case": "ordinary-partial2Cu",
+      "protocol": "3d35025f26fbbeccb3b5d664326640b9fe97de487d6abfdc4635bf9a7222a6ad",
+      "child": "c189d28caac15b5cda5860a7496754ac7017a096b60c0ca027a93334a6b93bbc",
+      "external_wall_cpu": [
+        30.2,
+        26.98
+      ],
+      "current": true,
+      "source_unchanged": true,
+      "protected": 4,
+      "source_counts": [
+        2,
+        0,
+        1,
+        0
+      ],
+      "final_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "candidate": "f0f74c1e844577d5d34b061f85809b89ee5aeead8ddb693a42ba2173f781e7b3"
+    },
+    {
+      "case": "invalid-001",
+      "protocol": "56f2ec42f4fc18c50c8d42b4599db6b2ae7d4c1780951ce1472796fd9c466e92",
+      "child": "ac05379c5e5d25df6e0919594044173d2c4a9193b0f1f81a9f723550f3647b19",
+      "external_wall_cpu": [
+        31.56,
+        31.26
+      ],
+      "status": "failed",
+      "control_passed": false,
+      "error": "Rejected: literal modern ROUTE net required"
+    },
+    {
+      "case": "invalid-002",
+      "protocol": "84abbc7819c5a42e9d7e5e89407757c014c103e6e1a1c12924de184b14fb501a",
+      "child": "51060bae6f0360ec2c3c256cb5aeae9ce7d99d21c7bb664a457da438fe307c31",
+      "external_wall_cpu": [
+        34.32,
+        32.8
+      ],
+      "status": "completed",
+      "control_passed": true,
+      "error": null
+    }
+  ],
+  "proof": "Installed030 p.check_result/ex.check_export current for4 deliveries. Comparison Contexts reconstructed only from independently SHA-frozen caller protocols, never receipts; ordinary p/ex readers refuse both comparisons. Their8 original default-refusal controls retained. Ordinary cases retain6 real CLI stages. Each own Route/export final-drc hash parses exactly to Native counts with fullSCH, current candidate hash and exact original protected nodes. Full raw report/candidate/receipt pins in bound raw review log below. Source maps unchanged; all6 enclosures reaped/cleanuptrue/lognottruncated, exit0 except expected failed001 exit2. No Native/JVM/tests/installer/CI rerun by this review.",
+  "warnings": "Counts order opens/blocking/warnings/exclusions. Owned2Cu source has2opens/0blocking/1warning/0exclusions. Whole4Cu final6warnings retained. Every final report has2 ignored checks: track_not_centered_on_via, tuning_profile_track_geometries. No all-checks-enabled claim; shared readers reject disabled critical checks.",
+  "invalid": "001 failed before new Native: controller expected modern ROUTE, source legacy-numbered.002 actual short Native0/3/0/0 with refill/fullSCH; protected width0.3\u21920.300001mm diagnostic Native0all still invariant-rejected. Both accepted/routing_accepted false. No extra Native after width invariant refusal; positive source/proof unchanged.",
+  "full172": {
+    "execution_sha256": "49a95bf4d31a4d26d0d2b1a99abd2b957687efc2dfe2c4c7f6bc0c8f3f1bafa7",
+    "tests": 2125,
+    "skip": 1,
+    "unittest_seconds": 335.278,
+    "external_wall_cpu": [
+      336.52,
+      327.82
+    ],
+    "passed": true,
+    "history": "Earlier full1718F/3E remains retained."
+  },
+  "installation": {
+    "receipt_sha256": "17f2e53350d960857f1846fc2030fa99bbb259b20ab74fdd1daa3d9b751e47cf",
+    "passed": true,
+    "scope": "Distribution fresh curated runtime/venv; existing Mac/tools/cache. Route/check smoke, not sixstage/GUI.",
+    "stored_wall_cpu": [
+      19.466736916976515,
+      16.779911
+    ],
+    "stored_sample_not_external": true
+  },
+  "accounting": "Case values are complete external real/user+sys, not stored samples. Comparison envelopes additionally charge shared measured prep0.39wall/0.33CPU plus4s conservative publication allowance.4s is not measured; prep one actual event. Failed001 included. Authoring/research/full/install/review are additional. No fair effectiveness inference.",
+  "review_execution": {
+    "controller": ".runs/review-runtime030-native-delivery-001.py",
+    "controller_sha256": "b89e3838cf0f4fcc4aa2c08f116ea2c6d1f3a098b09e462674d1f45974df68bb",
+    "raw_log": ".runs/runtime030-native-delivery-readback-001/command.log",
+    "raw_log_sha256": "30d7bffb2f24927b57d47bfd06092526acbd3cad70b7da719aaaffb46b0dab2d",
+    "process_sha256": "e174453bd805a9717dcb069fcc98ed35e5a9daa8784f17880f15923625b38e23",
+    "external_log": ".runs/runtime030-native-delivery-readback-001-time.log",
+    "external_log_sha256": "0c6e4ed8adeb379be60bcb3a258a85b499a4b0e3b3a6230c32198afa76bdfa78",
+    "external_wall_cpu": [
+      35.33,
+      34.91
+    ],
+    "status": "success",
+    "exit": 0,
+    "cleanup": true,
+    "truncated": false,
+    "bounds": "180s/2GiB groupRSS/512KiB log/2MiB own workdir; shared runner/network denial",
+    "additional_cost": "File inspection/authoring untimed, not zero. A guessed ordinary enclosure/result.json path was corrected to execution.json. Two oversized receipt drafts failed byte bound before file creation. No Native repeats."
+  },
+  "limits": "Mutable consistency, not authentication. Comparator non-admitting API functional proof only, no ordinary/GUI/CLI/default/portfolio/fair-matrix promotion.030 GUI unqualified;029/026 separate. No broad routing gain, human/physical or Windows support claim."
+}

@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 35.22999762499239,
+  "cpu_seconds": 34.768796,
+  "max_rss_bytes": 295174144,
+  "supervisor_cpu_seconds": 0.08141099999999998,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 294387712,
+  "sampled_peak_workdir_bytes": 8917,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.venv/bin/python",
+    "-B",
+    "-c",
+    "\nfrom pathlib import Path\nimport json,sys\nruntime=Path(sys.argv[2]);sys.path.insert(0,str(runtime))\nfrom autorouter import pipeline as p,config as c,comparison as cmp,review_export as ex\nroot=Path(sys.argv[1]);assert c.ROOT==runtime and c.NATIVE_VERSION=='10.0.7'\nnames=['comparison-standard_positive','comparison-tuned_variant','ordinary-whole4Cu','ordinary-partial2Cu']\npins=['475e007f6104e7e4e73105fa225926aa0bf461c634369590db73658473477494','663ff3068582576360e18793c662af1de176503c05312aee42d4cad5bcff89d1','8725b8ec4d8319551d05f0885b00478a408a9c0a67bae18841783cd75079113a','3d35025f26fbbeccb3b5d664326640b9fe97de487d6abfdc4635bf9a7222a6ad']\nread=lambda path:json.loads(Path(path).read_text())\ntools=p.tool_manifest();assert tools['git_head']=='a658e62c71204f7242a66c695f22a1b3e2263482' and tools['kicad']=='10.0.7'\nassert p.sha(runtime/'runtime-distribution.json')=='308b644b34ca62ca4252a1cd9b583d7df037eb34da902be36d8076a64716e111'\nresult={'runtime':str(runtime),'source_head':tools['git_head'],'manifest_sha256':p.sha(runtime/'runtime-distribution.json'),'implementation_modules':len(tools['implementation_sha256']),'cases':[]}\nfor name,pin in zip(names,pins):\n    protocol=root/'.runs'/('runtime030-'+name+'-001')/'protocol.json';assert p.sha(protocol)==pin;plan=read(protocol);out=Path(plan['output']);child=read(out/'result.json');iscomp=name.startswith('comparison');ctx={}\n    assert plan['runtime']==str(runtime) and plan['source_head']==tools['git_head'] and plan['runtime_manifest_sha256']==result['manifest_sha256']\n    if iscomp:\n        assert plan['runtime_tools']==tools and child['passed'] and not child['production_admitted'];work=out;source=work/'source'/plan['board_name'];hashes=plan['fixture_sha256'];expected=[0,0,0,0];nprotected=1\n        ctx={'comparison_context':cmp.Context(source,work/'route',plan['profile'],plan['route_seconds'],plan['runtime_tools'],hashes)}\n    else:\n        assert child['workflow_delivered'] and child['status']=='completed';work=Path(child['workspace']);assert work.is_relative_to(out) and work!=out\n        source=Path(plan['source']);hashes=plan['source_hashes'];expected=plan['expected_counts'];nprotected=plan['expected_protected_count'];assert [x['stage'] for x in child['processes']]==['preview','route','review','choice','export','verify_export']\n        assert all(x['process']['exit_code']==0 and not x['process']['log_truncated'] and not x['process']['cancel_requested'] for x in child['processes'])\n    assert p.tree_hash(source.parent)==hashes\n    routepath=work/'route/result.json';exportpath=work/'export/export.json';route=read(routepath);export=read(exportpath)\n    a=p.check_result(routepath,**ctx);b=ex.check_export(exportpath,**ctx);assert a['current'] and b['current']\n    protected=p.protected_for_record(route,p.sx.read(source));assert len(protected)==nprotected\n    proofs=[]\n    for data,path in [(route,work/'route'),(export,work/'export/validation')]:\n        raw=path/'final-drc.json';assert p.sha(raw)==data['native_report_sha256'] and p.parse_report(raw,source.name)==data['native']\n        assert [data['native'][k] for k in ('opens','blocking','warnings','exclusions')]==expected and data['metrics']['version']=='10.0.7' and data['schematic_parity']=='checked by final native DRC'\n        assert p.sha(Path(data['candidate']))==data['candidate_sha256'] and all(x in p.routes(p.sx.read(Path(data['candidate']))) for x in protected)\n        assert all(s['cleanup_complete'] and not s['log_truncated'] for s in data['steps'])\n        assert '--schematic-parity' in next(s for s in data['steps'] if s['name']=='final-drc')['argv']\n        proofs.append({'receipt_sha256':p.sha(routepath if data is route else exportpath),'candidate_sha256':data['candidate_sha256'],'native_report_sha256':p.sha(raw),'counts':expected,'ignored_checks':data['native']['ignored_checks']})\n    refusals=[]\n    if iscomp:\n        assert a['production_admitted'] is False and b['production_admitted'] is False and len(child['default_refusals'])==8\n        for label,call in [('route',lambda:p.check_result(routepath)),('export',lambda:ex.check_export(exportpath))]:\n            try:call()\n            except p.Rejected as exc:refusals.append(label+': '+str(exc))\n            else:raise AssertionError('ordinary consumer admitted comparison')\n    result['cases'].append({'name':name,'protocol_sha256':pin,'output':str(out),'workspace':str(work),'child_sha256':p.sha(out/'result.json'),'source_unchanged':p.tree_hash(source.parent)==hashes,'protected':nprotected,'current':True,'comparison':iscomp,'ordinary_refusals':refusals,'source_counts':{k:route['source_drc'][k] for k in ('opens','blocking','warnings','exclusions')},'proofs':proofs})\nfor suffix in ['001','002']:\n    protocol=root/'.runs'/('runtime030-comparison-native-invalid-controls-'+suffix)/'protocol.json';plan=read(protocol);out=Path(plan['output']);data=read(out/'result.json');rows=[]\n    for case in data['cases']:\n        assert all(s['cleanup_complete'] and not s['log_truncated'] for s in case.get('steps',[]))\n        if case.get('native_report_sha256'):\n            report=Path(case['steps'][-1]['argv'][case['steps'][-1]['argv'].index('--output')+1]);assert p.sha(report)==case['native_report_sha256'] and p.parse_report(report,'owned1007-transport.kicad_pcb')==case['native']\n        rows.append({k:case.get(k) for k in ['label','control_observed','routing_accepted','accepted','rejection','native_report_sha256','candidate_sha256','no_additional_native_after_invariant_refusal']})\n    assert (suffix=='001' and data['status']=='failed' and not data['control_passed'] and not any(x.get('steps') for x in data['cases'])) or (suffix=='002' and data['control_passed'] and all(x['control_observed'] and not x['accepted'] and not x['routing_accepted'] for x in data['cases']))\n    result['cases'].append({'name':'invalid-'+suffix,'protocol_sha256':p.sha(protocol),'child_sha256':p.sha(out/'result.json'),'status':data['status'],'control_passed':data['control_passed'],'error':data.get('error'),'cases':rows})\nprint(json.dumps(result))\n",
+    "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-native-delivery-readback-001/command.log",
+  "log_bytes": 8917,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-native-delivery-readback-001",
+  "signal_cancellation_enabled": true,
+  "pid": 24765
+}

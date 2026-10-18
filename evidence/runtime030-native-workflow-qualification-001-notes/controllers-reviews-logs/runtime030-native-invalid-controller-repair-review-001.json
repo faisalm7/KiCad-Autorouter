@@ -1,0 +1,47 @@
+{
+  "conclusion": {
+    "actual002_control_pass_or_Native_qualification": false,
+    "blocking_findings": 0,
+    "open_material_findings": [],
+    "result": "No concrete blocker: the repair matches actual declared-net encoding without changing invalid geometry."
+  },
+  "evidence": {
+    ".runs/qualify-runtime030-comparison-native-invalid-001.py": {
+      "bytes": 20378,
+      "sha256": "e719d4198d6d65aa4351e85ab61b4d92dc29260b25a9af09f60f97b867ae23c1"
+    },
+    ".runs/qualify-runtime030-comparison-native-invalid-002.py": {
+      "bytes": 20635,
+      "sha256": "0922c9b79de3daf4a0c0b19e1e91e1f31d848584d773b9b446c367e5673b990a"
+    },
+    "autorouter/board_floor.py": {
+      "bytes": 33888,
+      "sha256": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340"
+    },
+    "autorouter/pipeline.py": {
+      "bytes": 205953,
+      "sha256": "68801b8001cd36619f13c3742ca86b5381e18bb85e3b09e1b9d338e33d8a0fa8"
+    }
+  },
+  "kind": "runtime030-native-invalid-controller-repair-review-v1",
+  "limits": [
+    "Prospective source review only;002 requires separately frozen protocol/controller/output and one bounded actual run after the current worker finishes.",
+    "No production/fullsuite/support/default change, successful invalid-control result, routing benefit, human PCB or physical/electrical approval."
+  ],
+  "prior_failure": {
+    "lead_report_not_independent_result_review": "Literal named-only guard refused the20241229 declared-net candidate before new Native; retain complete31.56wall/31.26CPU costs.",
+    "status": "001 stays failed and retained."
+  },
+  "reasoning": [
+    "Diff changes only copied controller/output suffixes to002 and whole-short net guard/encoding.001 remains at its original preparation hash.",
+    "source_net_identity validates code/name bindings. Root code1 named ROUTE resolves pad [net,1,\"ROUTE\"] to ROUTE; malformed/conflicting references refuse. convert_route_nets deep-copies the generated segment and maps quoted ROUTE through target root declarations to code1. A subsequent resolver assertion independently requires ROUTE. Named-only boards retain their supported encoding.",
+    "The12,10\u219212,16 F.Cu/0.4mm short geometry, UUID, immutable/protected1 checks, actual blocking shorting_items requirement, class_context=None, fullSCH/stage replay, separate locked-width+1nm invariant refusal, budgets and final publication are unchanged."
+  ],
+  "recorded_utc": "2026-10-18T19:04:21.127210+00:00",
+  "reviewer": "AI subagent /root/gui072_result_review",
+  "schema": 1,
+  "scope": {
+    "authored_only": ".runs/runtime030-native-invalid-controller-repair-review-001.json",
+    "method": "Read exact001\u2192002 diff and existing source_net_identity/convert_route_nets helpers; AST parse/hash only. No edits, tests, Native, Git, network or delegation."
+  }
+}

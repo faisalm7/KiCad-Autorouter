@@ -1,0 +1,213 @@
+{
+  "schema": 1,
+  "kind": "native7-comparison-functional-control-preparation-v1",
+  "recorded_utc": "2026-10-18T18:47:04.687463+00:00",
+  "status": "prepared-not-executed",
+  "accepted": false,
+  "production_admitted": false,
+  "Native_executed": false,
+  "actual_GUI": false,
+  "fair_comparison": false,
+  "product_complete": false,
+  "scope": "Two prospective owned unflagged2Cu corrected-transport API controls, standard and tuned, one fresh frozen plan and one sequential attempt per case. This is functional qualification, not an equal-budget effectiveness comparison or production/GUI admission.",
+  "ownership": [
+    ".runs/qualify-comparison-delivery-001.py",
+    ".runs/qualify-comparison-delivery-draft-001.py",
+    ".runs/native7-comparison-native-control-preparation-001.json"
+  ],
+  "prequalification": {
+    "controller_syntax": "AST parsed only; controller was not imported or executed.",
+    "tests_run_by_this_task": false,
+    "Native_jobs_launched": false,
+    "git_operations": false,
+    "network_operations": false,
+    "original_draft_preserved_exclusive_creation": true,
+    "failed_patch_attempt": "An initial duplicate Delete/Add apply_patch was rejected without changing the original. The successful update followed preservation of its exact bytes."
+  },
+  "material_pins": {
+    ".runs/qualify-comparison-delivery-draft-001.py": {
+      "sha256": "8618bca933b113946bd1728b98c6d854cffe984d9d8b4d4e3f8a2b0cf4ac8eb5",
+      "bytes": 8323
+    },
+    ".runs/qualify-comparison-delivery-001.py": {
+      "sha256": "c15417b86dbb4db66f0b318db5adf2b1b8298b3d328c20afdbf5f5d537d563a6",
+      "bytes": 15538
+    },
+    ".runs/enclose-runtime030-comparison-001.py": {
+      "sha256": "e95454fa8534856c6cc6d9bcf55121605e4e2a24b325503883ad4bafe88c5193",
+      "bytes": 3973
+    },
+    ".runs/native1007-delivery-child-003.py": {
+      "sha256": "53db973ec50c73395718e24820197ce260326cd28a14f89cbe04dc63c955c62c",
+      "bytes": 7870
+    },
+    ".runs/run-native1007-delivery-003.py": {
+      "sha256": "60014d0dbde9836fd40c21620e05ffaf847ab6394817b84b174706058e468d19",
+      "bytes": 12093
+    },
+    ".runs/run-thermal-parent-delivery-001.py": {
+      "sha256": "7d0e2da7881ce6591278782d7db33fd0c9c65573d8a00213cb70eba9128e36c6",
+      "bytes": 5827
+    },
+    "scripts/qualify_runtime_workflow.py": {
+      "sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034",
+      "bytes": 5076
+    },
+    "autorouter/comparison.py": {
+      "sha256": "2a32b89a8a2179db7d45e1d3e89a82afb1fda7411b3be219ce0bd7a580b4daca",
+      "bytes": 9680
+    },
+    "autorouter/handoff.py": {
+      "sha256": "9994ddac79e7cdf3fb6a42f14d77ea8de762927350c625166bcf1109f00b019a",
+      "bytes": 36034
+    },
+    "autorouter/review_view.py": {
+      "sha256": "d5291fa2d40ebb2fde8fdc5d358c8c957affee271fade499f536181296d08920",
+      "bytes": 15997
+    },
+    "autorouter/review_export.py": {
+      "sha256": "0d740bd75cac50a1a74da79abc23bd8ce57bbe1a931fe18022bfd2816556596d",
+      "bytes": 38881
+    },
+    "autorouter/pipeline.py": {
+      "sha256": "68801b8001cd36619f13c3742ca86b5381e18bb85e3b09e1b9d338e33d8a0fa8",
+      "bytes": 205953
+    }
+  },
+  "snapshot_pin_scope": "These source/API pins record what was read during preparation. They are not a frozen runtime or an executed Native source binding. Parent compatibility fixes and a passing fresh full integration precede the future protocol/source/runtime freeze.",
+  "case_presets": {
+    "standard_positive": {
+      "profile": "standard",
+      "output_relative_to_runtime": ".runs/native7-comparison-functional-001"
+    },
+    "tuned_variant": {
+      "profile": "tuned",
+      "output_relative_to_runtime": ".runs/native7-comparison-functional-tuned-001"
+    }
+  },
+  "fixed_predictions": {
+    "board_name": "owned1007-transport.kicad_pcb",
+    "source_opens": 2,
+    "protected_locked_routes": 1,
+    "route_and_export_Native_counts_order": [
+      "opens",
+      "blocking",
+      "warnings",
+      "exclusions"
+    ],
+    "route_and_export_Native_counts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "actual_native_version": "10.0.7",
+    "schematic_parity": "checked by final native DRC"
+  },
+  "limits": {
+    "whole_wall_full_cpu_seconds": 180,
+    "worker_seconds": 176,
+    "child_acceptance_seconds": 172,
+    "route_seconds": 120,
+    "export_min_seconds": 30,
+    "export_max_seconds": 60,
+    "final_reserve_seconds": 12
+  },
+  "required_top_level_protocol_fields": [
+    "schema",
+    "kind",
+    "runtime",
+    "source_head",
+    "runtime_manifest_sha256",
+    "controller_sha256",
+    "enclosure_sha256",
+    "case",
+    "profile",
+    "output",
+    "board_name",
+    "route_seconds",
+    "runtime_tools",
+    "fixture_files",
+    "fixture_sha256",
+    "expected_source_opens",
+    "expected_protected_routes",
+    "expected_Native_counts",
+    "limits",
+    "preparation_time_log",
+    "preparation_time_log_sha256",
+    "preparation_wall_seconds",
+    "preparation_full_cpu_seconds",
+    "preparation_publication_budget_charge_seconds",
+    "scope"
+  ],
+  "protocol_fixed_values": {
+    "schema": 1,
+    "kind": "native7-comparison-functional-delivery-v1",
+    "route_seconds": 120,
+    "expected_source_opens": 2,
+    "expected_protected_routes": 1,
+    "expected_Native_counts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "preparation_publication_budget_charge_seconds": 4
+  },
+  "authority": "The live caller constructs comparison.Context from frozen source path, Route output, standard/tuned profile, route120 budget, fresh exact tools and original source hash map. Context is not obtained from a receipt. Every production/default route, completed-negative, review, preview, choice and export reader must refuse; refusal must not mutate owned evidence.",
+  "delivery_proof_required": [
+    "Own actual Route Native/refill/full-schematic-parity/original/protected proof",
+    "Real rendered review and software accept intent, explicitly no human approval or live application",
+    "Fresh separate-project export with its own actual Native/refill/full-schematic-parity/original/protected proof",
+    "Fresh central route and export readback with the exact caller Context",
+    "Every relevant receipt remains production_admitted false",
+    "All default consumers refuse and leave evidence unchanged",
+    "Source/runtime/controller/protocol/preparation-log and imported-module origin freshness through final publication"
+  ],
+  "cost_accounting": {
+    "preparation": "Requires one retained complete external /usr/bin/time -lp preparation log, its SHA, exact real and user+sys values. Old samples cannot fill these fields.",
+    "planning_charge": "Four seconds is a conservative publication allowance charged to wall and CPU, not a measured duration.",
+    "execution": "Imports, conversion, routing, rendering, selection, fresh Native export, readbacks, failed/default-reader controls and publication are charged from script start, with self plus waited-child CPU. Parent enclosure process/cost and complete external exit measurement are also required.",
+    "shared_preparation": "A shared preparation observation may be conservatively charged to each control envelope. Report it once as an actual preparation event when aggregating; do not fabricate two independent preparation executions.",
+    "separate_costs": "Authoring, source/full-suite tests, independent AI review and runtime installation are additional development costs and must be reported separately rather than hidden in or presumed zero by these controls."
+  },
+  "commands": {
+    "status": "Templates only; no protocol/runtime030/sourceHEAD has been frozen or executed by this task.",
+    "outer_executable": "/usr/bin/time",
+    "outer_argv_template": [
+      "-lp",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/enclose-runtime030-comparison-001.py",
+      "--protocol",
+      "<fresh-case-protocol.json>",
+      "--protocol-sha256",
+      "<exact-frozen-protocol-sha256>"
+    ],
+    "child_argv_template": [
+      "<curated-runtime>/.venv/bin/python",
+      "-B",
+      "<curated-runtime>/.runs/qualify-comparison-delivery-001.py",
+      "--protocol",
+      "<fresh-case-protocol.json>",
+      "--protocol-sha256",
+      "<exact-frozen-protocol-sha256>"
+    ],
+    "execution_rule": "Lead runs only through the shared lane/enclosure, sequentially. Do not execute this root development child directly. The enclosure enforces inherited network denial, owned process/resource/log cleanup and complete final publication."
+  },
+  "remaining_gates": [
+    "Parent fixes and retains full171 ordinary fixture/helper compatibility failures; fresh full172 must pass.",
+    "Audited source checkpoint and independently verified GitHub backup.",
+    "Fresh selected10.0.7 curated engineering runtime030 prepared and doctor checked; record exact source HEAD, runtime manifest and runtime tools.",
+    "Copy this exact child into runtime/.runs and freeze its hash plus the parent enclosure hash before any Native execution.",
+    "Freeze each separate owned-fixture protocol, source text hashes, exact prep log costs and fresh reserved output before its sole attempt.",
+    "Lead executes and reaps Native controls, retains full raw proofs and complete external exit costs, then independent actual readback.",
+    "A passing functional API control does not qualify fair baseline delivery, portfolio comparison, GUI/CLI admission, generalized gains, human/physical review or Windows support."
+  ],
+  "known_unsupported": "Flagged schematic netclass sources remain unsupported/fail-closed under this comparison slice; no class-policy authority has been widened. Qualify only the exact unflagged owned fixture here.",
+  "integration_observation": {
+    "full171": "Parent reported 8 failures/3 errors, retained 344.104 unittest seconds and 345.32 external wall seconds; no install030 or Native started. This task did not execute or independently re-verify the suite.",
+    "parent_remediation": "AST extracted stable fixture closure receives comparison_context=None; ordinary check_stage/check_class_evidence preserve their previous early parity semantics while explicit comparison_context retains the full comparison review policy. Parent owns these edits and subsequent targeted/full172 checks."
+  },
+  "honesty": "No Native result, runtime030 manifest, future source HEAD, frozen protocol hash, routing gain or measured execution duration is asserted here."
+}

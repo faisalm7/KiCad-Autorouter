@@ -1,0 +1,107 @@
+{
+  "adapted_from": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/evidence/runtime025-controls-compatibility-001-notes/controllers/qualify-runtime025-native-invalid-001.py",
+    "sha256": "74e595f122aee67e0fd9bb669962d002bd77bd6d943671654c207d70e16b88b4"
+  },
+  "authored_only": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-runtime030-comparison-native-invalid-001.py",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-native-invalid-preparation-001.json"
+  ],
+  "authority": {
+    "class_scope": "check_schematic_class_support(...class_context=None) and preflight are used; no classes.CONTEXT import or schematic class authority is passed to validation.",
+    "prerequisites": "Hash-pin exact positive result/Route/export and original source hashes; replay actual positive whole2Cu Route/export with reconstructed caller Context, complete evidence map,2 source opens/one locked protected segment/final all0/full schematic. All4 default consumer refusals are checked again.",
+    "runtime": "Exact030 copied independent venv/interpreter/c.ROOT, self/controller path+hash, manifest+curated provenance+native_version10.0.7+source_head+complete current tool manifest are mandatory. Positive copied controller is checked against the frozen positive protocol controller_sha256.",
+    "source": "Separately pinned top-level positive protocol, case=standard_positive, profile=standard, route_seconds120, fixed runtime/.runs/native7-comparison-functional-001 output, board_name owned1007-transport.kicad_pcb, runtime_tools and fixture_sha256. Receipt fields never select Context tools/profile/source/output/budget."
+  },
+  "budget_and_publication": {
+    "case_Native_allocations_seconds": [
+      100,
+      60
+    ],
+    "final_readback": "f.publish retains false accepted/routing/export/production fields. Stable checks original/helper/protocol/positive/runtime/tool bytes; final check repeats central positive proofs and complete evidence hashes, then ends with existing f.check_drc_stage process/PRL replay for every observed negative DRC stage.",
+    "internal_wall_full_CPU_ceiling_seconds": 178,
+    "publication_allowance_seconds": 2,
+    "scope": "Shared runner180s timeout and full waited-child/supervisor/monitor CPU acceptance check remain required. Child samples parent+waited-child CPU and refuses exhausted budgets before/after cases and publication. These are observed ceilings and a wall watchdog, not a hard aggregate CPU quota or permanent-descendant guarantee.",
+    "shared_enclosure_full_CPU_seconds": 180,
+    "shared_enclosure_wall_seconds": 180,
+    "use_existing_runner": "Use the same lead-owned shared runner enclosure as the positive; no new executor or verifier framework was authored. runner.run timeout180, log bound2,000,000B, groupRSS4GiB and workdir512MiB are existing guard arguments; retain actual receipt/external time and require success/exit0/cleanuptrue/no log truncation plus complete wall/fullCPU<=180."
+  },
+  "child_argv_after_freeze": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.runs/qualify-runtime030-comparison-native-invalid-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-native-invalid-controls-001/protocol.json",
+    "--protocol-sha256",
+    "SHA256_PRINTED_BY_FREEZE_BUILDER"
+  ],
+  "command_limit": "An exact executable protocol SHA does not exist yet. The builder prints the fully bound child command once the prerequisites exist; the required180s existing shared-runner enclosure must wrap that argv. No future pin is represented as already verified.",
+  "controller": {
+    "bytes": 20378,
+    "lines": 306,
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-runtime030-comparison-native-invalid-001.py",
+    "sha256": "e719d4198d6d65aa4351e85ab61b4d92dc29260b25a9af09f60f97b867ae23c1"
+  },
+  "controls": [
+    {
+      "name": "whole-short",
+      "owned_mutation": "Append one fresh UUID ROUTE segment12,10 to12,16 onF.Cu width0.4mm to a new copy of the positive candidate. Nonrouting design and the one protected record must remain.",
+      "required_observation": "p.validate_candidate with the original source/rules and full schematic must return actual blocking Native shorting_items; saved-refill and final Native report/process/input proofs are replayed through f.check_drc_stage. Diagnostic rejection never creates accepted Route/export."
+    },
+    {
+      "name": "whole-protected-width",
+      "owned_mutation": "Change exactly the one original locked protected segment width by+0.000001mm (1nm), with every other AST node unchanged, in another candidate copy.",
+      "required_observation": "Run own full-schematic diagnostic DRC and replay it. Then p.validate_candidate must raise exactly protected route changed, with unchanged candidate hash and no additional Native step. Diagnostic Native may itself be clean; the required rejection is the protected invariant before normalization."
+    }
+  ],
+  "freeze_builder_snippet_not_executed": "# Documentation only: run once after root has frozen/qualified030 and the standard positive.\n# POSITIVE_PROTOCOL_PATH must name its separately frozen top-level standard_positive plan.\nimport hashlib, json, os, shlex, shutil\nfrom pathlib import Path\nproject = Path('/Users/faisal/Projects/KiCad-Autorouter-local')\nruntime = project / '.runs/runtime-directory-030/runtime'\npositive_protocol = Path(os.environ['POSITIVE_PROTOCOL_PATH'])\nassert positive_protocol.is_absolute()\ndef sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()\npositive_plan = json.loads(positive_protocol.read_bytes())\npositive = runtime / '.runs/native7-comparison-functional-001'\nassert positive_plan['case'] == 'standard_positive' and positive_plan['profile'] == 'standard'\nassert positive_plan['output'] == str(positive) and positive_plan['runtime'] == str(runtime)\nassert positive_plan['route_seconds'] == 120 and positive_plan['board_name'] == 'owned1007-transport.kicad_pcb'\nmanifest = runtime / 'runtime-distribution.json'\nassert sha(manifest) == positive_plan['runtime_manifest_sha256']\nassert json.loads(manifest.read_bytes())['build_source']['git_head'] == positive_plan['source_head']\nassert sha(runtime / '.runs/qualify-comparison-delivery-001.py') == positive_plan['controller_sha256']\npositive_result = json.loads((positive / 'result.json').read_bytes())\nassert positive_result['passed'] is True and positive_result['status'] == 'completed'\nassert positive_result['protocol_sha256'] == sha(positive_protocol)\nassert positive_result['production_admitted'] is False\nassert positive_result['route_sha256'] == sha(positive / 'route/result.json')\nassert positive_result['export_sha256'] == sha(positive / 'export/export.json')\noriginal = project / '.runs/qualify-runtime030-comparison-native-invalid-001.py'\nassert sha(original) == 'e719d4198d6d65aa4351e85ab61b4d92dc29260b25a9af09f60f97b867ae23c1'\ncontroller = runtime / '.runs' / original.name\nassert not controller.exists()\nshutil.copyfile(original, controller)\nassert sha(controller) == sha(original)\nplan = dict(schema=1, kind='runtime030-comparison-Native-invalid-controls-v1',\n    runtime=str(runtime), runtime_manifest_sha256=positive_plan['runtime_manifest_sha256'],\n    source_head=positive_plan['source_head'], tools=positive_plan['runtime_tools'],\n    helper_sha256=sha(controller), positive_protocol_path=str(positive_protocol),\n    positive_protocol_sha256=sha(positive_protocol), positive_result_sha256=sha(positive / 'result.json'),\n    route_sha256=sha(positive / 'route/result.json'), export_sha256=sha(positive / 'export/export.json'),\n    source_hashes=positive_plan['fixture_sha256'],\n    output=str(runtime / '.runs/native7-comparison-invalid-functional-001'), whole_wall_full_cpu_seconds=180)\nprotocol = project / '.runs/runtime030-comparison-native-invalid-controls-001/protocol.json'\nprotocol.parent.mkdir(exist_ok=False)\nwith protocol.open('x') as stream: json.dump(plan, stream, indent=2); stream.write('\\n')\nargv = ['/usr/bin/sandbox-exec', '-p', '(version 1)(allow default)(deny network*)',\n    str(runtime / '.venv/bin/python'), '-B', str(controller), '--protocol', str(protocol),\n    '--protocol-sha256', sha(protocol)]\nprint(json.dumps({'protocol':str(protocol), 'protocol_sha256':sha(protocol), 'argv':argv,\n    'shell_child_command':shlex.join(argv), 'shared_runner_timeout_seconds':180,\n    'required_full_CPU_acceptance_ceiling_seconds':180}, indent=2))\n# Run printed argv ONLY through the existing shared runner enclosure, once; do not run it here.\n",
+  "kind": "runtime030-comparison-native-invalid-controller-preparation-v1",
+  "limits": [
+    "Preparation and static syntax only; no control passed or Native qualification is claimed.",
+    "The source fixture is exposed and owned, not a new family, fair comparison win or generalized routing improvement.",
+    "No new classes/selected scope/GUI/default/B0/portfolio authority, live application, accepted export, human PCB or physical/electrical approval.",
+    "Failed prerequisites or Native controls remain failures; do not rerun or repair controller inputs without preserving and disclosing the first attempt."
+  ],
+  "preparation_only": {
+    "Git_executed": false,
+    "Native_executed": false,
+    "blocked_until": "Root completes frozen source/full171,030 installation, current actual standard positive delivery, source review and supplied negative --protocol pin freeze.030/runtime/positive hashes are intentionally not invented.",
+    "delegation": false,
+    "execution_ready": false,
+    "network_used": false,
+    "production_or_positive_controller_edits": false,
+    "static_check": "Parsed authored controller with ast.parse as data; did not import or invoke it. Read retained025 controller and relevant existing Job/validation/stage/publication/provenance helpers.",
+    "tests_executed": false
+  },
+  "prospective_negative_output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.runs/native7-comparison-invalid-functional-001",
+  "prospective_positive": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.runs/native7-comparison-functional-001",
+  "prospective_runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime",
+  "recorded_utc": "2026-10-18T18:45:08.276453+00:00",
+  "required_negative_protocol": {
+    "kind": "runtime030-comparison-Native-invalid-controls-v1",
+    "path_recommendation": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-native-invalid-controls-001/protocol.json",
+    "required_fields": [
+      "runtime",
+      "runtime_manifest_sha256",
+      "source_head",
+      "tools",
+      "helper_sha256",
+      "positive_protocol_path",
+      "positive_protocol_sha256",
+      "positive_result_sha256",
+      "route_sha256",
+      "export_sha256",
+      "source_hashes",
+      "output",
+      "whole_wall_full_cpu_seconds"
+    ],
+    "schema": 1,
+    "unknown_pins": "Fill only after exact new runtime and completed positive exist. Controller requires both --protocol and its separately supplied --protocol-sha256, and copies the exact protocol bytes into its owned output.",
+    "whole_wall_full_cpu_seconds": 180
+  },
+  "schema": 1,
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local"
+}

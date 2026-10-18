@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "passed": false,
+  "status": "failed",
+  "project_complete": false,
+  "actual_GUI": false,
+  "protocol_sha256": "56f2ec42f4fc18c50c8d42b4599db6b2ae7d4c1780951ce1472796fd9c466e92",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 31.457045749993995,
+    "cpu_seconds": 31.112323000000004,
+    "max_rss_bytes": 266043392,
+    "supervisor_cpu_seconds": 0.077279,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 263946240,
+    "sampled_peak_workdir_bytes": 201,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.runs/qualify-runtime030-comparison-native-invalid-001.py",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-native-invalid-controls-001/protocol.json",
+      "--protocol-sha256",
+      "56f2ec42f4fc18c50c8d42b4599db6b2ae7d4c1780951ce1472796fd9c466e92"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-native-invalid-controls-001/enclosure/command.log",
+    "log_bytes": 201,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-native-invalid-controls-001/enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 19485
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.runs/native7-comparison-invalid-functional-001/result.json",
+  "child_sha256": "ac05379c5e5d25df6e0919594044173d2c4a9193b0f1f81a9f723550f3647b19",
+  "completed_evidence": {
+    "protocol.json": "56f2ec42f4fc18c50c8d42b4599db6b2ae7d4c1780951ce1472796fd9c466e92",
+    "whole-short/before-candidate.kicad_pcb": "6e472d6a5db2b74c5f9b120f685a027f6d35d7f5a6a64b47bc97bcc5ddc4ecac",
+    "whole-short/validation/candidate/owned1007-transport.kicad_pcb": "6e472d6a5db2b74c5f9b120f685a027f6d35d7f5a6a64b47bc97bcc5ddc4ecac",
+    "whole-short/validation/candidate/owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "whole-short/validation/candidate/owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+    "whole-short/validation/candidate/owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+  },
+  "scope": "Two prospective owned-copy invalid controls after exact current standard-positive proof; actual fullSCH Native short and one protected width+1nm invariant refusal. No engine, newacceptedexport, faircomparison or GUI. Shared process/cap/publication unchanged; preparation/authoring/review separate.",
+  "complete_wall_seconds": 31.528278707992285,
+  "complete_full_CPU_seconds": 31.235487000000006
+}

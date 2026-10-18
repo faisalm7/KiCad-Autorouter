@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 117.89964929199778,
+  "cpu_seconds": 114.129611,
+  "max_rss_bytes": 296337408,
+  "supervisor_cpu_seconds": 0.285345,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 296337408,
+  "sampled_peak_workdir_bytes": 131,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-030/runtime/.runs/qualify-comparison-delivery-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-standard_positive-001/protocol.json",
+    "--protocol-sha256",
+    "475e007f6104e7e4e73105fa225926aa0bf461c634369590db73658473477494"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-standard_positive-001/enclosure/command.log",
+  "log_bytes": 131,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime030-comparison-standard_positive-001/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 16327
+}
