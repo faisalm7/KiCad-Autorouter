@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "authored_utc": "2026-10-18T06:08:04.271748+00:00",
+  "reviewer": "AI engineering reviewer; not human PCB review",
+  "accepted": false,
+  "Native_executed_by_this_assessment": false,
+  "tests_executed_by_this_assessment": false,
+  "CI_executed_by_this_assessment": false,
+  "production_source_edits": false,
+  "delegation": false,
+  "whole_archive_scan": false,
+  "human_review": false,
+  "cost_limitations": "Assessment/model/tool CPU and complete elapsed cost were not instrumented; they are additional, not zero. No benchmark speed or complete-development-cost claim.",
+  "retention": "Authored local project evidence; no independent backup/restoration proof created by this assessment.",
+  "kind": "bounded-Windows007-AppContainer-design-boundary-assessment",
+  "status": "design-hypothesis-unimplemented; Windows admission remains deferred",
+  "native_admitted": false,
+  "product_windows_support": false,
+  "actual_GUI": false,
+  "canary_code_files": [],
+  "canary_tests_exist": false,
+  "canary_executed": false,
+  "installer_download_or_execution": false,
+  "global_security_firewall_profile_or_application_changes": false,
+  "existing_disposition": {
+    "portability_notes": "docs/windows-portability.md:52 names a no-network-capability AppContainer with narrowly granted scratch/tool access as a candidate; KiCad/Java compatibility is unestablished.",
+    "prior_specific_AppContainer_failure_found": false,
+    "prior_descendant_gap": "evidence/windows-isolation006-descendant-gap-review-001.json defers admission because two per-program rules do not establish inherited denial for a differently imaged child or profile-transition coverage. Package=null is separately unresolved."
+  },
+  "retained005_and006": {
+    "actual005_record": "evidence/windows-native-probe005-property-refusal.json",
+    "actual006_record": "evidence/windows-isolation006-actual-001.json",
+    "gate_unchanged": "Original scalar Full refusal retained. Observed System.Object[] has System.String items ProfileInactive and Enforced; contains-Enforced is not admission.",
+    "actual006_gate_exit_code": 1,
+    "actual006_native_executed": false,
+    "actual006_JVM_executed": false,
+    "actual006_system_executable_executed": false,
+    "actual006_cleanup": [
+      {
+        "active_store_absence_observed": true,
+        "name": "kicad-native-slice-46e5407306dc4169b3ac913d91a205b4",
+        "persistent_store_absence_observed": true,
+        "query_error_type": null,
+        "remove_completed": true
+      },
+      {
+        "active_store_absence_observed": true,
+        "name": "kicad-native-slice-64a70006d31744bead98e5e09ada2bc1",
+        "persistent_store_absence_observed": true,
+        "query_error_type": null,
+        "remove_completed": true
+      }
+    ],
+    "actual006_cleanup_complete": true,
+    "actual006_scratch_removed": true,
+    "actual006_whole_CPU_seconds": null,
+    "new_Windows_observation": false
+  },
+  "bounded_hypothesis": {
+    "description": "A fresh zero-network-capability AppContainer SID with parent/different-executable-path child token observations and independently positive transport controls may test a token-based containment alternative. This is a design, not a typed-status admission adapter or implemented launcher.",
+    "proposed_canary_is_non_admitting_even_if_observed": true,
+    "unknown_policy": "Unknown launch, token identity, positive connectivity, cleanup or endpoint coverage never counts as denial. Limited transport controls cannot alone establish all-network/future-profile equivalence.",
+    "guard_changes_authorized_or_made": false
+  },
+  "concrete_implementation_boundary": {
+    "existing_runner": "scripts/windows_native_slice/windows_process.py:37-56",
+    "firewall_precondition": "run requires verified_active_outbound_block and verified_active_inbound_block before CreateProcessW; substituting synthetic true flags for AppContainer evidence would misrepresent the existing refused guard.",
+    "launch_coupling": "The runner constructs ordinary STARTUPINFO and ordinary CreateProcessW flags. It exposes no STARTUPINFOEX/SECURITY_CAPABILITIES or explicit inherited-handle-list launch hook.",
+    "additional_coupled_work": "A truthful canary also needs a parent/child token-and-socket worker, fresh profile ownership, narrowly scoped scratch ACL grants/restoration, and profile/process/handle cleanup even when its outer watchdog interrupts. This exceeds straight reuse of the current small runner.",
+    "decision": "Stopped before source writes under the assigned no-major-new-runner boundary. Do not expand Windows or dispatch a canary from this assessment.",
+    "not_claimed": "This is an implementation/scope boundary, not a finding that intrinsic Windows APIs, hosted infrastructure or AppContainer are unavailable."
+  },
+  "primary_URLs": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/secauthz/appcontainer-isolation",
+      "role": "Network/resource isolation overview; no fresh hosted-runner guarantee."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/secauthz/appcontainer-for-legacy-applications-",
+      "role": "Unpackaged applications and ordinary child-token inheritance; also identifies legacy LowBox name."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/secauthz/implementing-an-appcontainer",
+      "role": "No network capability means no network access in the documented model; explicit capability/SID startup construction."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-createappcontainerprofile",
+      "role": "Per-user profile API and Windows Server2012 minimum; actual runner permissions untested."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute",
+      "role": "Exact API follow-up: SECURITY_CAPABILITIES, HANDLE_LIST and lifetime of startup attribute values."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-deleteappcontainerprofile",
+      "role": "Exact cleanup API follow-up; deletion of non-existent profile can return success, so return alone is not an absence observation."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setentriesinaclw",
+      "role": "Exact owned-ACL API follow-up only; no ACL code or mutation was performed."
+    }
+  ],
+  "inspected_files": [
+    {
+      "path": "docs/windows-portability.md",
+      "bytes": 16270,
+      "sha256": "373ae0efb09c6c2277d1bfe332ae3a2961288191458475cbf7bc2864128a49bf",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "evidence/windows-native-probe005-property-refusal.json",
+      "bytes": 17114,
+      "sha256": "c1ac31141c6ee3122e09d1297b9d56a118e9e9cfb03125a223a5f3f16f551617",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "evidence/windows005-next-boundary-019resume-001.json",
+      "bytes": 6493,
+      "sha256": "123c22de8b978b3c34f9445440a625f247085afc6936070457de1899883ae38b",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": ".runs/windows005-next-boundary-019resume-001.json",
+      "bytes": 6493,
+      "sha256": "123c22de8b978b3c34f9445440a625f247085afc6936070457de1899883ae38b",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": ".runs/windows005-bounded-gate-review-20261016.json",
+      "bytes": 2463,
+      "sha256": "9cfd6dad8ae8b4c809cbf2fa03367bd6c8d786ae1493328a116dbbfeda5a806d",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "evidence/windows-isolation006-actual-001.json",
+      "bytes": 35658,
+      "sha256": "a9f16c006163b193834ea1432467d602df5435fd36335fb741e19862d13bae56",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "evidence/windows-isolation006-actual-001-notes.md",
+      "bytes": 3213,
+      "sha256": "ed53dd2b104eb0ea5893db8d0c512e9ae318646cd99b835a04e5f8accd817522",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "evidence/windows-isolation006-descendant-gap-review-001.json",
+      "bytes": 2163,
+      "sha256": "2855492be69da8d717718cd5d1199fdfe08bcf3fdfcfa76585865292865e8fb7",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "bytes": 8783,
+      "sha256": "6fa8fe38b11cd5ffe80bcadcb0ba9d16c5cb91f955083f6dc3e6267a89f119c7",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "scripts/windows_native_slice/isolation_diagnostic.ps1",
+      "bytes": 10686,
+      "sha256": "4a442b3ad6c33a32194522298670727c113e6d3e4384d03c41d5e93075a07fdd",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "scripts/windows_native_slice/slice.py",
+      "bytes": 11201,
+      "sha256": "3274c8d98eaa354b956e4109d8a60c44cc2599cddf74533c7f3b493469f0bf29",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "scripts/windows_native_slice/bootstrap.ps1",
+      "bytes": 7331,
+      "sha256": "e261293dc0c4d7402d13b25be1adc355881d02e72c099a6c9a35577882843215",
+      "inspection": "bounded retained source/evidence read"
+    }
+  ],
+  "additional_bounded_term_search_inputs": [
+    {
+      "path": "evidence/windows-native-probe-prospective-005.json",
+      "bytes": 2403,
+      "sha256": "b294445150a1e5179b0d2112e24d3c12d700e866d36afc1d68191b9bca504052",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": "evidence/windows-isolation006-prospective-001.json",
+      "bytes": 2881,
+      "sha256": "452d23482d3a4be5d9d11202c7f277edebf6b43b490e384fff9c99027733a735",
+      "inspection": "bounded retained source/evidence read"
+    },
+    {
+      "path": ".github/workflows/manual-python-controls.yml",
+      "bytes": 2448,
+      "sha256": "ae54013b6863cbc0018254f15c196a0a6d50dbca49f69866ed3f13f5e574a396",
+      "inspection": "bounded retained source/evidence read"
+    }
+  ],
+  "limitations": [
+    "No code, test, compile, canary, CI, Native/JVM or installer run was produced.",
+    "Microsoft primary-doc browsing occurred; its CPU/network/model costs were not instrumented.",
+    "No active/future firewall-profile, cross-image subtree or KiCad/Java compatibility guarantee is established."
+  ]
+}

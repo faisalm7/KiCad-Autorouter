@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "arm": "C_single",
+  "delivered": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 114.47607120801695,
+    "cpu_seconds": 139.938992,
+    "max_rss_bytes": 1429602304,
+    "supervisor_cpu_seconds": 0.352333,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 459489280,
+    "sampled_peak_workdir_bytes": 0,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 536870912,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_installed_workflow.py",
+      "--runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/interf-installed023-comparison-001/protocol.json",
+      "--protocol-sha256",
+      "c73179572c4c0c6314e6f38c72638e2b4c12c5f3eabb809bbdd2d78ecef5c7cc",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/C_single",
+      "--arm",
+      "C_single"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/interf-installed023-comparison-001/C_single-enclosure/command.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/interf-installed023-comparison-001/C_single-enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 80331
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/C_single/result.json",
+  "child_receipt_sha256": "4a8615d0a3c2d06521ec39b5bd75415e114c1d8b4a6f0c4e3029661515f54f74",
+  "child_status": "failed",
+  "child_reason": "ValueError: Routing refused: Rejected: B2 incumbent rejected: drc_rejected\nNo candidate accepted. Full failure receipt: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/C_single/autorouter-gui-a26be5d412d74e7e86bcf6331fa2e168/route/result.json",
+  "protocol_sha256": "c73179572c4c0c6314e6f38c72638e2b4c12c5f3eabb809bbdd2d78ecef5c7cc",
+  "whole_wall_seconds": 114.53851079195738,
+  "whole_full_cpu_seconds": 140.32966000000002,
+  "within_whole_delivery_budget": true,
+  "sources_unchanged": true,
+  "method_wall_seconds": 112.34094912500586,
+  "method_full_cpu_seconds": 137.914609,
+  "native": null,
+  "route_attempt": {
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/C_single/autorouter-gui-a26be5d412d74e7e86bcf6331fa2e168/route/result.json",
+    "sha256": "7dadf1d59052e45f11658a03e50e5c268750a3e9f3c12d91d92c969b5edbc95a",
+    "status": "incumbent_rejected",
+    "accepted": false,
+    "reason": "Rejected: B2 incumbent rejected: drc_rejected",
+    "source_drc": {
+      "opens": 0,
+      "blocking": 2,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Copper connection too narrow",
+          "key": "connection_width"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+          "items": [
+            {
+              "description": "Zone [GND] on bottom_copper, priority 0",
+              "pos": {
+                "x": 193.675,
+                "y": 133.35
+              },
+              "uuid": "00000000-0000-0000-0000-00004cdec22b"
+            },
+            {
+              "description": "PTH pad 16 [GND] of U5",
+              "pos": {
+                "x": 125.095,
+                "y": 76.2
+              },
+              "uuid": "363a9f9a-0b01-4ef4-a972-9e6d1eab7c5a"
+            }
+          ],
+          "severity": "error",
+          "type": "starved_thermal"
+        },
+        {
+          "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+          "items": [
+            {
+              "description": "Zone [GND] on bottom_copper, priority 0",
+              "pos": {
+                "x": 193.675,
+                "y": 133.35
+              },
+              "uuid": "00000000-0000-0000-0000-00004cdec22b"
+            },
+            {
+              "description": "PTH pad G2 [GND] of U9",
+              "pos": {
+                "x": 145.415,
+                "y": 82.55
+              },
+              "uuid": "7cc25ef2-8581-477e-8ad4-e0906ba743c8"
+            }
+          ],
+          "severity": "error",
+          "type": "starved_thermal"
+        }
+      ]
+    },
+    "native": null,
+    "native_rejection_reasons": null,
+    "metrics": null,
+    "incumbent": {
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/C_single/autorouter-gui-a26be5d412d74e7e86bcf6331fa2e168/route/incumbent/result.json",
+      "status": "drc_rejected",
+      "accepted": false,
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 379,
+        "footprints": 25,
+        "zones": 1,
+        "vias": 35,
+        "track_length_mm": 4994.887951015416,
+        "copper_layers": 2
+      },
+      "wall_seconds": 111.71278924995568
+    },
+    "repair": null,
+    "recovery_needed": null
+  },
+  "metrics": null
+}

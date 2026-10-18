@@ -1,20 +1,51 @@
 # Human PCB review and bounded physical-validation plan
 
-Current product review entry point (October17): runtime019/source321bc5bf has [fresh installed CLI/Native delivery](../evidence/runtime019-production-CLI-delivery-001.json), [full156/install preflight](../evidence/runtime019-preflight-full156-001.json), [current scope/ranked issues](experimental-rc.md) and [workflow reproduction](gui-workflow.md). Current GUI is prepared only. This is an engineering review entry point, not a new matched routing-quality pack or an observation by a human. The exposed Analog pack below retains its original source/experiment scope; no contact, cleanup timing, manufacture or external review has been performed.
+**Unperformed owner-validation plan:** no independent human PCB review, cleanup timing, physical/electrical test, reviewer contact, order or spending has occurred under this plan. These materials are ready for review preparation, not evidence of human approval. Contacting a reviewer or sharing a specific pack needs separate owner approval; incremental external spending remains $0 unless separately approved. AI review and Native KiCad checks do not supply either observation.
 
-Prepared October10,2026; current addendum October14,2026. The original protocol text below describes its earlier state. Actual local Analog review inputs are now prepared at `.runs/analog-human-review-pack-001/reviewer-pack`; authoritative index `.runs/analog-human-review-pack-closure-002/result.json`. All3complete projects have fresh bound native refill/full-schematic checks and14unchanged warnings, with blankforms/no human review. Matched source/rules/budgets reuse completed baselines plus separately fixed exposed High C; this amended development case study is not an untouched single-run primary comparison. Failed publisher/firstclosure and all cost/exposure caveats remain. [Actual preparation](../evidence/analog-human-review-pack-001/SCOPE.md), [original protocol](history/2026-10-14-high-audit-closure/human-review-plan.md). **Protocol only: no human review, cleanup timing,
-fabrication, electrical test, reviewer contact, order or spending has occurred
-under this plan.** Current incremental external spending remains $0. AI code
-review and native KiCad DRC are separate evidence; neither supplies a human PCB
-review or an electrical-performance result.
+## Current candidate and exact inputs
+
+Use runtime023, built from source `8c0c8468823751d9b5dc4c9a9c51b1d622269a27`, manifest `3df808e340dbe8c01ddebafe5c5c12583dc8d4d0cfea407c9252b0a89c41de81`. Its [full163](../evidence/export-budget-split-001.json), installed doctor, [whole four-layer workflow](../evidence/runtime023-installed-CLI-001.json), [partial mixed-lock/free-via/alias workflow](../evidence/runtime023-installed-partial-CLI-001.json) and [NUS/Sonde breadth controls](../evidence/runtime023-breadth-001.json) retain their own final Native/full-schematic/original-design proofs and complete costs. Whole Route/export preserve10 protected items with6 warnings; partial preserves4 with0 warnings. NUS retains10 warnings and47 protected items; Sonde retains26 warnings. Review all original ignored checks and exclusions as well. The NUS public packet is sanitized metadata only; rights-sensitive source/geometry must not be shared.
+
+These are functionality/support inputs. [Frozen023 Interf v4](../evidence/interf-installed023-comparison-001.json) has finished all seven arms: only experimental CLI Cthermal delivered, with actual Native0/0/22 and complete101.70 wall/112.82 CPU seconds. Stock/corrected/tuned/completion/restart baselines and optional Csingle did not deliver. Preserve every failure; Cthermal belongs in the newly completed/diagnostic panel, not an all-accepted paired quality/cleanup group. Default corrected-standard/B1 is unchanged; no general/electrical/GUI claim or stitching of historical v3/export debugging is justified. Bounded existing-cohort transfer triage found no admissible next family.
+
+The last actual GUI-qualified build is019/067. Runtime023 GUI070 is prepared and remains unqualified while current access is checked; CLI controller tests do not observe window interaction. [Workflow instructions](gui-workflow.md), [structured CLI/API contract](structured-interface.md), [ranked issues](experimental-rc.md) and [continuation](../evidence/runtime023-continuation-001.json) define the scope. Production uses historical pinned KiCad10.0.0/macOS arm64. [Fresh023 explicit10.0.7 controls](../evidence/runtime023-explicit1007-delivery-cancel-001.json) now retain a Native0/0/6 positive with one protected route/four project files, default-consumer refusals and narrow source-DRC cancellation. Production admission remains false; raw cancelled/passed-false flags stay unchanged. This is not broad current-stable/GUI/Windows qualification. The older015 slice remains historical. Do not change installed applications or global security settings for review.
+
+The existing exposed Analog pack remains at `.runs/analog-human-review-pack-001/reviewer-pack`, indexed by `.runs/analog-human-review-pack-closure-002/result.json`. Its three projects retain14 warnings and blank forms. It combines completed baselines with a separately fixed exposed High C and remains an amended historical case study, not untouched first-attempt evidence or a qualification of023. Keep its [preparation/limits](../evidence/analog-human-review-pack-001/SCOPE.md) and [original protocol](history/2026-10-14-high-audit-closure/human-review-plan.md); do not recopy its CAD or relabel its observations.
+
+## Finite first review, after authorization
+
+Start with one declared functionality case and its unchanged source, not a predicted winning method. Use the existing findings/defect and timing sheets below; no new archive or scoring framework is needed. Record every incomplete task and blocker.
+
+1. Confirm the exact runtime, source, settings, final hashes and complete original rules/schematic. Recheck the retained receipt using the existing strict reader. A missing/stale/unsupported proof is a refusal, not a reviewer-approved fallback.
+2. Inspect source and candidate copper layer by layer. Check protected items, nets/terminals, placement/pads, edges/cutouts, stackup, zones, thermal connections, keepouts and all original constraints. Keep inherited warnings visible. Unknown current, return-path, impedance or timing requirements remain questions; DRC alone cannot establish their suitability.
+3. On separate disposable outputs, follow preview, route, rendered review and explicit accept/reject intent through fresh export and checked opening. Rejection must not permit export. Since current GUI070 has not been observed, record a blocked GUI task honestly; the CLI path below can be reviewed independently.
+4. In fresh disposable source/job copies, exercise one cancellation and one changed-source/settings or stale-export refusal. Never alter the originals or retained positive evidence. Record the actual cleanup outcome and remaining files; no positive candidate may be adopted after cancellation or stale-input refusal.
+5. Inspect the candidate independently before seeing matched alternatives. Record evidenced defects separately from preferences and missing electrical requirements. Time inspection, then at most30 minutes of active cleanup per case using the existing endpoint/censoring rules below. Keep tool waits and unresolved major issues visible. Revalidate edited output against original constraints; do not overwrite its input or count machine time as human cleanup.
+6. Close and hash the actual observations, edits and timing sheets. A matched comparison is allowed only after its frozen group is eligible; failures remain in a separate diagnostic panel. Do not infer broad engineering usefulness, electrical safety or completion superiority from this first exposed case.
+
+For reproducible CLI functionality on the existing owned partial fixture, run from the immutable runtime below, with source editors closed and fresh output names. These are the existing product commands, not another pipeline or a claim that a human has executed them. The preset keeps routing90 seconds and fresh export uses90 seconds separately. Review the rendered project/findings, then close review PCB/schematic editors and the KiCad project before recording intent. Any cleanup edits belong in another working copy; review-only metadata must not replace original rules in the export.
+
+```sh
+cd /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime
+.venv/bin/python -B -m autorouter doctor
+.venv/bin/python -B -m autorouter preview .runs/gui-session070/project/owned1007-transport.kicad_pcb --settings .runs/gui-session070/route-settings.json
+.venv/bin/python -B -m autorouter route .runs/gui-session070/project/owned1007-transport.kicad_pcb --settings .runs/gui-session070/route-settings.json --output .runs/engineer-route-NEW
+.venv/bin/python -B -m autorouter check-result .runs/engineer-route-NEW/result.json
+.venv/bin/python -B -m autorouter review-copy .runs/engineer-route-NEW/result.json --render --output .runs/engineer-review-NEW
+.venv/bin/python -B -m autorouter review-choice .runs/engineer-review-NEW/review.json --choice accept --output .runs/engineer-intent-NEW
+.venv/bin/python -B -m autorouter review-export .runs/engineer-intent-NEW/choice.json --seconds 90 --output .runs/engineer-export-NEW
+.venv/bin/python -B -m autorouter review-export-check .runs/engineer-export-NEW/export.json
+```
+
+Substitute `--choice reject` in a fresh workflow to observe rejection; it cannot authorize export. Control-C requests cancellation during a fresh routing job. Do not run competing Native/engine jobs. Commands print JSON and retain their own receipts; exit0 or an older accepted file is insufficient. Explicit `review-export --seconds` remains bounded30–120 seconds, independently of routing5–900. A current proof reader does not perform fresh DRC; fresh export does. Use the [structured contract](structured-interface.md) for fields and failure behavior. No inference service or AI account is required by this runtime.
 
 ## Inputs and eligibility
 
 Use accepted B1, corrected B2 and C candidates from the same frozen experiment,
-source project, placement, rules, preparation and end-to-end budgets. The first
-development review may use the sonde family after the corrected four-arm run
-finishes and is audited. Do not assemble a primary pack by mixing the best arms
-from different runs.
+source project, placement, rules, preparation and end-to-end budgets. Admit a
+matched group only after that specific study is complete and audited. Current
+023 functionality/breadth passes are not a matched B1/B2/C comparison. Do not
+assemble a primary pack by mixing the best arms from different runs.
 
 Pilot `.runs/quality-comparison-001` is exposed diagnostic evidence. Its B1/B2/C
 receipts report native routing acceptance with one warning each; B0 is rejected.
@@ -41,9 +72,10 @@ Before accepting a group into the review pack, the lead/custodian must:
 4. Retain warnings, exclusions, ignored checks and unsupported semantics. Do not
    clear warnings, alter severities, hide rule files or move copper text for
    presentation. Routing acceptance is distinct from whole-project cleanliness.
-5. Keep schematic-parity and electrical-intent status explicit. The current
-   receipts say schematic parity was not checked. Reviewers may investigate
-   that gap; they must not assume the automated pipeline already established it.
+5. Keep schematic-parity and electrical-intent status explicit. Current023 final
+   receipts include full schematic checks; inspect their actual scope and all
+   findings. Earlier receipts marked parity unchecked retain that limitation.
+   Neither status establishes unspecified electrical requirements.
 
 The primary quality/cleanup comparison includes only groups with all compared
 methods accepted. Newly solved cases and rejected candidates form separately

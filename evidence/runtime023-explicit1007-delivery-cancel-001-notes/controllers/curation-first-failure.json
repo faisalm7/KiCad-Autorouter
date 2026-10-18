@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "curation-only-source-route-count-assumption-failure",
+  "origin": "Authored transcription of the actual tool return, not an originally redirected stderr file.",
+  "command": "python3 -B .runs/curate-runtime023-explicit1007-delivery-cancel-001.py",
+  "exit_code": 1,
+  "tool_reported_wall_seconds": 0.134257333,
+  "full_cpu_seconds": null,
+  "observed_error": "AssertionError at line164: assert len(p.routes(original)) == 4",
+  "diagnosis": "The exact explicit1007 fixture has four project files, one source route record and one protected locked record. It is not the separate four-route partial-completion fixture. The actual helper and matcher already reported1; the curator's expected source-route count was wrong.",
+  "phase": "Positive essential proof copies existed; no final SCOPE/index/summary was published.",
+  "retention": "The failed curator snapshot stays byte-exact at controllers/curate.py; a corrected snapshot is retained separately. No source, protocol, raw result or Native job changed or repeated."
+}

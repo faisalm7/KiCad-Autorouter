@@ -1,0 +1,54 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 1.2595765420119278,
+  "cpu_seconds": 0.823067,
+  "max_rss_bytes": 244203520,
+  "supervisor_cpu_seconds": 0.01686999999999994,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 231931904,
+  "sampled_peak_workdir_bytes": 8203199,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/B0/autorouter-gui-4810c4acb2744937b5f8940574f9db63/route/refill-drc.json",
+    "--save-board",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/B0/autorouter-gui-4810c4acb2744937b5f8940574f9db63/route/refill/interf_u.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/B0/autorouter-gui-4810c4acb2744937b5f8940574f9db63/route/refill-drc.log",
+  "log_bytes": 274,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/interf-installed023-comparison-001/B0/autorouter-gui-4810c4acb2744937b5f8940574f9db63/route",
+  "signal_cancellation_enabled": true,
+  "pid": 73631,
+  "name": "refill-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": false
+  }
+}
