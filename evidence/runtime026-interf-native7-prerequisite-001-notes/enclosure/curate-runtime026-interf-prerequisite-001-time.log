@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime026-interf-prerequisite-001.py", line 14, in <module>
+    refill=f.check_drc_stage(route,data,'refill-drc',route/'refill'/candidate.name,route/'refill'/candidate.name,True,expected)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-026/runtime/autorouter/floor_route.py", line 288, in check_drc_stage
+    process=process_check(directory,data,name,argv,allowed=(5 if native['findings'] else 0,))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-026/runtime/autorouter/floor_route.py", line 189, in process_check
+    or process.get('cleanup_complete') is not True):raise p.Rejected('floor process provenance differs: '+name)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: floor process provenance differs: refill-drc
+real 0.52
+user 0.34
+sys 0.08
+           157220864  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               10054  page reclaims
+                 531  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 211  voluntary context switches
+                1036  involuntary context switches
+          4270283957  instructions retired
+          1540337593  cycles elapsed
+           147571264  peak memory footprint

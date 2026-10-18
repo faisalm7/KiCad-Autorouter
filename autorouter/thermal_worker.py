@@ -66,18 +66,36 @@ def owned(path,root,new=False):
         if i<len(parts)-1 and not stat.S_ISDIR(info.st_mode):raise ValueError('worker path ancestor not directory')
     return raw
 
-def native_worker(board_path,request_path,output_path):
+def require_native_identity(version, python, pcbnew_path, actual_version,
+                            actual_python, actual_pcbnew, report_version):
+    """Bind observation to the caller's selected tools, never to input JSON."""
+    if (type(version) is not str or version not in ('10.0.0','10.0.7')
+            or actual_version != version or report_version != version):
+        raise ValueError('thermal native/report version differs from caller pin')
+    paths=(python,pcbnew_path,actual_python,actual_pcbnew)
+    if any(type(value) is not str or not Path(value).is_absolute() for value in paths):
+        raise ValueError('absolute thermal native identity paths required')
+    if (Path(actual_python).resolve()!=Path(python).resolve()
+            or Path(actual_pcbnew).resolve()!=Path(pcbnew_path).resolve()):
+        raise ValueError('loaded thermal Python/pcbnew path differs from caller pin')
+    return dict(native_version=version,native_python=str(Path(actual_python).resolve()),
+                native_pcbnew=str(Path(actual_pcbnew).resolve()))
+
+
+def native_worker(board_path,request_path,output_path,expected_version,expected_python,expected_pcbnew):
     root=Path(__file__).absolute().parent
     if root.is_symlink():raise ValueError('worker root symlink')
     board_path=owned(board_path,root);request_path=owned(request_path,root);output_path=owned(output_path,root,new=True)
     owned(board_path.with_suffix('.kicad_pro'),root);owned(root/'input-drc.json',root)
     if board_path.parent!=root/'input' or request_path!=root/'request.json' or output_path!=root/'geometry.json' or output_path.exists():raise ValueError('fixed fresh worker paths required')
     import pcbnew
+    import _pcbnew
     request=json.loads(request_path.read_text());before=inventory(board_path.parent)
     if before != request['candidate_files'] or digest(root/'input-drc.json') != request['final_drc_sha256']:
         raise ValueError('worker inputs differ from verified binding')
     raw_report=json.loads((root/'input-drc.json').read_text());finding,target_ids=select_finding(raw_report)
-    if pcbnew.GetBuildVersion() != '10.0.0': raise ValueError('native version differs from pin')
+    identity=require_native_identity(expected_version,expected_python,expected_pcbnew,
+        pcbnew.GetBuildVersion(),sys.executable,_pcbnew.__file__,raw_report.get('kicad_version'))
     board=pcbnew.LoadBoard(str(board_path))
     if not board: raise ValueError('native load failed')
     board.SynchronizeNetsAndNetClasses(False)
@@ -111,7 +129,7 @@ def native_worker(board_path,request_path,output_path):
         if len(chosen)!=1:raise ValueError('reported target layer not unique in original zone')
         layer_ids=chosen
     layers=[{'id':l,'canonical':str(pcbnew.LayerName(l)),'board_name':str(board.GetLayerName(l))} for l in layer_ids]
-    output={'schema':1,'kind':'native thermal geometry observations only','native_version':pcbnew.GetBuildVersion(),
+    output={'schema':1,'kind':'native thermal geometry observations only',**identity,
         'units':'integer nanometres unless explicitly named otherwise','board_sha256':digest(board_path),
         'project_sha256':digest(board_path.with_suffix('.kicad_pro')),'finding':finding,
         'zone_uuid':uid(zone),'target_pad_uuid':uid(target),'net_code':int(zone.GetNetCode()),'net_name':str(zone.GetNetname()),
@@ -234,5 +252,5 @@ def native_worker(board_path,request_path,output_path):
     write_new(output_path,output)
 
 if __name__=='__main__':
-    if len(sys.argv)!=4:raise ValueError('expected board request output')
+    if len(sys.argv)!=7:raise ValueError('expected board request output and caller-selected native version/Python/pcbnew')
     native_worker(*sys.argv[1:])

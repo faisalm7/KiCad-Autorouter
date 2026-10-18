@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "kind": "narrow-skeptical-thermal-native-identity-source-review",
+  "recorded_utc": "2026-10-18T16:01:23.301293+00:00",
+  "reviewer": "separate AI source reviewer",
+  "human_PCB_review": false,
+  "native_qualification_performed": false,
+  "scope": "Static read-only review of the three uncommitted files and relevant existing caller/pin/admission/observation helpers. Only this JSON authored. No source/docs changes, tests, Native, JVM, GUI, network, CI or delegation.",
+  "reviewed_head": "6b61d93b9c1ffdd87857a5bde0c5a4dab63eb5ea",
+  "reviewed_uncommitted_diff_sha256": "8ec6d20f98adcbb86739086c258b8d90f827f86622ed577c0db45681c9d4ea44",
+  "changed_files": [
+    {
+      "path": "autorouter/thermal_worker.py",
+      "sha256": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72"
+    },
+    {
+      "path": "autorouter/thermal.py",
+      "sha256": "5eec73baae177881edcc529e9afb9d89e74912dd5f868c89fceccad7e7674322"
+    },
+    {
+      "path": "tests/test_thermal.py",
+      "sha256": "c8043985c065a57ca559bc5a1a13531f17423074715c5b5fd699c1e99e16b1a4"
+    }
+  ],
+  "relevant_helpers": [
+    {
+      "path": "autorouter/config.py",
+      "sha256": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd"
+    },
+    {
+      "path": "autorouter/native.py",
+      "sha256": "eca9f355e18630b91ec8b367cc4885e5d01a03332eee824aee9356f49670558b"
+    },
+    {
+      "path": "autorouter/pipeline.py",
+      "sha256": "cad87dc0b587265c79fd8b63b2cbdf19147fda097a57b23a26b655b0fc68628e"
+    },
+    {
+      "path": "autorouter/recovery.py",
+      "sha256": "31902e0e5bb6f138d68402158ec6f500691e90f91e10650f2772a7315698299f"
+    },
+    {
+      "path": "autorouter/thermal_geometry.py",
+      "sha256": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f"
+    },
+    {
+      "path": "autorouter/thermal_contact.py",
+      "sha256": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274"
+    },
+    {
+      "path": "autorouter/adapter.py",
+      "sha256": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1"
+    },
+    {
+      "path": "tests/test_native_profile.py",
+      "sha256": "82784a432305117cd1f14c3609c72c54c9a8015b377fde8d0c5ac4b885fe210e"
+    }
+  ],
+  "verdict": "No concrete blocking correctness defect found in the narrow identity change. Suitable for the proposed finite nonadmitting component probe after the lead retains tests and commits the reviewed source. This source review does not establish Native operation or qualify 10.0.7 thermal recovery.",
+  "blocking_findings": [],
+  "checks": [
+    {
+      "subject": "Trusted caller versus receipt selection",
+      "result": "thermal.attempt_repair supplies cfg.NATIVE_VERSION, cfg.PYTHON and cfg.PCBNEW as process arguments. request.json and input-drc.json do not select the native profile or role paths. The returned geometry metadata is checked against the same cfg identities before fill binding/proposals."
+    },
+    {
+      "subject": "Worker role/version binding",
+      "result": "require_native_identity admits only exact string versions 10.0.0/10.0.7, requires all four role path values to be absolute strings, compares resolved caller Python and pcbnew paths to sys.executable and _pcbnew.__file__, and requires both pcbnew.GetBuildVersion() and raw DRC kicad_version to equal the caller version. This occurs before pcbnew.LoadBoard."
+    },
+    {
+      "subject": "Binding to original candidate and raw report",
+      "result": "Existing worker input inventory/candidate_files and raw report SHA checks remain before native identity/load. Existing caller _report_binding still verifies original companions, candidate digest, final-drc-input inventory and parsed report. Identity metadata supplements these checks."
+    },
+    {
+      "subject": "Mismatch behavior",
+      "result": "Worker raises ValueError before board load for unknown/mixed versions, nonabsolute/nonstring paths or loaded role mismatch. Caller _check_geometry_identity raises p.Rejected before proposal generation if observation identity is missing or differs. Existing attempt_repair failure handling retains unsupported/no validated candidate rather than accepting the trial."
+    },
+    {
+      "subject": "Legacy 10.0.0 behavior",
+      "result": "Default cfg selection remains 10.0.0. The updated production caller and worker arity agree. Existing resolved-role comparison matches autorouter/native.py behavior. Added output fields do not change legacy thermal geometry semantics; legacy contact geometry still explicitly requires 10.0.0. Actual new Native execution on 10.0.0 was not performed by this reviewer."
+    },
+    {
+      "subject": "Call sites",
+      "result": "The sole production thermal worker command in thermal.py passes six positional arguments; worker main requires len(sys.argv)==7 and forwards the six. No other production caller of thermal_worker.native_worker was found in autorouter/scripts/tests. Old retained code copies are not rewritten."
+    },
+    {
+      "subject": "Admission boundaries",
+      "result": "No diff in config.py, pipeline.py, recovery.py or thermal_contact.py. require_native_scope still limits selected 10.0.7 normal operation to corrected standard whole/partial native routing; recover purpose thermal-recovery remains refused, completion-only remains refused, and _check_result_uncached still rejects selected7 advanced receipt lineage. No default/GUI promotion occurs."
+    },
+    {
+      "subject": "Pure controls",
+      "result": "New tests statically cover both exact versions, unknown/missing/bool/mixed versions, invalid/different role paths, and mismatched/missing returned geometry identities. These are pure synthetic identity controls and do not prove actual PCB routing or Native compatibility. Reviewer ran no tests; root owns retained test statistics."
+    }
+  ],
+  "informational_findings": [
+    {
+      "id": "I1",
+      "path": "autorouter/thermal_contact.py",
+      "line": 49,
+      "title": "Experimental contact proposals remain 10.0.0-only",
+      "evidence": "_geometry requires g.native_version == 10.0.0; selected7 experimental_contact=True would refuse in fill_binding before proposal/trial generation even after the new identity stage succeeds.",
+      "classification": "Existing closed capability, not a regression or requested promotion.",
+      "next_step": "Scope any selected7 probe as native observation or the existing ordinary PTH geometry path. Do not claim selected7 experimental contact qualification from this patch."
+    },
+    {
+      "id": "I2",
+      "path": "autorouter/thermal_worker.py",
+      "line": 69,
+      "title": "Identity comparison depends on the trusted caller pin boundary",
+      "evidence": "The standalone worker compares versions and paths; it does not itself hash the supplied native binaries or independently authenticate its arguments. Existing config pins and caller tool_manifest/freshness checks provide that distinct role.",
+      "classification": "Scope limit, not a concrete new bypass in the reviewed trusted production caller.",
+      "next_step": "The finite component probe should retain selected tool hashes and before/after source/tool checks. Do not let a receipt provide expected_version/expected_python/expected_pcbnew or describe the metadata as an independent authentication proof."
+    }
+  ],
+  "immutable_runtime026_check": {
+    "source_head": "1117de080524072046a61522845facd5d4c68575",
+    "runtime_manifest_sha256": "5371d08ccf5a0ae2e0c4024f752baca28f034c3b3cb50ade308e8e5e12e36fe5",
+    "two_reviewed_thermal_modules_still_match_original_manifest": {
+      "autorouter/thermal.py": true,
+      "autorouter/thermal_worker.py": true
+    },
+    "scope": "Exact source preservation check only; GUI/CLI results and Windows were not re-reviewed."
+  },
+  "required_limits_for_followup": [
+    "Finite nonadmitting component probe only after reviewed source is committed and lead verification is retained.",
+    "No selected7 thermal-recovery/completion-only/advanced-receipt admission or default/GUI promotion.",
+    "No routing improvement, whole-project acceptance, human PCB review or physical/electrical claim from identity controls."
+  ],
+  "root_reported_context_not_reproduced_by_reviewer": "Lead reports fresh ordinary runtime026 selected7 standard-B1 Interf reached sole thermal opens0/blocking1/warnings22/fullSCH, no export,59.58 wall/80.29 CPU. Lead also reports targeted pure modules passed; this review neither reran nor substitutes for those retained records."
+}

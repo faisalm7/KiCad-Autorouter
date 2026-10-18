@@ -5,7 +5,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parent
-from autorouter import thermal as t, thermal_geometry as g
+from autorouter import thermal as t, thermal_geometry as g, thermal_worker as worker
 
 def scene():
     pads=[]
@@ -94,6 +94,44 @@ class Geometry(unittest.TestCase):
         self.assertTrue(g.certified_leg([11,11],[89,11],poly,[],10,g.Guard()))
     def test_hole_centerline_crossing(self):
         self.assertFalse(g.certified_leg([20,50],[80,50],[[0,0],[100,0],[100,100],[0,100]],[dict(center=[50,50],radius=5)],1,g.Guard()))
+
+class NativeIdentity(unittest.TestCase):
+    def test_exact_caller_worker_and_report_identity_for_each_selected_version(self):
+        with tempfile.TemporaryDirectory(dir=HERE) as tmp:
+            python=str(Path(tmp)/'python');pcbnew=str(Path(tmp)/'_pcbnew.so')
+            for version in ('10.0.0','10.0.7'):
+                with self.subTest(version=version):
+                    result=worker.require_native_identity(version,python,pcbnew,version,python,pcbnew,version)
+                    self.assertEqual(result,dict(native_version=version,native_python=python,native_pcbnew=pcbnew))
+
+    def test_wrong_missing_or_mixed_native_identity_refuses(self):
+        with tempfile.TemporaryDirectory(dir=HERE) as tmp:
+            python=str(Path(tmp)/'python');pcbnew=str(Path(tmp)/'_pcbnew.so')
+            valid=['10.0.7',python,pcbnew,'10.0.7',python,pcbnew,'10.0.7']
+            cases={0:(None,True,'','10.0.8'),1:(None,'relative'),2:(None,'relative'),
+                   3:(None,True,'10.0.0'),4:('relative',python+'-other'),
+                   5:('relative',pcbnew+'-other'),6:(None,True,'10.0.0')}
+            for index,values in cases.items():
+                for value in values:
+                    args=valid.copy();args[index]=value
+                    with self.subTest(index=index,value=value),self.assertRaises(ValueError):
+                        worker.require_native_identity(*args)
+
+    def test_caller_rejects_geometry_from_another_profile_or_loaded_binary(self):
+        with patch.object(t.cfg,'NATIVE_VERSION','10.0.7'):
+            original=dict(native_version='10.0.7',native_python=str(t.cfg.PYTHON.resolve()),
+                          native_pcbnew=str(t.cfg.PCBNEW.resolve()))
+            t._check_geometry_identity(original)
+            for key,value in (('native_version','10.0.0'),('native_version',True),
+                              ('native_python','/other/python'),('native_pcbnew','/other/_pcbnew.so')):
+                altered=original.copy();altered[key]=value
+                with self.subTest(key=key,value=value),self.assertRaises(t.p.Rejected):
+                    t._check_geometry_identity(altered)
+            for key in original:
+                altered=original.copy();del altered[key]
+                with self.subTest(missing=key),self.assertRaises(t.p.Rejected):
+                    t._check_geometry_identity(altered)
+
 
 class Controls(unittest.TestCase):
     def finding(self):return dict(type='starved_thermal',severity='error',items=[dict(uuid='pad'),dict(uuid='zone')])

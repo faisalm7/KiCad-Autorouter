@@ -114,6 +114,13 @@ def _publish_result(directory, result, stable, recheck_selected, remaining):
         if isinstance(exc, KeyboardInterrupt):raise
 
 
+def _check_geometry_identity(geometry):
+    """Observation metadata cannot select another native profile or binary."""
+    if (geometry.get('native_version')!=cfg.NATIVE_VERSION
+            or geometry.get('native_python')!=str(cfg.PYTHON.resolve())
+            or geometry.get('native_pcbnew')!=str(cfg.PCBNEW.resolve())):
+        raise p.Rejected('thermal geometry native identity differs from selected tools')
+
 
 def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_routes,native_summary,*,report_path,binding_path,remaining_seconds,out,experimental_contact=False):
     """Fresh candidate/report -> geometry -> <=4 proposals -> native trial.
@@ -174,8 +181,9 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
         p.save_json(directory/'request.json',request)
         for path in (directory/'request.json',directory/'input-drc.json',directory/'worker.py'):watch(path)
         watchtree(directory/'input');prepared=True;stable()
-        worker_job.step('thermal-geometry',[cfg.PYTHON,'-B',directory/'worker.py',directory/'input'/candidate.name,directory/'request.json',directory/'geometry.json'])
+        worker_job.step('thermal-geometry',[cfg.PYTHON,'-B',directory/'worker.py',directory/'input'/candidate.name,directory/'request.json',directory/'geometry.json',cfg.NATIVE_VERSION,str(cfg.PYTHON),str(cfg.PCBNEW)])
         g=json.loads((directory/'geometry.json').read_text())
+        _check_geometry_identity(g)
         if g.get('status')!='observations_complete' or g.get('source_unchanged') is not True or g.get('board_sha256')!=expected[candidate.name] or g.get('project_sha256')!=expected[candidate.with_suffix('.kicad_pro').name] or g.get('finding')!=finding:raise p.Rejected('fresh thermal native geometry incomplete/stale')
         if experimental_contact and g.get('mode')!=proposal_geometry.POLICY:raise p.Rejected('experimental contact observation mode differs')
         saved_fill=proposal_geometry.fill_binding(base,g,sx);watch(directory/'geometry.json');stable()
