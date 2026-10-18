@@ -1,0 +1,15 @@
+# Runtime019 actual GUI067 observations
+
+The existing runtime019 was reused; no rebuild or completed CLI trial was repeated. This session observed toolbar launch from the isolated production KiCad manager, saved settings load/save, invalid-input refusal, protected four-layer routing, rendered before/after review, explicit software accept/reject intent, cancellation of the actual Freerouting engine, fresh Native export and checked opening/rendering in KiCad. Original PCB/PRO/SCH/PRL hashes remain unchanged. This is an exposed, project-owned fixture, not independent-family confirmation or human PCB review.
+
+Every completed Route retains its own actual original-rule Native/refill/full-schematic proof and preserved protected copper. The primary export's complete106-file pre-opening snapshot was centrally checked before the editor opened it. Opening changed companion metadata; a later current check correctly refused. No metadata repair or reacceptance was performed. Six warnings and two ignored checks remain visible; the whole project is not DRC-clean.
+
+Six fresh workspaces are retained: primary acceptance/export/opening, engine cancellation, rejection/no export, and source/settings/export-integrity controls. Deliberate changes occurred only in disposable copies. Changed source, captured settings and a Boolean-to-integer export receipt were refused before opening. Malformed budget `oops` produced an inline refusal without another workspace.
+
+The attempted Python-menu hold did **not** delay the opener: KiCad had opened the checked project before any source mutation. It is a failed test setup, not proof of a forced queued race. Its frozen protocol and decision remain. Actual callback regressions retained elsewhere qualify the guard logic; these GUI controls qualify pre-open refusal only. No further menu-hold investigation was undertaken.
+
+The default Chrome review page's four layer pairs were present in accessibility content. After the owner exposed its normal window, F.Cu before/after and part of In1.Cu visibly rendered. Lower navigation was interrupted by browser changes; no unrelated page, window, screenshot or browser content was copied here. KiCad candidate/export renderings showed6pads,4vias,19segments,3nets and0unrouted. The separate in-app browser rejected a local file-protocol action; no alternate transport bypass was used.
+
+Stage process receipts retain measured operations, including failed/cancelled attempts and inspection. Whole interactive wall/full CPU, idle, authoring and AI-review costs remain unmeasured, not zero; no routing-speed comparison is derived. Curation reused production readers and bounded inventory helpers; it ran no Native/engine work. The two owned GUI processes closed through UI and the launcher exited0, with a fresh process check afterward.
+
+These owned source/proof files are a development checkpoint. Broader routing gains beyond corrected/tuned Freerouting, untouched families, Windows Native workflow, restoration capacity, independent engineering and physical/electrical validation remain release gates. No formal release or package is published.

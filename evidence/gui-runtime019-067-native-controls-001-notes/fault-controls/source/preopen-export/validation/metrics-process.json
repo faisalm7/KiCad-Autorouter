@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.41650229098740965,
+  "cpu_seconds": 0.40130199999999994,
+  "max_rss_bytes": 91340800,
+  "supervisor_cpu_seconds": 0.010046,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 34209792,
+  "sampled_peak_workdir_bytes": 1328868,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 268435456,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime/autorouter/native.py",
+    "metrics",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime/.runs/gui-session067/jobs/autorouter-gui-33dab37a52ed437d92198410814403e3/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime/.runs/gui-session067/jobs/autorouter-gui-33dab37a52ed437d92198410814403e3/export/validation/metrics.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime/.runs/gui-session067/jobs/autorouter-gui-33dab37a52ed437d92198410814403e3/export/validation/metrics.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/runtime/.runs/gui-session067/jobs/autorouter-gui-33dab37a52ed437d92198410814403e3/export/validation",
+  "signal_cancellation_enabled": true,
+  "pid": 2902,
+  "name": "metrics"
+}

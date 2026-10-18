@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "kind": "prospective-Windows006-isolation-only",
+  "recorded_utc": "2026-10-18T02:23:01.194752+00:00",
+  "Windows_executed": false,
+  "Native_JVM_executed": false,
+  "admission": false,
+  "product_windows_support": false,
+  "source_sha256": {
+    ".github/workflows/manual-python-controls.yml": "ae54013b6863cbc0018254f15c196a0a6d50dbca49f69866ed3f13f5e574a396",
+    "scripts/windows_native_slice/firewall_gate.ps1": "476f30f1819b52a880702dd9e3634e4e81dedfb7bea248ac2593e29034adce60",
+    "scripts/windows_native_slice/isolation_diagnostic.ps1": "4a442b3ad6c33a32194522298670727c113e6d3e4384d03c41d5e93075a07fdd",
+    "scripts/windows_native_slice/test_firewall_gate.ps1": "c139a007e67fd3538d21791a6a8884e68bf1b9391e1824527c76716c432c49f6",
+    "tests/test_windows_firewall_diagnostics.py": "6d4e4bb0152bf63b7d187ef60aeea3cae8384e6223b1d3b6acca260cb388d222",
+    "tests/test_windows_isolation_diagnostic.py": "1b2eaf0026ff0453f9db9862356c898107815b961a2a304fac720975dca69932"
+  },
+  "dispatch_command": [
+    "/opt/homebrew/bin/gh",
+    "workflow",
+    "run",
+    "manual-python-controls.yml",
+    "--ref",
+    "rebuild/local-20261010-015447",
+    "-f",
+    "probe=windows-isolation"
+  ],
+  "workflow_timeout_minutes": 3,
+  "gate_timeout_seconds": 12,
+  "mocked_controls_timeout_seconds": 20,
+  "installer_or_download": false,
+  "artifact_or_cache_upload": false,
+  "local_targeted_tests": {
+    "passed": 15,
+    "skipped": 1,
+    "skip_reason": "PowerShell absent; actual PowerShell harness unrun",
+    "wall_seconds": 0.61,
+    "CPU_seconds": 0.52,
+    "scope": "Source/refusal retention controls; not native Windows proof"
+  },
+  "independent_AI_review": "No actionable blocker after lazy-on-refusal collection; not human/platform qualification.",
+  "earlier_assistant_test_costs": {
+    "reported_runs": [
+      {
+        "wall_seconds": 0.463,
+        "passed": 10,
+        "skipped": 1
+      },
+      {
+        "wall_seconds": 0.411,
+        "passed": 15,
+        "skipped": 1
+      }
+    ],
+    "CPU": "unmeasured",
+    "scope": "Reported tool-transcript-only subagent runs; not silently counted as zero or as retained platform evidence."
+  },
+  "files": [
+    {
+      "path": "evidence/windows-isolation006-prospective-001-notes/windows-isolation006-cost-permission-preflight-001.json",
+      "bytes": 1202,
+      "sha256": "34b7a8181ec4762b506196085b4cff9dd650fe45387c7ebd47a0f953e4a426f7"
+    },
+    {
+      "path": "evidence/windows-isolation006-prospective-001-notes/windows-isolation006-targeted-001.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/windows-isolation006-prospective-001-notes/windows-isolation006-targeted-001-time.log",
+      "bytes": 3906,
+      "sha256": "59f9fc3b087ecfc90024abbd14a797f0a35705ee5e120683752f70f1201d25cc"
+    }
+  ]
+}

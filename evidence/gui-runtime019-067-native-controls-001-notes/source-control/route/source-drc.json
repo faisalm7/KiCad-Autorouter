@@ -1,0 +1,49 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-17T19:05:37",
+    "ignored_checks": [
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "schematic_parity": [],
+    "source": "owned-four-copper-forced-inner.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [ROUTE] of J1 on F.Cu",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 10.0
+                    },
+                    "uuid": "7d0a4878-d992-5a0a-86bd-f2a4e2a4de7c"
+                },
+                {
+                    "description": "Pad 1 [ROUTE] of J2 on B.Cu",
+                    "pos": {
+                        "x": 26.0,
+                        "y": 10.0
+                    },
+                    "uuid": "c3beb15f-1514-5d5d-9d5e-8f59e7a6996d"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": []
+}

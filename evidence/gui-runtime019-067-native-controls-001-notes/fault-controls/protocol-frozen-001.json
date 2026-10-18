@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "kind": "actual-runtime019-queued-open-GUI-fault-controls",
+  "frozen_utc": "2026-10-18T02:05:04.945907+00:00",
+  "failure": "Worker readback can finish before deferred GUI opener; source/settings/export may change while callback is queued.",
+  "mechanism": "Use native application menu tracking to attempt a bounded hold of wx deferred completion, without changing production code or original inputs.",
+  "budget": "At most one fresh GUI route/review/accept/export per fault; no reroute retry if queue hold fails. Every final candidate retains actual Native/original checks and complete pre-mutation proof. GUI waiting/authoring time separate and unmeasured.",
+  "faults": {
+    "source": "append whitespace to disposable source project companion after successful inspect worker",
+    "settings": "append whitespace to disposable workspace/settings.json after successful inspect worker",
+    "export": "change export_accepted:true to integer1 in disposable export/export.json after successful inspect worker"
+  },
+  "decision": "Qualify only controls whose successful worker and queued UI boundary are observed; otherwise retain failure/uncertainty, do not claim callback coverage.",
+  "source_hashes": {
+    "owned-four-copper-forced-inner.kicad_prl": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+    "owned-four-copper-forced-inner.kicad_pcb": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+    "owned-four-copper-forced-inner.kicad_sch": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+    "owned-four-copper-forced-inner.kicad_pro": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe"
+  },
+  "pristine_original_unmodified": true,
+  "human_review": false
+}

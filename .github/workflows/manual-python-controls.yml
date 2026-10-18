@@ -3,13 +3,14 @@ on:
   workflow_dispatch:
     inputs:
       probe:
-        description: Pure controls, installer identity, or owned Windows Native capability probe
+        description: Pure controls, installer identity, Windows isolation diagnostic, or owned Native probe
         type: choice
         required: false
         default: pure
         options:
           - pure
           - windows-metadata
+          - windows-isolation
           - windows-native
 permissions:
   contents: read
@@ -52,3 +53,15 @@ jobs:
       - name: Pinned official installation and owned Native capability probe
         shell: pwsh
         run: ./scripts/windows_native_slice/bootstrap.ps1
+  windows-isolation:
+    if: ${{ github.event.inputs.probe == 'windows-isolation' }}
+    runs-on: windows-2022
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Mock controls and non-admitting owned firewall diagnostic
+        shell: pwsh
+        run: ./scripts/windows_native_slice/isolation_diagnostic.ps1
