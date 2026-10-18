@@ -1,0 +1,180 @@
+{
+  "AI_only": true,
+  "decision": "Keep exact runtime033. No product code change or rebuild is needed for a meaningful clean-environment full delivery qualification.",
+  "documentation_note": "docs/install-test.md names033; docs/runtime-directory.md opening still names026. This stale navigation can be curated later without rebuilding unchanged033 product code.",
+  "exact_installer_boundary": {
+    "builder": "scripts.prepare_runtime.prepare(source, destination, copy_local_engine=True, native_version=\"10.0.7\")",
+    "callable": "scripts.install_smoke.install_test(out, guidance=\"native\", source_mode=\"distribution\", native_version=\"10.0.7\")",
+    "effect_of_new_install": "Building from current admin/docs HEAD creates a new build_source HEAD/root/manifest identity even when module bytes are identical. It is a fresh same-code installation, not033; it must not inherit033 receipts. This is unnecessary for the selected next slice.",
+    "public_CLI": [
+      ".venv/bin/python",
+      "-B",
+      "scripts/install_smoke.py",
+      "--source-mode",
+      "distribution",
+      "--native-version",
+      "10.0.7",
+      "--output",
+      "NEW_OUTPUT_UNDER_SOURCE_ROOT/.runs"
+    ],
+    "source_rule": "install_smoke always supplies config.ROOT as source; prepare() accepts an explicit source argument but provenance.committed_snapshot(source) requires an ordinary exact Git checkout and explicitly rejects runtime-distribution.json. A verified runtime cannot be a builder source. No existing HEAD selector argument is available."
+  },
+  "kind": "runtime033-installation-next-slice-assessment-v1",
+  "next_slice": {
+    "doctor_argv": [
+      "/usr/bin/env",
+      "-i",
+      "HOME=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/home",
+      "TMPDIR=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/tmp/",
+      "PATH=/usr/bin:/bin:/usr/sbin:/sbin",
+      "USER=faisal",
+      "LOGNAME=faisal",
+      "LANG=C",
+      "LC_ALL=C",
+      "PYTHONNOUSERSITE=1",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PIP_NO_INDEX=1",
+      "/bin/sh",
+      "-c",
+      "cd \"$1\"; shift; exec \"$@\"",
+      "sh",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "doctor"
+    ],
+    "doctor_note": "Literal positional cd/exec lets product run from033 cwd while outer shared runner scans only the fresh common root.",
+    "enclosure_argv": [
+      "/usr/bin/env",
+      "-i",
+      "HOME=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/home",
+      "TMPDIR=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/tmp/",
+      "PATH=/usr/bin:/bin:/usr/sbin:/sbin",
+      "USER=faisal",
+      "LOGNAME=faisal",
+      "LANG=C",
+      "LC_ALL=C",
+      "PYTHONNOUSERSITE=1",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PIP_NO_INDEX=1",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/enclose-runtime030-ordinary-workflow-001.py",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/protocol.json"
+    ],
+    "environment": {
+      "HOME": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/home",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "LOGNAME": "faisal",
+      "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+      "PIP_NO_INDEX": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONNOUSERSITE": "1",
+      "TMPDIR": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/tmp/",
+      "USER": "faisal"
+    },
+    "existing_helper_limitations": [
+      "Hardcoded current-runtime030-ordinary-CLI kind is historical helper label. New caller protocol/output must identify033 accurately.",
+      "Native plots and software accept intent are not actual GUI/human PCB review.",
+      "Uses existing save_json final receipt, not newer f.publish; preserve exact initial/final pin checks and actual external completion.",
+      "HOME reset controls defaults, not read permissions/new account.",
+      "No new build, dependency acquisition, breadth, standalone, relocation or cleanOS claim."
+    ],
+    "expected_evidence": [
+      "Doctor ready on exact033 manifest/selected10.0.7 under frozen env.",
+      "Six real CliJob stages adopted plus inspect-path readback; own Route/export Native0all/fullSCH/protected4/source/settings/report/PRL/process bindings, equal candidate hashes and current central ordinary readers.",
+      "Complete external exit0/cleanup, bounded aggregate scratch and whole wall/fullCPU/log hashes; source and existing outputs unchanged."
+    ],
+    "fresh_common_root": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001",
+    "meaning": "Same user and existing033 interpreter/tools, but explicit empty inherited environment, fresh HOME/TMP and minimal PATH through actual Request/Workflow/CliJob preview, Route, rendered review, accept intent, fresh Native export and check. The added variable is startup/config environment; board/settings/budget remain unchanged.",
+    "new_protocol_contract": {
+      "budgets": {
+        "export": 90,
+        "outer_watchdog": 255,
+        "route": 90,
+        "whole_wall_CPU": 240
+      },
+      "driver_sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034",
+      "enclosure_sha256": "e23ffd2851c9074bd16ccdb2e49c6ded0d9910c0240ee8221123ebda2973c02d",
+      "expected_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_protected_count": 4,
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/workflow",
+      "runtime_manifest_sha256": "115c881aa04a34bf642c57d5af312fe692d1aff013bed095caa3856a614f3987",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "partial_completion",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "settings_sha256": "a73292826f5de5a992d4d04ec85ced90ecac269556f72b35180f610e79866a65",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/task-copper-fixed-alias-native-004/source/owned1007-transport.kicad_pcb",
+      "source_hashes": {
+        "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+        "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+        "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+        "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+      },
+      "source_head": "a476a0a0647bc51889d291e3e6e2598f4ec24370"
+    },
+    "new_settings_bytes": "Use identical settings.json bytes from .runs/runtime033-ordinary-partial2Cu-001; SHA a73292826f5de5a992d4d04ec85ced90ecac269556f72b35180f610e79866a65. Freeze a new protocol with exact fresh output/scope and existing helper/driver/manifest pins before execution.",
+    "outer_shared_runner_cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001",
+    "prerequisites": [
+      "After all frozen matrix arms/owned workers finish, acquire existing shared project experiment lock externally; these helper files do not acquire it. Create fresh real owned common root/home/tmp and exact settings; workflow/enclosure must be absent.",
+      "Freeze caller protocol SHA, env/argv, source/033 manifest/tool/module/admin pins and outputs externally. Enclosure accepts only --protocol; its initial hash is a stability witness, not independently supplied authority.",
+      "Keep033 copied venv and required /Users/faisal/.pyenv/versions/3.11.9 base; no new runtime or interpreter. Freeze pyvenv.cfg/interpreter identity.",
+      "Existing sandbox remains. Outer shared runner must aggregate HOME+TMP+workflow+logs at768MiB (<1GiB), with sufficient headroom; inner512MiB cwd guard covers enclosure logs only. Polling may overshoot; Native worker guards remain.",
+      "Preserve255s child watchdog,240s wall/fullCPU acceptance and90s Route/export. Charge doctor/setup/final readback separately in complete outer wall/CPU/exit evidence.",
+      "Driver final fresh() tool callback follows central p/ex readers. For a last cross-root PRL claim, replay existing local_settings.check_final_events on route/export plus validated plot pairs after all outer tool/material reads; no new verifier."
+    ],
+    "state": "PROPOSED_NOT_EXECUTED_NOT_FROZEN; after six frozen comparison arms and all Native/engine workers finish."
+  },
+  "other_gates": {
+    "alternative_Homebrew": "Existing Homebrew Python3.11.13 is available, but invoking install_smoke with it would create a new same-code runtime and qualify a separate interpreter axis. It is optional, not required to retain/use033.",
+    "normal_GUI_startup": "Actual current-code normal-user doubleclick/toolbar qualification is separately blocked by lead-reported GUI tool lock. This task did not query access or change GUI targets.",
+    "relocation": "Intentionally unsupported: runtime manifest root==actual root and launcher/install.json/scripts bind absolute runtime/interpreter/tool paths. Moving/copying033 and editing root would invalidate old identity/receipts. Fresh preparation is not relocation.",
+    "standalone": "External KiCad bundle, Java and base Python standard library remain required. venv --copies does not vendor them. No small source fix is warranted merely to change this label."
+  },
+  "performed": "Read-only current named install/provenance/config/workflow sources, docs and exact033 receipts. No Native/tests/doctor/install/download/Git/CI/GUI invocation or source mutation.",
+  "runtime_identity": {
+    "current_source_product_bytes_equal_all_033_immutable_payload_files_except_generated_README": true,
+    "existing_venv_base_prefix": "/Users/faisal/.pyenv/versions/3.11.9",
+    "identity_boundary": "Lead reports newer source HEAD61ee contains administration/evidence/docs changes. No Git was invoked here. Exact immutable payload comparison is true; admin/doc HEAD changes alone do not invalidate033 manifest/a476 identity or require another GUI target.",
+    "installed_product_files": 50,
+    "manifest_sha256": "115c881aa04a34bf642c57d5af312fe692d1aff013bed095caa3856a614f3987",
+    "observed033_install_scratch_bytes": 72860668,
+    "runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime",
+    "source_head": "a476a0a0647bc51889d291e3e6e2598f4ec24370"
+  },
+  "schema": 1,
+  "search_note": "An initial repository-wide rg --files filename query unintentionally listed archive paths; no archive contents/history were read, no archive inventory was retained, and all subsequent inspection was restricted to the named current sources/docs/033 receipt.",
+  "source_pins": {
+    ".runs/enclose-runtime030-ordinary-workflow-001.py": "e23ffd2851c9074bd16ccdb2e49c6ded0d9910c0240ee8221123ebda2973c02d",
+    ".runs/runtime-directory-033/result.json": "c777ff547bf319134f07b9fdb73cc52f7e8e04145459ac183f9b175f1291bf94",
+    ".runs/runtime-directory-033/runtime/runtime-distribution.json": "115c881aa04a34bf642c57d5af312fe692d1aff013bed095caa3856a614f3987",
+    ".runs/runtime033-ordinary-partial2Cu-001/protocol.json": "e542752678a3005a20f06ea2833673c8c9ff01f5b4d99b4ba1de7cecdd7003dc",
+    "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+    "autorouter/pipeline.py": "8a0276c178649ff76383865e125c63803a71a15b144ac29905a0c072c67480af",
+    "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+    "docs/install-test.md": "6897621ebf85de2b2a839c39dc2d1b17031e63e93f1d4a50c860ccd79d39d5f9",
+    "docs/runtime-directory.md": "36e0334756c5fbcccd78648f52246eaca9c34d1d6ecfa874a65c9b60cd107bdf",
+    "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+    "scripts/install_smoke.py": "3a53d368155e6decf47665e0bd97f046f28aa580dd1fc9534b75866e31c5ecef",
+    "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+    "scripts/prepare_runtime.py": "8590c38979075c89540c9a366324189ae2309bd72b0f6df300a6842c0900f0fc",
+    "scripts/qualify_runtime_workflow.py": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034",
+    "toolchain.lock.json": "cec0446e5ed3554b0c0b286cbb61e5aceb5bc013e87839db3f7081b9fd2f24d9"
+  }
+}

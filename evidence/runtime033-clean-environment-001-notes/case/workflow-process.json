@@ -1,0 +1,43 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 29.339632207993418,
+  "cpu_seconds": 26.467515,
+  "max_rss_bytes": 285278208,
+  "supervisor_cpu_seconds": 0.287339,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 43319296,
+  "sampled_peak_workdir_bytes": 5461416,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 805306368,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/enclose-runtime030-ordinary-workflow-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/protocol.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001/workflow.log",
+  "log_bytes": 830,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-033/runtime/.runs/clean-env-partial-delivery-001",
+  "signal_cancellation_enabled": true,
+  "pid": 53503
+}
