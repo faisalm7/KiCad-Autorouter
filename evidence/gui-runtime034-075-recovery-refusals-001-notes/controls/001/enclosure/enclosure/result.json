@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "passed": false,
+  "status": "failed",
+  "project_complete": false,
+  "actual_GUI": false,
+  "protocol_sha256": "9f33307c1da6b85edf876bebd79fb437bea241337f1d2188be8285686f08a5ea",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 1.4226935420301743,
+    "cpu_seconds": 1.295518,
+    "max_rss_bytes": 226672640,
+    "supervisor_cpu_seconds": 0.006536,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 223838208,
+    "sampled_peak_workdir_bytes": 136,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/qualify-gui075-direct-four-copper-001.py",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui075-direct-four-copper-001/protocol.json",
+      "--protocol-sha256",
+      "9f33307c1da6b85edf876bebd79fb437bea241337f1d2188be8285686f08a5ea"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui075-direct-four-copper-001/enclosure/command.log",
+    "log_bytes": 136,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui075-direct-four-copper-001/enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 10267
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/native7-comparison-control-gui075-direct4Cu-001/result.json",
+  "child_sha256": "71bc62e6c0a823de366fdcc0abbd2e482f7389ad397682de310edc60f018d8d7",
+  "completed_evidence": {
+    "project/owned1007-transport.kicad_pcb": "e1d8d0068543a88769e6100534703b46b52a5d957a9d268f85e03a65117947cb",
+    "project/owned1007-transport.kicad_prl": "2d4b061a2541104ee46be4c727b2c4f4da359f91613e5728821da7f9e9d373cd",
+    "project/owned1007-transport.kicad_pro": "1620986cc59f99e79cc8b21c34827fc45389cdce3858562cc4616581d114cfd3",
+    "project/owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948",
+    "protocol.json": "9f33307c1da6b85edf876bebd79fb437bea241337f1d2188be8285686f08a5ea",
+    "validation/write-four-copper-process.json": "07ddae95d8cc181565909b7c2f653331d53efa7deb7c2ee1b23f505a1e172ecd",
+    "validation/write-four-copper.log": "44db17fcb5b197393415f13ee0af7d889e94e5850e36a79ed8d84f4e02d110f4",
+    "validation/writer-native.json": "0579328ad1d9e53c91a7efdfab37f68d8717c36940acf256018bed453c780fa6"
+  },
+  "material_roots": [],
+  "completed_material_roots": {},
+  "scope": "Fresh owned synthetic4Cu layer-refusal control only. Native writer changes copper count on a new clone of pristine owned075/no-repair2Cu. Existing flagged4Cu refusal remains a schematic-class refusal and is not relabelled. Source diagnostic expects2opens; all other findings retained without clean-board claim. Static actual Request.prepare must hit the explicit two-copper-layer refusal before workspace creation. No engine, actual GUI interaction, export/admission, routing quality, original-comparison constraint relaxation or Windows claim.",
+  "disk_guard_scope": "Outer runner2MiB workdir bound covers enclosure logs only; Native workers and sibling evidence retain their own independent guards, not an aggregate2MiB cap.",
+  "complete_wall_seconds": 1.5061380839906633,
+  "complete_full_CPU_seconds": 1.37146
+}

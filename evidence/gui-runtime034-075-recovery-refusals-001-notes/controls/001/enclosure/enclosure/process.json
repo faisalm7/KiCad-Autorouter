@@ -1,0 +1,45 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 2,
+  "wall_seconds": 1.4226935420301743,
+  "cpu_seconds": 1.295518,
+  "max_rss_bytes": 226672640,
+  "supervisor_cpu_seconds": 0.006536,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 223838208,
+  "sampled_peak_workdir_bytes": 136,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/qualify-gui075-direct-four-copper-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui075-direct-four-copper-001/protocol.json",
+    "--protocol-sha256",
+    "9f33307c1da6b85edf876bebd79fb437bea241337f1d2188be8285686f08a5ea"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui075-direct-four-copper-001/enclosure/command.log",
+  "log_bytes": 136,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui075-direct-four-copper-001/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 10267
+}
