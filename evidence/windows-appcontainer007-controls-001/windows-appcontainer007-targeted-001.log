@@ -1,0 +1,38 @@
+test_cancelled_controller_is_terminal_exit130 (tests.test_windows_probe_controls.WindowsProbeControls.test_cancelled_controller_is_terminal_exit130) ... ok
+test_fast_exited_entry_flood_refuses (tests.test_windows_probe_controls.WindowsProbeControls.test_fast_exited_entry_flood_refuses) ... ok
+test_fast_exited_oversize_log_refuses (tests.test_windows_probe_controls.WindowsProbeControls.test_fast_exited_oversize_log_refuses) ... ok
+test_fast_exited_oversize_output_refuses (tests.test_windows_probe_controls.WindowsProbeControls.test_fast_exited_oversize_output_refuses) ... ok
+test_fast_exited_wall_and_cpu_budget_refuse (tests.test_windows_probe_controls.WindowsProbeControls.test_fast_exited_wall_and_cpu_budget_refuse) ... ok
+test_in_bound_finished_job_is_not_cancelled_after_exit (tests.test_windows_probe_controls.WindowsProbeControls.test_in_bound_finished_job_is_not_cancelled_after_exit) ... ok
+test_oversize_firewall_diagnostic_refuses_and_marks_bounded_prefix (tests.test_windows_probe_controls.WindowsProbeControls.test_oversize_firewall_diagnostic_refuses_and_marks_bounded_prefix) ... ok
+test_refused_firewall_retains_complete_diagnostic_beyond_error_summary (tests.test_windows_probe_controls.WindowsProbeControls.test_refused_firewall_retains_complete_diagnostic_beyond_error_summary) ... ok
+test_setup_compiler_refuses_arbitrary_source_flags_and_output (tests.test_windows_probe_controls.WindowsProbeControls.test_setup_compiler_refuses_arbitrary_source_flags_and_output) ... ERROR
+test_setup_dns_allows_only_fixed_isolated_helper (tests.test_windows_probe_controls.WindowsProbeControls.test_setup_dns_allows_only_fixed_isolated_helper) ... ok
+test_successful_firewall_preserves_response_without_refusal_logs (tests.test_windows_probe_controls.WindowsProbeControls.test_successful_firewall_preserves_response_without_refusal_logs) ... ok
+test_exact_two_owned_deny_rules_and_independent_cleanup_queries (tests.test_windows_isolation_diagnostic.WindowsIsolationDiagnosticSource.test_exact_two_owned_deny_rules_and_independent_cleanup_queries) ... ok
+test_external_limits_and_bound_log_readback_remain_explicit (tests.test_windows_isolation_diagnostic.WindowsIsolationDiagnosticSource.test_external_limits_and_bound_log_readback_remain_explicit) ... ok
+test_mock_controls_precede_live_rules_and_dispatch_identity_is_checked (tests.test_windows_isolation_diagnostic.WindowsIsolationDiagnosticSource.test_mock_controls_precede_live_rules_and_dispatch_identity_is_checked) ... ok
+test_mode_is_manual_bounded_and_separate_from_native (tests.test_windows_isolation_diagnostic.WindowsIsolationDiagnosticSource.test_mode_is_manual_bounded_and_separate_from_native) ... ok
+test_only_owned_powershell_is_launched_and_no_acquisition_path_exists (tests.test_windows_isolation_diagnostic.WindowsIsolationDiagnosticSource.test_only_owned_powershell_is_launched_and_no_acquisition_path_exists) ... ok
+test_mocked_powershell_refusal_and_snapshot_structure (tests.test_windows_firewall_diagnostics.WindowsFirewallDiagnostics.test_mocked_powershell_refusal_and_snapshot_structure) ... skipped 'PowerShell absent; mocked script execution remains unrun'
+test_original_gate_bytes_are_preserved_apart_from_diagnostic_insertions (tests.test_windows_firewall_diagnostics.WindowsFirewallDiagnostics.test_original_gate_bytes_are_preserved_apart_from_diagnostic_insertions) ... ok
+
+======================================================================
+ERROR: test_setup_compiler_refuses_arbitrary_source_flags_and_output (tests.test_windows_probe_controls.WindowsProbeControls.test_setup_compiler_refuses_arbitrary_source_flags_and_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_windows_probe_controls.py", line 52, in test_setup_compiler_refuses_arbitrary_source_flags_and_output
+    self.assertEqual(gate(argv,setup)[2]['kind'],'fixed-owned-C-canary-build')
+                     ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/windows_native_slice/windows_process.py", line 160, in _setup_argv
+    if exe.resolve(strict=True)!=exe:raise ValueError('canonical owned setup executable required')
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: canonical owned setup executable required
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.523s
+
+FAILED (errors=1, skipped=1)
+real 0.61
+user 0.14
+sys 0.37

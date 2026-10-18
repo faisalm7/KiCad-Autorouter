@@ -1,6 +1,6 @@
 """Unexecuted Windows-only substrate prototype; no product portability claim."""
-import ctypes as C,ctypes.wintypes as W,hashlib,json,os,subprocess,time
-from contextlib import contextmanager
+import ctypes as C,ctypes.wintypes as W,hashlib,json,math,os,re,subprocess,sys,time
+from contextlib import contextmanager,nullcontext,ExitStack
 from pathlib import Path
 if os.name!='nt':raise RuntimeError('Windows-only capability prototype')
 K=C.WinDLL('kernel32',use_last_error=True)
@@ -34,13 +34,36 @@ def preserved(path,root):
   after=FILEINFO();yes(K.GetFileInformationByHandle(handle,C.byref(after)))
   if digest(path)!=before or (after.dwVolumeSerialNumber,after.nFileIndexHigh,after.nFileIndexLow)!=(info.dwVolumeSerialNumber,info.nFileIndexHigh,info.nFileIndexLow):raise RuntimeError('protected file changed')
  finally:yes(K.CloseHandle(handle))
-def run(argv,*,cwd,log,root,firewall_check,seconds=30,cancel_after=None):
+def run(argv,*,cwd,log,root,firewall_check,seconds=30,cancel_after=None,appcontainer=None):
  """Create suspended; assign without breakaway; terminate/wait entire owned job."""
- if type(argv) is not list or not argv or any(type(x) is not str for x in argv) or not callable(firewall_check):raise ValueError('typed argv and live firewall gate required')
- cwd=safe(cwd,root);log=safe(log,root);exe=Path(argv[0]).resolve(strict=True);before=digest(exe);network=firewall_check(exe,before)
- if network.get('verified_active_outbound_block') is not True or network.get('verified_active_inbound_block') is not True:raise RuntimeError('live per-program network deny absent')
+ if type(argv) is not list or not argv or any(type(x) is not str for x in argv):raise ValueError('typed argv and live firewall gate required')
+ if appcontainer is None:
+  if not callable(firewall_check):raise ValueError('typed argv and live firewall gate required')
+ else:
+  if __package__:from .appcontainer_launch import AppContainerLaunch
+  else:from appcontainer_launch import AppContainerLaunch
+  if type(appcontainer) is not AppContainerLaunch or firewall_check is not None:raise ValueError('exact experimental AppContainer guard and no firewall callback required')
+ cwd=safe(cwd,root);log=safe(log,root);exe=Path(argv[0]).resolve(strict=True);before=digest(exe)
+ if appcontainer is None:
+  network=firewall_check(exe,before)
+  if network.get('verified_active_outbound_block') is not True or network.get('verified_active_inbound_block') is not True:raise RuntimeError('live per-program network deny absent')
+ else:
+  if Path(argv[0]).absolute()!=exe:raise ValueError('canonical AppContainer executable argv required')
+  network=appcontainer.before_launch(exe,cwd,log,root,seconds)
+ delivery_started=time.monotonic()
+ result=_run_job(argv,cwd=cwd,log=log,root=root,seconds=seconds,cancel_after=cancel_after,appcontainer=appcontainer,launch_contract=network)
+ if digest(exe)!=before or (firewall_check(exe,before) if appcontainer is None else appcontainer.check_contract())!=network:raise RuntimeError('tool/network gate changed')
+ result['wall_seconds']=time.monotonic()-delivery_started
+ result['network']=network
+ if appcontainer is not None:result.update(accepted=False,product_support=False,experimental_network_proof=dict(kind='experimental-appcontainer-token-v1',token=result.pop('_suspended_token'),contract=network,network_tests_performed_by_adapter=False,all_network_denial_claimed=False,profile_cleanup_pending_context_exit=True))
+ else:result.pop('_suspended_token')
+ return result
+
+def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,launch_contract=None,owned_setup=False):
+ """Shared owned process lifecycle only; public entry points own admission gates."""
+ exe=Path(argv[0]).resolve(strict=True)
  job=K.CreateJobObjectW(None,None);yes(job);limits=LIMIT();limits.BasicLimitInformation.LimitFlags=0x2000|0x200|4;limits.BasicLimitInformation.PerJobUserTimeLimit=int(seconds*10_000_000);limits.JobMemoryLimit=2*1024**3
- process=PROCESS();started=time.monotonic();reason=None;created=False;assigned=False
+ process=PROCESS();started=time.monotonic();reason=None;created=False;assigned=False;token_proof=None
  try:
   yes(K.SetInformationJobObject(job,9,C.byref(limits),C.sizeof(limits)))
   # A regular owned file replaces pipe reader threads; parent alone retains its fd.
@@ -49,10 +72,18 @@ def run(argv,*,cwd,log,root,firewall_check,seconds=30,cancel_after=None):
    fd=msvcrt.get_osfhandle(stream.fileno());os.set_handle_inheritable(fd,True)
    startup=STARTUP();startup.cb=C.sizeof(startup);startup.dwFlags=0x100;startup.hStdOutput=startup.hStdError=fd;startup.hStdInput=K.GetStdHandle(-10)
    env={k:v for k,v in os.environ.items() if k.upper() in {'SYSTEMROOT','WINDIR','TEMP','TMP','PATH','APPDATA','LOCALAPPDATA','USERPROFILE','PROGRAMDATA','COMSPEC','KICAD_CONFIG_HOME'}};env.update(PYTHONDONTWRITEBYTECODE='1',PYTHONNOUSERSITE='1')
+   if owned_setup:env.update(TEMP=str(cwd),TMP=str(cwd))
    block=C.create_unicode_buffer('\0'.join(k+'='+v for k,v in sorted(env.items()))+'\0\0')
-   try:yes(K.CreateProcessW(str(exe),C.create_unicode_buffer(subprocess.list2cmdline(argv)),None,None,True,0x4|0x400|0x08000000,block,str(cwd),C.byref(startup),C.byref(process)));created=True
+   attributes=appcontainer.launch_attributes(startup,fd) if appcontainer is not None else nullcontext((C.byref(startup),0))
+   try:
+    with attributes as (startup_pointer,extra_flags):
+     yes(K.CreateProcessW(str(exe),C.create_unicode_buffer(subprocess.list2cmdline(argv)),None,None,True,0x4|0x400|0x08000000|extra_flags,block,str(cwd),startup_pointer,C.byref(process)));created=True
+     if appcontainer is not None:appcontainer.process_created()
    finally:os.set_handle_inheritable(fd,False)
    yes(K.AssignProcessToJobObject(job,process.hProcess));assigned=True
+   if appcontainer is not None:
+    token_proof=appcontainer.verify_suspended_token(process.hProcess,process.dwProcessId)
+    if appcontainer.check_contract()!=launch_contract:raise RuntimeError('experimental launch contract changed before resume')
    if K.ResumeThread(process.hThread)==0xffffffff:raise C.WinError(C.get_last_error())
    while True:
     account=ACCOUNT();yes(K.QueryInformationJobObject(job,1,C.byref(account),C.sizeof(account),None));elapsed=time.monotonic()-started
@@ -69,12 +100,123 @@ def run(argv,*,cwd,log,root,firewall_check,seconds=30,cancel_after=None):
     if reason:yes(K.TerminateJobObject(job,130 if reason=='cancelled' else 2))
     time.sleep(.02)
    yes(K.WaitForSingleObject(process.hProcess,5000)==0);code=W.DWORD();yes(K.GetExitCodeProcess(process.hProcess,C.byref(code)));yes(K.QueryInformationJobObject(job,1,C.byref(account),C.sizeof(account),None));yes(account.ActiveProcesses==0)
-  if digest(exe)!=before or firewall_check(exe,before)!=network:raise RuntimeError('tool/network gate changed')
-  return dict(argv=argv,cwd=str(cwd),log=str(log),log_sha256=digest(log),status=reason or ('success' if code.value==0 else 'nonzero_exit'),exit_code=code.value,cleanup_complete=True,wall_seconds=time.monotonic()-started,full_job_cpu_seconds=(account.TotalUserTime+account.TotalKernelTime)/10_000_000,process_count=account.TotalProcesses,network=network,limits=dict(bytes=128*1024**2,rss=2*1024**3,log=256*1024,entries=4000,seconds=seconds),os_job_memory_limit=True,scope='Owned pinned tool process job; not hostile-code sandbox or main product runner.')
+  return dict(argv=argv,cwd=str(cwd),log=str(log),log_sha256=digest(log),status=reason or ('success' if code.value==0 else 'nonzero_exit'),exit_code=code.value,cleanup_complete=True,wall_seconds=time.monotonic()-started,full_job_cpu_seconds=(account.TotalUserTime+account.TotalKernelTime)/10_000_000,process_count=account.TotalProcesses,_suspended_token=token_proof,limits=dict(bytes=128*1024**2,rss=2*1024**3,log=256*1024,entries=4000,seconds=seconds),os_job_memory_limit=True,scope='Owned pinned tool process job; not hostile-code sandbox or main product runner.')
  finally:
+  cleanup_errors=[];reaped=not created
+  def cleanup(label,action):
+   try:action()
+   except BaseException as error:cleanup_errors.append(label+': '+type(error).__name__+': '+str(error))
   if created:
-   if assigned:K.TerminateJobObject(job,130)
-   else:K.TerminateProcess(process.hProcess,130)
-   K.WaitForSingleObject(process.hProcess,5000)
-   for handle in (process.hThread,process.hProcess):K.CloseHandle(handle)
-  K.CloseHandle(job)
+   cleanup('terminate owned job/process',lambda:yes(K.TerminateJobObject(job,130) if assigned else K.TerminateProcess(process.hProcess,130)))
+   cleanup('wait owned process',lambda:yes(K.WaitForSingleObject(process.hProcess,5000)==0))
+   try:
+    if assigned:
+     until=time.monotonic()+5
+     while True:
+      final_account=ACCOUNT();yes(K.QueryInformationJobObject(job,1,C.byref(final_account),C.sizeof(final_account),None))
+      if final_account.ActiveProcesses==0:reaped=True;break
+      if time.monotonic()>=until:raise RuntimeError('owned job members remain after termination')
+      time.sleep(.02)
+    else:reaped=K.WaitForSingleObject(process.hProcess,0)==0
+    if not reaped:raise RuntimeError('owned suspended process reaping unproved')
+   except BaseException as error:cleanup_errors.append('reap owned process tree: '+type(error).__name__+': '+str(error))
+   if appcontainer is not None and reaped:cleanup('record AppContainer job reaping',appcontainer.job_reaped)
+   for handle in (process.hThread,process.hProcess):cleanup('close owned process handle',lambda h=handle:yes(K.CloseHandle(h)))
+  cleanup('close owned job',lambda:yes(K.CloseHandle(job)))
+  if cleanup_errors:raise RuntimeError('Windows process cleanup incomplete: '+'; '.join(cleanup_errors))
+
+# Setup is restricted to this one canary's authoring prerequisites.  This is not
+# a configurable gate, Native runner alternative, or network-isolation claim.
+_SETUP_ROOTS={}
+
+@contextmanager
+def _owned_setup_root(root):
+ if (os.environ.get('GITHUB_ACTIONS')!='true' or os.environ.get('RUNNER_OS')!='Windows'
+     or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted'
+     or os.environ.get('GITHUB_REPOSITORY')!='faisalm7/KiCad-Autorouter'):
+  raise RuntimeError('owned setup is restricted to standard GitHub Windows hosted CI')
+ runner=Path(os.environ['RUNNER_TEMP']).absolute();root=safe(root,runner)
+ if root.parent!=runner or not re.fullmatch(r'kicad-appcontainer007-[0-9a-f]{32}-setup',root.name):raise ValueError('exact owned AppContainer007 setup scope required')
+ key=str(root)
+ if key not in _SETUP_ROOTS:root.mkdir()
+ handle=K.CreateFileW(str(root),0x80000000,3,None,3,0x02200000,None)
+ if handle==C.c_void_p(-1).value:raise C.WinError(C.get_last_error())
+ try:
+  info=FILEINFO();yes(K.GetFileInformationByHandle(handle,C.byref(info)))
+  if not info.dwFileAttributes&0x10 or info.dwFileAttributes&0x400:raise ValueError('owned setup directory required')
+  identity=[info.dwVolumeSerialNumber,info.nFileIndexHigh,info.nFileIndexLow]
+  contract=dict(file_id=identity,runner_pid=os.getpid(),runner_source_sha256=digest(__file__))
+  if key in _SETUP_ROOTS and _SETUP_ROOTS[key]!=contract:raise RuntimeError('owned setup identity/source changed')
+  _SETUP_ROOTS[key]=dict(contract)
+  yield root,dict(contract)
+  after=FILEINFO();yes(K.GetFileInformationByHandle(handle,C.byref(after)))
+  if identity!=[after.dwVolumeSerialNumber,after.nFileIndexHigh,after.nFileIndexLow] or digest(__file__)!=contract['runner_source_sha256']:raise RuntimeError('owned setup directory/source changed')
+ finally:yes(K.CloseHandle(handle))
+
+def _setup_argv(argv,root):
+ """Allow exactly the two owned probe builds or the fixed DNS helper."""
+ if type(argv) is not list or not argv or any(type(x) is not str or not x or any(c in x for c in '\0\r\n') for x in argv):raise ValueError('typed owned setup argv required')
+ exe=Path(argv[0]).absolute()
+ if exe.resolve(strict=True)!=exe:raise ValueError('canonical owned setup executable required')
+ current=Path(sys.executable).resolve(strict=True)
+ if exe==current:
+  helper=Path(__file__).with_name('appcontainer_dns.py').resolve(strict=True)
+  if argv!=[str(current),'-I','-B',str(helper)]:raise ValueError('exact isolated owned DNS-helper argv required')
+  return exe,[helper],dict(kind='fixed-owned-DNS-helper',helper_sha256=digest(helper))
+ # Compiler paths and options cannot be repurposed to launch a Native worker,
+ # another source file, a response file, post-build hook or arbitrary linker.
+ allowed=[Path(os.environ[key]).absolute()/'Microsoft Visual Studio' for key in ('ProgramFiles','ProgramFiles(x86)')]
+ if exe.name.lower()!='cl.exe' or not any(exe.is_relative_to(p) for p in allowed):raise ValueError('preinstalled Visual Studio cl.exe or exact owned DNS helper required')
+ if [p.lower() for p in exe.parts[-4:]]!=['bin','hostx64','x64','cl.exe']:raise ValueError('exact MSVC x64 compiler path required')
+ vc=exe.parents[3]
+ if vc.parent.name!='MSVC' or not re.fullmatch(r'[0-9]+(?:\.[0-9]+)+',vc.name):raise ValueError('versioned MSVC compiler required')
+ probe=Path(__file__).with_name('appcontainer_probe.c').resolve(strict=True)
+ if len(argv)!=24 or argv[1:8]!=['/nologo','/W4','/WX','/O1','/MT','/DUNICODE','/D_UNICODE'] or argv[8] not in ('/DPROBE_ROLE=1','/DPROBE_ROLE=2'):raise ValueError('exact owned canary compiler flags required')
+ role=argv[8][-1]
+ kit=Path(os.environ['ProgramFiles(x86)']).absolute()/'Windows Kits/10'
+ include=argv[9:13]
+ if any(not item.startswith('/I') for item in include):raise ValueError('fixed explicit compiler includes required')
+ sdk=Path(include[1][2:]).parent
+ safe(sdk,kit/'Include')
+ if sdk.parent!=kit/'Include' or not re.fullmatch(r'[0-9]+(?:\.[0-9]+)+',sdk.name):raise ValueError('versioned official Windows SDK required')
+ includes=[vc/'include',sdk/'ucrt',sdk/'shared',sdk/'um']
+ libraries=[vc/'lib/x64',kit/'Lib'/sdk.name/'ucrt/x64',kit/'Lib'/sdk.name/'um/x64']
+ target=root/('probe-parent.exe' if role=='1' else 'probe-child.exe')
+ expected=[str(exe),'/nologo','/W4','/WX','/O1','/MT','/DUNICODE','/D_UNICODE','/DPROBE_ROLE='+role,
+           *['/I'+str(p) for p in includes],str(probe),'/Fo'+str(root/('role'+role+'.obj')),'/Fe'+str(target),
+           '/link','/INCREMENTAL:NO',*['/LIBPATH:'+str(p) for p in libraries],'kernel32.lib','advapi32.lib','ws2_32.lib']
+ if argv!=expected:raise ValueError('only the exact owned AppContainer probe build is allowed')
+ for path in [*includes,*libraries]:
+  safe(path,vc if path.is_relative_to(vc) else kit)
+  if not path.is_dir():raise ValueError('preinstalled compiler/SDK directory absent')
+ if target.exists() or (root/('role'+role+'.obj')).exists():raise ValueError('fresh owned compiler outputs required')
+ return exe,[probe],dict(kind='fixed-owned-C-canary-build',role=int(role),probe_sha256=digest(probe),compiler_sha256=digest(exe),SDK_version=sdk.name,MSVC_version=vc.name)
+
+def run_owned_setup(argv,*,cwd,log,root,seconds=30):
+ """Trusted CI authoring only; no network-isolation or Native admission path.
+
+ First call exclusively creates root; later calls reuse its captured identity.
+ Compiler outputs stay there and are copied by the controller after completion.
+ Every setup process/descendant uses the same suspended Job Object lifecycle.
+ """
+ if type(seconds) not in (int,float) or not math.isfinite(seconds) or not 0<seconds<=30:raise ValueError('owned setup seconds must be finite and in (0,30]')
+ started=time.monotonic()
+ with _owned_setup_root(root) as (owned,scope_contract):
+  if Path(cwd).absolute()!=owned:raise ValueError('owned setup cwd must equal its fresh root')
+  log=safe(log,owned)
+  if log.parent!=owned:raise ValueError('owned setup log must be directly inside scope')
+  exe,inputs,authoring=_setup_argv(argv,owned)
+  pins={str(p):digest(p) for p in [exe,*inputs]}
+  with ExitStack() as protection:
+   for path in [exe,*inputs]:
+    proof=protection.enter_context(preserved(path,path.parent))
+    if proof['sha256']!=pins[str(path)]:raise RuntimeError('owned setup input changed before protected launch')
+   result=_run_job(argv,cwd=owned,log=log,root=owned,seconds=seconds,owned_setup=True)
+   if any(digest(path)!=sha for path,sha in pins.items()):raise RuntimeError('owned setup source/tool bytes changed')
+  result.pop('_suspended_token')
+  result.update(accepted=False,product_support=False,Native_admitted=False,Native_executed=False,
+                network=dict(kind='owned-setup-no-network-isolation-claim',network_isolation_claimed=False),
+                authoring=authoring,source_tool_sha256=pins,setup_scope=scope_contract,
+                scope='Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.')
+ result['wall_seconds']=time.monotonic()-started
+ return result

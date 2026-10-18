@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "kind": "bounded-non-admitting-Windows-AppContainer007-prospective",
+  "frozen_utc": "2026-10-18T06:38:43.301064+00:00",
+  "parent_head": "2071e5c125f1b7f7a53abf058538f784ef732f42",
+  "hypothesis": "A fresh zero-capability AppContainer token launch, unlike per-image firewall rules, can retain the same restricted SID and no network capabilities in a differently imaged child. This limited canary tests the launch mechanism, not Native admission.",
+  "specific_blocker": "Windows005/006 cannot establish descendant/profile-independent denial through per-image firewall rule observations. Existing Native gate remains unchanged and refused.",
+  "comparison": "Positive host IPv4 TCP loopback and one frozen api.github.com IPv4:443 before and after; parent and differently compiled child must each report actual token SID/capability count and explicit WSAEACCES10013 for both endpoints. Unknown/timeout/unreachable is never denial.",
+  "execution": {
+    "manual_input": "windows-appcontainer",
+    "runner": "windows-2022",
+    "timeout_minutes": 3,
+    "permissions": "contents:read",
+    "artifacts": 0,
+    "caches": 0,
+    "installers": 0,
+    "KiCad_Java_CAD": false,
+    "attempts_maximum": 2,
+    "followup_policy": "At most one causally justified correction after retained first failure. No repeat/endpoint search/installer loop, gate weakening or Native admission."
+  },
+  "shared_controls": "One private Job Object lifecycle for probe, compiler and DNS setup; create suspended, assign no-breakaway/kill-on-close, limit2GiB,256KiB log,128MiB scratch,4000 entries, full exited-member CPU, terminate/wait zero members and checked handle cleanup. Setup allowlist permits only fixed source roles and isolated DNS helper; it claims no network isolation.",
+  "cases": [
+    {
+      "name": "denial",
+      "seconds": 15,
+      "hold_seconds": 0
+    },
+    {
+      "name": "descendant_cancel",
+      "seconds": 10,
+      "cancel_after_seconds": 2,
+      "hold_seconds": 15
+    }
+  ],
+  "prerequisites": "Preinstalled MSVC/SDK observed/pinned before execution; fixed source /MT x64 role1/2 images must differ. Setup DNS5seconds, each compile30seconds; setup included as additional authoring cost, not routing time.",
+  "cleanup_acceptance": "Exact owned DACL bytes/protection restored; all owned Jobs reaped; exact fresh profile Delete S_OK and owned profile storage folder absent. Registry absence is explicitly unqueried; files retained in ephemeral scope until runner disposal. Any missing proof is failure/unknown.",
+  "decision": "Integrate the small launch adapter only as an experimental canary if all observations pass. Native compatibility, all-network/future-profile guarantees, write confinement, full tool manifests and actual export/route/refill/validate/cancel/export remain separate unmet gates. Otherwise revise once if bounded and causal, then defer.",
+  "not_claimed": [
+    "Windows product support",
+    "KiCad/Java execution or compatibility",
+    "hostile-code sandbox",
+    "all-network/future-profile denial",
+    "scratch-write or broader source protection qualification",
+    "human review",
+    "physical validation"
+  ],
+  "source_files": [
+    {
+      "path": ".github/workflows/manual-python-controls.yml",
+      "bytes": 2976,
+      "sha256": "552fe087eb4a5f084cdaa7b09ac3a53e03c6d4f83d0b1c00089e7dc38bbe2b3c"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "bytes": 19212,
+      "sha256": "6684269a6e9d2f23c6849baf37af888622d81e3ea9baf0f6ea847b3c35658642"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "bytes": 25595,
+      "sha256": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_canary.py",
+      "bytes": 13624,
+      "sha256": "409ac54ffdd17db16686d0af18018991c67f4b60a13f35fa2161a903227087b5"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_dns.py",
+      "bytes": 505,
+      "sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_probe.c",
+      "bytes": 7290,
+      "sha256": "e900af98126edbfd23397db7ecd2021b4fdb9770e4e4cb11603d4308f2e8a346"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_diagnostic.ps1",
+      "bytes": 2063,
+      "sha256": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+    },
+    {
+      "path": "tests/test_windows_probe_controls.py",
+      "bytes": 11649,
+      "sha256": "fd0f1cfef5f564612192ca5b8c951df45ef41bdba4b2a27f03aa4866a45a8807"
+    }
+  ],
+  "local_checks": {
+    "targeted_log": ".runs/windows-appcontainer007-targeted-003.log",
+    "sha256": "e8ecca41187ee12960b054eed44c59ae7281392eaebd373f072f069bdec7d6d7",
+    "tests": 20,
+    "skipped": 1,
+    "real_seconds": 0.57,
+    "user_seconds": 0.14,
+    "system_seconds": 0.36,
+    "claim": "Pure source/real-file controls only; PowerShell absent; no Windows APIs/C build/CI executed."
+  },
+  "review": {
+    "AI_only": true,
+    "shared_lifecycle_setup": "windows005_gate found old loop extraction and exceptional log-loss; root fixed both, added actual-function regression. No other concrete lifecycle/admission defect found.",
+    "C_compiler": "preset_picker_review found select failure misreported timeout; root preserved actual WSA error. No demonstrated MSVC build defect; actual build unrun.",
+    "cost": "Authoring/model/review/primary browsing not completely instrumented, additional and unknown, not zero. No speed claim."
+  },
+  "hosted_preflight": {
+    "schema": 1,
+    "checked_utc": "2026-10-18T06:38:40.776608+00:00",
+    "repository": {
+      "archived": false,
+      "default_branch": "rebuild/local-20261010-015447",
+      "disabled": false,
+      "permissions": {
+        "push": true
+      },
+      "private": false,
+      "visibility": "public"
+    },
+    "actions": {
+      "allowed_actions": "all",
+      "enabled": true
+    },
+    "workflow_permissions": {
+      "can_approve_pull_request_reviews": false,
+      "default_workflow_permissions": "read"
+    },
+    "artifacts": {
+      "total_count": 0
+    },
+    "caches": {
+      "active_caches_count": 0,
+      "active_caches_size_in_bytes": 0
+    },
+    "recent_runs": [
+      {
+        "conclusion": "success",
+        "head_sha": "946d53d3c9f567b69a1a7b938c45aaf88b395038",
+        "id": 39090040127,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "head_sha": "3e77cdf68ade5ff184c48650fd1d9b3856c9dad3",
+        "id": 38896527411,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "head_sha": "e85ac1afd9d82b0be1620c6ef2c7605f6ec5cf3a",
+        "id": 38886669376,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "head_sha": "2c401973bc8f91c96f576217f7cafb9d289a590c",
+        "id": 38883476072,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "head_sha": "ffc7cd6039625b86eb2bb561b75953a9a7853f89",
+        "id": 38878738892,
+        "status": "completed"
+      }
+    ],
+    "sources": [
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "https://docs.github.com/en/actions/reference/runners/github-hosted-runners"
+    ],
+    "zero_cost_basis": "Current official sources: public repository standard windows-2022 compute is free; no artifact/cache/custom-image creation or downloads/installers in this job. Logs do not count toward artifact storage.",
+    "dispatch_performed": false,
+    "settings_changed": false,
+    "metadata_read_wall_seconds": 3.097905583039392
+  },
+  "free_bytes": 15873503232,
+  "Native_admitted": false,
+  "CI_dispatched": false,
+  "production_Mac_changed": false,
+  "incremental_external_spending_USD": 0
+}
