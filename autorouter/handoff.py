@@ -9,6 +9,7 @@ import time
 import uuid
 from . import config as c, floor_route as f, placement_clearance as pc, pipeline as p
 from .pipeline import Rejected, check_result, save_json, validation_readback_session
+from . import comparison as cmp
 
 SECONDS = 30
 PROJECT_BYTES = 32 * 1024 * 1024
@@ -79,7 +80,15 @@ def delivery_kwargs(native_toolchain=None, experimental_schematic_parity=False):
                  experimental_schematic_parity=experimental_schematic_parity))
 
 
-def check_delivery_context(record, native_toolchain=None, experimental_schematic_parity=False):
+def application_kwargs(native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
+    """Application authority stays separate from Native worker arguments."""
+    worker=delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    cmp.delivery_record(comparison_context,native_toolchain,experimental_schematic_parity)
+    return {**worker,**({'comparison_context':comparison_context} if comparison_context is not None else {})}
+
+
+def check_delivery_context(record, native_toolchain=None, experimental_schematic_parity=False, *, comparison_context=None):
+    if cmp.check_delivery(record,comparison_context,native_toolchain,experimental_schematic_parity):return
     expected = p.experimental_route_record(native_toolchain, experimental_schematic_parity)
     if native_toolchain is None:
         if 'native_delivery_context' in record:
@@ -89,34 +98,41 @@ def check_delivery_context(record, native_toolchain=None, experimental_schematic
         raise Rejected('experimental delivery context differs from caller')
 
 
-def delivery_record(native_toolchain=None, experimental_schematic_parity=False):
+def delivery_record(native_toolchain=None, experimental_schematic_parity=False, *, comparison_context=None):
     expected = p.experimental_route_record(native_toolchain, experimental_schematic_parity)
-    return {'native_delivery_context': expected} if expected else {}
+    return {**({'native_delivery_context': expected} if expected else {}),
+        **cmp.delivery_record(comparison_context,native_toolchain,experimental_schematic_parity)}
 
 
-def delivery_guards(receipt, report, native_toolchain, preview=None, destination=None, *, additional=(), material=None):
+def delivery_guards(receipt, report, native_toolchain, preview=None, destination=None, *, additional=(), material=None, comparison_context=None):
     """Replay existing non-byte guards after all delivery material/tool reads."""
-    if native_toolchain is None:
+    cmp.delivery_record(comparison_context,native_toolchain)
+    comparison=cmp.check_record(Path(receipt).parent,report,comparison_context)
+    if native_toolchain is None and not comparison:
         if preview is not None:check_delivery_context(preview)
         return
     pairs = []
     if preview is not None:
         from .review_view import check_experimental_preview
-        pairs = check_experimental_preview(destination, preview, native_toolchain, True)
+        pairs = check_experimental_preview(destination, preview, native_toolchain, native_toolchain is not None,
+            comparison_context=comparison_context)
     packets = [(Path(receipt).parent, report), *additional]
     for folder, data in packets:
+        if comparison and Path(folder)!=Path(receipt).parent:check_delivery_context(data,comparison_context=comparison_context)
         p.check_experimental_local_settings(folder, data, native_toolchain)
     if material is not None:material()
+    if comparison:cmp.require_context(comparison_context)
     from . import local_settings as local, schematic_field_evidence as fields
     # The central checks above validate complete lineage and tool bytes. Finish
     # with existing PRL-only readers for all roots, including plot-input copies.
+    cli=c.CLI if comparison else native_toolchain.cli
     for folder, data in packets:
         if fields.has_fields(data.get('native', {}).get('findings', [])):
             fields.check_local_settings(folder, 'final-drc', f.read_json(Path(folder) / 'final-drc-binding.json'))
         for step in data.get('steps', []):
             argv = step.get('argv', [])
-            if (argv[:3] == [str(native_toolchain.cli), 'pcb', 'drc']
-                    or argv[:len(f.SANDBOX) + 3] == [*f.SANDBOX, str(native_toolchain.cli), 'pcb', 'drc']):
+            if (argv[:3] == [str(cli), 'pcb', 'drc']
+                    or argv[:len(f.SANDBOX) + 3] == [*f.SANDBOX, str(cli), 'pcb', 'drc']):
                 root = Path(step['cwd']); name = step['name']
                 binding = f.read_json(root / (name + '-binding.json'))
                 process = f.process_check(root, data, name, argv, allowed=(0, 5))
@@ -125,9 +141,11 @@ def delivery_guards(receipt, report, native_toolchain, preview=None, destination
         local.check_event(root, binding, process)
 
 
-def review_policy(report, directory, *, native_toolchain=None, experimental_schematic_parity=False):
+def review_policy(report, directory, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Same explicit policy dispatch as the central checker; no inferred downgrade."""
-    p.check_experimental_route(report, native_toolchain, experimental_schematic_parity)
+    cmp.delivery_record(comparison_context,native_toolchain,experimental_schematic_parity)
+    if not cmp.check_record(directory,report,comparison_context):
+        p.check_experimental_route(report, native_toolchain, experimental_schematic_parity)
     from . import placement_strategy as ps
     policy = ps.POLICY if ps.recognize(report, directory) else f.receipt_policy(report, directory)
     schemas = {'native': 1, pc.POLICY: 3, f.SEARCH_POLICY: 4, ps.POLICY: 5}
@@ -188,13 +206,13 @@ def failed_session(lifecycle, exc):
     except BaseException:retain()  # No current positive after corrective-write failure.
 
 
-def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False):
-    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
+def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
+    ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     destination = None; created = False; before_created = False; preview = None
     record = {'schema': 1, 'status': 'rejected', 'native_validation_performed': False,
               'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS,
               'accounting_point': 'Stored totals precede final publication checks; final wall and parent-plus-waited-child CPU caps include them. These are observed acceptance ceilings, not OS quotas.'}
-    record.update(delivery_record(native_toolchain, experimental_schematic_parity))
+    record.update(delivery_record(native_toolchain, experimental_schematic_parity, comparison_context=comparison_context))
     if lifecycle is not None:lifecycle.update(record=record,name='review.json')
 
     def cap():
@@ -222,6 +240,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
 
     try:
         cap(); receipt = real_path(receipt)
+        cmp.delivery_path(receipt.parent,comparison_context,'route');cmp.delivery_path(Path(output).absolute(),comparison_context,'review')
         raw = pc.read_bytes(receipt, PROJECT_BYTES); receipt_digest = digest(raw)
         report = f.read_json(receipt)
         if digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_digest:
@@ -286,7 +305,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
 
         def material():
             byte_material()
-            delivery_guards(receipt, report, native_toolchain, preview, destination, material=byte_material)
+            delivery_guards(receipt, report, native_toolchain, preview, destination, material=byte_material, comparison_context=comparison_context)
 
         def central_check():
             material()
@@ -360,10 +379,10 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
         raise
 
 
-def review_copy(receipt, output, *, render=False, native_toolchain=None, experimental_schematic_parity=False):
+def review_copy(receipt, output, *, render=False, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Create one new disposable project from centrally verified captured bytes."""
     start = time.monotonic(); cpu_start = cpu_seconds()
-    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
+    ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     lifecycle={}
 
@@ -390,16 +409,16 @@ def review_copy(receipt, output, *, render=False, native_toolchain=None, experim
             signal.signal(sig, handler)
 
 
-def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False):
+def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Record a design choice; it never approves/applies a PCB or invokes KiCad."""
-    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
+    ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     destination = None; created = False
     record = {'schema': 1, 'status': 'rejected', 'choice_recorded': False,
               'routing_accepted': False, 'applied': False,
               'native_validation_performed': False, 'human_pcb_approval_observed': False,
               'fresh_native_validation_required': True,
               'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS}
-    record.update(delivery_record(native_toolchain, experimental_schematic_parity))
+    record.update(delivery_record(native_toolchain, experimental_schematic_parity, comparison_context=comparison_context))
     if lifecycle is not None:lifecycle.update(record=record,name='choice.json')
     def cap():
         if time.monotonic() - start > SECONDS or cpu_seconds() - cpu_start > SECONDS:
@@ -420,9 +439,10 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
     try:
         if type(choice) is not str or choice not in {'accept', 'reject'}:
             raise Rejected('review choice must be accept or reject')
+        cmp.delivery_path(Path(review_path).absolute().parent,comparison_context,'review');cmp.delivery_path(Path(output).absolute(),comparison_context,'choice')
         review_path = real_path(review_path); review_hash = digest(pc.read_bytes(review_path, PROJECT_BYTES))
         review = f.read_json(review_path)
-        check_delivery_context(review, native_toolchain, experimental_schematic_parity)
+        check_delivery_context(review, native_toolchain, experimental_schematic_parity, comparison_context=comparison_context)
         if (type(review.get('schema')) is not int or review['schema'] != 1
                 or review.get('status') != 'ready_for_manual_review'):
             raise Rejected('current ready review record required')
@@ -481,7 +501,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
             preview_material(); cap()
         def material():
             byte_material()
-            delivery_guards(receipt, report, native_toolchain, preview, review_path.parent, material=byte_material)
+            delivery_guards(receipt, report, native_toolchain, preview, review_path.parent, material=byte_material, comparison_context=comparison_context)
         def central_check():
             material(); verified = check_result(receipt, **ctx); cap()
             if (verified.get('current') is not True or verified.get('applied') is not False
@@ -533,10 +553,10 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         raise
 
 
-def review_choice(review, output, choice, *, native_toolchain=None, experimental_schematic_parity=False):
+def review_choice(review, output, choice, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Persist accept/reject intent with stale checks; no PCB application/approval."""
     start = time.monotonic(); cpu_start = cpu_seconds()
-    ctx = delivery_kwargs(native_toolchain, experimental_schematic_parity)
+    ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     lifecycle={}
     def interrupted(*_): raise KeyboardInterrupt

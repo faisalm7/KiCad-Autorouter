@@ -1,6 +1,6 @@
 """Caller-owned fixed comparison Route; never ordinary product admission.
 
-This first slice has no portfolio, review or export authority. Full native and
+This slice has no portfolio or ordinary product authority. Full native and
 original-design checks remain in pipeline.py; local evidence is not authenticated.
 """
 from dataclasses import dataclass, field
@@ -13,6 +13,7 @@ from . import config as c, provenance as pv
 POLICY = 'selected-native7-fixed-comparison-v1'
 PREFIX = 'native7-comparison-'
 SIDECAR = 'comparison-context.json'
+DELIVERY_POLICY = 'selected-native7-fixed-comparison-delivery-v1'
 
 
 def encode(value):
@@ -131,4 +132,44 @@ def check_record(directory, data, context):
         if (hashlib.sha256(raw).hexdigest() != context.tools['implementation_sha256'].get('autorouter/'+name)
                 or policy_declaration(raw,name=declaration,expected=POLICY) != POLICY):
             raise p.Rejected('comparison source policy/provenance differs')
+    return True
+
+
+def delivery_record(context, native_toolchain=None, experimental_schematic_parity=False):
+    """Caller expectations only; Route-only contexts gain no delivery authority."""
+    from .pipeline import Rejected
+    if context is None:return {}
+    if native_toolchain is not None or experimental_schematic_parity is not False:
+        raise Rejected('comparison delivery cannot mix Native authority')
+    require_context(context)
+    parent=context.output.parent
+    if (context.output.name != 'route' or parent.parent != c.ROOT/'.runs'
+            or not parent.name.startswith(PREFIX)):
+        raise Rejected('comparison delivery requires reserved parent with exact route child')
+    return dict(comparison_delivery_context=dict(policy=DELIVERY_POLICY,
+        route=str(context.output/'result.json'),context_sha256=hashlib.sha256(context._seal.encode()).hexdigest()),
+        production_admitted=False)
+
+
+def delivery_path(path, context, stage):
+    """Exact sibling namespace survives combined receipt/sidecar marker deletion."""
+    from .pipeline import Rejected
+    path=Path(path)
+    if context is None:
+        if marked(path):raise Rejected('comparison delivery requires its explicit caller context')
+        return
+    delivery_record(context);pv.canonical(path)
+    if stage not in ('route','review','choice','export') or path != context.output.parent/stage:
+        raise Rejected('comparison delivery path differs from exact reserved sibling')
+
+
+def check_delivery(record, context, native_toolchain=None, experimental_schematic_parity=False):
+    from .pipeline import Rejected
+    expected=delivery_record(context,native_toolchain,experimental_schematic_parity)
+    if not expected:
+        if 'comparison_delivery_context' in record:raise Rejected('comparison delivery requires its explicit caller context')
+        return False
+    if (record.get('comparison_delivery_context') != expected['comparison_delivery_context']
+            or record.get('production_admitted') is not False or 'native_delivery_context' in record):
+        raise Rejected('comparison delivery record differs from caller')
     return True

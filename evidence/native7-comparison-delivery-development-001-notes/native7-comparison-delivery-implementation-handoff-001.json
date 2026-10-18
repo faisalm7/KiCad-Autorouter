@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "kind": "native7-comparison-delivery-implementation-handoff-v1",
+  "recorded_utc": "2026-10-18T18:28:32.284122+00:00",
+  "status": "Source and focused software controls ready for lead integration; Native qualification not performed.",
+  "base_checkpoint": "475531e0d61693f4bab1c8ab1617fdfe6cbd4d5f",
+  "scope": "Typed caller-owned nonadmitting standard/tuned whole/native/source-all/both corrected comparison delivery API only. No pipeline changes, GUI/CLI entry, portfolio or B0 widening.",
+  "production_changes": [
+    {
+      "module": "comparison.py",
+      "before": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-source-baseline-001/comparison.py",
+        "sha256": "92ab3c01f50d301b09502f9d2c2890cae93fba2583586c3a0863c112ffeb25a5",
+        "bytes": 7486
+      },
+      "after": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/comparison.py",
+        "sha256": "2a32b89a8a2179db7d45e1d3e89a82afb1fda7411b3be219ce0bd7a580b4daca",
+        "bytes": 9680
+      },
+      "added_lines": 42,
+      "removed_lines": 1,
+      "net_lines": 41
+    },
+    {
+      "module": "handoff.py",
+      "before": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-source-baseline-001/handoff.py",
+        "sha256": "729dab29a3be33bc9462aea7fbf8616c89395149541dcb5139bbb98ce4116e6e",
+        "bytes": 33930
+      },
+      "after": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py",
+        "sha256": "9994ddac79e7cdf3fb6a42f14d77ea8de762927350c625166bcf1109f00b019a",
+        "bytes": 36034
+      },
+      "added_lines": 43,
+      "removed_lines": 23,
+      "net_lines": 20
+    },
+    {
+      "module": "review_view.py",
+      "before": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-source-baseline-001/review_view.py",
+        "sha256": "815473625fc3914c4844c4251cf152c8a0840df1a14b91187289e49cac8b40fc",
+        "bytes": 14230
+      },
+      "after": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/review_view.py",
+        "sha256": "d5291fa2d40ebb2fde8fdc5d358c8c957affee271fade499f536181296d08920",
+        "bytes": 15997
+      },
+      "added_lines": 31,
+      "removed_lines": 12,
+      "net_lines": 19
+    },
+    {
+      "module": "review_export.py",
+      "before": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-source-baseline-001/review_export.py",
+        "sha256": "2ed5b7849b8c86e1cc6ff415cbb340ad972bf3ce2c367499c39d875941303833",
+        "bytes": 37544
+      },
+      "after": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/review_export.py",
+        "sha256": "4ce6cb55fe0de0c5e16ed9a157ce4de0b2f5bd1caff89b344317e11d2cf14068",
+        "bytes": 38523
+      },
+      "added_lines": 46,
+      "removed_lines": 33,
+      "net_lines": 13
+    }
+  ],
+  "tests_source": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_delivery.py",
+    "sha256": "524cd2df3d96738a451ebb7919bafe2660f79d7bc1d23db19c22a5fe98191e4c",
+    "bytes": 18476
+  },
+  "production_loc": {
+    "mechanism": "difflib against retained exclusive before-files, no agent Git invocation",
+    "added": 162,
+    "removed": 69,
+    "net": 93,
+    "authorized_additional_net_max": 200
+  },
+  "api": {
+    "route_context": "Exact existing comparison.Context, source/profile/route-budget/tool/runtime sealed caller expectations. Context is never constructed from retained JSON.",
+    "required_shape": "Context.output=ROOT/.runs/native7-comparison-<caller-owned-name>/route; fresh review, choice and export direct siblings under that exact reserved canonical parent. Existing Route-only contexts remain Route/readback-only and are refused for delivery.",
+    "public_calls": [
+      "handoff.review_copy(...,render=True,comparison_context=context)",
+      "handoff.review_choice(...,comparison_context=context)",
+      "review_export.export(...,seconds=30..120,comparison_context=context)",
+      "review_export.check_export(...,comparison_context=context)"
+    ],
+    "workers": "Original h.delivery_kwargs remains Native-only; separate h.application_kwargs carries comparison_context only through application and central-reader seams. Workers retain native_toolchain=None and current selected7 normal argv/process/validation paths.",
+    "budget": "Existing30-second wall/fullCPU handoff, independent30..120-second export and final readback caps remain. Route allocation remains exactly captured by original Context. An eventual comparison must count every consumed stage and outer whole-workflow cost.",
+    "delivery_marker": "comparison_delivery_context source-defined policy + exact original route and Context-seal digest; production_admitted is always literalFalse.",
+    "ordinary_consumers": "No-context/default consumers refuse marked receipts and reserved output/origin paths, including combined marker deletion. Direct render checks original/candidate namespaces and exact before/project copies; retained preview checks its html origin before default return."
+  },
+  "demonstrated_software_regressions_fixed": [
+    "Comparison guard previously returned before original/additional normal PRL replay. Now the existing common guard body validates all source/additional packets, finishes material/tool/context reads, then replays existing field/DRC/plot metadata last.",
+    "Preview helper previously performed a manifest read after final flag checks; manifest reads now precede the common final metadata replay.",
+    "Direct render could accept reserved comparison inputs with stripped report into ordinary output; input origins now refuse without caller, and comparison copies must match exact review sibling paths.",
+    "Retained preview default-return could ignore reserved html origin after marker deletion; origin is now checked.",
+    "Retained export checker return previously recomputed delivery context after final PRL replay; return marker is now captured before final guards, with a no-post-guard-tool-callback regression."
+  ],
+  "controls": [
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-targeted-001.log",
+        "sha256": "ee73e5ca60eda1bf8fdb646c5a6a655078002926b10c7b58ea5ed233a61c53cf",
+        "bytes": 2809
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_delivery -v",
+      "tests": 10,
+      "passed": true,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "unittest_seconds": 21.202,
+      "external_wall_seconds": 21.37,
+      "external_user_seconds": 17.88,
+      "external_system_seconds": 1.89,
+      "external_cpu_seconds": 19.77,
+      "notes": "Initial delivery implementation; before skeptical late-PRL/direct-input findings and final guard refinement.",
+      "final_source_pins_match": false
+    },
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-targeted-002.log",
+        "sha256": "a6d1d025db86200849c42dac4c022fb365287da943fbe0185a9c09ac4b013bf6",
+        "bytes": 2809
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_delivery -v",
+      "tests": 10,
+      "passed": true,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "unittest_seconds": 20.214,
+      "external_wall_seconds": 20.38,
+      "external_user_seconds": 18.08,
+      "external_system_seconds": 1.92,
+      "external_cpu_seconds": 20.0,
+      "notes": "Adds direct helper mixed-Native/context refusal; still before independent late-PRL/direct-input findings.",
+      "final_source_pins_match": false
+    },
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-targeted-003.log",
+        "sha256": "07d2b5c21eeb614aee551fd20df41eb3b14819ee948984649fac854b54ee4105",
+        "bytes": 3809
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_delivery -v",
+      "tests": 11,
+      "passed": false,
+      "failures": 1,
+      "errors": 0,
+      "skips": 0,
+      "unittest_seconds": 37.592,
+      "external_wall_seconds": 37.77,
+      "external_user_seconds": 33.91,
+      "external_system_seconds": 2.71,
+      "external_cpu_seconds": 36.62,
+      "notes": "Includes shared original/additional/plot final PRL replay and direct-render/html-origin controls. One failed cancellation assertion: old fake worker raised a signal without returning cleanup evidence; existing PRL guard correctly rejected uncertain cleanup.",
+      "final_source_pins_match": false
+    },
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-targeted-004.log",
+        "sha256": "5b395b2e76531fe9eb44af7b8109d289bd9dce45f7b3945335cf309c1a66c560",
+        "bytes": 3006
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_delivery -v",
+      "tests": 11,
+      "passed": true,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "unittest_seconds": 38.271,
+      "external_wall_seconds": 38.47,
+      "external_user_seconds": 34.31,
+      "external_system_seconds": 2.76,
+      "external_cpu_seconds": 37.07,
+      "notes": "Fixture corrected to return authored cancelled/exit-15/cleanup_completeTrue runner row before Job raises, preserving original PRL. All11 pass, before final return-order finding.",
+      "final_source_pins_match": false
+    },
+    {
+      "raw": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-targeted-005.log",
+        "sha256": "be86440e70ca98801885793a3d59c8808e2c858be89de41d399d9803daf28240",
+        "bytes": 3006
+      },
+      "command": "/usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_comparison_delivery -v",
+      "tests": 11,
+      "passed": true,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "unittest_seconds": 38.535,
+      "external_wall_seconds": 38.71,
+      "external_user_seconds": 35.43,
+      "external_system_seconds": 2.82,
+      "external_cpu_seconds": 38.25,
+      "notes": "Final source/test pins. Return marker captured before final metadata guards; regression verifies no later manifest callback. All11 pass.",
+      "final_source_pins_match": true
+    }
+  ],
+  "all_agent_unit_invocations": {
+    "external_wall_seconds": 156.7,
+    "external_cpu_seconds": 151.71,
+    "includes_initial_and_failed": true,
+    "scope": "All five recorded focused invocations. Research, authoring and independent-review costs are separate and not measured by these process logs."
+  },
+  "control_limits": "Central Native routing acceptance/runtime identity and original Route semantic PRL seam are authored/stubbed; real local copying, rendered proof/process readers, export validation logic and actual owned Mac PRL flag controls run. Synthetic worker cleanup rows are software controls, not actual Native execution or measured descendant cleanup.",
+  "retained_unsupported": [
+    "Schematic netclass_flag families remain unsupported by comparison readback/delivery because existing class_context_for_record excludes production_admitted markers. Pure refusal retained; no pipeline/class support was widened.",
+    "Selected nets/layers, scoring, overrides, placement, advanced lineage, portfolio, B0/nonfaithful transport and ordinary GUI/CLI comparison context access remain unavailable."
+  ],
+  "qualification": {
+    "native_executed": false,
+    "engine_executed": false,
+    "installed_runtime_changed": false,
+    "native_delivery_qualified": false,
+    "gui_qualified": false,
+    "windows_qualified": false,
+    "routing_gain_or_superiority_measured": false,
+    "production_admitted": false,
+    "full_suite_executed": false,
+    "git_or_network_or_ci_executed": false,
+    "independent_ai_review": "Final narrow source review pending receipt at handoff creation; reviewer identified and checked the listed fixes. This is not human PCB review.",
+    "remaining": "Lead integration/full milestone checks, audited checkpoint, coherent selected7 engineering runtime, actual positive/invalid/completed-negative/cancellation/stale-controls delivery qualification, then separately frozen fair evaluation. Installed029/GUI073 remains immutable."
+  }
+}

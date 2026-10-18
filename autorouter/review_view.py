@@ -50,24 +50,32 @@ def write_bound(path, raw):
     return expected
 
 
-def check_experimental_preview(destination, preview, native_toolchain=None, experimental_schematic_parity=False):
+def check_experimental_preview(destination, preview, native_toolchain=None, experimental_schematic_parity=False, *, comparison_context=None):
     """Replay existing SVG process/PRL proofs using only caller-selected tools."""
     from . import handoff as h
-    h.delivery_kwargs(native_toolchain, experimental_schematic_parity)
-    h.check_delivery_context(preview, native_toolchain, experimental_schematic_parity)
-    if native_toolchain is None:
+    h.application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
+    h.check_delivery_context(preview, native_toolchain, experimental_schematic_parity, comparison_context=comparison_context)
+    from . import comparison as cmp
+    cmp.delivery_path(Path(destination).absolute(),comparison_context,'review')
+    if comparison_context is None and type(preview.get('html')) is str and cmp.marked(Path(preview['html']).parent):
+        raise p.Rejected('comparison preview origin requires its caller context')
+    if native_toolchain is None and comparison_context is None:
         return
+    plotter=native_toolchain.cli if native_toolchain is not None else c.CLI
+    plotter_sha=native_toolchain.cli_sha256 if native_toolchain is not None else comparison_context.tools['files'][str(plotter)]
     destination = h.real_path(destination)
     before = pc.inventory(destination / 'before')
-    boards = [name for name in before if Path(name).suffix == '.kicad_pcb']
+    boards = ([comparison_context.source.name] if comparison_context is not None else
+        [name for name in before if Path(name).suffix == '.kicad_pcb'])
+    if comparison_context is not None and before!=comparison_context.source_hashes:raise p.Rejected('comparison preview original source differs')
     if len(boards) != 1 or Path(boards[0]).name != boards[0]:
         raise p.Rejected('experimental preview needs one exact original PCB')
     board = boards[0]; tree = sx.read(destination / 'before' / board)
     layers = [sx.unquote(x[1]) for x in sx.one(tree, 'layers')[1:]
               if isinstance(x, list) and len(x) > 2 and re.fullmatch(r'(F|B|In[0-9]+)\.Cu', sx.unquote(x[1]))]
     if (len(layers) not in (2, 4) or len(set(layers)) != len(layers)
-            or preview.get('layers') != layers or preview.get('plotter') != str(native_toolchain.cli)
-            or preview.get('plotter_sha256') != native_toolchain.cli_sha256):
+            or preview.get('layers') != layers or preview.get('plotter') != str(plotter)
+            or preview.get('plotter_sha256') != plotter_sha):
         raise p.Rejected('experimental preview layers or caller plotter differ')
     root = destination / 'plot-work'; pairs = []; names = []; required = {'preview.html'}
     for layer in layers:
@@ -86,7 +94,7 @@ def check_experimental_preview(destination, preview, native_toolchain=None, expe
                 raise p.Rejected('experimental preview input binding changed')
             required.update(str((work / key).relative_to(destination)) for key in binding['after'])
             p.check_drc_project(binding['before'], binding['after'], board)
-            argv = [*f.SANDBOX, str(native_toolchain.cli), 'pcb', 'export', 'svg', '--mode-single',
+            argv = [*f.SANDBOX, str(plotter), 'pcb', 'export', 'svg', '--mode-single',
                     '--layers', layer + ',Edge.Cuts', '--fit-page-to-board', '--exclude-drawing-sheet',
                     '--output', str(target), str(work / board)]
             process = f.process_check(root, preview, name, argv)
@@ -104,17 +112,28 @@ def check_experimental_preview(destination, preview, native_toolchain=None, expe
             or preview.get('native_validation_performed') is not False or preview.get('zone_refill_performed') is not False):
         raise p.Rejected('experimental preview proof file census differs')
     p.experimental_native_version(native_toolchain)
+    if comparison_context is not None:cmp.require_context(comparison_context)
     # Flags and link counts are not byte hashes. Recheck after the last tool read.
     for binding, process in pairs:
         ls.check_event(root, binding, process)
     return [(root, binding, process) for binding, process in pairs]
 
 
-def render(destination, source, candidate, report, remaining, material, *, native_toolchain=None, experimental_schematic_parity=False):
+def render(destination, source, candidate, report, remaining, material, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Called inside handoff's existing bounded freshness/publication transaction."""
     destination = Path(destination)
     from . import handoff as h
     ctx = h.delivery_kwargs(native_toolchain, experimental_schematic_parity)
+    app=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
+    from . import comparison as cmp
+    cmp.delivery_path(destination,comparison_context,'review')
+    if comparison_context is None and any(cmp.marked(Path(path).parent) for path in (source,candidate)):
+        raise p.Rejected('comparison render inputs require their caller context')
+    if comparison_context is not None and any(h.real_path(path)!=destination/folder/comparison_context.source.name
+            for path,folder in ((source,'before'),(candidate,'project'))):
+        raise p.Rejected('comparison render inputs differ from exact review copies')
+    if comparison_context is not None or cmp.marked(destination,report):
+        h.review_policy(report,comparison_context.output if comparison_context is not None else destination,**app)
     if native_toolchain is None:
         pin = p.selected_tool_pins()['kicad_cli']
         plotter = c.CLI
@@ -209,7 +228,7 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
             'input_trees': {str(directory.relative_to(destination)): expected for directory, expected in input_trees.items()},
             'files': frozen}
 
-    if native_toolchain is not None:
-        result.update(h.delivery_record(native_toolchain, experimental_schematic_parity), plotter=str(plotter))
-        check_experimental_preview(destination, result, **ctx)
+    if native_toolchain is not None or comparison_context is not None:
+        result.update(h.delivery_record(**app), plotter=str(plotter))
+        check_experimental_preview(destination, result, **app)
     return result

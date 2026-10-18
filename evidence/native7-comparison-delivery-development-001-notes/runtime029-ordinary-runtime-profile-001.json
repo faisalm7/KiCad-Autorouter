@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "kind": "posthoc-existing-runtime029-ordinary-cost-profile-v1",
+  "recorded_utc": "2026-10-18T18:10:11.563654+00:00",
+  "Native_rerun": false,
+  "new_routing_gain": false,
+  "public_source_receipt": {
+    "path": "evidence/runtime029-functional-controls-001-notes/cases/ordinary4Cu/result.json",
+    "bytes": 30750,
+    "sha256": "51fd56a19836c6790655d95fa92454f47dcdef2f49d3a49b55a565905da9a961"
+  },
+  "source_packet_sha256": "411d4bf3810c3dd866bc32573447ad8e99feb3585146998fe16bd4fea3a6c282",
+  "stages": [
+    {
+      "stage": "preview",
+      "wall_seconds": 0.1616884579998441,
+      "exit_code": 0,
+      "cancel_requested": false,
+      "truncated": false
+    },
+    {
+      "stage": "route",
+      "wall_seconds": 12.346558458986692,
+      "exit_code": 0,
+      "cancel_requested": false,
+      "truncated": false
+    },
+    {
+      "stage": "review",
+      "wall_seconds": 4.906414084020071,
+      "exit_code": 0,
+      "cancel_requested": false,
+      "truncated": false
+    },
+    {
+      "stage": "choice",
+      "wall_seconds": 2.010071875003632,
+      "exit_code": 0,
+      "cancel_requested": false,
+      "truncated": false
+    },
+    {
+      "stage": "export",
+      "wall_seconds": 8.227230165968649,
+      "exit_code": 0,
+      "cancel_requested": false,
+      "truncated": false
+    },
+    {
+      "stage": "verify_export",
+      "wall_seconds": 2.241269917052705,
+      "exit_code": 0,
+      "cancel_requested": false,
+      "truncated": false
+    }
+  ],
+  "sum_sequential_stage_wall_seconds": 29.893232959031593,
+  "complete_exit_cost": {
+    "wall_seconds": 35.96,
+    "CPU_seconds": 31.96
+  },
+  "complete_minus_stage_wall_seconds": 6.066767040968408,
+  "scope": "Post-hoc one exposed owned4Cu default120+120 workflow. Stage CLI elapsed times nest routing/validation subprocesses; do not add Native or engine step durations again. CPU only available for whole complete exit, not separate per-stage CLI processes.",
+  "frozen_control_passed": false,
+  "oracle_failure_retained": "Outerassertincorrectlyexpected90export. Producthelpercorrectlyused gui.export_validation_seconds(120)==120; all6stagesandownNativeproofpassed. Frozenprotocol/oracle/executionstayfailed; no rerouteorrewrittenpass.",
+  "workflow_delivered": true,
+  "Native_counts": [
+    0,
+    0,
+    6,
+    0
+  ],
+  "whole_project_drc_clean": false,
+  "decision": "Preserve validation/source/tool checks. This small-board profile does not justify removing checks, claim speed superiority or tune defaults; Native computation and fresh delivery remain charged. Residual wall includes controller/readback/material/checked-inspection work and complete-exit overhead, not measured idle time. No new optimization experiment."
+}

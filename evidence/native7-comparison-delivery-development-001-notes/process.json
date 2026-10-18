@@ -1,0 +1,39 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 11.51247150002746,
+  "cpu_seconds": 10.039785,
+  "max_rss_bytes": 60784640,
+  "supervisor_cpu_seconds": 0.040847,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 60784640,
+  "sampled_peak_workdir_bytes": 191,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "-c",
+    "import sys,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');unittest.main(module=None,argv=['unittest', 'tests.test_handoff', 'tests.test_review_view', 'tests.test_review_export', 'tests.test_experimental_delivery', 'tests.test_comparison_context'])"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-existing-targeted-001/command.log",
+  "log_bytes": 191,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/comparison-delivery-existing-targeted-001",
+  "signal_cancellation_enabled": true,
+  "pid": 86400
+}

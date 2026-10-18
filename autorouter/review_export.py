@@ -8,6 +8,7 @@ import copy,hashlib,math,signal,time,uuid
 from . import config as c,pipeline as p,floor_route as f,placement_clearance as pc
 from . import placement_strategy as ps,sexpr as sx,handoff as h
 from .runner import run
+from . import comparison as cmp
 KIND='review-export-v1'
 MIN_SECONDS=30
 SECONDS=120
@@ -43,11 +44,12 @@ def bound_material(binding):
         or binding['input_witnesses'][str(Path(binding['validated_candidate']).parent)]['files']!=binding['candidate_hashes']):
         raise p.Rejected('bound delivery source/candidate capture changed')
 
-def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=False):
+def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Shared handoff contract/current checker plus exact recorded intent identity."""
-    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
     choice_path=h.real_path(choice_path);choice=f.read_json(choice_path)
-    h.check_delivery_context(choice,native_toolchain,experimental_schematic_parity)
+    cmp.delivery_path(choice_path.parent,comparison_context,'choice')
+    h.check_delivery_context(choice,**ctx)
     if (choice_path.name!='choice.json' or type(choice.get('schema')) is not int or choice['schema']!=1
         or choice.get('status')!='disposition_recorded' or choice.get('choice_recorded') is not True or choice.get('choice')!='accept'
         or any(choice.get(k) is not False for k in ('routing_accepted','applied','native_validation_performed','human_pcb_approval_observed'))
@@ -56,7 +58,8 @@ def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=Fa
         or choice.get('within_budget') is not True or any(not finite(choice.get(k)) or choice[k]>h.SECONDS for k in ('wall_seconds','total_cpu_seconds'))):
         raise p.Rejected('current bounded accept-intent record required; no approval inferred')
     review_path=h.real_path(choice['review']);review=f.read_json(review_path)
-    h.check_delivery_context(review,native_toolchain,experimental_schematic_parity)
+    cmp.delivery_path(review_path.parent,comparison_context,'review')
+    h.check_delivery_context(review,**ctx)
     receipt=h.real_path(choice['receipt']);report=f.read_json(receipt);policy=h.review_policy(report,receipt.parent,**ctx)
     source=h.real_path(report['source']);candidate=h.real_path(report['candidate']);project=h.real_path(review['project'])
     if (review_path.name!='review.json' or review.get('schema')!=1 or type(review['schema']) is not int
@@ -104,15 +107,16 @@ def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=Fa
         'receipt':str(receipt),'receipt_sha256':p.sha(receipt),'source':str(source),'validated_candidate':str(candidate),
         'validated_candidate_sha256':report['candidate_sha256'],'input_policy':policy,'source_receipt_schema':report['schema'],
         'source_hashes':sw['files'],'candidate_hashes':cw['files'],'input_witnesses':inputs}
-    binding.update(h.delivery_record(native_toolchain,experimental_schematic_parity))
-    h.delivery_guards(receipt,report,native_toolchain,preview,review_path.parent,material=lambda:bound_material(binding))
+    binding.update(h.delivery_record(**ctx))
+    h.delivery_guards(receipt,report,native_toolchain,preview,review_path.parent,material=lambda:bound_material(binding),comparison_context=comparison_context)
     return binding,report
 
-def lineage(binding,report, *, native_toolchain=None, experimental_schematic_parity=False):
+def lineage(binding,report, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Use the existing bound guidance/layer/native-class paths, never a new task."""
-    h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
-    h.check_delivery_context(binding,native_toolchain,experimental_schematic_parity)
+    ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
+    h.check_delivery_context(binding,**ctx)
     receipt=Path(binding['receipt']);policy=binding['input_policy'];source=Path(binding['source'])
+    h.review_policy(report,receipt.parent,**ctx)
     if native_toolchain is not None:
         p.check_experimental_route(report,native_toolchain,experimental_schematic_parity)
         from .pour_rule_area import qualify
@@ -148,9 +152,12 @@ class ExportJob(f.FloorJob):
         if self.remaining()<=0:raise p.Rejected('export wall/full CPU cap exhausted')
         return result
 
-def check_class_evidence(folder,data,binding,report, *, native_toolchain=None, experimental_schematic_parity=False):
+def check_class_evidence(folder,data,binding,report, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Recheck class copies/processes and non-byte PRL flags after late reads."""
-    h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
+    cmp.delivery_path(Path(folder).parent,comparison_context,'export')
+    h.check_delivery_context(data,**ctx);h.check_delivery_context(binding,**ctx)
+    h.review_policy(report,Path(binding['receipt']).parent,**ctx)
     from . import schematic_class_evidence as classes
     if classes.present(folder,data,'task'):
         raise p.Rejected('unexpected task class proof in fresh export')
@@ -173,13 +180,15 @@ def check_class_evidence(folder,data,binding,report, *, native_toolchain=None, e
     return required
 
 
-def check_stage(folder,data,binding,report,basis,contract,layers, *, native_toolchain=None, experimental_schematic_parity=False):
+def check_stage(folder,data,binding,report,basis,contract,layers, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Reuse original-rule refill/final/process/native-context validators."""
-    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
-    h.check_delivery_context(data,native_toolchain,experimental_schematic_parity)
-    h.check_delivery_context(binding,native_toolchain,experimental_schematic_parity)
-    p.check_experimental_route(report,native_toolchain,experimental_schematic_parity)
-    if native_toolchain is not None and (basis is not None or contract is not None or layers is not None):
+    ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
+    worker=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    cmp.delivery_path(Path(folder).parent,comparison_context,'export')
+    h.check_delivery_context(data,**ctx)
+    h.check_delivery_context(binding,**ctx)
+    h.review_policy(report,Path(binding['receipt']).parent,**ctx)
+    if (native_toolchain is not None or comparison_context is not None) and (basis is not None or contract is not None or layers is not None):
         raise p.Rejected('experimental export cannot use strategy or layer context')
     if report.get('scope')=='selected_nets' and data.get('schematic_parity')!=report.get('schematic_parity'):
         raise p.Rejected('export selected-net schematic parity declaration differs')
@@ -198,11 +207,11 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
     else:
         expected=dict(binding['source_hashes']);expected[candidate.name]=binding['validated_candidate_sha256']
         refill=folder/'refill'/candidate.name
-        f.check_drc_stage(folder,data,'refill-drc',refill,refill,True,expected,**ctx)
+        f.check_drc_stage(folder,data,'refill-drc',refill,refill,True,expected,**worker)
         if (sx.dump(p.transplant_fill(before,sx.read(refill)))+'\n').encode()!=pc.read_bytes(candidate):raise p.Rejected('export refill reconstruction changed')
         expected[candidate.name]=data['candidate_sha256']
         extra={'schematic_parity':True} if data.get('schematic_parity')=='checked by final native DRC' else {}
-        native=f.check_drc_stage(folder,data,'final-drc',candidate,folder/'final-drc-input'/candidate.name,False,expected,**extra,**ctx)
+        native=f.check_drc_stage(folder,data,'final-drc',candidate,folder/'final-drc-input'/candidate.name,False,expected,**extra,**worker)
         if native!=data['native']:raise p.Rejected('export actual final native report differs')
         if p.netclass_policy(candidate) is not None or native_toolchain is not None:
             native_classes=f.read_json(folder/'final-netclasses.json');audited=p.audit_candidate_netclasses(candidate,protected,native_classes,**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))
@@ -247,12 +256,14 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
         raise p.Rejected('export delivery fields differ from validated project')
     return candidate
 
-def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_parity=False):
+def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Stored proof consistency only; reruns original checker, never native or solver."""
-    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
+    returned_context=h.delivery_record(**ctx)
     guard()
     path=h.real_path(path);before_hash=p.sha(path);data=f.read_json(path)
-    h.check_delivery_context(data,native_toolchain,experimental_schematic_parity)
+    cmp.delivery_path(path.parent,comparison_context,'export')
+    h.check_delivery_context(data,**ctx)
     validate_seconds(data.get('budget_seconds'))
     if (path.name!='export.json' or data.get('schema')!=1 or type(data['schema']) is not int or data.get('kind')!=KIND
         or data.get('status')!='export_validated' or data.get('export_accepted') is not True
@@ -278,27 +289,27 @@ def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_p
     if p.sha(path)!=before_hash or bind(binding['choice'],**ctx)[0]!=binding or evidence(path.parent)!=data['export_evidence']:
         raise p.Rejected('export changed during final readback')
     check_class_evidence(path.parent/'validation',data,binding,report,**ctx)
-    if native_toolchain is not None:
+    if native_toolchain is not None or comparison_context is not None:
         def material():
             bound_material(binding)
             if (p.sha(path)!=before_hash or evidence(path.parent)!=data['export_evidence']
                     or h.runtime_inventory()!=data['runtime_source_sha256']):
                 raise p.Rejected('export changed after final tool checks')
-        h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=((path.parent/'validation',data),),material=material)
+        h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=((path.parent/'validation',data),),material=material,comparison_context=comparison_context)
     guard()
-    return {**({'native_delivery_context':data['native_delivery_context']} if native_toolchain is not None else {}),'current':True,'export_accepted':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
+    return {**returned_context,'current':True,'export_accepted':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
         'original_routing_receipt':binding['receipt'],'applied':False,'fresh_native_run_performed_by_check':False,
         'warning':'Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval.'}
 
 
-def check_export(path, *, native_toolchain=None, experimental_schematic_parity=False):
+def check_export(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Bounded read-only proof check; no fresh native run or solver is invoked."""
     start=time.monotonic();cpu=h.cpu_seconds();previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     def cap():
         if time.monotonic()-start>SECONDS or h.cpu_seconds()-cpu>SECONDS:raise p.Rejected('export readback wall/full CPU ceiling exceeded')
     try:
-        ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+        ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
         for sig in previous:signal.signal(sig,interrupted)
         with p.validation_readback_session():result=_check_export(path,cap,**ctx)
         cap();return result
@@ -329,14 +340,16 @@ def invalidate(lifecycle,exc):
         try:archive()
         except BaseException as ownership:exc.add_note('No archival correction: '+str(ownership))
 
-def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False):
+def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Validate the original bound candidate into a new project; never copy GUI rules."""
     start=time.monotonic();parent_cpu_start=time.process_time();child_cpu_start=f.child_cpu();cpu_start=parent_cpu_start+child_cpu_start
-    ctx=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
+    worker=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
+    cmp.delivery_path(Path(output).absolute(),comparison_context,'export')
     lifecycle={};record={'schema':1,'kind':KIND,'status':'rejected','export_accepted':False,
         'routing_receipt_accepted':False,'native_validation_performed':False,'applied':False,'new_engine_execution':False,
         'human_pcb_approval_observed':False,'physical_electrical_validation':False,'schematic_parity':'not checked'}
-    record.update(h.delivery_record(native_toolchain,experimental_schematic_parity))
+    record.update(h.delivery_record(**ctx))
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     def remaining():return max(0,min(seconds-(time.monotonic()-start),seconds-(h.cpu_seconds()-cpu_start)))
@@ -375,17 +388,17 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
                 if bind(binding['choice'],**ctx)[0]!=binding or h.runtime_inventory()!=runtime or p.tool_manifest(**({"native_toolchain":native_toolchain} if native_toolchain is not None else {}))!=tools:raise p.Rejected('export original inputs/runtime/tools changed')
                 if job and witness(job.out/'snapshot',project=True)!=binding['input_witnesses'][str(source.parent)]:raise p.Rejected('export original snapshot changed')
                 if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export completed evidence changed')
-                if native_toolchain is not None:
+                if native_toolchain is not None or comparison_context is not None:
                     additional=((job.out,record),) if job and lifecycle.get('evidence') is not None else ()
                     def material():
                         bound_material(binding)
                         if h.runtime_inventory()!=runtime:raise p.Rejected('export runtime changed after tool checks')
                         if job and witness(job.out/'snapshot',project=True)!=binding['input_witnesses'][str(source.parent)]:raise p.Rejected('export snapshot changed after tool checks')
                         if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export evidence changed after tool checks')
-                    h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=additional,material=material)
+                    h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=additional,material=material,comparison_context=comparison_context)
                 cap()
             stable();out.mkdir(parents=True,exist_ok=False);h.capture_destination(lifecycle,out)
-            job=ExportJob(out/'validation',seconds,remaining,protect_local_settings=True,**ctx)
+            job=ExportJob(out/'validation',seconds,remaining,protect_local_settings=True,**worker)
             for folder,capture,original_path in [(job.out/'snapshot',source_capture,source.parent),(job.out/'candidate',candidate_capture,Path(binding['validated_candidate']).parent)]:
                 folder.mkdir()
                 for name in binding['input_witnesses'][str(original_path)]['directories']:(folder/name).mkdir(parents=True,exist_ok=True)
