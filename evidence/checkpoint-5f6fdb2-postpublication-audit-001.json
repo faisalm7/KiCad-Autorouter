@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "kind": "checkpoint-sequencing-correction-postpublication-audit-v1",
+  "recorded_utc": "2026-10-18T05:19:08.200563+00:00",
+  "project_complete": false,
+  "checkpoint": "5f6fdb2f9d5a1ad86b83e4dbde1f5d3a5b95436f",
+  "prepublication_audit_passed": false,
+  "postpublication_audit_passed": true,
+  "files": 482,
+  "total_bytes": 13705208,
+  "failure": "The text-only staged audit raised AssertionError on the exact public demo tux.bmp containing NUL bytes. The enclosing shell did not stop on that error and proceeded to commit and push. This was a lead sequencing mistake; it was not an approved prepublication audit.",
+  "observed_audit_error": {
+    "source": "actual tool stderr, transcription rather than saved raw log",
+    "text": "File .runs/audit-checkpoint.py, line15: raw=git('show',':'+name); assert len(raw)<4*1024*1024 and b'\\0' not in raw; AssertionError"
+  },
+  "asset": {
+    "path": "evidence/runtime022-thermal-export-control-001-notes/export/validation/candidate/tux.bmp",
+    "sha256": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+    "bytes": 185814,
+    "source": "data/sources.json: boards/kicad-interf-u/tux.bmp",
+    "license": "CC-BY-SA-4.0",
+    "additional_attribution": "Larry Ewing and The GIMP",
+    "scope": "Exact public artwork asset with retained notices; not an engine/interpreter/app/private input"
+  },
+  "correction": "Stopped new Native work; complete retrospective audit of all482published files passed. Existing audit helper now explicitly labels retrospective mode and permits only this exact path/hash/size/BM-header/manifest-license/attribution exception. All other binary/credential/path/history checks remain. Future checkpoint shell mutations run fail-stop with sequential result inspection; no reset, force push or evidence deletion.",
+  "limits": "Retrospective review does not turn the failed prepublication audit into a pass. Existing runtime correctness, formal release, broader routing, Windows, restoration and human-review gates are unchanged.",
+  "retained_files": [
+    {
+      "path": "evidence/checkpoint-5f6fdb2-postpublication-audit-001-notes/audit.json",
+      "sha256": "1a47822f85b02381f3b795ed7a5c31cafe37d97412df46fe1d03cd7bb8e27cd0",
+      "bytes": 107822
+    },
+    {
+      "path": "evidence/checkpoint-5f6fdb2-postpublication-audit-001-notes/remote-readback.json",
+      "sha256": "ff8814a2adebc1db5039dcba1db57df574652fd4250934eb3893bd1a3b7a05f5",
+      "bytes": 446
+    },
+    {
+      "path": "evidence/checkpoint-5f6fdb2-postpublication-audit-001-notes/audit-checkpoint.py",
+      "sha256": "1aa1e91fdc314d360fa96d3bc8b38bbd21bcb791918bae9d16e04486c0b2cc5a",
+      "bytes": 3453
+    },
+    {
+      "path": "evidence/checkpoint-5f6fdb2-postpublication-audit-001-notes/audit-commit-bound-002.json",
+      "bytes": 107822,
+      "sha256": "1a47822f85b02381f3b795ed7a5c31cafe37d97412df46fe1d03cd7bb8e27cd0"
+    },
+    {
+      "path": "evidence/checkpoint-5f6fdb2-postpublication-audit-001-notes/audit-checkpoint-commit-bound.py",
+      "bytes": 3648,
+      "sha256": "aaf45224cddfa0aa66b9fba29ea595a429530168b896cc9825bb4bece0011fa0"
+    }
+  ],
+  "skeptical_review": {
+    "reviewer": "specialist AI assistant /root/windows005_gate",
+    "human_review": false,
+    "finding": "Initial retrospective helper read modes from index and manifest/notice from working tree while hashing published HEAD blobs. Reviewer independently confirmed current asset/manifest/SCOPE bytes match published HEAD; no actual exposure discrepancy found.",
+    "correction": "Final helper captures one commit once and binds names, modes, blobs, manifest and notice to it. Staged default reads index metadata. Full482-file commit-bound audit002 passes; initialaudit001 kept separately."
+  }
+}
