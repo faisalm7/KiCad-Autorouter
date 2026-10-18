@@ -3,12 +3,15 @@
 
 This is a finite installation smoke test, not a new development checkout or a
 fresh-Mac qualification. Run after other native/engine experiments have ended.
-The source checkout must be clean and committed. No network is required.
+Full mode requires a clean committed checkout. Curated distribution mode checks
+only its complete selected product and fixed owned fixture/controller bytes
+against committed HEAD before copying them. No network is required.
 """
 
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import datetime
 import fcntl
 import hashlib
@@ -25,15 +28,16 @@ import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from autorouter import config as c, pipeline as p, placement_clearance as pc
+from autorouter import config as c, pipeline as p, placement_clearance as pc, provenance as pv
 from autorouter.runner import run
+from scripts.prepare_runtime import prepare as prepare_runtime
 
 
 MAX_BYTES = 512 * 1024**2
 # Complete source plus the verified UV backup receipt is 335,544,661 bytes,
 # 341 bytes beyond the former 320 MiB cap. Retain every source/evidence file
 # with finite 384 MiB source bytes; installed scratch stays 512 MiB.
-# Distribution mode still checks the complete source before selecting files.
+# These legacy full-clone limits are unchanged by curated distribution mode.
 SOURCE_MAX_BYTES = 384 * 1024**2
 # Preserve the complete tracked source and evidence inventory.
 # Finite23000-file cap; sourcebytes/scratch/wall/security unchanged.
@@ -48,24 +52,8 @@ class Cancelled(Exception):
 
 GUIDANCE = ("native", "placement-clearance-v1")
 PLACEMENT_FIXTURE = "evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb"
-DISTRIBUTION_EVIDENCE = ("evidence/placement-area-native-001/allowed_placement/candidate/",
-                         "evidence/nus-additive-publication-fix-002/producer.py")
-DISTRIBUTION_TESTS = ("tests.test_runner", "tests.test_led_demo_fetch", "tests.test_arcdice_demo_fetch",
-                      "tests.test_demo_benchmark_source", "tests.test_additive_publication",
-                      "tests.test_netclass_parent_policy", "tests.test_netclass_parent_pipeline",
-                      "tests.test_pruning_scoring")
-
-
-def distribution_listing(listing):
-    """Fixed packaging scope; never filter routing inputs or native findings."""
-    names=[name for name in listing.split('\0') if name]
-    if len(names)!=len(set(names)) or any('\n' in name or '\r' in name for name in names):
-        raise RuntimeError('ambiguous distribution path list')
-    selected=[name for name in names if not name.startswith('evidence/')
-              or any(name==prefix or prefix.endswith('/') and name.startswith(prefix) for prefix in DISTRIBUTION_EVIDENCE)]
-    if not selected or not {'autorouter/pipeline.py','scripts/install_smoke.py','LICENSE','toolchain.lock.json'}<=set(selected):
-        raise RuntimeError('required distribution source missing')
-    return ''.join(name+'\0' for name in selected)
+SMOKE_FILES = tuple('fixtures/smoke/smoke' + suffix for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_prl'))
+INSTALL_CONTROL_FILES = ('scripts/install_smoke.py', 'scripts/prepare_runtime.py')
 
 
 def qualification(guidance):
@@ -192,6 +180,8 @@ def publish_result(out, report, stable, account, writer=None):
         preserve_publication(path)
         report.update(status="cancelled" if isinstance(exc, (Cancelled, KeyboardInterrupt)) else "failed",
                       passed=False, reason=type(exc).__name__ + ": " + str(exc))
+        for key in ('selected_source_unchanged', 'installed_product_unchanged'):
+            if key in report:report[key] = False
         try:
             writer(path, report)
             if canonical(read_json(path)) != canonical(report):
@@ -258,8 +248,164 @@ def tracked_inventory(root, listing):
     return inventory
 
 
-def install_test(out, guidance="native", source_mode="full"):
+@contextmanager
+def bounded_provenance_git(out, started, env):
+    """One installer/thread scope; reuse snapshots with bounded Git observations.
+
+    Final publication checks write separate logs/receipts, never report.commands.
+    Child product CLIs are separate processes and retain their original helper.
+    """
+    original = pv._git; sequence = 0
+    child_env = {key: value for key, value in env.items() if not key.startswith('GIT_')}
+    child_env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull, GIT_TERMINAL_PROMPT='0')
+    def observe(root, *arguments, limit=256 * 1024):
+        nonlocal sequence
+        remaining = TOTAL_SECONDS - (time.monotonic() - started)
+        if remaining <= 0:raise RuntimeError('installation Git observation budget exhausted')
+        if type(limit) is not int or not 0 < limit <= pv.MAX_FILE_BYTES:raise ValueError('bounded Git output limit required')
+        log = out / ('source-git-' + str(sequence) + '.log'); sequence += 1
+        argv = [*NETWORK_DENIAL, 'git', '--no-optional-locks', '-C', str(root),
+                '-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', *arguments]
+        result = run(argv, cwd=out, log=log, timeout=min(5, remaining), env=child_env,
+                     max_workdir_bytes=MAX_BYTES, max_log_bytes=2_000_000)
+        p.save_json(log.with_suffix('.json'), {**result, 'cwd': str(out), 'log_sha256':p.sha(log) if log.is_file() else None})
+        if result.get('status') == 'cancelled':raise Cancelled('source Git observation cancelled')
+        if (result.get('status') != 'success' or result.get('exit_code') != 0
+                or result.get('cleanup_complete') is not True or result.get('log_truncated') is not False):
+            raise RuntimeError('source Git observation failed or incomplete')
+        # Binary NUL/CRLF/blob bytes are compared exactly. Merged stderr can only
+        # cause the existing exact snapshot/parser checks to refuse.
+        return pv.read_bytes(log, limit)
+    pv._git = observe
+    try:yield
+    finally:pv._git = original
+
+
+def committed_install_material(source, head):
+    """Only fixed owned fixture/controller files; no archive census or path input."""
+    names = (*SMOKE_FILES, *INSTALL_CONTROL_FILES)
+    if pv._git(source, 'status', '--porcelain=v1', '--untracked-files=all', '--', *names):
+        raise RuntimeError('commit selected installation material before qualification')
+    rows = pv._git(source, 'ls-tree', '-z', head, '--', *names).split(b'\0')
+    blobs = {}
+    for row in filter(None, rows):
+        metadata, name = row.split(b'\t', 1); mode, kind, oid = metadata.split(b' ')
+        name = name.decode('utf-8')
+        if name not in names or name in blobs or mode not in (b'100644', b'100755') or kind != b'blob' or not re.fullmatch(b'[0-9a-f]{40}', oid):
+            raise RuntimeError('owned smoke fixture commit population differs')
+        blobs[name] = oid.decode('ascii')
+    if set(blobs) != set(names):raise RuntimeError('complete committed installation material required')
+    snapshot = {name: pv.read_bytes(source / name) for name in names}
+    for name, raw in snapshot.items():
+        if pv._git(source, 'cat-file', 'blob', blobs[name], limit=pv.MAX_FILE_BYTES) != raw:
+            raise RuntimeError('owned smoke fixture differs from committed source')
+    if pv.git_head(source) != head:raise RuntimeError('fixture source HEAD changed')
+    return snapshot
+
+
+def finish_install(out, report, started, cpu_started, stable):
+    def account():
+        report["wall_seconds"] = time.monotonic() - started
+        report["total_cpu_seconds"] = total_cpu() - cpu_started
+        report["command_cpu_seconds"] = sum((step.get("cpu_seconds") or 0) + (step.get("monitor_cpu_seconds") or 0) for step in report["commands"])
+        report["scratch_bytes"] = directory_bytes(out)
+        if report["wall_seconds"] > TOTAL_SECONDS:raise RuntimeError("installation wall budget exhausted")
+    publish_result(out, report, stable, account)
+    print(json.dumps({"status": report["status"], "passed": report["passed"], "result": str(out / "result.json")}), flush=True)
+    return 0 if report["passed"] else 2
+
+
+def distribution_test(out, selected, report, command, started, cpu_started, native_version):
+    """Fresh product runtime; source-only tests and placement remain separate."""
+    stable = lambda: None
+    report.update(source_installation_mode='distribution', complete_source_tracked_files=None,
+        historical_evidence_omitted_from_installation=True,
+        qualification='Fresh curated product runtime/venv; existing Mac, pinned tools and local engine cache. Route/check smoke only, not six-stage delivery or actual GUI qualification.',
+        installed_test_scope='Source-only suites are a separate integration gate; not run inside the immutable runtime.',
+        command_cpu_scope='Recorded CLI commands only; source-git-*.json records additional Git observations. total_cpu_seconds includes parent and all waited children, including these observations.',
+        source_git_observation_policy='Installer-only sandboxed Git; fsmonitor/hooks disabled; at most5seconds and remaining whole wall per observation; separate bounded raw logs/process receipts, including final publication checks.',
+        installation_scope='No Git history, full clone, clean OS, relocation, standalone or publication claim.')
+    report['limits'].update(selected_product_bytes=pv.MAX_OWNED_BYTES, selected_product_files=pv.MAX_FILES,
+                            selected_file_bytes=pv.MAX_FILE_BYTES, archive_census=False)
+    try:
+        if platform.system() != 'Darwin' or sys.version_info[:2] != (3, 11):
+            raise RuntimeError('installation test requires this Mac and Python 3.11')
+        p.check_storage(active_root=out)
+        head, snapshot = pv.committed_snapshot(c.ROOT)
+        material = committed_install_material(c.ROOT, head)
+        fixture_bytes = {name: material[name] for name in SMOKE_FILES}
+        source_hashes = {name: hashlib.sha256(raw).hexdigest() for name, raw in snapshot.items()}
+        p.save_json(out / 'source-tracked.json', source_hashes)
+        checkout = out / 'runtime'
+        native_version = c.native_selection(json.loads(snapshot['toolchain.lock.json']), native_version)['version']
+        built = prepare_runtime(c.ROOT, checkout, copy_local_engine=True, native_version=native_version)
+        identity = built['source_provenance']
+        if identity['git_head'] != head or identity['build_source']['files_sha256'] != source_hashes:
+            raise RuntimeError('prepared runtime differs from selected committed source')
+        implementation = {name: digest for name, digest in source_hashes.items() if name.startswith('autorouter/')}
+        interpreter = Path(sys.executable).resolve(); interpreter_hash = pv.file_digest(interpreter, 128 * 1024**2)
+        engine_hash = pv.file_digest(c.JAR, pv.MAX_ENGINE_BYTES)
+        engine_pin = json.loads(snapshot['toolchain.lock.json'])['tools']['freerouting']
+        if engine_hash != (engine_pin['sha256'], engine_pin['bytes']):raise RuntimeError('source engine cache differs from committed pin')
+        report.update(git_head=head, source_installation_mode='distribution', native_version=native_version,
+            source_inventory_sha256=p.sha(out / 'source-tracked.json'), installed_tracked_files=len(snapshot),
+            source_provenance=identity, cached_dependency=dict(path=str(c.JAR), sha256=engine_hash[0], bytes=engine_hash[1],
+                mode='Verified local-only copy; acquisition and binary redistribution not qualified.'))
+        venv = checkout / '.venv'
+        command('venv', [sys.executable, '-m', 'venv', '--copies', '--without-pip', venv], checkout)
+        python = venv / 'bin/python'
+        environment = json.loads(command('venv-identity', [python, '-c',
+            "import json,sys; print(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix}))"], checkout))
+        if Path(environment['prefix']).resolve() != venv or environment['prefix'] == environment['base_prefix']:
+            raise RuntimeError('command did not use the fresh virtual environment')
+        venv_hashes = {path: pv.file_digest(path, 128 * 1024**2) for path in (python, venv / 'pyvenv.cfg')}
+        report['venv'] = environment
+        report['actions'].append(bootstrap_runs(checkout))
+        report['doctor'] = json.loads(command('doctor', [python, '-B', '-m', 'autorouter', 'doctor'], checkout))
+        if report['doctor'].get('ready') is not True or report['doctor']['checks']['runtime_provenance']['identity'] != identity:
+            raise RuntimeError('prepared runtime doctor identity is not ready')
+        fixture_root = out / 'source-fixture'; fixture_root.mkdir()
+        for name, raw in fixture_bytes.items():
+            with (fixture_root / Path(name).name).open('xb') as stream:stream.write(raw)
+        fixture = fixture_root / Path(selected['fixture']).name
+        fixture_hashes = pc.inventory(fixture_root)
+        report['fixture'] = dict(source_files_sha256={name: hashlib.sha256(raw).hexdigest() for name, raw in fixture_bytes.items()},
+            installed_files_sha256=fixture_hashes, ownership='Project-owned fixtures/smoke; repository LICENSE retained in runtime.')
+        native_output = checkout / '.runs' / selected['directory']
+        command('route', [python, '-B', '-m', 'autorouter', 'route', fixture, '--output', native_output, *selected['argv']], checkout, timeout=150)
+        receipt = native_output / 'result.json'; native_inventory = pc.evidence_inventory(native_output); result = read_json(receipt)
+        verify_native_contract(result, selected, fixture, head)
+        if result['tools'].get('source_provenance') != identity:raise RuntimeError('route runtime identity differs')
+        report['check_result'] = json.loads(command('check-result', [python, '-B', '-m', 'autorouter', 'check-result', receipt], checkout))
+        if report['check_result'].get('current') is not True:raise RuntimeError('native result receipt failed current-file validation')
+        report['native'] = {key: result.get(key) for key in ('status', 'accepted', 'metrics', 'native', 'wall_seconds', 'total_cpu_seconds', 'candidate_sha256', 'native_report_sha256', 'tools')}
+        report['native_receipt'] = {'path': str(receipt), 'sha256': p.sha(receipt)}
+        logs = {Path(step['log']): step['log_sha256'] for step in report['commands']}
+        logs[out / 'source-tracked.json'] = report['source_inventory_sha256']
+        def stable():
+            if pv.committed_snapshot(c.ROOT) != (head, snapshot) or committed_install_material(c.ROOT, head) != material:
+                raise RuntimeError('selected committed source or fixture changed')
+            if pv.source_identity(checkout, implementation) != identity:raise RuntimeError('runtime provenance changed')
+            if pc.inventory(fixture_root) != fixture_hashes or pc.evidence_inventory(native_output) != native_inventory:
+                raise RuntimeError('fixture or native evidence changed')
+            if Path(sys.executable).resolve() != interpreter or pv.file_digest(interpreter, 128 * 1024**2) != interpreter_hash:
+                raise RuntimeError('calling interpreter changed')
+            for path, expected in venv_hashes.items():
+                if pv.file_digest(path, 128 * 1024**2) != expected:raise RuntimeError('installed interpreter changed')
+            if pv.file_digest(c.JAR, pv.MAX_ENGINE_BYTES) != engine_hash:raise RuntimeError('source engine cache changed')
+            for path, digest in {**result['tools']['files'], **logs}.items():
+                if pv.file_digest(path, 128 * 1024**2)[0] != digest:raise RuntimeError('native tool or command evidence changed')
+        stable(); report.update(status='passed', passed=True, selected_source_unchanged=True, installed_product_unchanged=True)
+    except (Cancelled, KeyboardInterrupt) as exc:report.update(status='cancelled', passed=False, reason=str(exc) or 'interrupted between commands')
+    except Exception as exc:report.update(status='failed', passed=False, reason=type(exc).__name__ + ': ' + str(exc))
+    return finish_install(out, report, started, cpu_started, stable)
+
+
+def install_test(out, guidance="native", source_mode="full", native_version=None):
     if source_mode not in ('full','distribution'):raise RuntimeError('unknown source installation mode')
+    if native_version is not None and (source_mode != 'distribution' or type(native_version) is not str or native_version not in ('10.0.0','10.0.7')):
+        raise RuntimeError('known native profile is supported only for distribution mode')
+    if source_mode == 'distribution' and guidance != 'native':raise RuntimeError('curated distribution supports native smoke only; placement requires full source')
     selected = qualification(guidance)
     out.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
@@ -312,6 +458,9 @@ def install_test(out, guidance="native", source_mode="full"):
         # intentionally larger dependency/data/evidence caches.
         return command(name, ["git", "-C", root, "-c", "core.hooksPath=/dev/null", *args], out)
 
+    if source_mode == 'distribution':
+        with bounded_provenance_git(out, started, env):
+            return distribution_test(out, selected, report, command, started, cpu_started, native_version)
     try:
         if platform.system() != "Darwin" or sys.version_info[:2] != (3, 11):
             raise RuntimeError("installation test requires this Mac and Python 3.11")
@@ -332,18 +481,10 @@ def install_test(out, guidance="native", source_mode="full"):
                                        "mode": "copy verified official release asset; acquisition not retested"}
 
         checkout = out / "checkout"
-        installed_listing=distribution_listing(listing) if source_mode=='distribution' else listing
+        installed_listing=listing
         installed_original={name:original[name] for name in installed_listing.split('\0') if name}
-        if source_mode=='distribution':
-            # A new local Git repository with independent objects/venv. This
-            # does not reclone or modify the owner's existing project.
-            command('init-distribution',['git','-c','core.hooksPath=/dev/null','init','--quiet',str(checkout)],out)
-            git('distribution-sparse-scope',checkout,'sparse-checkout','set','--no-cone','/*','!/evidence/',
-                *('/'+prefix for prefix in DISTRIBUTION_EVIDENCE))
-            git('fetch-pinned-local-source',checkout,'fetch','--quiet','--no-tags','--no-write-fetch-head',str(c.ROOT),head)
-        else:
-            command("clone", ["git", "-c", "core.hooksPath=/dev/null", "clone", "--no-local", "--no-hardlinks",
-                              "--no-checkout", "--no-tags", "--single-branch", "--branch", branch, str(c.ROOT), str(checkout)], out)
+        command("clone", ["git", "-c", "core.hooksPath=/dev/null", "clone", "--no-local", "--no-hardlinks",
+                          "--no-checkout", "--no-tags", "--single-branch", "--branch", branch, str(c.ROOT), str(checkout)], out)
         git("checkout-pinned-head", checkout, "checkout", "--quiet", "--detach", head)
         if git("clone-head", checkout, "rev-parse", "HEAD").strip() != head:
             raise RuntimeError("clone HEAD differs from frozen source")
@@ -355,8 +496,8 @@ def install_test(out, guidance="native", source_mode="full"):
         report['source_installation_mode']=source_mode
         report['installed_tracked_files']=len(installed_original)
         report['complete_source_tracked_files']=len(original)
-        report['historical_evidence_omitted_from_installation']=source_mode=='distribution'
-        report['installation_scope']='Fresh local source-distribution checkout/venv, existing Mac/tools/cache; full original source inventory remains checked. No full-clone or fresh-OS claim.' if source_mode=='distribution' else 'Fresh full local clone/venv, existing Mac/tools/cache; not freshOS.'
+        report['historical_evidence_omitted_from_installation']=False
+        report['installation_scope']='Fresh full local clone/venv, existing Mac/tools/cache; not freshOS.'
         if git("clone-initial-status", checkout, "status", "--porcelain=v1", "--untracked-files=all").strip():
             raise RuntimeError("new clone is not clean")
 
@@ -384,8 +525,8 @@ def install_test(out, guidance="native", source_mode="full"):
         if report["doctor"].get("ready") is not True:
             raise RuntimeError("fresh-checkout doctor is not ready")
         report["actions"].append(bootstrap_runs(checkout))
-        test_args=['-v',*DISTRIBUTION_TESTS] if source_mode=='distribution' else ['discover','-s','tests','-v']
-        report['installed_test_scope']=list(DISTRIBUTION_TESTS) if source_mode=='distribution' else 'full suite'
+        test_args=['discover','-s','tests','-v']
+        report['installed_test_scope']='full suite'
         command("tests", [*NETWORK_DENIAL, python, "-m", "unittest", *test_args], checkout, timeout=180)
         fixture = checkout / selected["fixture"]
         fixture_hashes = p.tree_hash(fixture.parent)
@@ -465,23 +606,15 @@ def install_test(out, guidance="native", source_mode="full"):
         report.update(status="cancelled", passed=False, reason=str(exc) or "interrupted between commands")
     except Exception as exc:
         report.update(status="failed", passed=False, reason=type(exc).__name__ + ": " + str(exc))
-    def account():
-        report["wall_seconds"] = time.monotonic() - started
-        report["total_cpu_seconds"] = total_cpu() - cpu_started
-        report["command_cpu_seconds"] = sum((step.get("cpu_seconds") or 0) + (step.get("monitor_cpu_seconds") or 0) for step in report["commands"])
-        report["scratch_bytes"] = directory_bytes(out)
-        if report["wall_seconds"] > TOTAL_SECONDS:
-            raise RuntimeError("installation wall budget exhausted")
-    publish_result(out, report, stable, account)
-    print(json.dumps({"status": report["status"], "passed": report["passed"], "result": str(out / "result.json")}), flush=True)
-    return 0 if report["passed"] else 2
+    return finish_install(out, report, started, cpu_started, stable)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default=".runs/installation-001", help="new directory under this checkout's .runs")
     parser.add_argument("--guidance", choices=GUIDANCE, default="native", help="select exactly one native fixture qualification")
-    parser.add_argument('--source-mode',choices=('full','distribution'),default='full',help='distribution installs source and required owned fixtures without duplicating historical evidence')
+    parser.add_argument('--source-mode',choices=('full','distribution'),default='full',help='distribution prepares a curated native product runtime; full retains source-backed tests/placement')
+    parser.add_argument('--native-version', choices=('10.0.0','10.0.7'), help='Explicit known profile for curated distribution only')
     args = parser.parse_args()
     raw = Path(args.output).absolute()
     if ".." in raw.parts or any(path.is_symlink() for path in (raw, *raw.parents)):
@@ -499,7 +632,7 @@ def main():
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             except BlockingIOError:
                 raise RuntimeError("another project experiment holds the shared lock")
-            return install_test(out, args.guidance,args.source_mode)
+            return install_test(out, args.guidance,args.source_mode,args.native_version)
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)

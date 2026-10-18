@@ -323,31 +323,184 @@ class WholeInstallationFlowTests(unittest.TestCase):
 
 
 class DistributionScopeTests(unittest.TestCase):
-    def source_names(self):
-        return ['autorouter/pipeline.py','scripts/install_smoke.py','LICENSE','toolchain.lock.json',
-                'tests/test_arcdice_demo_fetch.py','docs/quickstart.md',m.PLACEMENT_FIXTURE,
-                'evidence/nus-additive-publication-fix-002/producer.py',
-                'evidence/nus-additive-publication-fix-002/producer.py.foreign',
-                'evidence/unrelated-history/large.json']
-    def test_distribution_retains_runtime_tests_and_required_controls(self):
-        names=self.source_names();original='\0'.join(names)+'\0'
-        selected=m.distribution_listing(original).split('\0')[:-1]
-        self.assertEqual(selected,names[:-2])
-        self.assertEqual(original,'\0'.join(names)+'\0')
-    def test_duplicate_or_line_ambiguous_paths_reject_before_setup(self):
-        names=self.source_names()
-        for extra in (names[0],'file\nother','file\rother'):
-            with self.subTest(extra=extra),self.assertRaisesRegex(RuntimeError,'ambiguous'):
-                m.distribution_listing('\0'.join([*names,extra])+'\0')
-    def test_required_runtime_cannot_be_omitted(self):
-        names=self.source_names()
-        for required in ('LICENSE','toolchain.lock.json','autorouter/pipeline.py','scripts/install_smoke.py'):
-            with self.subTest(required=required),self.assertRaisesRegex(RuntimeError,'required'):
-                m.distribution_listing('\0'.join(n for n in names if n!=required)+'\0')
     def test_unknown_installation_mode_creates_nothing(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
             out=Path(directory)/'not-created'
             with self.assertRaisesRegex(RuntimeError,'unknown'):m.install_test(out,source_mode='unexpected')
             self.assertFalse(out.exists())
+
+
+class CuratedDistributionTests(unittest.TestCase):
+    """Real tiny builder/files; every Git observation and child command is fake."""
+    def case(self, base, *, version='10.0.7', mutation=None, material_fault=None):
+        source=base/'source';source.mkdir();out=base/'output';runtime=out/'runtime';head='a'*40
+        lock=json.loads((ROOT/'toolchain.lock.json').read_bytes())
+        jar=source/m.pv.ENGINE_PATH;jar.parent.mkdir();jar.write_bytes(b'owned synthetic engine; never executed')
+        lock['tools']['freerouting']=dict(path=m.pv.ENGINE_PATH,sha256=digest(jar),bytes=jar.stat().st_size)
+        product={name:b'owned synthetic product' for name in m.pv.FIXED_FILES}
+        product.update({'toolchain.lock.json':json.dumps(lock).encode(),'autorouter/__init__.py':b'',
+                        'autorouter/provenance.py':b'# owned synthetic module; never imported\n'})
+        material={name:b'owned fixture '+name.encode() for name in (*m.SMOKE_FILES,*m.INSTALL_CONTROL_FILES)}
+        for name,raw in {**product,**material}.items():
+            path=source/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(raw)
+        if material_fault in ('symlink','hardlink','fifo'):
+            target=source/m.SMOKE_FILES[0];target.unlink();other=base/'owned-target';other.write_bytes(material[m.SMOKE_FILES[0]])
+            if material_fault=='symlink':target.symlink_to(other)
+            elif material_fault=='hardlink':m.os.link(other,target)
+            else:m.os.mkfifo(target)
+        # This excluded path must never be opened, inventoried or fetched.
+        excluded=source/'evidence/large-private-lead';excluded.parent.mkdir();excluded.symlink_to(base/'absent')
+        native_tool=base/'native-tool';native_tool.write_bytes(b'owned tool; never executed')
+        calls=[];git_calls=[];changed=[];objects={str(i+1).zfill(40):name for i,name in enumerate(material)}
+        def git(root,*args,**kwargs):
+            git_calls.append(args)
+            if args[0]=='status':return b'M selected\n' if material_fault=='dirty' else b''
+            if args[0]=='ls-tree':
+                rows=[b'100644 blob '+oid.encode()+b'\t'+name.encode()+b'\0' for oid,name in objects.items()]
+                if material_fault=='missing':rows.pop()
+                elif material_fault=='duplicate':rows.append(rows[0])
+                elif material_fault=='mode':rows[0]=rows[0].replace(b'100644',b'120000',1)
+                elif material_fault=='escape':rows.append(b'100644 blob '+b'b'*40+b'\t../escape\0')
+                return b''.join(rows)
+            if args[:2]==('cat-file','blob'):return material[objects[args[2]]]
+            raise AssertionError('unbounded/unexpected Git operation '+repr(args))
+        implementation=lambda:{name:digest(runtime/name) for name in product if name.startswith('autorouter/')}
+        def change():
+            targets={'source':source/'LICENSE','runtime':runtime/'LICENSE','controller':source/m.INSTALL_CONTROL_FILES[0],
+                     'fixture':out/'source-fixture/smoke.kicad_pcb','tool':native_tool,
+                     'venv':runtime/'.venv/bin/python','native':runtime/'.runs/install-native-smoke/candidate.board'}
+            target=targets[mutation];target.write_bytes(target.read_bytes()+b'changed');changed.append(target)
+        def run(argv,*,cwd,log,**kwargs):
+            self.assertEqual(argv[:len(m.NETWORK_DENIAL)],m.NETWORK_DENIAL)
+            args=argv[len(m.NETWORK_DENIAL):];text='';raw=None
+            if args[0]=='git':
+                self.assertIn('core.fsmonitor=false',args);self.assertIn('core.hooksPath=/dev/null',args)
+                raw=git(Path(args[args.index('-C')+1]),*args[args.index('core.hooksPath=/dev/null')+1:])
+            else:calls.append(args)
+            if raw is not None:pass
+            elif '-m' in args and args[args.index('-m')+1]=='venv':
+                venv=Path(args[-1]);(venv/'bin').mkdir(parents=True);(venv/'bin/python').write_bytes(b'copied owned interpreter')
+                (venv/'pyvenv.cfg').write_bytes(b'owned venv config')
+            elif '-c' in args:text=json.dumps(dict(prefix=str(runtime/'.venv'),base_prefix=str(base/'base-python')))
+            elif 'doctor' in args:
+                text=json.dumps(dict(ready=True,checks={'runtime_provenance':{'identity':m.pv.source_identity(runtime,implementation())}}))
+            elif 'route' in args:
+                folder=runtime/'.runs/install-native-smoke';folder.mkdir();(folder/'candidate.board').write_bytes(b'owned candidate')
+                fixture=out/'source-fixture/smoke.kicad_pcb'
+                (folder/'result.json').write_text(json.dumps(dict(accepted=True,status='routing_accepted',source=str(fixture),
+                    tools=dict(git_head=head,source_provenance=m.pv.source_identity(runtime,implementation()),
+                               files={str(native_tool):digest(native_tool),str(runtime/m.pv.ENGINE_PATH):digest(runtime/m.pv.ENGINE_PATH)}))))
+            elif 'check-result' in args:
+                text=json.dumps({'current':True})
+                if mutation and mutation!='publication':change()
+            else:raise AssertionError('unexpected child command '+repr(args))
+            Path(log).write_bytes(raw if raw is not None else text.encode())
+            return dict(argv=argv,status='success',exit_code=0,log=str(log),cpu_seconds=0,monitor_cpu_seconds=0,
+                        cleanup_complete=True,log_truncated=False)
+        writer=m.p.save_json
+        def write(path,record):
+            writer(path,record)
+            if mutation=='publication' and record.get('passed') is True and not changed:
+                target=runtime/'LICENSE';target.write_bytes(target.read_bytes()+b'changed after publication');changed.append(target)
+        with contextlib.ExitStack() as stack:
+            for item in (mock.patch.object(m.c,'ROOT',source),mock.patch.object(m.c,'JAR',jar),
+                mock.patch.object(m.pv,'committed_snapshot',side_effect=lambda root:(head,m.pv.owned_snapshot(root))),
+                mock.patch.object(m.pv,'git_head',return_value=head),mock.patch.object(m.pv,'_git',side_effect=git),
+                mock.patch.object(m,'tracked_inventory',side_effect=AssertionError('whole archive inventory forbidden')),
+                mock.patch.object(m.p,'check_storage') ,mock.patch.object(m,'run',side_effect=run),
+                mock.patch.object(m.p,'save_json',side_effect=write),mock.patch.object(m.platform,'system',return_value='Darwin'),
+                mock.patch.object(m.sys,'version_info',(3,11)),contextlib.redirect_stdout(io.StringIO())):
+                stack.enter_context(item)
+            code=m.install_test(out,source_mode='distribution',native_version=version)
+            m.p.check_storage.assert_called_once_with(active_root=out)
+        return code,m.read_json(out/'result.json'),calls,git_calls,runtime
+
+    def test_curated_runtime_for_both_known_profiles_omits_archive_and_history(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            for version in ('10.0.0','10.0.7'):
+                base=Path(directory)/version;base.mkdir()
+                code,record,calls,git_calls,runtime=self.case(base,version=version)
+                self.assertEqual(code,0,record);self.assertTrue(record['passed'])
+                self.assertEqual(record['native_version'],version)
+                self.assertFalse((runtime/'.git').exists());self.assertFalse((runtime/'tests').exists())
+                self.assertFalse((runtime/'fixtures').exists());self.assertIsNone(record['complete_source_tracked_files'])
+                self.assertIn('Route/check smoke only',record['qualification'])
+                self.assertTrue(any('doctor' in argv for argv in calls));self.assertTrue(any('route' in argv for argv in calls))
+                self.assertFalse(any('unittest' in argv or 'scripts/setup_engine.py' in argv for argv in calls))
+                self.assertTrue(all(args[0] in ('status','ls-tree','cat-file') for args in git_calls))
+                self.assertIn('separate integration gate',record['installed_test_scope'])
+                self.assertEqual(len(list((base/'output').glob('source-git-*.json'))),len(git_calls))
+                self.assertTrue(all(not step['name'].startswith('source-git') for step in record['commands']))
+
+    def test_selected_material_is_complete_committed_regular_and_unaliased(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            for name in ('missing','duplicate','mode','escape','dirty','symlink','hardlink','fifo'):
+                with self.subTest(material=name):
+                    base=Path(directory)/name;base.mkdir();code,record,calls,_,runtime=self.case(base,material_fault=name)
+                    self.assertEqual(code,2,record);self.assertFalse(record['passed'])
+                    self.assertFalse(calls);self.assertFalse(runtime.exists())
+
+    def test_real_file_mutations_invalidate_new_distribution(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            for name in ('source','runtime','controller','fixture','tool','venv','native','publication'):
+                with self.subTest(mutation=name):
+                    base=Path(directory)/name;base.mkdir();code,record,_,_,_=self.case(base,mutation=name)
+                    self.assertEqual(code,2,record);self.assertFalse(record['passed']);self.assertTrue(record.get('reason'))
+                    if name=='publication':
+                        self.assertTrue(list((base/'output').glob('result.json.invalidated-*')))
+                        self.assertFalse(record['selected_source_unchanged']);self.assertFalse(record['installed_product_unchanged'])
+
+    def test_unsupported_distribution_options_refuse_before_creating_output(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            out=Path(directory)/'absent'
+            for kwargs in (dict(source_mode='distribution',guidance='placement-clearance-v1'),
+                dict(source_mode='full',native_version='10.0.7'),dict(source_mode='distribution',native_version=True),
+                dict(source_mode='distribution',native_version='10.0.8')):
+                with self.subTest(kwargs=kwargs),self.assertRaises(RuntimeError):m.install_test(out,**kwargs)
+                self.assertFalse(out.exists())
+
+
+class BoundedProvenanceGitTests(unittest.TestCase):
+    def test_exact_binary_output_sandbox_remaining_budget_and_no_report_mutation(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            out=Path(directory);payload=b'\xff\x00blob\r\n';original=m.pv._git
+            def run(argv,**kwargs):
+                self.assertEqual(argv[:len(m.NETWORK_DENIAL)],m.NETWORK_DENIAL)
+                self.assertIn('core.fsmonitor=false',argv);self.assertIn('core.hooksPath=/dev/null',argv)
+                self.assertEqual(kwargs['timeout'],.25)
+                self.assertNotIn('GIT_CONFIG_PARAMETERS',kwargs['env']);self.assertNotIn('GIT_DIR',kwargs['env'])
+                self.assertEqual(kwargs['max_workdir_bytes'],m.MAX_BYTES)
+                Path(kwargs['log']).write_bytes(payload)
+                return dict(status='success',exit_code=0,cleanup_complete=True,log_truncated=False)
+            with mock.patch.object(m.time,'monotonic',return_value=m.TOTAL_SECONDS-.25),mock.patch.object(m,'run',side_effect=run):
+                with m.bounded_provenance_git(out,0,{'GIT_CONFIG_PARAMETERS':'unsafe','GIT_DIR':'other','PATH':'/usr/bin:/bin'}):
+                    self.assertEqual(m.pv._git(ROOT,'cat-file','blob','a'*40,limit=100),payload)
+                    self.assertEqual(m.pv._git(ROOT,'ls-tree','-z','a'*40,limit=100),payload)
+            self.assertIs(m.pv._git,original)
+            self.assertEqual(len(list(out.glob('source-git-*.json'))),2)
+
+    def test_expired_budget_does_not_start_git_and_restores_helper(self):
+        original=m.pv._git
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            with mock.patch.object(m.time,'monotonic',return_value=m.TOTAL_SECONDS),mock.patch.object(m,'run') as run:
+                with self.assertRaisesRegex(RuntimeError,'budget'),m.bounded_provenance_git(Path(directory),0,{}):m.pv._git(ROOT,'status')
+                run.assert_not_called()
+            self.assertIs(m.pv._git,original)
+
+    def test_truncated_failed_incomplete_cancelled_and_oversize_git_refuse(self):
+        original=m.pv._git
+        faults=({'log_truncated':True},{'cleanup_complete':False},{'exit_code':1},
+                {'status':'cancelled'},{'oversize':True},{'raise':True})
+        with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
+            for index,fault in enumerate(faults):
+                out=Path(directory)/str(index);out.mkdir()
+                def run(argv,**kwargs):
+                    if fault.get('raise'):raise RuntimeError('callback failed')
+                    Path(kwargs['log']).write_bytes(b'oversize' if fault.get('oversize') else b'x')
+                    return dict(status=fault.get('status','success'),exit_code=fault.get('exit_code',0),
+                                cleanup_complete=fault.get('cleanup_complete',True),log_truncated=fault.get('log_truncated',False))
+                with self.subTest(fault=fault),mock.patch.object(m,'run',side_effect=run):
+                    with self.assertRaises(Exception),m.bounded_provenance_git(out,m.time.monotonic(),{}):m.pv._git(ROOT,'status',limit=1)
+                    self.assertIs(m.pv._git,original)
 
 if __name__ == '__main__': unittest.main()

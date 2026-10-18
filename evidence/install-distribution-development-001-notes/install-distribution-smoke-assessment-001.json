@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "kind": "install-distribution-smoke-bounded-static-assessment-v1",
+  "recorded_utc": "2026-10-18T16:55:41.535378+00:00",
+  "reviewer": "independent AI subagent; no human review",
+  "scope": "Read-only install_smoke/provenance/builder and recorded installation assessment; bounded relevant existing tests/source excerpts. No repeated tracked-file/stat/content census, Git history scan, install, CLI/doctor, Native/JVM, tests, network, CI, source/docs edit or delegation. Only this local assessment authored. Lead-owned sourceHEAD943/runtime028 and active0/7 cases remain unchanged.",
+  "accepted": false,
+  "project_complete": false,
+  "native_qualification": false,
+  "historical_size_reference": {
+    "source": "evidence/runtime026-installation-assessment-001.json",
+    "not_a_new_measurement": true,
+    "tracked_files": 37009,
+    "tracked_logical_bytes": 611781520,
+    "legacy_distribution_files": 884,
+    "legacy_distribution_working_bytes": 12508090,
+    "source_caps": {
+      "files": 23000,
+      "bytes": 402653184
+    },
+    "scratch_cap_bytes": 536870912,
+    "compressed_git_object_bytes": "unknown; not scanned or fetched"
+  },
+  "demonstrated_code_blockers": [
+    {
+      "location": "scripts/install_smoke.py install_test initial source-files/original assignment",
+      "finding": "tracked_inventory(c.ROOT, listing) hashes complete source before distribution_listing is applied. Later final and publication checks repeat tracked_inventory(c.ROOT, listing). Moving only the first selection does not remove later complete archive hashing.",
+      "minimal_local_correction": "For a retained legacy distribution working-tree contract, derive selected_listing first and use that exact bounded selected population for initial source bytes, installed bytes, final comparison and publication material. Keep full mode unchanged. Never call complete tracked_inventory as a prerequisite of distribution selection."
+    },
+    {
+      "location": "scripts/install_smoke.py initial p.check_storage()",
+      "finding": "No active_root is passed, so this scans retained .data/.tools/.runs under the separate18GiB archive audit and15-second traversal bound before source selection. An otherwise small install can still depend on the whole research archive.",
+      "minimal_local_correction": "Distribution/product install must use the existing p.check_storage(active_root=out) plus existing free-space/scratch/log/process guards, rather than rescan the archive. This is a scope correction, not a raised limit or weakened active-job guard."
+    },
+    {
+      "location": "scripts/install_smoke.py fetch-pinned-local-source",
+      "finding": "Sparse checkout controls worktree population, not transferred history/blobs. Current fetch has no depth/filter and reaches all ancestors. A shallow --depth1 fetch alone still requests current HEAD tree blobs; it is not a product allowlist.",
+      "minimal_local_correction": "For the actual product distribution, do not fetch Git history at all: reuse existing committed_snapshot and prepare_runtime builder. Do not claim a compressed pack exceeds512MiB from611MB logical bytes: actual pack size remains unknown. Do not rely on an unverified local partial-clone filter."
+    },
+    {
+      "location": "scripts/install_smoke.py distribution listing, clone checks, tests, guidance and native selection",
+      "finding": "Current distribution scope is broad all non-evidence tracked files plus two evidence exceptions; it is not provenance.FIXED_FILES/module_paths. Downstream code assumes .git, setup_engine.py, tests/experiments/fixtures and full Git index are present. Existing distribution tests import source-only experiments/scripts; e.g. test_demo_benchmark_source writes under p.c.ROOT/tests. Provenance runtime explicitly rejects extra root entries and placement guidance requires source checkout proof.",
+      "minimal_local_correction": "Do not replace the listing with50 product files and leave these stages unchanged. Explicitly separate native product-runtime smoke from legacy full/source-placement smoke. Preserve historical receipts and unsupported reasons, and do not silently omit existing source-only checks while claiming the old test scope."
+    }
+  ],
+  "preferred_smallest_archive_independent_product_path": {
+    "summary": "Reuse scripts.prepare_runtime.prepare -> provenance.committed_snapshot for distribution/product-native smoke, rather than create another source exporter or incomplete Git repository. Existing full/source-placement mode remains unchanged. This is a bounded administrative refactor of one mode, not a new backup or verifier system.",
+    "selection_before_census": "provenance.owned_snapshot enumerates only direct valid autorouter/*.py plus FIXED_FILES(LICENSE,toolchain.lock.json,scripts/install_gui.py,scripts/prepare_gui_plugin.py), bounded256files/2MiB each/16MiB owned aggregate. No evidence/test/research archive census is needed.",
+    "source_commit_integrity": "committed_snapshot verifies exact ordinary Git top-level/HEAD; selected worktree/index clean; independently enumerates committed product population using bounded ls-tree only autorouter and FIXED_FILES; rejects nonordinary blob modes; compares every selected blob size and exact committed bytes; finally rechecks HEAD and owned_snapshot. Preserve this complete selected population check, so a deleted/untracked/added product module cannot disappear from the allowlist.",
+    "installation": "Call existing prepare(source,new_runtime,copy_local_engine=True,native_version=explicit_known_profile), create a copied --without-pip venv and fresh .runs, then run the chosen finite readiness/functional smoke via the existing shared runner. Pin the exact returned manifest/source identity and selected profile. No .git/history is copied and no setup_engine.py download step is needed because the builder already copies/verifies the local lock-matching JAR. Do not copy setup_engine.py or tests into the immutable runtime to make old commands pass.",
+    "support_material": "Keep only exact owned or explicitly licensed smoke fixture/support files in a separate owned bounded sibling location (or allowed mutable scratch), with selected committed blob/size/hash/mode checks and pinned licence notices. Reuse an already suitable owned fixture; do not gather new boards. Source-only tests remain part of source integration qualification, not evidence that they ran inside the product directory. If a small installed-process test is required, use a fixed existing self-contained selection compatible with runtime layout and verify imports target the new runtime.",
+    "version": "Pass only existing strict known native profile choices to prepare; retain original lock bytes. Native profile is never selected from a route receipt or arbitrary environment. Existing install_smoke has no --native-version and defaults to source0, so do not describe unchanged legacy smoke as current stable7 qualification.",
+    "publication_and_freshness": "Reuse existing publish_result and strict readback/publication failures; replace clone-Git witness for the new product mode with existing provenance.source_identity/manifest and selected committed source witness, while preserving selected source/index/HEAD/tool/interpreter/log/fixture/Native freshness around owned subprocesses. Keep full mode git_identity behavior unchanged. Include complete external costs and scratch in the actual future result.",
+    "meaning": "Fresh local fixed-path runtime/venv on this Mac with existing pinned applications/cache. It is not a clone, clean OS, relocation, standalone app, dependency download qualification or published package. A new runtime root has a new manifest and requires its own declared qualification; do not relabel026/028 results."
+  },
+  "if_only_minimal_legacy_patch_is_desired": {
+    "scope": "An early selection plus selected-only repeated census is a valid narrow fix for the immediate content cap, if selected committed-blob/mode/HEAD/index/source checks are retained. It still does not establish archive-independent installation while unfiltered Git fetch and no-argument storage audit remain.",
+    "do_not": "Do not raise23000/384MiB/512MiB limits, hash whole archives to prove they were excluded, construct an ad-hoc partial Git object store, use hardlinks/alternates into owner .git, or initialize a synthetic commit and mislabel it as original HEAD. Do not downgrade rights requirements because bytes are tracked."
+  },
+  "finite_implementation_and_targeted_tests": [
+    "Add/clarify an exact product-native distribution path using existing builder, with full/source-placement behavior preserved. Refuse placement on curated-runtime mode explicitly before work; do not remove the legacy source-backed placement capability or claim it ran in a runtime.",
+    "A targeted tiny Git fixture with a large excluded evidence namespace must succeed through selected product capture without reading those contents or calling complete tracked_inventory; full mode must retain its existing cap refusal. Use read spies or tiny caps, not a new37009-file real census.",
+    "Reuse test_runtime_provenance coverage for exact selected HEAD bytes/population, dirty selected source, added/deleted module, symlink/hardlink/FIFO/ancestor alias, path escape, malformed manifest and late changes. Add only integration assertions proving the installer invokes this path before any whole-source byte census/fetch; do not mirror constant counts.",
+    "Exercise both known native profiles with unchanged lock bytes, reject unknown/bool/missing profile where required, and ensure doctor/CLI imports resolve under the new runtime. No accidental source0 substitution for requested7.",
+    "Prove no Git clone/fetch/network/setup_engine download is invoked in product distribution mode; preserve independent engine copy/hash and no symlink/hardlink source dependency. Bound product+engine/venv/support/scratch and visible process/log/cleanup costs with existing helpers.",
+    "Retain publication controls for stale selected source/index/HEAD, manifest/tool/interpreter/fixture/log/Native evidence mutation, cancellation, late cap overrun, partial write and failed correction. New product mode must not inherit a canonical success from a failed earlier stage.",
+    "After the implementation is checkpointed and Native lane idle, run one fresh declared install/readiness/functional qualification of the changed mode with its actual fresh manifest. Reuse source suite results as source evidence; do not repeat unrelated historical routing studies or label old026/028 output as that new instance. A current active028 case is not a test of a future installer patch."
+  ],
+  "rights_and_threat_limits": [
+    "Product allowlist and committed-blob identity establish selected bytes, not an automatic redistribution licence for arbitrary future added modules. Retain GPL LICENSE and known project ownership; any additional fixture needs its existing own/public redistribution proof and notices. Exclude private inputs, .local-reference, downloaded engines/bulk data from public publication; the copied engine remains local-only publication_authorized false.",
+    "Use existing canonical/no-alias single-link regular-file readers for every selected product/support byte; preserve exact paths/modes/population, late source HEAD/index checks and exclusive fresh outputs. Do not accept checkout status alone as committed-byte identity or a path-only manifest as a backup.",
+    "No new source/export authenticity claim: provenance manifest is an integrity record, not a signature, independent commit authentication or defence against an actor rewriting all local evidence. No global KiCad/security changes, clean OS, Windows or formal package claim follows."
+  ],
+  "resource_estimate": "No new count, stat, object-size or free-space measurement performed. Historical026 known product+manifest+JAR+copiedvenv lower bound65,833,037bytes is a planning reference only; new support/config/logs/jobs/filesystem overhead are extra. Existing16MiB product/128MiB engine/512MiB install scratch/600second wall bounds remain finite and unraised; current actual headroom must be measured by lead before any future job.",
+  "decision": "Fix the content selection order everywhere, but do not stop at that one-line change. The existing curated-runtime provenance/builder is the smallest complete way to select product bytes before census and avoid fetching any historical Git objects. Native-only product smoke and source-only legacy checks must be honestly separated. No changes or execution are authorized by this assessment during the frozen028 cases.",
+  "file_pins": {
+    "scripts/install_smoke.py": {
+      "sha256": "e5a14b9adfce5e92ce4e998e1635fd6f3cf371419752c07d82539766b0991ae7",
+      "bytes": 30530
+    },
+    "scripts/prepare_runtime.py": {
+      "sha256": "8590c38979075c89540c9a366324189ae2309bd72b0f6df300a6842c0900f0fc",
+      "bytes": 7359
+    },
+    "autorouter/provenance.py": {
+      "sha256": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+      "bytes": 14932
+    },
+    "autorouter/pipeline.py": {
+      "sha256": "1c23c2ac94d57c35c47dcaa346d17ff2464128384c0ea45f84d4ebf138b4a385",
+      "bytes": 202985
+    },
+    "tests/test_install_smoke.py": {
+      "sha256": "e4a260bba27a4c329bdb09b187e14d95b4d398fe9970f6314f69d1eaddde7257",
+      "bytes": 22338
+    },
+    "tests/test_runtime_provenance.py": {
+      "sha256": "f81d623ebb3bd2421ec0bc27f5a8340791f9feee8cb0a1b871d40c8ea5985ce2",
+      "bytes": 15524
+    },
+    "tests/test_runtime_source_integration.py": {
+      "sha256": "44a32d49b4b0f3fe730a1fa57defe98f8d90e569b558501ce42af2ab324a3048",
+      "bytes": 2652
+    },
+    "evidence/runtime026-installation-assessment-001.json": {
+      "sha256": "0ad24c7db4c563f771d3042530767d91b98ea925ce79ea39c26af41b4bf3a82a",
+      "bytes": 12160
+    }
+  }
+}
