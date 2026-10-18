@@ -1,0 +1,622 @@
+{
+  "schema": 1,
+  "kind": "actual-runtime023-mixed-lock-free-via-alias-partial-installed-CLI-v1",
+  "recorded_utc": "2026-10-18T05:23:09.130591+00:00",
+  "passed": true,
+  "project_complete": false,
+  "accepted": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "routing_quality_improvement_claim": false,
+  "source_head": "8c0c8468823751d9b5dc4c9a9c51b1d622269a27",
+  "runtime_manifest_sha256": "3df808e340dbe8c01ddebafe5c5c12583dc8d4d0cfea407c9252b0a89c41de81",
+  "immutable_module_count": 45,
+  "runtime_module_sha256": {
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "969ee3f7143dee26a0fa328ebffd0ad355ebcfe74c09c8cd99f48cc778db3f45",
+    "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+    "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+    "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+    "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+    "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+    "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+    "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+    "autorouter/gui.py": "6b31345ad283bfe1dda7d164fe4e820d6cc99c2aa7e6c253892a5cd38c77af30",
+    "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+    "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+    "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+    "autorouter/local_settings.py": "dbbdc3c667f2ca26e91006af8935e31c20de9a21ef9325f7bbe78a07fd5d8624",
+    "autorouter/native.py": "c329e450bb4eb9377d6d3f6e8d08d7b59d85a01df4c56dcba4cdce97d608fd41",
+    "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+    "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+    "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+    "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+    "autorouter/padless_alias.py": "48405af10ffc2d4db109c3893766dcc9206319f2711cc34c05f57b2937298c56",
+    "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+    "autorouter/pipeline.py": "884590169bcbe2e4a760285140256af07e6948bff2fb52c305c05243057aca9a",
+    "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+    "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+    "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+    "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+    "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+    "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+    "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+    "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+    "autorouter/review_export.py": "2ed5b7849b8c86e1cc6ff415cbb340ad972bf3ce2c367499c39d875941303833",
+    "autorouter/review_view.py": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+    "autorouter/schematic_class_evidence.py": "b8d64906133de30b6a56d9601ecb40cbc58d186e8902c19b13f82856ca19756b",
+    "autorouter/schematic_classes.py": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9",
+    "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+    "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+    "autorouter/task_copper.py": "051b37275f26720fb2862dbf5dd280fc60b28efcb74155a50f8ff566dd1ade79",
+    "autorouter/thermal.py": "e477170d61e7aabf79e364b0a3c80ddca3bb48180825a80d0003228670b12b78",
+    "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+  },
+  "full_integration": {
+    "raw_receipt": ".runs/full-integration-163/execution.json",
+    "sha256": "c4c09592d56c7d761ecc59388eb3a372727682b0edcfa60fd4f800589cc577f6",
+    "passed": true
+  },
+  "complete_controller": {
+    "wall_seconds": 30.98,
+    "user_seconds": 22.56,
+    "system_seconds": 3.9,
+    "full_cpu_seconds": 26.46,
+    "resolution_seconds": 0.01,
+    "measurement": "External /usr/bin/time -p, complete process exit"
+  },
+  "complete_controller_wall_seconds": 30.98,
+  "complete_controller_cpu_seconds": 26.46,
+  "stored_enclosure_sample": {
+    "wall_seconds": 30.95168883301085,
+    "full_cpu_seconds": 26.442429000000004
+  },
+  "runtime_preparation": {
+    "source_head": "8c0c8468823751d9b5dc4c9a9c51b1d622269a27",
+    "manifest_sha256": "3df808e340dbe8c01ddebafe5c5c12583dc8d4d0cfea407c9252b0a89c41de81",
+    "prepared": true,
+    "installed_doctor": true,
+    "stored_sample_wall_seconds": 2.7182772919768468,
+    "stored_sample_full_cpu_seconds": 1.92925,
+    "complete_exit": {
+      "wall_seconds": 2.78,
+      "user_seconds": 1.3,
+      "system_seconds": 0.67,
+      "full_cpu_seconds": 1.97,
+      "resolution_seconds": 0.01,
+      "measurement": "External /usr/bin/time -p, complete process exit"
+    },
+    "cost_scope": "Separate preparation/installed doctor cost; not hidden in or added to nested workflow CPU."
+  },
+  "budgets": {
+    "captured_routing_seconds": 90,
+    "separate_export_validation_seconds": 90,
+    "controller_wall_full_cpu_cap_seconds": 240,
+    "supervisor_wall_seconds": 260
+  },
+  "workflow": [
+    "preview",
+    "route",
+    "rendered review generation",
+    "software accept intent",
+    "fresh Native export",
+    "checked export"
+  ],
+  "processes": [
+    {
+      "stage": "preview",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "preview",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/gui-session070/project/owned1007-transport.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/settings.json"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 1036,
+        "wall_seconds": 0.10062112502055243,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "c52f5863f62108cd027238397023d1b89ed88b9f8e7182bc2cdde338934e5a3e"
+    },
+    {
+      "stage": "route",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/gui-session070/project/owned1007-transport.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/settings.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 510,
+        "wall_seconds": 9.642964208964258,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "8fd9282b9f9fe093ac74791cb1e429f2f35aba98e99cea235fe674ddc735d885"
+    },
+    {
+      "stage": "review",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-copy",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route/result.json",
+          "--render",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/review"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 45040,
+        "wall_seconds": 3.9615355000132695,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "efc71c418bf401e9e1492363ae93a33cb3408120f07bbfa1fbfee5d87bd713d2"
+    },
+    {
+      "stage": "choice",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-choice",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/review/review.json",
+          "--choice",
+          "accept",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/choice"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 25190,
+        "wall_seconds": 2.075868458021432,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "b8eba7a69e9ebe89545d0caf857bd4167e2320b8d1d092e1ef6e350cc3a552b9"
+    },
+    {
+      "stage": "export",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/choice/choice.json",
+          "--seconds",
+          "90",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/export"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 552,
+        "wall_seconds": 7.072387291002087,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "cd64eeddcce7a19f0efd4f0d8c53033925ec1507cfa4d93512dba8e3ad16dc48"
+    },
+    {
+      "stage": "verify_export",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "review-export-check",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/export/export.json"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 782,
+        "wall_seconds": 2.197295124991797,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "314bb4f0c1031a51aebdd9ffdddcd3d093e671647a0c7b54bbabc5bdb7867aab"
+    }
+  ],
+  "own_final_proofs": [
+    {
+      "stage": "route",
+      "candidate_sha256": "a328d5aae56edea2deeb96389ee65e6da6a4db9cf2aec7a1f25da153a16a2f00",
+      "native_report_sha256": "8d1e058b27cb1e4b57d1a682d5041dca47c10993d35027964dedbc22c38e1fd6",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 1,
+        "track_length_mm": 49.0,
+        "copper_layers": 2
+      },
+      "protected_routes": 4,
+      "protected_routes_unchanged": true,
+      "schematic_parity": "checked by final native DRC",
+      "original_nonrouting_design_preserved": true
+    },
+    {
+      "stage": "export",
+      "candidate_sha256": "a328d5aae56edea2deeb96389ee65e6da6a4db9cf2aec7a1f25da153a16a2f00",
+      "native_report_sha256": "33c2bdd10e28db499e32e2b964a20e268e61e50c1cf3d9eb3eda41087d1346e3",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": []
+      },
+      "metrics": {
+        "version": "10.0.0",
+        "pads": 6,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 1,
+        "track_length_mm": 49.0,
+        "copper_layers": 2
+      },
+      "protected_routes": 4,
+      "protected_routes_unchanged": true,
+      "schematic_parity": "checked by final native DRC",
+      "original_nonrouting_design_preserved": true
+    }
+  ],
+  "source_hashes": {
+    "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+    "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+    "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+  },
+  "original_source_project_bytes_unchanged": true,
+  "route_readback": {
+    "current": true,
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route/candidate/owned1007-transport.kicad_pcb",
+    "candidate_sha256": "a328d5aae56edea2deeb96389ee65e6da6a4db9cf2aec7a1f25da153a16a2f00",
+    "applied": false,
+    "authentication": "none; mutable local evidence consistency only",
+    "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+  },
+  "export_readback": {
+    "current": true,
+    "export_accepted": true,
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/export/validation/candidate/owned1007-transport.kicad_pcb",
+    "candidate_sha256": "a328d5aae56edea2deeb96389ee65e6da6a4db9cf2aec7a1f25da153a16a2f00",
+    "original_routing_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route/result.json",
+    "applied": false,
+    "fresh_native_run_performed_by_check": false,
+    "warning": "Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval."
+  },
+  "whole_project_drc_clean": true,
+  "producer_helper": {
+    "path": "scripts/qualify_runtime_workflow.py",
+    "source_head": "8c0c8468823751d9b5dc4c9a9c51b1d622269a27",
+    "sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034",
+    "bound_child_driver_sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034"
+  },
+  "accounting": "Complete external wall/user/system exit measurements include actual conversion, routing, validation, rendered review, test intent, export, repeated checks, publication and exit. Stored earlier samples remain separate; never sum nested process CPU. Authoring, AI review and curation costs are additional and uninstrumented, not zero.",
+  "limits": [
+    "Actual GUI is not exercised by this packet. No toolbar/window/human qualification claim.",
+    "Owned exposed regression fixture only; no comparative routing-quality, completion-breadth or electrical suitability claim.",
+    "Same pinned Mac/applications/cache/fixed runtime path; no Windows, clean-OS, relocation or standalone-install claim.",
+    "Essential proof bytes only; no full-workspace backup or restoration test. Raw artifacts remain on this Mac. Older backups do not cover new artifacts retroactively."
+  ],
+  "reference_records": [
+    {
+      "path": "evidence/runtime022-installed-CLI-001.json",
+      "sha256": "8ec35163e80287aeca428ed18297661f33110da399b7fcc7a884635c645e817b"
+    },
+    {
+      "path": "evidence/runtime022-installed-partial-CLI-001.json",
+      "sha256": "a4a64aa7cc820f203dd512af3eaabaf17c3d6fcee79c6cd68023e9eeeb35c355"
+    },
+    {
+      "path": "evidence/runtime023-installed-CLI-001.json",
+      "sha256": "697affd648420914c73216d22cd6fde96496dac0cafa0b276c2a55f52781c24f"
+    }
+  ],
+  "files": [
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/controller/protocol.json",
+      "bytes": 2094,
+      "sha256": "c760ba8ba2e4f28d2b4c0d8fd22f6e0c3fa1302a5813bf066160ab093b813c69"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/controller/process.json",
+      "bytes": 2204,
+      "sha256": "c0d3638204663df741c216c7d7dde43b1bfd437837c9a00f8fde72eae33edb65"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/controller/execution.json",
+      "bytes": 2764,
+      "sha256": "93038585571e1e13719dbe5f8daa3b2034b35e6ab9adff03cec94199193f8a20"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/controller/driver.py",
+      "bytes": 3087,
+      "sha256": "6bfb9cc81ded166f1e1e71ec1bb415fa69d58b7483fa20198d4ae0b8042036c9"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/controller/complete-exit-time.log",
+      "bytes": 31,
+      "sha256": "39cdbf1211fa807df661594aba4c64d3934240373b1f91b47898b0776cc6495f"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/result.json",
+      "bytes": 22340,
+      "sha256": "63ad0d8f4702628aabd1d2ce6120afaf7ee7023cf20bf53cfc330fa36db49543"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/choice.log",
+      "bytes": 25190,
+      "sha256": "b8eba7a69e9ebe89545d0caf857bd4167e2320b8d1d092e1ef6e350cc3a552b9"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/export.log",
+      "bytes": 552,
+      "sha256": "cd64eeddcce7a19f0efd4f0d8c53033925ec1507cfa4d93512dba8e3ad16dc48"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/preview.log",
+      "bytes": 1036,
+      "sha256": "c52f5863f62108cd027238397023d1b89ed88b9f8e7182bc2cdde338934e5a3e"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/review.log",
+      "bytes": 45040,
+      "sha256": "efc71c418bf401e9e1492363ae93a33cb3408120f07bbfa1fbfee5d87bd713d2"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/route.log",
+      "bytes": 510,
+      "sha256": "8fd9282b9f9fe093ac74791cb1e429f2f35aba98e99cea235fe674ddc735d885"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/verify_export.log",
+      "bytes": 782,
+      "sha256": "314bb4f0c1031a51aebdd9ffdddcd3d093e671647a0c7b54bbabc5bdb7867aab"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/workflow/captured-settings.json",
+      "bytes": 194,
+      "sha256": "2258e809e1efc6a1020ef0f55f2f63eecb5ebc126f6ae3d554658e94a5753880"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/engine-process.json",
+      "bytes": 3023,
+      "sha256": "88e44ae4131df87a72789333a833358bcba4f2d8fa1925c2cb48bbcf0d130850"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/engine.log",
+      "bytes": 2263,
+      "sha256": "e75d9eb69291588508a372e980e01b1700f7e8cbfde22a5d08eec9857b802833"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/export-process.json",
+      "bytes": 2231,
+      "sha256": "30c8233b121599c953bab73f5f2c916f981b60e9afd95e19e4303096781f7987"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/final-drc-binding.json",
+      "bytes": 1463,
+      "sha256": "41b285c72fefb4f2df5d1a0a6499cd2760f4acc3de69daec388f4f33b2f6c7fc"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/final-drc-process.json",
+      "bytes": 2811,
+      "sha256": "c1e83dd0a971f3a338741f3352d59a921e0df014e1069d1ef6321a18b3c73747"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/final-drc.json",
+      "bytes": 672,
+      "sha256": "8d1e058b27cb1e4b57d1a682d5041dca47c10993d35027964dedbc22c38e1fd6"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/final-drc.log",
+      "bytes": 275,
+      "sha256": "225fe0d0cefc7e08d13343ed0d7bfd62a2461dc67ff6f1d30ae793ace9e02ebd"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/import-process.json",
+      "bytes": 2410,
+      "sha256": "63a16564b18a9be9acfc66a82304b38053bf51de2756466eb1f3818eadf63723"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/imported.routes-only.json",
+      "bytes": 893,
+      "sha256": "dd4aaf1c1a1cc859752f08caffd13e3c69cc0e374edb87373a37f72db6ad6d54"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/metrics-process.json",
+      "bytes": 2200,
+      "sha256": "b2fe2f48108d9c2b1e2db8bfb6caf1938ad40916b93871e5bf38e0d72e7f5251"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/native-edge-correction.json",
+      "bytes": 1035,
+      "sha256": "e2b53fa3d469082b0aa1e5844cc83ec8f5ba5c52ad99d8d16d3bde8af08dd7c0"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/obstacles-process.json",
+      "bytes": 2219,
+      "sha256": "ef470eaa0c3ebb8443287a5d7328dd8aecd6626820b304b8d34d6c40ff6d3d84"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/refill-drc-binding.json",
+      "bytes": 1381,
+      "sha256": "218d18757df2213b8740079135e0d6be0f57b6c2372218c7956a6106858689c8"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/refill-drc-process.json",
+      "bytes": 2791,
+      "sha256": "8e4185bba4e6a74c76488679669cd147db1b0d7f045e7e507cc76741fc88ddee"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/refill-drc.json",
+      "bytes": 672,
+      "sha256": "c0340e7f909a5e5200ce75a9673dbb463d21057187da617d7d08a473ae594932"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/refill-drc.log",
+      "bytes": 256,
+      "sha256": "892f7358ab902badc87bca91690370b3a7d964cb093fae5e870e4cdff6f77508"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/result.json",
+      "bytes": 45334,
+      "sha256": "380f7b0d8b97892e96a565342f7cb6f45f50598f68088ede9ccca233626dd6bf"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/routing-preferences.json",
+      "bytes": 754,
+      "sha256": "699a5d33487270e31fbad57abe4638dc5d867e76a9151da3859ed6a2ba52c878"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/source-drc-binding.json",
+      "bytes": 1394,
+      "sha256": "b0bae085c98a824bb7a805589a23793885a96fb701baf1b83ed0d45c2b822345"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/source-drc-process.json",
+      "bytes": 2807,
+      "sha256": "6a8f564a14e5619b607870aed898ac14d5841d27d772866311e37b206feb2413"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/source-drc.json",
+      "bytes": 2744,
+      "sha256": "67fb5b3443c8683280c65ce5a2aa310be2601aa46b7ab4ba1c9076077bdcaaab"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/source-drc.log",
+      "bytes": 244,
+      "sha256": "1b565da94fbd77b83405b4c26d83816aac196eb3ee852388c63d2d4529d0fbc5"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/task.alias-export.json",
+      "bytes": 2208968,
+      "sha256": "3e99e149086be9fa91b38453f2aa7e670e7333505ed699d831908b477e8730cf"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/route/candidate/owned1007-transport.kicad_pcb",
+      "bytes": 12052,
+      "sha256": "a328d5aae56edea2deeb96389ee65e6da6a4db9cf2aec7a1f25da153a16a2f00"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/final-drc-binding.json",
+      "bytes": 1487,
+      "sha256": "33b458e4cefc04d3f7640479113279ae3f31bbac0b222e6d82722365f691196e"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/final-drc-process.json",
+      "bytes": 2959,
+      "sha256": "ff0aa4f23325c7e0744a16a38c712b8c4e499abebab54ef415dadf130288520c"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/final-drc.json",
+      "bytes": 672,
+      "sha256": "33c2bdd10e28db499e32e2b964a20e268e61e50c1cf3d9eb3eda41087d1346e3"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/final-drc.log",
+      "bytes": 287,
+      "sha256": "7187b562998e275f58c5a475fc6b2a1ac56d27a0beddc239421dad1c932502b8"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/metrics-process.json",
+      "bytes": 2349,
+      "sha256": "baaaa54cb3d60500cb2b768a055e13a958597ae09baddfdbe59775491eac0c01"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/refill-drc-binding.json",
+      "bytes": 1405,
+      "sha256": "ad1bdac5dbc55b0b278af6a1393ce3d776b9599a16d4285b9aa5702d2b731ea6"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/refill-drc-process.json",
+      "bytes": 2939,
+      "sha256": "b4b8202bf801f2b4451ed503536c114e45087dc5961548696948443402b52785"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/refill-drc.json",
+      "bytes": 672,
+      "sha256": "ce6190ac20e5862b1fba5120ed8574274d6bfc9402e24ac7b7d7df2bb87e3139"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/refill-drc.log",
+      "bytes": 268,
+      "sha256": "ba9ebb3f9f7ff872b9af5f54332a67c30506a5c731668f0f5579fe2413947449"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/export/export.json",
+      "bytes": 74021,
+      "sha256": "4019b34c76ff69cbf0717a3275c5d10f07c5497612b5ff5297b961d211e6eb1a"
+    },
+    {
+      "path": "evidence/runtime023-installed-partial-CLI-001-notes/SCOPE.md",
+      "bytes": 2524,
+      "sha256": "5eff606f180ae6d58ae5452834fc013af70a5cd4c094826d2c863729026dde78"
+    }
+  ],
+  "files_index": {
+    "path": "evidence/runtime023-installed-partial-CLI-001-notes/files.json",
+    "sha256": "dc02a99567aee56720236a1560c71d86457f740da081f8d673faad93e1c00002"
+  },
+  "new_material_bytes": 2496299
+}

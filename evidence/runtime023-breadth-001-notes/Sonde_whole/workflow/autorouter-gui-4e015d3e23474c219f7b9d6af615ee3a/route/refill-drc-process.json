@@ -1,0 +1,54 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 1.1640745420008898,
+  "cpu_seconds": 0.565551,
+  "max_rss_bytes": 225247232,
+  "supervisor_cpu_seconds": 0.016647999999999996,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 218398720,
+  "sampled_peak_workdir_bytes": 4431897,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/breadth-Sonde_whole-delivery-001/autorouter-gui-4e015d3e23474c219f7b9d6af615ee3a/route/refill-drc.json",
+    "--save-board",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/breadth-Sonde_whole-delivery-001/autorouter-gui-4e015d3e23474c219f7b9d6af615ee3a/route/refill/sonde xilinx.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/breadth-Sonde_whole-delivery-001/autorouter-gui-4e015d3e23474c219f7b9d6af615ee3a/route/refill-drc.log",
+  "log_bytes": 268,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/breadth-Sonde_whole-delivery-001/autorouter-gui-4e015d3e23474c219f7b9d6af615ee3a/route",
+  "signal_cancellation_enabled": true,
+  "pid": 68663,
+  "name": "refill-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": false
+  }
+}

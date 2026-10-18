@@ -1,0 +1,60 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 1.195746625016909,
+  "cpu_seconds": 0.509465,
+  "max_rss_bytes": 221331456,
+  "supervisor_cpu_seconds": 0.019462000000000035,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 220119040,
+  "sampled_peak_workdir_bytes": 3573863,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--schematic-parity",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route/final-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route/final-drc-input/owned1007-transport.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route/final-drc.log",
+  "log_bytes": 275,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route",
+  "signal_cancellation_enabled": true,
+  "pid": 67535,
+  "name": "final-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": true,
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-023/runtime/.runs/partial-delivery-001/autorouter-gui-54964da77a764dbba1982c8370ea8ddd/route/final-drc-input/owned1007-transport.kicad_prl",
+    "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "flags_before": 0,
+    "flags_during": 2,
+    "flags_restored": true,
+    "bytes_unchanged": true
+  }
+}
