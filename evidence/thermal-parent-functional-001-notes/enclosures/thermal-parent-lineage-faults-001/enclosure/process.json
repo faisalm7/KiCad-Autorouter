@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 127.96901475003688,
+  "cpu_seconds": 125.247287,
+  "max_rss_bytes": 283885568,
+  "supervisor_cpu_seconds": 0.305852,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 283885568,
+  "sampled_peak_workdir_bytes": 171,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 134217728,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-lineage-faults-001.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-lineage-faults-001/protocol.json",
+    "--protocol-sha256",
+    "dc1f31f346ec4b6b366ee295a7c0f0b48d54c5b7d226470c0705c86b3a30463d"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-lineage-faults-001/enclosure/command.log",
+  "log_bytes": 171,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-lineage-faults-001/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 34906
+}

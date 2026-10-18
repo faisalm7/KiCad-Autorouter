@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 64.27429112495156,
+  "cpu_seconds": 84.028361,
+  "max_rss_bytes": 398442496,
+  "supervisor_cpu_seconds": 0.18749499999999997,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 384335872,
+  "sampled_peak_workdir_bytes": 175,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/cancel-thermal-parent-native7-002.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-cancel7-002/protocol.json",
+    "--protocol-sha256",
+    "c090a39a5eb7b40cf68f176be9b6c40f7320422a5560add1b3c3b0f0098ebed4"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-cancel7-002/enclosure/command.log",
+  "log_bytes": 175,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-cancel7-002/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 33630
+}

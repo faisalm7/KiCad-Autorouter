@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "kind": "thermal-parent-delivery-driver-static-review-v1",
+  "recorded_utc": "2026-10-18T16:49:55.691332+00:00",
+  "reviewer": "independent AI subagent; no human review",
+  "scope": "Narrow pre-execution driver review. No execution, test, Native, GUI, CI, source edit or delegation. The prospective protocol/runtime028/cases are not yet independently qualified by this review.",
+  "driver": ".runs/run-thermal-parent-delivery-001.py",
+  "decision": "No demonstrated runtime/import/path/CLI/result/accounting setup blocker found, subject to the explicit freeze/enclosure conditions below. This is static harness review, not native result approval.",
+  "checked": [
+    "Runtime is inserted before autorouter imports; c.ROOT and sys.prefix must equal selected runtime and its own .venv. Child CLI prefix uses that same runtime/.venv/bin/python -B -m autorouter. Current normal0 ROOT and separately built normal7 runtime can share source module hashes while selecting different trusted native profiles.",
+    "Protocol/controller/source hash checks precede job execution and are repeated by fresh. Case runtime/native version must match selected config. Non-ROOT runtime manifest digest is checked. Owned destination identity and actual Request/Workflow source/settings/runtime freshness are reused.",
+    "Output root is fresh exclusive mkdir and thermal route/review/choice/export outputs are new distinct descendants. Request creates a separate owned settings workspace solely for Preview/freshness; manual recover/review/export outputs deliberately live outside that workspace.",
+    "Actual CliJob.run/adopt handles Preview. Manual recover180/review-copy --render/review-choice accept/review-export120/review-export-check commands use existing public CLI and current central result readers. Nonzero, cancellation or truncated logs refuse. Actual route and fresh export must both pass final in-session shared readers before workflow_delivered true.",
+    "Recover preserves legacy0 completion-only/new7 standard fixed profile selection in product source. Driver does not override it. Route acceptance is read from actual recover/result.json and current p.check_result; export acceptance is independently checked by ex.check_export.",
+    "START/CPU0 precede imports/tool/source preparation. resource totals include self and waited children; stages and parent result checks remain inside the running whole cap. left() reserves15 within360 and uses min(wall, fullCPU) remaining. Recover/export outer watchdogs include15 beyond their180/120 product budgets, still clipped to whole remaining. All late freshness failures clear delivery."
+  ],
+  "freeze_and_reporting_conditions": [
+    {
+      "condition": "Both cases must use exactly the global source_head and implementation_sha256 in the frozen plan.",
+      "why": "ROOT legacy0 tool_manifest derives current HEAD, while built runtime028 derives recorded build source. A subsequent ROOT checkpoint between building/freezing/executing the two cases can cause a truthful setup refusal. Do not waive the assertion or rewrite the plan mid-run."
+    },
+    {
+      "condition": "Require the independent complete-exit360 wall/fullCPU enclosure receipt and cleanup proof.",
+      "why": "The driver sets external_complete_exit_required. Its sampled totals precede final JSON write/stdout/exit; final15 reserve is planning only. CliJob timer sends cooperative SIGINT and does not itself prove arbitrary descendant cleanup or a hard complete-process deadline. The established outer enclosure must remain authoritative; any overrun is not delivered."
+    },
+    {
+      "condition": "State this as CLI functional recover/delivery with an actual Request Preview, not actual GUI or the unmodified GUI Workflow Route chain.",
+      "why": "Only Preview uses flow.command/adopt. The driver intentionally invokes recover and later CLI stages directly. In legacy0 the captured Preview uses standard settings, while product recover uses its fixed completion-only incumbent. The explicit scope reports this distinction; retain settings/argv evidence and do not claim they are the same routed policy."
+    },
+    {
+      "condition": "Do not interpret top accepted=False/project_complete=False as a failed native route or physical claim.",
+      "why": "Those are conservative software-test envelope fields; actual route_accepted, native, current shared readers and workflow_delivered describe distinct states. No human/electrical or comparative assertion follows."
+    },
+    {
+      "condition": "Setup failures before the try block must remain retained by the enclosing command/log, with no Native result assumed.",
+      "why": "Imports, plan/tool/source checks, mkdir and Request.prepare intentionally fail before the inner result envelope exists. This is fail closed, but a missing result.json alone is not a run outcome record."
+    }
+  ],
+  "not_established": [
+    "No frozen protocol values, actual runtime028 import identity or native tool execution checked by this review.",
+    "No Native completion/repair/export/cancellation result, GUI action, comparative advantage or electrical suitability established.",
+    "No guarantee that180 routing plus120 export and all review/readbacks fit345 usable seconds; whole caps remain mandatory and incomplete cases must remain failures."
+  ],
+  "file_pins": {
+    ".runs/run-thermal-parent-delivery-001.py": {
+      "sha256": "7d0e2da7881ce6591278782d7db33fd0c9c65573d8a00213cb70eba9128e36c6",
+      "bytes": 5827
+    },
+    "scripts/qualify_runtime_workflow.py": {
+      "sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034",
+      "bytes": 5076
+    },
+    "autorouter/gui.py": {
+      "sha256": "3f43890584c18dda98143a5b6e6f0087c917590aced57bb3c199ea6ab1280ca9",
+      "bytes": 54165
+    },
+    "autorouter/recovery.py": {
+      "sha256": "8d99b1b4a1bb4cd295bb41465c6a891dd9f3192e7d1603bbd98adf7b507cb04a",
+      "bytes": 11589
+    },
+    "autorouter/handoff.py": {
+      "sha256": "729dab29a3be33bc9462aea7fbf8616c89395149541dcb5139bbb98ce4116e6e",
+      "bytes": 33930
+    },
+    "autorouter/review_export.py": {
+      "sha256": "2ed5b7849b8c86e1cc6ff415cbb340ad972bf3ce2c367499c39d875941303833",
+      "bytes": 37544
+    },
+    "autorouter/pipeline.py": {
+      "sha256": "1c23c2ac94d57c35c47dcaa346d17ff2464128384c0ea45f84d4ebf138b4a385",
+      "bytes": 202985
+    }
+  }
+}

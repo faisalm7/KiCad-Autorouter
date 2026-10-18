@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-thermal-parent-delivery-001.py", line 11, in <module>
+    source=Path(plan['source']);out=Path(case['output']);tools=p.tool_manifest();assert tools['implementation_sha256']==plan['implementation_sha256'] and tools['git_head']==plan['source_head'];assert p.tree_hash(source.parent)==plan['source_hashes'];p.check_storage(active_root=out);out.mkdir();owner={};h.capture_destination(owner,out)
+                                                                                                                                                                                                                                                                                           ^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-functional-001'

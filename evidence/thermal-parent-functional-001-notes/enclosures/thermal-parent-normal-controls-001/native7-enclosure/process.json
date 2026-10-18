@@ -1,0 +1,49 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 1,
+  "wall_seconds": 0.34616691700648516,
+  "cpu_seconds": 0.28783099999999995,
+  "max_rss_bytes": 142458880,
+  "supervisor_cpu_seconds": 0.004240999999999995,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 129417216,
+  "sampled_peak_workdir_bytes": 1079,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-thermal-parent-delivery-001.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-normal-controls-001/protocol.json",
+    "--protocol-sha256",
+    "530256e55ced53bb8d0aa4c03ccb2127b780ca59874dd545dfed7265c56de894",
+    "--case",
+    "native7"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-normal-controls-001/native7-enclosure/command.log",
+  "log_bytes": 1079,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-parent-normal-controls-001/native7-enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 27042
+}

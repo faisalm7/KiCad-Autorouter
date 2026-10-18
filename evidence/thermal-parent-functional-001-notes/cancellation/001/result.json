@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "kind": "actual-integrated-owned-repair-Native-cancellation",
+  "accepted": false,
+  "project_complete": false,
+  "controls_passed": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "protocol_sha256": "0d719d53440d74755f68725dbc8d73c40612b6abf7d9c8f1232f7524f327c4fb",
+  "process": {
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "recover",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-interf-u/interf_u.kicad_pcb",
+      "--seconds",
+      "180",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-001/route"
+    ],
+    "exit_code": 0,
+    "cancel_requested": false,
+    "log_truncated": false,
+    "log_bytes": 482,
+    "wall_seconds": 82.51778262498556,
+    "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+  },
+  "observation": {
+    "monitor_error": "PermissionError: [Errno 1] Operation not permitted: '/bin/ps'"
+  },
+  "process_snapshot_calls": 1,
+  "monitor_joined": true,
+  "error": null,
+  "route_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-001/route/result.json",
+  "route_receipt_sha256": "54325c6d9011c2c92aac2046690020f83db1d56318468edb3ebf8d1e66ee9ce4",
+  "route_status": "routing_accepted",
+  "route_accepted": true,
+  "actual_cancelled_steps": [],
+  "all_steps_cleanup_complete": true,
+  "source_originals_unchanged": true,
+  "repair_status": "validated_trial_candidate",
+  "repair_validation_passed": true,
+  "sampled_wall_seconds": 82.92413524998119,
+  "sampled_full_CPU_seconds": 101.831078,
+  "external_complete_exit_required": true,
+  "scope": "One finite active-session test. Existing CliJob.cancel sends SIGINT to its current CLI; existing Native runner owns child termination/reaping. Only exact observedownedrepairworkerphase qualifies. No Nativepause, stalePIDkill, externaldaemon, backgroundmonitoraftertest, allphase/SIGINT-only/permanentdescendant/human/GUI/benchmarkclaim."
+}

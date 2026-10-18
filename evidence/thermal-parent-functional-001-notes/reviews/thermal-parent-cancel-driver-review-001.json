@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "kind": "thermal-parent-cancel-driver-static-review-v1",
+  "recorded_utc": "2026-10-18T16:59:13.375708+00:00",
+  "reviewer": "independent AI subagent; not human review",
+  "scope": "Narrow pre-execution harness source review; no Native/JVM, GUI, test, CI, install, network, production edit, delegation or harness execution. This local receipt only authored.",
+  "decision": "One concrete expected-exit blocker found and corrected by lead before the attempt; no additional demonstrated execution/ownership/blocking bug found in the current pinned driver. Actual observation and complete-exit enclosure remain necessary.",
+  "resolved_finding": {
+    "original_predicate": "process.exit_code in(130,143)",
+    "why_wrong": "Native runner handles SIGINT into a cancelled worker receipt; Job.step raises KeyboardInterrupt, thermal and recovery preserve cancelled repair/parent receipts, recover returns a report, and __main__.main returns2 for accepted false. Thus correct handled cancellation normally exits2, not130/143.",
+    "corrected_predicate": "process.exit_code==2",
+    "retained_requirements": "Actual matched owned repair Native process observed before job.cancel; process.cancel_requested true; rejected cancelled parent; one matched cancelled trial-01 refill-drc worker; all recorded steps cleanup_complete true; rejected repair with no candidate; original source/tools/protocol stable; no export; bounded wall/fullCPU.",
+    "status": "Resolved in current source; source check only, no claim actual cancellation passed."
+  },
+  "checked": [
+    "Monitor begins only after protocol/controller/tool/source checks and fresh exclusive output creation. No old recorded PID is acted upon.",
+    "Trigger waits for this own fresh recovery/trial-01/refill-drc.log, makes at most20 ps invocations of2second timeout, and matches current CliJob recover PID as PPID plus selected CLI prefix, exact owned trial refill input path and --save-board. Existing one-worker sequential recovery limits ambiguity. It calls existing CliJob.cancel; never signals the observed Native PID directly.",
+    "CliJob.cancel rechecks its current Popen under lock and sends SIGINT only to that owned live CLI. Existing Native runner starts and reaps the worker group; current p.Job.step preserves actual cancelled process evidence.",
+    "Monitor stops by event or190seconds; final stop/join5 precedes result reading/publication. An exception is retained in observation; absence of the exact observed/matched cancelled worker cannot qualify.",
+    "Actual CLI parent handles cancellation as exit2. Final control requires actual cancelled Native step at exact trial cwd and all steps cleanup complete, cancelled false-accepted parent and false/no-candidate repair; it cannot pass merely from request/exit code.",
+    "Self plus waited-child CPU includes ps helper work;220whole wall/fullCPU with2second planned publication charge is conservative. No Native validation is run by this static review."
+  ],
+  "limits_and_required_actual_proof": [
+    "235second external complete-exit enclosure remains mandatory. Sampled totals precede result publication, and CliJob cancellation/watchdog is cooperative rather than an independent proof of hard process-tree cleanup.",
+    "A transient Native worker may be missed by the finite20 snapshots or finish between observation and cancellation; that is an honest nonqualifying outcome, not grounds for fabricated phase attribution.",
+    "This qualifies only the actually observed owned repair/trial-01/refill-drc phase if runtime evidence passes. Do not claim all-phase cancellation, SIGINT-only termination, permanent descendant absence, GUI support or routing improvement.",
+    "Setup failures before main try may leave no inner control result; retain enclosing logs/result and do not infer Native outcome from missing files."
+  ],
+  "file_pins": {
+    ".runs/cancel-thermal-parent-native7-001.py": {
+      "sha256": "279c3003b1085c9e62c245241cbe465f54ea83f09a6a4fb127f18faad1f37078",
+      "bytes": 5270
+    },
+    "autorouter/gui.py": {
+      "sha256": "3f43890584c18dda98143a5b6e6f0087c917590aced57bb3c199ea6ab1280ca9",
+      "bytes": 54165
+    },
+    "autorouter/runner.py": {
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "bytes": 22644
+    },
+    "autorouter/pipeline.py": {
+      "sha256": "1c23c2ac94d57c35c47dcaa346d17ff2464128384c0ea45f84d4ebf138b4a385",
+      "bytes": 202985
+    },
+    "autorouter/thermal.py": {
+      "sha256": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+      "bytes": 31384
+    },
+    "autorouter/recovery.py": {
+      "sha256": "8d99b1b4a1bb4cd295bb41465c6a891dd9f3192e7d1603bbd98adf7b507cb04a",
+      "bytes": 11589
+    },
+    "autorouter/__main__.py": {
+      "sha256": "1ed28f2e0f48bd7b374d76208e665ef5e62f58516bfedd49eeb33b43d9d95f8a",
+      "bytes": 15968
+    }
+  }
+}

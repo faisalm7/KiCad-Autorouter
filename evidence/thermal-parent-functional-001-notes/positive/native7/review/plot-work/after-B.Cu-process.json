@@ -1,0 +1,56 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.38208337500691414,
+  "cpu_seconds": 0.37800899999999993,
+  "max_rss_bytes": 196313088,
+  "supervisor_cpu_seconds": 0.0073150000000001825,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 53673984,
+  "sampled_peak_workdir_bytes": 6940703,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "export",
+    "svg",
+    "--mode-single",
+    "--layers",
+    "B.Cu,Edge.Cuts",
+    "--fit-page-to-board",
+    "--exclude-drawing-sheet",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-functional-002/review/plot-work/native-plots/after-B.Cu.svg",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-functional-002/review/plot-work/after-B.Cu-input/interf_u.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-functional-002/review/plot-work/after-B.Cu.log",
+  "log_bytes": 183,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-functional-002/review/plot-work",
+  "signal_cancellation_enabled": true,
+  "pid": 28051,
+  "name": "after-B.Cu",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": false
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "status": "cancelled",
+  "candidate": null,
+  "candidate_sha256": null,
+  "validation_passed": false,
+  "routing_accepted": false,
+  "comparison_eligible": false,
+  "whole_body_certificate_qualified": false,
+  "proposal_scene_qualified": false,
+  "scope": "one sole native thermal; two layers; round PTH target; round physical drills; saved target-zone fill unchanged",
+  "trials": [
+    {
+      "id": "trial-01",
+      "proposal_index": 0,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-002/route/recovery/trial-01/candidate/interf_u.kicad_pcb",
+      "validation_passed": false,
+      "status": "created",
+      "steps": [
+        {
+          "status": "cancelled",
+          "exit_code": -15,
+          "wall_seconds": 0.029995999997481704,
+          "cpu_seconds": 0.02729,
+          "max_rss_bytes": 1998848,
+          "supervisor_cpu_seconds": 0.002750999999999948,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 147456,
+          "sampled_peak_workdir_bytes": 3329153,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-002/route/recovery/trial-01/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-002/route/recovery/trial-01/refill/interf_u.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-002/route/recovery/trial-01/refill-drc.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-002/route/recovery/trial-01",
+          "signal_cancellation_enabled": true,
+          "pid": 34073,
+          "cancel_signal": "SIGINT",
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false,
+            "guard_error": "KeyboardInterrupt: ",
+            "native_error": "KeyboardInterrupt: "
+          }
+        }
+      ]
+    }
+  ],
+  "geometry_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-002/route/recovery/geometry.json",
+  "proposal_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-028/runtime/.runs/thermal-parent-cancel7-002/route/recovery/proposals.json",
+  "unsupported_reason": "cancelled",
+  "elapsed_wall_seconds": 4.3921640000189655
+}
