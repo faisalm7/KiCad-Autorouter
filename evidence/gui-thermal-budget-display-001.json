@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "kind": "demonstrated-recovery-budget-summary-display-fix",
+  "recorded_utc": "2026-10-18T23:40:55.456404+00:00",
+  "project_complete": false,
+  "defect": "034 GUI review/choice generic operation30 budget overwrote method420; export120 overwrote method420. Actual commands and receipts preserved420/120.",
+  "change": "Only recovery presentation gets immutable captured effective preferences after stage-record merging. Commands, receipts, validation, admission and cancellation are unchanged.",
+  "controls": {
+    "before": {
+      "failing_subtests": [
+        "review",
+        "choice",
+        "export"
+      ],
+      "complete_cost": {
+        "wall_seconds": 0.23,
+        "CPU_seconds": 0.15
+      }
+    },
+    "after": {
+      "passed": 38,
+      "complete_cost": {
+        "wall_seconds": 0.67,
+        "CPU_seconds": 0.62
+      }
+    }
+  },
+  "source_sha256": "93963f6a68d3269042298b6a2d374ffbfa18a86315c2ee30cb9cf02d7caf709e",
+  "regression_sha256": "b2dff93829b7e3f8dc45e03c717e4449bd194ca73ba6e878fbc3f34daef8ae7a",
+  "independent_AI_source_review": {
+    "path": "evidence/gui-thermal-budget-display-001-notes/controls-review/gui-thermal-budget-display-review-001.json",
+    "sha256": "2bbf797a20c21f1865da939db61cf3d28635dcd5cf2b1757bb56a07928547bb1",
+    "human": false
+  },
+  "limits": "Focused extracted callback/software controls and source/log review only. Immutable034 retains defect; new installed/full-suite/Native/GUI qualification required. No routing quality, speed, Windows or release claim.",
+  "files_index": {
+    "path": "evidence/gui-thermal-budget-display-001-notes/files.json",
+    "sha256": "2aab13d58a23d1f7a88180e4f410ded751544fb9170d66d31e672046ef779e19"
+  }
+}

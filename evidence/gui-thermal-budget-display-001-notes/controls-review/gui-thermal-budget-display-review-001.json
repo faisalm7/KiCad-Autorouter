@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "kind": "independent-AI-thermal-budget-display-source-review",
+  "recorded_utc": "2026-10-18T23:37:19.436809+00:00",
+  "verdict": "No concrete blocker found in the two-line presentation-only patch. Confirmed defect is fixed statically and by retained before/after focused logs.",
+  "blocking_findings": [],
+  "scope": {
+    "source_files": [
+      "autorouter/gui.py",
+      "tests/test_gui_thermal_budget_display.py"
+    ],
+    "baseline": "Immutable runtime034 GUI source, not current docs/evidence HEAD",
+    "Native_runs": 0,
+    "GUI_operations": 0,
+    "tests_executed_by_reviewer": 0,
+    "Git_commands": 0,
+    "other_mutations": false
+  },
+  "pins": [
+    {
+      "path": "autorouter/gui.py",
+      "sha256": "93963f6a68d3269042298b6a2d374ffbfa18a86315c2ee30cb9cf02d7caf709e"
+    },
+    {
+      "path": "tests/test_gui_thermal_budget_display.py",
+      "sha256": "b2dff93829b7e3f8dc45e03c717e4449bd194ca73ba6e878fbc3f34daef8ae7a"
+    },
+    {
+      "path": ".runs/runtime-directory-034/runtime/autorouter/gui.py",
+      "sha256": "1d5f4f6f776e970c9d78a33f1e116c16c3333e880f1e4328a25338226bf9f827"
+    },
+    {
+      "path": ".runs/gui-thermal-budget-display-targeted-001.log",
+      "sha256": "523124b9cca3ed35a23281bf2b6bb4b9abdba053f26fdc52452b56bc476dd0a4"
+    },
+    {
+      "path": ".runs/gui-thermal-budget-display-targeted-001-time.log",
+      "sha256": "3e8598a08095193c0043de41d20efba5a52a3b406d697c00b9326e037c442c5d"
+    },
+    {
+      "path": ".runs/gui-thermal-budget-display-targeted-002.log",
+      "sha256": "1054c9cba168d64f9f27ebee19408afbdb19c83ad571d379e6e25a14963340be"
+    },
+    {
+      "path": ".runs/gui-thermal-budget-display-targeted-002-time.log",
+      "sha256": "3b2e4fb592d257659ae78f13fa25dbde1bc33add7f088566d089393e24bf0918"
+    }
+  ],
+  "change_assessment": {
+    "exact_delta": "After creating the local display dict, recover only receives effective_preferences=json.loads(flow.settings_bytes). human_summary already prefers this field over generic budget_seconds.",
+    "AST_check": "Removing exactly that added if makes the full current GUI AST identical to immutable034. Workflow.command, Request.prepare, Workflow.adopt, budget allocation, validation/admission, source freshness, cancellation and receipt creation are unchanged.",
+    "authority": "Captured settings_bytes are validated and retained by actual Workflow. The display does not infer settings from a result receipt or widget. Method fallback remains route for legacy callback fixtures.",
+    "receipt_integrity": "display is a fresh shallow merged dict; assigning its new key does not mutate route/review/export records. New tests assert input dictionaries, captured bytes and on-disk synthetic receipts unchanged. No new receipt writes or command changes.",
+    "effect": "Recovery review/choice/export retain captured420 method and separate120 validation even when stage record has30 or120 operation budget. Ordinary Route display takes its unchanged branch."
+  },
+  "retained_controls": {
+    "before": {
+      "log": ".runs/gui-thermal-budget-display-targeted-001.log",
+      "tests": 2,
+      "failures": 3,
+      "failure_subtests": [
+        "review",
+        "choice",
+        "export"
+      ],
+      "observed_wrong_display": "review/choice30 method and30 export; export120 method",
+      "external_wall_seconds": 0.23,
+      "external_CPU_seconds": 0.15
+    },
+    "after": {
+      "log": ".runs/gui-thermal-budget-display-targeted-002.log",
+      "tests": 38,
+      "failures": 0,
+      "skips": 0,
+      "unittest_seconds": 0.572,
+      "external_wall_seconds": 0.67,
+      "external_CPU_seconds": 0.62,
+      "scope": "Actual extracted finished callback under software mocks plus existing summary/thermal/export-budget/refusal modules. No wx or Native qualification."
+    }
+  },
+  "new_runtime034_repair_gate": {
+    "provenance": "Actual saved helper log and frozen preopen receipt read independently; pixel/editor/refusal observations supplied by lead, not independently screen-observed here. Immutable034 remains the unfixed GUI candidate.",
+    "command_log": {
+      "path": ".runs/gui075-repair-preopen-001-command.log",
+      "sha256": "cf74e259c325f20803b28dadae0c0bbef4340f7eb96e33ae516f33e894cf57ff"
+    },
+    "preopen": {
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-034/runtime/.runs/gui-session075/recovery-controls-001/repair/preopen-001.json",
+      "sha256": "1ccbec4d373a00c3cdc817dfcc2f35262c3096b31357516bd1ac77f85a6e2ea8",
+      "snapshot_files": 173,
+      "frozen_export_sha256": "90f8724e83315fa7a2d524cefa04f990189642443f8b2414ed8d3f21555beb73",
+      "candidate_sha256": "98ad0ca287a8ed329c2ce42735ada42e2a226bc3d03f25d71a7b896931d7228c",
+      "Native_report_sha256": "697e992cf453849212d0f45873a62f56b21b2037b76080fcaa56228cb0e5b818",
+      "Native_counts": [
+        0,
+        0,
+        22,
+        0
+      ],
+      "budget_seconds": 120,
+      "full_schematic_parity": true,
+      "original_geometry_and_routing_unchanged": true
+    },
+    "lead_reported_actual_editor_observations": {
+      "opened_export": true,
+      "pads": 379,
+      "vias": 35,
+      "track_segments": 1038,
+      "nets": 173,
+      "unrouted": 0,
+      "closed_without_save": true,
+      "PCB_unchanged": true,
+      "changed_metadata": [
+        "PRO",
+        "PRL",
+        "backup ZIP"
+      ],
+      "later_stale_refusal": "observed in obs102; no current acceptance inferred from historical preopen proof"
+    }
+  },
+  "limits": [
+    "This is source/log review of a future candidate; runtime034 GUI bytes and its demonstrated display defect remain immutable. No new installed/GUI/Native qualification is claimed for the patch.",
+    "Focused callback controls establish the intended summary and no synthetic receipt mutation; broader integration/fullsuite remains lead-owned.",
+    "Recovery cancellation and final curated evidence remain separate gates. The new export/editor observation is not independent human PCB or physical/electrical review."
+  ]
+}

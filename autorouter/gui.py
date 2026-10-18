@@ -934,6 +934,8 @@ def main(argv=None):
                 self.flow = flow
                 display = {**flow.records.get('route', {}), **record}
                 if stage == 'export': display.update(flow.records['export'])
+                if getattr(flow, 'method', 'route') == 'recover':
+                    display['effective_preferences'] = json.loads(flow.settings_bytes)
                 receipt_name = {'preview': 'preview.command.log', 'route': 'route/result.json',
                     'review': 'review/review.json', 'choice': 'choice/choice.json', 'export': 'export/export.json'}[stage]
                 receipt_path = flow.workspace / receipt_name
