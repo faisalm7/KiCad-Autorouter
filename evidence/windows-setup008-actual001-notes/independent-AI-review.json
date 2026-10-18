@@ -1,0 +1,249 @@
+{
+  "schema": 1,
+  "kind": "windows008-actual001-independent-AI-readback",
+  "recorded_utc": "2026-10-18T14:59:53.479631+00:00",
+  "reviewer": "preset_picker_review subordinate AI",
+  "scope": "Read-only actual008 four supplied receipts/log plus retained dispatch-intent and exact local Git source blob comparisons. No Windows API, Native, tests, CI dispatch, source edits or delegation. Only this review authored.",
+  "accepted": false,
+  "passed": false,
+  "routing_support_qualified": false,
+  "human_review": false,
+  "input_pins": [
+    {
+      "path": ".runs/windows-setup008-actual001/CI.log",
+      "sha256": "f792c3c4822c9e92552c63fdd78dd66f26250cd11c1677e4331c59f9a97d59c5",
+      "bytes": 44933
+    },
+    {
+      "path": ".runs/windows-setup008-actual001/dispatch.json",
+      "sha256": "10376ec1e742db89838af09c7251befa760ae57f42f1d424e2028d78e3da84cd",
+      "bytes": 731
+    },
+    {
+      "path": ".runs/windows-setup008-actual001/run.json",
+      "sha256": "440fb485ab4509b6bef9fa7711875348e474b23a75167574055ad9f0c3e5731b",
+      "bytes": 12575
+    },
+    {
+      "path": ".runs/windows-setup008-actual001/timing.json",
+      "sha256": "37a126b3b79825d7a7d46631e945345af46f2cc0be7ee6dc29091cb60ee435ba",
+      "bytes": 331
+    },
+    {
+      "path": ".runs/windows-setup008-actual001/dispatch-intent.json",
+      "sha256": "edaf0d528f01076808621ae06f1954ce235cc35178dfeff0bc82d6597049b95f",
+      "bytes": 540
+    }
+  ],
+  "run": {
+    "id": 39138169277,
+    "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39138169277",
+    "head": "0399b6dd2c5cd62d8467d1ee35035a1044274891",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "failure",
+    "attempt": 1,
+    "workflow": ".github/workflows/manual-python-controls.yml",
+    "public_repository": true
+  },
+  "source_comparison": [
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "commit_blob_LF_sha256": "274b24537b259774a9f6004211104b6cc4aefa86e4c65ac9122741052ea66fd1",
+      "Windows_CRLF_sha256": "72f66dbcb5d4425a9ec85b145a5343b45a9bf27eb6e577a7ba7934b76f324648",
+      "actual_runner_sha256": "72f66dbcb5d4425a9ec85b145a5343b45a9bf27eb6e577a7ba7934b76f324648",
+      "match": true
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_probe.c",
+      "commit_blob_LF_sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+      "Windows_CRLF_sha256": "26fb292cee7db9c7d2fb67a185030158a1638238f8cf7531df344d29aac9c49d",
+      "actual_runner_sha256": "26fb292cee7db9c7d2fb67a185030158a1638238f8cf7531df344d29aac9c49d",
+      "match": true
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_dns.py",
+      "commit_blob_LF_sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+      "Windows_CRLF_sha256": "7fda8873716acdc2287f862ce6dff56ca95c6be1d3988d0ccc1027689ab15517",
+      "actual_runner_sha256": "7fda8873716acdc2287f862ce6dff56ca95c6be1d3988d0ccc1027689ab15517",
+      "match": true
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_canary.py",
+      "commit_blob_LF_sha256": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4",
+      "Windows_CRLF_sha256": "2dae8b51ae5854e3ac4b2b5b4bf879e307efd4dcba295d1363103a5c94b674a7",
+      "actual_runner_sha256": "2dae8b51ae5854e3ac4b2b5b4bf879e307efd4dcba295d1363103a5c94b674a7",
+      "match": true
+    }
+  ],
+  "compile": {
+    "role": 1,
+    "MSVC": "14.44.35207",
+    "SDK": "10.0.26100.0",
+    "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+    "flags_W4_WX_retained": true,
+    "status": "budget_exceeded",
+    "final_main_exit_code": 0,
+    "main_exit_observed": {
+      "trigger": "main_state_changed",
+      "elapsed_seconds": 6.2650000000001,
+      "main": {
+        "pid": 3640,
+        "state": "exited",
+        "exit_code": 0,
+        "wait_result": 0
+      },
+      "members": {
+        "status": "observed",
+        "capacity": 32,
+        "pids": [
+          6840
+        ],
+        "image_identity_observed": false,
+        "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+        "assigned_processes": 1,
+        "listed_processes": 1,
+        "truncated": false
+      },
+      "accounting_active_processes": 1,
+      "accounting_total_processes": 4,
+      "snapshots_atomic": false,
+      "status": "observed",
+      "before_termination": false,
+      "termination_reason": null
+    },
+    "before_termination_observed": {
+      "trigger": "before_termination",
+      "elapsed_seconds": 30.0150000000001,
+      "main": {
+        "pid": 3640,
+        "state": "exited",
+        "exit_code": 0,
+        "wait_result": 0
+      },
+      "members": {
+        "status": "observed",
+        "capacity": 32,
+        "pids": [
+          6840
+        ],
+        "image_identity_observed": false,
+        "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+        "assigned_processes": 1,
+        "listed_processes": 1,
+        "truncated": false
+      },
+      "accounting_active_processes": 1,
+      "accounting_total_processes": 4,
+      "snapshots_atomic": false,
+      "status": "observed",
+      "before_termination": true,
+      "termination_reason": "budget_exceeded"
+    },
+    "wall_seconds": 30.047000000000025,
+    "full_job_cpu_seconds": 1.125,
+    "cumulative_process_count": 4,
+    "main_polls": 1321,
+    "cleanup_complete": true,
+    "log_sha256": "8900ac7f6230e3a34d2a8e0acd8a6eccc9b6a7ea681a36ce6452542fee497242",
+    "log_complete_and_hash_matches_retained_text": true,
+    "compile_log_text": "appcontainer_probe.c\r\n",
+    "C4701_or_C2220_observed": false,
+    "inference_limit": "Main process was observed exited0 by6.265s, not proven to have exited at that exact instant. One then-current Job member PID6840 was observed; cumulative4 is not4remaining. No executable image/stable child identity/exit attribution. Initial accounting1versus list2 is retained as expressly non-atomic. No inspected/copied final EXE or role2/token/TCP/cancellation payload qualification follows from main exit0."
+  },
+  "case_and_cleanup": {
+    "cases": [],
+    "tokens": [],
+    "Native_executed": false,
+    "Native_admitted": false,
+    "GUI": false,
+    "KiCad_Java_installer_executed": false,
+    "failure": [
+      "RuntimeError: Compiler/setup command failed; retained log: D:\\a\\_temp\\kicad-appcontainer007-59795caa8b0f4c52b946888b7284fdfb-setup\\compile1.log"
+    ],
+    "cleanup": {
+      "all_owned_jobs_reaped": true,
+      "cleanup_complete": true,
+      "errors": [],
+      "original_dacls_restored": false,
+      "profile_delete_hresult": 0,
+      "profile_registry_absence_not_queried": true,
+      "profile_storage_absent": true,
+      "scope_files_retained": "D:\\a\\_temp\\kicad-appcontainer007-59795caa8b0f4c52b946888b7284fdfb"
+    },
+    "owned_server_thread_reaped": true,
+    "ACL_sealing_reached": false,
+    "ACL_note": "Compilation failed before tool copy/first seal; original_dacls_restoredFalse does not establish a failed restoration or successful ACL restoration.",
+    "profile_registry_absence_proven": false,
+    "network_isolation_pass": false,
+    "positive_uncontained_connectivity_before_failure": [
+      {
+        "connected": true,
+        "endpoint": "owned_loopback",
+        "payload_bytes_sent": 0
+      },
+      {
+        "connected": true,
+        "endpoint": "public_ipv4",
+        "payload_bytes_sent": 0
+      }
+    ]
+  },
+  "accounting": {
+    "DNS_wall_CPU": [
+      0.15600000000017644,
+      0.078125
+    ],
+    "compile_wall_CPU": [
+      30.047000000000025,
+      1.125
+    ],
+    "controller_CPU_before_report": 0.390625,
+    "controller_wall_before_report": 30.422000000000025,
+    "powershell_enclosure_wall_before_exit": 32.0658691,
+    "whole_CI_CPU_seconds": null,
+    "whole_CI_CPU_unknown": true,
+    "provider_run_duration_ms": 46000,
+    "provider_billable": {
+      "WINDOWS": {
+        "total_ms": 0,
+        "jobs": 4,
+        "job_runs": [
+          {
+            "job_id": 117706878529,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117706879334,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117706879367,
+            "duration_ms": 0
+          },
+          {
+            "job_id": 117706879445,
+            "duration_ms": 0
+          }
+        ]
+      },
+      "UBUNTU": {
+        "total_ms": 0,
+        "jobs": 1,
+        "job_runs": [
+          {
+            "job_id": 117706879424,
+            "duration_ms": 0
+          }
+        ]
+      }
+    },
+    "provider_zero_billable_is_not_zero_compute": true,
+    "artifacts_uploaded_reported": 0,
+    "upload_artifact_step_observed": false,
+    "artifacts_API_count_independently_checked": false,
+    "accounting_limits": "WholeCI CPU and post-report/post-enclosure exit unmeasured. No throughput or duration superiority claim. AI/authoring/curation costs additional."
+  },
+  "evidence_findings": [],
+  "decision": "Actual008 is failed prospective diagnostic evidence, not a rerun/reclassification of old007 and not Windows routing/support or AppContainer-canary completion. It supplies the previously missing main-exit/current-members observation; image attribution and future completion semantics remain untested."
+}

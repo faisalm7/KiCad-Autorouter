@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "kind": "runtime025-actual-GUI071-budget-coercion-failure",
+  "recorded_utc": "2026-10-18T15:01:18.073824+00:00",
+  "source_head": "54347108aba84c3544228cf207bee42713974b87",
+  "runtime_manifest_sha256": "0be49c969a0c6939eed825bbe2a0ec426acfe3362554b978ddf1a3d18b02920c",
+  "project_complete": false,
+  "GUI_qualified": false,
+  "actual_GUI": true,
+  "actual_toolbar_launch_observed": true,
+  "actual_settings_load_observed": true,
+  "actual_invalid_input_refusal": false,
+  "observed_defect": "On actual Preview focus loss, native SpinCtrl coerced0 and invalid text to5 before config validation; both previews captured5seconds. No route or Native job ran.",
+  "severity": "Product correctness: silently altered requested budget; blocks new GUI qualification.",
+  "jobs": [
+    {
+      "workspace": ".runs/runtime-directory-025/runtime/.runs/gui-session071/jobs/autorouter-gui-2992a245ce584f0e97f4e888dada18e4",
+      "captured_settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "partial_completion",
+        "scoring_preference": null,
+        "seconds": 5
+      },
+      "route_executed": false,
+      "Native_executed": false
+    },
+    {
+      "workspace": ".runs/runtime-directory-025/runtime/.runs/gui-session071/jobs/autorouter-gui-e31ca80c43c7497dacdea3de3b15d149",
+      "captured_settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "partial_completion",
+        "scoring_preference": null,
+        "seconds": 5
+      },
+      "route_executed": false,
+      "Native_executed": false
+    }
+  ],
+  "source_originals_unchanged": true,
+  "source_hashes": {
+    "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+    "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+    "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+  },
+  "owned_GUI_manager_closed_normally": true,
+  "launcher_reaped_exit": 0,
+  "candidate_accepted": false,
+  "proposed_fix": "Plain text entry preserves exact input through focus change; existing strict validation refuses malformed/out-of-range values. Preset load uses text. No algorithm, budget-bound or original-rule change.",
+  "targeted_checks": {
+    "first": "wrong module name retained as failed; no Native execution",
+    "corrected": "71 tests in1.390seconds, external1.57wall/1.50CPU; passed"
+  },
+  "remaining": "Fresh committed runtime actualGUI invalid focus-loss/presets plus route/review/accept/reject/cancel/fresh export/freshness controls; no025GUI promotion. Full integration and appropriate changed-build Native/install qualification required.",
+  "accounting": "Interactive GUI/authoring/review costs additional and not fully instrumented; no routing/runtime gain claim.",
+  "references": [
+    {
+      "path": "evidence/runtime025-controls-compatibility-001.json",
+      "sha256": "3c0635ca0dff80dda5541fc590d5b779ccca5fe08817a2820b7c10768abd67b6"
+    }
+  ],
+  "files": [
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/.DS_Store",
+      "bytes": 6148,
+      "sha256": "a64b0cef0fe4110c3b6df6b76217fa057d922d48bc54835842bdf6818b980f34"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/GUI071-access-observations-001.json",
+      "bytes": 1317,
+      "sha256": "f985139d809b77be4d2f8f3169d8f601e39664195e1f977b804b9e944e98796e"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/GUI071-access-observations-002.json",
+      "bytes": 798,
+      "sha256": "6e6bab0583a740a886a5db7ffad1ba42260fad27ab2c6339353c08c6cfd56609"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/freshness-controls-001/protocol-frozen-001.json",
+      "bytes": 1896,
+      "sha256": "dc11af420080087e80bbe22ad95ebe87d7e56fef2d99b1278b27b850b10d78d1"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/jobs/autorouter-gui-2992a245ce584f0e97f4e888dada18e4/preview.command.log",
+      "bytes": 1035,
+      "sha256": "27a4d4b8dbc484a993fde2733823f2706c3da5641cfdddc366cc46f9da72b7b8"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/jobs/autorouter-gui-2992a245ce584f0e97f4e888dada18e4/preview.command.process.json",
+      "bytes": 737,
+      "sha256": "234a53c419bae7d4e8a017e7c191061d786dba378716838e382c4404dfafd364"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/jobs/autorouter-gui-2992a245ce584f0e97f4e888dada18e4/settings.json",
+      "bytes": 193,
+      "sha256": "13557eab73389e7d531c12443fa8d29d23227367cf4a6a2ea27c154f4d9b1088"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/jobs/autorouter-gui-e31ca80c43c7497dacdea3de3b15d149/preview.command.log",
+      "bytes": 1035,
+      "sha256": "27a4d4b8dbc484a993fde2733823f2706c3da5641cfdddc366cc46f9da72b7b8"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/jobs/autorouter-gui-e31ca80c43c7497dacdea3de3b15d149/preview.command.process.json",
+      "bytes": 737,
+      "sha256": "f7e5cb10a10de7b862860c88ae311295c24952412daeb6e37590ed313e8c928c"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/jobs/autorouter-gui-e31ca80c43c7497dacdea3de3b15d149/settings.json",
+      "bytes": 193,
+      "sha256": "13557eab73389e7d531c12443fa8d29d23227367cf4a6a2ea27c154f4d9b1088"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/old-owned-UI-close-001.json",
+      "bytes": 331,
+      "sha256": "bb0bef8b79d00817a0056d950b49d406aac222bcf9ba52c5624517fec002f05f"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/prepare-launcher-process.json",
+      "bytes": 1787,
+      "sha256": "d41f8bd9250f39720ebf52d388a6ff2ff9ca27527231cef9dd0bd029539e5482"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/prepare-launcher.log",
+      "bytes": 14422,
+      "sha256": "e625bab232714b26f1677a3d1fee213082ea082adc8d973cf55dd6653f56e64c"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/prepared-state.json",
+      "bytes": 2116,
+      "sha256": "ac3109cc6d84d77da5c55853af92ef2172a868cb74db8b1def2fc03b3d595700"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/session/route-settings.json",
+      "bytes": 194,
+      "sha256": "a73292826f5de5a992d4d04ec85ced90ecac269556f72b35180f610e79866a65"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/gui-budget-text-targeted-001.log",
+      "bytes": 767,
+      "sha256": "3910edcb24c4de7aaecdcd6baef61baab35d57f3646ca126b8d2eb9205b380e2"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/gui-budget-text-targeted-002.log",
+      "bytes": 199,
+      "sha256": "6fc0d2b0ef294f2c8df1a66a64edc3130897c585e57d3802a57b057ee4bf56b4"
+    },
+    {
+      "path": "evidence/runtime025-GUI071-budget-refusal-failure-001-notes/SCOPE.md",
+      "bytes": 1880,
+      "sha256": "39a942bf053eb332b99f8ac123a1a2a2ce3dae0ecf7c202b355814c83bade6ed"
+    }
+  ]
+}

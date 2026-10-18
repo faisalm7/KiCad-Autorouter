@@ -1,0 +1,9 @@
+# Runtime025 GUI071 budget refusal failure
+
+Actual isolated10.0.7 toolbar launch produced a separate Python routing window. The manager's file dialog left Open disabled, but Finder Open With the explicit10.0.7 app opened the inspection copy and Tools > PCB Editor rendered it. The later toolbar click launched the child window; followup observations initially stayed bound to the PCB Editor, so a needless owner click was requested once and then withdrawn in commentary. No unlock/security change was needed. Exact coordinate mapping is not qualified.
+
+After loading the90-second partial preset, actual GUI edits of0 and then invalid were visible in the budget field. Clicking Preview moved focus and Cocoa SpinCtrl changed each to5 before validation; two5-second preview workspaces were created. Neither Route nor Native validation nor export ran. This fails invalid-input refusal; it is not a passed GUI qualification. Source originals remain byte-identical. Inspection copy state may have changed through ordinary KiCad opening; it was never the pristine routing source. All test windows/owned manager were closed normally, launcher reaped0.
+
+The fix changes only the graphical budget widget to plain text with strict whole5–900 validation and string preset loading. Existing CLI/Native025 successes remain their own valid evidence; they cannot qualify the changed final GUI/build. Native actual regression after focus loss remains required. Targeted001 had a wrong module name after other tests ran and is retained as failed. Corrected targeted002 passes71 tests. Pure tests and independent AI review are not actual GUI or PCB approval.
+
+Owned control fixtures/code/text only under repository licence. No downloaded app/engine, private board, package, Windows Native, human/electrical or restoration qualification. Newer raw evidence remains Mac-only outside old010 backup.

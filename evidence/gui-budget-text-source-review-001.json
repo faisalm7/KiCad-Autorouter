@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "kind": "GUI-routing-budget-TextCtrl-independent-AI-source-review",
+  "recorded_utc": "2026-10-18T15:01:18.620239+00:00",
+  "reviewer": "preset_picker_review subordinate AI",
+  "scope": "Read-only two-file source diff, existing changed/config/preset/action/cancel flow and retained targeted logs. No Native, GUI, tests, CI, production edits or delegation. Only this review authored.",
+  "source_and_log_pins": [
+    {
+      "path": "autorouter/gui.py",
+      "bytes": 54165,
+      "sha256": "3f43890584c18dda98143a5b6e6f0087c917590aced57bb3c199ea6ab1280ca9"
+    },
+    {
+      "path": "tests/test_gui_budget_refusal.py",
+      "bytes": 9754,
+      "sha256": "cb44f45edadd7bf79cb665450d27a87456bfeea27199939aa585cd008fbad582"
+    },
+    {
+      "path": ".runs/gui-budget-text-targeted-001.log",
+      "bytes": 767,
+      "sha256": "3910edcb24c4de7aaecdcd6baef61baab35d57f3646ca126b8d2eb9205b380e2"
+    },
+    {
+      "path": ".runs/gui-budget-text-targeted-002.log",
+      "bytes": 199,
+      "sha256": "6fc0d2b0ef294f2c8df1a66a64edc3130897c585e57d3802a57b057ee4bf56b4"
+    }
+  ],
+  "accepted": false,
+  "actual_new_build_GUI_qualified": false,
+  "human_review": false,
+  "concrete_correctness_findings": [],
+  "checked": {
+    "control": "Plain wx.TextCtrl has no SpinCtrl min/max or native spin coercion in this source; GetValue returns captured text to explicit validation. EVT_TEXT remains bound to existing changed handler and the control remains in edit_controls.",
+    "validation": "After whitespace stripping, requires ASCII decimal characters, then converts to integer and existing pref.validate applies5\u2013900 range. No clamping or budget substitution. Empty/nonsense/fraction/negative/zero/out-of-range/fullwidth-digit controls refuse.",
+    "presets": "Resolve and whole-second/floor checks precede widget updates. Valid preset writes str(int(seconds)), appropriate to TextCtrl; fractional or Improve60 remains refusal and Improve90 preserves90. Existing selected-net load logic unchanged.",
+    "stale": "Existing changed handler increments input generation and clears prior flow/inspection when idle; preset path also clears flow. Request is built only after config validation, before busy/job/thread setup, so invalid text cannot start preview/route through that path. Existing saved-settings recheck and runtime/source/request freshness unchanged.",
+    "cancellation": "Text control is still disabled while busy/choosing through edit_controls. Cancel action remains before config parsing and requests owned-job cancellation; changing budget-control class does not introduce a new cancellation path.",
+    "critical_regressions": "No missing critical source regression identified in this narrow change. Existing config/preset/action controls cover new string API; they do not establish native Cocoa focus-loss or complete UI qualification."
+  },
+  "recorded_tests_not_rerun": {
+    "targeted001": {
+      "result": "FAILED(errors=1)",
+      "real_tests_passed": 41,
+      "loader_error": "Nonexistent tests.test_gui_async_chooser import",
+      "total_reported": 42,
+      "unittest_wall_seconds": 1.074,
+      "external_wall_user_sys": [
+        1.34,
+        0.53,
+        0.22
+      ]
+    },
+    "targeted002": {
+      "result": "OK",
+      "tests": 71,
+      "unittest_wall_seconds": 1.39,
+      "external_wall_user_sys": [
+        1.57,
+        1.06,
+        0.44
+      ]
+    }
+  },
+  "remaining_gates": [
+    "Runtime025GUI071 remains failed/unqualified for this source issue; do not reclassify its invalid-input coercion previews.",
+    "New immutable build must perform actual invalid0/nonsense/nonASCII refusal, valid budget/preset capture, cancellation/freshness and the remaining full GUI workflow.",
+    "Appropriate integration/full native/install qualification remains lead-owned; no GUI success follows from mocked TextCtrl methods or AI source review."
+  ]
+}

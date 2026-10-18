@@ -93,12 +93,19 @@ def _observe_setup_job(job,account,elapsed,trigger,main):
              accounting_active_processes=int(account.ActiveProcesses),accounting_total_processes=int(account.TotalProcesses),
              snapshots_atomic=False,status='observed' if main['state']!='unknown' and members['status']=='observed' else 'unknown')
 
-def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,launch_contract=None,owned_setup=False):
+def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,launch_contract=None,owned_setup=False,setup_authoring=None):
  """Shared owned process lifecycle only; public entry points own admission gates."""
+ compiler_role=None
+ if setup_authoring is not None:
+  if not owned_setup or appcontainer is not None or type(setup_authoring) is not dict:raise ValueError('exact owned setup authoring contract required')
+  if setup_authoring.get('kind')=='fixed-owned-C-canary-build':
+   compiler_role=setup_authoring.get('role')
+   if type(compiler_role) is not int or compiler_role not in (1,2):raise ValueError('exact owned compiler role required')
+  elif setup_authoring.get('kind')!='fixed-owned-DNS-helper':raise ValueError('unknown owned setup authoring contract')
  exe=Path(argv[0]).resolve(strict=True)
  job=K.CreateJobObjectW(None,None);yes(job);limits=LIMIT();limits.BasicLimitInformation.LimitFlags=0x2000|0x200|4;limits.BasicLimitInformation.PerJobUserTimeLimit=int(seconds*10_000_000);limits.JobMemoryLimit=2*1024**3
  process=PROCESS();started=time.monotonic();reason=None;created=False;assigned=False;token_proof=None
- setup_observations=[];last_main_state=None;setup_termination_observed=False;setup_main_polls=0
+ setup_observations=[];last_main_state=None;setup_termination_observed=False;setup_main_polls=0;compiler_finalization=None
  try:
   yes(K.SetInformationJobObject(job,9,C.byref(limits),C.sizeof(limits)))
   # A regular owned file replaces pipe reader threads; parent alone retains its fd.
@@ -145,12 +152,43 @@ def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,lau
       setup_observations.append(observation)
      last_main_state=state
      if reason and account.ActiveProcesses:setup_termination_observed=True
+     if compiler_role is not None and reason is None and main['state']=='exited' and main['exit_code']==0 and account.ActiveProcesses:
+      # Recheck all original bounds after diagnostics, before owned cleanup.
+      yes(K.QueryInformationJobObject(job,1,C.byref(account),C.sizeof(account),None));elapsed=time.monotonic()-started
+      if account.ActiveProcesses and cancel_after is not None and elapsed>=cancel_after:reason='cancelled'
+      if elapsed>=seconds or (account.TotalUserTime+account.TotalKernelTime)/10_000_000>=seconds:reason='budget_exceeded'
+      if log.stat().st_size>256*1024:reason='log_limit'
+      entries=0;total=0
+      for path in cwd.rglob('*'):
+       entries+=1;safe(path,root)
+       if entries>4000:raise RuntimeError('scratch entry bound')
+       if path.is_file():total+=path.stat().st_size
+      if total>128*1024**2:reason='scratch_limit'
+      # Directory accounting also consumes the unchanged wall envelope.
+      elapsed=time.monotonic()-started
+      if account.ActiveProcesses and cancel_after is not None and elapsed>=cancel_after:reason='cancelled'
+      if elapsed>=seconds:reason='budget_exceeded'
+      if reason is None and account.ActiveProcesses:
+       compiler_finalization=dict(kind='exact-owned-C-build-main-zero-then-job-reap-v1',role=compiler_role,
+                                  main=main,main_observed_elapsed_seconds=setup_observations[-1]['elapsed_seconds'],
+                                  accounting_active_before_request=int(account.ActiveProcesses),
+                                  member_snapshot=setup_observations[-1]['members'],termination_exit_code=130,
+                                  termination_requested=True,terminate_job_succeeded=False,
+                                  remaining_members_natural_completion_claimed=False,zero_active_processes_verified=False)
+       setup_observations[-1].update(before_termination=True,termination_reason='compiler_main_zero_owned_cleanup')
+       yes(K.TerminateJobObject(job,130));compiler_finalization['terminate_job_succeeded']=True;setup_termination_observed=True
+      elif reason:
+       setup_observations[-1].update(before_termination=bool(account.ActiveProcesses),termination_reason=reason)
+       if account.ActiveProcesses:setup_termination_observed=True
     if account.ActiveProcesses==0:break
     if reason:yes(K.TerminateJobObject(job,130 if reason=='cancelled' else 2))
     time.sleep(.02)
    yes(K.WaitForSingleObject(process.hProcess,5000)==0);code=W.DWORD();yes(K.GetExitCodeProcess(process.hProcess,C.byref(code)));yes(K.QueryInformationJobObject(job,1,C.byref(account),C.sizeof(account),None));yes(account.ActiveProcesses==0)
   result=dict(argv=argv,cwd=str(cwd),log=str(log),log_sha256=digest(log),status=reason or ('success' if code.value==0 else 'nonzero_exit'),exit_code=code.value,cleanup_complete=True,wall_seconds=time.monotonic()-started,full_job_cpu_seconds=(account.TotalUserTime+account.TotalKernelTime)/10_000_000,process_count=account.TotalProcesses,_suspended_token=token_proof,limits=dict(bytes=128*1024**2,rss=2*1024**3,log=256*1024,entries=4000,seconds=seconds),os_job_memory_limit=True,scope='Owned pinned tool process job; not hostile-code sandbox or main product runner.')
-  if owned_setup:result['setup_process_observations']=dict(main_polls=setup_main_polls,max_snapshots=4,snapshots=setup_observations,completion_semantics_changed=False)
+  if owned_setup:result['setup_process_observations']=dict(main_polls=setup_main_polls,max_snapshots=4,snapshots=setup_observations,completion_semantics_changed=compiler_finalization is not None)
+  if compiler_finalization is not None:
+   compiler_finalization['zero_active_processes_verified']=True
+   result['compiler_finalization']=compiler_finalization
   return result
  finally:
   cleanup_errors=[];reaped=not created
@@ -243,6 +281,21 @@ def _setup_argv(argv,root):
  if target.exists() or (root/('role'+role+'.obj')).exists():raise ValueError('fresh owned compiler outputs required')
  return exe,[probe],dict(kind='fixed-owned-C-canary-build',role=int(role),probe_sha256=digest(probe),compiler_sha256=digest(exe),SDK_version=sdk.name,MSVC_version=vc.name)
 
+def _compiled_role_output(root,role):
+ """Read the exact fresh compiler output only after the Job has been reaped."""
+ if type(role) is not int or role not in (1,2):raise ValueError('exact owned compiler output role required')
+ target=safe(root/('probe-parent.exe' if role==1 else 'probe-child.exe'),root)
+ size=target.stat().st_size
+ if not target.is_file() or not 64<=size<=4*1024**2:raise ValueError('bounded regular compiler role output required')
+ with preserved(target,root) as identity:
+  raw=target.read_bytes();offset=int.from_bytes(raw[60:64],'little')
+  if len(raw)!=size or raw[:2]!=b'MZ' or not 64<=offset<=len(raw)-26:raise ValueError('compiler role DOS/PE header invalid')
+  optional=int.from_bytes(raw[offset+20:offset+22],'little');flags=int.from_bytes(raw[offset+22:offset+24],'little')
+  if (raw[offset:offset+6]!=b'PE\0\0\x64\x86' or optional<112 or offset+24+optional>len(raw)
+      or raw[offset+24:offset+26]!=b'\x0b\x02' or not flags&2 or flags&0x2000):raise ValueError('compiler role must be an AMD64 PE32+ executable')
+  return dict(path=str(target),role=role,bytes=size,sha256=identity['sha256'],file_id=identity['file_id'],
+              validated=True,validation_after_job_reaped=True,format='AMD64 PE32+ executable; actual canary controls still required')
+
 def run_owned_setup(argv,*,cwd,log,root,seconds=30):
  """Trusted CI authoring only; no network-isolation or Native admission path.
 
@@ -262,8 +315,14 @@ def run_owned_setup(argv,*,cwd,log,root,seconds=30):
    for path in [exe,*inputs]:
     proof=protection.enter_context(preserved(path,path.parent))
     if proof['sha256']!=pins[str(path)]:raise RuntimeError('owned setup input changed before protected launch')
-   result=_run_job(argv,cwd=owned,log=log,root=owned,seconds=seconds,owned_setup=True)
+   result=_run_job(argv,cwd=owned,log=log,root=owned,seconds=seconds,owned_setup=True,setup_authoring=authoring)
    if any(digest(path)!=sha for path,sha in pins.items()):raise RuntimeError('owned setup source/tool bytes changed')
+   if authoring['kind']=='fixed-owned-C-canary-build' and result['status']=='success':
+    if result['cleanup_complete'] is not True:result['status']='compiler_cleanup_unproved'
+    else:
+     try:result['compiler_output']=_compiled_role_output(owned,authoring['role'])
+     except Exception as error:
+      result.update(status='compiler_output_invalid',compiler_output=dict(validated=False,error=type(error).__name__+': '+str(error)[:256]))
   result.pop('_suspended_token')
   result.update(accepted=False,product_support=False,Native_admitted=False,Native_executed=False,
                 network=dict(kind='owned-setup-no-network-isolation-claim',network_isolation_claimed=False),

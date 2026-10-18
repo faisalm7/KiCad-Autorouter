@@ -13,20 +13,20 @@ class GuiBudgetTests(unittest.TestCase):
     request = gt.GuiWorkflowTests.request
     flow = gt.GuiWorkflowTests.flow
 
-    def test_actual_config_captures_displayed_text_instead_of_cached_spin_integer(self):
-        control = Mock(); control.GetTextValue.return_value = '60'; control.GetValue.return_value = 120
+    def test_actual_config_captures_text_entry_without_integer_coercion(self):
+        control = Mock(); control.GetValue.return_value = '60'
         window = SimpleNamespace(choices={}, seconds=control)
         settings = gt.window_method('config')(window)
         self.assertEqual(settings['seconds'], 60)
-        control.GetValue.assert_not_called()
+        control.GetValue.assert_called_once_with()
         with self.assertRaisesRegex(ValueError, '90 seconds'): gui.check_improve_settings(dict(settings, profile='tuned'))
 
     def test_actual_config_refuses_invalid_visible_budget(self):
-        for text in ('', 'NaN', '60.5', '9001', '-1', '0'):
-            control = Mock(); control.GetTextValue.return_value = text; control.GetValue.return_value = 120
+        for text in ('', 'invalid', 'NaN', '60.5', '9001', '-1', '0', '９０'):
+            control = Mock(); control.GetValue.return_value = text
             with self.subTest(text=text), self.assertRaises(ValueError):
                 gt.window_method('config')(SimpleNamespace(choices={}, seconds=control))
-            control.GetValue.assert_not_called()
+            control.GetValue.assert_called_once_with()
 
     def test_actual_failure_replaces_old_positive_summary_with_scrollable_reason(self):
         flow = SimpleNamespace(ready={'route'}, records={'route':{'accepted':True}}, choice='accept')
@@ -137,7 +137,7 @@ class GuiBudgetTests(unittest.TestCase):
                     window.refused.assert_called_once()
                     wx.MessageBox.assert_not_called()
                 else:
-                    window.seconds.SetValue.assert_called_once_with(90)
+                    window.seconds.SetValue.assert_called_once_with('90')
                     window.refused.assert_not_called()
                     wx.MessageBox.assert_not_called()
                 self.assertEqual(loaded['seconds'], seconds)

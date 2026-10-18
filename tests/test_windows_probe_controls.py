@@ -73,33 +73,35 @@ class WindowsProbeControls(unittest.TestCase):
                 self.assertEqual(result['status'],'unknown')
                 self.assertEqual(result['members']['pids'],[])
 
-    def iterate_setup_job(self,*,main_state='exited',exit_code=0,snapshot_status='observed',elapsed=(1,31),owned_setup=True,active_sequence=None,main_states=None):
+    def iterate_setup_job(self,*,main_state='exited',exit_code=0,snapshot_status='observed',elapsed=(1,31),owned_setup=True,active_sequence=None,main_states=None,compiler_role=None,cancel_after=None,cpu=0,log_bytes=0,scratch_bytes=0,terminate_ok=True):
         """Real polling block only; mocked API observations are not Windows proof."""
         tree=ast.parse((ROOT/'windows_process.py').read_text())
         fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_run_job')
         loop=next(n for n in ast.walk(fn) if isinstance(n,ast.While));events=[];clock=iter(elapsed)
         active_values=iter(active_sequence) if active_sequence is not None else None
         main_values=iter(main_states) if main_states is not None else None
-        account=SimpleNamespace(ActiveProcesses=2,TotalProcesses=3,TotalUserTime=0,TotalKernelTime=0)
+        account=SimpleNamespace(ActiveProcesses=2,TotalProcesses=3,TotalUserTime=int(cpu*10_000_000),TotalKernelTime=0)
         def query(*args):
             if active_values is not None:account.ActiveProcesses=next(active_values)
             return True
-        def terminate(*args):events.append('terminate');account.ActiveProcesses=0;return True
+        def terminate(*args):events.append('terminate');account.ActiveProcesses=0;return terminate_ok
         def observe(job,sample,when,trigger,main):
             events.append(('snapshot',trigger,sample.ActiveProcesses,main['state'],main['exit_code']))
-            return dict(status=snapshot_status,main=main,trigger=trigger)
+            return dict(status=snapshot_status,main=main,trigger=trigger,elapsed_seconds=when,members={'status':snapshot_status,'pids':[52]})
         def poll(process):
             events.append('main_poll')
             state,code=next(main_values) if main_values is not None else (main_state,exit_code)
             return dict(state=state,exit_code=code)
         with tempfile.TemporaryDirectory() as tmp:
-            cwd=Path(tmp);log=cwd/'job.log';log.touch()
+            cwd=Path(tmp);log=cwd/'job.log'
+            with log.open('wb') as stream:stream.truncate(log_bytes)
+            with (cwd/'output').open('wb') as stream:stream.truncate(scratch_bytes)
             scope=dict(ACCOUNT=lambda:account,K=SimpleNamespace(QueryInformationJobObject=query,TerminateJobObject=terminate),
                        C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0),job=1,process=object(),
                        yes=lambda value:self.assertTrue(value),time=SimpleNamespace(monotonic=lambda:next(clock,31),sleep=lambda value:None),
-                       started=0,seconds=30,cancel_after=None,reason=None,log=log,cwd=cwd,root=cwd,safe=lambda path,root:path,
+                       started=0,seconds=30,cancel_after=cancel_after,reason=None,log=log,cwd=cwd,root=cwd,safe=lambda path,root:path,
                        owned_setup=owned_setup,setup_termination_observed=False,setup_observations=[],last_main_state=None,setup_main_polls=0,
-                       _poll_setup_main=poll,_observe_setup_job=observe)
+                       _poll_setup_main=poll,_observe_setup_job=observe,compiler_role=compiler_role,compiler_finalization=None)
             exec(compile(ast.fix_missing_locations(ast.Module(body=[loop],type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
             return scope,events
 
@@ -140,6 +142,141 @@ class WindowsProbeControls(unittest.TestCase):
         self.assertEqual(scope['setup_main_polls'],3)
         self.assertNotIn('terminate',events)
         self.assertTrue(all(not x['before_termination'] for x in scope['setup_observations']))
+
+    def test_compiler_finalization_requires_exact_authoring_kind_and_integer_role(self):
+        tree=ast.parse((ROOT/'windows_process.py').read_text())
+        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_run_job')
+        guard=next(n for n in fn.body if isinstance(n,ast.If) and isinstance(n.test,ast.Compare)
+                   and isinstance(n.test.left,ast.Name) and n.test.left.id=='setup_authoring')
+        code=compile(ast.fix_missing_locations(ast.Module(body=[guard],type_ignores=[])),'compiler-contract','exec')
+        for contract,expected in ((None,None),({'kind':'fixed-owned-DNS-helper'},None),
+                                  ({'kind':'fixed-owned-C-canary-build','role':1},1),({'kind':'fixed-owned-C-canary-build','role':2},2)):
+            scope=dict(setup_authoring=contract,owned_setup=True,appcontainer=None,compiler_role=None)
+            exec(code,scope);self.assertEqual(scope['compiler_role'],expected)
+        for contract in ({'kind':'other','role':1},{'kind':'fixed-owned-C-canary-build','role':True},
+                         {'kind':'fixed-owned-C-canary-build','role':3},{'kind':'fixed-owned-C-canary-build'},True):
+            with self.subTest(contract=contract),self.assertRaises(ValueError):
+                exec(code,dict(setup_authoring=contract,owned_setup=True,appcontainer=None,compiler_role=None))
+        with self.assertRaises(ValueError):
+            exec(code,dict(setup_authoring={'kind':'fixed-owned-C-canary-build','role':1},owned_setup=False,appcontainer=None,compiler_role=None))
+        with self.assertRaises(ValueError):
+            exec(code,dict(setup_authoring={'kind':'fixed-owned-C-canary-build','role':1},owned_setup=True,appcontainer=object(),compiler_role=None))
+
+    def test_compiler_main_zero_reaps_only_owned_job_and_records_non_natural_completion(self):
+        scope,events=self.iterate_setup_job(compiler_role=1,elapsed=(6.265,6.266,6.267,6.3))
+        self.assertIsNone(scope['reason'])
+        self.assertEqual(events,['main_poll',('snapshot','initial',2,'exited',0),'terminate'])
+        proof=scope['compiler_finalization']
+        self.assertEqual(proof['kind'],'exact-owned-C-build-main-zero-then-job-reap-v1')
+        self.assertTrue(proof['termination_requested']);self.assertTrue(proof['terminate_job_succeeded'])
+        self.assertFalse(proof['remaining_members_natural_completion_claimed'])
+        self.assertFalse(proof['zero_active_processes_verified'])  # Set only by the original post-loop verification.
+        self.assertEqual(proof['member_snapshot']['pids'],[52])
+        self.assertEqual(scope['setup_observations'][-1]['termination_reason'],'compiler_main_zero_owned_cleanup')
+
+    def test_compiler_nonzero_unknown_and_failures_never_enable_finalization(self):
+        cases=(dict(exit_code=2),dict(main_state='running',exit_code=None),dict(main_state='unknown',exit_code=None),
+               dict(snapshot_status='unknown'),dict(elapsed=(31,31)),dict(cpu=31),dict(log_bytes=256*1024+1),
+               dict(scratch_bytes=128*1024**2+1),dict(cancel_after=.5))
+        for options in cases:
+            with self.subTest(options=options):
+                scope,events=self.iterate_setup_job(compiler_role=1,**options)
+                self.assertIsNone(scope['compiler_finalization'])
+                self.assertIsNotNone(scope['reason'])
+
+    def test_compiler_concurrent_deadline_or_cancel_prevents_finalization(self):
+        for options in (dict(elapsed=(29.9,30,30,30)),dict(elapsed=(1,1.5,2.1,2.1),cancel_after=2)):
+            with self.subTest(options=options):
+                scope,events=self.iterate_setup_job(compiler_role=2,**options)
+                self.assertIsNone(scope['compiler_finalization'])
+                self.assertIsNotNone(scope['reason'])
+                self.assertEqual(events[-1],'terminate')
+        with self.assertRaises(AssertionError):
+            self.iterate_setup_job(compiler_role=1,elapsed=(1,1,1,1),terminate_ok=False)
+
+    def compiled_output_reader(self):
+        from contextlib import contextmanager
+        @contextmanager
+        def preserved(path,root):
+            yield dict(sha256=hashlib.sha256(path.read_bytes()).hexdigest(),file_id=[1,2,3])
+        return self.process_function('_compiled_role_output',safe=lambda path,root:path,preserved=preserved)
+
+    def minimal_pe(self):
+        raw=bytearray(256);raw[:2]=b'MZ';raw[60:64]=(64).to_bytes(4,'little')
+        raw[64:70]=b'PE\0\0\x64\x86';raw[84:86]=(112).to_bytes(2,'little')
+        raw[86:88]=(2).to_bytes(2,'little');raw[88:90]=b'\x0b\x02'
+        return raw
+
+    def test_compiler_role_output_requires_bounded_amd64_executable_header(self):
+        read=self.compiled_output_reader()
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);path=root/'probe-parent.exe';raw=self.minimal_pe();path.write_bytes(raw)
+            proof=read(root,1)
+            self.assertEqual(proof['path'],str(path));self.assertEqual(proof['sha256'],hashlib.sha256(raw).hexdigest())
+            self.assertTrue(proof['validated']);self.assertTrue(proof['validation_after_job_reaped'])
+            for offset,value in ((0,b'XX'),(64,b'XX'),(68,b'\x4c\x01'),(84,b'\0\0'),(86,b'\x02\x20'),(88,b'\x0b\x01')):
+                altered=raw.copy();altered[offset:offset+len(value)]=value;path.write_bytes(altered)
+                with self.subTest(offset=offset),self.assertRaises(ValueError):read(root,1)
+            path.write_bytes(raw[:80])
+            with self.assertRaises(ValueError):read(root,1)
+            with path.open('wb') as stream:stream.truncate(4*1024**2+1)
+            with self.assertRaises(ValueError):read(root,1)
+            with self.assertRaises(FileNotFoundError):read(root,2)
+            with self.assertRaises(ValueError):read(root,True)
+
+    def test_owned_setup_forwards_only_allowlisted_authoring_and_reads_output_after_reaping(self):
+        from contextlib import contextmanager,ExitStack
+        @contextmanager
+        def owned_scope(root):yield root,{'owned':True}
+        @contextmanager
+        def preserved(path,parent):yield {'sha256':'pin'}
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);exe=root/'compiler.exe';source=root/'probe.c';events=[]
+            contract={'kind':'fixed-owned-C-canary-build','role':1}
+            result=dict(status='success',cleanup_complete=True,_suspended_token=None)
+            def run(argv,**kwargs):
+                self.assertIs(kwargs['setup_authoring'],contract);events.append('job-returned-after-finally');return result.copy()
+            def output(owned,role):
+                self.assertEqual(events,['job-returned-after-finally']);events.append('read-output');return {'validated':True}
+            scope=dict(Path=Path,math=__import__('math'),time=SimpleNamespace(monotonic=lambda:1),ExitStack=ExitStack,
+                       _owned_setup_root=owned_scope,safe=lambda path,owned:path,_setup_argv=lambda argv,owned:(exe,[source],contract),
+                       digest=lambda path:'pin',preserved=preserved,_run_job=run,_compiled_role_output=output)
+            setup=self.process_function('run_owned_setup',**scope)
+            returned=setup(['compiler.exe'],cwd=root,log=root/'compile.log',root=root)
+            self.assertEqual(events,['job-returned-after-finally','read-output'])
+            self.assertTrue(returned['compiler_output']['validated']);self.assertFalse(returned['Native_admitted'])
+            for status,cleanup in (('budget_exceeded',True),('nonzero_exit',True),('process_diagnostic_unknown',True),('success',False)):
+                events.clear();result.update(status=status,cleanup_complete=cleanup)
+                returned=setup(['compiler.exe'],cwd=root,log=root/'compile.log',root=root)
+                self.assertEqual(events,['job-returned-after-finally']);self.assertNotEqual(returned['status'],'success')
+            events.clear();result.update(status='success',cleanup_complete=True)
+            def invalid(*args):raise ValueError('invalid PE')
+            setup.__globals__['_compiled_role_output']=invalid
+            returned=setup(['compiler.exe'],cwd=root,log=root/'compile.log',root=root)
+            self.assertEqual(returned['status'],'compiler_output_invalid');self.assertFalse(returned['compiler_output']['validated'])
+            contract.clear();contract.update(kind='fixed-owned-DNS-helper');events.clear()
+            returned=setup(['dns.exe'],cwd=root,log=root/'DNS.log',root=root)
+            self.assertEqual(events,['job-returned-after-finally']);self.assertEqual(returned['status'],'success')
+
+    def test_original_finally_cleanup_failure_overrides_pending_success(self):
+        """Execute the retained cleanup block, including failure after zero active."""
+        import copy
+        tree=ast.parse((ROOT/'windows_process.py').read_text())
+        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_run_job')
+        cleanup=next(n for n in fn.body if isinstance(n,ast.Try)).finalbody
+        wrapper=ast.parse('def exercise():\n try:\n  return "success"\n finally:\n  pass\n').body[0]
+        wrapper.body[0].finalbody=copy.deepcopy(cleanup)
+        def yes(value):
+            if not value:raise OSError('mock handle cleanup failure')
+        kernel=SimpleNamespace(TerminateJobObject=lambda *args:True,WaitForSingleObject=lambda *args:0,
+                               QueryInformationJobObject=lambda *args:True,CloseHandle=lambda *args:True)
+        scope=dict(K=kernel,yes=yes,created=True,assigned=True,job=object(),appcontainer=None,
+                   process=SimpleNamespace(hProcess=object(),hThread=object()),ACCOUNT=lambda:SimpleNamespace(ActiveProcesses=0),
+                   C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0),time=SimpleNamespace(monotonic=lambda:1))
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[wrapper],type_ignores=[])),'retained-finally','exec'),scope)
+        self.assertEqual(scope['exercise'](),'success')
+        kernel.CloseHandle=lambda *args:False
+        with self.assertRaisesRegex(RuntimeError,'Windows process cleanup incomplete'):scope['exercise']()
 
     def canary_function(self,name,**scope):
         tree=ast.parse((ROOT/'appcontainer_canary.py').read_text())
@@ -277,7 +414,7 @@ class WindowsProbeControls(unittest.TestCase):
             with log.open('wb') as stream:stream.truncate(log_bytes)
             with (cwd/'output').open('wb') as stream:stream.truncate(scratch_bytes)
             for index in range(entries):(cwd/str(index)).touch()
-            scope=dict(ACCOUNT=lambda:account,K=SimpleNamespace(QueryInformationJobObject=lambda *args:True),C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0),job=1,yes=lambda value:self.assertTrue(value),time=SimpleNamespace(monotonic=lambda:elapsed),started=0,seconds=30,cancel_after=None,reason=None,log=log,cwd=cwd,root=cwd,safe=lambda path,root:path,owned_setup=False)
+            scope=dict(ACCOUNT=lambda:account,K=SimpleNamespace(QueryInformationJobObject=lambda *args:True),C=SimpleNamespace(byref=lambda x:x,sizeof=lambda x:0),job=1,yes=lambda value:self.assertTrue(value),time=SimpleNamespace(monotonic=lambda:elapsed),started=0,seconds=30,cancel_after=None,reason=None,log=log,cwd=cwd,root=cwd,safe=lambda path,root:path,owned_setup=False,compiler_role=None)
             exec(compile(ast.fix_missing_locations(ast.Module(body=[loop],type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
             return scope['reason']
 

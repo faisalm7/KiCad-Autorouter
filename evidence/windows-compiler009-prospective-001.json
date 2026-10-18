@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "kind": "bounded-Windows009-exact-compiler-finalization-prospective",
+  "frozen_utc": "2026-10-18T15:07:38.263323+00:00",
+  "parent_head": "0399b6dd2c5cd62d8467d1ee35035a1044274891",
+  "project_complete": false,
+  "failure_link": "evidence/windows-setup008-actual001.json",
+  "specific_failure": "Actual008 observed compiler main exit0 by6.265seconds with one unidentified owned Job member remaining through30-second timeout. Existing whole-Job natural-completion contract correctly refused despite main success.",
+  "general_mechanism": "For exact allowlisted trusted canary compiler roles only, after observed main exit0 and no prior/concurrent failure, terminate its owned Job remainder and require verified zero-active cleanup before inspecting a fresh bounded role output. Do not infer natural completion or image identity of remaining members. DNS/ordinary Native/AppContainer lifecycle remains unchanged.",
+  "comparison": "One fresh009 phase with same strict compiler flags/source roles and unchanged Job/resource/canary limits. Successful setup must still pass actual parent/child token, positive-host and denied-AppContainer IPv4 TCP, cancellation, ACL/profile and owned server cleanup controls; Native is never admitted.",
+  "attempts_maximum": 1,
+  "no_automatic_retry": true,
+  "execution": {
+    "workflow": ".github/workflows/manual-python-controls.yml",
+    "input": "windows-appcontainer",
+    "runner": "windows-2022",
+    "timeout_minutes": 3,
+    "permissions": "contents:read",
+    "sparse_checkout": "scripts/windows_native_slice",
+    "checkout_SHA": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "persist_credentials": false,
+    "artifacts": 0,
+    "caches": 0,
+    "installers": 0,
+    "Native_KiCad_Java_CAD": false
+  },
+  "limits": {
+    "DNS_Job_seconds": 5,
+    "each_compiler_Job_seconds": 30,
+    "canary_denial_Job_seconds": 15,
+    "cancel_Job_seconds": 10,
+    "cancel_after_seconds": 2,
+    "Job_memory_bytes": 2147483648,
+    "log_bytes": 262144,
+    "scratch_bytes": 134217728,
+    "entries": 4000,
+    "compiled_role_image_bytes": 4194304,
+    "setup_main_wait_milliseconds": 0,
+    "setup_PID_capacity": 32,
+    "setup_observation_capacity": 4
+  },
+  "compiler_finalization_contract": [
+    "Only actual _setup_argv-derived fixed-owned-C-canary-build contract with integer role1/2, protected source/tool pins and fresh exact outputs.",
+    "Observed stable main handle signaled with exit0; no resource, cancellation, unknown diagnostic or other failure. Recheck existing bounds before termination.",
+    "Terminate only owned Job with code130; record request/API result/current count/non-atomic bounded membership and no child image identity or natural-completion claim.",
+    "Original polling/final wait/zero-active/full Job CPU/finally cleanup retained. Any later bound/cleanup failure overrides success.",
+    "After successful finally, inspect exact fresh canonical single-link role EXE under existing write/delete-sharing-denied guard; at most4MiB, AMD64 PE32+ executable headers, hash/file identity. Invalid/unsafe/missing output fails.",
+    "PE header validity is limited build-output validation; actual canary execution and Native safeguards remain separate."
+  ],
+  "decision_rule": "If unchanged canary passes, retain actual proof and assess minimal next equivalent Native safeguards. If it fails, preserve exact first failure and decide a bounded causal fix or defer; no retry within009. No inference that Windows product or all-network/file guarantees passed.",
+  "source_files": [
+    {
+      "path": ".github/workflows/manual-python-controls.yml",
+      "bytes": 3074,
+      "sha256": "351cd8ec6a537a1db5fa80f95afe86ec023bdf1a0dbe9918b28a3fec248d2c11"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_canary.py",
+      "bytes": 13678,
+      "sha256": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_diagnostic.ps1",
+      "bytes": 2063,
+      "sha256": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_dns.py",
+      "bytes": 505,
+      "sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "bytes": 25595,
+      "sha256": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_probe.c",
+      "bytes": 7296,
+      "sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "bytes": 27785,
+      "sha256": "8d61277d1db5cc9d4e4c7ffb98a745d13fe55953d44531bdaaadcbc9b39cbb6d"
+    },
+    {
+      "path": "tests/test_windows_probe_controls.py",
+      "bytes": 31390,
+      "sha256": "407516121c73753a30a31a87bfb4ce18ba79f65a446a6fb06f68e68236f1bc35"
+    }
+  ],
+  "files": [
+    {
+      "path": "evidence/windows-compiler009-prospective-001-notes/change-note.md",
+      "bytes": 6307,
+      "sha256": "4166e431d39d7c438414e346dd3a5d9c344a85a23c14159d1d1826af41cfde34"
+    },
+    {
+      "path": "evidence/windows-compiler009-prospective-001-notes/targeted001.log",
+      "bytes": 146,
+      "sha256": "00b9ea564ecfdef56f4c47cbf23bb8dac31c58cad141a29b8e24a6d4887c29cc"
+    },
+    {
+      "path": "evidence/windows-compiler009-prospective-001-notes/targeted002.log",
+      "bytes": 147,
+      "sha256": "f479dbedef6ad8cce3beaeccc8ec22eaf1bb37790f93a6479547563a93c0085e"
+    },
+    {
+      "path": "evidence/windows-compiler009-prospective-001-notes/independent-AI-review.json",
+      "bytes": 5241,
+      "sha256": "18580486a31db9535bb25d216c34a767ae3c7a6b7c1001fd00da68dc3223e7fe"
+    }
+  ],
+  "targeted_checks": {
+    "tests": 36,
+    "skipped": 1,
+    "unittest_seconds": 0.624,
+    "passed": true,
+    "scope": "Pure/control tests on Mac, not Windows APIs."
+  },
+  "review": "Independent AI source review, no remaining concrete scoped finding; not actual Windows or human review.",
+  "runtime_accounting": "30-second cap covers Job execution; protected pin/output checks and wrapper/authoring work are additional, recorded in wrapper/controller/CI costs. Whole CI CPU remains unknown unless measured, not zero.",
+  "pre_dispatch_requirements": [
+    "Audited source checkpoint and independent remote readback",
+    "Current public standard-runner zero-cost/no-artifact/cache/no-active-job preflight",
+    "No competing Native/full-suite/GUI/CI heavy job",
+    "Exact protocol/source pins match checkpoint; all previous failed attempts retained"
+  ],
+  "Native_admitted": false,
+  "Native_executed": false,
+  "CI_dispatched": false,
+  "production_Mac_routing_changed_by_Windows_patch": false,
+  "formal_publication": false,
+  "incremental_external_spending_USD": 0
+}

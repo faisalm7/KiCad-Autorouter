@@ -582,8 +582,9 @@ def main(argv=None):
                 control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name])); control.Bind(wx.EVT_CHOICE, self.changed)
                 self.choices[name] = control; self.edit_controls.append(control); grid.Add(control, 1, wx.EXPAND)
             grid.Add(wx.StaticText(panel, label='Routing budget (seconds)'), 0, wx.ALIGN_CENTER_VERTICAL)
-            self.seconds = wx.SpinCtrl(panel, min=5, max=900, initial=int(pref.DEFAULTS['seconds']))
-            self.seconds.Bind(wx.EVT_SPINCTRL, self.changed)
+            # Cocoa SpinCtrl clamps invalid text on focus loss before Preview
+            # can validate it. Keep the exact input until explicit validation.
+            self.seconds = wx.TextCtrl(panel, value=str(int(pref.DEFAULTS['seconds'])))
             self.seconds.Bind(wx.EVT_TEXT, self.changed)
             self.edit_controls.append(self.seconds); grid.Add(self.seconds)
             grid.Add(wx.StaticText(panel, label='Selected nets (one exact name per line)'), 0, wx.ALIGN_CENTER_VERTICAL)
@@ -713,16 +714,14 @@ def main(argv=None):
                 if self.method.GetSelection(): check_improve_settings(config)
                 indices = {name: next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]) for name in self.choices}
                 for name, control in self.choices.items(): control.SetSelection(indices[name])
-                self.seconds.SetValue(int(config['seconds'])); self.nets.SetValue('\n'.join(config.get('nets', [])))
+                self.seconds.SetValue(str(int(config['seconds']))); self.nets.SetValue('\n'.join(config.get('nets', [])))
                 self.flow = None; self.inspected.SetValue(False); self.refresh()
             self.choose_path(wx.FileDialog(self, 'Load explicit settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST), loaded)
 
         def config(self):
             result = dict(pref.DEFAULTS)
             for name, control in self.choices.items(): result[name] = self.values[name][control.GetSelection()][1]
-            # Cocoa/accessibility text edits can precede the spin control's
-            # cached integer update. Capture the actual displayed budget.
-            raw_seconds = self.seconds.GetTextValue().strip()
+            raw_seconds = self.seconds.GetValue().strip()
             if not raw_seconds.isascii() or not raw_seconds.isdecimal():
                 raise ValueError('Enter a whole-number routing budget from 5 to 900 seconds.')
             result['seconds'] = int(raw_seconds)
