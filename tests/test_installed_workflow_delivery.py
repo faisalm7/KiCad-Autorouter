@@ -75,8 +75,8 @@ class InstalledDeliveryControls(unittest.TestCase):
 
 
 class InstalledFixedPresetControls(unittest.TestCase):
-    def plan(self, kind=driver.RESERVED_KIND):
-        old = kind != driver.RESERVED_KIND
+    def plan(self, kind=driver.DELIVERY_KIND):
+        old = kind not in (driver.RESERVED_KIND, driver.DELIVERY_KIND)
         arms = driver.ORIGINAL_ARMS if kind.endswith('-v1') else driver.THERMAL_ARMS
         result = dict(schema=1, kind=kind, arms=list(arms),
             routing_seconds=105 if old else 420,
@@ -85,15 +85,20 @@ class InstalledFixedPresetControls(unittest.TestCase):
             allocation='remaining' if old else 'balanced')
         if not old:
             result['installed_trial_accounting_policy'] = driver.RESERVED_POLICY
+        if kind == driver.DELIVERY_KIND:
+            result['export_validation_seconds'] = 120
         return result
 
-    def test_v3_commands_and_portfolio_share_the_validated_fixed_allocation(self):
+    def test_current_commands_keep_routing_and_native_export_allocations_distinct(self):
         from scripts import experiment_portfolio as portfolio
         preset = driver.protocol_preset(self.plan())
         for command in ('recover', 'review-export'):
             with self.subTest(command=command):
                 arguments = preset.timed_cli_arguments(command, '/owned/input', '/owned/output')
-                self.assertEqual(arguments, [command, '/owned/input', '--seconds', '420', '--output', '/owned/output'])
+                expected = 420 if command == 'recover' else 120
+                self.assertEqual(arguments, [command, '/owned/input', '--seconds', str(expected), '--output', '/owned/output'])
+                if command == 'review-export':
+                    self.assertEqual(ex.validate_seconds(float(arguments[arguments.index('--seconds') + 1])), preset.export_validation_seconds)
         self.assertEqual(preset.portfolio_options(), dict(budget=420, outer_ceiling=450,
             allocation='balanced', installed_trial_policy=portfolio.INSTALLED_TRIAL_RESERVE_POLICY))
         for arm in driver.THERMAL_ARMS:
@@ -106,6 +111,16 @@ class InstalledFixedPresetControls(unittest.TestCase):
         self.assertEqual(driver.routing_settings('B2_completion', preset)['profile'], 'completion-only')
         self.assertEqual(driver.routing_settings('C_thermal', preset)['profile'], 'completion-only')
         self.assertEqual(driver.routing_settings('C_single', preset)['profile'], 'tuned')
+
+    def test_historical_v3_keeps_failed_manual_export_spelling_visible(self):
+        # Real v3 reached accepted Native routing but tried unsupported420s export.
+        # Preserve its frozen caller; v4 and the product helper fix new jobs only.
+        preset = driver.protocol_preset(self.plan(driver.RESERVED_KIND))
+        arguments = preset.timed_cli_arguments('review-export', 'choice', 'output')
+        self.assertEqual(arguments[arguments.index('--seconds') + 1], '420')
+        with self.assertRaises(p.Rejected): ex.validate_seconds(420)
+        current = self.plan(); current.pop('export_validation_seconds')
+        with self.assertRaises(p.Rejected): driver.protocol_preset(current)
 
     def test_delivery_reserve_counts_wall_and_cpu_and_allows_long_routing_cli(self):
         preset = driver.protocol_preset(self.plan())
@@ -142,9 +157,9 @@ class InstalledFixedPresetControls(unittest.TestCase):
             for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
                 board.with_suffix(suffix).write_bytes(original)
             for kind in ('installed-workflow-exposed-comparison-v1',
-                         'installed-workflow-thermal-comparison-v2', driver.RESERVED_KIND):
+                         'installed-workflow-thermal-comparison-v2', driver.RESERVED_KIND, driver.DELIVERY_KIND):
                 preset = driver.protocol_preset(self.plan(kind))
-                expected_seconds = 420 if kind == driver.RESERVED_KIND else 105
+                expected_seconds = preset.routing_seconds
                 for arm, method in (('B1', 'route'), ('C_single', 'improve')):
                     with self.subTest(kind=kind, arm=arm):
                         settings = driver.routing_settings(arm, preset)
@@ -166,7 +181,8 @@ class InstalledFixedPresetControls(unittest.TestCase):
                         self.assertEqual(export[4:6], ['review-export',
                                          str(flow.workspace / 'choice/choice.json')])
                         self.assertEqual(export[export.index('--seconds') + 1],
-                                         str(captured['seconds']))
+                                         str(gui.export_validation_seconds(captured['seconds'])))
+                        self.assertEqual(ex.validate_seconds(float(export[export.index('--seconds') + 1])), gui.export_validation_seconds(captured['seconds']))
                         self.assertEqual(export[export.index('--output') + 1],
                                          str(flow.workspace / 'export'))
             for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
@@ -174,15 +190,17 @@ class InstalledFixedPresetControls(unittest.TestCase):
 
     def test_budget_policy_or_arm_hybrids_are_refused_before_execution(self):
         for kind in ('installed-workflow-exposed-comparison-v1',
-                     'installed-workflow-thermal-comparison-v2', driver.RESERVED_KIND):
+                     'installed-workflow-thermal-comparison-v2', driver.RESERVED_KIND, driver.DELIVERY_KIND):
             plan = self.plan(kind)
             changes = ({'routing_seconds': plan['routing_seconds'] + 1},
                 {'method_wall_cpu_cap_seconds': plan['method_wall_cpu_cap_seconds'] + 1},
                 {'delivery_wall_cpu_cap_seconds': plan['delivery_wall_cpu_cap_seconds'] + 1},
                 {'routing_seconds': str(plan['routing_seconds'])}, {'schema': True},
-                {'allocation': 'remaining' if kind == driver.RESERVED_KIND else 'balanced'},
-                {'installed_trial_accounting_policy': None if kind == driver.RESERVED_KIND else driver.RESERVED_POLICY},
-                {'installed_trial_accounting_policy': 'unknown'}, {'arms': plan['arms'][:-1]})
+                {'allocation': 'remaining' if kind in (driver.RESERVED_KIND, driver.DELIVERY_KIND) else 'balanced'},
+                {'installed_trial_accounting_policy': None if kind in (driver.RESERVED_KIND, driver.DELIVERY_KIND) else driver.RESERVED_POLICY},
+                {'installed_trial_accounting_policy': 'unknown'}, {'arms': plan['arms'][:-1]},
+                {'export_validation_seconds': None if kind == driver.DELIVERY_KIND else 120},
+                {'export_validation_seconds': 121})
             for change in changes:
                 with self.subTest(kind=kind, change=change), self.assertRaises(p.Rejected):
                     driver.protocol_preset(dict(plan, **change))

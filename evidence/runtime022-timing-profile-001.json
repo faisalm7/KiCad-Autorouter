@@ -1,0 +1,299 @@
+{
+  "schema": 1,
+  "kind": "runtime022-existing-workflow-stage-timings-v1",
+  "recorded_utc": "2026-10-18T04:51:33.523784+00:00",
+  "new_Native_or_solver_execution": false,
+  "project_complete": false,
+  "rows": [
+    {
+      "workflow": "production-delivery-001",
+      "evidence": "evidence/runtime022-installed-CLI-001.json",
+      "receipt_sha256": "6ab0f0b67a27c3673b6cc57c6073ff0121917ff6c42fd1b3a7cae91cf7023ba4",
+      "complete_enclosing_wall_seconds": 37.59,
+      "complete_enclosing_CPU_seconds": 33.08,
+      "stage_wall": [
+        {
+          "stage": "preview",
+          "whole_CLI_wall_seconds": 0.1262108749942854
+        },
+        {
+          "stage": "route",
+          "whole_CLI_wall_seconds": 12.2446707499912
+        },
+        {
+          "stage": "review",
+          "whole_CLI_wall_seconds": 5.402259792026598
+        },
+        {
+          "stage": "choice",
+          "whole_CLI_wall_seconds": 1.9400700840051286
+        },
+        {
+          "stage": "export",
+          "whole_CLI_wall_seconds": 9.933542542043142
+        },
+        {
+          "stage": "verify_export",
+          "whole_CLI_wall_seconds": 2.1040106249856763
+        }
+      ],
+      "stage_CLI_wall_sum_seconds": 31.75076466804603,
+      "remaining_controller_adoption_inspection_final_readback_and_exit_wall_seconds": 5.839235331953972,
+      "per_stage_full_CPU": "not separately instrumented; unavailable, not zero",
+      "no_new_benchmark_executed": true,
+      "native_route_worker_steps": [
+        {
+          "name": "source-drc",
+          "wall_seconds": 1.0778788329917006,
+          "cpu_seconds": 0.42397999999999997,
+          "supervisor_cpu_seconds": 0.012104999999999977
+        },
+        {
+          "name": "export",
+          "wall_seconds": 0.5206084579695016,
+          "cpu_seconds": 0.47596399999999994,
+          "supervisor_cpu_seconds": 0.007640000000000036
+        },
+        {
+          "name": "task-classes-netlist",
+          "wall_seconds": 0.49405949999345466,
+          "cpu_seconds": 0.47077399999999997,
+          "supervisor_cpu_seconds": 0.005657000000000023
+        },
+        {
+          "name": "obstacles",
+          "wall_seconds": 0.343096875003539,
+          "cpu_seconds": 0.337371,
+          "supervisor_cpu_seconds": 0.0047920000000000185
+        },
+        {
+          "name": "engine",
+          "wall_seconds": 2.857457166945096,
+          "cpu_seconds": 2.33923,
+          "supervisor_cpu_seconds": 0.044213
+        },
+        {
+          "name": "import",
+          "wall_seconds": 0.46769283298635855,
+          "cpu_seconds": 0.46064299999999997,
+          "supervisor_cpu_seconds": 0.008772999999999975
+        },
+        {
+          "name": "refill-drc",
+          "wall_seconds": 1.0680911660310812,
+          "cpu_seconds": 0.425957,
+          "supervisor_cpu_seconds": 0.01238499999999998
+        },
+        {
+          "name": "pour-keepout-audit",
+          "wall_seconds": 0.4003767920075916,
+          "cpu_seconds": 0.39281999999999995,
+          "supervisor_cpu_seconds": 0.0063590000000000035
+        },
+        {
+          "name": "final-netclasses",
+          "wall_seconds": 0.3444849160150625,
+          "cpu_seconds": 0.338292,
+          "supervisor_cpu_seconds": 0.005398000000000014
+        },
+        {
+          "name": "final-drc",
+          "wall_seconds": 1.1643052090075798,
+          "cpu_seconds": 0.511033,
+          "supervisor_cpu_seconds": 0.015136000000000038
+        },
+        {
+          "name": "final-drc-fields-netlist",
+          "wall_seconds": 0.4927837920258753,
+          "cpu_seconds": 0.481799,
+          "supervisor_cpu_seconds": 0.006969000000000003
+        },
+        {
+          "name": "final-drc-fields-audit",
+          "wall_seconds": 0.344360041024629,
+          "cpu_seconds": 0.33811599999999997,
+          "supervisor_cpu_seconds": 0.005288999999999988
+        },
+        {
+          "name": "final-classes-netlist",
+          "wall_seconds": 0.4705402909894474,
+          "cpu_seconds": 0.463321,
+          "supervisor_cpu_seconds": 0.005716999999999972
+        },
+        {
+          "name": "metrics",
+          "wall_seconds": 0.3429547919658944,
+          "cpu_seconds": 0.337138,
+          "supervisor_cpu_seconds": 0.005610999999999922
+        }
+      ],
+      "fresh_export_worker_steps": [
+        {
+          "name": "refill-drc",
+          "wall_seconds": 1.1058137500076555,
+          "cpu_seconds": 0.43493299999999996,
+          "supervisor_cpu_seconds": 0.022781999999999858
+        },
+        {
+          "name": "pour-keepout-audit",
+          "wall_seconds": 0.4285115000093356,
+          "cpu_seconds": 0.402308,
+          "supervisor_cpu_seconds": 0.006437000000000026
+        },
+        {
+          "name": "final-netclasses",
+          "wall_seconds": 0.349644250003621,
+          "cpu_seconds": 0.343196,
+          "supervisor_cpu_seconds": 0.005144000000000037
+        },
+        {
+          "name": "final-drc",
+          "wall_seconds": 1.228222374978941,
+          "cpu_seconds": 0.50451,
+          "supervisor_cpu_seconds": 0.011852999999999891
+        },
+        {
+          "name": "final-drc-fields-netlist",
+          "wall_seconds": 1.0924933329806663,
+          "cpu_seconds": 0.531901,
+          "supervisor_cpu_seconds": 0.010518999999999945
+        },
+        {
+          "name": "final-drc-fields-audit",
+          "wall_seconds": 0.3605182920000516,
+          "cpu_seconds": 0.353506,
+          "supervisor_cpu_seconds": 0.0058949999999997615
+        },
+        {
+          "name": "final-classes-netlist",
+          "wall_seconds": 0.4866966250119731,
+          "cpu_seconds": 0.47795299999999996,
+          "supervisor_cpu_seconds": 0.005811999999999706
+        },
+        {
+          "name": "metrics",
+          "wall_seconds": 0.35341674997471273,
+          "cpu_seconds": 0.346595,
+          "supervisor_cpu_seconds": 0.005590999999999902
+        }
+      ]
+    },
+    {
+      "workflow": "partial-delivery-001",
+      "evidence": "evidence/runtime022-installed-partial-CLI-001.json",
+      "receipt_sha256": "d0cec7e987faefa9d9ac7aafa0746ed4af888781443e617a7edf6e9d7843438b",
+      "complete_enclosing_wall_seconds": 31.59,
+      "complete_enclosing_CPU_seconds": 26.8,
+      "stage_wall": [
+        {
+          "stage": "preview",
+          "whole_CLI_wall_seconds": 0.10267491702688858
+        },
+        {
+          "stage": "route",
+          "whole_CLI_wall_seconds": 9.734366833989043
+        },
+        {
+          "stage": "review",
+          "whole_CLI_wall_seconds": 4.0011267910012975
+        },
+        {
+          "stage": "choice",
+          "whole_CLI_wall_seconds": 2.1404867919627577
+        },
+        {
+          "stage": "export",
+          "whole_CLI_wall_seconds": 7.042792749998625
+        },
+        {
+          "stage": "verify_export",
+          "whole_CLI_wall_seconds": 2.206774291989859
+        }
+      ],
+      "stage_CLI_wall_sum_seconds": 25.22822237596847,
+      "remaining_controller_adoption_inspection_final_readback_and_exit_wall_seconds": 6.361777624031529,
+      "per_stage_full_CPU": "not separately instrumented; unavailable, not zero",
+      "no_new_benchmark_executed": true,
+      "native_route_worker_steps": [
+        {
+          "name": "source-drc",
+          "wall_seconds": 1.1199362499755807,
+          "cpu_seconds": 0.470124,
+          "supervisor_cpu_seconds": 0.015593999999999997
+        },
+        {
+          "name": "export",
+          "wall_seconds": 0.7634693330037408,
+          "cpu_seconds": 0.728814,
+          "supervisor_cpu_seconds": 0.007765000000000022
+        },
+        {
+          "name": "obstacles",
+          "wall_seconds": 0.3450350830098614,
+          "cpu_seconds": 0.3405,
+          "supervisor_cpu_seconds": 0.004855000000000054
+        },
+        {
+          "name": "engine",
+          "wall_seconds": 2.5022192079923116,
+          "cpu_seconds": 1.427482,
+          "supervisor_cpu_seconds": 0.03390599999999999
+        },
+        {
+          "name": "import",
+          "wall_seconds": 0.47064725001109764,
+          "cpu_seconds": 0.45554,
+          "supervisor_cpu_seconds": 0.0061430000000000096
+        },
+        {
+          "name": "refill-drc",
+          "wall_seconds": 1.1388827079790644,
+          "cpu_seconds": 0.489355,
+          "supervisor_cpu_seconds": 0.017600000000000005
+        },
+        {
+          "name": "final-drc",
+          "wall_seconds": 1.176803749985993,
+          "cpu_seconds": 0.518984,
+          "supervisor_cpu_seconds": 0.019196999999999964
+        },
+        {
+          "name": "metrics",
+          "wall_seconds": 0.35324270802084357,
+          "cpu_seconds": 0.34613700000000003,
+          "supervisor_cpu_seconds": 0.006635999999999975
+        }
+      ],
+      "fresh_export_worker_steps": [
+        {
+          "name": "refill-drc",
+          "wall_seconds": 1.0867976659792475,
+          "cpu_seconds": 0.44499799999999995,
+          "supervisor_cpu_seconds": 0.013045999999999669
+        },
+        {
+          "name": "final-drc",
+          "wall_seconds": 1.1870507500134408,
+          "cpu_seconds": 0.5300819999999999,
+          "supervisor_cpu_seconds": 0.01711399999999985
+        },
+        {
+          "name": "metrics",
+          "wall_seconds": 0.3702194999787025,
+          "cpu_seconds": 0.351663,
+          "supervisor_cpu_seconds": 0.006756000000000206
+        }
+      ]
+    }
+  ],
+  "accounting": "Derived only from existing fresh installed022 receipts and complete external exit measurements. Stage wall durations do not include all coordinator adoption/inspection/readback/exit; explicit remainder retains those costs. Nested worker measurements are explanatory, never added to full workflow CPU.",
+  "findings": [
+    "Native Route and fresh Native export dominate these two small owned controls; rendered review and repeated freshness/proof readers also cost real time.",
+    "This profile supplies no reason to remove original-rule Native checks or late freshness/cancellation fences. No runtime refactor or additional experiment is justified from these two controls alone.",
+    "Ordinary curated runtime contains45modules plus necessaryresources/license/installhelpers; no historical archive needed. The shared administrative review-export control now scopes storage checks to its new owned job."
+  ],
+  "limits": [
+    "Two exposed ownedcontrols, not general performance/speedup or routing-quality evidence.",
+    "Per-stage full CPU not separately measured. Research/authoring/review/curation costs additional and notzero."
+  ]
+}

@@ -1,0 +1,737 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "status": "failed",
+  "workflow_delivered": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "arm": "B2_completion",
+  "runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime",
+  "protocol": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/interf-installed022-comparison-001/protocol.json",
+  "protocol_sha256": "7397759d574b2c13ef9ed6e706fbad80050de5665cc5007c58d4cab9928f58fb",
+  "controller_sha256": "4b98601e2fd05b5b0634ceb2ea762dbf927bcbc1f1526fc64dd2e6dd1e18baa3",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-interf-u/interf_u.kicad_pcb",
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+    "interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+    "interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+    "interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+    "interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+    "interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+    "interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+    "interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+    "interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+    "interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+    "interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+    "interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+    "interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+    "interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+    "interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+    "interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+    "interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+    "interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+    "interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+    "pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+    "sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+    "tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+    "tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed"
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "969ee3f7143dee26a0fa328ebffd0ad355ebcfe74c09c8cd99f48cc778db3f45",
+      "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+      "autorouter/gui.py": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844",
+      "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+      "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "dbbdc3c667f2ca26e91006af8935e31c20de9a21ef9325f7bbe78a07fd5d8624",
+      "autorouter/native.py": "c329e450bb4eb9377d6d3f6e8d08d7b59d85a01df4c56dcba4cdce97d608fd41",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+      "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+      "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+      "autorouter/padless_alias.py": "48405af10ffc2d4db109c3893766dcc9206319f2711cc34c05f57b2937298c56",
+      "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+      "autorouter/pipeline.py": "884590169bcbe2e4a760285140256af07e6948bff2fb52c305c05243057aca9a",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+      "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+      "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+      "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029",
+      "autorouter/review_view.py": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_class_evidence.py": "b8d64906133de30b6a56d9601ecb40cbc58d186e8902c19b13f82856ca19756b",
+      "autorouter/schematic_classes.py": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+      "autorouter/task_copper.py": "051b37275f26720fb2862dbf5dd280fc60b28efcb74155a50f8ff566dd1ade79",
+      "autorouter/thermal.py": "e477170d61e7aabf79e364b0a3c80ddca3bb48180825a80d0003228670b12b78",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33"
+    },
+    "git_head": "56568a952b75487497831a1837b7cfb4ae6273a4",
+    "source_provenance": {
+      "kind": "runtime-directory-v1",
+      "git_head": "56568a952b75487497831a1837b7cfb4ae6273a4",
+      "build_source": {
+        "files_sha256": {
+          "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "969ee3f7143dee26a0fa328ebffd0ad355ebcfe74c09c8cd99f48cc778db3f45",
+          "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+          "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "autorouter/config.py": "0d707bde6414010d441775943fdf760c1561594350ada9206a9f1844c8ed93a8",
+          "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "autorouter/floor_route.py": "78d684e09edb1ec1816d4385b6d0f67dc34d54bf40cbe1e41bf77348a0c99b8f",
+          "autorouter/gui.py": "f448a08206ead70025fcefd886a1775157e86ccb139e974102e709d0cb80a844",
+          "autorouter/handoff.py": "2edd0ef49dfef96542eadc9eb0f57b3cb9c158f4be40ba977800399345afbd85",
+          "autorouter/layer_policy.py": "28478d141f37b256e78ec040d3c774d3e8c2bd85b42ff43fb4eebb27764d8388",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "dbbdc3c667f2ca26e91006af8935e31c20de9a21ef9325f7bbe78a07fd5d8624",
+          "autorouter/native.py": "c329e450bb4eb9377d6d3f6e8d08d7b59d85a01df4c56dcba4cdce97d608fd41",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+          "autorouter/netclass.py": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b",
+          "autorouter/netclass_native.py": "967f57d6d049969ee8dc1caf61eba087253bd69c134748cd9251930848640598",
+          "autorouter/padless_alias.py": "48405af10ffc2d4db109c3893766dcc9206319f2711cc34c05f57b2937298c56",
+          "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "autorouter/pipeline.py": "884590169bcbe2e4a760285140256af07e6948bff2fb52c305c05243057aca9a",
+          "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "autorouter/placement_strategy.py": "b2bee86ef41c5f98e38a0c0f60fdd1bd9148346644f72c7d754de333bd52d25d",
+          "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "autorouter/pour_rule_area.py": "684aa01868d415d531761eebbd4e2aefeba5316595d8478c7fc13bcc41b571b2",
+          "autorouter/pour_rule_area_native.py": "8de8b82227d0f08a9b08eab3b9cba3ef1e025dde5d53d596ef212e93cf6304f1",
+          "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "autorouter/provenance.py": "bb095b5a50751f834e28d44f2f895d899fb2988e72d4b2cdf3719a888f0f16d0",
+          "autorouter/recovery.py": "871f5f52cdb6932464b9ed3f2846c3ae7e257bbc04ddf87b6eba49450596c2b9",
+          "autorouter/review_export.py": "ec98a363395f656792312b8ff81f07e3328c0ff8904a85de007bfc2374b6e029",
+          "autorouter/review_view.py": "467e16028a49c75801ba5a11cfe13443a85a6f76b78fde61f698251b78130bac",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_class_evidence.py": "b8d64906133de30b6a56d9601ecb40cbc58d186e8902c19b13f82856ca19756b",
+          "autorouter/schematic_classes.py": "58404d334902061493499972e092c9064bb116fbfe96caf031b8d4af475e30a9",
+          "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "autorouter/strategy.py": "8a9ef351ff51df414245977d53cf68422d82fe4f9c94ccd8305c7025de073ea3",
+          "autorouter/task_copper.py": "051b37275f26720fb2862dbf5dd280fc60b28efcb74155a50f8ff566dd1ade79",
+          "autorouter/thermal.py": "e477170d61e7aabf79e364b0a3c80ddca3bb48180825a80d0003228670b12b78",
+          "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "fd651f44233aae2c70da0a8feab5f96a4763276684e8b0babf39860b91a9cc33",
+          "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+          "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+          "toolchain.lock.json": "f04be5cdf6f64bddc16a6c5efd217b2f5e0a1341906ff44033f5807971154efe"
+        },
+        "git_head": "56568a952b75487497831a1837b7cfb4ae6273a4",
+        "kind": "git-checkout"
+      },
+      "manifest_sha256": "ab7f731177f17fc33d8d958618703bfb1de9b8a3f5e7ab695fba32c47a121183"
+    },
+    "kicad": "10.0.0",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli": "998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813",
+      "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_protected_via_import_policy": "legacy-via-off-source-v3",
+    "normal_task_copper_fixed_policy": "native-task-copper-fixed-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1"
+  },
+  "processes": [
+    {
+      "stage": "preview",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "preview",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-interf-u/interf_u.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.runs/interf-installed022-comparison-001/B2_completion/autorouter-gui-43b84727b24e474ca58de12c49bb4431/settings.json"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 996,
+        "wall_seconds": 0.28201074997195974,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "ce587b49b3409e2582df8107762826335b5891a55190ab74e943354dc688183e"
+    },
+    {
+      "stage": "route",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "route",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-interf-u/interf_u.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.runs/interf-installed022-comparison-001/B2_completion/autorouter-gui-43b84727b24e474ca58de12c49bb4431/settings.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.runs/interf-installed022-comparison-001/B2_completion/autorouter-gui-43b84727b24e474ca58de12c49bb4431/route"
+        ],
+        "exit_code": 2,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 543,
+        "wall_seconds": 27.292295124963857,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "d9c4ce57f0c8f1fe4fce38483424384f8da6beb9705f9e88936e978e4a8bcec9"
+    }
+  ],
+  "routing_seconds": 420,
+  "method_wall_cpu_cap_seconds": 450,
+  "delivery_wall_cpu_cap_seconds": 600,
+  "external_complete_exit_required": true,
+  "scope": "Actual installed product. Exposed development; software test intent only. B2_portfolio uses the external fixed portfolio; B2_stronger is experimental free-angle/global-width; C_thermal is the existing experimental recovery CLI, not the default or graphical optimizer. All use production review/export CLI, equal420 routing allocations/450method caps/600whole-delivery caps; no pooled best-of, human, physical or superiority claim.",
+  "allocation": "balanced",
+  "installed_trial_accounting_policy": "installed-route-readback-reserve-v1",
+  "settings": {
+    "schema": 1,
+    "scope": "whole_board_unlocked_routing",
+    "seconds": 420,
+    "adapter": "both",
+    "profile": "completion-only",
+    "guidance": "native",
+    "layers": "source_all",
+    "scoring_preference": null
+  },
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.runs/interf-installed022-comparison-001/B2_completion/autorouter-gui-43b84727b24e474ca58de12c49bb4431",
+  "reason": "ValueError: Action failed or was cancelled. Evidence was retained; no positive state adopted.",
+  "method_wall_seconds": 27.494703917007428,
+  "method_full_cpu_seconds": 41.677431,
+  "route_attempt": {
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.runs/interf-installed022-comparison-001/B2_completion/autorouter-gui-43b84727b24e474ca58de12c49bb4431/route/result.json",
+    "sha256": "34c6d97ec2e8aea438c4ef3de14d81bd5b3f227c3bd667f42ac95c56eb75ca45",
+    "status": "drc_rejected",
+    "accepted": false,
+    "reason": null,
+    "source_drc": {
+      "opens": 0,
+      "blocking": 2,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Copper connection too narrow",
+          "key": "connection_width"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+          "items": [
+            {
+              "description": "Zone [GND] on bottom_copper, priority 0",
+              "pos": {
+                "x": 193.675,
+                "y": 133.35
+              },
+              "uuid": "00000000-0000-0000-0000-00004cdec22b"
+            },
+            {
+              "description": "PTH pad 16 [GND] of U5",
+              "pos": {
+                "x": 125.095,
+                "y": 76.2
+              },
+              "uuid": "363a9f9a-0b01-4ef4-a972-9e6d1eab7c5a"
+            }
+          ],
+          "severity": "error",
+          "type": "starved_thermal"
+        },
+        {
+          "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+          "items": [
+            {
+              "description": "Zone [GND] on bottom_copper, priority 0",
+              "pos": {
+                "x": 193.675,
+                "y": 133.35
+              },
+              "uuid": "00000000-0000-0000-0000-00004cdec22b"
+            },
+            {
+              "description": "PTH pad G2 [GND] of U9",
+              "pos": {
+                "x": 145.415,
+                "y": 82.55
+              },
+              "uuid": "7cc25ef2-8581-477e-8ad4-e0906ba743c8"
+            }
+          ],
+          "severity": "error",
+          "type": "starved_thermal"
+        }
+      ]
+    },
+    "native": {
+      "opens": 0,
+      "blocking": 1,
+      "warnings": 22,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Copper connection too narrow",
+          "key": "connection_width"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+          "items": [
+            {
+              "description": "Zone [GND] on bottom_copper, priority 0",
+              "pos": {
+                "x": 193.675,
+                "y": 133.35
+              },
+              "uuid": "00000000-0000-0000-0000-00004cdec22b"
+            },
+            {
+              "description": "PTH pad C4 [GND] of U9",
+              "pos": {
+                "x": 150.495,
+                "y": 72.39
+              },
+              "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+            }
+          ],
+          "severity": "error",
+          "type": "starved_thermal"
+        },
+        {
+          "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint C1",
+              "pos": {
+                "x": 83.185,
+                "y": 83.82
+              },
+              "uuid": "00000000-0000-0000-0000-000032307de2"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+          "items": [
+            {
+              "description": "Footprint C2",
+              "pos": {
+                "x": 121.305,
+                "y": 91.44
+              },
+              "uuid": "00000000-0000-0000-0000-000032307ecf"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+          "items": [
+            {
+              "description": "Footprint C3",
+              "pos": {
+                "x": 121.305,
+                "y": 99.06
+              },
+              "uuid": "00000000-0000-0000-0000-000032307ed4"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint C4",
+              "pos": {
+                "x": 170.688,
+                "y": 52.197
+              },
+              "uuid": "00000000-0000-0000-0000-000032307dcf"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint C5",
+              "pos": {
+                "x": 86.995,
+                "y": 113.03
+              },
+              "uuid": "00000000-0000-0000-0000-000032307dca"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint C6",
+              "pos": {
+                "x": 159.385,
+                "y": 111.76
+              },
+              "uuid": "00000000-0000-0000-0000-000032307dc0"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+          "items": [
+            {
+              "description": "Footprint D1",
+              "pos": {
+                "x": 155.58,
+                "y": 38.06
+              },
+              "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+          "items": [
+            {
+              "description": "Footprint D2",
+              "pos": {
+                "x": 165.71,
+                "y": 38.08
+              },
+              "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+          "items": [
+            {
+              "description": "Footprint JP1",
+              "pos": {
+                "x": 116.205,
+                "y": 105.41
+              },
+              "uuid": "00000000-0000-0000-0000-000032568d1e"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+          "items": [
+            {
+              "description": "Footprint P1",
+              "pos": {
+                "x": 182.1,
+                "y": 72.4
+              },
+              "uuid": "00000000-0000-0000-0000-00005a4472d7"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint R1",
+              "pos": {
+                "x": 117.475,
+                "y": 99.06
+              },
+              "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint R2",
+              "pos": {
+                "x": 127.635,
+                "y": 91.44
+              },
+              "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint R3",
+              "pos": {
+                "x": 92.075,
+                "y": 57.15
+              },
+              "uuid": "00000000-0000-0000-0000-00005a59c08c"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint R4",
+              "pos": {
+                "x": 151.765,
+                "y": 41.91
+              },
+              "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint R5",
+              "pos": {
+                "x": 171.958,
+                "y": 42.037
+              },
+              "uuid": "00000000-0000-0000-0000-0000322d32a0"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+          "items": [
+            {
+              "description": "Footprint RR1",
+              "pos": {
+                "x": 95.885,
+                "y": 113.03
+              },
+              "uuid": "00000000-0000-0000-0000-00005a44c66d"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+          "items": [
+            {
+              "description": "Footprint U1",
+              "pos": {
+                "x": 151.765,
+                "y": 124.46
+              },
+              "uuid": "00000000-0000-0000-0000-00005214e8d1"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+          "items": [
+            {
+              "description": "Footprint U2",
+              "pos": {
+                "x": 95.885,
+                "y": 124.46
+              },
+              "uuid": "00000000-0000-0000-0000-00005214e8ef"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+          "items": [
+            {
+              "description": "Footprint U3",
+              "pos": {
+                "x": 123.825,
+                "y": 124.46
+              },
+              "uuid": "00000000-0000-0000-0000-00005214e90d"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+          "items": [
+            {
+              "description": "Footprint U5",
+              "pos": {
+                "x": 86.995,
+                "y": 76.2
+              },
+              "uuid": "00000000-0000-0000-0000-00005a0cae55"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+          "items": [
+            {
+              "description": "Footprint U8",
+              "pos": {
+                "x": 123.825,
+                "y": 112.903
+              },
+              "uuid": "00000000-0000-0000-0000-00005a0cae87"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        },
+        {
+          "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+          "items": [
+            {
+              "description": "Footprint X1",
+              "pos": {
+                "x": 113.665,
+                "y": 92.71
+              },
+              "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+            }
+          ],
+          "severity": "warning",
+          "type": "footprint_symbol_mismatch"
+        }
+      ]
+    },
+    "native_rejection_reasons": [
+      "native blocking=1",
+      "native error finding: starved_thermal",
+      "policy-critical native finding: starved_thermal (error)"
+    ],
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 379,
+      "footprints": 25,
+      "zones": 1,
+      "vias": 35,
+      "track_length_mm": 4994.887951015416,
+      "copper_layers": 2
+    },
+    "incumbent": null,
+    "repair": null,
+    "recovery_needed": null
+  },
+  "sampled_wall_seconds": 29.104138290975243,
+  "sampled_full_cpu_seconds": 43.180812,
+  "accounting_point": "Before shared guarded publication; final caps include readback tail. Complete enclosing exit accounting required."
+}

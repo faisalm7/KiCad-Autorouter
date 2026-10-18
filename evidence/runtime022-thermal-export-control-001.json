@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "kind": "runtime022-thermal-corrective-export-only-control-v1",
+  "recorded_utc": "2026-10-18T05:14:59.398331+00:00",
+  "passed": true,
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "new_routing": false,
+  "comparative_success": false,
+  "purpose": "Debugging export-only control from an existing accepted Cthermal candidate after the v3 delivery failed on explicit --seconds420 outside the unchanged30\u2013120 export bound. A new --seconds120 export succeeds. No routing attempt was repeated and no v3 failure is replaced or stitched into a comparative first-attempt success.",
+  "retained_v3": {
+    "path": "evidence/interf-installed022-comparison-001.json",
+    "sha256": "d35e5889f542c021920f363d66b4bc56903cf22e582caae8b57d126c3b71bb33",
+    "status": "All seven frozen v3 deliveries failed; Cthermal failed at export. Raw outcomes and all406 retained file pins unchanged; authored summary findings subsequently added.",
+    "pre_authoring_annotation_sha256": "84986fbacb21a6047f6dcfbcb76343e8fef3447ddff3c5548345cf97a97c4b6d"
+  },
+  "runtime": {
+    "source_head": "56568a952b75487497831a1837b7cfb4ae6273a4",
+    "runtime_manifest_sha256": "ab7f731177f17fc33d8d958618703bfb1de9b8a3f5e7ab695fba32c47a121183",
+    "kicad": "10.0.0",
+    "qualification_limit": "Uses immutable runtime022, before the later product GUI budget fix. Does not qualify any newer installed build or actual GUI."
+  },
+  "complete_control": {
+    "wall_seconds": 29.43,
+    "full_cpu_seconds": 29.36,
+    "user_seconds": 24.68,
+    "system_seconds": 4.68,
+    "resolution_seconds": 0.01,
+    "measurement": "Complete enclosing /usr/bin/time real/user/sys, including initial prior-route readback, source/tool/choice checks, fresh export, child readback, repeated in-controller readback, publication and exit. Do not add nested CPU."
+  },
+  "stored_controller_sample": {
+    "wall_seconds": 29.377480374998413,
+    "full_cpu_seconds": 29.330365999999998,
+    "scope": "Earlier prepublication sample, retained separately from complete exit measurement."
+  },
+  "cost_scope": "Additional debugging/research qualification cost, separate from the original frozen v3 comparison. Authoring, AI review and this curation are additional, not measured as zero; not included in the29.43/29.36 control measurement.",
+  "own_final": {
+    "export_receipt_sha256": "06284b57a46e6a869939d79405515bacf28df91ff38c31c1e42475112f7d3d19",
+    "candidate_sha256": "20b595e3620b31c190abd35429c98e8309067d39b6242f1ee8f7901f0b159233",
+    "native_report_sha256": "fa4e68b3f3c0a1919877b5411481a22039fbbcaa3c476f07f41c10e31aafa45d",
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 22,
+      "exclusions": 0
+    },
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "schematic_parity": "checked by final native DRC",
+    "whole_project_drc_clean": false,
+    "export_budget_seconds": 120.0,
+    "sampled_export_wall_seconds": 10.990369624982122,
+    "sampled_export_full_cpu_seconds": 9.988378,
+    "metrics": {
+      "version": "10.0.0",
+      "pads": 379,
+      "footprints": 25,
+      "zones": 1,
+      "vias": 35,
+      "track_length_mm": 4996.393150337764,
+      "copper_layers": 2
+    },
+    "checked": {
+      "current": true,
+      "export_accepted": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.runs/Cthermal-export-control-001/validation/candidate/interf_u.kicad_pcb",
+      "candidate_sha256": "20b595e3620b31c190abd35429c98e8309067d39b6242f1ee8f7901f0b159233",
+      "original_routing_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-022/runtime/.runs/interf-installed022-comparison-001/C_thermal/thermal-route/result.json",
+      "applied": false,
+      "fresh_native_run_performed_by_check": false,
+      "warning": "Mutable local consistency proof; no authentication, live application, human PCB or electrical/manufacturing approval."
+    },
+    "protection": "Fresh export shared checker verifies original immutable geometry/rules and exact validated route copper, and requires original protected routes to remain. Full original source witnesses and fresh refill/final Native bindings are retained. This is not a separate nonempty protected-copper fixture or physical/electrical approval.",
+    "original_source_project_bytes_unchanged": true,
+    "validated_candidate_geometry_and_routing_preserved_through_export": true
+  },
+  "bindings": {
+    "source_hashes": {
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+      "interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+      "interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+      "interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+      "interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+      "interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+      "interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+      "interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+      "interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+      "interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+      "interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+      "interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+      "interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+      "interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+      "interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+      "interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+      "interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+      "interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+      "interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+      "pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+      "sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+      "tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+      "tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed"
+    },
+    "prior_route_receipt_sha256": "5160c8536a81c47d94e83591756752b7c97094b04e9536404f00af454c8a9daf",
+    "choice_sha256": "d23c001a96536cf85e80892a724efb5e1f82f95429202728544f2ef22c4545e0",
+    "source_unchanged_observed_by_control": true,
+    "candidate_equals_bound_prior": true
+  },
+  "rights": {
+    "source": "KiCad demos/interf_u",
+    "revision": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+    "source_url": "https://gitlab.com/kicad/code/kicad/-/tree/69cafb907ebc09e7722a2a464b1d466fc2e3608d/demos/interf_u",
+    "license": "CC-BY-SA-4.0",
+    "attribution": "KiCad contributors; Tux artwork by Larry Ewing and The GIMP",
+    "modifications": "Candidate routing/Native serialization differ from the original demo; original source, original rules and complete schematic remain unchanged.",
+    "notices": [
+      {
+        "path": "evidence/interf-installed022-comparison-001-notes/licenses/LICENSE.README",
+        "sha256": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d"
+      },
+      {
+        "path": "evidence/interf-installed022-comparison-001-notes/licenses/LICENSE.CC-BY-SA-4.0",
+        "sha256": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      }
+    ]
+  },
+  "limits": [
+    "One exposed development family; not independent confirmation or generalized superiority.",
+    "All22 Native warnings and original ignored-check configuration remain visible; no global waiver or whole-project cleanliness claim.",
+    "No GUI action, human engineer review, physical testing, live application, formal release or new spending.",
+    "Raw originals and outputs remain on this Mac. This curated packet is not a new full-restoration test and is not retroactively covered by older artifact backups."
+  ],
+  "files_index": {
+    "path": "evidence/runtime022-thermal-export-control-001-notes/files.json",
+    "sha256": "4bde3f70bcdd992cd5b9a0297d00a34771798e732a05930a037c2ae05a919e58"
+  },
+  "new_file_count": 51,
+  "new_material_bytes": 3203876
+}

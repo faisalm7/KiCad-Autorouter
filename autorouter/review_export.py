@@ -9,6 +9,7 @@ from . import config as c,pipeline as p,floor_route as f,placement_clearance as 
 from . import placement_strategy as ps,sexpr as sx,handoff as h
 from .runner import run
 KIND='review-export-v1'
+MIN_SECONDS=30
 SECONDS=120
 OUTPUT_BYTES=256*1024**2
 OUTPUT_FILES=12000
@@ -22,6 +23,12 @@ def evidence(out):
     value=witness(out);value['files'].pop('export.json',None);return value
 
 def finite(x):return type(x) in (int,float) and math.isfinite(x) and x>=0
+
+def validate_seconds(seconds):
+    """Public export allocation remains independent of the routing allocation."""
+    if not finite(seconds) or not MIN_SECONDS<=seconds<=SECONDS:
+        raise p.Rejected(f'export budget must be {MIN_SECONDS}–{SECONDS} seconds')
+    return seconds
 
 def bound_material(binding):
     """Repeat existing byte witnesses without invoking tools or another consumer."""
@@ -246,11 +253,12 @@ def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_p
     guard()
     path=h.real_path(path);before_hash=p.sha(path);data=f.read_json(path)
     h.check_delivery_context(data,native_toolchain,experimental_schematic_parity)
+    validate_seconds(data.get('budget_seconds'))
     if (path.name!='export.json' or data.get('schema')!=1 or type(data['schema']) is not int or data.get('kind')!=KIND
         or data.get('status')!='export_validated' or data.get('export_accepted') is not True
         or data.get('native_validation_performed') is not True or data.get('routing_receipt_accepted') is not True
         or any(data.get(k) is not False for k in ('applied','human_pcb_approval_observed','physical_electrical_validation','new_engine_execution'))
-        or not finite(data.get('budget_seconds')) or not 30<=data['budget_seconds']<=SECONDS or data.get('cpu_budget_seconds')!=data['budget_seconds']
+        or data.get('cpu_budget_seconds')!=data['budget_seconds']
         or data.get('within_budget') is not True or any(not finite(data.get(k)) or data[k]>data['budget_seconds'] for k in ('wall_seconds','total_cpu_seconds'))):
         raise p.Rejected('current bounded fresh export proof required')
     binding,report=bind(data['inputs']['choice'],**ctx);guard()
@@ -343,7 +351,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
         record['within_budget']=record['wall_seconds']<=seconds and record['total_cpu_seconds']<=seconds
     lifecycle.update(record=record,account=account)
     try:
-        if not finite(seconds) or not 30<=seconds<=SECONDS:raise p.Rejected('export budget must be30–120 seconds')
+        validate_seconds(seconds)
         # Early native cancellation/failure must retain the declared accounting
         # bounds too; acceptance remains false until all checks finish.
         record.update(budget_seconds=seconds,cpu_budget_seconds=seconds,

@@ -25,6 +25,13 @@ FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
 
 
+def export_validation_seconds(route_seconds):
+    """Allocate separate bounded Native validation without changing routing settings."""
+    from . import review_export as ex
+    seconds = pref.validate(dict(pref.DEFAULTS, seconds=route_seconds))['seconds']
+    return ex.validate_seconds(max(ex.MIN_SECONDS, min(seconds, ex.SECONDS)))
+
+
 def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=None):
     """Presentation only; existing CLI validation and original receipts remain authoritative."""
     title = {'preview': 'Saved-project preview', 'route': 'Routing result',
@@ -49,10 +56,14 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         if isinstance(layers, list): layers = ', '.join(layers)
         lines += ['Settings: profile ' + str(settings.get('profile', 'not reported'))
                   + '; corrections ' + str(settings.get('adapter', 'not reported'))
-                  + '; budget ' + str(settings.get('seconds', 'not reported')) + ' s'
+                  + '; routing budget ' + str(settings.get('seconds', 'not reported')) + ' s'
                   + '; layers ' + str(layers)
                   + '; via preference ' + str(settings.get('scoring_preference') or 'engine default')]
         if settings.get('nets'): lines += ['Selected nets: ' + ', '.join(settings['nets'])]
+        if 'seconds' in settings:
+            lines += ['Additional Native export-validation budget: '
+                      + str(export_validation_seconds(settings['seconds']))
+                      + ' s after acceptance, separate from routing; the routing budget is unchanged.']
     if stage == 'preview':
         lines += ['Static preflight only; Native routing validation has not run.',
                   'Existing route items: ' + str(record.get('existing_route_items', 'not reported'))
@@ -237,7 +248,8 @@ class Workflow:
         elif stage == 'export':
             if self.choice != 'accept': raise ValueError('Only explicit acceptance intent can request a fresh export.')
             argv += ['review-export', str(self.workspace / 'choice/choice.json'), '--seconds',
-                     str(json.loads(self.settings_bytes)['seconds']), '--output', str(self.workspace / 'export')]
+                     str(export_validation_seconds(json.loads(self.settings_bytes)['seconds'])),
+                     '--output', str(self.workspace / 'export')]
         elif stage == 'verify_export':
             argv += ['review-export-check', str(self.workspace / 'export/export.json')]
         else:
@@ -254,7 +266,9 @@ class Workflow:
             raise ValueError('Displayed source or settings differ from this session; preview again.')
 
     def timeout(self, stage):
-        return float(json.loads(self.settings_bytes)['seconds']) + 45 if stage in ('route', 'export') else 90.0
+        if stage == 'export':
+            return float(export_validation_seconds(json.loads(self.settings_bytes)['seconds'])) + 45
+        return float(json.loads(self.settings_bytes)['seconds']) + 45 if stage == 'route' else 90.0
 
     def adopt(self, stage, process, log_path, *, choice=None):
         self.fresh()
@@ -572,6 +586,10 @@ def main(argv=None):
             self.nets = wx.TextCtrl(panel, style=wx.TE_MULTILINE, size=(-1, 55))
             self.nets.Bind(wx.EVT_TEXT, self.changed); self.edit_controls.append(self.nets); grid.Add(self.nets, 1, wx.EXPAND)
             layout.Add(grid, 0, wx.EXPAND | wx.ALL, 8)
+            export_note = wx.StaticText(panel, label='Fresh export adds separate Native validation after acceptance: '
+                '30–120 seconds, derived from the routing budget. The routing budget is unchanged.')
+            export_note.Wrap(780)
+            layout.Add(export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             presets = wx.BoxSizer(wx.HORIZONTAL)
             for label, callback in [('Load settings…', self.load_preset), ('Save settings as…', self.save_preset)]:
                 button = wx.Button(panel, label=label); button.Bind(wx.EVT_BUTTON, callback)

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-18T05:13:14.454614+00:00",
+  "kind": "export-budget-split-independent-AI-source-review-v1",
+  "reviewer": "specialist assistant /root/windows005_gate",
+  "human_review": false,
+  "native_execution": false,
+  "actual_GUI": false,
+  "source_sha256": {
+    "autorouter/gui.py": "6b31345ad283bfe1dda7d164fe4e820d6cc99c2aa7e6c253892a5cd38c77af30",
+    "autorouter/review_export.py": "2ed5b7849b8c86e1cc6ff415cbb340ad972bf3ce2c367499c39d875941303833",
+    "scripts/qualify_installed_workflow.py": "8f29bf021b109569e844d10a1a1009e54611cf0abc1be2500288b53edcdd9d8e",
+    "tests/test_gui_export_budget.py": "94fdf6ec354718999b4b31f3f3ed4fe0dd5cdfd4841a7609523aae7af2700b70",
+    "tests/test_installed_workflow_delivery.py": "c10c0ff6dc63b8d532eecbcd42b67a8e6ac73f3a2873615ca4964531e6d7b802"
+  },
+  "findings": [],
+  "conclusions": [
+    "Actual export backend30\u2013120seconds inspected, not inferred from propagation tests. Routing420 unchanged; current GUI and v4 manual caller allocate separate120second export validation.",
+    "Explicit invalid export API/CLI requests still refuse; receipt reader uses same validator and retains freshness, CPU and Native proof.",
+    "GUI timeout uses derived export seconds plus45; comparison retains presettimeout clipped to remaining delivery. Cancellation and publication checks unchanged.",
+    "Historical manual v1/v2/v3 export105/105/420 retained; v3 failed delivery is not repaired by separate export-only debugging control.",
+    "Actual wx layout and installed runtime remain to be qualified."
+  ],
+  "readback_cache_assessment": "Lead inspected pipeline.validation_readback_session: cache is scoped to routing check_result only; export producer/reader is not cached. Existing live/source identities and fresh native validation stay unchanged. No new cache framework required."
+}

@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "kind": "separate-routing-export-budget-integration-v1",
+  "recorded_utc": "2026-10-18T05:17:27.314985+00:00",
+  "project_complete": false,
+  "actual_GUI": false,
+  "new_installed_Native": false,
+  "human_review": false,
+  "failure": "Actual installed022 v3 Cthermal route accepted Native0/0/22, then manual review-export420 correctly refused strict30\u2013120 API. GUI Workflow propagated same routingbudget and thus had same general defect for5\u201329 and121\u2013900s.",
+  "original_failed_comparison": "evidence/interf-installed022-comparison-001.json",
+  "separate_debugging_control": "evidence/runtime022-thermal-export-control-001.json",
+  "change": "Common caller derives separate additional30\u2013120second Native export budget from unchanged routing5\u2013900 settings; GUI discloses additional allocation. API/receipt reader remain strict. New v4 explicitly freezes420routing and120export. Old manual v1/v2/v3 reproduction budgets remain105/105/420.",
+  "targeted": {
+    "passed": 65,
+    "wall_seconds": 6.393,
+    "retained_harness_error": "First command requested nonexistent tests.test_gui_summaries; retained log. Corrected module tests.test_gui_summary. No Native execution in either targeted test command."
+  },
+  "full_integration": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 293.50904824997997,
+      "cpu_seconds": 282.14862,
+      "max_rss_bytes": 294174720,
+      "supervisor_cpu_seconds": 0.7778660000000001,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 294174720,
+      "sampled_peak_workdir_bytes": 376171,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-163/command.log",
+      "log_bytes": 340974,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-163",
+      "signal_cancellation_enabled": true,
+      "pid": 50745
+    },
+    "wall_seconds": 293.93643579201307,
+    "full_cpu_seconds": 283.206673,
+    "sources_unchanged": true,
+    "controller_sha256": "17d1c076aec9fa3bcb96135812873b12184e836d5dcc333bf970d181f5181782",
+    "log_sha256": "e5fb62b10555772bc9fe515f3d5cef4f9ac1474f7cdfed0f562459ce74ff0164",
+    "passed": true
+  },
+  "source_review": {
+    "schema": 1,
+    "recorded_utc": "2026-10-18T05:13:14.454614+00:00",
+    "kind": "export-budget-split-independent-AI-source-review-v1",
+    "reviewer": "specialist assistant /root/windows005_gate",
+    "human_review": false,
+    "native_execution": false,
+    "actual_GUI": false,
+    "source_sha256": {
+      "autorouter/gui.py": "6b31345ad283bfe1dda7d164fe4e820d6cc99c2aa7e6c253892a5cd38c77af30",
+      "autorouter/review_export.py": "2ed5b7849b8c86e1cc6ff415cbb340ad972bf3ce2c367499c39d875941303833",
+      "scripts/qualify_installed_workflow.py": "8f29bf021b109569e844d10a1a1009e54611cf0abc1be2500288b53edcdd9d8e",
+      "tests/test_gui_export_budget.py": "94fdf6ec354718999b4b31f3f3ed4fe0dd5cdfd4841a7609523aae7af2700b70",
+      "tests/test_installed_workflow_delivery.py": "c10c0ff6dc63b8d532eecbcd42b67a8e6ac73f3a2873615ca4964531e6d7b802"
+    },
+    "findings": [],
+    "conclusions": [
+      "Actual export backend30\u2013120seconds inspected, not inferred from propagation tests. Routing420 unchanged; current GUI and v4 manual caller allocate separate120second export validation.",
+      "Explicit invalid export API/CLI requests still refuse; receipt reader uses same validator and retains freshness, CPU and Native proof.",
+      "GUI timeout uses derived export seconds plus45; comparison retains presettimeout clipped to remaining delivery. Cancellation and publication checks unchanged.",
+      "Historical manual v1/v2/v3 export105/105/420 retained; v3 failed delivery is not repaired by separate export-only debugging control.",
+      "Actual wx layout and installed runtime remain to be qualified."
+    ],
+    "readback_cache_assessment": "Lead inspected pipeline.validation_readback_session: cache is scoped to routing check_result only; export producer/reader is not cached. Existing live/source identities and fresh native validation stay unchanged. No new cache framework required."
+  },
+  "decision": "Integrate demonstrated caller correctness fix after full163; create new immutable023 and qualify actual installed Native and GUI before comparative or release claim. Do not repair frozen old results or stitch debugging continuation into first-attempt result.",
+  "remaining": [
+    "New installed runtime and actual Native budget420/export120 regression",
+    "New actualGUI layout/cancellation/staleness/export/opening qualification at unresolved window input gate",
+    "Broader completion beyond B2, untouched-family confirmation, Windows equivalent safeguards/native slice, restoration capacity and human/physical review"
+  ],
+  "files": [
+    {
+      "path": "evidence/export-budget-split-001-notes/export-budget-split-targeted-001.log",
+      "sha256": "8c8fd5a6e724e8085eff891df4addab2d083031e68354527a659e07f982ae373",
+      "bytes": 739
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/export-budget-split-targeted-002.log",
+      "sha256": "d8ccee01d2c8498cd93f9289ac7d772f9495ed98537665b92f832fc340c0f343",
+      "bytes": 164
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/export-budget-split-source-review-001.json",
+      "sha256": "7712a53e080f1de94bb9bfc2e2f88836c3d88fea87535dca387f2566f2db96a1",
+      "bytes": 1867
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/run-full-integration-163.py",
+      "sha256": "17d1c076aec9fa3bcb96135812873b12184e836d5dcc333bf970d181f5181782",
+      "bytes": 2794
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/full-integration-163-outer.log",
+      "sha256": "1c5a27f32cb5cc046ba980e3826b0f6f8dc7e6b76eb934645ee62d850a439e61",
+      "bytes": 1751
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/full-integration-163-time.log",
+      "sha256": "4580c759cee2db4809d64523cbcae7c8d5be25f830858915ab3b4652b8109446",
+      "bytes": 34
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/full163/protocol.json",
+      "sha256": "3c48d6f811c136b60c4ce57f2b8975c7ef2aa5e1975b094535d450890235de0e",
+      "bytes": 35197
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/full163/execution.json",
+      "sha256": "c4c09592d56c7d761ecc59388eb3a372727682b0edcfa60fd4f800589cc577f6",
+      "bytes": 1951
+    },
+    {
+      "path": "evidence/export-budget-split-001-notes/full163/command.log",
+      "sha256": "e5fb62b10555772bc9fe515f3d5cef4f9ac1474f7cdfed0f562459ce74ff0164",
+      "bytes": 340974
+    }
+  ]
+}

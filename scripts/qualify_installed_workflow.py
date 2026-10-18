@@ -22,6 +22,7 @@ CPU0 = cpu()
 ORIGINAL_ARMS = ('B0', 'B1', 'B2_portfolio', 'B2_stronger', 'C_single')
 THERMAL_ARMS = ('B0', 'B1', 'B2_tuned', 'B2_completion', 'B2_portfolio', 'C_single', 'C_thermal')
 RESERVED_KIND = 'installed-workflow-thermal-reserved-comparison-v3'
+DELIVERY_KIND = 'installed-workflow-thermal-export-budget-comparison-v4'
 RESERVED_POLICY = 'installed-route-readback-reserve-v1'
 
 
@@ -33,6 +34,7 @@ class FixedComparisonPreset:
     allocation: str
     cli_timeout_seconds: int
     installed_trial_accounting_policy: str | None = None
+    export_validation_seconds: int | None = None
 
     def remaining(self, elapsed_wall, elapsed_cpu):
         # Preserve the existing15s final-publication/enclosing-exit reserve.
@@ -49,7 +51,13 @@ class FixedComparisonPreset:
     def timed_cli_arguments(self, command, source, output):
         if command not in ('recover', 'review-export'):
             raise ValueError('Only existing budgeted recovery/export commands are supported.')
-        return [command, str(source), '--seconds', str(self.routing_seconds), '--output', str(output)]
+        seconds = self.routing_seconds
+        if command == 'review-export' and self.export_validation_seconds is not None:
+            from autorouter import gui, pipeline as p
+            seconds = gui.export_validation_seconds(self.routing_seconds)
+            if seconds != self.export_validation_seconds:
+                raise p.Rejected('Product export allocation differs from frozen delivery preset.')
+        return [command, str(source), '--seconds', str(seconds), '--output', str(output)]
 
 
 def protocol_arms(plan):
@@ -57,7 +65,7 @@ def protocol_arms(plan):
     from autorouter import pipeline as p
     kinds = {'installed-workflow-exposed-comparison-v1': ORIGINAL_ARMS,
              'installed-workflow-thermal-comparison-v2': THERMAL_ARMS,
-             RESERVED_KIND: THERMAL_ARMS}
+             RESERVED_KIND: THERMAL_ARMS, DELIVERY_KIND: THERMAL_ARMS}
     if type(plan) is not dict or type(plan.get('kind')) is not str:
         raise p.Rejected('Frozen installed comparison protocol required.')
     expected = kinds.get(plan['kind'])
@@ -70,14 +78,20 @@ def protocol_preset(plan):
     """Choose one complete fixed preset; no custom or mixed budget intake."""
     from autorouter import pipeline as p
     protocol_arms(plan)
-    preset = (FixedComparisonPreset(420, 450, 600, 'balanced', 450, RESERVED_POLICY)
-              if plan['kind'] == RESERVED_KIND else
-              FixedComparisonPreset(105, 120, 240, 'remaining', 165))
+    if plan['kind'] == DELIVERY_KIND:
+        preset = FixedComparisonPreset(420, 450, 600, 'balanced', 450, RESERVED_POLICY, 120)
+    elif plan['kind'] == RESERVED_KIND:
+        # Preserve the failed v3 caller for historical reproduction. Its420s
+        # manual export is unsupported; v4 fixes the caller, not the API bounds.
+        preset = FixedComparisonPreset(420, 450, 600, 'balanced', 450, RESERVED_POLICY)
+    else:
+        preset = FixedComparisonPreset(105, 120, 240, 'remaining', 165)
     if (type(plan.get('schema')) is not int or plan['schema'] != 1
             or any(plan.get(name) != getattr(preset, name) for name in
                    ('routing_seconds', 'method_wall_cpu_cap_seconds',
                     'delivery_wall_cpu_cap_seconds', 'allocation'))
-            or plan.get('installed_trial_accounting_policy') != preset.installed_trial_accounting_policy):
+            or plan.get('installed_trial_accounting_policy') != preset.installed_trial_accounting_policy
+            or plan.get('export_validation_seconds') != preset.export_validation_seconds):
         raise p.Rejected('Unsupported frozen comparison protocol or budgets.')
     return preset
 
@@ -186,6 +200,8 @@ def main():
     if preset.installed_trial_accounting_policy is not None:
         report.update(allocation=preset.allocation,
             installed_trial_accounting_policy=preset.installed_trial_accounting_policy)
+    if preset.export_validation_seconds is not None:
+        report['export_validation_seconds'] = preset.export_validation_seconds
 
     def fresh():
         if (p.sha(protocol_path) != args.protocol_sha256 or p.sha(Path(__file__)) != selfpin
