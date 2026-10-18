@@ -405,13 +405,15 @@ class RelocatableToolPinTests(unittest.TestCase):
                 file = root / ('.tools/freerouting-2.5.0.jar' if attribute == 'JAR' else name)
                 file.write_bytes(('non-executable pin fixture: ' + name).encode())
                 overrides[attribute] = file
-                pins[name] = {'path': str(file.relative_to(root)) if attribute == 'JAR' else str(file), 'sha256': p.sha(file)}
+                pins[name] = {'path': str(file.relative_to(root)) if attribute == 'JAR' else str(file), 'sha256': p.sha(file), 'bytes':file.stat().st_size}
             (root / 'toolchain.lock.json').write_text(json.dumps({'tools': pins}))
-            # Only source identity is stubbed; path resolution and all file
-            # digests are real. This fixture is not a Git/runtime distribution.
+            # Source identity and known-profile selection are stubbed; all
+            # paths, relative resolution and file digests are real.
+            # This fixture is not a Git/runtime distribution.
             # test_runtime_provenance exercises that separate provider for real.
             identity={'kind':'git-checkout','git_head':'a'*40,'build_source':None,'manifest_sha256':None}
-            with patch.multiple(p.c, **overrides), patch('autorouter.provenance.source_identity',return_value=identity) as source_identity:
+            selection={'version':'10.0.0','tools':{name:pins[name] for name in ('kicad_cli','kicad_python','pcbnew')}}
+            with patch.multiple(p.c, **overrides), patch.object(p.c,'current_native_selection',return_value=selection),patch('autorouter.provenance.source_identity',return_value=identity) as source_identity:
                 result = p.tool_manifest()
                 source_identity.assert_called_once_with(root,{'autorouter/config.py':p.sha(root/'autorouter/config.py')})
                 self.assertEqual(result['source_provenance'],identity)

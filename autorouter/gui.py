@@ -206,15 +206,17 @@ class Request:
 class Workflow:
     """UI state only. Existing CLI readers authorize every review/export."""
     def __init__(self, board, workspace, owner, files_json, settings_bytes, method='route'):
+        from .handoff import runtime_inventory
         self.board, self.workspace, self.owner = board, workspace, owner
         self.files_json, self.settings_bytes = files_json, settings_bytes
         self.method = method
         self.ready = set()
         self.choice = None
         self.records = {}
+        self.runtime_hashes = runtime_inventory()
 
     def fresh(self):
-        from .handoff import owned_destination
+        from .handoff import owned_destination, runtime_inventory
         from .placement_clearance import read_bytes
         if owned_destination(self.owner) != self.workspace:
             raise ValueError('Output folder identity changed.')
@@ -222,6 +224,8 @@ class Workflow:
             raise ValueError('Saved source project changed. Start a new session and preview again.')
         if read_bytes(self.workspace / 'settings.json', pref.MAX_PRESET_BYTES) != self.settings_bytes:
             raise ValueError('Captured settings changed. Start a new session.')
+        if runtime_inventory()!=self.runtime_hashes:
+            raise ValueError('Routing runtime changed. Start a new session with the intended tool profile.')
 
     def command(self, stage, *, choice=None):
         self.fresh()

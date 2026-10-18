@@ -7,7 +7,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import re
-from autorouter import sexpr as sx, placement_transform as pt
+from autorouter import config as c, sexpr as sx, placement_transform as pt
 from autorouter.adapter import _parse_dsn, _dump_dsn, _check_units
 from autorouter.floor_context import AREA_LIMITS
 
@@ -236,7 +236,7 @@ def verify_native_record(record,candidate):
     path=Path(candidate);raw=read_bytes(path);tree=sx.parse(raw.decode());areas=qualify(tree)
     if not areas:fail('pour audit requires original qualified areas')
     layers=source_layers(tree);four=len(layers)==4
-    expected={'schema':2 if four else 1,'policy':FOUR_AUDIT_POLICY if four else AUDIT_POLICY,'native_version':'10.0.0','source':str(path),
+    expected={'schema':2 if four else 1,'policy':FOUR_AUDIT_POLICY if four else AUDIT_POLICY,'native_version':c.NATIVE_VERSION,'source':str(path),
         'board_sha256':sha(raw),'project_sha256':sha(read_bytes(path.with_suffix('.kicad_pro'))),
         'board_saved':False,'source_areas':areas,'passed':True}
     if four:

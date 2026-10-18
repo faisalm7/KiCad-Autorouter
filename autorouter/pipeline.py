@@ -91,9 +91,26 @@ class ExperimentalNativeToolchain:
 
 
 def experimental_native_version(toolchain):
-    if toolchain is None:return '10.0.0'
+    if toolchain is None:return c.NATIVE_VERSION
     if type(toolchain)is not ExperimentalNativeToolchain:raise Rejected('explicit experimental native toolchain required')
     toolchain.check();return toolchain.expected_version
+
+
+def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing',
+                         guidance='native', layers='source_all', profile='standard',
+                         adapter='both', scoring=None):
+    """Keep a selected tool version from silently admitting unqualified modes.
+
+    The 1007 ordinary-runtime qualification starts with corrected standard
+    whole/partial Route only. Existing 1000 advanced contracts stay intact.
+    This is a capability guard, never a fallback or a validation pass.
+    """
+    if c.NATIVE_VERSION == '10.0.0':return
+    if (c.NATIVE_VERSION != '10.0.7' or purpose != 'route'
+            or scope not in {'whole_board_unlocked_routing','partial_completion'}
+            or guidance != 'native' or layers != 'source_all' or profile != 'standard'
+            or adapter != 'both' or scoring is not None):
+        raise Rejected('unsupported: selected Native version currently permits only corrected-standard whole/partial Route on all source layers; optimization and other combinations require separate qualification')
 
 
 
@@ -1405,9 +1422,28 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     return final_hash,native
 
 
+def selected_tool_pins():
+    """One fresh selected-role map for execution and retained receipt checks."""
+    try:
+        selection=c.current_native_selection()
+        return {**json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools'],**selection['tools']}
+    except (ValueError,OSError,KeyError,TypeError) as exc:
+        raise Rejected('selected native toolchain changed or invalid: '+str(exc)) from exc
+
+
+def check_recorded_tool_pins(tools, *, native_toolchain=None):
+    pins=selected_tool_pins()
+    expected={str(c.resolve_tool_path(pin['path'])):pin['sha256'] for name,pin in pins.items()
+              if native_toolchain is None or name in {'java','freerouting'}}
+    recorded=tools.get('files',{})
+    if (not isinstance(recorded,dict) or any(recorded.get(path)!=digest for path,digest in expected.items())
+            or native_toolchain is None and c.NATIVE_VERSION!='10.0.0' and set(recorded)!=set(expected)):
+        raise Rejected('recorded tool pins differ from qualified toolchain')
+
+
 def tool_manifest(*,native_toolchain=None):
     version=experimental_native_version(native_toolchain)
-    expected=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
+    expected=selected_tool_pins()
     resolved={name:c.resolve_tool_path(pin['path']) for name,pin in expected.items()}
     if resolved.get('freerouting')!=c.JAR: raise Rejected('engine pin does not identify project-local JAR')
     native=(c.CLI,c.PYTHON,c.PCBNEW) if native_toolchain is None else (native_toolchain.cli,native_toolchain.python,native_toolchain.pcbnew)
@@ -1415,7 +1451,7 @@ def tool_manifest(*,native_toolchain=None):
     for name, pin in expected.items():
         if native_toolchain is not None and name not in {'java','freerouting'}:continue
         path=resolved[name]
-        if files.get(str(path))!=pin['sha256']: raise Rejected('pinned tool changed or missing: '+name)
+        if (files.get(str(path))!=pin['sha256'] or path.stat().st_size!=pin['bytes']): raise Rejected('pinned tool changed or missing: '+name)
     implementation={str(p.relative_to(c.ROOT)):sha(p) for p in sorted((c.ROOT/'autorouter').glob('*.py'))}
     from .provenance import source_identity
     try:identity=source_identity(c.ROOT,implementation)
@@ -2124,6 +2160,11 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     if engine_profile=='tuned-free-angle' and (keep_existing is not False or adapter!='both'
             or guidance_policy!='native' or _preferences is not None or native_toolchain is not None):
         raise Rejected('unsupported: free-angle baseline requires ordinary native corrected whole-board route')
+    if native_toolchain is None:
+        effective=_preferences['effective'] if _preferences else {}
+        require_native_scope(scope=effective.get('scope','partial_completion' if keep_existing else 'whole_board_unlocked_routing'),
+            guidance=guidance_policy,layers=effective.get('layers','source_all'),
+            profile=engine_profile,adapter=adapter,scoring=scoring_variant)
     if guidance_policy not in {'native','board-floors-v1','placement-clearance-v1'}: raise Rejected('unknown guidance policy')
     if guidance_policy in {'board-floors-v1','placement-clearance-v1'}:
         from .floor_route import route as floor_route
@@ -2443,6 +2484,8 @@ def _readback_witness(path,data,state):
 
 def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False):
     """Check evidence; optional scoped reuse never substitutes fresh native DRC."""
+    try:c.current_native_selection()
+    except (ValueError,OSError) as exc:raise Rejected('selected native toolchain changed: '+str(exc)) from exc
     experimental_route_record(native_toolchain,experimental_schematic_parity)
     if native_toolchain is not None:
         return _check_result_uncached(path,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)
@@ -2558,6 +2601,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     set can fabricate a consistent history; safe application needs fresh native
     validation too. This function never applies a live-editor change.
     """
+    try:c.current_native_selection()
+    except (ValueError,OSError) as exc:raise Rejected('selected native toolchain changed: '+str(exc)) from exc
     if type(_rejected_attempt) is not bool or (_rejected_attempt and native_toolchain is not None):
         raise Rejected('completed-negative mode requires the ordinary production toolchain')
     path=Path(path).resolve(strict=True)
@@ -2567,6 +2612,13 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
     check_experimental_route(data,native_toolchain,experimental_schematic_parity)
+    if native_toolchain is None and c.NATIVE_VERSION!='10.0.0':
+        if data.get('schema')!=1 or data.get('strategy') is not None or data.get('input_policy','native')!='native':
+            raise Rejected('unsupported: selected Native version has no qualified advanced receipt lineage')
+        effective=data.get('routing_preferences',{}).get('effective',{})
+        require_native_scope(scope=data.get('scope'),guidance=effective.get('guidance','native'),
+            layers=effective.get('layers','source_all'),profile=data.get('engine_profile'),
+            adapter=data.get('adapter'),scoring=data.get('scoring_variant'))
     from .engine_angle import check as check_engine_angle
     angle_contract=check_engine_angle(path.parent,data)  # Independent of optional legacy engine_budget dispatch.
     check_engine_global_width_policy(data)
@@ -2799,8 +2851,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
             raise Rejected('retained implementation differs from provenance')
         expected_code[parts[1]]=digest
     if actual_code!=expected_code: raise Rejected('retained implementation file set differs from provenance')
-    pins=json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools']
-    if any(tools.get('files',{}).get(str(c.resolve_tool_path(pin['path'])))!=pin['sha256'] for name,pin in pins.items() if native_toolchain is None or name in {'java','freerouting'}): raise Rejected('recorded tool pins differ from qualified toolchain')
+    check_recorded_tool_pins(tools,native_toolchain=native_toolchain)
     result={'current':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],'applied':False,'authentication':'none; mutable local evidence consistency only','warning':'Fresh native validation is required before application; human PCB review and electrical/physical validation remain required.'}
     if input_policy in {'board-floors-v1','placement-clearance-v1','placement-search-v1',ps.POLICY}: result['input_policy']=input_policy
     if placement_backed:

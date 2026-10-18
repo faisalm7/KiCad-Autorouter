@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "kind": "selected-native-profile-skeptical-source-review",
+  "recorded_utc": "2026-10-18T14:02:00.127560+00:00",
+  "reviewer": "narrow AI assistant /root/preset_picker_review; separate from helper author and lead integrator",
+  "human_review": false,
+  "Native_or_GUI_run": false,
+  "source_diff_reviewed": true,
+  "findings": [
+    {
+      "issue": "Late positive reader still compared selected1007 result against default1000 pins",
+      "resolution": "Shared selected_tool_pins/check_recorded_tool_pins; normal selected1007 rejects missing/mixed/extra roles. Targeted regression added."
+    },
+    {
+      "issue": "Default lock role check permitted missing java",
+      "resolution": "Config now requires exact5roles; missing Java/Freerouting controls added. No skip of common tool hashes."
+    },
+    {
+      "issue": "Uncached negative reader bypassed selection freshness",
+      "resolution": "Same selection-freshness guard now precedes uncached evidence access; targeted stale-profile negative added."
+    }
+  ],
+  "other_reviewed_guards": [
+    "Manifest-v2 explicit selection; exact source/lock bytes retained, no receipt/env tool choice.",
+    "Handoff witness includes runtime manifest; GUI.fresh checks shared captured runtime witness.",
+    "Advanced public Route/Improve/recovery/floor/placement and positive receipt lineage refuse unqualified1007 modes.",
+    "Existing explicit experimental markers still require caller context despite same native version.",
+    "Absolute isolated bundle paths preserve selected tool identity across curated runtime roots."
+  ],
+  "qualification_limits": [
+    "Source/default1000 and immutable023 preserved.",
+    "No normal1007 Native/GUI/install result yet; known hashes alone are not support.",
+    "Fractional/named-edge, optimization, selected/layer/profile combinations outside guard remain unqualified.",
+    "No independent human/physical/broad comparative claim."
+  ],
+  "first_full_integration": {
+    "path": ".runs/full-integration-164/execution.json",
+    "sha256": "09000958961087ccde8c443d77f284e2f76ca923ee7dfbc046d005d16cc17490",
+    "passed": false,
+    "tests": 2063,
+    "errors": 2,
+    "platform_skips": 1,
+    "explanation": "Two authored file-pin fixtures lacked new selection context. They now explicitly stub known-profile selection as well as provenance; real path/hash tamper checks remain. Production selection tested separately."
+  },
+  "fresh_full_integration_required": false,
+  "fresh_full_integration": {
+    "path": "evidence/native-profile-integration-001.json",
+    "sha256": "ca14551513e040a9942247c658c69892248f12f73a7bdfa1c5f8ddeb11ccb304",
+    "passed": true,
+    "tests": 2065,
+    "platform_skips": 1
+  }
+}

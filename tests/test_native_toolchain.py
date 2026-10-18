@@ -1,6 +1,7 @@
 """Explicit tool/version binding controls only; never native qualification."""
-import hashlib,json,tempfile,unittest
+import ast,hashlib,json,sys,tempfile,unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 from autorouter import pipeline as p,config as c,floor_route as f
 
@@ -64,5 +65,36 @@ class NativeToolchainControls(unittest.TestCase):
         with self.assertRaisesRegex(p.Rejected,'parity'):
             job.drc('blocked',self.root/'absent.kicad_pcb',schematic_parity=True)
         self.assertFalse((job.out/'blocked-input').exists())
+
+    def worker(self, *, selected='10.0.0', actual='10.0.0', wrong=None, experimental=False, fixed=False):
+        """Execute the real entry guard with fake modules, stopping at board load."""
+        tree=ast.parse((c.ROOT/'autorouter/native.py').read_text())
+        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='main')
+        argv=['native.py','roundtrip','source','output']
+        if experimental:argv=['native.py','--experimental-native',json.dumps(self.toolchain.record()),'export','source','output']
+        if fixed:argv.append('--task-copper-fixed')
+        paths=dict(self.paths)
+        if wrong is not None:paths[wrong]=self.root/'different'
+        api=SimpleNamespace(GetBuildVersion=lambda:actual,
+            LoadBoard=lambda source:(_ for _ in ()).throw(RuntimeError('synthetic board-load boundary')))
+        fake_sys=SimpleNamespace(argv=argv,executable=str(paths['python']))
+        scope=dict(sys=fake_sys,Path=Path,json=json,pcbnew=api,c=c,
+                   TASK_COPPER_FIXED_POLICY='native-task-copper-fixed-v1')
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),'owned-native-entry','exec'),scope)
+        with patch.object(c,'NATIVE_VERSION',selected),patch.object(c,'PYTHON',self.paths['python']),patch.object(c,'PCBNEW',self.paths['pcbnew']),patch.dict(sys.modules,{'_pcbnew':SimpleNamespace(__file__=str(paths['pcbnew']))}):
+            scope['main']()
+
+    def test_normal_worker_binds_selected_version_and_both_loaded_paths(self):
+        for selected in ('10.0.0','10.0.7'):
+            with self.subTest(selected=selected),self.assertRaisesRegex(RuntimeError,'synthetic board-load boundary'):
+                self.worker(selected=selected,actual=selected)
+            for mismatch in ('version','python','pcbnew'):
+                with self.subTest(selected=selected,mismatch=mismatch),self.assertRaisesRegex(RuntimeError,'production native worker'):
+                    self.worker(selected=selected,actual='unknown' if mismatch=='version' else selected,
+                                wrong=None if mismatch=='version' else mismatch)
+
+    def test_experimental_task_copper_flag_still_refuses_when_default_is1007(self):
+        with self.assertRaisesRegex(RuntimeError,'unqualified Native task copper flag'):
+            self.worker(selected='10.0.7',actual='10.0.7',experimental=True,fixed=True)
 
 if __name__=='__main__':unittest.main()

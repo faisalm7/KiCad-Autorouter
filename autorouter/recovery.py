@@ -27,6 +27,7 @@ def child_cpu():
 
 def recover(source, output, seconds=120):
     """Keep cancellation active between native stages and final receipt writes."""
+    p.require_native_scope(purpose='thermal-recovery')
     def interrupted(signum, frame):
         raise KeyboardInterrupt
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}

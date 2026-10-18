@@ -216,9 +216,11 @@ def _runtime_identity(root, implementation):
             parse_constant=lambda value: (_ for _ in ()).throw(ValueError('invalid JSON constant')))
     except (UnicodeError, json.JSONDecodeError, RecursionError) as exc:
         raise ValueError('malformed runtime distribution manifest') from exc
-    if (type(record) is not dict or set(record) != {'schema', 'kind', 'root', 'build_source',
+    fields={'schema', 'kind', 'root', 'build_source',
             'immutable_files_sha256', 'mutable_directories', 'local_engine'}
-            or type(record['schema']) is not int or record['schema'] != 1
+    if (type(record) is not dict or type(record.get('schema')) is not int
+            or record['schema'] not in (1,2)
+            or set(record) != fields | ({'native_version'} if record['schema']==2 else set())
             or record['kind'] != KIND or record['root'] != str(root)
             or record['mutable_directories'] != list(MUTABLE_DIRECTORIES)):
         raise ValueError('runtime distribution identity or schema differs')
@@ -267,6 +269,12 @@ def _runtime_identity(root, implementation):
     actual_implementation = {relative: expected[relative] for relative in modules}
     if implementation != actual_implementation:
         raise ValueError('runtime implementation census differs')
+    if record['schema']==2:
+        # Selection is part of the manifest hash and must name a committed,
+        # exact known profile. It never rewrites the copied source or lock.
+        from .config import native_selection
+        native_selection(json.loads(read_bytes(root / 'toolchain.lock.json')),
+                         record['native_version'])
     if engine is not None:
         if file_digest(root / ENGINE_PATH, MAX_ENGINE_BYTES) != (engine['sha256'], engine['bytes']):
             raise ValueError('local runtime engine changed')
@@ -274,7 +282,8 @@ def _runtime_identity(root, implementation):
         if lock.get('tools', {}).get('freerouting') != {key: engine[key] for key in ('path', 'sha256', 'bytes')}:
             raise ValueError('local runtime engine differs from original tool lock')
     return {'kind': KIND, 'git_head': build['git_head'], 'build_source': build,
-            'manifest_sha256': hashlib.sha256(raw).hexdigest()}
+            'manifest_sha256': hashlib.sha256(raw).hexdigest(),
+            **({'native_version':record['native_version']} if record['schema']==2 else {})}
 
 
 def source_identity(root: Path, implementation: dict[str, str]) -> dict:

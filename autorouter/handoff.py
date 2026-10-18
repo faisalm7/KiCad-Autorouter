@@ -33,7 +33,9 @@ def real_path(value, *, existing=True):
 
 
 def runtime_inventory():
-    """Bind the checker/helper source and lock, not installed native binaries."""
+    """Bind checker/helper source, lock and selected-runtime manifest."""
+    try:c.current_native_selection()
+    except (ValueError,OSError) as exc:raise Rejected('selected native toolchain changed: '+str(exc)) from exc
     result = {}; total = 0
     with os.scandir(c.ROOT / 'autorouter') as entries:
         for count, entry in enumerate(entries, 1):
@@ -44,6 +46,9 @@ def runtime_inventory():
                 total += len(raw); result[str(Path(entry.path))] = digest(raw)
     for path in (Path(__file__).absolute(), c.ROOT / 'toolchain.lock.json'):
         result[str(path)] = digest(pc.read_bytes(path, PROJECT_BYTES))
+    manifest=c.ROOT/'runtime-distribution.json'
+    if os.path.lexists(manifest):
+        result[str(manifest)]=digest(pc.read_bytes(manifest,256*1024))
     return result
 
 

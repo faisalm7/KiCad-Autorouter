@@ -7,7 +7,7 @@ No runtime dependence on experiment code, external services or AI.
 import copy,hashlib,json,uuid
 from collections import Counter
 from pathlib import Path
-from . import sexpr as sx
+from . import config as c, sexpr as sx
 from .adapter import _parse_dsn,_check_units
 POLICY='source-bound-padless-export-v1'
 MAX_PROOF=16*1024**2
@@ -157,7 +157,7 @@ def export_board(board,source,output,pcbnew,*,mapping,before,exporter=None):
     with paths['source_copy'].open('xb') as stream:stream.write(raw)
     observation=None
     if binding['aliases']:
-        if pcbnew.GetBuildVersion()!='10.0.0':raise ValueError('alias geometry requires qualified Native10.0.0')
+        if pcbnew.GetBuildVersion()!=c.NATIVE_VERSION:raise ValueError('alias geometry requires the selected Native version')
         from .padless_alias_native import emit
         observation=emit(board,raw,binding,output,pcbnew,exporter=exporter)
     elif (pcbnew.ExportSpecctraDSN if exporter is None else exporter)(board,str(output)) is not True:
@@ -205,7 +205,7 @@ def _check_exports(root,data,retained,*,native_toolchain=None):
     from .placement_clearance import read_bytes
     from .adapter import native_command_parser
     command=native_command_parser(native_toolchain,data=data)
-    expected_version='10.0.0' if native_toolchain is None else native_toolchain.expected_version
+    expected_version=c.NATIVE_VERSION if native_toolchain is None else native_toolchain.expected_version
     root=path(Path(root));pins=data.get('tools',{}).get('implementation_sha256',{})
     pipeline=read_bytes(root/'code/pipeline.py',1024**2)
     if sha(pipeline)!=pins.get('autorouter/pipeline.py'):raise p.Rejected('alias pipeline provenance differs')

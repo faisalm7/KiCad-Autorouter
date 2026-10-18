@@ -4,6 +4,7 @@ from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 import uuid
 
 from autorouter import sexpr as sx, task_copper as tc
@@ -318,6 +319,18 @@ class TaskCopperNativeGuards(unittest.TestCase):
                     tc.invoke(board, source, api, lambda: called.append(True), importing=importing)
                 self.assertEqual(called, [])
                 self.assertTrue(all(not item.lock_calls for item in board.items))
+
+    def test_selected_version_keeps_exact_equality_and_all_lock_guards(self):
+        # Synthetic API selection only; this does not qualify another KiCad.
+        with patch.object(tc.c, 'NATIVE_VERSION', '10.0.7'):
+            board, source, api = self.make(version='10.0.7')
+            before = tc.native_census(board, api)
+            self.assertIs(tc.invoke(board, source, api, lambda: True), True)
+            self.assertEqual(tc.native_census(board, api), before)
+            board, source, api = self.make(version='10.0.0')
+            with self.assertRaisesRegex(ValueError, 'qualified Native10.0.7'):
+                tc.invoke(board, source, api, lambda: self.fail('mismatched API entered'))
+            self.assertTrue(all(not item.lock_calls for item in board.items))
 
 
 if __name__ == '__main__':

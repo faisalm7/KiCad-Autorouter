@@ -22,11 +22,10 @@ import hashlib
 from pathlib import PurePosixPath
 import re
 
-from autorouter import netclass as nc, preferences, schematic_fields as fields
+from autorouter import config as c, netclass as nc, preferences, schematic_fields as fields
 from autorouter import sexpr as sx
 
 POLICY = 'flat-class-parity-prerequisite-v1'
-NATIVE_VERSION = '10.0.0'
 MAX_BYTES = 8 * 1024 * 1024
 MAX_COMPONENTS = 512
 MAX_TERMINALS = 4096
@@ -299,7 +298,7 @@ def _netlist_partitions(tree, schematic_source, symbols):
         _fail('native design metadata absent')
     _only(design, {'source', 'date', 'tool', 'sheet'})
     if (_single(design, 'source') != schematic_source
-            or _single(design, 'tool') != 'Eeschema ' + NATIVE_VERSION):
+            or _single(design, 'tool') != 'Eeschema ' + c.NATIVE_VERSION):
         _fail('native schematic source/tool differs')
     sheets = sx.children(design, 'sheet')
     if (len(sheets) != 1 or _single(sheets[0], 'number') != '1'
@@ -384,7 +383,7 @@ def _native_map(native, source, board_raw, project_raw, project, known):
                 'board_sha256', 'project_sha256', 'board_saved', 'nets'}
     if (type(native) is not dict or set(native) not in (required, required | {'copper_layers'})
             or type(native.get('schema')) is not int or native['schema'] != 1
-            or native.get('native_version') != NATIVE_VERSION
+            or native.get('native_version') != c.NATIVE_VERSION
             or native.get('units') != 'integer nanometres'
             or native.get('resolution') != _RESOLUTION
             or native.get('source') != source
@@ -477,7 +476,7 @@ def derive(raw_netlist, board_raw, project_raw, native_raw, *, source,
         comparisons.append({'net': name, 'terminals': [list(x) for x in sorted(terminals)],
             'class': observed['class'], 'effective_nm': {k: observed[k] for k in _DIMS},
             'parameter_parents': copy.deepcopy(observed['parameter_parents'])})
-    return {'schema': 1, 'policy': POLICY, 'native_version': NATIVE_VERSION,
+    return {'schema': 1, 'policy': POLICY, 'native_version': c.NATIVE_VERSION,
         'class_parity_qualified': True, 'accepted': False, 'routing_accepted': False,
         'production_qualified': False, 'native_execution_performed_by_comparator': False,
         'source': source, 'schematic_source': schematic_source,

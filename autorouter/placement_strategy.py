@@ -264,6 +264,7 @@ def check_pruning_result(directory,data,original,candidate,protected):
     if data.get('source_drc')!=inc['source_drc'] or data.get('task_sha256')!=inc['task_sha256']:raise p.Rejected('pruning original task differs')
 
 def prune(source,output,seconds=120,*,allocation=LEGACY_ALLOCATION):
+    p.require_native_scope(purpose='placement-improve')
     def interrupted(*_):raise KeyboardInterrupt
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     try:

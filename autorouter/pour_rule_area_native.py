@@ -5,7 +5,7 @@ from pathlib import Path
 
 def audit(board,source,before):
     import pcbnew
-    from autorouter import pour_rule_area as policy,sexpr as sx
+    from autorouter import config as c,pour_rule_area as policy,sexpr as sx
     from autorouter.floor_context import observe_areas,AREA_LIMITS
     source=Path(source);raw=source.read_bytes();project=source.with_suffix('.kicad_pro')
     captured=(hashlib.sha256(raw).hexdigest(),hashlib.sha256(project.read_bytes()).hexdigest())
@@ -14,7 +14,7 @@ def audit(board,source,before):
     if not areas:raise ValueError('qualified pour-only areas required')
     layers=policy.source_layers(tree);four=len(layers)==4;layer_record=[]
     if four:
-        if pcbnew.GetBuildVersion()!='10.0.0':raise ValueError('four-copper pour audit requires qualified Native 10.0.0')
+        if pcbnew.GetBuildVersion()!=c.NATIVE_VERSION:raise ValueError('four-copper pour audit requires the selected Native version')
         if type(board.GetCopperLayerCount())is not int or board.GetCopperLayerCount()!=4:raise ValueError('four native copper layers required')
         for index,(code,name) in enumerate(zip((0,4,6,2),layers)):
             if (int(board.GetLayerID(name))!=code or str(board.GetLayerName(code))!=name

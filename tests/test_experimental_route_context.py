@@ -74,13 +74,15 @@ class ExperimentalRouteContext(unittest.TestCase):
     def test_manifest_uses_explicit_native_and_original_engine_pins(self):
         source=self.root/'manifest';source.mkdir();(source/'autorouter').mkdir();(source/'autorouter/a.py').write_text('# authored')
         java=source/'java';jar=source/'engine.jar';java.write_text('authored Java');jar.write_text('authored JAR')
-        pins={name:{'path':str(file),'sha256':p.sha(file)} for name,file in [('java',java),('freerouting',jar)]}
+        pins={name:{'path':str(file),'sha256':p.sha(file),'bytes':file.stat().st_size} for name,file in [('java',java),('freerouting',jar)]}
         pins['kicad_cli']={'path':str(source/'absent-old-cli'),'sha256':'0'*64}
         (source/'toolchain.lock.json').write_text(json.dumps({'tools':pins}))
         identity={'kind':'git-checkout','git_head':'a'*40,'build_source':None,'manifest_sha256':None}
         # This file-pin unit fixture is not a checkout. The separate provenance
         # controls exercise real Git/manifest identity, including missing .git.
-        with patch.multiple(c,ROOT=source,JAVA=java,JAR=jar),patch('autorouter.provenance.source_identity',return_value=identity) as source_identity:
+        # Known-profile selection is stubbed too; these authored binaries are
+        # deliberately not a qualified native profile. Selection has own tests.
+        with patch.multiple(c,ROOT=source,JAVA=java,JAR=jar),patch.object(c,'current_native_selection',return_value={'version':'10.0.0','tools':{}}),patch('autorouter.provenance.source_identity',return_value=identity) as source_identity:
             actual=p.tool_manifest(native_toolchain=self.nt)
             source_identity.assert_called_once_with(source,{'autorouter/a.py':p.sha(source/'autorouter/a.py')})
             self.assertEqual(actual['source_provenance'],identity)

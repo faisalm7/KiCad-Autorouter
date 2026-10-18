@@ -4,7 +4,7 @@ Only the explicit normal worker flag enables this. No source/board is saved
 here. Literal source geometry, lock and manufacturing checks remain in the
 existing importer and final Native validation. DSN rounding is not waived.
 """
-from . import sexpr as sx
+from . import config as c, sexpr as sx
 
 POLICY='native-task-copper-fixed-v1'
 FLAG='--task-copper-fixed'
@@ -45,8 +45,8 @@ def invoke(board,source,pcbnew,operation,*,importing=False):
     from pathlib import Path
     from .placement_clearance import read_bytes
     from .routing_scope import _route_map,_locked
-    if pcbnew.GetBuildVersion()!='10.0.0' or type(importing) is not bool:
-        raise ValueError('task copper requires qualified Native10.0.0 operation')
+    if pcbnew.GetBuildVersion()!=c.NATIVE_VERSION or type(importing) is not bool:
+        raise ValueError('task copper requires qualified Native'+c.NATIVE_VERSION+' operation')
     source=Path(source);project=source.with_suffix('.kicad_pro')
     raw,pro=read_bytes(source),read_bytes(project)
     source_routes=_route_map(sx.parse(raw.decode('utf-8')))

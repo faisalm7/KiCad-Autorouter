@@ -78,6 +78,34 @@ class RuntimeProvenanceTests(unittest.TestCase):
         self.assertFalse((self.output / '.venv').exists())
         self.assertFalse((self.output / '.git').exists())
 
+    def test_explicit_native_profile_is_closed_v2_and_copies_exact_source(self):
+        from autorouter import config as c
+        lock=json.loads((c.ROOT/'toolchain.lock.json').read_text())
+        (self.source/'toolchain.lock.json').write_text(json.dumps(lock))
+        self.git('add','toolchain.lock.json')
+        self.git('-c','user.name=Owned test fixture','-c','user.email=fixture@example.invalid',
+                 'commit','-qm','Owned profile fixture')
+        source_bytes=pv.owned_snapshot(self.source)
+        result=build.prepare(self.source,self.output,native_version='10.0.7')
+        record=json.loads((self.output/pv.MANIFEST).read_text())
+        self.assertEqual((record['schema'],record['native_version']),(2,'10.0.7'))
+        self.assertEqual(result['source_provenance']['native_version'],'10.0.7')
+        for relative,raw in source_bytes.items():
+            self.assertEqual((self.output/relative).read_bytes(),raw)
+        original=(self.output/pv.MANIFEST).read_bytes()
+        changes=[lambda r:r.update(schema=1),lambda r:r.pop('native_version'),
+                 lambda r:r.update(native_version=True),lambda r:r.update(native_version='10.0.8'),
+                 lambda r:r.update(schema=3)]
+        for change in changes:
+            (self.output/pv.MANIFEST).write_bytes(original)
+            self.rewrite(change);self.refused(self.identity)
+        (self.output/pv.MANIFEST).write_bytes(original)
+        self.assertEqual(self.identity()['native_version'],'10.0.7')
+
+    def test_unavailable_profile_refuses_before_creating_runtime(self):
+        self.refused(lambda:build.prepare(self.source,self.output,native_version='10.0.7'))
+        self.assertFalse(self.output.exists())
+
     def test_missing_extra_changed_files_and_implementation_census_refuse(self):
         self.prepare()
         for target in ('autorouter/worker.py', 'toolchain.lock.json', 'scripts/install_gui.py', 'LICENSE', pv.README):

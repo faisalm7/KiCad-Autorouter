@@ -76,6 +76,14 @@ class GuiWorkflowTests(unittest.TestCase):
                     flow.fresh()
                 if mutation == 'source': target.write_bytes(old)
 
+    def test_runtime_witness_change_refuses_before_queued_open(self):
+        from autorouter import handoff
+        flow=self.flow()
+        changed={**flow.runtime_hashes,'owned-selected-manifest':'changed'}
+        with patch.object(handoff,'runtime_inventory',return_value=changed):
+            with self.assertRaisesRegex(ValueError,'Routing runtime changed'):
+                flow.fresh()
+
     def test_exact_cli_stages_and_reject_blocks_export(self):
         flow = self.flow()
         argv = flow.command('preview')

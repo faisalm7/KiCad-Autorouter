@@ -677,6 +677,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     checks. It is a planning reserve, not a promise that slow native tooling will
     finish. Exhausting the global budget always rejects the root result.
     """
+    p.require_native_scope(purpose='improve')
     started, cpu_started = time.monotonic(), time.process_time()
     incumbent_options=_incumbent_route_options(_incumbent_policy,incumbent_scoring,settings_path,preference_overrides)
     p.engine_scoring_settings(incumbent_scoring)  # Preserve legacy typed rejection before output.

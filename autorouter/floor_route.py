@@ -363,6 +363,7 @@ def publish(output,report,stable,account,remaining,*,owned=None,final_check=None
 
 
 def route(source,output,seconds,keep_existing,adapter,profile,scoring_variant,*,guidance_policy=POLICY,preferences=None):
+    p.require_native_scope(purpose='floor-route')
     if guidance_policy not in GUIDANCE_POLICIES:raise p.Rejected('unknown floor-backed guidance policy')
     if guidance_policy==SEARCH_POLICY:
         if keep_existing or adapter!='both' or preferences is not None:raise p.Rejected('unsupported: placement search requires whole-board adapter=both without preferences')

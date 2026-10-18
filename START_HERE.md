@@ -2,11 +2,11 @@
 
 Keep this existing folder at `~/Projects/KiCad-Autorouter-local`. Do not reclone or replace its environment. Ordinary routing runs locally without Codex, an AI subscription or internet.
 
-The current installed CLI candidate is **runtime019**, source `321bc5bfdcb85c6975ee5b7e2accf09b6f43da84`. [Native qualification](evidence/runtime019-production-CLI-delivery-001.json) covers protected four-layer routing, review and fresh separate-project export. Its [GUI launcher](evidence/gui-runtime019-067-prepared-001.json) is prepared; current GUI interaction still needs qualification. The latest actual graphical evidence remains [014/064](evidence/gui-runtime014-064-native-opening-001.json). [Limits](docs/install-test.md).
+The current qualified local candidate is **runtime023**, source `8c0c8468823751d9b5dc4c9a9c51b1d622269a27`, manifest `3df808e340dbe8c01ddebafe5c5c12583dc8d4d0cfea407c9252b0a89c41de81`. [Whole4Cu CLI](evidence/runtime023-installed-CLI-001.json), [partial2Cu CLI](evidence/runtime023-installed-partial-CLI-001.json) and [declared GUI023/070 controls](evidence/gui-runtime023-070-native-controls-001.json) pass within their recorded scopes. Every final Route/export has its own Native/refill/full-schematic/original-design proof. Whole4Cu retains six warnings and ten protected items; the GUI2Cu partial case has0 opens/blocking/warnings/exclusions and all4 protected items. [Limits](docs/experimental-rc.md).
 
 On this Mac, the prepared launcher is:
 
-`.runs/runtime-directory-019/runtime/.runs/gui-launcher067/Launch Autorouter.command`
+`.runs/runtime-directory-019/runtime/.runs/gui-launcher070/Launch Autorouter.command`
 
 Close other KiCad applications, then double-click that file. It starts KiCad with isolated local settings, plugin and cache. Open your saved project in that manager, open PCB Editor and click the green autorouter icon. Save and close the source PCB/schematic editors before confirming their exact paths in the separate routing window. [Step-by-step workflow](docs/gui-workflow.md).
 

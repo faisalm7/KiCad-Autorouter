@@ -43,6 +43,8 @@ def preview(board,settings=None,overrides=None,*,purpose='route'):
     from .handoff import real_path
     captured=pref.load(settings) if settings is not None else None
     effective=pref.resolve(captured,overrides)
+    p.require_native_scope(purpose=purpose,scope=effective['scope'],guidance=effective['guidance'],
+        layers=effective['layers'],profile=effective['profile'],adapter=effective['adapter'],scoring=effective['scoring_preference'])
     source=real_path(board);before=pc.inventory(source.parent)
     if purpose not in {'route','improve'}:raise p.Rejected('unknown preview purpose')
     class_context=('native-route-flat-classes-v1' if purpose=='route' and effective['guidance']=='native'
@@ -98,7 +100,7 @@ def doctor():
                      for name in ('kicad_version','pcbnew_version','java_version'))
     java_ready=re.search(r'(?m)^(?:openjdk|java) version "[0-9][^"\n]*"',
                          checks.get('java_version',{}).get('output','')) is not None
-    ok=checks['runtime_provenance']['verified'] is True and all(checks[k]['present'] for k in ['kicad_cli','kicad_python','java','engine']) and probes_ready and java_ready and checks.get('kicad_version',{}).get('output')=='10.0.0' and checks.get('pcbnew_version',{}).get('output')=='10.0.0' and checks['engine'].get('sha256')==c.JAR_SHA256 and platform.system()=='Darwin' and shutil.which('sandbox-exec') is not None
+    ok=checks['runtime_provenance']['verified'] is True and all(checks[k]['present'] for k in ['kicad_cli','kicad_python','java','engine']) and probes_ready and java_ready and checks.get('kicad_version',{}).get('output')==c.NATIVE_VERSION and checks.get('pcbnew_version',{}).get('output')==c.NATIVE_VERSION and checks['engine'].get('sha256')==c.JAR_SHA256 and platform.system()=='Darwin' and shutil.which('sandbox-exec') is not None
     return {'ready':ok,'platform':platform.platform(),'workspace':str(c.ROOT),'checks':checks,'qualified_scope':'experimental CLI; no GUI or comparative improvement claim','setup_network_required':True,'route_network_required':False}
 
 def main():

@@ -17,7 +17,7 @@ from autorouter import provenance as pv
 README = '''Local KiCad Autorouter runtime directory
 
 This is a curated, path-bound Mac runtime directory, not a standalone app.
-It requires the pinned existing KiCad 10.0.0 app and Java 25.0.2 installation,
+It requires the selected pinned KiCad app and Java 25.0.2 installation,
 plus a new local Python 3.11 environment at .venv. Nothing is downloaded here.
 The original toolchain.lock.json remains authoritative. If the local Freerouting
 JAR was not explicitly copied at preparation, routing remains unavailable.
@@ -47,7 +47,7 @@ Qualification and source history stay in the original source repository.
 '''
 
 
-def prepare(source, destination, *, copy_local_engine=False):
+def prepare(source, destination, *, copy_local_engine=False, native_version=None):
     source = pv.canonical(Path(source).absolute())
     destination = pv.canonical(Path(destination).absolute())
     if os.path.lexists(destination):
@@ -57,6 +57,9 @@ def prepare(source, destination, *, copy_local_engine=False):
         raise ValueError('Runtime destination parent must be owned by the current user.')
     head, snapshot = pv.committed_snapshot(source)
     source_hashes = {name: hashlib.sha256(raw).hexdigest() for name, raw in snapshot.items()}
+    if native_version is not None:
+        from autorouter.config import native_selection
+        native_selection(json.loads(snapshot['toolchain.lock.json']),native_version)
     engine = None
     if copy_local_engine:
         lock = json.loads(snapshot['toolchain.lock.json'])
@@ -101,6 +104,8 @@ def prepare(source, destination, *, copy_local_engine=False):
         'build_source': {'kind': 'git-checkout', 'git_head': head, 'files_sha256': source_hashes},
         'immutable_files_sha256': {name: hashlib.sha256(raw).hexdigest() for name, raw in payloads.items()},
         'mutable_directories': list(pv.MUTABLE_DIRECTORIES), 'local_engine': engine}
+    if native_version is not None:
+        record.update(schema=2,native_version=native_version)
     with (destination / pv.MANIFEST).open('x') as stream:
         json.dump(record, stream, indent=2, sort_keys=True); stream.write('\n')
     identity = pv.source_identity(destination,
@@ -115,9 +120,12 @@ def main():
     parser.add_argument('--output', required=True)
     parser.add_argument('--copy-local-engine', action='store_true',
         help='Copy only the existing lock-matching project JAR, as a local artifact; never download.')
+    parser.add_argument('--native-version',choices=['10.0.0','10.0.7'],
+        help='Explicit committed native tool profile; requires separate qualification. No app is installed or changed.')
     args = parser.parse_args()
     try:
-        result = prepare(args.source, args.output, copy_local_engine=args.copy_local_engine)
+        result = prepare(args.source, args.output, copy_local_engine=args.copy_local_engine,
+                         native_version=args.native_version)
         print(json.dumps(result, indent=2))
     except (ValueError, OSError) as exc:
         print('Runtime preparation refused: ' + str(exc), file=sys.stderr)

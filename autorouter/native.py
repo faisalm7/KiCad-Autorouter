@@ -6,6 +6,7 @@ from pathlib import Path
 import pcbnew
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from autorouter.netclass_native import observe_class
+from autorouter import config as c
 
 FIXED_PLACEMENT_SESSION_POLICY='fixed-placement-session-v1'
 EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
@@ -53,6 +54,7 @@ def netclasses(board, source, before):
     return result
 
 def main():
+    experimental = len(sys.argv)>1 and sys.argv[1]=='--experimental-native'
     if len(sys.argv)>1 and sys.argv[1]=='--experimental-native':
         if len(sys.argv)<6 or len(sys.argv[2])>16*1024:raise RuntimeError('bounded explicit experimental record required')
         from autorouter.pipeline import ExperimentalNativeToolchain
@@ -63,13 +65,17 @@ def main():
                 or Path(_pcbnew.__file__).resolve()!=toolchain.pcbnew):
             raise RuntimeError('loaded experimental Python/pcbnew version or path differs')
         sys.argv=[sys.argv[0],*sys.argv[3:]]
-    elif pcbnew.GetBuildVersion()!='10.0.0':
-        raise RuntimeError('production native worker requires exact10.0.0')
+    else:
+        import _pcbnew
+        if (pcbnew.GetBuildVersion()!=c.NATIVE_VERSION
+                or Path(sys.executable).resolve()!=c.PYTHON.resolve()
+                or Path(_pcbnew.__file__).resolve()!=c.PCBNEW.resolve()):
+            raise RuntimeError('production native worker version or selected Python/pcbnew path differs')
     from autorouter import task_copper
     fixed=task_copper.FLAG in sys.argv[1:]
     if fixed:
-        if (sys.argv.count(task_copper.FLAG)!=1 or sys.argv[-1]!=task_copper.FLAG
-                or sys.argv[1] not in ('export','import') or pcbnew.GetBuildVersion()!='10.0.0'
+        if (experimental or sys.argv.count(task_copper.FLAG)!=1 or sys.argv[-1]!=task_copper.FLAG
+                or sys.argv[1] not in ('export','import') or pcbnew.GetBuildVersion()!=c.NATIVE_VERSION
                 or task_copper.POLICY!=TASK_COPPER_FIXED_POLICY):
             raise RuntimeError('unqualified Native task copper flag')
         sys.argv=sys.argv[:-1]
