@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "kind": "current-method-negative-contract-source-review-v1",
+  "review_type": "AI-only static source review; not human PCB review",
+  "activity": {
+    "source_edits": false,
+    "tests_executed": false,
+    "Native_executed": false,
+    "Git_executed": false,
+    "network_used": false,
+    "delegated": false
+  },
+  "runtime": "runtime032 immutable selected10.0.7 source b0d2e6f737a72ebc127f02f3861d191f01f8a2d9; manifest391c8ff33badbd762d3ae4af9757eaa9075ef42ce3b53865dfa0a193647ef2a0",
+  "file_sha256": {
+    ".runs/qualify-native7-current-method-001.py": "9cf18b14b3051d57c4027310885a7d30f3e818c5ece5be41f00291ef88bb94af",
+    "scripts/qualify_installed_workflow.py": "8f29bf021b109569e844d10a1a1009e54611cf0abc1be2500288b53edcdd9d8e",
+    ".runs/readback-thermal-native-identity-components-001.py": "f3e7a51b979af8be54b80f21ef86dc735abff14b6c55dddec1667c01de6ba300",
+    ".runs/runtime-directory-032/runtime/autorouter/pipeline.py": "e47be49276afd9139fcb07a5a388911e9526378a10c901ac4e3172945de9435b",
+    ".runs/runtime-directory-032/runtime/autorouter/recovery.py": "8d99b1b4a1bb4cd295bb41465c6a891dd9f3192e7d1603bbd98adf7b507cb04a",
+    ".runs/runtime-directory-032/runtime/autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+    ".runs/runtime-directory-032/runtime/autorouter/strategy.py": "d7dedfa423386451d9f93560a9422b6c45d3d6e6d5aa984c64c563ae7585fb1b",
+    ".runs/runtime-directory-032/runtime/autorouter/gui.py": "3f43890584c18dda98143a5b6e6f0087c917590aced57bb3c199ea6ab1280ca9",
+    ".runs/runtime-directory-032/runtime/autorouter/__main__.py": "1ed28f2e0f48bd7b374d76208e665ef5e62f58516bfedd49eeb33b43d9d95f8a",
+    ".runs/runtime-directory-032/runtime/autorouter/local_settings.py": "080c484f500ccf29ffb0e67a108494e6f12b4d2a39000c01731b0e460b6f6931"
+  },
+  "conclusions": [
+    {
+      "id": "ordinary-standard-negative",
+      "location": "autorouter/pipeline.py:2703-2722; draft:233-240",
+      "finding": "Cdefault CLI can complete Native DRC rejection under qualified selected7 standard, but ordinary completed-negative reader requires tuned/baseline B2_tuned. Exact standard/B1 receipt fails unsupported completed-negative routing contract. Draft correctly leaves attempt unqualified, so current full matrix cannot silently count that as routing failure.",
+      "minimal_change": "In pipeline._check_result_uncached rejected-only dispatch, admit a closed ordinary standard/both/scoringNone whole/native profile alongside existing tuned, using selected Native capability and normal engine provenance/profile/process/source/tool/budget checks. Preserve comparison caller authority and every forbidden strategy/override marker. Do not change check_result, export or admission. Add focused completed-standard negative/tamper/cancel controls; new committed installed core is required before fresh current Native qualification."
+    },
+    {
+      "id": "thermal-method-negative",
+      "location": "autorouter/recovery.py:140-154,174-182; thermal.py:196-216,286-291,350-382; pipeline.py:2707-2722",
+      "finding": "Thermal parent no valid repair normally emits status rejected with no parent candidate/final Native report. Its incumbent may have a completed Native rejection, while repair can be unsupported or no_validated_repair. Generic route-negative reader deliberately forbids strategy/C-prototype and cannot certify this method outcome. Positive check_parent_selection requires an actually validated selected trial and must stay strict.",
+      "minimal_change": "Keep a distinct non-admitting method diagnostic rather than relabel parent drc_rejected or make a fake final candidate. Reuse new standard incumbent negative reader, thermal.check_parent_scope, exact incumbent hash/phase/budget lineage, check_resource_accounting, _check_trial_steps and f.check_drc_stage for every completed trial; recheck complete source/snapshot/code/tools/material and shared local.check_final_events last. Early sole_thermal=None may only be reported as method unsupported plus validated incumbent rejection, with no geometry/trials/recovery directory. No_validated_repair is qualified only after all actual trial findings/proposals/geometry and no successful selection are replayed; malformed, cancellation, stale, exhausted budget and unsupported evidence remain separate outcomes. Existing component readback helper shows stage reuse but is not a general parent-negative verifier."
+    },
+    {
+      "id": "C-default-is-B1-and-Improve-closed",
+      "location": "draft:130-133,199-220; pipeline.py:100-115,1548-1567; strategy.py:672-680; __main__.py:177-195",
+      "finding": "Cdefault executes ordinary standard/both Route with the same standard Freerouting optimizer (10 passes, at most30s inside job cap) as B1. It is a shipped transport/path control, not independent proposed algorithm. Native Improve/pruning calls require_native_scope(purpose=improve), which selected7 rejects before routing. Cthermal is experimental recover, not default or GUI Improve.",
+      "recommendation": "Keep Cdefault labelled B1-equivalent and put selected7 Improve/optimizer strategy capability refusal in unsupported coverage. Do not replace its tuned incumbent with standard, use comparison Context to bypass strategy admission, or claim Cthermal qualifies Improve. A true selected7 Improve arm requires separate fixed strategy lineage/reader and Native qualification; this is a current support gap, not an external access requirement."
+    }
+  ],
+  "recommended_next_control": {
+    "priority": "First close ordinary-standard completed-negative diagnostic only; defer parent/Improve widening.",
+    "frozen_input": "Existing exposed Interf source and exact25-file source/rights inventory; no new board or problem relaxation.",
+    "invocation": "New reviewed installed runtime: .venv/bin/python -B -m autorouter route <frozen-interf-source> --seconds 420 --output <fresh ordinary runtime/.runs/native7-method-Cdefault-negative-001/route> --scope whole",
+    "limits": "420 route,450 method,600 whole,120 export; actual CliJob log/process plus full waited CPU/complete exit under existing shared enclosure.",
+    "expected_checks": "If actual status drc_rejected, central standard-negative returns validated_rejection true/current false/routing_accepted false/applied false, preserves exact fullSCH/original/protected/raw findings/warnings/process cleanup and caps; positive reader/review/export still refuse and no export exists. If accepted, use actual positive review/render/choice/fresh Native export/check path and mark negative control unexercised. Corrupt/stale/cancel/budget/capability refusal is never completed routing failure.",
+    "then": "Update draft negative dispatch to method-specific thermal diagnostic only once separately implemented/reviewed/tested; no changes made here."
+  },
+  "limits": [
+    "Read-only prospective judgment; no new Native outcome or comparative improvement established.",
+    "Existing source/runtime evidence stays immutable. All future arms require caller-frozen protocol and exact current committed/runtime pins."
+  ]
+}

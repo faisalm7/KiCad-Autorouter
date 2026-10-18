@@ -13,10 +13,13 @@ from tests.normal_prl_fixture import mark_authored_receipt
 class CompletedNegativeTests(unittest.TestCase):
     # Reuse the owned complete fixture without inheriting/repeating its tests.
     save_receipt = result_fixture.ResultFreshnessTests.save_receipt
+    PROFILE = 'tuned'
+    SCORING = 'via_low'
 
     def setUp(self):
         result_fixture.ResultFreshnessTests.setUp(self)
-        self.data.update(adapter='both', baseline='B2_tuned', engine_profile='tuned', scoring_variant='via_low')
+        self.data.update(adapter='both', baseline=p.engine_baseline(self.PROFILE,'both'),
+                         engine_profile=self.PROFILE, scoring_variant=self.SCORING)
         mark_authored_receipt(self.run, self.data, test_root=self.root)
         # The shared current-producer fixture also authors its exact no-op
         # corrected-adapter chain; do not overwrite it with a legacy context.
@@ -59,6 +62,11 @@ class CompletedNegativeTests(unittest.TestCase):
         self.assertEqual(self.data['native']['warnings'],0)
         self.assertEqual(p.tree_hash(self.root),before)
 
+    def test_caller_profile_mismatch_cannot_change_receipt_contract(self):
+        other='standard' if self.PROFILE=='tuned' else 'tuned'
+        with self.assertRaisesRegex(p.Rejected,'completed-negative routing contract'):
+            p.check_rejected_routing_attempt(self.receipt,ordinary_profile=other)
+
     def test_positive_api_and_its_session_never_admit_or_cache_negative(self):
         for session in (False,True):
             def checks():
@@ -88,7 +96,8 @@ class CompletedNegativeTests(unittest.TestCase):
         original=copy.deepcopy(self.data)
         cases=[('schema',True),('schema',2),('accepted',0),('accepted',True),('status','cancelled'),
             ('status','rejected'),('status','unsupported'),('status','timeout'),('status','cpu_budget_exceeded'),
-            ('baseline','B1'),('scope','partial_completion'),('adapter','none'),('engine_profile','standard'),
+            ('baseline','B1' if self.PROFILE=='tuned' else 'B2_tuned'),('scope','partial_completion'),
+            ('adapter','none'),('engine_profile','standard' if self.PROFILE=='tuned' else 'tuned'),
             ('strategy',None),('input_policy','native'),('guidance_policy','native'),('diagnostic_schema',1),
             ('production_qualified',True),('engine_fanout_override',False),('engine_optimizer_override',False),
             ('engine_angle_binding',{}),('incumbent_scoring_contract',{})]
@@ -181,6 +190,84 @@ class CompletedNegativeTests(unittest.TestCase):
         with self.assertRaises(p.Rejected):p.check_rejected_routing_attempt(self.run/'candidate/../result.json')
         other=self.run/'other.json';other.write_bytes(self.receipt.read_bytes())
         with self.assertRaises(p.Rejected):p.check_rejected_routing_attempt(other)
+
+
+class StandardCompletedNegativeTests(CompletedNegativeTests):
+    """The same complete semantic/tamper controls with explicit standard intent."""
+    PROFILE = 'standard'
+    SCORING = None
+
+    def checked(self):
+        return p.check_rejected_routing_attempt(self.receipt,ordinary_profile='standard')
+
+    def test_standard_requires_live_caller_selection_not_receipt_inference(self):
+        for kwargs in ({},{'ordinary_profile':'tuned'}):
+            with self.subTest(kwargs=kwargs),self.assertRaisesRegex(p.Rejected,'completed-negative routing contract'):
+                p.check_rejected_routing_attempt(self.receipt,**kwargs)
+        self.assertTrue(self.checked()['validated_rejection'])
+
+    def test_standard_scoring_override_refuses_even_with_matching_authored_engine(self):
+        self.data['scoring_variant']='via_low'
+        mark_authored_receipt(self.run,self.data,test_root=self.root)
+        self.save_receipt()
+        with self.assertRaisesRegex(p.Rejected,'completed-negative routing contract'):self.checked()
+
+    def test_standard_receipt_cannot_claim_tuned_engine_by_relabelling(self):
+        self.data.update(engine_profile='tuned',baseline='B2_tuned')
+        self.save_receipt()
+        self.refused()
+        with self.assertRaises(p.Rejected):p.check_rejected_routing_attempt(self.receipt)
+
+    def test_selected7_keeps_existing_scope_dispatch_and_engine_proof(self):
+        # Stop at the real engine reader: these authored10.0.0 files are not
+        # relabelled as Native7 proof. Only the capability/diagnostic seam is
+        # exercised with selected7; full ordinary semantics run above.
+        with patch.object(p.c,'NATIVE_VERSION','10.0.7'), \
+                patch.object(p.c,'current_native_selection',return_value={'version':'10.0.7'}), \
+                patch.object(p,'require_native_scope',wraps=p.require_native_scope) as scope, \
+                patch.object(p,'check_normal_engine_provenance',side_effect=RuntimeError('mandatory-engine-reader')) as engine:
+            with self.assertRaisesRegex(RuntimeError,'mandatory-engine-reader'):self.checked()
+            scope.assert_called_once_with(purpose='route',scope='whole_board_unlocked_routing',
+                guidance='native',layers='source_all',profile='standard',adapter='both',scoring=None)
+            engine.assert_called_once_with(self.run,self.data)
+            self.data.update(engine_profile='tuned',baseline='B2_tuned');self.save_receipt();engine.reset_mock()
+            with self.assertRaisesRegex(p.Rejected,'unsupported: selected Native'):
+                p.check_rejected_routing_attempt(self.receipt)
+            engine.assert_not_called()
+
+    def test_comparison_markers_cannot_use_ordinary_standard_selector(self):
+        from autorouter import comparison as cmp
+        (self.run/cmp.SIDECAR).write_text('{}')
+        with self.assertRaisesRegex(p.Rejected,'explicit caller context'):self.checked()
+
+
+class NegativeProfileSelectorTests(unittest.TestCase):
+    def test_only_exact_supported_profile_names_before_any_receipt_access(self):
+        class Name(str):pass
+        for profile in (None,True,0,[],{},'', 'completion-only','tuned-free-angle',Name('standard')):
+            with self.subTest(profile=profile),self.assertRaisesRegex(p.Rejected,'literal standard or tuned'):
+                p.check_rejected_routing_attempt('/not-read/result.json',ordinary_profile=profile)
+
+    def test_nondefault_selector_never_enters_positive_or_mixed_private_readback(self):
+        for kwargs in ({'_rejected_profile':'standard'},
+                       {'_rejected_attempt':True,'_rejected_profile':'standard','comparison_context':object()}):
+            with self.subTest(kwargs=kwargs),self.assertRaisesRegex(p.Rejected,'ordinary completed-negative mode'):
+                p._check_result_uncached('/not-read/result.json',**kwargs)
+        with self.assertRaisesRegex(p.Rejected,'cannot mix comparison Context'):
+            p.check_rejected_routing_attempt('/not-read/result.json',ordinary_profile='standard',comparison_context=object())
+
+    def test_comparison_profile_stays_context_owned_with_default_ordinary_selector(self):
+        from tests.test_comparison_context import ComparisonContextControls
+        case=ComparisonContextControls();self.addCleanup(case.doCleanups);case.setUp()
+        context=case.make_context(profile='standard')
+        row=case.context_record(context);row.update(accepted=False,status='drc_rejected')
+        p.save_json(case.receipt,row)
+        with patch.object(p,'check_normal_engine_provenance',side_effect=RuntimeError('mandatory-comparison-engine')) as engine:
+            with self.assertRaisesRegex(RuntimeError,'mandatory-comparison-engine'):
+                p.check_rejected_routing_attempt(case.receipt,comparison_context=context)
+            engine.assert_called_once_with(case.output,row)
+        with self.assertRaisesRegex(p.Rejected,'cannot mix comparison Context'):
+            p.check_rejected_routing_attempt(case.receipt,ordinary_profile='standard',comparison_context=context)
 
 
 if __name__=='__main__':unittest.main()

@@ -2614,13 +2614,20 @@ def check_resource_accounting(data, *, child_key='child_cpu_seconds'):
         raise Rejected('inconsistent CPU accounting')
 
 
-def check_rejected_routing_attempt(path, *, comparison_context=None):
-    """Diagnose a completed tuned or explicit fixed comparison failure; never apply.
+def check_rejected_routing_attempt(path, *, ordinary_profile='tuned', comparison_context=None):
+    """Diagnose a completed caller-selected ordinary or fixed comparison failure.
 
     This bypasses the positive readback cache. All retained Native, process,
     source, rule and budget checks still run; no fresh Native execution occurs.
     Cancellation, stale inputs and invalid/incomplete evidence raise.
+    Ordinary expectation defaults to tuned; standard requires explicit caller
+    selection. Comparison Context owns its profile and permits no nondefault
+    ordinary selector. No diagnostic result authorizes acceptance or application.
     """
+    if type(ordinary_profile) is not str or ordinary_profile not in {'standard','tuned'}:
+        raise Rejected('completed-negative ordinary profile requires literal standard or tuned')
+    if comparison_context is not None and ordinary_profile!='tuned':
+        raise Rejected('ordinary profile selector cannot mix comparison Context')
     if comparison_context is not None:
         from .comparison import require_context
         require_context(comparison_context)
@@ -2629,12 +2636,14 @@ def check_rejected_routing_attempt(path, *, comparison_context=None):
     read_bytes(target)  # Refuse symlink aliases before the common body resolves.
     if target.name!='result.json' or target!=target.resolve(strict=True):
         raise Rejected('completed-negative reader requires canonical result.json')
-    return (_check_result_uncached(target,_rejected_attempt=True,comparison_context=comparison_context)
-        if comparison_context is not None else _check_result_uncached(target,_rejected_attempt=True))
+    options={'_rejected_attempt':True}
+    if comparison_context is not None:options['comparison_context']=comparison_context
+    elif ordinary_profile!='tuned':options['_rejected_profile']=ordinary_profile
+    return _check_result_uncached(target,**options)
 
 
 def _check_result_uncached(path, *, native_toolchain=None, experimental_schematic_parity=False,
-                           _rejected_attempt=False, comparison_context=None):
+                           _rejected_attempt=False, comparison_context=None, _rejected_profile='tuned'):
     """Check local evidence consistency; this is not authentication or fresh DRC.
 
     All receipts are mutable local JSON. A party rewriting the complete evidence
@@ -2645,6 +2654,10 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     except (ValueError,OSError) as exc:raise Rejected('selected native toolchain changed: '+str(exc)) from exc
     if type(_rejected_attempt) is not bool or (_rejected_attempt and native_toolchain is not None):
         raise Rejected('completed-negative mode requires the ordinary production toolchain')
+    if type(_rejected_profile) is not str or _rejected_profile not in {'standard','tuned'}:
+        raise Rejected('completed-negative ordinary profile requires literal standard or tuned')
+    if _rejected_profile!='tuned' and (not _rejected_attempt or comparison_context is not None):
+        raise Rejected('ordinary diagnostic profile requires ordinary completed-negative mode')
     path=Path(path).resolve(strict=True)
     from .floor_route import receipt_policy, read_json
     from .placement_clearance import read_bytes as bounded_bytes
@@ -2702,12 +2715,13 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     if _rejected_attempt:
         # Closed diagnostic scope, independent of the positive acceptance API.
         # Derive native policy above; ordinary receipts omit input_policy.
-        negative_profile=comparison_context.profile if is_comparison else 'tuned'
+        negative_profile=comparison_context.profile if is_comparison else _rejected_profile
         negative_adapter=comparison_context.adapter if is_comparison else 'both'
         if (type(data.get('schema')) is not int or data['schema']!=1
                 or data.get('accepted') is not False or data.get('status')!='drc_rejected'
                 or data.get('baseline')!=engine_baseline(negative_profile,negative_adapter) or data.get('adapter')!=negative_adapter
                 or data.get('engine_profile')!=negative_profile or input_policy!='native'
+                or (not is_comparison and negative_profile=='standard' and data.get('scoring_variant') is not None)
                 or data.get('scope')!='whole_board_unlocked_routing'
                 or any(key in data for key in ('strategy','input_policy','guidance_policy',
                     'diagnostic_schema','production_qualified','engine_angle_binding',
