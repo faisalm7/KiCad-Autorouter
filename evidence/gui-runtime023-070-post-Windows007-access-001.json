@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "kind": "GUI070-post-Windows007-preserved-state-access-check",
+  "recorded_utc": "2026-10-18T06:48:15.771450+00:00",
+  "actual_GUI_qualified": false,
+  "observed_CUA_results": [
+    "Existing bound Python GUI getAXState returned cgWindowNotFound.",
+    "One application inventory follow-up explicitly reported that the Mac is locked and automatic unlock could not unlock it."
+  ],
+  "interpretation": "Actual locked-Mac observation corroborates an access gate; cgWindowNotFound alone does not establish a closed app or lost permission. No source/runtime/GUI edits or new Native job.",
+  "owner_action": "The existing single unlock request remains pending. No repeated unlock/destination request, security, sleep, global setting or unrelated application change.",
+  "owned_processes_freshly_verified": {
+    "manager": {
+      "pid": 93990,
+      "ppid": 29442,
+      "started_local": "Sat Oct17 23:09:34 2026",
+      "command": "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad"
+    },
+    "GUI": {
+      "pid": 94724,
+      "ppid": 93990,
+      "started_local": "Sat Oct17 23:11:13 2026",
+      "command": "/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -B -m autorouter.gui"
+    },
+    "instructions": "Identity observations only; never kill or trust old PIDs without a fresh identity check."
+  },
+  "stored_proof_byte_readback": {
+    "scope": "Byte verification only, not new Native/GUI validation or current export acceptance.",
+    "source_files": 4,
+    "runtime_pins": 46,
+    "high_budget_job": ".runs/runtime-directory-023/runtime/.runs/gui-session070/jobs/autorouter-gui-9855f24f40704b7db40eec9bfa570f8c",
+    "choice_receipt_sha256": "75aa70269e1c950adce8e79373ab39c954003752f3cbdcd58236c7880a8f1794",
+    "recorded_choice": "accept",
+    "choice_GUI_callback_observed": false,
+    "fresh_export_present": false,
+    "original_source_runtime_review_route_candidate_bytes_match": true,
+    "positive90_preopen_snapshot_retained": ".runs/runtime-directory-023/runtime/.runs/gui-session070/preopen-snapshot-001"
+  },
+  "remaining_GUI_controls": [
+    "Observe existing high-budget choice state then fresh Native export120 without Preview/reroute",
+    "Cancellation and explicit reject on fresh jobs",
+    "Source/settings/export preopen freshness refusals on prepared copies",
+    "Forced real queued race remains unqualified; do not conflate callback-unit/preopen checks with it"
+  ],
+  "free_bytes_at_readback": 14790897664,
+  "project_complete": false
+}

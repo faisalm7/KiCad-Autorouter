@@ -105,7 +105,7 @@ int wmain(int argc, wchar_t **argv) {
     TOKEN_FACTS self, child;
     WSADATA winsock;
     STARTUPINFOW startup;
-    PROCESS_INFORMATION process;
+    PROCESS_INFORMATION process = {0};
     wchar_t command[32768], *end = NULL;
     char address[16];
     unsigned long port, hold;

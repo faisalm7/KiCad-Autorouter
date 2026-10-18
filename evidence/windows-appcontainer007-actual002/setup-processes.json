@@ -1,0 +1,140 @@
+[
+  {
+    "kind": "additional-owned-setup-process",
+    "process": {
+      "argv": [
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "-I",
+        "-B",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_dns.py"
+      ],
+      "cwd": "D:\\a\\_temp\\kicad-appcontainer007-6ae74caf8bb440fd83f5e4a7c9373f69-setup",
+      "log": "D:\\a\\_temp\\kicad-appcontainer007-6ae74caf8bb440fd83f5e4a7c9373f69-setup\\DNS.log",
+      "log_sha256": "3993dc30304b3d257e8fdbbffcb3efe39cd2c131f20198eea8b322a0369e74ab",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "wall_seconds": 0.14099999999984902,
+      "full_job_cpu_seconds": 0.0625,
+      "process_count": 2,
+      "limits": {
+        "bytes": 134217728,
+        "rss": 2147483648,
+        "log": 262144,
+        "entries": 4000,
+        "seconds": 5
+      },
+      "os_job_memory_limit": true,
+      "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+      "accepted": false,
+      "product_support": false,
+      "Native_admitted": false,
+      "Native_executed": false,
+      "network": {
+        "kind": "owned-setup-no-network-isolation-claim",
+        "network_isolation_claimed": false
+      },
+      "authoring": {
+        "kind": "fixed-owned-DNS-helper",
+        "helper_sha256": "7fda8873716acdc2287f862ce6dff56ca95c6be1d3988d0ccc1027689ab15517"
+      },
+      "source_tool_sha256": {
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_dns.py": "7fda8873716acdc2287f862ce6dff56ca95c6be1d3988d0ccc1027689ab15517"
+      },
+      "setup_scope": {
+        "file_id": [
+          748162264,
+          65536,
+          297
+        ],
+        "runner_pid": 4452,
+        "runner_source_sha256": "99e2b459fb8febf9553a86d22e112ac5fe8f78aff4b3954455e641027456af62"
+      }
+    },
+    "process_receipt_available": true,
+    "log_utf8": "{\"hostname\": \"api.github.com\", \"IPv4\": \"140.82.113.6\"}\r\n",
+    "log_truncated": false
+  },
+  {
+    "kind": "additional-owned-setup-process",
+    "process": {
+      "argv": [
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+        "/nologo",
+        "/W4",
+        "/WX",
+        "/O1",
+        "/MT",
+        "/DUNICODE",
+        "/D_UNICODE",
+        "/DPROBE_ROLE=1",
+        "/IC:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include",
+        "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt",
+        "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared",
+        "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c",
+        "/FoD:\\a\\_temp\\kicad-appcontainer007-6ae74caf8bb440fd83f5e4a7c9373f69-setup\\role1.obj",
+        "/FeD:\\a\\_temp\\kicad-appcontainer007-6ae74caf8bb440fd83f5e4a7c9373f69-setup\\probe-parent.exe",
+        "/link",
+        "/INCREMENTAL:NO",
+        "/LIBPATH:C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64",
+        "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64",
+        "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64",
+        "kernel32.lib",
+        "advapi32.lib",
+        "ws2_32.lib"
+      ],
+      "cwd": "D:\\a\\_temp\\kicad-appcontainer007-6ae74caf8bb440fd83f5e4a7c9373f69-setup",
+      "log": "D:\\a\\_temp\\kicad-appcontainer007-6ae74caf8bb440fd83f5e4a7c9373f69-setup\\compile1.log",
+      "log_sha256": "52ec3787ebaf27212d1393bd3be1148f31f1d0922422224f055bfc924b2e6569",
+      "status": "budget_exceeded",
+      "exit_code": 2,
+      "cleanup_complete": true,
+      "wall_seconds": 30.047000000000025,
+      "full_job_cpu_seconds": 0.859375,
+      "process_count": 3,
+      "limits": {
+        "bytes": 134217728,
+        "rss": 2147483648,
+        "log": 262144,
+        "entries": 4000,
+        "seconds": 30
+      },
+      "os_job_memory_limit": true,
+      "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+      "accepted": false,
+      "product_support": false,
+      "Native_admitted": false,
+      "Native_executed": false,
+      "network": {
+        "kind": "owned-setup-no-network-isolation-claim",
+        "network_isolation_claimed": false
+      },
+      "authoring": {
+        "kind": "fixed-owned-C-canary-build",
+        "role": 1,
+        "probe_sha256": "2299df045949673d26176bd960ec125a543a25e84be47b79ba0a9bb8d8d95d02",
+        "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "SDK_version": "10.0.26100.0",
+        "MSVC_version": "14.44.35207"
+      },
+      "source_tool_sha256": {
+        "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c": "2299df045949673d26176bd960ec125a543a25e84be47b79ba0a9bb8d8d95d02"
+      },
+      "setup_scope": {
+        "file_id": [
+          748162264,
+          65536,
+          297
+        ],
+        "runner_pid": 4452,
+        "runner_source_sha256": "99e2b459fb8febf9553a86d22e112ac5fe8f78aff4b3954455e641027456af62"
+      }
+    },
+    "process_receipt_available": true,
+    "log_utf8": "appcontainer_probe.c\r\nD:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c(156) : error C2220: the following warning is treated as an error\r\nD:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c(156) : warning C4701: potentially uninitialized local variable 'process' used\r\n",
+    "log_truncated": false
+  }
+]

@@ -1,4 +1,4 @@
-"""Unexecuted Windows-only substrate prototype; no product portability claim."""
+"""Experimental Windows-only substrate; no product portability claim."""
 import ctypes as C,ctypes.wintypes as W,hashlib,json,math,os,re,subprocess,sys,time
 from contextlib import contextmanager,nullcontext,ExitStack
 from pathlib import Path

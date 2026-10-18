@@ -221,6 +221,7 @@ def main():
     except Exception as exc:
         result['errors'].append(type(exc).__name__ + ': ' + str(exc))
         if guard is not None:
+            result['guard_evidence'] = guard.evidence
             result['cleanup'] = guard.cleanup_receipt
     finally:
         stop.set(); listener.close(); server.join(timeout=3)
