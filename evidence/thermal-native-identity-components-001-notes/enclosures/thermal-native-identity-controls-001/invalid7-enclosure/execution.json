@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "case": "invalid7",
+  "accepted": false,
+  "production_admitted": false,
+  "component_passed": false,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 0.6787452499847859,
+    "cpu_seconds": 0.6235979999999999,
+    "max_rss_bytes": 250593280,
+    "supervisor_cpu_seconds": 0.004795999999999995,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 250593280,
+    "sampled_peak_workdir_bytes": 278,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-027/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-thermal-native-identity-component-001.py",
+      "--runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-027/runtime",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-001/protocol.json",
+      "--protocol-sha256",
+      "2a94a6251208e30a58e1f3b3d156ea4ea4d3a49235bc69000c0d5efef815a55f",
+      "--case",
+      "invalid7"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-001/invalid7-enclosure/command.log",
+    "log_bytes": 278,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-001/invalid7-enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 3988
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-027/runtime/.runs/thermal-identity-invalid7-001/component-result.json",
+  "child_receipt_sha256": "cc468b10b4181187388e026c35f3475e1efb041aed8dd3b568bd4874f26b17bd",
+  "status": "failed",
+  "reason": "AttributeError: module 'autorouter.sexpr' has no attribute 'atom'",
+  "protocol_sha256": "2a94a6251208e30a58e1f3b3d156ea4ea4d3a49235bc69000c0d5efef815a55f",
+  "whole_wall_seconds": 0.742110249993857,
+  "whole_full_CPU_seconds": 0.6827409999999999
+}

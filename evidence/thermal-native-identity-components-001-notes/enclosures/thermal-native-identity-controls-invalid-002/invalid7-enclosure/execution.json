@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "case": "invalid7",
+  "accepted": false,
+  "production_admitted": false,
+  "component_passed": false,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 3.5288462080061436,
+    "cpu_seconds": 1.99911,
+    "max_rss_bytes": 248905728,
+    "supervisor_cpu_seconds": 0.014560000000000003,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 243040256,
+    "sampled_peak_workdir_bytes": 317,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-027/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-thermal-native-identity-component-invalid-002.py",
+      "--runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-027/runtime",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-invalid-002/protocol.json",
+      "--protocol-sha256",
+      "31300155cd606cc39c135039e9c07af3a07130fb8be93b265faa6b1c4c587452",
+      "--case",
+      "invalid7"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-invalid-002/invalid7-enclosure/command.log",
+    "log_bytes": 317,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-invalid-002/invalid7-enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 4501
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-027/runtime/.runs/thermal-identity-invalid7-002/component-result.json",
+  "child_receipt_sha256": "8eb4d597343ede829a2c067994d3ed5164084aeda584885745998d36f58f6a7a",
+  "status": "failed",
+  "reason": "Rejected: Native refill changed route identities or net assignments",
+  "protocol_sha256": "31300155cd606cc39c135039e9c07af3a07130fb8be93b265faa6b1c4c587452",
+  "whole_wall_seconds": 3.584947084018495,
+  "whole_full_CPU_seconds": 2.067896
+}

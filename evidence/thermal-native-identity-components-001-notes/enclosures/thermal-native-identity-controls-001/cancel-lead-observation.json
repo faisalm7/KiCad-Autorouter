@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "kind": "lead-tool-observation-not-independent-process-receipt",
+  "recorded_utc": "2026-10-18T16:27:34.116865+00:00",
+  "session_id": 46184,
+  "initial_exec_response": {
+    "session_running": true,
+    "output": "fresh-candidate-validation\r\n"
+  },
+  "owned_process_observed_before_signal": {
+    "pid": 5585,
+    "ppid": 5584,
+    "phase": "refill-drc",
+    "executable": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "scope": "freshoutputthermal-identity-cancel7-001; later receipt, not this earlier ps observation, identifies cancelled final-drc"
+  },
+  "action": {
+    "tool": "write_stdin",
+    "characters": "U+0003",
+    "attempts": 1
+  },
+  "return_observed": {
+    "exit_code": 130,
+    "session_reaped": true,
+    "output": "^C{\"case\": \"cancel7\", \"status\": \"cancelled\", \"component_passed\": false, \"accepted\": false, \"production_admitted\": false, \"reason\": \"KeyboardInterrupt: \", \"sampled_wall_seconds\": 3.5553809580160305, \"sampled_full_CPU_seconds\": 2.864411}\r\n"
+  },
+  "durable_worker_receipt": ".runs/runtime-directory-027/runtime/.runs/thermal-identity-cancel7-001/final-drc-process.json",
+  "complete_exit_time_log": ".runs/thermal-native-identity-cancel7-001-time.log",
+  "scope": "One interactive lead-observed Control-C only. Durable existing runner final-drc receipt binds SIGINT/-15/cleanuptrue. No outer runner receipt, repair-stage/allphase/SIGINT-only/permanentdescendant or exact signal-time ps claim."
+}

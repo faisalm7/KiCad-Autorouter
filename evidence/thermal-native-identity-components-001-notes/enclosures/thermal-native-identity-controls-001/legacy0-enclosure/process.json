@@ -1,0 +1,49 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 14.245050708006602,
+  "cpu_seconds": 11.745343,
+  "max_rss_bytes": 284016640,
+  "supervisor_cpu_seconds": 0.040937,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 225804288,
+  "sampled_peak_workdir_bytes": 271,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 268435456,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-thermal-native-identity-component-001.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-001/protocol.json",
+    "--protocol-sha256",
+    "2a94a6251208e30a58e1f3b3d156ea4ea4d3a49235bc69000c0d5efef815a55f",
+    "--case",
+    "legacy0"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-001/legacy0-enclosure/command.log",
+  "log_bytes": 271,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-native-identity-controls-001/legacy0-enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 2122
+}
