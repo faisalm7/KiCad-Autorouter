@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "passed": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 2,
+    "wall_seconds": 14.000278207997326,
+    "cpu_seconds": 11.496165,
+    "max_rss_bytes": 245956608,
+    "supervisor_cpu_seconds": 0.04606999999999997,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 428163072,
+    "sampled_peak_workdir_bytes": 2455,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-024/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_runtime_workflow.py",
+      "--runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-024/runtime",
+      "--source",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-019/source-matching/owned-four-copper-forced-inner.kicad_pcb",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-024/runtime/.runs/production-delivery-001",
+      "--method",
+      "route",
+      "--settings",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-024/cli-workflow-001-run/settings.json"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-024/cli-workflow-001-run/command.log",
+    "log_bytes": 0,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-024/cli-workflow-001-run",
+    "signal_cancellation_enabled": true,
+    "pid": 13454
+  },
+  "child_receipt_sha256": "ed39b58f8fb06e335c65cc21c43346c68b9332f6c2ddb7b67ae846c555aec24e",
+  "protocol_sha256": "c5af74878bc681da82c7ff423d5a062b7aa4510a1be3cbf22ad786bdbfd1faf9",
+  "sources_unchanged": true,
+  "whole_wall_seconds": 14.411717957991641,
+  "whole_full_cpu_seconds": 11.828399999999998,
+  "source_head": "21c035478154cf1b9e1257d3758787556bb0b28d"
+}

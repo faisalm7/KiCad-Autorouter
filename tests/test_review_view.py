@@ -154,12 +154,29 @@ class PlotCopyControls(unittest.TestCase):
         return run
 
     def render(self, out, source, candidate, tool, worker):
-        pin = {'tools': {'kicad_cli': {'path': str(tool), 'sha256': p.sha(tool)}}}
-        original_read = view.f.read_json
-        def read(path):
-            return pin if Path(path) == view.c.ROOT / 'toolchain.lock.json' else original_read(path)
-        with patch.object(view.c, 'CLI', tool), patch.object(view.f, 'read_json', side_effect=read), patch.object(p, 'run', side_effect=worker):
-            return view.render(out, source / 'board.kicad_pcb', candidate / 'board.kicad_pcb', {}, lambda: 30, lambda: None)
+        pin = {'kicad_cli': {'path': str(tool), 'sha256': p.sha(tool), 'bytes':tool.stat().st_size}}
+        with patch.object(view.c, 'CLI', tool), patch.object(p,'selected_tool_pins',return_value=pin) as selected,patch.object(p, 'run', side_effect=worker):
+            result=view.render(out, source / 'board.kicad_pcb', candidate / 'board.kicad_pcb', {}, lambda: 30, lambda: None)
+            selected.assert_called_once_with()
+            return result
+
+    def test_selected7_plot_pin_is_used_and_mixed_path_or_size_refuses(self):
+        for mismatch in (None,'old_default_path','bytes'):
+            with self.subTest(mismatch=mismatch),tempfile.TemporaryDirectory() as tmp:
+                source,candidate,out,tool=self.projects(Path(tmp).resolve());calls=[]
+                pin={'path':str(tool),'sha256':p.sha(tool),'bytes':tool.stat().st_size}
+                if mismatch=='old_default_path':pin['path']=str(tool.with_name('old-default'))
+                if mismatch=='bytes':pin['bytes']+=1
+                worker=self.plot_worker(source,candidate,lambda *args:None,calls)
+                with patch.object(view.c,'NATIVE_VERSION','10.0.7'),patch.object(view.c,'CLI',tool),patch.object(p,'selected_tool_pins',return_value={'kicad_cli':pin}) as selected,patch.object(p,'run',side_effect=worker):
+                    if mismatch:
+                        with self.assertRaisesRegex(p.Rejected,'pinned KiCad plotter changed'):
+                            view.render(out,source/'board.kicad_pcb',candidate/'board.kicad_pcb',{},lambda:30,lambda:None)
+                        self.assertEqual(calls,[])
+                    else:
+                        view.render(out,source/'board.kicad_pcb',candidate/'board.kicad_pcb',{},lambda:30,lambda:None)
+                        self.assertEqual(len(calls),4)
+                    selected.assert_called_once_with()
 
     def test_native_added_prl_is_confined_and_original_changes_reject(self):
         for mutation in ('added_prl', 'changed_board', 'changed_existing_prl', 'late_added_rule'):

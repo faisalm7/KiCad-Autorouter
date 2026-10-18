@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "kind": "selected-profile-plotter-pin-fix-v1",
+  "recorded_utc": "2026-10-18T14:20:45.549496+00:00",
+  "project_complete": false,
+  "full_release_qualified": false,
+  "new_runtime_delivered": false,
+  "new_GUI_qualified": false,
+  "failure": "evidence/runtime024-normal1007-plotter-refusal-001.json",
+  "review": "evidence/runtime024-plotter-result-review-001.json",
+  "fix": "Review plotting consumes the same fresh selected CLI pin as startup/receipt readers; exact path/hash/size checks retained. No other routing/constraint code changed.",
+  "targeted": {
+    "passed": 89,
+    "wall_seconds": 7.921,
+    "Native": false
+  },
+  "full_integration": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 291.5890502089751,
+      "cpu_seconds": 282.864394,
+      "max_rss_bytes": 299155456,
+      "supervisor_cpu_seconds": 0.734089,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 299270144,
+      "sampled_peak_workdir_bytes": 381349,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-166/command.log",
+      "log_bytes": 345754,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-166",
+      "signal_cancellation_enabled": true,
+      "pid": 15493
+    },
+    "wall_seconds": 292.00834154104814,
+    "full_cpu_seconds": 283.89501,
+    "sources_unchanged": true,
+    "controller_sha256": "a9f0577d8433f932decfad515ce7f7e52cc7801f9f413953dc94cf46ed33be6f",
+    "log_sha256": "a18c6eb1bfee2ccc96a25e36fec13b584bc3e3ab1a145311ec348268e94d8b98",
+    "passed": true
+  },
+  "decision": "Integrate after full166; immutable024 remains failed at review, its partial is Route-only diagnostic. Create NEW025 from exact checkpoint, then fresh complete normal whole/partial delivery, actual invalid controls and new GUI qualification. Never stitch024 or promote oldAPI proof.",
+  "files": [
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/full-integration-166/protocol.json",
+      "bytes": 35595,
+      "sha256": "6309b63c9432c1aaa6f96b0583692199a8043b33bce009a3ccca36e4adc11408"
+    },
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/full-integration-166/execution.json",
+      "bytes": 1940,
+      "sha256": "abc501edd1833b12690d5b1efa5cc3da0453e4640f54b4d123b1c2ba7c7d5f18"
+    },
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/full-integration-166/command.log",
+      "bytes": 345754,
+      "sha256": "a18c6eb1bfee2ccc96a25e36fec13b584bc3e3ab1a145311ec348268e94d8b98"
+    },
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/run-full-integration-166.py",
+      "bytes": 2582,
+      "sha256": "a9f0577d8433f932decfad515ce7f7e52cc7801f9f413953dc94cf46ed33be6f"
+    },
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/full-integration-166-time.log",
+      "bytes": 34,
+      "sha256": "01833996119ad4a8e30f5a3a5d303ff3aefac924d72cac969fb4fa4534728feb"
+    },
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/selected-plotter-targeted-001.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/selected-plotter-targeted-001-time.log",
+      "bytes": 217,
+      "sha256": "9b06e49c8fe0639b071f0c01d23f843beb25df7ce494cb7842b45b2826055664"
+    },
+    {
+      "path": "evidence/selected-plotter-fix-001-notes/runtime024-curation-startup-failure-001.json",
+      "bytes": 252,
+      "sha256": "c2565b31a9966808ebf53f0a6850eec0db9ee234b3730dfb3dc4efb3e2ce787e"
+    }
+  ]
+}

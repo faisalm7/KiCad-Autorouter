@@ -116,9 +116,10 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
     from . import handoff as h
     ctx = h.delivery_kwargs(native_toolchain, experimental_schematic_parity)
     if native_toolchain is None:
-        pin = f.read_json(c.ROOT / 'toolchain.lock.json')['tools']['kicad_cli']
+        pin = p.selected_tool_pins()['kicad_cli']
         plotter = c.CLI
-        if c.resolve_tool_path(pin['path']) != plotter or p.sha(plotter) != pin['sha256']:
+        if (c.resolve_tool_path(pin['path']) != plotter or p.sha(plotter) != pin['sha256']
+                or plotter.stat().st_size != pin['bytes']):
             raise p.Rejected('pinned KiCad plotter changed')
     else:
         plotter = native_toolchain.cli
