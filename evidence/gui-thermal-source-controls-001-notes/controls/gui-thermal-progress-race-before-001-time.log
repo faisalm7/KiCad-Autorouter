@@ -1,0 +1,38 @@
+E
+======================================================================
+ERROR: test_progress_survives_phase_log_disappearing_after_file_check (tests.test_gui_thermal_method.ThermalMethodTests.test_progress_survives_phase_log_disappearing_after_file_check)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_thermal_method.py", line 201, in test_progress_survives_phase_log_disappearing_after_file_check
+    gt.window_method('tick')(window,None)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/gui.py", line 957, in tick
+    paths = sorted((path for path in paths if path.is_file() and not path.is_symlink()),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/gui.py", line 958, in <lambda>
+    key=lambda path: path.stat().st_mtime_ns, reverse=True)
+                     ^^^^^^^^^^^
+  File "<string>", line 3, in stat
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_thermal_method.py", line 196, in disappearing
+    result=original_stat(path,*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1013, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmpnuukx338/output/autorouter-gui-109d6cc9a0234ca0a25d1f6266e64ef1/route/recovery/thermal-geometry.log'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.144s
+
+FAILED (errors=1)
+real 0.36
+user 0.14
+sys 0.04

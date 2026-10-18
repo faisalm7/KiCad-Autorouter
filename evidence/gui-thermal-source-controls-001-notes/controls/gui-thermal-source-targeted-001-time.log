@@ -1,0 +1,17 @@
+...........F....................................................
+======================================================================
+FAIL: test_recovery_summary_names_whole_method_and_separate_export_allocation (tests.test_gui_thermal_method.ThermalMethodTests.test_recovery_summary_names_whole_method_and_separate_export_allocation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_gui_thermal_method.py", line 178, in test_recovery_summary_names_whole_method_and_separate_export_allocation
+    self.assertIn('one exposed board family',text);self.assertIn('120.0 s after acceptance, separate from recovery',text)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '120.0 s after acceptance, separate from recovery' not found in 'Saved-project preview\nStatus: preview\nExperimental thermal recovery has a validated completion result on one exposed board family; it is not general routing or electrical certification. Requires KiCad 10.0.7, two copper layers, whole-board unlocked routing, Native guidance, standard/both, all source layers and default via cost. The 90–900 s method budget includes the incumbent, repair attempts and final validation; internal reserves are inside it. Fresh export has a separate budget. Failed/cancelled work and its incumbent are retained; no automatic application, acceptance intent or fallback.\nRouting/protection: Reroute unlocked copper; preserve locked routing\nSettings: profile standard; corrections both; whole recovery-method budget 420 s; layers source_all; via preference engine default\nAdditional Native export-validation budget: 120 s after acceptance, separate from recovery; the method budget is unchanged.\nStatic preflight only; Native routing validation has not run.\nExisting route items: not reported; protected: not reported; to reroute: not reported\nPhysical/electrical and manufacturing validation remains separate.'
+
+----------------------------------------------------------------------
+Ran 64 tests in 1.469s
+
+FAILED (failures=1)
+real 1.70
+user 0.99
+sys 0.45

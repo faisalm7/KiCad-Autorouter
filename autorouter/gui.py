@@ -21,6 +21,13 @@ from . import config as c, preferences as pref
 
 LOG_LIMIT = 2 * 1024 * 1024
 GUI_IMPROVE_MIN_SECONDS = 90
+METHODS = ('route', 'improve', 'recover')
+THERMAL_HELP = ('Experimental thermal recovery has a validated completion result on one exposed board family; '
+    'it is not general routing or electrical certification. Requires KiCad 10.0.7, two copper layers, '
+    'whole-board unlocked routing, Native guidance, standard/both, all source layers and default via cost. '
+    'The 90–900 s method budget includes the incumbent, repair attempts and final validation; internal '
+    'reserves are inside it. Fresh export has a separate budget. Failed/cancelled work and its incumbent '
+    'are retained; no automatic application, acceptance intent or fallback.')
 FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
 
@@ -32,13 +39,48 @@ def export_validation_seconds(route_seconds):
     return ex.validate_seconds(max(ex.MIN_SECONDS, min(seconds, ex.SECONDS)))
 
 
-def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=None):
+def method_for_index(index):
+    if type(index) is not int or not 0 <= index < len(METHODS):
+        raise ValueError('Choose an explicit routing method.')
+    return METHODS[index]
+
+
+def check_thermal_settings(config):
+    """The recovery CLI accepts only its fixed contract, not arbitrary presets."""
+    effective = pref.validate(config)
+    required = dict(scope='whole_board_unlocked_routing', profile='standard', adapter='both',
+                    guidance='native', layers='source_all', scoring_preference=None)
+    if (c.NATIVE_VERSION != '10.0.7' or any(effective[key] != value for key, value in required.items())
+            or not 90 <= effective['seconds'] <= 900):
+        raise ValueError('Experimental thermal recovery requires selected KiCad 10.0.7, whole-board unlocked '
+            'routing, Native guidance, standard/both, all source layers/default via cost and a 90–900 second '
+            'whole recovery-method budget. Settings were not changed.')
+    from .pipeline import require_native_scope
+    require_native_scope(purpose='thermal-recovery', scope=effective['scope'], guidance=effective['guidance'],
+        layers=effective['layers'], profile=effective['profile'], adapter=effective['adapter'],
+        scoring=effective['scoring_preference'])
+    return effective
+
+
+def check_thermal_source(board):
+    from . import pipeline as p, sexpr as sx
+    original = p.preflight(board)  # Same default class/format/rule contract as recover().
+    copper = [sx.unquote(row[1]) for row in sx.one(original, 'layers', [])[1:]
+              if isinstance(row, list) and len(row) > 2 and sx.unquote(row[1]).endswith('.Cu')]
+    if copper != ['F.Cu', 'B.Cu']:
+        raise ValueError('Experimental thermal recovery supports two source copper layers only; no layers were changed.')
+
+
+def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=None, method=None):
     """Presentation only; existing CLI validation and original receipts remain authoritative."""
     title = {'preview': 'Saved-project preview', 'route': 'Routing result',
              'review': 'Disposable review project', 'choice': 'Review intent',
              'export': 'Fresh separate-project export', 'verify_export': 'Export readback'}.get(stage, stage)
     status = str(record.get('status', 'current' if record.get('current') is True else 'not reported')).replace('_', ' ')
     lines = [title, 'Status: ' + status]
+    recovery = method == 'recover' or record.get('strategy') == 'native_validated_thermal_bridge'
+    if recovery:
+        lines += [THERMAL_HELP]
     if receipt_path is not None: lines += ['Full workflow receipt: ' + str(receipt_path)]
     if findings_receipt_path is not None: lines += ['Full findings receipt: ' + str(findings_receipt_path)]
     if record.get('source'): lines += ['Original saved PCB: ' + str(record['source'])]
@@ -56,14 +98,21 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         if isinstance(layers, list): layers = ', '.join(layers)
         lines += ['Settings: profile ' + str(settings.get('profile', 'not reported'))
                   + '; corrections ' + str(settings.get('adapter', 'not reported'))
-                  + '; routing budget ' + str(settings.get('seconds', 'not reported')) + ' s'
+                  + ('; whole recovery-method budget ' if recovery else '; routing budget ')
+                  + str(settings.get('seconds', 'not reported')) + ' s'
                   + '; layers ' + str(layers)
                   + '; via preference ' + str(settings.get('scoring_preference') or 'engine default')]
         if settings.get('nets'): lines += ['Selected nets: ' + ', '.join(settings['nets'])]
         if 'seconds' in settings:
             lines += ['Additional Native export-validation budget: '
                       + str(export_validation_seconds(settings['seconds']))
-                      + ' s after acceptance, separate from routing; the routing budget is unchanged.']
+                      + (' s after acceptance, separate from recovery; the method budget is unchanged.' if recovery
+                         else ' s after acceptance, separate from routing; the routing budget is unchanged.')]
+    elif recovery and 'budget_seconds' in record:
+        lines += ['Whole recovery-method budget: ' + str(record['budget_seconds'])
+                  + ' s, including incumbent routing, repair and final validation.',
+                  'Additional Native export-validation budget: '
+                  + str(export_validation_seconds(record['budget_seconds'])) + ' s after acceptance.']
     if stage == 'preview':
         lines += ['Static preflight only; Native routing validation has not run.',
                   'Existing route items: ' + str(record.get('existing_route_items', 'not reported'))
@@ -189,9 +238,16 @@ class Request:
         if not parent.is_dir() or parent == board.parent or board.parent in parent.parents:
             raise ValueError('Select an existing output folder outside the source project.')
         settings = pref.validate(json.loads(self.settings_json))
-        if self.method not in ('route', 'improve'): raise ValueError('Unknown routing method.')
+        if self.method not in METHODS: raise ValueError('Unknown routing method.')
         if self.method == 'improve': check_improve_settings(settings)
-        files = source_inventory(board)
+        if self.method == 'recover':
+            check_thermal_settings(settings)
+            files = source_inventory(board)
+            check_thermal_source(board)
+            if source_inventory(board) != files:
+                raise ValueError('Saved source changed during thermal support checks; preview again.')
+        else:
+            files = source_inventory(board)
         workspace = parent / ('autorouter-gui-' + uuid.uuid4().hex)
         workspace.mkdir(mode=0o700)
         from .handoff import capture_destination
@@ -238,8 +294,12 @@ class Workflow:
             raise ValueError('The project environment is missing; complete documented setup first.')
         argv = [str(python), '-B', '-m', 'autorouter']
         settings = str(self.workspace / 'settings.json')
+        if self.method == 'recover': check_thermal_settings(json.loads(self.settings_bytes))
         if stage in ('preview', 'route'):
-            argv += [self.method if stage == 'route' else stage, str(self.board), '--settings', settings]
+            if self.method == 'recover' and stage == 'route':
+                argv += ['recover', str(self.board), '--seconds', str(json.loads(self.settings_bytes)['seconds'])]
+            else:
+                argv += [self.method if stage == 'route' else stage, str(self.board), '--settings', settings]
             if stage == 'preview' and self.method == 'improve': argv += ['--purpose', 'improve']
             if stage == 'route': argv += ['--output', str(self.workspace / 'route')]
         elif stage == 'review':
@@ -299,6 +359,14 @@ class Workflow:
                     or record.get('source') != str(self.board)
                     or record.get('source_hashes') != json.loads(self.files_json)):
                 raise ValueError('Routing did not produce an accepted result for this source. Inspect retained findings.')
+            if self.method == 'recover':
+                seconds = json.loads(self.settings_bytes)['seconds']
+                if (record.get('strategy') != 'native_validated_thermal_bridge'
+                        or record.get('scope') != 'whole_board_unlocked_routing'
+                        or record.get('engine_profile') != 'standard' or record.get('adapter') != 'both'
+                        or record.get('budget_seconds') != seconds or record.get('cpu_budget_seconds') != seconds
+                        or record.get('metrics', {}).get('copper_layers') != 2):
+                    raise ValueError('Thermal recovery did not bind the captured whole-method contract.')
         elif stage == 'review':
             record = read_record(self.workspace / 'review/review.json')
             if record.get('status') != 'ready_for_manual_review':
@@ -572,7 +640,8 @@ def main(argv=None):
                 'scoring_preference': [('Engine default', None), ('Default via cost', 'via_default'), ('Lower via cost', 'via_low'), ('Higher via cost', 'via_high')]}
             grid = wx.FlexGridSizer(cols=2, vgap=4, hgap=8); grid.AddGrowableCol(1)
             grid.Add(wx.StaticText(panel, label='Method'), 0, wx.ALIGN_CENTER_VERTICAL)
-            self.method = wx.Choice(panel, choices=['Route', 'Improve (experimental; tuned whole-board preset)'])
+            self.method = wx.Choice(panel, choices=['Route', 'Improve (experimental; tuned whole-board preset)',
+                'Thermal recovery (experimental; fixed whole-board method)'])
             self.method.SetSelection(0); self.method.Bind(wx.EVT_CHOICE, self.method_changed)
             self.edit_controls.append(self.method); grid.Add(self.method, 1, wx.EXPAND)
             self.choices = {}
@@ -581,7 +650,8 @@ def main(argv=None):
                 control = wx.Choice(panel, choices=[label for label, _ in self.values[name]])
                 control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name])); control.Bind(wx.EVT_CHOICE, self.changed)
                 self.choices[name] = control; self.edit_controls.append(control); grid.Add(control, 1, wx.EXPAND)
-            grid.Add(wx.StaticText(panel, label='Routing budget (seconds)'), 0, wx.ALIGN_CENTER_VERTICAL)
+            self.budget_label = wx.StaticText(panel, label='Routing budget (seconds)')
+            grid.Add(self.budget_label, 0, wx.ALIGN_CENTER_VERTICAL)
             # Cocoa SpinCtrl clamps invalid text on focus loss before Preview
             # can validate it. Keep the exact input until explicit validation.
             self.seconds = wx.TextCtrl(panel, value=str(int(pref.DEFAULTS['seconds'])))
@@ -591,8 +661,11 @@ def main(argv=None):
             self.nets = wx.TextCtrl(panel, style=wx.TE_MULTILINE, size=(-1, 55))
             self.nets.Bind(wx.EVT_TEXT, self.changed); self.edit_controls.append(self.nets); grid.Add(self.nets, 1, wx.EXPAND)
             layout.Add(grid, 0, wx.EXPAND | wx.ALL, 8)
+            self.method_note = wx.StaticText(panel, label='')
+            self.method_note.Wrap(780)
+            layout.Add(self.method_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             export_note = wx.StaticText(panel, label='Fresh export adds separate Native validation after acceptance: '
-                '30–120 seconds, derived from the routing budget. The routing budget is unchanged.')
+                '30–120 seconds, derived from the captured routing or recovery-method budget. That budget is unchanged.')
             export_note.Wrap(780)
             layout.Add(export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             presets = wx.BoxSizer(wx.HORIZONTAL)
@@ -693,11 +766,21 @@ def main(argv=None):
             if self.busy: event.Skip(); return
             self.flow = None; self.inspected.SetValue(False)
             try:
-                if self.method.GetSelection():
+                method = method_for_index(self.method.GetSelection())
+                if method == 'improve':
                     settings = improve_preset(self.config())
                     for name in ('profile', 'adapter'):
                         self.choices[name].SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == settings[name]))
                     self.status.SetLabel('Improve selected: tuned profile and both corrections. Routing protection, layers, budget and via preference are unchanged.')
+                elif method == 'recover':
+                    self.status.SetLabel('Thermal recovery selected explicitly. Set the required whole-board settings; Preview refuses incompatible inputs without changing them.')
+                if hasattr(self, 'budget_label'):
+                    self.budget_label.SetLabel('Whole recovery-method budget (seconds)' if method == 'recover' else 'Routing budget (seconds)')
+                    self.method_note.SetLabel(THERMAL_HELP if method == 'recover' else '')
+                    self.method_note.Wrap(780)
+                    self.method_note.GetParent().Layout()
+                if hasattr(self, 'buttons'):
+                    self.buttons['route'].SetLabel('Recover (experimental)' if method == 'recover' else 'Route')
             except Exception as exc:
                 self.refused(str(exc))
                 # Cocoa commits the popup selection after this callback.
@@ -711,7 +794,9 @@ def main(argv=None):
                 config = pref.resolve(pref.load(path))
                 if config['guidance'] != 'native': raise ValueError('This graphical workflow supports Native guidance; retain other presets for their documented CLI.')
                 if config['seconds'] != int(config['seconds']): raise ValueError('This graphical control uses whole seconds; use the CLI for fractional budgets.')
-                if self.method.GetSelection(): check_improve_settings(config)
+                method = method_for_index(self.method.GetSelection())
+                if method == 'improve': check_improve_settings(config)
+                if method == 'recover': check_thermal_settings(config)
                 indices = {name: next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]) for name in self.choices}
                 for name, control in self.choices.items(): control.SetSelection(indices[name])
                 self.seconds.SetValue(str(int(config['seconds']))); self.nets.SetValue('\n'.join(config.get('nets', [])))
@@ -792,7 +877,8 @@ def main(argv=None):
                 choice = action if action in ('accept', 'reject') else None
                 stage = 'choice' if choice else action
                 if stage in ('preview', 'review'): self.inspected.SetValue(False)
-                request = Request(self.board.GetValue(), self.output.GetValue(), json.dumps(self.config()), self.ack.GetValue(), 'improve' if self.method.GetSelection() else 'route')
+                request = Request(self.board.GetValue(), self.output.GetValue(), json.dumps(self.config()), self.ack.GetValue(),
+                                  method_for_index(self.method.GetSelection()))
                 if self.ack.GetValue() is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
                 self.busy = True; self.job = CliJob(); job = self.job; self.refresh()
                 self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
@@ -853,20 +939,35 @@ def main(argv=None):
                 receipt_path = flow.workspace / receipt_name
                 findings_path = flow.workspace / 'route/result.json' if stage == 'review' else receipt_path
                 self.log.SetValue(human_summary(stage, display, receipt_path=receipt_path,
-                                               findings_receipt_path=findings_path if display.get('native') or display.get('saved_native_findings') else None))
+                                               findings_receipt_path=findings_path if display.get('native') or display.get('saved_native_findings') else None,
+                                               method=getattr(flow, 'method', 'route')))
                 self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()
             if self.closing: self.timer.Stop(); self.Destroy()
 
         def tick(self, _):
             if not self.busy or not self.flow: return
-            for name in ('final-drc', 'refill-drc', 'engine', 'export', 'source-drc'):
-                path = self.flow.workspace / 'route' / (name + '.log')
+            root = self.flow.workspace / 'route'
+            names = ('final-drc', 'refill-drc', 'engine', 'export', 'source-drc', 'thermal-geometry')
+            paths = [root / (name + '.log') for name in names]
+            if getattr(self.flow, 'method', 'route') == 'recover':
+                roots = [root / 'incumbent', root / 'recovery']
+                roots += [root / 'recovery' / ('trial-%02d' % index) for index in range(1, 5)]
+                paths += [directory / (name + '.log') for directory in roots for name in names]
+                dated = []
+                for path in paths:
+                    try:
+                        if path.is_file() and not path.is_symlink():
+                            dated.append((path.stat().st_mtime_ns, path))
+                    except OSError:
+                        continue
+                paths = [path for _, path in sorted(dated, key=lambda row: row[0], reverse=True)]
+            for path in paths:
                 if path.is_file() and not path.is_symlink():
                     try:
                         with path.open('rb') as stream:
                             stream.seek(max(0, path.stat().st_size - 2048)); tail = stream.read(2048)
-                        self.log.SetValue(name + '\n' + tail.decode('utf8', errors='replace'))
+                        self.log.SetValue(str(path.relative_to(root)) + '\n' + tail.decode('utf8', errors='replace'))
                     except OSError: pass
                     break
 
