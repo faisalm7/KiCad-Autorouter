@@ -1,0 +1,31 @@
+test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) ... 
+  test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) (late_tool_metadata_fault=False) ... ERROR
+  test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) (late_tool_metadata_fault=True) ... ERROR
+
+======================================================================
+ERROR: test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) (late_tool_metadata_fault=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_context.py", line 344, in test_final_comparison_tool_read_cannot_escape_prl_metadata_replay
+    self.assertTrue(namespace['reader_final_control']()['current'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2973, in reader_final_control
+    if tree_hash(path.parent)!=comparison_material or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
+                                                                     ^^^^^^^^^^^^^
+NameError: name 'bounded_bytes' is not defined
+
+======================================================================
+ERROR: test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) (late_tool_metadata_fault=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_context.py", line 342, in test_final_comparison_tool_read_cannot_escape_prl_metadata_replay
+    namespace['reader_final_control']()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2973, in reader_final_control
+    if tree_hash(path.parent)!=comparison_material or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
+                                                                     ^^^^^^^^^^^^^
+NameError: name 'bounded_bytes' is not defined
+
+----------------------------------------------------------------------
+Ran 1 test in 0.148s
+
+FAILED (errors=2)

@@ -7,16 +7,19 @@ No test executes KiCad, Java, Git, a sandbox or an installed workflow.
 import ast
 import copy
 import json
+import os
 from pathlib import Path
 import shutil
+import stat
 import tempfile
 import time
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-from autorouter import comparison as cmp, config as c, floor_route as f, pipeline as p
-from autorouter import placement_clearance as pc, provenance as pv
+from autorouter import comparison as cmp, config as c, floor_route as f, handoff as h, pipeline as p
+from autorouter import local_settings as ls, placement_clearance as pc, provenance as pv
+from tests import normal_prl_fixture, test_engine_fanout as engine_fixture
 
 PROJECT = Path(__file__).resolve().parents[1]
 
@@ -69,6 +72,137 @@ class ComparisonContextControls(unittest.TestCase):
         args = dict(context=self.context, source=self.source, output=self.output, seconds=120,
             keep=False, adapter='both', profile='tuned', scoring=None, guidance='native', extras=())
         args.update(changes); return cmp.authorize(**args)
+
+    def context_record(self, context):
+        """Only author a contract fixture; no routing/Native result is implied."""
+        row = self.make_record()
+        row.update(source=str(context.source), source_hashes=copy.deepcopy(context.source_hashes),
+                   tools=copy.deepcopy(context.tools), engine_profile=context.profile,
+                   baseline=p.engine_baseline(context.profile, context.adapter),
+                   adapter=context.adapter, scoring_variant=context.scoring_variant,
+                   budget_seconds=context.seconds, cpu_budget_seconds=context.seconds)
+        (self.output / cmp.SIDECAR).unlink()
+        cmp.bind(self.output, row, context)
+        return row
+
+    def test_stock_and_three_score_contexts_bind_exact_existing_engine_choices(self):
+        cases = [('none', 'standard', None), ('both', 'standard', None),
+                 ('both', 'tuned', None), *[('both', 'tuned', score)
+                 for score in ('via_default', 'via_low', 'via_high')]]
+        scores = {'via_default': (50, 5), 'via_low': (25, 3), 'via_high': (100, 10)}
+        for adapter, profile, score in cases:
+            with self.subTest(adapter=adapter, profile=profile, score=score):
+                context = self.make_context(adapter=adapter, profile=profile, scoring_variant=score)
+                cmp.authorize(context, self.source, self.output, 120, False,
+                              adapter, profile, score, 'native', ())
+                row = self.context_record(context)
+                self.assertTrue(cmp.check_record(self.output, row, context))
+                self.assertEqual(context.record()['adapter'], adapter)
+                self.assertEqual(context.record()['scoring_variant'], score)
+                self.assertIs(row['production_admitted'], False)
+                settings = p.engine_profile_settings(profile, 90, scoring_variant=score)
+                flags = [arg for arg in settings['argv'] if arg.startswith('--router.scoring.')]
+                expected = [] if score is None else [
+                    '--router.scoring.via_costs=' + str(scores[score][0]),
+                    '--router.scoring.plane_via_costs=' + str(scores[score][1])]
+                self.assertEqual(flags, expected)
+                p.save_json(self.receipt, row)
+                with self.assertRaisesRegex(p.Rejected, 'explicit caller context'):
+                    p.check_result(self.receipt)
+
+    def test_adapter_scoring_types_and_outside_fixed_tuples_refuse(self):
+        class StringSubclass(str):pass
+        changes = [dict(adapter=value) for value in (None, False, 0, [], {}, 'graphics', 'planes', StringSubclass('both'))]
+        changes += [dict(scoring_variant=value) for value in (False, 0, [], {}, '', 'unknown', StringSubclass('via_low'))]
+        changes += [dict(adapter='none', profile='tuned'),
+                    dict(adapter='none', profile='standard', scoring_variant='via_default'),
+                    dict(adapter='both', profile='standard', scoring_variant='via_low')]
+        for change in changes:
+            with self.subTest(change=change), self.assertRaises(p.Rejected):self.make_context(**change)
+        for field, value in (('adapter', 'none'), ('scoring_variant', 'via_low')):
+            context = self.make_context()
+            object.__setattr__(context, field, value)  # Test a bypass of the frozen dataclass only.
+            with self.subTest(sealed_field=field), self.assertRaisesRegex(p.Rejected, 'expectations changed'):
+                context.check()
+
+    def test_stock_and_scored_calls_reach_only_the_existing_normal_transport_gate(self):
+        for adapter, profile, score in (('none', 'standard', None), ('both', 'tuned', 'via_high')):
+            context = self.make_context(adapter=adapter, profile=profile, scoring_variant=score)
+            with self.subTest(adapter=adapter, score=score), patch.object(p, 'sha', return_value=c.JAR_SHA256), \
+                    patch.object(p, 'check_storage', side_effect=RuntimeError('normal-storage-gate')) as storage, \
+                    patch.object(p, 'Job') as job:
+                with self.assertRaisesRegex(RuntimeError, 'normal-storage-gate'):
+                    p.route(self.source, self.output, 120, False, adapter, profile,
+                            scoring_variant=score, comparison_context=context)
+                storage.assert_called_once_with(active_root=self.output); job.assert_not_called()
+            for changed_adapter, changed_score in (('both' if adapter == 'none' else 'none', score),
+                                                    (adapter, 'via_low' if score != 'via_low' else 'via_high')):
+                with self.subTest(wrong_request=(changed_adapter, changed_score)), \
+                        patch.object(p, 'check_storage', side_effect=AssertionError('dispatch')), self.assertRaises(p.Rejected):
+                    p.route(self.source, self.output, 120, False, changed_adapter, profile,
+                            scoring_variant=changed_score, comparison_context=context)
+
+    def test_stock_scored_receipts_and_sidecars_cannot_change_caller_or_policy(self):
+        for adapter, profile, score in (('none', 'standard', None), ('both', 'tuned', 'via_low')):
+            context = self.make_context(adapter=adapter, profile=profile, scoring_variant=score)
+            good = self.context_record(context)
+            for field, value in (('adapter', 'both' if adapter == 'none' else 'none'),
+                                 ('scoring_variant', 'via_high'), ('baseline', 'B1')):
+                changed = copy.deepcopy(good); changed[field] = value
+                with self.subTest(adapter=adapter, changed=field), self.assertRaises(p.Rejected):
+                    cmp.check_record(self.output, changed, context)
+            wrong = self.make_context(adapter='both', profile='tuned', scoring_variant='via_high')
+            with self.assertRaises(p.Rejected):cmp.check_record(self.output, good, wrong)
+            sidecar = self.output / cmp.SIDECAR; original = sidecar.read_bytes()
+            for field, value in (('adapter', 'both' if adapter == 'none' else 'none'),
+                                 ('scoring_variant', 'via_high'), ('policy', 'selected-native7-fixed-comparison-v1')):
+                row = json.loads(original); row[field] = value; sidecar.write_text(json.dumps(row))
+                changed = copy.deepcopy(good); changed['comparison_route']['sha256'] = p.sha(sidecar)
+                with self.subTest(sidecar_field=field), self.assertRaises(p.Rejected):
+                    cmp.check_record(self.output, changed, context)
+                sidecar.write_bytes(original)
+            changed = copy.deepcopy(good)
+            changed['comparison_route']['policy'] = 'selected-native7-fixed-comparison-v1'
+            with self.assertRaises(p.Rejected):cmp.check_record(self.output, changed, context)
+            if score is not None:
+                changed = copy.deepcopy(good); changed.pop('scoring_variant')
+                with self.assertRaises(p.Rejected):cmp.check_record(self.output, changed, context)
+
+    def test_three_score_provenance_rejects_reauthored_missing_duplicate_and_changed_flags(self):
+        for score in ('via_default', 'via_low', 'via_high'):
+            with self.subTest(score=score):
+                # Setup-only reuse of the complete existing authored engine/PRL
+                # fixture. Its Native1000 data is not current-version routing
+                # evidence; the shared engine settings/journal checker is real.
+                setup = engine_fixture.EngineFanoutControls('runTest')
+                self.addCleanup(setup.doCleanups)
+                with patch.object(c, 'ROOT', PROJECT), patch.object(c, 'NATIVE_VERSION', '10.0.0'):
+                    case = setup.publication_fixture('tuned', None)
+                    case.data['scoring_variant'] = score
+                    normal_prl_fixture._authored_normal_engine(case.run, case.data)
+                p.check_engine_profile_record(case.data, case.run)
+                good = copy.deepcopy(case.data)
+                process = f.read_json(case.run / 'engine-process.json')
+                scoreflag = p.engine_scoring_settings(score)['argv'][0]
+                for fault in ('marker_missing', 'wrong_marker', 'missing_flag', 'duplicate_flag', 'changed_flag', 'journal_only', 'missing_worker'):
+                    row = copy.deepcopy(good); worker = next(s for s in row['steps'] if s['name'] == 'engine')
+                    if fault == 'marker_missing':row.pop('scoring_variant')
+                    elif fault == 'wrong_marker':row['scoring_variant'] = 'via_high' if score != 'via_high' else 'via_low'
+                    elif fault == 'missing_worker':row['steps'].remove(worker)
+                    elif fault == 'journal_only':pass  # Alter only the durable process below.
+                    else:
+                        for argv in (row['engine_budget']['argv'], worker['argv']):
+                            if fault == 'missing_flag':argv.remove(scoreflag)
+                            elif fault == 'duplicate_flag':argv.append(scoreflag)
+                            else:argv[argv.index(scoreflag)] = '--router.scoring.via_costs=1'
+                    # Reauthor both declarations and journal for changed flags;
+                    # exact profile derivation must still detect the fault.
+                    journal = copy.deepcopy(worker)
+                    if fault == 'journal_only':journal['argv'].append('--router.scoring.via_costs=1')
+                    p.save_json(case.run / 'engine-process.json', journal)
+                    with self.subTest(fault=fault), self.assertRaises(p.Rejected):
+                        p.check_engine_profile_record(row, case.run)
+                    p.save_json(case.run / 'engine-process.json', process)
 
     def test_typed_caller_fixed_source_and_existing_profiles(self):
         self.context.check(); self.authorize()
@@ -206,14 +340,19 @@ class ComparisonContextControls(unittest.TestCase):
         with self.assertRaises(p.Rejected):p.check_result(self.receipt, comparison_context={})
 
     def test_positive_and_completed_negative_keep_normal_engine_validation(self):
-        for negative in (False, True):
-            row = copy.deepcopy(self.data)
-            row.update(accepted=not negative, status='drc_rejected' if negative else 'routing_accepted')
-            p.save_json(self.receipt, row)
-            with self.subTest(negative=negative), patch.object(p, 'check_normal_engine_provenance', side_effect=RuntimeError('required-normal-engine-proof')) as engine:
-                with self.assertRaisesRegex(RuntimeError, 'required-normal-engine-proof'):
-                    p._check_result_uncached(self.receipt, comparison_context=self.context, _rejected_attempt=negative)
-                engine.assert_called_once_with(self.output, row)
+        contexts = [self.make_context(adapter='none', profile='standard'),
+                    self.make_context(scoring_variant='via_low'), self.context]
+        for context in contexts:
+            fixture = self.context_record(context)
+            for negative in (False, True):
+                row = copy.deepcopy(fixture)
+                row.update(accepted=not negative, status='drc_rejected' if negative else 'routing_accepted')
+                p.save_json(self.receipt, row)
+                with self.subTest(adapter=context.adapter, score=context.scoring_variant, negative=negative), \
+                        patch.object(p, 'check_normal_engine_provenance', side_effect=RuntimeError('required-normal-engine-proof')) as engine:
+                    with self.assertRaisesRegex(RuntimeError, 'required-normal-engine-proof'):
+                        p._check_result_uncached(self.receipt, comparison_context=context, _rejected_attempt=negative)
+                    engine.assert_called_once_with(self.output, row)
         row['status'] = 'cancelled'; p.save_json(self.receipt, row)
         with self.assertRaisesRegex(p.Rejected, 'completed-negative routing contract'):
             p.check_rejected_routing_attempt(self.receipt, comparison_context=self.context)
@@ -284,6 +423,75 @@ class ComparisonContextControls(unittest.TestCase):
                 self.assertEqual(p.tree_hash(self.project), self.hashes)
                 self.assertNotIn('candidate', durable)
                 self.assertFalse((self.output / 'export').exists())
+
+    @unittest.skipUnless(hasattr(os, 'chflags') and hasattr(stat, 'UF_IMMUTABLE'),
+                         'actual owned Mac PRL metadata control required')
+    def test_final_comparison_tool_read_cannot_escape_prl_metadata_replay(self):
+        # Compile the exact final reader tail, as existing publication controls
+        # do. This isolates its ordering, not complete Native acceptance. The
+        # shared PRL guard/replay and actual owned file flags remain real.
+        producer = next(node for node in ast.parse(Path(p.__file__).read_bytes()).body
+                        if isinstance(node, ast.FunctionDef) and node.name == '_check_result_uncached')
+        start = next(index for index, node in reversed(list(enumerate(producer.body)))
+                     if isinstance(node, ast.If) and isinstance(node.test, ast.Name)
+                     and node.test.id == 'preferences_guarded')
+        wrapper = ast.FunctionDef(name='reader_final_control',
+            args=ast.arguments(posonlyargs=[], args=[], kwonlyargs=[], kw_defaults=[], defaults=[]),
+            body=copy.deepcopy(producer.body[start:]), decorator_list=[])
+        module = ast.fix_missing_locations(ast.Module(body=[wrapper], type_ignores=[]))
+        inputs = self.output / 'final-drc-input'; inputs.mkdir()
+        board = inputs / self.source.name; shutil.copy2(self.source, board)
+        prl = board.with_suffix('.kicad_prl'); prl.write_text('{"owned":"unchanged"}\n')
+        owner = {}; h.capture_destination(owner, self.output)
+        before = p.tree_hash(inputs)
+        with ls.preserve(prl, self.output, owner) as event:pass
+        binding = dict(input=str(board), saved=False, before=before,
+                       local_settings_policy=ls.JOB_POLICY)
+        process = dict(argv=[str(c.CLI), 'pcb', 'drc', str(board)], cleanup_complete=True,
+                       local_settings_policy=ls.JOB_POLICY, local_settings_protection=event)
+        raw, flags = prl.read_bytes(), prl.stat().st_flags
+        self.assertEqual(flags, 0)
+        for fault in (False, True):
+            state = {'tool_reads': 0, 'mutated': False}
+            def manifest():
+                state['tool_reads'] += 1
+                if fault and not state['mutated']:
+                    os.chflags(prl, stat.UF_IMMUTABLE, follow_symlinks=False)
+                    state['mutated'] = True
+                return copy.deepcopy(self.tools)
+            namespace = dict(vars(p))
+            namespace.update(path=self.receipt, data=self.data, source=self.source,
+                result={'current': True, 'applied': False}, is_comparison=True,
+                comparison=cmp, comparison_context=self.context, _rejected_attempt=False,
+                preferences_guarded=True, bounded_inventory=pc.inventory, bounded_bytes=pc.read_bytes,
+                bounded_evidence=pc.evidence_inventory,
+                readback_material=pc.evidence_inventory(self.output),
+                comparison_material=p.tree_hash(self.output), receipt_digest=p.sha(self.receipt),
+                binding=binding, process=process, check_event=ls.check_event,
+                # Restrict the eventual shared all-worker replay seam to this
+                # one actual captured event; no synthetic DRC is called real.
+                check_experimental_local_settings=lambda *args: ls.check_event(self.output, binding, process))
+            exec(compile(module, str(p.__file__), 'exec'), namespace)
+            try:
+                with self.subTest(late_tool_metadata_fault=fault), patch.object(p, 'tool_manifest', side_effect=manifest):
+                    if fault:
+                        try:
+                            current = namespace['reader_final_control']()
+                        except p.Rejected as exc:
+                            self.assertRegex(str(exc), 'flags')
+                        else:
+                            self.assertTrue(state['mutated'])
+                            self.assertEqual(prl.stat().st_flags, stat.UF_IMMUTABLE)
+                            self.assertEqual(p.tree_hash(self.output), namespace['comparison_material'])
+                            self.fail('Late tool changed owned PRL flags with unchanged bytes; '
+                                      'production final reader tail returned ' + repr(current))
+                    else:
+                        self.assertTrue(namespace['reader_final_control']()['current'])
+                self.assertGreater(state['tool_reads'], 0)
+                self.assertEqual(state['mutated'], fault)
+                self.assertEqual(prl.read_bytes(), raw)
+            finally:
+                os.chflags(prl, flags, follow_symlinks=False)
 
     def test_production_consumers_and_sidecar_alias_refuse(self):
         with self.assertRaises(p.Rejected):p.check_experimental_route(self.data)

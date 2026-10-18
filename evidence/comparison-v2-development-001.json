@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "kind": "versioned-sealed-stock-scoring-comparison-development",
+  "recorded_utc": "2026-10-18T19:52:16.836073+00:00",
+  "accepted": false,
+  "production_qualified": false,
+  "actual_GUI": false,
+  "project_complete": false,
+  "base_checkpoint": "4f8307ba024304685720e95ac960a717602cf34c",
+  "source_sha256": {
+    "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+    "autorouter/pipeline.py": "e47be49276afd9139fcb07a5a388911e9526378a10c901ac4e3172945de9435b",
+    "tests/test_comparison_context.py": "53027ee1648703e128446b75a0ef58d5e47963d06ed7b83fae8e9969f400907b"
+  },
+  "changes": "Comparison v2 seals adapter/scoring per exact live caller. Allows stock-adapter standard/none/None, correctedstandard/both/None, correctedtuned/both/None or fixedvia_default/low/high. OrdinaryCLI/GUI/NativeScope unchanged. Negative reader derives adapter fromcaller; shared allworker PRL replay is last after Context/tool/material reads. No portfolio, reference solution, electrical constraint relaxation or model.",
+  "targeted": {
+    "tests": 22,
+    "passed": true,
+    "complete_cost": {
+      "wall_seconds": 1.61,
+      "CPU_seconds": 1.51
+    },
+    "earlier_passing_run": {
+      "wall_seconds": 1.34,
+      "CPU_seconds": 1.25
+    }
+  },
+  "actual_metadata_fault": {
+    "reproduced": true,
+    "scope": "Exact production final reader tail/live Context/real captured PRL event and owned Mac UF_IMMUTABLE flags. Late tool callback changed flags while bytes/inventory remained same; oldtail returned currentTrue/productionFalse. No whole Native/candidate/ordinary product falseacceptance claim.",
+    "initial_fixture_error": "001 NameError bounded_bytes, retained",
+    "reproduced_cost": {
+      "wall_seconds": 0.28,
+      "CPU_seconds": 0.26
+    },
+    "corrected_target_passed": true,
+    "corrected_cost": {
+      "wall_seconds": 0.43,
+      "CPU_seconds": 0.29
+    }
+  },
+  "review": "Independent AI source review found no concrete blocker in exact delta; Python3.9 syntax parses. Not human review or Native qualification.",
+  "baseline_scope": "B0 here is stock adapter within the pipeline with common fidelity/protection/Native guards; untouched official vanilla workflow not demonstrated. Scoring changes objectives only; no actual B0/scored/portfolio Native qualification or faircomparison follows.",
+  "remaining": "Integrate finite competentB2 API branch using existing helpers; fullsuite and fresh curated runtime, actual B0/scored/invalid/completednegative/cancel/portfolio delivery controls, then freeze fair actual installed B0/B1/B2/C evaluation. Keep all unsupported cases and costs. CurrentGUI/Windows/breadth/holdout/human/restoration gates unclosed.",
+  "accounting": "All software target costs retained; Native031 installer/cancel separatepacket. Source authoring/AIreview/curation additional and interactive wholeCPUunknown, notzero.",
+  "rights": "Projectowned source/test/developmentrecords underretained repositoryGPL; no privateinputs/bulkdatasets/downloadedbinaries.",
+  "files_index": {
+    "path": "evidence/comparison-v2-development-001-notes/files.json",
+    "sha256": "89db5162455dd85e8c52a480514338e886f708b66c7262407b6be99737e29b26"
+  }
+}

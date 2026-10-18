@@ -1,0 +1,29 @@
+"""Retain fresh031 evidence with the existing bounded text/dedup helpers."""
+from pathlib import Path
+import ast,json,sys,datetime,hashlib
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True
+from autorouter import pipeline as p,floor_route as f,placement_clearance as io
+notes=ROOT/'evidence/runtime031-install-cancel-001-notes';assert not notes.exists()
+refs={};files=[];material=[];total=0
+for name in ['evidence/runtime030-native-workflow-qualification-001.json','evidence/runtime030-negative-cancel-001.json','evidence/thermal-parent-functional-001.json']:
+ j=f.read_json(ROOT/name)
+ for r in j.get('files',[]):refs.setdefault(r['sha256'],r['path'])
+ q=ROOT/j['files_index']['path'];assert p.sha(q)==j['files_index']['sha256'];index=f.read_json(q)
+ for r in index.get('files',[]):refs.setdefault(r['sha256'],r['path'])
+ for r in index.get('material',[]):refs.setdefault(r['sha256'],r['retained'])
+helper=ROOT/'.runs/curate-runtime030-native-workflow-qualification-001.py';assert p.sha(helper)=='b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1'
+module=ast.parse(helper.read_text());definitions=[n for n in module.body if isinstance(n,ast.FunctionDef) and n.name in ('retain','tree','cost')];assert len(definitions)==3
+exec(compile(ast.Module(body=definitions,type_ignores=[]),str(helper),'exec'),globals())
+runtime=ROOT/'.runs/runtime-directory-031/runtime'
+install=f.read_json(ROOT/'.runs/install-distribution-native-004/execution.json');cancel=f.read_json(ROOT/'.runs/runtime031-comparison-engine-cancel-001/enclosure/result.json');assert install['passed'] and cancel['passed']
+tree(ROOT/'.runs/install-distribution-native-004',Path('installation/enclosure'));tree(ROOT/'.runs/runtime031-comparison-engine-cancel-001',Path('cancel/enclosure'))
+tree(runtime/'.runs/install-native-smoke',Path('installation/native-smoke'));tree(ROOT/'.runs/runtime-directory-031/source-fixture',Path('installation/source-fixture'))
+for name in ['native7-comparison-cancellation-control-001','native7-comparison-cancel-attempt-001']:tree(runtime/'.runs'/name,Path('cancel')/name)
+retain(ROOT/'.runs/runtime-directory-031/result.json',Path('installation/result.json'))
+for cmd in f.read_json(ROOT/'.runs/runtime-directory-031/result.json')['commands']:retain(Path(cmd['log']),Path('installation/logs')/Path(cmd['log']).name)
+retain(runtime/'runtime-distribution.json',Path('runtime/runtime-distribution.json'));retain(runtime/'RUNTIME_README.txt',Path('runtime/RUNTIME_README.txt'))
+for name in ['run-install-distribution-native-004.py','install-distribution-native-004-controller-001.log','install-distribution-native-004-time-001.log','freeze-runtime031-comparison-cancel-001.py','freeze-runtime031-comparison-cancel-001.log','freeze-runtime031-comparison-cancel-001-time.log','runtime031-comparison-engine-cancel-001-controller.log','runtime031-comparison-engine-cancel-001-time.log','runtime031-install-cancel-result-review-001.json','runtime029-gui073-toolbar-access-state-006.json','curate-runtime031-install-cancel-draft-001.py','curate-runtime031-install-cancel-001-time.log']:retain(ROOT/'.runs'/name,Path('controllers-review')/name)
+retain(Path(__file__),Path('controllers-review')/Path(__file__).name)
+p.save_json(notes/'files.json',dict(schema=1,files=files,material=material))
+p.save_json(ROOT/'evidence/runtime031-install-cancel-001.json',dict(schema=1,kind='fresh-runtime031-installed-native-smoke-and-engine-cancel',recorded_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),accepted=False,project_complete=False,actual_GUI=False,human_review=False,source_head='4f8307ba024304685720e95ac960a717602cf34c',runtime_manifest_sha256=p.sha(runtime/'runtime-distribution.json'),installation=dict(passed=True,complete_cost=cost(ROOT/'.runs/install-distribution-native-004-time-001.log'),scope='Fresh curated51files/46modules/copiedvenv/doctor/actual owned NativeRoute/check; source2expectedopens to0all. No supplied schematic, sixstage, GUI, cleanOS/relocation/Windows claim.'),cancellation=dict(passed=True,complete_cost=cost(ROOT/'.runs/runtime031-comparison-engine-cancel-001-time.log'),scope='Exact owned Java engine observed PID46597 matches durable journal and Routecancelled row; requestedSIGINT, engineexit-15/cleanuptrue, CLIexit2/cancelrequestedtrue, noaccepted/export. Driver220/outer230 caps and Route420declaration unchanged. No allphase/SIGINT-only/permanentdescendant/GUI or finalNative/fullSCH claim.'),preparation=cost(ROOT/'.runs/freeze-runtime031-comparison-cancel-001-time.log'),review='.runs/runtime031-install-cancel-result-review-001.json; independent AI consistency readback, not human; additional interactive review CPU unknown, notzero.',source_integrity='All46 installed implementation pins match full173 source captures and its exact manifest.031 is immutable; retained030 cancellation failure not overwritten.',pending='Current GUI still tool-lock/access blocked after one session reset; prepared029GUI073 preserved. New comparison guard-order regression and sealed B0/scoring authority are separate unqualified development.031 is not a new whole/partial sixstage or fairmatrix qualification.',rights='Project-owned core/owned smoke retains repositoryGPL; unchanged official Interf source/rules/notice and Tux reference retain CC-BY-SA4.0 and Larry Ewing/TheGIMP attribution as in evidence/runtime030-negative-cancel-001-notes/SCOPE.md and SOURCE_LEDGER.md. No downloaded binaries/private inputs.',backup='Essential owned/licensed proof selected for auditedGit; laterfullraw Mac-only outside010, not a fullrawbackup or restoration.',files_index=dict(path=str((notes/'files.json').relative_to(ROOT)),sha256=p.sha(notes/'files.json'))))
+print(json.dumps(dict(files=len(files),material=len(material),new_bytes=total,installation=True,actual_cancel=True,project_complete=False)))

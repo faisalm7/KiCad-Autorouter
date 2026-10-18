@@ -33,7 +33,7 @@ NORMAL_PROTECTED_VIA_IMPORT_POLICY='legacy-via-off-source-v3'
 NORMAL_TASK_COPPER_FIXED_POLICY='native-task-copper-fixed-v1'
 NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
-COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v1'
+COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v2'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
@@ -2703,9 +2703,10 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         # Closed diagnostic scope, independent of the positive acceptance API.
         # Derive native policy above; ordinary receipts omit input_policy.
         negative_profile=comparison_context.profile if is_comparison else 'tuned'
+        negative_adapter=comparison_context.adapter if is_comparison else 'both'
         if (type(data.get('schema')) is not int or data['schema']!=1
                 or data.get('accepted') is not False or data.get('status')!='drc_rejected'
-                or data.get('baseline')!=engine_baseline(negative_profile,'both') or data.get('adapter')!='both'
+                or data.get('baseline')!=engine_baseline(negative_profile,negative_adapter) or data.get('adapter')!=negative_adapter
                 or data.get('engine_profile')!=negative_profile or input_policy!='native'
                 or data.get('scope')!='whole_board_unlocked_routing'
                 or any(key in data for key in ('strategy','input_policy','guidance_policy',
@@ -2724,7 +2725,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=(_rejected_attempt or 'native_edge_admission_policy' in data
+    preferences_guarded=(is_comparison or _rejected_attempt or 'native_edge_admission_policy' in data
         or 'schematic_class_task' in data or 'schematic_class_final' in data
         or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
@@ -2973,6 +2974,9 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         if tree_hash(path.parent)!=comparison_material or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('comparison evidence changed during readback')
         result.update(comparison_route_policy=COMPARISON_ROUTE_POLICY,production_admitted=False)
+        # Context/tool and byte witnesses above cannot detect changed PRL flags.
+        # Replay the shared field/all-worker metadata guards last.
+        check_experimental_local_settings(path.parent,data,None)
     if _rejected_attempt:
         # Return only after the late evidence/source/process freshness guards.
         return {**({'comparison_route_policy':COMPARISON_ROUTE_POLICY,'production_admitted':False} if is_comparison else {}),'current':False,'validated_rejection':True,'routing_accepted':False,

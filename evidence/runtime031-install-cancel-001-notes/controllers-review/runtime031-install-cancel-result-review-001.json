@@ -1,0 +1,178 @@
+{
+  "cancellation": {
+    "CLI_cancel_requested": true,
+    "CLI_exit_code": 2,
+    "Route_accepted": false,
+    "Route_status": "cancelled",
+    "actual_steps": [
+      "source-drc",
+      "export",
+      "obstacles",
+      "engine"
+    ],
+    "all_four_steps_cleanup_complete": true,
+    "caller_authority": "Reconstructed from separately hash-pinned child protocol; exact runtime, Interf source25-file inventory, tools, output, tuned profile and420s wall/CPU declarations match outer plan and cancelled Route. Central cmp.check_record passes; retained receipts do not supply caller authority.",
+    "cancel_requested_once": true,
+    "controls_passed": true,
+    "engine_cancel_signal_recorded": "SIGINT",
+    "engine_cleanup_complete": true,
+    "engine_exit_code": -15,
+    "engine_journal_exactly_matches_cancelled_row_and_observed_PID": true,
+    "engine_status": "cancelled",
+    "final_candidate_or_Native_acceptance": false,
+    "final_delivery_export_present": false,
+    "monitor_joined": true,
+    "note": "The export step is DSN preparation; it is not an accepted project export. No import/refill/final DRC ran after cancellation. Both completed evidence inventories and route/child receipt hashes match; route tree has148 retained files.",
+    "observation_queries": 1,
+    "observed_executable": "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+    "observed_pid": 46597,
+    "observed_ppid": 46565,
+    "production_admitted": false,
+    "source_drc_existing_reader_pass": true,
+    "source_files": 25,
+    "source_originals_fresh": true,
+    "source_pcb_sha256": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e"
+  },
+  "costs": {
+    "cancel": {
+      "driver_acceptance_cap": 220,
+      "external_user_plus_sys_CPU": 5.46,
+      "external_wall": 5.93,
+      "frozen_outer_wall_and_full_CPU_cap": 230,
+      "outer_complete_full_CPU": 5.446684,
+      "outer_complete_wall": 5.89983549999306,
+      "route_declaration": 420
+    },
+    "installer": {
+      "CPU_limit": "Observed, not installation CPU cap.",
+      "external_user_plus_sys_CPU": 19.63,
+      "external_wall": 21.43,
+      "internal_pre_final_sample_full_CPU": 16.136095,
+      "internal_pre_final_sample_wall": 18.2302034170134,
+      "outer_complete_full_CPU": 19.605615,
+      "outer_complete_wall": 21.398869124997873
+    },
+    "units": "seconds; nested samples are not additive"
+  },
+  "executed_by_reviewer": {
+    "GUI": false,
+    "Git": false,
+    "JVM": false,
+    "Native": false,
+    "delegation": false,
+    "network": false,
+    "only_authored": ".runs/runtime031-install-cancel-result-review-001.json",
+    "source_edits": false,
+    "tests": false
+  },
+  "findings": [
+    {
+      "blocking": false,
+      "detail": "Cancelled Route retains schematic_parity=\"checked by final native DRC\" as its static caller-policy marker, although cancellation occurred before final DRC. Do not present that literal as an observed fullSCH result. Control remains acceptedfalse/whole_project_drc_cleanfalse and correctly makes no final validation or delivery claim.",
+      "severity": "scope_note"
+    }
+  ],
+  "installer_positive": {
+    "Git_observation_readback": {
+      "NUL_bytes": 270,
+      "count": 566,
+      "failed": 0,
+      "raw_log_bytes": 5958399,
+      "verified": "Every own observation raw log size/hash, success/exit0/cleanuptrue/no truncation,<=5s, network-deny sandbox argv and fsmonitor/hooks-disabled args. No Git executed by reviewer."
+    },
+    "actual_route_steps": 8,
+    "all_steps_and_installer_commands_cleanup_complete": true,
+    "applied": false,
+    "candidate_sha256": "546753e24d7ef3c9b35fc6ce2a81a55d56f27c1c7df975309ab37a9b9ba4d2a3",
+    "central_check_current": true,
+    "final_Native_counts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "invariants_unchanged": true,
+    "native_report_sha256": "4832958d3bf971db66e3129eb03c4997da974f6d4fea174f52ef067606662368",
+    "originals_currently_match_frozen_hashes": true,
+    "passed": true,
+    "schematic_parity": "unavailable: no native schematic in smoke source",
+    "scope": "Fresh curated product runtime and independent venv on this Mac; doctor plus actual owned smoke Route/check only. No six-stage/GUI/clean-OS/relocation/Windows qualification.",
+    "source_Native_counts": [
+      2,
+      0,
+      0,
+      0
+    ],
+    "source_files": 3
+  },
+  "kind": "narrow-runtime031-install-and-engine-cancel-result-review",
+  "limits": [
+    "AI consistency review of mutable local evidence, not authenticated independent instrumentation or human PCB review.",
+    "One observed owned engine launch/running phase, with SIGINT request and -15 exit. No all-phase, SIGINT-only termination, permanent-descendant, actual GUI or physical claim.",
+    "No completed routing improvement, stock/portfolio baseline, equal-budget/full-matrix or generalized superiority claim.",
+    "Runtime030 failed cancellation remains separate historical evidence; runtime031 does not rewrite it.",
+    "Context tool-to-PRL return-order fault work assigned to another agent was not duplicated or qualified here."
+  ],
+  "pins": {
+    ".runs/full-integration-173/execution.json": "be144ac2acf67df658a6c425ec3d09b1181f121d111b8d953ccba0d87a035ffe",
+    ".runs/full-integration-173/protocol.json": "b39ba1497fd91daf3ceeef5cad2a6b152b84d090fb3a727c9b4c2cad6b58497d",
+    ".runs/install-distribution-native-004/execution.json": "29459b46c684ce76b6b6e3abc89a6896c1962992717801ff264f3654d2dc7e8b",
+    ".runs/install-distribution-native-004/protocol.json": "bc76be57896bac5e861064b81a0c350d9fc55a808f5f520fb24f402ce7467066",
+    ".runs/runtime-directory-031/result.json": "0807cc6f29bafb280959a3f4c69c5f55d9764383de48f41a262480fc5dec6e34",
+    ".runs/runtime-directory-031/runtime/.runs/install-native-smoke/result.json": "818baa3fcc578dbdc5b4021877091690490a1c817dedfa5a65b3122fd4a3822d",
+    ".runs/runtime-directory-031/runtime/.runs/native7-comparison-cancel-attempt-001/route/result.json": "e9eb16c4c951879e40cbdbf1a3722c7985fb0a3c2bd7ee023ea08b2f80e12889",
+    ".runs/runtime-directory-031/runtime/.runs/native7-comparison-cancellation-control-001/result.json": "33752c49f8cc838567321c45da7cfd774f29cfff750146f31dd46bc164aede32",
+    ".runs/runtime-directory-031/runtime/runtime-distribution.json": "de0cd8f90766bcf65c3e8f296f333228ef31e73ef8655dac8775992985cccf0f",
+    ".runs/runtime031-comparison-engine-cancel-001/child-protocol.json": "a61dcaf098f8ce7f20f4c55ba9692b98d67ae0e1a90b9caf073088d82d7eb415",
+    ".runs/runtime031-comparison-engine-cancel-001/enclosure/result.json": "a57c23094eae89d42ef619fce6d4c12ac0ce471facd3d26ab0d809bc250edcf8",
+    ".runs/runtime031-comparison-engine-cancel-001/protocol.json": "b50b89ea4e4b3b8ac6338a56c3352b3c75b7a08c5c9fbaff13eecdb3f238dd87"
+  },
+  "readback_method": {
+    "cost_scope": "Additional review cost, not included in original Native controls. Shell/file inspection and failed reader setup costs are additional and not fully CPU-timed.",
+    "failed_attempts_are": "Reviewer readback configuration errors, not rerun Native experiments or failed product controls.",
+    "failed_readback_attempts": [
+      {
+        "reason": "f.process_check is a completed-process reader requiring success/nonzero_exit; it rejects cancelled status. Replaced by already reviewed exact cancelled journal/row/PID comparison.",
+        "tool_wall_seconds": 0.406336083
+      },
+      {
+        "reason": "Omitted sandboxed=False for normal DRC-stage reader; normal CLI argv has no nested sandbox prefix because enclosing child already denies network. Corrected readback invocation only.",
+        "tool_wall_seconds": 0.355658333
+      },
+      {
+        "reason": "Auxiliary assertion incorrectly required exact DRC journal/step equality; DRC steps legitimately add validated_input_sha256 and emitted_candidate. Corrected to existing shared-reader subset contract; all12 steps/logs consistent.",
+        "timing": "Not separately retained; no CPU or wall value asserted."
+      }
+    ],
+    "successful_existing_readers": [
+      "p.tool_manifest",
+      "p.tree_hash",
+      "cmp.Context/cmp.check_record",
+      "p.check_result",
+      "f.check_drc_stage(sandboxed=False)",
+      "f.evidence_inventory"
+    ],
+    "successful_readback_full_CPU_seconds": 1.111569,
+    "successful_readback_wall_seconds": 1.3621985419886187
+  },
+  "reviewed_utc": "2026-10-18T19:41:01.317358+00:00",
+  "reviewer": "Separate AI agent; read-only retained-evidence review. Not human PCB review or physical/electrical validation.",
+  "runtime_binding": {
+    "cancel_controller_sha256": "689067ac0b9a61d4ef8246952a4b22b6e32f7fca9c9963608cc05e78e6073b3b",
+    "enclosure_sha256": "663e1eee49a7de064a9304fcf363266a960b881879141ceb9c856cf29c7d5af8",
+    "full173_recorded_tool_manifest_git_head": "9e40b8aa99f1951de36356c4d11a0a60df504a52",
+    "head_limit": "Full173 ran before checkpoint4f8307ba; exact tested module hashes match installation, rather than asserting identical historical Git-head labels. Full173 receipt/log report2126 tests,1skip,exit0,cleanuptrue; reviewer did not rerun suite.",
+    "immutable_files_verified": 51,
+    "immutable_mismatches": [],
+    "installer_controller_sha256": "78d17cf476af00475c5c5e3abc7557252220df5199a2b8126aee9cbf4a4506c8",
+    "module_mismatches": [],
+    "observer_sha256": "e0bfa421ec519c31e8fbcc2dd601e74ea0a60b86f0c2a8377c92a05f25114d27",
+    "root": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-031/runtime",
+    "route_child_sha256": "1ff4ddb3ef5ea56bd381a40da306d1a71bbbea4cc9aa048e3bdd7c870b73e879",
+    "router_modules_matching_full173_frozen_source_sha256": 46,
+    "selected_native_version": "10.0.7",
+    "source_head": "4f8307ba024304685720e95ac960a717602cf34c"
+  },
+  "schema": 1,
+  "verdict": "Retained evidence supports the narrow fresh installed Native smoke and one actual engine-phase comparison cancellation. No blocking inconsistency found in those actual controls; scope caveat below."
+}

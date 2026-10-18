@@ -10,10 +10,10 @@ import os
 from pathlib import Path
 from . import config as c, provenance as pv
 
-POLICY = 'selected-native7-fixed-comparison-v1'
+POLICY = 'selected-native7-fixed-comparison-v2'
 PREFIX = 'native7-comparison-'
 SIDECAR = 'comparison-context.json'
-DELIVERY_POLICY = 'selected-native7-fixed-comparison-delivery-v1'
+DELIVERY_POLICY = 'selected-native7-fixed-comparison-delivery-v2'
 
 
 def encode(value):
@@ -29,6 +29,8 @@ class Context:
     seconds: float
     tools: dict
     source_hashes: dict
+    adapter: str = 'both'
+    scoring_variant: object = None
     _seal: str = field(init=False, repr=False)
 
     def __post_init__(self):
@@ -38,6 +40,12 @@ class Context:
                 or type(self.seconds) not in (int,float) or not math.isfinite(self.seconds) or not 5 <= self.seconds <= 900
                 or type(self.tools) is not dict or type(self.source_hashes) is not dict):
             raise Rejected('exact typed fixed comparison context required')
+        if (type(self.adapter) is not str or self.adapter not in ('none','both')
+                or not (self.scoring_variant is None or type(self.scoring_variant) is str
+                        and self.scoring_variant in ('via_default','via_low','via_high'))
+                or self.adapter == 'none' and (self.profile != 'standard' or self.scoring_variant is not None)
+                or self.scoring_variant is not None and (self.adapter != 'both' or self.profile != 'tuned')):
+            raise Rejected('unsupported fixed comparison adapter/profile/scoring tuple')
         pv.canonical(self.source); pv.canonical(self.output)
         if (self.source.suffix != '.kicad_pcb' or not any(part.startswith(PREFIX) for part in self.output.parts)
                 or c.ROOT / '.runs' not in self.output.parents
@@ -55,7 +63,8 @@ class Context:
 
     def record(self):
         return dict(policy=POLICY, runtime=str(c.ROOT), source=str(self.source), output=str(self.output),
-            profile=self.profile, seconds=self.seconds, source_hashes=self.source_hashes,
+            profile=self.profile, seconds=self.seconds, adapter=self.adapter,
+            scoring_variant=self.scoring_variant, source_hashes=self.source_hashes,
             tools_sha256=hashlib.sha256(encode(self.tools).encode()).hexdigest())
 
     def check(self):
@@ -87,8 +96,8 @@ def authorize(context, source, output, seconds, keep, adapter, profile, scoring,
     from .pipeline import Rejected
     require_context(context)
     if (Path(source) != context.source or Path(output) != context.output or seconds != context.seconds
-            or profile != context.profile or keep is not False or adapter != 'both'
-            or scoring is not None or guidance != 'native' or any(value is not None for value in extras)):
+            or profile != context.profile or keep is not False or adapter != context.adapter
+            or scoring != context.scoring_variant or guidance != 'native' or any(value is not None for value in extras)):
         raise Rejected('unsupported fixed comparison Route request')
 
 
@@ -121,8 +130,8 @@ def check_record(directory, data, context):
             or data.get('production_admitted') is not False or any(name in data for name in forbidden)
             or data.get('source') != str(context.source) or data.get('source_hashes') != context.source_hashes
             or data.get('tools') != context.tools or data.get('engine_profile') != context.profile
-            or data.get('baseline') != p.engine_baseline(context.profile,'both') or data.get('adapter') != 'both'
-            or data.get('scope') != 'whole_board_unlocked_routing' or data.get('scoring_variant') is not None
+            or data.get('baseline') != p.engine_baseline(context.profile,context.adapter) or data.get('adapter') != context.adapter
+            or data.get('scope') != 'whole_board_unlocked_routing' or data.get('scoring_variant') != context.scoring_variant
             or data.get('budget_seconds') != context.seconds or data.get('cpu_budget_seconds') != context.seconds
             or data.get('schematic_parity') != 'checked by final native DRC'
             or encode(read_json(directory/SIDECAR)) != context._seal):

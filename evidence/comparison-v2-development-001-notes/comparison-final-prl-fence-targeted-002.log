@@ -1,0 +1,15 @@
+test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) ... 
+  test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) (late_tool_metadata_fault=True) ... FAIL
+
+======================================================================
+FAIL: test_final_comparison_tool_read_cannot_escape_prl_metadata_replay (tests.test_comparison_context.ComparisonContextControls.test_final_comparison_tool_read_cannot_escape_prl_metadata_replay) (late_tool_metadata_fault=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_context.py", line 349, in test_final_comparison_tool_read_cannot_escape_prl_metadata_replay
+    self.fail('Late tool changed owned PRL flags with unchanged bytes; '
+AssertionError: Late tool changed owned PRL flags with unchanged bytes; production final reader tail returned {'current': True, 'applied': False, 'comparison_route_policy': 'selected-native7-fixed-comparison-v1', 'production_admitted': False}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.162s
+
+FAILED (failures=1)
