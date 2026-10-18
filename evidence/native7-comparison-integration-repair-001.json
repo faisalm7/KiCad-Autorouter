@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "kind": "native7-comparison-integration-repair-v1",
+  "recorded_utc": "2026-10-18T18:47:17.017718+00:00",
+  "base_checkpoint": "2da0a8aabbc03d89ca5efa000052819fe4574428",
+  "source_files": {
+    "autorouter/review_export.py": "0d740bd75cac50a1a74da79abc23bd8ce57bbe1a931fe18022bfd2816556596d",
+    "tests/test_engine_fanout.py": "a22b06756ac8a052258593798cfc6f35a842ab18fc9abdaca26ec2f3967ce32a",
+    "tests/test_comparison_delivery.py": "5a3f903f0d4c13e0ba08471c83d97d6737702a5f45789935d973e54b6f340be8"
+  },
+  "accepted": false,
+  "production_admitted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "Native_executed": false,
+  "installed_runtime_changed": false,
+  "full171": {
+    "passed": false,
+    "tests": 2125,
+    "failures": 8,
+    "errors": 3,
+    "skips": 1,
+    "unittest_seconds": 344.104,
+    "external_wall_seconds": 345.36,
+    "external_CPU_seconds": 326.82,
+    "source_pins_stable": true,
+    "cleanup_complete": true
+  },
+  "cause": "Eight publication controls extracted the production stable closure but omitted its newly captured comparison_context default, so failed before intended readback. Three selected parity controls hit new unconditional receipt access before the existing early parity refusal.",
+  "fix": "Supply comparison_context=None in the shared fanout/optimizer AST fixture. In the two low-level export helpers preserve original ordinary Native dispatch and early parity semantics, using the existing lightweight comparison record refusal before it. Explicit comparison retains full caller review policy. Add direct copied-marked-report/no-context controls outside reserved paths.",
+  "targeted001": {
+    "tests": 67,
+    "passed": true,
+    "unittest_seconds": 45.186,
+    "external_wall_seconds": 45.45,
+    "external_CPU_seconds": 44.99,
+    "scope": "Before final small copied-marker refusal/test assertion"
+  },
+  "targeted002": {
+    "tests": 7,
+    "passed": true,
+    "unittest_seconds": 3.971,
+    "external_wall_seconds": 4.21,
+    "external_CPU_seconds": 4.01,
+    "scope": "Final direct-helper and selected-parity controls"
+  },
+  "independent_review": "Narrow AI source review with exact final pins; not Native or human PCB review.",
+  "next_gate": "Committed frozen source full172; fresh install003/runtime030 and actual Native controls only if integration passes. Installer002 protocol preserved unexecuted because source changed.",
+  "GUI": "Last action now reports actual locked Mac; earlier coordinate-only noWindowsAvailable retained.073prepared, no new unlock loop.",
+  "backup": "Essential source/proof Git checkpoint; later full raw still Mac-only outside010. No capacity change/restoration retry.",
+  "files": [
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/full171-command.log",
+      "bytes": 368586,
+      "sha256": "d80b08ebc6c970edcf1f2ae2d1263a836d94021bf09c1678e259ad784a388b6d"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/full171-execution.json",
+      "bytes": 1954,
+      "sha256": "cb49d756bc0c65dd93d505f14d414823a5cd22521103757770b8fc946e81f350"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/full171-protocol.json",
+      "bytes": 36940,
+      "sha256": "91764675cf23eff80ead872835d8775b9c421f35d2d92a64509f2483871b3757"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/full171-time.log",
+      "bytes": 758,
+      "sha256": "632a5f719d40d8742ebed277853e1b0cf587bfc68a5391be990b39cb2e386f6e"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/full171-controller.py",
+      "bytes": 2524,
+      "sha256": "19a85743d6d54271dc1a7aa95fd1f8e1f1420300d52f659a0242fd849c11a4c0"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/full-suite-discovery.py",
+      "bytes": 363,
+      "sha256": "fa41a94d258e17a63272c2e3af2c58d7808b34240d6786356b9156e231d1b815"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/targeted001-stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/targeted001-stderr-time.log",
+      "bytes": 922,
+      "sha256": "01ece9a43a07d2a4068ebfd88309a85e3a997de28d6941764bb45a05244cc2b2"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/targeted002-stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/targeted002-stderr-time.log",
+      "bytes": 858,
+      "sha256": "bb5f4c9f686c7ba92863506b6b4b3dc6b6bb105d79b35b4706fbceffd70bb6e4"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/AI-repair-review.json",
+      "bytes": 6613,
+      "sha256": "432664e310c1da8ba90e98b549b70ce14ef5384ecc7f0686bcc63a3b63b1d487"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/GUI073-current-access.json",
+      "bytes": 728,
+      "sha256": "b7111aa18d9ecde6c11e0fa06fd15c61fab4e40f57c499ef74000df2b1cfd169"
+    },
+    {
+      "path": "evidence/native7-comparison-integration-repair-001-notes/install002-not-executed.json",
+      "bytes": 461,
+      "sha256": "639ad465beaad21c9b3dffa06f6fef46f3585de6159b2456dde66612dc1d3231"
+    }
+  ]
+}

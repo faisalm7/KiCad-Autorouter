@@ -156,6 +156,11 @@ class ComparisonDeliveryControls(unittest.TestCase):
 
     def test_direct_helpers_require_the_same_context_and_no_alternate_contract(self):
         review=self.prepare(render=True);binding,report=e.bind(self.choice,**self.ctx)
+        # Copied marked reports must refuse even outside the reserved directory,
+        # before a low-level helper needs a complete ordinary binding.
+        for call in (lambda:e.check_class_evidence(self.root/'ordinary',{}, {},report),
+                     lambda:e.check_stage(self.root/'ordinary',{}, {},report,None,None,None)):
+            with self.assertRaisesRegex(p.Rejected,'explicit caller context'):call()
         for call in (lambda:view.check_experimental_preview(self.review,review['preview']),
                      lambda:e.lineage(binding,report),
                      lambda:e.check_class_evidence(self.output/'validation',{},binding,report),

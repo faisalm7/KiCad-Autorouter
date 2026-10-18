@@ -157,7 +157,10 @@ def check_class_evidence(folder,data,binding,report, *, native_toolchain=None, e
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
     cmp.delivery_path(Path(folder).parent,comparison_context,'export')
     h.check_delivery_context(data,**ctx);h.check_delivery_context(binding,**ctx)
-    h.review_policy(report,Path(binding['receipt']).parent,**ctx)
+    if comparison_context is not None:h.review_policy(report,Path(binding['receipt']).parent,**ctx)
+    else:
+        cmp.check_record(folder,report,None)
+        p.check_experimental_route(report,native_toolchain,experimental_schematic_parity)
     from . import schematic_class_evidence as classes
     if classes.present(folder,data,'task'):
         raise p.Rejected('unexpected task class proof in fresh export')
@@ -187,7 +190,10 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
     cmp.delivery_path(Path(folder).parent,comparison_context,'export')
     h.check_delivery_context(data,**ctx)
     h.check_delivery_context(binding,**ctx)
-    h.review_policy(report,Path(binding['receipt']).parent,**ctx)
+    if comparison_context is not None:h.review_policy(report,Path(binding['receipt']).parent,**ctx)
+    else:
+        cmp.check_record(folder,report,None)
+        p.check_experimental_route(report,native_toolchain,experimental_schematic_parity)
     if (native_toolchain is not None or comparison_context is not None) and (basis is not None or contract is not None or layers is not None):
         raise p.Rejected('experimental export cannot use strategy or layer context')
     if report.get('scope')=='selected_nets' and data.get('schematic_parity')!=report.get('schematic_parity'):
