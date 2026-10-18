@@ -1,0 +1,988 @@
+{
+  "JVM_executed": false,
+  "admission": false,
+  "cleanup": [
+    {
+      "active_store_absence_observed": true,
+      "name": "kicad-native-slice-46e5407306dc4169b3ac913d91a205b4",
+      "persistent_store_absence_observed": true,
+      "query_error_type": null,
+      "remove_completed": true
+    },
+    {
+      "active_store_absence_observed": true,
+      "name": "kicad-native-slice-64a70006d31744bead98e5e09ada2bc1",
+      "persistent_store_absence_observed": true,
+      "query_error_type": null,
+      "remove_completed": true
+    }
+  ],
+  "cleanup_complete": true,
+  "costs": {
+    "CPU_scope": "Not measured. Provider billable milliseconds are not CPU time.",
+    "artifact_API_total_count": 0,
+    "artifact_upload_requested": false,
+    "cache_upload_requested": false,
+    "gate_child_wall_seconds": 3.6916075,
+    "invoice_or_quota_change_independently_verified": false,
+    "job_wall_seconds": 29.0,
+    "mock_child_wall_seconds": 0.8701791,
+    "provider_reported_billable": {
+      "UBUNTU": {
+        "job_runs": [
+          {
+            "duration_ms": 0,
+            "job_id": 117564660720
+          }
+        ],
+        "jobs": 1,
+        "total_ms": 0
+      },
+      "WINDOWS": {
+        "job_runs": [
+          {
+            "duration_ms": 0,
+            "job_id": 117564660146
+          },
+          {
+            "duration_ms": 0,
+            "job_id": 117564660776
+          },
+          {
+            "duration_ms": 0,
+            "job_id": 117564660952
+          }
+        ],
+        "jobs": 3,
+        "total_ms": 0
+      }
+    },
+    "script_wall_seconds": 6.8063175,
+    "storage_scope": "Artifacts API returns zero artifacts; the selected workflow requests no artifact/cache upload. No independent cache-inventory query was made by curator.",
+    "whole_CPU_seconds": null,
+    "workflow_run_duration_ms": 33000,
+    "workflow_wall_seconds": 33.0
+  },
+  "curation_actions": {
+    "curation_CPU_seconds": null,
+    "curation_cost_scope": "Curation CPU and complete tool/model cost were not instrumented; Windows measurements above come only from the retained actual run.",
+    "scope": "Local reading, JSON/base64/hash binding verification and curation only; no new Windows/CI/Native/JVM/test/installer/download/network execution, source edit or delegation."
+  },
+  "diagnostic_completed": true,
+  "gate": {
+    "cleanup_complete": true,
+    "exit_code": 1,
+    "original_rule_refusal": {
+      "count": 1,
+      "expected_direction": "Inbound",
+      "kind": "owned-live-rule-rejected",
+      "name": "kicad-native-slice-46e5407306dc4169b3ac913d91a205b4",
+      "properties": {
+        "Action": {
+          "items": [
+            "Block"
+          ],
+          "text": "Block",
+          "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Action"
+        },
+        "Direction": {
+          "items": [
+            "Inbound"
+          ],
+          "text": "Inbound",
+          "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Direction"
+        },
+        "Enabled": {
+          "items": [
+            "True"
+          ],
+          "text": "True",
+          "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Enabled"
+        },
+        "EnforcementStatus": {
+          "items": [
+            "ProfileInactive",
+            "Enforced"
+          ],
+          "text": "ProfileInactive Enforced",
+          "type": "System.Object[]"
+        },
+        "PrimaryStatus": {
+          "items": [
+            "OK"
+          ],
+          "text": "OK",
+          "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.PrimaryStatus"
+        },
+        "Profile": {
+          "items": [
+            "Any"
+          ],
+          "text": "Any",
+          "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Profile"
+        }
+      }
+    },
+    "reason": "exited",
+    "scope": "Original scalar Full guard still refuses at first inbound rule. Diagnostic collection reads both exact owned rules, all six filter groups, three profiles and active interface; it does not grant admission.",
+    "stderr": {
+      "bytes": 11382,
+      "retained_bytes": 11382,
+      "sha256": "c2e351c6d4f5eba911ebcb58d1bc844debe9ae226b774827fcb4ee6e74ef8153",
+      "truncated": false
+    },
+    "stdout": {
+      "bytes": 0,
+      "retained_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "truncated": false
+    },
+    "typed_diagnostic": {
+      "active_interfaces": {
+        "observed_count_at_least": 1,
+        "rows": [
+          {
+            "IPv4Connectivity": {
+              "items": [
+                {
+                  "enum_numeric": "4",
+                  "text": "Internet",
+                  "text_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetConnectionProfile.IPv4Connectivity"
+                }
+              ],
+              "items_truncated": false,
+              "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetConnectionProfile.IPv4Connectivity"
+            },
+            "IPv6Connectivity": {
+              "items": [
+                {
+                  "enum_numeric": "1",
+                  "text": "NoTraffic",
+                  "text_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetConnectionProfile.IPv6Connectivity"
+                }
+              ],
+              "items_truncated": false,
+              "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetConnectionProfile.IPv6Connectivity"
+            },
+            "InterfaceAlias": {
+              "items": [
+                {
+                  "text": "Ethernet 3",
+                  "text_truncated": false,
+                  "type": "System.String"
+                }
+              ],
+              "items_truncated": false,
+              "type": "System.String"
+            },
+            "InterfaceIndex": {
+              "items": [
+                {
+                  "integer_numeric": "14",
+                  "text": "14",
+                  "text_truncated": false,
+                  "type": "System.UInt32"
+                }
+              ],
+              "items_truncated": false,
+              "type": "System.UInt32"
+            },
+            "NetworkCategory": {
+              "items": [
+                {
+                  "enum_numeric": "0",
+                  "text": "Public",
+                  "text_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetConnectionProfile.NetworkCategory"
+                }
+              ],
+              "items_truncated": false,
+              "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetConnectionProfile.NetworkCategory"
+            }
+          }
+        ],
+        "rows_truncated": false
+      },
+      "expected_profile_names": [
+        "Domain",
+        "Private",
+        "Public"
+      ],
+      "kind": "owned-live-firewall-diagnostic",
+      "non_admitting": true,
+      "profiles": {
+        "observed_count_at_least": 3,
+        "rows": [
+          {
+            "Enabled": {
+              "items": [
+                {
+                  "enum_numeric": "1",
+                  "text": "True",
+                  "text_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.GpoBoolean"
+                }
+              ],
+              "items_truncated": false,
+              "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.GpoBoolean"
+            },
+            "Name": {
+              "items": [
+                {
+                  "text": "Domain",
+                  "text_truncated": false,
+                  "type": "System.String"
+                }
+              ],
+              "items_truncated": false,
+              "type": "System.String"
+            }
+          },
+          {
+            "Enabled": {
+              "items": [
+                {
+                  "enum_numeric": "1",
+                  "text": "True",
+                  "text_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.GpoBoolean"
+                }
+              ],
+              "items_truncated": false,
+              "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.GpoBoolean"
+            },
+            "Name": {
+              "items": [
+                {
+                  "text": "Private",
+                  "text_truncated": false,
+                  "type": "System.String"
+                }
+              ],
+              "items_truncated": false,
+              "type": "System.String"
+            }
+          },
+          {
+            "Enabled": {
+              "items": [
+                {
+                  "enum_numeric": "1",
+                  "text": "True",
+                  "text_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.GpoBoolean"
+                }
+              ],
+              "items_truncated": false,
+              "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.GpoBoolean"
+            },
+            "Name": {
+              "items": [
+                {
+                  "text": "Public",
+                  "text_truncated": false,
+                  "type": "System.String"
+                }
+              ],
+              "items_truncated": false,
+              "type": "System.String"
+            }
+          }
+        ],
+        "rows_truncated": false
+      },
+      "rules": [
+        {
+          "expected_direction": "Inbound",
+          "filters": {
+            "address": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "LocalAddress": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  },
+                  "RemoteAddress": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "application": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "Package": {
+                    "items": [],
+                    "items_truncated": false,
+                    "type": null
+                  },
+                  "Program": {
+                    "items": [
+                      {
+                        "text": "C:\\Windows\\System32\\cmd.exe",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "interface": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "InterfaceAlias": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "interface_type": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "InterfaceType": {
+                    "items": [
+                      {
+                        "enum_numeric": "0",
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.InterfaceType"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.InterfaceType"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "port": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "LocalPort": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  },
+                  "Protocol": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  },
+                  "RemotePort": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "service": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "Service": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            }
+          },
+          "name": "kicad-native-slice-46e5407306dc4169b3ac913d91a205b4",
+          "rule": {
+            "observed_count_at_least": 1,
+            "rows": [
+              {
+                "Action": {
+                  "items": [
+                    {
+                      "enum_numeric": "4",
+                      "text": "Block",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Action"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Action"
+                },
+                "Direction": {
+                  "items": [
+                    {
+                      "enum_numeric": "1",
+                      "text": "Inbound",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Direction"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Direction"
+                },
+                "Enabled": {
+                  "items": [
+                    {
+                      "enum_numeric": "1",
+                      "text": "True",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Enabled"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Enabled"
+                },
+                "EnforcementStatus": {
+                  "items": [
+                    {
+                      "text": "ProfileInactive",
+                      "text_truncated": false,
+                      "type": "System.String"
+                    },
+                    {
+                      "text": "Enforced",
+                      "text_truncated": false,
+                      "type": "System.String"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "System.Object[]"
+                },
+                "PrimaryStatus": {
+                  "items": [
+                    {
+                      "enum_numeric": "1",
+                      "text": "OK",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.PrimaryStatus"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.PrimaryStatus"
+                },
+                "Profile": {
+                  "items": [
+                    {
+                      "enum_numeric": "0",
+                      "text": "Any",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Profile"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Profile"
+                }
+              }
+            ],
+            "rows_truncated": false
+          }
+        },
+        {
+          "expected_direction": "Outbound",
+          "filters": {
+            "address": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "LocalAddress": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  },
+                  "RemoteAddress": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "application": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "Package": {
+                    "items": [],
+                    "items_truncated": false,
+                    "type": null
+                  },
+                  "Program": {
+                    "items": [
+                      {
+                        "text": "C:\\Windows\\System32\\cmd.exe",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "interface": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "InterfaceAlias": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "interface_type": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "InterfaceType": {
+                    "items": [
+                      {
+                        "enum_numeric": "0",
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.InterfaceType"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.InterfaceType"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "port": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "LocalPort": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  },
+                  "Protocol": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  },
+                  "RemotePort": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            },
+            "service": {
+              "observed_count_at_least": 1,
+              "rows": [
+                {
+                  "Service": {
+                    "items": [
+                      {
+                        "text": "Any",
+                        "text_truncated": false,
+                        "type": "System.String"
+                      }
+                    ],
+                    "items_truncated": false,
+                    "type": "System.String"
+                  }
+                }
+              ],
+              "rows_truncated": false
+            }
+          },
+          "name": "kicad-native-slice-64a70006d31744bead98e5e09ada2bc1",
+          "rule": {
+            "observed_count_at_least": 1,
+            "rows": [
+              {
+                "Action": {
+                  "items": [
+                    {
+                      "enum_numeric": "4",
+                      "text": "Block",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Action"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Action"
+                },
+                "Direction": {
+                  "items": [
+                    {
+                      "enum_numeric": "2",
+                      "text": "Outbound",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Direction"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Direction"
+                },
+                "Enabled": {
+                  "items": [
+                    {
+                      "enum_numeric": "1",
+                      "text": "True",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Enabled"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Enabled"
+                },
+                "EnforcementStatus": {
+                  "items": [
+                    {
+                      "text": "ProfileInactive",
+                      "text_truncated": false,
+                      "type": "System.String"
+                    },
+                    {
+                      "text": "Enforced",
+                      "text_truncated": false,
+                      "type": "System.String"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "System.Object[]"
+                },
+                "PrimaryStatus": {
+                  "items": [
+                    {
+                      "enum_numeric": "1",
+                      "text": "OK",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.PrimaryStatus"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.PrimaryStatus"
+                },
+                "Profile": {
+                  "items": [
+                    {
+                      "enum_numeric": "0",
+                      "text": "Any",
+                      "text_truncated": false,
+                      "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Profile"
+                    }
+                  ],
+                  "items_truncated": false,
+                  "type": "Microsoft.PowerShell.Cmdletization.GeneratedTypes.NetSecurity.Profile"
+                }
+              }
+            ],
+            "rows_truncated": false
+          }
+        }
+      ]
+    },
+    "typed_status_summary": [
+      {
+        "application_Package_items": [],
+        "application_Package_type": null,
+        "direction": "Inbound",
+        "element_types": [
+          "System.String",
+          "System.String"
+        ],
+        "items": [
+          "ProfileInactive",
+          "Enforced"
+        ],
+        "name": "kicad-native-slice-46e5407306dc4169b3ac913d91a205b4",
+        "numeric_enforcement_values_observed": false,
+        "outer_type": "System.Object[]"
+      },
+      {
+        "application_Package_items": [],
+        "application_Package_type": null,
+        "direction": "Outbound",
+        "element_types": [
+          "System.String",
+          "System.String"
+        ],
+        "items": [
+          "ProfileInactive",
+          "Enforced"
+        ],
+        "name": "kicad-native-slice-64a70006d31744bead98e5e09ada2bc1",
+        "numeric_enforcement_values_observed": false,
+        "outer_type": "System.Object[]"
+      }
+    ],
+    "wall_seconds": 3.6916075
+  },
+  "host": {
+    "OS": "Microsoft Windows Server 2022 10.0.20348 Datacenter",
+    "image": "windows-2022",
+    "image_version": "20261012.333.1",
+    "source": "job.log lines 11-20; no fresh host query by curator"
+  },
+  "interpretation": {
+    "decision": "Keep the original guard and Native/JVM admission deferred. Successful diagnostic collection does not establish Windows routing support.",
+    "established": [
+      "The finite hosted diagnostic and mocked PowerShell controls completed; the actual gate exited 1 and emitted exactly one owned-rule refusal packet and one non-admitting snapshot.",
+      "Both exact owned rule/filter projections are now observed instead of stopping evidence collection at the first inbound predicate.",
+      "Both rules were removed, with exact-name absence observed in ActiveStore and PersistentStore; scratch removal is reported."
+    ],
+    "unresolved": [
+      "EnforcementStatus is exposed as System.Object[] containing System.String elements ProfileInactive and Enforced; no numeric enforcement enum values were observed.",
+      "Both application filters expose Package as null with empty items. This is preserved as observed and is not labelled Any or equivalent applicability.",
+      "No live transport allow/deny controls or profile-transition coverage were performed; all-network denial equivalence remains unqualified.",
+      "KiCad Native/JVM routing, validation, cancellation, export and Windows product integration remain unqualified."
+    ]
+  },
+  "job": {
+    "completed_at": "2026-10-18T02:26:11Z",
+    "conclusion": "success",
+    "id": 117564660146,
+    "labels": [
+      "windows-2022"
+    ],
+    "name": "windows-isolation",
+    "started_at": "2026-10-18T02:25:42Z",
+    "status": "completed"
+  },
+  "kind": "actual-Windows006-nonadmitting-isolation-diagnostic",
+  "limits": {
+    "CIM_query_seconds": 5,
+    "gate_seconds": 12,
+    "log_enforcement": "Polling plus bounded readback, not an OS disk quota",
+    "mock_seconds": 20,
+    "script_admission_seconds": 110,
+    "stream_bytes": 16384,
+    "workflow_minutes": 3
+  },
+  "mocked_controls": {
+    "cleanup_complete": true,
+    "exit_code": 0,
+    "reason": "exited",
+    "scope": "Actual PowerShell execution of mocked script structure/refusal controls; not live transport-denial or Native routing controls.",
+    "stderr": {
+      "bytes": 0,
+      "retained_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "truncated": false
+    },
+    "stdout": {
+      "bytes": 104,
+      "retained_bytes": 104,
+      "sha256": "52a720cc432468b46479d3f3828cc13f33e55f57f7c2be55672dcfb50cc248ce",
+      "truncated": false
+    },
+    "stdout_text": "Mocked firewall diagnostic structure/refusal controls passed; no Windows network-denial qualification.\r\n",
+    "wall_seconds": 0.8701791
+  },
+  "native_executed": false,
+  "nonclaims": [
+    "No Windows admission or product support",
+    "No proven all-network denial or future-profile coverage",
+    "No KiCad/JRE/JAR acquisition or Native/JVM run in this isolation mode",
+    "No routing/completion/quality/speed gain",
+    "No GUI/human PCB/electrical/physical qualification",
+    "No invoice or quota-change verification"
+  ],
+  "other_jobs": {
+    "controls": "skipped",
+    "windows-metadata": "skipped",
+    "windows-native": "skipped"
+  },
+  "powershell_sha256": "bfb46af89433268872ddb43d1ca7a3f433452ee91ed356a9786940f90118e285",
+  "product_windows_support": false,
+  "public_safety_audit": {
+    "curation_policy": "Whitelist owned diagnostic data, public run/source identifiers, signed system-executable identity, hashes and measurements. Do not copy full API actor/committer records, contact details, credential configuration paths or the raw checkout transcript.",
+    "full_API_identity_or_contact_objects_copied": false,
+    "private_board_or_binary_payload_copied": false,
+    "raw_log_credential_markers": "Token and Authorization values in reviewed raw checkout lines are masked with ***; no unmasked credential pattern found by bounded scan. Raw log is preserved unmodified and is not copied into this public record."
+  },
+  "raw_evidence": {
+    "all_four_embedded_streams_strict_base64_decoded_and_hash_matched": true,
+    "diagnostic_packet_exactly_matches_retained_diagnostic": true,
+    "files": {
+      "artifacts.json": {
+        "bytes": 32,
+        "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c"
+      },
+      "firewall-diagnostic.json": {
+        "bytes": 19606,
+        "sha256": "4352c41a8b0a97fa082c77c88d8c90f90edf57941309e7e03608313ce0609bb4"
+      },
+      "job.log": {
+        "bytes": 59317,
+        "sha256": "b3eda1284c65f9b733437c5c4868d1eb7d645159811e4e7db8fbc1f785d2c29a"
+      },
+      "jobs.json": {
+        "bytes": 4645,
+        "sha256": "497d962a066f8a192248619bffd37757cb7464aeeb7360c385a03b3b0d68709a"
+      },
+      "record.json": {
+        "bytes": 18937,
+        "sha256": "d0720e6e457fff461a4bc87c5288761c37ab6239c92bf6b83df328146a27a92d"
+      },
+      "run.json": {
+        "bytes": 12583,
+        "sha256": "34e9ed5db3e31fe6cea56052a4604a2a8c326c51c86b5141fb2e98fe5dee7b60"
+      },
+      "timing.json": {
+        "bytes": 291,
+        "sha256": "d5e3ee6566e274bfa3c159a940d7ab52779d521552d0d4425d25ad12a0fc730e"
+      }
+    },
+    "raw_files_modified_by_curation": false,
+    "record_packet_exactly_matches_retained_record": true,
+    "record_packet_job_log_line": 243,
+    "retention": "Raw API responses, log and extracted packets remain ignored on this Mac. The public workflow log is provider-retained with provider retention limits; this curation does not create or verify an independent raw-evidence backup.",
+    "root": ".runs/windows-isolation006-actual-001"
+  },
+  "run": {
+    "conclusion": "success",
+    "created_at": "2026-10-18T02:25:39Z",
+    "event": "workflow_dispatch",
+    "head_branch": "rebuild/local-20261010-015447",
+    "head_sha": "946d53d3c9f567b69a1a7b938c45aaf88b395038",
+    "html_url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39090040127",
+    "id": 39090040127,
+    "run_started_at": "2026-10-18T02:25:39Z",
+    "status": "completed",
+    "updated_at": "2026-10-18T02:26:12Z"
+  },
+  "schema": 1,
+  "scratch_removed": true,
+  "source_sha256": {
+    ".github/workflows/manual-python-controls.yml": {
+      "exact_or_CRLF_conversion_matches": true,
+      "local_bytes_sha256": "ae54013b6863cbc0018254f15c196a0a6d50dbca49f69866ed3f13f5e574a396",
+      "recorded_Windows_bytes_sha256": "ae54013b6863cbc0018254f15c196a0a6d50dbca49f69866ed3f13f5e574a396"
+    },
+    "scripts/windows_native_slice/firewall_gate.ps1": {
+      "exact_or_CRLF_conversion_matches": true,
+      "local_bytes_sha256": "476f30f1819b52a880702dd9e3634e4e81dedfb7bea248ac2593e29034adce60",
+      "recorded_Windows_bytes_sha256": "4b71b2571e9d80a331ccc54d1d6662da65a24d1775cd0aaebc9250e84c3e043f"
+    },
+    "scripts/windows_native_slice/isolation_diagnostic.ps1": {
+      "exact_or_CRLF_conversion_matches": true,
+      "local_bytes_sha256": "4a442b3ad6c33a32194522298670727c113e6d3e4384d03c41d5e93075a07fdd",
+      "recorded_Windows_bytes_sha256": "1464b9cc96c51072490b4ce503eb4d2359cd12e286d87634a4d8e7ff11746a65"
+    },
+    "scripts/windows_native_slice/test_firewall_gate.ps1": {
+      "exact_or_CRLF_conversion_matches": true,
+      "local_bytes_sha256": "c139a007e67fd3538d21791a6a8884e68bf1b9391e1824527c76716c432c49f6",
+      "recorded_Windows_bytes_sha256": "8411555c22c67ad193115564f6ffa7f841dcbd4f638291ccc19f871e277018b6"
+    }
+  },
+  "status": "diagnostic_completed_original_live_gate_refused",
+  "system_executable": {
+    "executed": false,
+    "path": "C:\\Windows\\System32\\cmd.exe",
+    "sha256": "90d120880614e1e2a94067baad1454b09e2be7a9da51b71e33c247077d9f9538",
+    "signature_status": "Valid",
+    "signer_subject": "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+  },
+  "system_executable_executed": false
+}
