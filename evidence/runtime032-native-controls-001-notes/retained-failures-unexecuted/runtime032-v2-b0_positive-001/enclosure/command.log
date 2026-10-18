@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/.runs/qualify-comparison-v2-delivery-001.py", line 232, in <module>
+    raise SystemExit(execute(args.protocol, args.protocol_sha256))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/.runs/qualify-comparison-v2-delivery-001.py", line 49, in execute
+    protocol = h.real_path(protocol); plan = f.read_json(protocol)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/autorouter/handoff.py", line 33, in real_path
+    return path.resolve(strict=existing)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 993, in resolve
+    s = os.path.realpath(self, strict=strict)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 416, in realpath
+  File "<frozen posixpath>", line 451, in _joinrealpath
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-b0_positive-001/enclosure/.runs'

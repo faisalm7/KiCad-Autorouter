@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "kind": "runtime032-v2-controller-preflight-independent-source-review",
+  "recorded_utc": "2026-10-18T20:17:04.618678+00:00",
+  "reviewer": "independent AI subagent, not human PCB review",
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local",
+  "scope": "Read-only prospective controller/plan/helper consistency. No helpers, tests, Native, protocol freezing, Git, CI, source edits or delegation executed. Full175 was lead-owned/active. Runtime032 installation and controls were not assumed to exist.",
+  "source_pins": {
+    ".runs/enclose-comparison-v2-delivery-001.py": {
+      "sha256": "e1587a29bdaf476d39e482e59a143eed7c4e192fbdfdfbd556a19ff9b55921f0",
+      "bytes": 3968
+    },
+    ".runs/enclose-native7-independent-control-003.py": {
+      "sha256": "b4d7b2b7a2b8c0fcb7dac334b1f8b6c6b37d3f1a466df3d5935677e378b0d4aa",
+      "bytes": 4030
+    },
+    ".runs/prepare-runtime032-v2-controls-001.py": {
+      "sha256": "6b86a071888f72d88a26a493a0ef554e9e745c709619a57a5a4a24b437e315b2",
+      "bytes": 2514
+    },
+    ".runs/freeze-runtime032-v2-controls-001.py": {
+      "sha256": "37cf419dc4cd82ad88639171a2b4fa4633177325b7f39bbf0359f9d00ed2607f",
+      "bytes": 5812
+    },
+    ".runs/qualify-comparison-v2-delivery-001.py": {
+      "sha256": "de6611be6fb655329ce831ab6b8a0d6eae2b8d0348ff76ebae90fb79a8fcef75",
+      "bytes": 17733
+    },
+    ".runs/qualify-comparison-v2-route-child-001.py": {
+      "sha256": "cd681fa11bff8d8c09114f6ba8afe6dd4b07bedf35f668d5bb419b996b98450e",
+      "bytes": 7230
+    },
+    ".runs/cancel-comparison-v2-engine-001.py": {
+      "sha256": "39846295575c7549de465110df30c75a10b0aa45550d4e86c97e164eb4205758",
+      "bytes": 11171
+    },
+    ".runs/qualify-comparison-v2-native-invalid-001.py": {
+      "sha256": "2556c0b123a94641c68afb8d8769827030b00bf3d1f1fadbe6eba19861344326",
+      "bytes": 22257
+    },
+    ".runs/enclose-runtime030-independent-control-002.py": {
+      "sha256": "663e1eee49a7de064a9304fcf363266a960b881879141ceb9c856cf29c7d5af8",
+      "bytes": 3874
+    },
+    "scripts/qualify_comparison_portfolio.py": {
+      "sha256": "a8e0b58c63e98a92ca4b8a86941b5833c61bb81561870d37061e307872e7a414",
+      "bytes": 16435
+    },
+    "scripts/experiment_portfolio.py": {
+      "sha256": "e5f7ddca400f2488a990159c24221415f0e87ae793e5c8d1b032f7c93eab220d",
+      "bytes": 72071
+    },
+    "autorouter/comparison.py": {
+      "sha256": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+      "bytes": 10441
+    },
+    "autorouter/floor_route.py": {
+      "sha256": "a101429cfee4f82602196c88941efccaa6bea012f163e608eec34038867e9b25",
+      "bytes": 35882
+    },
+    "autorouter/runner.py": {
+      "sha256": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "bytes": 22644
+    }
+  },
+  "disposition": "Generic003 and prospective freeze helper now close the accepted preflight blockers at source level. Await lead review/freeze and actual qualification; no Native or comparative result claimed.",
+  "findings": [
+    {
+      "id": "completed-and-cancel-old-enclosure-pin",
+      "severity": "pre-execution blocker",
+      "status": "Resolved prospectively in updated freeze helper; no protocol created/executed.",
+      "paths": [
+        ".runs/freeze-runtime032-v2-controls-001.py:21",
+        ".runs/freeze-runtime032-v2-controls-001.py:26",
+        ".runs/enclose-native7-independent-control-003.py:17"
+      ],
+      "fact": "The prospective completed-standard and engine-cancel plans set enclosure_sha256 from enclose-runtime030-independent-control-002.py. Launching requested new003 with either plan fails003 exact self-hash assertion before Native. Old002 remains a different retained helper; this is not an algorithm or Native result.",
+      "minimal_action": "Before protocol creation, bind the actual intended003 enclosure SHA in both prospective plans and retain the old002 bytes unchanged. If deliberately using002 instead, command/protocol must both name that actual version and cannot claim003 custody."
+    },
+    {
+      "id": "outer-portfolio-sibling-and-child-receipt-custody",
+      "severity": "qualification custody gap",
+      "status": "Resolved prospectively for generic003 sibling/top-child/source byte custody; separate positive001 remains unchanged as explicitly instructed.",
+      "paths": [
+        ".runs/enclose-native7-independent-control-003.py:27",
+        ".runs/enclose-native7-independent-control-003.py:28",
+        ".runs/enclose-native7-independent-control-003.py:32",
+        "scripts/qualify_comparison_portfolio.py:96",
+        "scripts/qualify_comparison_portfolio.py:126",
+        "autorouter/floor_route.py:113"
+      ],
+      "fact": "Generic003 snapshots/rechecks only plan.output with evidence_inventory. The portfolio output and three scored trial parents are siblings outside that directory, so its actual Native/negative/material proof is absent from this independent outer snapshot. The child does bind those roots in its own completed_evidence, which prevents describing this as absent child validation. In addition evidence_inventory excludes its root result.json;003 stores child_sha256 once but fresh() does not rehash that receipt. Thus later child-result or referenced-sibling byte changes after initial capture are not caught by the outer final publication guard. Positive enclosure001 shares the top-child-receipt digest omission.",
+      "minimal_action": "For the external portfolio branch, derive the exact allowed portfolio sibling and three fixed score trial-parent paths from the frozen caller plan/constants, not mutable child JSON; snapshot and compare them throughout outer freshness. Retain/replay the top child result SHA explicitly in both outer helpers. Keep scope exact and existing inner semantic/full-PRL guards mandatory; no new acceptance framework or ordinary admission."
+    }
+  ],
+  "verified_field_consistency": [
+    "Positive plan generation matches delivery helper v2 policy/kind/case/output tuple: b0_positive standard/none/None; via_low_positive tuned/both/via_low.120 route,180 whole/176 worker/172 child,30-60 export and12 reserve match; source opens2,protected1,final Native[0,0,0,0], exact owned1007-transport PCB and copied fixture map/hash are present.",
+    "Preparation produces exactly the copied helper pins, runtime/source/manifest/tools and fixture fields consumed by freeze; requires full175 and installer005 successful receipts. Tool capture has a20s/1GiB/log128KiB pure worker and exact selected7/v2 pin assertions. Actual preparation costs are read from the new complete time log and charged with separately named4s planning reserve to each positive control.",
+    "Completed standard plan matches child completed mode/both/standard/None/route420/whole600 and controls_passed key. Actual completed Native negative is valid functional output, not routing completion. Generic helper correctly runs copied runtime child with no --runtime argument in this case.",
+    "Cancel parent kind matches actual-owned-comparison-v2-engine-cancellation-functional-control; parent230, both/tuned/via_low420, copied driver with --runtime, observer/child/protocol SHA and route_parent fields are all present. Child kind native7-comparison-v2-route-functional-v1, cancel mode,220 whole, same source/tools/runtime/version policies and child hash match driver assertions. Monitor remains joined/finite and cancelled actual engine argv/profile/journal binding remains mandatory.",
+    "The invalid helper requires separately frozen completed via_low positive result/route/export pins, so no invalid-control plan is expected before that prerequisite exists. It keeps exact positive-derived caller authority, original shorts/protected-width+1nm controls and central stale/original checks.",
+    "Generic003 external selector admits only the exact administration_root/scripts/qualify_comparison_portfolio.py pathname, not any external controller. That controller still requires exact canonical path and actual committed controller/portfolio/quality bytes via InstalledContext before Native."
+  ],
+  "resource_and_claim_limits": [
+    "Outer runner max_workdir_bytes=2MiB covers its enclosure cwd/log files only, not the runtime output or portfolio sibling roots. It must not be described as an aggregate routing/evidence disk cap. Existing pipeline per-worker512MiB workdir polling, active-root storage/headroom checks and bounded semantic inventories remain independent safeguards; this review did not execute or prove their prospective combined peak.",
+    "Generic003 caps whole wall at runner level and checks full waited CPU on publication. It does not claim total-CPU preemption. External complete-exit timing, memory/process cleanup/log bounds and existing shared Native-lane lock must remain in actual evidence.",
+    "Functional controls are not an equal-budget B0/B1/B2/C matrix. B0 uses stock adapter none within the shared source-bound fidelity pipeline. No GUI/default/ordinary product admission, superiority, human or physical/electrical claim follows."
+  ],
+  "review_execution": {
+    "tests": false,
+    "Native": false,
+    "GUI": false,
+    "CI": false,
+    "Git": false,
+    "source_edits": false,
+    "protocols_frozen": false,
+    "measured_review_cost": "No separate external review timer recorded; no benchmark cost inferred."
+  },
+  "pre_closure_review_sha256": "c853b663071a9cbae9c4b930de114459a07d42f56ded2d7d954e9888e6c844bc",
+  "prospective_closure": {
+    "recorded_utc": "2026-10-18T20:18:27.169286+00:00",
+    "authorization_scope": "Only generic003 and prospective freeze helper edited; no product/runtime/old helper changes.",
+    "final_source_pins": {
+      ".runs/enclose-native7-independent-control-003.py": {
+        "sha256": "d82f95a86717b8b9a1239d61df7e2ddb29fa98bd48d525ae02cd5bc82a56c55b",
+        "bytes": 5437,
+        "lines": 66,
+        "syntax": "ast.parse passed; target not imported/executed"
+      },
+      ".runs/freeze-runtime032-v2-controls-001.py": {
+        "sha256": "1446f097d274efa27e415dec589d81762abf75726811a32976aefbd27eb70fc7",
+        "bytes": 5806,
+        "lines": 27,
+        "syntax": "ast.parse passed; target not imported/executed"
+      }
+    },
+    "changes": [
+      "Both completed/cancel prospective plans now pin new generic003.",
+      "External portfolio requires exact frozen material_roots list derived from portfolio_output==output+\"-portfolio\" and the three fixed scored sibling names; all must initially be absent.",
+      "Outer captures/rechecks every derived sibling inventory, retaining null for missing failure roots, alongside delivery inventory.",
+      "Every generic003 case now independently replays the current child result digest, including initial absence; optional source/source_hashes are required together and checked before invocation and during freshness.",
+      "Outer receipt explicitly labels2MiB workdir bound as enclosure-log scope, with independent Native/sibling guards. Existing runner/caps/pass conditions/no-network/lane lock are unchanged."
+    ],
+    "external_protocol_material_roots": "[portfolio_output, portfolio_output+\"-01-via_default\", portfolio_output+\"-02-via_low\", portfolio_output+\"-03-via_high\"] in exact order; each is a direct runtime/.runs reserved sibling.",
+    "qualification": "Syntax only. No helper execution, tests, Native, installation, protocol freeze, Git or CI. Lead review/commit/build/freeze/execution remain required.",
+    "unmodified_positive_wrapper_limit": "The separate preparation-charged positive enclosure001 is unchanged as instructed, including the previously noted top-child-digest replay omission; this closure fixes generic003 only. Its child final semantic proof and later independent actual readback remain distinct."
+  }
+}

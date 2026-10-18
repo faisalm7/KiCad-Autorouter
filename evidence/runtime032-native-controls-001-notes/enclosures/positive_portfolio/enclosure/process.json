@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 181.23336449998897,
+  "cpu_seconds": 173.89241199999998,
+  "max_rss_bytes": 323780608,
+  "supervisor_cpu_seconds": 0.43863699999999994,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 323780608,
+  "sampled_peak_workdir_bytes": 216,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_comparison_portfolio.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-portfolio-positive-002/protocol.json",
+    "--protocol-sha256",
+    "684b0cad97fe7a5e8c1020a197bc1d6bb1fd9396e52be96aa11a7d2a3f4c67cb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-portfolio-positive-002/enclosure/command.log",
+  "log_bytes": 216,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-portfolio-positive-002/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 95221
+}

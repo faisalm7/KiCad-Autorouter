@@ -464,6 +464,7 @@ class ComparisonPortfolioAPITests(unittest.TestCase):
         self.output=self.runtime/'.runs/native7-comparison-portfolio-control';self.registry={}
         self.wall=self.cpu=0.;self.calls=[];self.readers=[];self.events=[];self.mode='positive'
         self.after_second=None;self.after_third=None;self.reader_error=None;self.read_cost=0.
+        self.reader_counts={};self.on_reader=None;self.after_summary=None
         self.summary_published=False;self.final_scores=set();self.metadata_dirty=False;self.late_metadata_fault=False
         changes=[patch.object(m.c,'ROOT',self.runtime),patch.object(m.c,'NATIVE_VERSION','10.0.7'),
             patch.object(m,'SCRIPT',self.admin/'scripts/experiment_portfolio.py'),
@@ -534,6 +535,9 @@ class ComparisonPortfolioAPITests(unittest.TestCase):
 
     def reader(self,receipt,context,negative):
         self.readers.append((negative,context));self.cpu+=self.read_cost
+        key=(negative,context.scoring_variant)
+        self.reader_counts[key]=self.reader_counts.get(key,0)+1
+        if self.on_reader:self.on_reader(negative,context,self.reader_counts[key])
         if self.reader_error:raise self.reader_error
         data=m.f.read_json(receipt);m.cmp.check_record(receipt.parent,data,context)
         if self.summary_published:self.final_scores.add(context.scoring_variant)
@@ -553,8 +557,12 @@ class ComparisonPortfolioAPITests(unittest.TestCase):
         save=m.p.save_json
         def published(path,data):
             result=save(path,data)
-            if Path(path)==self.output/'portfolio-summary.json' and data.get('comparison_eligible'):
+            if (Path(path)==self.output/'portfolio-summary.json'
+                    and data.get('status') in ('completed','no_valid_candidate')):
                 self.summary_published=True
+                if self.after_summary:
+                    callback,self.after_summary=self.after_summary,None
+                    callback()
             return result
         with patch.object(m.p,'save_json',side_effect=published):
             return m.experiment(self.output,installed_context=self.context,comparison_contexts=self.registry,
@@ -581,11 +589,65 @@ class ComparisonPortfolioAPITests(unittest.TestCase):
         self.assertTrue(result['all_variants_attempted'])
         self.assertTrue(all(row['validated_rejection'] and not row['eligible'] for row in result['trials']))
         self.assertTrue(all(negative for negative,_ in self.readers))
+        # Classification, initial row, pre-ranking and final private-row replay.
+        self.assertEqual(self.reader_counts,{(True,name):4 for name in m.VARIANTS})
+        self.assertEqual(self.events[-3:],['metadata']*3)
 
     def test_mixed_positive_negative_uses_same_live_context_on_late_replays(self):
         self.mode='mixed';result=self.run_portfolio();self.assertTrue(result['comparison_eligible'])
         self.assertTrue(result['trials'][1]['validated_rejection']);self.assertEqual(result['selected']['id'],'via_high')
-        self.assertGreater(len([x for x in self.readers if x[0]]),3)
+        self.assertEqual(self.reader_counts[(True,'via_low')],4)
+
+    def test_final_negative_reader_refusal_invalidates_retained_positive(self):
+        self.mode='mixed'
+        def fail(negative,context,count):
+            if negative and count==4:raise m.p.Rejected('final Native rejection readback refused')
+        self.on_reader=fail;result=self.run_portfolio()
+        self.assertEqual(result['status'],'invalidated');self.assertIsNone(result['selected'])
+        self.assertTrue(result['trials'][0]['eligible']);self.assertFalse(result['comparison_eligible'])
+        self.assertIn('final Native rejection readback refused',result['reason'])
+        self.assertTrue(list(self.output.glob('invalidated-portfolio-summary-*.json')))
+
+    def test_negative_final_publication_source_tamper_cannot_qualify(self):
+        self.mode='negative'
+        self.after_summary=lambda:self.board.with_suffix('.kicad_pro').write_bytes(b'{"changed":true}')
+        result=self.run_portfolio()
+        self.assertEqual(result['status'],'invalidated');self.assertIsNone(result['selected'])
+        self.assertFalse(result['comparison_eligible']);self.assertEqual(len(self.calls),3)
+
+    def test_later_negative_reader_cannot_tamper_already_replayed_material(self):
+        self.mode='negative'
+        def tamper(negative,context,count):
+            if negative and context.scoring_variant=='via_high' and count==4:
+                path=self.registry['via_default'].output/'result.json'
+                data=m.f.read_json(path);data['candidate_sha256']='c'*64;m.p.save_json(path,data)
+        self.on_reader=tamper;result=self.run_portfolio()
+        self.assertEqual(result['status'],'invalidated');self.assertIsNone(result['selected'])
+        self.assertFalse(result['comparison_eligible']);self.assertIn('final caller/evidence changed',result['reason'])
+
+    def test_cancel_during_final_negative_replay_is_terminal(self):
+        self.mode='negative'
+        def cancel(negative,context,count):
+            if negative and count==4:raise KeyboardInterrupt
+        self.on_reader=cancel;result=self.run_portfolio()
+        self.assertEqual(result['status'],'cancelled');self.assertIsNone(result['selected'])
+        self.assertFalse(result['comparison_eligible']);self.assertEqual(len(self.calls),3)
+        self.assertTrue(list(self.output.glob('invalidated-portfolio-summary-*.json')))
+        self.assertFalse(any((context.output.parent/'export').exists() for context in self.registry.values()))
+
+    def test_final_private_negative_replay_still_enforces_trial_cpu_cap(self):
+        self.mode='negative';self.read_cost=34.;result=self.run_portfolio()
+        self.assertEqual(result['status'],'invalidated');self.assertIsNone(result['selected'])
+        self.assertIn('diagnostic readbacks exceeded assigned',result['reason'])
+        self.assertGreaterEqual(result['total_cpu_seconds'],12.*3+34.*len(self.readers))
+
+    def test_final_metadata_cost_still_enforces_whole_cpu_cap(self):
+        from autorouter import local_settings as local
+        self.mode='negative'
+        def over_cap(packets,cli):self.cpu=421.
+        with patch.object(local,'check_final_events',side_effect=over_cap):result=self.run_portfolio()
+        self.assertEqual(result['status'],'budget_exceeded');self.assertIsNone(result['selected'])
+        self.assertFalse(result['comparison_eligible']);self.assertEqual(result['total_cpu_seconds'],421.)
 
     def test_cancel_after_incumbent_is_terminal_without_fallback(self):
         self.mode='cancelled';result=self.run_portfolio()
@@ -684,6 +746,24 @@ class ComparisonPortfolioAPITests(unittest.TestCase):
         with patch.object(m.c,'NATIVE_VERSION','10.0.0'),self.assertRaises(m.p.Rejected):self.context.check()
         object.__setattr__(self.context,'comparison_policy',None)
         with self.assertRaisesRegex(m.p.Rejected,'expectations changed'):self.context.check()
+
+
+class PortfolioControllerDiagnosticTests(unittest.TestCase):
+    def test_failed_method_is_rejected_before_valid_or_negative_outcome_dispatch(self):
+        from scripts import qualify_comparison_portfolio as controller
+        failed=dict(status='budget_exceeded',wall_seconds=358.1369,total_cpu_seconds=420.9365,
+            wall_budget_seconds=420,cpu_budget_seconds=420,comparison_eligible=False,selected=None)
+        with self.assertRaises(ValueError) as caught:controller.require_completed_portfolio(failed)
+        self.assertIn('portfolio budget_exceeded',str(caught.exception))
+        self.assertIn('CPU=420.9365s',str(caught.exception));self.assertIn('caps wall=420s CPU=420s',str(caught.exception))
+        self.assertNotIn('claims routing/delivery acceptance',str(caught.exception))
+        failed.update(status='invalidated',reason='late proof changed',comparison_eligible=True)
+        with self.assertRaisesRegex(ValueError,'invalidated.*late proof changed'):
+            controller.require_completed_portfolio(failed)
+        failed['status']='cancelled'
+        with self.assertRaises(KeyboardInterrupt):controller.require_completed_portfolio(failed)
+        for status in ('completed','no_valid_candidate'):
+            controller.require_completed_portfolio(dict(status=status))
 
 
 if __name__ == '__main__': unittest.main()

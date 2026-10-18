@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "kind": "portfolio-negative-budget-independent-source-and-recorded-result-review",
+  "recorded_utc": "2026-10-18T20:46:27.628284+00:00",
+  "reviewer": "independent AI subagent; no human review",
+  "disposition": "No remaining concrete blocker found in frozen external-administration-only fix. It removes duplicate API readbacks while retaining critical fences. Actual failed001 remains unqualified; future success/time savings are not established.",
+  "actual_failed_run": {
+    "protocol": {
+      "path": ".runs/runtime032-v2-portfolio-negative-001/protocol.json",
+      "sha256": "c94cbf65c52edd55a0d78c9a09d3e61b14e7a00239322899946df7e7ecc94b76",
+      "bytes": 18644
+    },
+    "enclosing_process": {
+      "path": ".runs/runtime032-v2-portfolio-negative-001/enclosure/process.json",
+      "sha256": "0911be4eec44e4a0ee51816f0b336195a319c846ba8f32c28ae679612af373b6",
+      "bytes": 2063
+    },
+    "enclosure_result": {
+      "path": ".runs/runtime032-v2-portfolio-negative-001/enclosure/result.json",
+      "sha256": "8307599840219e3eade7168eba305ca007caacf9ec20e728e6a323eec8ae5916",
+      "bytes": 92793
+    },
+    "complete_time_log": {
+      "path": ".runs/runtime032-v2-portfolio-negative-001-time.log",
+      "sha256": "7057fcdcc19d3e40bbb6bbd20297d97248bd707306b0f028dd72ca60ac984a20",
+      "bytes": 34
+    },
+    "child_result": {
+      "path": ".runs/runtime-directory-032/runtime/.runs/native7-comparison-v2-portfolio-negative-001/result.json",
+      "sha256": "f571ca4196cf190a7f2cee22185391d54a5e0230d4884572799fcabdb10e52e8",
+      "bytes": 105518
+    },
+    "portfolio_summary": {
+      "path": ".runs/runtime-directory-032/runtime/.runs/native7-comparison-v2-portfolio-negative-001-portfolio/portfolio-summary.json",
+      "sha256": "7660b2a090fb8061c938620557efb19e253ee55435f4370f0ca8f9b7f057da9e",
+      "bytes": 140494
+    },
+    "runtime_source_head": "b0d2e6f737a72ebc127f02f3861d191f01f8a2d9",
+    "runtime_manifest_sha256": "391c8ff33badbd762d3ae4af9757eaa9075ef42ce3b53865dfa0a193647ef2a0",
+    "actual_external_administration_head": "b0d2e6f737a72ebc127f02f3861d191f01f8a2d9",
+    "actual_old_portfolio_sha256": "e5f7ddca400f2488a990159c24221415f0e87ae793e5c8d1b032f7c93eab220d",
+    "actual_old_controller_sha256": "a8e0b58c63e98a92ca4b8a86941b5833c61bb81561870d37061e307872e7a414",
+    "portfolio_status": "budget_exceeded",
+    "portfolio_budget_wall_CPU_seconds": 420,
+    "portfolio_sample_wall_seconds": 358.13692170899594,
+    "portfolio_sample_full_CPU_seconds": 420.9365169999999,
+    "complete_external_wall_seconds": 371.91,
+    "complete_external_user_seconds": 421.18,
+    "complete_external_system_seconds": 14.13,
+    "complete_external_full_CPU_seconds": 435.31,
+    "outer_process_exit_code": 2,
+    "outer_process_cleanup_complete": true,
+    "routing_or_workflow_delivered": false,
+    "all_variants_attempted": true,
+    "trials": [
+      {
+        "variant": "via_default",
+        "receipt": {
+          "path": ".runs/runtime-directory-032/runtime/.runs/native7-comparison-v2-portfolio-negative-001-portfolio-01-via_default/route/result.json",
+          "sha256": "cfbd99b7d55c7e81bfae7323e51726c16c0b80ce18942c48f10ee4b47bd8c53d",
+          "bytes": 81995
+        },
+        "Native_counts": [
+          0,
+          1,
+          22,
+          0
+        ],
+        "status": "drc_rejected",
+        "eligible": false,
+        "assigned_seconds": 134.80508763866965,
+        "route_allowance_seconds": 104.80508763866965,
+        "invocation_wall_seconds": 79.42295387503691,
+        "invocation_CPU_seconds": 100.481162,
+        "stored_negative_replay_CPU_seconds": 11.603260999999918
+      },
+      {
+        "variant": "via_low",
+        "receipt": {
+          "path": ".runs/runtime-directory-032/runtime/.runs/native7-comparison-v2-portfolio-negative-001-portfolio-02-via_low/route/result.json",
+          "sha256": "7e49c5bfae3c477b6bb9c7bc68fe89251fc6a9b8218aa7b01f9b4eb7580815f0",
+          "bytes": 83306
+        },
+        "Native_counts": [
+          1,
+          2,
+          22,
+          0
+        ],
+        "status": "drc_rejected",
+        "eligible": false,
+        "assigned_seconds": 151.8765685,
+        "route_allowance_seconds": 121.87656849999999,
+        "invocation_wall_seconds": 97.46196108299773,
+        "invocation_CPU_seconds": 115.67166799999998,
+        "stored_negative_replay_CPU_seconds": 11.702263000000016
+      },
+      {
+        "variant": "via_high",
+        "receipt": {
+          "path": ".runs/runtime-directory-032/runtime/.runs/native7-comparison-v2-portfolio-negative-001-portfolio-03-via_high/route/result.json",
+          "sha256": "8a4dbdc72464381398e4b48f4477c3af2a7a068628d4fda7bbe87b8a0f3b7cd0",
+          "bytes": 84728
+        },
+        "Native_counts": [
+          1,
+          4,
+          22,
+          0
+        ],
+        "status": "drc_rejected",
+        "eligible": false,
+        "assigned_seconds": 187.882577,
+        "route_allowance_seconds": 157.882577,
+        "invocation_wall_seconds": 119.04062512499513,
+        "invocation_CPU_seconds": 142.884195,
+        "stored_negative_replay_CPU_seconds": 11.433210999999972
+      }
+    ],
+    "accounting_note": "Trial invocations total359.037025CPU; stored mutable negative replays total34.738735CPU. These are nested parts of420.936517 portfolio CPU and must not be added to it. Private final readbacks and setup/finalization are included globally but outside the stored mutable row counters.435.31 external CPU additionally includes controller/enclosure/startup/exit. No omitted work is declared free."
+  },
+  "frozen_new_source_pins": {
+    "scripts/experiment_portfolio.py": {
+      "path": "scripts/experiment_portfolio.py",
+      "sha256": "a748da6492963fafd5418cddaac39bbf0313830b240ca7e2a120145c4aaa1e17",
+      "bytes": 72323
+    },
+    "scripts/qualify_comparison_portfolio.py": {
+      "path": "scripts/qualify_comparison_portfolio.py",
+      "sha256": "c99d47fc0eec00e77b34539b4601a9dbc9dda03fdddd2e1d8c766664f284de90",
+      "bytes": 17449
+    },
+    "tests/test_portfolio_installed_context.py": {
+      "path": "tests/test_portfolio_installed_context.py",
+      "sha256": "a99323d02a59cc706be49138a9b432784673f520da79598d2545c97620d7d55b",
+      "bytes": 52306
+    }
+  },
+  "review_of_change": {
+    "diff_basis": "Compared the two new scripts directly with the failed run frozen-administration copies; no Git invocation. Read focused tests, no execution.",
+    "exact_change": "Two `not api` conditions skip the generic installed pre-publication negative loop and the generic installed post-publication block. That block contains two negative loops, so three duplicate generic rounds are removed only for the explicit API. CLI installed and legacy schedules stay unchanged.",
+    "remaining_API_negative_schedule": [
+      "After Route: actual completed-negative classification",
+      "Initial retained-row central verification",
+      "Before ranking/selection: central negative replay",
+      "Final private-row central replay, retaining cumulative assignment wall/CPU checks"
+    ],
+    "critical_retained_fences": [
+      "Exact live caller registry/typed Context/profile/score/assignment and retained negative diagnostic/process/material proof",
+      "Cumulative per-trial invocation plus diagnostic/replay caps; unchanged route allowance and30s inside-trial reserve",
+      "Unchanged global420wall/fullCPU cap,15s final reserve and450method/600delivery ceilings",
+      "Final complete source/runtime/administration/tool/caller/receipt/evidence byte witnesses",
+      "Full per-root lineage/census and shared all-root PRL metadata replay last; no later Context/tool/material callback",
+      "Cancellation invalidates the whole portfolio without incumbent fallback; stale/malformed/noncompleted failures remain ineligible"
+    ],
+    "diagnostic_change": "Controller now checks terminal portfolio status before semantic outcome dispatch, records actual portfolio wall/CPU and both caps, propagates cancellation, and preserves budget_exceeded/invalidated status. This fixes the old misleading negative-only acceptance error without promoting failed negatives.",
+    "regressions_read": "Focused authored controls require4 central negative calls/trial, mixed positive/negative live context, final negative rejection/tamper/cancellation, private replay per-trial CPU and final metadata global CPU refusal. This reviewer did not run them.",
+    "new_findings": []
+  },
+  "limits": [
+    "No source/core/runtime changes by reviewer. Only this assigned review receipt is authored. No tests, Native, GUI, CI, Git or delegation executed.",
+    "No expected savings are substituted for measurement. A new exact committed administration HEAD and frozen protocol must bind the changed scripts before a fresh bounded control; old001 must never be relabeled inside-budget.",
+    "Parent separately reports positive002 delivered with3 Native accepted/full-schematic/protected1 trials and winner export at181.51wall174.57CPU. This task did not re-review that packet; it is API functional evidence, not general routing gain.",
+    "Native counts here are inspected retained result fields bound by hashes, not new independent Native runs or central readback. Ordinary runtime032 whole/partial integration remained lead-owned and sequential."
+  ]
+}

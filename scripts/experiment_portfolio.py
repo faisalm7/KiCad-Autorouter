@@ -948,7 +948,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             preserve_partial()
         if installed_context is not None:
             installed_context.check()
-            if summary['status'] in ('completed', 'no_valid_candidate'):
+            if not api and summary['status'] in ('completed', 'no_valid_candidate'):
                 for row in summary['trials']:
                     if row.get('validated_rejection') is True:
                         recheck_negative(row)
@@ -966,7 +966,7 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
             installed_context.check()
             if f.canonical(f.read_json(out / 'portfolio-summary.json')) != f.canonical(summary):
                 raise p.Rejected('installed portfolio publication changed')
-            if summary['status'] in ('completed', 'no_valid_candidate') and any(
+            if not api and summary['status'] in ('completed', 'no_valid_candidate') and any(
                     row.get('validated_rejection') is True for row in summary['trials']):
                 for row in summary['trials']:
                     if row.get('validated_rejection') is True:
@@ -986,6 +986,9 @@ def experiment(out, project_name='sonde', *, guidance_policy=None, budget=BUDGET
                 if f.canonical(f.read_json(out / 'portfolio-summary.json')) != f.canonical(summary):
                     raise p.Rejected('installed final read-only fence summary changed')
             if api and summary['status'] in ('completed', 'no_valid_candidate'):
+                # API replaces the generic installed-negative publication
+                # rounds with this one complete semantic replay, followed by
+                # all material/caller/source/tool and cross-root PRL fences.
                 # Keep the literal stored timing sample: final replays use
                 # private rows and are still charged by totals/external exit.
                 for row in summary['trials']:

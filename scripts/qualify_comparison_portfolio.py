@@ -38,6 +38,17 @@ LIMITS = dict(routing_seconds=420, method_wall_cpu_cap_seconds=450,
     root_finalization_reserve_seconds=15)
 
 
+def require_completed_portfolio(result):
+    """A failed method is not a qualified all-negative routing outcome."""
+    status = result.get('status')
+    if status == 'cancelled': raise KeyboardInterrupt('portfolio cancelled')
+    if status not in ('completed', 'no_valid_candidate'):
+        raise ValueError('portfolio ' + str(status) + ': wall=' + str(result.get('wall_seconds'))
+            + 's CPU=' + str(result.get('total_cpu_seconds')) + 's; caps wall='
+            + str(result.get('wall_budget_seconds')) + 's CPU=' + str(result.get('cpu_budget_seconds'))
+            + 's; reason=' + str(result.get('reason')))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime', type=Path, required=True)
@@ -202,8 +213,10 @@ def main():
             live = dict(registry)
             record.update(portfolio_summary_sha256=p.sha(portfolio_out/'portfolio-summary.json'),
                 portfolio_status=result['status'], attempted_variants=result.get('attempted_variants'),
-                unattempted_variants=result.get('unattempted_variants'), portfolio_reason=result.get('reason'))
-            if result['status'] == 'cancelled': raise KeyboardInterrupt
+                unattempted_variants=result.get('unattempted_variants'), portfolio_reason=result.get('reason'),
+                portfolio_wall_seconds=result.get('wall_seconds'), portfolio_full_CPU_seconds=result.get('total_cpu_seconds'),
+                portfolio_wall_budget_seconds=result.get('wall_budget_seconds'), portfolio_CPU_budget_seconds=result.get('cpu_budget_seconds'))
+            require_completed_portfolio(result)
             replay()
             record.update(method_wall_seconds=time.monotonic()-START, method_full_CPU_seconds=cpu()-CPU0)
             require(max(record['method_wall_seconds'], record['method_full_CPU_seconds']) <= 450, 'whole method cap exceeded')
@@ -230,7 +243,9 @@ def main():
             if 'method_wall_seconds' not in record:
                 record.update(method_wall_seconds=time.monotonic()-START, method_full_CPU_seconds=cpu()-CPU0)
             record.update(controls_passed=False, workflow_delivered=False,
-                status='cancelled' if isinstance(exc, KeyboardInterrupt) else 'failed', reason=type(exc).__name__+': '+str(exc))
+                status=('cancelled' if isinstance(exc, KeyboardInterrupt) else
+                    record['portfolio_status'] if record.get('portfolio_status') in ('budget_exceeded', 'invalidated') else 'failed'),
+                reason=type(exc).__name__+': '+str(exc))
         material = roots_material(); record['completed_evidence'] = material
         def account():
             record.update(sampled_wall_seconds=time.monotonic()-START, sampled_full_CPU_seconds=cpu()-CPU0)

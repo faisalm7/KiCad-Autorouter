@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "passed": true,
+  "status": "completed",
+  "project_complete": false,
+  "actual_GUI": false,
+  "protocol_sha256": "1e15a81d21083272ae8594ef4f66660db5a562721eb9620df4822c5ce994202d",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 5.858519958041143,
+    "cpu_seconds": 5.540336,
+    "max_rss_bytes": 245366784,
+    "supervisor_cpu_seconds": 0.016938999999999996,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 343326720,
+    "sampled_peak_workdir_bytes": 137,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/.runs/cancel-comparison-v2-engine-001.py",
+      "--runtime",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-engine-cancel-001/protocol.json",
+      "--protocol-sha256",
+      "1e15a81d21083272ae8594ef4f66660db5a562721eb9620df4822c5ce994202d"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-engine-cancel-001/enclosure/command.log",
+    "log_bytes": 137,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-engine-cancel-001/enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 94287
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/.runs/native7-comparison-v2-cancellation-control-001/result.json",
+  "child_sha256": "5caefdd9ad9afd4811ed7b56e42d580b3245a95983d9b4977dcff2606704d4fe",
+  "completed_evidence": {
+    "route-child.log": "e39bbd4f364e33324133d02571b625e282ec91a755dcca6d8d1b7009dbb7eda2",
+    "route-child.process.json": "3de8dd453084a5d775cabb03e4bf0c3a0073ede1446a9aa67fcd38c225ef224b"
+  },
+  "material_roots": [],
+  "completed_material_roots": {},
+  "scope": "One actual v2 scored engine cancellation, observed exact owned PID/argv/journal and cleanup, no accepted/export.420declaration/220driver/230whole full wallCPU. No allphase/SIGINT-only/GUI/benchmark claim; prep/review/authoring extra.",
+  "disk_guard_scope": "Outer runner2MiB workdir bound covers enclosure logs only; Native workers and sibling evidence retain their own independent guards, not an aggregate2MiB cap.",
+  "complete_wall_seconds": 5.952743125031702,
+  "complete_full_CPU_seconds": 5.628338
+}

@@ -1,0 +1,47 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 2,
+  "wall_seconds": 371.4524118329864,
+  "cpu_seconds": 434.051919,
+  "max_rss_bytes": 1132232704,
+  "supervisor_cpu_seconds": 0.9131020000000001,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 275546112,
+  "sampled_peak_workdir_bytes": 284,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_comparison_portfolio.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-032/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-portfolio-negative-001/protocol.json",
+    "--protocol-sha256",
+    "c94cbf65c52edd55a0d78c9a09d3e61b14e7a00239322899946df7e7ecc94b76"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-portfolio-negative-001/enclosure/command.log",
+  "log_bytes": 284,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime032-v2-portfolio-negative-001/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 97429
+}
