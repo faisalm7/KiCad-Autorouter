@@ -1,0 +1,530 @@
+{
+  "schema": 1,
+  "kind": "thermal-canonical-fresh-export-native-v1",
+  "recorded_utc": "2026-10-18T04:35:41.585266+00:00",
+  "controls_passed": true,
+  "project_complete": false,
+  "accepted": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "56568a952b75487497831a1837b7cfb4ae6273a4",
+  "routing_evidence": "evidence/thermal-canonical-prefix-native-001.json",
+  "new_routing_executed": false,
+  "complete_controller_wall_seconds": 40.48,
+  "complete_controller_cpu_seconds": 39.09,
+  "workflow": [
+    "rendered review generated",
+    "software accept intent",
+    "fresh Native export",
+    "current proof readback",
+    "persistent reject intent"
+  ],
+  "export_candidate_sha256": "732b369991fb3e0f81f922af6764a3e53fbdcb8aa222a18056e9f6d0f38e2b65",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 22,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "findings": [
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 83.185,
+              "y": 83.82
+            },
+            "uuid": "00000000-0000-0000-0000-000032307de2"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+        "items": [
+          {
+            "description": "Footprint C2",
+            "pos": {
+              "x": 121.305,
+              "y": 91.44
+            },
+            "uuid": "00000000-0000-0000-0000-000032307ecf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+        "items": [
+          {
+            "description": "Footprint C3",
+            "pos": {
+              "x": 121.305,
+              "y": 99.06
+            },
+            "uuid": "00000000-0000-0000-0000-000032307ed4"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C4",
+            "pos": {
+              "x": 170.688,
+              "y": 52.197
+            },
+            "uuid": "00000000-0000-0000-0000-000032307dcf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C5",
+            "pos": {
+              "x": 86.995,
+              "y": 113.03
+            },
+            "uuid": "00000000-0000-0000-0000-000032307dca"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C6",
+            "pos": {
+              "x": 159.385,
+              "y": 111.76
+            },
+            "uuid": "00000000-0000-0000-0000-000032307dc0"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 155.58,
+              "y": 38.06
+            },
+            "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 165.71,
+              "y": 38.08
+            },
+            "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+        "items": [
+          {
+            "description": "Footprint JP1",
+            "pos": {
+              "x": 116.205,
+              "y": 105.41
+            },
+            "uuid": "00000000-0000-0000-0000-000032568d1e"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+        "items": [
+          {
+            "description": "Footprint P1",
+            "pos": {
+              "x": 182.1,
+              "y": 72.4
+            },
+            "uuid": "00000000-0000-0000-0000-00005a4472d7"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 117.475,
+              "y": 99.06
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 127.635,
+              "y": 91.44
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 92.075,
+              "y": 57.15
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59c08c"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 151.765,
+              "y": 41.91
+            },
+            "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 171.958,
+              "y": 42.037
+            },
+            "uuid": "00000000-0000-0000-0000-0000322d32a0"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+        "items": [
+          {
+            "description": "Footprint RR1",
+            "pos": {
+              "x": 95.885,
+              "y": 113.03
+            },
+            "uuid": "00000000-0000-0000-0000-00005a44c66d"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 151.765,
+              "y": 124.46
+            },
+            "uuid": "00000000-0000-0000-0000-00005214e8d1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 95.885,
+              "y": 124.46
+            },
+            "uuid": "00000000-0000-0000-0000-00005214e8ef"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U3",
+            "pos": {
+              "x": 123.825,
+              "y": 124.46
+            },
+            "uuid": "00000000-0000-0000-0000-00005214e90d"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+        "items": [
+          {
+            "description": "Footprint U5",
+            "pos": {
+              "x": 86.995,
+              "y": 76.2
+            },
+            "uuid": "00000000-0000-0000-0000-00005a0cae55"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U8",
+            "pos": {
+              "x": 123.825,
+              "y": 112.903
+            },
+            "uuid": "00000000-0000-0000-0000-00005a0cae87"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint X1",
+            "pos": {
+              "x": 113.665,
+              "y": 92.71
+            },
+            "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.0",
+    "pads": 379,
+    "footprints": 25,
+    "zones": 1,
+    "vias": 35,
+    "track_length_mm": 4996.393150337765,
+    "copper_layers": 2
+  },
+  "export_receipt_sha256": "4d8e9869e0b3b90152cce541678b4d3989c03b8dfad8ec6998b8f8dda172637e",
+  "whole_project_drc_clean": false,
+  "candidate_CAD": "evidence/thermal-canonical-prefix-native-001-notes/002/final/interf_u.kicad_pcb",
+  "limits": [
+    "Own new Native export/refill/fullSCH/original proof; source original unchanged.22warnings/seveninheritedignoredchecks remain, no whole-project cleanliness/electrical claim.",
+    "One exposed development family and checkout runtime, no installed/actualGUI/competentB2 superiority claim.",
+    "Test intent is not human approval. Older021rejection is unchanged. Raw artifacts onMaconly; backup010doesnotcoverthem."
+  ],
+  "files": [
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/controller/execution.json",
+      "bytes": 2759,
+      "sha256": "fcb5a51d217930289d2e881224e844aeafec9b0215022c80513dc2f96ef36ecb"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/controller/command.log",
+      "bytes": 173,
+      "sha256": "03d064b941c25e05478a86efe69f7bcb07678b7039deb42b163999b861c1e952"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/controller/complete-exit-time.log",
+      "bytes": 31,
+      "sha256": "32a6cb814b2ba63dc26730dd8fc50331887d7035789cfa8676e691ca79ae42c3"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/result.json",
+      "bytes": 89093,
+      "sha256": "262e9892bde9f6ab84ec8ddbb1267a603339b60791144eb61f4f3eee69217665"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/review/review.json",
+      "bytes": 129443,
+      "sha256": "fa904f0c196440181e59c9efbd7db0b896c5e48381fcc3f1483cf13b87a89358"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/intent/choice.json",
+      "bytes": 101132,
+      "sha256": "d26067cff0e2f600bf7a19fb0abc7bad79782b50aa281434af5e77d6ba9a47a8"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/rejection/choice.json",
+      "bytes": 101055,
+      "sha256": "7bfa3435efd4310da43247df8211226c204baaed92a923122a87df1ed947ec99"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/export.json",
+      "bytes": 185571,
+      "sha256": "4d8e9869e0b3b90152cce541678b4d3989c03b8dfad8ec6998b8f8dda172637e"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/case.json",
+      "bytes": 2143,
+      "sha256": "4b88ce332864cf5b59c802077d2c56b3918007e640c00bf2a23c3301101eeea8"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-drc-binding.json",
+      "bytes": 6217,
+      "sha256": "a03a198ee7689c45b4bea791c6e08059514245854d842950dcbd3e38044d97f8"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-drc-process.json",
+      "bytes": 2308,
+      "sha256": "72f2af46ed1390e5764fb2ffbd37dcfdfa7df6346f3040dab783fba85227179f"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-drc.json",
+      "bytes": 14105,
+      "sha256": "8201604a441eecd46a846091a1e119965a743cad6cbb03ae2b063bbf03233e06"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-drc.log",
+      "bytes": 229,
+      "sha256": "261c9ac9b0fa0821fb2894886c31515378db1da87f8060ecd6a7e71aaede29f5"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-netclass-audit.json",
+      "bytes": 170470,
+      "sha256": "3a9f8f209ba1ccf5aac0a512096a96b4e406ffddd2d0c633be3d316a7398f409"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-netclasses-process.json",
+      "bytes": 2085,
+      "sha256": "f31c56c92c1f42a01d0ce5399e9747c9b1697a39e866f7e1489edb71fcb77393"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-netclasses.json",
+      "bytes": 157782,
+      "sha256": "6ddeacce57052515931f8855f43e86df1c058f2d767e6874e215ca055f9a5220"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/final-netclasses.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/metrics-process.json",
+      "bytes": 2054,
+      "sha256": "786e777397bd6ad31c74308ca521d943a228f516a9d8afad0bd20b0f6c95bf1a"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/metrics.json",
+      "bytes": 151,
+      "sha256": "44fc26bdf4d9dfc2ea09de05b049f777fdc77d71bdc55e8f4687751af82c4609"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/metrics.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/refill-drc-binding.json",
+      "bytes": 6135,
+      "sha256": "beaa542031ce165ffb67a17dd4b7da9ef54ac56990275607b2941a76054b4d3b"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/refill-drc-process.json",
+      "bytes": 2281,
+      "sha256": "a8b8bf415a0939593b65e042409f6c51d2c510893efd7b13c80ea6a19dfc5383"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/refill-drc.json",
+      "bytes": 1284,
+      "sha256": "89589066f3048d3eadd7caf18f57c508afb11e13b9a572b82d4bb0b3fae2e249"
+    },
+    {
+      "path": "evidence/thermal-canonical-export-native-001-notes/export/validation/refill-drc.log",
+      "bytes": 209,
+      "sha256": "2fe1c73cc11d5d3e6170f930c60f2f5bed301335db3359271b8829db61eafb59"
+    }
+  ]
+}

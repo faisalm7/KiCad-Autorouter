@@ -63,7 +63,8 @@ class InstalledDeliveryControls(unittest.TestCase):
 
     def test_protocol_keeps_complete_old_and_thermal_populations_separate(self):
         for kind, arms in (('installed-workflow-exposed-comparison-v1', driver.ORIGINAL_ARMS),
-                           ('installed-workflow-thermal-comparison-v2', driver.THERMAL_ARMS)):
+                           ('installed-workflow-thermal-comparison-v2', driver.THERMAL_ARMS),
+                           (driver.RESERVED_KIND, driver.THERMAL_ARMS)):
             plan = dict(kind=kind, arms=list(arms))
             self.assertEqual(driver.protocol_arms(plan), arms)
             for bad in (list(arms[:-1]), list(reversed(arms)), [*arms, arms[-1]], None):
@@ -71,6 +72,127 @@ class InstalledDeliveryControls(unittest.TestCase):
                     driver.protocol_arms(dict(plan, arms=bad))
         for bad in ({}, [], {'kind': True}, {'kind': 'unqualified', 'arms': list(driver.THERMAL_ARMS)}):
             with self.subTest(bad=bad), self.assertRaises(p.Rejected): driver.protocol_arms(bad)
+
+
+class InstalledFixedPresetControls(unittest.TestCase):
+    def plan(self, kind=driver.RESERVED_KIND):
+        old = kind != driver.RESERVED_KIND
+        arms = driver.ORIGINAL_ARMS if kind.endswith('-v1') else driver.THERMAL_ARMS
+        result = dict(schema=1, kind=kind, arms=list(arms),
+            routing_seconds=105 if old else 420,
+            method_wall_cpu_cap_seconds=120 if old else 450,
+            delivery_wall_cpu_cap_seconds=240 if old else 600,
+            allocation='remaining' if old else 'balanced')
+        if not old:
+            result['installed_trial_accounting_policy'] = driver.RESERVED_POLICY
+        return result
+
+    def test_v3_commands_and_portfolio_share_the_validated_fixed_allocation(self):
+        from scripts import experiment_portfolio as portfolio
+        preset = driver.protocol_preset(self.plan())
+        for command in ('recover', 'review-export'):
+            with self.subTest(command=command):
+                arguments = preset.timed_cli_arguments(command, '/owned/input', '/owned/output')
+                self.assertEqual(arguments, [command, '/owned/input', '--seconds', '420', '--output', '/owned/output'])
+        self.assertEqual(preset.portfolio_options(), dict(budget=420, outer_ceiling=450,
+            allocation='balanced', installed_trial_policy=portfolio.INSTALLED_TRIAL_RESERVE_POLICY))
+        for arm in driver.THERMAL_ARMS:
+            with self.subTest(arm=arm):
+                settings = driver.routing_settings(arm, preset)
+                self.assertEqual(settings['seconds'], 420)
+                self.assertEqual(settings['scope'], 'whole_board_unlocked_routing')
+                self.assertEqual(settings['layers'], 'source_all')
+        self.assertEqual(driver.routing_settings('B1', preset)['profile'], 'standard')
+        self.assertEqual(driver.routing_settings('B2_completion', preset)['profile'], 'completion-only')
+        self.assertEqual(driver.routing_settings('C_thermal', preset)['profile'], 'completion-only')
+        self.assertEqual(driver.routing_settings('C_single', preset)['profile'], 'tuned')
+
+    def test_delivery_reserve_counts_wall_and_cpu_and_allows_long_routing_cli(self):
+        preset = driver.protocol_preset(self.plan())
+        self.assertGreaterEqual(preset.cli_timeout_seconds, preset.routing_seconds)
+        self.assertLessEqual(preset.cli_timeout_seconds, preset.method_wall_cpu_cap_seconds)
+        self.assertEqual(preset.remaining(0, 0), 585)
+        self.assertEqual(preset.remaining(560, 580), 5)
+        self.assertEqual(preset.remaining(586, 0), -1)
+        self.assertEqual(preset.remaining(0, 586), -1)
+        self.assertEqual(min(preset.cli_timeout_seconds, preset.remaining(550, 540)), 35)
+
+    def test_old_presets_keep_commands_deadlines_profiles_and_remaining_allocation(self):
+        presets = [driver.protocol_preset(self.plan(kind)) for kind in (
+            'installed-workflow-exposed-comparison-v1', 'installed-workflow-thermal-comparison-v2')]
+        self.assertEqual(presets[0], presets[1])
+        for preset in presets:
+            self.assertEqual(preset.portfolio_options(), dict(budget=105, outer_ceiling=120, allocation='remaining'))
+            self.assertEqual(preset.timed_cli_arguments('recover', 'board', 'output'),
+                ['recover', 'board', '--seconds', '105', '--output', 'output'])
+            self.assertEqual(preset.timed_cli_arguments('review-export', 'choice', 'output'),
+                ['review-export', 'choice', '--seconds', '105', '--output', 'output'])
+            self.assertEqual(preset.remaining(0, 0), 225)
+            self.assertEqual(preset.cli_timeout_seconds, 165)
+            self.assertEqual(driver.routing_settings('B1', preset)['seconds'], 105)
+
+    def test_real_workflow_carries_each_fixed_settings_budget_into_export(self):
+        from autorouter import gui
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            source = root / 'source'; source.mkdir()
+            output = root / 'output'; output.mkdir()
+            board = source / 'owned.kicad_pcb'
+            original = b'owned synthetic source\n'
+            for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
+                board.with_suffix(suffix).write_bytes(original)
+            for kind in ('installed-workflow-exposed-comparison-v1',
+                         'installed-workflow-thermal-comparison-v2', driver.RESERVED_KIND):
+                preset = driver.protocol_preset(self.plan(kind))
+                expected_seconds = 420 if kind == driver.RESERVED_KIND else 105
+                for arm, method in (('B1', 'route'), ('C_single', 'improve')):
+                    with self.subTest(kind=kind, arm=arm):
+                        settings = driver.routing_settings(arm, preset)
+                        flow = gui.Request(str(board), str(output), json.dumps(settings),
+                                           saved_closed=True, method=method).prepare()
+                        captured = json.loads((flow.workspace / 'settings.json').read_bytes())
+                        self.assertEqual(captured, settings)
+                        self.assertEqual(json.loads(flow.settings_bytes), captured)
+                        self.assertEqual(captured['seconds'], expected_seconds)
+                        # Synthetic state exercises emitted commands, not successful routing/review.
+                        flow.ready.add('preview')
+                        route = flow.command('route')
+                        self.assertEqual(route[4:6], [method, str(board)])
+                        self.assertEqual(route[route.index('--settings') + 1],
+                                         str(flow.workspace / 'settings.json'))
+                        flow.ready.update(('route', 'review', 'choice'))
+                        flow.choice = 'accept'
+                        export = flow.command('export')
+                        self.assertEqual(export[4:6], ['review-export',
+                                         str(flow.workspace / 'choice/choice.json')])
+                        self.assertEqual(export[export.index('--seconds') + 1],
+                                         str(captured['seconds']))
+                        self.assertEqual(export[export.index('--output') + 1],
+                                         str(flow.workspace / 'export'))
+            for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
+                self.assertEqual(board.with_suffix(suffix).read_bytes(), original)
+
+    def test_budget_policy_or_arm_hybrids_are_refused_before_execution(self):
+        for kind in ('installed-workflow-exposed-comparison-v1',
+                     'installed-workflow-thermal-comparison-v2', driver.RESERVED_KIND):
+            plan = self.plan(kind)
+            changes = ({'routing_seconds': plan['routing_seconds'] + 1},
+                {'method_wall_cpu_cap_seconds': plan['method_wall_cpu_cap_seconds'] + 1},
+                {'delivery_wall_cpu_cap_seconds': plan['delivery_wall_cpu_cap_seconds'] + 1},
+                {'routing_seconds': str(plan['routing_seconds'])}, {'schema': True},
+                {'allocation': 'remaining' if kind == driver.RESERVED_KIND else 'balanced'},
+                {'installed_trial_accounting_policy': None if kind == driver.RESERVED_KIND else driver.RESERVED_POLICY},
+                {'installed_trial_accounting_policy': 'unknown'}, {'arms': plan['arms'][:-1]})
+            for change in changes:
+                with self.subTest(kind=kind, change=change), self.assertRaises(p.Rejected):
+                    driver.protocol_preset(dict(plan, **change))
+        plan = self.plan(); plan.pop('installed_trial_accounting_policy')
+        with self.assertRaises(p.Rejected): driver.protocol_preset(plan)
+        plan = self.plan(); plan['kind'] = 'unqualified-custom'
+        with self.assertRaises(p.Rejected): driver.protocol_preset(plan)
+        preset = driver.protocol_preset(self.plan())
+        with self.assertRaises(ValueError): driver.routing_settings('unknown', preset)
+        with self.assertRaises(ValueError): preset.timed_cli_arguments('unqualified', 'board', 'output')
 
 
 class InstalledPairedNegativeReader(unittest.TestCase):

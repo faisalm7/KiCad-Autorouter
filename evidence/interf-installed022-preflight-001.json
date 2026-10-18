@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "kind": "installed-thermal-reserved-v3-preflight-v1",
+  "recorded_utc": "2026-10-18T04:43:20.246964+00:00",
+  "project_complete": false,
+  "native_comparison_executed": false,
+  "accepted": false,
+  "runtime": ".runs/runtime-directory-022/runtime",
+  "runtime_source": "56568a952b75487497831a1837b7cfb4ae6273a4",
+  "runtime_manifest_sha256": "ab7f731177f17fc33d8d958618703bfb1de9b8a3f5e7ab695fba32c47a121183",
+  "protocol_kind": "installed-workflow-thermal-reserved-comparison-v3",
+  "arms": [
+    "B0",
+    "B1",
+    "B2_tuned",
+    "B2_completion",
+    "B2_portfolio",
+    "C_single",
+    "C_thermal"
+  ],
+  "budgets": {
+    "routing": 420,
+    "method_wall_and_fullCPU": 450,
+    "whole_delivery_wall_and_fullCPU": 600
+  },
+  "allocation": "balanced",
+  "trial_reserve_policy": "installed-route-readback-reserve-v1",
+  "source_files_sha256": {
+    "scripts/qualify_installed_workflow.py": "4b98601e2fd05b5b0634ceb2ea762dbf927bcbc1f1526fc64dd2e6dd1e18baa3",
+    "scripts/experiment_portfolio.py": "5317c34afb6aeba89971cd6a1933a5c014fbccb5e06a7a1bc62ab20716fdf70f",
+    "tests/test_installed_workflow_delivery.py": "2b224a9e9fb1e1a2334c581754401a09ebc6dfc7d2ba02869f55627013cf6411",
+    "tests/test_portfolio_trial_reserve.py": "312e840b70baf569cd45d1a044d800ff2ebbf585fa27ffdf64e46299200debc1"
+  },
+  "prerequisites": [
+    "evidence/thermal-canonical-prefix-native-001.json",
+    "evidence/thermal-canonical-export-native-001.json",
+    "evidence/runtime022-installed-CLI-001.json",
+    "evidence/runtime022-installed-partial-CLI-001.json"
+  ],
+  "retained_failure": "evidence/interf-installed021-comparison-001.json",
+  "next": "Commit/push/readback audited administration and installed evidence, freeze exact new source/runtime/admin protocol, then run all seven arms sequentially without changes.",
+  "limits": [
+    "One exposed development family, not unseen confirmation or broad superiority.",
+    "30second reserve is planning only; all actual diagnostic/pertrial/global caps remain. Later variants may not fit; invalidation is not routing failure.",
+    "Additional authoring/review costs uninstrumented, not zero. Native runtime costs separate from fullintegration/preparation.",
+    "Actual022GUI069pending at earlier068managerwindow/input gate; no repetition of ownerquestion. Windows and restorationcapacity gates unchanged."
+  ],
+  "files": [
+    {
+      "path": "evidence/interf-installed022-preflight-001-notes/source-review.json",
+      "sha256": "ed25d82a8d4d500354f2ddba9c399a4ecbb5faf26c0063d37a0f80fe4f958bf5",
+      "bytes": 1244
+    },
+    {
+      "path": "evidence/interf-installed022-preflight-001-notes/targeted.log",
+      "sha256": "2f238a0257e6d46a70c81386904bf122354367dd5b963197cee3e97e6df95a8b",
+      "bytes": 112
+    }
+  ]
+}

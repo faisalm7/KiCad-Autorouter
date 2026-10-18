@@ -7,6 +7,7 @@ exit accounting; sampled results here cannot establish a complete budget alone.
 """
 from pathlib import Path
 import argparse
+from dataclasses import dataclass
 import json
 import resource
 import signal
@@ -20,19 +21,78 @@ def cpu():
 CPU0 = cpu()
 ORIGINAL_ARMS = ('B0', 'B1', 'B2_portfolio', 'B2_stronger', 'C_single')
 THERMAL_ARMS = ('B0', 'B1', 'B2_tuned', 'B2_completion', 'B2_portfolio', 'C_single', 'C_thermal')
+RESERVED_KIND = 'installed-workflow-thermal-reserved-comparison-v3'
+RESERVED_POLICY = 'installed-route-readback-reserve-v1'
+
+
+@dataclass(frozen=True)
+class FixedComparisonPreset:
+    routing_seconds: int
+    method_wall_cpu_cap_seconds: int
+    delivery_wall_cpu_cap_seconds: int
+    allocation: str
+    cli_timeout_seconds: int
+    installed_trial_accounting_policy: str | None = None
+
+    def remaining(self, elapsed_wall, elapsed_cpu):
+        # Preserve the existing15s final-publication/enclosing-exit reserve.
+        cap = self.delivery_wall_cpu_cap_seconds - 15
+        return min(cap - elapsed_wall, cap - elapsed_cpu)
+
+    def portfolio_options(self):
+        options = dict(budget=self.routing_seconds,
+            outer_ceiling=self.method_wall_cpu_cap_seconds, allocation=self.allocation)
+        if self.installed_trial_accounting_policy is not None:
+            options['installed_trial_policy'] = self.installed_trial_accounting_policy
+        return options
+
+    def timed_cli_arguments(self, command, source, output):
+        if command not in ('recover', 'review-export'):
+            raise ValueError('Only existing budgeted recovery/export commands are supported.')
+        return [command, str(source), '--seconds', str(self.routing_seconds), '--output', str(output)]
 
 
 def protocol_arms(plan):
-    """Two exact exposed-development protocols; never accept a partial matrix."""
+    """Exact exposed-development protocols; never accept a partial matrix."""
     from autorouter import pipeline as p
     kinds = {'installed-workflow-exposed-comparison-v1': ORIGINAL_ARMS,
-             'installed-workflow-thermal-comparison-v2': THERMAL_ARMS}
+             'installed-workflow-thermal-comparison-v2': THERMAL_ARMS,
+             RESERVED_KIND: THERMAL_ARMS}
     if type(plan) is not dict or type(plan.get('kind')) is not str:
         raise p.Rejected('Frozen installed comparison protocol required.')
     expected = kinds.get(plan['kind'])
     if expected is None or plan.get('arms') != list(expected):
         raise p.Rejected('Frozen installed comparison arm population differs.')
     return expected
+
+
+def protocol_preset(plan):
+    """Choose one complete fixed preset; no custom or mixed budget intake."""
+    from autorouter import pipeline as p
+    protocol_arms(plan)
+    preset = (FixedComparisonPreset(420, 450, 600, 'balanced', 450, RESERVED_POLICY)
+              if plan['kind'] == RESERVED_KIND else
+              FixedComparisonPreset(105, 120, 240, 'remaining', 165))
+    if (type(plan.get('schema')) is not int or plan['schema'] != 1
+            or any(plan.get(name) != getattr(preset, name) for name in
+                   ('routing_seconds', 'method_wall_cpu_cap_seconds',
+                    'delivery_wall_cpu_cap_seconds', 'allocation'))
+            or plan.get('installed_trial_accounting_policy') != preset.installed_trial_accounting_policy):
+        raise p.Rejected('Unsupported frozen comparison protocol or budgets.')
+    return preset
+
+
+def routing_settings(arm, preset):
+    """Keep the existing arm profiles while sharing the validated allowance."""
+    from autorouter import gui, preferences as pref
+    settings = dict(pref.DEFAULTS, seconds=preset.routing_seconds)
+    if arm == 'B0': settings.update(adapter='none', profile='standard')
+    elif arm == 'B1': settings.update(adapter='both', profile='standard')
+    elif arm in ('B2_portfolio', 'B2_stronger', 'B2_tuned'): settings.update(adapter='both', profile='tuned')
+    elif arm in ('B2_completion', 'C_thermal'): settings.update(adapter='both', profile='completion-only')
+    elif arm == 'C_single': settings = gui.improve_preset(settings)
+    else: raise ValueError('Unknown fixed comparison arm.')
+    return settings
 
 
 def read_attempt(path):
@@ -85,7 +145,7 @@ def main():
     runtime = Path(args.runtime)
     sys.path.insert(0, str(runtime))
     sys.dont_write_bytecode = True
-    from autorouter import config as c, pipeline as p, gui, preferences as pref, handoff as h, review_export as ex
+    from autorouter import config as c, pipeline as p, gui, handoff as h, review_export as ex
     from autorouter import floor_route as f, provenance as pv
     administration = Path(__file__).resolve().parents[1]
     sys.path.insert(1, str(administration))
@@ -98,10 +158,8 @@ def main():
         raise p.Rejected('Frozen protocol hash differs.')
     plan = f.read_json(protocol_path)
     arms = protocol_arms(plan)
-    if (type(plan) is not dict or type(plan.get('schema')) is not int or plan.get('schema') != 1
-            or args.arm not in arms or plan.get('runtime') != str(runtime)
-            or plan.get('routing_seconds') != 105 or plan.get('method_wall_cpu_cap_seconds') != 120
-            or plan.get('delivery_wall_cpu_cap_seconds') != 240 or plan.get('allocation') != 'remaining'):
+    preset = protocol_preset(plan)
+    if args.arm not in arms or plan.get('runtime') != str(runtime):
         raise p.Rejected('Unsupported frozen comparison protocol or budgets.')
     if set(plan.get('administration_files_sha256', {})) != {
             'scripts/qualify_installed_workflow.py', 'scripts/experiment_portfolio.py',
@@ -120,9 +178,14 @@ def main():
     report = dict(schema=1, accepted=False, status='failed', workflow_delivered=False, actual_GUI=False, human_review=False,
         arm=args.arm, runtime=str(runtime), protocol=str(protocol_path), protocol_sha256=args.protocol_sha256,
         controller_sha256=selfpin, source=str(board), source_hashes=plan['source_hashes'],
-        tools=plan['tools'], processes=[], routing_seconds=105, method_wall_cpu_cap_seconds=120,
-        delivery_wall_cpu_cap_seconds=240, external_complete_exit_required=True,
-        scope='Actual installed product. Exposed development; software test intent only. B2_portfolio uses the external fixed portfolio; B2_stronger is experimental free-angle/global-width; C_thermal is the existing experimental recovery CLI, not the default or graphical optimizer. All use production review/export CLI, equal105 routing allocations/120method caps/240whole-delivery caps; no pooled best-of, human, physical or superiority claim.')
+        tools=plan['tools'], processes=[], routing_seconds=preset.routing_seconds,
+        method_wall_cpu_cap_seconds=preset.method_wall_cpu_cap_seconds,
+        delivery_wall_cpu_cap_seconds=preset.delivery_wall_cpu_cap_seconds, external_complete_exit_required=True,
+        scope='Actual installed product. Exposed development; software test intent only. B2_portfolio uses the external fixed portfolio; B2_stronger is experimental free-angle/global-width; C_thermal is the existing experimental recovery CLI, not the default or graphical optimizer. All use production review/export CLI, '
+            f'equal{preset.routing_seconds} routing allocations/{preset.method_wall_cpu_cap_seconds}method caps/{preset.delivery_wall_cpu_cap_seconds}whole-delivery caps; no pooled best-of, human, physical or superiority claim.')
+    if preset.installed_trial_accounting_policy is not None:
+        report.update(allocation=preset.allocation,
+            installed_trial_accounting_policy=preset.installed_trial_accounting_policy)
 
     def fresh():
         if (p.sha(protocol_path) != args.protocol_sha256 or p.sha(Path(__file__)) != selfpin
@@ -131,7 +194,7 @@ def main():
         context.check()
 
     def left():
-        return min(225 - (time.monotonic() - START), 225 - (cpu() - CPU0))
+        return preset.remaining(time.monotonic() - START, cpu() - CPU0)
 
     def cli(stage, argv, *, flow=None, choice=None):
         fresh()
@@ -139,7 +202,7 @@ def main():
         if allowance <= 1:
             raise p.Rejected('Delivery/final-publication reserve exhausted.')
         job = gui.CliJob(); log = out / (stage + '.log')
-        process = job.run(argv, log, timeout=min(165, allowance))
+        process = job.run(argv, log, timeout=min(preset.cli_timeout_seconds, allowance))
         report['processes'].append(dict(stage=stage, process=process, log_sha256=p.sha(log)))
         if process.get('cancel_requested') is True or process.get('exit_code') in (130, 143):
             raise KeyboardInterrupt('Installed CLI cancellation is terminal.')
@@ -151,12 +214,7 @@ def main():
         fresh()
         return process
 
-    settings = dict(pref.DEFAULTS, seconds=105)
-    if args.arm == 'B0': settings.update(adapter='none', profile='standard')
-    elif args.arm == 'B1': settings.update(adapter='both', profile='standard')
-    elif args.arm in ('B2_portfolio', 'B2_stronger', 'B2_tuned'): settings.update(adapter='both', profile='tuned')
-    elif args.arm in ('B2_completion', 'C_thermal'): settings.update(adapter='both', profile='completion-only')
-    else: settings = gui.improve_preset(settings)
+    settings = routing_settings(args.arm, preset)
     report['settings'] = settings
     flow = gui.Request(str(board), str(out), json.dumps(settings), True,
         'improve' if args.arm == 'C_single' else 'route').prepare()
@@ -167,7 +225,7 @@ def main():
         method_start, method_cpu = time.monotonic(), cpu()
         if args.arm == 'B2_portfolio':
             result = portfolio.experiment(out / 'portfolio', installed_context=context,
-                budget=105, outer_ceiling=120, allocation='remaining')
+                **preset.portfolio_options())
             report.update(portfolio=result, portfolio_directory=str(out / 'portfolio'),
                 portfolio_summary_sha256=p.sha(out / 'portfolio/portfolio-summary.json'))
             if result.get('comparison_eligible') is not True or result.get('selected') is None:
@@ -177,7 +235,7 @@ def main():
         elif args.arm == 'C_thermal':
             receipt = out / 'thermal-route/result.json'
             cli('thermal_route', [str(runtime / '.venv/bin/python'), '-B', '-m', 'autorouter',
-                'recover', str(board), '--seconds', '105', '--output', str(receipt.parent)])
+                *preset.timed_cli_arguments('recover', board, receipt.parent)])
             p.check_result(receipt)
         elif args.arm == 'B2_stronger':
             # Predeclared stronger comparator, using the installed experimental
@@ -185,7 +243,7 @@ def main():
             report['experimental_baseline_settings'] = dict(profile='tuned-free-angle',
                 fanout=False, optimizer=False, clearance_margin_nm=20000,
                 global_width_policy=p.ENGINE_GLOBAL_WIDTH_POLICY, scoring_variant='via_default')
-            result = p.route(board, out / 'stronger-route', 105, False, 'both', 'tuned-free-angle',
+            result = p.route(board, out / 'stronger-route', preset.routing_seconds, False, 'both', 'tuned-free-angle',
                 scoring_variant='via_default', _fanout_enabled=False, _optimizer_enabled=False,
                 _engine_clearance_margin_nm=20000, _engine_global_width_policy=p.ENGINE_GLOBAL_WIDTH_POLICY)
             if result.get('accepted') is not True:
@@ -197,13 +255,13 @@ def main():
             receipt = flow.workspace / 'route/result.json'
         report.update(method_wall_seconds=time.monotonic() - method_start, method_full_cpu_seconds=cpu() - method_cpu,
                       selected_route_receipt=str(receipt), selected_route_sha256=p.sha(receipt))
-        if max(report['method_wall_seconds'], report['method_full_cpu_seconds']) > 120:
+        if max(report['method_wall_seconds'], report['method_full_cpu_seconds']) > preset.method_wall_cpu_cap_seconds:
             raise p.Rejected('Complete routing/selection/readback exceeded method cap.')
         if args.arm in ('B2_portfolio', 'B2_stronger', 'C_thermal'):
             python = [str(runtime / '.venv/bin/python'), '-B', '-m', 'autorouter']
             commands = [('review', ['review-copy', str(receipt), '--render', '--output', str(out / 'review')]),
                 ('choice', ['review-choice', str(out / 'review/review.json'), '--choice', 'accept', '--output', str(out / 'choice')]),
-                ('export', ['review-export', str(out / 'choice/choice.json'), '--seconds', '105', '--output', str(out / 'export')]),
+                ('export', preset.timed_cli_arguments('review-export', out / 'choice/choice.json', out / 'export')),
                 ('verify_export', ['review-export-check', str(out / 'export/export.json')])]
             for stage, arguments in commands: cli(stage, python + arguments)
             exported = out / 'export/export.json'
@@ -241,7 +299,7 @@ def main():
     def account():
         report.update(sampled_wall_seconds=time.monotonic() - START, sampled_full_cpu_seconds=cpu() - CPU0,
             accounting_point='Before shared guarded publication; final caps include readback tail. Complete enclosing exit accounting required.')
-        if report['accepted'] and max(report['sampled_wall_seconds'], report['sampled_full_cpu_seconds']) > 225:
+        if report['accepted'] and max(report['sampled_wall_seconds'], report['sampled_full_cpu_seconds']) > preset.delivery_wall_cpu_cap_seconds - 15:
             report.update(accepted=False, status='budget_exceeded')
         report['workflow_delivered'] = report['accepted'] is True and report['status'] == 'completed'
 

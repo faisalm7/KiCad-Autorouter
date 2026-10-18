@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "git_head": "56568a952b75487497831a1837b7cfb4ae6273a4",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 40.257168042007834,
+    "cpu_seconds": 38.571298999999996,
+    "max_rss_bytes": 281575424,
+    "supervisor_cpu_seconds": 0.336268,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 274006016,
+    "sampled_peak_workdir_bytes": 18526929,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 268435456,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_review_export.py",
+      "--receipt",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/thermal-canonical-prefix-native-002/recovery/result.json",
+      "--render",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-thermal-001/run",
+      "--run-native"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-thermal-001/command.log",
+    "log_bytes": 173,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/review-export-native-thermal-001",
+    "signal_cancellation_enabled": true,
+    "pid": 31558
+  },
+  "wall_seconds": 40.40600816695951,
+  "full_cpu_seconds": 39.029703999999995,
+  "wrapper_sha256": "fa3895a67d297a456d8c29878bebe643d360b99b19f3ec55f3352f3dcdcd4920",
+  "log_sha256": "03d064b941c25e05478a86efe69f7bcb07678b7039deb42b163999b861c1e952",
+  "scope": "One fresh development thermal Native receipt through existing rendered review/testintent/fresh native export/current proof and persistent rejection; no routing repeats. No solver/previousnative repetition; separate workflow qualification cost, no GUI/human/physical approval. Existing sandbox/runner used,600cumulativewall/fullCPU +full outerrecord,256MiB output bound."
+}
