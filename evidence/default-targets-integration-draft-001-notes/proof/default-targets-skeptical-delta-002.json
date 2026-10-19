@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "kind": "default-targets-independent-AI-delta-review-v2",
+  "recorded_utc": "2026-10-19T08:23:24.950093+00:00",
+  "reviewer": "Independent AI reviewer, not human PCB reviewer",
+  "scope": "Only DT-001 closure and new source_dimensions factoring at the supplied frozen delta. No pipeline/readback integration, retained Mixer replay or other investigations performed.",
+  "reviewed_file_pins": {
+    "autorouter/default_targets.py": "245de5fc970a1a492485421a27ab5f4896ab4c1a900bca2309f25ef15d5e7660",
+    "tests/test_default_targets.py": "465ea44fb5abcbf2604d50d34a056e086306f4407f71215646a5ea036e8320e5",
+    "autorouter/netclass.py": "60eb4f314177b94a4a97916a8c29643b245d0f26c34b63b81e5c5e69b705c5f0"
+  },
+  "delta_handoff": {
+    "path": ".runs/default-targets-implementation-delta-002.json",
+    "sha256": "84f33f8a8e154bea9233c194b319e326fc89a9b7548d46cbb0cad18204eeecdf"
+  },
+  "prior_review": {
+    "path": ".runs/default-targets-skeptical-review-001.json",
+    "sha256": "acb4b86ac5d26d9c47c078ada6296c13a3f9e78279aa537ace77310e50bab869",
+    "DT001_old_repro_retained": true
+  },
+  "conclusion": "DT-001 is closed for the demonstrated pure API counterexample. The new factoring preserves the reviewed scalar/floor derivation and adds bounded explicit source priority validation. No new issue found within this delta. This is not Native or production qualification.",
+  "DT001": {
+    "status": "closed by source inspection and same small constructed reproduction",
+    "file": "autorouter/default_targets.py",
+    "lines": [
+      246,
+      247,
+      248,
+      249,
+      250,
+      251,
+      252,
+      253,
+      254
+    ],
+    "source_change": "Whenever new via ID differs, only the routing structure/class references change and a cloned derived stack is appended. All original stacks/image references/wiring remain unchanged, independently of fixed wiring. Equal IDs leave the library untouched.",
+    "old_failure": "An image pin referenced Via[0-1]_600:300_um with no fixed via, and the old rename removed that referenced definition while transform/check passed.",
+    "now_observed": [
+      {
+        "fixed_via_present": false,
+        "transform_and_check_passed": true,
+        "pin_reference_resolved": true,
+        "all_original_padstacks_images_wiring_unchanged": true,
+        "appended_derived_stack_count": 1,
+        "original_via_stack_preserved": true,
+        "derived_via_stack_added": true,
+        "input_sha256": "aa6b1ebbee92e6e628b09327151fd24d732c4b2843980ecd9458fab9c962d72d",
+        "output_sha256": "a38af87a428425568e4b308d2b505414178e3846974ce293af302a583addba3b"
+      },
+      {
+        "fixed_via_present": true,
+        "transform_and_check_passed": true,
+        "pin_reference_resolved": true,
+        "all_original_padstacks_images_wiring_unchanged": true,
+        "appended_derived_stack_count": 1,
+        "original_via_stack_preserved": true,
+        "derived_via_stack_added": true,
+        "input_sha256": "2349fbc529e8699c742b3671cef5f685d015909e5e82f4c01a0278ebf363c8ee",
+        "output_sha256": "b3b4e37bbc2f0d26c1f572e39b63ac5f11868aa4fc026252057b8169128e44ed"
+      }
+    ],
+    "unchanged_target_control": "With all board floors0 and raw via already sufficient, derived_via_stack_addedFalse and the full parsed library remains unchanged.",
+    "new_regression_source_inspected": "test_image_pin_referencing_original_via_stack_keeps_its_definition checks reference resolution, original images/wiring and original stack prefix; no test suite was executed in this review.",
+    "reachability_limit": "Closure concerns the prior constructed API counterexample. Actual exporter reachability was not asserted or tested before or after."
+  },
+  "source_dimensions": {
+    "file": "autorouter/default_targets.py",
+    "lines": [
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      203,
+      221
+    ],
+    "assessment": "Reads bounded captured project bytes using duplicate-key rejecting parser; reuses sole explicit Default qualification/tuning/assignment/pattern restrictions, customrule/exclusion refusal, integer-nm conversion/grid checks and the same max/floor/annulus derivation. Explicit Default priority now requires exact int0..2147483647. The transform reparses the same immutable bytes for Native-parent checks; no independent receipt or Native authority selects dimensions.",
+    "observed_value_equality": "For both DT-001 fixture forms, source_dimensions raw_nm/original_floors_nm/derived_nm equal the resulting transform receipt fields.",
+    "observed_detachment": "Changing returned raw_nm.width_nm to1 does not affect a subsequent call, which still returns200000 from the original unchanged project bytes.",
+    "original_project_or_Default_mutated": false,
+    "Native_execution_claimed_by_source_helper": false
+  },
+  "netclass_delta": "Exact60eb4f31 hash unchanged from original reviewed opt-in. No widening of strict defaultFalse final-audit behavior was introduced in this delta.",
+  "reproduction": {
+    "command_prefix": "PYTHONPATH=tests .venv/bin/python -B -",
+    "recipe": "Reuse the previous review fixture/image-pin mutation for fixed=False and fixed=True. Run transform/check; assert all original padstacks equal guided prefix, images/wiring unchanged, pin reference resolves. Compare source_dimensions with receipt and mutate detached result before re-reading. Separately set all board floors0 and assert library unchanged/no new stack.",
+    "in_process_wall_seconds": 0.034397499985061586,
+    "in_process_CPU_seconds": 0.03408599999999999,
+    "scope": "Timer starts after imports and initial pin checks; covers the tiny pure checks only. Startup, authoring and whole review cost additional/unmeasured, notzero.",
+    "frozen_pins_verified_before_and_after": true,
+    "separate_raw_console_log_saved": false,
+    "test_suite": false,
+    "Native": false,
+    "JVM_or_solver": false
+  },
+  "remaining_gates": "Mandatory source-derived worker/readback integration, process/tool/source/raw-map provenance and final Native/fullSCH/original/protected/PRL/cancellation/freshness proofs remain lead-owned and unqualified by this review. No new Mixer/coverage/quality result inferred. Prior integration input bounds remain caller requirements.",
+  "new_material_issues": [],
+  "execution_limits": {
+    "source_or_test_edits": false,
+    "Native": false,
+    "JVM": false,
+    "test_suite": false,
+    "GUI": false,
+    "CI": false,
+    "routing": false,
+    "network": false,
+    "delegation": false,
+    "other_investigations": false
+  },
+  "production_qualified": false,
+  "human_review": false
+}

@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "kind": "single-Default-global-floor-pure-helper-independent-AI-review-v1",
+  "recorded_utc": "2026-10-19T08:20:56.079068+00:00",
+  "reviewer": "Independent AI code reviewer, not human PCB review",
+  "scope": "Frozen default_targets helper, minimal opt-in netclass delta and owned constructed controls; relevant reused floor/parser/layer/sexpr helpers read for context. No current pipeline integration or unfinished work reviewed.",
+  "reviewed_file_pins": {
+    "autorouter/default_targets.py": "2f31edbd49a3748e864a045af4bab0919fca90fe2a1a89a85e3cab5c213f3e62",
+    "autorouter/netclass.py": "60eb4f314177b94a4a97916a8c29643b245d0f26c34b63b81e5c5e69b705c5f0",
+    "tests/test_default_targets.py": "9e2d425bd63557ab07a1461b9f5c37155c160f50af0b62c4eb86178841e0f29d"
+  },
+  "handoff": {
+    "path": ".runs/default-targets-implementation-handoff-001.json",
+    "sha256": "a722a5484ac015c03c3e8635173b98a16692bebe5accee22b0520ad48dfaa017"
+  },
+  "dependency_source_pins": {
+    "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+    "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+    "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+    "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba"
+  },
+  "frozen_three_pins_verified_immediately_before_and_after_pure_repro": true,
+  "conclusion": "One demonstrated pure transform/check input-fidelity issue should be refused or corrected before integration: non-routing image pins may reference the old Default via padstack, while the rename decision considers only fixed wiring. No demonstrated final Native false-admission defect; actual exporter reachability remains unproved. Other reviewed ordinary floor derivation and opt-in refusal paths retain their intended non-admitting separation.",
+  "issues": [
+    {
+      "id": "DT-001",
+      "priority": "P2",
+      "title": "Preserve or refuse every reference before renaming the old via padstack",
+      "file": "autorouter/default_targets.py",
+      "lines": [
+        223,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243
+      ],
+      "mechanism": "The copy-versus-rename condition uses only fixed_via from wiring. audit_mapping verifies the declared routing via stack but does not forbid library/image/pin from referencing that same valid stack. With no fixed via, a changed target renames the only old stack; image pin atoms remain unchanged and become dangling. check recomputes this same transformation and accepts it.",
+      "demonstrated": true,
+      "counterexample": "Existing owned fixture with fixed=False; change library/image/pin padstack atom from Pad to existing Via[0-1]_600:300_um. Both transform and check pass. Raw pin resolves to a raw stack; guided pin retains old ID while library has only Pad and Via[0-1]_1500:300_um.",
+      "fixed_via_control": "Same fixture with fixed=True keeps the old stack plus derived stack, so the pin reference resolves.",
+      "impact": "The pure receipt can certify an edit that breaks non-routing pin/padstack semantics. Engine failure or downstream Native refusal remains possible and no acceptance was demonstrated.",
+      "reachability_limit": "A constructed valid-grammar API counterexample, not evidence that pinned KiCad10.0.7 currently exports this padstack reuse. No Native/exporter/source dataset was executed or newly inspected for reachability.",
+      "recommended_small_fix": "Fail closed if the routing-via padstack is referenced by any image pin when its ID/dimensions would change, or preserve that original stack for all such references and add a separate derived routing stack. Keep pin nodes/old shape unchanged. Add a narrow regression asserting refusal or reference resolution for both transform and check.",
+      "integration_disposition": "Resolve this reference-preservation hole before treating the helper as an exact permitted-edit contract."
+    }
+  ],
+  "pure_reproduction": {
+    "authorized_notice_sent_to_lead_before_execution": true,
+    "command_prefix": "PYTHONPATH=tests .venv/bin/python -B -",
+    "python": "from test_default_targets import fixtures, inputs, SOURCE\nfrom autorouter import default_targets as m, sexpr as sx\nfrom autorouter.adapter import _parse_dsn, _dump_dsn\nfor fixed in (False, True):\n    raw, native, project, task = fixtures(fixed=fixed)\n    tree = _parse_dsn(raw.decode()); library = sx.one(tree, 'library')\n    old = 'Via[0-1]_600:300_um'\n    sx.children(sx.children(library, 'image')[0], 'pin')[0][1] = '\"' + old + '\"'\n    raw = _dump_dsn(tree).encode(); args = inputs(raw, native, project, task)\n    guided, receipt = m.transform(*args, source=SOURCE)\n    m.check(raw, guided, receipt, *args[1:], source=SOURCE)\n    library = sx.one(_parse_dsn(guided.decode()), 'library')\n    pin = sx.unquote(sx.children(sx.children(library, 'image')[0], 'pin')[0][1])\n    stacks = {sx.unquote(row[1]) for row in sx.children(library, 'padstack')}\n    print(fixed, pin, sorted(stacks), pin in stacks)\n",
+    "observations": [
+      {
+        "fixed_via_present": false,
+        "transform_and_check_passed": true,
+        "raw_pin_reference": "Via[0-1]_600:300_um",
+        "raw_reference_resolved": true,
+        "guided_pin_reference": "Via[0-1]_600:300_um",
+        "guided_padstacks": [
+          "Pad",
+          "Via[0-1]_1500:300_um"
+        ],
+        "guided_reference_resolved": false,
+        "receipt_protected_via_stack_preserved": false,
+        "input_sha256": "aa6b1ebbee92e6e628b09327151fd24d732c4b2843980ecd9458fab9c962d72d",
+        "output_sha256": "7503c6b47b3bfbac77b7bcaffacf52ac89956870b8d6243c3ed7cf54658602b9"
+      },
+      {
+        "fixed_via_present": true,
+        "transform_and_check_passed": true,
+        "raw_pin_reference": "Via[0-1]_600:300_um",
+        "raw_reference_resolved": true,
+        "guided_pin_reference": "Via[0-1]_600:300_um",
+        "guided_padstacks": [
+          "Pad",
+          "Via[0-1]_1500:300_um",
+          "Via[0-1]_600:300_um"
+        ],
+        "guided_reference_resolved": true,
+        "receipt_protected_via_stack_preserved": true,
+        "input_sha256": "2349fbc529e8699c742b3671cef5f685d015909e5e82f4c01a0278ebf363c8ee",
+        "output_sha256": "b3b4e37bbc2f0d26c1f572e39b63ac5f11868aa4fc026252057b8169128e44ed"
+      }
+    ],
+    "in_process_wall_seconds": 0.03689724998548627,
+    "in_process_CPU_seconds": 0.03357399999999999,
+    "cost_scope": "Timer starts after imports/pin checks and covers the two constructed transformations/checks only. Interpreter startup, authoring and whole review cost are additional/unmeasured, notzero.",
+    "separate_raw_console_log_saved": false,
+    "retention": "Observed tool output transcribed into this authored review; no signed authentication or new Native proof.",
+    "Native_executed": false,
+    "JVM_or_solver_executed": false,
+    "test_suite_executed": false
+  },
+  "assessed_contracts": [
+    {
+      "area": "raw source/Default",
+      "assessment": "Inputs are bytes and immutable; project JSON duplicate keys refuse; Native map is JSON-copied before checking. Native source/project/task hashes and board_savedFalse are required. Original Default scalar values must equal Native rows and raw DSN class/via dimensions. Parent values/specified flags/names/priorities are explicit and consistent across every net. No source class is rewritten."
+    },
+    {
+      "area": "global floors",
+      "assessment": "Reused derive computes max(raw,width/clearance floor), max(raw drill,hole floor), and max(raw diameter,via floor,derived drill+2annulus). It refuses off-grid values rather than rounding; typed smd_smd/global/class clearance are strengthened explicitly. No new algorithmic completion implication follows."
+    },
+    {
+      "area": "fixed wiring/stack",
+      "assessment": "Fixed wires/vias are kept as exact DSN nodes. One rawDefault fullthrough-via is allowed; if fixed wiring references it and target changes, old stack remains and a new stack is added. Collision refuses. DT-001 is the missing non-routing-reference case."
+    },
+    {
+      "area": "schema/version/layers",
+      "assessment": "Native schema requires actual int1, integer-nm units and literal10.0.7 through opt-in raw audit; DSN host10.0.7/um/resolution10 and exact2Cu known versions or strict modern4Cu source/Native layer tables are required. Unknown/mismatched inputs refuse. The literal map version does not prove actual selected/executed tools."
+    },
+    {
+      "area": "audit downgrade",
+      "assessment": "derive_default_targets requires exact bool; true refuses parent_policy, experimental toolchain objects and non-singleDefault project modes. Existing calls defaultFalse and retain prior below-floor refusal. The derived raw audit is explicitly marked raw_default_for_target_derivation_only and never routing acceptance."
+    },
+    {
+      "area": "receipt checks",
+      "assessment": "check reconstructs full expected guided bytes and canonical receipt, rejecting rehashed arbitrary output/metadata changes. It cannot independently discover a transform algorithm error such as DT-001; Native execution/production support remainFalse."
+    }
+  ],
+  "integration_conditions": [
+    {
+      "kind": "required-current-policy-caller-contract",
+      "condition": "Guard actual normal selected10.0.7, exact raw DSN/map process+source snapshots and shared source/task/final SCH/class/PRL/cleanup/original/protected proof. Pure literal version/source hashes do not replace actual Native execution."
+    },
+    {
+      "kind": "required-current-policy-reader-contract",
+      "condition": "Retain raw NativeDSN/map plus guided stage/receipt, replay source-derived mandatory policy and exact subsequent adapter/edge composition. Missing or edited policy cannot fall back to historical rawDefault behavior. Never pass derive_default_targets=True to unrelated final acceptance audits."
+    },
+    {
+      "kind": "bounded-input-precondition",
+      "file": "autorouter/default_targets.py",
+      "line": 181,
+      "condition": "native_map is serialized/copied before audit_native applies its10000-net bound; helper has no explicit serialized-map byte cap. Caller must keep bounded strictJSON map reads (and context/file-count caps). This is a source-observed integration requirement, not a demonstrated production resource incident; no oversized/heavy repro was run."
+    },
+    {
+      "kind": "remaining-real-gates",
+      "condition": "Fresh owned selected7 two/fourCu whole/partial, protected/floor invalids, source/freshness/cancel/readback and new frozen Mixer attempt remain unrun for this helper. Corrected targets are not a measured completion or quality fix."
+    }
+  ],
+  "execution_limits": {
+    "product_or_test_edits": false,
+    "Native": false,
+    "JVM": false,
+    "full_tests": false,
+    "GUI": false,
+    "CI": false,
+    "routing": false,
+    "network_or_research": false,
+    "delegation": false,
+    "archive_scan": false,
+    "one_small_constructed_pure_repro_only": true
+  },
+  "production_qualified": false,
+  "human_review": false
+}

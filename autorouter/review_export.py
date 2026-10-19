@@ -219,11 +219,9 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
         extra={'schematic_parity':True} if data.get('schematic_parity')=='checked by final native DRC' else {}
         native=f.check_drc_stage(folder,data,'final-drc',candidate,folder/'final-drc-input'/candidate.name,False,expected,**extra,**worker)
         if native!=data['native']:raise p.Rejected('export actual final native report differs')
-        if p.netclass_policy(candidate) is not None or native_toolchain is not None:
-            native_classes=f.read_json(folder/'final-netclasses.json');audited=p.audit_candidate_netclasses(candidate,protected,native_classes,**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))
-            audited['native_map_file_sha256']=p.sha(folder/'final-netclasses.json')
-            if f.read_json(folder/'final-netclass-audit.json')!=audited:raise p.Rejected('export original native class targets changed')
-            f.process_check(folder,data,'final-netclasses',[*f.SANDBOX,*p.native_prefix(native_toolchain),'netclasses',str(candidate),str(folder/'final-netclasses.json')])
+        if p.netclass_policy(candidate) is not None or native_toolchain is not None or 'default_target_transport' in report:
+            p.check_final_netclass_evidence(folder,data,candidate,protected,native_toolchain=native_toolchain,
+                default_target_policy='default_target_transport' in report,sandboxed=True)
         f.process_check(folder,data,'metrics',[*f.SANDBOX,*p.native_prefix(native_toolchain),'metrics',str(candidate),str(folder/'metrics.json')])
     if any(r not in p.routes(sx.read(candidate)) for r in protected):raise p.Rejected('export protected copper changed')
     from .pour_rule_area import qualify
@@ -244,7 +242,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
     from .pour_rule_area import qualify
     from . import schematic_field_evidence as fields
     check_class_evidence(folder,data,binding,report,**ctx)
-    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None or native_toolchain is not None or class_requirement is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
+    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None or native_toolchain is not None or class_requirement is not None or 'default_target_transport' in report else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
     if [s['name'] for s in data['steps']]!=expected_names or any(s['cwd']!=str(folder) for s in data['steps']):raise p.Rejected('export native-only stage history differs')
     for step in data['steps']:
         log=Path(step['log'])
@@ -423,6 +421,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
             extra={'selected_names':names,'schematic_parity':p.selected_parity_required(report)} if names is not None else {}
             record['schematic_parity']=p.parity_declaration(binding['source'],binding['source_hashes'])
             digest,native=p.validate_candidate(job,original,candidate,binding['source_hashes'],protected,
+                default_target_policy='default_target_transport' in report,
                 guidance_contract=contract,guidance_basis=basis,layer_contract=layers,class_context=class_context,**extra)
             if class_requirement is not None:record['schematic_class_final']=job.schematic_class_final
             job.native('metrics','metrics',candidate,job.out/'metrics.json');metrics=f.read_json(job.out/'metrics.json');account();cap()

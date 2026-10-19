@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "kind": "bounded-pure-compatibility-replay-of-retained-Native037-exports",
+  "helper_sha256": "245de5fc970a1a492485421a27ab5f4896ab4c1a900bca2309f25ef15d5e7660",
+  "actual_new_Native": false,
+  "results": [
+    {
+      "label": "hierarchy-whole2Cu",
+      "Native_execution": false,
+      "routing_accepted": false,
+      "raw_dsn_sha256": "ecbf32d95b0fb0c50273837f10289c4d4966c8fe23687482ad6cdf7397d7aa02",
+      "passed": true,
+      "derived_nm": {
+        "width_nm": 300000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 800000,
+        "via_drill_nm": 400000
+      },
+      "original_via_stack_preserved": true,
+      "copper_layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "label": "whole4Cu",
+      "Native_execution": false,
+      "routing_accepted": false,
+      "raw_dsn_sha256": "9523cdd744388e06706c9fb4c539db7f441d79f4fd7518d784e99731965ac7df",
+      "passed": false,
+      "error": "ValueError: Only one or two fully specified netclasses qualified"
+    },
+    {
+      "label": "partial2Cu",
+      "passed": false,
+      "not_run": true,
+      "reason": "Old flat partial job did not request a Native export map; do not fabricate its task binding. Fresh Native export required."
+    }
+  ]
+}

@@ -36,6 +36,7 @@ NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
 COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v2'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
+DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -720,6 +721,7 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
                     or type(inc.get('accepted')) is not bool):raise Rejected('thermal parent incumbent binding differs')
             if inc['accepted']:check_result(child/'result.json')
             elif inc.get('status')=='drc_rejected' and thermal.sole_thermal(inc.get('native')) is not None:
+                check_rejected_default_targets(child,inc,original,child_candidate,child_protected)
                 thermal._report_binding(child_candidate,child/'final-drc.json',child/'final-drc-binding.json',data['source_hashes'],inc['native'])
                 known_named=check_named_edge_policy(child,inc,input_policy='native',direct_import=True)
                 check_pour_evidence(child,inc,original,child_candidate,_known_named_edge=known_named)
@@ -1209,7 +1211,7 @@ def audit_route_dimensions(tree, protected, native):
             checked['arcs' if route[0]=='arc' else 'segments']+=1
     return {'passed':True,'checked':checked,'policy':'exact effective native targets for new routes; protected originals unchanged'}
 
-def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain=None):
+def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain=None, default_target_policy=False):
     from .netclass import audit_native
     project=candidate.with_suffix('.kicad_pro')
     if (native.get('source')!=str(candidate) or native.get('board_sha256')!=sha(candidate)
@@ -1221,10 +1223,108 @@ def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain
     if 'copper_layers' in native or sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in sx.one(source_tree,'layers',[]))==4:
         from .netclass import four_copper_source_layers,four_copper_native_layers
         if four_copper_source_layers(source_tree)!=four_copper_native_layers(native):raise Rejected('source/native copper layers differ')
-    mapping=audit_native(native,json.loads(project.read_text()),parent_policy=policy is not None and policy['mode']==PARENT_POLICY,native_toolchain=native_toolchain)
-    dimensions=audit_route_dimensions(source_tree,protected,native)
-    return {'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
+    if type(default_target_policy) is not bool:
+        raise Rejected('explicit Default target audit flag required')
+    if default_target_policy and not normal_default_target_scope(candidate,'both',native_toolchain=native_toolchain):
+        raise Rejected('derived Default candidate audit outside normal selected7 scope')
+    mapping=audit_native(native,json.loads(project.read_text()),parent_policy=policy is not None and policy['mode']==PARENT_POLICY,
+        native_toolchain=native_toolchain,derive_default_targets=default_target_policy)
+    effective=native
+    if default_target_policy:
+        from . import default_targets as targets
+        targets._parents(native,json.loads(project.read_text())['net_settings']['classes'][0])
+        derived=targets.source_dimensions(project.read_bytes())
+        effective=copy.deepcopy(native)
+        for row in effective['nets']:row.update(derived['derived_nm'])
+    dimensions=audit_route_dimensions(source_tree,protected,effective)
+    result={'native':mapping,'route_dimensions':dimensions,'candidate_sha256':sha(candidate),
             'project_sha256':sha(project)}
+    if default_target_policy:result['default_targets']={'policy':DEFAULT_TARGET_ADMISSION_POLICY,**derived}
+    return result
+
+
+def normal_default_target_scope(board,adapter,*,native_toolchain=None):
+    """Corrected ordinary selected7 uses one source-derived Default policy."""
+    return (native_toolchain is None and c.NATIVE_VERSION=='10.0.7' and adapter=='both'
+        and netclass_policy(board) is None)
+
+
+def check_default_target_transport(directory,data,original,candidate,*,input_policy='native',native_toolchain=None):
+    """Require the new producer's exact lawful edit even after marker deletion.
+
+    Retained old producers keep their historical scope. Captured code is checked,
+    never executed. The normal engine/native/source/PRL readers remain mandatory.
+    """
+    from . import default_targets as targets, floor_route as f
+    from .placement_clearance import read_bytes
+    from .local_settings import policy_declaration
+    directory=Path(directory);candidate=Path(candidate)
+    names=('default-targets.json','default-targets.dsn')
+    marked=('default_target_transport' in data or any((directory/name).exists()
+        or (directory/name).is_symlink() for name in names))
+    if not marked and (native_toolchain is not None or c.NATIVE_VERSION!='10.0.7'
+            or input_policy!='native' or data.get('adapter')!='both' or data.get('strategy') is not None
+            or data.get('scope') not in {'whole_board_unlocked_routing','partial_completion'}):
+        return None
+    producer=directory/'code/pipeline.py'
+    if not producer.exists() and not producer.is_symlink():
+        if marked:raise Rejected('Default target transport has no captured producer')
+        return None
+    raw_code=read_bytes(producer,1024**2)
+    if hashlib.sha256(raw_code).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
+        raise Rejected('Default target captured producer differs')
+    declared=policy_declaration(raw_code,name='DEFAULT_TARGET_ADMISSION_POLICY',expected=DEFAULT_TARGET_ADMISSION_POLICY)
+    required=(declared is not None and input_policy=='native' and data.get('strategy') is None
+        and data.get('scope') in {'whole_board_unlocked_routing','partial_completion'}
+        and normal_default_target_scope(candidate,data.get('adapter'),native_toolchain=native_toolchain))
+    if not required:
+        if marked:raise Rejected('Default target transport outside declared producer scope')
+        return None
+    if targets.POLICY!=declared or selected_scope_markers(directory,data) or layer_markers(directory,data):
+        raise Rejected('Default target transport requires ordinary source-all scope')
+    snapshot=directory/'snapshot'/candidate.name
+    if tree_hash(snapshot.parent)!=data['source_hashes']:
+        raise Rejected('Default target original snapshot changed')
+    task_raw=(sx.dump(routing_task(original,data['scope']))+'\n').encode()
+    if hashlib.sha256(task_raw).hexdigest()!=data.get('task_sha256'):
+        raise Rejected('Default target original task differs')
+    mapping=f.read_json(directory/'export-netclasses.json')
+    expected,record=targets.transform(read_bytes(directory/'native.dsn',20*1024**2),mapping,
+        read_bytes(snapshot.with_suffix('.kicad_pro')),task_raw,source=str(candidate))
+    proof=directory/'default-targets.json'
+    binding={'policy':declared,'file':proof.name,'sha256':sha(proof)}
+    if (f.canonical(data.get('default_target_transport'))!=f.canonical(binding)
+            or f.canonical(f.read_json(proof))!=f.canonical(record)
+            or read_bytes(directory/'default-targets.dsn',20*1024**2)!=expected):
+        raise Rejected('Default target required edit, source or receipt differs')
+    f.process_check(directory,data,'export',[*native_prefix(),'export',str(candidate),str(directory/'task.dsn'),
+        str(directory/'export-netclasses.json'),'--task-copper-fixed'])
+    return record
+
+
+def check_final_netclass_evidence(directory,data,candidate,protected,*,native_toolchain=None,
+                                  default_target_policy=False,sandboxed=False):
+    """One final raw-class/generated-target/process audit for Route and export."""
+    from . import floor_route as f
+    directory=Path(directory);candidate=Path(candidate)
+    mapping=directory/'final-netclasses.json'
+    audited=audit_candidate_netclasses(candidate,protected,f.read_json(mapping),
+        native_toolchain=native_toolchain,default_target_policy=default_target_policy)
+    audited['native_map_file_sha256']=sha(mapping)
+    if f.read_json(directory/'final-netclass-audit.json')!=audited:
+        raise Rejected('retained native netclass audit differs from candidate')
+    f.process_check(directory,data,'final-netclasses',[*(f.SANDBOX if sandboxed else []),
+        *native_prefix(native_toolchain),'netclasses',str(candidate),str(mapping)])
+    return audited
+
+
+def check_rejected_default_targets(directory,data,original,candidate,protected):
+    """A sole-thermal rejected incumbent keeps the same mandatory contract."""
+    record=check_default_target_transport(directory,data,original,candidate)
+    if record is not None:
+        check_final_netclass_evidence(directory,data,candidate,protected,default_target_policy=True)
+    return record
+
 
 def parent_dsn_basis(directory):
     """Bind a pruning run to its own retained, independently checked engine input."""
@@ -1288,7 +1388,7 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
         if read_bytes(input_path)!=read_bytes(directory/'native.dsn'):raise Rejected('stock pour workflow raw engine input differs')
         return
     source_bytes=read_bytes(directory/'snapshot'/candidate.name)
-    corrected,record=pour.correct(source_bytes,read_bytes(directory/'native.dsn'))
+    corrected,record=pour.correct(source_bytes,read_bytes(directory/('default-targets.dsn' if 'default_target_transport' in data else 'native.dsn')))
     if (f.canonical(data.get('pour_dsn_correction'))!=f.canonical(record)
             or f.canonical(f.read_json(directory/'pour-dsn-correction.json'))!=f.canonical(record)
             or read_bytes(directory/'pour-corrected.dsn')!=corrected
@@ -1379,7 +1479,8 @@ def check_legacy_zone_evidence(directory,original,candidate,*,implementation=Non
         if canonical(actual)!=canonical(expected):raise Rejected('missing or changed legacy zone witness')
 
 
-def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False, class_context=None):
+def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False, class_context=None, default_target_policy=False):
+    if type(default_target_policy) is not bool:raise Rejected('explicit Default target validation flag required')
     # A complete captured native schematic must participate in final acceptance
     # for every routing scope, including optimizer trials and fresh exports.
     schematic_parity=schematic_parity or Path(candidate).with_suffix('.kicad_sch').name in source_hashes
@@ -1428,11 +1529,11 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     if guidance_contract is not None:
         from .floor_route import final_context
         final_context(job,original,candidate,source_hashes,protected,guidance_contract,guidance_basis=guidance_basis)
-    elif netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None or class_requirement is not None:
+    elif netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None or class_requirement is not None or default_target_policy:
         mapping=job.out/'final-netclasses.json'
         job.native('final-netclasses','netclasses',candidate,mapping)
-        if netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None:
-            audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()),native_toolchain=getattr(job,"native_toolchain",None))
+        if netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None or default_target_policy:
+            audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()),native_toolchain=getattr(job,"native_toolchain",None),default_target_policy=default_target_policy)
             audited['native_map_file_sha256']=sha(mapping)
             save_json(job.out/'final-netclass-audit.json',audited)
     if selected_names is not None:rs.audit(original,sx.read(candidate),selected_names)
@@ -1688,7 +1789,7 @@ def check_engine_profile_record(data,directory):
     width=check_minimum_width_record(data,directory)
     engine=data['engine_budget']
     expected=engine_profile_settings(data['engine_profile'],engine['remaining_outer_wall_seconds_at_assignment'],
-        strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None,
+        strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None or 'default_target_transport' in data,
         scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle',fanout_enabled=fanout,experimental_fanout=fanout is False,optimizer_enabled=optimizer,experimental_optimizer=optimizer is False,global_width_policy=check_engine_global_width_policy(data))
     workers=[step for step in data['steps'] if step.get('name')=='engine']
     if (any(engine.get(key)!=value for key,value in expected.items())
@@ -1874,7 +1975,7 @@ def check_native_edge_transport(directory,data,*,_known_named_edge=False):
                 or read_bytes(directory/'minimum-preferences.dsn')!=base):
             raise Rejected('minimum experiment proof, targets or native basis differ')
     else:
-        base=read_bytes(directory/('pour-corrected.dsn' if 'pour_dsn_correction' in data else 'native.dsn'))
+        base=read_bytes(directory/('pour-corrected.dsn' if 'pour_dsn_correction' in data else 'default-targets.dsn' if 'default_target_transport' in data else 'native.dsn'))
     adapted,adapter_record=adapter.adapt_bytes(base,data['adapter'],read_json(directory/'obstacles.json'))
     corrected,record=native_edge.correct(adapted,context)
     engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
@@ -2080,7 +2181,7 @@ def check_preferences_record(directory, data):
     assigned=data.get('engine_budget',{})
     width_guard=check_minimum_width_record(data,directory)
     settings=engine_profile_settings(effective['profile'],assigned.get('remaining_outer_wall_seconds_at_assignment'),
-        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None or effective['scope']=='selected_nets' or width_guard is not None,scoring_variant=scoring)
+        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None or effective['scope']=='selected_nets' or width_guard is not None or 'default_target_transport' in data,scoring_variant=scoring)
     settings.update(outer_task_wall_budget_seconds=effective['seconds'],outer_task_cpu_budget_seconds=effective['seconds'])
     if effective['layers']!='source_all':
         if type(data.get('layer_binding')) is not dict or type(data.get('layer_audit')) is not dict:
@@ -2277,10 +2378,9 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         if selected is not None and parent_classes:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
         if policy is None and native_toolchain is None:
-            # Default-only hierarchy still needs Native identity observations.
-            # It has no composite dimension-target audit: unchanged global rule
-            # floors and final Native DRC retain their independent authority.
-            mapping_args=[output/'export-netclasses.json'] if class_requirement is not None else []
+            # Keep raw class identity, then derive lawful routing targets from
+            # unchanged Default values and hard original board minima.
+            mapping_args=[output/'export-netclasses.json'] if class_requirement is not None or normal_default_target_scope(candidate,adapter) else []
             job.native('export','export',candidate,output/'task.dsn',*mapping_args,'--task-copper-fixed')
             shutil.copy2(output/'task.dsn',output/'native.dsn')
         else:
@@ -2298,10 +2398,21 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             from . import schematic_class_evidence as classes
             report['schematic_class_task']=classes.collect(job,'task',candidate,output/'export-netclasses.json')
         report['native_dsn_sha256']=sha(output/'native.dsn')
+        default_targets=normal_default_target_scope(candidate,adapter,native_toolchain=native_toolchain)
+        if default_targets:
+            from . import default_targets as targets
+            guided,derivation=targets.transform((output/'native.dsn').read_bytes(),
+                json.loads((output/'export-netclasses.json').read_text()),candidate.with_suffix('.kicad_pro').read_bytes(),
+                candidate.read_bytes(),source=str(candidate))
+            (output/'default-targets.dsn').write_bytes(guided)
+            save_json(output/'default-targets.json',derivation)
+            report['default_target_transport']={'policy':DEFAULT_TARGET_ADMISSION_POLICY,'file':'default-targets.json',
+                'sha256':sha(output/'default-targets.json')}
+            (output/'task.dsn').write_bytes(guided)
         if adapter!='none':
             from . import pour_rule_area as pour
             if pour.qualify(original):
-                corrected,correction=pour.correct(snapshot.read_bytes(),(output/'native.dsn').read_bytes())
+                corrected,correction=pour.correct(snapshot.read_bytes(),(output/'task.dsn').read_bytes())
                 (output/'pour-corrected.dsn').write_bytes(corrected)
                 (output/'task.dsn').write_bytes(corrected)
                 save_json(output/'pour-dsn-correction.json',correction)
@@ -2333,7 +2444,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         config_dir=output/'engine-config'; config_dir.mkdir()
         width_guard=minimum_width_guard(source,adapter)
         if width_guard is not None:report['minimum_width_guard']=width_guard
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False,global_width_policy=_engine_global_width_policy)
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None or default_targets,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False,global_width_policy=_engine_global_width_policy)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
@@ -2361,7 +2472,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             **({'selected_names':selected} if import_policy==SELECTED_PROPOSAL_IMPORT_POLICY else {})))
         report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
         extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
-        final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,class_context=class_context,**extra)
+        final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,class_context=class_context,default_target_policy=default_targets,**extra)
         if class_requirement is not None:
             report['schematic_class_final']=job.schematic_class_final
         if selected is not None:report['selected_net_audit']=rs.audit(original,sx.read(candidate),selected)
@@ -2444,12 +2555,12 @@ def validation_readback_session():
     identity twice. Native execution and candidate acceptance are never cached.
     Hot replacement of checker functions invalidates reuse. No disk cache exists.
     """
-    from . import (adapter,board_floor,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
+    from . import (adapter,board_floor,default_targets,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
                    native_edge,netclass,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
                    schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
     import sys
-    modules=(sys.modules[__name__],c,sx,adapter,board_floor,engine_angle,floor_context,
+    modules=(sys.modules[__name__],c,sx,adapter,board_floor,default_targets,engine_angle,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
@@ -2814,26 +2925,17 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         check_floor_result(path.parent,data,original,candidate,protected)
     elif input_policy==ps.POLICY:
         ps.check_pruning_result(path.parent,data,original,candidate,protected)
-    if netclass_policy(candidate) is not None or native_toolchain is not None:
+    default_target_contract=check_default_target_transport(path.parent,data,original,candidate,input_policy=input_policy,native_toolchain=native_toolchain)
+    if netclass_policy(candidate) is not None or native_toolchain is not None or default_target_contract is not None:
         from .netclass import audit_dsn, audit_native, PARENT_POLICY
         parent_classes=netclass_policy(candidate) is not None and netclass_policy(candidate)['mode']==PARENT_POLICY
         if data['scope']=='selected_nets' and parent_classes:
             raise Rejected('selected-net composite class transport not qualified')
-        native_classes=evidence('final-netclasses.json')
-        audited=audit_candidate_netclasses(candidate,protected,native_classes,native_toolchain=native_toolchain)
-        audited['native_map_file_sha256']=sha(path.parent/'final-netclasses.json')
-        if evidence('final-netclass-audit.json')!=audited: raise Rejected('retained native netclass audit differs from candidate')
-        process=evidence('final-netclasses-process.json')
-        expected=[*native_prefix(native_toolchain),'netclasses',str(candidate),str(path.parent/'final-netclasses.json')]
-        if (process.get('argv')!=expected or process.get('cwd')!=str(path.parent) or process.get('name')!='final-netclasses'
-                or process.get('exit_code')!=0 or process.get('status')!='success' or process.get('cleanup_complete') is not True):
-            raise Rejected('native netclass process provenance is inconsistent')
-        matching=[step for step in data.get('steps',[]) if step.get('name')=='final-netclasses' and step.get('cwd')==str(path.parent)]
-        if len(matching)!=1 or any(matching[0].get(key)!=value for key,value in process.items()):
-            raise Rejected('native netclass step differs from retained process')
+        check_final_netclass_evidence(path.parent,data,candidate,protected,native_toolchain=native_toolchain,
+            default_target_policy=default_target_contract is not None)
         if data.get('baseline')=='C-prototype' and parent_classes:
             check_parent_dsn_basis(path.parent,data)
-        if data.get('baseline')!='C-prototype':
+        if data.get('baseline')!='C-prototype' and default_target_contract is None:
             # Reconstruct the exact native export input from the frozen source,
             # never from the already-routed candidate or receipt assertions.
             task=routing_task(original,data['scope'],selected_scope_names(data))

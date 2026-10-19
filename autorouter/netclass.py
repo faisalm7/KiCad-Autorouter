@@ -327,17 +327,23 @@ def qualify_project(project):
     return {"mode": "literal_two_class", "literal_assignments": assignments}
 
 
-def audit_native(native, project, *, parent_policy=False, native_toolchain=None):
+def audit_native(native, project, *, parent_policy=False, native_toolchain=None, derive_default_targets=False):
     """Check effective native classes against qualified original project settings.
 
     The caller must independently bind the native process/input/report hashes.
     Returned rows are copies of the validated native rows; this function does
     not infer connectivity, resolve patterns, or establish routing acceptance.
+    The explicit Default-only derivation option verifies unchanged raw values
+    below floors solely for a separate lawful-target transform, never admission.
     """
     from . import pipeline as p
-    expected_version = p.experimental_native_version(native_toolchain)
+    if type(derive_default_targets) is not bool:
+        raise ValueError('Explicit Default-target derivation flag required')
+    expected_version = '10.0.7' if derive_default_targets else p.experimental_native_version(native_toolchain)
     if type(parent_policy) is not bool: raise ValueError('Explicit parent-policy flag required')
     policy = qualify_parent_project(project) if parent_policy else qualify_project(project)
+    if derive_default_targets and (parent_policy or native_toolchain is not None or policy['mode'] != 'single_default'):
+        raise ValueError('Raw Default derivation requires sole Default and normal Native10.0.7')
     if (not isinstance(native, dict) or type(native.get("schema")) is not int or native.get("schema") != 1
             or native.get("native_version") != expected_version or native.get("units") != "integer nanometres"):
         raise ValueError("Unexpected native version")
@@ -402,18 +408,22 @@ def audit_native(native, project, *, parent_policy=False, native_toolchain=None)
             value = Decimal(str(row[native_key]))
             if value != Decimal(str(cls[json_key])) * 1000000:
                 raise ValueError("Native resolved class differs from original project value: " + native_key)
-            if value < minimums[floor_key]:
+            if value < minimums[floor_key] and not derive_default_targets:
                 raise ValueError("Class parameter below original board floor: " + native_key)
-    return {"passed": True, "policy": policy, "native_nets": len(records),
-            "nets": copy.deepcopy(native_rows), "routing_accepted": False}
+    result = {"passed": True, "policy": policy, "native_nets": len(records),
+              "nets": copy.deepcopy(native_rows), "routing_accepted": False}
+    if derive_default_targets:
+        result['raw_default_for_target_derivation_only'] = True
+    return result
 
 
-def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchain=None):
+def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchain=None, derive_default_targets=False):
     """Compare DSN to native-resolved membership; never evaluate pattern strings."""
     from autorouter import sexpr as sx
     from autorouter.adapter import _check_units
 
-    verified = audit_native(native, project, parent_policy=parent_policy, native_toolchain=native_toolchain)
+    verified = audit_native(native, project, parent_policy=parent_policy, native_toolchain=native_toolchain,
+                            derive_default_targets=derive_default_targets)
     policy = verified["policy"]
     records = {row["name"]: row for row in verified["nets"]}
     configured = {item["name"]: item for item in project["net_settings"]["classes"]}
@@ -537,12 +547,15 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
         raise ValueError("DSN/native class definition inventory differs")
     if set(membership) != set(records):
         raise ValueError("Native net missing from explicit DSN classes")
-    return {"passed": True, "native_nets": len(records), "exported_terminal_nets": len(expected),
+    result = {"passed": True, "native_nets": len(records), "exported_terminal_nets": len(expected),
             "policy": policy, "classes": classes, "membership": membership,
             "limitations": ["Via drill is encoded by pinned KiCad via ID.",
                             "Terminal counts do not prove pin identities.",
                             "Imported route geometry and native DRC require separate validation."],
             "routing_accepted": False}
+    if derive_default_targets:
+        result['raw_default_for_target_derivation_only'] = True
+    return result
 
 def audit_dsn(path, native, project, *, parent_policy=False, native_toolchain=None):
     """Return a hash-bound, non-mutating mapping audit or fail closed."""

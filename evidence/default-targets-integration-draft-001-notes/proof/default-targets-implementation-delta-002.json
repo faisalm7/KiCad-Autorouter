@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "kind": "default-targets-preserved-via-source-helper-delta-v1",
+  "recorded_utc": "2026-10-19T08:21:21.579588+00:00",
+  "files": {
+    "autorouter/default_targets.py": {
+      "sha256": "245de5fc970a1a492485421a27ab5f4896ab4c1a900bca2309f25ef15d5e7660",
+      "bytes": 14976
+    },
+    "tests/test_default_targets.py": {
+      "sha256": "465ea44fb5abcbf2604d50d34a056e086306f4407f71215646a5ea036e8320e5",
+      "bytes": 19729
+    },
+    "autorouter/netclass.py": {
+      "sha256": "60eb4f314177b94a4a97916a8c29643b245d0f26c34b63b81e5c5e69b705c5f0",
+      "bytes": 33449
+    },
+    ".runs/default-targets-implementation-handoff-001.json": {
+      "sha256": "a722a5484ac015c03c3e8635173b98a16692bebe5accee22b0520ad48dfaa017",
+      "bytes": 7437
+    }
+  },
+  "review_origin": "Independent reviewer found an old via stack can also be referenced by an image pin without fixed wiring. Author first reproduced the defect, then applied requested narrow fix. No Native execution or product qualification.",
+  "actual_reproduction": "Regression002 first called transform and exact check successfully on the pre-fix source, then failed because an unchanged image pin referenced Via[0-1]_600:300_um but only Pad and Via[0-1]_1500:300_um were declared. Regression001 preserved the earlier full-tree failure. Both raw outputs/costs retained.",
+  "changes": [
+    "Whenever derivedviaID differs, keep every original library padstack byte/atom tree unchanged and append a separate derived routing choice; update only the structure/class planning references and new stack dimensions. This rule no longer depends on detecting fixed wiring references.",
+    "When derivedviaID is unchanged, do not rewrite its stack or references. Existing complete wiring/placement/image objects remain unchanged. New receipt fields original_via_stack_preserved=True and derived_via_stack_added bind the behavior.",
+    "Public pure source_dimensions(project_raw) returns exactly raw_nm, original_floors_nm, derived_nm with bounded captured bytes, duplicate-key rejection, soleDefault/noassignments/patterns/tuning, customrule/exclusion refusal, sourcepriority validation and same exact max/annulus derivation. transform invokes it; no Native or receipt authority is used.",
+    "New focused controls cover image-pin referencing originalvia, whole-library/wiring preservation, source helper consistency/detachment and malformed/duplicate/custom/assignment/exclusion source controls."
+  ],
+  "API": "source_dimensions(project_raw)->{raw_nm,original_floors_nm,derived_nm}; transform/check signatures and POLICY unchanged.",
+  "tests": [
+    {
+      "time_and_unittest_stderr": ".runs/default-targets-via-pin-regression-001-time.log",
+      "sha256": "967c0d6092392965e968a7e26339a197e76789603a312d2e02c21344be246cc0",
+      "stdout": ".runs/default-targets-via-pin-regression-001.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outcome": "FAIL1: pre-fix constructed dangling pin regression",
+      "wall_seconds": 0.16,
+      "full_CPU_seconds": 0.1
+    },
+    {
+      "time_and_unittest_stderr": ".runs/default-targets-via-pin-regression-002-time.log",
+      "sha256": "58f753a2fc060ed25cc40142a6ff81ec2b6b964d1bb1647bdb499096f4174c8c",
+      "stdout": ".runs/default-targets-via-pin-regression-002.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outcome": "FAIL1: pre-fix constructed dangling pin regression",
+      "wall_seconds": 0.17,
+      "full_CPU_seconds": 0.1
+    },
+    {
+      "time_and_unittest_stderr": ".runs/default-targets-targeted-005-time.log",
+      "sha256": "3c4cb4883366a4710531eb2e920aad2099200c52aa4e44fced629bb6fa65e461",
+      "stdout": ".runs/default-targets-targeted-005.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outcome": "PASS66",
+      "wall_seconds": 0.24,
+      "full_CPU_seconds": 0.18
+    }
+  ],
+  "latest_command": "PYTHONPATH=tests /usr/bin/time -p .venv/bin/python -B -m unittest tests.test_default_targets tests.test_netclass tests.test_netclass_parent_policy tests.test_netclass_unused tests.test_minimum_width_guard",
+  "untested": "Native7 routing/import/finalvalidation/export, worker integration, actual2/4Cu protected controls/cancel remain lead-owned gates. Same shared caller/source/tool/Native/material/PRL requirements apply.",
+  "ownership": "Only default_targets.py and test_default_targets.py changed in this follow-up. netclass.py unchanged from first handoff; first handoff immutable. No pipeline/native/review_export/docs/runtime037/Git/GUI/JVM/CI/fullsuite changes or execution."
+}

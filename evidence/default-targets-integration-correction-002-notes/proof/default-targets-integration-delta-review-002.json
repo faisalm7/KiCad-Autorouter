@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "kind": "default-targets-integration-independent-AI-delta-review-v2",
+  "recorded_utc": "2026-10-19T08:32:48.982158+00:00",
+  "reviewer": "Independent AI source reviewer; not human PCB review",
+  "scope": "DTI-001 rejected sole-thermal incumbent fence and extraction of shared final class/process audit only. No broad parent, routing algorithm, GUI or other integration re-review.",
+  "reviewed_file_pins": {
+    "autorouter/pipeline.py": "276398a357b7c5ffc73aef481888174b5c902083df9ebc476a39239caf3b68bb",
+    "autorouter/review_export.py": "5aca217c01deca20c333b5015af0cb3ebcc63c812a52441325765d00c51e15e8",
+    "autorouter/default_targets.py": "245de5fc970a1a492485421a27ab5f4896ab4c1a900bca2309f25ef15d5e7660"
+  },
+  "fix_script": {
+    "path": ".runs/default-targets-parent-fence-fix-001.py",
+    "sha256": "6cb5caedce813692f2048e4a7d346d2dd8ab15fa6c855b4f9fe94082abba4404",
+    "executed_by_reviewer": false
+  },
+  "prior_review": {
+    "path": ".runs/default-targets-integration-review-001.json",
+    "sha256": "d3dd3bb0829db4ebffe2e735b5321aa06970d99f1a2da205288833fddeaa0def",
+    "frozen_first_review_preserved": true
+  },
+  "conclusion": "DTI-001 is closed at the reviewed source level. The rejected sole-thermal child now receives the mandatory captured-producer Default contract independently of optional markers, then the same final raw-class/derived-dimension/map/process audit as direct Route and fresh export whenever that contract applies. No new material issue found within this narrow delta. Dynamic and Native qualification remain separate.",
+  "DTI001": {
+    "status": "source-level closure verified",
+    "branch": {
+      "file": "autorouter/pipeline.py",
+      "line": 724,
+      "assessment": "The sole-thermal drc_rejected incumbent branch calls check_rejected_default_targets(child,inc,original,child_candidate,child_protected) before its existing retained Native report/named-edge/pour/edge and selected-trial fences."
+    },
+    "mandatory_contract": {
+      "file": "autorouter/pipeline.py",
+      "lines": [
+        1321,
+        1324,
+        1325
+      ],
+      "assessment": "check_rejected_default_targets always invokes check_default_target_transport first, rather than deciding from optional default_target_transport marker presence. That existing function reads the captured hash-bound producer declaration and requires/reconstructs the guide/receipt when current source policy applies. Missing marker/files cannot select historicalNone for the current producer."
+    },
+    "final_evidence": {
+      "file": "autorouter/pipeline.py",
+      "lines": [
+        1305,
+        1311,
+        1312,
+        1313,
+        1314,
+        1315,
+        1316,
+        1317,
+        1318
+      ],
+      "assessment": "A nonNone required contract calls shared check_final_netclass_evidence with default_target_policyTrue. It parses bounded strict final map JSON; audit_candidate_netclasses binds map source/candidate/project/savedFalse, preserves raw Native/source class values/parents and checks generated geometry against recomputed original dimensions/floors. Retained final audit equality includes actual map SHA; shared process_check requires exact Native netclasses command/cwd/name/exit0/success/cleanup and matching single step."
+    },
+    "legacy": {
+      "assessment": "If the unchanged mandatory policy reader returnsNone for a genuine old producer/outside new target scope, no new final map requirement is imposed by this wrapper. The branch retains all previous import/protected/Native/thermal selection checks. HistoricalNone remains explicit compatibility, not inferred from absent optional marker alone."
+    }
+  },
+  "shared_extraction": {
+    "direct_route": {
+      "file": "autorouter/pipeline.py",
+      "line": 2934,
+      "assessment": "Previous inline map/audit/fileSHA and final-netclasses process/step checks now use the shared function with the same native_toolchain and derived-contract Boolean. floor_route.process_check retains exact argv/cwd/name/status/exit/cleanup/single-step checks, with strict integer exit typing and bounded duplicate-key rejecting JSON reads."
+    },
+    "fresh_export": {
+      "file": "autorouter/review_export.py",
+      "line": 223,
+      "assessment": "Previous map/audit and sandbox-prefixed process checks now call the same helper with sandboxedTrue and the already centrally validated report policy selector. Fresh export Native/refill/fullSCH/original/protected/metrics/class/census/witness checks remain outside this extraction and unchanged."
+    },
+    "default_targets_helper": "Exact245de5fc helper is unchanged from reviewed DT-001 closure."
+  },
+  "new_material_issues": [],
+  "validation_limits": {
+    "method": "Read frozen fix-script replacements and actual call sites/helpers; compared extracted logic to first reviewed source. No code execution, tests, receipt fabrication or Native performed.",
+    "tests_run_by_reviewer": false,
+    "Native": false,
+    "JVM_or_solver": false,
+    "GUI": false,
+    "CI": false,
+    "routing": false,
+    "source_or_test_edits": false,
+    "network": false,
+    "delegation": false,
+    "other_investigations": false
+  },
+  "remaining_gates": [
+    "Lead constructed missing-marker/missing-guide/missing-or-tampered-final-audit/raw-map/process and historicalNone regressions have not been run by this reviewer.",
+    "Fresh bounded selected7 producer/final/export/protected/cancel/readback and new frozen Mixer result remain actual execution gates.",
+    "This source review does not qualify production functionality, GUI, breadth/quality/comparison, Windows or human/electrical/physical approval."
+  ],
+  "cost_scope": "Read-only source/receipt authoring cost unmeasured, notzero; no Native/test/job cost incurred by this review.",
+  "production_qualified": false,
+  "human_review": false
+}

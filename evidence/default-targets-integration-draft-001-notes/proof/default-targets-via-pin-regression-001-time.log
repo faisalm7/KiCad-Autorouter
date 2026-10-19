@@ -1,0 +1,32 @@
+F
+======================================================================
+FAIL: test_image_pin_referencing_original_via_stack_keeps_its_definition (tests.test_default_targets.DefaultTargetsTests.test_image_pin_referencing_original_via_stack_keeps_its_definition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_default_targets.py", line 144, in test_image_pin_referencing_original_via_stack_keeps_its_definition
+    self.assertEqual(sx.children(sx.one(old, 'library'), 'padstack'), sx.children(sx.one(new, 'library'), 'padstack')[:-1])
+AssertionError: Lists differ: [['pa[68 chars]ff']], ['padstack', '"Via[0-1]_600:300_um"', [[89 chars]f']]] != [['pa[68 chars]ff']]]
+
+First list contains 1 additional elements.
+First extra element 1:
+['padstack', '"Via[0-1]_600:300_um"', ['shape', ['circle', 'F.Cu', '600']], ['shape', ['circle', 'B.Cu', '600']], ['attach', 'off']]
+
+- [['padstack', 'Pad', ['shape', ['circle', 'F.Cu', '1000']], ['attach', 'off']],
+?                                                                               ^
+
++ [['padstack', 'Pad', ['shape', ['circle', 'F.Cu', '1000']], ['attach', 'off']]]
+?                                                                               ^
+
+-  ['padstack',
+-   '"Via[0-1]_600:300_um"',
+-   ['shape', ['circle', 'F.Cu', '600']],
+-   ['shape', ['circle', 'B.Cu', '600']],
+-   ['attach', 'off']]]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.033s
+
+FAILED (failures=1)
+real 0.16
+user 0.08
+sys 0.02

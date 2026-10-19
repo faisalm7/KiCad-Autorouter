@@ -1,0 +1,16 @@
+F
+======================================================================
+FAIL: test_image_pin_referencing_original_via_stack_keeps_its_definition (tests.test_default_targets.DefaultTargetsTests.test_image_pin_referencing_original_via_stack_keeps_its_definition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_default_targets.py", line 146, in test_image_pin_referencing_original_via_stack_keeps_its_definition
+    self.assertIn(sx.unquote(pin[1]), declared)
+AssertionError: 'Via[0-1]_600:300_um' not found in {'Via[0-1]_1500:300_um', 'Pad'}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.038s
+
+FAILED (failures=1)
+real 0.17
+user 0.08
+sys 0.02
