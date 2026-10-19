@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "Windows011-reviewed-unexecuted-finite-state-and-custody-mode",
+  "recorded_utc": "2026-10-19T06:12:23.651490+00:00",
+  "project_complete": false,
+  "CI_dispatched": false,
+  "actual_policy_operations": false,
+  "actual_profile_operations": false,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "protocols": [
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_build_protocol002.json",
+      "sha256": "9563d83654f3c614c788bb9638e31ecc78319a1c2fc1e87afbe5fedc75565453",
+      "kind": "windows011-build-null-ABI-readiness-v1"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_lifetime_protocol.json",
+      "sha256": "0d99695a49d131656ac460e30e8ce9db998317e939c7899d5c95f9cc322fcdeb",
+      "kind": "windows011-persistent-SID-finite-canary-v1"
+    }
+  ],
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "40a221014355d6a43d5e3d42589ecc1fb57e7b8038e8ef3a2d17ce9e732e3dae",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+    "scripts/windows_native_slice/persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d"
+  },
+  "source_review_sha256": "178d7dbac02298ca48d84b59648d383418d6247f68fad2bdf5bbc4ebc65e3e03",
+  "changes": [
+    "Exact live C owner plus host-only bounded flush journal/tombstones, no saved-state cleanup/adoption/reuse.",
+    "BeginCreate before CreateProcess; actualhandle capture before fallible witnesses/policy reads; token/source/policy beforeResume; external errors poison.",
+    "Live sealed retained-Job-zero+actual-created-process-signalled/exact-policy-absence proof before normal cleanup. Persistent ACL/identity failures retain profile; default branch unchanged.",
+    "Actual own state bytes retained as bounded base64 log chunks, partial differs explicitly from lastcompletewrite; no previousowner census for export.",
+    "Shared original compiler/Job/enclosure/DNS/probe/normal+cancel path, explicit finite stage, unchanged resourcecaps."
+  ],
+  "pure_controls": {
+    "last_passed": true,
+    "tests": 42,
+    "skips": 1,
+    "last_cost": {
+      "wall_seconds": 0.79,
+      "CPU_seconds": 0.74
+    },
+    "earlier_failed": "state-targeted001 has2ASTtest-helper StopIteration errors, then002fixpasses; notWindows/routing failure",
+    "counterfactual": "One-condition reversal produces3expected profile-retention failures; not an archived historical or actualWindows run."
+  },
+  "historical_scope": "Actual001 at8b7 qualifies only originalf227C/build/NULL ABI. Current C capture order, shared ABI, state and callbacks remainunexecuted; do not promote oldresult.",
+  "evidence_limits": "Source/AI review/purefaultcontrols only. All actualWindows policy/ACL/flush/denial/lifetime behavior remains unqualified until finiteCI; all missing protocols/external releasegates stayvisible. No Macproduct code/immutable035 changed.",
+  "accounting": "All target/failure/time logs retained; authoring/research/AI review/freeze and wholeCI CPU unmeasured, notzero. No routing improvement or speed claim.",
+  "backup_scope": "Audited essential owned source/control text only, notfullraw backup/restoration. Prepared035GUI/nojobs and completed035Native preserved.",
+  "files_index": {
+    "path": "evidence/windows011-finite-state-mode-001-notes/files.json",
+    "sha256": "b96214a10e400f9189f498c98c1447ab38b5ab2fda282bcb408bc8fc1b6fe535"
+  }
+}

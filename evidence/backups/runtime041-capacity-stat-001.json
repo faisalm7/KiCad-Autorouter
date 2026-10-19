@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "kind": "current041-capacity-only-not-backup-or-restoration",
+  "recorded_utc": "2026-10-19T15:37:30.680464+00:00",
+  "snapshot": {
+    "schema": 1,
+    "kind": "exclusive-stat-only-current-capacity-not-a-backup",
+    "files": 437514,
+    "directories": 100399,
+    "logical_bytes": 16961902009,
+    "source_allocated_bytes": 17986498560,
+    "restore_payload_4KiB_rounding_bytes": 17986248704,
+    "restore_directory_4KiB_forecast_bytes": 411234304,
+    "free_before_bytes": 27552518144,
+    "free_after_bytes": 27564384256,
+    "existing_capture_caps": {
+      "files": 350000,
+      "bytes": 13153337344,
+      "receipt_bytes": 104857600,
+      "chain_receipt_bytes": 201326592
+    },
+    "file_excess": 87514,
+    "byte_excess": 3808564665,
+    "wall_seconds": 19.58079237502534,
+    "payload_hashed": false,
+    "archive_created": false,
+    "restoration_run": false,
+    "caps_changed": false,
+    "limits": "Stat forecast max500000files+500000directories/20GiB/90s. Does not raise capture caps, read payloads, establish actual delta/archive/receipt/Git-checkout/allocation fit, or repeat008/010. All Native/GUI/CI/backup workers idle; this report/admin logs are subsequent small additions outside the measured snapshot point."
+  },
+  "complete_external_cost": {
+    "wall_seconds": 19.67,
+    "CPU_seconds": 15.58
+  },
+  "forecast": {
+    "restored_payload_plus_directories_4KiB_bytes": 18397483008,
+    "reserve_bytes": 3221225472,
+    "minimum_with_reserve_excludes_Git_delta_and_metadata": 21618708480,
+    "remaining_for_Git_delta_and_metadata": 5945675776
+  },
+  "backup_created": false,
+  "restoration_run": false,
+  "old008010_repeated": false,
+  "caps_changed": false,
+  "evidence_deleted": false,
+  "payload_hashed": false,
+  "gate": "Current437514files/16961902009B exceeds existing350000/13153337344B caps. Actual delta/compressed archive/serialized receipt+chain/Git checkout and allocation fit remain unknown. Existing preserved untracked work also prevents the current clean-state capture guard; nothing hidden/discarded. Do not force capture or infer capacity from free bytes alone.",
+  "next": "After current Native/GUI integration writers are idle, use existing backup inventory/delta/receipt calculations under separately bounded measured forecast to establish actual fit; audit preservation of untracked work without weakening guards. Only then a new direct-full006 incremental and its new-target restore; never repeat008/010.",
+  "private_scope": "Names/stat totals only; no source board/private-reference contents copied or published. Older full raw remains Mac-only by owner choice.",
+  "source_receipt_sha256": "f0c5a728291ee288579af239ea91e9515ee1a27981289770f1bc6cfd0aa6c801",
+  "helper_sha256": "6363025279913655631ad982fa63887eb0faf21b5fded30a8d9163451826aa1c",
+  "project_complete": false
+}

@@ -1,0 +1,218 @@
+{
+  "context_schema": 1,
+  "native_version": "10.0.0",
+  "units": "integer nanometres",
+  "floors_nm": {
+    "min_track_width": 300000,
+    "min_clearance": 300000,
+    "min_via_diameter": 1500000,
+    "min_through_hole_diameter": 300000,
+    "min_via_annular_width": 300000
+  },
+  "pads": [
+    {
+      "uuid": "815f4686-83fb-5621-9e07-f7e033dcf296",
+      "reference": "J1",
+      "number": "1",
+      "netcode": 1,
+      "net": "SIGNAL_A",
+      "copper_layers": [
+        "F.Cu"
+      ],
+      "position_nm": [
+        10000000,
+        10000000
+      ]
+    },
+    {
+      "uuid": "0452c52f-1305-507f-8c7b-da89b97ddd1a",
+      "reference": "J2",
+      "number": "1",
+      "netcode": 1,
+      "net": "SIGNAL_A",
+      "copper_layers": [
+        "B.Cu"
+      ],
+      "position_nm": [
+        40000000,
+        10000000
+      ]
+    },
+    {
+      "uuid": "f456f0af-f4b3-58b9-8980-405496735dd9",
+      "reference": "J3",
+      "number": "1",
+      "netcode": 2,
+      "net": "SIGNAL_B",
+      "copper_layers": [
+        "F.Cu"
+      ],
+      "position_nm": [
+        10000000,
+        20000000
+      ]
+    },
+    {
+      "uuid": "d67c6e15-c566-5a5d-afb1-5fe68896c30e",
+      "reference": "J4",
+      "number": "1",
+      "netcode": 2,
+      "net": "SIGNAL_B",
+      "copper_layers": [
+        "F.Cu"
+      ],
+      "position_nm": [
+        40000000,
+        20000000
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "SIGNAL_A",
+      "netcode": 1,
+      "class": "Default",
+      "width_nm": 200000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000,
+      "copper_pad_count": 2
+    },
+    {
+      "name": "SIGNAL_B",
+      "netcode": 2,
+      "class": "Default",
+      "width_nm": 200000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000,
+      "copper_pad_count": 2
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "2fba77f2-d212-44ea-892d-e96d8f7fb2ec",
+      "net": "SIGNAL_A",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        41645000,
+        13960000
+      ],
+      "end_nm": [
+        15411700,
+        13960000
+      ],
+      "layer": "F.Cu"
+    },
+    {
+      "uuid": "cafc13e2-e1b4-4e59-8262-021f70675d9d",
+      "net": "SIGNAL_A",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        10000000,
+        10000000
+      ],
+      "end_nm": [
+        11451700,
+        10000000
+      ],
+      "layer": "F.Cu"
+    },
+    {
+      "uuid": "d12eea73-6481-4d73-bdaf-d055441ce015",
+      "net": "SIGNAL_A",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        15411700,
+        13960000
+      ],
+      "end_nm": [
+        11451700,
+        10000000
+      ],
+      "layer": "F.Cu"
+    },
+    {
+      "uuid": "59a612ac-103e-4f2b-89a9-f68d4d338b79",
+      "net": "SIGNAL_A",
+      "width_nm": 1500000,
+      "kind": "via",
+      "position_nm": [
+        41645000,
+        13960000
+      ],
+      "drill_nm": 300000,
+      "via_type": 4,
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ]
+    },
+    {
+      "uuid": "5de4fa74-e85b-4600-992e-26d38c287c05",
+      "net": "SIGNAL_A",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        40000000,
+        11451700
+      ],
+      "end_nm": [
+        41645000,
+        13096700
+      ],
+      "layer": "B.Cu"
+    },
+    {
+      "uuid": "8598558d-4c52-4d6c-9e47-15041e0c71b5",
+      "net": "SIGNAL_A",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        40000000,
+        10000000
+      ],
+      "end_nm": [
+        40000000,
+        11451700
+      ],
+      "layer": "B.Cu"
+    },
+    {
+      "uuid": "ad4f0fd8-ade6-40b7-8e3e-3e6533bee180",
+      "net": "SIGNAL_A",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        41645000,
+        13096700
+      ],
+      "end_nm": [
+        41645000,
+        13960000
+      ],
+      "layer": "B.Cu"
+    },
+    {
+      "uuid": "de044da5-82aa-4101-9506-07053ab3792d",
+      "net": "SIGNAL_B",
+      "width_nm": 300000,
+      "kind": "segment",
+      "start_nm": [
+        40000000,
+        20000000
+      ],
+      "end_nm": [
+        10000000,
+        20000000
+      ],
+      "layer": "F.Cu"
+    }
+  ],
+  "board_saved": false,
+  "routing_accepted": false,
+  "production_support_qualified": false
+}

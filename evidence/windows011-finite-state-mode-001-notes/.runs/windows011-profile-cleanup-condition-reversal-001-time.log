@@ -1,0 +1,43 @@
+test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority (guard_fault_test.WindowsProbeControls.test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority)
+Fault injection at the Python boundary; not real WFP qualification. ... 
+  test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority (guard_fault_test.WindowsProbeControls.test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority) (fault='restore')
+Fault injection at the Python boundary; not real WFP qualification. ... FAIL
+  test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority (guard_fault_test.WindowsProbeControls.test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority) (fault='verify')
+Fault injection at the Python boundary; not real WFP qualification. ... FAIL
+  test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority (guard_fault_test.WindowsProbeControls.test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority) (fault='close')
+Fault injection at the Python boundary; not real WFP qualification. ... FAIL
+
+======================================================================
+FAIL: test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority (guard_fault_test.WindowsProbeControls.test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority) (fault='restore')
+Fault injection at the Python boundary; not real WFP qualification.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_windows_probe_controls.py", line 58, in test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority
+    self.assertNotIn('delete_profile',calls)
+AssertionError: 'delete_profile' unexpectedly found in ['contract', 'remove', 'delete_profile', 'poison', 'abandon']
+
+======================================================================
+FAIL: test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority (guard_fault_test.WindowsProbeControls.test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority) (fault='verify')
+Fault injection at the Python boundary; not real WFP qualification.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_windows_probe_controls.py", line 58, in test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority
+    self.assertNotIn('delete_profile',calls)
+AssertionError: 'delete_profile' unexpectedly found in ['contract', 'remove', 'delete_profile', 'poison', 'abandon']
+
+======================================================================
+FAIL: test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority (guard_fault_test.WindowsProbeControls.test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority) (fault='close')
+Fault injection at the Python boundary; not real WFP qualification.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_windows_probe_controls.py", line 58, in test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority
+    self.assertNotIn('delete_profile',calls)
+AssertionError: 'delete_profile' unexpectedly found in ['contract', 'remove', 'delete_profile', 'poison', 'abandon']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=3)
+real 0.08
+user 0.04
+sys 0.01

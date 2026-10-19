@@ -1,0 +1,56 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 1.1031481250029174,
+  "cpu_seconds": 0.44983799999999996,
+  "max_rss_bytes": 91406336,
+  "supervisor_cpu_seconds": 0.00815699999999997,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 89620480,
+  "sampled_peak_workdir_bytes": 649643,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpv_7vjqgk/run/source-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpv_7vjqgk/run/source-drc-input/fixture.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpv_7vjqgk/run/source-drc.log",
+  "log_bytes": 162,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpv_7vjqgk/run",
+  "signal_cancellation_enabled": true,
+  "pid": 85038,
+  "name": "source-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": false
+  }
+}
