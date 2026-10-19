@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "actual-revised-distribution-native-smoke",
+  "passed": true,
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "protocol_sha256": "13cdd1a7706bf9d4e37d1d37ec03cbb3c9c3480e0d648e182b82478bdb202248",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 22.034223583061248,
+    "cpu_seconds": 19.447128,
+    "max_rss_bytes": 244776960,
+    "supervisor_cpu_seconds": 0.053807999999999995,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 38682624,
+    "sampled_peak_workdir_bytes": 136,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/install_smoke.py",
+      "--source-mode",
+      "distribution",
+      "--native-version",
+      "10.0.7",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/install-distribution-native-015/enclosure/command.log",
+    "log_bytes": 136,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/install-distribution-native-015/enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 31919
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/result.json",
+  "child_receipt_sha256": "5797016558bbf8226984b4facf916189f0e6ad6c74ed15af37996d23c9f8653c",
+  "source_unchanged": true,
+  "complete_wall_seconds": 22.294808959006332,
+  "complete_full_CPU_seconds": 19.745976,
+  "scope": "Fresh selected7 runtime042/venv, doctor and canonical Native Route/check after the parity-reporting correction: producers declare checked only after their own validation returns. Validation, Native/full-schematic/original/protected acceptance and cancellation guards remain unchanged. No constraints or source/DSN changes; current six-stage, GUI, breadth, cleanOS, relocation, Windows and publication qualification remain separate. Immutable041 evidence is preserved, not promoted to042.",
+  "reason": null
+}

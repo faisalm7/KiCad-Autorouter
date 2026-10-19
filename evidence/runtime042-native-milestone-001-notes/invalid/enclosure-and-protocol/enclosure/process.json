@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 14.638723999960348,
+  "cpu_seconds": 12.907499999999999,
+  "max_rss_bytes": 270188544,
+  "supervisor_cpu_seconds": 0.040033,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 269484032,
+  "sampled_peak_workdir_bytes": 159,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/qualify-runtime042-ordinary-native-invalid-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-ordinary-native-invalid-001/protocol.json",
+    "--protocol-sha256",
+    "3af6e373023003ae5df44426c16b6a8e83198b70178c70cf6c1d0c06187787b2"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-ordinary-native-invalid-001/enclosure/command.log",
+  "log_bytes": 159,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-ordinary-native-invalid-001/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 33107
+}

@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "policy": "single-default-global-floor-targets-v2",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/ordinary-floor-4Cu-001/autorouter-gui-8f198e358a90469793f1e4dd60cb62f9/route/candidate/owned-default-floor-4cu.kicad_pcb",
+  "native_version": "10.0.7",
+  "input_sha256": "78184ea49543fdaae1b1d8591150b8a7c1a9ab3657e2b9e1785c47772be7f10e",
+  "output_sha256": "0c1eaaadf24d35d591558fcc1a0352322d1ed4696797f3e1c272243d943aad20",
+  "project_sha256": "a16f1b0199e2e52c976b37a66f061e6981a92ba642ecdb3b43fb792f01a772cd",
+  "task_sha256": "706545aaa8228aa6534af8917c14fd3f82fc734a80faf36d8773d5db0f501b9f",
+  "native_map_sha256": "1d36c69551780916c710e61906632bacac6957120528f43d5c2f5e34524d139e",
+  "raw_nm": {
+    "width_nm": 200000,
+    "clearance_nm": 100000,
+    "via_diameter_nm": 600000,
+    "via_drill_nm": 300000
+  },
+  "original_floors_nm": {
+    "min_track_width": 300000,
+    "min_clearance": 200000,
+    "min_via_diameter": 900000,
+    "min_through_hole_diameter": 400000,
+    "min_via_annular_width": 250000
+  },
+  "derived_nm": {
+    "width_nm": 300000,
+    "clearance_nm": 200000,
+    "via_diameter_nm": 900000,
+    "via_drill_nm": 400000
+  },
+  "raw_mapping_audit": {
+    "passed": true,
+    "native_nets": 3,
+    "exported_terminal_nets": 3,
+    "policy": {
+      "mode": "single_default",
+      "literal_assignments": {}
+    },
+    "classes": [
+      {
+        "dsn_class": "kicad_default",
+        "member_count": 3,
+        "via": "Via[0-3]_600:300_um",
+        "dimensions_nm": {
+          "width_nm": "200000",
+          "clearance_nm": "100000",
+          "via_diameter_nm": "600000",
+          "via_drill_nm": "300000"
+        }
+      }
+    ],
+    "membership": {
+      "GND": "kicad_default",
+      "KEEP": "kicad_default",
+      "ROUTE": "kicad_default"
+    },
+    "limitations": [
+      "Via drill is encoded by pinned KiCad via ID.",
+      "Terminal counts do not prove pin identities.",
+      "Imported route geometry and native DRC require separate validation."
+    ],
+    "routing_accepted": false,
+    "raw_default_for_target_derivation_only": true
+  },
+  "dimension_resolution": {
+    "native_floor_observation_required": true,
+    "implicit_class_fields": [],
+    "implicit_floor_fields": [],
+    "original_project_modified": false
+  },
+  "copper_layers": [
+    "F.Cu",
+    "In1.Cu",
+    "In2.Cu",
+    "B.Cu"
+  ],
+  "original_via_id": "Via[0-3]_600:300_um",
+  "derived_via_id": "Via[0-3]_900:400_um",
+  "original_via_stack_preserved": true,
+  "derived_via_stack_added": true,
+  "protected_via_stack_preserved": false,
+  "wiring_sha256": "63108304b41d35a7e467fa37c283dd3043e592299dbcb23e7e4a73412ba347bd",
+  "engine_requirements": {
+    "automatic_neckdown": false,
+    "fanout.enabled": false,
+    "neck_width_um": 0
+  },
+  "routing_accepted": false,
+  "production_support_qualified": false,
+  "native_execution_proven": false
+}
