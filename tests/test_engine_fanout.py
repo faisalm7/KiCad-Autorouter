@@ -156,7 +156,8 @@ class EngineFanoutControls(unittest.TestCase):
             state['readbacks']+=1
         env=dict(p.__dict__)
         env.update(report=case.data,output=case.run,source=case.source,before=hash_tree(case.source_dir),
-                   completed=f.evidence_inventory(case.run),native_toolchain=None,comparison_context=None,_preferences=None,class_requirement=None,
+                   completed=f.evidence_inventory(case.run),native_toolchain=None,comparison_context=None,
+                   _improve_context=None,_improve_budget=None,_preferences=None,class_requirement=None,
                    _fanout_enabled=case.data.get('engine_fanout_override'),engine_profile=case.data['engine_profile'],
                    tool_manifest=lambda **kw:case.data['tools'],evidence_inventory=f.evidence_inventory,tree_hash=current_hash)
         exec(compile(ast.fix_missing_locations(ast.Module(body=closures,type_ignores=[])),str(source),'exec'),env)
@@ -170,7 +171,7 @@ class EngineFanoutControls(unittest.TestCase):
             with self.subTest(profile=profile,fanout=fanout):
                 case=self.publication_fixture(profile,fanout);result,state=self.publish_actual_stable(case)
                 self.assertEqual(state,dict(readbacks=1,triggered=False))
-                self.assertTrue(result['accepted']);self.assertTrue(f.read_json(case.receipt)['accepted'])
+                self.assertTrue(result['accepted'],result.get('reason'));self.assertTrue(f.read_json(case.receipt)['accepted'])
                 self.assertFalse(list(case.run.glob('invalidated-result-*')))
 
     @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
@@ -196,7 +197,8 @@ class EngineFanoutControls(unittest.TestCase):
                     self.assertEqual(state,dict(readbacks=1,triggered=True))
                     self.assertFalse(result['accepted']);self.assertEqual(result['status'],'invalidated')
                     self.assertFalse(f.read_json(case.receipt)['accepted'])
-                    self.assertIn('flags',result['reason']);self.assertTrue(list(case.run.glob('invalidated-result-*')))
+                    self.assertIn('flags',result['reason']);self.assertNotIn('NameError',result['reason'])
+                    self.assertTrue(list(case.run.glob('invalidated-result-*')))
                     self.assertEqual(target.read_bytes(),raw)
                 finally:
                     # The fault is limited to one owned TemporaryDirectory PRL;

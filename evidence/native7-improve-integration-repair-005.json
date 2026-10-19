@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "kind": "Improve-integration-cache-and-legacy-fixture-repair-v1",
+  "recorded_utc": "2026-10-19T22:49:19.850669+00:00",
+  "source_head_before_changes": "f77122d269797f7e2eab7fbe2b6d446086516ef4",
+  "source_sha256": {
+    "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+    "tests/test_comparison_context.py": "e01d1e2c04bb4bd05eb567fe8a8805012469a81809c55526b741e224fd527265",
+    "tests/test_engine_fanout.py": "3dd23434e17d861bfa332fe6a77a10aad3696da8d1fcc15ee41869c74b7dc320",
+    "tests/test_engine_optimizer.py": "d8042aff0f752ae55a999d52e44e6e9749025b2c7724c393969e04f2ca847df4",
+    "tests/test_experimental_route_publication.py": "53f20fe293c32f9c1d337f4b23c5a4d7daa6bd609e6e30a0747fd0855e7ddc34",
+    "tests/test_preference_publication.py": "5c5ae31287fd743054e5c8316e8bdf69589dc6e559f39842d98736aad91f52b1",
+    "tests/test_improve_readback_identity.py": "03b4e304509d4344a452b9e56386f2a0d09cf5ad59f2f261e01483fe02834949"
+  },
+  "project_complete": false,
+  "Native_executed": false,
+  "actual_GUI": false,
+  "qualified": false,
+  "full192": {
+    "passed": false,
+    "complete_cost": {
+      "wall_seconds": 351.51,
+      "CPU_seconds": 335.31,
+      "user_seconds": 277.42,
+      "system_seconds": 57.89,
+      "time_log_sha256": "7012f722b551440d15f442240aac34e4d81fea95109407bb3be8ba4315856345",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-192-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "sources_unchanged": true,
+    "cleanup_complete": true,
+    "status": "log_limit",
+    "exit_code": -15,
+    "log_truncated": true,
+    "raw_sha256": "50e7fbb9983d0919b5330105ecd6de40589d042e401aea9e8ac1955ea5508ac8",
+    "test_count": null,
+    "scope": "The bounded512KiB log filled while reporting failures. No complete test count/full-pass inference; raw partial log retained on Mac."
+  },
+  "defects": [
+    {
+      "kind": "production fail-closed",
+      "cause": "Including the new private Context module in readback identity exposed imported dataclasses.field MISSING defaults; ordinary scoped readback/handoff refused.",
+      "correction": "Import dataclasses as a module and qualify decorators/fields. Keep Context module in fingerprint population and preserve unknown mutable-policy refusal.",
+      "reproduced_before": true
+    },
+    {
+      "kind": "constructed harness interfaces",
+      "cause": "Old AST namespaces omitted new ordinary/comparison None/False locals. Fake worker and cancellation fixture lacked the shared Job.remaining method.",
+      "correction": "Supply explicit legacy authority absence and reuse actual Job.remaining with inherited budget None. Original cancellation/flag/stale negatives retained and reason assertions strengthened."
+    }
+  ],
+  "tests": [
+    {
+      "passed": false,
+      "tests": 1,
+      "reason": "Before-fix real fingerprint reproduction errors as expected.",
+      "complete_cost": {
+        "wall_seconds": 0.17,
+        "CPU_seconds": 0.1,
+        "user_seconds": 0.08,
+        "system_seconds": 0.02,
+        "time_log_sha256": "529b84b6ff337fc0fba4bc0fe31d9b8025035658b54c6a4163bfa0b97bc85d1f",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-readback-identity-before-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "passed": false,
+      "tests": 93,
+      "reason": "91 controls passed; two legacy target imports needed tests on module search path. No correctness failure in the91 executed controls.",
+      "complete_cost": {
+        "wall_seconds": 24.26,
+        "CPU_seconds": 23.2,
+        "user_seconds": 20.69,
+        "system_seconds": 2.51,
+        "time_log_sha256": "aeaa2b5538717f8bbb71634003b1d963d460036154cd102d81f446faae61a821",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-integration-repair-targeted-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "passed": true,
+      "tests": 77,
+      "constructed": true,
+      "complete_cost": {
+        "wall_seconds": 74.66,
+        "CPU_seconds": 71.8,
+        "user_seconds": 62.07,
+        "system_seconds": 9.73,
+        "time_log_sha256": "8aa0156546f157a5084c66071fe7fb99a099281cf6da5469344a6695a280e20f",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-readback-repair-targeted-002-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    }
+  ],
+  "AI_review": {
+    "agent": "/root/windows005_gate",
+    "human": false,
+    "executed": false,
+    "finding": "No guard weakening found in dataclasses import or explicit ordinary fixture contexts; new tests use the actual identity function and preserve refusal of unsupported constants."
+  },
+  "files": [
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/full-integration-192/protocol.json",
+      "sha256": "3948c8614e708b6e96fbd7b2dd206749c49cf1ceecddb745a45a4c308a5b9cc3",
+      "bytes": 41245
+    },
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/full-integration-192/execution.json",
+      "sha256": "605fb9bb01acaac237441ed0e17530f044b589306c390fcfaaaee2c9d5b12946",
+      "bytes": 1962
+    },
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/full-integration-192-time.log",
+      "sha256": "7012f722b551440d15f442240aac34e4d81fea95109407bb3be8ba4315856345",
+      "bytes": 758
+    },
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/run-full-integration-192.py",
+      "sha256": "d7e52b78536b7d02044f7eb7f2318c10ce9eaa807bf468c2dd44b79576a4b6fc",
+      "bytes": 3127
+    },
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/native7-improve-readback-identity-before-001-time.log",
+      "sha256": "529b84b6ff337fc0fba4bc0fe31d9b8025035658b54c6a4163bfa0b97bc85d1f",
+      "bytes": 2562
+    },
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/native7-improve-integration-repair-targeted-001-time.log",
+      "sha256": "aeaa2b5538717f8bbb71634003b1d963d460036154cd102d81f446faae61a821",
+      "bytes": 2406
+    },
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/native7-improve-readback-repair-targeted-002-time.log",
+      "sha256": "8aa0156546f157a5084c66071fe7fb99a099281cf6da5469344a6695a280e20f",
+      "bytes": 932
+    },
+    {
+      "path": "evidence/native7-improve-integration-repair-005-notes/native7-improve-legacy-context-controls-001.patch",
+      "sha256": "77e4ea2f2aa27bcd1e8b84b45417b009940b2a03cef4a33b24bc1c62d4aa5cbf",
+      "bytes": 8751
+    }
+  ],
+  "next": "Repeat full integration because demonstrated source/harness defects changed code. After it passes, prepare one fresh runtime044, doctor and finite frozen installed Native Improve/ordinary/safety qualifications. Existing043 CLI and042 GUI evidence remain exact, not proof of this code.",
+  "backup": "Audited source/facts/owned small control logs only at next verified Git checkpoint. Full raw log and new unique source/Native artifacts remain Mac-only outside010. No full restoration repeat or additional raw-backup claim.",
+  "accounting": "Complete exits above, nested once. Before-fix read-only diagnosis/research/authoring/AI review/retention/unknown interactive costs additional, not zero."
+}

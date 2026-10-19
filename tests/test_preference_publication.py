@@ -31,6 +31,10 @@ class FakeWorkerJob:
         self.out = Path(out); self.out.mkdir(); self.steps = []
         self.started = time.monotonic(); self.deadline = self.started + seconds
         self.cpu_started = time.process_time()
+        self._inherited_budget = None
+
+    # Reuse the real deadline method; only expensive workers are mocked.
+    remaining = p.Job.remaining
 
     def drc(self, *args):
         return {'warnings': 0, 'findings': []}

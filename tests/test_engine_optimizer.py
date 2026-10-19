@@ -9,6 +9,7 @@ from tests import test_engine_fanout as fanout,test_engine_angle as angle_fixtur
 class EngineOptimizerControls(unittest.TestCase):
     scratch=fanout.EngineFanoutControls.scratch
     publication_fixture=fanout.EngineFanoutControls.publication_fixture
+    # Shared AST namespace explicitly sets both Improve authorities to None.
     publish_actual_stable=fanout.EngineFanoutControls.publish_actual_stable
 
     def settings(self,**changes):
@@ -148,7 +149,7 @@ class EngineOptimizerControls(unittest.TestCase):
 
     def test_actual_stable_shared_publication_accepts_unchanged_owned_prl(self):
         case=self.optimizer_publication_fixture();result,state=self.publish_actual_stable(case)
-        self.assertEqual(state,dict(readbacks=1,triggered=False));self.assertTrue(result['accepted'])
+        self.assertEqual(state,dict(readbacks=1,triggered=False));self.assertTrue(result['accepted'],result.get('reason'))
         self.assertTrue(f.read_json(case.receipt)['accepted'])
 
     @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
@@ -169,6 +170,7 @@ class EngineOptimizerControls(unittest.TestCase):
             if result.get('status')=='cancelled':raise KeyboardInterrupt('shared publisher cancelled')
             self.assertEqual(state,dict(readbacks=1,triggered=True));self.assertFalse(result['accepted'])
             self.assertEqual(result['status'],'invalidated');self.assertIn('flags',result['reason'])
+            self.assertNotIn('NameError',result['reason'])
             self.assertFalse(f.read_json(case.receipt)['accepted']);self.assertTrue(list(case.run.glob('invalidated-result-*')))
         finally:
             try:os.chflags(target,old_flags,follow_symlinks=False)
@@ -293,7 +295,7 @@ class EnginePlanningClearanceControls(unittest.TestCase):
 
     def test_actual_production_stable_with_margin_preserves_current_prl(self):
         case=self.optimizer_publication_fixture();result,state=self.publish_actual_stable(case)
-        self.assertTrue(result['accepted']);self.assertEqual(state,dict(readbacks=1,triggered=False))
+        self.assertTrue(result['accepted'],result.get('reason'));self.assertEqual(state,dict(readbacks=1,triggered=False))
 
     @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
     def test_actual_production_stable_rejects_late_owned_prl_flags_with_margin(self):

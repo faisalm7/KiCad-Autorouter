@@ -1,0 +1,45 @@
+E
+======================================================================
+ERROR: test_private_module_has_bounded_live_identity (tests.test_improve_readback_identity.ImproveLiveIdentity.test_private_module_has_bounded_live_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_improve_readback_identity.py", line 12, in test_private_module_has_bounded_live_identity
+    first=p._readback_live_identity((child,))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2650, in _readback_live_identity
+    function=(id(item.__code__),value(item.__defaults__),value(item.__kwdefaults__)) if isinstance(item,FunctionType) else None
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2641, in value
+    return (kind,tuple(sorted((value(k,depth+1),value(v,depth+1)) for k,v in item.items())))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2641, in <genexpr>
+    return (kind,tuple(sorted((value(k,depth+1),value(v,depth+1)) for k,v in item.items())))
+                                                ^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2645, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (errors=1)
+real 0.17
+user 0.08
+sys 0.02
+            48513024  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3353  page reclaims
+                 551  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 143  voluntary context switches
+                 514  involuntary context switches
+           961100560  instructions retired
+           416891005  cycles elapsed
+            38404624  peak memory footprint

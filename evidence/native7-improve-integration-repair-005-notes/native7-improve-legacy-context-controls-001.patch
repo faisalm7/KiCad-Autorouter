@@ -1,0 +1,126 @@
+diff --git a/tests/test_comparison_context.py b/tests/test_comparison_context.py
+--- a/tests/test_comparison_context.py
++++ b/tests/test_comparison_context.py
+@@ -396,7 +396,8 @@
+                 namespace = dict(vars(p))
+                 namespace.update(report=report, job=job, output=self.output,
+                     source=self.source, seconds=120, comparison=cmp,
+-                    comparison_context=context, _preferences=None, class_requirement=None,
++                    comparison_context=context, _improve_context=None, _improve_budget=None,
++                    _preferences=None, class_requirement=None,
+                     native_toolchain=None, experimental_schematic_parity=False,
+                     _fanout_enabled=None, engine_profile='tuned',
+                     operation_children=f.child_cpu(), interrupt_worker=interrupt_worker)
+@@ -462,6 +463,8 @@
+             namespace = dict(vars(p))
+             namespace.update(path=self.receipt, data=self.data, source=self.source,
+                 result={'current': True, 'applied': False}, is_comparison=True,
++                is_improve_child=False, is_improve_parent=False,
++                _improve_context=None, _improve_budget=None,
+                 comparison=cmp, comparison_context=self.context, _rejected_attempt=False,
+                 preferences_guarded=True, bounded_inventory=pc.inventory, bounded_bytes=pc.read_bytes,
+                 bounded_evidence=pc.evidence_inventory,
+diff --git a/tests/test_engine_fanout.py b/tests/test_engine_fanout.py
+--- a/tests/test_engine_fanout.py
++++ b/tests/test_engine_fanout.py
+@@ -156,7 +156,8 @@
+             state['readbacks']+=1
+         env=dict(p.__dict__)
+         env.update(report=case.data,output=case.run,source=case.source,before=hash_tree(case.source_dir),
+-                   completed=f.evidence_inventory(case.run),native_toolchain=None,comparison_context=None,_preferences=None,class_requirement=None,
++                   completed=f.evidence_inventory(case.run),native_toolchain=None,comparison_context=None,
++                   _improve_context=None,_improve_budget=None,_preferences=None,class_requirement=None,
+                    _fanout_enabled=case.data.get('engine_fanout_override'),engine_profile=case.data['engine_profile'],
+                    tool_manifest=lambda **kw:case.data['tools'],evidence_inventory=f.evidence_inventory,tree_hash=current_hash)
+         exec(compile(ast.fix_missing_locations(ast.Module(body=closures,type_ignores=[])),str(source),'exec'),env)
+@@ -170,7 +171,7 @@
+             with self.subTest(profile=profile,fanout=fanout):
+                 case=self.publication_fixture(profile,fanout);result,state=self.publish_actual_stable(case)
+                 self.assertEqual(state,dict(readbacks=1,triggered=False))
+-                self.assertTrue(result['accepted']);self.assertTrue(f.read_json(case.receipt)['accepted'])
++                self.assertTrue(result['accepted'],result.get('reason'));self.assertTrue(f.read_json(case.receipt)['accepted'])
+                 self.assertFalse(list(case.run.glob('invalidated-result-*')))
+ 
+     @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
+@@ -196,7 +197,8 @@
+                     self.assertEqual(state,dict(readbacks=1,triggered=True))
+                     self.assertFalse(result['accepted']);self.assertEqual(result['status'],'invalidated')
+                     self.assertFalse(f.read_json(case.receipt)['accepted'])
+-                    self.assertIn('flags',result['reason']);self.assertTrue(list(case.run.glob('invalidated-result-*')))
++                    self.assertIn('flags',result['reason']);self.assertNotIn('NameError',result['reason'])
++                    self.assertTrue(list(case.run.glob('invalidated-result-*')))
+                     self.assertEqual(target.read_bytes(),raw)
+                 finally:
+                     # The fault is limited to one owned TemporaryDirectory PRL;
+diff --git a/tests/test_engine_optimizer.py b/tests/test_engine_optimizer.py
+--- a/tests/test_engine_optimizer.py
++++ b/tests/test_engine_optimizer.py
+@@ -9,6 +9,7 @@
+ class EngineOptimizerControls(unittest.TestCase):
+     scratch=fanout.EngineFanoutControls.scratch
+     publication_fixture=fanout.EngineFanoutControls.publication_fixture
++    # Shared AST namespace explicitly sets both Improve authorities to None.
+     publish_actual_stable=fanout.EngineFanoutControls.publish_actual_stable
+ 
+     def settings(self,**changes):
+@@ -148,7 +149,7 @@
+ 
+     def test_actual_stable_shared_publication_accepts_unchanged_owned_prl(self):
+         case=self.optimizer_publication_fixture();result,state=self.publish_actual_stable(case)
+-        self.assertEqual(state,dict(readbacks=1,triggered=False));self.assertTrue(result['accepted'])
++        self.assertEqual(state,dict(readbacks=1,triggered=False));self.assertTrue(result['accepted'],result.get('reason'))
+         self.assertTrue(f.read_json(case.receipt)['accepted'])
+ 
+     @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
+@@ -169,6 +170,7 @@
+             if result.get('status')=='cancelled':raise KeyboardInterrupt('shared publisher cancelled')
+             self.assertEqual(state,dict(readbacks=1,triggered=True));self.assertFalse(result['accepted'])
+             self.assertEqual(result['status'],'invalidated');self.assertIn('flags',result['reason'])
++            self.assertNotIn('NameError',result['reason'])
+             self.assertFalse(f.read_json(case.receipt)['accepted']);self.assertTrue(list(case.run.glob('invalidated-result-*')))
+         finally:
+             try:os.chflags(target,old_flags,follow_symlinks=False)
+@@ -293,7 +295,7 @@
+ 
+     def test_actual_production_stable_with_margin_preserves_current_prl(self):
+         case=self.optimizer_publication_fixture();result,state=self.publish_actual_stable(case)
+-        self.assertTrue(result['accepted']);self.assertEqual(state,dict(readbacks=1,triggered=False))
++        self.assertTrue(result['accepted'],result.get('reason'));self.assertEqual(state,dict(readbacks=1,triggered=False))
+ 
+     @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
+     def test_actual_production_stable_rejects_late_owned_prl_flags_with_margin(self):
+diff --git a/tests/test_experimental_route_publication.py b/tests/test_experimental_route_publication.py
+--- a/tests/test_experimental_route_publication.py
++++ b/tests/test_experimental_route_publication.py
+@@ -31,7 +31,7 @@
+         clock={'now':10.0}
+         def intake(*args):clock['now']=41.0;return {'controlled_intake':True}
+         namespace=dict(vars(p));namespace.update(native_toolchain=object(),experimental_schematic_parity=True,
+-            comparison_context=None,output=self.run,
++            comparison_context=None,_improve_context=None,_improve_budget=None,output=self.run,
+             settings_path=None,preference_overrides=None,_preferences=None,_fanout_enabled=None,_optimizer_enabled=None,_engine_clearance_margin_nm=None,_engine_global_width_policy=None,keep_existing=False,
+             adapter='none',engine_profile='standard',scoring_variant=None,guidance_policy='native',
+             experimental_route_record=intake,time=SimpleNamespace(monotonic=lambda:clock['now'],process_time=lambda:clock['now']))
+@@ -100,7 +100,8 @@
+                     source=self.source, before=self.data['source_hashes'],
+                     completed=f.evidence_inventory(self.run),
+                     evidence_inventory=f.evidence_inventory,
+-                    native_toolchain=nt, comparison_context=None, _preferences=None, _fanout_enabled=None, engine_profile='standard',class_requirement=None,
++                    native_toolchain=nt, comparison_context=None, _improve_context=None, _improve_budget=None,
++                    _preferences=None, _fanout_enabled=None, engine_profile='standard',class_requirement=None,
+                     preferences_fresh=lambda *_: None,
+                     tool_manifest=manifest, check_normal_policy=policy)
+                 exec(compile(ast.Module(body=[stable], type_ignores=[]),
+@@ -116,9 +117,11 @@
+                 if fault:
+                     self.assertFalse(record['accepted'])
+                     self.assertEqual(record['status'], 'invalidated')
++                    self.assertIn('flags', record['reason'])
++                    self.assertNotIn('NameError', record['reason'])
+                     self.assertGreater(state['policy_calls'], 0)
+                 else:
+-                    self.assertTrue(record['accepted'])
++                    self.assertTrue(record['accepted'], record.get('reason'))
+ 
+ 
+ if __name__ == '__main__':

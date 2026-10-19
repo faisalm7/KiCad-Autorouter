@@ -1,0 +1,51 @@
+...............................................................................EE............
+======================================================================
+ERROR: test_validation_readback (unittest.loader._FailedTest.test_validation_readback)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_validation_readback
+Traceback (most recent call last):
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/loader.py", line 162, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 6, in <module>
+    import test_placement_policy as fixture
+ModuleNotFoundError: No module named 'test_placement_policy'
+
+
+======================================================================
+ERROR: test_padstack_policy (unittest.loader._FailedTest.test_padstack_policy)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_padstack_policy
+Traceback (most recent call last):
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/unittest/loader.py", line 162, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_padstack_policy.py", line 11, in <module>
+    import test_result as receipt_support
+ModuleNotFoundError: No module named 'test_result'
+
+
+----------------------------------------------------------------------
+Ran 93 tests in 23.700s
+
+FAILED (errors=2)
+real 24.26
+user 20.69
+sys 2.51
+           249380864  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               79778  page reclaims
+                 117  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   4  signals received
+                 959  voluntary context switches
+                5395  involuntary context switches
+        323183497393  instructions retired
+         86538543134  cycles elapsed
+           239895248  peak memory footprint

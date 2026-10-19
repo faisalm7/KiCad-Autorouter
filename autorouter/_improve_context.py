@@ -4,7 +4,7 @@ A trusted parent passes this live object explicitly. JSON, pathnames and
 sidecars are detection/binding material, never factories for caller authority.
 Parent readback reconstructs expectations only; execution requires a live Budget.
 """
-from dataclasses import dataclass, field
+import dataclasses
 import hashlib
 import math
 import os
@@ -63,7 +63,7 @@ def _check_parent_owner(owner, parent):
         raise p.Rejected('exact captured Improve parent owner required')
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class _Context:
     source: Path
     parent: Path
@@ -73,9 +73,9 @@ class _Context:
     allocation: dict
     tools: dict
     source_hashes: dict
-    _inputs: dict = field(init=False, repr=False)
-    _owner: dict = field(init=False, repr=False)
-    _seal: str = field(init=False, repr=False)
+    _inputs: dict = dataclasses.field(init=False, repr=False)
+    _owner: dict = dataclasses.field(init=False, repr=False)
+    _seal: str = dataclasses.field(init=False, repr=False)
 
     def __post_init__(self):
         from . import handoff as h, pipeline as p
@@ -185,7 +185,7 @@ def require(context):
     return context.check()
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class _Budget:
     """Live execution clocks from the actual parent Job; never from a receipt.
 
@@ -197,7 +197,7 @@ class _Budget:
     context: _Context
     parent_job: object
     children_start: float
-    _clocks: tuple = field(init=False, repr=False)
+    _clocks: tuple = dataclasses.field(init=False, repr=False)
 
     def __post_init__(self):
         from . import pipeline as p

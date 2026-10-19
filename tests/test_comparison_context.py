@@ -392,11 +392,13 @@ class ComparisonContextControls(unittest.TestCase):
                 report.update(accepted=False, status='validator_error')
                 started = time.monotonic()
                 job = SimpleNamespace(steps=[copy.deepcopy(process)], started=started,
-                                      cpu_started=time.process_time(), deadline=started + 120)
+                                      cpu_started=time.process_time(), deadline=started + 120, _inherited_budget=None)
+                job.remaining=lambda:p.Job.remaining(job)
                 namespace = dict(vars(p))
                 namespace.update(report=report, job=job, output=self.output,
                     source=self.source, seconds=120, comparison=cmp,
-                    comparison_context=context, _preferences=None, class_requirement=None,
+                    comparison_context=context, _improve_context=None, _improve_budget=None,
+                    _preferences=None, class_requirement=None,
                     native_toolchain=None, experimental_schematic_parity=False,
                     _fanout_enabled=None, engine_profile='tuned',
                     operation_children=f.child_cpu(), interrupt_worker=interrupt_worker)
@@ -462,6 +464,8 @@ class ComparisonContextControls(unittest.TestCase):
             namespace = dict(vars(p))
             namespace.update(path=self.receipt, data=self.data, source=self.source,
                 result={'current': True, 'applied': False}, is_comparison=True,
+                is_improve_child=False, is_improve_parent=False,
+                _improve_context=None, _improve_budget=None,
                 comparison=cmp, comparison_context=self.context, _rejected_attempt=False,
                 preferences_guarded=True, bounded_inventory=pc.inventory, bounded_bytes=pc.read_bytes,
                 bounded_evidence=pc.evidence_inventory,
