@@ -4,6 +4,7 @@ This guards actual Native input, never restores bytes or waives any PRL field.
 It is not isolation from a hostile same-user process that can clear file flags.
 """
 from contextlib import contextmanager
+from functools import lru_cache
 import os
 from pathlib import Path
 import stat
@@ -161,12 +162,57 @@ def policy_declarations(raw,policies):
     if (type(policies) is not dict or not 1<=len(policies)<=8
             or any(type(name)is not str or type(value)is not str for name,value in policies.items())):
         raise p.Rejected('bounded expected policy namespace required')
-    try:tree=ast.parse(raw)
+    derive,parse,walk=_derive_policy_declarations,ast.parse,ast.walk
+    expected=tuple(sorted(policies.items()))
+    defaults=tuple(_policy_defaults(function) for function in (derive,parse,walk))
+    if sum(len(name)+len(value) for name,value in expected)>8192 or any(value is None for value in defaults):
+        result=derive(raw,expected,parse,walk)  # Unsupported memo keys never add a source refusal.
+    else:
+        result=_cached_policy_declarations(raw,expected,derive,derive.__code__,
+            parse,getattr(parse,'__code__',None),walk,getattr(walk,'__code__',None),defaults)
+    result=dict(result)
+    return {name:result[name] for name in policies}
+
+
+@lru_cache(maxsize=16)
+def _cached_policy_declarations(raw,policies,derive,derive_code,parse,parse_code,walk,walk_code,defaults):
+    # At most16 source byte strings (16MiB), each with at most8192 namespace
+    # characters; no AST or file evidence is cached. Callable/code keys prevent
+    # reuse after checker/parser/walker or bounded default-argument changes.
+    return derive(raw,policies,parse,walk)
+
+
+def _policy_defaults(function):
+    """Small immutable memo key only; unfamiliar signatures stay uncached."""
+    defaults=getattr(function,'__defaults__',None)
+    keywords=getattr(function,'__kwdefaults__',None)
+    if (defaults is not None and type(defaults) is not tuple
+            or keywords is not None and (type(keywords) is not dict or len(keywords)>16
+                or any(type(name) is not str for name in keywords))):return None
+    budget=[64,8192]
+    def frozen(value,depth=0):
+        budget[0]-=1
+        if depth>4 or budget[0]<0:raise ValueError
+        kind=type(value)
+        if kind is tuple:return (tuple,tuple(frozen(item,depth+1) for item in value))
+        if kind not in (type(None),bool,int,str,bytes):raise ValueError
+        if kind in (str,bytes):budget[1]-=len(value)
+        if budget[1]<0 or kind is int and value.bit_length()>256:raise ValueError
+        return (kind,value)
+    try:return (frozen(defaults),frozen(None if keywords is None else tuple(sorted(keywords.items()))))
+    except ValueError:return None
+
+
+def _derive_policy_declarations(raw,policies,parse,walk):
+    """Pure uncached AST derivation; exceptions never enter the memo."""
+    import ast
+    policies=dict(policies)
+    try:tree=parse(raw)
     except (SyntaxError,ValueError,RecursionError) as exc:raise p.Rejected('invalid captured pipeline policy source') from exc
     declarations={name:[] for name in policies}
-    for node in ast.walk(tree):
+    for node in walk(tree):
         targets=node.targets if isinstance(node,ast.Assign) else [node.target] if isinstance(node,(ast.AnnAssign,ast.AugAssign,ast.NamedExpr)) else []
-        names={item.id for target in targets for item in ast.walk(target) if isinstance(item,ast.Name)}
+        names={item.id for target in targets for item in walk(target) if isinstance(item,ast.Name)}
         for name in names.intersection(policies):declarations[name].append(node)
     result={}
     for name,expected in policies.items():
@@ -179,7 +225,7 @@ def policy_declarations(raw,policies):
                 or not isinstance(node.value,ast.Constant) or type(node.value.value) is not str or node.value.value!=expected):
             raise p.Rejected('ambiguous or unsupported captured normal DRC policy')
         result[name]=expected
-    return result
+    return tuple(result.items())
 
 
 def check_normal_policy(directory,data,*,max_bytes=None,max_files=None,native_toolchain=None):
