@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-19T19:21:28.408164+00:00",
+  "implementation": "scripts/prepare_runtime.py install_existing; tests/test_runtime_provenance.py",
+  "patch_sha256": "beda44c6ce894092e9b0e8453a339486dc65d92452d1f03cdf624c096e8f0d46",
+  "review": "Authored by /root/preset_picker_review, independently source-reviewed by /root/windows005_gate and lead; fixed arbitrary population count and late-record refusal controls before application. AI only.",
+  "tests": [
+    {
+      "command": ".venv/bin/python -B -m unittest tests.test_runtime_provenance",
+      "passed": true,
+      "tests": 22,
+      "complete_external_wall_seconds": 5.22,
+      "complete_external_CPU_seconds": 4.47
+    },
+    {
+      "command": ".venv/bin/python -B -m unittest tests.test_install_smoke tests.test_gui_installer tests.test_runtime_source_integration",
+      "passed": true,
+      "tests": 45,
+      "complete_external_wall_seconds": 1.88,
+      "complete_external_CPU_seconds": 1.73
+    }
+  ],
+  "qualification": "Synthetic real-file controls only; Native/GUI/fresh-root not yet run. No engine or private source published. Existing042 bytes unchanged.",
+  "files": [
+    {
+      "source": ".runs/install-existing-runtime-draft-001.patch",
+      "retained": "evidence/install-existing-implementation-001-notes/.runs__install-existing-runtime-draft-001.patch",
+      "bytes": 27254,
+      "sha256": "beda44c6ce894092e9b0e8453a339486dc65d92452d1f03cdf624c096e8f0d46"
+    },
+    {
+      "source": ".runs/install-existing-targeted-001/tests.log",
+      "retained": "evidence/install-existing-implementation-001-notes/.runs__install-existing-targeted-001__tests.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": ".runs/install-existing-targeted-001/time.log",
+      "retained": "evidence/install-existing-implementation-001-notes/.runs__install-existing-targeted-001__time.log",
+      "bytes": 898,
+      "sha256": "31980362ceaff2d0c58f1a95f24783d97fc6a6da438fedeca74a62f6acb1ab95"
+    },
+    {
+      "source": ".runs/install-existing-adjacent-001/tests.log",
+      "retained": "evidence/install-existing-implementation-001-notes/.runs__install-existing-adjacent-001__tests.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": ".runs/install-existing-adjacent-001/time.log",
+      "retained": "evidence/install-existing-implementation-001-notes/.runs__install-existing-adjacent-001__time.log",
+      "bytes": 921,
+      "sha256": "cfe3fc95e10703fe97be420329c4c237594236dc07a166cbf3794fedafaeeeec"
+    }
+  ],
+  "product_complete": false,
+  "human_review": false
+}

@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 from autorouter import provenance as pv
 from scripts import prepare_runtime as build
@@ -264,6 +265,213 @@ class RuntimeProvenanceTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn(b'Runtime preparation refused:', result.stderr)
         self.assertEqual(list(existing.iterdir()), [])
+
+
+    def existing_runtime(self, *, selected=False, extra_module=False):
+        # Real small manifest populations, not filler files for a special count.
+        if extra_module:
+            (self.source / 'autorouter/extra_owned.py').write_bytes(b'def owned_identity(value):\n    return value\n')
+        if selected:
+            lock_path = Path(build.__file__).resolve().parents[1] / 'toolchain.lock.json'
+            lock = json.loads(lock_path.read_text())
+            lock['tools']['freerouting'] = {'path': pv.ENGINE_PATH,
+                'sha256': hashlib.sha256(self.engine).hexdigest(), 'bytes': len(self.engine)}
+            (self.source / 'toolchain.lock.json').write_text(json.dumps(lock))
+        if selected or extra_module:
+            self.git('add', '--', *sorted(pv.owned_snapshot(self.source)))
+            self.git('-c', 'user.name=Owned test fixture', '-c', 'user.email=fixture@example.invalid',
+                     'commit', '-qm', 'Owned artifact population or profile')
+        engine = self.source / pv.ENGINE_PATH
+        engine.parent.mkdir(exist_ok=True); engine.write_bytes(self.engine)
+        build.prepare(self.source, self.output, copy_local_engine=True,
+                      native_version='10.0.7' if selected else None)
+        return hashlib.sha256((self.output / pv.MANIFEST).read_bytes()).hexdigest()
+
+    def test_install_existing_changes_only_root_and_excludes_prior_mutable_state(self):
+        previous_population = None
+        for label, selected, extra in (('legacy', False, False), ('selected', True, False),
+                                       ('added-module', False, True)):
+            with self.subTest(label=label):
+                self.output = self.base / (label + ' artifact')
+                pin = self.existing_runtime(selected=selected, extra_module=extra)
+                original_raw = (self.output / pv.MANIFEST).read_bytes()
+                original = json.loads(original_raw)
+                source_payloads = {name: (self.output / name).read_bytes()
+                                   for name in original['immutable_files_sha256']}
+                if extra:
+                    self.assertEqual(set(source_payloads) - previous_population,
+                                     {'autorouter/extra_owned.py'})
+                    self.assertTrue(previous_population < set(source_payloads))
+                previous_population = set(source_payloads)
+                for relative in ('.runs/jobs/old-result', '.runs/old-launcher/entry.py',
+                                 '.venv/bin/python'):
+                    path = self.output / relative; path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes(b'excluded mutable state')
+                destination = self.base / ('installed ' + label)
+                with mock.patch.object(pv, '_git', side_effect=AssertionError('No Git for artifact installs')):
+                    result = build.install_existing(self.output, destination, expected_manifest_sha256=pin)
+                manifest = json.loads((destination / pv.MANIFEST).read_text())
+                self.assertEqual(manifest, {**original, 'root': str(destination)})
+                self.assertEqual(set(manifest['immutable_files_sha256']), set(source_payloads))
+                for name, raw in source_payloads.items():
+                    self.assertEqual((destination / name).read_bytes(), raw)
+                    self.assertEqual((self.output / name).read_bytes(), raw)
+                self.assertEqual((destination / pv.ENGINE_PATH).read_bytes(), self.engine)
+                actual = {str(path.relative_to(destination)) for path in destination.rglob('*')
+                          if path.is_file()}
+                self.assertEqual(actual, set(source_payloads) | {pv.MANIFEST, pv.ENGINE_PATH,
+                                                              build.INSTALL_RECEIPT})
+                receipt = json.loads((destination / build.INSTALL_RECEIPT).read_text())
+                self.assertEqual(receipt['immutable_files'], len(source_payloads))
+                self.assertEqual(receipt['source_manifest_sha256'], pin)
+                self.assertEqual(receipt['destination_manifest_sha256'],
+                    hashlib.sha256((destination / pv.MANIFEST).read_bytes()).hexdigest())
+                self.assertEqual(receipt['installer']['sha256'],
+                    hashlib.sha256(Path(build.__file__).read_bytes()).hexdigest())
+                self.assertEqual(result['installation_receipt_sha256'],
+                    hashlib.sha256((destination / build.INSTALL_RECEIPT).read_bytes()).hexdigest())
+                self.assertFalse(receipt['record_is_authoritative'])
+                self.assertFalse(receipt['native_qualification_performed'])
+                self.assertFalse((destination / '.venv').exists())
+                self.assertEqual((self.output / pv.MANIFEST).read_bytes(), original_raw)
+                self.assertNotEqual(result['source_provenance']['manifest_sha256'], pin)
+
+    def test_install_existing_requires_exact_manifest_pin_and_local_engine(self):
+        pin = self.existing_runtime(); destination = self.base / 'not created'
+        for invalid in (None, True, 'A' * 64, 'a' * 63, '0' * 64):
+            with self.subTest(pin=invalid):
+                self.refused(lambda: build.install_existing(self.output, destination,
+                                                            expected_manifest_sha256=invalid))
+                self.assertFalse(destination.exists())
+        # Even a valid runtime without its local engine refuses this mode.
+        no_engine = self.base / 'without engine'
+        build.prepare(self.source, no_engine)
+        empty_pin = hashlib.sha256((no_engine / pv.MANIFEST).read_bytes()).hexdigest()
+        self.refused(lambda: build.install_existing(no_engine, destination,
+                                                    expected_manifest_sha256=empty_pin))
+        self.assertFalse(destination.exists())
+        self.assertEqual(pin, hashlib.sha256((self.output / pv.MANIFEST).read_bytes()).hexdigest())
+
+    def test_install_existing_refuses_moved_changed_and_prohibited_source_entries(self):
+        pin = self.existing_runtime(); destination = self.base / 'not created'
+        moved = self.base / 'already moved'; self.output.rename(moved)
+        self.refused(lambda: build.install_existing(moved, destination, expected_manifest_sha256=pin))
+        self.assertFalse(destination.exists()); moved.rename(self.output)
+        target = self.output / 'autorouter/worker.py'; original = target.read_bytes()
+        target.write_bytes(original + b'changed')
+        self.refused(lambda: build.install_existing(self.output, destination, expected_manifest_sha256=pin))
+        self.assertFalse(destination.exists()); target.write_bytes(original)
+        for relative in ('autorouter/extra.py', 'scripts/launcher.py', 'launcher.py', '.tools/extra'):
+            with self.subTest(relative=relative):
+                path = self.output / relative; path.write_bytes(b'not in immutable manifest')
+                self.refused(lambda: build.install_existing(self.output, destination,
+                                                            expected_manifest_sha256=pin))
+                self.assertFalse(destination.exists()); path.unlink()
+
+    def test_install_existing_refuses_links_special_inputs_and_destination_collisions(self):
+        pin = self.existing_runtime(); destination = self.base / 'not created'
+        outside = self.base / 'outside'; outside.write_bytes(self.engine)
+        for relative in ('autorouter/worker.py', pv.ENGINE_PATH, pv.MANIFEST):
+            path = self.output / relative; original = path.read_bytes()
+            for kind in ('symlink', 'hardlink', 'fifo'):
+                with self.subTest(relative=relative, kind=kind):
+                    path.unlink(); outside.write_bytes(original)
+                    if kind == 'symlink': path.symlink_to(outside)
+                    elif kind == 'hardlink': os.link(outside, path)
+                    else: os.mkfifo(path)
+                    self.refused(lambda: build.install_existing(self.output, destination,
+                                                                expected_manifest_sha256=pin))
+                    self.assertFalse(destination.exists()); path.unlink(); path.write_bytes(original)
+        destination.mkdir()
+        self.refused(lambda: build.install_existing(self.output, destination, expected_manifest_sha256=pin))
+        self.assertEqual(list(destination.iterdir()), [])
+        alias = self.base / 'alias'; alias.symlink_to(self.base, target_is_directory=True)
+        self.refused(lambda: build.install_existing(self.output, alias / 'escape',
+                                                    expected_manifest_sha256=pin))
+        self.assertFalse((self.base / 'escape').exists())
+        for nested in (self.output / '.runs/new-runtime', self.output / 'new-runtime'):
+            nested.parent.mkdir(exist_ok=True)
+            self.refused(lambda: build.install_existing(self.output, nested, expected_manifest_sha256=pin))
+            self.assertFalse(nested.exists())
+
+    def test_install_existing_late_source_mutation_never_returns_success(self):
+        pin = self.existing_runtime(); destination = self.base / 'partial retained'
+        writer = build._write_runtime
+        def mutate_after_copy(*args):
+            result = writer(*args)
+            (self.output / 'autorouter/worker.py').write_bytes(b'# late source change\n')
+            return result
+        with mock.patch.object(build, '_write_runtime', side_effect=mutate_after_copy):
+            self.refused(lambda: build.install_existing(self.output, destination,
+                                                        expected_manifest_sha256=pin))
+        self.assertTrue(destination.exists())
+        self.assertFalse((destination / build.INSTALL_RECEIPT).exists())
+        self.assertNotEqual((self.output / 'autorouter/worker.py').read_bytes(),
+                            (destination / 'autorouter/worker.py').read_bytes())
+
+    def test_install_existing_missing_late_manifest_has_no_git_fallback(self):
+        pin = self.existing_runtime(); destination = self.base / 'retained missing-source-manifest'
+        writer = build._write_runtime
+        def remove_after_copy(*args):
+            result = writer(*args)
+            (self.output / pv.MANIFEST).unlink()
+            return result
+        with mock.patch.object(build, '_write_runtime', side_effect=remove_after_copy), \
+                mock.patch.object(pv, '_git', side_effect=AssertionError('No Git fallback')):
+            self.refused(lambda: build.install_existing(self.output, destination,
+                                                        expected_manifest_sha256=pin))
+        self.assertTrue(destination.exists())
+        self.assertFalse((destination / build.INSTALL_RECEIPT).exists())
+
+    def test_install_existing_post_receipt_faults_refuse_and_retain_non_authoritative_record(self):
+        pin = self.existing_runtime()
+        source_file = self.output / 'autorouter/worker.py'; original = source_file.read_bytes()
+        chmod = Path.chmod
+        for fault in ('source', 'destination', 'receipt'):
+            with self.subTest(fault=fault):
+                destination = self.base / ('post-receipt-' + fault)
+                receipt_path = destination / build.INSTALL_RECEIPT
+                mutated = []
+                def after_receipt(path, *args, **kwargs):
+                    result = chmod(path, *args, **kwargs)
+                    if path == receipt_path:
+                        if fault == 'source':
+                            source_file.write_bytes(b'# changed after receipt')
+                        elif fault == 'destination':
+                            (destination / 'autorouter/worker.py').write_bytes(b'# changed output')
+                        else:
+                            record = json.loads(receipt_path.read_text())
+                            record['injected_change'] = True
+                            receipt_path.write_text(json.dumps(record))
+                        mutated.append(fault)
+                    return result
+                with mock.patch.object(Path, 'chmod', new=after_receipt):
+                    self.refused(lambda: build.install_existing(self.output, destination,
+                                                                expected_manifest_sha256=pin))
+                self.assertEqual(mutated, [fault])
+                self.assertTrue(receipt_path.is_file())
+                receipt = json.loads(receipt_path.read_text())
+                self.assertFalse(receipt['record_is_authoritative'])
+                self.assertTrue(receipt['receipt_may_remain_on_refusal'])
+                self.assertFalse(receipt['native_qualification_performed'])
+                self.assertFalse({'accepted', 'completed', 'native_qualified'} & receipt.keys())
+                source_file.write_bytes(original)
+                # Refused partial destinations are retained and never overwritten.
+                self.refused(lambda: build.install_existing(self.output, destination,
+                                                            expected_manifest_sha256=pin))
+                self.assertTrue(receipt_path.is_file())
+
+    def test_install_existing_cli_refuses_build_flags_and_requires_explicit_mode(self):
+        for flags in (['--install-existing', '--copy-local-engine'],
+                      ['--install-existing', '--native-version', '10.0.7'],
+                      ['--expected-manifest-sha256', 'a' * 64], ['--install-existing']):
+            with self.subTest(flags=flags):
+                destination = self.base / 'cli not created'
+                result = subprocess.run([sys.executable, '-B', str(Path(build.__file__)),
+                    '--source', str(self.output), '--output', str(destination), *flags],
+                    capture_output=True, timeout=5)
+                self.assertEqual(result.returncode, 2)
+                self.assertFalse(destination.exists())
 
 
 if __name__ == '__main__':
