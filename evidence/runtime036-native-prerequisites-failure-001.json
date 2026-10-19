@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "kind": "runtime036-native-prerequisites-with-failed-hierarchy001",
+  "recorded_utc": "2026-10-19T07:39:15.120969+00:00",
+  "source_head": "cd898bf3c1c97e988a820c2bf1b783ab6f44864d",
+  "native_version": "10.0.7",
+  "accepted": false,
+  "hierarchy_support_admitted": false,
+  "routing_accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "runtime_manifest_sha256": "7f50a06aed2b80bca80b54b8cba3b806d39b80531694f458d0c34dde7298c754",
+  "runtime_immutable_files": 52,
+  "runtime_modules": 47,
+  "full179": {
+    "passed": true,
+    "tests": 2247,
+    "skips": 1,
+    "complete_external_cost": {
+      "wall_seconds": 355.36,
+      "CPU_seconds": 349.55
+    },
+    "nested_controller_wall_seconds": 355.32241158303805,
+    "nested_controller_full_CPU_seconds": 349.53158500000006,
+    "scope": "Complete integration suite; no installed hierarchy, actual GUI, fair comparison, physical/electrical or product completion proof."
+  },
+  "install009": {
+    "passed": true,
+    "mode": "distribution",
+    "complete_external_cost": {
+      "wall_seconds": 22.93,
+      "CPU_seconds": 19.48
+    },
+    "nested_controller_wall_seconds": 22.903562624938786,
+    "nested_controller_full_CPU_seconds": 19.454784999999998,
+    "fixture_ownership": "Project-owned fixtures/smoke; repository LICENSE retained in runtime.",
+    "smoke_native_counts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "smoke_candidate_sha256": "9b67717e63d1ca8021a6777f0b768a2cb4a78f504242f04c628888c9254b5151",
+    "smoke_check_current": true,
+    "scope": "Copied curated selected7 runtime/venv/doctor and owned unflagged smoke Route/check. No supplied SCH, hierarchy, clean OS, relocation, GUI or Windows qualification."
+  },
+  "hierarchy001": {
+    "passed": false,
+    "status": "failed",
+    "error": "ValueError: hierarchy parity: native unit UUID order/census differs",
+    "Native_executed": true,
+    "complete_external_cost": {
+      "wall_seconds": 1.9,
+      "CPU_seconds": 1.5
+    },
+    "nested_controller_wall_seconds": 1.87065233301837,
+    "nested_controller_full_CPU_seconds": 1.479073,
+    "nested_child_sample_wall_seconds": 1.746410208987072,
+    "nested_child_sample_full_CPU_seconds": 1.369762,
+    "workers": [
+      {
+        "name": "export",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 0.8333773750346154,
+        "CPU_seconds": 0.583916
+      },
+      {
+        "name": "task-classes-netlist",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 0.4085310000227764,
+        "CPU_seconds": 0.301859
+      }
+    ],
+    "enclosing_exit_code": 2,
+    "enclosing_cleanup_complete": true,
+    "class_proof_emitted": false,
+    "source_full_SCH_DRC_executed": false,
+    "completed_cases": 0,
+    "intended_cases": 4,
+    "attempted_case": "positive (failed before qualification)",
+    "not_run_cases": [
+      "net-partition-mismatch",
+      "wrong-instance-path",
+      "unsupported-class-directive"
+    ],
+    "source_hashes": {
+      "owned_channel.kicad_sch": "9b33eb14fec58954161dba6178bf6bf0a5422882774d684e815965e425614936",
+      "owned_hierarchy_native.kicad_pcb": "dbd5680b19cdc8fbf5081cc67bb13e1c300252f7772cb611c0880b8a85000ddc",
+      "owned_hierarchy_native.kicad_prl": "163a3e42f94ff5989729c2918adaddde2d343ccd116ebabc7997b9df2aece4f2",
+      "owned_hierarchy_native.kicad_pro": "dacc6e9f55222c6d9d4efb209fd7c0f47b6f96d24322b4ee91c4dcc83190f003",
+      "owned_hierarchy_native.kicad_sch": "fc55bb57df226e7cfa4e9dc037f6a88d38c1cac6f5777a42d8e4463a1369fdd2"
+    },
+    "protocol_sha256": "abaf6de46b33426ff25858584f751e19a022fccabde68698152eee5f72cf7c0e",
+    "interpretation": "Actual export and SCH worker both exit0; source proof correctly refuses the then-implemented incorrect unit-order contract. Raw failure remains failed. A source-informed future correction and its tests cannot repair or qualify runtime036."
+  },
+  "preparation_cost": {
+    "wall_seconds": 0.08,
+    "CPU_seconds": 0.04
+  },
+  "curation_preflight_failure": {
+    "command": "python3 -B .runs/curate-runtime036-native-prerequisites-failure-001.py",
+    "status": "AssertionError before any retained output was created",
+    "cause": "Draft curator guessed enclose-native7-independent-control-004.py rather than the actual protocol-pinned enclose-runtime030-independent-control-001.py.",
+    "expected_enclosure_sha256": "3df484e5151359063aaf9949e0753987e90c1b43da9e7349ce973da357594afd",
+    "wrong_helper_sha256": "9a77bdc832988f45d3bd920dfeeed09288700569db8da7788d043308deb478e4",
+    "raw_console_log_retained": false,
+    "whole_wall_and_CPU_cost": "not measured; not zero",
+    "actual_control_rerun": false,
+    "original_bytes_modified": false
+  },
+  "accounting": "External full179355.36/349.55, install00922.93/19.48 and hierarchy0011.90/1.50 wall/CPU seconds are separate invocations. Nested controller/child/step observations are included within each external cost, not additional charges. Preparation0.08/0.04 is separate. Interactive authoring/review/curation cost additional and not measured here, never zero.",
+  "preservation": "Every retained invocation/result, original source, process/log and binding byte is unchanged. Missing proof and three unrun cases are explicit. Current v2 runtime/product files excluded.",
+  "public_safety": "All selected payload bytes preflighted UTF-8/no NUL and known credential/private-key token patterns. Source and controllers are project-owned GPL text; no private board, unlicensed dataset, binary tool or global user configuration copied. Pattern scan is bounded evidence, not an authentication or general secret detector.",
+  "source_rights": "Project-owned generated smoke and schematic_hierarchy_native_v1 fixtures under retained GPL-3.0-or-later repository LICENSE and factory notices; no unrelated board family gain.",
+  "review": {
+    "path": ".runs/hierarchy-native-stamp-contract-review-001.json",
+    "sha256": "5bc336f8cd6e8ce7e96258d1fb9032822a8ab9799dad837f2c7b637c8d1e99d8",
+    "scope": "Independent AI causal contract review, not human or fresh Native qualification; retained separately."
+  },
+  "limitations": [
+    "No hierarchy support/admission, routing completion/quality gain, family independence, fair B0/B1/B2/C, actual036GUI or human/electrical validation.",
+    "Installation smoke alone is not a fresh actual hierarchy positive; full179 pure/constructed controls missed the Native UUID serialization mismatch.",
+    "Full raw and caches/tools/venv/repeated Git observations remain Mac-only outside008/010; this is essential evidence curation, not backup/restoration or release completion."
+  ],
+  "retention": {
+    "helper": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "new_payload_files": 140,
+    "new_payload_bytes": 2087810,
+    "original_material_paths": 219,
+    "max_new_bytes": 16777216,
+    "self_contained": true
+  },
+  "files_index": {
+    "path": "evidence/runtime036-native-prerequisites-failure-001-notes/files.json",
+    "sha256": "6cf1ea1fa4a8f5e2a3057d8bb331e9f3b87d157ac1a46b1e6ff253e075cf1254"
+  }
+}

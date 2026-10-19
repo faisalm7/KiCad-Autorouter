@@ -3,9 +3,9 @@
 SPDX-License-Identifier: GPL-3.0-or-later
 
 This first pure slice consumes exact bytes. It neither reads files nor launches
-tools. Callers must independently prove snapshots, actual Native processes and
-fresh outputs. No production guard dispatches here yet. Default class identity
-is checked separately from unchanged board rule floors; this proof cannot waive
+tools. Shared evidence callers independently prove snapshots, actual Native
+processes and fresh outputs. Default class identity is checked separately from
+unchanged board rule floors; this proof cannot waive
 engine constraints, original-design checks or final full-schematic DRC.
 """
 from __future__ import annotations
@@ -16,7 +16,7 @@ import re
 
 from . import netclass as nc, preferences, schematic_classes as flat, sexpr as sx
 
-POLICY = 'hierarchy-default-instance-unit-v1'
+POLICY = 'hierarchy-default-instance-unit-v2'
 MAX_FILES = 16
 MAX_INSTANCES = 64
 MAX_DEPTH = 8
@@ -342,9 +342,10 @@ def _board(tree, components):
         if uid in uuids:
             _fail('duplicate PCB UUID')
         uuids.add(uid)
-        primary = comp['units'][1]['uuid']
-        if flat._single(fp, 'path') != '/' + '/'.join((*comp['ids'], primary)):
-            _fail('footprint instance/primary unit path differs')
+        member_paths = {'/' + '/'.join((*comp['ids'], unit['uuid']))
+                        for unit in comp['units'].values()}
+        if flat._single(fp, 'path') not in member_paths:
+            _fail('footprint instance/group path differs')
         if sx.children(fp, 'net_tie_pad_groups'):
             _fail('net ties remain unsupported')
         connected = set()
@@ -422,7 +423,12 @@ def _netlist(tree, components, instances, schematic_source, native_version):
         comp = components[ref]; seen.add(ref)
         if flat._single(row, 'footprint') != comp['footprint']:
             _fail('native/source footprint metadata differs')
-        stamps = [comp['units'][i]['uuid'] for i in sorted(comp['units'])]
+        # Pinned10.0.7 makeSymbols chooses the lowest UUID as primary, then
+        # emits extra UUIDs before that primary. Our explicit one/two-unit
+        # scope therefore has descending UUID order, independently of A/B.
+        # Unit-number/pin membership and the exact instance/library join below
+        # remain separate requirements; stamp order is not a unit index.
+        stamps = sorted((unit['uuid'] for unit in comp['units'].values()), reverse=True)
         if _atoms(row, 'tstamps') != stamps:
             _fail('native unit UUID order/census differs')
         path = sx.one(row, 'sheetpath')

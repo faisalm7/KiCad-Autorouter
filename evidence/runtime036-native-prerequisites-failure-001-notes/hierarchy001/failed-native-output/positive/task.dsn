@@ -1,0 +1,103 @@
+(pcb "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-036/runtime/.runs/native7-comparison-hierarchy-controls-001/positive/task.dsn"
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "KiCad's Pcbnew")
+    (host_version "10.0.7")
+  )
+  (resolution um 10)
+  (unit um)
+  (structure
+    (layer F.Cu
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer B.Cu
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  48000 -40000  5000 -40000  5000 -5000  48000 -5000  48000 -40000)
+    )
+    (via "Via[0-1]_800:400_um")
+    (rule
+      (width 300)
+      (clearance 200)
+      (clearance 50 (type smd_smd))
+    )
+  )
+  (placement
+    (component owned_hierarchy_terminal
+      (place X1 12000 -12000 front 0 (PN OWNED_TERMINAL))
+    )
+    (component owned_hierarchy_dual
+      (place U1 24000 -12000 front 0 (PN OWNED_DUAL))
+      (place U2 24000 -30000 front 0 (PN OWNED_DUAL))
+    )
+    (component owned_hierarchy_alias
+      (place J1 40000 -12000 front 0 (PN OWNED_ALIAS))
+      (place J2 40000 -30000 front 0 (PN OWNED_ALIAS))
+    )
+  )
+  (library
+    (image owned_hierarchy_terminal
+      (outline (polygon signal 0  1495 -1495  -1495 -1495  -1495 1495  1495 1495))
+      (pin Round[A]Pad_2000.000000_um 1 0 0)
+    )
+    (image owned_hierarchy_dual
+      (outline (polygon signal 0  4495 -4495  -4495 -4495  -4495 4495  4495 4495))
+      (pin Round[A]Pad_2000.000000_um 1 -3000 0)
+      (pin Round[A]Pad_2000.000000_um 2 0 0)
+      (pin Round[A]Pad_2000.000000_um 3 3000 0)
+    )
+    (image owned_hierarchy_alias
+      (outline (polygon signal 0  4495 -4495  -4495 -4495  -4495 4495  4495 4495))
+      (pin Round[A]Pad_2000.000000_um R -3000 0)
+      (pin Round[A]Pad_2000.000000_um T 3000 0)
+      (pin Round[A]Pad_2000.000000_um MP 0 3000)
+      (pin Round[A]Pad_2000.000000_um MP@1 0 -3000)
+    )
+    (padstack Round[A]Pad_2000.000000_um
+      (shape (circle F.Cu 2000))
+      (shape (circle B.Cu 2000))
+      (attach off)
+    )
+    (padstack "Via[0-1]_800:400_um"
+      (shape (circle F.Cu 800))
+      (shape (circle B.Cu 800))
+      (attach off)
+    )
+  )
+  (network
+    (net GND
+      (pins X1-1 U1-3 J1-T U2-3 J2-T)
+    )
+    (net /A/SIG_A
+      (pins U1-1 J1-R)
+    )
+    (net /A/SIG_B
+      (pins U1-2)
+    )
+    (net /B/SIG_A
+      (pins U2-1 J2-R)
+    )
+    (net /B/SIG_B
+      (pins U2-2)
+    )
+    (class kicad_default /A/SIG_A /A/SIG_B /B/SIG_A /B/SIG_B GND
+      (circuit
+        (use_via "Via[0-1]_800:400_um")
+      )
+      (rule
+        (width 300)
+        (clearance 200)
+      )
+    )
+  )
+  (wiring
+  )
+)

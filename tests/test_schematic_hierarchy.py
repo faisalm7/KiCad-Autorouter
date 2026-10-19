@@ -227,15 +227,34 @@ class HierarchyBindingControls(unittest.TestCase):
                 self.refused()
 
     def test_board_root_prefix_primary_unit_and_instance_path_refuse(self):
-        for fault in ('root_prefix', 'other_unit', 'other_instance', 'traversal', 'relative'):
+        for fault in ('root_prefix', 'other_instance', 'traversal', 'relative'):
             with self.subTest(fault=fault):
                 self.case = f.case(); row = sx.one(self.footprint('U1'), 'path')
                 if fault == 'root_prefix': row[1] = f.quote('/' + f.uid('root') + sx.unquote(row[1]))
-                elif fault == 'other_unit': row[1] = f.quote('/' + f.uid('sheet/A') + '/' + f.uid('child/U/2'))
                 elif fault == 'other_instance': row[1] = f.quote('/' + f.uid('sheet/B') + '/' + f.uid('child/U/1'))
                 elif fault == 'traversal': row[1] = '"/../symbol"'
                 else: row[1] = '"relative/symbol"'
                 self.refused()
+
+    def test_board_path_binds_same_package_unit_without_assuming_unit_one_primary(self):
+        sx.one(self.footprint('U1'), 'path')[1] = f.quote('/' + f.uid('sheet/A') + '/' + f.uid('child/U/2'))
+        proof = self.derive()
+        self.assertEqual((proof['components'], proof['terminals'], proof['instances']), (5, 11, 3))
+        self.assertIs(proof['accepted'], False)
+
+    def test_native_stamp_order_is_uuid_primary_order_independent_of_unit_number(self):
+        # Same physical package and source instance, with A/B symbol UUIDs
+        # interchanged. Native stamps remain the canonical descending UUIDs;
+        # per-unit pin membership is still checked independently.
+        a = sx.one(self.symbol('child/U/1'), 'uuid')
+        b = sx.one(self.symbol('child/U/2'), 'uuid')
+        a[1], b[1] = b[1], a[1]
+        proof = self.derive()
+        self.assertEqual(proof['terminals'], 11)
+        self.assertIs(proof['class_parity_qualified'], True)
+        unit = sx.children(sx.one(self.component('U1'), 'units'), 'unit')[0]
+        sx.one(unit, 'name')[1] = '"B"'
+        self.refused()
 
     def test_source_root_and_instance_reference_unit_identity_refuse(self):
         for fault in ('root_uuid', 'path', 'duplicate_path', 'project', 'reference', 'unit'):

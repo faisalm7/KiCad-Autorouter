@@ -19,7 +19,7 @@ from . import placement_clearance as pc, preferences, schematic_classes as q, se
 from . import schematic_hierarchy as hierarchy
 
 CONTEXT = 'native-route-flat-classes-v1'
-HIERARCHY_CONTEXT = 'native-route-hierarchy-default-v1'
+HIERARCHY_CONTEXT = 'native-route-hierarchy-default-v2'
 MAX_PROJECT_BYTES = 100 * 1024 * 1024
 MAX_PROJECT_FILES = 2000
 MAX_PROJECT_ENTRIES = 4000

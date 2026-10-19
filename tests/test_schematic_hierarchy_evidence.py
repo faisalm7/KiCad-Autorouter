@@ -185,7 +185,7 @@ class HierarchyEvidenceControls(unittest.TestCase):
                 self.assertFalse(self.paths(case)['proof'].exists())
 
     def test_source_hierarchy_cannot_downgrade_to_flat_or_drop_policy(self):
-        for fault in ('flat', 'policy', 'combined', 'metadata'):
+        for fault in ('flat', 'policy', 'combined', 'metadata', 'old_context', 'old_policy', 'old_both'):
             with self.subTest(fault=fault):
                 case = self.case(); self.collect(case)
                 files = self.paths(case)
@@ -194,6 +194,11 @@ class HierarchyEvidenceControls(unittest.TestCase):
                     binding['context'] = proof['context'] = e.CONTEXT
                     case['data'][e.record_key('task')]['context'] = e.CONTEXT
                 if fault in ('policy', 'combined'): del proof['qualification']['policy']
+                if fault in ('old_context', 'old_both'):
+                    binding['context'] = proof['context'] = 'native-route-hierarchy-default-v1'
+                    case['data'][e.record_key('task')]['context'] = binding['context']
+                if fault in ('old_policy', 'old_both'):
+                    proof['qualification']['policy'] = 'hierarchy-default-instance-unit-v1'
                 self.rebind(case, binding=binding, proof=proof)
                 if fault == 'metadata': del case['data'][e.record_key('task')]
                 self.refused(case)
