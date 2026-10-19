@@ -224,6 +224,17 @@ class DefaultTargetsTests(unittest.TestCase):
         self.project['net_settings']['classes'][0]['priority'] = 2147483647
         self.transform()
 
+    def test_sole_Default_omitted_priority_accepts_unanimous_native_constructor_sentinel(self):
+        for row in self.native['nets']:
+            for parent in row['parameter_parents'].values(): parent['priority'] = -1
+        self.assertEqual(self.transform()[1]['derived_nm']['width_nm'],300000)
+        for priority in (-1,True,-2):
+            self.project['net_settings']['classes'][0]['priority'] = priority
+            with self.subTest(explicit_priority=priority):self.reject()
+        del self.project['net_settings']['classes'][0]['priority']
+        self.native['nets'][0]['parameter_parents']['width_nm']['priority'] = -2
+        self.reject()
+
     def test_numeric_source_floors_and_grid_refusals(self):
         for value in (True, -.1, float('nan'), float('inf'), '0.3', .3001):
             with self.subTest(value=value):

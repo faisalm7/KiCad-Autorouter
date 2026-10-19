@@ -55,6 +55,9 @@ def _source(source):
 
 def _parents(native, cls):
     """Only one class exists, so an omitted priority cannot resolve another class."""
+    explicit_priority = 'priority' in cls
+    if explicit_priority and (type(cls['priority']) is not int or not 0 <= cls['priority'] <= 2147483647):
+        raise ValueError('bounded explicit Default priority required')
     observed = set()
     for row in native['nets']:
         parents = row.get('parameter_parents')
@@ -65,11 +68,11 @@ def _parents(native, cls):
             if (type(parent) is not dict or set(parent) != {'name', 'value_nm', 'specified', 'priority'}
                     or parent['name'] != 'Default' or parent['specified'] is not True
                     or type(parent['value_nm']) is not int or parent['value_nm'] != row[key]
-                    or type(parent['priority']) is not int or not 0 <= parent['priority'] <= 2147483647):
+                    or type(parent['priority']) is not int
+                    or not (0 if explicit_priority else -1) <= parent['priority'] <= 2147483647):
                 raise ValueError('Default parameter parent differs from raw source class')
             priorities.append(parent['priority'])
-        if len(set(priorities)) != 1 or ('priority' in cls and
-                (type(cls['priority']) is not int or priorities[0] != cls['priority'])):
+        if len(set(priorities)) != 1 or (explicit_priority and priorities[0] != cls['priority']):
             raise ValueError('Default parameter priorities differ')
         observed.update(priorities)
     if len(observed) != 1:

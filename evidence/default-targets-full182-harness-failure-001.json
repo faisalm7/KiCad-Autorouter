@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "kind": "default-targets-full182-failed-harness-and-test-only-correction",
+  "recorded_utc": "2026-10-19T09:05:50.725825+00:00",
+  "source_head": "f2077c149b83eb3fea317dd89ba2791c71ef7b85",
+  "full_suite_passed": false,
+  "tests": 2288,
+  "errors": 2,
+  "skips": 1,
+  "unittest_seconds": 372.375,
+  "source_and_tools_stable_during_run": true,
+  "captured_source_pins": 295,
+  "error_tests": [
+    "test_inner_only_and_all_layer_pads_count_once_each (test_four_copper_classes.FourCopperNativeCensus.test_inner_only_and_all_layer_pads_count_once_each)",
+    "test_two_layer_shape_and_count_remain_legacy (test_four_copper_classes.FourCopperNativeCensus.test_two_layer_shape_and_count_remain_legacy)"
+  ],
+  "error": "NameError: name 'observe_floors' is not defined",
+  "cause": "AST-extracted native.netclasses test namespace omitted its new observe_floors dependency; failure occurred in the scalar API-double harness, not an actual Native invocation.",
+  "failed_harness": {
+    "source": "tests/test_four_copper_classes.py",
+    "sha256": "4d4244e169b19ad331799679d904e027ba24e6a6199668bd811f629472bf4881",
+    "exact_f207_protocol_match": true,
+    "original": ".runs/raw-harness-before-fix-001.py"
+  },
+  "harness_only_correction": {
+    "source": "tests/test_four_copper_classes.py",
+    "sha256": "3e94625367d269103df9875953c1bb5ebf60a8e873b43f784aec2fe0f40302da",
+    "change": "Inject real observe_floors and scalar GetDesignSettings stand-in; assert one settings read and five exact values.",
+    "product_source_changed": false,
+    "targeted_tests": 22,
+    "targeted_passed": true,
+    "unittest_seconds": 0.25,
+    "complete_external_cost": {
+      "wall_seconds": 0.36,
+      "CPU_seconds": 0.33
+    },
+    "test_double_is_not_Native_proof": true,
+    "does_not_repair_full182": true
+  },
+  "complete_external_cost": {
+    "wall_seconds": 373.59,
+    "CPU_seconds": 366.2,
+    "user_seconds": 306.66,
+    "system_seconds": 59.54
+  },
+  "controller_observation": {
+    "wall_seconds": 373.56196637498215,
+    "full_CPU_seconds": 366.179028
+  },
+  "child_observation": {
+    "wall_seconds": 373.148725249921,
+    "CPU_seconds": 364.99507,
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "cleanup_complete": true,
+    "log_truncated": false
+  },
+  "accounting": "External complete exit is authoritative; wrapper/child are nested and not added again. Corrective targeted cost is separate. Authoring/review/curation additional unmetered, notzero.",
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "v2_sources_unchanged_from003": [
+    {
+      "source": "autorouter/default_targets.py",
+      "sha256": "93f386f88f9dcf7718169ea0a8f9d858eea44c569116ba984cd87486484b12e6",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/autorouter/default_targets.py"
+    },
+    {
+      "source": "autorouter/native.py",
+      "sha256": "fc96d647f0c2411b36969e13c1725f685039c8c108970d32b82af88fa9c0eac8",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/autorouter/native.py"
+    },
+    {
+      "source": "autorouter/netclass.py",
+      "sha256": "d5c3705f50c4b4a5c9a9c68b6ce91747bf44cd3e20de35370f9a2e8e16e9fb00",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/autorouter/netclass.py"
+    },
+    {
+      "source": "autorouter/netclass_native.py",
+      "sha256": "5b831c87c0cda058780c8906415394206e744734337d530a5324964d34c03691",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/autorouter/netclass_native.py"
+    },
+    {
+      "source": "autorouter/pipeline.py",
+      "sha256": "db4b1331ad319c8960ca693366ae74f544932006f140485c89eb29664a5bb1ed",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/autorouter/pipeline.py"
+    },
+    {
+      "source": "autorouter/review_export.py",
+      "sha256": "f0de388ab7848cd410314f46e71e333022fed457d636ab20f5ba71384af3d2df",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/autorouter/review_export.py"
+    },
+    {
+      "source": "tests/test_default_target_integration.py",
+      "sha256": "3ef5543520ce52ea804a2268c4cfe8e7c532dee352c83825318da25557d31b5b",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/tests/test_default_target_integration.py"
+    },
+    {
+      "source": "tests/test_default_targets.py",
+      "sha256": "bba8cb085dd2b702ee719827ec89bc88955064b1555ed396dff9e3ca38de9a66",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/tests/test_default_targets.py"
+    },
+    {
+      "source": "tests/test_netclass_native.py",
+      "sha256": "a021bc97839c6207f073fe5e30f5761487b0ce9939013a040de8921011041503",
+      "retained": "evidence/default-targets-implicit-resolution-003-notes/source/tests/test_netclass_native.py"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "evidence/default-targets-implicit-resolution-003.json",
+      "sha256": "7d4dca7a75c0d17712f4ef6c758a372773d9e62d100adb88f5dab0879bed6bc6",
+      "files_index": {
+        "path": "evidence/default-targets-implicit-resolution-003-notes/files.json",
+        "sha256": "81f9a6b460276a2f15b6cbca850be51d2275ded64ddfed4d8af8081d78bb4feb"
+      }
+    },
+    {
+      "path": "evidence/default-targets-full181-001.json",
+      "sha256": "32a00ddcfda35daa3956fb74343c499f291925117605eb83634f092b20cd2bf3",
+      "files_index": {
+        "path": "evidence/default-targets-full181-001-notes/files.json",
+        "sha256": "c9859656c9b9dffd01fe7df4d011734b7305c15e968b09c50ddc4f157f8a88d9"
+      }
+    }
+  ],
+  "install011_executed": false,
+  "runtime038_executed": false,
+  "Native_qualified": false,
+  "actual_GUI": false,
+  "GUI078_preparation_executed": false,
+  "production_qualified": false,
+  "routing_accepted": false,
+  "project_complete": false,
+  "human_review": false,
+  "next_gate": "New checkpoint and full183 after this test-only correction; install011/current runtime/Native/GUI gates remain separate and unexecuted.",
+  "rights": {
+    "license": "Repository GPL; project-owned source/tests and local test metadata only.",
+    "retained_LICENSE": "evidence/runtime036-native-prerequisites-failure-001-notes/runtime036/immutable/LICENSE",
+    "LICENSE_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  "curation_helper": {
+    "path": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1"
+  },
+  "retention": {
+    "new_payload_files": 11,
+    "new_payload_bytes": 492976,
+    "material_occurrences": 21,
+    "reused_v2_source_files": 9,
+    "no_original_edits": true,
+    "no_tests_Native_build_GUI_CI_network_Git_execution": true
+  },
+  "files_index": {
+    "path": "evidence/default-targets-full182-harness-failure-001-notes/files.json",
+    "sha256": "18950566023d5966610efe5a0182900bbc8d7e09cc70ca7e333492f817c46156"
+  }
+}

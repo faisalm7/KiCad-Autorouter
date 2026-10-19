@@ -7,6 +7,8 @@ import tempfile
 from types import SimpleNamespace as NS
 import unittest
 from autorouter import netclass as n,pipeline as p,sexpr as sx
+from autorouter.netclass_native import observe_floors
+from autorouter.floor_context import FLOORS
 from tests.test_netclass import fixtures
 from experiments.four_copper_class_transport_v1 import fixture
 
@@ -94,19 +96,26 @@ class FourCopperNativeCensus(unittest.TestCase):
         # Execute only the actual worker function with a scalar-only API double.
         module=ast.parse(Path(p.c.ROOT/'autorouter/native.py').read_text())
         node=next(row for row in module.body if isinstance(row,ast.FunctionDef) and row.name=='netclasses')
-        ids={'F.Cu':0,'In1.Cu':4,'In2.Cu':6,'B.Cu':2};calls=[]
+        ids={'F.Cu':0,'In1.Cu':4,'In2.Cu':6,'B.Cu':2};calls=[];floor_calls=[]
+        expected_floors=dict(zip(FLOORS,(300000,200000,900000,400000,250000)))
+        def settings():
+            floor_calls.append('loaded settings')
+            return NS(**{attribute:expected_floors[key] for key,attribute in FLOORS.items()})
         def pad(layers,code=1):return NS(GetNetCode=lambda:code,GetNetname=lambda:'INNER',IsOnLayer=lambda layer:layer in layers)
         net=NS(GetNetCode=lambda:1,GetNetClassSlow=lambda:None)
         board=NS(SynchronizeNetsAndNetClasses=lambda flag:calls.append(flag),GetCopperLayerCount=lambda:count,
             GetLayerID=lambda name:ids[name],GetLayerName=lambda layer:next(name for name,code in ids.items() if code==layer),
             IsLayerEnabled=lambda layer:layer in ids.values(),GetLayerType=lambda _:0,
-            GetPads=lambda:[pad({4}),pad({0,2,4,6}),pad({0,2}),pad({4},0)],GetNetsByName=lambda:{'INNER':net})
+            GetPads=lambda:[pad({4}),pad({0,2,4,6}),pad({0,2}),pad({4},0)],GetNetsByName=lambda:{'INNER':net},
+            GetDesignSettings=settings)
         for name,value in altered.items():setattr(board,name,value)
         native=NS(F_Cu=0,B_Cu=2,In1_Cu=4,In2_Cu=6,LT_SIGNAL=0,GetBuildVersion=lambda:'10.0.0')
-        namespace=dict(pcbnew=native,Path=Path,file_hash=lambda _: 'fixed',observe_class=lambda _:dict(**{'class':'Default'}))
+        namespace=dict(pcbnew=native,Path=Path,file_hash=lambda _: 'fixed',
+            observe_class=lambda _:dict(**{'class':'Default'}),observe_floors=observe_floors)
         exec(compile(ast.Module(body=[node],type_ignores=[]),'actual-native-netclasses','exec'),namespace)
         result=namespace['netclasses'](board,'/owned/source.kicad_pcb',('fixed','fixed'))
-        self.assertEqual(calls,[False]);return result
+        self.assertEqual(calls,[False]);self.assertEqual(floor_calls,['loaded settings'])
+        self.assertEqual(result['effective_floors_nm'],expected_floors);return result
 
     def test_inner_only_and_all_layer_pads_count_once_each(self):
         result=self.observe();self.assertEqual(result['nets'][0]['copper_pad_count'],3)
