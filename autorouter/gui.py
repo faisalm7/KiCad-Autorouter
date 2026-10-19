@@ -28,6 +28,11 @@ THERMAL_HELP = ('Experimental thermal recovery has a validated completion result
     'The 90–900 s method budget includes the incumbent, repair attempts and final validation; internal '
     'reserves are inside it. Fresh export has a separate budget. Failed/cancelled work and its incumbent '
     'are retained; no automatic application, acceptance intent or fallback.')
+IMPROVE_HELP = ('Experimental Improve uses a tuned incumbent, bounded pruning trials and final Native validation. '
+    'The whole Improve-method budget includes its 25-second internal return reserve; it is not an added '
+    'allowance or a completion guarantee. Fresh export has a separate budget. Selected KiCad 10.0.7 '
+    'requires qualified canonical two-layer, flat, single-Default sources and engine-default via cost; '
+    'unsupported inputs refuse. No live-board application or electrical approval is implied.')
 FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
 
@@ -79,15 +84,22 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     status = str(record.get('status', 'current' if record.get('current') is True else 'not reported')).replace('_', ' ')
     lines = [title, 'Status: ' + status]
     recovery = method == 'recover' or record.get('strategy') == 'native_validated_thermal_bridge'
+    improve = method == 'improve' or record.get('strategy') == 'native_validated_zone_net_pruning'
     if recovery:
         lines += [THERMAL_HELP]
+    elif improve:
+        lines += [IMPROVE_HELP]
     if receipt_path is not None: lines += ['Full workflow receipt: ' + str(receipt_path)]
     if findings_receipt_path is not None: lines += ['Full findings receipt: ' + str(findings_receipt_path)]
     if record.get('source'): lines += ['Original saved PCB: ' + str(record['source'])]
     project = record.get('project_file') or record.get('review_project')
     if project: lines += ['Separate project: ' + str(project)]
     if record.get('candidate'): lines += ['Candidate PCB: ' + str(record['candidate'])]
-    settings = record.get('effective_preferences') or record.get('routing_preferences', {}).get('effective', {})
+    pruning = record.get('pruning_preferences', {})
+    # Review/export have their own budgets. Display the actual parent capture
+    # rather than the merged stage budget or mutable current widgets.
+    settings = ((pruning.get('effective') if improve and isinstance(pruning, dict) else None)
+                or record.get('effective_preferences') or record.get('routing_preferences', {}).get('effective', {}))
     scope = settings.get('scope') or record.get('scope')
     scopes = {'whole_board_unlocked_routing': 'Reroute unlocked copper; preserve locked routing',
               'partial_completion': 'Complete gaps; preserve all existing routing',
@@ -98,7 +110,7 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         if isinstance(layers, list): layers = ', '.join(layers)
         lines += ['Settings: profile ' + str(settings.get('profile', 'not reported'))
                   + '; corrections ' + str(settings.get('adapter', 'not reported'))
-                  + ('; whole recovery-method budget ' if recovery else '; routing budget ')
+                  + ('; whole recovery-method budget ' if recovery else '; whole Improve-method budget ' if improve else '; routing budget ')
                   + str(settings.get('seconds', 'not reported')) + ' s'
                   + '; layers ' + str(layers)
                   + '; via preference ' + str(settings.get('scoring_preference') or 'engine default')]
@@ -107,6 +119,7 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
             lines += ['Additional Native export-validation budget: '
                       + str(export_validation_seconds(settings['seconds']))
                       + (' s after acceptance, separate from recovery; the method budget is unchanged.' if recovery
+                         else ' s after acceptance, separate from Improve; the method budget is unchanged.' if improve
                          else ' s after acceptance, separate from routing; the routing budget is unchanged.')]
     elif recovery and 'budget_seconds' in record:
         lines += ['Whole recovery-method budget: ' + str(record['budget_seconds'])
@@ -439,6 +452,9 @@ def check_improve_settings(config):
     from .strategy import pruning_scope
     effective = pref.validate(config)
     pruning_scope(effective)
+    if c.NATIVE_VERSION == '10.0.7' and effective['scoring_preference'] is not None:
+        raise ValueError('Selected KiCad 10.0.7 Improve requires engine-default via cost. '
+            'The via preference and other settings were not changed.')
     if effective['seconds'] < GUI_IMPROVE_MIN_SECONDS:
         raise ValueError('Graphical Improve needs at least 90 seconds for incumbent and final checks. This is an operational minimum, not a completion guarantee; the budget was not changed.')
     return effective
@@ -516,7 +532,8 @@ def improve_preset(config):
     try:
         return check_improve_settings(candidate)
     except Exception as exc:
-        raise ValueError('Improve requires whole-board unlocked routing, all source layers, Native guidance and at least 90 seconds. This is not a completion guarantee. Use Route for other tasks.') from exc
+        raise ValueError('Improve requires whole-board unlocked routing, all source layers, Native guidance and at least 90 seconds. '
+            + str(exc) + ' This is not a completion guarantee. Use Route for other tasks.') from exc
 
 
 class CliJob:
@@ -665,7 +682,7 @@ def main(argv=None):
             self.method_note.Wrap(780)
             layout.Add(self.method_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             export_note = wx.StaticText(panel, label='Fresh export adds separate Native validation after acceptance: '
-                '30–120 seconds, derived from the captured routing or recovery-method budget. That budget is unchanged.')
+                '30–120 seconds, derived from the captured routing or whole-method budget. That budget is unchanged.')
             export_note.Wrap(780)
             layout.Add(export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             presets = wx.BoxSizer(wx.HORIZONTAL)
@@ -775,8 +792,9 @@ def main(argv=None):
                 elif method == 'recover':
                     self.status.SetLabel('Thermal recovery selected explicitly. Set the required whole-board settings; Preview refuses incompatible inputs without changing them.')
                 if hasattr(self, 'budget_label'):
-                    self.budget_label.SetLabel('Whole recovery-method budget (seconds)' if method == 'recover' else 'Routing budget (seconds)')
-                    self.method_note.SetLabel(THERMAL_HELP if method == 'recover' else '')
+                    self.budget_label.SetLabel('Whole recovery-method budget (seconds)' if method == 'recover'
+                        else 'Whole Improve-method budget (seconds)' if method == 'improve' else 'Routing budget (seconds)')
+                    self.method_note.SetLabel(THERMAL_HELP if method == 'recover' else IMPROVE_HELP if method == 'improve' else '')
                     self.method_note.Wrap(780)
                     self.method_note.GetParent().Layout()
                 if hasattr(self, 'buttons'):
@@ -934,7 +952,7 @@ def main(argv=None):
                 self.flow = flow
                 display = {**flow.records.get('route', {}), **record}
                 if stage == 'export': display.update(flow.records['export'])
-                if getattr(flow, 'method', 'route') == 'recover':
+                if getattr(flow, 'method', 'route') in ('recover', 'improve'):
                     display['effective_preferences'] = json.loads(flow.settings_bytes)
                 receipt_name = {'preview': 'preview.command.log', 'route': 'route/result.json',
                     'review': 'review/review.json', 'choice': 'choice/choice.json', 'export': 'export/export.json'}[stage]
