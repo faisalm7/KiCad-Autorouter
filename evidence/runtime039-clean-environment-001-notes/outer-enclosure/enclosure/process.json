@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 36.05725041695405,
+  "cpu_seconds": 33.445377,
+  "max_rss_bytes": 290242560,
+  "supervisor_cpu_seconds": 0.088262,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 265617408,
+  "sampled_peak_workdir_bytes": 190,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qualify-runtime039-clean-environment-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime039-clean-environment-001/protocol.json",
+    "--protocol-sha256",
+    "00aa6944f146c5b8a80d06b308049d1a3edd67810a5b50e783ca382a2444fc5d"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime039-clean-environment-001/enclosure/command.log",
+  "log_bytes": 190,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime039-clean-environment-001/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 81161
+}
