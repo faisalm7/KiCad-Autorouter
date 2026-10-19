@@ -1,6 +1,6 @@
 # Curated local runtime directory
 
-The current immutable experimental directory is **runtime042**, source `82aaa3b750007ef2ffaafd367ffcb718aa93865e`, manifest `1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e`, selected isolated KiCad10.0.7;48Python/53immutable files. [Native milestone](../evidence/runtime042-native-milestone-001.json) and [assigned GUI081 roles](../evidence/gui-runtime042-081-functional-summary-001.json) define its bounded evidence. They do not establish full GUI, release, cleanOS or broad superiority. Older041 artifacts remain immutable historical evidence.
+The last graphically qualified directory is **runtime042**, source `82aaa3b750007ef2ffaafd367ffcb718aa93865e`, manifest `1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e`, selected isolated KiCad10.0.7;48Python/53immutable files. [Native milestone](../evidence/runtime042-native-milestone-001.json) and [assigned GUI081 roles](../evidence/gui-runtime042-081-functional-summary-001.json) define its bounded evidence. They do not establish full GUI, release, cleanOS or broad superiority. Older041 artifacts remain immutable historical evidence. [Runtime043](../evidence/runtime043-native-milestone-001.json) has newer complete CLI qualification but pending GUI; [development044](../evidence/runtime044-native-pilot-failed-001.json) has full193/doctor and a failed actual Improve publication pilot, with no accepted delivery.
 
 On this Mac the existing directory is:
 
