@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "actual-revised-distribution-native-smoke",
+  "passed": true,
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "protocol_sha256": "2cdeb6d1665932ad59335d273f5eea582296214f4ec3554bafea921c63258fe0",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 20.937988166930154,
+    "cpu_seconds": 19.133988,
+    "max_rss_bytes": 246382592,
+    "supervisor_cpu_seconds": 0.05210899999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 48365568,
+    "sampled_peak_workdir_bytes": 136,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/install_smoke.py",
+      "--source-mode",
+      "distribution",
+      "--native-version",
+      "10.0.7",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-037"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/install-distribution-native-010/enclosure/command.log",
+    "log_bytes": 136,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/install-distribution-native-010/enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 65542
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-037/result.json",
+  "child_receipt_sha256": "42b0bc0cfc081e8c0e97db568d330a30c3471a7010c0986dcbb44d5690f9fb43",
+  "source_unchanged": true,
+  "complete_wall_seconds": 21.204724499955773,
+  "complete_full_CPU_seconds": 19.438056999999997,
+  "scope": "Actual fresh curated runtime/venv, doctor, native Route and check on owned fixture; no sixstage,GUI,cleanOS,relocation,Windows or publication claim.",
+  "reason": null
+}

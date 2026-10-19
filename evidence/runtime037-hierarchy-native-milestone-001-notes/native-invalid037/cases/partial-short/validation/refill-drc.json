@@ -1,0 +1,118 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-19T00:51:43",
+    "ignored_checks": [
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "owned1007-transport.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Items shorting two nets (nets ROUTE and KEEP)",
+            "items": [
+                {
+                    "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 10.0
+                    },
+                    "uuid": "2b65f48f-099a-4d3b-8589-fd6eaee43660"
+                },
+                {
+                    "description": "PTH pad 1 [KEEP] of J3",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 16.0
+                    },
+                    "uuid": "67de446c-e8e6-536e-bc56-bec097aeea85"
+                }
+            ],
+            "severity": "error",
+            "type": "shorting_items"
+        },
+        {
+            "description": "Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)",
+            "items": [
+                {
+                    "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 10.0
+                    },
+                    "uuid": "2b65f48f-099a-4d3b-8589-fd6eaee43660"
+                },
+                {
+                    "description": "PTH pad 1 [KEEP] of J3",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 16.0
+                    },
+                    "uuid": "67de446c-e8e6-536e-bc56-bec097aeea85"
+                }
+            ],
+            "severity": "error",
+            "type": "hole_clearance"
+        },
+        {
+            "description": "Tracks crossing",
+            "items": [
+                {
+                    "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 10.0
+                    },
+                    "uuid": "2b65f48f-099a-4d3b-8589-fd6eaee43660"
+                },
+                {
+                    "description": "Track [KEEP] on F.Cu, length 7.0000 mm",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 16.0
+                    },
+                    "uuid": "c9c7c075-88f5-56e2-8a32-0439b83957c6"
+                }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Track [ROUTE] on F.Cu, length 6.0000 mm",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 10.0
+                    },
+                    "uuid": "2b65f48f-099a-4d3b-8589-fd6eaee43660"
+                },
+                {
+                    "description": "PTH pad 1 [KEEP] of J3",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 16.0
+                    },
+                    "uuid": "67de446c-e8e6-536e-bc56-bec097aeea85"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        }
+    ]
+}

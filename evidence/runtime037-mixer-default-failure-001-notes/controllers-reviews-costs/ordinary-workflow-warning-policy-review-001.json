@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "kind": "ordinary-workflow-warning-policy-source-review-v1",
+  "recorded_utc": "2026-10-19T07:56:37.033132+00:00",
+  "reviewer": "AI subagent preset_picker_review; read-only review, not human PCB review",
+  "scope": "Only new wrapper002 development-report count policy versus wrapper001 and the unchanged shared installed-workflow qualifier/central Native readers. No Mixer routing or Native/test/GUI/CI execution.",
+  "files": {
+    ".runs/enclose-runtime030-ordinary-workflow-001.py": {
+      "sha256": "e23ffd2851c9074bd16ccdb2e49c6ded0d9910c0240ee8221123ebda2973c02d",
+      "bytes": 4204
+    },
+    ".runs/enclose-runtime030-ordinary-workflow-002.py": {
+      "sha256": "69d87dee41f94fe9e479e505093914325ed653cbb0cd58c9545272afefc1d59c",
+      "bytes": 4774
+    },
+    "scripts/qualify_runtime_workflow.py": {
+      "sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034",
+      "bytes": 5076
+    },
+    "autorouter/pipeline.py": {
+      "sha256": "bdb8dac630f9d38c6ba832484eb67ec50ee9cde6a5caf60dccf99e455682d017",
+      "bytes": 208174
+    },
+    "autorouter/review_export.py": {
+      "sha256": "085b4eaa4581214e7036a1ff3c1e6fa543f851581aa9074f8ce71c26e7112e67",
+      "bytes": 38914
+    }
+  },
+  "decision": "No concrete new false-admission blocker found by source inspection. Freeze actual source, settings, expected_exclusions and protocol before one bounded development trial; outcome remains unobserved.",
+  "new_mode": {
+    "expected_counts": null,
+    "warning_policy": "retain_all_native_findings",
+    "expected_exclusions": "Explicit built-in integer in separately frozen protocol; central production acceptance currently requires zero. No exclusion waiver is introduced."
+  },
+  "checked_contracts": [
+    {
+      "topic": "Counts and findings",
+      "observation": "All four opens/blocking/warnings/exclusions keys are indexed for both Route and export and their complete count arrays must equal. Missing keys or wrong mode/policy fail wrapper qualification. Development mode requires opens=blocking=0 and exact frozen exclusions. parse_report derives all counters from retained complete severity-all Native findings; check_result requires full native summary equality to raw evidence; native_rejection_reasons rejects malformed/noninteger/negative counts, exclusions, errors, unknown semantics, disabled critical checks and policy-critical warnings."
+    },
+    {
+      "topic": "Warnings",
+      "observation": "The wrapper removes only the guessed warning count in the explicit development-report branch. It does not rewrite Native JSON or counts/findings. check_export independently replays fresh Native proof, metrics and original ignored-check settings and prevents new warning identities relative to the validated Route. Wrapper additionally requires the final Route/export warning counts to match. Source206 warnings are not asserted as final expected206; final actual warnings must remain reported."
+    },
+    {
+      "topic": "Native/source fidelity",
+      "observation": "Unchanged shared qualifier uses actual production Request/Workflow/CliJob six stages plus inspect_path and central p.check_result/ex.check_export. Wrapper still requires full schematic parity, exact source hashes, candidate hash consistency, frozen routing/export budgets, original immutable geometry, protected copper, scope and final source/runtime/settings/protocol/controller pins. No product guard was changed."
+    },
+    {
+      "topic": "Budgets/cancellation",
+      "observation": "Runner255s/4GiB RSS/512MiB monitored enclosure workdir/log512KiB and wrapper240s wall/full-CPU acceptance unchanged. Shared qualifier has225s stage allocation with240s total/publication check. Failed/cancelled child/adoption/central readback does not yield controls_passed; outer requires success exit0 and complete cleanup. Output root resource coverage is not enlarged by this review."
+    },
+    {
+      "topic": "Exact owned mode",
+      "observation": "For expected_counts non-None the exact prior complete count-array equality remains, together with all unchanged downstream assertions; no policy branch alters exact owned control acceptance."
+    }
+  ],
+  "falsification_by_inspection": {
+    "omitted_native_counter": "fails key lookup or central Native summary/readback",
+    "nonzero_opens_or_blocking": "fails central acceptance and new mode zero assertion",
+    "excluded_or_disabled_critical_finding": "fails central reader despite any plan count",
+    "critical_warning": "remains rejected by application Native acceptance",
+    "changed_rules_or_source_or_protected": "unchanged product/source/protection checks remain mandatory",
+    "different_export_counts": "fails complete four-counter equality",
+    "no_central_validation_or_cancel": "shared qualifier cannot deliver and wrapper cannot pass"
+  },
+  "limits": [
+    "Static review only; no executed adversarial probe or Native correctness proof.",
+    "The wrapper is a development qualification enclosure; controls_passed is not generalized support, whole-project cleanliness, comparative routing gain or physical/electrical validation.",
+    "As inherited from001, complete_wall_seconds and complete_full_CPU_seconds in execution.json are sampled before final stable hashing/report write/actual exit. Preserve separately measured external exit wall/full CPU; do not reinterpret these samples as complete actual exit cost.",
+    "Warnings/exclusion count equality does not itself compare full finding identities; mandatory central Route/export readers retain and validate those findings. Do not report this wrapper alone as the Native verifier.",
+    "Mixer source0/24/206/0 is a known pre-routing observation supplied by lead, not a result of this review; no Mixer routing has run in this reviewed preparation."
+  ],
+  "diff": [
+    "--- .runs/enclose-runtime030-ordinary-workflow-001.py",
+    "+++ .runs/enclose-runtime030-ordinary-workflow-002.py",
+    "@@ -1,4 +1,10 @@",
+    "-\"\"\"One frozen ordinary workflow via the existing shared qualifier; whole or partial.\"\"\"",
+    "+\"\"\"Shared ordinary workflow v2: exact owned controls or all-warning development report.",
+    "+",
+    "+Native acceptance, original rules/protection, final/source/material and same final",
+    "+Route/export counts remain mandatory. A separately frozen development plan can",
+    "+report all warnings without guessing their future count; opens/blocking must be0",
+    "+and exclusion count remains explicit. Existing exact-count control mode unchanged.",
+    "+\"\"\"",
+    " import argparse",
+    " from pathlib import Path",
+    " import sys,os,time,resource,json",
+    "@@ -14,7 +20,13 @@",
+    " receipt=out/'result.json';child=f.read_json(receipt) if receipt.is_file() else None;error=None;counts=None;protected=None",
+    " try:",
+    "  assert child and child['workflow_delivered'] and child['settings']==plan['settings'];w=Path(child['workspace']);r=f.read_json(w/'route/result.json');ex=f.read_json(w/'export/export.json')",
+    "- counts=[r['native'][k] for k in ('opens','blocking','warnings','exclusions')];assert counts==plan['expected_counts']==[ex['native'][k] for k in ('opens','blocking','warnings','exclusions')]",
+    "+ counts=[r['native'][k] for k in ('opens','blocking','warnings','exclusions')]",
+    "+ assert counts==[ex['native'][k] for k in ('opens','blocking','warnings','exclusions')]",
+    "+ expected=plan['expected_counts']",
+    "+ if expected is None:",
+    "+  assert plan['warning_policy']=='retain_all_native_findings' and counts[:2]==[0,0]",
+    "+  assert type(plan['expected_exclusions']) is int and counts[3]==plan['expected_exclusions']",
+    "+ else:assert counts==expected",
+    "  assert r['schematic_parity']==ex['schematic_parity']=='checked by final native DRC';assert r['source_hashes']==ex['source_hashes']==plan['source_hashes']",
+    "  assert r['candidate_sha256']==ex['candidate_sha256'];assert r['budget_seconds']==plan['budgets']['route'];assert ex['budget_seconds']==plan['budgets']['export']",
+    "  from autorouter import sexpr as sx"
+  ]
+}
