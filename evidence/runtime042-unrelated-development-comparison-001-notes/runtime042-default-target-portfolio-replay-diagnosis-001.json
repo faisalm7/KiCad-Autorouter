@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "kind": "read-only-profile-verifier-drift-diagnosis-v1",
+  "Native_reexecuted": false,
+  "code_edited_during_batch": false,
+  "source_file": "scripts/experiment_portfolio.py",
+  "source_sha256": "a748da6492963fafd5418cddaac39bbf0313830b240ca7e2a120145c4aaa1e17",
+  "actual_trial_sha256": "006f657a1217f9478349dcb75fcca73b0f3910feefef81d647d9a77423a843ad",
+  "portfolio_summary_sha256": "78cbba179046d6fc5e737dafb14062315317fb4e495e422b58f1bfe2e290b5d5",
+  "first_attempt_status": "invalidated, no selected candidate, later variants unattempted",
+  "finding": "verify_row strict_class_targets predicate omits default_target_transport; producer and central reader correctly include it",
+  "expected_in_verifier": false,
+  "actual_strict_class_targets": true,
+  "actual_safeguard_argv": [
+    "--router.automatic_neckdown=false",
+    "--router.fanout.enabled=false",
+    "--router.neck_width_um=0"
+  ],
+  "other_profile_and_process_metadata_agree": true,
+  "scope": "AI/root metadata/source review, not new Native or independent human validation",
+  "next": "After frozen12 closure, fix the general verifier predicate without removing safeguards; preserve failure, add strict-target positive/tampered-profile regression, native follow-up separately labelled."
+}
