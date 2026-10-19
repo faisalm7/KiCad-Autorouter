@@ -1,0 +1,308 @@
+{
+  "schema": 1,
+  "kind": "owned-native7-fractional-export-prerequisite-v1",
+  "passed": true,
+  "accepted": false,
+  "support_admitted": false,
+  "Native_DRC": false,
+  "routing": false,
+  "rows": [
+    {
+      "case": "positive",
+      "source_bounds_um": [
+        "6000.25",
+        "-30000.5",
+        "32000.25",
+        "-6000.5"
+      ],
+      "actual_bounds_um": [
+        "6000.25",
+        "-30000.5",
+        "32000.2",
+        "-6000.5"
+      ],
+      "delta_um": [
+        "0.00",
+        "0.0",
+        "-0.05",
+        "0.0"
+      ],
+      "source_unchanged": true,
+      "native_version": "10.0.7",
+      "dsn_sha256": "46f91fd1c689c1b4c622b536e634aaa85c046e5a00bab2ec84bf849ed67ea6aa",
+      "mapping_sha256": "c2a246adbab4219d48937d36517139053a1a757f4bcb01cf4560a62efdfeb562",
+      "alias_sha256": "1d4b15fbb7930a5c789b4f20595823c298f5733019f41cc093f400c99bbcedaf",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.7543665840057656,
+        "cpu_seconds": 0.469354,
+        "max_rss_bytes": 114393088,
+        "supervisor_cpu_seconds": 0.005821999999999994,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 62259200,
+        "sampled_peak_workdir_bytes": 19397,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/autorouter/native.py",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/positive/source/owned1007-transport.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/positive/export/native.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/positive/export/netclasses.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/positive/export/export.log",
+        "log_bytes": 0,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/positive/export",
+        "signal_cancellation_enabled": true,
+        "pid": 83994,
+        "name": "export"
+      }
+    },
+    {
+      "case": "mixed",
+      "source_bounds_um": [
+        "-6000.25",
+        "-30000.5",
+        "32000.25",
+        "6000.5"
+      ],
+      "actual_bounds_um": [
+        "-6000.25",
+        "-30000.5",
+        "32000.2",
+        "6000.5"
+      ],
+      "delta_um": [
+        "0.00",
+        "0.0",
+        "-0.05",
+        "0.0"
+      ],
+      "source_unchanged": true,
+      "native_version": "10.0.7",
+      "dsn_sha256": "ec03a16182ea1efce2b526d9083a79379d1523ac986fffff93587c239d2d2848",
+      "mapping_sha256": "8b1f4950973464420b1d04cf1ab21c0d863b215cbf2fade319abfe8047de1c2f",
+      "alias_sha256": "c9c38c7fdde83f6419378c540eb15380e9f9d301b47877d90ead61b18792d88c",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.7140627090120688,
+        "cpu_seconds": 0.462099,
+        "max_rss_bytes": 115113984,
+        "supervisor_cpu_seconds": 0.005746000000000029,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 84525056,
+        "sampled_peak_workdir_bytes": 19384,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/autorouter/native.py",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/mixed/source/owned1007-transport.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/mixed/export/native.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/mixed/export/netclasses.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/mixed/export/export.log",
+        "log_bytes": 0,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/mixed/export",
+        "signal_cancellation_enabled": true,
+        "pid": 84047,
+        "name": "export"
+      }
+    },
+    {
+      "case": "negative",
+      "source_bounds_um": [
+        "-33999.75",
+        "9999.5",
+        "-7999.75",
+        "33999.5"
+      ],
+      "actual_bounds_um": [
+        "-33999.8",
+        "9999.5",
+        "-7999.75",
+        "33999.5"
+      ],
+      "delta_um": [
+        "-0.05",
+        "0.0",
+        "0.00",
+        "0.0"
+      ],
+      "source_unchanged": true,
+      "native_version": "10.0.7",
+      "dsn_sha256": "1c3eda100c304181d0486df59f8a82377c41d0e6986610a75a57b6c839e1da8f",
+      "mapping_sha256": "d48c1373d69eeba03bc17f9919ded8719c974af6314bd46190a0be6a44f32652",
+      "alias_sha256": "812de71940a3400274b38db5dfaf6856168da681e5a7d9d1220bcd8ba0476cd6",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.4253626250429079,
+        "cpu_seconds": 0.398433,
+        "max_rss_bytes": 110968832,
+        "supervisor_cpu_seconds": 0.004649000000000014,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 43204608,
+        "sampled_peak_workdir_bytes": 19425,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/autorouter/native.py",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/negative/source/owned1007-transport.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/negative/export/native.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/negative/export/netclasses.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/negative/export/export.log",
+        "log_bytes": 0,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/negative/export",
+        "signal_cancellation_enabled": true,
+        "pid": 84049,
+        "name": "export"
+      }
+    },
+    {
+      "case": "nm-grid",
+      "source_bounds_um": [
+        "6000.001",
+        "-30000.501",
+        "32000.999",
+        "-6000.499"
+      ],
+      "actual_bounds_um": [
+        "6000",
+        "-30000.5",
+        "32001",
+        "-6000.5"
+      ],
+      "delta_um": [
+        "-0.001",
+        "0.001",
+        "0.001",
+        "-0.001"
+      ],
+      "source_unchanged": true,
+      "native_version": "10.0.7",
+      "dsn_sha256": "449d620c50ab221064c36172d6fe7e0a10309573fa500384cd9eaef88a9dfb9a",
+      "mapping_sha256": "022337a8645ab303ffc2047047ee947d116a0986cd8d7eb499611d3b102ed796",
+      "alias_sha256": "cc150473288c6d18467d4edc5a1d7466b7660f29d5a60769624be07764efe178",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.3904321249574423,
+        "cpu_seconds": 0.379224,
+        "max_rss_bytes": 111984640,
+        "supervisor_cpu_seconds": 0.0036200000000000676,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 90390528,
+        "sampled_peak_workdir_bytes": 19386,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/autorouter/native.py",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/nm-grid/source/owned1007-transport.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/nm-grid/export/native.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/nm-grid/export/netclasses.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/nm-grid/export/export.log",
+        "log_bytes": 0,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-export-controls-001/nm-grid/export",
+        "signal_cancellation_enabled": true,
+        "pid": 84051,
+        "name": "export"
+      }
+    }
+  ],
+  "source_unchanged": true,
+  "protocol_sha256": "8568a28a62451e528723921b5deb598f2a8de274d644db9d9e0e955a159c0ec7",
+  "continuation_protocol_sha256": "76298b87bb8810ccbeabfc5d463688374f5b57dbad526c808889bd1d5c2a3c06",
+  "reused_completed_export": [
+    "positive"
+  ],
+  "prior_failed_controller_cost": {
+    "wall_seconds": 1.13,
+    "CPU_seconds": 0.75
+  },
+  "sampled_wall_seconds": 2.2722284169867635,
+  "sampled_full_CPU_seconds": 1.9360209999999998,
+  "external_exit_required": true
+}

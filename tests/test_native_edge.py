@@ -167,13 +167,27 @@ class NativeEdgeTests(unittest.TestCase):
 
     def test_fractional_outside_observed_guard_or_wrong_host_grid_refuses(self):
         board,dsn,context=self.fractional()
-        for text in (dsn.replace('(host_version "10.0.0")','(host_version "10.0.7")'),
+        for text in (dsn.replace('(host_version "10.0.0")','(host_version "10.0.8")'),
+                dsn.replace('(host_version "10.0.0")','(host_version "10.0.1")'),
+                dsn.replace('(host_cad "KiCad\'s Pcbnew")','(host_cad "other")'),
                 dsn.replace('(host_version "10.0.0")',''),dsn.replace('(resolution um 10)','(resolution um 100)'),
                 dsn.replace('(rect pcb 0 -20000 20000 0)','(rect pcb -0.251 -20000 20000 0)')):
             with self.subTest(text=text),self.assertRaises(ValueError):self.correct(text,context)
         # Guard is inclusive at .5um, but target still comes solely from source.
         raw,_=self.correct(dsn.replace('(rect pcb 0 -20000 20000 0)','(rect pcb -0.25 -20000 20000.75 0)'),context)
         self.assertIn(b'0.3 -20000 20000.2 0',raw)
+
+    def test_exact_native_versions_record_actual_host_and_preserve_same_inward_geometry(self):
+        board,dsn,context=self.fractional()
+        results=[]
+        for version in ('10.0.0','10.0.7'):
+            text=dsn.replace('(host_version "10.0.0")','(host_version "'+version+'")')
+            corrected,record=self.correct(text,context)
+            self.assertEqual(record['inward_boundary']['native_host_version'],version)
+            self.assertEqual(record['inward_boundary']['observed_input_discrepancy_guard_um'],'0.5')
+            self.assertFalse(record['native_project_modified'])
+            results.append(sx.one(sx.one(a._parse_dsn(corrected.decode()),'structure'),'boundary'))
+        self.assertEqual(results[0],results[1])
 
     def test_degenerate_observed_rectangle_cannot_invent_a_valid_output_bound(self):
         board,dsn,context=self.fractional();context['rect_um']=['0.05','-20000','0.25','0']

@@ -7,7 +7,7 @@ import argparse,copy,json,shutil,sys,time,uuid
 from decimal import Decimal
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True
-from autorouter import pipeline as p,sexpr as sx,floor_route as f
+from autorouter import pipeline as p,sexpr as sx,floor_route as f,config as c
 
 
 def main():
@@ -15,9 +15,18 @@ def main():
     parser.add_argument('--valid',required=True,type=Path)
     parser.add_argument('--output',required=True,type=Path)
     parser.add_argument('--fractional-edge',action='store_true',help='New owned sub-grid rectangle plus actual Native export/transport controls')
+    parser.add_argument('--native-version',choices=['10.0.7'],help='Explicit pinned diagnostic toolchain; default retains the selected production version')
     args=parser.parse_args();valid=args.valid.resolve();out=args.output.resolve()
     if ROOT/'.runs' not in out.parents:raise p.Rejected('controls require fresh local .runs output')
     start=time.monotonic();cpu=time.process_time()+f.child_cpu();out.mkdir()
+    native_toolchain=None
+    if args.native_version is not None:
+        selection=c.native_selection(f.read_json(ROOT/'toolchain.lock.json'),args.native_version)
+        roles=selection['tools']
+        native_toolchain=p.ExperimentalNativeToolchain(
+            cli=Path(roles['kicad_cli']['path']),python=Path(roles['kicad_python']['path']),pcbnew=Path(roles['pcbnew']['path']),
+            expected_version=selection['version'],cli_sha256=roles['kicad_cli']['sha256'],
+            python_sha256=roles['kicad_python']['sha256'],pcbnew_sha256=roles['pcbnew']['sha256'])
     before=p.tree_hash(valid.parent);original=sx.read(valid)
     edges=[n for n in original if isinstance(n,list) and sx.one(n,'layer')==['layer','"Edge.Cuts"']]
     points={tuple(sx.one(n,tag)[1:]) for n in edges for tag in ('start','end')}
@@ -36,11 +45,12 @@ def main():
         cases=['positive','edge_violation','rule_tamper'],expected_native_gaps_mm={'positive':0.35,'edge_violation':0.25,'rule_tamper':0.25},
         original_edge_minimum_mm=0.3,scope='Owned new rectangle fixture; no schematic supplied. Source and previous native smoke immutable; no routing benchmark or complete-project claim.')
     protocol['fractional_edge']=args.fractional_edge;protocol['rectangle_bounds_mm']=bounds
+    protocol['native_selection']=native_toolchain.record() if native_toolchain is not None else c.current_native_selection()
     p.save_json(out/'protocol.json',protocol);rows=[]
     transport=None
     if args.fractional_edge:
         from autorouter import native_edge as edge,adapter
-        job=p.Job(out/'transport',60);shutil.copytree(source,job.out/'snapshot')
+        job=p.Job(out/'transport',60,native_toolchain=native_toolchain);shutil.copytree(source,job.out/'snapshot')
         captured=job.out/'snapshot'/board.name
         job.native('export','export',captured,job.out/'native.dsn')
         job.native('obstacles','obstacles',captured,job.out/'obstacles.json')
@@ -57,7 +67,7 @@ def main():
             source_still_exact=p.tree_hash(source)==source_hashes,scope='Actual owned fractional Native export+obstacle workers and existing shared edge transport replay; no routing engine or acceptance claim.')
         p.save_json(job.out/'result.json',transport)
     for name in protocol['cases']:
-        job=p.Job(out/name,60);target=job.out/'candidate';shutil.copytree(source,target);candidate=target/board.name
+        job=p.Job(out/name,60,native_toolchain=native_toolchain);target=job.out/'candidate';shutil.copytree(source,target);candidate=target/board.name
         tree=copy.deepcopy(fixture);x=str(Decimal(bounds[2])-(Decimal('0.65') if name=='positive' else Decimal('0.55'))) if args.fractional_edge else ('44.35' if name=='positive' else '44.45')
         def identity(suffix):return ['uuid',str(uuid.uuid5(uuid.NAMESPACE_URL,'kicad-autorouter-edge-'+name+'-'+suffix))]
         tree.append(['via',['at',x,'30'],['size','0.6'],['drill','0.3'],['layers','"F.Cu"','"B.Cu"'],['net','"GND"'],identity('via')])

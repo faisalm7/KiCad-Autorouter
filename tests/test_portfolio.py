@@ -1,4 +1,5 @@
 """Pure control-flow tests. Mocked native stages do not qualify route correctness."""
+import copy
 import json
 from pathlib import Path
 import tempfile
@@ -92,6 +93,49 @@ class PortfolioControls(unittest.TestCase):
         data['minimum_width_guard']['original_project_sha256']='0'*64;p.save_json(receipt,data);row['result_sha256']=p.sha(receipt)
         with self.assertRaisesRegex(p.Rejected,'original width guard'):
             m.verify_row(row,self.board,self.frozen)
+
+    def default_target_trial(self):
+        """Construct profile/journal evidence only; checked() is not Native proof."""
+        directory=self.root/'.runs/default-target-trial'
+        data=self.route(self.board,directory,100,False,'both','tuned',scoring_variant='via_default')
+        engine=p.engine_profile_settings('tuned',100,strict_class_targets=True,scoring_variant='via_default')
+        engine.update(outer_task_wall_budget_seconds=100,outer_task_cpu_budget_seconds=100)
+        data['engine_budget']=engine
+        data['default_target_transport']={'policy':p.DEFAULT_TARGET_ADMISSION_POLICY,
+            'file':'default-targets.json','sha256':'a'*64}
+        data['steps'][0]['argv']=['java',*engine['argv']]
+        receipt=directory/'result.json'
+        p.save_json(directory/'engine-process.json',data['steps'][0]);p.save_json(receipt,data)
+        row={'result':str(receipt),'result_sha256':p.sha(receipt),'id':'via_default','assigned_seconds':100,
+            'vias':data['metrics']['vias'],'length_mm':data['metrics']['track_length_mm'],
+            'candidate':data['candidate'],'candidate_sha256':data['candidate_sha256'],
+            'native_report_sha256':data['native_report_sha256']}
+        return directory,data,row
+
+    def test_floor_guided_default_trial_requires_strict_profile_without_legacy_markers(self):
+        directory,data,row=self.default_target_trial()
+        self.assertIsNone(data.get('netclass_policy'))
+        self.assertIsNone(data.get('minimum_width_guard'))
+        self.assertTrue(m.verify_row(row,self.board,self.frozen)['current'])
+        self.assertEqual(json.loads((directory/'engine-process.json').read_text()),data['steps'][0])
+
+    def test_floor_guided_trial_rehashed_nonstrict_or_missing_execution_safeguards_refuse(self):
+        directory,original,row=self.default_target_trial()
+        flags=['--router.automatic_neckdown=false','--router.fanout.enabled=false','--router.neck_width_um=0']
+        for fault in ['strict-label','coherent-nonstrict',*flags]:
+            with self.subTest(fault=fault):
+                data=copy.deepcopy(original)
+                if fault=='strict-label':data['engine_budget']['strict_class_targets']=False
+                elif fault=='coherent-nonstrict':
+                    engine=p.engine_profile_settings('tuned',100,scoring_variant='via_default')
+                    engine.update(outer_task_wall_budget_seconds=100,outer_task_cpu_budget_seconds=100)
+                    data['engine_budget']=engine;data['steps'][0]['argv']=['java',*engine['argv']]
+                else:data['steps'][0]['argv'].remove(fault)
+                p.save_json(directory/'engine-process.json',data['steps'][0])
+                p.save_json(directory/'result.json',data);row['result_sha256']=p.sha(directory/'result.json')
+                with patch.object(p,'check_result',side_effect=self.checked) as central:
+                    with self.assertRaises(p.Rejected):m.verify_row(row,self.board,self.frozen)
+                    central.assert_not_called()
 
     def test_prep_and_selection_costs_are_in_global_budget(self):
         def frozen(board):self.wall+=5.;self.cpu+=6.;return self.frozen

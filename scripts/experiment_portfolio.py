@@ -444,7 +444,7 @@ def verify_row(row, board, frozen, *, comparison_context=None):
     engine = data.get('engine_budget', {})
     width_guard=p.check_minimum_width_record(data,receipt.parent)
     expected = p.engine_profile_settings('tuned', engine.get('remaining_outer_wall_seconds_at_assignment'),
-        strict_class_targets=data.get('netclass_policy') is not None or row.get('guidance_policy')=='placement-search-v1' or width_guard is not None, scoring_variant=row['id'])
+        strict_class_targets=data.get('netclass_policy') is not None or row.get('guidance_policy')=='placement-search-v1' or width_guard is not None or 'default_target_transport' in data, scoring_variant=row['id'])
     if (any(engine.get(key) != value for key, value in expected.items())
             or engine.get('outer_task_wall_budget_seconds') != route_allowance
             or engine.get('outer_task_cpu_budget_seconds') != route_allowance):

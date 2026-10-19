@@ -57,5 +57,25 @@ class EdgeRecord(unittest.TestCase):
         self.data['native_edge_correction']={};self.data['adapter']='none'
         with self.assertRaisesRegex(p.Rejected,'lineage'):p.check_native_edge_transport(self.folder,self.data)
 
+    def test_fractional_proof_cannot_relabel_the_actual_export_host(self):
+        from tests.test_native_edge import NativeEdgeTests
+        board,dsn,context=NativeEdgeTests().fractional()
+        self.board.write_bytes(board)
+        self.raw=dsn.replace('"10.0.0"','"10.0.7"').encode()
+        adapted,adapter=a.adapt_bytes(self.raw,'both',[])
+        corrected,record=e.correct(adapted,context)
+        (self.folder/'native.dsn').write_bytes(self.raw)
+        (self.folder/'edge-adapter-input.dsn').write_bytes(adapted)
+        (self.folder/'task.dsn').write_bytes(corrected)
+        self.data.update(source_hashes=p.tree_hash(self.board.parent),
+            native_edge_correction=record,adapter_transformations=adapter)
+        p.save_json(self.folder/'native-edge-correction.json',record)
+        self.assertEqual(p.check_native_edge_transport(self.folder,self.data)['inward_boundary']['native_host_version'],'10.0.7')
+        # Rehashing/coherently changing both metadata copies cannot alter the
+        # host witnessed by the retained actual input bytes.
+        record['inward_boundary']['native_host_version']='10.0.0'
+        p.save_json(self.folder/'native-edge-correction.json',record)
+        with self.assertRaises(p.Rejected):p.check_native_edge_transport(self.folder,self.data)
+
 
 if __name__=='__main__':unittest.main()

@@ -309,7 +309,8 @@ def correct(dsnbytes, context):
         # claim or permission to expand the original board. The replacement is
         # independently derived from exact source coordinates, always inward.
         parser=sx.one(tree,'parser',[])
-        if (precision!=10 or sx.one(parser,'host_version')!=['host_version','"10.0.0"']
+        host_version=sx.one(parser,'host_version')
+        if (precision!=10 or host_version not in (['host_version','"10.0.0"'],['host_version','"10.0.7"'])
                 or sx.one(parser,'host_cad')!=['host_cad','"KiCad\'s Pcbnew"']
                 or any(v*1000!=(v*1000).to_integral_value() for v in expected)):
             raise ValueError('fractional source export precision is outside qualified Native10 scope')
@@ -338,7 +339,7 @@ def correct(dsnbytes, context):
             'source_bounds_um':[a._atom_number(v) for v in expected],
             'observed_export_bounds_um':[a._atom_number(v) for v in bounds],
             'output_bounds_um':[a._atom_number(v) for v in rounded],
-            'observed_input_discrepancy_guard_um':'0.5','native_host_version':'10.0.0',
+            'observed_input_discrepancy_guard_um':'0.5','native_host_version':sx.unquote(host_version[1]),
             'input_boundary_ast_sha256':a._digest(sx.dump(shape).encode()),
             'output_boundary_ast_sha256':a._digest(sx.dump(replacement).encode()),
             'output_within_original_boundary':True,'native_design_modified':False}

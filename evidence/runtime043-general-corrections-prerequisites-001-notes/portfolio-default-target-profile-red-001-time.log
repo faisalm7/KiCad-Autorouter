@@ -1,0 +1,42 @@
+EF
+======================================================================
+ERROR: test_floor_guided_default_trial_requires_strict_profile_without_legacy_markers (tests.test_portfolio.PortfolioControls.test_floor_guided_default_trial_requires_strict_profile_without_legacy_markers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_portfolio.py", line 119, in test_floor_guided_default_trial_requires_strict_profile_without_legacy_markers
+    self.assertTrue(m.verify_row(row,self.board,self.frozen)['current'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/experiment_portfolio.py", line 451, in verify_row
+    raise p.Rejected('trial engine profile differs from declared variant')
+autorouter.pipeline.Rejected: trial engine profile differs from declared variant
+
+======================================================================
+FAIL: test_floor_guided_trial_rehashed_nonstrict_or_missing_execution_safeguards_refuse (tests.test_portfolio.PortfolioControls.test_floor_guided_trial_rehashed_nonstrict_or_missing_execution_safeguards_refuse) (fault='coherent-nonstrict')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_portfolio.py", line 137, in test_floor_guided_trial_rehashed_nonstrict_or_missing_execution_safeguards_refuse
+    with self.assertRaises(p.Rejected):m.verify_row(row,self.board,self.frozen)
+AssertionError: Rejected not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.010s
+
+FAILED (failures=1, errors=1)
+        0.14 real         0.07 user         0.02 sys
+            37830656  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3156  page reclaims
+                 164  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 233  voluntary context switches
+                 158  involuntary context switches
+          1035152928  instructions retired
+           373590341  cycles elapsed
+            27607544  peak memory footprint
