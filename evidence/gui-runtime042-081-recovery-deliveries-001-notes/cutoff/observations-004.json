@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "runtime": "042",
+  "session": "081",
+  "source_head": "82aaa3b750007ef2ffaafd367ffcb718aa93865e",
+  "runtime_manifest_sha256": "1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e",
+  "prepared_state_sha256": "7ea7e874fe2781e1c915f024a6a72edc05f7d631887d0cd9e744ea32a23242a3",
+  "created_utc": "2026-10-19T18:17:10.127325+00:00",
+  "prior_frozen_journal": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui081-observations-003.json",
+    "sha256": "bfeade4396a71deb9f3fab2526d08e538876938a22a2ed278ef583a2ad0890df"
+  },
+  "observations": [
+    {
+      "role": "unsupported4Cu_refusal",
+      "actual_gui": true,
+      "recorded_utc": "2026-10-19T18:21:37.835446+00:00",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/recovery-controls-001/unsupported4Cu/project/owned-four-copper-forced-inner.kicad_pcb",
+      "method": "recover",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "actual_Preview": true,
+      "observed_findings": "unsupported: schematic class intent not qualified: schematic netclass_flag unsupported: PCB class membership and inheritance are not independently verified: owned-four-copper-forced-inner.kicad_sch\nNo positive state adopted. Retained files were not deleted.",
+      "job_count_before": 10,
+      "job_count_after": 10,
+      "new_workspace_created": false,
+      "source_unchanged": true,
+      "actual_blocker": "schematic netclass_flag static preflight before dedicated layer-count gate",
+      "dedicated_two_layer_guard_isolated": false,
+      "Native_executed": false,
+      "human_review": false,
+      "limits": "Actual owned four-layer recovery source refused before job creation, at an earlier schematic-class gate. No isolated Native/layer restriction test or GUI four-layer support claim."
+    },
+    {
+      "role": "recovery_no_repair_delivery",
+      "actual_gui": true,
+      "recorded_utc": "2026-10-19T18:29:48.224257+00:00",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-d20ec3e03eb84c11aadda17e741eeb49",
+      "actual_stages": [
+        "Preview",
+        "Recover (experimental)",
+        "Create review",
+        "Edge rendered F.Cu and B.Cu original/candidate review",
+        "review acknowledgement",
+        "Accept intent",
+        "Fresh export",
+        "Open checked export",
+        "KiCad Tools > PCB Editor",
+        "PCB Editor File > Close without Save",
+        "KiCad File > Close Project"
+      ],
+      "actual_UI_counts": {
+        "pads": 6,
+        "vias": 0,
+        "track_segments": 4,
+        "nets": 3,
+        "unrouted": 0
+      },
+      "actual_layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "actual_native_findings": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 0,
+        "exclusions": 0,
+        "ignored_checks": 2
+      },
+      "preopen_receipt_sha256": "b9552d6d05d760060e7a1c17abbc3b4d33ba1ca9b0710eb81438fd3d51b3f0c5",
+      "postopen_receipt_sha256": "5e2038db24a568ad1536dc6b0be1b8d106c70b9b11a7c05b857e92412155d908",
+      "source_unchanged": true,
+      "candidate_PCB_unchanged": true,
+      "human_review": false,
+      "old_format_notice_visible": true,
+      "save_attempted": false,
+      "checked_editor_opened": true,
+      "limits": "Actual graphical functional delivery on owned exposed fixture. Native preopen proof is distinct from editor metadata changes; no renewed Native, electrical, human or broad quality claim."
+    },
+    {
+      "role": "recovery_repair_delivery",
+      "actual_gui": true,
+      "recorded_utc": "2026-10-19T18:35:39.552637+00:00",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d",
+      "actual_stages": [
+        "Preview",
+        "Recover (experimental)",
+        "Create review",
+        "Edge rendered F.Cu and B.Cu original/candidate review",
+        "all22 warnings and7 ignored checks read in GUI findings",
+        "review acknowledgement",
+        "Accept intent",
+        "Fresh export",
+        "Open checked export",
+        "KiCad Tools > PCB Editor",
+        "PCB Editor File > Close; Discard Changes for automatic unsaved conversion",
+        "KiCad File > Close Project"
+      ],
+      "actual_UI_counts": {
+        "pads": 379,
+        "vias": 35,
+        "track_segments": 1038,
+        "nets": 173,
+        "unrouted": 0
+      },
+      "actual_layers": [
+        "top_copper",
+        "bottom_copper"
+      ],
+      "actual_native_findings": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 22,
+        "exclusions": 0,
+        "ignored_checks": 7
+      },
+      "preopen_receipt_sha256": "c8fa930ee368545752aefb6568bd82b1514c4b32fe14b7ccd6f44fd44ad60aa6",
+      "postopen_receipt_sha256": "f943db6ed2f8c4c0bcda0de6d948bd6d831fd9ec6bbb4a478403faebf68383b6",
+      "source_unchanged": true,
+      "candidate_PCB_unchanged": true,
+      "human_review": false,
+      "old_format_notice_visible": true,
+      "additional_editor_notice": "2 WRL 3D model could not be matched to an equivalent STEP model.",
+      "automatic_unsaved_conversion_discarded": true,
+      "save_attempted": false,
+      "checked_editor_opened": true,
+      "protected_items": 0,
+      "no_positive_protection_claim": true,
+      "limits": "Actual GUI functional repair delivery on exposed Interf family, not whole-project DRC-clean. Source/PCB equality does not establish renewed Native validity after project metadata/backups. No human/electrical/physical or general quality claim."
+    }
+  ],
+  "actual_GUI_qualified": false,
+  "project_complete": false,
+  "active_workspace": null,
+  "active_stage": null,
+  "updated_utc": "2026-10-19T18:30:29.378486+00:00",
+  "unsupported4Cu_source_only_triage": {
+    "review": "AI read-only bounded review",
+    "ordinary_Route_same_source_passed_current042": true,
+    "ordinary_authority": "Explicit native-route-flat-classes-v1 pending Native class parity, then actual task/final proof",
+    "Recover_gate": "check_thermal_source calls preflight without ordinary class context, class-flag refusal precedes two-layer restriction",
+    "dedicated_two_layer_guard_isolated": false,
+    "admission_change_justified": false,
+    "code": [
+      "autorouter/gui.py:65",
+      "autorouter/gui.py:243",
+      "autorouter/__main__.py:50",
+      "autorouter/pipeline.py:2350",
+      "docs/routing-preferences.md:96"
+    ],
+    "Native_executed_by_review": false,
+    "limits": "No new GUI four-layer positive or electrical/Native validation inferred. Preserve the observed earlier class refusal; do not add ordinary Route authority to experimental recovery."
+  },
+  "frozen_utc": "2026-10-19T18:35:39.552882+00:00"
+}

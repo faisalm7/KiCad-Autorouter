@@ -1,0 +1,563 @@
+{
+  "schema": 1,
+  "status": "validated_trial_candidate",
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/candidate/interf_u.kicad_pcb",
+  "candidate_sha256": "1be1fcde55e901e39a0b9d133ea2b297cb39f625f1b4b78f8b6540c1482b2696",
+  "validation_passed": true,
+  "routing_accepted": false,
+  "comparison_eligible": false,
+  "whole_body_certificate_qualified": false,
+  "proposal_scene_qualified": false,
+  "scope": "one sole native thermal; two layers; round PTH target; round physical drills; saved target-zone fill unchanged",
+  "trials": [
+    {
+      "id": "trial-01",
+      "proposal_index": 0,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/candidate/interf_u.kicad_pcb",
+      "validation_passed": true,
+      "status": "validated",
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.9089083339786157,
+          "cpu_seconds": 0.727455,
+          "max_rss_bytes": 228065280,
+          "supervisor_cpu_seconds": 0.009297999999999362,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 215154688,
+          "sampled_peak_workdir_bytes": 3442448,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/refill/interf_u.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/refill-drc.log",
+          "log_bytes": 273,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01",
+          "signal_cancellation_enabled": true,
+          "pid": 44745,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "1be1fcde55e901e39a0b9d133ea2b297cb39f625f1b4b78f8b6540c1482b2696",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/refill/interf_u.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.4003760840278119,
+          "cpu_seconds": 0.40411400000000003,
+          "max_rss_bytes": 215252992,
+          "supervisor_cpu_seconds": 0.005630000000000024,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 86065152,
+          "sampled_peak_workdir_bytes": 3610037,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/candidate/interf_u.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01",
+          "signal_cancellation_enabled": true,
+          "pid": 44746,
+          "name": "final-netclasses"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.9438177919946611,
+          "cpu_seconds": 0.7848289999999999,
+          "max_rss_bytes": 275628032,
+          "supervisor_cpu_seconds": 0.0128560000000002,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 264290304,
+          "sampled_peak_workdir_bytes": 5215318,
+          "resource_guards": {
+            "max_group_rss_bytes": 4294967296,
+            "max_workdir_bytes": 536870912,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/final-drc-input/interf_u.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/final-drc.log",
+          "log_bytes": 293,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01",
+          "signal_cancellation_enabled": true,
+          "pid": 44747,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": false
+          },
+          "validated_input_sha256": "1be1fcde55e901e39a0b9d133ea2b297cb39f625f1b4b78f8b6540c1482b2696",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/trial-01/candidate/interf_u.kicad_pcb"
+        }
+      ],
+      "candidate_sha256": "1be1fcde55e901e39a0b9d133ea2b297cb39f625f1b4b78f8b6540c1482b2696",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 22,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "findings": [
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 83.185,
+                  "y": 83.82
+                },
+                "uuid": "00000000-0000-0000-0000-000032307de2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 121.305,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ecf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 121.305,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ed4"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 170.688,
+                  "y": 52.197
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dcf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dca"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 159.385,
+                  "y": 111.76
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dc0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 155.58,
+                  "y": 38.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.71,
+                  "y": 38.08
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+            "items": [
+              {
+                "description": "Footprint JP1",
+                "pos": {
+                  "x": 116.205,
+                  "y": 105.41
+                },
+                "uuid": "00000000-0000-0000-0000-000032568d1e"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+            "items": [
+              {
+                "description": "Footprint P1",
+                "pos": {
+                  "x": 182.1,
+                  "y": 72.4
+                },
+                "uuid": "00000000-0000-0000-0000-00005a4472d7"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 117.475,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 127.635,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 92.075,
+                  "y": 57.15
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c08c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 151.765,
+                  "y": 41.91
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 171.958,
+                  "y": 42.037
+                },
+                "uuid": "00000000-0000-0000-0000-0000322d32a0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+            "items": [
+              {
+                "description": "Footprint RR1",
+                "pos": {
+                  "x": 95.885,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-00005a44c66d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 151.765,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8d1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 95.885,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8ef"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U3",
+                "pos": {
+                  "x": 123.825,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e90d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+            "items": [
+              {
+                "description": "Footprint U5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 76.2
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae55"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U8",
+                "pos": {
+                  "x": 123.825,
+                  "y": 112.903
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae87"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint X1",
+                "pos": {
+                  "x": 113.665,
+                  "y": 92.71
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          }
+        ]
+      },
+      "native_report_sha256": "978eb616a3cc392bef77b63445b2f4f21abfaceec04ccf05ea9be40321339c81",
+      "native_rejection_reasons": [],
+      "saved_fill_unchanged": true,
+      "pad_via_geometry_unchanged": true,
+      "final_map_sha256": "ef5dadf5183bfd0f096034429d6e75e760ffdbdd8b75eed1f4a28bb27d7a8fee"
+    }
+  ],
+  "geometry_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/geometry.json",
+  "proposal_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-session081/jobs/autorouter-gui-4d4343f0871e4036b0c99d9c05d32a6d/route/recovery/proposals.json",
+  "unsupported_reason": null,
+  "elapsed_wall_seconds": 7.537325459066778
+}
