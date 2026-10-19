@@ -1,0 +1,602 @@
+--- /dev/null
++++ b/autorouter/_improve_context.py
+@@ -0,0 +1,215 @@
++"""Private selected-7 Improve incumbent authority; no parent admission.
++
++A trusted future parent passes this live object explicitly. JSON, pathnames and
++sidecars are detection/binding material, never factories for caller authority.
++The parent/Preview/export guards remain closed in this prerequisite slice.
++"""
++from dataclasses import dataclass, field
++import hashlib
++import math
++import os
++from pathlib import Path
++import stat
++from . import config as c, provenance as pv
++
++POLICY = 'selected-native7-single-improve-child-v1'
++SIDECAR = 'improve-child-context.json'
++RESERVE_SECONDS = 25
++
++
++def _encode(value):
++    from .floor_route import canonical
++    return canonical(value)
++
++
++def _number(value):
++    return type(value) in (int, float) and math.isfinite(value)
++
++
++def _owned(path, *, directory=False):
++    from .pipeline import Rejected
++    pv.canonical(path)
++    info = path.lstat()
++    if (info.st_uid != os.getuid() or not (stat.S_ISDIR(info.st_mode) if directory
++            else stat.S_ISREG(info.st_mode) and info.st_nlink == 1)):
++        raise Rejected('Improve child requires owned canonical regular material')
++    return info
++
++
++def _inventory(path):
++    from .placement_clearance import inventory
++    _owned(path, directory=True)
++    result = inventory(path)
++    for name in result:
++        target = path / name
++        _owned(target)
++        for parent in target.parents:
++            if parent == path:break
++            _owned(parent, directory=True)
++    return result
++
++
++@dataclass(frozen=True)
++class _Context:
++    source: Path
++    parent: Path
++    method_seconds: float
++    assigned_seconds: float
++    allocation: dict
++    tools: dict
++    source_hashes: dict
++    _inputs: dict = field(init=False, repr=False)
++    _owner: dict = field(init=False, repr=False)
++    _seal: str = field(init=False, repr=False)
++
++    def __post_init__(self):
++        from . import handoff as h, pipeline as p
++        if (not isinstance(self.source, Path) or not isinstance(self.parent, Path)
++                or not _number(self.method_seconds) or not 30 <= self.method_seconds <= 900
++                or not _number(self.assigned_seconds) or not 5 <= self.assigned_seconds <= 875
++                or type(self.allocation) is not dict or set(self.allocation) != {'elapsed_wall_seconds', 'elapsed_cpu_seconds'}
++                or any(not _number(value) or value < 0 for value in self.allocation.values())
++                or self.assigned_seconds != min(self.method_seconds - self.allocation['elapsed_wall_seconds'],
++                    self.method_seconds - self.allocation['elapsed_cpu_seconds']) - RESERVE_SECONDS
++                or type(self.tools) is not dict or type(self.source_hashes) is not dict):
++            raise p.Rejected('exact Improve child context and reserved allocation required')
++        pv.canonical(self.source); pv.canonical(self.parent)
++        if (self.source.suffix != '.kicad_pcb' or self.parent.parent != c.ROOT / '.runs'
++                or self.source.parent == self.parent or self.source.parent in self.parent.parents
++                or not 1 <= len(self.source_hashes) <= 2000
++                or any(self.source.with_suffix(suffix).name not in self.source_hashes
++                    for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'))):
++            raise p.Rejected('Improve child requires a complete source and direct runtime parent')
++        for name, digest in self.source_hashes.items():
++            if (type(name) is not str or str(Path(name)) != name or Path(name).is_absolute()
++                    or '..' in Path(name).parts or type(digest) is not str or pv._DIGEST.fullmatch(digest) is None):
++                raise p.Rejected('invalid Improve child source inventory')
++        owner = {}; h.capture_destination(owner, self.parent)
++        object.__setattr__(self, '_owner', owner)
++        object.__setattr__(self, '_inputs', self._material())
++        seal = _encode(self.record())
++        if len(seal.encode()) > 512 * 1024:raise p.Rejected('Improve child context exceeds bound')
++        object.__setattr__(self, '_seal', seal)
++        self.check()
++
++    @property
++    def output(self):
++        return self.parent / 'incumbent'
++
++    def _material(self):
++        from . import pipeline as p, preferences as pref
++        from .layer_policy import _two_copper_table
++        from .local_settings import policy_declaration
++        _owned(self.parent, directory=True)
++        if _inventory(self.source.parent) != self.source_hashes or _inventory(self.parent / 'snapshot') != self.source_hashes:
++            raise p.Rejected('Improve source/parent snapshot changed')
++        # This slice deliberately excludes class-bearing, hierarchy, alias and
++        # four-layer inputs. No existing ordinary capability guard is widened.
++        tree = p.preflight(self.source, task_scope=('whole_board_unlocked_routing', 'native', 'source_all'))
++        _two_copper_table(tree)
++        if p.netclass_policy(self.source) is not None or p.check_schematic_class_support(self.source) is not None:
++            raise p.Rejected('Improve child requires the unflagged single Default scope')
++        expected = {**pref.DEFAULTS, 'seconds': self.method_seconds, 'profile': 'tuned'}
++        preferences = self.parent / 'pruning-preferences.json'
++        _owned(preferences)
++        raw = pv.read_bytes(preferences, pref.MAX_SNAPSHOT_BYTES)
++        pref.readback(raw, expected)
++        pins = self.tools.get('implementation_sha256')
++        if (type(pins) is not dict or not pins or len(pins) > 256
++                or any(type(name) is not str or Path(name).parts != ('autorouter', Path(name).name)
++                    or not name.endswith('.py') or type(digest) is not str or pv._DIGEST.fullmatch(digest) is None
++                    for name, digest in pins.items())):
++            raise p.Rejected('invalid Improve implementation pins')
++        expected_code = {Path(name).name: digest for name, digest in pins.items()}
++        if _inventory(self.parent / 'code') != expected_code:
++            raise p.Rejected('Improve parent code snapshot changed')
++        for name, declaration in (('pipeline.py', 'NATIVE7_IMPROVE_CHILD_POLICY'), ('_improve_context.py', 'POLICY')):
++            if policy_declaration(pv.read_bytes(self.parent / 'code' / name), name=declaration, expected=POLICY) != POLICY:
++                raise p.Rejected('Improve child source policy differs')
++        if 'strategy.py' not in expected_code:raise p.Rejected('Improve parent source pin missing')
++        return dict(snapshot=self.source_hashes, code=expected_code,
++                    preferences_sha256=hashlib.sha256(raw).hexdigest(), effective=expected)
++
++    def record(self):
++        return dict(schema=1, policy=POLICY, runtime=str(c.ROOT), source=str(self.source),
++            parent=str(self.parent), output=str(self.output), role='incumbent', proposal_policy='single',
++            input_policy='native', scope='whole_board_unlocked_routing', profile='tuned', adapter='both',
++            layers='source_all', scoring_variant=None, method_seconds=self.method_seconds,
++            assigned_seconds=self.assigned_seconds, allocation=self.allocation,
++            finalization_reserve_seconds=RESERVE_SECONDS, source_hashes=self.source_hashes,
++            tools_sha256=hashlib.sha256(_encode(self.tools).encode()).hexdigest(),
++            inputs=self._inputs, directory_identity=self._owner['directory_identity'])
++
++    def check(self):
++        from . import handoff as h, pipeline as p
++        if _encode(self.record()) != self._seal:raise p.Rejected('Improve caller context changed')
++        if h.owned_destination(self._owner) != self.parent:raise p.Rejected('Improve parent replaced')
++        identity = self.tools.get('source_provenance')
++        if (c.NATIVE_VERSION != '10.0.7' or self.tools.get('kicad') != '10.0.7'
++                or type(identity) is not dict or identity.get('kind') != pv.KIND
++                or identity.get('native_version') != '10.0.7'
++                or type(identity.get('manifest_sha256')) is not str or pv._DIGEST.fullmatch(identity['manifest_sha256']) is None
++                or self.tools.get('native_improve_child_policy') != POLICY or p.tool_manifest() != self.tools
++                or self._material() != self._inputs):
++            raise p.Rejected('Improve selected runtime/source/parent material changed')
++        return self
++
++
++def require(context):
++    from .pipeline import Rejected
++    if type(context) is not _Context:raise Rejected('exact live Improve child context required')
++    return context.check()
++
++
++def marked(directory, data=None):
++    return os.path.lexists(Path(directory) / SIDECAR) or data is not None and 'native_improve_child' in data
++
++
++def authorize(context, source, output, seconds, keep, adapter, profile, scoring, guidance, extras):
++    from .pipeline import Rejected
++    require(context)
++    if (Path(source) != context.source or Path(output) != context.output or os.path.lexists(context.output)
++            or type(seconds) not in (int, float) or seconds != context.assigned_seconds
++            or keep is not False or type(adapter) is not str or adapter != 'both'
++            or type(profile) is not str or profile != 'tuned' or scoring is not None
++            or type(guidance) is not str or guidance != 'native' or any(value is not None for value in extras)):
++        raise Rejected('unsupported Improve incumbent child request')
++
++
++def bind(directory, data, context):
++    from .pipeline import Rejected
++    require(context)
++    if Path(directory) != context.output:raise Rejected('Improve child output differs')
++    raw = (_encode(context.record()) + '\n').encode()
++    target = Path(directory) / SIDECAR
++    with target.open('xb') as stream:stream.write(raw)
++    data['native_improve_child'] = dict(policy=POLICY, file=SIDECAR, sha256=hashlib.sha256(raw).hexdigest())
++
++
++def check_record(directory, data, context):
++    from . import pipeline as p
++    from .floor_route import read_json
++    directory = Path(directory)
++    if context is None:
++        if marked(directory, data):raise p.Rejected('Improve child requires its live caller context')
++        return False
++    require(context)
++    raw = pv.read_bytes(directory / SIDECAR, 512 * 1024)
++    marker = dict(policy=POLICY, file=SIDECAR, sha256=hashlib.sha256(raw).hexdigest())
++    forbidden = ('strategy', 'input_policy', 'guidance_policy', 'routing_preferences', 'pruning_preferences',
++        'pruning_preferences_policy', 'incumbent_scoring_variant', 'incumbent_scoring_contract',
++        'incumbent_receipt_sha256', 'comparison_route', 'production_admitted', 'diagnostic_schema',
++        'production_qualified', 'experimental_route_policy', 'experimental_native_toolchain',
++        'experimental_schematic_parity_policy', 'engine_fanout_override', 'engine_optimizer_override',
++        'engine_angle_binding', 'engine_planning_clearance_margin_nm', 'engine_global_width_policy')
++    if (directory != context.output or type(data.get('schema')) is not int or data['schema'] != 1
++            or data.get('native_improve_child') != marker or _encode(read_json(directory / SIDECAR)) != context._seal
++            or any(key in data for key in forbidden) or data.get('source') != str(context.source)
++            or data.get('source_hashes') != context.source_hashes or data.get('tools') != context.tools
++            or data.get('baseline') != p.engine_baseline('tuned', 'both') or data.get('engine_profile') != 'tuned'
++            or data.get('adapter') != 'both' or data.get('scope') != 'whole_board_unlocked_routing'
++            or data.get('scoring_variant') is not None or data.get('budget_seconds') != context.assigned_seconds
++            or data.get('cpu_budget_seconds') != context.assigned_seconds
++            or _inventory(directory / 'code') != context._inputs['code']):
++        raise p.Rejected('Improve child receipt differs from live caller contract')
++    return True
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -34,6 +34,7 @@
+ NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
+ NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
+ COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v2'
++NATIVE7_IMPROVE_CHILD_POLICY='selected-native7-single-improve-child-v1'
+ NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
+ ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
+ DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
+@@ -1596,6 +1597,7 @@
+             'normal_task_copper_fixed_policy':NORMAL_TASK_COPPER_FIXED_POLICY,
+             'normal_native_export_alias_policy':NORMAL_NATIVE_EXPORT_ALIAS_POLICY,
+             'comparison_route_policy':COMPARISON_ROUTE_POLICY,
++            'native_improve_child_policy':NATIVE7_IMPROVE_CHILD_POLICY,
+             **({'experimental_native_toolchain':native_toolchain.record()} if native_toolchain is not None else {})}
+ 
+ def optimizer_threshold_audit(log, expected_percent):
+@@ -2230,7 +2232,7 @@
+         raise Rejected('engine argv or cwd differs from captured preferences')
+ 
+ 
+-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None):
++def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None):
+     """Keep cancellation active between workers and through final publication."""
+     def interrupted(*_):raise KeyboardInterrupt
+     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
+@@ -2241,16 +2243,22 @@
+             preference_overrides=preference_overrides,_preferences=_preferences,native_toolchain=native_toolchain,
+             experimental_schematic_parity=experimental_schematic_parity,_fanout_enabled=_fanout_enabled,
+             _optimizer_enabled=_optimizer_enabled,_engine_clearance_margin_nm=_engine_clearance_margin_nm,
+-            _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context)
++            _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context,_improve_context=_improve_context)
+     finally:
+         for sig,handler in previous.items():signal.signal(sig,handler)
+ 
+ 
+-def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None):
++def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None):
+     entry_started,entry_parent=time.monotonic(),time.process_time()
+     from .floor_route import child_cpu
+     operation_children=child_cpu()
+-    from . import comparison
++    from . import comparison, _improve_context as improve_child
++    if _improve_context is not None:
++        if experimental_schematic_parity is not False:raise Rejected('Improve child cannot mix experimental parity')
++        improve_child.authorize(_improve_context,source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy,
++            (native_toolchain,comparison_context,settings_path,preference_overrides,_preferences,
++             _fanout_enabled,_optimizer_enabled,_engine_clearance_margin_nm,_engine_global_width_policy))
++    elif improve_child.marked(output):raise Rejected('Improve child requires explicit caller context')
+     if comparison_context is not None:
+         if native_toolchain is not None or experimental_schematic_parity is not False:raise Rejected('comparison cannot mix experimental Native authority')
+         comparison.authorize(comparison_context,source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy,
+@@ -2299,7 +2307,7 @@
+     if engine_profile=='tuned-free-angle' and (keep_existing is not False or adapter!='both'
+             or guidance_policy!='native' or _preferences is not None or native_toolchain is not None):
+         raise Rejected('unsupported: free-angle baseline requires ordinary native corrected whole-board route')
+-    if native_toolchain is None and comparison_context is None:
++    if native_toolchain is None and comparison_context is None and _improve_context is None:
+         effective=_preferences['effective'] if _preferences else {}
+         require_native_scope(scope=effective.get('scope','partial_completion' if keep_existing else 'whole_board_unlocked_routing'),
+             guidance=guidance_policy,layers=effective.get('layers','source_all'),
+@@ -2310,9 +2318,9 @@
+         return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
+     if engine_profile not in {'standard','tuned','completion-only','tuned-free-angle'}: raise Rejected('unknown engine profile')
+     engine_scoring_settings(scoring_variant)
+-    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or comparison_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.monotonic()
++    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or comparison_context is not None or _improve_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.monotonic()
+     operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
+-    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or comparison_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.process_time()
++    operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or comparison_context is not None or _improve_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.process_time()
+     from .local_settings import canonical
+     canonical(Path(source).absolute());canonical(Path(output).absolute())
+     source=Path(source).resolve(strict=True); output=Path(output).resolve()
+@@ -2344,6 +2352,7 @@
+     try:
+         capture_preferences(report,output,_preferences)
+         before=tree_hash(source.parent); report['source_hashes']=before
++        if _improve_context is not None:improve_child.bind(output,report,_improve_context)
+         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
+         scope=_preferences['effective']['scope'] if _preferences else report['scope']
+         layers=_preferences['effective']['layers'] if _preferences else 'source_all'
+@@ -2500,7 +2509,7 @@
+         report['whole_project_drc_clean']=valid and report['native']['warnings']==0
+         preferences_fresh(output,_preferences)
+     except KeyboardInterrupt:
+-        if _preferences is None and class_requirement is None and comparison_context is None:raise
++        if _preferences is None and class_requirement is None and comparison_context is None and _improve_context is None:raise
+         report.update(accepted=False,status='cancelled',reason='interrupted route')
+     except Exception as exc:
+         report['reason']=type(exc).__name__+': '+str(exc)
+@@ -2532,6 +2541,7 @@
+             report.update(accepted=False,status='budget_exceeded')
+         if not report['accepted']:report['whole_project_drc_clean']=False
+     def stable():
++        if _improve_context is not None:improve_child.require(_improve_context)
+         if comparison_context is not None:comparison.require_context(comparison_context)
+         if report['accepted']:
+             if tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))!=report['tools']:raise Rejected('runtime changed during preference publication')
+@@ -2546,8 +2556,12 @@
+             check_normal_policy(output,report)
+         if report['accepted'] and class_requirement is not None:
+             check_route_class_evidence(output,report,original,candidate,class_context=class_context)
++        if report['accepted'] and _improve_context is not None:
++            # Last after all source/tool/context callbacks: replay live PRL flags.
++            check_experimental_local_settings(output,report,None)
+     return publish(output,report,stable,account,remaining,
+-        result_checker=(lambda file:check_result(file,comparison_context=comparison_context)) if comparison_context is not None else
++        result_checker=(lambda file:check_result(file,_improve_context=_improve_context)) if _improve_context is not None else
++        (lambda file:check_result(file,comparison_context=comparison_context)) if comparison_context is not None else
+         (lambda file:check_result(file,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity)) if native_toolchain is not None else None)
+ 
+ 
+@@ -2562,12 +2576,12 @@
+     identity twice. Native execution and candidate acceptance are never cached.
+     Hot replacement of checker functions invalidates reuse. No disk cache exists.
+     """
+-    from . import (adapter,board_floor,default_targets,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
++    from . import (_improve_context,adapter,board_floor,default_targets,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
+                    native_edge,netclass,netclass_native,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
+                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
+                    schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
+     import sys
+-    modules=(sys.modules[__name__],c,sx,adapter,board_floor,default_targets,engine_angle,floor_context,
++    modules=(sys.modules[__name__],c,sx,_improve_context,adapter,board_floor,default_targets,engine_angle,floor_context,
+              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,netclass_native,placement_clearance,
+              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
+              routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
+@@ -2638,12 +2652,19 @@
+     return (evidence,original,tuple(sorted(local_metadata)),runtime,live)
+ 
+ 
+-def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
++def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None, _improve_context=None):
+     """Check evidence; optional scoped reuse never substitutes fresh native DRC."""
+     try:c.current_native_selection()
+     except (ValueError,OSError) as exc:raise Rejected('selected native toolchain changed: '+str(exc)) from exc
+     experimental_route_record(native_toolchain,experimental_schematic_parity)
+-    from . import comparison
++    from . import comparison, _improve_context as improve_child
++    if _improve_context is not None:
++        if native_toolchain is not None or experimental_schematic_parity is not False or comparison_context is not None:
++            raise Rejected('Improve child cannot mix reader authority')
++        improve_child.require(_improve_context)
++        # Never store or reuse a private-child result in ordinary scoped caches.
++        return _check_result_uncached(path,_improve_context=_improve_context)
++    if improve_child.marked(Path(path).parent):return _check_result_uncached(path)
+     if comparison_context is not None:
+         comparison.require_context(comparison_context)
+         return _check_result_uncached(path,native_toolchain=native_toolchain,experimental_schematic_parity=experimental_schematic_parity,comparison_context=comparison_context)
+@@ -2662,7 +2683,7 @@
+                 or type(data.get('schema')) is not int or data['schema'] not in (1,3,4,5)
+                 or data.get('accepted') is not True or data.get('status')!='routing_accepted'
+                 or 'diagnostic_schema' in data or 'production_qualified' in data
+-                or any(key in data for key in ('experimental_route_policy','experimental_native_toolchain','production_admitted','comparison_route'))):
++                or any(key in data for key in ('experimental_route_policy','experimental_native_toolchain','production_admitted','comparison_route','native_improve_child'))):
+             return _check_result_uncached(path)
+         if data['schema']==1:
+             try:native=receipt_policy(data,target.parent)=='native'
+@@ -2768,7 +2789,7 @@
+ 
+ 
+ def _check_result_uncached(path, *, native_toolchain=None, experimental_schematic_parity=False,
+-                           _rejected_attempt=False, comparison_context=None, _rejected_profile='tuned'):
++                           _rejected_attempt=False, comparison_context=None, _rejected_profile='tuned', _improve_context=None):
+     """Check local evidence consistency; this is not authentication or fresh DRC.
+ 
+     All receipts are mutable local JSON. A party rewriting the complete evidence
+@@ -2789,13 +2810,18 @@
+     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
+     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
+     data=read_json(path)
+-    from . import comparison
++    from . import comparison, _improve_context as improve_child
++    if _improve_context is not None and (native_toolchain is not None or experimental_schematic_parity is not False
++            or comparison_context is not None or _rejected_attempt):
++        raise Rejected('Improve child requires its single positive-reader authority')
++    is_improve_child=improve_child.check_record(path.parent,data,_improve_context)
++    improve_material=tree_hash(path.parent) if is_improve_child else None
+     is_comparison=comparison.check_record(path.parent,data,comparison_context)
+     if is_comparison:
+         if native_toolchain is not None or experimental_schematic_parity is not False:raise Rejected('comparison cannot mix experimental Native authority')
+         comparison_material=tree_hash(path.parent)
+     else:check_experimental_route(data,native_toolchain,experimental_schematic_parity)
+-    if not is_comparison and native_toolchain is None and c.NATIVE_VERSION!='10.0.0':
++    if not is_comparison and not is_improve_child and native_toolchain is None and c.NATIVE_VERSION!='10.0.0':
+         if data.get('schema')!=1 or data.get('strategy') not in (None,'native_validated_thermal_bridge') or data.get('input_policy','native')!='native':
+             raise Rejected('unsupported: selected Native version has no qualified advanced receipt lineage')
+         purpose='route'
+@@ -2864,7 +2890,7 @@
+     # including original rule copies and native evidence, before interpreting it.
+     # Recheck after every late settings/process read; board-only layer checks
+     # cannot detect a concurrently changed project file or native report.
+-    preferences_guarded=(is_comparison or _rejected_attempt or 'native_edge_admission_policy' in data
++    preferences_guarded=(is_improve_child or is_comparison or _rejected_attempt or 'native_edge_admission_policy' in data
+         or 'schematic_class_task' in data or 'schematic_class_final' in data
+         or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
+         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
+@@ -3107,6 +3133,12 @@
+         # Context/tool and byte witnesses above cannot detect changed PRL flags.
+         # Replay the shared field/all-worker metadata guards last.
+         check_experimental_local_settings(path.parent,data,None)
++    if is_improve_child:
++        improve_child.check_record(path.parent,data,_improve_context)
++        if tree_hash(path.parent)!=improve_material or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
++            raise Rejected('Improve child evidence changed during readback')
++        # No later tool/context callback may follow this metadata replay.
++        check_experimental_local_settings(path.parent,data,None)
+     if _rejected_attempt:
+         # Return only after the late evidence/source/process freshness guards.
+         return {**({'comparison_route_policy':COMPARISON_ROUTE_POLICY,'production_admitted':False} if is_comparison else {}),'current':False,'validated_rejection':True,'routing_accepted':False,
+--- /dev/null
++++ b/tests/test_native7_improve_child_context.py
+@@ -0,0 +1,170 @@
++"""Constructed private-child controls; no Native/engine/product qualification.
++
++Only selected-runtime/tool identity and static source preflight are stubbed.
++Real bounded inventories, source/code/preset pins, sealing and dispatch execute.
++"""
++import copy
++from dataclasses import replace
++from pathlib import Path
++import shutil
++import tempfile
++import unittest
++from unittest.mock import patch
++from autorouter import _improve_context as child, config as c, floor_route as f
++from autorouter import pipeline as p, placement_clearance as pc, preferences as pref, provenance as pv, sexpr as sx
++
++ROOT = Path(__file__).resolve().parents[1]
++
++
++class ImproveChildContextControls(unittest.TestCase):
++    def setUp(self):
++        temporary = tempfile.TemporaryDirectory(dir=ROOT / '.cache')
++        self.addCleanup(temporary.cleanup)
++        self.base = Path(temporary.name).resolve()
++        self.runtime = self.base / 'runtime'; (self.runtime / 'autorouter').mkdir(parents=True)
++        self.parent = self.runtime / '.runs' / 'owned-improve'; self.parent.mkdir(parents=True)
++        self.source = self.base / 'source' / 'owned.kicad_pcb'; self.source.parent.mkdir()
++        self.source.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))')
++        self.source.with_suffix('.kicad_pro').write_text('{}')
++        self.source.with_suffix('.kicad_sch').write_text('(kicad_sch)')
++        self.hashes = pc.inventory(self.source.parent)
++        shutil.copytree(self.source.parent, self.parent / 'snapshot')
++        (self.parent / 'pruning-preferences.json').write_bytes(pref.snapshot(None, {'profile':'tuned', 'seconds':90}))
++        code = self.parent / 'code'; code.mkdir()
++        pins = {}
++        for name in ('pipeline.py', 'strategy.py', '_improve_context.py'):
++            for folder in (code, self.runtime / 'autorouter'):shutil.copy2(ROOT / 'autorouter' / name, folder / name)
++            pins['autorouter/' + name] = p.sha(code / name)
++        self.tools = dict(kicad='10.0.7', native_improve_child_policy=child.POLICY,
++            source_provenance=dict(kind=pv.KIND, native_version='10.0.7', manifest_sha256='1'*64),
++            implementation_sha256=pins, files={'not-executed':'2'*64})
++        for target in (patch.object(c, 'ROOT', self.runtime), patch.object(c, 'NATIVE_VERSION', '10.0.7'),
++                patch.object(c, 'current_native_selection', return_value={'version':'10.0.7'}),
++                patch.object(p, 'tool_manifest', side_effect=lambda: copy.deepcopy(self.tools)),
++                patch.object(p, 'preflight', side_effect=lambda source, **kwargs:sx.read(source)),
++                patch.object(p, 'netclass_policy', return_value=None),
++                patch.object(p, 'check_schematic_class_support', return_value=None)):
++            target.start(); self.addCleanup(target.stop)
++        self.context = self.make()
++
++    def make(self, **changes):
++        values = dict(source=self.source, parent=self.parent, method_seconds=90, assigned_seconds=63,
++            allocation=dict(elapsed_wall_seconds=1, elapsed_cpu_seconds=2),
++            tools=copy.deepcopy(self.tools), source_hashes=copy.deepcopy(self.hashes))
++        values.update(changes)
++        return child._Context(**values)
++
++    def authorize(self, context=None, **changes):
++        values = dict(context=self.context if context is None else context, source=self.source,
++            output=self.parent/'incumbent', seconds=63, keep=False, adapter='both', profile='tuned',
++            scoring=None, guidance='native', extras=())
++        values.update(changes); return child.authorize(**values)
++
++    def record(self):
++        output = self.context.output; output.mkdir()
++        shutil.copytree(self.parent/'code', output/'code')
++        data = dict(schema=1, source=str(self.source), source_hashes=copy.deepcopy(self.hashes),
++            tools=copy.deepcopy(self.tools), baseline=p.engine_baseline('tuned','both'), engine_profile='tuned',
++            adapter='both', scope='whole_board_unlocked_routing', scoring_variant=None,
++            budget_seconds=63, cpu_budget_seconds=63)
++        child.bind(output,data,self.context)
++        return data
++
++    def test_exact_child_request_and_reserved_assignment(self):
++        self.authorize()
++        for changes in ({'method_seconds':True}, {'assigned_seconds':True}, {'assigned_seconds':64},
++                {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':-1}},
++                {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':2,'reserve':25}}):
++            with self.subTest(changes=changes), self.assertRaises((p.Rejected, ValueError)):self.make(**changes)
++        for name,value in (('seconds',64),('keep',True),('profile','standard'),('adapter','none'),
++                ('scoring','via_default'),('guidance','board-floors-v1'),('extras',(False,)),
++                ('source',self.source.with_name('other.kicad_pcb')),('output',self.parent/'other')):
++            with self.subTest(name=name), self.assertRaises(p.Rejected):self.authorize(**{name:value})
++
++    def test_exact_type_and_nested_seal(self):
++        class Other(child._Context):pass
++        with self.assertRaises(p.Rejected):child.require(Other(**{name:getattr(self.context,name) for name in
++            ('source','parent','method_seconds','assigned_seconds','allocation','tools','source_hashes')}))
++        with self.assertRaises(p.Rejected):child.require(self.context.record())
++        self.context.allocation['elapsed_cpu_seconds']=3
++        with self.assertRaises(p.Rejected):child.require(self.context)
++
++    def test_each_parent_source_preset_code_and_runtime_mutation_refuses(self):
++        files = (self.source.with_suffix('.kicad_pro'), self.parent/'snapshot'/self.source.name,
++                 self.parent/'pruning-preferences.json', self.parent/'code'/'strategy.py')
++        for target in files:
++            raw = target.read_bytes(); target.write_bytes(raw+b'\n')
++            with self.subTest(path=target), self.assertRaises((p.Rejected, ValueError)):child.require(self.context)
++            target.write_bytes(raw)
++        self.tools['files']['not-executed']='3'*64
++        with self.assertRaises(p.Rejected):child.require(self.context)
++
++    def test_context_requires_canonical_owned_parent_and_scope(self):
++        alias=self.runtime/'.runs'/'alias';alias.symlink_to(self.parent, target_is_directory=True)
++        with self.assertRaises((p.Rejected, ValueError)):self.make(parent=alias)
++        with patch.object(p,'check_schematic_class_support',return_value={'required':True}):
++            with self.assertRaises(p.Rejected):self.make()
++        self.source.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (4 "In1.Cu" signal) (6 "In2.Cu" signal) (2 "B.Cu" signal)))')
++        with self.assertRaises((p.Rejected, ValueError)):self.make(source_hashes=pc.inventory(self.source.parent))
++
++    def test_caller_and_marker_required_without_reconstructing_authority(self):
++        data=self.record(); self.assertTrue(child.check_record(self.context.output,data,self.context))
++        with self.assertRaises(p.Rejected):child.check_record(self.context.output,data,None)
++        for key,value in (('budget_seconds',64),('scoring_variant','via_low'),('adapter','none'),
++                ('engine_fanout_override',False),('comparison_route',{})):
++            wrong=copy.deepcopy(data);wrong[key]=value
++            with self.subTest(key=key),self.assertRaises(p.Rejected):child.check_record(self.context.output,wrong,self.context)
++        (self.context.output/child.SIDECAR).unlink()
++        with self.assertRaises((p.Rejected, OSError)):child.check_record(self.context.output,data,self.context)
++        data.pop('native_improve_child')
++        # Combined deletion cannot turn tuned selected-7 evidence into ordinary admission.
++        p.save_json(self.context.output/'result.json',data)
++        with self.assertRaises(p.Rejected):p.check_result(self.context.output/'result.json')
++
++    def test_route_dispatch_only_exact_context_passes_ordinary_capability_gate(self):
++        class StopBeforeJob(Exception):pass
++        with patch.object(p,'sha',return_value=c.JAR_SHA256), patch.object(p,'check_storage',side_effect=StopBeforeJob):
++            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned')
++            with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context)
++            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,comparison_context=object())
++        # Parent remains unsupported; this patch does not wire prune or Preview.
++        with self.assertRaises(p.Rejected):p.require_native_scope(purpose='improve')
++
++    def test_live_context_never_enters_ordinary_result_cache(self):
++        path=self.context.output/'result.json'
++        with p.validation_readback_session(), patch.object(p,'_check_result_uncached',return_value={'constructed':True}) as raw:
++            state=p._readback_session.get()
++            self.assertIn(child,state['modules'])
++            p.check_result(path,_improve_context=self.context)
++            p.check_result(path,_improve_context=self.context)
++            self.assertEqual(raw.call_count,2)
++            self.assertIs(raw.call_args.kwargs['_improve_context'],self.context)
++            self.assertEqual(state['entries'],{})
++            with self.assertRaises(p.Rejected):p.check_result(path,_improve_context=self.context,comparison_context=object())
++
++    def test_central_reader_final_context_then_metadata_and_no_early_acceptance(self):
++        # Extract the actual final block, stubbing only the large Native replay
++        # already preceding it. A late tool/context metadata fault must refuse.
++        import ast
++        tree=ast.parse((ROOT/'autorouter/pipeline.py').read_text())
++        function=next(node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name=='_check_result_uncached')
++        block=next(node for node in function.body if isinstance(node,ast.If) and isinstance(node.test,ast.Name) and node.test.id=='is_improve_child')
++        code=compile(ast.fix_missing_locations(ast.Module(body=[block],type_ignores=[])),'<actual-child-final-fence>','exec')
++        class MutatingContext:
++            @staticmethod
++            def check_record(*args):events.append('context');flags['changed']=True
++        events=[];flags={'changed':False}
++        def replay(*args):
++            events.append('metadata')
++            if flags['changed']:raise p.Rejected('constructed late PRL metadata fault')
++        from types import SimpleNamespace
++        data=b'fixed'; digest=__import__('hashlib').sha256(data).hexdigest()
++        env=dict(is_improve_child=True,improve_child=MutatingContext,path=SimpleNamespace(parent=Path('/owned')),
++            data={},_improve_context=object(),tree_hash=lambda path:{},improve_material={},
++            hashlib=__import__('hashlib'),bounded_bytes=lambda path:data,receipt_digest=digest,
++            Rejected=p.Rejected,check_experimental_local_settings=replay)
++        with self.assertRaises(p.Rejected):exec(code,env)
++        self.assertEqual(events,['context','metadata'])
++
++
++if __name__ == '__main__':unittest.main()

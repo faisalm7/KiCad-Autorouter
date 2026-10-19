@@ -32,6 +32,7 @@ MAX_TRIALS = 32
 MAX_FEEDBACK_DEPTH = 2
 MAX_FEEDBACK_ADDED_ROUTES = 8
 PRUNING_PREFERENCES_POLICY = "native-pruning-preferences-v1"
+SINGLE_SELECTION_POLICY = "selected-native7-single-pruning-lineage-v1"
 ADAPTIVE_POLICY = "charged-first-single-sequence-v1"
 STRONG_INCUMBENT_POLICY = "free-angle-clearance20-v1"
 STRONG_WIDTH_INCUMBENT_POLICY = "free-angle-clearance20-global-width-v2"
@@ -271,14 +272,19 @@ def _adaptive_key(base, proposal):
     return base, tuple(sorted(ids))
 
 
-def _adaptive_trial_native(directory, data, record):
+def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial_guard"):
     """Check a bound completed retained Native outcome; never run Native here."""
     from . import floor_route as f
     from .placement_clearance import read_bytes
+    # Only these two source-defined contracts may select a guard. A missing
+    # matching guard returns False before any Native/input binding replay.
+    if type(guard_key) is not str or guard_key not in {'adaptive_trial_guard', 'single_trial_guard'}:
+        raise p.Rejected('unknown pruning trial guard')
     if (record.get('status') not in {'improvement_validated', 'drc_rejected', 'quality_rejected'}
             or 'reason' in record or _cancelled(record.get('steps', []))):
         return False
-    guard = record.get('adaptive_trial_guard', {})
+    guard = record.get(guard_key, {})
+    if type(guard) is not dict:return False
     numbers = [guard.get('wall_deadline_elapsed_seconds'), guard.get('work_cpu_limit_seconds'),
                record.get('finished_elapsed_seconds'), record.get('finished_observed_cpu_seconds')]
     if (any(type(value) not in (int, float) or not math.isfinite(value) or value < 0 for value in numbers)
@@ -312,6 +318,88 @@ def _adaptive_trial_native(directory, data, record):
             str(c.ROOT / 'autorouter/native.py'), 'metrics', str(candidate), str(folder / 'metrics.json')])
         _quality(record['metrics'])
     return True
+
+
+
+def check_single_selection(directory, data):
+    """Draft prerequisite only: reconstruct retained single-policy ancestry.
+
+    This function is deliberately NOT wired to admission. Its future caller
+    must first verify the exact incumbent with a trusted live child context,
+    then run the central original/final/Native readers and the final all-root
+    PRL collector. It supplies no selected-version or child authority itself.
+    Incomplete trials remain charged but cannot enter the selected ancestry.
+    """
+    from .floor_route import read_json, canonical
+    from .placement_clearance import read_bytes
+    from .local_settings import policy_declaration
+    directory=Path(directory);producer=directory/'code/strategy.py'
+    raw=read_bytes(producer,1024**2)
+    if (c.NATIVE_VERSION!='10.0.7' or type(data.get('schema')) is not int or data['schema']!=1
+            or data.get('single_selection_policy')!=SINGLE_SELECTION_POLICY
+            or data.get('strategy')!='native_validated_zone_net_pruning'
+            or data.get('proposal_policy')!='single' or data.get('engine_profile')!='tuned'
+            or data.get('adapter')!='both' or data.get('scope')!='whole_board_unlocked_routing'
+            or data.get('finalization_reserve_seconds')!=NATIVE_FINAL_RESERVE_SECONDS
+            or data.get('finalization_cpu_reserve_seconds')!=NATIVE_FINAL_RESERVE_SECONDS
+            or any(key in data for key in ('incumbent_policy','chain_pad_context','adaptive_branch'))
+            or hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/strategy.py')
+            or policy_declaration(raw,name='SINGLE_SELECTION_POLICY',expected=SINGLE_SELECTION_POLICY)!=SINGLE_SELECTION_POLICY):
+        raise p.Rejected('exact source-derived native single selection policy required')
+    check_pruning_preferences(directory,data)
+    source=Path(data['source']);original=sx.read(directory/'snapshot'/source.name)
+    protected=[route for route in p.routes(original) if p.locked(route)];nets=zone_net_ids(original)
+    incumbent=read_json(directory/'incumbent/result.json')
+    best=directory/'incumbent/candidate'/source.name
+    if (incumbent.get('accepted') is not True or incumbent.get('status')!='routing_accepted'
+            or incumbent.get('candidate')!=str(best) or p.sha(best)!=incumbent.get('candidate_sha256')):
+        raise p.Rejected('single selection needs its independently checked incumbent')
+    best_metrics,best_native=incumbent['metrics'],incumbent['native'];improvements=0
+    rows=data.get('trials')
+    if (type(rows) is not list or len(rows)>MAX_TRIALS
+            or {path.name for path in (directory/'trials').iterdir()}!={f'trial-{i:04d}' for i in range(len(rows))}):
+        raise p.Rejected('single trial population omitted or extended')
+    steps=[dict(step,phase='incumbent') for step in incumbent['steps']];individual=False
+    for index,row in enumerate(rows):
+        folder=directory/'trials'/f'trial-{index:04d}';path=folder/'result.json';trial=read_json(path)
+        if (row!={'id':folder.name,'receipt':str(path),'status':trial.get('status'),'accepted':trial.get('accepted')}
+                or trial.get('id')!=folder.name or trial.get('base_candidate_sha256')!=p.sha(best)
+                or type(trial.get('accepted')) is not bool):
+            raise p.Rejected('single trial identity or incumbent hash differs')
+        proposal=trial.get('proposal',{});kind=proposal.get('kind')
+        if kind not in {'whole_zone_net','individual_segment','individual_via'}:
+            raise p.Rejected('single policy cannot use another proposal variant')
+        if kind=='whole_zone_net' and individual:raise p.Rejected('single proposal phase reversed')
+        individual=individual or kind!='whole_zone_net'
+        if proposal not in proposals(sx.read(best),nets,protected,not individual):
+            raise p.Rejected('single deletion differs from current eligible copper')
+        expected=delete_routes(sx.read(best),proposal['route_ids'],nets,protected)
+        complete=_adaptive_trial_native(directory,data,trial,guard_key='single_trial_guard')
+        if complete:
+            if (sx.dump(expected)+'\n').encode()!=read_bytes(folder/'pre-refill.kicad_pcb'):
+                raise p.Rejected('single trial did not delete from its bound incumbent')
+            improves=trial['status']!='drc_rejected' and _improves(trial['metrics'],best_metrics,trial['native'],best_native)
+            if trial['accepted'] is not improves:
+                raise p.Rejected('single Native/quality outcome differs from selection')
+            if trial['accepted']:
+                best=folder/'candidate'/source.name;best_metrics,best_native=trial['metrics'],trial['native'];improvements+=1
+        elif trial['accepted']:
+            raise p.Rejected('incomplete single trial cannot replace incumbent')
+        for step in trial.get('steps',[]):
+            if step.get('cwd')!=str(folder) or step.get('phase')!=folder.name:
+                raise p.Rejected('single trial worker escaped fixed ancestry')
+        steps.extend(trial.get('steps',[]))
+    final=directory/'candidate'/source.name;tree=sx.read(final);selected=sx.read(best)
+    if (data.get('best_observed_candidate')!=str(best) or data.get('best_observed_metrics')!=best_metrics
+            or data.get('improvements')!=improvements or data.get('metrics')!=best_metrics
+            or p.sha(final)!=data.get('candidate_sha256') or p.immutable(tree)!=p.immutable(selected)
+            or p.routes(tree)!=p.routes(selected) or not _warning_signatures(data['native'])<=_warning_signatures(best_native)
+            or any(route not in p.routes(tree) for route in protected)):
+        raise p.Rejected('single final candidate differs from verified selected ancestry')
+    final_steps=[step for step in data['steps'] if step.get('phase')=='finalization']
+    if canonical(data['steps'])!=canonical(steps+final_steps):
+        raise p.Rejected('single parent omitted or duplicated attempted compute')
+    return best
 
 
 def _adaptive_branch_fresh(directory, data):
