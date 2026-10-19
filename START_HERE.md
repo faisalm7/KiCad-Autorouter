@@ -1,26 +1,25 @@
 # Use the local autorouter
 
-Runtime025 passes ordinary10.0.7 Native/CLI delivery, but its actual GUI071 found a budget-input defect: leaving the native spin field coerced0 or invalid text to5 before Preview. Two preview-only jobs are retained; no Route/Native/export ran. The shared GUI now uses plain text with strict whole5–900 validation in development. Targeted controls and AI source review pass; a fresh committed build and actual focus-loss/full-workflow GUI qualification remain required. Old023 GUI observations stay historical and do not clear this newly demonstrated defect. [Failure evidence](evidence/runtime025-GUI071-budget-refusal-failure-001.json).
+The current **runtime039 / GUI079 experimental launcher** below has passed [Native/CLI qualification](evidence/runtime039-native-floor-schema-milestone-001.json). Its actual GUI has launched from KiCad, loaded the90-second Finish gaps preset, refused an invalid budget before creating a job, completed protected routing, shown inspected front/back review images in Edge, recorded explicit accept intent and freshly validated an export. Checked opening rendered that exported PCB in KiCad with0 unrouted and then closed it without requesting edits or a save. The fresh89-file preopen snapshot is preserved. After opening, KiCad changed export PRO/PRL and added a backup ZIP; current proof correctly refuses as stale, while PCB/source remain unchanged. Reject/cancel/freshness/recovery controls remain unfinished. This is a test build, not a dependable-production claim.
 
-Keep this existing folder at `~/Projects/KiCad-Autorouter-local`. Do not reclone or replace its environment. Ordinary routing runs locally without Codex, an AI subscription or internet.
+039 includes the general Default/floor input correction. Older037 and failed038 remain preserved as historical evidence. General completion and engineering-cleanup improvement beyond a competent Freerouting baseline is still unproved.
 
-The historical GUI-qualified local candidate is **runtime023**, source `8c0c8468823751d9b5dc4c9a9c51b1d622269a27`, manifest `3df808e340dbe8c01ddebafe5c5c12583dc8d4d0cfea407c9252b0a89c41de81`. [Whole4Cu CLI](evidence/runtime023-installed-CLI-001.json), [partial2Cu CLI](evidence/runtime023-installed-partial-CLI-001.json) and [declared GUI023/070 controls](evidence/gui-runtime023-070-native-controls-001.json) pass within their recorded scopes. Every final Route/export has its own Native/refill/full-schematic/original-design proof. Whole4Cu retains six warnings and ten protected items; the GUI2Cu partial case has0 opens/blocking/warnings/exclusions and all4 protected items. [Limits](docs/experimental-rc.md).
+Keep this folder at `~/Projects/KiCad-Autorouter-local`. The launcher uses the existing pinned KiCad 10.0.7, Java and local Python environment at their fixed paths. Leave those paths intact. Routing runs locally without Codex, an AI subscription or internet once these dependencies are present.
 
-On this Mac, the prepared launcher is:
+On this Mac, open this existing file:
 
-`.runs/runtime-directory-023/runtime/.runs/gui-launcher070/Launch Autorouter.command`
-
-Close other KiCad applications, then double-click that file. It starts KiCad with isolated local settings, plugin and cache. Open your saved project in that manager, open PCB Editor and click the green autorouter icon. Save and close the source PCB/schematic editors before confirming their exact paths in the separate routing window. [Step-by-step workflow](docs/gui-workflow.md).
-
-Choose scope/protection, supported layers, preferences and budget. Preview support, start routing and use Cancel when needed. Review before/after copper and all findings, close the review project, then record explicit accept or reject intent. Fresh export validates another separate project; opening/editing it may stale its proof. Acceptance intent is not PCB certification. There is no live overwrite or tested undo.
-
-For the CLI, open Terminal in this checkout:
-
-```sh
-cd ~/Projects/KiCad-Autorouter-local
-.venv/bin/python -B -m autorouter doctor
+```text
+~/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/gui-launcher079/Launch Autorouter.command
 ```
 
-The [public LED demo](docs/quickstart.md) provides concrete commands. Only its explicit download needs internet; private boards are not uploaded. [Saved preferences](docs/routing-preferences.md) persist scope, new layers, budgets and optimization choices. Finish gaps protects all existing copper; locked copper is always protected. Unsupported combinations refuse with a reason.
+Close other KiCad applications, then double-click the launcher. It starts KiCad with isolated local settings, plugin and cache. Open a saved test project or a copy of your project in that manager, open PCB Editor and click the green autorouter icon. Save and close the source PCB/schematic editors before confirming their exact paths in the separate routing window. [Step-by-step workflow](docs/gui-workflow.md).
 
-This is experimental software. Routing-scope acceptance, whole-project cleanliness and human/electrical/manufacturing approval are separate. General completion/cleanup improvement beyond a strong Freerouting baseline remains unproved. [Status](STATUS.md), [requirements](REQUIREMENTS.md) and the [candidate matrix](docs/experimental-rc.md) retain all unmet gates. No formal release/package is published. Source/essential owned proof have verified GitHub checkpoints; raw archives remain on this Mac by your choice.
+Start with the **90-second Finish gaps preset** used by the recorded GUI positive. Preview support before routing. Finish gaps protects existing copper; locked copper is always protected. Unsupported settings refuse with a reason. Other controls, including current-build cancellation and freshness cases, still need qualification.
+
+Review before/after copper and every finding in the local review window, then record explicit accept or reject intent. The current recorded review used an owned Edge tab so the owner's active Chrome session stayed separate; that tab is now closed. Fresh export validates a separate candidate project. Opening or editing that export can change its project settings and make the proof stale; changed material needs fresh validation. The saved source stays separate. Acceptance intent is not human PCB approval, and there is no live overwrite or tested undo.
+
+Runtime039 passed full integration, fresh installation, five native deliveries and real invalid controls. GUI079 fresh export has0opens/0blocking/0warnings/0exclusions and preserves all4 protected records; its [preopen check and copy](.runs/gui079-positive-preopen-001.log) passed on89 files. The checked export opened and rendered in KiCad, showing6 pads,1 via,6 segments,3 nets and0 unrouted, then closed without a requested edit/save. The post-open proof correctly refuses “export inputs/runtime/evidence changed” after export PRO/PRL/backup ZIP changes; PCB/source bytes remain unchanged. The remaining controls still need qualification; no access request is pending. The single bounded Mixer follow-up finished without an accepted route: it removed the prior width/clearance errors but retained160 opens and1 thermal error. Additional Mixer tuning is deferred. [Current limits and evidence](docs/experimental-rc.md).
+
+Routing-scope acceptance, whole-project DRC cleanliness and human/electrical/manufacturing approval are separate. [Saved preferences](docs/routing-preferences.md), [status](STATUS.md), [requirements](REQUIREMENTS.md) and the [candidate matrix](docs/experimental-rc.md) retain their scopes and unmet gates. No formal release or package is published.
+
+Source and essential owned proof have verified GitHub checkpoints. Full newer raw evidence remains on this Mac. The last recorded free space was13,594,936 KiB (about13.92 GB), below the18.64 GB restoration lower bound, which excludes newer raw work; a new full restore remains blocked.

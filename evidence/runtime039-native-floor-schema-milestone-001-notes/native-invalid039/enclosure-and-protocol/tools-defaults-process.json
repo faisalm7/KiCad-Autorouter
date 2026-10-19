@@ -1,0 +1,42 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.26292641705367714,
+  "cpu_seconds": 0.21992899999999999,
+  "max_rss_bytes": 138379264,
+  "supervisor_cpu_seconds": 0.004308999999999993,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 135970816,
+  "sampled_peak_workdir_bytes": 12262,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.venv/bin/python",
+    "-B",
+    "-c",
+    "import json,sys;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime');from autorouter import pipeline as p,preferences as pref;print(json.dumps(dict(runtime=str(p.c.ROOT),interpreter=sys.executable,prefix=sys.prefix,tools=p.tool_manifest(),defaults=dict(pref.DEFAULTS)),sort_keys=True))"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime039-ordinary-native-invalid-001/tools-defaults.json",
+  "log_bytes": 12262,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime039-ordinary-native-invalid-001",
+  "signal_cancellation_enabled": true,
+  "pid": 69336
+}

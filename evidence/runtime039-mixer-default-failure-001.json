@@ -1,0 +1,410 @@
+{
+  "accepted": false,
+  "actual": {
+    "Native_counts": [
+      160,
+      1,
+      206,
+      0
+    ],
+    "all_final_findings_retained": true,
+    "all_workers_cleanup_complete": true,
+    "candidate_sha256": "bc15a183a08bfa9ddfb05b06653ac46ed2cb24aeaf124aed680ea156412a5992",
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "metrics": {
+      "copper_layers": 2,
+      "footprints": 114,
+      "pads": 327,
+      "track_length_mm": 186.99817901643615,
+      "version": "10.0.7",
+      "vias": 0,
+      "zones": 6
+    },
+    "native_report_sha256": "4f87c345760a561f5c222c5e70c1294d0c791c111ea69c5cb5b618a8f7810bf3",
+    "no_protection_positive_claim": true,
+    "outer_Native_counts_null": true,
+    "outer_error": "AssertionError: ",
+    "outer_status": "nonzero_exit",
+    "postroute_stages_NOTRUN": [
+      "review",
+      "accept-intent",
+      "export",
+      "verify_export"
+    ],
+    "protected_routes": 0,
+    "route_exit": 2,
+    "route_receipt_sha256": "af8ee9194d87062c26826aab9f4cf6b13ccebc0166ac0175528b92fdcbaba9e6",
+    "route_status": "drc_rejected",
+    "thermal_finding": {
+      "description": "Thermal relief connection to zone incomplete (layer F.Cu; 3 spokes connected to isolated island)",
+      "items": [
+        {
+          "description": "Zone [vbias] on F.Cu, priority 2",
+          "pos": {
+            "x": 191.46,
+            "y": 108.66
+          },
+          "uuid": "2ac68700-4aa9-4420-a0e1-76004e618e09"
+        },
+        {
+          "description": "PTH pad 1 [vbias] of C2",
+          "pos": {
+            "x": 187.73,
+            "y": 101.73
+          },
+          "uuid": "6676eb38-09f3-4b48-8024-482389e3ee8d"
+        }
+      ],
+      "severity": "error",
+      "type": "starved_thermal"
+    },
+    "width_clearance_thermal": [
+      0,
+      0,
+      1
+    ],
+    "workflow_error": "ValueError: Action failed or was cancelled. Evidence was retained; no positive state adopted.",
+    "workflow_receipt_sha256": "926702433afdd4e965df02d0ac23ac723c7edc23f171af8d1d2e7281495512fc",
+    "workflow_status": "failed"
+  },
+  "actual_GUI": false,
+  "candidate_nonPCB_files_original": true,
+  "comparison037": {
+    "new_counts": [
+      160,
+      1,
+      206,
+      0
+    ],
+    "new_width_clearance_thermal": [
+      0,
+      0,
+      1
+    ],
+    "old_counts": [
+      161,
+      63,
+      235,
+      0
+    ],
+    "old_width_clearance_thermal": [
+      57,
+      5,
+      1
+    ],
+    "packet": {
+      "files_index": {
+        "path": "evidence/runtime037-mixer-default-failure-001-notes/files.json",
+        "sha256": "3f566e7ba49892e7362e46c768faea49fe346fd7608ff3658d93e9c40a7b1459"
+      },
+      "path": "evidence/runtime037-mixer-default-failure-001.json",
+      "sha256": "a3e2d89a4f8b02c7db8a46ef45db41203f914a621970f98d500dfede32f6ce4a"
+    },
+    "same90budget": true,
+    "same_source_hashes": true,
+    "scope": "One causal development pair. Completion remains failed; no superiority, timing, engineer-cleanup or broad family inference.",
+    "warning_counts_preserved_not_suppressed": true
+  },
+  "costs": {
+    "additional_freeze": {
+      "CPU_seconds": 1.19,
+      "wall_seconds": 1.3
+    },
+    "complete_external": {
+      "CPU_seconds": 71.79,
+      "wall_seconds": 61.9
+    },
+    "enclosure_sample": {
+      "CPU_seconds": 71.758607,
+      "wall_seconds": 61.84085945796687
+    },
+    "nested_route": {
+      "CPU_seconds": 69.606817,
+      "wall_seconds": 59.7612887499854
+    },
+    "prior037": {
+      "CPU_seconds": 72.24,
+      "wall_seconds": 62.82
+    },
+    "scope": "Complete61.90wall/71.79CPU includes all actual runtime steps and failed adoption/publication. Nested costs included, not added again; freeze1.30wall/1.19CPU additional. Authoring/research/AI-review CPU unknown, not zero; no speed claim."
+  },
+  "curation_attempt001": {
+    "cause": "Compared enriched DRC step dict literally with process journal; three steps contain the existing emitted_candidate and validated_input_sha256 annotations.",
+    "correction": "Require every journal field identical, permit only those two known extra annotations. No Native repeated or product files changed.",
+    "raw_output": "Tool transcript only; no separate raw log or external CPU measurement. Unknown authoring/curation overhead is not zero.",
+    "status": "preflight assertion failed before destination/retention writes"
+  },
+  "curation_sample": {
+    "CPU_seconds": 0.195119,
+    "complete_external_unknown": true,
+    "wall_seconds": 0.264661957975477
+  },
+  "decision": "Retain general fidelity correction supported by lawful guide/final dimension audit and removal of width/clearance errors. Mixer remains failed160opens/1thermal; no further trial or tuning by this task.",
+  "dependencies": [
+    {
+      "files_index": {
+        "path": "evidence/runtime037-mixer-default-failure-001-notes/files.json",
+        "sha256": "3f566e7ba49892e7362e46c768faea49fe346fd7608ff3658d93e9c40a7b1459"
+      },
+      "path": "evidence/runtime037-mixer-default-failure-001.json",
+      "sha256": "a3e2d89a4f8b02c7db8a46ef45db41203f914a621970f98d500dfede32f6ce4a"
+    },
+    {
+      "files_index": {
+        "path": "evidence/runtime038-default-floor-native-and-hierarchy-regression-001-notes/files.json",
+        "sha256": "5356d6628c50e9b8884e4ed33801f7db1712c4b732208ea7f498b928eead8926"
+      },
+      "path": "evidence/runtime038-default-floor-native-and-hierarchy-regression-001.json",
+      "sha256": "aad3d5e61160baf3a4374ab8ed134c03120062088c77565789965721c7e50bc1"
+    },
+    {
+      "files_index": {
+        "path": "evidence/native-map-floor-schema-correction-001-notes/files.json",
+        "sha256": "9583eb1c41541bbb26ef5eee3bb5144550706062aed93cc4468d9d6331ff6e29"
+      },
+      "path": "evidence/native-map-floor-schema-correction-001.json",
+      "sha256": "31748bda25be62ae337631b64132d1c349fb4594316d633c1235345b8b838b81"
+    }
+  ],
+  "engine": {
+    "Native_counts_authoritative": true,
+    "allocated_is_not_RSS": true,
+    "internal_violations": 0,
+    "log_state": "COMPLETED with181unrouted; optimizer skipped",
+    "peak_heap_MB": 58.1,
+    "process": {
+      "cleanup_complete": true,
+      "cpu_seconds": 55.59836,
+      "exit_code": 0,
+      "max_rss_bytes": 319897600,
+      "sampled_peak_group_rss_bytes": 319602688,
+      "status": "success",
+      "wall_seconds": 45.325222874991596
+    },
+    "total_allocated_GB_cumulative": 99.12
+  },
+  "files_index": {
+    "path": "evidence/runtime039-mixer-default-failure-001-notes/files.json",
+    "sha256": "bc44ff15f0a71d8e8742756e97a4287cb0eae48e6a866ff500442fa5c0b04cd4"
+  },
+  "guide": {
+    "actual_new_vias": 0,
+    "derived_nm": {
+      "clearance_nm": 300000,
+      "via_diameter_nm": 1500000,
+      "via_drill_nm": 300000,
+      "width_nm": 300000
+    },
+    "final_route_dimensions": {
+      "checked": {
+        "arcs": 0,
+        "protected": 0,
+        "segments": 53,
+        "vias": 0
+      },
+      "passed": true,
+      "policy": "exact effective native targets for new routes; protected originals unchanged"
+    },
+    "guide_sha256": "a4cc2a8cf49b7ffbc47aacbf83507d9ee3b8611462c536e0863f203d9124a42c",
+    "guided_dsn_sha256": "c3e61b491631dcf15b5dc75cbc60dfeb73896b7a2fcee9b9cc4e85ff45c8b011",
+    "native_dsn_sha256": "02290096e163041c04502fb463ab8ca960a98c91869e1eaae5482c3a96615aa0",
+    "original_floors_nm": {
+      "min_clearance": 300000,
+      "min_through_hole_diameter": 300000,
+      "min_track_width": 300000,
+      "min_via_annular_width": 300000,
+      "min_via_diameter": 1500000
+    },
+    "original_project_modified": false,
+    "policy": "single-default-global-floor-targets-v2",
+    "raw_nm": {
+      "clearance_nm": 200000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000,
+      "width_nm": 200000
+    },
+    "task_dsn_sha256": "670d14f41f1718554d9606ff4c58b98dd226bc8587802ccb1e38cada35e666a0"
+  },
+  "human_review": false,
+  "kind": "runtime039-Mixer-frozen-causal-followup-failed-routing",
+  "limitations": [
+    "One exposed licensed demo; independent ancestry unproven.",
+    "Actual Route correctly rejected, no sixstage delivery, GUI/human/physical/electrical/Windows qualification.",
+    "Read-only curation of existing own Native/original proofs; no semantic central checker rerun or new process/Native/tests.",
+    "Source repairable copper findings remain visible, all original ignored checks/severities/exclusions retained.",
+    "New raw remains on this Mac outside older full backups; bounded proof packet is not a restoration test."
+  ],
+  "native_version": "10.0.7",
+  "physical_electrical_validation": false,
+  "project_complete": false,
+  "proof": {
+    "DRC_steps_extra_annotations": [
+      "emitted_candidate",
+      "validated_input_sha256"
+    ],
+    "all_process_journal_fields_match_steps": true,
+    "candidate_and_nonPCB_source_bytes_rehashed": true,
+    "central_reader_reexecuted_by_curation": false,
+    "final_DRC_exit5_and_schematic_parity": true,
+    "final_binding_existing_before_after_bytes_equal": true,
+    "hierarchy_task_and_final": {
+      "accepted": false,
+      "components": 114,
+      "instances": 5,
+      "nets": 80,
+      "qualified": true,
+      "terminals": 280,
+      "unconnected_pads": 47
+    },
+    "historical_source_fullSCH_counts": [
+      0,
+      24,
+      206,
+      0
+    ],
+    "historical_source_not_rerun": true,
+    "invariants_unchanged_recorded": true,
+    "saving_refill_exit5": true,
+    "schematic_parity": "checked by final native DRC",
+    "source_and_project_files_match_frozen_originals": true,
+    "source_current_non_fullSCH_counts": [
+      0,
+      24,
+      91,
+      0
+    ]
+  },
+  "protocol": {
+    "hypothesis": {
+      "bounds": "One standard/B1 default attempt, route90/freshNativeexport90,240wholewall/fullCPU and255outerhardcap. Do not tune sourceboard or retrospectivelypickpolicy.",
+      "comparison": "One causal same-source/same90route90export240whole follow-up against preserved037failure001, after current ownedNativepositive/invalid controls. Exposed development; not untouched unattended first-attempt product or generalized B0/B1/B2/C superiority.",
+      "decision": "Retain general fidelity correction only if original/effective dimensions remain bound and new copper respects original floors; completion requires actual finalNative plus delivery. If opens/thermal/other failures remain, retain them and defer completion claim; no further per-board tuning in this run.",
+      "failure": "First037 Mixer actualfinal failed161opens/63blocking/235warnings/0exclusions, including57width and5clearance errors after rawDefault targets fell below unchanged original hard floors.",
+      "mechanism": "General v2 same-load rawDefault/floor observations derive lawful planning targets while preserving original source class identity, rules and protected geometry. No board-name selection or source edits."
+    },
+    "path": ".runs/runtime039-mixer-whole-001/protocol.json",
+    "settings": {
+      "adapter": "both",
+      "guidance": "native",
+      "layers": "source_all",
+      "profile": "standard",
+      "schema": 1,
+      "scope": "whole_board_unlocked_routing",
+      "scoring_preference": null,
+      "seconds": 90
+    },
+    "sha256": "c713439746f42ba7dfddb28ba1500af5f2735fb6059b73b3190c3418e041d198"
+  },
+  "recorded_utc": "2026-10-19T13:22:30.634338+00:00",
+  "retention": {
+    "counts_exclude_index_summary": true,
+    "excluded_dirs": [
+      "kicad-cache",
+      "kicad-config",
+      "kicad-documents",
+      "engine-config",
+      "tmp",
+      "__pycache__"
+    ],
+    "functions": [
+      "retain",
+      "tree",
+      "cost"
+    ],
+    "helper": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "material_rows": 247,
+    "max_file_bytes": 4194304,
+    "max_new_files": 2000,
+    "max_new_payload_bytes": 16777216,
+    "new_payload_bytes": 9935788,
+    "new_payload_files": 60
+  },
+  "routing_accepted": false,
+  "runtime_manifest_sha256": "ef7ea961238bf9d3e48e531dc3dcbd06700ac2fe5a270466e3d9365b81a6c728",
+  "schema": 1,
+  "source": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "channel_strip.kicad_sch": "2c98b5d37f5b60c9187474017d7b754e8b4a1d45f4115dcbecf1a745ab175e0e",
+    "fp-lib-table": "8a1e7e5ab227455c8865598b3c4c36db1e75c8abced3b2c0aee4fde54176a328",
+    "multichannel_mixer-unrouted.kicad_pcb": "149b2dce16e0f59adb78f87068f4137b7dafca0e991a0b21fdd967c873fd5ee9",
+    "multichannel_mixer.kicad_pcb": "44b7c119a0d05c98e9f294659879184038a5f6c30073c04d9536990429ca413e",
+    "multichannel_mixer.kicad_pro": "ea1bc47355f707e1c4743af3e1c29e939bb5eaf4621c071bdac3841c43545538",
+    "multichannel_mixer.kicad_sch": "e47aecee9416d51fb5aed36d008a0442d3d6d68abfc5224bcdb5c5bb4a690fcf",
+    "multichannel_mixer.kicad_sym": "7e0793cc48f3a20ea84f3c4c8643ffeb1be79dd05faba8ae1278dc39dbf7cf8b",
+    "multichannel_mixer.pretty/CAPC3216X140N.kicad_mod": "3e6145d55866da5a696cefe075a68d26cf30fde90403ff2e006d2e4ae1461474",
+    "multichannel_mixer.pretty/CAPPRB254-500X840.kicad_mod": "6e1ac6aeba9d1c87ba73b30104162d35ae05625364c80ed204127c90e0542775",
+    "multichannel_mixer.pretty/CLIFF_FC68148(DC-10A).kicad_mod": "96f4e07509d06c0157dfca2b336f761541ed5d2daead790baafe6b90d23e658e",
+    "multichannel_mixer.pretty/Jack_6.35mm_Neutrik_NMJ6HCD2_Horizontal.kicad_mod": "b8a282923219bb3b01bf82278a7ded099fac556385eaf8707d777fc92cc32fc3",
+    "multichannel_mixer.pretty/Potentiometer_Alps_RK09K_Single_Vertical.kicad_mod": "ce94093ebd8cd8cd35a75442db46854414f78ca9be4f3b4234a7819650b938aa",
+    "multichannel_mixer.pretty/RESC3216X65N.kicad_mod": "a12fbb5040e28dd960364f0319773d1450c0610c18ab9844d0671b6bf6c9f6d7",
+    "multichannel_mixer.pretty/SOIC127P600X175-8N.kicad_mod": "0b5f066de991d39015aab71847ce9a17e3a60394391350e46650fa8e7d274f80",
+    "sym-lib-table": "68b0633966d91fd9e81c05b7706abcddc892d1c71c9994c8cb757e38216787f7"
+  },
+  "source_head": "57542e996f2b6e7704acd408ac99f6c72e70adc5",
+  "source_original_bytes_unchanged_now": true,
+  "source_rights": {
+    "boards": [
+      {
+        "board": "boards/kicad-multichannel/multichannel_mixer-unrouted.kicad_pcb",
+        "project_file": "boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+        "rules_binding": "requires_explicit_task_mapping_before_native_validation",
+        "same_basename_project": false,
+        "source_path": "demos/multichannel/multichannel_mixer-unrouted.kicad_pcb"
+      },
+      {
+        "board": "boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+        "project_file": "boards/kicad-multichannel/multichannel_mixer.kicad_pro",
+        "rules_binding": "native_same_basename",
+        "same_basename_project": true,
+        "source_path": "demos/multichannel/multichannel_mixer.kicad_pcb"
+      }
+    ],
+    "destination": "boards/kicad-multichannel",
+    "family": "kicad-multichannel",
+    "family_independence": "unverified_pending_deduplication",
+    "license": "CC-BY-SA-4.0",
+    "license_notice_paths": [
+      "boards/kicad-multichannel/_licenses/LICENSE.README",
+      "boards/kicad-multichannel/_licenses/LICENSE.CC-BY-SA-4.0"
+    ],
+    "native_preflight": "not_performed_by_acquisition",
+    "project_id": "kicad-multichannel",
+    "source_bytes": 4543845,
+    "source_directory": "demos/multichannel",
+    "source_files": 15,
+    "split": "development"
+  },
+  "workflow_delivered": false
+}

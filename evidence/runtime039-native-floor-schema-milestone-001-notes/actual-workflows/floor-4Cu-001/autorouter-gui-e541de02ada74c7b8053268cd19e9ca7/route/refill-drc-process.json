@@ -1,0 +1,60 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.6120595830725506,
+  "cpu_seconds": 0.31960299999999997,
+  "max_rss_bytes": 80461824,
+  "supervisor_cpu_seconds": 0.012439000000000033,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 78086144,
+  "sampled_peak_workdir_bytes": 1394320,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-floor-4Cu-001/autorouter-gui-e541de02ada74c7b8053268cd19e9ca7/route/refill-drc.json",
+    "--save-board",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-floor-4Cu-001/autorouter-gui-e541de02ada74c7b8053268cd19e9ca7/route/refill/owned-default-floor-4cu.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-floor-4Cu-001/autorouter-gui-e541de02ada74c7b8053268cd19e9ca7/route/refill-drc.log",
+  "log_bytes": 258,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-floor-4Cu-001/autorouter-gui-e541de02ada74c7b8053268cd19e9ca7/route",
+  "signal_cancellation_enabled": true,
+  "pid": 69265,
+  "name": "refill-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": true,
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-floor-4Cu-001/autorouter-gui-e541de02ada74c7b8053268cd19e9ca7/route/refill/owned-default-floor-4cu.kicad_prl",
+    "sha256": "f0837bc12c108562e627c347a915b34b00dcc358a2c9660c8523481e70ae45d9",
+    "flags_before": 0,
+    "flags_during": 2,
+    "flags_restored": true,
+    "bytes_unchanged": true
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "context": "native-route-flat-classes-v1",
+  "stage": "final",
+  "binding_sha256": "c25170243493878dd657224a5a506312233ec847286fded331ec82895985a199",
+  "qualification": {
+    "schema": 1,
+    "policy": "flat-class-parity-prerequisite-v1",
+    "native_version": "10.0.7",
+    "class_parity_qualified": true,
+    "accepted": false,
+    "routing_accepted": false,
+    "production_qualified": false,
+    "native_execution_performed_by_comparator": false,
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-whole4Cu-001/autorouter-gui-991123ac9bd24b219e618a5dff05ce1b/export/validation/candidate/owned-four-copper-forced-inner.kicad_pcb",
+    "schematic_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-whole4Cu-001/autorouter-gui-991123ac9bd24b219e618a5dff05ce1b/export/validation/final-classes-input/owned-four-copper-forced-inner.kicad_sch",
+    "sha256": {
+      "board": "8f495c3f4bcaf91a099deb2deff4d613ac2dbd3a72673ba195c5b9ae613fbc4b",
+      "project": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+      "schematic": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13",
+      "netlist": "3de5467e991302212054d8c2d1a1d344389a960e99f8de04a5ca595cf0289393",
+      "native_map": "eece919c21eeb3fa5b2106766f6e26de5c600754ca73174213dbcc807a22d896"
+    },
+    "source_class_policy": {
+      "mode": "native-parent-dimensions-v1",
+      "resolution": "pinned native effective class and explicit parameter parents",
+      "source_class_names": [
+        "Default",
+        "POWER",
+        "SIGNAL",
+        "CRITICAL"
+      ],
+      "pattern_evaluation_in_python": false
+    },
+    "class_flags": [
+      "POWER"
+    ],
+    "known_class_identities": [
+      "CRITICAL,Default",
+      "Default",
+      "POWER,Default",
+      "SIGNAL,Default"
+    ],
+    "components": 6,
+    "terminals": 6,
+    "nets": 3,
+    "partitions": [
+      {
+        "net": "GND",
+        "terminals": [
+          [
+            "J5",
+            "1"
+          ],
+          [
+            "J6",
+            "1"
+          ]
+        ],
+        "class": "SIGNAL,Default",
+        "effective_nm": {
+          "width_nm": 350000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 1000000,
+          "via_drill_nm": 400000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "SIGNAL",
+            "value_nm": 350000,
+            "specified": true,
+            "priority": 0
+          },
+          "clearance_nm": {
+            "name": "SIGNAL",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_diameter_nm": {
+            "name": "SIGNAL",
+            "value_nm": 1000000,
+            "specified": true,
+            "priority": 0
+          },
+          "via_drill_nm": {
+            "name": "SIGNAL",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 0
+          }
+        }
+      },
+      {
+        "net": "KEEP",
+        "terminals": [
+          [
+            "J3",
+            "1"
+          ],
+          [
+            "J4",
+            "1"
+          ]
+        ],
+        "class": "Default",
+        "effective_nm": {
+          "width_nm": 300000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 800000,
+          "via_drill_nm": 400000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 800000,
+            "specified": true,
+            "priority": 2147483647
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 2147483647
+          }
+        }
+      },
+      {
+        "net": "ROUTE",
+        "terminals": [
+          [
+            "J1",
+            "1"
+          ],
+          [
+            "J2",
+            "1"
+          ]
+        ],
+        "class": "POWER,Default",
+        "effective_nm": {
+          "width_nm": 400000,
+          "clearance_nm": 250000,
+          "via_diameter_nm": 1200000,
+          "via_drill_nm": 500000
+        },
+        "parameter_parents": {
+          "width_nm": {
+            "name": "POWER",
+            "value_nm": 400000,
+            "specified": true,
+            "priority": 1
+          },
+          "clearance_nm": {
+            "name": "POWER",
+            "value_nm": 250000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_diameter_nm": {
+            "name": "POWER",
+            "value_nm": 1200000,
+            "specified": true,
+            "priority": 1
+          },
+          "via_drill_nm": {
+            "name": "POWER",
+            "value_nm": 500000,
+            "specified": true,
+            "priority": 1
+          }
+        }
+      }
+    ]
+  }
+}
