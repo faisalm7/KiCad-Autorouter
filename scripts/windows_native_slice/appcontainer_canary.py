@@ -108,17 +108,23 @@ def check_tokens(rows, sid, *, cancelled=False):
         raise RuntimeError('Cancellation did not observe the actual resumed child')
 
 
-def main():
+def main(argv=None, *, persistent_guard=None, prepared_setup=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scope', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if platform.machine().lower() not in ('amd64', 'x86_64'):
         raise RuntimeError('This compiler canary is x64 only')
     scope = args.scope.absolute()
     report = args.report.absolute()
     setup = scope.with_name(scope.name + '-setup')
-    if scope.exists() or setup.exists() or report.exists() or not scope.parent.is_dir() or report.parent != scope.parent:
+    if persistent_guard is not None:
+        from persistent_guard_state import PersistentGuardState
+        if type(persistent_guard) is not PersistentGuardState or persistent_guard.scope != scope or prepared_setup != setup:
+            raise RuntimeError('exact live persistent guard and same owned setup required')
+    elif prepared_setup is not None:
+        raise RuntimeError('setup reuse is restricted to the explicit persistent experiment')
+    if scope.exists() or (setup.exists() and persistent_guard is None) or report.exists() or not scope.parent.is_dir() or report.parent != scope.parent:
         raise RuntimeError('Fresh sibling scope/report required')
     started = time.monotonic()
     cpu_started = time.process_time()
@@ -130,6 +136,10 @@ def main():
               'worker_source_sha256': digest(Path(__file__).with_name('appcontainer_probe.c')),
               'cases': [], 'errors': [],
               'scope': 'Owned IPv4 TCP/token/job observations only; no all-network/profile, KiCad/Java compatibility, Native delivery or Windows product claim.'}
+    if persistent_guard is not None:
+        result['kind'] = 'non-admitting-Windows-persistent-SID-canary011'
+        result['scope'] = ('Real persistent SID policy plus owned IPv4 TCP/token/normal/cancel observations only. '
+                           'No IPv6/UDP/inbound/controller-death/reuse/lowbox-mutation, Native or Windows product qualification.')
     listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     listener.bind(('127.0.0.1', 0)); listener.listen(8); listener.settimeout(.2)
     port = listener.getsockname()[1]
@@ -167,7 +177,7 @@ def main():
         result['independently_positive_connections_before'] = positives
         exe, includes, libraries, toolchain = compiler()
         result['compiler'] = toolchain
-        guard = AppContainerLaunch(scope)
+        guard = AppContainerLaunch(scope, persistent_guard=persistent_guard)
         with guard:
             source = Path(__file__).with_name('appcontainer_probe.c').resolve(strict=True)
             builds = []
@@ -227,6 +237,15 @@ def main():
         stop.set(); listener.close(); server.join(timeout=3)
         result['owned_server_thread_reaped'] = not server.is_alive()
         result['passed'] = result['passed'] and not server.is_alive()
+        if persistent_guard is not None:
+            try:
+                if not result['passed']:
+                    persistent_guard.poison('; '.join(result['errors']) or 'finite canary failed')
+                persistent_guard.abandon()
+            except Exception as exc:
+                result['passed'] = False
+                result['errors'].append('persistent final disposal: ' + type(exc).__name__ + ': ' + str(exc))
+            result['persistent_guard'] = persistent_guard.receipt()
         result['wall_seconds_before_report'] = time.monotonic() - started
         result['controller_CPU_seconds_before_report'] = time.process_time() - cpu_started
         result['accounting'] = 'Setup and probe Job CPU include exited descendants; controller CPU is separate. Whole CI CPU and post-report exit are unmeasured, not zero. No speed claim.'

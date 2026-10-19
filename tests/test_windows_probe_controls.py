@@ -10,10 +10,116 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]/'scripts/windows_native_slice'
 
 class WindowsProbeControls(unittest.TestCase):
-    def process_function(self,name,**scope):
-        tree=ast.parse((ROOT/'windows_process.py').read_text())
-        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name==name)
-        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
+    def test_persistent_cleanup_never_uses_counter_or_saved_receipt_as_authority(self):
+        """Fault injection at the Python boundary; not real WFP qualification."""
+        tree=ast.parse((ROOT/'appcontainer_launch.py').read_text())
+        cls=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='AppContainerLaunch')
+        method=next(n for n in cls.body if isinstance(n,ast.FunctionDef) and n.name=='__exit__')
+        def yes(value):
+            if not value:raise OSError('injected Win32 failure')
+        scope=dict(Path=Path,C=SimpleNamespace(c_void_p=lambda:SimpleNamespace(value=0)),_yes=yes)
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[method],type_ignores=[])),'persistent-cleanup-boundary','exec'),scope)
+        leave=scope['__exit__']
+        for fault in ('caller_exception','counter','unsealed','contract','remove','no_live_authority','restore','verify','close','none'):
+            with self.subTest(fault=fault),tempfile.TemporaryDirectory() as tmp:
+                calls=[]
+                class Guard:
+                    cleanup_authorized=False
+                    def poison(self,reason):calls.append('poison')
+                    def seal_and_remove(self):
+                        calls.append('remove')
+                        if fault=='remove':raise OSError('ambiguous removal')
+                        self.cleanup_authorized=fault!='no_live_authority'
+                    def abandon(self):calls.append('abandon')
+                    def receipt(self):return dict(cleanup_authorized=True,saved_job_count=0)
+                def contract():
+                    calls.append('contract')
+                    if fault=='contract':raise OSError('changed sealed input')
+                def delete(name):calls.append('delete_profile');return 0
+                def set_acl(*args):
+                    if fault=='restore':raise OSError('original ACL restoration failed')
+                owner=SimpleNamespace(_persistent=Guard(),_outstanding=int(fault=='counter'),
+                    _sealed=fault!='unsealed',_original_acls={str(Path(tmp)/'owned'):(b'ACL',True)},
+                    _handles=[42] if fault=='close' else [],_created=True,
+                    _profile_folder=Path(tmp)/'absent-owned-profile',profile_name='owned-profile',
+                    _sid=SimpleNamespace(value=0),_entered=True,scope=Path(tmp),scratch=Path(tmp),
+                    _tree=lambda path:[],check_contract=contract,u=SimpleNamespace(DeleteAppContainerProfile=delete),
+                    cleanup_receipt={},evidence={},_set_acl=set_acl,
+                    _acl=lambda path:(b'changed',True) if fault=='verify' else (b'ACL',True),
+                    k=SimpleNamespace(CloseHandle=lambda handle:False))
+                error=RuntimeError('caller failed') if fault=='caller_exception' else None
+                if fault=='none':
+                    self.assertFalse(leave(owner,None,None,None))
+                    self.assertTrue(owner.cleanup_receipt['cleanup_complete'])
+                    self.assertLess(calls.index('remove'),calls.index('delete_profile'))
+                    self.assertLess(calls.index('delete_profile'),calls.index('abandon'))
+                else:
+                    with self.assertRaisesRegex(RuntimeError,'cleanup incomplete'):leave(owner,type(error) if error else None,error,None)
+                    self.assertNotIn('delete_profile',calls)
+                    self.assertFalse(owner.cleanup_receipt['cleanup_complete'])
+                    self.assertEqual(owner.cleanup_receipt['persistent_removal_verified'],fault in ('restore','verify','close'))
+                    self.assertIn('poison',calls)
+                self.assertIn('abandon',calls)
+                # This deliberately lying JSON is retained for diagnosis but
+                # cannot turn failed live custody/removal into cleanup success.
+                self.assertTrue(owner.evidence['persistent_guard']['cleanup_authorized'])
+
+    def test_new_process_is_retained_before_a_failing_source_witness(self):
+        calls=[]
+        def require(ok,message):
+            if not ok:raise RuntimeError(message)
+        def fresh():calls.append('source_witness');raise RuntimeError('source changed')
+        def register(*args):calls.append('capture_actual_process');return 0
+        owner=SimpleNamespace(_thread_check=lambda:calls.append('thread'),_bad=False,_abandoned=False,
+            _owner=SimpleNamespace(value=1),_lib=SimpleNamespace(PG_RegisterProcess=register),
+            _info=lambda:calls.append('info') or dict(poisoned=0),_sid=None,_keys=None,_fresh=fresh,
+            poison=lambda error:calls.append('poison'))
+        invoke=self.process_function('_invoke',source='persistent_guard_state.py',_require=require)
+        with self.assertRaisesRegex(RuntimeError,'source changed'):
+            invoke(owner,'PG_RegisterProcess',0,object(),object(),created_registration=True)
+        self.assertEqual(calls,['thread','capture_actual_process','info','source_witness','poison'])
+        calls.clear()
+        with self.assertRaisesRegex(RuntimeError,'source changed'):
+            invoke(owner,'PG_RegisterProcess',0,object(),object())
+        self.assertEqual(calls,['source_witness','poison'])
+
+    def test_all_sixteen_decimal_tombstone_slots_are_valid_and_exhaustion_is_visible(self):
+        import os,re
+        def require(ok,message):
+            if not ok:raise RuntimeError(message)
+        census=self.process_function('_census',source='persistent_guard_state.py',os=os,re=re,Path=Path,_require=require)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            owner=SimpleNamespace(_root=root,MAX_ENTRIES=145,MAX_STATE_BYTES=2*1024**2,
+                                  _wp=SimpleNamespace(safe=lambda path,base:path))
+            for index in range(16):(root/('slot-%02d'%index)).write_bytes(b'reserved')
+            census(owner)
+            (root/'slot-16').write_bytes(b'unsupported')
+            with self.assertRaisesRegex(RuntimeError,'known host reservation'):census(owner)
+
+    def test_state_projection_preserves_partial_actual_bytes_without_reading_other_owners(self):
+        import base64
+        def require(ok,message):
+            if not ok:raise RuntimeError(message)
+        snapshot=self.process_function('material_snapshot',source='persistent_guard_state.py',
+            base64=base64,hashlib=hashlib,_require=require)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);name='name-owned.jsonl';(root/name).write_bytes(b'complete\n')
+            foreign=root/'name-other-owner.jsonl';foreign.write_bytes(b'never read')
+            owner=SimpleNamespace(_thread_check=lambda:None,_root=root,_owned_names={name},
+                _files={name:{'raw':b'complete\n'}},_wp=SimpleNamespace(safe=lambda path,base:path))
+            complete=snapshot(owner);self.assertTrue(complete['complete'])
+            self.assertEqual([row['name'] for row in complete['files']],[name])
+            (root/name).write_bytes(b'complete\npartial')
+            partial=snapshot(owner);self.assertFalse(partial['complete'])
+            self.assertEqual(base64.b64decode(partial['files'][0]['base64']),b'complete\npartial')
+            self.assertFalse(partial['files'][0]['matches_last_complete_write'])
+            self.assertEqual(foreign.read_bytes(),b'never read')
+
+    def process_function(self,name,source='windows_process.py',**scope):
+        tree=ast.parse((ROOT/source).read_text())
+        fn=next(n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and n.name==name)
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),str(ROOT/source),'exec'),scope)
         return scope[name]
 
     def test_setup_main_poll_uses_retained_handle_and_never_waits(self):

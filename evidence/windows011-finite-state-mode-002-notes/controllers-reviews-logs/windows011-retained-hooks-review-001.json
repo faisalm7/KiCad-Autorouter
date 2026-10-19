@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "kind": "Windows011-retained-hooks-independent-AI-source-review",
+  "scope": "Unexecuted root diff only for AppContainerLaunch, shared Windows Job hooks, bind_library extraction and narrow pure test addition. PersistentGuardState implementation was not read, imported, awaited or judged. No later state/policy/new research or packet review.",
+  "base_commit_at_review": "ca3261f2b93ae801458dd9ef94cdd051321be1ce",
+  "inspected_version_pins": [
+    {
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "sha256": "d27c790a5c795e7daddb34ab9f59a87aca21cdb5df615911deb5969b7b4e6654"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_build.py",
+      "sha256": "d716207fefa5009122965cd28698aab8aa1d482481c044cf0e3197e60a7f1f1e"
+    },
+    {
+      "path": "tests/test_windows_probe_controls.py",
+      "sha256": "74bcc29132234c7ac54b53a1bbda0d82f7ed0cec7cd75d7ab9f9d62fd5576e8e"
+    }
+  ],
+  "decision": "Launch/registration/resume hook ordering, body/finally poisoning and live cleanup authority are consistent with the agreed API by static inspection. The reported persistent profile-cleanup continuation gap was fixed and the exact source/test correction inspected. No remaining demonstrated hook-only removal/admission defect was found. This does not qualify the unreviewed state module or broader evolving canary/enclosure/workflow tree.",
+  "findings": [
+    {
+      "id": "H1",
+      "priority": "P2",
+      "status": "fixed-by-root-source-and-test-diff-inspected-not-executed",
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "lines": "482-515",
+      "issue": "After live policy removal succeeds, the cleanup branch catches DACL restoration/verification or identity-handle close errors but still calls DeleteAppContainerProfile. Thus a later persistent cleanup fault does not preserve the remaining profile, despite the requested stop-on-error cleanup behavior and orphan-retention comment.",
+      "effect": "Overall cleanup_complete remains false and no unsafe policy removal is shown because removal already required live zero/signaled proof. This is a concrete continuation/retention discrepancy, not a claimed network-admission bypass.",
+      "minimal_correction": "For persistent contexts only, skip profile deletion when prior cleanup errors are nonempty; retain current default nonpersistent behavior. Add a narrow synthetic restore/verify failure control proving profile deletion is not reached.",
+      "fix": "Current AppContainerLaunch deletes a profile only when persistent isNone OR no prior errors; restore/verify/identity-close failures therefore stop persistent profile deletion. Legacy nonpersistent behavior is preserved. Synthetic extracted cleanup control now injects all three failures and asserts no profile deletion/overall cleanup false while preserving legitimate prior policy-removal verification."
+    },
+    {
+      "id": "H2",
+      "priority": "P2",
+      "status": "pre-abandon-disposal-order-corrected; module-disposal-behavior-unreviewed",
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "lines": "522-538",
+      "issue": "The current persistent poison attempt occurs before abandon/receipt/FreeSid. Errors first arising in those later local-disposal steps cannot be reflected by that earlier poison or receipt call. Outer cleanup_complete is correctly false; persistent_removal_verified can remain true because the policy-removal proof itself succeeded.",
+      "required": "Keep policy-removal verification distinct from overall cleanup and do not report every later local failure as having been recorded in the already-retained persistent receipt. Final state implementation must preserve permanent no-reuse and explicit partial cleanup; this review did not inspect it.",
+      "fix": "Root moved FreeSid before persistent poison/abandon/receipt and changed the comment to remaining resources, without promising recreation of already removed policy. All errors accumulated through FreeSid reach the poison attempt. Abandon/receipt errors still make the outer cleanup false; their own state/journal handling belongs to the separately authored unreviewed module. No full cleanup claim follows merely from persistent_removal_verified."
+    }
+  ],
+  "checks": [
+    {
+      "area": "Pending/actual handle order",
+      "result": "windows_process.py114 registers actual Job after original limits,126 calls begin_create before127CreateProcess,128 immediately registers actualhProcess while still suspended and before130assignment/token callbacks. Failed registration/assignment still reaches original assigned/unassigned finally reaping."
+    },
+    {
+      "area": "Resume fence",
+      "result": "132 verifies actual suspended AppContainer token;133 checks full source/tool/ACL/policy contract against captured launch contract;134 invokes live retained process/Job before_resume;135 only then resumes. Existing AppContainer handle allowlist is unchanged."
+    },
+    {
+      "area": "Body/finally failures",
+      "result": "199-201 BaseException path calls process_fault before propagation;224-226 cleanup error collector attempts poison and still raises original cleanup-incomplete error. No default firewall branch receives persistent operations. A poison-call failure may replace the active exception while Python preserves exception context; no success follows."
+    },
+    {
+      "area": "Entry/arming",
+      "result": "Optional persistent object must have exact agreed class and matching scope. Fresh actual profile SID is prepared after original identity checks. Initial sealed context is bound then armed before check_contract and process creation. Failed entry passes its exception to context cleanup, which refuses ACL/profile teardown in the persistent branch."
+    },
+    {
+      "area": "Live cleanup authority",
+      "result": "On caller exception, outstanding process count or unsealed context, persistent cleanup refuses and poisons. Otherwise check_contract precedes seal_and_remove and cleanup_authorized must be exactlyTrue; counters/saved receipt dictionaries alone do not authorize teardown. Unknown/false/removal failure skips ACL/profile cleanup."
+    },
+    {
+      "area": "Default behavior",
+      "result": "persistent_guard defaultsNone; new adapter callbacks are no-ops, process counter behavior remains, _base_contract returns the prior dictionary, and persistent-specific cleanup/poison branches do not run. No default firewall admission/limit change was found in this diff."
+    },
+    {
+      "area": "ABI extraction",
+      "result": "bind_library contains the previous WinDLL0x900/layout/signature setup and returns library/signatures/offsets. null_abi reconstructs the same DWORD/owner types and reuses the unchanged NULL cases. No valid owner/policy call is added by extraction."
+    },
+    {
+      "area": "Tests and scope",
+      "result": "New extracted __exit__ control distinguishes false live authority from a deliberately lying saved receipt; covers caller/counter/unsealed/contract/removal/no-authority plus post-removal restore/verify/identity-close faults. It preserves legitimate policy-removal verification while refusing later profile cleanup/overall success. Actual create/assign/resume hooks are source-reviewed, not executed here. Lead reports39targeted controls/1skip; reviewer ran none."
+    }
+  ],
+  "state_module_contract_dependencies": [
+    "Constructor/profile name reservation and prepare/bind/arm/check methods must enforce the agreed fresh identity/source/journal contract.",
+    "register_job/begin_create/register_process/before_resume and poison must call the live typed C owner with sticky pending/poison behavior.",
+    "cleanup_authorized must be a live exact boolean from sealed retained-handle removal, not saved JSON or counters.",
+    "abandon/receipt must distinguish local disposal, legitimate removed policy and permanent orphan/partial cleanup; no adoption/reuse."
+  ],
+  "limitations": {
+    "source_edits": false,
+    "tests_or_jobs": false,
+    "Native": false,
+    "build": false,
+    "CI": false,
+    "network_research": false,
+    "delegation": false,
+    "state_module_reviewed": false,
+    "AI_not_human_review": true,
+    "only_authored_output": ".runs/windows011-retained-hooks-review-001.json",
+    "review_costs_independently_measured": false
+  },
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "next_action": "Hook-only review complete. Lead integrates exact fixed hooks and conducts the separate state-module/complete finite-mode review before any Windows policy execution. No job is authorized by this receipt.",
+  "fix_addendum": {
+    "prior_review_sha256": "208f8fe7df2484d6bc20fd8cb9c7ad8db9e6fa9318e5ee21da83de4b32040901",
+    "inspected_fix_pins": [
+      {
+        "path": "scripts/windows_native_slice/appcontainer_launch.py",
+        "sha256": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a"
+      },
+      {
+        "path": "tests/test_windows_probe_controls.py",
+        "sha256": "7694588aa8b0109d10bd3e595903b48adb07a3596aa9075feb65d39274afd192"
+      }
+    ],
+    "actual_reviewer_execution": false,
+    "lead_reported_validation": "39 targeted Windows controls,1 PowerShell skip;0.82wall/0.76CPU, not rerun by reviewer.",
+    "exclusions": "No state-module inspection or waiting. Subsequent readiness-encloser/workflow/canary stage changes are outside this hook-only review, and this record is not an approval of the full current working tree."
+  }
+}

@@ -107,10 +107,11 @@ def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,lau
   elif setup_authoring.get('kind')!='fixed-owned-DNS-helper':raise ValueError('unknown owned setup authoring contract')
  exe=Path(argv[0]).resolve(strict=True)
  job=K.CreateJobObjectW(None,None);yes(job);limits=LIMIT();limits.BasicLimitInformation.LimitFlags=0x2000|0x200|4;limits.BasicLimitInformation.PerJobUserTimeLimit=int(seconds*10_000_000);limits.JobMemoryLimit=2*1024**3
- process=PROCESS();started=time.monotonic();reason=None;created=False;assigned=False;token_proof=None
+ process=PROCESS();started=time.monotonic();reason=None;created=False;assigned=False;token_proof=None;job_slot=None;process_slot=None
  setup_observations=[];last_main_state=None;setup_termination_observed=False;setup_main_polls=0;compiler_finalization=None
  try:
   yes(K.SetInformationJobObject(job,9,C.byref(limits),C.sizeof(limits)))
+  if appcontainer is not None:job_slot=appcontainer.register_job(job)
   # A regular owned file replaces pipe reader threads; parent alone retains its fd.
   with log.open('xb',buffering=0) as stream:
    import msvcrt
@@ -122,13 +123,15 @@ def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,lau
    attributes=appcontainer.launch_attributes(startup,fd) if appcontainer is not None else nullcontext((C.byref(startup),0))
    try:
     with attributes as (startup_pointer,extra_flags):
+     if appcontainer is not None:appcontainer.before_process_create(job_slot)
      yes(K.CreateProcessW(str(exe),C.create_unicode_buffer(subprocess.list2cmdline(argv)),None,None,True,0x4|0x400|0x08000000|extra_flags,block,str(cwd),startup_pointer,C.byref(process)));created=True
-     if appcontainer is not None:appcontainer.process_created()
+     if appcontainer is not None:process_slot=appcontainer.process_created(job_slot,process.hProcess)
    finally:os.set_handle_inheritable(fd,False)
    yes(K.AssignProcessToJobObject(job,process.hProcess));assigned=True
    if appcontainer is not None:
     token_proof=appcontainer.verify_suspended_token(process.hProcess,process.dwProcessId)
     if appcontainer.check_contract()!=launch_contract:raise RuntimeError('experimental launch contract changed before resume')
+    appcontainer.before_resume(process_slot)
    if K.ResumeThread(process.hThread)==0xffffffff:raise C.WinError(C.get_last_error())
    while True:
     account=ACCOUNT();yes(K.QueryInformationJobObject(job,1,C.byref(account),C.sizeof(account),None));elapsed=time.monotonic()-started
@@ -193,6 +196,9 @@ def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,lau
    compiler_finalization['zero_active_processes_verified']=True
    result['compiler_finalization']=compiler_finalization
   return result
+ except BaseException as error:
+  if appcontainer is not None:appcontainer.process_fault(error)
+  raise
  finally:
   cleanup_errors=[];reaped=not created
   def cleanup(label,action):
@@ -215,7 +221,9 @@ def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,lau
    if appcontainer is not None and reaped:cleanup('record AppContainer job reaping',appcontainer.job_reaped)
    for handle in (process.hThread,process.hProcess):cleanup('close owned process handle',lambda h=handle:yes(K.CloseHandle(h)))
   cleanup('close owned job',lambda:yes(K.CloseHandle(job)))
-  if cleanup_errors:raise RuntimeError('Windows process cleanup incomplete: '+'; '.join(cleanup_errors))
+  if cleanup_errors:
+   if appcontainer is not None:cleanup('poison persistent process ownership',lambda:appcontainer.process_fault('; '.join(cleanup_errors)))
+   raise RuntimeError('Windows process cleanup incomplete: '+'; '.join(cleanup_errors))
 
 # Setup is restricted to this one canary's authoring prerequisites.  This is not
 # a configurable gate, Native runner alternative, or network-isolation claim.

@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "kind": "windows011-state-authoring-v1",
+  "actual_execution": false,
+  "source": {
+    "path": "scripts/windows_native_slice/persistent_guard_state.py",
+    "sha256": "4cf8d9456621f15110521d946e4d6e5c41f2b49968d9ed4d3e77635e4862da0d",
+    "bytes": 31886,
+    "lines": 606
+  },
+  "current_dependency_pins": {
+    "scripts/windows_native_slice/persistent_guard_state.py": "4cf8d9456621f15110521d946e4d6e5c41f2b49968d9ed4d3e77635e4862da0d",
+    "scripts/windows_native_slice/persistent_guard_build.py": "b4e6268d2b55f260f53dcf47b70fd8318eb226b3be60bf5a687ff90f30794965",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584"
+  },
+  "scope": "One CI-only live owner/journal module. No production or ordinary runner admission. No Windows API, import, test, build, policy, profile, network, Native, Git or CI execution by this authoring task.",
+  "interface": {
+    "constructor": "PersistentGuardState(scope, dll_path, *, source_pins, witness)",
+    "source_pins": "6\u201316 canonical absolute paths to frozen raw SHA256, including this module/readiness/C/runner/launch and DLL; root plans11 entries. Held through shared preserved() for lifetime.",
+    "witness": "Independent stable JSON witness (not AppContainer.check_contract); rechecked before/after each lifecycle operation together with own actual DLL/source raw hashes.",
+    "profile_name": "Fresh exclusive name reservation completes before constructor returns and before caller CreateAppContainerProfile.",
+    "prepare": "prepare(actual_sid_bytes): exact40-byte actual SID, live C owner, permanent exclusive SID and5GUID tombstones, PREPARED flushed before any Arm.",
+    "bind_context": "bind_context({'base': base_contract, 'scope_ids': scope_ids}): full sealed source/DLL/scope/profile/tool/helper contract in exclusive flushed context file before arm.",
+    "calls": [
+      "arm()",
+      "check_armed()",
+      "register_job(actual_hJob)->slot",
+      "begin_create(job_slot)",
+      "register_process(job_slot,actual_hProcess)->slot",
+      "before_resume(process_slot)",
+      "poison(str_or_exception)",
+      "seal_and_remove()",
+      "abandon()",
+      "receipt()"
+    ],
+    "cleanup_authorized": "Live bool property only after PG_RemoveWhenEmpty success, exact C removed/no-policy state, durable REMOVED and final live freshness. False once poisoned/unknown/abandoned; never read from receipt.",
+    "abandon": "Idempotent local disposal only. C frees owned local resources and closes non-dynamic engine; no policy/profile/state deletion, reuse, adoption or cleanup retry. Receipt remains available after disposal."
+  },
+  "host_state": {
+    "root": "RUNNER_TEMP/kicad-autorouter-persistent-guard011-state; outside fresh direct kicad-appcontainer007-<UUID> granted scope",
+    "acl": "Created with protected explicit SYSTEM+Administrators FILE_ALL_ACCESS only; root OI|CI, files no inheritance. Actual TokenOwner SID, exact2ACEs, masks, protection, noninheritable handles, canonical final handle paths and file IDs checked. No privilege enabling or DACL repair fallback.",
+    "reservation": "Exclusive host .lock plus at most16 permanent slot/name/SID/key/context reservations; CREATE_NEW tombstones, collisions refuse. Existing content is never authority and never removed.",
+    "bounds": {
+      "per_guard_journal_records": 16,
+      "per_record_bytes": 2048,
+      "journal_bytes": 32768,
+      "context_bytes": 65536,
+      "state_files": 145,
+      "total_state_bytes": 2097152,
+      "jobs": 2,
+      "created_processes": 4
+    },
+    "journal_events": [
+      "RESERVED",
+      "PREPARED",
+      "CONTEXT",
+      "ARMED",
+      "SEALED",
+      "REMOVED",
+      "ORPHAN on first fault",
+      "ABANDONED"
+    ],
+    "normal_records": 7,
+    "durability": "Every complete file/append uses WriteFile full-size check then FlushFileBuffers; retained handle identity/size, exact bytes and protected DACL replay. Partial writes/flush errors poison and remain retained; no truncate/repair. No power-loss/storage durability claim.",
+    "crash_semantics": "No state-load/recover/adopt/remove API. Pending-create/C-handle state stays live only; a crashed owner cannot use serialized SID/keys/zero/PIDs to remove, restore ACL or delete profile. Tombstones remain permanent for runner lifetime."
+  },
+  "safety_order": [
+    "Caller reserves constructor profile_name before CreateProfile; caller passes returned actualSID to prepare.",
+    "Caller seals own tool tree then binds base+scope identities, then arm; no child before arming.",
+    "Register actual Job, begin_create immediately before each fallible CreateProcess, register actual suspended process immediately after creation, verify token/contracts and before_resume last.",
+    "Any external creation/registration/token/assignment/resume/contract/cleanup uncertainty calls poison. Wrong-thread use immediately revokes Python authority; C disposal requires creator thread.",
+    "Normal cleanup only creator-thread live sealed C owner with its retained actual handles and exact policy absence. Caller requires cleanup_authorized before original ACL/profile cleanup.",
+    "Abandon never grants cleanup and never deletes policy/profile/state; all close/flush/free errors visible."
+  ],
+  "checks_performed": [
+    "AST parse of source bytes only",
+    "Trailing-whitespace check only"
+  ],
+  "tests_run": false,
+  "Windows_APIs_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "actual_policy_operations": false,
+  "required_before_any_support_claim": [
+    "Independent complete source review and root wiring/tests; actual Windows native state/DACL/canonical identity/error-path controls.",
+    "Actual host-journal denial from zero-capability AppContainer, full-size/partial-write/flush/ACL/alias/collision/bounds/wrong-thread fault controls.",
+    "Actual persistent policy arming/readback/explicit IPv4TCP denial for parent and distinct child with positive controls, normal and cancellation custody/removal controls.",
+    "Controller-crash, IPv6, UDP, inbound and recovery/OS restart effects remain separately unqualified; this module adds no network-result or Native admission."
+  ],
+  "remaining_limitations": [
+    "Unexecuted prototype: the only existing actual Windows011 build/NULL-ABI run predates readiness bind_library extraction and does not qualify this state module.",
+    "Administrative hosted controller required. Host administrator or kernel tampering, power loss, persistent cleanup/recovery and nonadmin product support are outside this contract.",
+    "Existing guarded state root is bounded, not a historical archive scan. Exhaustion refuses; this module provides no GC, next-run orphan removal or SID/profile reuse.",
+    "Parent owns profile creation/deletion, source/protocol/head authority, suspended token validation, scope ACL restoration, process runner and actual Native/CI qualification."
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "kind": "windows011-finite-state-mode-independent-source-review-v1",
+  "created_utc": "2026-10-19T06:11:34.597929+00:00",
+  "reviewer": "Independent AI source reviewer; not human security or PCB review",
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local",
+  "decision": "No additional concrete blocking source defect identified within the bounded reviewed finite IPv4 TCP normal/cancel mode. This is a prospective source review, not Windows policy, cleanup or platform qualification.",
+  "source_files": [
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_state.py",
+      "bytes": 34486,
+      "sha256": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d",
+      "read_scope": "Full current state module including material_snapshot addition"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_build.py",
+      "bytes": 19318,
+      "sha256": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_build.ps1",
+      "bytes": 8147,
+      "sha256": "40a221014355d6a43d5e3d42589ecc1fb57e7b8038e8ef3a2d17ce9e732e3dae",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_canary.py",
+      "bytes": 15108,
+      "sha256": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+      "bytes": 21128,
+      "sha256": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "bytes": 29141,
+      "sha256": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "bytes": 31122,
+      "sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_probe.c",
+      "bytes": 7296,
+      "sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_dns.py",
+      "bytes": 505,
+      "sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_diagnostic.ps1",
+      "bytes": 2063,
+      "sha256": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": ".github/workflows/manual-python-controls.yml",
+      "bytes": 4377,
+      "sha256": "a071eab5bdd71d0a0367f02b269c06c35e8d9128262e8c1cae3e8464f900ae9e",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 494,
+      "sha256": "de71165fdcc48e8b90ae70267fe7bd50db23eb32d0f00aa6625b0ef3220de48c",
+      "read_scope": "Finite-mode/capture-order delta and directly coupled code; prior reviewed boundaries reused"
+    }
+  ],
+  "review_scope": {
+    "state_module": "Read the complete initial 614-line module and all final raw-material projection changes; final module 649 lines.",
+    "readiness": "Stage selector, source/protocol witness, held sources/DLL, build/NULL ABI, finite canary invocation, finalization/report/log limits.",
+    "canary": "Reuse of the existing two distinct-role executable normal/cancel IPv4 TCP controls with injected persistent live guard.",
+    "C": "Only PG_RegisterProcess capture-order delta inspected in this review; prior full C/ABI reviews remain separate.",
+    "hooks": "Prior retained-hook cleanup review reused; current hook file hashes recorded.",
+    "workflow": "Explicit manual stage, Windows2022, contents:read, pinned checkout, scripts-only sparse checkout, 3-minute job; no artifact/cache/install/Native additions."
+  },
+  "checks": [
+    {
+      "topic": "Immediate process capture",
+      "assessment": "C validates the local live owner, armed/pending state, slot and Job, duplicates/stores/type-checks the actual newly created process handle before the fallible PG_CheckArmed policy callback. Python created_registration skips only pre-capture freshness callbacks and performs info/source/witness checks after C capture; an error poisons rather than permits resume."
+    },
+    {
+      "topic": "Durable identity reservation",
+      "assessment": "Host-only state directory/file DACLs are supplied and checked, source/DLL handles are held, original handles/file identities and exact bytes are checked, exclusive slot/name/SID/key/context files are created and WriteFile plus FlushFileBuffers are required. Journal/context are never loaded into removal authority; no prior owner identity is adopted or reused. A current .lock is used only to serialize reservations."
+    },
+    {
+      "topic": "Launch and removal authority",
+      "assessment": "Begin-create pending state precedes actual creation; suspended process capture and live source/token/policy checks precede resume. The live C owner and retained original process/Job duplicates, sealed launches, fresh empty/signalled checks and actual policy removal/readback govern removal. Persisted JSON, PID absence and earlier saved zero counts cannot authorize it."
+    },
+    {
+      "topic": "Errors and cleanup",
+      "assessment": "Failure paths poison the live guard. Profile/ACL cleanup remains gated by live verified authority and accumulated cleanup errors; legacy nonpersistent behavior is retained. Abandonment closes local held resources without reconstructing/removing orphan policy or identity. A late failure may leave already removed policy removed while reporting full cleanup false; no recreation claim is made."
+    },
+    {
+      "topic": "Finite mode and negative outcomes",
+      "assessment": "Default build-null stays separate. sid-canary reruns the changed DLL NULL ABI before creating one live guard, then reuses the fixed TCP normal/cancel cases. Only explicit WSA10013 counts as denial; timeout, unknown, nonzero exit, missing child/token/cancel or cleanup evidence remains failure. Native/installer/product support remain false regardless of success."
+    },
+    {
+      "topic": "Bounded resources",
+      "assessment": "Existing 30-second setup/Job enclosure, 150-second controller witness, 170-second parent, 3-minute CI, fixed role image caps and existing process/output controls remain. State has bounded slots/entries/bytes/records; projection is restricted to at most nine exclusively created names, 64KiB each and 128KiB total, with 32KiB encoded chunks. No timeout increase or completion shortcut added in this change."
+    },
+    {
+      "topic": "Raw state retention delta",
+      "assessment": "_owned_names is initialized empty and populated only after successful CREATE_NEW, before writes. material_snapshot reads only those names, includes actual bytes/SHA/base64, and separately tests against last complete tracked writes. Missing/partial/different material is explicit and makes the readiness result fail. Readiness emits bounded metadata plus encoded chunks and excludes base64 from the bounded JSON report. This is diagnostic retention, never cleanup authority."
+    },
+    {
+      "topic": "Source/final report freshness",
+      "assessment": "Externally supplied source/protocol hashes, exact stage-specific source census, held source/protocol files and final fresh witness bind the prospective mode. State adds all ten absolute runtime source pins and the newly built DLL. The final JSON remains bounded; unavailable state construction or failed resource/report operations cannot produce a successful result."
+    }
+  ],
+  "blocking_findings": [],
+  "required_before_any_actual_claim": [
+    "Freeze the exact final ten-source finite protocol and independently pin its/source commit hashes; protocol was not frozen at review time.",
+    "Root must complete the separate current permissions/public-zero-cost/sequential-worker preflight before any dispatch. This review does not authorize or dispatch CI.",
+    "The changed DLL, actual persistent WFP operations, requested security descriptors, host ACL/flush behavior, source/handle custody, policy removal and profile/ACL cleanup require retained actual Windows evidence; pure controls cannot establish them.",
+    "Retain all encoded actual state/log chunks, metadata, final report and external process/CPU timing, distinguishing controller CPU from nested summaries and separately owned Job CPU. Missing whole external CPU remains unknown, not zero."
+  ],
+  "not_qualified": {
+    "actual_finite_run": false,
+    "actual_current_changed_C_NULL_ABI": false,
+    "Windows_support": false,
+    "Native_admitted": false,
+    "installer_admitted": false,
+    "human_review": false,
+    "IPv6": false,
+    "UDP": false,
+    "inbound": false,
+    "crash": false,
+    "reuse_or_recovery": false,
+    "lowbox_mutation": false,
+    "hostile_administrator_protection": false,
+    "power_loss_durability": false
+  },
+  "unchanged_prior_evidence": "Prior build001 is only the earlier pinned SDK build/NULL-owner ABI result. Existing Windows009 WSA10060 remains failure; this source review does not reclassify it or supersede Windows005/006 refusal/cleanup boundaries.",
+  "tests_and_costs": {
+    "executed_by_reviewer": [],
+    "lead_reported_only": "42 targeted pure Windows controls passed with 1 PowerShell skip after final projection delta; not rerun or independently claimed here. Earlier AST harness failure/fixed-run receipts remain separate.",
+    "local_PowerShell_or_Windows_execution": false,
+    "network_or_research": false,
+    "Native_GUI_CI_build_install_execution": false,
+    "production_source_edits": false,
+    "review_cost_scope": "Bounded local text/diff/hash reads and this authored receipt only; no measured aggregate review wall/CPU total and no claim of zero model or elapsed cost."
+  },
+  "limitations": [
+    "Source review cannot prove Windows SDK/API runtime compatibility, flush durability, ACL effectiveness, actual denial or actual cleanup.",
+    "No broad platform, all-network, crash, hostile-admin, Native routing, installation, human or performance qualification.",
+    "Review stops at the finite stage boundary and does not expand journaling/recovery policy or change guard guarantees."
+  ]
+}

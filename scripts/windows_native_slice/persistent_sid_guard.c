@@ -316,9 +316,9 @@ PG_API PG_Poison(PG_OWNER *g, DWORD reason) {
 }
 PG_API PG_RegisterProcess(PG_OWNER *g, DWORD job_slot, HANDLE process, DWORD *slot) {
     HANDLE copy = NULL;
-    DWORD error = PG_CheckArmed(g);
+    DWORD error = pg_valid(g);
     if (error != ERROR_SUCCESS) return error;
-    if (slot == NULL || !g->pending_create || g->pending_job != job_slot ||
+    if (g->poisoned || g->state != PG_ARMED || slot == NULL || !g->pending_create || g->pending_job != job_slot ||
         job_slot >= g->jobs || g->processes >= PG_PROCESSES ||
         process == NULL || process == INVALID_HANDLE_VALUE) return pg_fail(g, ERROR_INVALID_PARAMETER);
     if (!DuplicateHandle(GetCurrentProcess(), process, GetCurrentProcess(), &copy, 0, FALSE, DUPLICATE_SAME_ACCESS)) return pg_fail(g, pg_last());
@@ -328,7 +328,9 @@ PG_API PG_RegisterProcess(PG_OWNER *g, DWORD job_slot, HANDLE process, DWORD *sl
     g->process[g->processes++] = copy;
     if (GetProcessId(copy) == 0) return pg_fail(g, pg_last());
     *slot = g->processes - 1; g->pending_create = 0;
-    return ERROR_SUCCESS;
+    /* Retain first, then perform policy queries. A failed query poisons this
+     * live owner while keeping the actual process handle and no cleanup path. */
+    return PG_CheckArmed(g);
 }
 PG_API PG_BeforeResume(PG_OWNER *g, DWORD process_slot) {
     BOOL member = FALSE;

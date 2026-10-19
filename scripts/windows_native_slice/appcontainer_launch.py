@@ -76,11 +76,20 @@ class AppContainerLaunch:
     call freezes tools; scratch must still be empty.  Retained scope files
     are not deleted.  ``cleanup_receipt`` is final only after context exit.
     """
-    def __init__(self, new_scope):
+    def __init__(self, new_scope, *, persistent_guard=None):
         self.scope = Path(new_scope).absolute()
+        if persistent_guard is not None:
+            if __package__:
+                from .persistent_guard_state import PersistentGuardState
+            else:
+                from persistent_guard_state import PersistentGuardState
+            if type(persistent_guard) is not PersistentGuardState or persistent_guard.scope != self.scope:
+                raise ValueError('exact live persistent guard and scope required')
+        self._persistent = persistent_guard
         self.tool_root = self.scope / 'tools'
         self.scratch = self.scope / 'scratch'
-        self.profile_name = 'KiCadAutorouter.Canary.' + uuid.uuid4().hex
+        self.profile_name = (persistent_guard.profile_name if persistent_guard is not None else
+                             'KiCadAutorouter.Canary.' + uuid.uuid4().hex)
         self.profile_sid = None
         self.evidence = {'kind': 'experimental-appcontainer-token-v1',
                          'accepted': False, 'product_support': False,
@@ -280,6 +289,8 @@ class AppContainerLaunch:
             self._profile_folder = packages / relative.parts[0]
             self.evidence.update(profile_sid=self.profile_sid, capability_count_requested=0,
                                  profile_create_hresult=0, scope=str(self.scope))
+            if self._persistent is not None:
+                self._persistent.prepare(self._sid_bytes)
             return self
         except BaseException:
             self.__exit__(*__import__('sys').exc_info())
@@ -326,6 +337,12 @@ class AppContainerLaunch:
         if any(self._acl(Path(p)) != raw for p, raw in self._granted_acls.items()):
             raise RuntimeError('scoped access contract changed')
         self._tree(self.scratch)
+        contract = self._base_contract()
+        if self._persistent is not None:
+            self._persistent.check_armed()
+        return contract
+
+    def _base_contract(self):
         return {'kind': 'experimental-appcontainer-contract-v1', 'profile_name': self.profile_name,
                 'profile_sid': self.profile_sid, 'capability_count_requested': 0,
                 'tool_pins': self._tool_pins, 'helper_pins': self._helper_pins}
@@ -343,6 +360,9 @@ class AppContainerLaunch:
             raise ValueError('owned sealed executable required')
         if not self._sealed:
             self._seal()
+            if self._persistent is not None:
+                self._persistent.bind_context({'base': self._base_contract(), 'scope_ids': self._scope_ids})
+                self._persistent.arm()
         return self.check_contract()
 
     @contextmanager
@@ -380,8 +400,25 @@ class AppContainerLaunch:
             if null_handle is not None:
                 _yes(self.k.CloseHandle(null_handle))
 
-    def process_created(self):
+    def register_job(self, job):
+        return self._persistent.register_job(job) if self._persistent is not None else None
+
+    def before_process_create(self, job_slot):
+        if self._persistent is not None:
+            self._persistent.begin_create(job_slot)
+
+    def process_created(self, job_slot=None, process=None):
+        slot = self._persistent.register_process(job_slot, process) if self._persistent is not None else None
         self._outstanding += 1
+        return slot
+
+    def before_resume(self, process_slot):
+        if self._persistent is not None:
+            self._persistent.before_resume(process_slot)
+
+    def process_fault(self, error):
+        if self._persistent is not None:
+            self._persistent.poison(str(error))
 
     def job_reaped(self):
         if self._outstanding != 1:
@@ -423,9 +460,22 @@ class AppContainerLaunch:
                 action()
             except BaseException as error:
                 errors.append(label + ': ' + type(error).__name__ + ': ' + str(error))
+        persistent_safe = self._persistent is None
+        if self._persistent is not None:
+            if exc is not None or self._outstanding or not self._sealed:
+                errors.append('persistent ownership incomplete or failed; ACL/profile cleanup refused')
+                attempt('poison persistent owner', lambda: self._persistent.poison(str(exc or errors[-1])))
+            else:
+                def remove_live_policy():
+                    self.check_contract()
+                    self._persistent.seal_and_remove()
+                    if self._persistent.cleanup_authorized is not True:
+                        raise RuntimeError('live retained-handle removal proof absent')
+                attempt('remove policy using live retained handles', remove_live_policy)
+                persistent_safe = not errors
         if self._outstanding:
             errors.append('owned job reaping unproved; ACL/profile cleanup refused')
-        else:
+        elif persistent_safe:
             # Parent-first restoration avoids a later parent propagation silently
             # changing a child that was already checked.  New scratch entries
             # inherit the restored parent; no original files are discarded.
@@ -448,7 +498,7 @@ class AppContainerLaunch:
             for handle in reversed(self._handles):
                 attempt('close owned identity handle', lambda h=handle: _yes(self.k.CloseHandle(h)))
             self._handles.clear()
-            if self._created:
+            if self._created and (self._persistent is None or not errors):
                 def delete():
                     hr = self.u.DeleteAppContainerProfile(self.profile_name)
                     self.cleanup_receipt['profile_delete_hresult'] = hr
@@ -463,15 +513,28 @@ class AppContainerLaunch:
                     else:
                         raise RuntimeError('owned profile storage remains after deletion')
                 attempt('delete fresh profile and verify storage absence', delete)
+        if self._persistent is not None:
+            # Local disposal never deletes remaining profile/policy/state.
+            # A failure after verified removal cannot recreate that policy.
+            for handle in reversed(self._handles):
+                attempt('close retained identity handle', lambda h=handle: _yes(self.k.CloseHandle(h)))
+            self._handles.clear()
         if self._sid.value:
             attempt('FreeSid', lambda: _yes(not self.a.FreeSid(self._sid)))
             self._sid = C.c_void_p()
+        if self._persistent is not None:
+            if errors:
+                attempt('record persistent cleanup failure', lambda: self._persistent.poison('; '.join(errors)))
+            attempt('abandon local persistent handles', self._persistent.abandon)
+            attempt('retain persistent lifecycle receipt', lambda: self.evidence.update(persistent_guard=self._persistent.receipt()))
         self._entered = False
         self.cleanup_receipt.update(cleanup_complete=not errors, errors=errors,
                                     all_owned_jobs_reaped=self._outstanding == 0,
                                     original_dacls_restored=not errors and bool(self._original_acls),
                                     scope_files_retained=str(self.scope),
                                     profile_registry_absence_not_queried=True)
+        if self._persistent is not None:
+            self.cleanup_receipt['persistent_removal_verified'] = persistent_safe
         if errors:
             raise RuntimeError('AppContainer cleanup incomplete: ' + '; '.join(errors)) from exc
         return False

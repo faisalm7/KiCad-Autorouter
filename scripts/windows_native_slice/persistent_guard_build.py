@@ -1,8 +1,9 @@
-"""CI-only fixed DLL build and NULL-owner ABI readiness; never arm a guard.
+"""CI-only fixed DLL readiness and an explicitly selected finite SID canary.
 
 The externally supplied source/protocol SHAs prevent a self-referential commit
-pin. No profile, valid SID/owner, policy, socket, Native worker or installer is
-created. All actual Windows execution belongs to a later reviewed CI dispatch.
+pin. Default build-null creates no valid owner/policy/profile/socket. The
+separate sid-canary stage reuses the bounded existing IPv4 control and cannot
+admit Native, an installer or Windows product support.
 """
 import time
 START = time.monotonic()
@@ -22,6 +23,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 BASE_HEAD = '580793ac6087021bf9567f764df5b9f55bfab9db'
 KIND = 'windows011-build-null-ABI-readiness-v1'
+LIFETIME_KIND = 'windows011-persistent-SID-finite-canary-v1'
 PREFIX = 'scripts/windows_native_slice/'
 SOURCE_NAMES = tuple(PREFIX + name for name in (
     'persistent_guard_build.py', 'persistent_guard_build.ps1', 'persistent_sid_guard.c',
@@ -74,7 +76,8 @@ class Info(C.Structure):
                                      'abort_error', 'pending_create', 'pending_job')]
 
 
-def null_abi(path):
+def bind_library(path):
+    """Bind the single SDK ABI; no guard/profile/policy is created here."""
     offsets = dict(abi=0, bytes=4, state=8, poisoned=12, sublayer=16, filters=32,
                    sid_bytes=96, sid=100, jobs=168, processes=172, policy_may_exist=176,
                    last_error=180, abort_error=184, pending_create=188, pending_job=192)
@@ -97,6 +100,12 @@ def null_abi(path):
     for name, args in signatures.items():
         function = getattr(library, name)
         function.argtypes, function.restype = args, dword
+    return library, signatures, offsets
+
+
+def null_abi(path):
+    library, signatures, offsets = bind_library(path)
+    dword, owner = C.c_uint32, C.c_void_p
     info, slot, empty = Info(), dword(0xffffffff), owner()
     # Every owner is NULL. No valid SID, PG_OWNER, profile or armed context is
     # produced; the named functions return before their policy/lifecycle bodies.
@@ -134,6 +143,7 @@ def main():
     parser.add_argument('--expected-source-sha', default=os.environ.get('GUARD_EXPECTED_SOURCE_SHA'))
     parser.add_argument('--scope', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--stage', choices=('build-null', 'sid-canary'), default='build-null')
     args = parser.parse_args()
     hosted()
     runner = Path(os.environ['RUNNER_TEMP']).absolute()
@@ -144,13 +154,19 @@ def main():
             report.name == scope.name + '-build-report.json', 'exact fresh build scope/report names required')
     setup = scope.with_name(scope.name + '-setup')
     require(not any(path.exists() or path.is_symlink() for path in (scope, setup, report)), 'fresh exclusive destinations required')
-    result = dict(schema=1, kind=KIND, passed=False, accepted=False, Windows_support=False,
+    canary = args.stage == 'sid-canary'
+    source_names = SOURCE_NAMES + ((PREFIX + 'persistent_guard_state.py',) if canary else ())
+    expected_kind = LIFETIME_KIND if canary else KIND
+    result = dict(schema=1, kind=expected_kind, stage=args.stage, passed=False, accepted=False, Windows_support=False,
                   Native_admitted=False, Native_executed=False, actual_policy_operations=False,
                   actual_profile_operations=False, socket_tests_performed=False, installer_executed=False,
                   source_base_head=BASE_HEAD, expected_source_sha=args.expected_source_sha,
                   protocol_sha256=args.protocol_sha256, compiler_process=None, NULL_ABI=None, errors=[],
                   scope='Fixed owned SDK DLL build plus NULL-argument refusal ABI only. No valid guard, policy, profile, sockets or Native support.')
-    process, log = None, setup / 'compile-guard.log'
+    process, log, state = None, setup / 'compile-guard.log', None
+    if canary:
+        result['scope'] = ('Fixed DLL/NULL ABI then finite real SID policy and existing IPv4 TCP normal/cancel control. '
+                           'No IPv6/UDP/inbound/crash/reuse/lowbox-mutation, installer, Native or Windows product qualification.')
     try:
         checkout(args.expected_source_sha)
         require(re.fullmatch('[0-9a-f]{64}', args.protocol_sha256 or '') is not None, 'external protocol SHA required')
@@ -159,10 +175,10 @@ def main():
                 protocol.stat().st_size <= 64 * 1024 and digest(protocol) == args.protocol_sha256,
                 'exact bounded checked-out protocol required')
         plan = read_json(protocol)
-        require(plan['schema'] == 1 and type(plan['schema']) is int and plan['kind'] == KIND and
+        require(plan['schema'] == 1 and type(plan['schema']) is int and plan['kind'] == expected_kind and
                 plan['source_base_head'] == BASE_HEAD, 'exact frozen protocol kind/base required')
         pins = plan['source_files_sha256']
-        require(type(pins) is dict and set(pins) == set(SOURCE_NAMES), 'exact nine frozen source paths required')
+        require(type(pins) is dict and set(pins) == set(source_names), 'exact stage-specific frozen source paths required')
         def fresh():
             checkout(args.expected_source_sha)
             require(digest(protocol) == args.protocol_sha256, 'frozen protocol changed')
@@ -172,6 +188,8 @@ def main():
                         path.resolve(strict=True) == path and not path.is_symlink() and
                         path.stat().st_size <= 256 * 1024 and digest(path) == pin, 'frozen source changed: ' + name)
             require(time.monotonic() - START < 150, 'whole build-readiness wall budget exhausted')
+            return dict(source_head=args.expected_source_sha, protocol_sha256=args.protocol_sha256,
+                        source_files_sha256=dict(pins))
         fresh()
         # Verify source hashes before importing the existing Windows-only helper
         # modules; -B and the exact source census preserve the checkout.
@@ -180,7 +198,7 @@ def main():
         require(Path(sys.modules['appcontainer_canary'].__file__).resolve() == ROOT / PREFIX / 'appcontainer_canary.py' and
                 Path(sys.modules['windows_process'].__file__).resolve() == ROOT / PREFIX / 'windows_process.py', 'wrong shared helper import')
         with ExitStack() as held:
-            for path in [protocol, *(ROOT / name for name in SOURCE_NAMES)]:
+            for path in [protocol, *(ROOT / name for name in source_names)]:
                 held.enter_context(preserved(path, path.parent))
             fresh()
             exe, includes, libraries, compiler_tools = compiler()
@@ -205,12 +223,56 @@ def main():
                 result['DLL'] = dict(path=str(dll), **identity)
                 result['NULL_ABI'] = null_abi(dll)
                 fresh()
+                if canary:
+                    from persistent_guard_state import PersistentGuardState
+                    from appcontainer_canary import main as run_canary
+                    guard_pins = {str(ROOT / name): pin for name, pin in pins.items()}
+                    guard_pins[str(dll)] = identity['sha256']
+                    state = PersistentGuardState(scope, dll, source_pins=guard_pins, witness=fresh)
+                    canary_report = scope.with_name(scope.name + '-canary-report.json')
+                    require(not canary_report.exists() and not canary_report.is_symlink(), 'fresh canary report required')
+                    result['actual_policy_operations'] = None
+                    result['actual_profile_operations'] = None
+                    result['socket_tests_performed'] = None
+                    code = run_canary(['--scope', str(scope), '--report', str(canary_report)],
+                                      persistent_guard=state, prepared_setup=setup)
+                    child = read_json(canary_report, 192 * 1024)
+                    result['canary'] = child
+                    require(code == 0 and child['passed'] is True and child['cleanup']['cleanup_complete'] is True,
+                            'finite persistent SID control failed; all unavailable observations remain unqualified')
+                    result['actual_policy_operations'] = True
+                    result['actual_profile_operations'] = True
+                    result['socket_tests_performed'] = True
             fresh()
         result['source_files_sha256'] = pins
         result['passed'] = True
     except Exception as exc:
         result['errors'].append(type(exc).__name__ + ': ' + str(exc))
     finally:
+        if state is not None:
+            try:
+                if not result['passed']:
+                    state.poison('; '.join(result['errors']) or 'outer source/delivery failure')
+                state.abandon()
+                result['persistent_guard'] = state.receipt()
+                snapshot = state.material_snapshot()
+                result['state_material'] = {key: value for key, value in snapshot.items() if key != 'files'}
+                result['state_material']['files'] = []
+                for row in snapshot['files']:
+                    metadata = {key: value for key, value in row.items() if key != 'base64'}
+                    encoded = row.get('base64', '')
+                    metadata['chunks'] = (len(encoded) + 32767) // 32768
+                    print(json.dumps(dict(kind='persistent-state-material-metadata', **metadata)), flush=True)
+                    for index, offset in enumerate(range(0, len(encoded), 32768)):
+                        print(json.dumps(dict(kind='persistent-state-material-base64-chunk', name=row['name'],
+                                              index=index, data=encoded[offset:offset + 32768])), flush=True)
+                    result['state_material']['files'].append(metadata)
+                if not snapshot['complete']:
+                    result['passed'] = False
+                    result['errors'].append('actual owned state material incomplete or differs from last complete write')
+            except Exception as exc:
+                result['passed'] = False
+                result['errors'].append('persistent final state: ' + type(exc).__name__ + ': ' + str(exc))
         try:
             if log.exists():
                 with log.open('rb') as stream:
