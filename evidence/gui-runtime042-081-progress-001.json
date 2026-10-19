@@ -1403,7 +1403,24 @@
     "interactive_whole_wall_seconds": null,
     "interactive_whole_CPU_seconds": null,
     "authoring_research_review_CPU_seconds": null,
-    "scope": "Unknown is not zero; nested samples included in CLI, not additive. Helper/curation costs separate."
+    "scope": "Unknown is not zero; nested samples included in CLI, not additive. Helper/curation costs separate.",
+    "additive_corrections": [
+      {
+        "recorded_utc": "2026-10-19T17:57:03.129383+00:00",
+        "original_summary_sha256": "968873ec10544c2c7a6610d915cee78849c7b4923c37fb762c8dcbd82f5ac80b",
+        "frozen_journal_sha256": "cbdb6d3140250b23cd9ef072b26aa9c79010acb452f89ca78db9790353ce57a5",
+        "field": "export_freshness_after_reader.boundary_external_cost.nested_reader_included",
+        "original_value": true,
+        "correct_scope": "Controller wall6.61seconds overlaps the GUI-owned reader interval. Controller CPU1.66seconds excludes that independently launched GUI child; reader and whole interactive CPU are unknown, not zero.",
+        "controller_wall_seconds": 6.61,
+        "controller_CPU_seconds": 1.66,
+        "controller_CPU_includes_reader": false,
+        "reader_CPU_seconds": null,
+        "interactive_whole_CPU_seconds": null,
+        "original_frozen_journal_unchanged": true,
+        "routing_or_Native_rerun": false
+      }
+    ]
   },
   "dependencies": [
     {
