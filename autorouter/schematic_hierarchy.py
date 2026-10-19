@@ -515,6 +515,38 @@ def _classes(raw, source, board_raw, project_raw, project, partitions, native_ve
     return sorted(result, key=lambda row: row['net'])
 
 
+def _project(project_raw):
+    project = preferences._parse(flat._raw(project_raw, 'project'), MAX_BYTES)
+    policy = nc.qualify_project(project)
+    settings = project.get('net_settings')
+    if (policy.get('mode') != 'single_default' or type(settings) is not dict
+            or settings.get('netclass_assignments') not in (None, {}) or settings.get('netclass_patterns') not in (None, [])
+            or len(settings['classes']) != 1 or settings['classes'][0]['name'] != 'Default'):
+        _fail('only explicit single Default without assignments/patterns')
+    return project, policy
+
+
+def source_requirement(board_raw, project_raw, *, source, schematics,
+                       native_version='10.0.7'):
+    """Static source prerequisite only; actual task/final Native proof is pending."""
+    board_path = flat._path(source, '.kicad_pcb')
+    if type(schematics) is not dict or native_version != '10.0.7':
+        _fail('exact schematic map and selected10.0.7 required')
+    schematics = schematics.copy(); project, policy = _project(project_raw)
+    trees, instances, paths, root_uuid, project_name = _closure(schematics, board_path.with_suffix('.kicad_sch').name)
+    if len(instances) < 2:
+        _fail('this policy requires a repeated or hierarchical source')
+    components, powers = _symbols(trees, instances, paths, root_uuid, project_name)
+    board, terminals, extras = _board(flat._tree(board_raw, 'board', 'kicad_pcb'), components)
+    return dict(schema=1, policy=POLICY, status='pending_native_class_parity',
+        native_validation_performed=False, class_parity_qualified=False,
+        accepted=False, routing_accepted=False, production_qualified=False,
+        source=source, source_class_policy=policy, class_flags=[], known_class_identities=['Default'],
+        components=len(components), terminals=len(terminals), nets=len(board), instances=len(instances),
+        partitions={name: [list(x) for x in sorted(terminals)] for name, terminals in sorted(board.items())},
+        schematic_hashes={name: flat._sha(raw) for name, raw in sorted(schematics.items())})
+
+
 def derive(raw_netlist, board_raw, project_raw, native_raw, *, source,
            schematic_source, schematics, native_version='10.0.7'):
     """Return source-derived identity proof only; every acceptance flag is false."""
@@ -527,13 +559,7 @@ def derive(raw_netlist, board_raw, project_raw, native_raw, *, source,
     sch_path = flat._path(schematic_source, '.kicad_sch')
     if board_path.stem != sch_path.stem or native_version != '10.0.7':
         _fail('source stem or Native version unqualified')
-    project = preferences._parse(flat._raw(project_raw, 'project'), MAX_BYTES)
-    policy = nc.qualify_project(project)
-    settings = project.get('net_settings')
-    if (policy.get('mode') != 'single_default' or type(settings) is not dict
-            or settings.get('netclass_assignments') not in (None, {}) or settings.get('netclass_patterns') not in (None, [])
-            or len(settings['classes']) != 1 or settings['classes'][0]['name'] != 'Default'):
-        _fail('only explicit single Default without assignments/patterns')
+    project, policy = _project(project_raw)
     trees, instances, paths, root_uuid, project_name = _closure(schematics, sch_path.name)
     components, powers = _symbols(trees, instances, paths, root_uuid, project_name)
     board, terminals, extras = _board(flat._tree(board_raw, 'board', 'kicad_pcb'), components)

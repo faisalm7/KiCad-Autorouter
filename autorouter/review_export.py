@@ -244,7 +244,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
     from .pour_rule_area import qualify
     from . import schematic_field_evidence as fields
     check_class_evidence(folder,data,binding,report,**ctx)
-    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None or native_toolchain is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
+    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None or native_toolchain is not None or class_requirement is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
     if [s['name'] for s in data['steps']]!=expected_names or any(s['cwd']!=str(folder) for s in data['steps']):raise p.Rejected('export native-only stage history differs')
     for step in data['steps']:
         log=Path(step['log'])

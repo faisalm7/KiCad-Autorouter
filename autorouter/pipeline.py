@@ -438,8 +438,10 @@ def check_schematic_class_support(board, *, class_context=None):
                                          'verified: '+name)
                     pending_class_check = True
                 if node and node[0] == 'sheet':
-                    raise ValueError('schematic hierarchy dependency closure and class '
-                                     'intent are not independently verified: '+name)
+                    if class_context is None:
+                        raise ValueError('schematic hierarchy dependency closure and class '
+                                         'intent are not independently verified: '+name)
+                    pending_class_check = True
                 pending.extend(child for child in node[1:] if isinstance(child, list))
         if pending_class_check:
             from .schematic_class_evidence import requirement
@@ -1383,7 +1385,7 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     schematic_parity=schematic_parity or Path(candidate).with_suffix('.kicad_sch').name in source_hashes
     class_requirement=check_schematic_class_support(candidate,class_context=class_context)
     if class_requirement is not None and (guidance_contract is not None or layer_contract is not None or selected_names is not None or getattr(job,'native_toolchain',None) is not None):
-        raise Rejected('unsupported: flat class proof requires ordinary native whole/partial Route')
+        raise Rejected('unsupported: class parity proof requires ordinary native whole/partial Route')
     check_rule_area_support(original)
     check_hole_machining_support(original)
     check_hole_machining_support(sx.read(candidate))
@@ -1426,12 +1428,13 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
     if guidance_contract is not None:
         from .floor_route import final_context
         final_context(job,original,candidate,source_hashes,protected,guidance_contract,guidance_basis=guidance_basis)
-    elif netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None:
+    elif netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None or class_requirement is not None:
         mapping=job.out/'final-netclasses.json'
         job.native('final-netclasses','netclasses',candidate,mapping)
-        audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()),native_toolchain=getattr(job,"native_toolchain",None))
-        audited['native_map_file_sha256']=sha(mapping)
-        save_json(job.out/'final-netclass-audit.json',audited)
+        if netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None:
+            audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()),native_toolchain=getattr(job,"native_toolchain",None))
+            audited['native_map_file_sha256']=sha(mapping)
+            save_json(job.out/'final-netclass-audit.json',audited)
     if selected_names is not None:rs.audit(original,sx.read(candidate),selected_names)
     native=job.drc('final-drc',candidate,schematic_parity=True) if schematic_parity else job.drc('final-drc',candidate)
     if class_requirement is not None:
@@ -2236,7 +2239,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
         scope=_preferences['effective']['scope'] if _preferences else report['scope']
         layers=_preferences['effective']['layers'] if _preferences else 'source_all'
-        class_context=('native-route-flat-classes-v1' if native_toolchain is None
+        class_context=('native-route-flat-classes-v1' if native_toolchain is None and comparison_context is None
             and engine_profile in {'standard','tuned','completion-only'} and _fanout_enabled is None
             and _optimizer_enabled is None and scope in {'whole_board_unlocked_routing','partial_completion'}
             and guidance_policy=='native' and layers=='source_all' else None)
@@ -2274,7 +2277,11 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         if selected is not None and parent_classes:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
         if policy is None and native_toolchain is None:
-            job.native('export','export',candidate,output/'task.dsn','--task-copper-fixed')
+            # Default-only hierarchy still needs Native identity observations.
+            # It has no composite dimension-target audit: unchanged global rule
+            # floors and final Native DRC retain their independent authority.
+            mapping_args=[output/'export-netclasses.json'] if class_requirement is not None else []
+            job.native('export','export',candidate,output/'task.dsn',*mapping_args,'--task-copper-fixed')
             shutil.copy2(output/'task.dsn',output/'native.dsn')
         else:
             from .netclass import audit_dsn
@@ -2440,12 +2447,12 @@ def validation_readback_session():
     from . import (adapter,board_floor,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
                    native_edge,netclass,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
-                   schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence)
+                   schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,engine_angle,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
-             routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,task_copper)
+             routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
     existing=_readback_session.get()
     state=existing if existing is not None else {'entries':{},'modules':modules}
     token=_readback_session.set(state)

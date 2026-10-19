@@ -11,13 +11,15 @@ PCB: exact task bytes must be reconstructed by the central routing reader.
 from __future__ import annotations
 
 import hashlib
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import shutil
 
 from . import config as c, floor_route as f, handoff as h, local_settings as local
 from . import placement_clearance as pc, preferences, schematic_classes as q, sexpr as sx
+from . import schematic_hierarchy as hierarchy
 
 CONTEXT = 'native-route-flat-classes-v1'
+HIERARCHY_CONTEXT = 'native-route-hierarchy-default-v1'
 MAX_PROJECT_BYTES = 100 * 1024 * 1024
 MAX_PROJECT_FILES = 2000
 MAX_PROJECT_ENTRIES = 4000
@@ -88,6 +90,32 @@ def _inventory(path):
                         max_files=MAX_PROJECT_FILES, max_entries=MAX_PROJECT_ENTRIES)
 
 
+def _schematics(root, inventory):
+    result = {}
+    for name, digest in inventory.items():
+        if type(name) is not str:
+            _fail('literal relative project name required')
+        path = PurePosixPath(name)
+        if path.is_absolute() or str(path) != name or '..' in path.parts or '\\' in name:
+            _fail('project name escaped captured input')
+        if path.suffix.casefold() == '.kicad_sch':
+            raw = pc.read_bytes(Path(root)/name, q.MAX_BYTES)
+            if _sha(raw) != digest:
+                _fail('captured schematic bytes differ')
+            result[name] = raw
+    return result
+
+
+def _has_hierarchy(schematics):
+    return any(sx.children(q._tree(raw, 'schematic', 'kicad_sch'), 'sheet')
+               for raw in schematics.values())
+
+
+def is_hierarchy(required):
+    """Only use with a freshly source-derived requirement, never a receipt."""
+    return type(required) is dict and required.get('context') == HIERARCHY_CONTEXT
+
+
 def requirement(board):
     """Return None or a source-bound pending check, never Native qualification.
 
@@ -101,7 +129,7 @@ def requirement(board):
     if board.name not in captured:
         _fail('paired PCB is missing from captured project')
     paired = board.with_suffix('.kicad_sch')
-    flagged = []
+    flagged = []; hierarchical = False
     for name, digest in captured.items():
         if Path(name).suffix.casefold() != '.kicad_sch':
             continue
@@ -118,12 +146,23 @@ def requirement(board):
         while pending:
             node = pending.pop()
             if node and node[0] == 'sheet':
-                _fail('schematic hierarchy remains unsupported')
+                hierarchical = True
             if node and node[0] == 'netclass_flag':
                 has_flag = True
             pending.extend(child for child in node[1:] if type(child) is list)
         if has_flag:
             flagged.append(name)
+    if hierarchical:
+        raw_board = pc.read_bytes(board, q.MAX_BYTES)
+        raw_project = pc.read_bytes(board.with_suffix('.kicad_pro'), q.MAX_BYTES)
+        schematics = _schematics(board.parent, captured)
+        required = hierarchy.source_requirement(raw_board, raw_project,
+            source=str(board), schematics=schematics, native_version=c.NATIVE_VERSION)
+        if (_inventory(board.parent) != captured or captured.get(board.name) != _sha(raw_board)
+                or captured.get(board.with_suffix('.kicad_pro').name) != _sha(raw_project)
+                or any(captured.get(name) != _sha(raw) for name, raw in schematics.items())):
+            _fail('hierarchical source changed during requirement scan')
+        return {**required, 'context': HIERARCHY_CONTEXT, 'source_hashes': captured}
     if not flagged:
         if _inventory(board.parent) != captured:
             _fail('source changed during requirement scan')
@@ -250,8 +289,13 @@ def _rederive(directory, data, stage, *, board_raw, source, project_raw,
     if stage == 'task':
         map_argv.append(str(native_map))
     map_worker = _worker(directory, data, map_name, map_argv)
-    before = _inventory(files['input'])
-    if before != expected:
+    retained = _inventory(files['input'])
+    schematics = _schematics(files['input'], expected)
+    context = HIERARCHY_CONTEXT if _has_hierarchy(schematics) else CONTEXT
+    if context == HIERARCHY_CONTEXT:
+        from .pipeline import check_drc_project
+        check_drc_project(expected, retained, input_board.name, saved=False)
+    elif retained != expected:
         _fail('retained class input copy differs from exact task/final bytes')
     if (pc.read_bytes(input_board, q.MAX_BYTES) != board_raw
             or pc.read_bytes(input_board.with_suffix('.kicad_pro'), q.MAX_BYTES) != project_raw
@@ -262,22 +306,31 @@ def _rederive(directory, data, stage, *, board_raw, source, project_raw,
                 'observation_worker', 'map_worker', 'protection'}
     if (type(binding) is not dict or set(binding) != required
             or type(binding.get('schema')) is not int or binding['schema'] != 1
-            or binding.get('context') != CONTEXT or binding.get('stage') != stage
+            or binding.get('context') != context or binding.get('stage') != stage
             or binding.get('source') != source or binding.get('input') != str(input_board)
-            or binding.get('before') != expected or binding.get('after') != expected
+            or binding.get('before') != expected or binding.get('after') != retained
             or binding.get('native_map') != str(native_map)
             or binding.get('native_map_sha256') != _sha(native_raw)
             or binding.get('netlist_sha256') != _sha(netlist_raw)
             or binding.get('observation_worker') != observed or binding.get('map_worker') != map_worker):
         _fail('class observation source/process/output binding differs')
     local.check_preserved(input_board.with_suffix('.kicad_prl'), expected, binding['protection'])
-    qualification = q.derive(netlist_raw, board_raw, project_raw, native_raw, source=source,
-        schematic_source=str(input_board.with_suffix('.kicad_sch')), schematic_raw=schematic_raw)
-    proof = {'schema': 1, 'context': CONTEXT, 'stage': stage,
+    if context == HIERARCHY_CONTEXT:
+        # Re-establish static eligibility from the exact historical task/final
+        # bytes as well; proof metadata cannot select or downgrade the policy.
+        hierarchy.source_requirement(board_raw, project_raw, source=source,
+            schematics=schematics, native_version=c.NATIVE_VERSION)
+        qualification = hierarchy.derive(netlist_raw, board_raw, project_raw, native_raw,
+            source=source, schematic_source=str(input_board.with_suffix('.kicad_sch')),
+            schematics=schematics, native_version=c.NATIVE_VERSION)
+    else:
+        qualification = q.derive(netlist_raw, board_raw, project_raw, native_raw, source=source,
+            schematic_source=str(input_board.with_suffix('.kicad_sch')), schematic_raw=schematic_raw)
+    proof = {'schema': 1, 'context': context, 'stage': stage,
              'binding_sha256': _sha(binding_raw), 'qualification': qualification}
     # Repeat the bounded mutable-file witnesses after all pure/tool/process
     # reads. Original source/candidate freshness remains the central caller's job.
-    if (_inventory(files['input']) != before
+    if (_inventory(files['input']) != retained
             or pc.read_bytes(files['binding'], q.MAX_BYTES) != binding_raw
             or pc.read_bytes(native_map, q.MAX_BYTES) != native_raw
             or pc.read_bytes(files['netlist'], q.MAX_BYTES) != netlist_raw
@@ -299,7 +352,9 @@ def check(directory, data, stage, *, board_raw, source, project_raw,
     """
     directory = local.canonical(Path(directory)); files = paths(directory, stage)
     raw = pc.read_bytes(files['proof'], q.MAX_BYTES)
-    expected = {'schema': 1, 'context': CONTEXT, 'stage': stage,
+    expected_schematics = _schematics(files['input'], _expected_files(data, board_raw, source, project_raw, schematic_raw))
+    context = HIERARCHY_CONTEXT if _has_hierarchy(expected_schematics) else CONTEXT
+    expected = {'schema': 1, 'context': context, 'stage': stage,
                 'file': files['proof'].name, 'sha256': _sha(raw)}
     metadata = data.get(record_key(stage)) if type(data) is dict else None
     if (type(metadata) is not dict or set(metadata) != set(expected)
@@ -328,18 +383,27 @@ def collect(job, stage, board, native_map):
             or h.owned_destination(job._local_settings_owner) != directory
             or board.parent != directory/'candidate'):
         _fail('class observation requires the existing owned guarded candidate Job')
-    if requirement(board) is None:
+    required = requirement(board)
+    if required is None:
         _fail('class observation without a required source flag')
     native_map = _map_path(directory, stage, native_map)
     captured = _inventory(board.parent)
+    if required['source_hashes'] != captured:
+        _fail('source changed after class requirement qualification')
     board_raw = pc.read_bytes(board, q.MAX_BYTES)
     project_raw = pc.read_bytes(board.with_suffix('.kicad_pro'), q.MAX_BYTES)
     schematic_raw = pc.read_bytes(board.with_suffix('.kicad_sch'), q.MAX_BYTES)
     native_raw = pc.read_bytes(native_map, q.MAX_BYTES)
     # Fail on an already wrong/missing map before starting the SCH worker.
-    configured, known, _ = q._source_classes(preferences._parse(project_raw, q.MAX_BYTES))
-    q._native_map(preferences._parse(native_raw, q.MAX_BYTES), str(board),
-                  board_raw, project_raw, preferences._parse(project_raw, q.MAX_BYTES), known)
+    context = HIERARCHY_CONTEXT if is_hierarchy(required) else CONTEXT
+    if context == HIERARCHY_CONTEXT:
+        partitions = {name: {tuple(value) for value in rows} for name, rows in required['partitions'].items()}
+        hierarchy._classes(native_raw, str(board), board_raw, project_raw,
+            preferences._parse(project_raw, q.MAX_BYTES), partitions, c.NATIVE_VERSION)
+    else:
+        configured, known, _ = q._source_classes(preferences._parse(project_raw, q.MAX_BYTES))
+        q._native_map(preferences._parse(native_raw, q.MAX_BYTES), str(board),
+                      board_raw, project_raw, preferences._parse(project_raw, q.MAX_BYTES), known)
     if any(path.exists() or path.is_symlink() for path in files.values()):
         _fail('fresh class observation paths required')
     shutil.copytree(board.parent, files['input'])
@@ -358,7 +422,12 @@ def collect(job, stage, board, native_map):
             state['complete'] = (len(added) == 1 and added[0].get('name') == step_name(stage)
                 and added[0].get('cwd') == str(directory) and added[0].get('cleanup_complete') is True)
     after = _inventory(files['input'])
-    if after != captured or _inventory(board.parent) != captured:
+    if context == HIERARCHY_CONTEXT:
+        from .pipeline import check_drc_project
+        check_drc_project(captured, after, board.name, saved=False)
+    elif after != captured:
+        _fail('class observation changed copied candidate inputs')
+    if _inventory(board.parent) != captured:
         _fail('class observation changed copied/original candidate inputs')
     if pc.read_bytes(native_map, q.MAX_BYTES) != native_raw:
         _fail('Native class map changed during SCH export')
@@ -370,7 +439,7 @@ def collect(job, stage, board, native_map):
         str(directory/'task.dsn') if stage == 'task' else str(native_map)]
     if stage == 'task': map_argv.append(str(native_map))
     map_worker = _worker(directory, data, map_name, map_argv)
-    binding = {'schema': 1, 'context': CONTEXT, 'stage': stage, 'source': str(board),
+    binding = {'schema': 1, 'context': context, 'stage': stage, 'source': str(board),
         'input': str(input_board), 'before': captured, 'after': after,
         'native_map': str(native_map), 'native_map_sha256': _sha(native_raw),
         'netlist_sha256': _sha(pc.read_bytes(files['netlist'], q.MAX_BYTES)),
@@ -380,7 +449,7 @@ def collect(job, stage, board, native_map):
     proof = _rederive(directory, data, stage, board_raw=board_raw, source=str(board),
         project_raw=project_raw, schematic_raw=schematic_raw, native_map=native_map)
     save_json(files['proof'], proof)
-    metadata = {'schema': 1, 'context': CONTEXT, 'stage': stage,
+    metadata = {'schema': 1, 'context': context, 'stage': stage,
                 'file': files['proof'].name, 'sha256': _sha(pc.read_bytes(files['proof'], q.MAX_BYTES))}
     data[record_key(stage)] = metadata
     check(directory, data, stage, board_raw=board_raw, source=str(board), project_raw=project_raw,
