@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "kind": "Windows011-independent-AI-C-and-ABI-source-review",
+  "scope": "Read all397 original C lines and complete frozen ABI receipt, then inspected both exact compatible source diffs: process-object validation and explicit object owner/group. Supplemental narrow read of lead fixed DLL compiler/link/PE path. No source edits, build, tests, Native, GUI, CI, network research, delegation or model override.",
+  "reviewer": "AI source review, not human review or Windows execution",
+  "inspected_pins": [
+    {
+      "path": ".runs/windows011-C-v1-retained-001.c",
+      "bytes": 20204,
+      "lines": 397,
+      "sha256": "b8c03d70fea832413d2544c233bc8c04507b68f511a9d1251c2a222b3e31baf2"
+    },
+    {
+      "path": ".runs/windows011-C-v2-retained-001.c",
+      "bytes": 20432,
+      "lines": 401,
+      "sha256": "924d82805b4c426633be49d787cde8a58d3a75828d87fb4b8e44948c751f0b88"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+      "bytes": 20931,
+      "lines": 409,
+      "sha256": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584"
+    },
+    {
+      "path": ".runs/windows011-C-guard-interface-001.json",
+      "bytes": 13451,
+      "lines": 221,
+      "sha256": "1a13945639ae6a11e16c59e72c3801088b70474046305997d8e4493dc40cc7b9"
+    },
+    {
+      "path": ".runs/windows011-guard-lifecycle-proposal-001.json",
+      "bytes": 28527,
+      "lines": 310,
+      "sha256": "26f06ca98f932f53c0ba45c80d43b84bbefe3c20448e6954ea7a7392cc8695e3"
+    },
+    {
+      "path": ".runs/windows011-independent-source-review-001.json",
+      "bytes": 11180,
+      "lines": 158,
+      "sha256": "041d08d45482baa7c95732c00c9ec4952bdfa245541385e7a2f4ab26cd46d163"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "bytes": 30612,
+      "lines": 367,
+      "sha256": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b"
+    }
+  ],
+  "decision": "One concrete process-object validation hole and a security-readback limitation were reported; both compatible root fixes were inspected. No remaining demonstrated premature-policy-removal or specific source-level compile defect was found in this bounded review. Static review does not qualify SDK ABI/security normalization, WFP enforcement, crash lifetime or product support. Journaling and retained-handle wiring remain unimplemented external prerequisites.",
+  "Native_admitted": false,
+  "Windows_support": false,
+  "accepted": false,
+  "built_by_reviewer": false,
+  "tests_run_by_reviewer": false,
+  "findings": [
+    {
+      "id": "C1",
+      "priority": "P1",
+      "status": "fixed-by-root-source-diff-inspected-not-executed",
+      "original_path": ".runs/windows011-C-v1-retained-001.c:309",
+      "original_lines": "309-319",
+      "issue": "PG_RegisterProcess originally accepted any duplicable HANDLE and cleared pending_create. Generic WaitForSingleObject in pg_empty could then treat a signaled event/thread as death proof for an intended unassigned process if assignment failure prevented BeforeResume/IsProcessInJob.",
+      "fix": "The924d8280 revision stores/owns the bounded duplicate first, requires GetProcessId(copy)!=0, and only then writes the slot/clears pending. A failed type check stays sticky-poisoned/pending with the duplicate retained for disposal. No PID is opened or grants cleanup authority. Actual bad-object fault tests remain pending."
+    },
+    {
+      "id": "C2",
+      "priority": "P2",
+      "status": "fixed-by-root-conservative-source-addendum-not-executed",
+      "original_path": ".runs/windows011-C-v2-retained-001.c:90",
+      "original_lines": "90-137",
+      "issue": "Prior creation/readback bound only the protected exact DACL; object owner/group were not set/read. A full descriptor/owner guarantee could not follow from DACL-only inspection. No owner-rights exploit was observed or asserted.",
+      "fix": "Currentf2276f09 source sets ownerSYSTEM/groupBuiltinAdministrators before Add and requests OWNER|GROUP|DACL for both sublayer/filter security readback, requiring exact valid owner/group SIDs plus the original protected exact2ACE DACL. No privilege enabling, global security mutation or fallback appears. If BFE rejects that requested ownership or normalization differs, Arm must poison/refuse. Actual contained policy-mutation refusal remains mandatory."
+    },
+    {
+      "id": "C3",
+      "priority": "P2",
+      "status": "final-freeze-metadata-and-ordering-clarification",
+      "paths": [
+        ".runs/windows011-guard-lifecycle-proposal-001.json",
+        ".runs/windows011-C-guard-interface-001.json"
+      ],
+      "issue": "The proposal RESERVED/journal wording reserves policy GUIDs before profile creation. PG_Create instead requires the already-created actual SID and then generates keys; the ABI journals them before Arm. The inspected ABI receipt still points to original397-lineb8c03d source, not the reviewed fixed revision.",
+      "required": "Freeze the actual two-stage order: exclusively reserve never-reused profile name before CreateProfile, then persist actual SID+new keys before policy mutation/Arm/launch. A crash between stages retains name/profile and cannot arm. Refresh final source/receipt pins while retaining originals. This is not a demonstrated live-process removal bypass."
+    },
+    {
+      "id": "C4",
+      "priority": "P2",
+      "status": "diagnostic-contract-omission-not-removal-bypass",
+      "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+      "original_lines": "139-168",
+      "issue": "Exact requested policy fields are checked, but actual filterId/effectiveWeight are not exported/retained although the proposal requested that diagnostic metadata.",
+      "required": "Do not claim it was collected. Add a bounded typed readback surface later if needed or explicitly narrow the final prospective evidence contract. Requested UINT8 weight is not an actual enforcement observation."
+    }
+  ],
+  "lifecycle_checks": [
+    {
+      "area": "Creation and poison",
+      "result": "Pending-create is latched before fallible creation with no reset. Mutating/query/registration failures poison ORPHAN irreversibly; Seal/removal refuse pending/poisoned owners. Python creation/assignment/token/ResumeThread/journal exceptions outside C must still call Poison before cleanup."
+    },
+    {
+      "area": "Live custody",
+      "result": "At most2actual Job/4controller-created process duplicates; noninheritable SAME_ACCESS handles; kill-on-close/no-breakaway Job limits checked. BeforeResume checks retained actual membership and exact policy. Later descendants rely on inherited no-breakaway Job accounting, not individual PID reopening."
+    },
+    {
+      "area": "Removal",
+      "result": "Only SEALED nonpoisoned owner can remove. Exact policy/security is rechecked in the transaction; every retained Job is freshlyActiveProcesses0 and each registered process handle signaled before deleting exactly4filters+owned sublayer. Commit plus independent-engine exact FILTER_NOT_FOUND/SUBLAYER_NOT_FOUND is required. Unknown/nonzero errors poison; no saved receipt or PID absence is authority."
+    },
+    {
+      "area": "Partial/unknown policy",
+      "result": "policy_may_exist is conservative after mutation attempt; abort_error retained. Unknown add/commit/readback/delete/absence outcomes cannot recover ARMED. Already deleted objects are not recreated or falsely guaranteed retained after later error."
+    },
+    {
+      "area": "Abandon",
+      "result": "Closes local engine/retained handles and frees memory without deleting policy/profile/journal. Zero return is local disposal only, never complete cleanup. Close errors return failure; original Python termination/wait and error preservation remain essential. Permanent orphan/no-reuse state is external and not yet implemented."
+    }
+  ],
+  "ABI_and_compile_inspection": {
+    "PG_INFO": "Manual Windows SDK field accounting matches196bytes: DWORDs0-12; GUID16at16;4GUIDsat32;sid_bytes96;BYTEsid[68]at100;7DWORDs168-192. Compile-time sizeof assertion exists. INFO exposes no pointer/handle authority. Actual compiler/ctypes layout still untested.",
+    "types_and_exports": "DWORD WINAPI; owner/HANDLE pointer-width, slots/errors/counts DWORD. Explicit exact ctypes signatures and x64 loader/PE are required. Arbitrary pointers are outside trusted in-process ABI. Both fixes preserve exported signatures and INFO layout.",
+    "buffers": "Actual40byte base package SID is validated/copied. Stack condition/filter and owner SID/security buffers outlive synchronous calls. Retrieved SDK allocations are inspected before FwpmFreeMemory0. ACE/SID sizes/type/mask and fixed arrays/loops are bounded.",
+    "SDK_linking": "No specific further compile/link defect established by inspection. Lead exact DLL recipe includes kernel32/advapi32/fwpuclnt/ole32, matching CoCreateGuid dependency; initguid.h precedes fwpmu.h. /W4 /WX compilation, WFP returned flags/security normalization and exact exported ABI remain unverified.",
+    "RPC_bounds": "2second txnWaitTimeout bounds transaction acquisition only; synchronous WFP RPC calls are not individually time-limited. Existing external whole-controller/CI watchdog must remain; no per-RPC guarantee inferred."
+  },
+  "initial_Job_emptiness": {
+    "classification": "trusted-caller freshness prerequisite; not demonstrated new removal hole",
+    "reason": "C validates Job type/kill/no-breakaway and retains it, but no initialActiveProcesses0/TotalProcesses0 check. Existing _run_job literally creates a fresh unnamed Job. Final removal freshly requires all retained Jobs empty. Supplying an unrelated Job violates the exact trusted caller contract and would already risk unrelated termination in the existing runner. An initial zero-active/zero-total check could strengthen correspondence/fault diagnostics; its absence is not established as premature policy removal under this caller boundary."
+  },
+  "external_blockers_before_arming_or_dispatch": [
+    "Host-only durable name/SID/key journal, exclusive lock, canonical identity, source/DLL/tool/profile binding, flush/torn-state handling and permanent tombstones.",
+    "Typed exact runner callback wiring before CreateProcess/after actual handles; same-thread owner lifetime, pending/poison handling on outside-C exceptions and retained duplicate custody through final removal.",
+    "Complete original filesystem ACL/profile/storage cleanup remains separate from PG_REMOVED; any later failure is partial cleanup and must stay explicit.",
+    "Actual MSVC/SDK ABI and BFE access/ownership/condition/flag/readback behavior, all required positive/explicit-denial observations, assignment/cancellation/controller-death/reuse/lowbox-mutation controls and independent removal absence."
+  ],
+  "unchanged_limits": "Existing00910060 remains a failed non-admitting canary. No Native routing, Windows installation/nonadmin/product/all-network/reboot/BFE-off/human-security claim is qualified.",
+  "execution_and_cost_limits": {
+    "source_edits": false,
+    "build": false,
+    "tests": false,
+    "Native": false,
+    "GUI": false,
+    "CI": false,
+    "network_research": false,
+    "delegation": false,
+    "model_override": false,
+    "review_costs_independently_measured": false,
+    "note": "Bounded source/ABI review and this JSON only. Native costs are not measured or represented as zero."
+  },
+  "next_action": "Lead freezes updated source/interface/protocol evidence scope and completes journaling/wiring review. Actual build/run requires separate reviewed bounded authorization; this receipt authorizes no execution."
+}

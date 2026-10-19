@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "kind": "windows011-build-null-ABI-readiness-v1",
+  "source_base_head": "580793ac6087021bf9567f764df5b9f55bfab9db",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "6821969191b65808a12fc06e877e5b213e5eceec1e2a110ddb41e31988fcd697",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "f08e7010788ac9c2bc8d0a8b928bac8ba4a0d459f47bb50c860ae5bee281e30e",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+    "scripts/windows_native_slice/windows_process.py": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b",
+    "scripts/windows_native_slice/appcontainer_canary.py": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4",
+    "scripts/windows_native_slice/appcontainer_launch.py": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+  },
+  "accepted": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "purpose": "Compile the one fixed owned C DLL and exercise14NULL-only ABI refusals. No validSID/owner, policy, profile, sockets, installer or Native.",
+  "bounds": {
+    "CI_minutes": 3,
+    "whole_controller_seconds": 150,
+    "parent_enclosure_seconds": 170,
+    "compiler_job_seconds": 30,
+    "compiler_job_memory_bytes": 2147483648,
+    "compiler_log_bytes": 262144,
+    "artifact_uploads": 0,
+    "cache_uploads": 0
+  },
+  "external_source_pin": "The audited future commit SHA must be supplied separately as workflow input, equal to GITHUB_SHA/detached HEAD. This protocol cannot pin its containing commit without a hash cycle.",
+  "resource_policy": "One standard windows-2022 public-repository job, contents:read, pinned checkout, no persisted credentials, no dependencies/installers/downloaded boards or new spending.",
+  "prospective_only": true
+}

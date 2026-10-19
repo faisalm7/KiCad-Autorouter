@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "kind": "Windows011-independent-AI-protocol-source-review",
+  "review_stage": "protocol-only; requested new C/interface absent at first inspection; await root followup without polling",
+  "reviewer": "AI skeptical review, not human review or native platform qualification",
+  "decision": "The permanent-orphan/no-adoption policy is logically compatible with unnamed Jobs under the stated trusted-host/BFE assumptions. No removal bypass is established in the proposal itself, provided all unknown-state and live-handle requirements are actually enforced. Implementation/ABI/ACL/removal approval is withheld: the new C source/interface was absent at first inspection, and current runner/guard do not implement this authority.",
+  "accepted": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "inspected_pins": [
+    {
+      "path": ".runs/windows011-guard-lifecycle-proposal-001.json",
+      "bytes": 28527,
+      "sha256": "26f06ca98f932f53c0ba45c80d43b84bbefe3c20448e6954ea7a7392cc8695e3"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "bytes": 30612,
+      "sha256": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b"
+    },
+    {
+      "path": "scripts/windows_native_slice/appcontainer_launch.py",
+      "bytes": 25595,
+      "sha256": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d"
+    },
+    {
+      "path": "evidence/windows-appcontainer009-actual001.json",
+      "bytes": 15080,
+      "sha256": "9c15f74e22323594c00fceca302657b7fbfe0a4df8bc895fdd0eabbc17c2d0ca"
+    }
+  ],
+  "requested_new_files_at_first_inspection": [
+    {
+      "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+      "present": false,
+      "reviewed": false,
+      "sha256": null
+    },
+    {
+      "path": ".runs/windows011-C-guard-interface-001.json",
+      "present": false,
+      "reviewed": false,
+      "sha256": null
+    }
+  ],
+  "logical_checks": [
+    {
+      "check": "Controller death and lost unnamed Job identity",
+      "result": "Conditionally coherent",
+      "reason": "Persistent conditioned deny remains after loss of in-process handles; the helper never reopens/adopts/removes/reuses the orphan identity. Thus later inability to prove zero cannot authorize removal. This is a lifecycle design inference, not actual WFP enforcement or crash evidence."
+    },
+    {
+      "check": "Normal live-owner removal authority",
+      "result": "Conditionally coherent",
+      "reason": "Seal launches irreversibly, retain duplicates of actual Job/controller-created process objects, freshly require every Job ActiveProcesses0 and every retained created process signaled, then exact-key policy removal and independently queried absence. Saved state/PIDs/names are not authority."
+    },
+    {
+      "check": "SID/name/key uniqueness and crash state",
+      "result": "Conditionally coherent",
+      "reason": "Reserve before writes, record the real fresh profile SID, never adopt collisions or reuse any tombstoned identity, and treat torn/missing/unknown state as permanent orphan. Policy/filesystem transactions are not assumed atomic together."
+    },
+    {
+      "check": "Bounded declared scope",
+      "result": "Explicitly limited",
+      "reason": "BFE/host operational assumptions, no hostile administrator/kernel, no reboot/power-loss guarantee, no nonadmin product claim. Existing009 WSA10060 remains failure. The full IPv4/IPv6 TCP/UDP/inbound/cancellation/crash/reuse matrix is prospective, not implemented or qualified."
+    }
+  ],
+  "concrete_integration_requirements": [
+    {
+      "id": "R1",
+      "priority": "P1-before-any-policy-removal",
+      "status": "C source absent; not verifiable",
+      "paths": [
+        "scripts/windows_native_slice/windows_process.py:122",
+        "scripts/windows_native_slice/windows_process.py:125",
+        "scripts/windows_native_slice/windows_process.py:198"
+      ],
+      "issue": "The CreateProcess-to-registration window must be covered by permanent failure state. A created suspended process can exist before assignment, and its attempted DuplicateHandle/registration itself can fail. A registered Job may therefore be empty while an unregistered process exists.",
+      "required": "Reserve/mark launch intent before creation or otherwise permanently poison the live guard on every failed/ambiguous creation/registration/handoff. Close/remove must refuse an unresolved launch or incomplete process registry even if later Job queries return zero. Do not let exception handling or a subsequent successful query heal this state. Retain original raw handles for the existing assigned/unassigned termination path."
+    },
+    {
+      "id": "R2",
+      "priority": "P1-before-any-policy-removal",
+      "status": "Current implementation lacks required authority",
+      "paths": [
+        "scripts/windows_native_slice/windows_process.py:193",
+        "scripts/windows_native_slice/windows_process.py:212",
+        "scripts/windows_native_slice/windows_process.py:213",
+        "scripts/windows_native_slice/appcontainer_launch.py:383",
+        "scripts/windows_native_slice/appcontainer_launch.py:419"
+      ],
+      "issue": "Current finally proves immediate reaping then closes original process/Job handles; AppContainerLaunch only receives process_created/job_reaped counters. Context exit currently restores ACLs/deletes the profile when that counter is zero. Those counters or a saved cleanup_complete flag cannot authorize persistent filter removal.",
+      "required": "Register retained noninheritable duplicate Job/process handles through the live C owner before the relevant fallible steps. Keep duplicates through sealing, fresh zero/signaled proof and exact policy removal. Hook cleanup so any custody/query/registration error forces orphan retention; never add an unconditional filter-delete finally. Preserve current unassigned-process wait and all original cleanup errors."
+    },
+    {
+      "id": "R3",
+      "priority": "P1-before-arming",
+      "status": "C/ABI/ACL not inspected",
+      "paths": [
+        ".runs/windows011-guard-lifecycle-proposal-001.json"
+      ],
+      "issue": "The proposal is not evidence that four exact persistent conditioned filters, protected state/objects, source/tool identity, opaque ABI or safe removal are implemented.",
+      "required": "When source exists, inspect all constructors/readback/deletion paths, SID/union/buffer lifetime, native return handling and irreversible poison/seal transitions. Verify non-dynamic persistent dependencies, no zero-condition policy, exact4keys/layers/SID/action/flags/DACL, supplied keys never adopted/replaced, bounded journal writes/flush/lock/error handling, no pointer/handle authority from JSON, noninherited retained handles, host-only state/DLL and no API-error-as-absence. No build/run approval is conferred by protocol review."
+    },
+    {
+      "id": "R4",
+      "priority": "P2-contract-clarity",
+      "status": "Clarification required in implementation",
+      "paths": [
+        ".runs/windows011-guard-lifecycle-proposal-001.json"
+      ],
+      "issue": "The phrase every created process handle should distinguish controller-created suspended processes from descendants created inside an already assigned contained process.",
+      "required": "The controller cannot recover a child handle from a PID/JSON receipt. Retained direct-created process handles cover unassigned-launch failures; inherited no-breakaway Job membership and fresh Job zero must cover later descendants. Do not claim every descendant had an individually retained handle unless that is actually implemented and evidenced."
+    }
+  ],
+  "current_runner_comparison": {
+    "created_assigned_branch": "windows_process.py:198-210 terminates the exact assigned Job, waits its main process and queries ActiveProcesses0; if assignment failed it terminates/waits the original process handle instead.",
+    "error_preservation": "windows_process.py:194-215 collects cleanup errors and raises; this must remain intact.",
+    "custody_gap_for_proposed_policy": "windows_process.py:213-214 closes original process and Job handles before outer AppContainer context exit. Proposed retained duplicates are new and not present in this inspected source.",
+    "existing_guard": "appcontainer_launch.py:383-389 uses an outstanding counter;419-477 restores/checks owned filesystem ACLs, closes identity handles, deletes the fresh profile and verifies storage absence. It has no persistent WFP policy/removal authority."
+  },
+  "existing009_disposition": "Still a single failed non-admitting canary: actual parent zero-capability token and setup completion, but WSA10060 timeout rather than required10013; child/public/cancellation/after-positive proof absent. This review does not reinterpret that result.",
+  "documentation_scope": {
+    "primary_urls_carried_by_proposal": [
+      "https://learn.microsoft.com/en-us/windows/win32/fwp/object-management",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fwpmtypes/ns-fwpmtypes-fwpm_filter0",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fwpmtypes/ns-fwpmtypes-fwpm_sublayer0",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fwptypes/ns-fwptypes-fwp_condition_value0",
+      "https://learn.microsoft.com/en-us/windows/win32/fwp/filtering-condition-identifiers-",
+      "https://learn.microsoft.com/en-us/windows/win32/fwp/filtering-conditions-available-at-each-filtering-layer",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmfiltergetbykey0",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmfilterdeletebykey0",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmfilteradd0",
+      "https://learn.microsoft.com/en-us/windows/win32/fwp/access-control",
+      "https://learn.microsoft.com/en-us/windows/win32/api/fwpmtypes/ns-fwpmtypes-fwpm_session0",
+      "https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle",
+      "https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-queryinformationjobobject",
+      "https://learn.microsoft.com/en-us/windows/win32/fwp/filter-arbitration"
+    ],
+    "independently_browsed_this_review": false,
+    "interpretation": "URLs identify the proposal's cited API basis only; no new documentation research or Windows behavior verification was performed."
+  },
+  "next_action": "Await root followup with stable C source/interface pins; no polling, builds, CI or new Windows experiment. Review that exact source before any integration/dispatch decision.",
+  "limits": {
+    "source_or_test_edits": false,
+    "tests": false,
+    "Native": false,
+    "build": false,
+    "CI": false,
+    "network": false,
+    "delegation": false,
+    "model_override": false,
+    "new_C_or_ABI_review_complete": false,
+    "only_authored_output": ".runs/windows011-independent-source-review-001.json",
+    "measured_review_CPU_seconds": null,
+    "review_cost_note": "Bounded read-only proposal/current-source inspection and JSON authoring; authoring/review cost not independently measured, not zero."
+  }
+}

@@ -101,6 +101,9 @@ def _run_job(argv,*,cwd,log,root,seconds,cancel_after=None,appcontainer=None,lau
   if setup_authoring.get('kind')=='fixed-owned-C-canary-build':
    compiler_role=setup_authoring.get('role')
    if type(compiler_role) is not int or compiler_role not in (1,2):raise ValueError('exact owned compiler role required')
+  elif setup_authoring.get('kind')=='fixed-owned-C-guard-DLL-build':
+   if 'role' in setup_authoring:raise ValueError('guard DLL has one fixed artifact role')
+   compiler_role='persistent-sid-guard'
   elif setup_authoring.get('kind')!='fixed-owned-DNS-helper':raise ValueError('unknown owned setup authoring contract')
  exe=Path(argv[0]).resolve(strict=True)
  job=K.CreateJobObjectW(None,None);yes(job);limits=LIMIT();limits.BasicLimitInformation.LimitFlags=0x2000|0x200|4;limits.BasicLimitInformation.PerJobUserTimeLimit=int(seconds*10_000_000);limits.JobMemoryLimit=2*1024**3
@@ -243,7 +246,7 @@ def _owned_setup_root(root):
  finally:yes(K.CloseHandle(handle))
 
 def _setup_argv(argv,root):
- """Allow exactly the two owned probe builds or the fixed DNS helper."""
+ """Allow the fixed probe/DLL builds or the fixed DNS helper, never Native."""
  if type(argv) is not list or not argv or any(type(x) is not str or not x or any(c in x for c in '\0\r\n') for x in argv):raise ValueError('typed owned setup argv required')
  exe=Path(argv[0]).absolute()
  if exe.resolve(strict=True)!=exe:raise ValueError('canonical owned setup executable required')
@@ -259,6 +262,7 @@ def _setup_argv(argv,root):
  if [p.lower() for p in exe.parts[-4:]]!=['bin','hostx64','x64','cl.exe']:raise ValueError('exact MSVC x64 compiler path required')
  vc=exe.parents[3]
  if vc.parent.name!='MSVC' or not re.fullmatch(r'[0-9]+(?:\.[0-9]+)+',vc.name):raise ValueError('versioned MSVC compiler required')
+ if '/LD' in argv:return _guard_setup_argv(argv,root,exe,vc)
  probe=Path(__file__).with_name('appcontainer_probe.c').resolve(strict=True)
  if len(argv)!=24 or argv[1:8]!=['/nologo','/W4','/WX','/O1','/MT','/DUNICODE','/D_UNICODE'] or argv[8] not in ('/DPROBE_ROLE=1','/DPROBE_ROLE=2'):raise ValueError('exact owned canary compiler flags required')
  role=argv[8][-1]
@@ -281,10 +285,32 @@ def _setup_argv(argv,root):
  if target.exists() or (root/('role'+role+'.obj')).exists():raise ValueError('fresh owned compiler outputs required')
  return exe,[probe],dict(kind='fixed-owned-C-canary-build',role=int(role),probe_sha256=digest(probe),compiler_sha256=digest(exe),SDK_version=sdk.name,MSVC_version=vc.name)
 
-def _compiled_role_output(root,role):
- """Read the exact fresh compiler output only after the Job has been reaped."""
- if type(role) is not int or role not in (1,2):raise ValueError('exact owned compiler output role required')
- target=safe(root/('probe-parent.exe' if role==1 else 'probe-child.exe'),root)
+def _guard_setup_argv(argv,root,exe,vc):
+ """One audited SDK DLL source and exact outputs; no configurable DLL build."""
+ if len(argv)!=27 or argv[1:9]!=['/nologo','/W4','/WX','/O1','/MT','/LD','/DUNICODE','/D_UNICODE']:raise ValueError('exact owned guard DLL flags required')
+ kit=Path(os.environ['ProgramFiles(x86)']).absolute()/'Windows Kits/10'
+ include=argv[9:13]
+ if any(not item.startswith('/I') for item in include):raise ValueError('fixed explicit guard includes required')
+ sdk=Path(include[1][2:]).parent;safe(sdk,kit/'Include')
+ if sdk.parent!=kit/'Include' or not re.fullmatch(r'[0-9]+(?:\.[0-9]+)+',sdk.name):raise ValueError('versioned official Windows SDK required')
+ includes=[vc/'include',sdk/'ucrt',sdk/'shared',sdk/'um']
+ libraries=[vc/'lib/x64',kit/'Lib'/sdk.name/'ucrt/x64',kit/'Lib'/sdk.name/'um/x64']
+ source=Path(__file__).with_name('persistent_sid_guard.c').resolve(strict=True)
+ target=root/'persistent-sid-guard.dll'
+ expected=[str(exe),'/nologo','/W4','/WX','/O1','/MT','/LD','/DUNICODE','/D_UNICODE',
+  *['/I'+str(path) for path in includes],str(source),'/Fo'+str(root/'persistent-sid-guard.obj'),'/Fe'+str(target),
+  '/link','/INCREMENTAL:NO','/IMPLIB:'+str(root/'persistent-sid-guard.lib'),'/PDB:'+str(root/'persistent-sid-guard.pdb'),
+  *['/LIBPATH:'+str(path) for path in libraries],'kernel32.lib','advapi32.lib','fwpuclnt.lib','ole32.lib']
+ if argv!=expected:raise ValueError('only the exact owned persistent-SID guard DLL build is allowed')
+ for path in [*includes,*libraries]:
+  safe(path,vc if path.is_relative_to(vc) else kit)
+  if not path.is_dir():raise ValueError('preinstalled guard compiler/SDK directory absent')
+ if any((root/('persistent-sid-guard.'+suffix)).exists() for suffix in ('dll','obj','lib','exp','pdb')):raise ValueError('fresh owned guard compiler outputs required')
+ return exe,[source],dict(kind='fixed-owned-C-guard-DLL-build',guard_source_sha256=digest(source),compiler_sha256=digest(exe),SDK_version=sdk.name,MSVC_version=vc.name)
+
+def _read_compiler_pe_output(root,filename,role,dll):
+ """Shared bounded PE identity readback; caller fixes artifact name and kind."""
+ target=safe(root/filename,root)
  size=target.stat().st_size
  if not target.is_file() or not 64<=size<=4*1024**2:raise ValueError('bounded regular compiler role output required')
  with preserved(target,root) as identity:
@@ -292,9 +318,18 @@ def _compiled_role_output(root,role):
   if len(raw)!=size or raw[:2]!=b'MZ' or not 64<=offset<=len(raw)-26:raise ValueError('compiler role DOS/PE header invalid')
   optional=int.from_bytes(raw[offset+20:offset+22],'little');flags=int.from_bytes(raw[offset+22:offset+24],'little')
   if (raw[offset:offset+6]!=b'PE\0\0\x64\x86' or optional<112 or offset+24+optional>len(raw)
-      or raw[offset+24:offset+26]!=b'\x0b\x02' or not flags&2 or flags&0x2000):raise ValueError('compiler role must be an AMD64 PE32+ executable')
+      or raw[offset+24:offset+26]!=b'\x0b\x02' or not flags&2 or bool(flags&0x2000)!=dll):raise ValueError('compiler artifact AMD64 PE32+ executable/DLL kind differs')
   return dict(path=str(target),role=role,bytes=size,sha256=identity['sha256'],file_id=identity['file_id'],
-              validated=True,validation_after_job_reaped=True,format='AMD64 PE32+ executable; actual canary controls still required')
+              validated=True,validation_after_job_reaped=True,format='AMD64 PE32+ '+('DLL' if dll else 'executable')+'; actual canary controls still required')
+
+def _compiled_role_output(root,role):
+ """Read the exact fresh probe only after the Job has been reaped."""
+ if type(role) is not int or role not in (1,2):raise ValueError('exact owned compiler output role required')
+ return _read_compiler_pe_output(root,'probe-parent.exe' if role==1 else 'probe-child.exe',role,False)
+
+def _compiled_guard_output(root):
+ """A valid DLL header is readiness only, never network or ABI qualification."""
+ return _read_compiler_pe_output(root,'persistent-sid-guard.dll','persistent-sid-guard',True)
 
 def run_owned_setup(argv,*,cwd,log,root,seconds=30):
  """Trusted CI authoring only; no network-isolation or Native admission path.
@@ -317,10 +352,10 @@ def run_owned_setup(argv,*,cwd,log,root,seconds=30):
     if proof['sha256']!=pins[str(path)]:raise RuntimeError('owned setup input changed before protected launch')
    result=_run_job(argv,cwd=owned,log=log,root=owned,seconds=seconds,owned_setup=True,setup_authoring=authoring)
    if any(digest(path)!=sha for path,sha in pins.items()):raise RuntimeError('owned setup source/tool bytes changed')
-   if authoring['kind']=='fixed-owned-C-canary-build' and result['status']=='success':
+   if authoring['kind'] in ('fixed-owned-C-canary-build','fixed-owned-C-guard-DLL-build') and result['status']=='success':
     if result['cleanup_complete'] is not True:result['status']='compiler_cleanup_unproved'
     else:
-     try:result['compiler_output']=_compiled_role_output(owned,authoring['role'])
+     try:result['compiler_output']=_compiled_guard_output(owned) if authoring['kind']=='fixed-owned-C-guard-DLL-build' else _compiled_role_output(owned,authoring['role'])
      except Exception as error:
       result.update(status='compiler_output_invalid',compiler_output=dict(validated=False,error=type(error).__name__+': '+str(error)[:256]))
   result.pop('_suspended_token')

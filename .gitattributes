@@ -1,3 +1,9 @@
 # Keep reviewed CI script bytes stable on Windows checkouts.
 /.github/workflows/manual-python-controls.yml text eol=lf
 /scripts/windows_toolchain_probe.ps1 text eol=lf
+# Pin source bytes for the Windows-only prototype's frozen file hashes.
+# Board files and retained evidence keep their existing attributes.
+scripts/windows_native_slice/*.py text eol=lf
+scripts/windows_native_slice/*.ps1 text eol=lf
+scripts/windows_native_slice/*.c text eol=lf
+scripts/windows_native_slice/*.json text eol=lf

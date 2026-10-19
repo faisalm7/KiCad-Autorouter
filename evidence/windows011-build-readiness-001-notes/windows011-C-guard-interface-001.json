@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "kind": "Windows011-unexecuted-C-SDK-persistent-SID-guard-interface",
+  "recorded_utc": "2026-10-19T05:28:39.992873+00:00",
+  "source": {
+    "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+    "bytes": 20204,
+    "lines": 397,
+    "sha256": "b8c03d70fea832413d2544c233bc8c04507b68f511a9d1251c2a222b3e31baf2"
+  },
+  "protocol_reference": {
+    "path": ".runs/windows011-guard-lifecycle-proposal-001.json",
+    "sha256": "26f06ca98f932f53c0ba45c80d43b84bbefe3c20448e6954ea7a7392cc8695e3"
+  },
+  "status": "Authored unbuilt/unexecuted prototype; all exported functions have bodies, no placeholder implementation. Lead source/ABI/security review, targeted controls and actual Windows qualification required.",
+  "Native_admitted": false,
+  "Native_executed": false,
+  "CI_dispatched": false,
+  "compiled": false,
+  "tests_executed": 0,
+  "Windows_support": false,
+  "accepted": false,
+  "ownership": "Only new persistent_sid_guard.c and this ignored receipt authored. No changes to existing Python runner, AppContainer, canary, workflows, docs or tools.",
+  "exact_build": {
+    "flags": [
+      "/nologo",
+      "/W4",
+      "/WX",
+      "/O1",
+      "/MT",
+      "/LD",
+      "/DUNICODE",
+      "/D_UNICODE"
+    ],
+    "libraries": [
+      "kernel32.lib",
+      "advapi32.lib",
+      "fwpuclnt.lib",
+      "ole32.lib"
+    ],
+    "ole32_reason": "CoCreateGuid creates the five fresh policy GUIDs. initguid.h precedes fwpmu.h in the one C translation unit to instantiate SDK WFP GUID constants; uuid.lib/userenv.lib/ws2_32.lib are not intended.",
+    "outputs": "Exact owned DLL/OBJ/IMPLIB/PDB paths only via lead fixed setup allowlist. No compiler/build performed; DLL PE/AMD64 checks and API structure compilation remain unverified. _WIN32_WINNT=0x0602 is declared in source."
+  },
+  "ABI": {
+    "version": 1,
+    "calling_convention": "DWORD WINAPI, exported exact PG_* names on intended x64 Windows. ctypes.WinDLL and explicit argtypes/restype required; HANDLE/owner are pointer-width, slots/errors/counts are DWORD.",
+    "owner": "Opaque PG_OWNER*. Only PG_Create can allocate it. Owner binds creator process AND thread. Never serialize/reconstruct/adopt pointers or slots/cleanup authority from JSON. A hostile/bogus pointer is outside this trusted in-process ABI; it may crash, never creates a safe caller context.",
+    "functions": [
+      {
+        "name": "PG_Create",
+        "C_arguments": "const BYTE *sid, DWORD sid_bytes, PG_OWNER **owner"
+      },
+      {
+        "name": "PG_GetInfo",
+        "C_arguments": "PG_OWNER *g, PG_INFO *info, DWORD bytes"
+      },
+      {
+        "name": "PG_Arm",
+        "C_arguments": "PG_OWNER *g"
+      },
+      {
+        "name": "PG_CheckArmed",
+        "C_arguments": "PG_OWNER *g"
+      },
+      {
+        "name": "PG_RegisterJob",
+        "C_arguments": "PG_OWNER *g, HANDLE job, DWORD *slot"
+      },
+      {
+        "name": "PG_BeginCreate",
+        "C_arguments": "PG_OWNER *g, DWORD job_slot"
+      },
+      {
+        "name": "PG_Poison",
+        "C_arguments": "PG_OWNER *g, DWORD reason"
+      },
+      {
+        "name": "PG_RegisterProcess",
+        "C_arguments": "PG_OWNER *g, DWORD job_slot, HANDLE process, DWORD *slot"
+      },
+      {
+        "name": "PG_BeforeResume",
+        "C_arguments": "PG_OWNER *g, DWORD process_slot"
+      },
+      {
+        "name": "PG_SealLaunches",
+        "C_arguments": "PG_OWNER *g"
+      },
+      {
+        "name": "PG_RemoveWhenEmpty",
+        "C_arguments": "PG_OWNER *g"
+      },
+      {
+        "name": "PG_AbandonAndFree",
+        "C_arguments": "PG_OWNER **owner"
+      }
+    ],
+    "info": {
+      "C_type": "PG_INFO",
+      "bytes": 196,
+      "compile_time_size_assert": true,
+      "fields": [
+        [
+          "abi",
+          "DWORD",
+          0
+        ],
+        [
+          "bytes",
+          "DWORD",
+          4
+        ],
+        [
+          "state",
+          "DWORD",
+          8
+        ],
+        [
+          "poisoned",
+          "DWORD",
+          12
+        ],
+        [
+          "sublayer",
+          "GUID16",
+          16
+        ],
+        [
+          "filters",
+          "GUID16[4]",
+          32
+        ],
+        [
+          "sid_bytes",
+          "DWORD",
+          96
+        ],
+        [
+          "sid",
+          "BYTE[68]",
+          100
+        ],
+        [
+          "jobs",
+          "DWORD",
+          168
+        ],
+        [
+          "processes",
+          "DWORD",
+          172
+        ],
+        [
+          "policy_may_exist",
+          "DWORD",
+          176
+        ],
+        [
+          "last_error",
+          "DWORD",
+          180
+        ],
+        [
+          "abort_error",
+          "DWORD",
+          184
+        ],
+        [
+          "pending_create",
+          "DWORD",
+          188
+        ],
+        [
+          "pending_job",
+          "DWORD",
+          192
+        ]
+      ],
+      "notes": "Pass exactly196 bytes to PG_GetInfo; compare returned abi1/bytes196. GUID fields are Windows SDK layout, can journal exact16bytes/bytes_le UUID representation. PG_INFO contains no native handle or cleanup capability."
+    },
+    "states": {
+      "1": "NEW",
+      "2": "ARMED",
+      "3": "SEALED",
+      "4": "REMOVED",
+      "5": "ORPHAN"
+    },
+    "return_semantics": "ERROR_SUCCESS0 means that particular operation succeeded, never Native/support/network admission. PG_Poison returns0 after marking ORPHAN and retaining reason in last_error; a zero reason becomes ERROR_INVALID_DATA. Other failures return the actual Win32/WFP code (CoCreateGuid failure conservatively ERROR_GEN_FAILURE). PG_AbandonAndFree0 only means local handle/memory disposal, never policy removal or cleanup completion."
+  },
+  "root_call_sequence": [
+    "Existing AppContainerLaunch must create exactly one fresh profile with only S_OK, validate real SID, preserve profile/storage/source/tool identity. PG_Create accepts only an actual base package SID (authority15,RID2,8subauthorities,40bytes), not a saved SID or existing profile. CI environment gates remain additional non-authenticating checks.",
+    "PG_Create(actual_SID_buffer,40,&owner); immediately PG_GetInfo. C has not opened BFE or changed policy. Python durably journals fresh profile/name, actual SID, these five owned keys, source/controller/DLL/tool pins and host-only canonical ownership BEFORE PG_Arm. Journal/profile/source binding deliberately stays outside C; C does not pretend it verified a journal.",
+    "PG_Arm(owner): local non-dynamic engine, bounded2s transaction lock wait; add persistent custom sublayer+4fixed SID-only BLOCK filters in one transaction with protected exact SYSTEM/Administrators DACLs, commit and policy/security readback. Any error poisons owner. Copy/flush ARMED host state before any child creation.",
+    "Existing _run_job creates its unnamed Job and sets original limits. PG_RegisterJob(owner,actual_hJob,&job_slot) BEFORE process creation; C verifies kill-on-close/no breakaway and stores a noninheritable same-object duplicate. Slots0/1 are live-owner values only, not original handle-value lookup or serialized authority.",
+    "Immediately BEFORE every fallible CreateProcess call, PG_BeginCreate(owner,job_slot). This latches pending_create. There is deliberately no reset/cancel-creation API. On CreateProcess success, PG_RegisterProcess(owner,job_slot,actual_hProcess,&process_slot) BEFORE any fallible callback/assignment/token operation. Successful duplicate/store clears pending; failure poisons.",
+    "Existing runner still assigns actual process to exact Job, checks suspended token AppContainer SID and zero capabilities, checks source/tool/ACL/guard contract. PG_BeforeResume(owner,process_slot) additionally rechecks exact policy/security and actual retained process membership in retained Job, once per registered process. Only then call existing ResumeThread.",
+    "ANY CreateProcess/registration/duplicate/callback/assignment/token/ResumeThread or ownership uncertainty MUST call PG_Poison before propagating. This includes Python exceptions outside C, even when existing runner later proves cleanup. Do not infer safe absence from an empty registered Job or unset _outstanding. A pending or poisoned owner can never reach deletion.",
+    "After sequential runs, finish original tool/source/material checks, irreversibly stop launch authority, and PG_SealLaunches. Existing runner must have terminated/waited its actual Jobs/processes as required. Counters/old receipts are not the deletion proof; retained C handles stay live until final removal decision.",
+    "PG_RemoveWhenEmpty: begin transaction; exact policy/security readback; require at least one retained Job, every actual Job query ActiveProcesses0, and every registered controller-created process signalled. Then delete exactly4filters and own sublayer, commit, independently open another non-dynamic engine and require exact FILTER_NOT_FOUND/SUBLAYER_NOT_FOUND for each key. Any nonzero/unknown error poisons with no retry/unconditional deletion.",
+    "Record C info before freeing. Existing Python context separately completes/verifies original DACL restoration, profile deletion/storage absence and source/tool evidence. Keep copied SID valid; do not treat PG_REMOVED alone as full cleanup. Permanent name/SID tombstone remains.",
+    "PG_AbandonAndFree(&owner) closes only local engine/retained handles and zeroes/frees owner; NO filter, sublayer, profile, file or journal deletion. On error/poison/crash, remaining persistent policy and host state are retained forever for this SID. No later invocation adopts/reuses/removes it, regardless of PID observations or old ZERO receipt."
+  ],
+  "C_guarantees_by_inspection_not_test": {
+    "policy": "Exactly4compiled ALE AUTH_CONNECT/RECV_ACCEPT IPv4/IPv6 layers; persistent+enabled only, BLOCK, exactly1EQUAL ALE_PACKAGE_ID/FWP_SID, exact SID bytes. Unique persistent sublayer/providerNULL; no configurable layers, allow rule, conditionless filter, callout, global setting or generic WFP operation.",
+    "security": "Object DACL supplied at Add and read back: protected, exactly2non-inheriting allow ACEs, SYSTEM and Administrators only, explicit SDK READ/ADD_LINK/READ_CONTROL/DELETE mask. No generic-access expansion assumption, child SID/capability ACE, unknown ACE or writable global engine ACL.",
+    "lifetime": "SDK condition/SD buffers live through synchronous calls; BFE-returned memory freed with FwpmFreeMemory0. Source owns separate copied SID. Normal removal occurs only through live context/retained handles; PG_Abandon never removes persistent objects.",
+    "custody": "At most2retained Job and4controller-created process handles; copies noninheritable, creator-thread-only operations, stable integer slots avoid original HANDLE reuse. Unregistered descendants are covered by the nonbreakaway Job accounting; existing parent/child token tests remain mandatory.",
+    "failure": "Mutation/commit uncertainty sets conservative policy_may_exist. Failed add/commit attempts transaction abort and records abort_error, but never unconditionally deletes/rolls forward. Any poison is irreversible. Removal transaction rollback/commit/absence uncertainties retain ORPHAN; already deleted objects are not recreated or reported as retained.",
+    "bounds": "No loops other than fixed4filters/2Jobs/4processes/2ACEs. WFP RPC calls are synchronous; only transaction acquisition has2s API setting. Existing external whole Job/CI timeout must cover a stuck API; do not claim each RPC independently time-limited."
+  },
+  "incomplete_or_external_requirements": [
+    "No compilation/native execution established SDK symbol/link availability, exact WFP enabled flag/security normalization,10013, effective denial, object privileges or cleanup. Conservative readback differences fail rather than being tolerated.",
+    "Host-only durable journal/tombstone and exact profile/source/DLL/tool/worker binding are intentionally not C functions. Root must enforce before Arm/resume and never recover live owner from saved data.",
+    "BeforeResume verifies Job membership/policy, but suspended token SID/capabilities and exact process creation/suspension/allowed handles remain existing Python guard responsibilities. C is not a standalone arbitrary-process sandbox.",
+    "Fixed DLL compiler/output allowlist and retained callbacks are lead-owned, not implemented here. No Native guard branch changes, GUI exposure or ordinary firewall-check relaxation are authorized by this ABI.",
+    "The object ACL check, base SID shape, flat196-byte INFO and all lifecycle failures need targeted source/fault review and actual guard-only Windows tests. No policy cleanup success follows from disposal alone.",
+    "Crash test must preserve orphan deny/tombstone; full parent/child IPv4/IPv6 TCP/UDP plus inbound applicability, positive controls, cancellation/assignment faults remain required.009timeout10060 failure is unchanged.",
+    "Persistent BFE-dependent policy is not boot-time/BFE-off coverage, hostile-admin resistance, nonadmin installation, Native routing, Windows product support or human security review."
+  ],
+  "next_action": "Lead reads all397 C lines and ABI, integrates only narrow owned callbacks/compiler recipe/state boundary, then independent source/fault review. Build/CI only after reviewed frozen protocol and fresh zero-cost/permissions checks. This author ran only text/whitespace inspection, not build or tests."
+}

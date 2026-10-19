@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "kind": "Windows011-build-null-ABI-readiness-independent-source-review",
+  "scope": "Read new readiness Python/PowerShell and manual workflow guard-build mode completely, exact fixed DLL compiler/PE delta and relevant existing Job/resource cleanup; inspected additive LF attributes. Previously reviewed C is a referenced unchanged pin, not re-researched. Protocol not yet frozen/presented for this review.",
+  "AI_not_human_review": true,
+  "inspected_pins": [
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_build.py",
+      "bytes": 15036,
+      "lines": 249,
+      "sha256": "6821969191b65808a12fc06e877e5b213e5eceec1e2a110ddb41e31988fcd697"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_build.ps1",
+      "bytes": 6948,
+      "lines": 117,
+      "sha256": "f08e7010788ac9c2bc8d0a8b928bac8ba4a0d459f47bb50c860ae5bee281e30e"
+    },
+    {
+      "path": ".github/workflows/manual-python-controls.yml",
+      "bytes": 4148,
+      "lines": 108,
+      "sha256": "9a4baebbf6002a5a7e4623131d077b972488947d1179f29d597e65c8a8edca9c"
+    },
+    {
+      "path": "scripts/windows_native_slice/windows_process.py",
+      "bytes": 30612,
+      "lines": 367,
+      "sha256": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 494,
+      "lines": 9,
+      "sha256": "de71165fdcc48e8b90ae70267fe7bd50db23eb32d0f00aa6625b0ef3220de48c"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+      "bytes": 20931,
+      "lines": 409,
+      "sha256": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584"
+    }
+  ],
+  "decision": "No concrete compile/controller/hash/timeout/resource correctness blocker found for this fixed build plus null-owner ABI readiness scope. This is static review only, not an actual build/ABI result or authorization to arm WFP/install/route. Final frozen protocol and external source/protocol pins remain pre-dispatch prerequisites.",
+  "blocking_findings": [],
+  "checks": [
+    {
+      "area": "Mode isolation and workflow",
+      "result": "Manual windows-guard-build choice selects only the standard windows-2022 guard-build job, contents:read, pinned checkout with exact github.sha, persist-credentials:false, scripts/windows_native_slice sparse checkout,3minute job cap. Other installation/Native jobs have distinct conditions. No artifact/cache/upload/install step is added by this mode. Fresh public/free permission preflight remains lead responsibility."
+    },
+    {
+      "area": "Source/protocol identity",
+      "result": "PowerShell checks external exact40/64hex inputs, GITHUB_SHA, detached HEAD, protocol hash and exact9source census before Python. Python independently checks hosted Windows x64/workspace, detached checkout/event SHA, bounded64KiB protocol/kind/base and exact source path/hash census. It holds protocol+9sources under existing read-sharing-only guards through compilation/load and rereads freshness afterward and before successful publication. Additive .gitattributes pins these source/protocol filesLF on Windows; existing workflow/toolchainLF rules remain."
+    },
+    {
+      "area": "Fixed compiler recipe",
+      "result": "Controller emits exact27argument DLL command matching _guard_setup_argv: only persistent_sid_guard.c, fixed freshDLL/OBJ/IMPLIB/PDB paths, fixed MSVC/SDK includes/libs, /W4 /WX /O1 /MT /LD and kernel32/advapi32/fwpuclnt/ole32. No arbitrary response source/hook is admitted. Setup uses existing owned suspended Job lifecycle and source/compiler pin guards. DLL output is read only after verified reaping/finally and must be bounded4MiB AMD64 PE32+ with DLL bit."
+    },
+    {
+      "area": "DLL load and NULL ABI",
+      "result": "Load binds exact output hash under preserved file guard and WinDLL winmode0x900 (DLL-directory/System32 search). Explicit signatures match12exported DWORD WINAPI x64 functions; GUID/INFO sizes and all196byte offsets checked.14cases pass only NULL owners/invalid SID/output-pointer arguments and require exact refusal codes plus unchanged INFO/slot/no created owner. No valid SID/profile/owner, Arm body or policy/socket operation is requested. No C/ABI native result exists until actual execution."
+    },
+    {
+      "area": "Bounds and cleanup",
+      "result": "Compiler retains original30second wall/fullJobCPU,2GiB memory,256KiB log,128MiB scratch/4000entry controls and compiler-main-zero owned remainder finalization; status/cleanup/validated-role must succeed. Python rejects successful freshness witness at150seconds; PowerShell waits only until170seconds from its own start and reserves bounded kill/wait/output retrieval inside3minute workflow. Timeout or unknown cleanup fails and does not infer compiler cleanup from controller exit."
+    },
+    {
+      "area": "Evidence and costs",
+      "result": "Compiler log is read as at most256KiB+1 and emitted in lossless24KiB-base64 chunks with truncation recorded/refused. Readiness report capped256KiB; PowerShell checks stdout1MiB/stderr64KiB/report256KiB and child exit/status flags. Source witness rechecked after material log reads. Compiler fullJobCPU, controller CPU and whole-exitCPUunknown are distinct; report fields keep Native/product/policy/profile/socket/installer support false."
+    }
+  ],
+  "nonblocking_limits_and_final_freeze_requirements": [
+    "Protocol was explicitly pending; this review does not verify its final bytes/pins. Freeze correct KIND windows011-build-null-ABI-readiness-v1/base580793ac6087021bf9567f764df5b9f55bfab9db/exact9currentLF hashes, then pass exact final commit and protocol SHA as workflow inputs. No self-referential commit pin is needed.",
+    "No local PowerShell parser/run or SDK build/WinDLL call was performed. Lead reports local targeted pure checks/AST parse; those are not independently rerun or claimed as Windows proof here.",
+    "PowerShell ReadToEndAsync enforces its output-size check after collection, not a live stream/RSS ceiling. The trusted fixed Python producer itself bounds log chunks and report output; do not describe the collector as a hostile-output sandbox or controllerOS-memory cap.",
+    "Failed startup/API/cleanup or watchdog termination can prevent a compiler/process report; preserved available diagnostics and explicit unknown cost/cleanup are required. No successful isolation inference follows from such failures.",
+    "Readiness pass would establish compile/load/export/null-refusal/ABI-layout observations only. Valid owner, WFP policy/ACL/privileges, real denial, process-lifetime/crash/reuse, journal/wiring, Native/GUI/Windows product support remain outside this mode."
+  ],
+  "execution": {
+    "source_or_workflow_edits": false,
+    "tests": false,
+    "jobs": false,
+    "build": false,
+    "Native": false,
+    "GUI": false,
+    "CI_dispatch": false,
+    "network": false,
+    "delegation": false,
+    "model_override": false,
+    "only_authored_file": ".runs/windows011-readiness-independent-review-001.json",
+    "review_CPU_or_wall_independently_measured": false
+  },
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "next_action": "Lead freezes/audits protocol and source, verifies current public/free CI permissions, and decides on the separately authorized single bounded readiness dispatch. No later policy/journal research or implementation is requested by this review."
+}

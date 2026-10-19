@@ -1,0 +1,310 @@
+{
+  "schema": 1,
+  "kind": "Windows011-exact-fresh-SID-persistent-guard-lifecycle-proposal",
+  "recorded_utc": "2026-10-19T05:19:25.539479+00:00",
+  "scope": "Bounded implementable guard-only proposal; not implementation, execution, Windows support or another installer. Existing010 decision/009 failure remain unchanged. No new spending, dependencies, Native, source/workflow edits, Git or delegation performed.",
+  "decision": "Proceed to a narrowly reviewed CI-only guard implementation; the deliberate never-remove-orphan contract removes the named-Job prerequisite. Do not dispatch until source/ABI/policy/state and complete canary protocol are reviewed.",
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "Native_executed": false,
+  "CI_dispatched": false,
+  "tests_executed": 0,
+  "source_edits": 0,
+  "source_pins": {
+    ".runs/windows010-persistent-delta-001.json": {
+      "bytes": 16553,
+      "sha256": "64615a548888d076ffc6c6ad27fb1c59441608fbf5a376ac763550ea80ec937f"
+    },
+    ".runs/windows010-bounded-disposition-001.json": {
+      "bytes": 8347,
+      "sha256": "f9a8c2bdda6ec15312b55b66dd8905aece429444f9e175bd1e8f65e76bc13ad4"
+    },
+    ".runs/windows010-wfp-prerequisite-lead-001.json": {
+      "bytes": 3166,
+      "sha256": "7e0226a1999017069758eae6e152cb00bcee225e5299b8d7a52ee0caf09ee520"
+    },
+    "scripts/windows_native_slice/windows_process.py": {
+      "bytes": 27785,
+      "sha256": "8d61277d1db5cc9d4e4c7ffb98a745d13fe55953d44531bdaaadcbc9b39cbb6d"
+    },
+    "scripts/windows_native_slice/appcontainer_launch.py": {
+      "bytes": 25595,
+      "sha256": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d"
+    },
+    "scripts/windows_native_slice/appcontainer_canary.py": {
+      "bytes": 13678,
+      "sha256": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4"
+    },
+    "evidence/windows-appcontainer009-actual001.json": {
+      "bytes": 15080,
+      "sha256": "9c15f74e22323594c00fceca302657b7fbfe0a4df8bc895fdd0eabbc17c2d0ca"
+    }
+  },
+  "principal_inference": "The prior named/reopenable Job requirement was for later safe removal after controller death. If any crash/unknown permanently forbids that removal and SID reuse, persistent exact-SID BLOCK can outlive the lost unnamed Job handle without needing a later zero-membership inference. This is a design inference from documented persistent lifetime, not a tested isolation result. Normal removal still requires the original live guard and retained actual handles.",
+  "supported_failure_model": {
+    "included": [
+      "Normal exit, handled failure/cancellation, failed process assignment, controller crash/kill while an owned descendant can still be alive, partial policy transaction and ambiguous API/state outcomes."
+    ],
+    "excluded": [
+      "Hostile administrator or kernel, external BFE/service/security-policy changes, arbitrary same-user hostile code/IPC, disk power-loss durability, reboot/boot-time coverage and unsupported protocols outside the declared canary."
+    ],
+    "assumptions": "BFE and the trusted Windows host remain operational; contained code cannot alter guard policy/state or escape the existing Job/token/handle/file restrictions. Persistent is not a boot-time filter. Elevated CI success does not establish nonadmin product operation."
+  },
+  "minimal_implementation": {
+    "component": "One small C SDK helper DLL loaded by the trusted Python controller, plus narrow hooks in existing AppContainerLaunch/windows_process; reuse the same _run_job loop, limits, cancellation and accounting. No second runner, service, named Job, WFP callout driver, global policy toggle, allow rule or exemption.",
+    "why_C": "Use installed Windows SDK definitions/UUID constants and Fwpuclnt/Userenv/Advapi32 APIs rather than reproducing FWPM union/alignment layouts across many ctypes structures. Expose opaque context handles and bounded typed scalar/buffer calls; never deserialize pointer addresses, Job handles or cleanup authority from JSON.",
+    "proposed_boundary": [
+      "guard_create_from_actual_fresh_profile_sid: copy/validate the real CreateAppContainerProfile SID, generate one owned persistent sublayer key and4filter keys, durably reserve name/SID/keys, atomically install fixed policy, read it back; return opaque in-process owner.",
+      "guard_register_job: DuplicateHandle of the actual newly created unnamed Job into the same controller, noninheritable, before creating its process. Keep bounded live handle registry; no PID/name-based reopening.",
+      "guard_register_process: retain noninheritable duplicate of every newly created suspended process handle before any fallible assignment/token step; bind it to the registered Job. This covers assignment failure where Job ActiveProcesses0 alone cannot prove that unassigned process is dead.",
+      "guard_check_armed: exact policy, state, SID and source/tool contract readback before every existing ResumeThread and after run. Preserve actual zero-capability token SID verification and HANDLE_LIST(log,NUL).",
+      "guard_close_when_empty: irreversibly refuse further launches, query each retained Job handle with JobObjectBasicAccountingInformation, require ActiveProcesses==0 and each retained created process handle signalled. Only this live owner can remove its policy; do not accept a saved ZERO receipt as authority.",
+      "guard_abandon: close local API resources only; never delete persistent policy, restore ownership by adoption, reuse SID/name/keys or mark cleanup complete on crash/unknown."
+    ],
+    "runner_delta": "Add exact typed guard callbacks around existing CreateJobObject/CreateProcess/Assign/Resume/finally. Preserve default firewall branch exactly. Existing process_created()/job_reaped() counters are insufficient cleanup authority by themselves; extend them with retained actual handle registration/query. Duplicate handles are never inherited and close with controller, preserving kill-on-last-Job-handle-close; persistent deny remains.",
+    "fixed_policy": {
+      "session": "Non-dynamic FWPM_SESSION0(flags0, bounded txnWaitTimeoutInMSec), local engine only.",
+      "layers": [
+        "FWPM_LAYER_ALE_AUTH_CONNECT_V4",
+        "FWPM_LAYER_ALE_AUTH_CONNECT_V6",
+        "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4",
+        "FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6"
+      ],
+      "filters": "Exactly4 FWPM_FILTER0, one per layer: persistent+enabled, FWP_ACTION_BLOCK, exactly1 EQUAL FWPM_CONDITION_ALE_PACKAGE_ID/FWP_SID containing a copied validated actual fresh SID. No protocol/address/port restrictions; never a zero-condition intermediate. One fresh persistent custom sublayer; providerKeyNULL for both unless a separately reviewed persistent provider is necessary. No callout/provider-context/permit/boot-time/disabled flags.",
+      "readback": "Verify exact keys, layer, sublayer, action, all flags (including disabled absence), condition count1/type/match/SID bytes and object security descriptor. Retain actual filterId/effectiveWeight separately; do not treat name or add-success as proof. Exact own-key collision fails; never replace/adopt an existing filter/sublayer.",
+      "ACL": "Pass protected object DACLs at Add, narrowly granting SYSTEM/elevated creator administration; no AppContainer SID/capability grant and no engine/container/global security edits. Independently read DACLs back. Retain existing exact filesystem DACL restoration; host-only state/DLL must never enter the SID-readable/writable scratch grant."
+    },
+    "compilation": "Existing compiler setup allowlist currently permits only fixed appcontainer_probe.c EXE builds and DNS helper. A separate exact fixed owned C-DLL build recipe/link list and PE-DLL output check are a necessary narrow future change; do not bypass _setup_argv or relabel it as a Native tool. Setup remains additional trusted-CI authoring/no-network-isolation-claim cost."
+  },
+  "durable_ownership": {
+    "location": "New exclusive host-only sibling of the fresh AppContainer scope, outside tools/scratch grants; exact canonical local path, no reparse/hardlink aliases, deny write/delete sharing, protected DACL. Retain evidence; no automatic deletion after crash.",
+    "journal": "Bounded append-only CREATE_NEW journal: profile UUID/name and owned keys reserved before profile/policy writes; append actual SID bytes/string/length plus source/tool/protocol pins before policy commit/any launch; write complete bounded records with hashes and FlushFileBuffers. A torn/missing/corrupt/out-of-order record is unknown, not permission to clean. Filesystem/WFP transactions are not one atomic transaction.",
+    "tombstone": "Profile name and SID are permanently reserved even after successful normal cleanup. On any crash/unknown retain remaining deny, state, owned files and any not-yet-deleted profile; append ORPHAN only if safe. If crash precedes SID persistence, reserved profile name remains forbidden and no contained process was permitted yet. Later invocations may inspect exact keys read-only, but cannot adopt, remove, reuse or infer zero from PIDs, closed handles, absent profile, elapsed time or old receipts.",
+    "concurrency": "Exclusive state root and per-instance lock before any mutation; no concurrent use of a guard. Never launch from a recovered state. Missing/ambiguous state denies use/cleanup of that identity. Future separate fresh identities are permitted only after bounded ownership preflight; no sweeping enumeration/deletion of project-named objects.",
+    "durability_limit": "Process-crash safety while the host/state volume remains available, not a verified power-failure storage guarantee. Hosted-runner destruction is not a successful cleanup receipt. Do not copy this RUNNER_TEMP prototype into a persistent user installation without a durable protected state location and its own qualification."
+  },
+  "state_machine": [
+    {
+      "state": "RESERVED",
+      "action": "Exclusively reserve never-reused profile name and5object GUIDs; persist intent. No child exists, no global policy changed."
+    },
+    {
+      "state": "PROFILE_FRESH",
+      "action": "CreateAppContainerProfile must return onlyS_OK; validate/copy SID, retain profile storage identity, persist SID reservation. Existing-profile adoption refuses."
+    },
+    {
+      "state": "POLICY_COMMITTED",
+      "action": "Non-dynamic engine; explicit transaction adds persistent sublayer+4exact filters with supplied narrow DACLs. Abort on any failed add; commit must succeed. No child can start/resume."
+    },
+    {
+      "state": "ARMED",
+      "action": "Readback all5objects and exact SID conditions/security, flush ARMED state. Seal tools/helper/source and existing ACL grant. Only now create suspended contained processes."
+    },
+    {
+      "state": "RUNNING",
+      "action": "Register retained Job/process handles; assign without breakaway; verify AppContainer token SID+zero caps and exact guard before ResumeThread. Existing bounded Job loop unchanged."
+    },
+    {
+      "state": "DRAINING",
+      "action": "Irreversibly close launch authority. Keep deny installed; terminate/wait owned Jobs/processes as needed and keep all original cleanup errors."
+    },
+    {
+      "state": "ZERO_LIVE_OWNER",
+      "action": "Fresh QueryInformationJobObject on every retained Job handle returns ActiveProcesses0 and every created process handle is signalled. Query failure/nonzero/unknown means ORPHAN, never removal."
+    },
+    {
+      "state": "POLICY_REMOVED",
+      "action": "Only current live owner may transactionally delete exact4filters then own sublayer after fresh content/DACL recheck. Commit success plus independently opened non-dynamic exact-key queries must prove expected FILTER_NOT_FOUND/SUBLAYER_NOT_FOUND. Any other error is unknown. Never delete by enumeration/name."
+    },
+    {
+      "state": "CLOSED",
+      "action": "Finish/verify existing original DACL restoration, profile deletion/storage absence and close retained handles; permanent SID/name tombstone remains. cleanup_complete requires every process, policy and existing file/profile gate; partial teardown is explicit."
+    },
+    {
+      "state": "ORPHAN_PERMANENT",
+      "action": "Any crash, unknown state/API, lost ownership/handle or cleanup uncertainty takes this terminal branch. Retain remaining persistent deny and owned state; no next-run cleanup or SID/profile reuse. Never mark cleanup complete."
+    }
+  ],
+  "ordering_notes": [
+    "Policy deletion and object-absence queries are reachable only after fresh live-handle zero proof. A crash during/after deletion is safe for this lifecycle question because all registered processes were already proven dead and launches are sealed; never restart that SID.",
+    "Normal DACL/profile cleanup may be ordered before policy deletion while copied SID/retained handles remain alive; if any step fails, retain remaining deny and describe partial changes. Do not promise to restore already deleted objects. The final implementation must choose one tested order rather than finally-unconditionally removing filters.",
+    "Retaining duplicate Job handles postpones kill-on-close until controller termination, but controller crash closes all its copies. If the guard/helper loses ownership while controller lives, explicitly TerminateJobObject and retain deny; do not just close the engine and call cleanup successful."
+  ],
+  "required_C_SDK_surface": {
+    "structs": [
+      "GUID",
+      "FWPM_SESSION0",
+      "FWPM_DISPLAY_DATA0",
+      "FWPM_SUBLAYER0",
+      "FWPM_FILTER0",
+      "FWPM_FILTER_CONDITION0",
+      "FWPM_ACTION0",
+      "FWP_VALUE0",
+      "FWP_CONDITION_VALUE0",
+      "FWP_BYTE_BLOB",
+      "SID",
+      "JOBOBJECT_BASIC_ACCOUNTING_INFORMATION",
+      "SECURITY_DESCRIPTOR/ACL"
+    ],
+    "functions": [
+      "FwpmEngineOpen0/Close0",
+      "FwpmTransactionBegin0/Commit0/Abort0",
+      "FwpmSubLayerAdd0/GetByKey0/DeleteByKey0",
+      "FwpmFilterAdd0/GetByKey0/DeleteByKey0",
+      "FwpmFilterGetSecurityInfoByKey0 and corresponding sublayer getter",
+      "FwpmFreeMemory0",
+      "IsValidSid/GetLengthSid/EqualSid/CopySid",
+      "DuplicateHandle/GetCurrentProcess",
+      "QueryInformationJobObject",
+      "WaitForSingleObject",
+      "CloseHandle",
+      "CreateFileW/WriteFile/FlushFileBuffers",
+      "ConvertStringSecurityDescriptorToSecurityDescriptorW/LocalFree"
+    ],
+    "lifetime": "Use SDK headers/libraries; keep input SID/condition/action/weight/security buffers valid for synchronous API calls; deep-copy retrieved SID/security data before FwpmFreeMemory0. Opaque context owns all native handles, copied SID, keys, journal and bounded return JSON. Explicit native API return codes, not Python exceptions alone, remain proof."
+  },
+  "finite_canary_matrix": [
+    {
+      "case": "ABI-and-policy-prelaunch",
+      "required": "Compile with existing pinned preinstalled x64 MSVC/SDK, no download. Verify exact persistent4filter readback and narrow DACL, zero-capability sameSID suspended token, handle allowlist, own root/tool pins. Fault each API/add/commit/readback/short state failure before resume: zero contained work, no adoption/global policy, explicit retained orphan/aborted transaction."
+    },
+    {
+      "case": "normal-denial-and-cleanup",
+      "required": "Freeze independent reachable owned IPv4/IPv6 TCP listeners and UDP echo fixtures plus one frozen public IPv4TCP address before attempts. Outside-container actual positive exchanges before/after. Collect all parent and different child executable observations, both IP families/TCP/UDP; strict10013 access denial for outbound operations, never timeout10060/unreachable/success. Preserve exact records even after a failure. Include receive/accept tests with independently positive outside controls; if this cannot establish applicable inbound behavior, label that coverage unmet and do not claim full4layer isolation."
+    },
+    {
+      "case": "cancellation-and-assignment-failure",
+      "required": "Cancel actual held parent+child with existing Job loop; require actual cancelled status, fullCPU charged, all retained Job ActiveProcesses0 and process handles signalled before removal. Inject assignment/creation failure and require unassigned suspended process signalled too; zero Job count alone cannot pass. Failed/unknown cleanup must retain deny and tombstone."
+    },
+    {
+      "case": "abrupt-controller-death",
+      "required": "One fresh guard with live parent/child, exact token+policy armed and no inherited Job/engine/state handles. Kill only the owned controller using a separately bounded trusted CI harness. A later read-only observer verifies the same4persistent keys/SID and ORPHAN retention; it must not remove them, reuse identity or claim descendants permanently absent. Keep child/outer accounting unknown where unavailable. An actual crash test needs a narrow fixed trusted-controller authoring entry in the existing Job supervisor if current setup allowlist cannot launch it; no generic unguarded routing API."
+    },
+    {
+      "case": "later-invocation-refusal",
+      "required": "Attempt explicit reuse/reconciliation from valid/stale/corrupt/missing saved state and same profile/SID/key fixtures. All refuse launch/removal; original orphan objects remain byte/semantic-identical. A fresh unrelated SID and outside connectivity remain unaffected. No next-run PID or named-Job cleanup fallback."
+    }
+  ],
+  "bounds": {
+    "platform": "Only standard ephemeral public GitHub-hosted Windows x64 after fresh zero-cost/permission/source audit; no Mac API invocation, paid runner, self-hosted runner or dependencies.",
+    "guard": "At most1fresh persistent sublayer+4filters per case, at most2 registered probe Jobs/4created handles per guard; bound host journal128KiB/32records, existing canary scratch128MiB/4000entries/RSS2GiB/log256KiB/perlaunch<=60s unchanged.",
+    "run": "Freeze finite normal/cancel/crash cases once, sequential, inside an explicitly reviewed existing180s whole guard-only envelope. Measure setup, all process/waited Job CPU, policy readbacks/selection/cleanup and observer costs separately and whole exit. If the fixed full matrix cannot fit, stop/split a separately frozen diagnostic scope before execution; never silently omit a gate, relax checks, retry endpoints or raise limits.",
+    "orphan": "No unbounded repetition/garbage collector/background service. At most the predeclared case population; unexpected orphan count or policy population refuses further work and remains visible. Zero artifact retention or minimal bounded text retention only; no PCB/private data."
+  },
+  "reject_conditions": [
+    "Missing/elevated access/unsupported ALE_PACKAGE_ID/layer/SDK/ACL or any WFP readback error; no permission-changing workaround.",
+    "Any filter with no condition, wrongSID/layer/action/flags/key, disabled/provider state, unknown lifetime/dependency, changed source/tool or unexpected policy collision.",
+    "Any token/capability mismatch, inherited guard handles, unknown process assignment or loss of registered live handle custody.",
+    "Any socket success,10060timeout, missing IP/protocol/positive control, uncollected parent/child observation or unexplained endpoint selection; retain all, no denial claim.",
+    "Any deletion before fresh retained-handle zero/signalled proof, next-run deletion/adoption/reuse, PID absence inference, missing/torn state, failed absence query or cleanup flag fabricated from profile deleteS_OK alone.",
+    "BFE/service state outside declared operational assumption, abnormal termination/unknown cleanup, resource cap breach or unbounded observer. No Native/tool installation gate opens from a partial guard result."
+  ],
+  "facts_vs_inferences": "All implementation/state ordering and prospective canary outcomes are engineering proposals/inferences. Microsoft documentation below supports API object/handle/SID semantics only; it does not prove Windows011 networking,10013, crash cleanup or product support.",
+  "primary_sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/object-management",
+      "checked": "Persistent objects remain until deleted; dynamic session objects disappear with session. Transactions are atomic and persistent dependencies cannot be shorter-lived. Persistent enforcement begins with BFE, not boot-time. These facts support retaining orphan policy, not claiming BFE-off continuity."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmtypes/ns-fwpmtypes-fwpm_filter0",
+      "checked": "Exact filter state includes keys/layer/sublayer/flags/action/condition count. Conditions are ANDed; none makes action unconditional. Persistent differs from boot-time; disabled state can be returned. Readback rather than requested flags is required."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmtypes/ns-fwpmtypes-fwpm_sublayer0",
+      "checked": "Persistent sublayer flag survives BFE stop/start; SDK structure contains GUID, display data,flags,optional provider,data,weight. A unique persistent dependency is proposed, not an existing global sublayer change."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwptypes/ns-fwptypes-fwp_condition_value0",
+      "checked": "FWP_CONDITION_VALUE0 is a tagged union; FWP_SID selects non-null SID pointer. C SDK marshalling avoids guessed ctypes layout."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/filtering-condition-identifiers-",
+      "checked": "ALE_PACKAGE_ID is the AppContainer SID and uses FWP_SID on Windows8+. Opened English primary page directly, not only a search snippet."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/filtering-conditions-available-at-each-filtering-layer",
+      "checked": "Opened primary layer lists show ALE_PACKAGE_ID available for AUTH_CONNECT and AUTH_RECV_ACCEPT IPv4/IPv6. This does not establish actual10013/loopback/protocol observations."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmfiltergetbykey0",
+      "checked": "Exact-key retrieval requiresREAD; returns FWPM_FILTER0 and memory must be freed with FwpmFreeMemory0. RPC/access errors are not absence."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmfilterdeletebykey0",
+      "checked": "Exact-key deletion needsDELETE; persistent objects must not be deleted through a dynamic session. A success return still needs separate exact absence queries for the proposal."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmu/nf-fwpmu-fwpmfilteradd0",
+      "checked": "ADD and referenced-object ADD_LINK rights apply; fixed conditioned policy must be constructed fully before Add, never the conditionless SDK example."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/access-control",
+      "checked": "BFE uses token/security descriptors; object SDs can be supplied at creation. Administrators have broad engine rights; everyoneOPEN/CLASSIFY does not confer filter mutation. No engine/global ACL change is proposed."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmtypes/ns-fwpmtypes-fwpm_session0",
+      "checked": "Session flags distinguish dynamic; txnWaitTimeoutInMSec bounds transaction acquisition waiting. Use local non-dynamic session, not caller-provided processId/SID authority."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle",
+      "checked": "Duplicate refers to the same underlying object; noninheritable duplicates are supported. Retaining actual duplicate Job/process handles is a live identity mechanism, unlike reopening a PID."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-queryinformationjobobject",
+      "checked": "Actual Job handle withQUERY right returns accounting class1. A retained handle query, not a saved receipt or inability to open a Job, supplies the normal-cleanup prerequisite."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fwp/filter-arbitration",
+      "checked": "Arbitration occurs within/between sublayers with action override policy. A unique sublayer prevents same-sublayer higher-weight shadowing in the proposed owned set, but host behavior still needs actual controls; no hostile administrator resistance is inferred."
+    }
+  ],
+  "other_checked_primary": {
+    "url": "https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-deriveappcontainersidfromappcontainername",
+    "note": "Documentation returns a profile SID freed withFreeSid. It was checked, but pre-profile derivation is not required or assumed by the minimal proposal; actual fresh CreateProfile SID remains authority."
+  },
+  "remaining_concrete_gates": [
+    "Implement/review the small SDK helper, strict owned DLL compiler recipe and retained-handle callbacks; no Native capability/GUI/ordinary runner widening.",
+    "Prove required WFP privilege, object ACL/marshalling, all exact SID readbacks and fail-closed state transitions on actualWindows before one frozen guard-only canary.",
+    "Run finite normal/cancel/crash/reuse and all required network-positive/explicit-denial controls under verified-zero-cost publicCI. Missing protocol/inbound or lifecycle proof remains unsupported, not an installer retry.",
+    "Even complete elevated guard-only success would leave nonadmin architecture, actual KiCad export/route/import/refill/validation/cancellation/delivery, clean installation and Windows product qualification unmet."
+  ],
+  "accounting": "Bounded source/official Microsoft web review only. No execution/test/Native/CI cost was incurred by this subtask; research/AI/authoring CPU was not independently measured and is notzero.",
+  "existing_runner_fact": "Current finally already distinguishes created-but-unassigned process wait from assigned Job ActiveProcesses0 and refuses incomplete cleanup. The new prerequisite is retained duplicated Job/process custody through AppContainer final policy removal; the existing runner currently closes them before context exit.",
+  "minimum_next_files_and_commands": {
+    "prospective_not_executed": true,
+    "first_slice_files": [
+      "scripts/windows_native_slice/persistent_sid_guard.c (new, fixed SDK DLL with opaque owner and exact4filter policy)",
+      "scripts/windows_native_slice/appcontainer_launch.py (strict CI-only guard state plus retained-handle hooks)",
+      "scripts/windows_native_slice/windows_process.py (existing shared Job registration callbacks and exact additional owned DLL build recipe; ordinary firewall branch unchanged)",
+      "tests/test_windows_persistent_guard.py (new focused lifecycle/shape/fault controls; Windows native controls still mandatory)"
+    ],
+    "second_slice_files_only_after_first_review": [
+      "scripts/windows_native_slice/appcontainer_canary.py",
+      "scripts/windows_native_slice/appcontainer_probe.c (collect-all IPv4/IPv6 TCP/UDP and token observations)"
+    ],
+    "prospective_build_argv": [
+      "<pinned preinstalled MSVC x64 cl.exe>",
+      "/nologo",
+      "/W4",
+      "/WX",
+      "/O1",
+      "/MT",
+      "/LD",
+      "/DUNICODE",
+      "/D_UNICODE",
+      "<exact existing SDK/MSVC include arguments>",
+      "<project>/scripts/windows_native_slice/persistent_sid_guard.c",
+      "/Fo<owned setup>/persistent-sid-guard.obj",
+      "/Fe<owned setup>/persistent-sid-guard.dll",
+      "/link",
+      "/INCREMENTAL:NO",
+      "<exact existing x64 SDK/MSVC library arguments>",
+      "kernel32.lib",
+      "advapi32.lib",
+      "fwpuclnt.lib"
+    ],
+    "command_limits": "This is a future fixed allowlist recipe, not an executable shell command or permission to call cl.exe here. Verify DLL AMD64/PE32+ format, exact source/compiler/output hashes and reaped compiler Job using existing30s/30CPU setup bounds; no generic /LD/arbitrary source entry.",
+    "qualification_order": "First static/source+targeted fault review, then a separately frozen Windows011 guard-only controller/matrix and fresh zero-cost public-runner preflight. Existing manual workflow should remain unchanged if its bounded mode can invoke the exact audited controller; any dispatch/workflow change needs lead review. No installer/Native command is part of011."
+  }
+}

@@ -150,6 +150,7 @@ class WindowsProbeControls(unittest.TestCase):
                    and isinstance(n.test.left,ast.Name) and n.test.left.id=='setup_authoring')
         code=compile(ast.fix_missing_locations(ast.Module(body=[guard],type_ignores=[])),'compiler-contract','exec')
         for contract,expected in ((None,None),({'kind':'fixed-owned-DNS-helper'},None),
+                                  ({'kind':'fixed-owned-C-guard-DLL-build'},'persistent-sid-guard'),
                                   ({'kind':'fixed-owned-C-canary-build','role':1},1),({'kind':'fixed-owned-C-canary-build','role':2},2)):
             scope=dict(setup_authoring=contract,owned_setup=True,appcontainer=None,compiler_role=None)
             exec(code,scope);self.assertEqual(scope['compiler_role'],expected)
@@ -157,6 +158,8 @@ class WindowsProbeControls(unittest.TestCase):
                          {'kind':'fixed-owned-C-canary-build','role':3},{'kind':'fixed-owned-C-canary-build'},True):
             with self.subTest(contract=contract),self.assertRaises(ValueError):
                 exec(code,dict(setup_authoring=contract,owned_setup=True,appcontainer=None,compiler_role=None))
+        with self.assertRaises(ValueError):
+            exec(code,dict(setup_authoring={'kind':'fixed-owned-C-guard-DLL-build','role':1},owned_setup=True,appcontainer=None,compiler_role=None))
         with self.assertRaises(ValueError):
             exec(code,dict(setup_authoring={'kind':'fixed-owned-C-canary-build','role':1},owned_setup=False,appcontainer=None,compiler_role=None))
         with self.assertRaises(ValueError):
@@ -199,7 +202,21 @@ class WindowsProbeControls(unittest.TestCase):
         @contextmanager
         def preserved(path,root):
             yield dict(sha256=hashlib.sha256(path.read_bytes()).hexdigest(),file_id=[1,2,3])
-        return self.process_function('_compiled_role_output',safe=lambda path,root:path,preserved=preserved)
+        read=self.process_function('_read_compiler_pe_output',safe=lambda path,root:path,preserved=preserved)
+        return self.process_function('_compiled_role_output',_read_compiler_pe_output=read)
+
+    def test_guard_dll_output_cannot_be_an_executable_or_wrong_architecture(self):
+        read=self.compiled_output_reader().__globals__['_read_compiler_pe_output']
+        guard=self.process_function('_compiled_guard_output',_read_compiler_pe_output=read)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);path=root/'persistent-sid-guard.dll';raw=self.minimal_pe()
+            path.write_bytes(raw)
+            with self.assertRaises(ValueError):guard(root)
+            raw[86:88]=(0x2002).to_bytes(2,'little');path.write_bytes(raw)
+            self.assertEqual(guard(root)['role'],'persistent-sid-guard')
+            self.assertIn('DLL;',guard(root)['format'])
+            raw[68:70]=b'\x4c\x01';path.write_bytes(raw)
+            with self.assertRaises(ValueError):guard(root)
 
     def minimal_pe(self):
         raw=bytearray(256);raw[:2]=b'MZ';raw[60:64]=(64).to_bytes(4,'little')
@@ -320,12 +337,12 @@ class WindowsProbeControls(unittest.TestCase):
     def setup_argv(self):
         """Exercise the real authoring allowlist without importing Windows APIs."""
         tree=ast.parse((ROOT/'windows_process.py').read_text())
-        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_setup_argv')
+        functions=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in ('_setup_argv','_guard_setup_argv')]
         import os,re,sys
         scope=dict(Path=Path,os=os,re=re,sys=sys,__file__=str(ROOT/'windows_process.py'),
                    digest=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest(),
                    safe=lambda path,root:path)
-        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
+        exec(compile(ast.fix_missing_locations(ast.Module(body=functions,type_ignores=[])),str(ROOT/'windows_process.py'),'exec'),scope)
         return scope['_setup_argv']
 
     def test_setup_dns_allows_only_fixed_isolated_helper(self):
@@ -364,6 +381,34 @@ class WindowsProbeControls(unittest.TestCase):
                 with self.assertRaises(ValueError):gate(argv+['/extra'],setup)
                 (setup/'probe-parent.exe').touch()
                 with self.assertRaisesRegex(ValueError,'fresh owned compiler outputs'):gate(argv,setup)
+
+    def test_guard_setup_allows_one_fixed_source_and_cannot_widen_the_compiler(self):
+        import os
+        from unittest.mock import patch
+        gate=self.setup_argv()
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp).resolve();program=root/'ProgramFiles';program86=root/'ProgramFilesX86';setup=root/'setup';setup.mkdir()
+            vc=program/'Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.0'
+            exe=vc/'bin/Hostx64/x64/cl.exe';exe.parent.mkdir(parents=True);exe.write_bytes(b'owned test path only')
+            kit=program86/'Windows Kits/10';sdk=kit/'Include/10.0.26100.0'
+            includes=[vc/'include',sdk/'ucrt',sdk/'shared',sdk/'um']
+            libraries=[vc/'lib/x64',kit/'Lib'/sdk.name/'ucrt/x64',kit/'Lib'/sdk.name/'um/x64']
+            for path in [*includes,*libraries]:path.mkdir(parents=True)
+            argv=[str(exe),'/nologo','/W4','/WX','/O1','/MT','/LD','/DUNICODE','/D_UNICODE',
+                  *['/I'+str(p) for p in includes],str((ROOT/'persistent_sid_guard.c').resolve()),
+                  '/Fo'+str(setup/'persistent-sid-guard.obj'),'/Fe'+str(setup/'persistent-sid-guard.dll'),'/link','/INCREMENTAL:NO',
+                  '/IMPLIB:'+str(setup/'persistent-sid-guard.lib'),'/PDB:'+str(setup/'persistent-sid-guard.pdb'),
+                  *['/LIBPATH:'+str(p) for p in libraries],'kernel32.lib','advapi32.lib','fwpuclnt.lib','ole32.lib']
+            with patch.dict(os.environ,{'ProgramFiles':str(program),'ProgramFiles(x86)':str(program86)}):
+                self.assertEqual(gate(argv,setup)[2]['kind'],'fixed-owned-C-guard-DLL-build')
+                for index,value in ((6,'/LDd'),(13,str(ROOT/'appcontainer_probe.c')),(14,'/Fo'+str(root/'escape.obj')),
+                                    (15,'/Fe'+str(root/'escape.dll')),(18,'/IMPLIB:'+str(root/'escape.lib')),
+                                    (19,'@response.rsp'),(26,'ws2_32.lib')):
+                    changed=argv.copy();changed[index]=value
+                    with self.subTest(index=index),self.assertRaises(ValueError):gate(changed,setup)
+                with self.assertRaises(ValueError):gate(argv+['/extra'],setup)
+                (setup/'persistent-sid-guard.exp').touch()
+                with self.assertRaisesRegex(ValueError,'fresh owned guard compiler outputs'):gate(argv,setup)
 
     def firewall_gate(self, output, result):
         tree=ast.parse((ROOT/'slice.py').read_text())

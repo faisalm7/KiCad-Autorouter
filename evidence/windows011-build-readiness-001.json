@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "kind": "Windows011-prospective-build-readiness-with-source-fixes",
+  "recorded_utc": "2026-10-19T05:48:11.281714+00:00",
+  "project_complete": false,
+  "compiled": false,
+  "CI_dispatched": false,
+  "actual_policy_operations": false,
+  "actual_profile_operations": false,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "source_base_head": "580793ac6087021bf9567f764df5b9f55bfab9db",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "6821969191b65808a12fc06e877e5b213e5eceec1e2a110ddb41e31988fcd697",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "f08e7010788ac9c2bc8d0a8b928bac8ba4a0d459f47bb50c860ae5bee281e30e",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+    "scripts/windows_native_slice/windows_process.py": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b",
+    "scripts/windows_native_slice/appcontainer_canary.py": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4",
+    "scripts/windows_native_slice/appcontainer_launch.py": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+  },
+  "frozen_protocol": {
+    "path": "scripts/windows_native_slice/persistent_guard_build_protocol.json",
+    "sha256": "47719c1f482aa5c124796af7083076a49b959ee968f760ad9aecd234c3b32900"
+  },
+  "current_C": {
+    "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+    "sha256": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+    "bytes": 20931,
+    "ABI": 1,
+    "INFO_bytes": 196
+  },
+  "historical_ABI": "The retained original interface receipt pins397-lineb8c03d, not current409-linef2276f. Export signatures/196-byte layout are unchanged; current source pins above supersede only that source metadata.",
+  "source_fixes": [
+    "Retained process duplicate must pass GetProcessId before clearing pending-create. Generic signalled handles cannot stand for process death; failure remains poisoned with duplicate owned.",
+    "Object ownerSYSTEM/groupBuiltinAdministrators are explicitly set/read alongside original protected exact2ACE DACL. No privilege enabling/fallback; actual BFE ownership may refuse."
+  ],
+  "prospective_order": [
+    "Exclusively reserve never-reused profile name before profile creation.",
+    "CreateProfile must returnS_OK and actual fresh baseSID; PG_Create then generates fiveGUIDs.",
+    "Durably persist actualSID+keys+source/controller/DLL/tool pins BEFORE any PG_Arm or launch.",
+    "Unknown/crashed ownership retains remaining deny/profile/state forever; never later adopt/remove/reuse."
+  ],
+  "contract_limits": "Journal/tombstone and typed retained runner callbacks are NOT implemented. filterId/effectiveWeight are not exported or claimed collected. This build gate never supplies a validSID/owner or changes policy.",
+  "targeted_pure_controls": {
+    "001": {
+      "passed": true,
+      "tests": 31,
+      "cost": {
+        "wall_seconds": 0.76,
+        "CPU_seconds": 0.68
+      }
+    },
+    "002": {
+      "passed": true,
+      "tests": 31,
+      "cost": {
+        "wall_seconds": 0.88,
+        "CPU_seconds": 0.74
+      }
+    }
+  },
+  "review": {
+    "kind": "Separate AI source review, not human review or Windows execution",
+    "readiness_sha256": "7ef9fcaadd87d16875aa21c8419429526578a05e66b4d2695e0d43bdd11e13a6",
+    "C_review_sha256": "7fc0d21805522d836a1cbfccfc165d7a68a14452c626108b8addd8669c858edb"
+  },
+  "remaining": [
+    "Actual fixed build/NULL ABI readiness",
+    "Host-only durable journal/tombstone and exact profile/source/DLL/tool binding",
+    "Typed pending-create/poison and actual retained Job/process callbacks through final removal",
+    "Native Windows positive/explicit denial parent+child IPv4/IPv6 TCP/UDP/inbound and lowbox mutation-refusal controls",
+    "Observed normal/cancel/controller-death/reuse/assignment failure behavior and final exact object absence or retained orphan",
+    "Actual KiCad export/routing/import/refill/validation/cancel/candidate export with equivalent safeguards"
+  ],
+  "Mac": "Immutable runtime035 source7edc7229/manifest8f0c455d unchanged; full178/install008/ordinary/invalidNative complete, actualGUI076 pending. No Mac rebuild or completed trial repeated.",
+  "costs": "Two targeted local runs are additional to all historical routing. Source authoring/research/AI review/freeze/interactive/CI CPU not independently measured and notzero. No routing speed/effectiveness claim.",
+  "backup_scope": "Essential source/review/text for audited development checkpoint only. Newer fullraw and preparedGUI remainMac-only outside008/010; no restoration or backup-system change.",
+  "files_index": {
+    "path": "evidence/windows011-build-readiness-001-notes/files.json",
+    "sha256": "ec8a23fe3eb791c62dfca7b95cbe67e66d8888ccfb1691c2f706380fdb4f861d"
+  }
+}
