@@ -15,7 +15,7 @@ from pathlib import Path
 from . import board_floor as floors, netclass as nc, sexpr as sx
 from .adapter import _parse_dsn, _dump_dsn, _check_units
 
-POLICY = 'single-default-global-floor-targets-v1'
+POLICY = 'single-default-global-floor-targets-v2'
 NATIVE_VERSION = '10.0.7'
 
 
@@ -172,10 +172,78 @@ def _wiring(tree, names, native, via):
     return referenced
 
 
-def source_dimensions(project_raw):
-    """Derive sole-Default targets from captured original project bytes only."""
+def resolved_project(project, native):
+    """Resolve absent defaults from bound Native observations, without saving.
+
+    Explicit source values must agree exactly. Missing source fields never mean
+    zero: only the pinned same-load floor/class map can supply them. The local
+    resolved copy is for scalar comparisons, not a replacement source project.
+    Process and original-byte bindings remain the caller's responsibility.
+    """
+    if (type(project) is not dict or type(native) is not dict
+            or type(native.get('schema')) is not int or native.get('schema') != 1
+            or native.get('native_version') != NATIVE_VERSION
+            or native.get('units') != 'integer nanometres' or native.get('board_saved') is not False):
+        raise ValueError('pinned unsaved Native Default/floor observation required')
+    observed = native.get('effective_floors_nm')
+    if (type(observed) is not dict or set(observed) != set(floors.FLOORS)
+            or any(type(v) is not int or not 0 <= v <= 2147483647 for v in observed.values())):
+        raise ValueError('complete bounded Native board floors required')
+    result = copy.deepcopy(project)
+    def object_at(parent, key):
+        if key not in parent:
+            parent[key] = {}
+        if type(parent[key]) is not dict:
+            raise ValueError('malformed source object: ' + key)
+        return parent[key]
+    settings = object_at(result, 'net_settings')
+    if 'classes' not in settings:
+        settings['classes'] = [{'name': 'Default'}]
+    classes = settings['classes']
+    if (type(classes) is not list or len(classes) != 1
+            or type(classes[0]) is not dict or classes[0].get('name') != 'Default'):
+        raise ValueError('only explicit or implicit sole Default is qualified')
+    cls = classes[0]
+    rows = native.get('nets')
+    if type(rows) is not list or not 0 < len(rows) <= 10000:
+        raise ValueError('bounded Native Default net inventory required')
+    raw = None
+    for row in rows:
+        if type(row) is not dict or row.get('class') != 'Default':
+            raise ValueError('every Native net must resolve solely to Default')
+        values = {key: row.get(key) for key in floors.DIMENSIONS}
+        if any(type(v) is not int or not 0 < v <= 2147483647 for v in values.values()):
+            raise ValueError('bounded Native Default dimensions required')
+        if raw is not None and values != raw:
+            raise ValueError('Native Default dimensions differ across nets')
+        raw = values
+    _parents(native, cls)
+    def scalar(parent, key, value, *, zero=False):
+        if key in parent:
+            if floors.millimetres(parent[key], zero=zero) != value:
+                raise ValueError('explicit source/Native dimension differs: ' + key)
+        else:
+            parent[key] = value / 1000000
+            if floors.millimetres(parent[key], zero=zero) != value:
+                raise ValueError('Native dimension cannot be represented exactly')
+    for key, field in floors.DIMENSIONS.items():
+        scalar(cls, field, raw[key])
+    rules = object_at(object_at(object_at(result, 'board'), 'design_settings'), 'rules')
+    for key, value in observed.items():
+        scalar(rules, key, value, zero=True)
+    if nc.qualify_project(result)['mode'] != 'single_default':
+        raise ValueError('sole Default without assignments/patterns required')
+    return result
+
+
+def source_dimensions(project_raw, native=None):
+    """Derive targets from explicit source or verified effective Native values."""
     _bytes(project_raw)
     project = _json(project_raw)
+    if native is not None:
+        if type(native) is not dict or native.get('project_sha256') != _sha(project_raw):
+            raise ValueError('Native Default/floors project binding differs')
+        project = resolved_project(project, native)
     if nc.qualify_project(project)['mode'] != 'single_default':
         raise ValueError('one explicit Default without assignments/patterns required')
     settings = project['board']['design_settings']
@@ -189,6 +257,19 @@ def source_dimensions(project_raw):
     return {'raw_nm': raw, 'original_floors_nm': hard, 'derived_nm': floors.derive(raw, hard)}
 
 
+def resolution_fields(project_raw):
+    """Disclose exactly which original fields require Native resolution."""
+    project = _json(project_raw)
+    settings = project.get('net_settings', {})
+    classes = settings.get('classes', [{'name': 'Default'}])
+    cls = classes[0]
+    rules = project.get('board', {}).get('design_settings', {}).get('rules', {})
+    return {'native_floor_observation_required': True,
+            'implicit_class_fields': [field for field in floors.DIMENSIONS.values() if field not in cls],
+            'implicit_floor_fields': [key for key in floors.FLOORS if key not in rules],
+            'original_project_modified': False}
+
+
 def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
     """Return one exact lawful DSN edit and deterministic derivation receipt."""
     for raw in (raw_dsn_bytes, project_raw, task_raw):
@@ -200,8 +281,8 @@ def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
     if (native.get('source') != source or native.get('board_sha256') != _sha(task_raw)
             or native.get('project_sha256') != _sha(project_raw) or native.get('board_saved') is not False):
         raise ValueError('Native task/project/source binding differs')
-    dimensions = source_dimensions(project_raw)
-    project = _json(project_raw)
+    dimensions = source_dimensions(project_raw, native)
+    project = resolved_project(_json(project_raw), native)
     cls = project['net_settings']['classes'][0]
     task = sx.parse(task_raw.decode('utf8'))
     if task[0] != 'kicad_pcb' or sx.children(task, 'net_class'):
@@ -260,6 +341,7 @@ def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
                'project_sha256': _sha(project_raw), 'task_sha256': _sha(task_raw),
                'native_map_sha256': _sha(_canonical(native)), 'raw_nm': raw,
                'original_floors_nm': hard, 'derived_nm': target, 'raw_mapping_audit': raw_audit,
+               'dimension_resolution': resolution_fields(project_raw),
                'copper_layers': names, 'original_via_id': old, 'derived_via_id': new,
                'original_via_stack_preserved': True, 'derived_via_stack_added': old != new,
                'protected_via_stack_preserved': bool(fixed_via and old != new),

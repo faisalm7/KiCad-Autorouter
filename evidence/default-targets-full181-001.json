@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "kind": "default-targets-full181-completed-test-evidence",
+  "recorded_utc": "2026-10-19T08:50:25.093521+00:00",
+  "source_head": "f54cefbc80ad70b4fabd67d7dd18e9d9affdae98",
+  "full_suite_passed": true,
+  "sources_unchanged_during_run": true,
+  "tests": 2281,
+  "skips": 1,
+  "skip_reason": "PowerShell absent; mocked script execution remains unrun",
+  "unittest_seconds": 384.628,
+  "source_pin_count": 295,
+  "exact_relevant_source_bytes": [
+    {
+      "source": "autorouter/default_targets.py",
+      "sha256": "245de5fc970a1a492485421a27ab5f4896ab4c1a900bca2309f25ef15d5e7660",
+      "retained": "evidence/default-targets-integration-draft-001-notes/source/autorouter/default_targets.py",
+      "relation": "Exact full181 protocol pin; prior immutable public payload reused."
+    },
+    {
+      "source": "autorouter/netclass.py",
+      "sha256": "60eb4f314177b94a4a97916a8c29643b245d0f26c34b63b81e5c5e69b705c5f0",
+      "retained": "evidence/default-targets-integration-draft-001-notes/source/autorouter/netclass.py",
+      "relation": "Exact full181 protocol pin; prior immutable public payload reused."
+    },
+    {
+      "source": "autorouter/pipeline.py",
+      "sha256": "276398a357b7c5ffc73aef481888174b5c902083df9ebc476a39239caf3b68bb",
+      "retained": "evidence/default-targets-integration-correction-002-notes/source/autorouter/pipeline.py",
+      "relation": "Exact full181 protocol pin; prior immutable public payload reused."
+    },
+    {
+      "source": "autorouter/review_export.py",
+      "sha256": "5aca217c01deca20c333b5015af0cb3ebcc63c812a52441325765d00c51e15e8",
+      "retained": "evidence/default-targets-integration-correction-002-notes/source/autorouter/review_export.py",
+      "relation": "Exact full181 protocol pin; prior immutable public payload reused."
+    },
+    {
+      "source": "tests/test_default_targets.py",
+      "sha256": "465ea44fb5abcbf2604d50d34a056e086306f4407f71215646a5ea036e8320e5",
+      "retained": "evidence/default-targets-integration-draft-001-notes/source/tests/test_default_targets.py",
+      "relation": "Exact full181 protocol pin; prior immutable public payload reused."
+    },
+    {
+      "source": "tests/test_default_target_integration.py",
+      "sha256": "5cc7b71fc052f36f445bf7cf095910464466b9a9787fbe4a7175b9ec58bfb7c2",
+      "retained": "evidence/default-targets-integration-correction-002-notes/source/tests/test_default_target_integration.py",
+      "relation": "Exact full181 protocol pin; prior immutable public payload reused."
+    }
+  ],
+  "complete_external_cost": {
+    "wall_seconds": 386.04,
+    "CPU_seconds": 377.27,
+    "user_seconds": 315.61,
+    "system_seconds": 61.66
+  },
+  "controller_observation": {
+    "wall_seconds": 386.0233536659507,
+    "full_CPU_seconds": 377.263621
+  },
+  "child_observation": {
+    "wall_seconds": 385.3995533330599,
+    "CPU_seconds": 375.88365100000004,
+    "cleanup_complete": true,
+    "exit_code": 0,
+    "log_truncated": false
+  },
+  "accounting": "External complete exit is authoritative. Controller/child observations are nested and not added again; authoring/curation costs are additional unmetered, notzero.",
+  "bounds": {
+    "seconds": 480,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    }
+  },
+  "later_static_blocker": {
+    "status": "Unresolved by full181",
+    "actual_failed_Native_or_install_run": false,
+    "source": "fixtures/smoke/smoke.kicad_pro",
+    "finding": "Normal corrected7 single-Default selector admits this valid minimal source, which omits net_settings.classes and design_settings.rules; f54 source_dimensions requires explicit fields and would refuse before routing.",
+    "basis": "Lead static source inspection after full181; no rerun performed for this record.",
+    "fix_scope": "Proposed same-load pinned Native observations for absent fields, preserving source bytes; not part of this test result."
+  },
+  "installation_qualified": false,
+  "Native_qualified": false,
+  "actual_GUI": false,
+  "production_qualified": false,
+  "routing_accepted": false,
+  "project_complete": false,
+  "human_review": false,
+  "physical_electrical_validation": false,
+  "install011_or_runtime038_executed": false,
+  "limitations": "Passing source tests do not close the later implicit-Default compatibility blocker or qualify installed Native, GUI, Windows, broader completion/quality or release. No source changes or new execution during curation.",
+  "dependencies": [
+    {
+      "path": "evidence/default-targets-integration-correction-002.json",
+      "sha256": "49990479ac677638f5bee214ea22c16350ef5ccf7fe5c05580b4837f6b024c60",
+      "files_index": {
+        "path": "evidence/default-targets-integration-correction-002-notes/files.json",
+        "sha256": "0a17bda4181e46a6da8de246bdb86d22417819e2b7a0d366cad1de3fe50ecb0a"
+      }
+    },
+    {
+      "path": "evidence/default-targets-integration-draft-001.json",
+      "sha256": "d9b4298a71025f559d53902489f69cb627e84df0c33564cbbf3ccac55709e22d",
+      "files_index": {
+        "path": "evidence/default-targets-integration-draft-001-notes/files.json",
+        "sha256": "30d38aece69bbfb58993cba1bb46b717774ab8a104e743c7a9086254c7667c20"
+      }
+    }
+  ],
+  "retention": {
+    "new_payload_files": 9,
+    "new_payload_bytes": 446358,
+    "material_occurrences": 13,
+    "source_payloads_reused": 6,
+    "scope": "Finite actual181 outputs and exact relevant source references only; raw originals unchanged."
+  },
+  "curation_helper": {
+    "path": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1"
+  },
+  "files_index": {
+    "path": "evidence/default-targets-full181-001-notes/files.json",
+    "sha256": "c9859656c9b9dffd01fe7df4d011734b7305c15e968b09c50ddc4f157f8a88d9"
+  }
+}

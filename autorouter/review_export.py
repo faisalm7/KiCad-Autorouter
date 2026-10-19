@@ -221,7 +221,9 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
         if native!=data['native']:raise p.Rejected('export actual final native report differs')
         if p.netclass_policy(candidate) is not None or native_toolchain is not None or 'default_target_transport' in report:
             p.check_final_netclass_evidence(folder,data,candidate,protected,native_toolchain=native_toolchain,
-                default_target_policy='default_target_transport' in report,sandboxed=True)
+                default_target_policy='default_target_transport' in report,sandboxed=True,
+                default_target_basis=f.read_json(Path(binding['receipt']).parent/'default-targets.json')
+                    if 'default_target_transport' in report else None)
         f.process_check(folder,data,'metrics',[*f.SANDBOX,*p.native_prefix(native_toolchain),'metrics',str(candidate),str(folder/'metrics.json')])
     if any(r not in p.routes(sx.read(candidate)) for r in protected):raise p.Rejected('export protected copper changed')
     from .pour_rule_area import qualify

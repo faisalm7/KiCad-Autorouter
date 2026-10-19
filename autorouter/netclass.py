@@ -339,6 +339,11 @@ def audit_native(native, project, *, parent_policy=False, native_toolchain=None,
     from . import pipeline as p
     if type(derive_default_targets) is not bool:
         raise ValueError('Explicit Default-target derivation flag required')
+    if derive_default_targets:
+        if parent_policy or native_toolchain is not None:
+            raise ValueError('Raw Default derivation requires normal Native10.0.7')
+        from .default_targets import resolved_project
+        project = resolved_project(project, native)
     expected_version = '10.0.7' if derive_default_targets else p.experimental_native_version(native_toolchain)
     if type(parent_policy) is not bool: raise ValueError('Explicit parent-policy flag required')
     policy = qualify_parent_project(project) if parent_policy else qualify_project(project)
@@ -421,6 +426,10 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
     """Compare DSN to native-resolved membership; never evaluate pattern strings."""
     from autorouter import sexpr as sx
     from autorouter.adapter import _check_units
+
+    if derive_default_targets is True:
+        from .default_targets import resolved_project
+        project = resolved_project(project, native)
 
     verified = audit_native(native, project, parent_policy=parent_policy, native_toolchain=native_toolchain,
                             derive_default_targets=derive_default_targets)

@@ -12,6 +12,18 @@ FIELDS=(
 MAX_NAME_BYTES=4096
 MAX_NATIVE_INTEGER=2147483647
 
+def observe_floors(board):
+    """Read hard floors from the same loaded board, including implicit values."""
+    from autorouter.floor_context import FLOORS
+    settings=board.GetDesignSettings()
+    result={}
+    for key,attribute in FLOORS.items():
+        value=getattr(settings,attribute)
+        if type(value) is not int or not 0<=value<=MAX_NATIVE_INTEGER:
+            raise ValueError('bounded integer native board floor required')
+        result[key]=value
+    return result
+
 def _name(value):
     if (type(value) is not str or not value or len(value.encode('utf8'))>MAX_NAME_BYTES
             or any(ord(ch)<32 or ord(ch)==127 for ch in value)):

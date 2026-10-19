@@ -141,6 +141,32 @@ class DefaultTargetIntegrationTests(unittest.TestCase):
         with self.assertRaisesRegex(p.Rejected, 'netclass audit differs'):
             p.check_rejected_default_targets(self.root, self.data, self.original, self.candidate, [])
 
+    def test_implicit_original_Default_and_floors_must_match_final_observation(self):
+        self.project = {'meta': {'version': 1}}
+        for board in (self.snapshot, self.candidate):
+            board.with_suffix('.kicad_pro').write_text(json.dumps(self.project))
+        self.native['project_sha256'] = p.sha(self.candidate.with_suffix('.kicad_pro'))
+        self.data['source_hashes'] = p.tree_hash(self.snapshot.parent)
+        self.write('export-netclasses.json', self.native)
+        guided, self.record = d.transform(self.original_raw, self.native,
+            self.candidate.with_suffix('.kicad_pro').read_bytes(), self.raw_task, source=str(self.candidate))
+        (self.root/'default-targets.dsn').write_bytes(guided)
+        self.write('default-targets.json', self.record)
+        self.data['default_target_transport']['sha256'] = p.sha(self.root/'default-targets.json')
+        self.final_evidence()
+        self.assertEqual(p.check_rejected_default_targets(self.root,self.data,self.original,
+                                                         self.candidate,[]),self.record)
+        # Both a fresh-looking final map and its matching derived audit are
+        # insufficient if an implicit floor differs from the original export.
+        altered = copy.deepcopy(self.native)
+        altered['effective_floors_nm']['min_clearance'] += 1000
+        self.write('final-netclasses.json', altered)
+        audit = p.audit_candidate_netclasses(self.candidate,[],altered,default_target_policy=True)
+        audit['native_map_file_sha256'] = p.sha(self.root/'final-netclasses.json')
+        self.write('final-netclass-audit.json', audit)
+        with self.assertRaisesRegex(p.Rejected,'differ from original routing targets'):
+            p.check_rejected_default_targets(self.root,self.data,self.original,self.candidate,[])
+
     def test_rejected_child_final_worker_cleanup_is_mandatory(self):
         self.final_evidence()
         worker = copy.deepcopy(self.data['steps'][-1]); worker['cleanup_complete'] = False

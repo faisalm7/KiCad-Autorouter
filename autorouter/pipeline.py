@@ -36,7 +36,7 @@ NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
 COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v2'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
-DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v1'
+DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -1232,8 +1232,7 @@ def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain
     effective=native
     if default_target_policy:
         from . import default_targets as targets
-        targets._parents(native,json.loads(project.read_text())['net_settings']['classes'][0])
-        derived=targets.source_dimensions(project.read_bytes())
+        derived=targets.source_dimensions(project.read_bytes(),native)
         effective=copy.deepcopy(native)
         for row in effective['nets']:row.update(derived['derived_nm'])
     dimensions=audit_route_dimensions(source_tree,protected,effective)
@@ -1303,7 +1302,7 @@ def check_default_target_transport(directory,data,original,candidate,*,input_pol
 
 
 def check_final_netclass_evidence(directory,data,candidate,protected,*,native_toolchain=None,
-                                  default_target_policy=False,sandboxed=False):
+                                  default_target_policy=False,sandboxed=False,default_target_basis=None):
     """One final raw-class/generated-target/process audit for Route and export."""
     from . import floor_route as f
     directory=Path(directory);candidate=Path(candidate)
@@ -1313,6 +1312,11 @@ def check_final_netclass_evidence(directory,data,candidate,protected,*,native_to
     audited['native_map_file_sha256']=sha(mapping)
     if f.read_json(directory/'final-netclass-audit.json')!=audited:
         raise Rejected('retained native netclass audit differs from candidate')
+    if default_target_policy:
+        basis=f.read_json(directory/'default-targets.json') if default_target_basis is None else default_target_basis
+        for key in ('policy','raw_nm','original_floors_nm','derived_nm'):
+            if audited['default_targets'][key]!=basis[key]:
+                raise Rejected('final Native Default/floors differ from original routing targets')
     f.process_check(directory,data,'final-netclasses',[*(f.SANDBOX if sandboxed else []),
         *native_prefix(native_toolchain),'netclasses',str(candidate),str(mapping)])
     return audited

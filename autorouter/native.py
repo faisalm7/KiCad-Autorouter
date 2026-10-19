@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import pcbnew
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from autorouter.netclass_native import observe_class
+from autorouter.netclass_native import observe_class, observe_floors
 from autorouter import config as c
 
 FIXED_PLACEMENT_SESSION_POLICY='fixed-placement-session-v1'
@@ -43,13 +43,15 @@ def netclasses(board, source, before):
         cls = net.GetNetClassSlow()
         rows.append({'name': str(name), 'netcode': net.GetNetCode(),
                      'copper_pad_count': counts.get(str(name), 0), **observe_class(cls)})
+    effective_floors = observe_floors(board)
     project = Path(source).with_suffix('.kicad_pro')
     if before != (file_hash(source), file_hash(project)):
         raise RuntimeError('Board or project changed during native class resolution')
     result = {'schema': 1, 'native_version': pcbnew.GetBuildVersion(), 'units': 'integer nanometres',
             'resolution': 'BOARD.SynchronizeNetsAndNetClasses(False); NETINFO_ITEM.GetNetClassSlow()',
             'source': source, 'board_sha256': before[0], 'project_sha256': before[1],
-            'board_saved': False, 'nets': sorted(rows, key=lambda row: row['name'])}
+            'board_saved': False, 'nets': sorted(rows, key=lambda row: row['name']),
+            'effective_floors_nm': effective_floors}
     if layer_record is not None: result['copper_layers'] = layer_record
     return result
 

@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "kind": "implicit-Default-v2-source-and-constructed-controls",
+  "recorded_utc": "2026-10-19T08:56:16.045005+00:00",
+  "accepted": false,
+  "routing_accepted": false,
+  "production_qualified": false,
+  "installation_qualified": false,
+  "Native_qualified": false,
+  "actual_GUI": false,
+  "project_complete": false,
+  "human_review": false,
+  "physical_electrical_validation": false,
+  "source_sha256": {
+    "autorouter/default_targets.py": "93f386f88f9dcf7718169ea0a8f9d858eea44c569116ba984cd87486484b12e6",
+    "autorouter/native.py": "fc96d647f0c2411b36969e13c1725f685039c8c108970d32b82af88fa9c0eac8",
+    "autorouter/netclass.py": "d5c3705f50c4b4a5c9a9c68b6ce91747bf44cd3e20de35370f9a2e8e16e9fb00",
+    "autorouter/netclass_native.py": "5b831c87c0cda058780c8906415394206e744734337d530a5324964d34c03691",
+    "autorouter/pipeline.py": "db4b1331ad319c8960ca693366ae74f544932006f140485c89eb29664a5bb1ed",
+    "autorouter/review_export.py": "f0de388ab7848cd410314f46e71e333022fed457d636ab20f5ba71384af3d2df",
+    "tests/test_default_target_integration.py": "3ef5543520ce52ea804a2268c4cfe8e7c532dee352c83825318da25557d31b5b",
+    "tests/test_default_targets.py": "bba8cb085dd2b702ee719827ec89bc88955064b1555ed396dff9e3ca38de9a66",
+    "tests/test_netclass_native.py": "a021bc97839c6207f073fe5e30f5761487b0ce9939013a040de8921011041503"
+  },
+  "targeted_invocations": [
+    {
+      "case": "implicit-targeted-001",
+      "tests": 38,
+      "passed": true,
+      "unittest_seconds": 1.445,
+      "complete_external_cost": {
+        "wall_seconds": 1.63,
+        "CPU_seconds": 1.35
+      },
+      "stdout_empty": true,
+      "unittest_and_time_output": "retained -time.log",
+      "scope": "Constructed source controls; not Native qualification."
+    },
+    {
+      "case": "native-scalars-001",
+      "tests": 10,
+      "passed": true,
+      "unittest_seconds": 0.023,
+      "complete_external_cost": {
+        "wall_seconds": 0.08,
+        "CPU_seconds": 0.05
+      },
+      "stdout_empty": true,
+      "unittest_and_time_output": "retained -time.log",
+      "scope": "Constructed source controls; not Native qualification."
+    },
+    {
+      "case": "netclass-regression-001",
+      "tests": 21,
+      "passed": true,
+      "unittest_seconds": 2.415,
+      "complete_external_cost": {
+        "wall_seconds": 2.53,
+        "CPU_seconds": 2.39
+      },
+      "stdout_empty": true,
+      "unittest_and_time_output": "retained -time.log",
+      "scope": "Constructed source controls; not Native qualification."
+    }
+  ],
+  "independent_AI_review": {
+    "original": ".runs/default-targets-implicit-review-001.json",
+    "sha256": "0f572bdaf4d1cc539fa40a76c5855f6bfeb1e3df7512d7e907d01c5b2904d6a9",
+    "lead_confirmed_resolved": true,
+    "final_nine_source_pins_match": true,
+    "findings": [],
+    "conclusion": "No concrete new false-admission, malformed-input fallback or circular-dependency blocker identified in this bounded static review. The known meta-only smoke input now has an observation-backed path rather than fabricated zero/default values. Actual selected7 implicit getter/parent behavior and Native integration remain unqualified by this review.",
+    "human_review": false
+  },
+  "source_freeze": {
+    "original": ".runs/default-targets-implicit-freeze-003.json",
+    "sha256": "155bd5c10a1ec365608bb701aaf8342fecf12b653ad6829d4998d69723aba248",
+    "lead_confirmed_stable": true,
+    "source_hashes_checked_before_and_after_copy": true
+  },
+  "test_binding_limit": "Targeted logs preserve actual outcomes/costs but contain no independent source-stability manifest. Final source bytes were captured only at this confirmed freeze.",
+  "prior_result_scope": "Full181 is historical f54 source tests; GUI037 is the immutable c3e7/c1ef one-positive path. Neither qualifies these changed bytes.",
+  "authored_findings": [
+    "The source review reports absent-only Default/rule resolution in a detached project copy, preserving raw source bytes and refusing malformed present fields.",
+    "The source review reports same-load five-floor integer observations and unanimous Default/parent scalar checks; actual selected7 getter/parent behavior remains a Native prerequisite.",
+    "The source review reports required v2 transport and original/final/fresh-export dimension binding. These are static/constructed-control findings, not demonstrated Native admission."
+  ],
+  "remaining": [
+    "Fresh full suite and isolated install for final bytes",
+    "Actual same-load selected7 Native absent-field/scalar observations and ordinary Route/export/invalid controls",
+    "Fresh GUI controls for a changed build; independent-family effectiveness and other project release gates"
+  ],
+  "accounting": "Each complete external targeted cost is retained separately. Test invocations may overlap; no disjoint-coverage or Native inference. Review/authoring/curation costs additional unmetered, notzero.",
+  "dependencies": [
+    {
+      "path": "evidence/default-targets-integration-correction-002.json",
+      "sha256": "49990479ac677638f5bee214ea22c16350ef5ccf7fe5c05580b4837f6b024c60",
+      "files_index": {
+        "path": "evidence/default-targets-integration-correction-002-notes/files.json",
+        "sha256": "0a17bda4181e46a6da8de246bdb86d22417819e2b7a0d366cad1de3fe50ecb0a"
+      }
+    },
+    {
+      "path": "evidence/default-targets-full181-001.json",
+      "sha256": "32a00ddcfda35daa3956fb74343c499f291925117605eb83634f092b20cd2bf3",
+      "files_index": {
+        "path": "evidence/default-targets-full181-001-notes/files.json",
+        "sha256": "c9859656c9b9dffd01fe7df4d011734b7305c15e968b09c50ddc4f157f8a88d9"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime037-077-positive-001.json",
+      "sha256": "f5d13e8b9e6946b8e9c4d4404503d2e74a409693dc1374224baff988ea50bfd4",
+      "files_index": {
+        "path": "evidence/gui-runtime037-077-positive-001-notes/files.json",
+        "sha256": "ee2c1a7f08cb5269053e9effc1b4598f07edab9ff2bc801e7d949a7915a9df3c"
+      }
+    }
+  ],
+  "rights": {
+    "license": "Repository GPL; project-owned source/tests and owned test metadata.",
+    "retained_LICENSE": "evidence/runtime036-native-prerequisites-failure-001-notes/runtime036/immutable/LICENSE",
+    "LICENSE_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "private_inputs_or_downloaded_tools_published": false
+  },
+  "curation_helper": {
+    "path": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1"
+  },
+  "retention": {
+    "new_payload_files": 16,
+    "new_payload_bytes": 401067,
+    "material_occurrences": 18,
+    "source_files": 9,
+    "no_original_edits": true,
+    "no_Native_tests_build_GUI_CI_network_Git_execution": true
+  },
+  "files_index": {
+    "path": "evidence/default-targets-implicit-resolution-003-notes/files.json",
+    "sha256": "81f9a6b460276a2f15b6cbca850be51d2275ded64ddfed4d8af8081d78bb4feb"
+  }
+}

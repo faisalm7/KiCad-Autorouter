@@ -26,6 +26,17 @@ class NativeClass:
   raise AssertionError('unpermitted class API: '+method)
 
 class ScalarClassGuards(unittest.TestCase):
+ def test_floor_observation_uses_loaded_settings_and_rejects_malformed_values(self):
+  from types import SimpleNamespace
+  from autorouter.floor_context import FLOORS
+  settings=SimpleNamespace(**{attribute:100000 for attribute in FLOORS.values()})
+  board=SimpleNamespace(GetDesignSettings=lambda:settings)
+  self.assertEqual(n.observe_floors(board),dict.fromkeys(FLOORS,100000))
+  for value in (True,False,-1,1.0,None,n.MAX_NATIVE_INTEGER+1):
+   setattr(settings,FLOORS['min_clearance'],value)
+   with self.subTest(value=value),self.assertRaises(ValueError):n.observe_floors(board)
+  setattr(settings,FLOORS['min_clearance'],0)
+  self.assertEqual(n.observe_floors(board)['min_clearance'],0)
  def test_exact_opaque_name_four_parent_scalars_json_and_no_extra_methods(self):
   cls=NativeClass();before={'name':cls.name,'values':copy.deepcopy(cls.values),'parents':[copy.deepcopy(x.__dict__) for x in cls.parents]};result=n.observe_class(cls)
   self.assertEqual(result['class'],'POWER,Default');self.assertEqual(set(result),{'class','parameter_parents',*VALUES});self.assertEqual({k:result[k] for k in VALUES},VALUES)

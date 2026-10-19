@@ -51,7 +51,9 @@ def fixtures(four=False, fixed=False):
         (class kicad_default DATA RETURN (circuit (use_via "{via}")) (rule (width 200) (clearance 200))))
       (wiring {wiring}))'''.encode()
     native = {'schema': 1, 'native_version': '10.0.7', 'units': 'integer nanometres',
-              'source': SOURCE, 'board_saved': False, 'nets': []}
+              'source': SOURCE, 'board_saved': False, 'nets': [],
+              'effective_floors_nm': {key: m.floors.millimetres(value, zero=True)
+                  for key,value in project['board']['design_settings']['rules'].items()}}
     for i, net in enumerate(('DATA', 'RETURN'), 1):
         row = {'name': net, 'netcode': i, 'class': 'Default', 'copper_pad_count': 1,
                'width_nm': 200000, 'clearance_nm': 200000,
@@ -153,6 +155,7 @@ class DefaultTargetsTests(unittest.TestCase):
 
     def test_stronger_defaults_are_retained_but_typed_clearance_is_fixed(self):
         self.project['board']['design_settings']['rules'] = dict.fromkeys(m.floors.FLOORS, 0)
+        self.native['effective_floors_nm'] = dict.fromkeys(m.floors.FLOORS, 0)
         guided, rec = self.transform()
         self.assertEqual(rec['raw_nm'], rec['derived_nm'])
         rules = sx.one(sx.one(_parse_dsn(guided.decode()), 'structure'), 'rule')
@@ -161,6 +164,7 @@ class DefaultTargetsTests(unittest.TestCase):
 
     def test_annular_floor_can_drive_via_diameter(self):
         self.project['board']['design_settings']['rules'].update(min_via_diameter=.5, min_via_annular_width=.4)
+        self.native['effective_floors_nm'].update(min_via_diameter=500000,min_via_annular_width=400000)
         self.assertEqual(self.transform()[1]['derived_nm']['via_diameter_nm'], 1100000)
 
     def test_legacy_two_copper_task(self):
@@ -246,6 +250,67 @@ class DefaultTargetsTests(unittest.TestCase):
         result['raw_nm']['width_nm'] = 1
         self.assertEqual(m.source_dimensions(project_raw)['raw_nm']['width_nm'], 200000)
         self.assertEqual(self.args()[2], project_raw)
+
+    def test_implicit_Default_and_floors_use_observed_values_without_source_edits(self):
+        self.project = {'meta': {'filename': 'board.kicad_pro', 'version': 1}}
+        before = copy.deepcopy(self.project)
+        guided, receipt = self.transform()
+        self.assertEqual(receipt['derived_nm']['via_diameter_nm'], 1500000)
+        self.assertEqual(receipt['dimension_resolution']['implicit_class_fields'], list(m.floors.DIMENSIONS.values()))
+        self.assertEqual(receipt['dimension_resolution']['implicit_floor_fields'], list(m.floors.FLOORS))
+        self.assertEqual(self.project, before)
+        self.assertEqual(m.check(self.raw, guided, receipt, *self.args()[1:], source=SOURCE), receipt)
+
+    def test_individually_absent_fields_are_resolved_but_present_ones_must_match(self):
+        del self.project['net_settings']['classes'][0]['via_drill']
+        del self.project['board']['design_settings']['rules']['min_via_annular_width']
+        receipt = self.transform()[1]
+        self.assertEqual(receipt['dimension_resolution']['implicit_class_fields'], ['via_drill'])
+        self.assertEqual(receipt['dimension_resolution']['implicit_floor_fields'], ['min_via_annular_width'])
+        self.project['net_settings']['classes'][0]['track_width'] = .3
+        self.reject()
+
+    def test_observed_floors_cannot_be_missing_partial_malformed_or_disagree(self):
+        original = copy.deepcopy(self.native)
+        for value in (None, {}, {'min_track_width': 300000}, [],
+                      dict(original['effective_floors_nm'], min_track_width=True),
+                      dict(original['effective_floors_nm'], min_track_width=-1),
+                      dict(original['effective_floors_nm'], min_track_width=2147483648),
+                      dict(original['effective_floors_nm'], min_track_width=400000)):
+            with self.subTest(value=value):
+                self.native = copy.deepcopy(original)
+                if value is None: self.native.pop('effective_floors_nm')
+                else: self.native['effective_floors_nm'] = value
+                self.reject()
+
+    def test_implicit_resolution_does_not_treat_invalid_present_fields_as_absent(self):
+        original = copy.deepcopy(self.project)
+        for fault in ('null_settings', 'null_classes', 'empty_classes', 'null_board', 'null_rules',
+                      'null_dimension', 'zero_dimension', 'wrong_floor', 'nondefault'):
+            self.project = copy.deepcopy(original)
+            if fault == 'null_settings': self.project['net_settings'] = None
+            elif fault == 'null_classes': self.project['net_settings']['classes'] = None
+            elif fault == 'empty_classes': self.project['net_settings']['classes'] = []
+            elif fault == 'null_board': self.project['board'] = None
+            elif fault == 'null_rules': self.project['board']['design_settings']['rules'] = None
+            elif fault == 'null_dimension': self.project['net_settings']['classes'][0]['track_width'] = None
+            elif fault == 'zero_dimension': self.project['net_settings']['classes'][0]['track_width'] = 0
+            elif fault == 'wrong_floor': self.project['board']['design_settings']['rules']['min_track_width'] = .4
+            else: self.project['net_settings']['classes'][0]['name'] = 'Power'
+            with self.subTest(fault=fault): self.reject()
+
+    def test_implicit_resolution_requires_consistent_Default_and_parents_on_every_net(self):
+        self.project = {}
+        original = copy.deepcopy(self.native)
+        for fault in ('nondefault', 'different_values', 'missing_parent', 'wrong_priority', 'unbounded'):
+            self.native = copy.deepcopy(original)
+            row = self.native['nets'][1]
+            if fault == 'nondefault': row['class'] = 'Other'
+            elif fault == 'different_values': row['width_nm'] += 200
+            elif fault == 'missing_parent': row['parameter_parents'].pop('width_nm')
+            elif fault == 'wrong_priority': row['parameter_parents']['width_nm']['priority'] = -1
+            else: row['width_nm'] = 2147483648
+            with self.subTest(fault=fault): self.reject()
 
     def test_source_dimension_API_qualifies_without_Native_or_receipt(self):
         original = copy.deepcopy(self.project)
