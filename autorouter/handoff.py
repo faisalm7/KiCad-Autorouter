@@ -314,6 +314,11 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
             material()
 
         central_check()
+        # Only a fully checked, source-derived selected7 parent uses the
+        # narrower render callbacks below. A receipt marker grants no reuse.
+        from .strategy import native7_parent
+        native7_review = (native_toolchain is None and comparison_context is None
+                          and native7_parent(receipt.parent, report) is not None)
         destination.mkdir(parents=True, exist_ok=False); created = True
         capture_destination(lifecycle,destination)
         project.mkdir()
@@ -333,7 +338,11 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
             material()
             from .review_view import render as render_view
             remaining = lambda: max(0, min(SECONDS - (time.monotonic() - start), SECONDS - (cpu_seconds() - cpu_start)))
-            preview = render_view(destination, before / source.name, project / candidate.name, report, remaining, material, **ctx)
+            # Plot workers already preserve/check their own input and completed
+            # output bytes. Keep every captured byte witness between plots;
+            # replay the full parent/tool/worker/PRL fence immediately after.
+            render_material = byte_material if native7_review else material
+            preview = render_view(destination, before / source.name, project / candidate.name, report, remaining, render_material, **ctx)
             material(); record['preview'] = preview
         record.update(status='ready_for_manual_review', input_policy=policy,
                       source_receipt_schema=report['schema'], receipt=str(receipt),
@@ -351,7 +360,13 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
         save_json(destination / 'review.json', record)
         if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
             raise Rejected('ready review metadata changed during publication')
-        central_check()
+        if native7_review:
+            # Only this separate review.json was written since the full central
+            # read above. Recheck all bytes and live Native/tool/plot/PRL guards;
+            # no third replay of unchanged child/selection semantics is needed.
+            material()
+        else:
+            central_check()
         if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
             raise Rejected('ready review metadata changed after validation')
         material()
