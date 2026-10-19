@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime040-alias-census-failure-001.py", line 25, in <module>
+    d=json.loads((ROOT/'.runs'/case/'execution.json').read_bytes());assert d['passed'] is True;tree(ROOT/'.runs'/case,Path(case))
+                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime030-native-workflow-qualification-001.py", line 26, in tree
+    retain(q/rel,name/rel)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime030-native-workflow-qualification-001.py", line 16, in retain
+    raw=io.read_bytes(q,4*1024**2);sha=hashlib.sha256(raw).hexdigest();target=refs.get(sha)
+                                       ^^^^^^^
+NameError: name 'hashlib' is not defined

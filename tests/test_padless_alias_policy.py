@@ -1,6 +1,7 @@
 """Authored alias export/SES receipt controls; no Native or routing evidence."""
 import copy,json,shutil,tempfile,unittest,uuid
 from pathlib import Path
+from unittest.mock import patch
 from autorouter import adapter,floor_route as f,local_settings as ls,padless_alias as a,pipeline as p,placement_clearance as io,sexpr as sx
 from tests.normal_prl_fixture import _authored_normal_export
 
@@ -15,11 +16,18 @@ class ExportPolicy(unittest.TestCase):
         (ROOT/'.cache').mkdir(exist_ok=True);self.temp=tempfile.TemporaryDirectory(dir=ROOT/'.cache');self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name).resolve();self.build()
 
-    def build(self,*,aliases=False,prl_declaration=True):
+    def build(self,*,aliases=False,prl_declaration=True,layer_displays=None,copper_types=('signal','signal')):
         folder=self.root/('alias' if aliases else 'zero')
         if folder.exists():folder=self.root/('extra-'+str(len(list(self.root.iterdir()))))
         folder.mkdir();source_dir=folder/'source';source_dir.mkdir();self.out=folder/'run';self.out.mkdir()
         tree=['kicad_pcb',['version','20260206'],['layers',['0','"F.Cu"','signal'],['2','"B.Cu"','signal'],['49','"F.Fab"','user'],['44','"Edge.Cuts"','user']],['net','1','"GND"']]
+        self.layer_displays=layer_displays;self.copper_types=copper_types
+        for row,kind in zip(sx.one(tree,'layers')[1:3],copper_types):row[2]=kind
+        if layer_displays is not None:
+            for row,name in zip(sx.one(tree,'layers')[1:3],layer_displays):row.append(json.dumps(name))
+            # The opt-in fixture has the actual modern physical IDs; leave
+            # historical canonical fixture bytes unchanged.
+            sx.one(tree,'layers')[3][0]='35';sx.one(tree,'layers')[4][0]='25'
         names=['LOGO','LOGO','J1'] if aliases else ['J1']
         for index,name in enumerate(names):
             fp=['footprint','"Test:mark"',['uuid',json.dumps(identity('fp'+str(index)))],['at','0','0'],
@@ -66,12 +74,22 @@ class ExportPolicy(unittest.TestCase):
         observation=dict(schema=1,source_sha256=a.sha(raw),dsn_sha256=a.sha(dsn),events=events,
             before_board=self.paths['before'].name,after_board=self.paths['after'].name,
             before_board_sha256=p.sha(self.paths['before']),after_board_sha256=p.sha(self.paths['after']),accepted=False,production_support=False)
-        proof=dict(schema=1,policy=a.POLICY,native_version='10.0.0',source=str(self.candidate),source_sha256=a.sha(raw),
+        mapping=None;self.mapping_path=self.out/'export-netclasses.json'
+        if self.layer_displays is not None:
+            mapping=dict(schema=1,native_version='10.0.7',source=str(self.candidate),board_sha256=a.sha(raw),
+                project_sha256=p.sha(self.candidate.with_suffix('.kicad_pro')),board_saved=False,
+                source_all_copper_layers=dict(schema=1,policy='source-all-two-copper-identity-v1',copper_count=2,
+                    layers=[dict(id=code,canonical=name,standard_name=name,display_name=display,index=index,
+                        type='signal',enabled=True,canonical_lookup_id=code,display_lookup_id=code)
+                        for index,(code,name,display) in enumerate(zip((0,2),('F.Cu','B.Cu'),self.layer_displays))]))
+            p.save_json(self.mapping_path,mapping)
+        proof=dict(schema=1,policy=a.POLICY,native_version='10.0.0' if mapping is None else '10.0.7',source=str(self.candidate),source_sha256=a.sha(raw),
             project_sha256=p.sha(self.candidate.with_suffix('.kicad_pro')),output=str(output),dsn_sha256=a.sha(dsn),source_copy=self.paths['source_copy'].name,
-            binding=binding,native_footprints=binding['footprints'],zero_alias=False,native_classmap=None,observation=observation,board_saved=False,routing_accepted=False)
+            binding=binding,native_footprints=binding['footprints'],zero_alias=False,native_classmap=mapping,observation=observation,board_saved=False,routing_accepted=False)
         p.save_json(self.paths['proof'],proof);log=self.out/'export.log';log.write_bytes(b'')
         process=dict(name='export',cwd=str(self.out),argv=[str(p.c.PYTHON),str(p.c.ROOT/'autorouter/native.py'),'export',str(self.candidate),str(output)],
             status='success',exit_code=0,cleanup_complete=True,log=str(log),log_bytes=0,log_truncated=False)
+        if mapping is not None:process['argv'].append(str(self.mapping_path))
         p.save_json(self.out/'export-process.json',process);self.data['steps'].append(copy.deepcopy(process));self.data['task_sha256']=a.sha(raw)
         session=['session','"owned"',['base_design','"task"'],['placement'],['was_is'],['routes',['resolution','um','10'],['library_out'],['network_out']]]
         (self.out/'routes.ses').write_bytes(encoded(session))
@@ -81,15 +99,16 @@ class ExportPolicy(unittest.TestCase):
         aliases={r['uuid']:r['alias'] for r in binding['aliases']};fps=[]
         for row in binding['footprints']:
             ref=aliases.get(row['uuid'],row['reference']) if during else row['reference']
-            field=dict(name='Reference',uuid=identity(row['uuid']+'ref'),kind='PCB_FIELD',position_nm=[0,0],layer=36,locked=False,bbox_nm=[0,0,1,1],copper_polygons={},
+            field=dict(name='Reference',uuid=identity(row['uuid']+'ref'),kind='PCB_FIELD',position_nm=[0,0],layer=36 if self.layer_displays is None else 35,locked=False,bbox_nm=[0,0,1,1],copper_polygons={},
                 text=ref,shown=ref,angle=0,size_nm=[1,1],thickness_nm=1,visible=True,knockout=False)
             fps.append(dict(uuid=row['uuid'],reference=ref,value='mark',fpid='Test:mark',position_nm=[0,0],angle=0,layer=0,locked=False,model_count=0,fields=[field],graphics=[]))
         pad_fp=next(row for row in binding['footprints'] if row['pad_count'])
         return dict(footprints=fps,pads=[dict(uuid=identity('pad'),parent_uuid=pad_fp['uuid'],reference='J1',number='1',net='GND',netcode=1,position_nm=[0,0],angle=0,drill_nm=[0,0],drill_shape=0,copper_shapes={'F.Cu':poly()})],
             routes=[dict(uuid=identity('route'),net='GND',netcode=1,locked=True,width_nm=200000,kind='segment',start_nm=[0,0],end_nm=[1000000,0],layer='F.Cu')],
             zones=[dict(uuid=identity('zone'),net='GND',outline=poly(),fills={'F.Cu':[]})],
-            drawings=[dict(uuid=identity('drawing'),kind='PCB_SHAPE',position_nm=[0,0],layer=44,locked=False,bbox_nm=[0,0,1000000,1000000],copper_polygons={})],
-            layers_text=dict(layers=[dict(name=n,canonical=n,type='signal') for n in ('F.Cu','B.Cu')],copper_text=[],shape_semantics='authored text observation'),
+            drawings=[dict(uuid=identity('drawing'),kind='PCB_SHAPE',position_nm=[0,0],layer=44 if self.layer_displays is None else 25,locked=False,bbox_nm=[0,0,1000000,1000000],copper_polygons={})],
+            layers_text=dict(layers=[dict(name=display,canonical=name,type=kind) for name,display,kind in
+                zip(('F.Cu','B.Cu'),self.layer_displays or ('F.Cu','B.Cu'),self.copper_types)],copper_text=[],shape_semantics='authored text observation'),
             areas=dict(zones=[dict(uuid=identity('zone'),name='',parent='board',is_rule_area=False,placement_enabled=False,placement_source_type='SHEETNAME',placement_source='',
                 disallow={k:False for k in ('tracks','vias','pads','copperpour','footprints')},layers=['F.Cu'],outlines_nm=[[[0,0],[1000,0],[0,1000]]],outline_closed=[True],holes=[0],arc_count=0)],footprint_zone_count=0,footprint_rulearea_count=0),
             shape_semantics='authored complete observation; no Native execution')
@@ -173,6 +192,91 @@ class ExportPolicy(unittest.TestCase):
         session=sx.read(self.out/'routes.ses');name=f.read_json(self.paths['proof'])['binding']['aliases'][0]['alias']
         sx.one(session,'placement').append(['component','"image"',['place',json.dumps(name),'0','0','front','0']])
         (self.out/'routes.ses').write_bytes(encoded(session));self.assertEqual(self.check()[0]['alias_count'],2)
+
+    def test_display_layers_bind_all_four_phases_without_changing_canonical_geometry(self):
+        with patch.object(p.c,'NATIVE_VERSION','10.0.7'):
+            self.build(aliases=True,layer_displays=('upper_trace','lower_trace'))
+            before=io.inventory(self.out);self.assertEqual(self.check()[0]['alias_count'],2)
+            self.assertEqual(io.inventory(self.out),before)
+            events=f.read_json(self.paths['proof'])['observation']['events']
+            for event in events:
+                value=event['observation']
+                self.assertEqual([r['name'] for r in value['layers_text']['layers']],['upper_trace','lower_trace'])
+                self.assertEqual(set(value['pads'][0]['copper_shapes']),{'F.Cu'})
+                self.assertEqual(value['routes'][0]['layer'],'F.Cu')
+                self.assertEqual(set(value['zones'][0]['fills']),{'F.Cu'})
+
+    def test_consistently_reauthored_display_layer_observations_refuse(self):
+        with patch.object(p.c,'NATIVE_VERSION','10.0.7'):
+            self.build(aliases=True,layer_displays=('upper_trace','lower_trace'))
+            self.assertEqual(self.check()[0]['alias_count'],2);original=self.paths['proof'].read_bytes()
+            for fault in ('swapped','fallback','type','canonical','duplicate','missing','shape_alias','zone_alias'):
+                with self.subTest(fault=fault):
+                    try:
+                        def change(proof):
+                            for event in proof['observation']['events']:
+                                value=event['observation'];rows=value['layers_text']['layers']
+                                if fault=='swapped':rows[0]['name'],rows[1]['name']=rows[1]['name'],rows[0]['name']
+                                elif fault=='fallback':
+                                    for row in rows:row['name']=row['canonical']
+                                elif fault=='type':rows[1]['type']='jumper'
+                                elif fault=='canonical':rows[0]['canonical']='B.Cu'
+                                elif fault=='duplicate':rows[1]['name']=rows[0]['name']
+                                elif fault=='missing':rows.pop()
+                                elif fault=='shape_alias':value['pads'][0]['copper_shapes']={'upper_trace':poly()}
+                                else:value['zones'][0]['fills']={'upper_trace':[]}
+                        self.mutate_proof(change);self.reject()
+                    finally:self.paths['proof'].write_bytes(original)
+
+    def test_display_layers_require_same_load_map_source_and_selected_version(self):
+        with patch.object(p.c,'NATIVE_VERSION','10.0.7'):
+            self.build(aliases=True,layer_displays=('upper_trace','lower_trace'))
+            self.assertEqual(self.check()[0]['alias_count'],2)
+            files={path:path.read_bytes() for path in (self.paths['proof'],self.mapping_path,self.out/'export-process.json')}
+            data=copy.deepcopy(self.data)
+            for fault in ('deleted_record','deleted_mapping','source_display','source_hash','native_version','missing_observation'):
+                with self.subTest(fault=fault):
+                    try:
+                        proof=f.read_json(self.paths['proof']);mapping=proof['native_classmap']
+                        if fault=='deleted_record':mapping.pop('source_all_copper_layers')
+                        elif fault=='deleted_mapping':
+                            proof['native_classmap']=None
+                            process=f.read_json(self.out/'export-process.json');process['argv'].pop()
+                            p.save_json(self.out/'export-process.json',process);self.data['steps'][0]=copy.deepcopy(process)
+                        elif fault=='source_display':
+                            mapping['source_all_copper_layers']['layers'][0]['display_name']='different_trace'
+                            for event in proof['observation']['events']:
+                                event['observation']['layers_text']['layers'][0]['name']='different_trace'
+                        elif fault=='source_hash':mapping['board_sha256']='0'*64
+                        elif fault=='native_version':mapping['native_version']='10.0.0'
+                        else:proof['observation']=None
+                        p.save_json(self.mapping_path,mapping);p.save_json(self.paths['proof'],proof);self.reject()
+                    finally:
+                        for path,raw in files.items():path.write_bytes(raw)
+                        self.data=copy.deepcopy(data)
+            # A reauthored outer proof cannot turn the Native7 layer map into
+            # permission for an ordinary selected0 producer.
+            self.mutate_proof(lambda proof:proof.update(native_version='10.0.0'))
+            with patch.object(p.c,'NATIVE_VERSION','10.0.0'):self.reject()
+
+    def test_display_layer_source_alias_collisions_and_jumper_remain_closed(self):
+        with patch.object(p.c,'NATIVE_VERSION','10.0.7'):
+            for displays,types in ((('upper_trace','upper_trace'),('signal','signal')),
+                                   (('B.Cu','lower_trace'),('signal','signal')),
+                                   (('upper_trace','lower_trace'),('signal','jumper'))):
+                with self.subTest(displays=displays,types=types):
+                    self.build(aliases=True,layer_displays=displays,copper_types=types);self.reject()
+
+    def test_display_layer_helper_provenance_and_historical_jumper_branch(self):
+        with patch.object(p.c,'NATIVE_VERSION','10.0.7'):
+            self.build(aliases=True,layer_displays=('upper_trace','lower_trace'))
+            for helper in ('netclass_native.py','layer_policy.py'):
+                path=self.out/'code'/helper;original=path.read_bytes()
+                with self.subTest(helper=helper):
+                    try:path.write_bytes(b'# changed\n');self.reject()
+                    finally:path.write_bytes(original)
+        self.build(aliases=True,copper_types=('signal','jumper'))
+        self.assertEqual(self.check()[0]['alias_count'],2)
 
     def test_consistently_truncated_all_four_observations_fail(self):
         self.build(aliases=True);self.assertEqual(self.check()[0]['alias_count'],2);original=self.paths['proof'].read_bytes()

@@ -306,7 +306,20 @@ def _check_exports(root,data,retained,*,native_toolchain=None):
             if sha(project)!=owner['source_hashes'].get(pro.name):raise p.Rejected('alias original project rules differ')
         observation=proof['observation']
         if binding['aliases']:
-            _check_observation(observation,paths,raw,dsn,binding)
+            from .netclass_native import check_source_all_layers
+            layers=check_source_all_layers({} if mapping is None else mapping,sx.parse(raw.decode()))
+            observation_layers=None
+            if layers is not None:
+                # Only display labels differ: physical/geometry keys remain
+                # canonical, bound to the exact same-load Native layer map.
+                if native_toolchain is not None or expected_version!='10.0.7':
+                    raise p.Rejected('displayed alias layers require ordinary selected Native7')
+                for helper in ('netclass_native.py','layer_policy.py'):
+                    if sha(read_bytes(root/'code'/helper,1024**2))!=pins.get('autorouter/'+helper):
+                        raise p.Rejected('alias layer helper provenance differs')
+                observation_layers=[dict(name=row['display_name'],canonical=row['canonical'],type=row['type'])
+                                    for row in layers]
+            _check_observation(observation,paths,raw,dsn,binding,layers=observation_layers)
             expected_artifacts.update(str(paths[k].relative_to(root)) for k in ('before','after'))
             _check_sessions(cwd,data,command,binding,source,output)
         elif observation is not None:raise p.Rejected('zero-alias export contains mutation observations')
@@ -317,7 +330,7 @@ def _check_exports(root,data,retained,*,native_toolchain=None):
     return checked
 
 
-def _check_observation(observation,paths,raw,dsn,binding):
+def _check_observation(observation,paths,raw,dsn,binding,*,layers=None):
     from . import pipeline as p
     from .floor_route import canonical as encode
     from .placement_clearance import read_bytes
@@ -330,7 +343,7 @@ def _check_observation(observation,paths,raw,dsn,binding):
         raise p.Rejected('Native alias observation phases differ')
     before,during,after,restored=[e['observation'] for e in events]
     for index,value in enumerate((before,during,after,restored)):
-        _observation_census(value,raw,binding,during=index in (1,2))
+        _observation_census(value,raw,binding,during=index in (1,2),layers=layers)
     if (encode(before)!=encode(restored) or encode(during)!=encode(after)
             or encode(normalize(before,binding))!=encode(normalize(during,binding,True))
             or encode(events[-1]['result'])!=encode(dict(exported=True,restored=True,alias_count=len(binding['aliases']),routing_accepted=False))):
@@ -343,7 +356,7 @@ def _check_observation(observation,paths,raw,dsn,binding):
     if encode(observation)!=encode(expected):raise p.Rejected('Native alias emission hashes differ')
 
 
-def _observation_census(value,raw,binding,*,during):
+def _observation_census(value,raw,binding,*,during,layers=None):
     """A matching pair of truncated observations is never a geometry proof."""
     from . import pipeline as p
     expected_keys={'layers_text','areas','footprints','pads','routes','zones','drawings','shape_semantics'}
@@ -374,8 +387,9 @@ def _observation_census(value,raw,binding,*,during):
     if (type(text) is not dict or set(text)!={'layers','copper_text','shape_semantics'}
             or type(text['layers']) is not list or len(text['layers'])!=2 or type(text['copper_text']) is not list):
         raise p.Rejected('Native alias copper text/layers observation incomplete')
-    copper=[{'name':sx.unquote(n[1]),'canonical':sx.unquote(n[1]),'type':n[2]}
-            for n in sx.one(source,'layers',[])[1:] if isinstance(n,list) and len(n)>2 and sx.unquote(n[1]) in ('F.Cu','B.Cu')]
+    copper=layers if layers is not None else [
+        {'name':sx.unquote(n[1]),'canonical':sx.unquote(n[1]),'type':n[2]}
+        for n in sx.one(source,'layers',[])[1:] if isinstance(n,list) and len(n)>2 and sx.unquote(n[1]) in ('F.Cu','B.Cu')]
     if text['layers']!=copper:raise p.Rejected('Native alias source copper layers differ')
     texts=[n for n in sx.children(source,'gr_text') if sx.unquote(sx.one(n,'layer')[1]) in ('F.Cu','B.Cu')]
     if {r['uuid'] for r in text['copper_text']}!=identities(texts) or len(text['copper_text'])!=len(texts):
