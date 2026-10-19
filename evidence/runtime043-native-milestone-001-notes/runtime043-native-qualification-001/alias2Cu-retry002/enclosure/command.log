@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_runtime_workflow.py", line 14, in <module>
+    settings_sha256=p.sha(settings_path) if settings_path is not None else None
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-043/runtime/autorouter/pipeline.py", line 182, in sha
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+                          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1050, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '.runs/runtime043-native-qualification-001/alias2Cu-retry002/settings.json'

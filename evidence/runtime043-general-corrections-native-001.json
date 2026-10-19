@@ -1,0 +1,993 @@
+{
+  "schema": 1,
+  "kind": "general-corrections-actual-native-diagnostics-and-restart-followup-facts-v1",
+  "recorded_utc": "2026-10-19T21:03:29.059598+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "new_product_qualified": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_checkpoint": "6ec7ad2344ed060d5e0971965ef05bd9de68925d",
+  "restart_followup": {
+    "classification": "labelled_followup_validated_winner_delivery",
+    "first_attempt": false,
+    "unattended_batch": false,
+    "protocol_sha256": "1f9d6c8e20f0dac1c8a03a1dd0095d7e64d9e3593f252d0dc5acf755d329a5dd",
+    "outer_sha256": "fd53ed6584bd8abb5b6ca70e9dc4f75ac51250f72b07800f592a0c8e2430d30b",
+    "child_sha256": "c700c46d30cacede8d6f130691bed2f78b8a64d482d942bd5799915d10f1d0b5",
+    "summary_sha256": "175d7b119502dadeda98323f9bb8031c7869d3b6b353c748ad55d6090ba12682",
+    "complete_cost": {
+      "wall_seconds": 167.55,
+      "CPU_seconds": 157.31,
+      "user_seconds": 131.11,
+      "system_seconds": 26.2,
+      "time_log_sha256": "5da959fba4cd552f4877f98a436042f1d4a572a62bc30349186c119871282888",
+      "source": ".runs/runtime042-default-target-followup-001/outer-time.log",
+      "scope": "Complete external parent exit; nested samples not additional."
+    },
+    "method_wall_seconds": 55.39589158294257,
+    "method_full_CPU_seconds": 49.82501200000001,
+    "source_unchanged": true,
+    "source_hashes": {
+      "D18BS20.kicad_pcb": "2ce74b0cfa4863e15ff282ed6e77d628bd3f13756886fdd133cd20c5e7404f13",
+      "D18BS20.kicad_prl": "4c5470c0b19738593564947670c111aca22badbc28229ba0e38ceb5262fb8dbe",
+      "D18BS20.kicad_pro": "e6343efeaf6ee42a2d6f6a78b06780d6d1855271be9b4eaed0121bdc70a53924",
+      "D18BS20.kicad_sch": "f846b9dfdebd175031214cb40169ae4c3f7f8c70b1b9158b172cad1bca87ea2a",
+      "README.md": "c50d1cad5fe162059fd15a455b39712460ad04977de4962d37cc269257ac7a5e",
+      "_licenses/creator/README.md": "c50d1cad5fe162059fd15a455b39712460ad04977de4962d37cc269257ac7a5e"
+    },
+    "trials": [
+      {
+        "variant": "via_default",
+        "proof": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/route/result.json",
+          "receipt_sha256": "e5f69c245ae6b1a40c5a98d235a6fe2fde2dff19713427f371677fdb3ddf0d6c",
+          "candidate_sha256": "67b6811924e5f1690741e5290bd4af159ca305882913fc97b5aa7102f4b60517",
+          "native_report_sha256": "3dbeef3327ecaab03ab91924afb6b178c0eefc3ef77b20f8ec7061243fddf680",
+          "Native_counts": [
+            0,
+            0,
+            11,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Footprint has no courtyard defined",
+              "key": "missing_courtyard"
+            },
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            },
+            {
+              "description": "Footprint doesn't match symbol's footprint filters",
+              "key": "footprint_filters_mismatch"
+            },
+            {
+              "description": "PTH inside courtyard",
+              "key": "pth_inside_courtyard"
+            },
+            {
+              "description": "NPTH inside courtyard",
+              "key": "npth_inside_courtyard"
+            },
+            {
+              "description": "Footprint component type doesn't match footprint pads",
+              "key": "footprint_type_mismatch"
+            }
+          ],
+          "whole_project_drc_clean": false,
+          "protected_count": 0,
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/route",
+            "report_sha256": "3dbeef3327ecaab03ab91924afb6b178c0eefc3ef77b20f8ec7061243fddf680",
+            "process_sha256": "0409015ea11f4696636de5b5061f07e73d76508f947c549fc6ea8b42d59767ce",
+            "binding_sha256": "693701af76021895f86c6a5f2494dad528bebb6943f1e50a934bff6317d05aa3",
+            "full_schematic_flag": true
+          }
+        },
+        "strict_profile": {
+          "profile": "tuned",
+          "argv": [
+            "--router.autorouter.max_passes=100",
+            "--router.job_timeout=00:01:02",
+            "--router.automatic_neckdown=false",
+            "--router.fanout.enabled=false",
+            "--router.neck_width_um=0",
+            "--router.optimizer.max_threads=1",
+            "--router.optimizer.max_passes=50",
+            "--router.optimizer.timeout=00:01:02",
+            "--router.optimizer.improvement_threshold=0.001",
+            "--router.optimizer.enable_preflight_guards=false",
+            "--router.optimizer.max_consecutive_failures=100",
+            "--router.optimizer.max_consecutive_failures_pass1=100",
+            "--router.scoring.via_costs=50",
+            "--router.scoring.plane_via_costs=5"
+          ],
+          "scoring": {
+            "variant": "via_default",
+            "via_costs": 50,
+            "plane_via_costs": 5,
+            "argv": [
+              "--router.scoring.via_costs=50",
+              "--router.scoring.plane_via_costs=5"
+            ]
+          },
+          "strict_class_targets": true,
+          "remaining_outer_wall_seconds_at_assignment": 102.65127233334351,
+          "assigned_job_timeout_seconds": 62,
+          "assigned_optimizer_timeout_seconds": 62,
+          "native_finalization_reserve_seconds": 10,
+          "engine_grace_reserve_seconds": 30,
+          "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+          "outer_task_wall_budget_seconds": 104.81106833333334,
+          "outer_task_cpu_budget_seconds": 104.81106833333334
+        },
+        "metrics": {
+          "version": "10.0.7",
+          "pads": 10,
+          "footprints": 4,
+          "zones": 0,
+          "vias": 0,
+          "track_length_mm": 39.49805197754492,
+          "copper_layers": 2
+        }
+      },
+      {
+        "variant": "via_low",
+        "proof": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-02-via_low/route/result.json",
+          "receipt_sha256": "221870ac795872faafa1f6202a52f6f6512a135f3875b08e5d689de0eff45830",
+          "candidate_sha256": "77fc7d43a79947feeda3a3ba1a0fff00a093ce87d6b353596a7c4e15ffc1c255",
+          "native_report_sha256": "5920db442f53a06d5b9ed7530fd03c98bec2936238722a21b88b28a362c19d1b",
+          "Native_counts": [
+            0,
+            0,
+            11,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Footprint has no courtyard defined",
+              "key": "missing_courtyard"
+            },
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            },
+            {
+              "description": "Footprint doesn't match symbol's footprint filters",
+              "key": "footprint_filters_mismatch"
+            },
+            {
+              "description": "PTH inside courtyard",
+              "key": "pth_inside_courtyard"
+            },
+            {
+              "description": "NPTH inside courtyard",
+              "key": "npth_inside_courtyard"
+            },
+            {
+              "description": "Footprint component type doesn't match footprint pads",
+              "key": "footprint_type_mismatch"
+            }
+          ],
+          "whole_project_drc_clean": false,
+          "protected_count": 0,
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-02-via_low/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-02-via_low/route",
+            "report_sha256": "5920db442f53a06d5b9ed7530fd03c98bec2936238722a21b88b28a362c19d1b",
+            "process_sha256": "1b9a8e7aecb013112ea89fa5131e8808f4b70cdb5b12cb90c369d6363fa1de0a",
+            "binding_sha256": "d081b8f74c7ee8b88950d13e873d9424b207946a35ef564b34f36446a4abad9e",
+            "full_schematic_flag": true
+          }
+        },
+        "strict_profile": {
+          "profile": "tuned",
+          "argv": [
+            "--router.autorouter.max_passes=100",
+            "--router.job_timeout=00:01:40",
+            "--router.automatic_neckdown=false",
+            "--router.fanout.enabled=false",
+            "--router.neck_width_um=0",
+            "--router.optimizer.max_threads=1",
+            "--router.optimizer.max_passes=50",
+            "--router.optimizer.timeout=00:01:30",
+            "--router.optimizer.improvement_threshold=0.001",
+            "--router.optimizer.enable_preflight_guards=false",
+            "--router.optimizer.max_consecutive_failures=100",
+            "--router.optimizer.max_consecutive_failures_pass1=100",
+            "--router.scoring.via_costs=25",
+            "--router.scoring.plane_via_costs=3"
+          ],
+          "scoring": {
+            "variant": "via_low",
+            "via_costs": 25,
+            "plane_via_costs": 3,
+            "argv": [
+              "--router.scoring.via_costs=25",
+              "--router.scoring.plane_via_costs=3"
+            ]
+          },
+          "strict_class_targets": true,
+          "remaining_outer_wall_seconds_at_assignment": 164.353781687445,
+          "assigned_job_timeout_seconds": 100,
+          "assigned_optimizer_timeout_seconds": 90,
+          "native_finalization_reserve_seconds": 10,
+          "engine_grace_reserve_seconds": 30,
+          "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+          "outer_task_wall_budget_seconds": 166.1774001874728,
+          "outer_task_cpu_budget_seconds": 166.1774001874728
+        },
+        "metrics": {
+          "version": "10.0.7",
+          "pads": 10,
+          "footprints": 4,
+          "zones": 0,
+          "vias": 0,
+          "track_length_mm": 39.498051977544925,
+          "copper_layers": 2
+        }
+      },
+      {
+        "variant": "via_high",
+        "proof": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-03-via_high/route/result.json",
+          "receipt_sha256": "3f822deb90f16ba5f5d6ad7122966b920167d71b8fb2e15c3957a87dc11b48b4",
+          "candidate_sha256": "e4962a44c53635d5db40a9baa50ac5317a6557ab1aacb9565b91f98ee8921182",
+          "native_report_sha256": "608d7fc5ff96b935c4ffd14ac407a5ed03f65f40c42283acc544117d520ffab7",
+          "Native_counts": [
+            0,
+            0,
+            11,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Footprint has no courtyard defined",
+              "key": "missing_courtyard"
+            },
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            },
+            {
+              "description": "Footprint doesn't match symbol's footprint filters",
+              "key": "footprint_filters_mismatch"
+            },
+            {
+              "description": "PTH inside courtyard",
+              "key": "pth_inside_courtyard"
+            },
+            {
+              "description": "NPTH inside courtyard",
+              "key": "npth_inside_courtyard"
+            },
+            {
+              "description": "Footprint component type doesn't match footprint pads",
+              "key": "footprint_type_mismatch"
+            }
+          ],
+          "whole_project_drc_clean": false,
+          "protected_count": 0,
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-03-via_high/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-03-via_high/route",
+            "report_sha256": "608d7fc5ff96b935c4ffd14ac407a5ed03f65f40c42283acc544117d520ffab7",
+            "process_sha256": "fff5bb4bfd74a789c336f04197065b75c8840f9338aa2e977c732842622ac8fe",
+            "binding_sha256": "02d0dbc08326f1ce7b888b0fe52647fa17e3d42818a92d8c84133a649995ffcf",
+            "full_schematic_flag": true
+          }
+        },
+        "strict_profile": {
+          "profile": "tuned",
+          "argv": [
+            "--router.autorouter.max_passes=100",
+            "--router.job_timeout=00:01:40",
+            "--router.automatic_neckdown=false",
+            "--router.fanout.enabled=false",
+            "--router.neck_width_um=0",
+            "--router.optimizer.max_threads=1",
+            "--router.optimizer.max_passes=50",
+            "--router.optimizer.timeout=00:01:30",
+            "--router.optimizer.improvement_threshold=0.001",
+            "--router.optimizer.enable_preflight_guards=false",
+            "--router.optimizer.max_consecutive_failures=100",
+            "--router.optimizer.max_consecutive_failures_pass1=100",
+            "--router.scoring.via_costs=100",
+            "--router.scoring.plane_via_costs=10"
+          ],
+          "scoring": {
+            "variant": "via_high",
+            "via_costs": 100,
+            "plane_via_costs": 10,
+            "argv": [
+              "--router.scoring.via_costs=100",
+              "--router.scoring.plane_via_costs=10"
+            ]
+          },
+          "strict_class_targets": true,
+          "remaining_outer_wall_seconds_at_assignment": 349.04793775011785,
+          "assigned_job_timeout_seconds": 100,
+          "assigned_optimizer_timeout_seconds": 90,
+          "native_finalization_reserve_seconds": 10,
+          "engine_grace_reserve_seconds": 30,
+          "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+          "outer_task_wall_budget_seconds": 350.941730709048,
+          "outer_task_cpu_budget_seconds": 350.941730709048
+        },
+        "metrics": {
+          "version": "10.0.7",
+          "pads": 10,
+          "footprints": 4,
+          "zones": 0,
+          "vias": 0,
+          "track_length_mm": 39.49805197754492,
+          "copper_layers": 2
+        }
+      }
+    ],
+    "delivered": {
+      "route": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/route/result.json",
+        "receipt_sha256": "e5f69c245ae6b1a40c5a98d235a6fe2fde2dff19713427f371677fdb3ddf0d6c",
+        "candidate_sha256": "67b6811924e5f1690741e5290bd4af159ca305882913fc97b5aa7102f4b60517",
+        "native_report_sha256": "3dbeef3327ecaab03ab91924afb6b178c0eefc3ef77b20f8ec7061243fddf680",
+        "Native_counts": [
+          0,
+          0,
+          11,
+          0
+        ],
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "whole_project_drc_clean": false,
+        "protected_count": 0,
+        "own_final": {
+          "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/route/final-drc.json",
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/route",
+          "report_sha256": "3dbeef3327ecaab03ab91924afb6b178c0eefc3ef77b20f8ec7061243fddf680",
+          "process_sha256": "0409015ea11f4696636de5b5061f07e73d76508f947c549fc6ea8b42d59767ce",
+          "binding_sha256": "693701af76021895f86c6a5f2494dad528bebb6943f1e50a934bff6317d05aa3",
+          "full_schematic_flag": true
+        },
+        "finding_types": {
+          "warning:silk_edge_clearance": 4,
+          "warning:lib_footprint_issues": 4,
+          "warning:silk_overlap": 3
+        }
+      },
+      "export": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/export/export.json",
+        "receipt_sha256": "de2572ad08d54f728f4d6e3b6db8d4ab4c86f70d55db30f6118c1fd3c9058374",
+        "candidate_sha256": "67b6811924e5f1690741e5290bd4af159ca305882913fc97b5aa7102f4b60517",
+        "native_report_sha256": "d76b354641f1622e7db9def79a9ed768736e6458988bda3d3b0392942d7a4e82",
+        "Native_counts": [
+          0,
+          0,
+          11,
+          0
+        ],
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          },
+          {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+          }
+        ],
+        "whole_project_drc_clean": false,
+        "protected_count": null,
+        "own_final": {
+          "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/export/validation/final-drc.json",
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.runs/native7-comparison-runtime042-default-target-followup-001-ds18b20-B2_portfolio-portfolio-01-via_default/export/validation",
+          "report_sha256": "d76b354641f1622e7db9def79a9ed768736e6458988bda3d3b0392942d7a4e82",
+          "process_sha256": "bfc586b15f058b6d55700b9e15abc091362dd17262314e3bee1a71061d8bddd2",
+          "binding_sha256": "1835e4e8619d3191bc4fad184cdb84af935586f386858e5183b7521d253b2255",
+          "full_schematic_flag": true
+        },
+        "finding_types": {
+          "warning:silk_edge_clearance": 4,
+          "warning:lib_footprint_issues": 4,
+          "warning:silk_overlap": 3
+        }
+      }
+    },
+    "metrics": {
+      "version": "10.0.7",
+      "pads": 10,
+      "footprints": 4,
+      "zones": 0,
+      "vias": 0,
+      "track_length_mm": 39.49805197754492,
+      "copper_layers": 2
+    },
+    "selected_variant": "via_default",
+    "ordinary_production_admitted": false,
+    "scope": "Measurement-corrected B2, unchanged042runtime/input/constraints/budgets. NewNative7 fractional core not used. Original failed firsttrial and cost remain in042cohort."
+  },
+  "Native_diagnostics": {
+    "001": {
+      "passed": false,
+      "all_controls_passed": false,
+      "complete_cost": {
+        "wall_seconds": 6.71,
+        "CPU_seconds": 5.06,
+        "user_seconds": 3.87,
+        "system_seconds": 1.19,
+        "time_log_sha256": "60dc464196b7b010d3a9b181c50ae841c384e7939e3f38e5c65772d8cacc9363",
+        "source": ".runs/native7-fractional-edge-controls-001-time.log",
+        "scope": "Complete external parent exit; nested samples not additional."
+      },
+      "execution_sha256": "9d8ca17eabcf6a0d75d5c66f551f8a6d7421de94c9ac6e4e537b8f5eeed22504",
+      "result_sha256": "2979bd68b11b5b8c546fc827c9518f912784510ca6838ff2f5867b296e7e28a0",
+      "transport_passed": true,
+      "transport_native_host_version": "10.0.7",
+      "rows": [
+        {
+          "case": "positive",
+          "passed": false,
+          "accepted": false,
+          "Native_counts": null,
+          "reason": "ValueError: Original board dimension floors required",
+          "candidate_sha256": null,
+          "steps": [
+            {
+              "name": "refill-drc",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/positive/refill-drc.json",
+                "--save-board",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/positive/refill/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/positive",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": "d8c1910fdb4410a829885b06b61443ac1e4f831aa8adb202d93312357192e2c9"
+            },
+            {
+              "name": "final-netclasses",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+                "--experimental-native",
+                "{\"expected_version\": \"10.0.7\", \"mode\": \"experimental-native-qualification\", \"schema\": 1, \"tools\": {\"cli\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli\", \"sha256\": \"0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f\"}, \"pcbnew\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so\", \"sha256\": \"610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e\"}, \"python\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9\", \"sha256\": \"fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f\"}}}",
+                "netclasses",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/positive/candidate/smoke.kicad_pcb",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/positive/final-netclasses.json"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/positive",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": null
+            }
+          ]
+        },
+        {
+          "case": "edge_violation",
+          "passed": false,
+          "accepted": false,
+          "Native_counts": null,
+          "reason": "ValueError: Original board dimension floors required",
+          "candidate_sha256": null,
+          "steps": [
+            {
+              "name": "refill-drc",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/edge_violation/refill-drc.json",
+                "--save-board",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/edge_violation/refill/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/edge_violation",
+              "status": "nonzero_exit",
+              "exit_code": 5,
+              "validated_input_sha256": "a520270c29e9d97e43b8505cc002a85e0dd825a9a2fe69599a931d40c8c415df"
+            },
+            {
+              "name": "final-netclasses",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+                "--experimental-native",
+                "{\"expected_version\": \"10.0.7\", \"mode\": \"experimental-native-qualification\", \"schema\": 1, \"tools\": {\"cli\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli\", \"sha256\": \"0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f\"}, \"pcbnew\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so\", \"sha256\": \"610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e\"}, \"python\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9\", \"sha256\": \"fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f\"}}}",
+                "netclasses",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/edge_violation/candidate/smoke.kicad_pcb",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/edge_violation/final-netclasses.json"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/edge_violation",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": null
+            }
+          ]
+        },
+        {
+          "case": "rule_tamper",
+          "passed": true,
+          "accepted": false,
+          "Native_counts": null,
+          "reason": "Rejected: candidate project/rules/file set changed",
+          "candidate_sha256": null,
+          "steps": [
+            {
+              "name": "relaxed-rule-diagnostic",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/rule_tamper/relaxed-rule-diagnostic.json",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/rule_tamper/relaxed-rule-diagnostic-input/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-001/rule_tamper",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": "656c1f5e482eab4dbbcd8c6bc61b0c3151c2859e93c1a4658fc4b6ff511434be"
+            }
+          ]
+        }
+      ],
+      "scope": "Owned diagnostic only, noSCH, engine, fullproduct, electrical or routing-quality claim."
+    },
+    "002": {
+      "passed": true,
+      "all_controls_passed": true,
+      "complete_cost": {
+        "wall_seconds": 8.3,
+        "CPU_seconds": 6.1,
+        "user_seconds": 4.72,
+        "system_seconds": 1.38,
+        "time_log_sha256": "3679b3d7cc5fe5d38b8d8f5a833761d059bc8c67463d1b146d5759776ad01c04",
+        "source": ".runs/native7-fractional-edge-controls-002-time.log",
+        "scope": "Complete external parent exit; nested samples not additional."
+      },
+      "execution_sha256": "999875feb98ff2301681018e4eaf7f72a337d0b93c812795ae0cfbd635bc7977",
+      "result_sha256": "9398d1fe3a1664fb892c55fe0db139d053a517f82391f56622ca97cfe7bc97ce",
+      "transport_passed": true,
+      "transport_native_host_version": "10.0.7",
+      "rows": [
+        {
+          "case": "positive",
+          "passed": true,
+          "accepted": true,
+          "Native_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "reason": null,
+          "candidate_sha256": "d8c1910fdb4410a829885b06b61443ac1e4f831aa8adb202d93312357192e2c9",
+          "steps": [
+            {
+              "name": "refill-drc",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive/refill-drc.json",
+                "--save-board",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive/refill/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": "d8c1910fdb4410a829885b06b61443ac1e4f831aa8adb202d93312357192e2c9"
+            },
+            {
+              "name": "final-netclasses",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+                "--experimental-native",
+                "{\"expected_version\": \"10.0.7\", \"mode\": \"experimental-native-qualification\", \"schema\": 1, \"tools\": {\"cli\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli\", \"sha256\": \"0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f\"}, \"pcbnew\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so\", \"sha256\": \"610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e\"}, \"python\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9\", \"sha256\": \"fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f\"}}}",
+                "netclasses",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive/candidate/smoke.kicad_pcb",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive/final-netclasses.json"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": null
+            },
+            {
+              "name": "final-drc",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive/final-drc.json",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive/final-drc-input/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/positive",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": "d8c1910fdb4410a829885b06b61443ac1e4f831aa8adb202d93312357192e2c9"
+            }
+          ]
+        },
+        {
+          "case": "edge_violation",
+          "passed": true,
+          "accepted": false,
+          "Native_counts": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "reason": null,
+          "candidate_sha256": "a520270c29e9d97e43b8505cc002a85e0dd825a9a2fe69599a931d40c8c415df",
+          "steps": [
+            {
+              "name": "refill-drc",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation/refill-drc.json",
+                "--save-board",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation/refill/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation",
+              "status": "nonzero_exit",
+              "exit_code": 5,
+              "validated_input_sha256": "a520270c29e9d97e43b8505cc002a85e0dd825a9a2fe69599a931d40c8c415df"
+            },
+            {
+              "name": "final-netclasses",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+                "--experimental-native",
+                "{\"expected_version\": \"10.0.7\", \"mode\": \"experimental-native-qualification\", \"schema\": 1, \"tools\": {\"cli\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli\", \"sha256\": \"0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f\"}, \"pcbnew\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so\", \"sha256\": \"610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e\"}, \"python\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9\", \"sha256\": \"fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f\"}}}",
+                "netclasses",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation/candidate/smoke.kicad_pcb",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation/final-netclasses.json"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": null
+            },
+            {
+              "name": "final-drc",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation/final-drc.json",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation/final-drc-input/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/edge_violation",
+              "status": "nonzero_exit",
+              "exit_code": 5,
+              "validated_input_sha256": "a520270c29e9d97e43b8505cc002a85e0dd825a9a2fe69599a931d40c8c415df"
+            }
+          ]
+        },
+        {
+          "case": "rule_tamper",
+          "passed": true,
+          "accepted": false,
+          "Native_counts": null,
+          "reason": "Rejected: candidate project/rules/file set changed",
+          "candidate_sha256": null,
+          "steps": [
+            {
+              "name": "relaxed-rule-diagnostic",
+              "argv": [
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+                "pcb",
+                "drc",
+                "--format",
+                "json",
+                "--severity-all",
+                "--all-track-errors",
+                "--refill-zones",
+                "--exit-code-violations",
+                "--output",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/rule_tamper/relaxed-rule-diagnostic.json",
+                "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/rule_tamper/relaxed-rule-diagnostic-input/smoke.kicad_pcb"
+              ],
+              "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-fractional-edge-controls-002/rule_tamper",
+              "status": "success",
+              "exit_code": 0,
+              "validated_input_sha256": "656c1f5e482eab4dbbcd8c6bc61b0c3151c2859e93c1a4658fc4b6ff511434be"
+            }
+          ]
+        }
+      ],
+      "scope": "Owned diagnostic only, noSCH, engine, fullproduct, electrical or routing-quality claim."
+    }
+  },
+  "interpretation": [
+    "General verifier correction now passes all3actualNative trials and freshwinnerdelivery; not a new algorithmic improvement.",
+    "Exact7fractionalguard has actualexport/purepriorpacket plus Native positive/edge-negative/rule-tamper controls; selectednewproduct/nativefullSCH/GUI stillpending.",
+    "001ran refill DRC then classfloor refusal before final DRC for positive/edge; no false finalNativepass. Fresh002authored explicitfloors at creation and uses identical sharedvalidator.",
+    "Different publisher priorcohort notrewritten, no stitched unattended firstattempt.",
+    "No copied third-party CAD/DSN/SES/plots/rawfindings; unique rawMac-only/outside010."
+  ],
+  "review": {
+    "kind": "AI-actual-artifact-spot-review",
+    "reviewer": "/root/windows005_gate",
+    "reviewed_packet_sha256_before_adding_this_note": "67efcb40767aad7950a84ff3d926478d7c028edef0a93cefebf0258d0021b5ce",
+    "recorded_utc": "2026-10-19T21:05:45.850681+00:00",
+    "material_discrepancy_found": false,
+    "observations": [
+      "All three trial profiles/variants/argv/journals/allocation caps agree and are eligible; via_default selection follows declared ordering.",
+      "Selected Route/export candidate67b68119... each has own fullSCH0/0/11/0,seven ignored checks and matching original/source/input/report/process hashes.",
+      "Externalcost167.55wall/157.31CPU; methodbelow450; all23files/234911bytes match index.",
+      "No third-party CAD/rawfindings identified; prior042cohort remains a9aaf1ed... unchanged.",
+      "Native002review: ownpositive/final0all and edge1blocking, explicitfloor/class/sourcebindings unchanged; rule-tamper refused. First001positive/edge did not run final DRC."
+    ],
+    "limits": [
+      "No Native or central replay by reviewer; not human/allraw/external validation.",
+      "Labelled follow-up, unchanged042runtime; new043product qualification pending."
+    ]
+  },
+  "files": [
+    {
+      "source": ".runs/curate-general-corrections-native-facts-001.py",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/curate-general-corrections-native-facts-001.py",
+      "sha256": "335c991d0417c8d988bb8fad37b385ee85fb6a2316dced912f81702758dd55bd",
+      "bytes": 9008
+    },
+    {
+      "source": ".runs/runtime042-default-target-followup-001/preregistration.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/runtime042-default-target-followup-001/preregistration.json",
+      "sha256": "39a34e1287198404a6604bc495d09e193a512844da19e0d2cb9bc78b55cf52b6",
+      "bytes": 2269
+    },
+    {
+      "source": ".runs/runtime042-default-target-followup-001/protocol.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/runtime042-default-target-followup-001/protocol.json",
+      "sha256": "1f9d6c8e20f0dac1c8a03a1dd0095d7e64d9e3593f252d0dc5acf755d329a5dd",
+      "bytes": 17778
+    },
+    {
+      "source": ".runs/runtime042-default-target-followup-001/outer.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/runtime042-default-target-followup-001/outer.log",
+      "sha256": "6d84e5277af3334aefd3667fa37d9242acb8ce6cb837af35fd5f78119462dd09",
+      "bytes": 67079
+    },
+    {
+      "source": ".runs/runtime042-default-target-followup-001/outer-time.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/runtime042-default-target-followup-001/outer-time.log",
+      "sha256": "5da959fba4cd552f4877f98a436042f1d4a572a62bc30349186c119871282888",
+      "bytes": 777
+    },
+    {
+      "source": ".runs/runtime042-default-target-followup-001/enclosure/result.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/runtime042-default-target-followup-001/enclosure/result.json",
+      "sha256": "fd53ed6584bd8abb5b6ca70e9dc4f75ac51250f72b07800f592a0c8e2430d30b",
+      "bytes": 73070
+    },
+    {
+      "source": ".runs/runtime042-default-target-followup-001/enclosure/process.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/runtime042-default-target-followup-001/enclosure/process.json",
+      "sha256": "04a62b3916f1dce7f8c119880176a0e05132ba5f9b3ccce35fe7fe0071b506f1",
+      "bytes": 2063
+    },
+    {
+      "source": ".runs/runtime042-default-target-followup-001/enclosure/command.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/runtime042-default-target-followup-001/enclosure/command.log",
+      "sha256": "d8af22cb292a299c250e7c6a6714c76417a80cb0496a9b42758b931d2d639c02",
+      "bytes": 217
+    },
+    {
+      "source": ".runs/native7-edge-control-base-001-creation.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-edge-control-base-001-creation.json",
+      "sha256": "554a64bbe4ac4b78b7fedb4eec8a9368b5c40544c1c978f8c710bbe88e8c3944",
+      "bytes": 1139
+    },
+    {
+      "source": ".runs/run-native7-fractional-edge-controls-001.py",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/run-native7-fractional-edge-controls-001.py",
+      "sha256": "b44e7a3f9dae7cecf55d20f043cc6e82edda0073ad71540046ee3b95c2059c14",
+      "bytes": 2909
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-001-controller.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-001-controller.log",
+      "sha256": "587eb79532c711cad5589b503692de250e966182b074968ba8860d97730da0df",
+      "bytes": 107
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-001-time.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-001-time.log",
+      "sha256": "60dc464196b7b010d3a9b181c50ae841c384e7939e3f38e5c65772d8cacc9363",
+      "bytes": 777
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-execution-001/protocol.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-execution-001/protocol.json",
+      "sha256": "dc1005f3faf9ba5dd0c1d4fe44163a6134addf41536f3018543da8398897013d",
+      "bytes": 8514
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-execution-001/execution.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-execution-001/execution.json",
+      "sha256": "9d8ca17eabcf6a0d75d5c66f551f8a6d7421de94c9ac6e4e537b8f5eeed22504",
+      "bytes": 9540
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-execution-001/command.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-execution-001/command.log",
+      "sha256": "ec6d50c82a5a0b30b0ec5daefbca3312b560d455aa27578b4dc1d22f5ee187f9",
+      "bytes": 210
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-001/protocol.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-001/protocol.json",
+      "sha256": "ae6030de0509210af0cda0e39655d986c8650a555512c13093a25360ea0ced4b",
+      "bytes": 8745
+    },
+    {
+      "source": ".runs/run-native7-fractional-edge-controls-002.py",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/run-native7-fractional-edge-controls-002.py",
+      "sha256": "2131a07d66c19412402d57f3604ebc25e9f29a70426fff84a3dddf022d4fa778",
+      "bytes": 2987
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-002-controller.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-002-controller.log",
+      "sha256": "180d9567e74efb2626a9f1ecfbc4b6393a9c5777c2733174d782fc8552b35d0f",
+      "bytes": 105
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-002-time.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-002-time.log",
+      "sha256": "3679b3d7cc5fe5d38b8d8f5a833761d059bc8c67463d1b146d5759776ad01c04",
+      "bytes": 777
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-execution-002/protocol.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-execution-002/protocol.json",
+      "sha256": "00aea6d153c51999406e968cbf27e596394b426a020be8712f1241c7a8eb2504",
+      "bytes": 8468
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-execution-002/execution.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-execution-002/execution.json",
+      "sha256": "999875feb98ff2301681018e4eaf7f72a337d0b93c812795ae0cfbd635bc7977",
+      "bytes": 9612
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-execution-002/command.log",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-execution-002/command.log",
+      "sha256": "b15d701b744001ea5f6e62c4700e4429e0b3eaecdb85740174c685696c787bf5",
+      "bytes": 106
+    },
+    {
+      "source": ".runs/native7-fractional-edge-controls-002/protocol.json",
+      "path": "evidence/runtime043-general-corrections-native-001-notes/native7-fractional-edge-controls-002/protocol.json",
+      "sha256": "901b6ad10aeb2c962eb154ab0c4859e2ce3cbe05ba58716cf0d8c9f7bb73f2d2",
+      "bytes": 8654
+    }
+  ],
+  "retained_bytes": 234911,
+  "additional_curation_cost_seconds": {
+    "wall": 0.79,
+    "CPU": 0.21,
+    "source": ".runs/general-corrections-native-curation-001-time.log",
+    "scope": "Reporting only; authoring/review additional and incompletely metered, not zero."
+  }
+}

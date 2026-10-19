@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "kind": "runtime043-actual-short-and-protected-width-invalid-facts-v1",
+  "recorded_utc": "2026-10-19T21:23:28.231788+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "control_passed": true,
+  "source_head": "6ec7ad2344ed060d5e0971965ef05bd9de68925d",
+  "runtime_manifest_sha256": "6fdfe60bcbe6aecc2c950a6917b22d8e591f5ae3078eca5a52ae051a1aac5aa3",
+  "source_hashes": {
+    "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+    "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+    "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+  },
+  "source_unchanged": true,
+  "child_sha256": "a5bd518ef8a0d3baab1c510aa021253675ee93bc3002468b8570c52d2a940268",
+  "cases": [
+    {
+      "label": "partial-short",
+      "control_observed": true,
+      "accepted": false,
+      "routing_accepted": false,
+      "protected_routes": 4,
+      "before_candidate_sha256": "97ca107dcadcbc9622df011f053bc806f965f091df37cd584ecdc4f96eb1be95",
+      "candidate_sha256": "2344b9583734e5c6b6345cc5ce10ce2a632692cfbf1b9826c7707774ebeeed99",
+      "native_report_sha256": "cc18340db82a0da027a5f4ecf600cf8804a00badb50913dff8f2e92987568400",
+      "rejection": "actual original-rule full-schematic Native short",
+      "Native_diagnostic_routing_accepted": null,
+      "no_additional_native_after_invariant_refusal": null,
+      "Native_counts": [
+        0,
+        4,
+        0,
+        0
+      ],
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "finding_types": {
+        "shorting_items": 1,
+        "hole_clearance": 1,
+        "tracks_crossing": 1,
+        "solder_mask_bridge": 1
+      },
+      "actual_report": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-043/runtime/.runs/native7-comparison-control-runtime043-invalid-001/partial-short/validation/final-drc.json"
+    },
+    {
+      "label": "partial-protected-width",
+      "control_observed": true,
+      "accepted": false,
+      "routing_accepted": false,
+      "protected_routes": 4,
+      "before_candidate_sha256": "97ca107dcadcbc9622df011f053bc806f965f091df37cd584ecdc4f96eb1be95",
+      "candidate_sha256": "dc252377024c6bd92e870ff45f418795aab8847f22a04a8ab776dc460d521b22",
+      "native_report_sha256": "7e954b3c9adf532fab0e0db19bb5b167e32d97272bee4d938234f3a2b7e60648",
+      "rejection": "protected route changed",
+      "Native_diagnostic_routing_accepted": true,
+      "no_additional_native_after_invariant_refusal": true,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "finding_types": {},
+      "actual_report": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-043/runtime/.runs/native7-comparison-control-runtime043-invalid-001/partial-protected-width/validation/diagnostic-full-drc.json"
+    }
+  ],
+  "complete_cost": {
+    "wall_seconds": 14.79,
+    "CPU_seconds": 13.03,
+    "user_seconds": 10.58,
+    "system_seconds": 2.45,
+    "time_log_sha256": "4ec5444b6b8aab0086b409e3347cab5dcb12964246e915e915596a18c1a787ad",
+    "source": ".runs/runtime043-ordinary-native-invalid-001/outer-time.log",
+    "scope": "Complete external parent exit; nested samples not additional."
+  },
+  "files": [
+    {
+      "source": ".runs/curate-runtime043-native-invalid-facts-001.py",
+      "path": "evidence/runtime043-native-invalid-001-notes/curate-runtime043-native-invalid-facts-001.py",
+      "sha256": "75ac4f45c2bce3b3ade984d2ab7ea90c6a75fdf44259c7f1841d7d49cb12f580",
+      "bytes": 5000
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/protocol.json",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/protocol.json",
+      "sha256": "9865a023bda86d47b1aa8becae7bbd0b9965cef52c242210e62817bea8c20d5d",
+      "bytes": 21502
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/outer.log",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/outer.log",
+      "sha256": "6ca4225848a2e311a28d7a7ec5090765a9cb12b1cc52315f23d982c129500ecf",
+      "bytes": 850
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/outer-time.log",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/outer-time.log",
+      "sha256": "4ec5444b6b8aab0086b409e3347cab5dcb12964246e915e915596a18c1a787ad",
+      "bytes": 777
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/enclosure/result.json",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/enclosure/result.json",
+      "sha256": "3e96d3c155eea281bb403258599fa44a6d362656f36f715b03b8ddbc755916f8",
+      "bytes": 10620
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/enclosure/process.json",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/enclosure/process.json",
+      "sha256": "43517e90adae794a21ed1f1242b83fc85278b568ca97b0b8d32f9038ccc894ab",
+      "bytes": 2009
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/enclosure/command.log",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/enclosure/command.log",
+      "sha256": "4d940a6aa33614cadafcf4caf8099f5c95215a40e22b5e421a6e4379a88a53e4",
+      "bytes": 168
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/tools-defaults.json",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/tools-defaults.json",
+      "sha256": "f9a7c3b56380d4b682769edd62359630b22393158a77e0004109d33f912c0f74",
+      "bytes": 12262
+    },
+    {
+      "source": ".runs/runtime043-ordinary-native-invalid-001/tools-defaults-process.json",
+      "path": "evidence/runtime043-native-invalid-001-notes/runtime043-ordinary-native-invalid-001/tools-defaults-process.json",
+      "sha256": "d2e0e02f3c0d524de72c3202a40069c66fc12ed0e8e7818106dd9c3156794c5d",
+      "bytes": 1993
+    },
+    {
+      "source": ".runs/qualify-runtime043-ordinary-native-invalid-001.py",
+      "path": "evidence/runtime043-native-invalid-001-notes/qualify-runtime043-ordinary-native-invalid-001.py",
+      "sha256": "e424ff00d401fcca75f80e88617743ef66db78ffdfdf26af3ec51c311cd3f462",
+      "bytes": 23209
+    },
+    {
+      "source": ".runs/freeze-runtime043-ordinary-native-invalid-001.py",
+      "path": "evidence/runtime043-native-invalid-001-notes/freeze-runtime043-ordinary-native-invalid-001.py",
+      "sha256": "a94597c15364d142ded3903194fd540fd8e87d73fc9da5ca5943cec1d9e4def4",
+      "bytes": 13259
+    },
+    {
+      "source": ".runs/freeze-runtime043-ordinary-native-invalid-001.log",
+      "path": "evidence/runtime043-native-invalid-001-notes/freeze-runtime043-ordinary-native-invalid-001.log",
+      "sha256": "d3c975a0ac9bbd6921f5b3fff3e43c313a37c331653636fc1989a4fe25ea4885",
+      "bytes": 376
+    },
+    {
+      "source": ".runs/freeze-runtime043-ordinary-native-invalid-001-time.log",
+      "path": "evidence/runtime043-native-invalid-001-notes/freeze-runtime043-ordinary-native-invalid-001-time.log",
+      "sha256": "43539510a98b3425e4e17ff7c197c28fce740b9449b87d07fdcdd8d0fbb5dc01",
+      "bytes": 777
+    }
+  ],
+  "scope": "Two actual pinned7invalidcontrols using unchanged shared validator: addedshort has4blocking; protectedwidth+1nm is Nativeclean but original/protected guard refuses. No populationfalseacceptance/electrical claim. Current GUI pending. RawretainedMac-only/outside010; metadata is not fullrawbackup."
+}

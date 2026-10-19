@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 167.28435437497683,
+  "cpu_seconds": 156.660673,
+  "max_rss_bytes": 283017216,
+  "supervisor_cpu_seconds": 0.40895499999999996,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 283017216,
+  "sampled_peak_workdir_bytes": 217,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_comparison_portfolio.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-default-target-followup-001/protocol.json",
+    "--protocol-sha256",
+    "1f9d6c8e20f0dac1c8a03a1dd0095d7e64d9e3593f252d0dc5acf755d329a5dd"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-default-target-followup-001/enclosure/command.log",
+  "log_bytes": 217,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-default-target-followup-001/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 84747
+}
