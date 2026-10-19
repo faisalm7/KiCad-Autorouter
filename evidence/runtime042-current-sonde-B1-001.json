@@ -1,0 +1,273 @@
+{
+  "schema": 1,
+  "kind": "frozen-current042-single-arm-actual-evidence-v1",
+  "recorded_utc": "2026-10-19T19:12:16.218829+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "82aaa3b750007ef2ffaafd367ffcb718aa93865e",
+  "runtime_manifest_sha256": "1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e",
+  "administration_head": "4247b7db234f7379df7d3d41d36522ee9271ccee",
+  "population_sha256": "bbfb65e347fa73d84ce3c392eff3ef7d916e96bb29986418c5a74ede948ce524",
+  "row": {
+    "family": "sonde",
+    "arm": "B1",
+    "outer_passed": true,
+    "outer_status": "completed",
+    "outer_process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 139.66263812500983,
+      "cpu_seconds": 136.940814,
+      "max_rss_bytes": 322961408,
+      "supervisor_cpu_seconds": 0.31929,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 322945024,
+      "sampled_peak_workdir_bytes": 340,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/qualify-current-method-001.py",
+        "--runtime",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime",
+        "--protocol",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-two-family-current-comparison-001/sonde/B1/protocol.json",
+        "--protocol-sha256",
+        "3d1d0c6ead31ebc24d0cba348427482753af891701429e7c5c6571c89264dba4"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-two-family-current-comparison-001/sonde/B1/enclosure/command.log",
+      "log_bytes": 340,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-two-family-current-comparison-001/sonde/B1/enclosure",
+      "signal_cancellation_enabled": true,
+      "pid": 47672
+    },
+    "child_receipt_present": true,
+    "controller_status": "completed",
+    "enclosure_custody_inventory_verified": true,
+    "portfolio_summary_sha256": null,
+    "portfolio_summary_bound_to_child": false,
+    "outcome": "validated_delivery",
+    "controller_reported_attempt_qualified": true,
+    "controller_reported_workflow_delivered": true,
+    "controls_passed": true,
+    "attempt_qualified": true,
+    "validated_completed_negative": false,
+    "workflow_delivered": true,
+    "complete_external_cap_ok": true,
+    "method_cap_ok": true,
+    "complete_cost": {
+      "wall_seconds": 139.91,
+      "CPU_seconds": 137.48,
+      "user_seconds": 116.24,
+      "system_seconds": 21.24,
+      "time_log_sha256": "6afbcba5a511c75360254e7654b7826af87852a7c3a1120c30a1b960b75f0539",
+      "source": ".runs/runtime042-two-family-current-comparison-001/sonde/B1/outer-time.log",
+      "scope": "Complete external parent exit; nested samples not additional."
+    },
+    "protocol_sha256": "3d1d0c6ead31ebc24d0cba348427482753af891701429e7c5c6571c89264dba4",
+    "child_sha256": "7051f6bfc3f12e58ea8dbc03458758c423b8d075c823311a250d0775b23ec176",
+    "reason": null,
+    "evidence_classification": "validated_delivery",
+    "Native_counts": [
+      0,
+      0,
+      26,
+      0
+    ],
+    "route_metrics": {
+      "version": "10.0.7",
+      "pads": 108,
+      "footprints": 25,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 752.0959752099792,
+      "copper_layers": 2
+    },
+    "delivered_metrics": {
+      "version": "10.0.7",
+      "pads": 108,
+      "footprints": 25,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 752.0959752099792,
+      "copper_layers": 2
+    },
+    "source_hashes": {
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fp-lib-table": "cc8af24e493a4d6d8ff8206d7c58d9b4209779095abeb4edbc0e5b2dc555cc9f",
+      "sonde xilinx.kicad_pcb": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+      "sonde xilinx.kicad_pro": "ee60a96f93cc36549b52da9b3eea9547d5ea1e83a671c449668987edfb73a901",
+      "sonde xilinx.kicad_sch": "5271d5d1472d4dab645870f97e62785be9eb95b793e1b8cf0d8ca607de95a985",
+      "sonde-xilinx.pretty/C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal.kicad_mod": "ea2b7f922393cb792135103efd8304d933b476ca15ab957e7d2d85452abf2710",
+      "sonde-xilinx.pretty/C_Disc_D5.1mm_W3.2mm_P5.00mm.kicad_mod": "1aecdb4ad2120e99d792a4388eff86462154afbbc64cc1b06041a2c9c1e6fe65",
+      "sonde-xilinx.pretty/DIP-14_W7.62mm_LongPads.kicad_mod": "bfc91319c5905ed84ce72c8a8c3c19b0c6767f812083a063559c5407ecdc1146",
+      "sonde-xilinx.pretty/DSUB-25_Male_EdgeMount_P2.77mm.kicad_mod": "97e783488fc12772d98e9b734cd14a9b07632d2b9e5db4760b7ffec74e0520e4",
+      "sonde-xilinx.pretty/DSUB-9_Male_EdgeMount_P2.77mm.kicad_mod": "ad60738ef94ffc9848a1137ea9dbde55f8b2a2238d519098c5d5d33cee73238b",
+      "sonde-xilinx.pretty/D_A-405_P7.62mm_Horizontal.kicad_mod": "9299977270227d4a3f4bf01f88c1b9c8a2be3ac20212ec06000506d8a534bc0f",
+      "sonde-xilinx.pretty/PinHeader_1x06_P2.54mm_Vertical.kicad_mod": "4cf2a6eea9a9dc960638d14dcd8729452a5443f1a21bdb8ed1c6f5f56908ce8c",
+      "sonde-xilinx.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal.kicad_mod": "48e73c07df158b05eaaf9281beffa4ac8c4aac1bec213ac21710f837d0901cd7",
+      "sonde_xilinx.kicad_sym": "67477c8ef19c1e2da41f760328c030dc04283805b2c76005d5ae48acd1fc365e",
+      "sym-lib-table": "b928ea6f61eb0e8804340a842a259e678b9a5fd8d5f9e69306160882361e6456"
+    },
+    "selected_route_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-sonde-B1-042-001/route/result.json",
+    "export_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-sonde-B1-042-001/export/export.json",
+    "method_sample": {
+      "wall_seconds": 15.813066917005926,
+      "full_CPU_seconds": 15.314262999999999
+    },
+    "whole_controller_sample": {
+      "wall_seconds": 123.16210704192054,
+      "full_CPU_seconds": 120.489272
+    },
+    "interpretation": "Only completed/cap-clean explicit qualified outcomes are negatives or deliveries. All other cases remain method/harness/cap/cancel failures, not routing-infeasibility proof.",
+    "delivered_own_proof": {
+      "route": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-sonde-B1-042-001/route/result.json",
+        "receipt_sha256": "2efb48ffa261539bb124399c755d8f67bc9bbf30f49412cfc8e145658409b6ea",
+        "candidate_sha256": "69401939c3a03accce61912370fb4cc40721506fc6765244053e217fa6c42492",
+        "native_report_sha256": "30dbbc2eebe941a2f8cb5db42ee16457b279ec0f00d5ed9aa7948993367bf2bc",
+        "Native_counts": [
+          0,
+          0,
+          26,
+          0
+        ],
+        "ignored_checks": [
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          }
+        ],
+        "whole_project_drc_clean": false,
+        "protected_count": 0
+      },
+      "export": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-sonde-B1-042-001/export/export.json",
+        "receipt_sha256": "8c7ffad1e028e1c48f147fdd59f2af263827afade8500184942fac235ee9a1cf",
+        "candidate_sha256": "69401939c3a03accce61912370fb4cc40721506fc6765244053e217fa6c42492",
+        "native_report_sha256": "e9fd82f349736d61bb239e3b12c46c2dd1921b466f2b0a0d58b1340de72ed3c0",
+        "Native_counts": [
+          0,
+          0,
+          26,
+          0
+        ],
+        "ignored_checks": [
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          }
+        ],
+        "whole_project_drc_clean": false,
+        "protected_count": null
+      }
+    }
+  },
+  "source_rights": {
+    "family": "kicad-sonde-xilinx-exposed",
+    "license": "CC-BY-SA-4.0",
+    "provenance": "Exact unchanged16-file official KiCad Sonde Xilinx source from its frozen042 Native CLI protocol; source commit69cafb907ebc09e7722a2a464b1d466fc2e3608d, original LICENSE.README/CC-BY-SA notices and data/sources.json retained. Different exposed circuit-family label from Interf, same demo publisher; independent pedigree/untouched status not established. No private board or reference route used for selection."
+  },
+  "limits": {
+    "routing_seconds": 420,
+    "method_wall_cpu_cap_seconds": 450,
+    "delivery_wall_cpu_cap_seconds": 600,
+    "export_validation_seconds": 120
+  },
+  "stock_caveat": "B0 uses identical native/task DSN and stock adapter with common fixed-placement/fidelity/Native safeguards; not untouched official vanilla-plugin qualification. API baselines/library delivery and actual default/recovery CLI startup differ and remain explicit.",
+  "dependencies": [
+    {
+      "path": "evidence/runtime042-native-milestone-001.json",
+      "sha256": "7faf3fa21c08073ede6bbb1825b15633c25997a7440b6da37dc2e0edac140d4b",
+      "files_indexes": [
+        {
+          "path": "evidence/runtime042-native-milestone-001-notes/files.json",
+          "sha256": "35ebb11ce7a717d46f9e1db249eba514be8a71f03950b03a1e16003a1fb3adcd"
+        }
+      ]
+    },
+    {
+      "path": "evidence/gui-runtime042-081-functional-summary-001.json",
+      "sha256": "b658e4d480defb9132365c2299cc89f3af9ba3244c44d712828ecd6bc4ba0315",
+      "files_indexes": [
+        {
+          "path": "evidence/gui-runtime042-081-postincumbent-cancel-001-notes/files.json",
+          "sha256": "a755b77fd9ecb568b76e500aa151876a0b9d29a52be5d075dd755d241e70ff5e"
+        },
+        {
+          "path": "evidence/gui-runtime042-081-ordinary-controls-001-notes/files.json",
+          "sha256": "805ae95897af015d47299903ebb86f186b794ef431d76bff430533ab54f4bc5f"
+        },
+        {
+          "path": "evidence/gui-runtime042-081-progress-001-notes/files.json",
+          "sha256": "11a9028db492f6e6d4c1303a1f3440fd4825164a27022a6edbd23f9fe3c8246f"
+        },
+        {
+          "path": "evidence/gui-runtime042-081-recovery-deliveries-001-notes/files.json",
+          "sha256": "59d1c6bcbe1aa210d9f7eee808e2cff481803f504d63c43fbf32ae939df2e928"
+        }
+      ]
+    }
+  ],
+  "scope": "One of12 prospectively frozen exposed development arms. Same420allocation/450method/600whole/export120. API baseline versus actual default/recoveryCLI distinction retained; no broad/family-independent/holdout/cleanup/speed/electrical claim.",
+  "backup_scope": "Essential licensed text proof and exact binary/source mappings; full raw remains Mac-only outside010, no restoration or package claim.",
+  "retention": {
+    "helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "max_file_bytes": 4194304,
+    "max_packet_payload_bytes": 16777216,
+    "max_new_files": 2000,
+    "new_files": 79,
+    "new_bytes": 2601937,
+    "material_rows": 457
+  },
+  "files_index": {
+    "path": "evidence/runtime042-current-sonde-B1-001-notes/files.json",
+    "sha256": "c831f8a277afde5ead63328899052405503403e6a283980b2bf293297a3e37b0"
+  }
+}

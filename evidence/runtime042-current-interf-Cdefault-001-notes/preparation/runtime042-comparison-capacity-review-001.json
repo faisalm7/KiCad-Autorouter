@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-19T18:31:29.334186+00:00",
+  "reviewer": "AI narrow source-only capacity review; not independent human validation",
+  "freezer": ".runs/freeze-runtime042-two-family-current-comparison-001.py",
+  "freezer_sha256": "a6d2052c390a9f3dcbee7926dbcc85d72a6493509d94854c6d84d9cf9e9ca4d3",
+  "material_concerns": [
+    "2GiB startup threshold is not aggregate batch reservation",
+    "Outer2MiB guard covers enclosure log directory, not sibling job data",
+    "12 primary plus8 portfolio sibling output roots persist; sampled workdir bounds are not disk quotas"
+  ],
+  "historical_033_indexed_runtime_bytes": [
+    10461569,
+    10303668,
+    10439525,
+    10441590,
+    32732572,
+    45579699
+  ],
+  "historical_033_indexed_total_bytes": 119958623,
+  "current042_sonde_indexed_essential_bytes": 14876578,
+  "empirical_two_family_estimate_bytes": [
+    297000000,
+    360000000
+  ],
+  "estimate_excludes": [
+    "unretained caches",
+    "transient files",
+    "filesystem overhead"
+  ],
+  "strict_upper_bound": false,
+  "planning_allowance_new_bytes": 1073741824,
+  "min_starting_free_bytes": 4294967296,
+  "min_retained_free_bytes": 2147483648,
+  "planned_recheck": "Volume free space between sequential arms; no repeated historical archive census",
+  "restoration_gate_resolved": false,
+  "Native_executed": false,
+  "tests_executed": false,
+  "source_modified": false,
+  "review_CPU_seconds": null
+}

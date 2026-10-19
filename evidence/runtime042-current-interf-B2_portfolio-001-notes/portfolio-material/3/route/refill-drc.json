@@ -1,0 +1,162 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-19T11:54:18",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+        },
+        {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "interf_u.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [/PC-A10] on top_copper, length 1.2557 mm",
+                    "pos": {
+                        "x": 118.745,
+                        "y": 116.84
+                    },
+                    "uuid": "1e6222a7-e1ac-4419-b70a-5803f635afc8"
+                },
+                {
+                    "description": "PTH pad L8 [/PC-A10] of U9",
+                    "pos": {
+                        "x": 160.655,
+                        "y": 92.71
+                    },
+                    "uuid": "0cdd9048-c91a-4b28-bbdc-62d3bd856761"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 2 spokes connected to isolated island)",
+            "items": [
+                {
+                    "description": "Zone [GND] on bottom_copper, priority 0",
+                    "pos": {
+                        "x": 193.675,
+                        "y": 133.35
+                    },
+                    "uuid": "00000000-0000-0000-0000-00004cdec22b"
+                },
+                {
+                    "description": "PTH pad C4 [GND] of U9",
+                    "pos": {
+                        "x": 150.495,
+                        "y": 72.39
+                    },
+                    "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+                }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+        },
+        {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 3 spokes connected to isolated island)",
+            "items": [
+                {
+                    "description": "Zone [GND] on bottom_copper, priority 0",
+                    "pos": {
+                        "x": 193.675,
+                        "y": 133.35
+                    },
+                    "uuid": "00000000-0000-0000-0000-00004cdec22b"
+                },
+                {
+                    "description": "PTH pad G2 [GND] of U9",
+                    "pos": {
+                        "x": 145.415,
+                        "y": 82.55
+                    },
+                    "uuid": "7cc25ef2-8581-477e-8ad4-e0906ba743c8"
+                }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+        },
+        {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 2 spokes connected to isolated island)",
+            "items": [
+                {
+                    "description": "Zone [GND] on bottom_copper, priority 0",
+                    "pos": {
+                        "x": 193.675,
+                        "y": 133.35
+                    },
+                    "uuid": "00000000-0000-0000-0000-00004cdec22b"
+                },
+                {
+                    "description": "PTH pad K3 [GND] of U9",
+                    "pos": {
+                        "x": 147.955,
+                        "y": 90.17
+                    },
+                    "uuid": "62abb7d6-d4e4-4b20-a5d4-6fdf243f008b"
+                }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+        },
+        {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 2 spokes connected to isolated island)",
+            "items": [
+                {
+                    "description": "Zone [GND] on bottom_copper, priority 0",
+                    "pos": {
+                        "x": 193.675,
+                        "y": 133.35
+                    },
+                    "uuid": "00000000-0000-0000-0000-00004cdec22b"
+                },
+                {
+                    "description": "PTH pad L7 [GND] of U9",
+                    "pos": {
+                        "x": 158.115,
+                        "y": 92.71
+                    },
+                    "uuid": "fdf410a4-5033-4942-98df-17e198806540"
+                }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+        }
+    ]
+}

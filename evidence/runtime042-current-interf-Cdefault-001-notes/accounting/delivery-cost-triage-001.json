@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-19T19:09:32.466372+00:00",
+  "reviewer": "/root/windows005_gate AI bounded source/stored-timing triage",
+  "source_sha256": {
+    "autorouter/pipeline.py": "eb967f9bfb8643d1c8752fcab0efbab70b6b2a1d7e72daa147d55fa21e7e0da5",
+    "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+    "autorouter/handoff.py": "d8c21a6ce4e362220130af6d859566c0e5978d771c6f75ad832f9c18a39ff02a",
+    "autorouter/review_export.py": "780f369a3af40850506d5f09ce10c06f9ea7524df2d9bef3ed51aa64758cc0f8"
+  },
+  "observed": {
+    "Cdefault": {
+      "route_core_wall": 9.651939083007164,
+      "initial_method_wall": 14.589540124987252,
+      "complete_external_wall": 44.31,
+      "complete_external_CPU": 41.92,
+      "export_parent_CPU": 4.33,
+      "export_native_child_CPU": 1.776
+    },
+    "B1": {
+      "route_core_wall": 9.931050165905617,
+      "initial_method_wall": 15.813066917005926,
+      "complete_external_wall": 139.91,
+      "complete_external_CPU": 137.48,
+      "export_parent_CPU": 25.912,
+      "export_native_child_CPU": 1.75
+    }
+  },
+  "time_log_sha256": {
+    "Cdefault": "8ce40acfa4ad66220f19fc24900f2d3faf9f6f6fc8c9e199b42b95ba974f4c9b",
+    "B1": "6afbcba5a511c75360254e7654b7826af87852a7c3a1120c30a1b960b75f0539"
+  },
+  "mechanism": "Comparison contexts bypass scoped readback reuse and repeatedly enforce sealed context/tool/source/process/preview/PRL checks around delivery; ordinary delivery uses guarded scoped reconstruction reuse.",
+  "code_locations": [
+    "autorouter/pipeline.py:2647",
+    "autorouter/comparison.py:70",
+    "autorouter/handoff.py:107",
+    "autorouter/review_export.py:391"
+  ],
+  "inference": "Additional checking work explains a concrete workload asymmetry; exact function attribution is unprofiled. Routing geometry approximately752.096mm/0vias is tied, route core/Native child timings near equal.",
+  "budget_ceilings_equal": true,
+  "delivery_workload_equal": false,
+  "algorithmic_speed_claim": false,
+  "generic_end_to_end_speed_claim": false,
+  "scope": "Use complete external outer-time.log values, not enclosure pre-exit samples. Nested method/stage costs are not additive. All costs remain charged; unequal research authorization workload limits interpretation, especially capped outcomes. Frozen batch unchanged.",
+  "candidate_optimization": "Future authority-aware scoped reuse only if freshness/context/source/tool/process/PRL/mutation/cancel safeguards remain verified; unmeasured and deferred during this batch.",
+  "profiling_executed": false,
+  "Native_or_readers_executed": false,
+  "tests_executed": false,
+  "human_review": false
+}

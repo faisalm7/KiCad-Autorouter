@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-19T18:55:20.623514+00:00",
+  "reviewer": "/root/windows005_gate (AI narrow read-only) plus lead full-source review",
+  "helper": ".runs/curate-runtime042-current-comparison-001.py",
+  "helper_sha256": "bc95fd95a07bda7f1dc2262517eacbdf1b406cb016aba781884308ce3d601179",
+  "original_prepared_sha256": "b296a46d1ab8778a7468967b6b57ff536629468bffc9e2969144b6848d48dcb5",
+  "original_preserved": ".runs/curate-runtime042-current-comparison-pre-integrity-original-001.py",
+  "findings": [
+    {
+      "issue": "Portfolio trial keys were receipt rather than result",
+      "resolution": "Corrected to exact result/result_sha256 schema and fixed trial path/hash binding",
+      "closed": true
+    },
+    {
+      "issue": "Missing nested raw could evade retention",
+      "resolution": "Same f.evidence_inventory semantics as sealed004 enclosure compare method/all4 portfolio roots, root result hash separately and summary hash bound to child; missing failures retain None and cannot become qualified",
+      "closed": true
+    }
+  ],
+  "review_scope": "Source/schema/delta only, not complete running-result replay or independent Native verification",
+  "Native_executed": false,
+  "production_readers_executed": false,
+  "tests_executed": false,
+  "human_review": false,
+  "CPU_seconds": null
+}

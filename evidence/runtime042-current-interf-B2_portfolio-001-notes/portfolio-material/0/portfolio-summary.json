@@ -1,0 +1,2245 @@
+{
+  "schema": 1,
+  "kind": "experimental_baseline_portfolio",
+  "status": "no_valid_candidate",
+  "comparison_eligible": false,
+  "selected": null,
+  "trials": [
+    {
+      "index": 0,
+      "id": "via_default",
+      "assigned_seconds": 134.80495,
+      "guidance_policy": null,
+      "remaining_wall_full_cpu_seconds_at_assignment": 419.41485,
+      "unattempted_variants_at_assignment": 3,
+      "allocation": "balanced",
+      "started_utc": "2026-10-19T18:49:31.936245+00:00",
+      "finished_utc": "2026-10-19T18:50:48.081388+00:00",
+      "status": "drc_rejected",
+      "reason": null,
+      "accepted_in_trial_receipt": false,
+      "eligible": false,
+      "invocation_wall_seconds": 80.37223758397158,
+      "invocation_cpu_seconds": 99.463677,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-01-via_default/route/result.json",
+      "result_sha256": "d9a5c0a94d90660574b194eeac374ca14f9ec172c09bfd51683dcda63a1306b8",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-01-via_default/route/candidate/interf_u.kicad_pcb",
+      "candidate_sha256": "9c6d10a9913ba8a74eac3e46d906e4b78497426df12dbf100095c4fa8dcb7777",
+      "native_report_sha256": "8dbd43a3ba629f2ea4ab54ab994cfdfae5327ed615ab3b727e3ae55b2bd24505",
+      "vias": 35,
+      "length_mm": 4994.887951015417,
+      "peak_child_rss_bytes": 631898112,
+      "peak_polled_group_rss_bytes": 628686848,
+      "native": {
+        "opens": 0,
+        "blocking": 1,
+        "warnings": 22,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad C4 [GND] of U9",
+                "pos": {
+                  "x": 150.495,
+                  "y": 72.39
+                },
+                "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 83.185,
+                  "y": 83.82
+                },
+                "uuid": "00000000-0000-0000-0000-000032307de2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 121.305,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ecf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 121.305,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ed4"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 170.688,
+                  "y": 52.197
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dcf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dca"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 159.385,
+                  "y": 111.76
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dc0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 155.58,
+                  "y": 38.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.71,
+                  "y": 38.08
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+            "items": [
+              {
+                "description": "Footprint JP1",
+                "pos": {
+                  "x": 116.205,
+                  "y": 105.41
+                },
+                "uuid": "00000000-0000-0000-0000-000032568d1e"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+            "items": [
+              {
+                "description": "Footprint P1",
+                "pos": {
+                  "x": 182.1,
+                  "y": 72.4
+                },
+                "uuid": "00000000-0000-0000-0000-00005a4472d7"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 117.475,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 127.635,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 92.075,
+                  "y": 57.15
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c08c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 151.765,
+                  "y": 41.91
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 171.958,
+                  "y": 42.037
+                },
+                "uuid": "00000000-0000-0000-0000-0000322d32a0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+            "items": [
+              {
+                "description": "Footprint RR1",
+                "pos": {
+                  "x": 95.885,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-00005a44c66d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 151.765,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8d1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 95.885,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8ef"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U3",
+                "pos": {
+                  "x": 123.825,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e90d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+            "items": [
+              {
+                "description": "Footprint U5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 76.2
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae55"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U8",
+                "pos": {
+                  "x": 123.825,
+                  "y": 112.903
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae87"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint X1",
+                "pos": {
+                  "x": 113.665,
+                  "y": 92.71
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          }
+        ]
+      },
+      "installed_trial_accounting_policy": "installed-route-readback-reserve-v1",
+      "route_allowance_seconds": 104.80494999999999,
+      "trial_readback_reserve_seconds": 30.0,
+      "installed_api": {
+        "result": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-01-via_default/route/result.json",
+          "sha256": "d9a5c0a94d90660574b194eeac374ca14f9ec172c09bfd51683dcda63a1306b8"
+        },
+        "rejection": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-01-via_default/api-rejection.json",
+          "sha256": "3056bf375472220b2d7846594d487d5f84c06b50c47c59c2c7620cf010c3e9f5"
+        },
+        "material": {
+          "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "candidate/interf_u.kicad_pcb": "9c6d10a9913ba8a74eac3e46d906e4b78497426df12dbf100095c4fa8dcb7777",
+          "candidate/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "candidate/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "candidate/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "candidate/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "candidate/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "candidate/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "candidate/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "candidate/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "candidate/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "candidate/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "candidate/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "candidate/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "candidate/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "candidate/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "candidate/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "candidate/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "candidate/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "candidate/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "candidate/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "candidate/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "candidate/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "code/__main__.py": "1ed28f2e0f48bd7b374d76208e665ef5e62f58516bfedd49eeb33b43d9d95f8a",
+          "code/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "code/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+          "code/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "code/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+          "code/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+          "code/default_targets.py": "4508f9ee7436d68a59325bbd93ccf44c8300e84e9a9701c5554f34a7425ea4ed",
+          "code/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "code/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "code/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+          "code/gui.py": "93963f6a68d3269042298b6a2d374ffbfa18a86315c2ee30cb9cf02d7caf709e",
+          "code/handoff.py": "d8c21a6ce4e362220130af6d859566c0e5978d771c6f75ad832f9c18a39ff02a",
+          "code/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+          "code/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "code/local_settings.py": "080c484f500ccf29ffb0e67a108494e6f12b4d2a39000c01731b0e460b6f6931",
+          "code/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+          "code/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "code/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+          "code/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+          "code/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+          "code/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+          "code/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "code/pipeline.py": "eb967f9bfb8643d1c8752fcab0efbab70b6b2a1d7e72daa147d55fa21e7e0da5",
+          "code/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "code/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+          "code/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "code/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+          "code/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+          "code/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "code/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+          "code/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+          "code/review_export.py": "780f369a3af40850506d5f09ce10c06f9ea7524df2d9bef3ed51aa64758cc0f8",
+          "code/review_view.py": "d5291fa2d40ebb2fde8fdc5d358c8c957affee271fade499f536181296d08920",
+          "code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "code/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+          "code/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+          "code/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "code/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "code/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+          "code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "code/strategy.py": "f7304cbd0a88449fdd96f7cb1ad082a4d19fbc00e55d4e0547621823c47fe2bd",
+          "code/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+          "code/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+          "code/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "code/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+          "comparison-context.json": "1c0b4bb94d0095c491baa744e6c41703bfd888467e26e9c5dca1c27db95a80f7",
+          "edge-adapter-input.dsn": "34ba1c6ce939f441d9ef41eb5073d18f158e3351a1930c792f4e51b3ad2fd970",
+          "engine-config/freerouting.json": "d8b83464cd6362f0fd105c1180f07d570888cd82a5b2ee041360a66bde64eaeb",
+          "engine-process.json": "51bd1e3029c71aba2f55a9b86cde19a837d48398d328ea056dd7e6827fa96037",
+          "engine.log": "624771b4217b5a797fea76b30509888e9a21821039cc976357522db1f7c12ebc",
+          "export-netclasses.json": "fd2477fdfd06dc087c370d7850b44d905e240280a57cfb8ca49ead934ef7cfee",
+          "export-process.json": "370b61833bc26a205fec3b4180e86bb6d084e66d414abc24ddc2e079a494361b",
+          "export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "final-drc-binding.json": "6b2cd4847d05185e5d5999d9aded6347c02e1fbe96f8eb7cc33d4924ab364ea3",
+          "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "final-drc-input/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "final-drc-input/interf_u.kicad_pcb": "9c6d10a9913ba8a74eac3e46d906e4b78497426df12dbf100095c4fa8dcb7777",
+          "final-drc-input/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "final-drc-input/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "final-drc-input/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "final-drc-input/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "final-drc-input/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "final-drc-input/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "final-drc-input/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "final-drc-input/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "final-drc-input/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "final-drc-input/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "final-drc-input/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "final-drc-input/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "final-drc-input/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "final-drc-input/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "final-drc-input/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "final-drc-input/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "final-drc-input/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "final-drc-input/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "final-drc-input/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "final-drc-input/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "final-drc-input/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "final-drc-input/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "final-drc-process.json": "81eb250dcae497d7b4c974e9906015ddac2778d0815c5cd2527605f9a4f5076f",
+          "final-drc.json": "8dbd43a3ba629f2ea4ab54ab994cfdfae5327ed615ab3b727e3ae55b2bd24505",
+          "final-drc.log": "9979f2932dd89a6952f424b80fbbb6438c94138d62ca23f281c72b5feab5b857",
+          "final-netclass-audit.json": "e385462cfa0bdd52677417d3662744cff212ecd813a354b89eb339bc290b1c93",
+          "final-netclasses-process.json": "57d560f287d4698fcc9ceab346b750bdd2f83beab2977992cdafe46619a8cbbb",
+          "final-netclasses.json": "c86ce19ce80473c70a25d50788e9e24f3d3b14b71b7d139617e3bb6bc373613d",
+          "final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "import-process.json": "f61bf62ed80d73d8194a335c9c5c89d2a89f85e2de09cec6096e74c046830bea",
+          "import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "imported.kicad_pcb": "ab6512756a096b221b107b51451e39b3c972d1353bad80bd69c988d0f41c40c4",
+          "imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+          "imported.kicad_pro": "8f3abda9563d1ffef43ab9a0be0b67113228d7c5fc89d94781dfa0e93a2685ac",
+          "imported.routes-only.json": "9b725397eb91b893c02b66e3b4fc1abef137dacf90869dd257c84c916b048e66",
+          "imported.routes-only.ses": "ce43842cfdee5c213163fc4b33aa905f3989a3af391cac4cecbb602fa08620a2",
+          "kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+          "kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+          "kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+          "kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+          "kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+          "kicad-config/10.0/kicad_common.json": "05cce85a1f656a52bbc69929070b70f9c28e85b0eb9e9805bc9eaab174363222",
+          "kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+          "kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+          "metrics-process.json": "db10f327248929bb32a3acc4c5ee09939fd438de3fd28134acdbdc740be0a93b",
+          "metrics.json": "5eb8e419b50c54bd4111899f5f19dd32d3e79fb68e9bef63bdf913809c484e9b",
+          "metrics.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "native-edge-correction.json": "4626dfa51e5cd73e8ff455cba5047df42f5ebeb5ef4b04a07206da940670743e",
+          "native.dsn": "9c8c30ce63d06a7b879cdebe4f47c5b20eee35aadf90dfec773a2ed349795517",
+          "obstacles-process.json": "c29f5259cfe8373623eee9781243adcf674a1753a087224ea2612ecef82cc8f1",
+          "obstacles.json": "06655c1b878e58993aaed963bf7672ef46d4a15a8fa9e9a1605f6e414555d806",
+          "obstacles.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "pre-refill.kicad_pcb": "3855cf0250e62bad567e635934b266216b2a693594b24f79fbb4568b218f42ec",
+          "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "refill/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "refill/interf_u.kicad_pcb": "1e7225c6781486b095127eca67e1a9960b2b24c26eeab6caa2c247f7da4bf256",
+          "refill/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "refill/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "refill/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "refill/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "refill/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "refill/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "refill/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "refill/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "refill/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "refill/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "refill/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "refill/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "refill/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "refill/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "refill/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "refill/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "refill/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "refill/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "refill/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "refill/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "refill/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "refill/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "refill-drc-binding.json": "b5ae4aadfb1554206f41b711dfeacc1e802632e9bb67c7c82900c6e5dc533ac6",
+          "refill-drc-process.json": "29d1b8b893e3586f2d08fc10e858bb4464d9d6eef55bbb7c6eb751e0e3c109a8",
+          "refill-drc.json": "f27c3f177bc542ad993b37d3af14fd2224337ac590391b6fc9704288dbeb62ae",
+          "refill-drc.log": "fe2127e00a1737c3565d0471d46514438ba498a42ba5aaf799d2f6332d4fc3d1",
+          "routes.ses": "835ec6dc7425ac29cfe5cb46255bb4b5053d08fea886897084804f1ec8e24356",
+          "snapshot/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "snapshot/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "snapshot/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "snapshot/interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "snapshot/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "snapshot/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "snapshot/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "snapshot/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "snapshot/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "snapshot/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "snapshot/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "snapshot/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "snapshot/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "snapshot/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "snapshot/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "snapshot/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "snapshot/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "snapshot/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "snapshot/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "snapshot/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "snapshot/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "snapshot/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "snapshot/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "snapshot/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "snapshot/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "source-drc-binding.json": "597b83f14668822d736d47418c9c2f7999c6284a5891b158f9ea6c1a1ecda2b1",
+          "source-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "source-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "source-drc-input/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "source-drc-input/interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "source-drc-input/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "source-drc-input/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "source-drc-input/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "source-drc-input/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "source-drc-input/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "source-drc-input/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "source-drc-input/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "source-drc-input/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "source-drc-input/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "source-drc-input/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "source-drc-input/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "source-drc-input/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "source-drc-input/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "source-drc-input/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "source-drc-input/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "source-drc-input/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "source-drc-input/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "source-drc-input/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "source-drc-input/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "source-drc-input/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "source-drc-input/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "source-drc-input/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "source-drc-process.json": "fc5a41e98715af0f2177924527e5f6f485642986fbaa9926805612ee799135cf",
+          "source-drc.json": "7041d3dff708d1eeb6e686afeb2ab974193be018e861509ee0f9bad3a28e9cc1",
+          "source-drc.log": "34913fc642e4753b26798f30c9b2616d15141fa32395e0b370300e92a770036d",
+          "task.alias-export.json": "176bff7ada9cd7b50bffa21db21551296d8206412a4bd89b681ab12bdba53c7d",
+          "task.alias-source.kicad_pcb": "d4fdb3e1f947c41a24dc1dfa9d36e835f7a51af0f5786fdc4528fa2ec6263e1b",
+          "task.dsn": "34ba1c6ce939f441d9ef41eb5073d18f158e3351a1930c792f4e51b3ad2fd970"
+        }
+      },
+      "negative_readback": {
+        "comparison_route_policy": "selected-native7-fixed-comparison-v2",
+        "production_admitted": false,
+        "current": false,
+        "validated_rejection": true,
+        "routing_accepted": false,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-01-via_default/route/candidate/interf_u.kicad_pcb",
+        "candidate_sha256": "9c6d10a9913ba8a74eac3e46d906e4b78497426df12dbf100095c4fa8dcb7777",
+        "native_report_sha256": "8dbd43a3ba629f2ea4ab54ab994cfdfae5327ed615ab3b727e3ae55b2bd24505",
+        "native_rejection_reasons": [
+          "native blocking=1",
+          "native error finding: starved_thermal",
+          "policy-critical native finding: starved_thermal (error)"
+        ],
+        "receipt_sha256": "d9a5c0a94d90660574b194eeac374ca14f9ec172c09bfd51683dcda63a1306b8",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Completed Native rejection only; no route acceptance, infeasibility proof or fresh validation."
+      },
+      "validated_rejection": true,
+      "negative_readback_wall_seconds": 4.084942750050686,
+      "negative_readback_cpu_seconds": 4.047906000000012
+    },
+    {
+      "index": 1,
+      "id": "via_low",
+      "assigned_seconds": 152.37665049999998,
+      "guidance_policy": null,
+      "remaining_wall_full_cpu_seconds_at_assignment": 319.75330099999996,
+      "unattempted_variants_at_assignment": 2,
+      "allocation": "balanced",
+      "started_utc": "2026-10-19T18:50:52.500631+00:00",
+      "finished_utc": "2026-10-19T18:52:26.032322+00:00",
+      "status": "drc_rejected",
+      "reason": null,
+      "accepted_in_trial_receipt": false,
+      "eligible": false,
+      "invocation_wall_seconds": 97.81720575003419,
+      "invocation_cpu_seconds": 115.29789200000002,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-02-via_low/route/result.json",
+      "result_sha256": "e87254881ed9550ab29906b1733849c04c9bfb7f1d40f4007de3726af24c2ad4",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-02-via_low/route/candidate/interf_u.kicad_pcb",
+      "candidate_sha256": "4a97a6b309dcc98511d5c9eb10ca7d66f1e9a5c29911eda7afc37a07d93108a5",
+      "native_report_sha256": "ffcd6d85baa3c88f5c4969917c2f74a2c860474258b1b79bcd5135d55e7f041c",
+      "vias": 57,
+      "length_mm": 4706.157440225116,
+      "peak_child_rss_bytes": 1076740096,
+      "peak_polled_group_rss_bytes": 988610560,
+      "native": {
+        "opens": 1,
+        "blocking": 2,
+        "warnings": 22,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad K3 [GND] of U9",
+                "pos": {
+                  "x": 147.955,
+                  "y": 90.17
+                },
+                "uuid": "62abb7d6-d4e4-4b20-a5d4-6fdf243f008b"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad L7 [GND] of U9",
+                "pos": {
+                  "x": 158.115,
+                  "y": 92.71
+                },
+                "uuid": "fdf410a4-5033-4942-98df-17e198806540"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad H3 [/PC-A4] of U9",
+                "pos": {
+                  "x": 147.955,
+                  "y": 85.09
+                },
+                "uuid": "3f036b15-076a-45f3-9c6d-f44a35e5d292"
+              },
+              {
+                "description": "PTH pad 17 [/PC-A4] of U2",
+                "pos": {
+                  "x": 103.505,
+                  "y": 116.84
+                },
+                "uuid": "6e892722-76fe-4af9-9ca4-7b48cf7975b0"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 83.185,
+                  "y": 83.82
+                },
+                "uuid": "00000000-0000-0000-0000-000032307de2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 121.305,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ecf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 121.305,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ed4"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 170.688,
+                  "y": 52.197
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dcf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dca"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 159.385,
+                  "y": 111.76
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dc0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 155.58,
+                  "y": 38.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.71,
+                  "y": 38.08
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+            "items": [
+              {
+                "description": "Footprint JP1",
+                "pos": {
+                  "x": 116.205,
+                  "y": 105.41
+                },
+                "uuid": "00000000-0000-0000-0000-000032568d1e"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+            "items": [
+              {
+                "description": "Footprint P1",
+                "pos": {
+                  "x": 182.1,
+                  "y": 72.4
+                },
+                "uuid": "00000000-0000-0000-0000-00005a4472d7"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 117.475,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 127.635,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 92.075,
+                  "y": 57.15
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c08c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 151.765,
+                  "y": 41.91
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 171.958,
+                  "y": 42.037
+                },
+                "uuid": "00000000-0000-0000-0000-0000322d32a0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+            "items": [
+              {
+                "description": "Footprint RR1",
+                "pos": {
+                  "x": 95.885,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-00005a44c66d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 151.765,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8d1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 95.885,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8ef"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U3",
+                "pos": {
+                  "x": 123.825,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e90d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+            "items": [
+              {
+                "description": "Footprint U5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 76.2
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae55"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U8",
+                "pos": {
+                  "x": 123.825,
+                  "y": 112.903
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae87"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint X1",
+                "pos": {
+                  "x": 113.665,
+                  "y": 92.71
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          }
+        ]
+      },
+      "installed_trial_accounting_policy": "installed-route-readback-reserve-v1",
+      "route_allowance_seconds": 122.37665049999998,
+      "trial_readback_reserve_seconds": 30.0,
+      "installed_api": {
+        "result": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-02-via_low/route/result.json",
+          "sha256": "e87254881ed9550ab29906b1733849c04c9bfb7f1d40f4007de3726af24c2ad4"
+        },
+        "rejection": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-02-via_low/api-rejection.json",
+          "sha256": "628375b36b189d9133fc385d65c2f7d1de6be10dd22ea81bcfa46379c1f4b812"
+        },
+        "material": {
+          "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "candidate/interf_u.kicad_pcb": "4a97a6b309dcc98511d5c9eb10ca7d66f1e9a5c29911eda7afc37a07d93108a5",
+          "candidate/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "candidate/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "candidate/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "candidate/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "candidate/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "candidate/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "candidate/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "candidate/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "candidate/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "candidate/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "candidate/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "candidate/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "candidate/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "candidate/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "candidate/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "candidate/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "candidate/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "candidate/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "candidate/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "candidate/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "candidate/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "code/__main__.py": "1ed28f2e0f48bd7b374d76208e665ef5e62f58516bfedd49eeb33b43d9d95f8a",
+          "code/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "code/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+          "code/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "code/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+          "code/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+          "code/default_targets.py": "4508f9ee7436d68a59325bbd93ccf44c8300e84e9a9701c5554f34a7425ea4ed",
+          "code/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "code/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "code/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+          "code/gui.py": "93963f6a68d3269042298b6a2d374ffbfa18a86315c2ee30cb9cf02d7caf709e",
+          "code/handoff.py": "d8c21a6ce4e362220130af6d859566c0e5978d771c6f75ad832f9c18a39ff02a",
+          "code/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+          "code/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "code/local_settings.py": "080c484f500ccf29ffb0e67a108494e6f12b4d2a39000c01731b0e460b6f6931",
+          "code/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+          "code/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "code/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+          "code/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+          "code/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+          "code/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+          "code/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "code/pipeline.py": "eb967f9bfb8643d1c8752fcab0efbab70b6b2a1d7e72daa147d55fa21e7e0da5",
+          "code/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "code/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+          "code/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "code/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+          "code/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+          "code/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "code/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+          "code/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+          "code/review_export.py": "780f369a3af40850506d5f09ce10c06f9ea7524df2d9bef3ed51aa64758cc0f8",
+          "code/review_view.py": "d5291fa2d40ebb2fde8fdc5d358c8c957affee271fade499f536181296d08920",
+          "code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "code/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+          "code/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+          "code/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "code/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "code/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+          "code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "code/strategy.py": "f7304cbd0a88449fdd96f7cb1ad082a4d19fbc00e55d4e0547621823c47fe2bd",
+          "code/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+          "code/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+          "code/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "code/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+          "comparison-context.json": "3fed0d90bc692440c632a27a142f0fdcea5b82818029535e13cd3954f434bdbe",
+          "edge-adapter-input.dsn": "2f2342a1e5fff008f42542b18ee53783b6887677528dcac4e187655c148d8db3",
+          "engine-config/freerouting.json": "f01297fefbeb01d8ab67b9160af075c92ce04c094533dbc2b70325f8489e6b1e",
+          "engine-process.json": "5a66b9b735f5f5a3fd3c9161e28213a52bf31c7abea4d257a49d61609fade703",
+          "engine.log": "5697493131758e6e6fa2aa48025cd560199ae17eafb423696c5180c6167d457a",
+          "export-netclasses.json": "526f113de59e3a6f5513150922f0db849a1a9e72b5cbb2b0e596b62ab90cf69b",
+          "export-process.json": "e2935d46901644a3d579ea8c4b8752ed0a4ee2d617f2892411eb011f4b77603e",
+          "export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "final-drc-binding.json": "c6dc5638acb8246aad49e892b791156c8acea98319c025abeec5101b13f8f3e3",
+          "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "final-drc-input/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "final-drc-input/interf_u.kicad_pcb": "4a97a6b309dcc98511d5c9eb10ca7d66f1e9a5c29911eda7afc37a07d93108a5",
+          "final-drc-input/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "final-drc-input/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "final-drc-input/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "final-drc-input/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "final-drc-input/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "final-drc-input/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "final-drc-input/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "final-drc-input/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "final-drc-input/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "final-drc-input/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "final-drc-input/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "final-drc-input/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "final-drc-input/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "final-drc-input/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "final-drc-input/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "final-drc-input/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "final-drc-input/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "final-drc-input/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "final-drc-input/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "final-drc-input/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "final-drc-input/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "final-drc-input/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "final-drc-process.json": "9f6dae03549e6654fd3dc6f7e487f8b5f620c95ea76bc8459f18a473f75726e5",
+          "final-drc.json": "ffcd6d85baa3c88f5c4969917c2f74a2c860474258b1b79bcd5135d55e7f041c",
+          "final-drc.log": "60cbe350b049be51053a7d4e2d0971bf00615af94abfcbbde864343c7292a61e",
+          "final-netclass-audit.json": "f83f67653dc949593a05a4d9def6a58dd606bccf9c60aa0fede973ed05ba8e9c",
+          "final-netclasses-process.json": "4736902e2f8687e607d2766c70fcf0e387a9ca654b87fb1a10d72f23545061f5",
+          "final-netclasses.json": "f844781f624e5d0f7da930a22a461fe11388dfd56e1828ad386060ce2ee917f7",
+          "final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "import-process.json": "a8f5603e5d82f828705dd2b06ffcc3f622665a0314b1e1f9e5d7dc555f15a508",
+          "import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "imported.kicad_pcb": "60dfee398da9282985530f44e5bb3985b5d9ab585f7d308e7f406730be3bd230",
+          "imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+          "imported.kicad_pro": "8f3abda9563d1ffef43ab9a0be0b67113228d7c5fc89d94781dfa0e93a2685ac",
+          "imported.routes-only.json": "1c2cd25fafa3eebb7bf2ab0908b8a1a1fd28f798e4d2b18d75dc854ae0cb047f",
+          "imported.routes-only.ses": "b7d4a43d8495257967e1b77710d905ac9317c6e354993d1cfe3c1f7b70614e97",
+          "kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+          "kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+          "kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+          "kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+          "kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+          "kicad-config/10.0/kicad_common.json": "d03b13eb0fe732dceb60c3d5253021b43d9ff8bc55a9908aca3ceb75525b61ba",
+          "kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+          "kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+          "metrics-process.json": "5ce93b6a6f7deaefec851e28999437e98a6b5cdd77171484cb5e76017cbfea12",
+          "metrics.json": "c134cc5eb657e2258ca540b4252942976f224a857ae521dca0344c2f7b8294c0",
+          "metrics.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "native-edge-correction.json": "b36d71bdc8d0e582796326991baed7355e75cc73e9b154e94ce12f67bbb60339",
+          "native.dsn": "0ff84245d075ffce9e070d88a3150524e1d28296aa245c8646937364c36ab903",
+          "obstacles-process.json": "91e2273a8e95623e184b05860338330cb982e4bc0b10cb1058c778c706eb426f",
+          "obstacles.json": "06655c1b878e58993aaed963bf7672ef46d4a15a8fa9e9a1605f6e414555d806",
+          "obstacles.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "pre-refill.kicad_pcb": "f642f586a7232873c259bba4a3add536fe9e70a09ff31b7db82d604a7b921564",
+          "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "refill/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "refill/interf_u.kicad_pcb": "9434b69a97a66386c09c3fccda63c89609ecb33452a4613b8ab474169f11cf04",
+          "refill/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "refill/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "refill/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "refill/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "refill/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "refill/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "refill/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "refill/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "refill/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "refill/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "refill/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "refill/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "refill/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "refill/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "refill/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "refill/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "refill/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "refill/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "refill/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "refill/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "refill/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "refill/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "refill-drc-binding.json": "2bc751c946b30fedb42eed1008dc8ced6771df1e57dc59ad860610891392c36c",
+          "refill-drc-process.json": "9416e70303ded1bde6ee481c6979272257776f96156089eb90696968a81357b8",
+          "refill-drc.json": "dbda38a8284b023a745786f416efd8d764e358cc298a091915b8b73299c150af",
+          "refill-drc.log": "9f0e3aeaadc28035263d349fa7fe3dbf23b6955a7a4046d52f340f3e77e5e179",
+          "routes.ses": "ddd598328aa4ecf6dbf92e2c3bcb5607b0c05c9ff32d5c795800aec23229d94c",
+          "snapshot/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "snapshot/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "snapshot/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "snapshot/interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "snapshot/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "snapshot/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "snapshot/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "snapshot/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "snapshot/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "snapshot/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "snapshot/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "snapshot/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "snapshot/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "snapshot/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "snapshot/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "snapshot/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "snapshot/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "snapshot/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "snapshot/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "snapshot/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "snapshot/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "snapshot/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "snapshot/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "snapshot/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "snapshot/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "source-drc-binding.json": "0b83521594ceb41ce662b99ba4bd5072efbc757676fc2fcf4c4c9cdb2df7f0c2",
+          "source-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "source-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "source-drc-input/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "source-drc-input/interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "source-drc-input/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "source-drc-input/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "source-drc-input/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "source-drc-input/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "source-drc-input/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "source-drc-input/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "source-drc-input/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "source-drc-input/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "source-drc-input/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "source-drc-input/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "source-drc-input/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "source-drc-input/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "source-drc-input/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "source-drc-input/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "source-drc-input/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "source-drc-input/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "source-drc-input/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "source-drc-input/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "source-drc-input/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "source-drc-input/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "source-drc-input/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "source-drc-input/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "source-drc-process.json": "4bc5f6d7d67b63db0cfb257770347ec34b765ac0814e488f190c9eae7ee609d9",
+          "source-drc.json": "c78e5c95157da1a11067e087ddbe860de305b8c3c78659c2aae8ab73ccee8eb8",
+          "source-drc.log": "46e88c0e780ddd9adfd87c3ae2cad7f78f67175a37d4d5d7a5567bd442772707",
+          "task.alias-export.json": "a3dbd98b31f89608c91e0398564d1cc86606ef1fd251667c94a6df0317efbdfc",
+          "task.alias-source.kicad_pcb": "d4fdb3e1f947c41a24dc1dfa9d36e835f7a51af0f5786fdc4528fa2ec6263e1b",
+          "task.dsn": "2f2342a1e5fff008f42542b18ee53783b6887677528dcac4e187655c148d8db3"
+        }
+      },
+      "negative_readback": {
+        "comparison_route_policy": "selected-native7-fixed-comparison-v2",
+        "production_admitted": false,
+        "current": false,
+        "validated_rejection": true,
+        "routing_accepted": false,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-02-via_low/route/candidate/interf_u.kicad_pcb",
+        "candidate_sha256": "4a97a6b309dcc98511d5c9eb10ca7d66f1e9a5c29911eda7afc37a07d93108a5",
+        "native_report_sha256": "ffcd6d85baa3c88f5c4969917c2f74a2c860474258b1b79bcd5135d55e7f041c",
+        "native_rejection_reasons": [
+          "native blocking=2",
+          "native error finding: starved_thermal",
+          "native error finding: unconnected_items",
+          "native opens=1",
+          "policy-critical native finding: starved_thermal (error)",
+          "policy-critical native finding: unconnected_items (error)"
+        ],
+        "receipt_sha256": "e87254881ed9550ab29906b1733849c04c9bfb7f1d40f4007de3726af24c2ad4",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Completed Native rejection only; no route acceptance, infeasibility proof or fresh validation."
+      },
+      "validated_rejection": true,
+      "negative_readback_wall_seconds": 4.53385262505617,
+      "negative_readback_cpu_seconds": 4.175657000000001
+    },
+    {
+      "index": 2,
+      "id": "via_high",
+      "assigned_seconds": 189.25853,
+      "guidance_policy": null,
+      "remaining_wall_full_cpu_seconds_at_assignment": 204.25853,
+      "unattempted_variants_at_assignment": 1,
+      "allocation": "balanced",
+      "started_utc": "2026-10-19T18:52:30.510371+00:00",
+      "finished_utc": "2026-10-19T18:54:25.194968+00:00",
+      "status": "drc_rejected",
+      "reason": null,
+      "accepted_in_trial_receipt": false,
+      "eligible": false,
+      "invocation_wall_seconds": 118.85258358402643,
+      "invocation_cpu_seconds": 140.21223400000002,
+      "result": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-03-via_high/route/result.json",
+      "result_sha256": "0d8fe450315c0919d703dfbc857fe7a5c5cfbacf460817139154e1e650210b01",
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-03-via_high/route/candidate/interf_u.kicad_pcb",
+      "candidate_sha256": "694e8d16b111dc3fcc101e69f287656d089c06bf374070742b3184577064672a",
+      "native_report_sha256": "01c90a3770cedd6119cafdc44c2dd4aeecea53ccacf29baf91efa6fa59be52fb",
+      "vias": 29,
+      "length_mm": 5084.6054789427735,
+      "peak_child_rss_bytes": 1343700992,
+      "peak_polled_group_rss_bytes": 1333329920,
+      "native": {
+        "opens": 1,
+        "blocking": 4,
+        "warnings": 22,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 2 spokes connected to isolated island)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad C4 [GND] of U9",
+                "pos": {
+                  "x": 150.495,
+                  "y": 72.39
+                },
+                "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 3 spokes connected to isolated island)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad G2 [GND] of U9",
+                "pos": {
+                  "x": 145.415,
+                  "y": 82.55
+                },
+                "uuid": "7cc25ef2-8581-477e-8ad4-e0906ba743c8"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 2 spokes connected to isolated island)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad K3 [GND] of U9",
+                "pos": {
+                  "x": 147.955,
+                  "y": 90.17
+                },
+                "uuid": "62abb7d6-d4e4-4b20-a5d4-6fdf243f008b"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 2 spokes connected to isolated island)",
+            "items": [
+              {
+                "description": "Zone [GND] on bottom_copper, priority 0",
+                "pos": {
+                  "x": 193.675,
+                  "y": 133.35
+                },
+                "uuid": "00000000-0000-0000-0000-00004cdec22b"
+              },
+              {
+                "description": "PTH pad L7 [GND] of U9",
+                "pos": {
+                  "x": 158.115,
+                  "y": 92.71
+                },
+                "uuid": "fdf410a4-5033-4942-98df-17e198806540"
+              }
+            ],
+            "severity": "error",
+            "type": "starved_thermal"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "PTH pad 11 [/PC-A10] of U2",
+                "pos": {
+                  "x": 118.745,
+                  "y": 116.84
+                },
+                "uuid": "5becc52b-97fa-4859-a831-8d9d0ba135b6"
+              },
+              {
+                "description": "PTH pad L8 [/PC-A10] of U9",
+                "pos": {
+                  "x": 160.655,
+                  "y": 92.71
+                },
+                "uuid": "0cdd9048-c91a-4b28-bbdc-62d3bd856761"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C1",
+                "pos": {
+                  "x": 83.185,
+                  "y": 83.82
+                },
+                "uuid": "00000000-0000-0000-0000-000032307de2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C2",
+                "pos": {
+                  "x": 121.305,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ecf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+            "items": [
+              {
+                "description": "Footprint C3",
+                "pos": {
+                  "x": 121.305,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-000032307ed4"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C4",
+                "pos": {
+                  "x": 170.688,
+                  "y": 52.197
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dcf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dca"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint C6",
+                "pos": {
+                  "x": 159.385,
+                  "y": 111.76
+                },
+                "uuid": "00000000-0000-0000-0000-000032307dc0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D1",
+                "pos": {
+                  "x": 155.58,
+                  "y": 38.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+            "items": [
+              {
+                "description": "Footprint D2",
+                "pos": {
+                  "x": 165.71,
+                  "y": 38.08
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+            "items": [
+              {
+                "description": "Footprint JP1",
+                "pos": {
+                  "x": 116.205,
+                  "y": 105.41
+                },
+                "uuid": "00000000-0000-0000-0000-000032568d1e"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+            "items": [
+              {
+                "description": "Footprint P1",
+                "pos": {
+                  "x": 182.1,
+                  "y": 72.4
+                },
+                "uuid": "00000000-0000-0000-0000-00005a4472d7"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R1",
+                "pos": {
+                  "x": 117.475,
+                  "y": 99.06
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R2",
+                "pos": {
+                  "x": 127.635,
+                  "y": 91.44
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R3",
+                "pos": {
+                  "x": 92.075,
+                  "y": 57.15
+                },
+                "uuid": "00000000-0000-0000-0000-00005a59c08c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R4",
+                "pos": {
+                  "x": 151.765,
+                  "y": 41.91
+                },
+                "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint R5",
+                "pos": {
+                  "x": 171.958,
+                  "y": 42.037
+                },
+                "uuid": "00000000-0000-0000-0000-0000322d32a0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+            "items": [
+              {
+                "description": "Footprint RR1",
+                "pos": {
+                  "x": 95.885,
+                  "y": 113.03
+                },
+                "uuid": "00000000-0000-0000-0000-00005a44c66d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 151.765,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8d1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U2",
+                "pos": {
+                  "x": 95.885,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e8ef"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U3",
+                "pos": {
+                  "x": 123.825,
+                  "y": 124.46
+                },
+                "uuid": "00000000-0000-0000-0000-00005214e90d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+            "items": [
+              {
+                "description": "Footprint U5",
+                "pos": {
+                  "x": 86.995,
+                  "y": 76.2
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae55"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+            "items": [
+              {
+                "description": "Footprint U8",
+                "pos": {
+                  "x": 123.825,
+                  "y": 112.903
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0cae87"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          },
+          {
+            "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+            "items": [
+              {
+                "description": "Footprint X1",
+                "pos": {
+                  "x": 113.665,
+                  "y": 92.71
+                },
+                "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_mismatch"
+          }
+        ]
+      },
+      "installed_trial_accounting_policy": "installed-route-readback-reserve-v1",
+      "route_allowance_seconds": 159.25853,
+      "trial_readback_reserve_seconds": 30.0,
+      "installed_api": {
+        "result": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-03-via_high/route/result.json",
+          "sha256": "0d8fe450315c0919d703dfbc857fe7a5c5cfbacf460817139154e1e650210b01"
+        },
+        "rejection": {
+          "file": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-03-via_high/api-rejection.json",
+          "sha256": "3e9bab405a44d2a31379661b04ed278992e67c90e9d94a5e6754ee094f65057e"
+        },
+        "material": {
+          "candidate/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "candidate/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "candidate/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "candidate/interf_u.kicad_pcb": "694e8d16b111dc3fcc101e69f287656d089c06bf374070742b3184577064672a",
+          "candidate/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "candidate/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "candidate/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "candidate/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "candidate/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "candidate/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "candidate/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "candidate/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "candidate/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "candidate/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "candidate/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "candidate/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "candidate/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "candidate/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "candidate/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "candidate/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "candidate/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "candidate/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "candidate/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "candidate/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "candidate/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "code/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "code/__main__.py": "1ed28f2e0f48bd7b374d76208e665ef5e62f58516bfedd49eeb33b43d9d95f8a",
+          "code/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "code/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+          "code/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "code/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+          "code/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+          "code/default_targets.py": "4508f9ee7436d68a59325bbd93ccf44c8300e84e9a9701c5554f34a7425ea4ed",
+          "code/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "code/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "code/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+          "code/gui.py": "93963f6a68d3269042298b6a2d374ffbfa18a86315c2ee30cb9cf02d7caf709e",
+          "code/handoff.py": "d8c21a6ce4e362220130af6d859566c0e5978d771c6f75ad832f9c18a39ff02a",
+          "code/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+          "code/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "code/local_settings.py": "080c484f500ccf29ffb0e67a108494e6f12b4d2a39000c01731b0e460b6f6931",
+          "code/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+          "code/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "code/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+          "code/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+          "code/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+          "code/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+          "code/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "code/pipeline.py": "eb967f9bfb8643d1c8752fcab0efbab70b6b2a1d7e72daa147d55fa21e7e0da5",
+          "code/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "code/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+          "code/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "code/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+          "code/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+          "code/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "code/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+          "code/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+          "code/review_export.py": "780f369a3af40850506d5f09ce10c06f9ea7524df2d9bef3ed51aa64758cc0f8",
+          "code/review_view.py": "d5291fa2d40ebb2fde8fdc5d358c8c957affee271fade499f536181296d08920",
+          "code/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "code/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "code/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+          "code/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+          "code/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "code/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "code/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+          "code/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "code/strategy.py": "f7304cbd0a88449fdd96f7cb1ad082a4d19fbc00e55d4e0547621823c47fe2bd",
+          "code/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+          "code/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+          "code/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "code/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "code/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+          "comparison-context.json": "b4fc3350887fe1e81cb54d85286d05bd1a2868c2767bdf90e79952ed3b2be667",
+          "edge-adapter-input.dsn": "6335a377ea4eefcc994992ad460f786057ef4ae3be0fdb72fea9e6369b0519f6",
+          "engine-config/freerouting.json": "f65713c603090fa523ba59f07892ebde538515ee3bf91a93f74cf5ca7045de73",
+          "engine-process.json": "655c294cc131984e10d1b2492e2c715cc34c5791ac527b68bbe59e15d54c2b20",
+          "engine.log": "371dc641524e178b6777e7bbc2392db551e589c3821687988a9da8622723521a",
+          "export-netclasses.json": "e231d77a6a9d932ef73bb118df9465be66c9b089950071dced318df4b4f1f283",
+          "export-process.json": "5b514a42d047acd30a4e069afc34ef544e508841df3b8f80186a40e14d225fd6",
+          "export.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "final-drc-binding.json": "1e2b7eb0b86fb93297b1e3e6e46042a0defcb46c23679eca7f962f7fe7897947",
+          "final-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "final-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "final-drc-input/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "final-drc-input/interf_u.kicad_pcb": "694e8d16b111dc3fcc101e69f287656d089c06bf374070742b3184577064672a",
+          "final-drc-input/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "final-drc-input/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "final-drc-input/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "final-drc-input/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "final-drc-input/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "final-drc-input/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "final-drc-input/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "final-drc-input/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "final-drc-input/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "final-drc-input/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "final-drc-input/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "final-drc-input/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "final-drc-input/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "final-drc-input/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "final-drc-input/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "final-drc-input/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "final-drc-input/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "final-drc-input/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "final-drc-input/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "final-drc-input/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "final-drc-input/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "final-drc-input/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "final-drc-process.json": "51a8831c6102171546f16ed8bf2e98bbb30fd764352255d52ac29d452076059e",
+          "final-drc.json": "01c90a3770cedd6119cafdc44c2dd4aeecea53ccacf29baf91efa6fa59be52fb",
+          "final-drc.log": "d955522ae2d6a9f4ec1fd434da25c08c6b9ff0d877c035046fd19ff4fbcea341",
+          "final-netclass-audit.json": "9c83217268696ab7fd96ccca0cb90da9e1da735f1e7a679199f740b264fc5a29",
+          "final-netclasses-process.json": "b31663cbf305f9b61bc93b459e6b6c46024efe63cc8236682aa00ff7665d5fa4",
+          "final-netclasses.json": "9d0d58d95e0832c82987495044a6f6e1bcbd90fa95a52adc342288e3c4d7cb32",
+          "final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "import-process.json": "7de43bf292034eacc8dbf14643c7af8f8f0a6ba3d7415d4bda74c896105055ff",
+          "import.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "imported.kicad_pcb": "2e5d0626a3bad689f880ab4752a2d8837a6504718a9926ed976645dcbb1cc151",
+          "imported.kicad_prl": "7d9ad4476f33f37f2a7260669e933885b08555cc667b8a58a3980a10d5e0a4dd",
+          "imported.kicad_pro": "8f3abda9563d1ffef43ab9a0be0b67113228d7c5fc89d94781dfa0e93a2685ac",
+          "imported.routes-only.json": "c889d05b2163d6d6b32c567ba245cb6b933bbd3d649d52233e1e3b9fced5ba59",
+          "imported.routes-only.ses": "888bfdd504b60664842a35770db42cf88e977f0ed8d34c21ec62ff6ce53783fc",
+          "kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+          "kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+          "kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+          "kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+          "kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+          "kicad-config/10.0/kicad_common.json": "9b2d0b0d8928c7e010948b5457014d421275f5015fdb50bbf98826583752a4bf",
+          "kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+          "kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+          "metrics-process.json": "40fea54a1d10e597bd08c39444e61ec624e50ba989bd71c40e12aaea0e89c640",
+          "metrics.json": "d129965166da242d8e82a1da843974ba916afad414aef9fc2647b0ac79e3e5ac",
+          "metrics.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "native-edge-correction.json": "064db353e8721863c0ee76d032676697886ac37e7da6281198c9f69abbf5edda",
+          "native.dsn": "0446c4d1b7755eef7921320eba7f604d8bd6dc219c89096efdc2a90e7229131c",
+          "obstacles-process.json": "a474f2f6dfe0d9ca8aa48e4b02dd33ab0bf2366d66d33b61a815d6bd8d96dd73",
+          "obstacles.json": "06655c1b878e58993aaed963bf7672ef46d4a15a8fa9e9a1605f6e414555d806",
+          "obstacles.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "pre-refill.kicad_pcb": "6e1273e6fd40fb44a87819d8bb517d93bbfe6a3d2386d2b8c07fd1c6d9f85d95",
+          "refill/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "refill/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "refill/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "refill/interf_u.kicad_pcb": "3911bfea4648ac702640afd8498d71dea2bf1bb3556acc805726814c68d88fca",
+          "refill/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "refill/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "refill/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "refill/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "refill/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "refill/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "refill/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "refill/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "refill/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "refill/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "refill/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "refill/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "refill/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "refill/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "refill/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "refill/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "refill/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "refill/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "refill/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "refill/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "refill/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "refill/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "refill-drc-binding.json": "c545ceded547ec5f749fa531031008ab4192eeb84f73182b6d5d4357bb94deee",
+          "refill-drc-process.json": "8c0dab2995afa39cd02cf069fb13f0379ee4d137db5f88f4a7901066041fdf8a",
+          "refill-drc.json": "d185b82488d2aa0f0ffc04b855084f8fb8aab3c0beaf3988980ac949f7ec0740",
+          "refill-drc.log": "ce14a0652d2f5d280a344485505b56c11b78212f01f4a80ef9c1ace27a4883ee",
+          "routes.ses": "01429b86099bfab831364d72f370e192383231cc4aa38d76dc20b62507cff1ba",
+          "snapshot/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "snapshot/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "snapshot/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "snapshot/interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "snapshot/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "snapshot/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "snapshot/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "snapshot/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "snapshot/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "snapshot/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "snapshot/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "snapshot/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "snapshot/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "snapshot/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "snapshot/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "snapshot/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "snapshot/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "snapshot/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "snapshot/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "snapshot/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "snapshot/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "snapshot/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "snapshot/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "snapshot/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "snapshot/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "source-drc-binding.json": "61271b368a147c3c555bdf242a6b6cbd2c3afbf984e53bc75f5a6b38596a9d9d",
+          "source-drc-input/_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+          "source-drc-input/_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+          "source-drc-input/fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+          "source-drc-input/interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+          "source-drc-input/interf_u.kicad_prl": "523f8f1709f4847b3ea062cac5f996d7f72ed8d4a4350b665a8d14536243fc14",
+          "source-drc-input/interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+          "source-drc-input/interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+          "source-drc-input/interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+          "source-drc-input/interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+          "source-drc-input/interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+          "source-drc-input/interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+          "source-drc-input/interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+          "source-drc-input/interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+          "source-drc-input/interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+          "source-drc-input/interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+          "source-drc-input/interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+          "source-drc-input/interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+          "source-drc-input/interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+          "source-drc-input/interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+          "source-drc-input/interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+          "source-drc-input/interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+          "source-drc-input/interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+          "source-drc-input/pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+          "source-drc-input/sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+          "source-drc-input/tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+          "source-drc-input/tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed",
+          "source-drc-process.json": "07ff37b002f4a1378db4dd71b9ec7b5ca09eaa812d25ccd7490e41c7961e3ec7",
+          "source-drc.json": "9f3ab3f8814651f60ba982585f14a3ef5aa33bc3ad5bf6fcb86a205350f7e673",
+          "source-drc.log": "a802214c19bb4b5ee6a302228a60d4fa6d86ce20a428a047c9fb510a5ccf863b",
+          "task.alias-export.json": "01f08894922c6fddffea6f020c8b5678e932c1117784ad4e164a2b1940c525d2",
+          "task.alias-source.kicad_pcb": "d4fdb3e1f947c41a24dc1dfa9d36e835f7a51af0f5786fdc4528fa2ec6263e1b",
+          "task.dsn": "6335a377ea4eefcc994992ad460f786057ef4ae3be0fdb72fea9e6369b0519f6"
+        }
+      },
+      "negative_readback": {
+        "comparison_route_policy": "selected-native7-fixed-comparison-v2",
+        "production_admitted": false,
+        "current": false,
+        "validated_rejection": true,
+        "routing_accepted": false,
+        "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B2_portfolio-042-001-portfolio-03-via_high/route/candidate/interf_u.kicad_pcb",
+        "candidate_sha256": "694e8d16b111dc3fcc101e69f287656d089c06bf374070742b3184577064672a",
+        "native_report_sha256": "01c90a3770cedd6119cafdc44c2dd4aeecea53ccacf29baf91efa6fa59be52fb",
+        "native_rejection_reasons": [
+          "native blocking=4",
+          "native error finding: starved_thermal",
+          "native error finding: unconnected_items",
+          "native opens=1",
+          "policy-critical native finding: starved_thermal (error)",
+          "policy-critical native finding: unconnected_items (error)"
+        ],
+        "receipt_sha256": "0d8fe450315c0919d703dfbc857fe7a5c5cfbacf460817139154e1e650210b01",
+        "applied": false,
+        "authentication": "none; mutable local evidence consistency only",
+        "warning": "Completed Native rejection only; no route acceptance, infeasibility proof or fresh validation."
+      },
+      "validated_rejection": true,
+      "negative_readback_wall_seconds": 3.9767139999894425,
+      "negative_readback_cpu_seconds": 3.9727340000000027
+    }
+  ],
+  "pareto_frontier": [],
+  "guidance_policy": null,
+  "wall_budget_seconds": 420,
+  "cpu_budget_seconds": 420,
+  "allocation": "balanced",
+  "operational_outer_ceiling_seconds": 450,
+  "cpu_enforcement": "postcompletion acceptance cap; no total-CPU preemption",
+  "selection_rule": "minimum (native via count, native track length, fixed attempt index)",
+  "started_utc": "2026-10-19T18:49:31.552806+00:00",
+  "host_load_average_1_5_15_minutes_begin": [
+    3.21142578125,
+    3.6484375,
+    3.66748046875
+  ],
+  "claims_limit": "exposed development experiment; no population superiority or electrical adequacy claim",
+  "receipt_scope": "selected trial receipt charges that trial only; this summary charges the entire portfolio",
+  "physical_electrical_validation": false,
+  "applied": false,
+  "installed_trial_accounting_policy": "installed-route-readback-reserve-v1",
+  "trial_readback_reserve_seconds": 30.0,
+  "comparison_api_policy": "installed-native7-scored-portfolio-api-v2",
+  "accepted": false,
+  "production_admitted": false,
+  "project_complete": false,
+  "execution": "Direct API inside externally bounded worker; no enclosing CLI process per trial",
+  "protocol_sha256": "51b6cb7a52f67314e80206527a9330ffe71eb5516e86ab18c9fe51e772206f69",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-interf-u/interf_u.kicad_pcb",
+  "family": "kicad-interf-exposed",
+  "accounting_point": "sample before summary write; caps checked again after write; over-cap correction can finish outside cap; final read-only negative/source/summary fence is included in acceptance caps but outside stored timing/readback counters; complete external whole-process accounting is required",
+  "finished_utc": "2026-10-19T18:54:42.156530+00:00",
+  "host_load_average_1_5_15_minutes_end": [
+    4.046875,
+    3.919921875,
+    3.765625
+  ],
+  "peak_child_rss_bytes": 1343700992,
+  "peak_polled_group_rss_bytes": 1333329920,
+  "wall_seconds": 310.99040741694625,
+  "total_cpu_seconds": 368.553116,
+  "attempted_variants": [
+    "via_default",
+    "via_low",
+    "via_high"
+  ],
+  "unattempted_variants": [],
+  "all_variants_attempted": true
+}

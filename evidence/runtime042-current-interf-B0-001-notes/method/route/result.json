@@ -1,0 +1,1942 @@
+{
+  "schema": 1,
+  "status": "drc_rejected",
+  "accepted": false,
+  "physical_electrical_validation": false,
+  "schematic_parity": "checked by final native DRC",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-interf-u/interf_u.kicad_pcb",
+  "started_utc": "2026-10-19T18:44:18.023999+00:00",
+  "budget_seconds": 420,
+  "cpu_budget_seconds": 420,
+  "cpu_budget_enforcement": "postcompletion acceptance cap; no total-CPU preemption",
+  "baseline": "B0",
+  "adapter": "none",
+  "engine_profile": "standard",
+  "scoring_variant": null,
+  "scope": "whole_board_unlocked_routing",
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "1ed28f2e0f48bd7b374d76208e665ef5e62f58516bfedd49eeb33b43d9d95f8a",
+      "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+      "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+      "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+      "autorouter/default_targets.py": "4508f9ee7436d68a59325bbd93ccf44c8300e84e9a9701c5554f34a7425ea4ed",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+      "autorouter/gui.py": "93963f6a68d3269042298b6a2d374ffbfa18a86315c2ee30cb9cf02d7caf709e",
+      "autorouter/handoff.py": "d8c21a6ce4e362220130af6d859566c0e5978d771c6f75ad832f9c18a39ff02a",
+      "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "080c484f500ccf29ffb0e67a108494e6f12b4d2a39000c01731b0e460b6f6931",
+      "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+      "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+      "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+      "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+      "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+      "autorouter/pipeline.py": "eb967f9bfb8643d1c8752fcab0efbab70b6b2a1d7e72daa147d55fa21e7e0da5",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+      "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+      "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+      "autorouter/review_export.py": "780f369a3af40850506d5f09ce10c06f9ea7524df2d9bef3ed51aa64758cc0f8",
+      "autorouter/review_view.py": "d5291fa2d40ebb2fde8fdc5d358c8c957affee271fade499f536181296d08920",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+      "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "f7304cbd0a88449fdd96f7cb1ad082a4d19fbc00e55d4e0547621823c47fe2bd",
+      "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+      "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72"
+    },
+    "git_head": "82aaa3b750007ef2ffaafd367ffcb718aa93865e",
+    "source_provenance": {
+      "kind": "runtime-directory-v1",
+      "git_head": "82aaa3b750007ef2ffaafd367ffcb718aa93865e",
+      "build_source": {
+        "files_sha256": {
+          "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "1ed28f2e0f48bd7b374d76208e665ef5e62f58516bfedd49eeb33b43d9d95f8a",
+          "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "autorouter/board_floor.py": "7e7c06fdab816f8b74f23f12edd8037b4e08ca3ff3f9fb1b59be8395261e1340",
+          "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+          "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+          "autorouter/default_targets.py": "4508f9ee7436d68a59325bbd93ccf44c8300e84e9a9701c5554f34a7425ea4ed",
+          "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+          "autorouter/gui.py": "93963f6a68d3269042298b6a2d374ffbfa18a86315c2ee30cb9cf02d7caf709e",
+          "autorouter/handoff.py": "d8c21a6ce4e362220130af6d859566c0e5978d771c6f75ad832f9c18a39ff02a",
+          "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "080c484f500ccf29ffb0e67a108494e6f12b4d2a39000c01731b0e460b6f6931",
+          "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "6e20b523ab7676289b7083feae8d842738f9b33979e9aa3b1218d3fa6742df5b",
+          "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+          "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+          "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+          "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "autorouter/pipeline.py": "eb967f9bfb8643d1c8752fcab0efbab70b6b2a1d7e72daa147d55fa21e7e0da5",
+          "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+          "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+          "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+          "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+          "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+          "autorouter/review_export.py": "780f369a3af40850506d5f09ce10c06f9ea7524df2d9bef3ed51aa64758cc0f8",
+          "autorouter/review_view.py": "d5291fa2d40ebb2fde8fdc5d358c8c957affee271fade499f536181296d08920",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+          "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+          "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "autorouter/strategy.py": "f7304cbd0a88449fdd96f7cb1ad082a4d19fbc00e55d4e0547621823c47fe2bd",
+          "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+          "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+          "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+          "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+          "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+          "toolchain.lock.json": "cec0446e5ed3554b0c0b286cbb61e5aceb5bc013e87839db3f7081b9fd2f24d9"
+        },
+        "git_head": "82aaa3b750007ef2ffaafd367ffcb718aa93865e",
+        "kind": "git-checkout"
+      },
+      "manifest_sha256": "1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e",
+      "native_version": "10.0.7"
+    },
+    "kicad": "10.0.7",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_protected_via_import_policy": "legacy-via-off-source-v3",
+    "normal_task_copper_fixed_policy": "native-task-copper-fixed-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1",
+    "comparison_route_policy": "selected-native7-fixed-comparison-v2"
+  },
+  "comparison_route": {
+    "policy": "selected-native7-fixed-comparison-v2",
+    "file": "comparison-context.json",
+    "sha256": "5cd13b4fcba1d3c07c43a437fc3acbf5c431daf4379d2cc993d0a78fdbeed8b6"
+  },
+  "production_admitted": false,
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+    "interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+    "interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+    "interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+    "interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+    "interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+    "interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+    "interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+    "interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+    "interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+    "interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+    "interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+    "interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+    "interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+    "interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+    "interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+    "interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+    "interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+    "interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+    "pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+    "sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+    "tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+    "tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed"
+  },
+  "task_sha256": "d4fdb3e1f947c41a24dc1dfa9d36e835f7a51af0f5786fdc4528fa2ec6263e1b",
+  "source_drc": {
+    "opens": 0,
+    "blocking": 2,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad 16 [GND] of U5",
+            "pos": {
+              "x": 125.095,
+              "y": 76.2
+            },
+            "uuid": "363a9f9a-0b01-4ef4-a972-9e6d1eab7c5a"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; 1 spokes connected to isolated island)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad G2 [GND] of U9",
+            "pos": {
+              "x": 145.415,
+              "y": 82.55
+            },
+            "uuid": "7cc25ef2-8581-477e-8ad4-e0906ba743c8"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      }
+    ]
+  },
+  "netclass_policy": {
+    "mode": "literal_two_class",
+    "literal_assignments": {
+      "GND": "Power",
+      "VCC": "Power"
+    }
+  },
+  "netclass_export_audit": {
+    "passed": true,
+    "native_nets": 173,
+    "exported_terminal_nets": 173,
+    "policy": {
+      "mode": "literal_two_class",
+      "literal_assignments": {
+        "GND": "Power",
+        "VCC": "Power"
+      }
+    },
+    "classes": [
+      {
+        "dsn_class": "kicad_default",
+        "member_count": 171,
+        "via": "Via[0-1]_1400:600_um",
+        "dimensions_nm": {
+          "width_nm": "400000",
+          "clearance_nm": "254000",
+          "via_diameter_nm": "1400000",
+          "via_drill_nm": "600000"
+        }
+      },
+      {
+        "dsn_class": "Power",
+        "member_count": 2,
+        "via": "Via[0-1]_1600:600_um",
+        "dimensions_nm": {
+          "width_nm": "500000",
+          "clearance_nm": "254000",
+          "via_diameter_nm": "1600000",
+          "via_drill_nm": "600000"
+        }
+      }
+    ],
+    "membership": {
+      "/8MH-OUT": "kicad_default",
+      "/ACK": "kicad_default",
+      "/AUTOFD-": "kicad_default",
+      "/BIT0": "kicad_default",
+      "/BIT1": "kicad_default",
+      "/BIT2": "kicad_default",
+      "/BIT3": "kicad_default",
+      "/BIT4": "kicad_default",
+      "/BIT5": "kicad_default",
+      "/BIT6": "kicad_default",
+      "/BIT7": "kicad_default",
+      "/BUST+": "kicad_default",
+      "/CLKLCA": "kicad_default",
+      "/CS1-": "kicad_default",
+      "/D0": "kicad_default",
+      "/D1": "kicad_default",
+      "/D2": "kicad_default",
+      "/D3": "kicad_default",
+      "/D4": "kicad_default",
+      "/D5": "kicad_default",
+      "/D6": "kicad_default",
+      "/D7": "kicad_default",
+      "/DIR": "kicad_default",
+      "/DONE": "kicad_default",
+      "/ENBBUF": "kicad_default",
+      "/ERROR-": "kicad_default",
+      "/INIT-": "kicad_default",
+      "/LED1": "kicad_default",
+      "/LED2": "kicad_default",
+      "/MA0": "kicad_default",
+      "/MA1": "kicad_default",
+      "/MA10": "kicad_default",
+      "/MA11": "kicad_default",
+      "/MA12": "kicad_default",
+      "/MA13": "kicad_default",
+      "/MA14": "kicad_default",
+      "/MA15": "kicad_default",
+      "/MA16": "kicad_default",
+      "/MA2": "kicad_default",
+      "/MA3": "kicad_default",
+      "/MA4": "kicad_default",
+      "/MA5": "kicad_default",
+      "/MA6": "kicad_default",
+      "/MA7": "kicad_default",
+      "/MA8": "kicad_default",
+      "/MA9": "kicad_default",
+      "/MATCHL": "kicad_default",
+      "/MD0": "kicad_default",
+      "/MD1": "kicad_default",
+      "/MD2": "kicad_default",
+      "/MD3": "kicad_default",
+      "/MD4": "kicad_default",
+      "/MD5": "kicad_default",
+      "/MD6": "kicad_default",
+      "/MD7": "kicad_default",
+      "/OE-": "kicad_default",
+      "/PC-A0": "kicad_default",
+      "/PC-A1": "kicad_default",
+      "/PC-A10": "kicad_default",
+      "/PC-A11": "kicad_default",
+      "/PC-A2": "kicad_default",
+      "/PC-A3": "kicad_default",
+      "/PC-A4": "kicad_default",
+      "/PC-A5": "kicad_default",
+      "/PC-A6": "kicad_default",
+      "/PC-A7": "kicad_default",
+      "/PC-A8": "kicad_default",
+      "/PC-A9": "kicad_default",
+      "/PC-AEN": "kicad_default",
+      "/PC-DB0": "kicad_default",
+      "/PC-DB1": "kicad_default",
+      "/PC-DB2": "kicad_default",
+      "/PC-DB3": "kicad_default",
+      "/PC-DB4": "kicad_default",
+      "/PC-DB5": "kicad_default",
+      "/PC-DB6": "kicad_default",
+      "/PC-DB7": "kicad_default",
+      "/PC-IOR": "kicad_default",
+      "/PC-IOW": "kicad_default",
+      "/PC-RD": "kicad_default",
+      "/PC-RST": "kicad_default",
+      "/PC-WR": "kicad_default",
+      "/PE+": "kicad_default",
+      "/PROG-": "kicad_default",
+      "/REF10": "kicad_default",
+      "/REF11": "kicad_default",
+      "/REF4": "kicad_default",
+      "/REF5": "kicad_default",
+      "/REF6": "kicad_default",
+      "/REF7": "kicad_default",
+      "/REF8": "kicad_default",
+      "/REF9": "kicad_default",
+      "/RSTL": "kicad_default",
+      "/SEL_LPT": "kicad_default",
+      "/SLCT+": "kicad_default",
+      "/SLCTIN-": "kicad_default",
+      "/STROBE": "kicad_default",
+      "/WR-": "kicad_default",
+      "/WR_REG": "kicad_default",
+      "Net-(C3-Pad1)": "kicad_default",
+      "Net-(D1-A)": "kicad_default",
+      "Net-(D2-A)": "kicad_default",
+      "Net-(U3-Y0)": "kicad_default",
+      "Net-(U3-Y1)": "kicad_default",
+      "Net-(U3-Y2)": "kicad_default",
+      "Net-(U3-Y3)": "kicad_default",
+      "Net-(U5-CS2)": "kicad_default",
+      "Net-(U9-P{slash}A3)": "kicad_default",
+      "unconnected-(BUS1-+12V-Pad9)": "kicad_default",
+      "unconnected-(BUS1--12V-Pad7)": "kicad_default",
+      "unconnected-(BUS1--5V-Pad5)": "kicad_default",
+      "unconnected-(BUS1-ALE-Pad28)": "kicad_default",
+      "unconnected-(BUS1-BA12-Pad50)": "kicad_default",
+      "unconnected-(BUS1-BA13-Pad49)": "kicad_default",
+      "unconnected-(BUS1-BA14-Pad48)": "kicad_default",
+      "unconnected-(BUS1-BA15-Pad47)": "kicad_default",
+      "unconnected-(BUS1-BA16-Pad46)": "kicad_default",
+      "unconnected-(BUS1-BA17-Pad45)": "kicad_default",
+      "unconnected-(BUS1-BA18-Pad44)": "kicad_default",
+      "unconnected-(BUS1-BA19-Pad43)": "kicad_default",
+      "unconnected-(BUS1-CLK-Pad20)": "kicad_default",
+      "unconnected-(BUS1-DACK0-Pad19)": "kicad_default",
+      "unconnected-(BUS1-DACK1-Pad17)": "kicad_default",
+      "unconnected-(BUS1-DACK2-Pad26)": "kicad_default",
+      "unconnected-(BUS1-DACK3-Pad15)": "kicad_default",
+      "unconnected-(BUS1-DRQ1-Pad18)": "kicad_default",
+      "unconnected-(BUS1-DRQ2-Pad6)": "kicad_default",
+      "unconnected-(BUS1-DRQ3-Pad16)": "kicad_default",
+      "unconnected-(BUS1-GND-Pad10)": "kicad_default",
+      "unconnected-(BUS1-INQ2-Pad4)": "kicad_default",
+      "unconnected-(BUS1-IO-Pad32)": "kicad_default",
+      "unconnected-(BUS1-IO_READY-Pad41)": "kicad_default",
+      "unconnected-(BUS1-IRQ3-Pad25)": "kicad_default",
+      "unconnected-(BUS1-IRQ4-Pad24)": "kicad_default",
+      "unconnected-(BUS1-IRQ5-Pad23)": "kicad_default",
+      "unconnected-(BUS1-IRQ6-Pad22)": "kicad_default",
+      "unconnected-(BUS1-IRQ7-Pad21)": "kicad_default",
+      "unconnected-(BUS1-MEM-Pad11)": "kicad_default",
+      "unconnected-(BUS1-MEM-Pad12)": "kicad_default",
+      "unconnected-(BUS1-OSC-Pad30)": "kicad_default",
+      "unconnected-(BUS1-TC-Pad27)": "kicad_default",
+      "unconnected-(BUS1-UNUSED-Pad8)": "kicad_default",
+      "unconnected-(RR1-Pad10)": "kicad_default",
+      "unconnected-(U3-Y7-Pad11)": "kicad_default",
+      "unconnected-(U8-I{slash}O10-Pad10)": "kicad_default",
+      "unconnected-(U8-I{slash}O8-Pad8)": "kicad_default",
+      "unconnected-(U8-I{slash}O9-Pad9)": "kicad_default",
+      "unconnected-(U9-NC-PadA1)": "kicad_default",
+      "unconnected-(U9-NC-PadA2)": "kicad_default",
+      "unconnected-(U9-NC-PadA3)": "kicad_default",
+      "unconnected-(U9-NC-PadB1)": "kicad_default",
+      "unconnected-(U9-NC-PadB10)": "kicad_default",
+      "unconnected-(U9-NC-PadB13)": "kicad_default",
+      "unconnected-(U9-NC-PadE11)": "kicad_default",
+      "unconnected-(U9-NC-PadE2)": "kicad_default",
+      "unconnected-(U9-NC-PadE3)": "kicad_default",
+      "unconnected-(U9-NC-PadJ11)": "kicad_default",
+      "unconnected-(U9-NC-PadJ3)": "kicad_default",
+      "unconnected-(U9-NC-PadK12)": "kicad_default",
+      "unconnected-(U9-NC-PadL5)": "kicad_default",
+      "unconnected-(U9-NC-PadL9)": "kicad_default",
+      "unconnected-(U9-NC-PadM1)": "kicad_default",
+      "unconnected-(U9-NC-PadN12)": "kicad_default",
+      "unconnected-(U9-P-PadN5)": "kicad_default",
+      "unconnected-(U9-PGCK4{slash}A1-PadN1)": "kicad_default",
+      "unconnected-(U9-P{slash}D2-PadL6)": "kicad_default",
+      "unconnected-(U9-P{slash}RCLK{slash}BSY{slash}RDY-PadN3)": "kicad_default",
+      "unconnected-(U9-TCK-PadB4)": "kicad_default",
+      "unconnected-(U9-TDI-PadC5)": "kicad_default",
+      "unconnected-(U9-TDO-PadM2)": "kicad_default",
+      "unconnected-(U9-TMS-PadB5)": "kicad_default",
+      "GND": "Power",
+      "VCC": "Power"
+    },
+    "limitations": [
+      "Via drill is encoded by pinned KiCad via ID.",
+      "Terminal counts do not prove pin identities.",
+      "Imported route geometry and native DRC require separate validation."
+    ],
+    "routing_accepted": false,
+    "dsn_sha256": "e85e331e6d8517b2826f045adabb27056b863724953dabda090a1ecf401d6453",
+    "native_map_sha256": "8411c73535af47fb3abe033c80c14bba48b7f2a653407c1ff7ec728305daa4c4",
+    "project_json_sha256": "88bfc315e3bfd05881046c8d209abf92751f56f07056e5cc1ef60a7b798a3746",
+    "source_modified": false
+  },
+  "native_dsn_sha256": "e85e331e6d8517b2826f045adabb27056b863724953dabda090a1ecf401d6453",
+  "netclass_task_audit": {
+    "passed": true,
+    "native_nets": 173,
+    "exported_terminal_nets": 173,
+    "policy": {
+      "mode": "literal_two_class",
+      "literal_assignments": {
+        "GND": "Power",
+        "VCC": "Power"
+      }
+    },
+    "classes": [
+      {
+        "dsn_class": "kicad_default",
+        "member_count": 171,
+        "via": "Via[0-1]_1400:600_um",
+        "dimensions_nm": {
+          "width_nm": "400000",
+          "clearance_nm": "254000",
+          "via_diameter_nm": "1400000",
+          "via_drill_nm": "600000"
+        }
+      },
+      {
+        "dsn_class": "Power",
+        "member_count": 2,
+        "via": "Via[0-1]_1600:600_um",
+        "dimensions_nm": {
+          "width_nm": "500000",
+          "clearance_nm": "254000",
+          "via_diameter_nm": "1600000",
+          "via_drill_nm": "600000"
+        }
+      }
+    ],
+    "membership": {
+      "/8MH-OUT": "kicad_default",
+      "/ACK": "kicad_default",
+      "/AUTOFD-": "kicad_default",
+      "/BIT0": "kicad_default",
+      "/BIT1": "kicad_default",
+      "/BIT2": "kicad_default",
+      "/BIT3": "kicad_default",
+      "/BIT4": "kicad_default",
+      "/BIT5": "kicad_default",
+      "/BIT6": "kicad_default",
+      "/BIT7": "kicad_default",
+      "/BUST+": "kicad_default",
+      "/CLKLCA": "kicad_default",
+      "/CS1-": "kicad_default",
+      "/D0": "kicad_default",
+      "/D1": "kicad_default",
+      "/D2": "kicad_default",
+      "/D3": "kicad_default",
+      "/D4": "kicad_default",
+      "/D5": "kicad_default",
+      "/D6": "kicad_default",
+      "/D7": "kicad_default",
+      "/DIR": "kicad_default",
+      "/DONE": "kicad_default",
+      "/ENBBUF": "kicad_default",
+      "/ERROR-": "kicad_default",
+      "/INIT-": "kicad_default",
+      "/LED1": "kicad_default",
+      "/LED2": "kicad_default",
+      "/MA0": "kicad_default",
+      "/MA1": "kicad_default",
+      "/MA10": "kicad_default",
+      "/MA11": "kicad_default",
+      "/MA12": "kicad_default",
+      "/MA13": "kicad_default",
+      "/MA14": "kicad_default",
+      "/MA15": "kicad_default",
+      "/MA16": "kicad_default",
+      "/MA2": "kicad_default",
+      "/MA3": "kicad_default",
+      "/MA4": "kicad_default",
+      "/MA5": "kicad_default",
+      "/MA6": "kicad_default",
+      "/MA7": "kicad_default",
+      "/MA8": "kicad_default",
+      "/MA9": "kicad_default",
+      "/MATCHL": "kicad_default",
+      "/MD0": "kicad_default",
+      "/MD1": "kicad_default",
+      "/MD2": "kicad_default",
+      "/MD3": "kicad_default",
+      "/MD4": "kicad_default",
+      "/MD5": "kicad_default",
+      "/MD6": "kicad_default",
+      "/MD7": "kicad_default",
+      "/OE-": "kicad_default",
+      "/PC-A0": "kicad_default",
+      "/PC-A1": "kicad_default",
+      "/PC-A10": "kicad_default",
+      "/PC-A11": "kicad_default",
+      "/PC-A2": "kicad_default",
+      "/PC-A3": "kicad_default",
+      "/PC-A4": "kicad_default",
+      "/PC-A5": "kicad_default",
+      "/PC-A6": "kicad_default",
+      "/PC-A7": "kicad_default",
+      "/PC-A8": "kicad_default",
+      "/PC-A9": "kicad_default",
+      "/PC-AEN": "kicad_default",
+      "/PC-DB0": "kicad_default",
+      "/PC-DB1": "kicad_default",
+      "/PC-DB2": "kicad_default",
+      "/PC-DB3": "kicad_default",
+      "/PC-DB4": "kicad_default",
+      "/PC-DB5": "kicad_default",
+      "/PC-DB6": "kicad_default",
+      "/PC-DB7": "kicad_default",
+      "/PC-IOR": "kicad_default",
+      "/PC-IOW": "kicad_default",
+      "/PC-RD": "kicad_default",
+      "/PC-RST": "kicad_default",
+      "/PC-WR": "kicad_default",
+      "/PE+": "kicad_default",
+      "/PROG-": "kicad_default",
+      "/REF10": "kicad_default",
+      "/REF11": "kicad_default",
+      "/REF4": "kicad_default",
+      "/REF5": "kicad_default",
+      "/REF6": "kicad_default",
+      "/REF7": "kicad_default",
+      "/REF8": "kicad_default",
+      "/REF9": "kicad_default",
+      "/RSTL": "kicad_default",
+      "/SEL_LPT": "kicad_default",
+      "/SLCT+": "kicad_default",
+      "/SLCTIN-": "kicad_default",
+      "/STROBE": "kicad_default",
+      "/WR-": "kicad_default",
+      "/WR_REG": "kicad_default",
+      "Net-(C3-Pad1)": "kicad_default",
+      "Net-(D1-A)": "kicad_default",
+      "Net-(D2-A)": "kicad_default",
+      "Net-(U3-Y0)": "kicad_default",
+      "Net-(U3-Y1)": "kicad_default",
+      "Net-(U3-Y2)": "kicad_default",
+      "Net-(U3-Y3)": "kicad_default",
+      "Net-(U5-CS2)": "kicad_default",
+      "Net-(U9-P{slash}A3)": "kicad_default",
+      "unconnected-(BUS1-+12V-Pad9)": "kicad_default",
+      "unconnected-(BUS1--12V-Pad7)": "kicad_default",
+      "unconnected-(BUS1--5V-Pad5)": "kicad_default",
+      "unconnected-(BUS1-ALE-Pad28)": "kicad_default",
+      "unconnected-(BUS1-BA12-Pad50)": "kicad_default",
+      "unconnected-(BUS1-BA13-Pad49)": "kicad_default",
+      "unconnected-(BUS1-BA14-Pad48)": "kicad_default",
+      "unconnected-(BUS1-BA15-Pad47)": "kicad_default",
+      "unconnected-(BUS1-BA16-Pad46)": "kicad_default",
+      "unconnected-(BUS1-BA17-Pad45)": "kicad_default",
+      "unconnected-(BUS1-BA18-Pad44)": "kicad_default",
+      "unconnected-(BUS1-BA19-Pad43)": "kicad_default",
+      "unconnected-(BUS1-CLK-Pad20)": "kicad_default",
+      "unconnected-(BUS1-DACK0-Pad19)": "kicad_default",
+      "unconnected-(BUS1-DACK1-Pad17)": "kicad_default",
+      "unconnected-(BUS1-DACK2-Pad26)": "kicad_default",
+      "unconnected-(BUS1-DACK3-Pad15)": "kicad_default",
+      "unconnected-(BUS1-DRQ1-Pad18)": "kicad_default",
+      "unconnected-(BUS1-DRQ2-Pad6)": "kicad_default",
+      "unconnected-(BUS1-DRQ3-Pad16)": "kicad_default",
+      "unconnected-(BUS1-GND-Pad10)": "kicad_default",
+      "unconnected-(BUS1-INQ2-Pad4)": "kicad_default",
+      "unconnected-(BUS1-IO-Pad32)": "kicad_default",
+      "unconnected-(BUS1-IO_READY-Pad41)": "kicad_default",
+      "unconnected-(BUS1-IRQ3-Pad25)": "kicad_default",
+      "unconnected-(BUS1-IRQ4-Pad24)": "kicad_default",
+      "unconnected-(BUS1-IRQ5-Pad23)": "kicad_default",
+      "unconnected-(BUS1-IRQ6-Pad22)": "kicad_default",
+      "unconnected-(BUS1-IRQ7-Pad21)": "kicad_default",
+      "unconnected-(BUS1-MEM-Pad11)": "kicad_default",
+      "unconnected-(BUS1-MEM-Pad12)": "kicad_default",
+      "unconnected-(BUS1-OSC-Pad30)": "kicad_default",
+      "unconnected-(BUS1-TC-Pad27)": "kicad_default",
+      "unconnected-(BUS1-UNUSED-Pad8)": "kicad_default",
+      "unconnected-(RR1-Pad10)": "kicad_default",
+      "unconnected-(U3-Y7-Pad11)": "kicad_default",
+      "unconnected-(U8-I{slash}O10-Pad10)": "kicad_default",
+      "unconnected-(U8-I{slash}O8-Pad8)": "kicad_default",
+      "unconnected-(U8-I{slash}O9-Pad9)": "kicad_default",
+      "unconnected-(U9-NC-PadA1)": "kicad_default",
+      "unconnected-(U9-NC-PadA2)": "kicad_default",
+      "unconnected-(U9-NC-PadA3)": "kicad_default",
+      "unconnected-(U9-NC-PadB1)": "kicad_default",
+      "unconnected-(U9-NC-PadB10)": "kicad_default",
+      "unconnected-(U9-NC-PadB13)": "kicad_default",
+      "unconnected-(U9-NC-PadE11)": "kicad_default",
+      "unconnected-(U9-NC-PadE2)": "kicad_default",
+      "unconnected-(U9-NC-PadE3)": "kicad_default",
+      "unconnected-(U9-NC-PadJ11)": "kicad_default",
+      "unconnected-(U9-NC-PadJ3)": "kicad_default",
+      "unconnected-(U9-NC-PadK12)": "kicad_default",
+      "unconnected-(U9-NC-PadL5)": "kicad_default",
+      "unconnected-(U9-NC-PadL9)": "kicad_default",
+      "unconnected-(U9-NC-PadM1)": "kicad_default",
+      "unconnected-(U9-NC-PadN12)": "kicad_default",
+      "unconnected-(U9-P-PadN5)": "kicad_default",
+      "unconnected-(U9-PGCK4{slash}A1-PadN1)": "kicad_default",
+      "unconnected-(U9-P{slash}D2-PadL6)": "kicad_default",
+      "unconnected-(U9-P{slash}RCLK{slash}BSY{slash}RDY-PadN3)": "kicad_default",
+      "unconnected-(U9-TCK-PadB4)": "kicad_default",
+      "unconnected-(U9-TDI-PadC5)": "kicad_default",
+      "unconnected-(U9-TDO-PadM2)": "kicad_default",
+      "unconnected-(U9-TMS-PadB5)": "kicad_default",
+      "GND": "Power",
+      "VCC": "Power"
+    },
+    "limitations": [
+      "Via drill is encoded by pinned KiCad via ID.",
+      "Terminal counts do not prove pin identities.",
+      "Imported route geometry and native DRC require separate validation."
+    ],
+    "routing_accepted": false,
+    "dsn_sha256": "e85e331e6d8517b2826f045adabb27056b863724953dabda090a1ecf401d6453",
+    "native_map_sha256": "8411c73535af47fb3abe033c80c14bba48b7f2a653407c1ff7ec728305daa4c4",
+    "project_json_sha256": "88bfc315e3bfd05881046c8d209abf92751f56f07056e5cc1ef60a7b798a3746",
+    "source_modified": false
+  },
+  "task_dsn_sha256": "e85e331e6d8517b2826f045adabb27056b863724953dabda090a1ecf401d6453",
+  "engine_budget": {
+    "profile": "standard",
+    "argv": [
+      "--router.autorouter.max_passes=30",
+      "--router.job_timeout=00:01:00",
+      "--router.automatic_neckdown=false",
+      "--router.fanout.enabled=false",
+      "--router.neck_width_um=0",
+      "--router.optimizer.max_threads=1",
+      "--router.optimizer.max_passes=10",
+      "--router.optimizer.timeout=00:00:30"
+    ],
+    "scoring": {
+      "variant": null,
+      "argv": []
+    },
+    "strict_class_targets": true,
+    "remaining_outer_wall_seconds_at_assignment": 417.68180566700175,
+    "assigned_job_timeout_seconds": 60,
+    "assigned_optimizer_timeout_seconds": 30,
+    "native_finalization_reserve_seconds": 10,
+    "engine_grace_reserve_seconds": 30,
+    "internal_deadlines": "cooperative planning caps; external supervision and measured CPU acceptance cap remain authoritative",
+    "outer_task_wall_budget_seconds": 420,
+    "outer_task_cpu_budget_seconds": 420
+  },
+  "protected_route_import": {
+    "imported_sha256": "5d2d922d9f63804f481542a7cbfffe2db34230fbcc460663be017359f5e1f12b",
+    "policy": "exact_non_uuid_lock_position_v2",
+    "matches": [],
+    "transplanted_routes_sha256": "d6a9625c184b90d9661a0ecc8670b6762fa667e7087d221231145f7d16ca9321"
+  },
+  "native": {
+    "opens": 14,
+    "blocking": 3,
+    "warnings": 22,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Copper connection too narrow",
+        "key": "connection_width"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad 15 [GND] of JP1",
+            "pos": {
+              "x": 98.425,
+              "y": 105.41
+            },
+            "uuid": "d00cae95-5031-45a5-b976-a291328b8c3b"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad C4 [GND] of U9",
+            "pos": {
+              "x": 150.495,
+              "y": 72.39
+            },
+            "uuid": "387e8928-4a73-4b3a-ae74-249440996e94"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "Thermal relief connection to zone incomplete (layer bottom_copper; zone min spoke count 2; actual 1)",
+        "items": [
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          },
+          {
+            "description": "PTH pad K3 [GND] of U9",
+            "pos": {
+              "x": 147.955,
+              "y": 90.17
+            },
+            "uuid": "62abb7d6-d4e4-4b20-a5d4-6fdf243f008b"
+          }
+        ],
+        "severity": "error",
+        "type": "starved_thermal"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [GND] of JP1",
+            "pos": {
+              "x": 116.205,
+              "y": 105.41
+            },
+            "uuid": "39aeeaae-2eed-4d6c-be23-9f0865fef6ed"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [GND] of U3",
+            "pos": {
+              "x": 123.825,
+              "y": 124.46
+            },
+            "uuid": "971f7ee5-33a7-4539-ac26-3dbb49b3059b"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 1 [GND] of U3",
+            "pos": {
+              "x": 123.825,
+              "y": 124.46
+            },
+            "uuid": "971f7ee5-33a7-4539-ac26-3dbb49b3059b"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 16 [GND] of U5",
+            "pos": {
+              "x": 125.095,
+              "y": 76.2
+            },
+            "uuid": "363a9f9a-0b01-4ef4-a972-9e6d1eab7c5a"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 16 [GND] of U5",
+            "pos": {
+              "x": 125.095,
+              "y": 76.2
+            },
+            "uuid": "363a9f9a-0b01-4ef4-a972-9e6d1eab7c5a"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 19 [GND] of U3",
+            "pos": {
+              "x": 126.365,
+              "y": 116.84
+            },
+            "uuid": "c3386fcd-33a1-4674-8aa4-b2389cf9c151"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 10 [GND] of U3",
+            "pos": {
+              "x": 146.685,
+              "y": 124.46
+            },
+            "uuid": "f640af61-3395-4400-9f39-e69231b7bf74"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad K3 [GND] of U9",
+            "pos": {
+              "x": 147.955,
+              "y": 90.17
+            },
+            "uuid": "62abb7d6-d4e4-4b20-a5d4-6fdf243f008b"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad B7 [GND] of U9",
+            "pos": {
+              "x": 158.115,
+              "y": 69.85
+            },
+            "uuid": "7a24e592-587c-4c41-b3cf-98dedba468c2"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad L7 [GND] of U9",
+            "pos": {
+              "x": 158.115,
+              "y": 92.71
+            },
+            "uuid": "fdf410a4-5033-4942-98df-17e198806540"
+          },
+          {
+            "description": "PTH pad K3 [GND] of U9",
+            "pos": {
+              "x": 147.955,
+              "y": 90.17
+            },
+            "uuid": "62abb7d6-d4e4-4b20-a5d4-6fdf243f008b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad L7 [GND] of U9",
+            "pos": {
+              "x": 158.115,
+              "y": 92.71
+            },
+            "uuid": "fdf410a4-5033-4942-98df-17e198806540"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad C10 [GND] of U9",
+            "pos": {
+              "x": 165.735,
+              "y": 72.39
+            },
+            "uuid": "9f79a78c-7b7f-494b-8445-5c651b2f260c"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad G11 [GND] of U9",
+            "pos": {
+              "x": 168.275,
+              "y": 82.55
+            },
+            "uuid": "a887d3fa-3fb6-43a1-8618-647e60045cbf"
+          },
+          {
+            "description": "PTH pad K11 [GND] of U9",
+            "pos": {
+              "x": 168.275,
+              "y": 90.17
+            },
+            "uuid": "bf1fb912-e805-44cb-8b2a-5e6fb08b80e6"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "PTH pad 20 [GND] of P1",
+            "pos": {
+              "x": 184.94,
+              "y": 90.405
+            },
+            "uuid": "1edae5f9-9771-4120-865e-97f3057c3944"
+          },
+          {
+            "description": "Zone [GND] on bottom_copper, priority 0",
+            "pos": {
+              "x": 193.675,
+              "y": 133.35
+            },
+            "uuid": "00000000-0000-0000-0000-00004cdec22b"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      },
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 83.185,
+              "y": 83.82
+            },
+            "uuid": "00000000-0000-0000-0000-000032307de2"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+        "items": [
+          {
+            "description": "Footprint C2",
+            "pos": {
+              "x": 121.305,
+              "y": 91.44
+            },
+            "uuid": "00000000-0000-0000-0000-000032307ecf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:C_Disc_D3.0mm_W2.0mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)",
+        "items": [
+          {
+            "description": "Footprint C3",
+            "pos": {
+              "x": 121.305,
+              "y": 99.06
+            },
+            "uuid": "00000000-0000-0000-0000-000032307ed4"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C4",
+            "pos": {
+              "x": 170.688,
+              "y": 52.197
+            },
+            "uuid": "00000000-0000-0000-0000-000032307dcf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C5",
+            "pos": {
+              "x": 86.995,
+              "y": 113.03
+            },
+            "uuid": "00000000-0000-0000-0000-000032307dca"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal doesn't match footprint given by symbol (Capacitor_THT:CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint C6",
+            "pos": {
+              "x": 159.385,
+              "y": 111.76
+            },
+            "uuid": "00000000-0000-0000-0000-000032307dc0"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 155.58,
+              "y": 38.06
+            },
+            "uuid": "00000000-0000-0000-0000-00005a43d2ea"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:LED_D5.0mm doesn't match footprint given by symbol (LED_THT:LED_D5.0mm)",
+        "items": [
+          {
+            "description": "Footprint D2",
+            "pos": {
+              "x": 165.71,
+              "y": 38.08
+            },
+            "uuid": "00000000-0000-0000-0000-00005a43d2fb"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:PinHeader_2x08_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical)",
+        "items": [
+          {
+            "description": "Footprint JP1",
+            "pos": {
+              "x": 116.205,
+              "y": 105.41
+            },
+            "uuid": "00000000-0000-0000-0000-000032568d1e"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm doesn't match footprint given by symbol (Connector_Dsub:DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm)",
+        "items": [
+          {
+            "description": "Footprint P1",
+            "pos": {
+              "x": 182.1,
+              "y": 72.4
+            },
+            "uuid": "00000000-0000-0000-0000-00005a4472d7"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 117.475,
+              "y": 99.06
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59c0b8"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 127.635,
+              "y": 91.44
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59c0a2"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 92.075,
+              "y": 57.15
+            },
+            "uuid": "00000000-0000-0000-0000-00005a59c08c"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 151.765,
+              "y": 41.91
+            },
+            "uuid": "00000000-0000-0000-0000-00005a43d0ce"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 171.958,
+              "y": 42.037
+            },
+            "uuid": "00000000-0000-0000-0000-0000322d32a0"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:R_Array_SIP10 doesn't match footprint given by symbol (Resistor_THT:R_Array_SIP10)",
+        "items": [
+          {
+            "description": "Footprint RR1",
+            "pos": {
+              "x": 95.885,
+              "y": 113.03
+            },
+            "uuid": "00000000-0000-0000-0000-00005a44c66d"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 151.765,
+              "y": 124.46
+            },
+            "uuid": "00000000-0000-0000-0000-00005214e8d1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 95.885,
+              "y": 124.46
+            },
+            "uuid": "00000000-0000-0000-0000-00005214e8ef"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-20_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-20_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U3",
+            "pos": {
+              "x": 123.825,
+              "y": 124.46
+            },
+            "uuid": "00000000-0000-0000-0000-00005214e90d"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-32_W15.24mm doesn't match footprint given by symbol (Package_DIP:DIP-32_W15.24mm)",
+        "items": [
+          {
+            "description": "Footprint U5",
+            "pos": {
+              "x": 86.995,
+              "y": 76.2
+            },
+            "uuid": "00000000-0000-0000-0000-00005a0cae55"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:DIP-24_W7.62mm doesn't match footprint given by symbol (Package_DIP:DIP-24_W7.62mm)",
+        "items": [
+          {
+            "description": "Footprint U8",
+            "pos": {
+              "x": 123.825,
+              "y": 112.903
+            },
+            "uuid": "00000000-0000-0000-0000-00005a0cae87"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      },
+      {
+        "description": "interf_u:Crystal_HC18-U_Horizontal doesn't match footprint given by symbol (Crystal:Crystal_HC18-U_Horizontal)",
+        "items": [
+          {
+            "description": "Footprint X1",
+            "pos": {
+              "x": 113.665,
+              "y": 92.71
+            },
+            "uuid": "00000000-0000-0000-0000-00005a0caeb1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_mismatch"
+      }
+    ]
+  },
+  "metrics": {
+    "version": "10.0.7",
+    "pads": 379,
+    "footprints": 25,
+    "zones": 1,
+    "vias": 25,
+    "track_length_mm": 4509.217578554141,
+    "copper_layers": 2
+  },
+  "native_report_sha256": "b0ddb8e3a02bd264dff4902e1f12e51ffb8c1b285ff84f0d72b1dba08094415d",
+  "candidate_sha256": "e90915d1f212ba58eb97f170ade0da7efa5e54c137d734943ad2a079e0a6776c",
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/candidate/interf_u.kicad_pcb",
+  "invariants_unchanged": true,
+  "native_rejection_reasons": [
+    "native blocking=3",
+    "native error finding: starved_thermal",
+    "native error finding: unconnected_items",
+    "native opens=14",
+    "policy-critical native finding: starved_thermal (error)",
+    "policy-critical native finding: unconnected_items (error)"
+  ],
+  "whole_project_drc_clean": false,
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.9157783340197057,
+      "cpu_seconds": 0.697786,
+      "max_rss_bytes": 227852288,
+      "supervisor_cpu_seconds": 0.010915000000000008,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 219250688,
+      "sampled_peak_workdir_bytes": 5290193,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/source-drc-input/interf_u.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/source-drc.log",
+      "log_bytes": 220,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46394,
+      "name": "source-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/snapshot/interf_u.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6088572919834405,
+      "cpu_seconds": 0.5732389999999999,
+      "max_rss_bytes": 225280000,
+      "supervisor_cpu_seconds": 0.007762999999999964,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 225067008,
+      "sampled_peak_workdir_bytes": 5834522,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/candidate/interf_u.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/task.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/export-netclasses.json",
+        "--task-copper-fixed"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46395,
+      "name": "export"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 32.65026491694152,
+      "cpu_seconds": 51.367009,
+      "max_rss_bytes": 494092288,
+      "supervisor_cpu_seconds": 0.22975299999999987,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 494092288,
+      "sampled_peak_workdir_bytes": 5974164,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=30",
+        "--router.job_timeout=00:01:00",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=10",
+        "--router.optimizer.timeout=00:00:30",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/engine.log",
+      "log_bytes": 5823,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46396,
+      "name": "engine"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6246708749094978,
+      "cpu_seconds": 0.5531609999999999,
+      "max_rss_bytes": 225214464,
+      "supervisor_cpu_seconds": 0.009053999999999895,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 222822400,
+      "sampled_peak_workdir_bytes": 6410803,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/candidate/interf_u.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/routes.ses",
+        "--task-copper-fixed"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46402,
+      "name": "import"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.8673286669654772,
+      "cpu_seconds": 0.700205,
+      "max_rss_bytes": 226934784,
+      "supervisor_cpu_seconds": 0.010943999999999843,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 223608832,
+      "sampled_peak_workdir_bytes": 8324284,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/refill/interf_u.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/refill-drc.log",
+      "log_bytes": 233,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46403,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "8490cb45090fe5c9814fbb2962ac4b87892dc3d22e03f491903d564393765424",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/refill/interf_u.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3957342089852318,
+      "cpu_seconds": 0.398622,
+      "max_rss_bytes": 215105536,
+      "supervisor_cpu_seconds": 0.006904000000000021,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 135626752,
+      "sampled_peak_workdir_bytes": 8668839,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/autorouter/native.py",
+        "netclasses",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/candidate/interf_u.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/final-netclasses.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/final-netclasses.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46404,
+      "name": "final-netclasses"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.9803545830072835,
+      "cpu_seconds": 0.787754,
+      "max_rss_bytes": 274087936,
+      "supervisor_cpu_seconds": 0.015808999999999962,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 265420800,
+      "sampled_peak_workdir_bytes": 10266588,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/final-drc-input/interf_u.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/final-drc.log",
+      "log_bytes": 253,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46405,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": false
+      },
+      "validated_input_sha256": "e90915d1f212ba58eb97f170ade0da7efa5e54c137d734943ad2a079e0a6776c",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/candidate/interf_u.kicad_pcb"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3341920409584418,
+      "cpu_seconds": 0.337593,
+      "max_rss_bytes": 206028800,
+      "supervisor_cpu_seconds": 0.007272999999999641,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 100794368,
+      "sampled_peak_workdir_bytes": 10275361,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/candidate/interf_u.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-comparison-current-interf-B0-042-001/route",
+      "signal_cancellation_enabled": true,
+      "pid": 46406,
+      "name": "metrics"
+    }
+  ],
+  "wall_seconds": 39.09936604194809,
+  "parent_cpu_seconds": 1.9715779999999998,
+  "child_cpu_seconds": 55.415369000000005,
+  "monitor_cpu_seconds": 0,
+  "total_cpu_seconds": 57.386947000000006,
+  "peak_child_rss_bytes": 494092288,
+  "resource_limitations": "One sequential worker; Java 2GiB heap; group RSS4GiB and workdir512MiB polling guards may overshoot;18GiB total cache checked before task. Peak direct-child RSS and polled group RSS are different metrics. CPU descendants only if accounted for by child wait; monitoring CPU included.",
+  "resource_accounting_point": "Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.",
+  "control_child_cpu_seconds": 0
+}

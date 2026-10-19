@@ -1,0 +1,306 @@
+{
+  "schema": 1,
+  "kind": "frozen-current042-single-arm-actual-evidence-v1",
+  "recorded_utc": "2026-10-19T19:12:15.462880+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "82aaa3b750007ef2ffaafd367ffcb718aa93865e",
+  "runtime_manifest_sha256": "1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e",
+  "administration_head": "4247b7db234f7379df7d3d41d36522ee9271ccee",
+  "population_sha256": "bbfb65e347fa73d84ce3c392eff3ef7d916e96bb29986418c5a74ede948ce524",
+  "row": {
+    "family": "interf",
+    "arm": "Cthermal",
+    "outer_passed": true,
+    "outer_status": "completed",
+    "outer_process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 140.16408012493048,
+      "cpu_seconds": 157.27946,
+      "max_rss_bytes": 583696384,
+      "supervisor_cpu_seconds": 0.331717,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 528367616,
+      "sampled_peak_workdir_bytes": 343,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/qualify-current-method-001.py",
+        "--runtime",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime",
+        "--protocol",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-two-family-current-comparison-001/interf/Cthermal/protocol.json",
+        "--protocol-sha256",
+        "e4401d6bc5426718101f872b835c59a9dea1f0209483707d2997f8db0ba64808"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-two-family-current-comparison-001/interf/Cthermal/enclosure/command.log",
+      "log_bytes": 343,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-two-family-current-comparison-001/interf/Cthermal/enclosure",
+      "signal_cancellation_enabled": true,
+      "pid": 47498
+    },
+    "child_receipt_present": true,
+    "controller_status": "completed",
+    "enclosure_custody_inventory_verified": true,
+    "portfolio_summary_sha256": null,
+    "portfolio_summary_bound_to_child": false,
+    "outcome": "validated_delivery",
+    "controller_reported_attempt_qualified": true,
+    "controller_reported_workflow_delivered": true,
+    "controls_passed": true,
+    "attempt_qualified": true,
+    "validated_completed_negative": false,
+    "workflow_delivered": true,
+    "complete_external_cap_ok": true,
+    "method_cap_ok": true,
+    "complete_cost": {
+      "wall_seconds": 140.67,
+      "CPU_seconds": 158.01,
+      "user_seconds": 148.58,
+      "system_seconds": 9.43,
+      "time_log_sha256": "07bb2e96d899a068424ca11245d4a5304a157956d6f0fecb37b4452e81385b37",
+      "source": ".runs/runtime042-two-family-current-comparison-001/interf/Cthermal/outer-time.log",
+      "scope": "Complete external parent exit; nested samples not additional."
+    },
+    "protocol_sha256": "e4401d6bc5426718101f872b835c59a9dea1f0209483707d2997f8db0ba64808",
+    "child_sha256": "8249a9c6df3e8feeec28b3f411c230ee59fb0ed662ffdefe91b2ef9671b939ec",
+    "reason": null,
+    "evidence_classification": "validated_delivery",
+    "Native_counts": [
+      0,
+      0,
+      22,
+      0
+    ],
+    "route_metrics": {
+      "version": "10.0.7",
+      "pads": 379,
+      "footprints": 25,
+      "zones": 1,
+      "vias": 35,
+      "track_length_mm": 4996.393150337764,
+      "copper_layers": 2
+    },
+    "delivered_metrics": {
+      "version": "10.0.7",
+      "pads": 379,
+      "footprints": 25,
+      "zones": 1,
+      "vias": 35,
+      "track_length_mm": 4996.393150337764,
+      "copper_layers": 2
+    },
+    "source_hashes": {
+      "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+      "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+      "fp-lib-table": "ad284a80461d1f9636df60453296b6801e7621a4e1722ce759862b57f888ac7a",
+      "interf_u.kicad_pcb": "a740ce7fde77ab6af191e23ece21e57d36bb3c29325879248520dcd9ab47b57e",
+      "interf_u.kicad_pro": "b9908a96e6113e6e51f488482108dc87aa5d9bcd838f9e3345c85e0db09bffa9",
+      "interf_u.kicad_sch": "b3b8c3b199382f414e4b4b6661978f9b72e0879a99453cdfbbb6dd366c5a5a13",
+      "interf_u.kicad_sym": "bde2596f4cd4436450953b4cb7d1ef1bd6160b5860595210b4fbea1c082d4c2a",
+      "interf_u.pretty/BUS_PC.kicad_mod": "477e3bfd386a1db622c71e105ca1e62a834e9abd52074e7b6794615201435783",
+      "interf_u.pretty/CP_Axial_L10.0mm_D4.5mm_P15.00mm_Horizontal.kicad_mod": "4f35e4f1113d31592bfa499c7297891120c95e6a0e3f4824e9292a80f4655824",
+      "interf_u.pretty/C_Disc_D3.0mm_W2.0mm_P2.50mm.kicad_mod": "1c673956dc522e3f534c8472f071177864ddfabc571ea43ff84c450627325b9a",
+      "interf_u.pretty/Crystal_HC18-U_Horizontal.kicad_mod": "2470713718992af9bfb035fa52e60e0e39214b287caee64f00d6cc90097be0e7",
+      "interf_u.pretty/DIP-20_W7.62mm.kicad_mod": "e689ca410f6fa678748435296b0d1bbaf63a81a792990b74142e174b57549891",
+      "interf_u.pretty/DIP-24_W7.62mm.kicad_mod": "256a295e9270c1d9afd3de447c61da1b09076ba3b8ce2b78bbf656dc34e2e0bd",
+      "interf_u.pretty/DIP-32_W15.24mm.kicad_mod": "b0004a160ff4f1ef131d3a6a791e4f4c6edbb57028891b6292955b9bb87046f1",
+      "interf_u.pretty/DSUB-25_Female_Horizontal_P2.77x2.84mm_EdgePinOffset9.90mm_Housed_MountingHolesOffset11.32mm.kicad_mod": "aa891ab1b3d9479397c498c7b129ee522e00dea88082955499ccc50d91bde451",
+      "interf_u.pretty/LED_D5.0mm.kicad_mod": "faf833f3d780613ec0ee7d190055a43e65697bf5da781a58278deec3e6c85c57",
+      "interf_u.pretty/PGA120.kicad_mod": "950ba1b13bc6fee91b2c66439964f633f4d7003ec445e2eabd62725e14f74c50",
+      "interf_u.pretty/PinHeader_2x08_P2.54mm_Vertical.kicad_mod": "95c777c54a691a08bd96d9066015efd4910fc32a3e53190cbfd6269bd28ecd70",
+      "interf_u.pretty/R_Array_SIP10.kicad_mod": "67caf0574cae84e115fc2f08932fdbdb8b4320b4bf36b7028a8a35332dfe9ac9",
+      "interf_u.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal.kicad_mod": "c4476880f1bdde2caddcfec35b3be5ea005c145519258ec8c3cfa07ce9470cf1",
+      "interf_u.pretty/tux.kicad_mod": "e951d3c5adf3098ea965e544e2fe88e22c4a35ba32c595a72f8b03cbcde439fb",
+      "pagelayout_logo.kicad_wks": "85694b7288a2361d0042058dd374c94bb181f4f353169ae20b8d96b5bade301b",
+      "sym-lib-table": "7d0c18d563384df77919dc964e0511bbf2086aeadbc7befa4a3ae9b5ce1c1ed3",
+      "tux.bmp": "89a17e4b73847e9afddfa1ce25619b4d7e12b61063a9ebe972e9351ccbd181a4",
+      "tux.kicad_sym": "3dd62b35fd887752da0718069d58a42729841be74fc717e4f0461c53175b07ed"
+    },
+    "selected_route_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-method-current-interf-Cthermal-042-001/thermal-route/result.json",
+    "export_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-method-current-interf-Cthermal-042-001/export/export.json",
+    "method_sample": {
+      "wall_seconds": 84.3519572080113,
+      "full_CPU_seconds": 103.433526
+    },
+    "whole_controller_sample": {
+      "wall_seconds": 132.0629875829909,
+      "full_CPU_seconds": 149.48414699999998
+    },
+    "interpretation": "Only completed/cap-clean explicit qualified outcomes are negatives or deliveries. All other cases remain method/harness/cap/cancel failures, not routing-infeasibility proof.",
+    "delivered_own_proof": {
+      "route": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-method-current-interf-Cthermal-042-001/thermal-route/result.json",
+        "receipt_sha256": "5ae61999b748e3ef6b8b9bb95cf4d5985bbefd4f2845b1895e917e11a7b7f044",
+        "candidate_sha256": "71b3475e5401477acd50645af26d01fc072bdf9509cf9e926bb064ecb76b92db",
+        "native_report_sha256": "f7ea6e6eb6fbc73e8ae04598378e66efa1c86239f8147e856d5d742996f8f6f9",
+        "Native_counts": [
+          0,
+          0,
+          22,
+          0
+        ],
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "whole_project_drc_clean": false,
+        "protected_count": 0
+      },
+      "export": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/native7-method-current-interf-Cthermal-042-001/export/export.json",
+        "receipt_sha256": "f1568ce070591b1f540555b68af52907771b3126c7e4e5c03d2c5daec1f0eb81",
+        "candidate_sha256": "71b3475e5401477acd50645af26d01fc072bdf9509cf9e926bb064ecb76b92db",
+        "native_report_sha256": "f1e4972dc8796252a5342898ba842b8e6dcec00e7d9ac7e17a991310603d3e80",
+        "Native_counts": [
+          0,
+          0,
+          22,
+          0
+        ],
+        "ignored_checks": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+          },
+          {
+            "description": "Copper connection too narrow",
+            "key": "connection_width"
+          },
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "PTH inside courtyard",
+            "key": "pth_inside_courtyard"
+          },
+          {
+            "description": "NPTH inside courtyard",
+            "key": "npth_inside_courtyard"
+          }
+        ],
+        "whole_project_drc_clean": false,
+        "protected_count": null
+      }
+    }
+  },
+  "source_rights": {
+    "family": "kicad-interf-exposed",
+    "license": "CC-BY-SA-4.0",
+    "provenance": "Exact unchanged25file official KiCad Interf source from data/sources.json and prior023v4 inventory, including original licenses and Larry Ewing/The GIMP Tux attribution. Exposed development family, not holdout. Source opens/repairable thermal findings are separate from structural net/pad conflicts. No private source or reference route used for policy selection."
+  },
+  "limits": {
+    "routing_seconds": 420,
+    "method_wall_cpu_cap_seconds": 450,
+    "delivery_wall_cpu_cap_seconds": 600,
+    "export_validation_seconds": 120
+  },
+  "stock_caveat": "B0 uses identical native/task DSN and stock adapter with common fixed-placement/fidelity/Native safeguards; not untouched official vanilla-plugin qualification. API baselines/library delivery and actual default/recovery CLI startup differ and remain explicit.",
+  "dependencies": [
+    {
+      "path": "evidence/runtime042-native-milestone-001.json",
+      "sha256": "7faf3fa21c08073ede6bbb1825b15633c25997a7440b6da37dc2e0edac140d4b",
+      "files_indexes": [
+        {
+          "path": "evidence/runtime042-native-milestone-001-notes/files.json",
+          "sha256": "35ebb11ce7a717d46f9e1db249eba514be8a71f03950b03a1e16003a1fb3adcd"
+        }
+      ]
+    },
+    {
+      "path": "evidence/gui-runtime042-081-functional-summary-001.json",
+      "sha256": "b658e4d480defb9132365c2299cc89f3af9ba3244c44d712828ecd6bc4ba0315",
+      "files_indexes": [
+        {
+          "path": "evidence/gui-runtime042-081-postincumbent-cancel-001-notes/files.json",
+          "sha256": "a755b77fd9ecb568b76e500aa151876a0b9d29a52be5d075dd755d241e70ff5e"
+        },
+        {
+          "path": "evidence/gui-runtime042-081-ordinary-controls-001-notes/files.json",
+          "sha256": "805ae95897af015d47299903ebb86f186b794ef431d76bff430533ab54f4bc5f"
+        },
+        {
+          "path": "evidence/gui-runtime042-081-progress-001-notes/files.json",
+          "sha256": "11a9028db492f6e6d4c1303a1f3440fd4825164a27022a6edbd23f9fe3c8246f"
+        },
+        {
+          "path": "evidence/gui-runtime042-081-recovery-deliveries-001-notes/files.json",
+          "sha256": "59d1c6bcbe1aa210d9f7eee808e2cff481803f504d63c43fbf32ae939df2e928"
+        }
+      ]
+    }
+  ],
+  "scope": "One of12 prospectively frozen exposed development arms. Same420allocation/450method/600whole/export120. API baseline versus actual default/recoveryCLI distinction retained; no broad/family-independent/holdout/cleanup/speed/electrical claim.",
+  "backup_scope": "Essential licensed text proof and exact binary/source mappings; full raw remains Mac-only outside010, no restoration or package claim.",
+  "retention": {
+    "helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "max_file_bytes": 4194304,
+    "max_packet_payload_bytes": 16777216,
+    "max_new_files": 2000,
+    "new_files": 113,
+    "new_bytes": 8267920,
+    "material_rows": 923
+  },
+  "files_index": {
+    "path": "evidence/runtime042-current-interf-Cthermal-001-notes/files.json",
+    "sha256": "c4e1d085d4f79394690d3343015abce9759f09ca8e4354f344cf58232c8fe61e"
+  }
+}
