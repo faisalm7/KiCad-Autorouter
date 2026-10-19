@@ -1,0 +1,209 @@
+{
+  "schema": 1,
+  "kind": "windows011-persistent-SID-finite-canary-v1",
+  "stage": "sid-canary",
+  "passed": false,
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "Native_executed": false,
+  "actual_policy_operations": false,
+  "actual_profile_operations": false,
+  "socket_tests_performed": false,
+  "installer_executed": false,
+  "source_base_head": "580793ac6087021bf9567f764df5b9f55bfab9db",
+  "expected_source_sha": "b89b032427246702284e1dea915a8054fd215cfc",
+  "protocol_sha256": "434d2a04edb496336e700f1259e3c257cd38e42c3dec3e455a25872f9ffef414",
+  "compiler_process": {
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "/nologo",
+      "/W4",
+      "/WX",
+      "/O1",
+      "/MT",
+      "/LD",
+      "/DUNICODE",
+      "/D_UNICODE",
+      "/IC:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c",
+      "/FoD:\\a\\_temp\\kicad-appcontainer007-3b2dd422aef34d2b9cc2169f124daeac-setup\\persistent-sid-guard.obj",
+      "/FeD:\\a\\_temp\\kicad-appcontainer007-3b2dd422aef34d2b9cc2169f124daeac-setup\\persistent-sid-guard.dll",
+      "/link",
+      "/INCREMENTAL:NO",
+      "/IMPLIB:D:\\a\\_temp\\kicad-appcontainer007-3b2dd422aef34d2b9cc2169f124daeac-setup\\persistent-sid-guard.lib",
+      "/PDB:D:\\a\\_temp\\kicad-appcontainer007-3b2dd422aef34d2b9cc2169f124daeac-setup\\persistent-sid-guard.pdb",
+      "/LIBPATH:C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64",
+      "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64",
+      "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64",
+      "kernel32.lib",
+      "advapi32.lib",
+      "fwpuclnt.lib",
+      "ole32.lib"
+    ],
+    "cwd": "D:\\a\\_temp\\kicad-appcontainer007-3b2dd422aef34d2b9cc2169f124daeac-setup",
+    "log": "D:\\a\\_temp\\kicad-appcontainer007-3b2dd422aef34d2b9cc2169f124daeac-setup\\compile-guard.log",
+    "log_sha256": "564f5714427deb35ace5998e531cdad6535c1c5974dfe22416e7f64b30dd337c",
+    "status": "budget_exceeded",
+    "exit_code": 2,
+    "cleanup_complete": true,
+    "wall_seconds": 30.046999999999997,
+    "full_job_cpu_seconds": 0.59375,
+    "process_count": 3,
+    "limits": {
+      "bytes": 134217728,
+      "rss": 2147483648,
+      "log": 262144,
+      "entries": 4000,
+      "seconds": 30
+    },
+    "os_job_memory_limit": true,
+    "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+    "setup_process_observations": {
+      "main_polls": 1430,
+      "max_snapshots": 4,
+      "snapshots": [
+        {
+          "trigger": "initial",
+          "elapsed_seconds": 0.0,
+          "main": {
+            "pid": 6624,
+            "state": "running",
+            "exit_code": null,
+            "wait_result": 258
+          },
+          "members": {
+            "status": "observed",
+            "capacity": 32,
+            "pids": [
+              6624
+            ],
+            "image_identity_observed": false,
+            "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+            "assigned_processes": 1,
+            "listed_processes": 1,
+            "truncated": false
+          },
+          "accounting_active_processes": 1,
+          "accounting_total_processes": 1,
+          "snapshots_atomic": false,
+          "status": "observed",
+          "before_termination": false,
+          "termination_reason": null
+        },
+        {
+          "trigger": "main_state_changed",
+          "elapsed_seconds": 3.5309999999999775,
+          "main": {
+            "pid": 6624,
+            "state": "exited",
+            "exit_code": 2,
+            "wait_result": 0
+          },
+          "members": {
+            "status": "observed",
+            "capacity": 32,
+            "pids": [
+              5112
+            ],
+            "image_identity_observed": false,
+            "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+            "assigned_processes": 1,
+            "listed_processes": 1,
+            "truncated": false
+          },
+          "accounting_active_processes": 1,
+          "accounting_total_processes": 3,
+          "snapshots_atomic": false,
+          "status": "observed",
+          "before_termination": false,
+          "termination_reason": null
+        },
+        {
+          "trigger": "before_termination",
+          "elapsed_seconds": 30.01599999999999,
+          "main": {
+            "pid": 6624,
+            "state": "exited",
+            "exit_code": 2,
+            "wait_result": 0
+          },
+          "members": {
+            "status": "observed",
+            "capacity": 32,
+            "pids": [
+              5112
+            ],
+            "image_identity_observed": false,
+            "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+            "assigned_processes": 1,
+            "listed_processes": 1,
+            "truncated": false
+          },
+          "accounting_active_processes": 1,
+          "accounting_total_processes": 3,
+          "snapshots_atomic": false,
+          "status": "observed",
+          "before_termination": true,
+          "termination_reason": "budget_exceeded"
+        }
+      ],
+      "completion_semantics_changed": false
+    },
+    "accepted": false,
+    "product_support": false,
+    "Native_admitted": false,
+    "Native_executed": false,
+    "network": {
+      "kind": "owned-setup-no-network-isolation-claim",
+      "network_isolation_claimed": false
+    },
+    "authoring": {
+      "kind": "fixed-owned-C-guard-DLL-build",
+      "guard_source_sha256": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702",
+      "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "SDK_version": "10.0.26100.0",
+      "MSVC_version": "14.44.35207"
+    },
+    "source_tool_sha256": {
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702"
+    },
+    "setup_scope": {
+      "file_id": [
+        2218352411,
+        65536,
+        298
+      ],
+      "runner_pid": 3944,
+      "runner_source_sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa"
+    }
+  },
+  "NULL_ABI": null,
+  "errors": [
+    "RuntimeError: compiler/Job/PE DLL readiness failed"
+  ],
+  "scope": "Fixed DLL/NULL ABI then finite real SID policy and existing IPv4 TCP normal/cancel control. No IPv6/UDP/inbound/crash/reuse/lowbox-mutation, installer, Native or Windows product qualification.",
+  "compiler_tools": {
+    "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+    "MSVC_version": "14.44.35207",
+    "SDK_version": "10.0.26100.0",
+    "dependency_scope": "Preinstalled runner tools observed and pinned before this canary, not a product platform qualification."
+  },
+  "compiler_log": {
+    "path": "D:\\a\\_temp\\kicad-appcontainer007-3b2dd422aef34d2b9cc2169f124daeac-setup\\compile-guard.log",
+    "bytes": 324,
+    "sha256": "564f5714427deb35ace5998e531cdad6535c1c5974dfe22416e7f64b30dd337c",
+    "printed_bytes": 324,
+    "truncated": false
+  },
+  "compiler_process_receipt_available": true,
+  "wall_seconds_before_report": 31.218999999999994,
+  "controller_CPU_seconds_before_report": 0.09375,
+  "compiler_full_job_CPU_seconds": 0.59375,
+  "whole_external_exit_CPU_seconds": null,
+  "accounting": "Compiler receipt includes owned exited descendants; controller CPU and complete external exit are separate. Failed API/cleanup may lack a process receipt, not evidence of zero cost. No parent+child cost double counting or speed claim."
+}

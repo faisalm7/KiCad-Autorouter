@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "kind": "windows011-build004-contract-independent-source-review-v1",
+  "created_utc": "2026-10-19T06:43:24.355183+00:00",
+  "reviewer": "Independent AI source/contract review; not human or actual Windows validation",
+  "decision": "No concrete blocking contract defect identified. Protocol004 matches the current nine source bytes and the reviewed manual workflow fixes this single regression to build-null. Actual compilation/NULL ABI remain pending.",
+  "HEAD_at_review": "b89b032427246702284e1dea915a8054fd215cfc",
+  "protocol": {
+    "path": "scripts/windows_native_slice/persistent_guard_build_protocol004.json",
+    "bytes": 3211,
+    "sha256": "1e77ac76423031bfc606a35d02ee69bb84f596679250e85d33c2eb046e4ac3ae",
+    "kind": "windows011-build-null-ABI-readiness-v1",
+    "mode": "build-null",
+    "bounded_executions": 1,
+    "real_policy_protocol_closed": true,
+    "exact_nine_census": true,
+    "self_in_source_census": false,
+    "pins": [
+      {
+        "path": "scripts/windows_native_slice/persistent_guard_build.py",
+        "bytes": 19318,
+        "sha256": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+        "frozen_sha256": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/persistent_guard_build.ps1",
+        "bytes": 8150,
+        "sha256": "15e0202d7718c228f387aee24a1afae2372fe1da8db515eed3f54ea6f4674a24",
+        "frozen_sha256": "15e0202d7718c228f387aee24a1afae2372fe1da8db515eed3f54ea6f4674a24",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+        "bytes": 22736,
+        "sha256": "8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714",
+        "frozen_sha256": "8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/windows_process.py",
+        "bytes": 31122,
+        "sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+        "frozen_sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_canary.py",
+        "bytes": 15108,
+        "sha256": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+        "frozen_sha256": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_launch.py",
+        "bytes": 29141,
+        "sha256": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+        "frozen_sha256": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_probe.c",
+        "bytes": 7296,
+        "sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+        "frozen_sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_dns.py",
+        "bytes": 505,
+        "sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+        "frozen_sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+        "matches": true,
+        "CRLF_sequences": 0
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_diagnostic.ps1",
+        "bytes": 2063,
+        "sha256": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+        "frozen_sha256": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+        "matches": true,
+        "CRLF_sequences": 0
+      }
+    ]
+  },
+  "workflow": {
+    "path": ".github/workflows/manual-python-controls.yml",
+    "bytes": 4197,
+    "sha256": "d6791b9cfa6d6b373288c9b8c71a6628b852a4034968514b0b1cb8e040c76f7f",
+    "assessment": "Dispatch choice windows-persistent-guard removed; guard job condition requires only windows-guard-build; GUARD_STAGE literal build-null. Standard Windows2022, contents:read, pinned checkout at github.sha with persist-credentials:false, scripts-only sparse checkout and 3-minute timeout retained. No dispatch performed or observed by this review."
+  },
+  "three_file_diff_sha256": "a07169fbc4b97876b0d6e963c6d5fe9f368a981fffdde013999e67a830f92d3c",
+  "checked_contracts": [
+    {
+      "topic": "No stale default or self-hash cycle",
+      "result": "PS build-null default now protocol004; its exact new PS hash is in protocol004. Python and PS require external protocol SHA, stage-specific kind/base and exact source names/hashes. Protocol is not itself a source pin; future audited commit SHA is external and must match GITHUB_SHA and detached HEAD. source_base_head is the existing fixed baseline witness, not a substitute for that future source SHA."
+    },
+    {
+      "topic": "Build-only branch",
+      "result": "Python canary=false for fixed build-null stage, so no PersistentGuardState construction or AppContainer canary invocation. The existing NULL ABI passes only NULL owner/SID values, checks exact refusal codes/output storage and cannot execute valid PG_Arm. PS additionally refuses a build-null result whose policy/profile/socket flags are not false."
+    },
+    {
+      "topic": "Compiler and custody",
+      "result": "/W4 /WX, fixed compiler recipe, 30-second owned Job, original success+cleanup+exact PE gate, held source/protocol and DLL identities, safe paths and final fresh source witness remain unchanged. C delta is only DWORD mask comparison cast, previously reviewed; no warning suppression or access/ABI weakening."
+    },
+    {
+      "topic": "Limits",
+      "result": "Protocol bounds agree with reviewed implementation/workflow: controller150s, parent170s, CI3min, each compiler30s, Job memory2GiB, compiler log256KiB, controller stdout1MiB producer bound, artifacts/caches0. No increase or compiler nonzero-exit shortcut."
+    }
+  ],
+  "precision_and_limits": [
+    "Direct PS/Python sid-canary support remains in retained scripts. This receipt establishes the reviewed workflow has no persistent-policy choice/path for this job, not that the API has been deleted or made generally inaccessible.",
+    "No third real-policy attempt is authorized: the two-attempt policy protocol remains closed regardless of build004 result. A successful build/NULL-only regression would not exercise the TokenOwner correction or WFP/LowBox mutation protection.",
+    "Future root audit/push/remote verification and exact expected source/protocol inputs remain required; current HEAD is the old source and must not be misrepresented as the changed-source actual run.",
+    "No local PowerShell parser, compilation, test, Windows API, Native/GUI/CI job, network/research or delegation used in this review. Existing helper architecture was not re-reviewed.",
+    "Referenced authored failure evidence is historical explanation, not runtime authority. Actual001/002 failures and unknown owner/policy/mutation/Native gates remain unchanged."
+  ],
+  "blocking_findings": [],
+  "claims": {
+    "executed": false,
+    "actual_build004_passed": false,
+    "actual_owner_correction_qualified": false,
+    "mutation_resistance_verified": false,
+    "Native_admitted": false,
+    "Windows_support": false,
+    "human_review": false
+  }
+}

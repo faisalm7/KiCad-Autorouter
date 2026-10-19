@@ -13,7 +13,7 @@ if ($Stage -cne 'build-null' -and $Stage -cne 'sid-canary') { throw 'Exact finit
 $isCanary = $Stage -ceq 'sid-canary'
 $expectedKind = if ($isCanary) { 'windows011-persistent-SID-finite-canary-v1' } else { 'windows011-build-null-ABI-readiness-v1' }
 if ([string]::IsNullOrEmpty($Protocol)) {
-    $protocolName = if ($isCanary) { 'persistent_guard_lifetime_protocol002.json' } else { 'persistent_guard_build_protocol003.json' }
+    $protocolName = if ($isCanary) { 'persistent_guard_lifetime_protocol002.json' } else { 'persistent_guard_build_protocol004.json' }
     $Protocol = Join-Path $PSScriptRoot $protocolName
 }
 if (-not $IsWindows -or $env:GITHUB_ACTIONS -ne 'true' -or

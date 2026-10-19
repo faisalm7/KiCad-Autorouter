@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "kind": "windows011-lifetime-actual002-cast-independent-review-v1",
+  "created_utc": "2026-10-19T06:37:59.349419+00:00",
+  "reviewer": "Independent AI readback/source review, not human or Windows qualification",
+  "decision": "Actual002 is a failed compile-only attempt. The sole prospective DWORD cast is value-preserving and does not weaken rights, ABI, warnings, admission or cleanup. It is uncompiled in this review; the two-attempt real-policy protocol is closed.",
+  "actual": {
+    "run_id": 39210366235,
+    "run_url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39210366235",
+    "source_commit": "b89b032427246702284e1dea915a8054fd215cfc",
+    "protocol_sha256": "434d2a04edb496336e700f1259e3c257cd38e42c3dec3e455a25872f9ffef414",
+    "failed_C_source_sha256": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702",
+    "failed_source_matches_process_pin": true,
+    "failure": "MSVC /W4 /WX C4389 signed/unsigned comparison at C line157, promoted to C2220; main exit2.",
+    "compiler_status": "budget_exceeded",
+    "main_exit_code": 2,
+    "main_exit_observed_seconds": 3.5309999999999775,
+    "remaining_owned_Job_PID": 5112,
+    "member_image_identity_observed": false,
+    "cumulative_setup_process_count": 3,
+    "cleanup_complete_reported": true,
+    "controller_reaped": true,
+    "compiler_log_reconstruction": {
+      "chunks": 1,
+      "chunk_indexes": [
+        0
+      ],
+      "matches_retained_unmodified_log": true,
+      "bytes": 324,
+      "sha256": "564f5714427deb35ace5998e531cdad6535c1c5974dfe22416e7f64b30dd337c"
+    },
+    "not_executed": [
+      "Produced validated DLL",
+      "NULL ABI",
+      "Persistent owner/state constructor",
+      "AppContainer profile",
+      "WFP policy/PG_Arm",
+      "TCP canary or token/child/cancellation cases",
+      "Native/JVM/installer"
+    ],
+    "limitations": "Snapshots are point-in-time non-atomic owned Job PIDs, not stable child image identity. cleanup_complete comes from the shared runner zero-active/reap contract; no natural completion of the remaining process is claimed."
+  },
+  "inspected_raw_files": [
+    {
+      "path": ".runs/windows011-lifetime-actual002/actions.log",
+      "bytes": 39482,
+      "sha256": "d7ae6fea712c8d4fc5e4d7227bdb6f9f55457255b9f1d9f2fbcb6a0607f558ea"
+    },
+    {
+      "path": ".runs/windows011-lifetime-actual002/readiness.json",
+      "bytes": 8506,
+      "sha256": "9af977dfa4f5fe8016a125ed5bda4790ed0297ff8bb786d964a0ad5bf13f201d"
+    },
+    {
+      "path": ".runs/windows011-lifetime-actual002/enclosure.json",
+      "bytes": 1042,
+      "sha256": "3ab4764544da09eaa4404115116ea3bed941a7c5d064b471da424763c0e68821"
+    },
+    {
+      "path": ".runs/windows011-lifetime-actual002/compile-guard.log",
+      "bytes": 324,
+      "sha256": "564f5714427deb35ace5998e531cdad6535c1c5974dfe22416e7f64b30dd337c"
+    },
+    {
+      "path": ".runs/windows011-lifetime-actual002/status002.json",
+      "bytes": 2842,
+      "sha256": "2c167d14ac8977bd73ae85c8a6e4ba57f9922c6e583b6d34d73ff544c67e83ab"
+    },
+    {
+      "path": ".runs/windows011-lifetime-actual002/job.json",
+      "bytes": 2272,
+      "sha256": "d7701cc274f1ceac5621699e0d7e7d4e9d2a1121d8c75769ee98c0b4f7bd33d9"
+    }
+  ],
+  "cast_review": {
+    "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+    "new_source_bytes": 22736,
+    "new_source_sha256": "8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714",
+    "diff_sha256": "94443e1e2264327022c98b97d476366e5e80f1a7db02913ceed312fd9a55e25b",
+    "exact_single_expression_replacement_from_actual002_C": true,
+    "line": 157,
+    "assessment": "ace->Mask is an ACCESS_MASK/DWORD. Casting the selected existing mask to DWORD fixes the signed/unsigned comparison type; neither possible mask value changes. WD|WO remains0x000c0000, PG_ACCESS remains unchanged, exact ACE equality is still required. No /WX removal, pragma warning suppression, additional access, different SID, control-flow, allocation or exported ABI change.",
+    "blocking_source_findings": [],
+    "execution": "Not compiled or tested by this reviewer."
+  },
+  "costs": {
+    "provider_run_timestamp_span_seconds": 51,
+    "provider_job_timestamp_span_seconds": 47,
+    "provider_control_step_span_seconds": 33,
+    "compiler_Job_wall_seconds": 30.046999999999997,
+    "compiler_Job_full_CPU_seconds": 0.59375,
+    "controller_wall_before_report_seconds": 31.218999999999994,
+    "parent_wall_before_exit_seconds": 32.3056828,
+    "complete_controller_process_CPU_seconds": 0.15625,
+    "measured_controller_plus_distinct_compiler_Job_CPU_subtotal_seconds": 0.75,
+    "nested_controller_CPU_before_report_not_added": 0.09375,
+    "whole_CI_CPU_seconds": null,
+    "parent_timeout": false,
+    "compiler_original_seconds_cap": 30,
+    "artifact_uploads_reported": 0,
+    "limitations": "Nested wall/CPU reports are not additive; PowerShell/runner full-job CPU and billing are unknown."
+  },
+  "nonblocking_efficiency_finding": {
+    "priority": "P2",
+    "finding": "Known nonzero compiler main exit at3.531s still waits for its remaining owned Job member until the original30s budget, adding about26.5s elapsed wait before forced cleanup. It fails truthfully and stays bounded; this is an efficiency issue, not a pass or enclosure failure.",
+    "disposition": "Document only. Do not alter runner completion/failure/cancel policies in this task."
+  },
+  "protocol_disposition": "No third real-policy attempt under the closed two-attempt protocol. A separately reviewed/frozen build-null-only regression can establish compile/NULL ABI only; it cannot establish the unexecuted corrected owner, mutation resistance or Native support. No CI authorization or dispatch is performed by this receipt.",
+  "claims": {
+    "actual002_passed": false,
+    "owner_correction_runtime_qualified": false,
+    "actual_policy_armed": false,
+    "mutation_resistance_verified": false,
+    "Windows_support": false,
+    "Native_admitted": false,
+    "human_review": false
+  },
+  "review_execution": {
+    "source_edits": false,
+    "tests": false,
+    "builds_Windows_APIs_Native_GUI_CI_jobs": false,
+    "new_research": false,
+    "delegation": false
+  }
+}

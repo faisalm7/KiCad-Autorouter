@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "kind": "Windows011-second-final-policy-attempt-compile-failure",
+  "recorded_utc": "2026-10-19T06:41:50.449689+00:00",
+  "project_complete": false,
+  "source_head": "b89b032427246702284e1dea915a8054fd215cfc",
+  "protocol_sha256": "434d2a04edb496336e700f1259e3c257cd38e42c3dec3e455a25872f9ffef414",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "8349aa68ed349f38608935bf59578620ec35d35f5d2a6c9a50ee89df8d1a3ee3",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+    "scripts/windows_native_slice/persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d"
+  },
+  "CI": {
+    "run_id": 39210366235,
+    "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39210366235",
+    "job_id": 117922152804,
+    "runner_labels": [
+      "windows-2022"
+    ],
+    "status": "completed",
+    "conclusion": "failure",
+    "run_elapsed_seconds": 51,
+    "job_elapsed_seconds": 47,
+    "control_step_seconds": 33,
+    "all_other_modes_skipped": true,
+    "artifact_uploads": 0,
+    "cache_uploads": 0,
+    "incremental_spending": 0
+  },
+  "build_passed": false,
+  "NULL_ABI_passed": false,
+  "actual_Windows": true,
+  "actual_policy_operations": false,
+  "actual_profile_operations": false,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "accepted": false,
+  "observations": {
+    "run_id": 39210366235,
+    "run_url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39210366235",
+    "source_commit": "b89b032427246702284e1dea915a8054fd215cfc",
+    "protocol_sha256": "434d2a04edb496336e700f1259e3c257cd38e42c3dec3e455a25872f9ffef414",
+    "failed_C_source_sha256": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702",
+    "failed_source_matches_process_pin": true,
+    "failure": "MSVC /W4 /WX C4389 signed/unsigned comparison at C line157, promoted to C2220; main exit2.",
+    "compiler_status": "budget_exceeded",
+    "main_exit_code": 2,
+    "main_exit_observed_seconds": 3.5309999999999775,
+    "remaining_owned_Job_PID": 5112,
+    "member_image_identity_observed": false,
+    "cumulative_setup_process_count": 3,
+    "cleanup_complete_reported": true,
+    "controller_reaped": true,
+    "compiler_log_reconstruction": {
+      "chunks": 1,
+      "chunk_indexes": [
+        0
+      ],
+      "matches_retained_unmodified_log": true,
+      "bytes": 324,
+      "sha256": "564f5714427deb35ace5998e531cdad6535c1c5974dfe22416e7f64b30dd337c"
+    },
+    "not_executed": [
+      "Produced validated DLL",
+      "NULL ABI",
+      "Persistent owner/state constructor",
+      "AppContainer profile",
+      "WFP policy/PG_Arm",
+      "TCP canary or token/child/cancellation cases",
+      "Native/JVM/installer"
+    ],
+    "limitations": "Snapshots are point-in-time non-atomic owned Job PIDs, not stable child image identity. cleanup_complete comes from the shared runner zero-active/reap contract; no natural completion of the remaining process is claimed."
+  },
+  "costs": {
+    "provider_run_timestamp_span_seconds": 51,
+    "provider_job_timestamp_span_seconds": 47,
+    "provider_control_step_span_seconds": 33,
+    "compiler_Job_wall_seconds": 30.046999999999997,
+    "compiler_Job_full_CPU_seconds": 0.59375,
+    "controller_wall_before_report_seconds": 31.218999999999994,
+    "parent_wall_before_exit_seconds": 32.3056828,
+    "complete_controller_process_CPU_seconds": 0.15625,
+    "measured_controller_plus_distinct_compiler_Job_CPU_subtotal_seconds": 0.75,
+    "nested_controller_CPU_before_report_not_added": 0.09375,
+    "whole_CI_CPU_seconds": null,
+    "parent_timeout": false,
+    "compiler_original_seconds_cap": 30,
+    "artifact_uploads_reported": 0,
+    "limitations": "Nested wall/CPU reports are not additive; PowerShell/runner full-job CPU and billing are unknown."
+  },
+  "efficiency_finding": {
+    "priority": "P2",
+    "finding": "Known nonzero compiler main exit at3.531s still waits for its remaining owned Job member until the original30s budget, adding about26.5s elapsed wait before forced cleanup. It fails truthfully and stays bounded; this is an efficiency issue, not a pass or enclosure failure.",
+    "disposition": "Document only. Do not alter runner completion/failure/cancel policies in this task."
+  },
+  "decision": "Both real-policy011 attempts failed; this two-attempt protocol is closed. No third real-policy attempt. A distinct build-null-only regression may check the reviewed DWORD cast without owner/profile/policy/socket/Native execution.",
+  "previous_actual001": "evidence/windows011-lifetime-actual002.json (public alias of first actual run39208796011, not this second execution)",
+  "correction": {
+    "source_path": "scripts/windows_native_slice/persistent_sid_guard.c",
+    "source_sha256": "8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714",
+    "scope": "ace->Mask is an ACCESS_MASK/DWORD. Casting the selected existing mask to DWORD fixes the signed/unsigned comparison type; neither possible mask value changes. WD|WO remains0x000c0000, PG_ACCESS remains unchanged, exact ACE equality is still required. No /WX removal, pragma warning suppression, additional access, different SID, control-flow, allocation or exported ABI change.",
+    "runtime_qualified": false
+  },
+  "review": {
+    "path": ".runs/windows011-lifetime-actual002-cast-review-001.json",
+    "sha256": "bc0c0459f28440d258e079d8fec00a0a79555468bdcbc7d20163e2f544491c67",
+    "scope": "Separate AI exact raw/source readback. No execution or human review."
+  },
+  "accounting": "Compiler Job and exited controller CPU are distinct; measured subtotal0.75s. Nested report CPU is not added. WholeCI/PowerShell, authoring/research/AI review and curation are additional or unknown, not zero. No routing or speed claim.",
+  "backup_scope": "Essential small source/log/result references intended for audited Git. No DLL/state/profile/policy was created by this execution. Newer full Mac raw and prepared GUI remain Mac-only outside008/010; this is not a restoration.",
+  "files_index": {
+    "path": "evidence/windows011-policy-attempt002-compile-failure-001-notes/files.json",
+    "sha256": "fa57e4b6c8f007aed7a6f267f6e142186cf8bc4f05f0e6d47e2134bd683c12ca"
+  }
+}

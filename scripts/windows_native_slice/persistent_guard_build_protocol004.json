@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "kind": "windows011-build-null-ABI-readiness-v1",
+  "source_base_head": "580793ac6087021bf9567f764df5b9f55bfab9db",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "15e0202d7718c228f387aee24a1afae2372fe1da8db515eed3f54ea6f4674a24",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+  },
+  "prospective_only": true,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "last_actual_build": "evidence/windows011-build-actual001.json",
+  "last_verified_checkpoint": "b89b032427246702284e1dea915a8054fd215cfc",
+  "purpose": "One build-null-only regression of the DWORD comparison cast after actual policy attempt002 failed MSVC C4389 under /W4 /WX. No valid owner/SID/profile/policy/socket or Native execution.",
+  "bounds": {
+    "CI_minutes": 3,
+    "controller_seconds": 150,
+    "enclosure_seconds": 170,
+    "each_compiler_seconds": 30,
+    "Job_memory_bytes": 2147483648,
+    "per_log_bytes": 262144,
+    "controller_stdout_bytes": 1048576,
+    "artifact_uploads": 0,
+    "cache_uploads": 0
+  },
+  "predeclared_decision": "One compile/NULL-only execution: retain every failure or success. This is not a third policy attempt. The two-attempt real-policy011 protocol remains closed regardless of build result; no Windows/Native/owner/mutation admission.",
+  "unqualified": [
+    "Corrected actual owner and OWNER_RIGHTS policy/security normalization",
+    "All actual WFP policy, AppContainer profile, SID custody and network denial operations",
+    "Lowbox mutation, lifetime, cancellation, crash and identity reuse",
+    "IPv6, UDP, inbound, boot/BFE-off, nonadmin installation",
+    "Actual KiCad/JVM routing/cancel/refill/validation/export"
+  ],
+  "external_source_pin": "Future audited fullcommit and this protocolSHA supplied through workflow input; exactGITHUB_SHA/detachedHEAD/source pins checked without a self-hash cycle.",
+  "prior_actual_failure": "evidence/windows011-policy-attempt002-compile-failure-001.json",
+  "correction": "Only cast the existing selected ACE mask to DWORD. Same rights, exact equality, ABI and /W4 /WX. No runner completion or cleanup policy changes.",
+  "real_policy_protocol_closed": true,
+  "mode": "build-null",
+  "bounded_executions": 1
+}

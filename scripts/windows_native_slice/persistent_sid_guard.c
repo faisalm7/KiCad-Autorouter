@@ -154,7 +154,7 @@ static DWORD pg_check_security(PG_OWNER *g, const GUID *key, BOOL filter) {
         sid = (PSID)&ace->SidStart;
         if (ace->Header.AceSize < offsetof(ACCESS_ALLOWED_ACE, SidStart) + 8 ||
             ace->Header.AceType != (i == 0 ? ACCESS_DENIED_ACE_TYPE : ACCESS_ALLOWED_ACE_TYPE) || ace->Header.AceFlags != 0 ||
-            ace->Mask != (i == 0 ? (WRITE_DAC | WRITE_OWNER) : PG_ACCESS) ||
+            ace->Mask != (DWORD)(i == 0 ? (WRITE_DAC | WRITE_OWNER) : PG_ACCESS) ||
             8u + 4u * (*GetSidSubAuthorityCount(sid)) >
                 (DWORD)ace->Header.AceSize - (DWORD)offsetof(ACCESS_ALLOWED_ACE, SidStart) ||
             !IsValidSid(sid)) { error = ERROR_INVALID_ACL; break; }
