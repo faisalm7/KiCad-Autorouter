@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "kind": "runtime043-full191-reporter-integration-v1",
+  "recorded_utc": "2026-10-19T22:05:14.230873+00:00",
+  "source_head": "81bf61aa83f0ed25c600b64f20824a2b491f85ba",
+  "runtime_Core_unchanged": true,
+  "project_complete": false,
+  "actual_GUI": false,
+  "Native_routing_rerun": false,
+  "tests": 2364,
+  "skipped": 1,
+  "passed": true,
+  "complete_external_cost": {
+    "wall_seconds": 396.63,
+    "CPU_seconds": 380.08
+  },
+  "execution": {
+    "schema": 1,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 396.16616950009484,
+      "cpu_seconds": 378.805349,
+      "max_rss_bytes": 321257472,
+      "supervisor_cpu_seconds": 0.9850829999999999,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 321175552,
+      "sampled_peak_workdir_bytes": 442226,
+      "resource_guards": {
+        "max_group_rss_bytes": 2147483648,
+        "max_workdir_bytes": 2097152,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+        "-B",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-191/command.log",
+      "log_bytes": 401656,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-191",
+      "signal_cancellation_enabled": true,
+      "pid": 99870
+    },
+    "wall_seconds": 396.61210695898626,
+    "full_cpu_seconds": 380.071941,
+    "sources_unchanged": true,
+    "controller_sha256": "fe0322c1b610a8aef3585eb630204a157a8a1ce41e3bbde8f3a19bd1d3a728b1",
+    "log_sha256": "2d4b6e91c65117377e8efd1c043c320efc423f53651800169c616ca24b014b70",
+    "passed": true
+  },
+  "files": [
+    {
+      "source": ".runs/run-full-integration-191.py",
+      "path": "evidence/runtime043-full191-integration-001-notes/run-full-integration-191.py",
+      "sha256": "fe0322c1b610a8aef3585eb630204a157a8a1ce41e3bbde8f3a19bd1d3a728b1",
+      "bytes": 3196
+    },
+    {
+      "source": ".runs/full-suite-local-root-019.py",
+      "path": "evidence/runtime043-full191-integration-001-notes/full-suite-local-root-019.py",
+      "sha256": "fa41a94d258e17a63272c2e3af2c58d7808b34240d6786356b9156e231d1b815",
+      "bytes": 363
+    },
+    {
+      "source": ".runs/full-integration-191/protocol.json",
+      "path": "evidence/runtime043-full191-integration-001-notes/full-integration-191/protocol.json",
+      "sha256": "abd0b567d6cd3239a758ed5de133923ed28a03a38768053ccb13100b8e0594e3",
+      "bytes": 40570
+    },
+    {
+      "source": ".runs/full-integration-191/execution.json",
+      "path": "evidence/runtime043-full191-integration-001-notes/full-integration-191/execution.json",
+      "sha256": "8c1f69a5e3a8611e8ef5c464db04bed85bffe678acc31e8b856905bc6cba803f",
+      "bytes": 1952
+    },
+    {
+      "source": ".runs/full-integration-191/command.log",
+      "path": "evidence/runtime043-full191-integration-001-notes/full-integration-191/command.log",
+      "sha256": "2d4b6e91c65117377e8efd1c043c320efc423f53651800169c616ca24b014b70",
+      "bytes": 401656
+    },
+    {
+      "source": ".runs/full-integration-191-controller.log",
+      "path": "evidence/runtime043-full191-integration-001-notes/full-integration-191-controller.log",
+      "sha256": "0a7d0e9b83ef7e3c6b34a1e68234900614585af2803cac0bbca2f700986b1827",
+      "bytes": 1752
+    },
+    {
+      "source": ".runs/full-integration-191-time.log",
+      "path": "evidence/runtime043-full191-integration-001-notes/full-integration-191-time.log",
+      "sha256": "331b1a8c91935cc97e7fbe65d0b188f637a67939327ad818b0da9dda39c3c7b0",
+      "bytes": 758
+    }
+  ],
+  "scope": "Full integration after reusable stored comparison reporter; no renewed GUI, Windows, routing quality, standalone or release qualification. Completed Native043 evidence reused. Authoring/review/retention/interactive costs additional, not zero. New raw artifacts remain Mac-only outside010; Git metadata is not a raw backup."
+}
