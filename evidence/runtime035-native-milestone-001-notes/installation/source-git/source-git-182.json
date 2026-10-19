@@ -1,0 +1,50 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.014335750020109117,
+  "cpu_seconds": 0.010506,
+  "max_rss_bytes": 7766016,
+  "supervisor_cpu_seconds": 0.004164999999999974,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 131072,
+  "sampled_peak_workdir_bytes": 2359945,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "git",
+    "--no-optional-locks",
+    "-C",
+    "/Users/faisal/Projects/KiCad-Autorouter-local",
+    "-c",
+    "core.fsmonitor=false",
+    "-c",
+    "core.hooksPath=/dev/null",
+    "cat-file",
+    "blob",
+    "9eed5842cdf7e5a9eb16ad69afde35a376cfe744"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-035/source-git-182.log",
+  "log_bytes": 11589,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-035",
+  "signal_cancellation_enabled": true,
+  "pid": 35426,
+  "log_sha256": "8d99b1b4a1bb4cd295bb41465c6a891dd9f3192e7d1603bbd98adf7b507cb04a"
+}

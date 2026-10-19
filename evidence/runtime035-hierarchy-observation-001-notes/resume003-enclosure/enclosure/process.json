@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 4.098935708054341,
+  "cpu_seconds": 3.413133,
+  "max_rss_bytes": 311181312,
+  "supervisor_cpu_seconds": 0.012387999999999996,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 245481472,
+  "sampled_peak_workdir_bytes": 169,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-035/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-035/runtime/.runs/qualify-runtime035-hierarchy-observation-003.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime035-hierarchy-observation-003/protocol.json",
+    "--protocol-sha256",
+    "906a18dd332a29e022fd6219606be6cb9e259835d69ccc865e947061b50ab302"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime035-hierarchy-observation-003/enclosure/command.log",
+  "log_bytes": 169,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime035-hierarchy-observation-003/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 47527
+}

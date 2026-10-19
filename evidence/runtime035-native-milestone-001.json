@@ -1,0 +1,350 @@
+{
+  "schema": 1,
+  "kind": "runtime035-captured-budget-display-fix-full-install-ordinary-and-invalid-native-milestone",
+  "recorded_utc": "2026-10-19T00:01:35.931650+00:00",
+  "passed": true,
+  "project_complete": false,
+  "accepted": false,
+  "production_admitted": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "7edc7229ea905e6734bf6cec8ff926a92e6a8613",
+  "runtime_manifest_sha256": "8f0c455d7db2beb64e23283081fe788cfc26ee4d49cd95c8fd152b8e45ccb677",
+  "runtime_modules": 46,
+  "runtime_immutable_files": 51,
+  "full178": {
+    "passed": true,
+    "tests": 2200,
+    "skips": 1,
+    "complete_cost": {
+      "wall_seconds": 361.32,
+      "CPU_seconds": 354.09
+    }
+  },
+  "installation": {
+    "passed": true,
+    "complete_cost": {
+      "wall_seconds": 20.84,
+      "CPU_seconds": 19.12
+    },
+    "scope": "Fresh curated product runtime/venv; existing Mac, pinned tools and local engine cache. Route/check smoke only, not six-stage delivery or actual GUI qualification.",
+    "command_cpu_scope": "Recorded CLI commands only; source-git-*.json records additional Git observations. total_cpu_seconds includes parent and all waited children, including these observations."
+  },
+  "source_regression": {
+    "scope": "Actual controlled user-visible recovery summary regression, not actual GUI qualification.",
+    "before_fix": {
+      "passed": false,
+      "tests": 2,
+      "failed_subtests": 3,
+      "complete_cost": {
+        "wall_seconds": 0.23,
+        "CPU_seconds": 0.15
+      }
+    },
+    "after_fix": {
+      "passed": true,
+      "tests": 38,
+      "complete_cost": {
+        "wall_seconds": 0.67,
+        "CPU_seconds": 0.62
+      }
+    }
+  },
+  "ordinary_controls": [
+    {
+      "case": "whole4Cu",
+      "attempt": "002",
+      "passed": true,
+      "complete_cost": {
+        "wall_seconds": 33.86,
+        "CPU_seconds": 30.93
+      },
+      "six_stages": [
+        "preview",
+        "route",
+        "review",
+        "choice",
+        "export",
+        "verify_export"
+      ],
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "protected_count": 10,
+      "source_Native_counts": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "source_hashes": {
+        "owned-four-copper-forced-inner.kicad_pcb": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+        "owned-four-copper-forced-inner.kicad_prl": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+        "owned-four-copper-forced-inner.kicad_pro": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+        "owned-four-copper-forced-inner.kicad_sch": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+      },
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 120,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 120,
+        "export": 120,
+        "whole_wall_CPU": 240,
+        "outer_watchdog": 255
+      },
+      "candidate_sha256": "ef1dbdae6c979821ce812d9b98c4e335522f169e1f4db42d7db2dde7d61c075a",
+      "route_receipt_sha256": "a15ce78fd7db3233bd45525f7fdffe3c4e8c53af0683d4ec5f8b04c60e9d2704",
+      "export_receipt_sha256": "292cfe5e7e4dc3bca26bad40513a6d57188ec2c9c840a845ed5fee5bcc650963",
+      "output_receipt_sha256": "ac6080684a9d82e02116b763d5077d700b106cf88b8bdbd8de62c1cbd653153a",
+      "protocol_sha256": "7f4e9fcf1d71e0fd8dbc81317600f0b791a1475e5e3f63890ab7f1565ac341b6",
+      "actual_GUI": false,
+      "human_review": false
+    },
+    {
+      "case": "partial2Cu",
+      "attempt": "001",
+      "passed": true,
+      "complete_cost": {
+        "wall_seconds": 29.36,
+        "CPU_seconds": 26.37
+      },
+      "six_stages": [
+        "preview",
+        "route",
+        "review",
+        "choice",
+        "export",
+        "verify_export"
+      ],
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "protected_count": 4,
+      "source_Native_counts": [
+        2,
+        0,
+        1,
+        0
+      ],
+      "source_hashes": {
+        "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+        "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+        "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+        "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+      },
+      "settings": {
+        "schema": 1,
+        "scope": "partial_completion",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90,
+        "whole_wall_CPU": 240,
+        "outer_watchdog": 255
+      },
+      "candidate_sha256": "256b20a3058e157919fc31f499680910cbd1eaaaa8f318fbac93326d685f17ce",
+      "route_receipt_sha256": "f195af23654f8c90ed5a778714b568309094fd490d562c70ecaf9e0d4a8c9d43",
+      "export_receipt_sha256": "c718a1770f4b364f86b8202e3531ae8b665e02385e97c6c977ca9fb814e1a012",
+      "output_receipt_sha256": "d5040407957010d166eee5fc95bcbfe5dc83b24ed6a75e6e55faba927d28f0c2",
+      "protocol_sha256": "7a62996c0538421ab10de00ee7a32343818e51b14502fe7580c4dfa06d6c3f0f",
+      "actual_GUI": false,
+      "human_review": false
+    }
+  ],
+  "invalid_controls": {
+    "passed": true,
+    "complete_cost": {
+      "wall_seconds": 13.58,
+      "CPU_seconds": 12.34
+    },
+    "protocol_sha256": "dabdf57c288ca987d79aa6572dfc580e8ee28b4e62daf54ec8661c8a1bb6058b",
+    "result_sha256": "a6a00e7b4d83bdefa0ea7e663fb0c5f469ce08a6ac01e5f7e5c73b0d910ac050",
+    "cases": [
+      {
+        "label": "partial-short",
+        "control_observed": true,
+        "Native_counts": [
+          0,
+          4,
+          0,
+          0
+        ],
+        "rejection": "actual original-rule full-schematic Native short",
+        "protected_routes": 4,
+        "Native_diagnostic_routing_accepted": null
+      },
+      {
+        "label": "partial-protected-width",
+        "control_observed": true,
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "rejection": "protected route changed",
+        "protected_routes": 4,
+        "Native_diagnostic_routing_accepted": true
+      }
+    ]
+  },
+  "preparation_costs": {
+    "installation_freeze": {
+      "wall_seconds": 0.29,
+      "CPU_seconds": 0.19
+    },
+    "ordinary_freeze": {
+      "wall_seconds": 0.07,
+      "CPU_seconds": 0.06
+    },
+    "invalid_freeze_with_metadata_query": {
+      "wall_seconds": 0.53,
+      "CPU_seconds": 0.42
+    },
+    "GUI076_preparation_only": {
+      "wall_seconds": 0.79,
+      "CPU_seconds": 0.66
+    }
+  },
+  "failed_invocations": {
+    "whole001": {
+      "complete_cost": {
+        "wall_seconds": 0.38,
+        "CPU_seconds": 0.32
+      },
+      "before_Native": true,
+      "empty_output_preserved": true,
+      "reason": "Relative settings path resolved under enclosure cwd; no child Route/result."
+    },
+    "whole002_preparation": {
+      "before_Native": true,
+      "measured_complete_CPU": null,
+      "reason": "Whole001 failed before Native because its relative settings path resolved under the enclosing cwd. It retained an empty output directory; preserve001.002 uses absolute protocol with unchanged source/settings/constraints/driver/caps. A preparatory assertion that the old output did not exist also failed before creating002; no Native or output was overwritten.",
+      "accounting": "Authoring/preparatory assertion CPU was not separately measured; unknown is not zero."
+    },
+    "invalid_enclosure001": {
+      "complete_cost": {
+        "wall_seconds": 0.08,
+        "CPU_seconds": 0.08
+      },
+      "before_enclosure_and_Native": true,
+      "reason": "Required --protocol-sha256 omitted; argparse refused. Corrected invocation002 is a distinct retained event."
+    }
+  },
+  "implementation": "Committed035 presentation-only GUI correction preserves captured recovery method420/export120 text across merged review/choice/export receipts. This packet qualifies full-suite/install and ordinary Native six-stage regressions plus deliberate invalid controls, not actual new GUI or recovery operation.",
+  "Native_and_original": "Own selected10.0.7 source/refill/full-schematic/all-severity/original-rule/semantic/protected proof for each ordinary Route and fresh export. Whole retains6 warnings/10 protected records; partial0 final findings/4 protected. Installer smoke has no supplied schematic and retains its original ignored checks. Deliberate short is Native rejected; locked width+1nm is separately Native-clean but protected invariant rejected. Expected source opens and every source/final warning/exclusion/ignored check remain raw; no electrical or physical approval.",
+  "historical_kind_labels": "Ordinary frozen-runtime033-ordinary-workflow and enclosing current-runtime030-ordinary-CLI are unchanged shared schema/history labels. Actual035 path/source7ed/manifest8f0/tools/candidate and controller pins are mandatory. ROOT documentation checkpoint10be is separate from immutable035 source and is not asserted to equal7ed.",
+  "GUI_gate": "GUI076 source/settings/launcher prepared only, no actual035 GUI run; actual Mac locked was reported and owner asked once. Historical034/033 evidence never qualifies035. GUI recovery display and actual repair/cancel remain new-build gates.",
+  "accounting": "Complete external exit wall and user+sys CPU are retained once for full178/install008/each ordinary attempt/each invalid invocation/freezers/GUI preparation. Nested runner/query/prepublication samples are separate raw observations, not additional sums. Installer command_cpu_seconds covers CLI commands only; its external complete exit includes waited Git observations. Curation, source authoring, AI review and unknown interactive/preparatory costs are additional, not zero. Failed callers are not routing losses or hidden first-attempt successes.",
+  "source_rights": "Project-owned generated geometry/schematic and code retain repository GPL LICENSE. Original official demo project/settings keep separately attributed CC-BY-SA-4.0 provenance through exact034 references. No private boards, local-reference, downloaded tools/apps/engine, venv, pixels, bulk data or new binary material copied.",
+  "limits": "Mac Native/install/correctness qualification only. No actual035 GUI, broader routing-quality/superiority, cleanup/speed, freshOS, relocation, standalone, Windows, human/physical, restoration or formal release claim. Independent AI review is still required; no human review fabricated.",
+  "backup_scope": "Sanitized essential text proof intended for later audited Git checkpoint. Full raw035 and excluded NUL Git logs remain on this Mac outside older full backups. This packet is not a new full artifact backup or restoration test.",
+  "references": [
+    {
+      "path": "evidence/runtime034-ordinary-install-001.json",
+      "sha256": "a72eeb6196326003182ee144630b6e774a00963a3870bd42c835a5755c3f4aee",
+      "files_index": {
+        "path": "evidence/runtime034-ordinary-install-001-notes/files.json",
+        "sha256": "08d71299754f8a549b750231bcce236384d2a2374c6ba450b35a8041e753cb41"
+      },
+      "scope": "Exact-byte deduplication only; no inherited034 qualification."
+    },
+    {
+      "path": "evidence/runtime034-native-invalid-001.json",
+      "sha256": "59be6a26b8c9f617efaa7a2e776ebf5cbb3c45c222bbe2628aa9e97e2dfad3e3",
+      "files_index": {
+        "path": "evidence/runtime034-native-invalid-001-notes/files.json",
+        "sha256": "4e02bfce94ffcf91c133404d0c517b4abaa17ee213252313a156f8ef1a46b552"
+      },
+      "scope": "Exact-byte deduplication only; no inherited034 qualification."
+    }
+  ],
+  "retention": {
+    "shared_helper": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "shared_helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "max_new_bytes": 16777216,
+    "max_new_files": 2000,
+    "preflight_new_bytes": 5384610,
+    "preflight_new_files": 885,
+    "raw_binary_git_logs_not_copied": [
+      {
+        "original": ".runs/runtime-directory-035/source-git-107.log",
+        "bytes": 410,
+        "sha256": "4d05bb48499f285c159e13f12805808bd0e14996306502ca1c868afdefe0ba98",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-118.log",
+        "bytes": 3986,
+        "sha256": "97e6a1b00ece3546f487a673c4f722181f0847c82383e0344193f97a0f2c5e8f",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-224.log",
+        "bytes": 3986,
+        "sha256": "97e6a1b00ece3546f487a673c4f722181f0847c82383e0344193f97a0f2c5e8f",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-3.log",
+        "bytes": 3986,
+        "sha256": "97e6a1b00ece3546f487a673c4f722181f0847c82383e0344193f97a0f2c5e8f",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-328.log",
+        "bytes": 410,
+        "sha256": "4d05bb48499f285c159e13f12805808bd0e14996306502ca1c868afdefe0ba98",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-339.log",
+        "bytes": 3986,
+        "sha256": "97e6a1b00ece3546f487a673c4f722181f0847c82383e0344193f97a0f2c5e8f",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-443.log",
+        "bytes": 410,
+        "sha256": "4d05bb48499f285c159e13f12805808bd0e14996306502ca1c868afdefe0ba98",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-454.log",
+        "bytes": 3986,
+        "sha256": "97e6a1b00ece3546f487a673c4f722181f0847c82383e0344193f97a0f2c5e8f",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      },
+      {
+        "original": ".runs/runtime-directory-035/source-git-558.log",
+        "bytes": 410,
+        "sha256": "4d05bb48499f285c159e13f12805808bd0e14996306502ca1c868afdefe0ba98",
+        "reason": "NUL-delimited Git output remains exact on Mac; text-only public packet excludes it."
+      }
+    ],
+    "exclusions": "Unchanged shared tree helper omits generated KiCad/engine preferences, caches, tmp and __pycache__; full raw remains local."
+  },
+  "files_index": {
+    "path": "evidence/runtime035-native-milestone-001-notes/files.json",
+    "sha256": "36a119e3a2c622b3336a920dcb414f6ef3a38151213915f715fab1da01948724"
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "kind": "runtime035-hierarchy-observation-source-and-bounded-causal-result-review",
+  "recorded_utc": "2026-10-19T00:13:25.921809+00:00",
+  "reviewer_scope": "Independent AI read-only review of another author/lead hierarchy helpers and generated003 raw observations. The reviewer authored the separate035 milestone curator, not hierarchy001/002/003. Not human engineering or physical validation.",
+  "execution": {
+    "Native_rerun": false,
+    "GUI": false,
+    "tests": false,
+    "Git": false,
+    "source_edits": false,
+    "delegation": false,
+    "review_only_Python_parse_and_hash": true
+  },
+  "source_head": "7edc7229ea905e6734bf6cec8ff926a92e6a8613",
+  "runtime_manifest_sha256": "8f0c455d7db2beb64e23283081fe788cfc26ee4d49cd95c8fd152b8e45ccb677",
+  "pins": [
+    {
+      "path": ".runs/qualify-runtime035-hierarchy-observation-002.py",
+      "sha256": "59c3d78f4df341fc723230a46d9349b98d4f79a77b8f3470c71775821aa9bd30"
+    },
+    {
+      "path": ".runs/qualify-runtime035-hierarchy-observation-003.py",
+      "sha256": "16bef76d117cbe3a206245bb88771835558cbe9a571cd6bd747bdf333f5643b5"
+    },
+    {
+      "path": ".runs/runtime035-hierarchy-observation-003/protocol.json",
+      "sha256": "906a18dd332a29e022fd6219606be6cb9e259835d69ccc865e947061b50ab302"
+    },
+    {
+      "path": ".runs/runtime-directory-035/runtime/.runs/native7-comparison-control-runtime035-hierarchy-003/result.json",
+      "sha256": "263d10940aff846c8586685c36c80e6fa4fe8221e8657cfb48b83aecdb5ca873"
+    },
+    {
+      "path": ".runs/runtime-directory-035/runtime/.runs/native7-comparison-control-runtime035-hierarchy-001/result.json",
+      "sha256": "614f96781d9326d0639f890c90a7d8f4e4ffad17968f6b4f8da2ac63e30c6865"
+    },
+    {
+      "path": ".runs/runtime-directory-035/runtime/.runs/native7-comparison-control-runtime035-hierarchy-001/observation/hierarchy.net",
+      "sha256": "c083aa89cd7911262838eb97e9a35f9e9376428cbbdd087f48f3bc35735efcb8"
+    },
+    {
+      "path": ".runs/runtime-directory-035/runtime/.runs/native7-comparison-control-runtime035-hierarchy-003/observation/native-pcb.json",
+      "sha256": "a2e2b9c59eda9dd3f15aad12ba8bc98d42f0af397f1d8eafc34be83714cd6fed"
+    },
+    {
+      "path": ".runs/runtime-directory-035/runtime/.runs/native7-comparison-control-runtime035-hierarchy-003/observation/source-full-drc.json",
+      "sha256": "5c3fdbc49d2f9cb8e8e1d5df111a5e47e061bf6cc66848da679c8f18ab8820ff"
+    },
+    {
+      "path": ".runs/runtime-directory-035/runtime/.runs/native7-comparison-control-runtime035-hierarchy-003/observation/source-full-drc-process.json",
+      "sha256": "ebfa7bde3afd0fb452471bedd9b0a24fd2a9b21eec0c678bd57e5439407d556f"
+    }
+  ],
+  "preflight": {
+    "all_24_prerequisite_hashes_current": true,
+    "original_17_source_hashes_current": true,
+    "runtime_51_immutable_files_current": true,
+    "actual_5_tool_hashes_current": true,
+    "fixed_source": ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+    "rights": "Already acquired development source, CC-BY-SA-4.0 and upstream notices, exact17-file inventory. Family independence remains unverified.",
+    "scope": "Fresh owned003 output, explicit035 selected7 tools/interpreter/source/worker/protocol pins;180s whole wall/fullCPU,178usable and15s worker publication reserve;30s sandboxed workers, existing process/owned destination/material/source fences. No engine, source writer, ordinary capability admission or floor_context10.0.0 guard bypass."
+  },
+  "preserved_failures": [
+    {
+      "case": "001",
+      "observed": "Native schematic netlist export exited0/cleanuptrue, then the strict copy check rejected its newly generated PRL. All17 original files unchanged;18-file post-export set adds only exact retained PRL. Raw001 statusfailed/control_passedfalse preserved.002/003 reuse that netlist with process/result/output/tool/source pins, explicitly without manufacturing a missing original post-export binding.",
+      "complete_external_cost": {
+        "wall_seconds": 1.93,
+        "CPU_seconds": 1.61
+      }
+    },
+    {
+      "case": "002",
+      "observed": "Lead caught a singleton tuple missing a trailing comma before execution. AST would iterate the inner3items, not1(name,argv,output) row.002 remains unchanged, no002 output or Native attempt observed.003 delta is only identity and tuple comma."
+    }
+  ],
+  "result": {
+    "status": "completed",
+    "control_passed": true,
+    "disposition": "defer",
+    "Native_counts": [
+      0,
+      24,
+      206,
+      0
+    ],
+    "Native_steps": [
+      {
+        "name": "pcb-observation",
+        "exit_code": 0,
+        "status": "success",
+        "cleanup_complete": true
+      },
+      {
+        "name": "source-full-drc",
+        "exit_code": 5,
+        "status": "nonzero_exit",
+        "cleanup_complete": true
+      }
+    ],
+    "complete_external_cost": {
+      "wall_seconds": 4.27,
+      "CPU_seconds": 3.56
+    },
+    "child_prepublication_sample": {
+      "wall_seconds": 3.57444758299971,
+      "CPU_seconds": 2.892491
+    },
+    "all_admission_flags_false": true
+  },
+  "causal_observations": {
+    "total_unknowns": 48,
+    "pad_population": {
+      "source": 327,
+      "Native": 327,
+      "unique_Native_UUIDs": 327
+    },
+    "pad_differences": {
+      "count": 47,
+      "exact_pattern": "Only net differs: literal source pad has no net child -> None; Native reports netcode0 and empty net name. No difference in reference, pad number or parent footprint UUID for these47. This demonstrates a literal observer representation mismatch, not47 changed electrical connections; it does not authorize normalizing arbitrary missing/net0 values in product acceptance."
+    },
+    "component_stamps": {
+      "component_count": 114,
+      "root_cause": "text() accepts only2-element scalar nodes.109 component tstamps nodes contain1UUID;5 contain2UUID atoms and were returned asNone. All114 sheetpath tstamps exist. Raw multiatom rows are IC1 through IC5; IC2\u20135 share the two child-symbol UUID atoms but have distinct CH1\u20134 instance UUID paths. Thus the probe incorrectly called5 present multiatom records missing; a future binder must preserve all UUID atoms and exact instance paths, not select one or flatten references."
+    },
+    "repeated_instances": "Source closure contains2schematic files and5instances (/ plus CH1\u20134). Native netlist exposes all5names with distinct channel instance UUID paths.114 Native GetPath observations succeeded.80 Native copper terminal partitions and80 exported schematic nets produce no partition/class unknown in this probe. This is raw observability only: full source-symbol/unit/path/PCB joins and malformed/ambiguous counterexamples are not qualified.",
+    "source_DRC": "24 clearance errors;206 warnings (4connection_width,1silk_edge_clearance,81lib_footprint_mismatch,4silk_over_copper,1nonmirrored_text_on_back_layer,115footprint_symbol_mismatch),0opens/0exclusions. These source diagnostics do not establish an unroutable source, routing failure, or electrically valid board. No source constraints are waived."
+  },
+  "findings": [
+    {
+      "id": "refill-wording",
+      "severity": "evidence-scope-correction",
+      "observed": true,
+      "detail": "003 report source_zone_refill_performed:false and protocol No zone refill wording conflict with actual source-full-drc argv --refill-zones. Native was asked to refill in memory; --save-board is absent and originals remain unchanged. Distinguish in-memory diagnostic refill from a saved refill/routed candidate. Preserve raw receipts; correct future authored summary without claiming a new run."
+    },
+    {
+      "id": "stage-aware-final-collector",
+      "severity": "conditional-fail-closed-diagnostic-limitation",
+      "observed": false,
+      "detail": "local_settings.check_final_events(packets,cli,pairs=...) has no stage selector. When packet.native contains schematic field findings it hardcodes final-drc-binding.json. This helper uses source-full-drc. The actual003 finding types do not trigger fields.has_fields, so003 passed and this conditional trap did not occur. No false acceptance/product defect reproduced.",
+      "existing_API": "schematic_field_evidence.check_local_settings(directory,stage,binding) is stage-aware and checks both child journals plus its field PRL event. It is not a substitute for final all-root ordering; a future diagnostic must use compatible stage naming or a reviewed shared collector extension, not suppress findings or synthesize success. No change is needed to reinterpret current003."
+    }
+  ],
+  "conclusion": "No further current003 execution blocker found. Both48unknown causes are parser/representation limitations visible in retained raw data; keep current defer and all support/production/comparison admission false. This result does not qualify hierarchy, repeated-unit binding, routing, GUI, generalized gain, fresh installation, Windows or human/physical review. No additional Native run is justified merely to rewrite these literal observations.",
+  "accounting": "001/003 complete external costs are separate; child before-publication samples are not added again. Preparation, this unmeasured read-only review/authoring, earlier qualification and curation are additional, notzero.002 never executed."
+}
