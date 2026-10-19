@@ -381,7 +381,9 @@ def _netlist_partitions(tree, schematic_source, symbols):
 def _native_map(native, source, board_raw, project_raw, project, known):
     required = {'schema', 'native_version', 'units', 'resolution', 'source',
                 'board_sha256', 'project_sha256', 'board_saved', 'nets'}
-    if (type(native) is not dict or set(native) not in (required, required | {'copper_layers'})
+    headers = (required, required | {'copper_layers'}, required | {'effective_floors_nm'},
+               required | {'copper_layers', 'effective_floors_nm'})
+    if (type(native) is not dict or set(native) not in headers
             or type(native.get('schema')) is not int or native['schema'] != 1
             or native.get('native_version') != c.NATIVE_VERSION
             or native.get('units') != 'integer nanometres'
@@ -391,6 +393,9 @@ def _native_map(native, source, board_raw, project_raw, project, known):
             or native.get('project_sha256') != _sha(project_raw)
             or native.get('board_saved') is not False):
         _fail('PCB native map schema/source/hash differs')
+    if 'effective_floors_nm' in native:
+        from .netclass_native import validate_floors
+        validate_floors(native['effective_floors_nm'], project)
     rows = native.get('nets')
     if type(rows) is not list or not 1 <= len(rows) <= MAX_NETS:
         _fail('PCB native net census outside scope')

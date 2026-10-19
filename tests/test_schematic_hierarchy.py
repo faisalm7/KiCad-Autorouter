@@ -77,6 +77,37 @@ class HierarchyBindingControls(unittest.TestCase):
         self.assertEqual(proof, self.derive())
         self.assertEqual(before, self.case)
 
+    def test_emitted_floor_extension_preserves_hierarchy_proof_and_source(self):
+        self.case['native']['effective_floors_nm'] = {
+            'min_track_width': 300000, 'min_clearance': 300000,
+            'min_via_diameter': 1500000, 'min_through_hole_diameter': 300000,
+            'min_via_annular_width': 100000}
+        before = copy.deepcopy(self.case)
+        proof = self.derive()
+        self.assertIs(proof['class_parity_qualified'], True)
+        self.assertIs(proof['accepted'], False)
+        self.assertEqual((proof['components'], proof['terminals'], proof['nets']), (5, 11, 5))
+        self.assertEqual(self.case, before)
+
+    def test_floor_extension_does_not_waive_source_floors_or_exact_header(self):
+        floors = {'min_track_width': 300000, 'min_clearance': 300000,
+                  'min_via_diameter': 1500000, 'min_through_hole_diameter': 300000,
+                  'min_via_annular_width': 100000}
+        for fault in ('source_disagrees', 'missing_floor', 'unknown_floor', 'bool',
+                      'negative', 'overflow', 'not_object', 'unknown_header', 'copper_layers'):
+            with self.subTest(fault=fault):
+                self.case = f.case()
+                observed = self.case['native']['effective_floors_nm'] = floors.copy()
+                if fault == 'source_disagrees': observed['min_track_width'] += 1
+                elif fault == 'missing_floor': del observed['min_clearance']
+                elif fault == 'unknown_floor': observed['unknown_floor'] = 0
+                elif fault == 'bool': observed['min_clearance'] = True
+                elif fault == 'negative': observed['min_clearance'] = -1
+                elif fault == 'overflow': observed['min_clearance'] = 2147483648
+                elif fault == 'not_object': self.case['native']['effective_floors_nm'] = None
+                else: self.case['native'][fault] = []
+                self.refused()
+
     def test_repeated_instance_alias_cannot_hide_behind_same_child_bytes(self):
         sx.one(self.footprint('U2'), 'path')[1] = sx.one(self.footprint('U1'), 'path')[1]
         self.refused()

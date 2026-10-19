@@ -489,12 +489,16 @@ def _netlist(tree, components, instances, schematic_source, native_version):
 def _classes(raw, source, board_raw, project_raw, project, partitions, native_version):
     native = preferences._parse(flat._raw(raw, 'native map'), MAX_BYTES)
     required = {'schema', 'native_version', 'units', 'resolution', 'source', 'board_sha256', 'project_sha256', 'board_saved', 'nets'}
-    if (type(native) is not dict or set(native) != required or type(native.get('schema')) is not int or native['schema'] != 1
+    if (type(native) is not dict or set(native) not in (required, required | {'effective_floors_nm'})
+            or type(native.get('schema')) is not int or native['schema'] != 1
             or native.get('native_version') != native_version or native.get('units') != 'integer nanometres'
             or native.get('resolution') != flat._RESOLUTION or native.get('source') != source
             or native.get('board_sha256') != flat._sha(board_raw) or native.get('project_sha256') != flat._sha(project_raw)
             or native.get('board_saved') is not False):
         _fail('native class map source/schema differs')
+    if 'effective_floors_nm' in native:
+        from .netclass_native import validate_floors
+        validate_floors(native['effective_floors_nm'], project)
     cls = project['net_settings']['classes'][0]
     priority = cls.get('priority')
     if type(priority) is not int or not 0 <= priority <= 2147483647:

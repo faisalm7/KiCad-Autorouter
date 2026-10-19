@@ -1,0 +1,46 @@
+EE
+======================================================================
+ERROR: test_emitted_floor_extension_preserves_hierarchy_proof_and_source (tests.test_schematic_hierarchy.HierarchyBindingControls.test_emitted_floor_extension_preserves_hierarchy_proof_and_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_schematic_hierarchy.py", line 86, in test_emitted_floor_extension_preserves_hierarchy_proof_and_source
+    proof = self.derive()
+            ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_schematic_hierarchy.py", line 31, in derive
+    return q.derive(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/schematic_hierarchy.py", line 575, in derive
+    classes = _classes(native_raw, source, board_raw, project_raw, project, board, native_version)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/schematic_hierarchy.py", line 497, in _classes
+    _fail('native class map source/schema differs')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/schematic_hierarchy.py", line 32, in _fail
+    raise ValueError('hierarchy parity: ' + message)
+ValueError: hierarchy parity: native class map source/schema differs
+
+======================================================================
+ERROR: test_historical_and_emitted_floor_headers_preserve_complete_class_proof (tests.test_schematic_native_floors.RuntimeFlatFloorControls.test_historical_and_emitted_floor_headers_preserve_complete_class_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_schematic_native_floors.py", line 33, in test_historical_and_emitted_floor_headers_preserve_complete_class_proof
+    result = self.derive(native)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_schematic_native_floors.py", line 23, in derive
+    return q.derive(fixture.encoded(case.netlist), case.board_raw, case.project_raw,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/schematic_classes.py", line 449, in derive
+    native_rows = _native_map(native, source, board_raw, project_raw, project, known)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/schematic_classes.py", line 393, in _native_map
+    _fail('PCB native map schema/source/hash differs')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/schematic_classes.py", line 65, in _fail
+    raise ValueError('flat class parity: ' + reason)
+ValueError: flat class parity: PCB native map schema/source/hash differs
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.079s
+
+FAILED (errors=2)
+real 0.28
+user 0.12
+sys 0.03

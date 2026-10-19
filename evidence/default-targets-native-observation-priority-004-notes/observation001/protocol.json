@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "controller_sha256": "0da7c829cd185d25ec70926ee8496c0f196d9dd9810cf7bb1b7866b51536a87b",
+  "worker_pins": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py": "fc96d647f0c2411b36969e13c1725f685039c8c108970d32b82af88fa9c0eac8",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/netclass_native.py": "5b831c87c0cda058780c8906415394206e744734337d530a5324964d34c03691",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/default_targets.py": "93f386f88f9dcf7718169ea0a8f9d858eea44c569116ba984cd87486484b12e6",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/netclass.py": "d5c3705f50c4b4a5c9a9c68b6ce91747bf44cd3e20de35370f9a2e8e16e9fb00",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+  },
+  "toolchain": {
+    "schema": 1,
+    "mode": "experimental-native-qualification",
+    "expected_version": "10.0.7",
+    "tools": {
+      "cli": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "sha256": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f"
+      },
+      "python": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "sha256": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f"
+      },
+      "pcbnew": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so",
+        "sha256": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e"
+      }
+    }
+  },
+  "cases": [
+    {
+      "label": "implicit",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/fixtures/smoke/smoke.kicad_pcb",
+      "source_hashes": {
+        "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      }
+    },
+    {
+      "label": "2Cu",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/default-floor-owned-controls-001/source-2Cu/owned-default-floor-2cu.kicad_pcb",
+      "source_hashes": {
+        "owned-default-floor-2cu.kicad_pcb": "3ab90927bf7c60879a832579c2f9af7007d0e3f96d72c8f626e64b1c20751346",
+        "owned-default-floor-2cu.kicad_prl": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "owned-default-floor-2cu.kicad_pro": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+        "owned-default-floor-2cu.kicad_sch": "3ffbee13f44f3362cda0a39dce89b0163ed34cb07b06def6abe5f7feb7d9b3d2"
+      }
+    },
+    {
+      "label": "4Cu",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/default-floor-owned-controls-001/source-4Cu/owned-default-floor-4cu.kicad_pcb",
+      "source_hashes": {
+        "owned-default-floor-4cu.kicad_pcb": "706545aaa8228aa6534af8917c14fd3f82fc734a80faf36d8773d5db0f501b9f",
+        "owned-default-floor-4cu.kicad_prl": "f0837bc12c108562e627c347a915b34b00dcc358a2c9660c8523481e70ae45d9",
+        "owned-default-floor-4cu.kicad_pro": "a16f1b0199e2e52c976b37a66f061e6981a92ba642ecdb3b43fb792f01a772cd",
+        "owned-default-floor-4cu.kicad_sch": "e0f0d69d2dcc515dffe78cc89bad12e16bd1c25ce6b27f38a1e22d82c3a2bf19"
+      }
+    }
+  ],
+  "bounds": {
+    "whole_seconds": 30,
+    "per_case_seconds": 8,
+    "RSS_bytes": 1073741824
+  },
+  "hypothesis": "Real selected7 same-load getters supply effective missing Default/floors and exactly match explicit authored fields.",
+  "decision": "Observe API precondition only; mismatch blocks installed qualification. No routing/production or electrical claim."
+}

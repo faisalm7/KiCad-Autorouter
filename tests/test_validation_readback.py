@@ -88,6 +88,16 @@ class ReadbackSession(unittest.TestCase):
                 p.check_result(self.receipt)
                 self.assertEqual(check.call_count,2)
 
+    def test_native_floor_validator_and_bounds_invalidate_reuse(self):
+        from autorouter import netclass_native
+        for name, replacement in (('validate_floors', lambda *_args, **_kwargs: {}),
+                                  ('MAX_NATIVE_INTEGER', netclass_native.MAX_NATIVE_INTEGER - 1)):
+            with self.subTest(name=name), patch.object(p,'_check_result_uncached',wraps=p._check_result_uncached) as check, p.validation_readback_session():
+                p.check_result(self.receipt)
+                with patch.object(netclass_native,name,replacement):
+                    p.check_result(self.receipt)
+                    self.assertEqual(check.call_count,2)
+
     def test_prl_metadata_and_core_helper_changes_invalidate_reuse(self):
         import os,stat,sys
         from autorouter import local_settings

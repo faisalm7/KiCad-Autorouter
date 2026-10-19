@@ -14,6 +14,7 @@ from pathlib import Path
 
 from . import board_floor as floors, netclass as nc, sexpr as sx
 from .adapter import _parse_dsn, _dump_dsn, _check_units
+from .netclass_native import validate_floors
 
 POLICY = 'single-default-global-floor-targets-v2'
 NATIVE_VERSION = '10.0.7'
@@ -188,10 +189,7 @@ def resolved_project(project, native):
             or native.get('native_version') != NATIVE_VERSION
             or native.get('units') != 'integer nanometres' or native.get('board_saved') is not False):
         raise ValueError('pinned unsaved Native Default/floor observation required')
-    observed = native.get('effective_floors_nm')
-    if (type(observed) is not dict or set(observed) != set(floors.FLOORS)
-            or any(type(v) is not int or not 0 <= v <= 2147483647 for v in observed.values())):
-        raise ValueError('complete bounded Native board floors required')
+    observed = validate_floors(native.get('effective_floors_nm'), project)
     result = copy.deepcopy(project)
     def object_at(parent, key):
         if key not in parent:

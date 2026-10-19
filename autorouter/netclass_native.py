@@ -12,17 +12,40 @@ FIELDS=(
 MAX_NAME_BYTES=4096
 MAX_NATIVE_INTEGER=2147483647
 
+def validate_floors(value, project=None):
+    """Copy exact observed floors and check any explicitly present source floors.
+
+    Absent source fields remain absent. This validates scalar observations only;
+    the caller must bind their Native process, source bytes and original rules.
+    """
+    from autorouter.floor_context import FLOORS
+    if type(value) is not dict:
+        raise ValueError('complete native board floor object required')
+    result=value.copy()
+    if (set(result)!=set(FLOORS)
+            or any(type(item) is not int or not 0<=item<=MAX_NATIVE_INTEGER for item in result.values())):
+        raise ValueError('complete bounded integer native board floors required')
+    if project is not None:
+        if type(project) is not dict:
+            raise ValueError('original project object required for floor comparison')
+        rules=project
+        for key in ('board','design_settings','rules'):
+            if key not in rules:
+                return result
+            rules=rules[key]
+            if type(rules) is not dict:
+                raise ValueError('malformed original floor object: '+key)
+        from autorouter.netclass import _millimetres_to_nm
+        for key in FLOORS:
+            if key in rules and _millimetres_to_nm(rules[key],allow_zero=True)!=result[key]:
+                raise ValueError('explicit source/native board floor differs: '+key)
+    return result
+
 def observe_floors(board):
     """Read hard floors from the same loaded board, including implicit values."""
     from autorouter.floor_context import FLOORS
     settings=board.GetDesignSettings()
-    result={}
-    for key,attribute in FLOORS.items():
-        value=getattr(settings,attribute)
-        if type(value) is not int or not 0<=value<=MAX_NATIVE_INTEGER:
-            raise ValueError('bounded integer native board floor required')
-        result[key]=value
-    return result
+    return validate_floors({key:getattr(settings,attribute) for key,attribute in FLOORS.items()})
 
 def _name(value):
     if (type(value) is not str or not value or len(value.encode('utf8'))>MAX_NAME_BYTES

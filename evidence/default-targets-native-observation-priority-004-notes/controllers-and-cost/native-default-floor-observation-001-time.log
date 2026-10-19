@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/probe-native-default-floor-observation-001.py", line 24, in <module>
+    observed=f.read_json(mapping);dimensions=d.source_dimensions(board.with_suffix('.kicad_pro').read_bytes(),observed)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/default_targets.py", line 246, in source_dimensions
+    project = resolved_project(project, native)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/default_targets.py", line 220, in resolved_project
+    _parents(native, cls)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/default_targets.py", line 69, in _parents
+    raise ValueError('Default parameter parent differs from raw source class')
+ValueError: Default parameter parent differs from raw source class
+real 1.68
+user 1.07
+sys 0.27

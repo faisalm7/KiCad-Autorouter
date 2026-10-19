@@ -2560,12 +2560,12 @@ def validation_readback_session():
     Hot replacement of checker functions invalidates reuse. No disk cache exists.
     """
     from . import (adapter,board_floor,default_targets,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
-                   native_edge,netclass,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
+                   native_edge,netclass,netclass_native,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
                    schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
     import sys
     modules=(sys.modules[__name__],c,sx,adapter,board_floor,default_targets,engine_angle,floor_context,
-             floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,placement_clearance,
+             floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,netclass_native,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
     existing=_readback_session.get()

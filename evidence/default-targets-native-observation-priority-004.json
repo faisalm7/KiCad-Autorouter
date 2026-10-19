@@ -1,0 +1,532 @@
+{
+  "schema": 1,
+  "kind": "Native-Default-floor-API-observation-and-priority-sentinel-correction",
+  "recorded_utc": "2026-10-19T09:13:28.068640+00:00",
+  "accepted": false,
+  "routing_accepted": false,
+  "production_qualified": false,
+  "Native_routing_qualified": false,
+  "installed_qualified": false,
+  "actual_GUI": false,
+  "project_complete": false,
+  "human_review": false,
+  "Native_qualified": false,
+  "limited_Native_export_scalar_precondition_passed": true,
+  "Native_export_invocations": 3,
+  "toolchain": {
+    "schema": 1,
+    "mode": "experimental-native-qualification",
+    "expected_version": "10.0.7",
+    "tools": {
+      "cli": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "sha256": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f"
+      },
+      "python": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "sha256": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f"
+      },
+      "pcbnew": {
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so",
+        "sha256": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e"
+      }
+    }
+  },
+  "current_source_sha256": {
+    "autorouter/default_targets.py": "5d3d514108944af63438e5f24b4a0f0384be28260d84107d8e60dbcf8ac089c2",
+    "autorouter/native.py": "fc96d647f0c2411b36969e13c1725f685039c8c108970d32b82af88fa9c0eac8",
+    "autorouter/netclass.py": "d5c3705f50c4b4a5c9a9c68b6ce91747bf44cd3e20de35370f9a2e8e16e9fb00",
+    "autorouter/netclass_native.py": "5b831c87c0cda058780c8906415394206e744734337d530a5324964d34c03691",
+    "autorouter/pipeline.py": "db4b1331ad319c8960ca693366ae74f544932006f140485c89eb29664a5bb1ed",
+    "autorouter/review_export.py": "f0de388ab7848cd410314f46e71e333022fed457d636ab20f5ba71384af3d2df",
+    "tests/test_default_target_integration.py": "3ef5543520ce52ea804a2268c4cfe8e7c532dee352c83825318da25557d31b5b",
+    "tests/test_default_targets.py": "a97adb07c7178c1a2d523df884a8141be69b8a67048bbdd9e43ed7aac85f2ea6",
+    "tests/test_netclass_native.py": "a021bc97839c6207f073fe5e30f5761487b0ce9939013a040de8921011041503"
+  },
+  "changed_source_sha256": {
+    "autorouter/default_targets.py": "5d3d514108944af63438e5f24b4a0f0384be28260d84107d8e60dbcf8ac089c2",
+    "tests/test_default_targets.py": "a97adb07c7178c1a2d523df884a8141be69b8a67048bbdd9e43ed7aac85f2ea6"
+  },
+  "observation001": {
+    "status": "failed in pure2Cu resolver after two successful Native exports",
+    "error": "Default parameter parent differs from raw source class",
+    "implicit_scalar_resolution_completed": true,
+    "owned2Cu_export_completed": true,
+    "four_copper": "NOTRUN",
+    "result_published": false,
+    "final_source_tool_checks_reached": false,
+    "failed_case_source_check_reached": false,
+    "complete_external_cost": {
+      "wall_seconds": 1.68,
+      "CPU_seconds": 1.34
+    }
+  },
+  "observation002": {
+    "observation_passed": true,
+    "reused_exports": [
+      "implicit",
+      "2Cu"
+    ],
+    "only_new_Native_export": "4Cu",
+    "source_hash_checks_completed": 3,
+    "original_and_copied_sources_unchanged": true,
+    "complete_external_cost": {
+      "wall_seconds": 0.74,
+      "CPU_seconds": 0.64
+    },
+    "sampled_wall_seconds": 0.695498708053492,
+    "sampled_full_CPU_seconds": 0.617372
+  },
+  "cases": [
+    {
+      "label": "implicit",
+      "Native_export_invocation": 1,
+      "reused_in_002": true,
+      "source": "fixtures/smoke/smoke.kicad_pcb",
+      "source_hashes": {
+        "smoke.kicad_pcb": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+        "smoke.kicad_prl": "6f5f01de80cb5c992a05bb78b8cb399aa0fb4f8331c514f54674e9cc5918d4f6",
+        "smoke.kicad_pro": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643"
+      },
+      "source_unchanged_verified_in002": true,
+      "current_original_and_copied_source_hashes_match": true,
+      "native_nets": 3,
+      "map_sha256": "381d218475fadc18d354e7730f2dcec17645bd88d6d13da059271fbccfb9e321",
+      "dsn_sha256": "eb4ac15260baae9942a99d0996a3f19dd7d6141a826ccfd14f45dca4a042dd31",
+      "process_sha256": "cfe0e25543051b388055a940ba21af68b49f4b12edc98b7b3100b4a20d523b83",
+      "board_sha256": "618b0b1d23f082283a5136b514ff64ee54b3a058f068689bf64668a436d7c5ea",
+      "project_sha256": "3f9da762b787baeb0ad1a91ee327990ba35e49d71b4002c435939ec5ad398643",
+      "board_saved": false,
+      "priorities": [
+        2147483647
+      ],
+      "dimensions": {
+        "raw_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "original_floors_nm": {
+          "min_track_width": 200000,
+          "min_clearance": 0,
+          "min_via_diameter": 500000,
+          "min_through_hole_diameter": 300000,
+          "min_via_annular_width": 100000
+        },
+        "derived_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        }
+      },
+      "dimension_resolution": {
+        "native_floor_observation_required": true,
+        "implicit_class_fields": [
+          "track_width",
+          "clearance",
+          "via_diameter",
+          "via_drill"
+        ],
+        "implicit_floor_fields": [
+          "min_track_width",
+          "min_clearance",
+          "min_via_diameter",
+          "min_through_hole_diameter",
+          "min_via_annular_width"
+        ],
+        "original_project_modified": false
+      },
+      "Native_process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.9600776250008494,
+        "cpu_seconds": 0.683531,
+        "max_rss_bytes": 247824384,
+        "supervisor_cpu_seconds": 0.006940000000000002,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 141295616,
+        "sampled_peak_workdir_bytes": 31386,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 16777216,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+          "--experimental-native",
+          "{\"expected_version\": \"10.0.7\", \"mode\": \"experimental-native-qualification\", \"schema\": 1, \"tools\": {\"cli\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli\", \"sha256\": \"0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f\"}, \"pcbnew\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so\", \"sha256\": \"610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e\"}, \"python\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9\", \"sha256\": \"fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f\"}}}",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/implicit/source/smoke.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/implicit/native.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/implicit/native-map.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/implicit/native.log",
+        "log_bytes": 99,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/implicit",
+        "signal_cancellation_enabled": true,
+        "pid": 25437
+      },
+      "scope": "Loaded-board export/map plus source scalar resolution only; not Native DRC/Route qualification."
+    },
+    {
+      "label": "2Cu",
+      "Native_export_invocation": 1,
+      "reused_in_002": true,
+      "source": ".runs/default-floor-owned-controls-001/source-2Cu/owned-default-floor-2cu.kicad_pcb",
+      "source_hashes": {
+        "owned-default-floor-2cu.kicad_pcb": "3ab90927bf7c60879a832579c2f9af7007d0e3f96d72c8f626e64b1c20751346",
+        "owned-default-floor-2cu.kicad_prl": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "owned-default-floor-2cu.kicad_pro": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+        "owned-default-floor-2cu.kicad_sch": "3ffbee13f44f3362cda0a39dce89b0163ed34cb07b06def6abe5f7feb7d9b3d2"
+      },
+      "source_unchanged_verified_in002": true,
+      "current_original_and_copied_source_hashes_match": true,
+      "native_nets": 3,
+      "map_sha256": "8d627b7a865661792b1cd3a2bed6af8a6b0f72891c2487d4ad2f260f3031705b",
+      "dsn_sha256": "47fadcac04caa39670f5a80f49d3fba36e6f6d915645e48b9c1682dc338283e7",
+      "process_sha256": "c741d7cbf4a7f46840988f581f5ace41ea3da6bf7a037db38a86e8a77010fe82",
+      "board_sha256": "3ab90927bf7c60879a832579c2f9af7007d0e3f96d72c8f626e64b1c20751346",
+      "project_sha256": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+      "board_saved": false,
+      "priorities": [
+        -1
+      ],
+      "dimensions": {
+        "raw_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 100000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "original_floors_nm": {
+          "min_track_width": 300000,
+          "min_clearance": 200000,
+          "min_via_diameter": 900000,
+          "min_through_hole_diameter": 400000,
+          "min_via_annular_width": 250000
+        },
+        "derived_nm": {
+          "width_nm": 300000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 900000,
+          "via_drill_nm": 400000
+        }
+      },
+      "dimension_resolution": {
+        "native_floor_observation_required": true,
+        "implicit_class_fields": [],
+        "implicit_floor_fields": [],
+        "original_project_modified": false
+      },
+      "Native_process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.39633604197297245,
+        "cpu_seconds": 0.384976,
+        "max_rss_bytes": 195428352,
+        "supervisor_cpu_seconds": 0.003394000000000008,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 85032960,
+        "sampled_peak_workdir_bytes": 40201,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 16777216,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+          "--experimental-native",
+          "{\"expected_version\": \"10.0.7\", \"mode\": \"experimental-native-qualification\", \"schema\": 1, \"tools\": {\"cli\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli\", \"sha256\": \"0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f\"}, \"pcbnew\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so\", \"sha256\": \"610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e\"}, \"python\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9\", \"sha256\": \"fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f\"}}}",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/2Cu/source/owned-default-floor-2cu.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/2Cu/native.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/2Cu/native-map.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/2Cu/native.log",
+        "log_bytes": 99,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-001/2Cu",
+        "signal_cancellation_enabled": true,
+        "pid": 25447
+      },
+      "scope": "Loaded-board export/map plus source scalar resolution only; not Native DRC/Route qualification."
+    },
+    {
+      "label": "4Cu",
+      "Native_export_invocation": 2,
+      "reused_in_002": false,
+      "source": ".runs/default-floor-owned-controls-001/source-4Cu/owned-default-floor-4cu.kicad_pcb",
+      "source_hashes": {
+        "owned-default-floor-4cu.kicad_pcb": "706545aaa8228aa6534af8917c14fd3f82fc734a80faf36d8773d5db0f501b9f",
+        "owned-default-floor-4cu.kicad_prl": "f0837bc12c108562e627c347a915b34b00dcc358a2c9660c8523481e70ae45d9",
+        "owned-default-floor-4cu.kicad_pro": "a16f1b0199e2e52c976b37a66f061e6981a92ba642ecdb3b43fb792f01a772cd",
+        "owned-default-floor-4cu.kicad_sch": "e0f0d69d2dcc515dffe78cc89bad12e16bd1c25ce6b27f38a1e22d82c3a2bf19"
+      },
+      "source_unchanged_verified_in002": true,
+      "current_original_and_copied_source_hashes_match": true,
+      "native_nets": 3,
+      "map_sha256": "6f722653d7786a0a78d44637da0e61439ec8dc231ad4ac4fdacbe8a0fe766297",
+      "dsn_sha256": "3050c213feedfc2f749978bdd01e6d2e94cda7d00330bf5a00106f56ac36a86a",
+      "process_sha256": "07b61664138a064ad026edbbfce508974c86483a2e50969a06f29b75c99a8e7f",
+      "board_sha256": "706545aaa8228aa6534af8917c14fd3f82fc734a80faf36d8773d5db0f501b9f",
+      "project_sha256": "a16f1b0199e2e52c976b37a66f061e6981a92ba642ecdb3b43fb792f01a772cd",
+      "board_saved": false,
+      "priorities": [
+        -1
+      ],
+      "dimensions": {
+        "raw_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 100000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "original_floors_nm": {
+          "min_track_width": 300000,
+          "min_clearance": 200000,
+          "min_via_diameter": 900000,
+          "min_through_hole_diameter": 400000,
+          "min_via_annular_width": 250000
+        },
+        "derived_nm": {
+          "width_nm": 300000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 900000,
+          "via_drill_nm": 400000
+        }
+      },
+      "dimension_resolution": {
+        "native_floor_observation_required": true,
+        "implicit_class_fields": [],
+        "implicit_floor_fields": [],
+        "original_project_modified": false
+      },
+      "Native_process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.46455216594040394,
+        "cpu_seconds": 0.424779,
+        "max_rss_bytes": 195706880,
+        "supervisor_cpu_seconds": 0.003906999999999994,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 51838976,
+        "sampled_peak_workdir_bytes": 41202,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 16777216,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/native.py",
+          "--experimental-native",
+          "{\"expected_version\": \"10.0.7\", \"mode\": \"experimental-native-qualification\", \"schema\": 1, \"tools\": {\"cli\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli\", \"sha256\": \"0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f\"}, \"pcbnew\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so\", \"sha256\": \"610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e\"}, \"python\": {\"path\": \"/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9\", \"sha256\": \"fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f\"}}}",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-002/4Cu/source/owned-default-floor-4cu.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-002/4Cu/native.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-002/4Cu/native-map.json"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-002/4Cu/native.log",
+        "log_bytes": 99,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native-default-floor-observation-002/4Cu",
+        "signal_cancellation_enabled": true,
+        "pid": 26770
+      },
+      "scope": "Loaded-board export/map plus source scalar resolution only; not Native DRC/Route qualification."
+    }
+  ],
+  "source_delta": "Allow Native parent priority-1 only if original sole-Default source priority is absent. Explicit0..INTMAX exactness, scalar types/values and all-row/all-field unanimity remain mandatory; no source writeback.",
+  "targeted": {
+    "tests": 39,
+    "passed": true,
+    "unittest_seconds": 1.281,
+    "complete_external_cost": {
+      "wall_seconds": 1.45,
+      "CPU_seconds": 1.36
+    },
+    "scope": "Constructed source guards; not Native routing or installed qualification."
+  },
+  "pure_actual_input_replay": {
+    "passed": true,
+    "result_sha256": "970333c50d5e2058385cf966cbe48bc7daf356c29808bb053c5ef1fbab7df361",
+    "helper_sha256": "5d3d514108944af63438e5f24b4a0f0384be28260d84107d8e60dbcf8ac089c2",
+    "observation_receipt_sha256": "cad010474abf7bedba3e4f3861a92a7e6070055bebc3688369eae2fe19a57982",
+    "cases": [
+      {
+        "label": "implicit",
+        "input_sha256": "eb4ac15260baae9942a99d0996a3f19dd7d6141a826ccfd14f45dca4a042dd31",
+        "output_sha256": "a1acd428dc0b27a222ac89af749ce54c0905cbc0815e702badbb1b70d66ce4bd",
+        "derived_nm": {
+          "width_nm": 200000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 600000,
+          "via_drill_nm": 300000
+        },
+        "input_unchanged": true
+      },
+      {
+        "label": "2Cu",
+        "input_sha256": "47fadcac04caa39670f5a80f49d3fba36e6f6d915645e48b9c1682dc338283e7",
+        "output_sha256": "2781fe03a2b6d11a167e2e378b0964fc2d4ec8f414ab50eff9d946db87c23569",
+        "derived_nm": {
+          "width_nm": 300000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 900000,
+          "via_drill_nm": 400000
+        },
+        "input_unchanged": true
+      },
+      {
+        "label": "4Cu",
+        "input_sha256": "3050c213feedfc2f749978bdd01e6d2e94cda7d00330bf5a00106f56ac36a86a",
+        "output_sha256": "bf67488090d9eb349d6bf7718f6b48295c2aeb9e8ef071ec057ab737654f8d53",
+        "derived_nm": {
+          "width_nm": 300000,
+          "clearance_nm": 200000,
+          "via_diameter_nm": 900000,
+          "via_drill_nm": 400000
+        },
+        "input_unchanged": true
+      }
+    ],
+    "complete_external_cost": {
+      "wall_seconds": 0.14,
+      "CPU_seconds": 0.1
+    },
+    "new_Native_invocations": 0,
+    "retention_limit": "JSON/log/time and input/output hashes retained; separate replay controller and transformed-output DSN bytes not included.",
+    "scope": "Pure transform/check on retained actual inputs; not routing/import/refill/DRC/install qualification."
+  },
+  "fixture_preparation": {
+    "preparation001": "Failed pure ID/name-pair assertion before any project creation; original source retained.",
+    "preparation002": "Reused still-empty owned root; generated two paired GPL fixtures without Native.",
+    "construction_sha256": "8e4576d8e7be9a2cff0ff3625ae5de3856657d6861f645a71aeb88728056a06b",
+    "generator_sha256": "2da361d70fe5f7320594f98de8f653f16dd12073e00b2ff7affdd1b5d2795432",
+    "failed001_cost": {
+      "wall_seconds": 0.36,
+      "CPU_seconds": 0.11
+    },
+    "successful002_cost": {
+      "wall_seconds": 0.12,
+      "CPU_seconds": 0.1
+    },
+    "independent_benchmark_families": false,
+    "actual_required_via_routing": "NOTRUN"
+  },
+  "review": {
+    "path": ".runs/default-targets-priority-sentinel-review-001.json",
+    "sha256": "7b558e4f3a315923ce4ec00efeabb5df8c670d0793925a184bfbe8733cd28e1f",
+    "findings": [],
+    "disposition": "No concrete false-acceptance or compatibility blocker found in this narrow delta. Prior owned2Cu -1 refusal is addressed at the pure source-contract level; installed Native qualification remains pending.",
+    "current_source_pins_match": true,
+    "human_review": false
+  },
+  "unchanged_four_copper_harness": {
+    "sha256": "3e94625367d269103df9875953c1bb5ebf60a8e873b43f784aec2fe0f40302da",
+    "packet": "evidence/default-targets-full182-harness-failure-001.json",
+    "retested_in_this_slice": false
+  },
+  "stages_not_run": [
+    "Route/engine",
+    "session import",
+    "zone refill",
+    "Native DRC/fullSCH parity",
+    "install011/runtime038",
+    "GUI",
+    "invalid/cancel/delivery qualification"
+  ],
+  "accounting": "Complete external costs are separate actual events. Nested/reused Native process costs are observations only and are not added again. Review/authoring/curation costs additional unmetered, notzero.",
+  "remaining": [
+    "Fresh complete source full suite",
+    "Isolated selected7 installation/smoke",
+    "Actual guided2/4Cu Route/import/refill/final/fullSCH/source/protected/floor and invalid/cancel/export controls",
+    "Fresh GUI for changed build and other broader project gates"
+  ],
+  "dependencies": [
+    {
+      "path": "evidence/default-targets-implicit-resolution-003.json",
+      "sha256": "7d4dca7a75c0d17712f4ef6c758a372773d9e62d100adb88f5dab0879bed6bc6",
+      "files_index": {
+        "path": "evidence/default-targets-implicit-resolution-003-notes/files.json",
+        "sha256": "81f9a6b460276a2f15b6cbca850be51d2275ded64ddfed4d8af8081d78bb4feb"
+      }
+    },
+    {
+      "path": "evidence/default-targets-full182-harness-failure-001.json",
+      "sha256": "88f51f0500d9ef775aeaa3be6d30ea6a92a53b135db18143b0bedd55d3d4664f",
+      "files_index": {
+        "path": "evidence/default-targets-full182-harness-failure-001-notes/files.json",
+        "sha256": "18950566023d5966610efe5a0182900bbc8d7e09cc70ca7e333492f817c46156"
+      }
+    }
+  ],
+  "rights": {
+    "grant": "GPL-3.0-or-later factory and generated designs",
+    "retained_LICENSE": "evidence/runtime036-native-prerequisites-failure-001-notes/runtime036/immutable/LICENSE",
+    "LICENSE_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "inputs": "Project-owned generated fixtures and owned smoke source only; no private or third-party CAD payload."
+  },
+  "curation_helper": {
+    "path": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1"
+  },
+  "retention": {
+    "new_payload_files": 49,
+    "new_payload_bytes": 259457,
+    "material_occurrences": 86,
+    "no_original_edits": true,
+    "no_Native_tests_build_GUI_CI_network_Git_execution": true
+  },
+  "files_index": {
+    "path": "evidence/default-targets-native-observation-priority-004-notes/files.json",
+    "sha256": "6033f7c06671e13f65165b521a6447a7d3be5b3443bdcafcb44246dbf033eb77"
+  }
+}

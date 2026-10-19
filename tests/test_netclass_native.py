@@ -26,6 +26,51 @@ class NativeClass:
   raise AssertionError('unpermitted class API: '+method)
 
 class ScalarClassGuards(unittest.TestCase):
+ def test_floor_validator_requires_exact_keys_integer_bounds_and_detached_result(self):
+  from autorouter.floor_context import FLOORS
+  value=dict.fromkeys(FLOORS,100000);before=value.copy()
+  result=n.validate_floors(value)
+  self.assertEqual(result,before);self.assertIsNot(result,value)
+  result['min_clearance']=0;self.assertEqual(value,before)
+  for wrong in (None,[],dict(list(value.items())[1:]),{**value,'unknown_floor':100000}):
+   with self.subTest(shape=wrong),self.assertRaises(ValueError):n.validate_floors(wrong)
+  for wrong in (True,False,-1,1.0,float('nan'),float('inf'),None,'100000',n.MAX_NATIVE_INTEGER+1):
+   with self.subTest(value=wrong),self.assertRaises(ValueError):
+    n.validate_floors({**value,'min_clearance':wrong})
+  for boundary in (0,n.MAX_NATIVE_INTEGER):
+   self.assertEqual(n.validate_floors(dict.fromkeys(FLOORS,boundary)),dict.fromkeys(FLOORS,boundary))
+ def test_floor_validator_compares_every_present_source_floor_without_changing_project(self):
+  from autorouter.floor_context import FLOORS
+  value=dict.fromkeys(FLOORS,100000)
+  project={'board':{'design_settings':{'rules':dict.fromkeys(FLOORS,.1)}}}
+  before=copy.deepcopy(project)
+  self.assertEqual(n.validate_floors(value,project),value);self.assertEqual(project,before)
+  for key in FLOORS:
+   wrong=copy.deepcopy(project);wrong['board']['design_settings']['rules'][key]=.100001
+   with self.subTest(floor=key),self.assertRaises(ValueError):n.validate_floors(value,wrong)
+  zero={'board':{'design_settings':{'rules':{'min_clearance':0}}}}
+  self.assertEqual(n.validate_floors({**value,'min_clearance':0},zero)['min_clearance'],0)
+ def test_floor_validator_leaves_absent_source_containers_and_fields_absent(self):
+  from autorouter.floor_context import FLOORS
+  value=dict.fromkeys(FLOORS,100000)
+  for project in ({},{'board':{}},{'board':{'design_settings':{}}},
+                  {'board':{'design_settings':{'rules':{}}}},
+                  {'board':{'design_settings':{'rules':{'min_track_width':.1,'unrelated_rule':'retained'}}}}):
+   before=copy.deepcopy(project)
+   with self.subTest(project=project):
+    self.assertEqual(n.validate_floors(value,project),value);self.assertEqual(project,before)
+ def test_floor_validator_refuses_malformed_present_source_objects_or_scalars(self):
+  from autorouter.floor_context import FLOORS
+  value=dict.fromkeys(FLOORS,100000)
+  for wrong in ([],False,0,'project'):
+   with self.subTest(project=wrong),self.assertRaises(ValueError):n.validate_floors(value,wrong)
+  for wrong in (None,[],False,0,'object'):
+   for project in ({'board':wrong},{'board':{'design_settings':wrong}},
+                   {'board':{'design_settings':{'rules':wrong}}}):
+    with self.subTest(container=project),self.assertRaises(ValueError):n.validate_floors(value,project)
+  for wrong in (True,False,None,-.1,float('nan'),float('inf'),'.1',.1000001):
+   project={'board':{'design_settings':{'rules':{'min_track_width':wrong}}}}
+   with self.subTest(scalar=wrong),self.assertRaises(ValueError):n.validate_floors(value,project)
  def test_floor_observation_uses_loaded_settings_and_rejects_malformed_values(self):
   from types import SimpleNamespace
   from autorouter.floor_context import FLOORS

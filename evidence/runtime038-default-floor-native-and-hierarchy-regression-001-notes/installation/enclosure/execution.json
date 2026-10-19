@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "actual-revised-distribution-native-smoke",
+  "passed": true,
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "protocol_sha256": "0ec657a03a884bbfcb45b18ac30cf54c152b6a16048701cf59de78ed483d4910",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 22.77245212509297,
+    "cpu_seconds": 20.509642,
+    "max_rss_bytes": 245284864,
+    "supervisor_cpu_seconds": 0.06217,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 46039040,
+    "sampled_peak_workdir_bytes": 136,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 1048576,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/install_smoke.py",
+      "--source-mode",
+      "distribution",
+      "--native-version",
+      "10.0.7",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-038"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/install-distribution-native-011/enclosure/command.log",
+    "log_bytes": 136,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/install-distribution-native-011/enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 41290
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-038/result.json",
+  "child_receipt_sha256": "5d70666b3df68de880825f16f3df97133e6a89fc5bca41d6fb1c15d4bb089ceb",
+  "source_unchanged": true,
+  "complete_wall_seconds": 23.056583749945275,
+  "complete_full_CPU_seconds": 20.836752,
+  "scope": "Actual fresh curated runtime/venv, doctor, native Route and check on owned fixture; no sixstage,GUI,cleanOS,relocation,Windows or publication claim.",
+  "reason": null
+}

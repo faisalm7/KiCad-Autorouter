@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "kind": "bounded-Native-map-floor-schema-independent-AI-source-review",
+  "recorded_utc": "2026-10-19T12:40:49.844567+00:00",
+  "reviewer": "AI skeptical source review; not human PCB review",
+  "scope": "Current four-module floor-schema delta, copied-worker/package dependencies, source/hash/floor mutation boundaries, new flat/hierarchy and scalar tests, and the narrow live-readback dependency closure. No worker/test/build/GUI/CI/network or Git mutation by reviewer. Git diff/status read-only.",
+  "source_pins": {
+    "autorouter/netclass_native.py": {
+      "bytes": 4532,
+      "sha256": "885f2ccba628301a58b117ab3e0af5201fce309140c38ced3777b898cbff5932"
+    },
+    "autorouter/default_targets.py": {
+      "bytes": 19445,
+      "sha256": "fcd749643f7118488433710933578f137d58eabfa9267309f512d011fcd59f0f"
+    },
+    "autorouter/schematic_hierarchy.py": {
+      "bytes": 32560,
+      "sha256": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be"
+    },
+    "autorouter/schematic_classes.py": {
+      "bytes": 23235,
+      "sha256": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89"
+    },
+    "autorouter/pipeline.py": {
+      "bytes": 215264,
+      "sha256": "5162be1632e1148983a8234aa26f706e3e43708004e1f98680e28b1fdb8ba3b4"
+    },
+    "tests/test_schematic_native_floors.py": {
+      "bytes": 2869,
+      "sha256": "e87e640353a802971c94a0739907c2b0a7c6ae791f0478d85a21ab33646d9769"
+    },
+    "tests/test_schematic_hierarchy.py": {
+      "bytes": 30702,
+      "sha256": "ebb7c18cc4920107f36de09fdb8946268f58c89526fdd32c859ba763b8d2ef34"
+    },
+    "tests/test_netclass_native.py": {
+      "bytes": 10064,
+      "sha256": "2c67d443a9ee58dcdee74900adc67ae5e11dbb0be2bd821ffcf46de7840c5a0c"
+    },
+    "tests/test_validation_readback.py": {
+      "bytes": 17303,
+      "sha256": "f357e3c008d249dbe6723834758e8f326ae6c40d436d9d7096f07cdd4c824094"
+    },
+    "autorouter/native.py": {
+      "bytes": 10125,
+      "sha256": "fc96d647f0c2411b36969e13c1725f685039c8c108970d32b82af88fa9c0eac8"
+    },
+    "autorouter/floor_context.py": {
+      "bytes": 12830,
+      "sha256": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d"
+    },
+    "autorouter/netclass.py": {
+      "bytes": 33874,
+      "sha256": "d5c3705f50c4b4a5c9a9c68b6ce91747bf44cd3e20de35370f9a2e8e16e9fb00"
+    },
+    "autorouter/schematic_class_evidence.py": {
+      "bytes": 24442,
+      "sha256": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353"
+    },
+    "scripts/prepare_runtime.py": {
+      "bytes": 7359,
+      "sha256": "8590c38979075c89540c9a366324189ae2309bd72b0f6df300a6842c0900f0fc"
+    }
+  },
+  "initial_pipeline_sha256": "db4b1331ad319c8960ca693366ae74f544932006f140485c89eb29664a5bb1ed",
+  "conclusion": "One live cache dependency gap was found, reproduced by the lead, and closed by the inspected source patch and lead-owned targeted002 controls. No further concrete blocker identified in this finite review. New039 full/install/Native qualification remains required.",
+  "open_findings": [],
+  "findings": [
+    {
+      "id": "NMF-001",
+      "priority": "P2",
+      "status": "addressed by inspected source patch and root-reproduced regression controls",
+      "file": "autorouter/pipeline.py",
+      "line": 2562,
+      "problem": "New flat/hierarchy validators import netclass_native.validate_floors dynamically, but the initial validation_readback_session module set omitted netclass_native. default_targets retained a prior imported alias, so replacing the module function or its MAX_NATIVE_INTEGER could leave the live witness unchanged and reuse a prior consistency result without a full check. This violated the existing hot-policy freshness contract; no on-disk or Native false-acceptance claim is made.",
+      "reproduction": "In the existing ReadbackSession fixture, populate check_result inside validation_readback_session, patch netclass_native.validate_floors or MAX_NATIVE_INTEGER, call check_result again and require the wrapped uncached checker count to become2. Root observed1 in both subtests before the patch.",
+      "reproduction_by_reviewer": false,
+      "root_red_evidence": {
+        "path": ".runs/native-map-floor-live-identity-red-001-time.log",
+        "sha256": "6b22c32cf2eeb4f1a98281e0ca84842b855f2b4bd223167492c488475783980c",
+        "test": "test_validation_readback.ReadbackSession.test_native_floor_validator_and_bounds_invalidate_reuse",
+        "tests": 1,
+        "failed_subtests": 2,
+        "cost": {
+          "wall_seconds": 2.58,
+          "CPU_seconds": 2.39,
+          "user_seconds": 1.93,
+          "sys_seconds": 0.46
+        }
+      },
+      "fix": "Add netclass_native to both the session import and modules tuple. _readback_live_identity now observes its functions and uppercase policy bounds; both replacement modes invalidate reuse.",
+      "fixed_pipeline_sha256": "5162be1632e1148983a8234aa26f706e3e43708004e1f98680e28b1fdb8ba3b4"
+    }
+  ],
+  "assessed_contracts": [
+    {
+      "area": "Exact optional schema extension",
+      "finding": "Flat maps accept only the previous exact header sets plus effective_floors_nm; hierarchy accepts only previous nine fields or those nine plus effective_floors_nm. Unknown headers still refuse. Hierarchy still refuses copper_layers; flat four-Cu source requires its exact layer census. Missing extension preserves historical compatibility and is not an identity/route admission label."
+    },
+    {
+      "area": "Observed floor validation",
+      "finding": "validate_floors requires an exact plain dict of all five FLOORS keys and exact built-in integer0..2147483647 values. It returns a detached copy. Boolean/float/null/negative/overflow/missing/extra observations refuse. It compares every explicitly present original source floor through exact nanometre conversion; absent containers/fields stay absent, while malformed present objects/scalars refuse."
+    },
+    {
+      "area": "Original/hash/floor bindings",
+      "finding": "Flat/hierarchy consumers bind raw board/project SHA, exact source path, version, resolution and board_savedFalse before floor validation. Duplicate-key/finite byte parsing is retained. Floor validation does not change class/terminal/instance/parent/priority matching. Common class evidence replays exact source/netlist/map/process/material/PRL witnesses before and after; proof remains class-only with accepted/routing/productionFalse."
+    },
+    {
+      "area": "Default target preservation",
+      "finding": "resolved_project reuses the shared validator then makes its existing deep copy and absent-only insertion; existing scalar comparisons still repeat explicit source equality. Raw Default/original floors, exact source hashes and derived-dimension/final/export guards remain independent. The existing omitted-priority-1 scope is unchanged."
+    },
+    {
+      "area": "Worker/module imports",
+      "finding": "observe_floors calls validate_floors without project, so the Native worker takes only the existing floor_context constants path, not source-project/netclass imports. validate_floors imports netclass conversion only when project is supplied; that path has no new import-time cycle. Route code snapshots/tool provenance include all autorouter/*.py; curated runtime uses the committed package snapshot, so netclass_native/floor_context dependencies are included and hash-bound. No Native API signature/getter changes were introduced."
+    },
+    {
+      "area": "Mutable data and cache",
+      "finding": "Observed floor values are copied before checks; source parsed data is not assigned by validate_floors. Original/Native raw byte mutations still change bound hashes/material witnesses. The new live-module dependency was the one concrete gap; current source includes it in both cache identity lists."
+    }
+  ],
+  "lead_regression": {
+    "tests": 128,
+    "passed": true,
+    "path": ".runs/native-map-floor-targeted-002-time.log",
+    "sha256": "f86398f262b5ebab98613663a299d40e07fd449cee377ad2afa24adf0cca1f34",
+    "unittest_seconds": 57.222,
+    "complete_external_cost": {
+      "wall_seconds": 57.39,
+      "CPU_seconds": 55.52,
+      "user_seconds": 46.87,
+      "sys_seconds": 8.65
+    },
+    "includes_full_readback_suite": true,
+    "executed_by_reviewer": false,
+    "scope": "Lead-owned pure/constructed regression controls, not Native platform or routing proof."
+  },
+  "evidence_files": [
+    {
+      "path": ".runs/native-map-floor-live-identity-red-001-time.log",
+      "bytes": 1320,
+      "sha256": "6b22c32cf2eeb4f1a98281e0ca84842b855f2b4bd223167492c488475783980c"
+    },
+    {
+      "path": ".runs/native-map-floor-live-identity-red-001.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".runs/native-map-floor-targeted-002-time.log",
+      "bytes": 260,
+      "sha256": "f86398f262b5ebab98613663a299d40e07fd449cee377ad2afa24adf0cca1f34"
+    },
+    {
+      "path": ".runs/native-map-floor-targeted-002.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limits": [
+    "Finite source review and readback of lead-generated logs only; reviewer ran no tests, Native, route, installation, build or GUI.",
+    "No assertion that all possible malformed inputs or in-process attacks were exhaustively tested.",
+    "Historical Runtime038 hierarchy failure remains failed and unchanged; this new source requires039/full184/install012 and actual Native/GUI gates.",
+    "Class parity/recognized floor metadata is not a Native execution certificate, accepted candidate, family improvement or physical/electrical/human review."
+  ],
+  "Native_qualified": false,
+  "actual_GUI": false,
+  "production_qualified": false,
+  "human_review": false,
+  "project_complete": false
+}
