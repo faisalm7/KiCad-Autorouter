@@ -1,0 +1,380 @@
+{
+  "schema": 1,
+  "kind": "windows011-build-null-ABI-readiness-v1",
+  "passed": true,
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "Native_executed": false,
+  "actual_policy_operations": false,
+  "actual_profile_operations": false,
+  "socket_tests_performed": false,
+  "installer_executed": false,
+  "source_base_head": "580793ac6087021bf9567f764df5b9f55bfab9db",
+  "expected_source_sha": "8b7a35b574c587cdd223c1df4cee88cb4f1a6e6a",
+  "protocol_sha256": "47719c1f482aa5c124796af7083076a49b959ee968f760ad9aecd234c3b32900",
+  "compiler_process": {
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "/nologo",
+      "/W4",
+      "/WX",
+      "/O1",
+      "/MT",
+      "/LD",
+      "/DUNICODE",
+      "/D_UNICODE",
+      "/IC:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c",
+      "/FoD:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\persistent-sid-guard.obj",
+      "/FeD:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\persistent-sid-guard.dll",
+      "/link",
+      "/INCREMENTAL:NO",
+      "/IMPLIB:D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\persistent-sid-guard.lib",
+      "/PDB:D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\persistent-sid-guard.pdb",
+      "/LIBPATH:C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64",
+      "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64",
+      "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64",
+      "kernel32.lib",
+      "advapi32.lib",
+      "fwpuclnt.lib",
+      "ole32.lib"
+    ],
+    "cwd": "D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup",
+    "log": "D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\compile-guard.log",
+    "log_sha256": "1fee8acee98d1f2a8a2f7931f233a884bba7d1781a4cddeb7639194a13968cd9",
+    "status": "success",
+    "exit_code": 0,
+    "cleanup_complete": true,
+    "wall_seconds": 7.670999999999992,
+    "full_job_cpu_seconds": 1.25,
+    "process_count": 4,
+    "limits": {
+      "bytes": 134217728,
+      "rss": 2147483648,
+      "log": 262144,
+      "entries": 4000,
+      "seconds": 30
+    },
+    "os_job_memory_limit": true,
+    "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+    "setup_process_observations": {
+      "main_polls": 352,
+      "max_snapshots": 4,
+      "snapshots": [
+        {
+          "trigger": "initial",
+          "elapsed_seconds": 0.016000000000019554,
+          "main": {
+            "pid": 5960,
+            "state": "running",
+            "exit_code": null,
+            "wait_result": 258
+          },
+          "members": {
+            "status": "observed",
+            "capacity": 32,
+            "pids": [
+              5960
+            ],
+            "image_identity_observed": false,
+            "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+            "assigned_processes": 1,
+            "listed_processes": 1,
+            "truncated": false
+          },
+          "accounting_active_processes": 1,
+          "accounting_total_processes": 1,
+          "snapshots_atomic": false,
+          "status": "observed",
+          "before_termination": false,
+          "termination_reason": null
+        },
+        {
+          "trigger": "main_state_changed",
+          "elapsed_seconds": 7.6410000000000196,
+          "main": {
+            "pid": 5960,
+            "state": "exited",
+            "exit_code": 0,
+            "wait_result": 0
+          },
+          "members": {
+            "status": "observed",
+            "capacity": 32,
+            "pids": [
+              756
+            ],
+            "image_identity_observed": false,
+            "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+            "assigned_processes": 1,
+            "listed_processes": 1,
+            "truncated": false
+          },
+          "accounting_active_processes": 1,
+          "accounting_total_processes": 4,
+          "snapshots_atomic": false,
+          "status": "observed",
+          "before_termination": true,
+          "termination_reason": "compiler_main_zero_owned_cleanup"
+        }
+      ],
+      "completion_semantics_changed": true
+    },
+    "compiler_finalization": {
+      "kind": "exact-owned-C-build-main-zero-then-job-reap-v1",
+      "role": "persistent-sid-guard",
+      "main": {
+        "pid": 5960,
+        "state": "exited",
+        "exit_code": 0,
+        "wait_result": 0
+      },
+      "main_observed_elapsed_seconds": 7.6410000000000196,
+      "accounting_active_before_request": 1,
+      "member_snapshot": {
+        "status": "observed",
+        "capacity": 32,
+        "pids": [
+          756
+        ],
+        "image_identity_observed": false,
+        "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+        "assigned_processes": 1,
+        "listed_processes": 1,
+        "truncated": false
+      },
+      "termination_exit_code": 130,
+      "termination_requested": true,
+      "terminate_job_succeeded": true,
+      "remaining_members_natural_completion_claimed": false,
+      "zero_active_processes_verified": true
+    },
+    "compiler_output": {
+      "path": "D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\persistent-sid-guard.dll",
+      "role": "persistent-sid-guard",
+      "bytes": 112128,
+      "sha256": "de87db658a9d670a018d46b4b67fccec8231951107c86af492791314e144e3c2",
+      "file_id": [
+        314798265,
+        65536,
+        307
+      ],
+      "validated": true,
+      "validation_after_job_reaped": true,
+      "format": "AMD64 PE32+ DLL; actual canary controls still required"
+    },
+    "accepted": false,
+    "product_support": false,
+    "Native_admitted": false,
+    "Native_executed": false,
+    "network": {
+      "kind": "owned-setup-no-network-isolation-claim",
+      "network_isolation_claimed": false
+    },
+    "authoring": {
+      "kind": "fixed-owned-C-guard-DLL-build",
+      "guard_source_sha256": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+      "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "SDK_version": "10.0.26100.0",
+      "MSVC_version": "14.44.35207"
+    },
+    "source_tool_sha256": {
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584"
+    },
+    "setup_scope": {
+      "file_id": [
+        314798265,
+        65536,
+        303
+      ],
+      "runner_pid": 7136,
+      "runner_source_sha256": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b"
+    }
+  },
+  "NULL_ABI": {
+    "passed": true,
+    "exports_bound": [
+      "PG_AbandonAndFree",
+      "PG_Arm",
+      "PG_BeforeResume",
+      "PG_BeginCreate",
+      "PG_CheckArmed",
+      "PG_Create",
+      "PG_GetInfo",
+      "PG_Poison",
+      "PG_RegisterJob",
+      "PG_RegisterProcess",
+      "PG_RemoveWhenEmpty",
+      "PG_SealLaunches"
+    ],
+    "outcomes": [
+      {
+        "case": "Create_null_output",
+        "export": "PG_Create",
+        "expected": 87,
+        "actual": 87,
+        "passed": true
+      },
+      {
+        "case": "Create_null_SID",
+        "export": "PG_Create",
+        "expected": 1337,
+        "actual": 1337,
+        "passed": true
+      },
+      {
+        "case": "GetInfo_null_owner",
+        "export": "PG_GetInfo",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Arm_null_owner",
+        "export": "PG_Arm",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "CheckArmed_null_owner",
+        "export": "PG_CheckArmed",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RegisterJob_null_owner",
+        "export": "PG_RegisterJob",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "BeginCreate_null_owner",
+        "export": "PG_BeginCreate",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Poison_null_owner",
+        "export": "PG_Poison",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RegisterProcess_null_owner",
+        "export": "PG_RegisterProcess",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "BeforeResume_null_owner",
+        "export": "PG_BeforeResume",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "SealLaunches_null_owner",
+        "export": "PG_SealLaunches",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RemoveWhenEmpty_null_owner",
+        "export": "PG_RemoveWhenEmpty",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Abandon_null_pointer",
+        "export": "PG_AbandonAndFree",
+        "expected": 87,
+        "actual": 87,
+        "passed": true
+      },
+      {
+        "case": "Abandon_null_owner",
+        "export": "PG_AbandonAndFree",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      }
+    ],
+    "INFO_bytes": 196,
+    "INFO_offsets": {
+      "abi": 0,
+      "bytes": 4,
+      "state": 8,
+      "poisoned": 12,
+      "sublayer": 16,
+      "filters": 32,
+      "sid_bytes": 96,
+      "sid": 100,
+      "jobs": 168,
+      "processes": 172,
+      "policy_may_exist": 176,
+      "last_error": 180,
+      "abort_error": 184,
+      "pending_create": 188,
+      "pending_job": 192
+    },
+    "winmode": 2304,
+    "valid_owner_created": false,
+    "valid_SID_supplied": false,
+    "actual_policy_operations": false
+  },
+  "errors": [],
+  "scope": "Fixed owned SDK DLL build plus NULL-argument refusal ABI only. No valid guard, policy, profile, sockets or Native support.",
+  "compiler_tools": {
+    "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+    "MSVC_version": "14.44.35207",
+    "SDK_version": "10.0.26100.0",
+    "dependency_scope": "Preinstalled runner tools observed and pinned before this canary, not a product platform qualification."
+  },
+  "DLL": {
+    "path": "D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\persistent-sid-guard.dll",
+    "sha256": "de87db658a9d670a018d46b4b67fccec8231951107c86af492791314e144e3c2",
+    "file_id": [
+      314798265,
+      65536,
+      307
+    ],
+    "write_delete_sharing_denied": true
+  },
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "6821969191b65808a12fc06e877e5b213e5eceec1e2a110ddb41e31988fcd697",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "f08e7010788ac9c2bc8d0a8b928bac8ba4a0d459f47bb50c860ae5bee281e30e",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+    "scripts/windows_native_slice/windows_process.py": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b",
+    "scripts/windows_native_slice/appcontainer_canary.py": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4",
+    "scripts/windows_native_slice/appcontainer_launch.py": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+  },
+  "compiler_log": {
+    "path": "D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\compile-guard.log",
+    "bytes": 250,
+    "sha256": "1fee8acee98d1f2a8a2f7931f233a884bba7d1781a4cddeb7639194a13968cd9",
+    "printed_bytes": 250,
+    "truncated": false
+  },
+  "compiler_process_receipt_available": true,
+  "wall_seconds_before_report": 8.922000000000025,
+  "controller_CPU_seconds_before_report": 0.15625,
+  "compiler_full_job_CPU_seconds": 1.25,
+  "whole_external_exit_CPU_seconds": null,
+  "accounting": "Compiler receipt includes owned exited descendants; controller CPU and complete external exit are separate. Failed API/cleanup may lack a process receipt, not evidence of zero cost. No parent+child cost double counting or speed claim."
+}

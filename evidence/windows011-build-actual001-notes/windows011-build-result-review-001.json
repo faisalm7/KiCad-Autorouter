@@ -1,0 +1,469 @@
+{
+  "schema": 1,
+  "kind": "Windows011-build-actual001-independent-AI-result-readback",
+  "reviewer": "AI retained-result review, not human review or a new execution",
+  "decision": "Retained actual001 consistently establishes fixed DLL compile/load plus14NULL-owner ABI refusals on Windows Server2022. No discrepancy found in the reviewed hashes/chunks/receipts. It does not establish valid-owner WFP policy/lifetime/network protection or Native Windows support.",
+  "actual_run": {
+    "id": 39206502674,
+    "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39206502674",
+    "source_commit": "8b7a35b574c587cdd223c1df4cee88cb4f1a6e6a",
+    "conclusion": "success",
+    "active_job_name": "windows-guard-build",
+    "active_job_id": 117910395844,
+    "labels": [
+      "windows-2022"
+    ],
+    "runner_group_name": "GitHub Actions",
+    "OS_from_actions_log": "Microsoft Windows Server2022,10.0.20348, image windows-2022",
+    "other_jobs": [
+      {
+        "name": "windows-metadata",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "windows-isolation",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "windows-appcontainer",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "controls",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "windows-native",
+        "conclusion": "skipped"
+      }
+    ]
+  },
+  "reviewed_files": [
+    {
+      "path": ".runs/windows011-build-actual001/actions.log",
+      "bytes": 41651,
+      "sha256": "7aed1e77f9c9e7fb0f360233eac06df9b5076d10e9e4723a9e70b36fd9bea360"
+    },
+    {
+      "path": ".runs/windows011-build-actual001/readiness.json",
+      "bytes": 13526,
+      "sha256": "acaea49a65e61ee7ca75ab77446a4ed66ed85ec22c006ebce53f778a6551cd17"
+    },
+    {
+      "path": ".runs/windows011-build-actual001/enclosure.json",
+      "bytes": 964,
+      "sha256": "20f534c65371deff6291006bbbba020bd7a66a560a247e61d975b6ccd4ead417"
+    },
+    {
+      "path": ".runs/windows011-build-actual001/compile-guard.log",
+      "bytes": 250,
+      "sha256": "1fee8acee98d1f2a8a2f7931f233a884bba7d1781a4cddeb7639194a13968cd9"
+    },
+    {
+      "path": ".runs/windows011-build-actual001/status003.json",
+      "bytes": 2827,
+      "sha256": "119582c90b8d639378204a53f3f47ea0485bd24369c917a963161bdf4456c9b3"
+    },
+    {
+      "path": ".runs/windows011-build-actual001/job.json",
+      "bytes": 2257,
+      "sha256": "f1b4b1afd14677dccf01344abe7fd28163c1dac1d69ae6a525d4ca28de9f2391"
+    },
+    {
+      "path": ".runs/windows011-build-actual001/pre-dispatch.json",
+      "bytes": 3027,
+      "sha256": "0cdd0ef0f9e5fd156e182f1a5795782521c0fd4145c71a07d0fc9393f18da02e"
+    }
+  ],
+  "source_and_protocol": {
+    "authoritative_commit": "8b7a35b574c587cdd223c1df4cee88cb4f1a6e6a",
+    "protocol": {
+      "path": "scripts/windows_native_slice/persistent_guard_build_protocol.json",
+      "bytes": 2249,
+      "sha256": "47719c1f482aa5c124796af7083076a49b959ee968f760ad9aecd234c3b32900",
+      "matches_receipt_enclosure_preflight": true,
+      "source_census_equal": true
+    },
+    "source_pins": [
+      {
+        "path": "scripts/windows_native_slice/persistent_guard_build.py",
+        "bytes_at_actual_commit": 15036,
+        "actual_git_sha256": "6821969191b65808a12fc06e877e5b213e5eceec1e2a110ddb41e31988fcd697",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "d716207fefa5009122965cd28698aab8aa1d482481c044cf0e3197e60a7f1f1e",
+        "current_matches_actual_at_review": false
+      },
+      {
+        "path": "scripts/windows_native_slice/persistent_guard_build.ps1",
+        "bytes_at_actual_commit": 6948,
+        "actual_git_sha256": "f08e7010788ac9c2bc8d0a8b928bac8ba4a0d459f47bb50c860ae5bee281e30e",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "f08e7010788ac9c2bc8d0a8b928bac8ba4a0d459f47bb50c860ae5bee281e30e",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+        "bytes_at_actual_commit": 20931,
+        "actual_git_sha256": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": "scripts/windows_native_slice/windows_process.py",
+        "bytes_at_actual_commit": 30612,
+        "actual_git_sha256": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "17bdce157f03358cca49393823bc59a7cd9d935fd8fbcc8ba87a7a5bae6df99b",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_canary.py",
+        "bytes_at_actual_commit": 13678,
+        "actual_git_sha256": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "3fe1f3fac7a020b521728edd1c080fa6de91b323eae23f5df9ece458f812eda4",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_launch.py",
+        "bytes_at_actual_commit": 25595,
+        "actual_git_sha256": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "7c64fb4a7ac368e506bf88973bc1f47c5ee046316617c0fc0ed17aea4956f55d",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_probe.c",
+        "bytes_at_actual_commit": 7296,
+        "actual_git_sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_dns.py",
+        "bytes_at_actual_commit": 505,
+        "actual_git_sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": "scripts/windows_native_slice/appcontainer_diagnostic.ps1",
+        "bytes_at_actual_commit": 2063,
+        "actual_git_sha256": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+        "matches_actual_report": true,
+        "LF_bytes_at_actual_commit": true,
+        "current_sha256_at_review": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": ".gitattributes",
+        "bytes_at_actual_commit": 494,
+        "actual_git_sha256": "de71165fdcc48e8b90ae70267fe7bd50db23eb32d0f00aa6625b0ef3220de48c",
+        "current_sha256_at_review": "de71165fdcc48e8b90ae70267fe7bd50db23eb32d0f00aa6625b0ef3220de48c",
+        "current_matches_actual_at_review": true
+      },
+      {
+        "path": ".github/workflows/manual-python-controls.yml",
+        "bytes_at_actual_commit": 4148,
+        "actual_git_sha256": "9a4baebbf6002a5a7e4623131d077b972488947d1179f29d597e65c8a8edca9c",
+        "current_sha256_at_review": "9a4baebbf6002a5a7e4623131d077b972488947d1179f29d597e65c8a8edca9c",
+        "current_matches_actual_at_review": true
+      }
+    ],
+    "current_source_note": "Current hashes are a review-time comparison only. Immutable git8b7 plus actual reported pins define actual001; any later bind_library/source draft is prospective and does not requalify these bytes."
+  },
+  "log_and_receipt_integrity": {
+    "compiler_chunks": 1,
+    "chunk_indexes_contiguous_unique": true,
+    "base64_strict_decode": true,
+    "reconstructed_matches_saved_bytes": true,
+    "compiler_log_bytes": 250,
+    "compiler_log_sha256": "1fee8acee98d1f2a8a2f7931f233a884bba7d1781a4cddeb7639194a13968cd9",
+    "truncated": false,
+    "compiler_and_controller_log_hashes_equal": true,
+    "readiness_JSON_equals_actions_printed_object": true,
+    "enclosure_JSON_equals_actions_printed_object": true,
+    "compiler_log_content": "Source basename and MSVC creation of owned LIB/EXP only; no warning/error or hidden diagnostic truncation observed."
+  },
+  "compiler_actual": {
+    "MSVC_and_SDK": {
+      "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "MSVC_version": "14.44.35207",
+      "SDK_version": "10.0.26100.0",
+      "dependency_scope": "Preinstalled runner tools observed and pinned before this canary, not a product platform qualification."
+    },
+    "exact_argv_count": 27,
+    "flags": [
+      "/W4",
+      "/WX",
+      "/O1",
+      "/MT",
+      "/LD"
+    ],
+    "authoring": {
+      "kind": "fixed-owned-C-guard-DLL-build",
+      "guard_source_sha256": "f2276f0953988ff31043cd489a0e0f9246880b894a7892ae0141080fae7cb584",
+      "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "SDK_version": "10.0.26100.0",
+      "MSVC_version": "14.44.35207"
+    },
+    "status": "success",
+    "exit_code": 0,
+    "main_exit_zero_observed_seconds": 7.6410000000000196,
+    "controller_owned_remainder_finalization": {
+      "kind": "exact-owned-C-build-main-zero-then-job-reap-v1",
+      "role": "persistent-sid-guard",
+      "main": {
+        "pid": 5960,
+        "state": "exited",
+        "exit_code": 0,
+        "wait_result": 0
+      },
+      "main_observed_elapsed_seconds": 7.6410000000000196,
+      "accounting_active_before_request": 1,
+      "member_snapshot": {
+        "status": "observed",
+        "capacity": 32,
+        "pids": [
+          756
+        ],
+        "image_identity_observed": false,
+        "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+        "assigned_processes": 1,
+        "listed_processes": 1,
+        "truncated": false
+      },
+      "termination_exit_code": 130,
+      "termination_requested": true,
+      "terminate_job_succeeded": true,
+      "remaining_members_natural_completion_claimed": false,
+      "zero_active_processes_verified": true
+    },
+    "cumulative_process_count": 4,
+    "process_count_is_not_remaining_count": true,
+    "wall_seconds": 7.670999999999992,
+    "full_job_CPU_seconds": 1.25,
+    "cleanup_complete": true,
+    "output": {
+      "path": "D:\\a\\_temp\\kicad-appcontainer007-31267eca9c4a439a81d7317ecc09989d-setup\\persistent-sid-guard.dll",
+      "role": "persistent-sid-guard",
+      "bytes": 112128,
+      "sha256": "de87db658a9d670a018d46b4b67fccec8231951107c86af492791314e144e3c2",
+      "file_id": [
+        314798265,
+        65536,
+        307
+      ],
+      "validated": true,
+      "validation_after_job_reaped": true,
+      "format": "AMD64 PE32+ DLL; actual canary controls still required"
+    },
+    "loader_identity_matches_output": true,
+    "DLL_independently_rehashed_from_binary": false,
+    "binary_limit_note": "Reviewed retained text includes the actual controller output hash/identity/header and successful load/export calls; DLL bytes themselves were not among the seven inspected files."
+  },
+  "NULL_ABI_actual": {
+    "passed": true,
+    "exports_bound": [
+      "PG_AbandonAndFree",
+      "PG_Arm",
+      "PG_BeforeResume",
+      "PG_BeginCreate",
+      "PG_CheckArmed",
+      "PG_Create",
+      "PG_GetInfo",
+      "PG_Poison",
+      "PG_RegisterJob",
+      "PG_RegisterProcess",
+      "PG_RemoveWhenEmpty",
+      "PG_SealLaunches"
+    ],
+    "outcomes": [
+      {
+        "case": "Create_null_output",
+        "export": "PG_Create",
+        "expected": 87,
+        "actual": 87,
+        "passed": true
+      },
+      {
+        "case": "Create_null_SID",
+        "export": "PG_Create",
+        "expected": 1337,
+        "actual": 1337,
+        "passed": true
+      },
+      {
+        "case": "GetInfo_null_owner",
+        "export": "PG_GetInfo",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Arm_null_owner",
+        "export": "PG_Arm",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "CheckArmed_null_owner",
+        "export": "PG_CheckArmed",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RegisterJob_null_owner",
+        "export": "PG_RegisterJob",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "BeginCreate_null_owner",
+        "export": "PG_BeginCreate",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Poison_null_owner",
+        "export": "PG_Poison",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RegisterProcess_null_owner",
+        "export": "PG_RegisterProcess",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "BeforeResume_null_owner",
+        "export": "PG_BeforeResume",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "SealLaunches_null_owner",
+        "export": "PG_SealLaunches",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RemoveWhenEmpty_null_owner",
+        "export": "PG_RemoveWhenEmpty",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Abandon_null_pointer",
+        "export": "PG_AbandonAndFree",
+        "expected": 87,
+        "actual": 87,
+        "passed": true
+      },
+      {
+        "case": "Abandon_null_owner",
+        "export": "PG_AbandonAndFree",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      }
+    ],
+    "INFO_bytes": 196,
+    "INFO_offsets": {
+      "abi": 0,
+      "bytes": 4,
+      "state": 8,
+      "poisoned": 12,
+      "sublayer": 16,
+      "filters": 32,
+      "sid_bytes": 96,
+      "sid": 100,
+      "jobs": 168,
+      "processes": 172,
+      "policy_may_exist": 176,
+      "last_error": 180,
+      "abort_error": 184,
+      "pending_create": 188,
+      "pending_job": 192
+    },
+    "winmode": 2304,
+    "valid_owner_created": false,
+    "valid_SID_supplied": false,
+    "actual_policy_operations": false
+  },
+  "costs": {
+    "run_created_to_final_updated_seconds": 26.0,
+    "Job_started_to_completed_seconds": 23.0,
+    "API_timestamp_resolution_seconds": 1,
+    "readiness_step_started_to_completed_seconds": 10.0,
+    "enclosure_wall_seconds_before_exit": 9.9270556,
+    "controller_wall_seconds_before_report": 8.922000000000025,
+    "compiler_Job_wall_seconds": 7.670999999999992,
+    "compiler_full_Job_CPU_seconds": 1.25,
+    "controller_CPU_seconds_before_report": 0.15625,
+    "controller_total_process_CPU_seconds_after_exit": 0.21875,
+    "measured_compiler_Job_plus_complete_controller_process_CPU_subtotal": 1.46875,
+    "whole_CI_CPU_seconds": null,
+    "PowerShell_enclosure_CPU_seconds": null,
+    "provider_billable_timing_inspected": false,
+    "planned_spending_recorded_by_predispatch": 0,
+    "artifacts_uploaded_reported": 0,
+    "artifact_API_inventory_inspected": false,
+    "accounting_note": "Compiler wall is nested in controller/enclosure/Job/run wall spans; do not add them. Controller before-report CPU is nested in complete controller process CPU; sum only the latter with distinct compiler Job CPU for1.46875 measured subtotal. Checkout/PowerShell/runner/wholeCI CPU remain unknown. No speed or zero-resource-use claim."
+  },
+  "cleanup_and_scope": {
+    "compiler_Job_zero_active_verified": true,
+    "compiler_remaining_member_image_observed": false,
+    "member_snapshot_non_atomic": true,
+    "controller_reaped": true,
+    "timed_out": false,
+    "compiler_cleanup_inferred_from_controller_exit": false,
+    "profile_created": false,
+    "valid_owner_created": false,
+    "policy_armed_or_removed": false,
+    "socket_tests_performed": false,
+    "installer_executed": false,
+    "Native_executed": false,
+    "Native_admitted": false,
+    "Windows_support": false,
+    "existing009_timeout_reclassified": false
+  },
+  "remaining_gates": [
+    "Actual valid-owner C/WFP privilege, exact security/policy readback and failure/poison/removal behavior remain untested.",
+    "Host-only durable journal/tombstone and exact retained-handle runner wiring remain unimplemented/unqualified by this run.",
+    "Network positives/explicit denial, child/cancellation/assignment/crash/reuse/lowbox-mutation/inbound coverage remain pending. Existing00910060 stays failed.",
+    "No KiCad/JVM/Native routing, installer, nonadmin Windows product, all-network/BFE-off/reboot, GUI or human security qualification follows."
+  ],
+  "review_limits": {
+    "source_or_raw_edits": false,
+    "tests_or_jobs": false,
+    "Native": false,
+    "CI_dispatch": false,
+    "network": false,
+    "delegation": false,
+    "other_packets_reviewed": false,
+    "only_authored_output": ".runs/windows011-build-result-review-001.json",
+    "review_costs_independently_measured": false
+  }
+}
