@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "kind": "runtime042-install-existing-preparation-v1",
+  "setup_completed": true,
+  "Native_executed": false,
+  "actual_GUI": false,
+  "product_complete": false,
+  "source_head": "82aaa3b750007ef2ffaafd367ffcb718aa93865e",
+  "administration_head": "d1dd2218f0989b3fcbeef1b8d61a7e395c5a9467",
+  "runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001",
+  "source_runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime",
+  "source_manifest_sha256": "1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e",
+  "runtime_manifest_sha256": "0fa1f13c4a43385d2d0b513c7c84fb89bb6370eb9962531018f0d1ccbfd6f039",
+  "immutable_files": 53,
+  "immutable_maps_unchanged": true,
+  "processes": [
+    {
+      "name": "install",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.36566608399152756,
+        "cpu_seconds": 0.302207,
+        "max_rss_bytes": 25280512,
+        "supervisor_cpu_seconds": 0.0035099999999999992,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 25214976,
+        "sampled_peak_workdir_bytes": 6332,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 8388608,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/prepare_runtime.py",
+          "--install-existing",
+          "--source",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime",
+          "--expected-manifest-sha256",
+          "1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-install-existing-qualification-001/install.log",
+        "log_bytes": 6332,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-install-existing-qualification-001",
+        "signal_cancellation_enabled": true,
+        "pid": 61629
+      },
+      "log_sha256": "2f401e032910483e954550ee1a91d03bf652c236463f7437b974d520849b8492"
+    },
+    {
+      "name": "venv",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.04131258395500481,
+        "cpu_seconds": 0.035012,
+        "max_rss_bytes": 17055744,
+        "supervisor_cpu_seconds": 0.001920000000000005,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 131072,
+        "sampled_peak_workdir_bytes": 8351,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 8388608,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "-m",
+          "venv",
+          "--copies",
+          "--without-pip",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.venv"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-install-existing-qualification-001/venv.log",
+        "log_bytes": 0,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-install-existing-qualification-001",
+        "signal_cancellation_enabled": true,
+        "pid": 61630
+      },
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tools-defaults",
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.6304337079636753,
+        "cpu_seconds": 0.221016,
+        "max_rss_bytes": 138461184,
+        "supervisor_cpu_seconds": 0.008175000000000002,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 138444800,
+        "sampled_peak_workdir_bytes": 65956558,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 268435456,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001/.venv/bin/python",
+          "-B",
+          "-c",
+          "import json,sys;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001');from autorouter import pipeline as p,preferences as pref;print(json.dumps(dict(runtime=str(p.c.ROOT),interpreter=sys.executable,prefix=sys.prefix,tools=p.tool_manifest(),defaults=dict(pref.DEFAULTS)),sort_keys=True))"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042-install-existing-qualification-001/tools-defaults.json",
+        "log_bytes": 12258,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime042 fresh install 001",
+        "signal_cancellation_enabled": true,
+        "pid": 61631
+      },
+      "log_sha256": "66cb811e9da0ff8dcc2d1681d57aa60473494b223efcd9843cf5c5f787a26403"
+    }
+  ],
+  "preparation": {
+    "tools_query_sha256": "66cb811e9da0ff8dcc2d1681d57aa60473494b223efcd9843cf5c5f787a26403",
+    "tools_query_process_sha256": "a6b1d9cadf184aa2aa3319a7ccb4c1db80c46d6923778fb97b0e0f0ffae5a312"
+  },
+  "controller_sha256": "1a5e4594ccf559771b21136bb7f26f013643e74105efe38c48a198ab2f520121",
+  "sampled_wall_seconds": 1.1593181670177728,
+  "sampled_CPU_seconds": 0.682368,
+  "external_complete_exit_required": true,
+  "limits": "Subprocess allowance:60percommand, remaining120wall since post-import START;1GiB groupRSS/512KiB logs. Not a whole-exit deadline. Lead must retain external complete wall/fullCPU and require <=150seconds before declaring setup qualified. Adjacent immutable destination bounded by installer; no historical archive scanned. No Native/GUI qualification from setup."
+}
