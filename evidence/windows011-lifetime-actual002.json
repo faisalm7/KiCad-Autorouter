@@ -1,0 +1,300 @@
+{
+  "schema": 1,
+  "kind": "Windows011-actual001-real-policy-refusal-public-alias002",
+  "recorded_utc": "2026-10-19T06:28:13.341754+00:00",
+  "project_complete": false,
+  "source_head": "acdffee4276074cea454d940cbc2e018f6130944",
+  "protocol_sha256": "0d99695a49d131656ac460e30e8ce9db998317e939c7899d5c95f9cc322fcdeb",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "40a221014355d6a43d5e3d42589ecc1fb57e7b8038e8ef3a2d17ce9e732e3dae",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+    "scripts/windows_native_slice/persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d"
+  },
+  "CI": {
+    "id": 39208796011,
+    "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39208796011",
+    "status": "completed",
+    "conclusion": "failure",
+    "job_started_at": "2026-10-19T06:14:49Z",
+    "job_completed_at": "2026-10-19T06:15:14Z",
+    "job_elapsed_seconds": 25,
+    "runner": "windows-2022",
+    "all_other_modes_skipped": true,
+    "artifacts_uploaded": 0,
+    "caches_uploaded": 0,
+    "incremental_spending": 0
+  },
+  "control_passed": false,
+  "changed_C_build_NULL_ABI_passed": true,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "accepted": false,
+  "result": "Actual WinError1307 invalid requested owner during PG_Arm; ownership becameORPHAN, no contained job/process launched. No denial/cancel/routing result exists.",
+  "observed": {
+    "host_state_files": 9,
+    "host_state_bytes": 6217,
+    "journal_events": [
+      "RESERVED",
+      "PREPARED",
+      "CONTEXT",
+      "ORPHAN",
+      "ABANDONED"
+    ],
+    "context_and_raw_state_bound": true,
+    "actual_profile_creation_S_OK": true,
+    "sealed_scope": true,
+    "host_TCP_positives": 2,
+    "contained_cases": 0,
+    "C_jobs": 0,
+    "C_processes": 0,
+    "abort_error": 0,
+    "policy_may_exist": 1,
+    "policy_presence": "unknown; conservative flag is not presence or absence proof",
+    "profile_and_ACL_cleanup": "refused",
+    "owned_server_reaped": true,
+    "controller_reaped": true
+  },
+  "source_interpretation": "The source requestsSYSTEM owner without enabling owner-assignment privilege. Error1307 identifies rejected ownership; exact add API/object stage and actual remaining policy presence were not independently retained. Proposed actualTokenOwner+OWNER_RIGHTS correction is not yet executed.",
+  "costs": {
+    "enclosure_wall_seconds_before_exit": 10.6865125,
+    "controller_wall_seconds_before_report": 9.593999999999994,
+    "exited_controller_CPU_seconds": 0.515625,
+    "separate_setup_Job_CPU_seconds": [
+      1.1875,
+      0.0625,
+      0.234375,
+      0.28125
+    ],
+    "measured_controller_plus_separate_setup_CPU_subtotal": 2.28125,
+    "whole_CI_PowerShell_CPU_seconds": null,
+    "nested_canary_controller_CPU_seconds": 0.21875
+  },
+  "accounting": "All DLL/DNS/two probe builds included. CanarycontrollerCPU is nested in completePythonCPU, not added twice. Job25seconds includes checkout/setup; wall spans nest. WholeCI/PowerShell and authoring/research/AIreview/curationCPU unknown, notzero. No routing or speed claim.",
+  "review": {
+    "path": ".runs/windows011-owner1307-bounded-review-001.json",
+    "sha256": "0cbd37cd96e0b23c13cbfafb1b3ebbbc57d16ec9efc76db7c6172cade1cf0852",
+    "scope": "Separate AI failure/raw-state/source and bounded primary-doc review; no humanreview or newexecution.",
+    "raw_receipt_Mac_only": true
+  },
+  "next": "At mostone predeclared corrective finite attempt after reviewed actualTokenOwner(SYSTEM/BAonly)+explicitOWNER_RIGHTSdenyWD/WO/exact3ACE. No privilege enabling, fallback, Native or mutation-resistance claim. Otherwise defer concreteblocker.",
+  "backup_scope": "Actual own state/log bytes retained for auditedGit. Runner profile/policy/ACL objects deliberately retained on failure, not exported/restored or claimed cleaned; VM lifetime and wholeCPU remainprovider scope. Mac035GUI/preparedraw unaffected.",
+  "files_index": {
+    "path": "evidence/windows011-lifetime-actual002-notes/files.json",
+    "sha256": "60c29bf767a471ecc01ff7359c5bd30621099983dba8743c842a86ee352e9764"
+  },
+  "publication": {
+    "reason": "GitHubGH013pushprotection matched generated policy filename tokens to Mailgun API-key syntax. All55matched tokens in4newtextfiles were checked against actual five C-created policyGUIDs. No override/bypass or remote publication occurred.",
+    "transform": "Only generated key-GUID filename token becomes policy-guid-GUID in public text/path aliases. GUID values, source hashes, warnings/failures/numericmetrics and actualCpolicy remain unchanged. Raw filename/text tokens can be reconstructed from this rule for hash checking; these identifiers are not API credentials.",
+    "rejected_commit_retained_local": "236eb077647fb6de67fe4ee7bb690b9fa50fcb29",
+    "local_ref": "refs/local-checkpoints/windows011-owner1307-push-rejected-001",
+    "raw_logs_state_and_prior_packet": "Remain unchanged onthisMac under .runs/windows011-lifetime-actual001 and evidence/windows011-lifetime-actual001*. Public derivedfiles are not falsely labelledbyte-identical rawlogs.",
+    "mapping": [
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/dispatch.stderr.log",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/dispatch.stderr.log",
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_bytes": 0,
+        "public_bytes": 0,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/canary.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/canary.json",
+        "raw_sha256": "94c794a6457bb100b7a9f535893bf6776fb6d238e404c81049b83c0f3ae0debc",
+        "public_sha256": "94c794a6457bb100b7a9f535893bf6776fb6d238e404c81049b83c0f3ae0debc",
+        "raw_bytes": 30900,
+        "public_bytes": 30900,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/status002.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/status002.json",
+        "raw_sha256": "aa8b018710939f56e4e40e5c5df36a0010953345ee66b05fb53f6d2ee4d1d013",
+        "public_sha256": "aa8b018710939f56e4e40e5c5df36a0010953345ee66b05fb53f6d2ee4d1d013",
+        "raw_bytes": 2842,
+        "public_bytes": 2842,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/pre-dispatch.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/pre-dispatch.json",
+        "raw_sha256": "9929fea26f9d4cd07d7a3a44c91ae2a528947d113a52da2551c7a18a8f76a90a",
+        "public_sha256": "9929fea26f9d4cd07d7a3a44c91ae2a528947d113a52da2551c7a18a8f76a90a",
+        "raw_bytes": 785,
+        "public_bytes": 785,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/dispatch.stdout.log",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/dispatch.stdout.log",
+        "raw_sha256": "e60c445b38cce2837b2ed2bf0d6b4cf2ef6d9e5670fc1a4408557f13122c446e",
+        "public_sha256": "e60c445b38cce2837b2ed2bf0d6b4cf2ef6d9e5670fc1a4408557f13122c446e",
+        "raw_bytes": 70,
+        "public_bytes": 70,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/readiness.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/readiness.json",
+        "raw_sha256": "2e4ae79a4a053919f261cd6b940c9645a811d1e24e83d06791601ef60153e304",
+        "public_sha256": "044ce2b6806ef9e63c188aa9a5679024dec951dd91f29823c56d0211a5d9492f",
+        "raw_bytes": 53163,
+        "public_bytes": 53243,
+        "generated_filename_tokens_aliased": 10
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/status001.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/status001.json",
+        "raw_sha256": "e71720056f3030a3b5f7da353b326c7c028de785138ba407456ccbb6c7d1cc80",
+        "public_sha256": "e71720056f3030a3b5f7da353b326c7c028de785138ba407456ccbb6c7d1cc80",
+        "raw_bytes": 2378,
+        "public_bytes": 2378,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/job.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/job.json",
+        "raw_sha256": "58a430e03be01986ccd1a2bbc4df1964b4cee48e74ad9e295783edfabda9b557",
+        "public_sha256": "58a430e03be01986ccd1a2bbc4df1964b4cee48e74ad9e295783edfabda9b557",
+        "raw_bytes": 2272,
+        "public_bytes": 2272,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/compile-guard.log",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/compile-guard.log",
+        "raw_sha256": "c4a5b73f99cfd2f228069eff4e4f5bb1547782f80638eecd8fb10e22d6389aee",
+        "public_sha256": "c4a5b73f99cfd2f228069eff4e4f5bb1547782f80638eecd8fb10e22d6389aee",
+        "raw_bytes": 250,
+        "public_bytes": 250,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/actions.log",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/actions.log",
+        "raw_sha256": "9924f8ceb8c777a6447a917a0b669261157a196cc4defef4ffe5a5ec4b737960",
+        "public_sha256": "bb31daa61d40e5c8382b2dd7c6b96cc12ee36b3444508103aa69ef6fc9585665",
+        "raw_bytes": 128771,
+        "public_bytes": 128971,
+        "generated_filename_tokens_aliased": 25
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/enclosure.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/enclosure.json",
+        "raw_sha256": "24efb8a28f3fcaf74784bb04632f2601d57a224a451a7d480472e0e1e0c2d591",
+        "public_sha256": "24efb8a28f3fcaf74784bb04632f2601d57a224a451a7d480472e0e1e0c2d591",
+        "raw_bytes": 1043,
+        "public_bytes": 1043,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/policy-guid-e5aa09ccf5344c9d90da7e43a62ae845.tombstone",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/policy-guid-e5aa09ccf5344c9d90da7e43a62ae845.tombstone",
+        "raw_sha256": "66aced8370819fe63828af4ff05a2dfdbeb5c35a459a80597dd92d9c2d88b322",
+        "public_sha256": "66aced8370819fe63828af4ff05a2dfdbeb5c35a459a80597dd92d9c2d88b322",
+        "raw_bytes": 116,
+        "public_bytes": 116,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/sid-3d5b70c17e38ffeae3a3124678799e5fcfda31ff7b1289cb603b21754fac5fa6.tombstone",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/sid-3d5b70c17e38ffeae3a3124678799e5fcfda31ff7b1289cb603b21754fac5fa6.tombstone",
+        "raw_sha256": "62157cef95bef07e1d9a3e25a386f59bc9f096998c835813f90ce583d21216e9",
+        "public_sha256": "62157cef95bef07e1d9a3e25a386f59bc9f096998c835813f90ce583d21216e9",
+        "raw_bytes": 168,
+        "public_bytes": 168,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/context-d657275e9ebe49539cf59d71e71061ab.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/context-d657275e9ebe49539cf59d71e71061ab.json",
+        "raw_sha256": "29c16525871fa000834563eb7e617714f62b3a6280631d74fe1fadc02c59a8a1",
+        "public_sha256": "29c16525871fa000834563eb7e617714f62b3a6280631d74fe1fadc02c59a8a1",
+        "raw_bytes": 3871,
+        "public_bytes": 3871,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/policy-guid-7c601ae0b92245e886eb985cfe926951.tombstone",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/policy-guid-7c601ae0b92245e886eb985cfe926951.tombstone",
+        "raw_sha256": "4cc5622d54253d1b4057fdfd5f381375f77ba9cdb2c84afec382cffe68bc6276",
+        "public_sha256": "4cc5622d54253d1b4057fdfd5f381375f77ba9cdb2c84afec382cffe68bc6276",
+        "raw_bytes": 116,
+        "public_bytes": 116,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/policy-guid-be796eed7aad4dc097c8cc46f0c484df.tombstone",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/policy-guid-be796eed7aad4dc097c8cc46f0c484df.tombstone",
+        "raw_sha256": "dc15ae70a1066a8ae1d36554d8a3dba6be746c7726291fb3404f359a4f8bc58d",
+        "public_sha256": "dc15ae70a1066a8ae1d36554d8a3dba6be746c7726291fb3404f359a4f8bc58d",
+        "raw_bytes": 116,
+        "public_bytes": 116,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/name-d657275e9ebe49539cf59d71e71061ab.jsonl",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/name-d657275e9ebe49539cf59d71e71061ab.jsonl",
+        "raw_sha256": "3f76ca1ced5ec9f8dd2a001cf87e50d0e93dda6def35d3a2c873761680c50998",
+        "public_sha256": "3f76ca1ced5ec9f8dd2a001cf87e50d0e93dda6def35d3a2c873761680c50998",
+        "raw_bytes": 1523,
+        "public_bytes": 1523,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/slot-00",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/slot-00",
+        "raw_sha256": "c40e7d8625b7c4110f9020bca6eb846a2b3c30e4bcdaadf09f6ad4c8153a9dee",
+        "public_sha256": "c40e7d8625b7c4110f9020bca6eb846a2b3c30e4bcdaadf09f6ad4c8153a9dee",
+        "raw_bytes": 75,
+        "public_bytes": 75,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/policy-guid-09df6ad113c54b708c34f8d098511c55.tombstone",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/policy-guid-09df6ad113c54b708c34f8d098511c55.tombstone",
+        "raw_sha256": "2e530d51e93190b7d926e4cca3c05712a2b3860d1b0e368514acdcdc56a56e67",
+        "public_sha256": "2e530d51e93190b7d926e4cca3c05712a2b3860d1b0e368514acdcdc56a56e67",
+        "raw_bytes": 116,
+        "public_bytes": 116,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/state/policy-guid-af99b24e6ab54a94bdd362e353ced36e.tombstone",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/state/policy-guid-af99b24e6ab54a94bdd362e353ced36e.tombstone",
+        "raw_sha256": "a74a55fda917ace0cf97d56ac38472f56a35cf0731e12cdf702e7dc23d23fd52",
+        "public_sha256": "a74a55fda917ace0cf97d56ac38472f56a35cf0731e12cdf702e7dc23d23fd52",
+        "raw_bytes": 116,
+        "public_bytes": 116,
+        "generated_filename_tokens_aliased": 0
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/windows011-owner1307-bounded-review-001.json",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/windows011-owner1307-bounded-review-001.json",
+        "raw_sha256": "0cbd37cd96e0b23c13cbfafb1b3ebbbc57d16ec9efc76db7c6172cade1cf0852",
+        "public_sha256": "39d91b3783f5f0cca451c1f811d4a0fef1628a45aa27d5707060e945f0aa9126",
+        "raw_bytes": 15932,
+        "public_bytes": 15972,
+        "generated_filename_tokens_aliased": 5
+      },
+      {
+        "public_path": "evidence/windows011-lifetime-actual002-notes/logs-results-reviews/curate-windows011-lifetime-actual001.py",
+        "raw_path_alias": "evidence/windows011-lifetime-actual001-notes/logs-results-reviews/curate-windows011-lifetime-actual001.py",
+        "raw_sha256": "eb3277344e0da90094b9045557f09b5549eac2d05490182783563d3e63ea7942",
+        "public_sha256": "eb3277344e0da90094b9045557f09b5549eac2d05490182783563d3e63ea7942",
+        "raw_bytes": 8511,
+        "public_bytes": 8511,
+        "generated_filename_tokens_aliased": 0
+      }
+    ]
+  }
+}

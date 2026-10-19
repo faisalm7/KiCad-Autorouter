@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "kind": "windows011-build-null-ABI-readiness-v1",
+  "source_base_head": "580793ac6087021bf9567f764df5b9f55bfab9db",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "8349aa68ed349f38608935bf59578620ec35d35f5d2a6c9a50ee89df8d1a3ee3",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20"
+  },
+  "prospective_only": true,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "last_actual_build": "evidence/windows011-build-actual001.json",
+  "last_verified_checkpoint": "acdffee4276074cea454d940cbc2e018f6130944",
+  "purpose": "Fixed shared SDK build/NULL ABI; explicit sid-canary additionally tests durable ownership and existing parent/child IPv4TCP normal+cancel. No installer or Native.",
+  "bounds": {
+    "CI_minutes": 3,
+    "controller_seconds": 150,
+    "enclosure_seconds": 170,
+    "each_compiler_seconds": 30,
+    "normal_probe_seconds": 15,
+    "cancel_probe_seconds": 10,
+    "cancel_after_seconds": 2,
+    "Job_memory_bytes": 2147483648,
+    "per_log_bytes": 262144,
+    "controller_stdout_bytes": 1048576,
+    "artifact_uploads": 0,
+    "cache_uploads": 0
+  },
+  "predeclared_decision": "Second and final corrective finite attempt for demonstrated owner1307 only. Preserve all outcomes; any new unresolved policy/denial/cleanup gate defers this bounded protocol. No installer/Native admission or mutation-resistance claim.",
+  "unqualified": [
+    "IPv6",
+    "UDP",
+    "inbound",
+    "controller-death",
+    "reused identity refusal on actualWindows",
+    "lowbox state/policy mutation refusal",
+    "power-loss/BFE-off/boot",
+    "nonadmin installation",
+    "actual KiCad/JVM routing/cancel/export"
+  ],
+  "external_source_pin": "Future audited fullcommit and this protocolSHA supplied through workflow input; exactGITHUB_SHA/detachedHEAD/source pins checked without a self-hash cycle.",
+  "prior_actual_failure": "evidence/windows011-lifetime-actual001.json",
+  "correction": "Win1307: request only actual process TokenOwner if SYSTEM/BA. First explicit OWNER_RIGHTS deny WRITE_DAC|WRITE_OWNER, unchangedPG_ACCESS System/BA allows, protected exactly3ACE/owner/group readback. No privilege enabling, extraallowprincipal or fallback."
+}

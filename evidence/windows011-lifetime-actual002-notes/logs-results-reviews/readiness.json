@@ -1,0 +1,1219 @@
+{
+  "schema": 1,
+  "kind": "windows011-persistent-SID-finite-canary-v1",
+  "stage": "sid-canary",
+  "passed": false,
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "Native_executed": false,
+  "actual_policy_operations": null,
+  "actual_profile_operations": null,
+  "socket_tests_performed": null,
+  "installer_executed": false,
+  "source_base_head": "580793ac6087021bf9567f764df5b9f55bfab9db",
+  "expected_source_sha": "acdffee4276074cea454d940cbc2e018f6130944",
+  "protocol_sha256": "0d99695a49d131656ac460e30e8ce9db998317e939c7899d5c95f9cc322fcdeb",
+  "compiler_process": {
+    "argv": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+      "/nologo",
+      "/W4",
+      "/WX",
+      "/O1",
+      "/MT",
+      "/LD",
+      "/DUNICODE",
+      "/D_UNICODE",
+      "/IC:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared",
+      "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c",
+      "/FoD:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.obj",
+      "/FeD:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.dll",
+      "/link",
+      "/INCREMENTAL:NO",
+      "/IMPLIB:D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.lib",
+      "/PDB:D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.pdb",
+      "/LIBPATH:C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64",
+      "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64",
+      "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64",
+      "kernel32.lib",
+      "advapi32.lib",
+      "fwpuclnt.lib",
+      "ole32.lib"
+    ],
+    "cwd": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup",
+    "log": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\compile-guard.log",
+    "log_sha256": "c4a5b73f99cfd2f228069eff4e4f5bb1547782f80638eecd8fb10e22d6389aee",
+    "status": "success",
+    "exit_code": 0,
+    "cleanup_complete": true,
+    "wall_seconds": 7.0309999999999775,
+    "full_job_cpu_seconds": 1.1875,
+    "process_count": 4,
+    "limits": {
+      "bytes": 134217728,
+      "rss": 2147483648,
+      "log": 262144,
+      "entries": 4000,
+      "seconds": 30
+    },
+    "os_job_memory_limit": true,
+    "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+    "setup_process_observations": {
+      "main_polls": 321,
+      "max_snapshots": 4,
+      "snapshots": [
+        {
+          "trigger": "initial",
+          "elapsed_seconds": 0.014999999999986358,
+          "main": {
+            "pid": 3080,
+            "state": "running",
+            "exit_code": null,
+            "wait_result": 258
+          },
+          "members": {
+            "status": "observed",
+            "capacity": 32,
+            "pids": [
+              3080
+            ],
+            "image_identity_observed": false,
+            "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+            "assigned_processes": 1,
+            "listed_processes": 1,
+            "truncated": false
+          },
+          "accounting_active_processes": 1,
+          "accounting_total_processes": 1,
+          "snapshots_atomic": false,
+          "status": "observed",
+          "before_termination": false,
+          "termination_reason": null
+        },
+        {
+          "trigger": "main_state_changed",
+          "elapsed_seconds": 6.984000000000009,
+          "main": {
+            "pid": 3080,
+            "state": "exited",
+            "exit_code": 0,
+            "wait_result": 0
+          },
+          "members": {
+            "status": "observed",
+            "capacity": 32,
+            "pids": [
+              2444
+            ],
+            "image_identity_observed": false,
+            "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+            "assigned_processes": 1,
+            "listed_processes": 1,
+            "truncated": false
+          },
+          "accounting_active_processes": 1,
+          "accounting_total_processes": 4,
+          "snapshots_atomic": false,
+          "status": "observed",
+          "before_termination": true,
+          "termination_reason": "compiler_main_zero_owned_cleanup"
+        }
+      ],
+      "completion_semantics_changed": true
+    },
+    "compiler_finalization": {
+      "kind": "exact-owned-C-build-main-zero-then-job-reap-v1",
+      "role": "persistent-sid-guard",
+      "main": {
+        "pid": 3080,
+        "state": "exited",
+        "exit_code": 0,
+        "wait_result": 0
+      },
+      "main_observed_elapsed_seconds": 6.984000000000009,
+      "accounting_active_before_request": 1,
+      "member_snapshot": {
+        "status": "observed",
+        "capacity": 32,
+        "pids": [
+          2444
+        ],
+        "image_identity_observed": false,
+        "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+        "assigned_processes": 1,
+        "listed_processes": 1,
+        "truncated": false
+      },
+      "termination_exit_code": 130,
+      "termination_requested": true,
+      "terminate_job_succeeded": true,
+      "remaining_members_natural_completion_claimed": false,
+      "zero_active_processes_verified": true
+    },
+    "compiler_output": {
+      "path": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.dll",
+      "role": "persistent-sid-guard",
+      "bytes": 112128,
+      "sha256": "f342a5099fd5955790a126be217ca30f677dcd3191b24ffb3b705d43061d51c4",
+      "file_id": [
+        1826187303,
+        65536,
+        310
+      ],
+      "validated": true,
+      "validation_after_job_reaped": true,
+      "format": "AMD64 PE32+ DLL; actual canary controls still required"
+    },
+    "accepted": false,
+    "product_support": false,
+    "Native_admitted": false,
+    "Native_executed": false,
+    "network": {
+      "kind": "owned-setup-no-network-isolation-claim",
+      "network_isolation_claimed": false
+    },
+    "authoring": {
+      "kind": "fixed-owned-C-guard-DLL-build",
+      "guard_source_sha256": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+      "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "SDK_version": "10.0.26100.0",
+      "MSVC_version": "14.44.35207"
+    },
+    "source_tool_sha256": {
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20"
+    },
+    "setup_scope": {
+      "file_id": [
+        1826187303,
+        65536,
+        306
+      ],
+      "runner_pid": 1992,
+      "runner_source_sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa"
+    }
+  },
+  "NULL_ABI": {
+    "passed": true,
+    "exports_bound": [
+      "PG_AbandonAndFree",
+      "PG_Arm",
+      "PG_BeforeResume",
+      "PG_BeginCreate",
+      "PG_CheckArmed",
+      "PG_Create",
+      "PG_GetInfo",
+      "PG_Poison",
+      "PG_RegisterJob",
+      "PG_RegisterProcess",
+      "PG_RemoveWhenEmpty",
+      "PG_SealLaunches"
+    ],
+    "outcomes": [
+      {
+        "case": "Create_null_output",
+        "export": "PG_Create",
+        "expected": 87,
+        "actual": 87,
+        "passed": true
+      },
+      {
+        "case": "Create_null_SID",
+        "export": "PG_Create",
+        "expected": 1337,
+        "actual": 1337,
+        "passed": true
+      },
+      {
+        "case": "GetInfo_null_owner",
+        "export": "PG_GetInfo",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Arm_null_owner",
+        "export": "PG_Arm",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "CheckArmed_null_owner",
+        "export": "PG_CheckArmed",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RegisterJob_null_owner",
+        "export": "PG_RegisterJob",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "BeginCreate_null_owner",
+        "export": "PG_BeginCreate",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Poison_null_owner",
+        "export": "PG_Poison",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RegisterProcess_null_owner",
+        "export": "PG_RegisterProcess",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "BeforeResume_null_owner",
+        "export": "PG_BeforeResume",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "SealLaunches_null_owner",
+        "export": "PG_SealLaunches",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "RemoveWhenEmpty_null_owner",
+        "export": "PG_RemoveWhenEmpty",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      },
+      {
+        "case": "Abandon_null_pointer",
+        "export": "PG_AbandonAndFree",
+        "expected": 87,
+        "actual": 87,
+        "passed": true
+      },
+      {
+        "case": "Abandon_null_owner",
+        "export": "PG_AbandonAndFree",
+        "expected": 6,
+        "actual": 6,
+        "passed": true
+      }
+    ],
+    "INFO_bytes": 196,
+    "INFO_offsets": {
+      "abi": 0,
+      "bytes": 4,
+      "state": 8,
+      "poisoned": 12,
+      "sublayer": 16,
+      "filters": 32,
+      "sid_bytes": 96,
+      "sid": 100,
+      "jobs": 168,
+      "processes": 172,
+      "policy_may_exist": 176,
+      "last_error": 180,
+      "abort_error": 184,
+      "pending_create": 188,
+      "pending_job": 192
+    },
+    "winmode": 2304,
+    "valid_owner_created": false,
+    "valid_SID_supplied": false,
+    "actual_policy_operations": false
+  },
+  "errors": [
+    "RuntimeError: finite persistent SID control failed; all unavailable observations remain unqualified"
+  ],
+  "scope": "Fixed DLL/NULL ABI then finite real SID policy and existing IPv4 TCP normal/cancel control. No IPv6/UDP/inbound/crash/reuse/lowbox-mutation, installer, Native or Windows product qualification.",
+  "compiler_tools": {
+    "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+    "MSVC_version": "14.44.35207",
+    "SDK_version": "10.0.26100.0",
+    "dependency_scope": "Preinstalled runner tools observed and pinned before this canary, not a product platform qualification."
+  },
+  "DLL": {
+    "path": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.dll",
+    "sha256": "f342a5099fd5955790a126be217ca30f677dcd3191b24ffb3b705d43061d51c4",
+    "file_id": [
+      1826187303,
+      65536,
+      310
+    ],
+    "write_delete_sharing_denied": true
+  },
+  "canary": {
+    "schema": 1,
+    "kind": "non-admitting-Windows-persistent-SID-canary011",
+    "passed": false,
+    "Native_admitted": false,
+    "Native_executed": false,
+    "KiCad_Java_installer_executed": false,
+    "GUI": false,
+    "actual_windows": "Windows-2022Server-10.0.20348-SP0",
+    "architecture": "AMD64",
+    "controller_Python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "controller_sha256": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+    "worker_source_sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "cases": [],
+    "errors": [
+      "RuntimeError: AppContainer cleanup incomplete: persistent ownership incomplete or failed; ACL/profile cleanup refused"
+    ],
+    "scope": "Real persistent SID policy plus owned IPv4 TCP/token/normal/cancel observations only. No IPv6/UDP/inbound/controller-death/reuse/lowbox-mutation, Native or Windows product qualification.",
+    "DNS_process": {
+      "argv": [
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "-I",
+        "-B",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_dns.py"
+      ],
+      "cwd": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup",
+      "log": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\DNS.log",
+      "log_sha256": "3993dc30304b3d257e8fdbbffcb3efe39cd2c131f20198eea8b322a0369e74ab",
+      "status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "wall_seconds": 0.125,
+      "full_job_cpu_seconds": 0.0625,
+      "process_count": 2,
+      "limits": {
+        "bytes": 134217728,
+        "rss": 2147483648,
+        "log": 262144,
+        "entries": 4000,
+        "seconds": 5
+      },
+      "os_job_memory_limit": true,
+      "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+      "setup_process_observations": {
+        "main_polls": 6,
+        "max_snapshots": 4,
+        "snapshots": [
+          {
+            "trigger": "initial",
+            "elapsed_seconds": 0.0,
+            "main": {
+              "pid": 7264,
+              "state": "running",
+              "exit_code": null,
+              "wait_result": 258
+            },
+            "members": {
+              "status": "observed",
+              "capacity": 32,
+              "pids": [
+                7264,
+                8028
+              ],
+              "image_identity_observed": false,
+              "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+              "assigned_processes": 2,
+              "listed_processes": 2,
+              "truncated": false
+            },
+            "accounting_active_processes": 1,
+            "accounting_total_processes": 1,
+            "snapshots_atomic": false,
+            "status": "observed",
+            "before_termination": false,
+            "termination_reason": null
+          },
+          {
+            "trigger": "job_inactive",
+            "elapsed_seconds": 0.125,
+            "main": {
+              "pid": 7264,
+              "state": "exited",
+              "exit_code": 0,
+              "wait_result": 0
+            },
+            "members": {
+              "status": "observed",
+              "capacity": 32,
+              "pids": [],
+              "image_identity_observed": false,
+              "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+              "assigned_processes": 0,
+              "listed_processes": 0,
+              "truncated": false
+            },
+            "accounting_active_processes": 0,
+            "accounting_total_processes": 2,
+            "snapshots_atomic": false,
+            "status": "observed",
+            "before_termination": false,
+            "termination_reason": null
+          }
+        ],
+        "completion_semantics_changed": false
+      },
+      "accepted": false,
+      "product_support": false,
+      "Native_admitted": false,
+      "Native_executed": false,
+      "network": {
+        "kind": "owned-setup-no-network-isolation-claim",
+        "network_isolation_claimed": false
+      },
+      "authoring": {
+        "kind": "fixed-owned-DNS-helper",
+        "helper_sha256": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19"
+      },
+      "source_tool_sha256": {
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19"
+      },
+      "setup_scope": {
+        "file_id": [
+          1826187303,
+          65536,
+          306
+        ],
+        "runner_pid": 1992,
+        "runner_source_sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa"
+      }
+    },
+    "endpoints": {
+      "public_hostname": "api.github.com",
+      "public_IPv4": "140.82.113.6",
+      "public_port": 443,
+      "owned_loopback_port": 53045
+    },
+    "independently_positive_connections_before": [
+      {
+        "endpoint": "owned_loopback",
+        "connected": true,
+        "payload_bytes_sent": 0
+      },
+      {
+        "endpoint": "public_ipv4",
+        "connected": true,
+        "payload_bytes_sent": 0
+      }
+    ],
+    "compiler": {
+      "cl_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+      "MSVC_version": "14.44.35207",
+      "SDK_version": "10.0.26100.0",
+      "dependency_scope": "Preinstalled runner tools observed and pinned before this canary, not a product platform qualification."
+    },
+    "builds": [
+      {
+        "argv": [
+          "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+          "/nologo",
+          "/W4",
+          "/WX",
+          "/O1",
+          "/MT",
+          "/DUNICODE",
+          "/D_UNICODE",
+          "/DPROBE_ROLE=1",
+          "/IC:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include",
+          "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt",
+          "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared",
+          "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c",
+          "/FoD:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\role1.obj",
+          "/FeD:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\probe-parent.exe",
+          "/link",
+          "/INCREMENTAL:NO",
+          "/LIBPATH:C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64",
+          "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64",
+          "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64",
+          "kernel32.lib",
+          "advapi32.lib",
+          "ws2_32.lib"
+        ],
+        "cwd": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup",
+        "log": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\compile1.log",
+        "log_sha256": "8900ac7f6230e3a34d2a8e0acd8a6eccc9b6a7ea681a36ce6452542fee497242",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 0.6879999999999882,
+        "full_job_cpu_seconds": 0.234375,
+        "process_count": 3,
+        "limits": {
+          "bytes": 134217728,
+          "rss": 2147483648,
+          "log": 262144,
+          "entries": 4000,
+          "seconds": 30
+        },
+        "os_job_memory_limit": true,
+        "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+        "setup_process_observations": {
+          "main_polls": 27,
+          "max_snapshots": 4,
+          "snapshots": [
+            {
+              "trigger": "initial",
+              "elapsed_seconds": 0.015999999999991132,
+              "main": {
+                "pid": 6252,
+                "state": "running",
+                "exit_code": null,
+                "wait_result": 258
+              },
+              "members": {
+                "status": "observed",
+                "capacity": 32,
+                "pids": [
+                  6252,
+                  5368
+                ],
+                "image_identity_observed": false,
+                "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+                "assigned_processes": 2,
+                "listed_processes": 2,
+                "truncated": false
+              },
+              "accounting_active_processes": 1,
+              "accounting_total_processes": 1,
+              "snapshots_atomic": false,
+              "status": "observed",
+              "before_termination": false,
+              "termination_reason": null
+            },
+            {
+              "trigger": "job_inactive",
+              "elapsed_seconds": 0.6879999999999882,
+              "main": {
+                "pid": 6252,
+                "state": "exited",
+                "exit_code": 0,
+                "wait_result": 0
+              },
+              "members": {
+                "status": "observed",
+                "capacity": 32,
+                "pids": [],
+                "image_identity_observed": false,
+                "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+                "assigned_processes": 0,
+                "listed_processes": 0,
+                "truncated": false
+              },
+              "accounting_active_processes": 0,
+              "accounting_total_processes": 3,
+              "snapshots_atomic": false,
+              "status": "observed",
+              "before_termination": false,
+              "termination_reason": null
+            }
+          ],
+          "completion_semantics_changed": false
+        },
+        "compiler_output": {
+          "path": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\probe-parent.exe",
+          "role": 1,
+          "bytes": 151552,
+          "sha256": "68e7fc2527f39426df23ac3b8b3d5cd7b2d45ea04a612a0e0930a66828ae7d00",
+          "file_id": [
+            1826187303,
+            65536,
+            331
+          ],
+          "validated": true,
+          "validation_after_job_reaped": true,
+          "format": "AMD64 PE32+ executable; actual canary controls still required"
+        },
+        "accepted": false,
+        "product_support": false,
+        "Native_admitted": false,
+        "Native_executed": false,
+        "network": {
+          "kind": "owned-setup-no-network-isolation-claim",
+          "network_isolation_claimed": false
+        },
+        "authoring": {
+          "kind": "fixed-owned-C-canary-build",
+          "role": 1,
+          "probe_sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+          "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "SDK_version": "10.0.26100.0",
+          "MSVC_version": "14.44.35207"
+        },
+        "source_tool_sha256": {
+          "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4"
+        },
+        "setup_scope": {
+          "file_id": [
+            1826187303,
+            65536,
+            306
+          ],
+          "runner_pid": 1992,
+          "runner_source_sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa"
+        },
+        "exe": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\probe-parent.exe",
+        "exe_sha256": "68e7fc2527f39426df23ac3b8b3d5cd7b2d45ea04a612a0e0930a66828ae7d00"
+      },
+      {
+        "argv": [
+          "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
+          "/nologo",
+          "/W4",
+          "/WX",
+          "/O1",
+          "/MT",
+          "/DUNICODE",
+          "/D_UNICODE",
+          "/DPROBE_ROLE=2",
+          "/IC:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\include",
+          "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt",
+          "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared",
+          "/IC:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c",
+          "/FoD:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\role2.obj",
+          "/FeD:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\probe-child.exe",
+          "/link",
+          "/INCREMENTAL:NO",
+          "/LIBPATH:C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\lib\\x64",
+          "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64",
+          "/LIBPATH:C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64",
+          "kernel32.lib",
+          "advapi32.lib",
+          "ws2_32.lib"
+        ],
+        "cwd": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup",
+        "log": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\compile2.log",
+        "log_sha256": "8900ac7f6230e3a34d2a8e0acd8a6eccc9b6a7ea681a36ce6452542fee497242",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 0.3120000000000118,
+        "full_job_cpu_seconds": 0.28125,
+        "process_count": 3,
+        "limits": {
+          "bytes": 134217728,
+          "rss": 2147483648,
+          "log": 262144,
+          "entries": 4000,
+          "seconds": 30
+        },
+        "os_job_memory_limit": true,
+        "scope": "Additional owned canary authoring/DNS cost only; no routing, Native admission or network-isolation claim.",
+        "setup_process_observations": {
+          "main_polls": 11,
+          "max_snapshots": 4,
+          "snapshots": [
+            {
+              "trigger": "initial",
+              "elapsed_seconds": 0.016000000000019554,
+              "main": {
+                "pid": 7400,
+                "state": "running",
+                "exit_code": null,
+                "wait_result": 258
+              },
+              "members": {
+                "status": "observed",
+                "capacity": 32,
+                "pids": [
+                  7400,
+                  5064
+                ],
+                "image_identity_observed": false,
+                "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+                "assigned_processes": 2,
+                "listed_processes": 2,
+                "truncated": false
+              },
+              "accounting_active_processes": 1,
+              "accounting_total_processes": 1,
+              "snapshots_atomic": false,
+              "status": "observed",
+              "before_termination": false,
+              "termination_reason": null
+            },
+            {
+              "trigger": "job_inactive",
+              "elapsed_seconds": 0.29700000000002547,
+              "main": {
+                "pid": 7400,
+                "state": "exited",
+                "exit_code": 0,
+                "wait_result": 0
+              },
+              "members": {
+                "status": "observed",
+                "capacity": 32,
+                "pids": [],
+                "image_identity_observed": false,
+                "identity_scope": "Point-in-time owned Job PID list only; no child PID opened or stable child identity established.",
+                "assigned_processes": 0,
+                "listed_processes": 0,
+                "truncated": false
+              },
+              "accounting_active_processes": 0,
+              "accounting_total_processes": 3,
+              "snapshots_atomic": false,
+              "status": "observed",
+              "before_termination": false,
+              "termination_reason": null
+            }
+          ],
+          "completion_semantics_changed": false
+        },
+        "compiler_output": {
+          "path": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\probe-child.exe",
+          "role": 2,
+          "bytes": 140800,
+          "sha256": "c71ae206301b6916cd549794725c5b4a4bc7750bc6da9b8887e3dab0fc113d59",
+          "file_id": [
+            1826187303,
+            65536,
+            335
+          ],
+          "validated": true,
+          "validation_after_job_reaped": true,
+          "format": "AMD64 PE32+ executable; actual canary controls still required"
+        },
+        "accepted": false,
+        "product_support": false,
+        "Native_admitted": false,
+        "Native_executed": false,
+        "network": {
+          "kind": "owned-setup-no-network-isolation-claim",
+          "network_isolation_claimed": false
+        },
+        "authoring": {
+          "kind": "fixed-owned-C-canary-build",
+          "role": 2,
+          "probe_sha256": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+          "compiler_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "SDK_version": "10.0.26100.0",
+          "MSVC_version": "14.44.35207"
+        },
+        "source_tool_sha256": {
+          "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4"
+        },
+        "setup_scope": {
+          "file_id": [
+            1826187303,
+            65536,
+            306
+          ],
+          "runner_pid": 1992,
+          "runner_source_sha256": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa"
+        },
+        "exe": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\probe-child.exe",
+        "exe_sha256": "c71ae206301b6916cd549794725c5b4a4bc7750bc6da9b8887e3dab0fc113d59"
+      }
+    ],
+    "frozen_before_execution": {
+      "parent_sha256": "68e7fc2527f39426df23ac3b8b3d5cd7b2d45ea04a612a0e0930a66828ae7d00",
+      "child_sha256": "c71ae206301b6916cd549794725c5b4a4bc7750bc6da9b8887e3dab0fc113d59",
+      "SID": "S-1-15-2-2375759333-2602027657-4271221710-2219502279-2567288740-1484581281-764183048",
+      "budgets": {
+        "positive_seconds": 15,
+        "cancel_seconds": 10,
+        "cancel_after_seconds": 2
+      }
+    },
+    "guard_evidence": {
+      "kind": "experimental-appcontainer-token-v1",
+      "accepted": false,
+      "product_support": false,
+      "network_tests_performed_by_adapter": false,
+      "all_network_denial_claimed": false,
+      "profile_name": "KiCadAutorouter.Canary.d657275e9ebe49539cf59d71e71061ab",
+      "tokens": [],
+      "profile_sid": "S-1-15-2-2375759333-2602027657-4271221710-2219502279-2567288740-1484581281-764183048",
+      "capability_count_requested": 0,
+      "profile_create_hresult": 0,
+      "scope": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805",
+      "acl_before": {
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805": {
+          "sha256": "cf23bd0ebd1f52d0da17241568b773de0b0a508d5f8db8dc434925cfa7ec08bb",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\scratch": {
+          "sha256": "cf23bd0ebd1f52d0da17241568b773de0b0a508d5f8db8dc434925cfa7ec08bb",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\tools": {
+          "sha256": "cf23bd0ebd1f52d0da17241568b773de0b0a508d5f8db8dc434925cfa7ec08bb",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\tools\\probe-child.exe": {
+          "sha256": "56f1d2c4fc60cd5a5c651db330e4ecaaa4b1ac9ae4e24c4c7e24b33a62df0b79",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\tools\\probe-parent.exe": {
+          "sha256": "56f1d2c4fc60cd5a5c651db330e4ecaaa4b1ac9ae4e24c4c7e24b33a62df0b79",
+          "protected": false
+        }
+      },
+      "acl_granted": {
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805": {
+          "sha256": "717e73cfaaaa20514d1c8dc2307ca93e826f435e6542fd9b9874204c2be09102",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\scratch": {
+          "sha256": "e74ff8fb90fcda6e425497e3d5fd8ae554e0c3caf9b521266c823c29f3713567",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\tools": {
+          "sha256": "717e73cfaaaa20514d1c8dc2307ca93e826f435e6542fd9b9874204c2be09102",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\tools\\probe-child.exe": {
+          "sha256": "a56bcb025e4aaba7dd861d69381662926e53e5a21e4f4e5e9794181baf4e48e8",
+          "protected": false
+        },
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805\\tools\\probe-parent.exe": {
+          "sha256": "a56bcb025e4aaba7dd861d69381662926e53e5a21e4f4e5e9794181baf4e48e8",
+          "protected": false
+        }
+      },
+      "persistent_guard": {
+        "Native_admitted": false,
+        "Windows_support": false,
+        "abandoned": true,
+        "accepted": false,
+        "bounds": {
+          "context_bytes": 65536,
+          "journal_bytes": 32768,
+          "per_record_bytes": 2048,
+          "records": 16,
+          "state_bytes": 2097152,
+          "state_entries": 145
+        },
+        "context_sha256": "29c16525871fa000834563eb7e617714f62b3a6280631d74fe1fadc02c59a8a1",
+        "errors": [
+          "OSError: [WinError 1307] This security ID may not be assigned as the owner of this object.",
+          "OSError: [WinError 1307] This security ID may not be assigned as the owner of this object.",
+          "[WinError 1307] This security ID may not be assigned as the owner of this object.",
+          "persistent ownership incomplete or failed; ACL/profile cleanup refused"
+        ],
+        "journal": {
+          "bytes": 1523,
+          "incomplete": false,
+          "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\name-d657275e9ebe49539cf59d71e71061ab.jsonl",
+          "records": 5,
+          "sha256": "3f76ca1ced5ec9f8dd2a001cf87e50d0e93dda6def35d3a2c873761680c50998"
+        },
+        "kind": "experimental-persistent-SID-live-owner-v1",
+        "last_live_C_info": {
+          "abort_error": 0,
+          "jobs": 0,
+          "keys": [
+            "e5aa09ccf5344c9d90da7e43a62ae845",
+            "af99b24e6ab54a94bdd362e353ced36e",
+            "09df6ad113c54b708c34f8d098511c55",
+            "be796eed7aad4dc097c8cc46f0c484df",
+            "7c601ae0b92245e886eb985cfe926951"
+          ],
+          "last_error": 13,
+          "pending_create": 0,
+          "pending_job": 0,
+          "poisoned": 1,
+          "policy_may_exist": 1,
+          "processes": 0,
+          "sid_hex": "010800000000000f02000000e5359b8d89ca179bceab95fec7ea4a84a4b70599a1e97c5808828c2d",
+          "state": 5
+        },
+        "limitations": "Unqualified Windows prototype. Flush/ACL/native denial/crash controls remain required. No power-loss guarantee, hostile administrator protection, recovery or state cleanup.",
+        "phase": "orphan",
+        "poisoned": true,
+        "profile_name": "KiCadAutorouter.Canary.d657275e9ebe49539cf59d71e71061ab",
+        "receipt_authorizes_cleanup": false,
+        "schema": 1,
+        "scope": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805",
+        "source_pins": {
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_build.ps1": "40a221014355d6a43d5e3d42589ecc1fb57e7b8038e8ef3a2d17ce9e732e3dae",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+          "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+          "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.dll": "f342a5099fd5955790a126be217ca30f677dcd3191b24ffb3b705d43061d51c4"
+        },
+        "state_root": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state",
+        "verified_removal_observed": false
+      }
+    },
+    "cleanup": {
+      "cleanup_complete": false,
+      "errors": [
+        "persistent ownership incomplete or failed; ACL/profile cleanup refused"
+      ],
+      "all_owned_jobs_reaped": true,
+      "original_dacls_restored": false,
+      "scope_files_retained": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805",
+      "profile_registry_absence_not_queried": true,
+      "persistent_removal_verified": false
+    },
+    "owned_server_thread_reaped": true,
+    "persistent_guard": {
+      "Native_admitted": false,
+      "Windows_support": false,
+      "abandoned": true,
+      "accepted": false,
+      "bounds": {
+        "context_bytes": 65536,
+        "journal_bytes": 32768,
+        "per_record_bytes": 2048,
+        "records": 16,
+        "state_bytes": 2097152,
+        "state_entries": 145
+      },
+      "context_sha256": "29c16525871fa000834563eb7e617714f62b3a6280631d74fe1fadc02c59a8a1",
+      "errors": [
+        "OSError: [WinError 1307] This security ID may not be assigned as the owner of this object.",
+        "OSError: [WinError 1307] This security ID may not be assigned as the owner of this object.",
+        "[WinError 1307] This security ID may not be assigned as the owner of this object.",
+        "persistent ownership incomplete or failed; ACL/profile cleanup refused",
+        "RuntimeError: AppContainer cleanup incomplete: persistent ownership incomplete or failed; ACL/profile cleanup refused"
+      ],
+      "journal": {
+        "bytes": 1523,
+        "incomplete": false,
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\name-d657275e9ebe49539cf59d71e71061ab.jsonl",
+        "records": 5,
+        "sha256": "3f76ca1ced5ec9f8dd2a001cf87e50d0e93dda6def35d3a2c873761680c50998"
+      },
+      "kind": "experimental-persistent-SID-live-owner-v1",
+      "last_live_C_info": {
+        "abort_error": 0,
+        "jobs": 0,
+        "keys": [
+          "e5aa09ccf5344c9d90da7e43a62ae845",
+          "af99b24e6ab54a94bdd362e353ced36e",
+          "09df6ad113c54b708c34f8d098511c55",
+          "be796eed7aad4dc097c8cc46f0c484df",
+          "7c601ae0b92245e886eb985cfe926951"
+        ],
+        "last_error": 13,
+        "pending_create": 0,
+        "pending_job": 0,
+        "poisoned": 1,
+        "policy_may_exist": 1,
+        "processes": 0,
+        "sid_hex": "010800000000000f02000000e5359b8d89ca179bceab95fec7ea4a84a4b70599a1e97c5808828c2d",
+        "state": 5
+      },
+      "limitations": "Unqualified Windows prototype. Flush/ACL/native denial/crash controls remain required. No power-loss guarantee, hostile administrator protection, recovery or state cleanup.",
+      "phase": "orphan",
+      "poisoned": true,
+      "profile_name": "KiCadAutorouter.Canary.d657275e9ebe49539cf59d71e71061ab",
+      "receipt_authorizes_cleanup": false,
+      "schema": 1,
+      "scope": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805",
+      "source_pins": {
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_build.ps1": "40a221014355d6a43d5e3d42589ecc1fb57e7b8038e8ef3a2d17ce9e732e3dae",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+        "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+        "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.dll": "f342a5099fd5955790a126be217ca30f677dcd3191b24ffb3b705d43061d51c4"
+      },
+      "state_root": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state",
+      "verified_removal_observed": false
+    },
+    "wall_seconds_before_report": 1.4369999999999834,
+    "controller_CPU_seconds_before_report": 0.21875,
+    "accounting": "Setup and probe Job CPU include exited descendants; controller CPU is separate. Whole CI CPU and post-report exit are unmeasured, not zero. No speed claim."
+  },
+  "persistent_guard": {
+    "Native_admitted": false,
+    "Windows_support": false,
+    "abandoned": true,
+    "accepted": false,
+    "bounds": {
+      "context_bytes": 65536,
+      "journal_bytes": 32768,
+      "per_record_bytes": 2048,
+      "records": 16,
+      "state_bytes": 2097152,
+      "state_entries": 145
+    },
+    "context_sha256": "29c16525871fa000834563eb7e617714f62b3a6280631d74fe1fadc02c59a8a1",
+    "errors": [
+      "OSError: [WinError 1307] This security ID may not be assigned as the owner of this object.",
+      "OSError: [WinError 1307] This security ID may not be assigned as the owner of this object.",
+      "[WinError 1307] This security ID may not be assigned as the owner of this object.",
+      "persistent ownership incomplete or failed; ACL/profile cleanup refused",
+      "RuntimeError: AppContainer cleanup incomplete: persistent ownership incomplete or failed; ACL/profile cleanup refused",
+      "RuntimeError: finite persistent SID control failed; all unavailable observations remain unqualified"
+    ],
+    "journal": {
+      "bytes": 1523,
+      "incomplete": false,
+      "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\name-d657275e9ebe49539cf59d71e71061ab.jsonl",
+      "records": 5,
+      "sha256": "3f76ca1ced5ec9f8dd2a001cf87e50d0e93dda6def35d3a2c873761680c50998"
+    },
+    "kind": "experimental-persistent-SID-live-owner-v1",
+    "last_live_C_info": {
+      "abort_error": 0,
+      "jobs": 0,
+      "keys": [
+        "e5aa09ccf5344c9d90da7e43a62ae845",
+        "af99b24e6ab54a94bdd362e353ced36e",
+        "09df6ad113c54b708c34f8d098511c55",
+        "be796eed7aad4dc097c8cc46f0c484df",
+        "7c601ae0b92245e886eb985cfe926951"
+      ],
+      "last_error": 13,
+      "pending_create": 0,
+      "pending_job": 0,
+      "poisoned": 1,
+      "policy_may_exist": 1,
+      "processes": 0,
+      "sid_hex": "010800000000000f02000000e5359b8d89ca179bceab95fec7ea4a84a4b70599a1e97c5808828c2d",
+      "state": 5
+    },
+    "limitations": "Unqualified Windows prototype. Flush/ACL/native denial/crash controls remain required. No power-loss guarantee, hostile administrator protection, recovery or state cleanup.",
+    "phase": "orphan",
+    "poisoned": true,
+    "profile_name": "KiCadAutorouter.Canary.d657275e9ebe49539cf59d71e71061ab",
+    "receipt_authorizes_cleanup": false,
+    "schema": 1,
+    "scope": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805",
+    "source_pins": {
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_canary.py": "171676b89563910d0606b52c2d8b7edf492def7a2c7557fd78b9e42f4c078c9b",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_build.ps1": "40a221014355d6a43d5e3d42589ecc1fb57e7b8038e8ef3a2d17ce9e732e3dae",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\persistent_sid_guard.c": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+      "D:\\a\\KiCad-Autorouter\\KiCad-Autorouter\\scripts\\windows_native_slice\\windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+      "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\persistent-sid-guard.dll": "f342a5099fd5955790a126be217ca30f677dcd3191b24ffb3b705d43061d51c4"
+    },
+    "state_root": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state",
+    "verified_removal_observed": false
+  },
+  "state_material": {
+    "complete": true,
+    "bytes": 6217,
+    "scope": "Actual exclusively created state bytes only; partial material is diagnostic, never removal authority.",
+    "files": [
+      {
+        "name": "context-d657275e9ebe49539cf59d71e71061ab.json",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\context-d657275e9ebe49539cf59d71e71061ab.json",
+        "read": true,
+        "bytes": 3871,
+        "sha256": "29c16525871fa000834563eb7e617714f62b3a6280631d74fe1fadc02c59a8a1",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "policy-guid-09df6ad113c54b708c34f8d098511c55.tombstone",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\policy-guid-09df6ad113c54b708c34f8d098511c55.tombstone",
+        "read": true,
+        "bytes": 116,
+        "sha256": "2e530d51e93190b7d926e4cca3c05712a2b3860d1b0e368514acdcdc56a56e67",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "policy-guid-7c601ae0b92245e886eb985cfe926951.tombstone",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\policy-guid-7c601ae0b92245e886eb985cfe926951.tombstone",
+        "read": true,
+        "bytes": 116,
+        "sha256": "4cc5622d54253d1b4057fdfd5f381375f77ba9cdb2c84afec382cffe68bc6276",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "policy-guid-af99b24e6ab54a94bdd362e353ced36e.tombstone",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\policy-guid-af99b24e6ab54a94bdd362e353ced36e.tombstone",
+        "read": true,
+        "bytes": 116,
+        "sha256": "a74a55fda917ace0cf97d56ac38472f56a35cf0731e12cdf702e7dc23d23fd52",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "policy-guid-be796eed7aad4dc097c8cc46f0c484df.tombstone",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\policy-guid-be796eed7aad4dc097c8cc46f0c484df.tombstone",
+        "read": true,
+        "bytes": 116,
+        "sha256": "dc15ae70a1066a8ae1d36554d8a3dba6be746c7726291fb3404f359a4f8bc58d",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "policy-guid-e5aa09ccf5344c9d90da7e43a62ae845.tombstone",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\policy-guid-e5aa09ccf5344c9d90da7e43a62ae845.tombstone",
+        "read": true,
+        "bytes": 116,
+        "sha256": "66aced8370819fe63828af4ff05a2dfdbeb5c35a459a80597dd92d9c2d88b322",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "name-d657275e9ebe49539cf59d71e71061ab.jsonl",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\name-d657275e9ebe49539cf59d71e71061ab.jsonl",
+        "read": true,
+        "bytes": 1523,
+        "sha256": "3f76ca1ced5ec9f8dd2a001cf87e50d0e93dda6def35d3a2c873761680c50998",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "sid-3d5b70c17e38ffeae3a3124678799e5fcfda31ff7b1289cb603b21754fac5fa6.tombstone",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\sid-3d5b70c17e38ffeae3a3124678799e5fcfda31ff7b1289cb603b21754fac5fa6.tombstone",
+        "read": true,
+        "bytes": 168,
+        "sha256": "62157cef95bef07e1d9a3e25a386f59bc9f096998c835813f90ce583d21216e9",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      },
+      {
+        "name": "slot-00",
+        "path": "D:\\a\\_temp\\kicad-autorouter-persistent-guard011-state\\slot-00",
+        "read": true,
+        "bytes": 75,
+        "sha256": "c40e7d8625b7c4110f9020bca6eb846a2b3c30e4bcdaadf09f6ad4c8153a9dee",
+        "matches_last_complete_write": true,
+        "chunks": 1
+      }
+    ]
+  },
+  "compiler_log": {
+    "path": "D:\\a\\_temp\\kicad-appcontainer007-f808fb4ade3043c0ad1121d8068db805-setup\\compile-guard.log",
+    "bytes": 250,
+    "sha256": "c4a5b73f99cfd2f228069eff4e4f5bb1547782f80638eecd8fb10e22d6389aee",
+    "printed_bytes": 250,
+    "truncated": false
+  },
+  "compiler_process_receipt_available": true,
+  "wall_seconds_before_report": 9.593999999999994,
+  "controller_CPU_seconds_before_report": 0.484375,
+  "compiler_full_job_CPU_seconds": 1.1875,
+  "whole_external_exit_CPU_seconds": null,
+  "accounting": "Compiler receipt includes owned exited descendants; controller CPU and complete external exit are separate. Failed API/cleanup may lack a process receipt, not evidence of zero cost. No parent+child cost double counting or speed claim."
+}

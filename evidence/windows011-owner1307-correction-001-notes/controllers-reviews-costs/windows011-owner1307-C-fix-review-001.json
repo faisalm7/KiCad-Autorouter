@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "windows011-owner1307-C-fix-independent-source-review-v1",
+  "created_utc": "2026-10-19T06:20:56.669370+00:00",
+  "reviewer": "Independent AI source review; not human or actual Windows validation",
+  "decision": "No concrete blocking SDK, lifetime/aliasing, ownership or readback defect found in this exact narrow C diff. Suitable for root integration as an unexecuted correction; no CI authorization or Windows admission is conferred.",
+  "source": {
+    "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+    "bytes": 22729,
+    "sha256": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702",
+    "base_HEAD": "acdffee4276074cea454d940cbc2e018f6130944",
+    "base_HEAD_file_sha256": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+    "git_diff_bytes": 5620,
+    "git_diff_sha256": "2040561a3f84b0ce11e8fd4625d85c965a5cc5e2011abb93cfe4d401e756d3be"
+  },
+  "scope": "Only owner1307 correction diff plus immediate PG_Create cleanup/PG_Arm and unchanged ABI/access context; no research, tests, compilation, jobs, Windows APIs or source edits by reviewer.",
+  "blocking_findings": [],
+  "checked": [
+    {
+      "lines": "44-50,92-118",
+      "assessment": "Internal owner/OWNER RIGHTS SID storage is owner-lifetime storage. The fixed union aligns the 1024-byte TOKEN_OWNER buffer for the x64 pointer; TokenOwner is copied with CopySid before the TOKEN_QUERY handle is closed and the stack buffer expires. Required SID equality permits only SYSTEM/BA; invalid/unknown/too-small/API/copy/close failure refuses. No TokenUser fallback or privilege enabling is added."
+    },
+    {
+      "lines": "99-127",
+      "assessment": "WinCreatorOwnerRightsSid is the valid SDK enum. The 320-byte ACL buffer comfortably contains the two fixed allow SIDs and OWNER RIGHTS deny SID. Deny WD|WO is created first with zero flags, then unchanged PG_ACCESS SYSTEM/BA allows. Owner is the validated copied token owner; group remains BA and the DACL remains protected."
+    },
+    {
+      "lines": "130-169",
+      "assessment": "Readback requires the retained expected owner, BA group, valid descriptor/ACL, protected DACL and exactly three ACEs. Position zero must be explicit deny OWNER RIGHTS with only WD|WO; the last two must be unique explicit SYSTEM/BA allows with unchanged PG_ACCESS, exact ACE lengths and no inheritance flags. Seen=7 refuses missing/duplicate/additional trustee. Using ACCESS_ALLOWED_ACE layout to inspect the deny is compatible with their common header/mask/SidStart layout; no object ACE is accepted."
+    },
+    {
+      "lines": "230-245,247-258",
+      "assessment": "pg_security failure follows the existing SecureZeroMemory/HeapFree PG_Create path before exposing a live owner or arming WFP. The added fields alter only private PG_OWNER allocation; exported PG_INFO remains 196 bytes/ABI1, and PG_ACCESS is unchanged."
+    }
+  ],
+  "nonblocking_precision": [
+    {
+      "topic": "Allow order",
+      "detail": "Readback enforces deny first and the exact two unique allow trustees; the SYSTEM/BA allows may exchange relative positions. Because both allow masks and flags are identical, this is equivalent access policy, not a widening of permissions. Do not describe it as enforcing one byte-for-byte allow ordering."
+    },
+    {
+      "topic": "Token context",
+      "detail": "This code deliberately reads the current process primary TokenOwner. The current reviewed controller does not introduce thread impersonation. This is not proof of an arbitrary impersonating-caller contract; an incompatible effective caller would have to fail closed at WFP assignment/readback. No general caller/impersonation support is qualified."
+    }
+  ],
+  "limitations": [
+    "The correction has not been compiled, NULL-ABI tested, armed or read back on Windows in this review. An actual default owner outside SYSTEM/BA must still refuse.",
+    "Actual001 remains the preserved failed Win1307 run; requested owner change is a causal source correction, not retroactive repair.",
+    "OWNER RIGHTS mutation resistance and actual lowbox security-change/delete refusal remain unqualified; finite TCP success cannot replace those controls.",
+    "No Native, installer, Windows product, broad network, hostile administrator, crash/recovery or human-review claim."
+  ],
+  "prior_bounded_basis": {
+    "path": ".runs/windows011-owner1307-bounded-review-001.json",
+    "sha256": "0cbd37cd96e0b23c13cbfafb1b3ebbbc57d16ec9efc76db7c6172cade1cf0852"
+  },
+  "claims": {
+    "executed": false,
+    "tests_run": false,
+    "Native_admitted": false,
+    "Windows_support": false,
+    "human_review": false
+  }
+}

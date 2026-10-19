@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "Windows011-owner1307-causal-correction-prospective",
+  "recorded_utc": "2026-10-19T06:23:21.011630+00:00",
+  "project_complete": false,
+  "actual_current_C_compiled": false,
+  "actual_policy_operations": false,
+  "CI_dispatched": false,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "source_C": {
+    "path": "scripts/windows_native_slice/persistent_sid_guard.c",
+    "bytes": 22729,
+    "sha256": "082ba80972f0484547897608bfffcd7f16d050b9e4aabe7e409bf6455e73d702",
+    "base_HEAD": "acdffee4276074cea454d940cbc2e018f6130944",
+    "base_HEAD_file_sha256": "db867a08621c9775f96fbe368d13625755debecd15a8fa70c96256b5427faa20",
+    "git_diff_bytes": 5620,
+    "git_diff_sha256": "2040561a3f84b0ce11e8fd4625d85c965a5cc5e2011abb93cfe4d401e756d3be"
+  },
+  "protocols": [
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_build_protocol003.json",
+      "sha256": "6a20e72f208464614adb346e620032b22dc7ad55440d4d3d52973376223c42c3"
+    },
+    {
+      "path": "scripts/windows_native_slice/persistent_guard_lifetime_protocol002.json",
+      "sha256": "434d2a04edb496336e700f1259e3c257cd38e42c3dec3e455a25872f9ffef414"
+    }
+  ],
+  "source_review_sha256": "ab7862ebd957876974aea727d811e6dd68ba67a349a83fd4f3a9286b10ac1cad",
+  "causal_failure": "evidence/windows011-lifetime-actual002.json",
+  "change": "Win1307: request only actual process TokenOwner if SYSTEM/BA. First explicit OWNER_RIGHTS deny WRITE_DAC|WRITE_OWNER, unchangedPG_ACCESS System/BA allows, protected exactly3ACE/owner/group readback. No privilege enabling, extraallowprincipal or fallback.",
+  "precision": "Deny ACE must be first; identical-mask SYSTEM/BA allows may exchange order without changing rights. Non-impersonating current controller only; unknown/defaultTokenOwner outsideSYSTEM/BA refuses.",
+  "constraints_unchanged": "ABI1/INFO196, fixedSID/layers/BLOCK predicates, PG_ACCESS, all budgets, sticky poison/live retained custody/exactremoval and originalprofile/ACL safety remain. No security privilege/globalsetting changes.",
+  "claim_limits": "Not demonstrated LowBox DACL/owner/delete resistance; actual mutationcontrols and fresh unchangedpolicy readback remain mandatory before that claim or anyNative/productadmission. NULL ABI alone does not prove validowner.",
+  "decision": "One reviewed second finite IPv4TCP normal/cancel attempt after auditedpush/readback and fresh zero-cost/public/no-activeCI check. Any next unresolved gate closes this boundedownerprotocol without a thirdretry.",
+  "accounting": "Actualfailed001 costs remainseparate. Curation/sourceauthoring/research/AIreview costsadditional; no routing gain, speed or completion claim.",
+  "files_index": {
+    "path": "evidence/windows011-owner1307-correction-001-notes/files.json",
+    "sha256": "e82f0712ae359058ab87f9d8142cf6dc7010f115856e12b66485bf7784946881"
+  },
+  "publication_note": "Rawfailure001/prospective001 and rejectedcommit236eb077 remain unchanged onMac; publicactual002 aliases only known synthetic policy filename tokens. Frozenprotocol prior_actual_failure is a Macrawlead; publicalias002 is its retained remoteview. No code/source/protocolSHA or budget change."
+}

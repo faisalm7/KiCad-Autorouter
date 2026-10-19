@@ -44,6 +44,8 @@ struct PG_OWNER {
     BYTE sid[SECURITY_MAX_SID_SIZE];
     BYTE system_sid[SECURITY_MAX_SID_SIZE];
     BYTE admins_sid[SECURITY_MAX_SID_SIZE];
+    BYTE owner_sid[SECURITY_MAX_SID_SIZE];
+    BYTE owner_rights_sid[SECURITY_MAX_SID_SIZE];
     DWORD acl_storage[80];
     SECURITY_DESCRIPTOR security;
     GUID sublayer, filters[4];
@@ -89,15 +91,37 @@ static BOOL pg_ci(void) {
 }
 static DWORD pg_security(PG_OWNER *g) {
     DWORD n = SECURITY_MAX_SID_SIZE;
+    DWORD needed = 0, error = ERROR_SUCCESS;
+    HANDLE token = NULL;
+    union { ULONGLONG alignment; BYTE bytes[1024]; } owner_buffer;
+    PSID owner;
     PACL acl = (PACL)g->acl_storage;
     if (!CreateWellKnownSid(WinLocalSystemSid, NULL, g->system_sid, &n)) return pg_last();
     n = SECURITY_MAX_SID_SIZE;
     if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, NULL, g->admins_sid, &n)) return pg_last();
+    n = SECURITY_MAX_SID_SIZE;
+    if (!CreateWellKnownSid(WinCreatorOwnerRightsSid, NULL, g->owner_rights_sid, &n)) return pg_last();
+    /* Request only the actual assignable default owner. Never enable a
+     * privilege or substitute an arbitrary user/package owner on rejection. */
+    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) return pg_last();
+    ZeroMemory(&owner_buffer, sizeof(owner_buffer));
+    if (!GetTokenInformation(token, TokenOwner, owner_buffer.bytes, (DWORD)sizeof(owner_buffer.bytes), &needed)) {
+        error = pg_last();
+    } else {
+        owner = ((TOKEN_OWNER *)owner_buffer.bytes)->Owner;
+        if (needed < sizeof(TOKEN_OWNER) || owner == NULL || !IsValidSid(owner) ||
+            GetLengthSid(owner) > SECURITY_MAX_SID_SIZE ||
+            (!EqualSid(owner, g->system_sid) && !EqualSid(owner, g->admins_sid))) error = ERROR_INVALID_OWNER;
+        else if (!CopySid(SECURITY_MAX_SID_SIZE, g->owner_sid, owner)) error = pg_last();
+    }
+    if (!CloseHandle(token) && error == ERROR_SUCCESS) error = pg_last();
+    if (error != ERROR_SUCCESS) return error;
     if (!InitializeAcl(acl, (DWORD)sizeof(g->acl_storage), ACL_REVISION) ||
+        !AddAccessDeniedAceEx(acl, ACL_REVISION, 0, WRITE_DAC | WRITE_OWNER, g->owner_rights_sid) ||
         !AddAccessAllowedAceEx(acl, ACL_REVISION, 0, PG_ACCESS, g->system_sid) ||
         !AddAccessAllowedAceEx(acl, ACL_REVISION, 0, PG_ACCESS, g->admins_sid) ||
         !InitializeSecurityDescriptor(&g->security, SECURITY_DESCRIPTOR_REVISION) ||
-        !SetSecurityDescriptorOwner(&g->security, g->system_sid, FALSE) ||
+        !SetSecurityDescriptorOwner(&g->security, g->owner_sid, FALSE) ||
         !SetSecurityDescriptorGroup(&g->security, g->admins_sid, FALSE) ||
         !SetSecurityDescriptorDacl(&g->security, TRUE, acl, FALSE) ||
         !SetSecurityDescriptorControl(&g->security, SE_DACL_PROTECTED, SE_DACL_PROTECTED)) return pg_last();
@@ -117,30 +141,31 @@ static DWORD pg_check_security(PG_OWNER *g, const GUID *key, BOOL filter) {
         &owner, &group, &acl, NULL, &sd);
     if (error != ERROR_SUCCESS) return error;
     if (sd == NULL || acl == NULL || owner == NULL || group == NULL ||
-        !IsValidSid(owner) || !EqualSid(owner, g->system_sid) ||
+        !IsValidSid(owner) || !EqualSid(owner, g->owner_sid) ||
         !IsValidSid(group) || !EqualSid(group, g->admins_sid) ||
         !IsValidSecurityDescriptor(sd) || !IsValidAcl(acl) ||
         !GetSecurityDescriptorControl(sd, &control, &revision) ||
-        (control & SE_DACL_PROTECTED) == 0 || acl->AceCount != 2) error = ERROR_INVALID_SECURITY_DESCR;
-    for (i = 0; error == ERROR_SUCCESS && i < 2; ++i) {
+        (control & SE_DACL_PROTECTED) == 0 || acl->AceCount != 3) error = ERROR_INVALID_SECURITY_DESCR;
+    for (i = 0; error == ERROR_SUCCESS && i < 3; ++i) {
         ACCESS_ALLOWED_ACE *ace = NULL;
         PSID sid;
         DWORD bit, expected;
         if (!GetAce(acl, i, (LPVOID *)&ace)) { error = pg_last(); break; }
         sid = (PSID)&ace->SidStart;
         if (ace->Header.AceSize < offsetof(ACCESS_ALLOWED_ACE, SidStart) + 8 ||
-            ace->Header.AceType != ACCESS_ALLOWED_ACE_TYPE || ace->Header.AceFlags != 0 ||
-            ace->Mask != PG_ACCESS ||
+            ace->Header.AceType != (i == 0 ? ACCESS_DENIED_ACE_TYPE : ACCESS_ALLOWED_ACE_TYPE) || ace->Header.AceFlags != 0 ||
+            ace->Mask != (i == 0 ? (WRITE_DAC | WRITE_OWNER) : PG_ACCESS) ||
             8u + 4u * (*GetSidSubAuthorityCount(sid)) >
                 (DWORD)ace->Header.AceSize - (DWORD)offsetof(ACCESS_ALLOWED_ACE, SidStart) ||
             !IsValidSid(sid)) { error = ERROR_INVALID_ACL; break; }
         expected = (DWORD)offsetof(ACCESS_ALLOWED_ACE, SidStart) + GetLengthSid(sid);
         if (ace->Header.AceSize != expected) { error = ERROR_INVALID_ACL; break; }
-        bit = EqualSid(sid, g->system_sid) ? 1u : EqualSid(sid, g->admins_sid) ? 2u : 0u;
+        bit = i == 0 ? (EqualSid(sid, g->owner_rights_sid) ? 4u : 0u) :
+            EqualSid(sid, g->system_sid) ? 1u : EqualSid(sid, g->admins_sid) ? 2u : 0u;
         if (bit == 0 || (seen & bit) != 0) { error = ERROR_INVALID_ACL; break; }
         seen |= bit;
     }
-    if (error == ERROR_SUCCESS && seen != 3) error = ERROR_INVALID_ACL;
+    if (error == ERROR_SUCCESS && seen != 7) error = ERROR_INVALID_ACL;
     FwpmFreeMemory0(&sd);
     return error;
 }
