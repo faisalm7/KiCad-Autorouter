@@ -1039,8 +1039,11 @@ class Job:
             canonical(self.out)
             from . import handoff as h
             self._local_settings_owner={};h.capture_destination(self._local_settings_owner,self.out)
+        from .floor_route import child_cpu
         self.started=time.monotonic(); self.cpu_started=time.process_time()
+        self.child_cpu_started=child_cpu()
         self.deadline=self.started+seconds; self.steps=[]; self.seconds=seconds
+        self._inherited_budget=None
         self.env=os.environ.copy()
         # Parent -B is not inherited by KiCad's separate Python workers. Keep
         # derived bytecode out of the manifest-bound product directory.
@@ -1053,9 +1056,19 @@ class Job:
             base=self.out/relative
             (base/('10.0' if key=='KICAD_CONFIG_HOME' else 'kicad/10.0')).mkdir(parents=True)
             self.env[key]=str(base)
+    def remaining(self):
+        remaining=self.deadline-time.monotonic()
+        if self._inherited_budget is not None:
+            from . import _improve_context as improve_child
+            budget=self._inherited_budget
+            if type(budget) is not improve_child._Budget:
+                raise Rejected('exact inherited Improve execution budget required')
+            improve_child._check_parent_owner(self._local_settings_owner,self.out)
+            remaining=min(remaining,budget.remaining(work=budget._work_job(self)))
+        return remaining
     def step(self, name, argv, allowed=(0,)):
         experimental_native_version(self.native_toolchain)
-        remaining=self.deadline-time.monotonic()
+        remaining=self.remaining()
         if remaining<=0: raise Rejected('timeout: whole task budget exhausted')
         result=run([str(a) for a in argv],cwd=self.out,log=self.out/(name+'.log'),timeout=remaining,env=self.env)
         result['name']=name; self.steps.append(result)
@@ -1071,7 +1084,7 @@ class Job:
     def drc(self,name,board,save=False,*,schematic_parity=False):
         # No input copy, immutable flag or worker journal for an expired job.
         # The step still rechecks its budget; uncertain later failures stay closed.
-        if self.deadline-time.monotonic()<=0:
+        if self.remaining()<=0:
             raise Rejected('timeout: whole task budget exhausted before DRC preparation')
         policy=experimental_parity_policy(self.native_toolchain,self.experimental_schematic_parity)
         if self.native_toolchain is not None and schematic_parity and policy is None:
@@ -2232,7 +2245,7 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None):
     """Keep cancellation active between workers and through final publication."""
     def interrupted(*_):raise KeyboardInterrupt
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
@@ -2243,22 +2256,24 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             preference_overrides=preference_overrides,_preferences=_preferences,native_toolchain=native_toolchain,
             experimental_schematic_parity=experimental_schematic_parity,_fanout_enabled=_fanout_enabled,
             _optimizer_enabled=_optimizer_enabled,_engine_clearance_margin_nm=_engine_clearance_margin_nm,
-            _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context,_improve_context=_improve_context)
+            _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context,_improve_context=_improve_context,_improve_budget=_improve_budget)
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
 
 
-def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None):
+def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
     from . import comparison, _improve_context as improve_child
     if _improve_context is not None:
+        improve_child.require_budget(_improve_budget,_improve_context)
+        if _improve_budget.remaining()<=0:raise Rejected('Improve work budget exhausted before child intake')
         if experimental_schematic_parity is not False:raise Rejected('Improve child cannot mix experimental parity')
         improve_child.authorize(_improve_context,source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy,
             (native_toolchain,comparison_context,settings_path,preference_overrides,_preferences,
              _fanout_enabled,_optimizer_enabled,_engine_clearance_margin_nm,_engine_global_width_policy))
-    elif improve_child.marked(output):raise Rejected('Improve child requires explicit caller context')
+    elif _improve_budget is not None or improve_child.marked(output):raise Rejected('Improve child requires explicit caller context and live budget')
     if comparison_context is not None:
         if native_toolchain is not None or experimental_schematic_parity is not False:raise Rejected('comparison cannot mix experimental Native authority')
         comparison.authorize(comparison_context,source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy,
@@ -2336,6 +2351,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     job=Job(output,seconds,protect_local_settings=True,**({'native_toolchain':native_toolchain,
         'experimental_schematic_parity':experimental_schematic_parity} if native_toolchain is not None else {}))
     job.started=operation_started; job.deadline=operation_started+seconds; job.cpu_started=operation_cpu
+    job.child_cpu_started=_preferences['child_cpu'] if _preferences else operation_children
+    if _improve_context is not None:_improve_budget.attach(job)
     code=output/'code'; code.mkdir()
     for path in (c.ROOT/'autorouter').glob('*.py'): shutil.copy2(path,code/path.name)
     report={'schema':1,'status':'validator_error','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked','source':str(source),
@@ -2531,17 +2548,20 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     from .floor_route import publish,child_cpu,evidence_inventory
     completed=evidence_inventory(output)
     def remaining():
-        return min(job.deadline-time.monotonic(),seconds-(time.process_time()-job.cpu_started+child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)))
+        return min(job.remaining(),seconds-(time.process_time()-job.cpu_started+child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)))
     def account():
         report.update(wall_seconds=time.monotonic()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)
         report['control_child_cpu_seconds']=max(0,child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
         report['total_cpu_seconds']=sum(report[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds','control_child_cpu_seconds'))
         report['resource_accounting_point']='Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.'
-        if report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds:
+        if (report['wall_seconds']>seconds or report['total_cpu_seconds']>seconds
+                or _improve_budget is not None and _improve_budget.remaining()<=0):
             report.update(accepted=False,status='budget_exceeded')
         if not report['accepted']:report['whole_project_drc_clean']=False
     def stable():
-        if _improve_context is not None:improve_child.require(_improve_context)
+        if _improve_context is not None:
+            improve_child.require_budget(_improve_budget,_improve_context)
+            improve_child.require(_improve_context)
         if comparison_context is not None:comparison.require_context(comparison_context)
         if report['accepted']:
             if tool_manifest(**({'native_toolchain':native_toolchain} if native_toolchain is not None else {}))!=report['tools']:raise Rejected('runtime changed during preference publication')

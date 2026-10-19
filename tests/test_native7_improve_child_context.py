@@ -24,7 +24,9 @@ class ImproveChildContextControls(unittest.TestCase):
         self.base = Path(temporary.name).resolve()
         self.runtime = self.base / 'runtime'; (self.runtime / 'autorouter').mkdir(parents=True)
         self.workspace = self.runtime / '.runs/gui-session083/jobs' / ('autorouter-gui-' + 'a'*32)
-        self.parent = self.workspace / 'route'; self.parent.mkdir(parents=True)
+        self.workspace.mkdir(parents=True)
+        self.parent = self.workspace / 'route'
+        self.parent_job = p.Job(self.parent,90,protect_local_settings=True)
         self.owner = {}; h.capture_destination(self.owner, self.parent)
         self.source = self.base / 'source' / 'owned.kicad_pcb'; self.source.parent.mkdir()
         self.source.write_text('(kicad_pcb (version 20260206) (layers (0 "F.Cu" signal) (2 "B.Cu" signal)))')
@@ -62,6 +64,9 @@ class ImproveChildContextControls(unittest.TestCase):
             output=self.parent/'incumbent', seconds=63, keep=False, adapter='both', profile='tuned',
             scoring=None, guidance='native', extras=())
         values.update(changes); return child.authorize(**values)
+
+    def budget(self):
+        return child._Budget(self.context,self.parent_job,self.parent_job.child_cpu_started)
 
     def record(self):
         output = self.context.output; output.mkdir()
@@ -170,10 +175,12 @@ class ImproveChildContextControls(unittest.TestCase):
 
     def test_route_dispatch_only_exact_context_passes_ordinary_capability_gate(self):
         class StopBeforeJob(Exception):pass
+        budget=self.budget()
         with patch.object(p,'sha',return_value=c.JAR_SHA256), patch.object(p,'check_storage',side_effect=StopBeforeJob):
             with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned')
-            with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context)
-            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,comparison_context=object())
+            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context)
+            with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget)
+            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget,comparison_context=object())
         # Parent remains unsupported; this patch does not wire prune or Preview.
         with self.assertRaises(p.Rejected):p.require_native_scope(purpose='improve')
 
@@ -188,6 +195,59 @@ class ImproveChildContextControls(unittest.TestCase):
             self.assertIs(raw.call_args.kwargs['_improve_context'],self.context)
             self.assertEqual(state['entries'],{})
             with self.assertRaises(p.Rejected):p.check_result(path,_improve_context=self.context,comparison_context=object())
+
+    def test_live_parent_budget_charges_preparation_and_reaped_cpu_once(self):
+        budget=self.budget();job=self.parent_job
+        with patch.object(child.time,'monotonic',return_value=job.started+4), \
+                patch.object(child.time,'process_time',return_value=job.cpu_started+6), \
+                patch.object(f,'child_cpu',return_value=budget.children_start+7):
+            self.assertEqual(budget.remaining(),52)
+            self.assertEqual(budget.remaining(work=False),77)
+        # Long Context intake cannot renew the parent's absolute work window.
+        worker=p.Job(self.context.output,63,protect_local_settings=True)
+        budget.attach(worker)
+        self.assertLessEqual(worker.deadline,job.deadline-25)
+        with patch.object(child.time,'monotonic',return_value=job.started+66), \
+                patch.object(child.time,'process_time',return_value=job.cpu_started+1), \
+                patch.object(f,'child_cpu',return_value=budget.children_start), \
+                patch.object(p,'run') as run:
+            with self.assertRaises(p.Rejected):worker.step('never-launch',['never-execute'])
+            with self.assertRaises(p.Rejected):worker.drc('never-drc',self.source)
+            run.assert_not_called()
+            # Work has expired; the parent still has its reserved return time.
+            budget.attach(job)
+            self.assertEqual(job.remaining(),24)
+
+    def test_budget_cpu_exhaustion_clock_mutations_and_foreign_jobs_refuse(self):
+        budget=self.budget();job=self.parent_job
+        with patch.object(child.time,'process_time',return_value=job.cpu_started+66), \
+                patch.object(f,'child_cpu',return_value=budget.children_start):
+            self.assertLess(budget.remaining(),0)
+            self.assertGreater(budget.remaining(work=False),0)
+        for name,value in (('deadline',job.deadline+1),('started',job.started+1),('cpu_started',job.cpu_started+1)):
+            before=getattr(job,name);setattr(job,name,value)
+            try:
+                with self.subTest(name=name),self.assertRaises(p.Rejected):budget.remaining()
+            finally:setattr(job,name,before)
+        with self.assertRaises(p.Rejected):child.require_budget(budget,replace(self.context))
+        with self.assertRaises(p.Rejected):child.require_budget(budget.context.record(),self.context)
+        foreign=p.Job(self.workspace/'foreign',30,protect_local_settings=True)
+        with self.assertRaises(p.Rejected):budget.attach(foreign)
+        for name in ('trial-0000','trial-0031'):
+            trial=p.Job(self.parent/'trials'/name,12,protect_local_settings=True)
+            self.assertIs(budget.attach(trial),trial)
+        extra=p.Job(self.parent/'trials'/'trial-0032',12,protect_local_settings=True)
+        with self.assertRaises(p.Rejected):budget.attach(extra)
+
+    def test_preconstruction_child_cpu_cannot_be_rebased_at_budget_creation(self):
+        original=self.budget().children_start;job=self.parent_job
+        with patch.object(f,'child_cpu',return_value=original+70), \
+                patch.object(child.time,'monotonic',return_value=job.started+10), \
+                patch.object(child.time,'process_time',return_value=job.cpu_started+1):
+            with self.assertRaises(p.Rejected):child._Budget(self.context,job,original+70)
+            retained=child._Budget(self.context,job,original)
+            self.assertLess(retained.remaining(),0)
+            self.assertEqual(retained.remaining(work=False),19)
 
     def test_central_reader_final_context_then_metadata_and_no_early_acceptance(self):
         # Extract the actual final block, stubbing only the large Native replay

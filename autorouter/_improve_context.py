@@ -9,7 +9,9 @@ import hashlib
 import math
 import os
 from pathlib import Path
+import re
 import stat
+import time
 from . import config as c, provenance as pv
 
 POLICY = 'selected-native7-single-improve-child-v1'
@@ -181,6 +183,104 @@ def require(context):
     from .pipeline import Rejected
     if type(context) is not _Context:raise Rejected('exact live Improve child context required')
     return context.check()
+
+
+@dataclass(frozen=True)
+class _Budget:
+    """Live execution clocks from the actual parent Job; never from a receipt.
+
+    The retained Context describes lineage. This separate object supplies the
+    changing work limit, including time spent constructing/checking Context.
+    CPU is checked cooperatively before workers and at publication, not
+    preempted by the OS. Existing polling overshoot limits still apply.
+    """
+    context: _Context
+    parent_job: object
+    children_start: float
+    _clocks: tuple = field(init=False, repr=False)
+
+    def __post_init__(self):
+        from . import pipeline as p
+        require(self.context)
+        job = self.parent_job
+        if (type(job) is not p.Job or job.out != self.context.parent
+                or job.seconds != self.context.method_seconds
+                or job.protect_local_settings is not True or job.native_toolchain is not None
+                or job.experimental_schematic_parity is not False
+                or not _number(self.children_start) or self.children_start < 0
+                or not _number(job.child_cpu_started) or job.child_cpu_started != self.children_start
+                or any(not _number(value) or value < 0 for value in
+                    (job.started, job.deadline, job.cpu_started))
+                or job.deadline != job.started + job.seconds):
+            raise p.Rejected('live exact Improve parent Job budget required')
+        _check_parent_owner(job._local_settings_owner, self.context.parent)
+        if job._local_settings_owner != self.context._owner:
+            raise p.Rejected('Improve parent Job owner differs from Context')
+        object.__setattr__(self, '_clocks', (job.started, job.deadline, job.cpu_started,
+                                            job.seconds, job.child_cpu_started))
+        self.check()
+
+    def check(self):
+        from . import pipeline as p
+        job = self.parent_job
+        if (type(self.context) is not _Context or type(job) is not p.Job
+                or (job.started, job.deadline, job.cpu_started, job.seconds, self.children_start) != self._clocks
+                or not _number(job.child_cpu_started) or job.child_cpu_started != self.children_start
+                or job.out != self.context.parent or job.protect_local_settings is not True
+                or job.native_toolchain is not None or job.experimental_schematic_parity is not False
+                or _encode(self.context.record()) != self.context._seal):
+            raise p.Rejected('Improve parent execution budget changed')
+        _check_parent_owner(self.context.parent_owner, self.context.parent)
+        _check_parent_owner(job._local_settings_owner, self.context.parent)
+        _owned(self.context.parent, directory=True)
+        if self.context.parent_owner != self.context._owner or job._local_settings_owner != self.context._owner:
+            raise p.Rejected('Improve parent execution owner changed')
+        return self
+
+    def remaining(self, *, work=True):
+        from . import pipeline as p
+        from .floor_route import child_cpu
+        self.check()
+        if type(work) is not bool:raise p.Rejected('explicit Improve work-budget scope required')
+        job = self.parent_job
+        parent = time.process_time() - job.cpu_started
+        children = child_cpu() - self.children_start
+        if not _number(parent) or not _number(children) or parent < 0 or children < 0:
+            raise p.Rejected('invalid live Improve full CPU accounting')
+        reserve = RESERVE_SECONDS if work else 0
+        return min(job.deadline - time.monotonic() - reserve,
+                   job.seconds - parent - children - reserve)
+
+    def _work_job(self, job):
+        from . import pipeline as p
+        if type(job) is not p.Job:raise p.Rejected('exact Improve worker Job required')
+        if job is self.parent_job:return False
+        if job.out == self.context.output:return True
+        if (job.out.parent == self.context.parent / 'trials'
+                and re.fullmatch(r'trial-(?:00[0-2][0-9]|003[01])', job.out.name)):
+            return True
+        raise p.Rejected('Improve worker escaped fixed parent lineage')
+
+    def attach(self, job):
+        from . import pipeline as p
+        self.check()
+        work = self._work_job(job)
+        prior = getattr(job, '_inherited_budget', None)
+        if (job.protect_local_settings is not True or job.native_toolchain is not None
+                or job.experimental_schematic_parity is not False
+                or prior is not None and prior is not self):
+            raise p.Rejected('Improve worker cannot mix execution budgets')
+        _check_parent_owner(job._local_settings_owner, job.out)
+        if work:job.deadline = min(job.deadline, self.parent_job.deadline - RESERVE_SECONDS)
+        job._inherited_budget = self
+        return job
+
+
+def require_budget(budget, context):
+    from .pipeline import Rejected
+    if type(budget) is not _Budget or budget.context is not context:
+        raise Rejected('exact live Improve execution budget required')
+    return budget.check()
 
 
 def marked(directory, data=None):

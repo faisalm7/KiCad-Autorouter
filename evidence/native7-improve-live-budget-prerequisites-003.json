@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "kind": "private-Improve-live-budget-and-shared-normal-preview-prerequisite-v1",
+  "recorded_utc": "2026-10-19T22:23:35.181949+00:00",
+  "source_head_before_changes": "b914f092b81d10b3b3d8bb53e6f5b95728c6acac",
+  "source_sha256": {
+    "autorouter/_improve_context.py": "599877bcadab360dd15fb30d26b89aacc5e4ea348fc01d4799b444846bf427c2",
+    "autorouter/pipeline.py": "a13e2ac4386ef944f0c1bc0f55cb6539ee511a4f5bb57835d8f1c5edc8f4d649",
+    "autorouter/review_view.py": "d19545a706ffcd12a1e236817dae539212a7ed8921db179ce717b38bfb33c05a",
+    "tests/test_native7_improve_child_context.py": "5bb6a1571f15bbfab4a44d1de5200696c9c4214065bdad43741537b84893890e",
+    "tests/test_review_view.py": "39e75d38f861fafe1c7c1cd6a7d7f2c03c301a1f0a00a896c2b83559c8c15a12"
+  },
+  "tests": [
+    {
+      "command_log": ".runs/native7-improve-live-budget-targeted-001-time.log",
+      "sha256": "e0aca572a0917b32251a4ec5777aca717a5b20d85b563704e0722761581f4744",
+      "tests": 110,
+      "passed": true,
+      "reason": null,
+      "complete_external_cost": {
+        "wall_seconds": 8.92,
+        "CPU_seconds": 6.69,
+        "user_seconds": 5.35,
+        "system_seconds": 1.34,
+        "time_log_sha256": "e0aca572a0917b32251a4ec5777aca717a5b20d85b563704e0722761581f4744",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-live-budget-targeted-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "command_log": ".runs/native7-improve-preparation-cpu-before-001-time.log",
+      "sha256": "d89aa29dea41c004798ad5af767213452e00c3b6587fe71f4288b884da5c9300",
+      "tests": 1,
+      "passed": false,
+      "reason": "Late CPU baseline wrongly accepted; regression reproduced before Job-owned baseline fix.",
+      "complete_external_cost": {
+        "wall_seconds": 0.45,
+        "CPU_seconds": 0.38,
+        "user_seconds": 0.35,
+        "system_seconds": 0.03,
+        "time_log_sha256": "d89aa29dea41c004798ad5af767213452e00c3b6587fe71f4288b884da5c9300",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-preparation-cpu-before-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "command_log": ".runs/native7-improve-live-budget-targeted-002-time.log",
+      "sha256": "d3ed1afd352b50ab3145a46cb3c580a18d0f1bd0f1184eac95062a8986235449",
+      "tests": 111,
+      "passed": true,
+      "reason": null,
+      "complete_external_cost": {
+        "wall_seconds": 9.15,
+        "CPU_seconds": 6.88,
+        "user_seconds": 5.56,
+        "system_seconds": 1.32,
+        "time_log_sha256": "d3ed1afd352b50ab3145a46cb3c580a18d0f1bd0f1184eac95062a8986235449",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-live-budget-targeted-002-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "command_log": ".runs/native7-improve-shared-preview-targeted-001-time.log",
+      "sha256": "cfeb71fb00388263ed75520ae262836ef6c61851f4995e103d96ea5f510f106a",
+      "tests": 36,
+      "passed": false,
+      "reason": "Two new normal-preview controls failed because ordinary renderer omitted explicit plotter path;34 other controls passed.",
+      "complete_external_cost": {
+        "wall_seconds": 42.53,
+        "CPU_seconds": 41.31,
+        "user_seconds": 37.5,
+        "system_seconds": 3.81,
+        "time_log_sha256": "cfeb71fb00388263ed75520ae262836ef6c61851f4995e103d96ea5f510f106a",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-shared-preview-targeted-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "command_log": ".runs/native7-improve-normal-preview-targeted-002-time.log",
+      "sha256": "1c510ad75b5e10f5a2bb2a963532dda6807f118698e986ac1e7dc044e34dec84",
+      "tests": 2,
+      "passed": true,
+      "reason": null,
+      "complete_external_cost": {
+        "wall_seconds": 0.76,
+        "CPU_seconds": 0.25,
+        "user_seconds": 0.16,
+        "system_seconds": 0.09,
+        "time_log_sha256": "1c510ad75b5e10f5a2bb2a963532dda6807f118698e986ac1e7dc044e34dec84",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-improve-normal-preview-targeted-002-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    }
+  ],
+  "Native_executed": false,
+  "actual_GUI": false,
+  "parent_admission": false,
+  "project_complete": false,
+  "scope": "Development prerequisites only. Context readback definition cannot mint execution clocks. Live exact parent Job owns wall/process/reaped-child origin; fixed incumbent/trials inherit25s work reserve, final parent keeps whole budget. Shared Job step/DRC/publication enforce cooperative limits and all final CPU caps remain strict. Normal rendered preview now records explicit pinned plotter and shares existing process/census/PRL replay.",
+  "review": {
+    "kind": "AI source review",
+    "reviewer": "/root/windows005_gate",
+    "human": false,
+    "issue": "Late reaped-child baseline could exclude preparation CPU; reproduced by controlled-clock regression, bound to Job entry and preserved by actual Route entry clock reset.",
+    "limitation": "No actual Native or GUI qualification. No OS total-CPU preemption or hostile-writer authentication."
+  },
+  "remaining": [
+    "Parent/Preview/central reader/fresh export admission still closed. Strategy parent draft remains uncommitted and unapplied pending reserved-return correction.",
+    "Wire exact parent/child/trial packets and final all-root metadata guards; complete full integration and fresh installed Native positive/invalid/stale/cancel/no-improvement and GUI roles before a new candidate admits Improve.",
+    "Runtime043 and GUI083 preparation unchanged. Current folder sheet ignores keyboard despite readable UI; one owner request remains pending, no unlock/security change."
+  ],
+  "backup": "Source/metadata only after verified Git checkpoint. These raw targeted logs and new unique Native artifacts remain on this Mac outside010; no new full restoration or raw-backup coverage claimed.",
+  "accounting": "Complete command costs retained separately, nested once. Authoring/review/curation/interactive costs additional; unknown is not zero."
+}

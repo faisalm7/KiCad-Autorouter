@@ -1,10 +1,12 @@
 """Boundary regressions only; real KiCad rendering is a separate native test."""
 import json
 import os
+import copy
 from pathlib import Path
 import stat
 import sys
 import tempfile
+import shutil
 import unittest
 from unittest.mock import patch
 from autorouter import handoff as h, review_view as view, pipeline as p, local_settings as ls
@@ -177,6 +179,43 @@ class PlotCopyControls(unittest.TestCase):
                         view.render(out,source/'board.kicad_pcb',candidate/'board.kicad_pcb',{},lambda:30,lambda:None)
                         self.assertEqual(len(calls),4)
                     selected.assert_called_once_with()
+
+    def test_normal_preview_reuses_exact_plot_proofs_and_rejects_missing_population(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source,candidate,out,tool=self.projects(Path(tmp).resolve(),old_prl=True)
+            shutil.copytree(source,out/'before');shutil.copytree(candidate,out/'project')
+            source,candidate=out/'before',out/'project';calls=[]
+            preview=self.render(out,source,candidate,tool,self.plot_worker(source,candidate,lambda *args:None,calls))
+            pin={'path':str(tool),'sha256':p.sha(tool),'bytes':tool.stat().st_size}
+            with patch.object(view.c,'CLI',tool),patch.object(p,'selected_tool_pins',return_value={'kicad_cli':pin}):
+                self.assertEqual(len(view.check_native_preview(out,preview)),4)
+                missing=copy.deepcopy(preview);missing['files'].pop('plot-work/after-B.Cu-process.json')
+                with self.assertRaises(p.Rejected):view.check_native_preview(out,missing)
+                tool.write_text('changed plotter')
+                with self.assertRaises(p.Rejected):view.check_native_preview(out,preview)
+
+    @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac flags required')
+    def test_normal_preview_final_tool_read_cannot_hide_earlier_prl_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source,candidate,out,tool=self.projects(Path(tmp).resolve(),old_prl=True)
+            shutil.copytree(source,out/'before');shutil.copytree(candidate,out/'project')
+            source,candidate=out/'before',out/'project';calls=[]
+            preview=self.render(out,source,candidate,tool,self.plot_worker(source,candidate,lambda *args:None,calls))
+            pin={'path':str(tool),'sha256':p.sha(tool),'bytes':tool.stat().st_size}
+            prl=out/'plot-work/before-F.Cu-input/board.kicad_prl';original=p.sha;reads=[]
+            def late_hash(path):
+                result=original(path)
+                if Path(path)==tool:
+                    reads.append(path)
+                    if len(reads)==2:os.chflags(prl,stat.UF_IMMUTABLE,follow_symlinks=False)
+                return result
+            try:
+                with patch.object(view.c,'CLI',tool),patch.object(p,'selected_tool_pins',return_value={'kicad_cli':pin}), \
+                        patch.object(p,'sha',side_effect=late_hash),self.assertRaises(p.Rejected):
+                    view.check_native_preview(out,preview)
+                self.assertEqual(len(reads),2)
+            finally:
+                if prl.exists() and prl.stat().st_flags:os.chflags(prl,0,follow_symlinks=False)
 
     def test_native_added_prl_is_confined_and_original_changes_reject(self):
         for mutation in ('added_prl', 'changed_board', 'changed_existing_prl', 'late_added_rule'):

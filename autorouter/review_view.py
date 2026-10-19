@@ -52,6 +52,23 @@ def write_bound(path, raw):
 
 def check_experimental_preview(destination, preview, native_toolchain=None, experimental_schematic_parity=False, *, comparison_context=None):
     """Replay existing SVG process/PRL proofs using only caller-selected tools."""
+    if native_toolchain is None and comparison_context is None:
+        _preview_request(destination,preview)
+        return
+    return _check_preview(destination,preview,native_toolchain,experimental_schematic_parity,
+                          comparison_context=comparison_context)
+
+
+def check_native_preview(destination, preview):
+    """Replay normal SVG proofs against the current pinned native plotter.
+
+    This supplies no routing or delivery authority. The caller must have
+    checked its exact original receipt and complete review material first.
+    """
+    return _check_preview(destination,preview)
+
+
+def _preview_request(destination, preview, native_toolchain=None, experimental_schematic_parity=False, *, comparison_context=None):
     from . import handoff as h
     h.application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     h.check_delivery_context(preview, native_toolchain, experimental_schematic_parity, comparison_context=comparison_context)
@@ -59,10 +76,21 @@ def check_experimental_preview(destination, preview, native_toolchain=None, expe
     cmp.delivery_path(Path(destination).absolute(),comparison_context,'review')
     if comparison_context is None and type(preview.get('html')) is str and cmp.marked(Path(preview['html']).parent):
         raise p.Rejected('comparison preview origin requires its caller context')
-    if native_toolchain is None and comparison_context is None:
-        return
+
+
+def _check_preview(destination, preview, native_toolchain=None, experimental_schematic_parity=False, *, comparison_context=None):
+    from . import handoff as h, comparison as cmp
+    _preview_request(destination,preview,native_toolchain,experimental_schematic_parity,
+                     comparison_context=comparison_context)
     plotter=native_toolchain.cli if native_toolchain is not None else c.CLI
-    plotter_sha=native_toolchain.cli_sha256 if native_toolchain is not None else comparison_context.tools['files'][str(plotter)]
+    if native_toolchain is not None:plotter_sha=native_toolchain.cli_sha256
+    elif comparison_context is not None:plotter_sha=comparison_context.tools['files'][str(plotter)]
+    else:
+        pin=p.selected_tool_pins()['kicad_cli']
+        if (c.resolve_tool_path(pin['path'])!=plotter or p.sha(plotter)!=pin['sha256']
+                or plotter.stat().st_size!=pin['bytes']):
+            raise p.Rejected('normal preview requires the current pinned plotter')
+        plotter_sha=pin['sha256']
     destination = h.real_path(destination)
     before = pc.inventory(destination / 'before')
     boards = ([comparison_context.source.name] if comparison_context is not None else
@@ -113,6 +141,8 @@ def check_experimental_preview(destination, preview, native_toolchain=None, expe
         raise p.Rejected('experimental preview proof file census differs')
     p.experimental_native_version(native_toolchain)
     if comparison_context is not None:cmp.require_context(comparison_context)
+    elif native_toolchain is None and p.sha(plotter)!=plotter_sha:
+        raise p.Rejected('normal preview plotter changed during readback')
     # Flags and link counts are not byte hashes. Recheck after the last tool read.
     for binding, process in pairs:
         ls.check_event(root, binding, process)
@@ -221,7 +251,7 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
     stable()
     if p.sha(plotter) != pin['sha256']:
         raise p.Rejected('KiCad plotter changed during rendering')
-    result = {'plotter_sha256': pin['sha256'], 'layers': layers, 'steps': job.steps,
+    result = {'plotter': str(plotter), 'plotter_sha256': pin['sha256'], 'layers': layers, 'steps': job.steps,
             'html': str(destination / 'preview.html'), 'native_validation_performed': False,
             'zone_refill_performed': False, 'rendered_input_routes': len(p.routes(tree)),
             'display_derivation': 'Exact native SVG bytes with only the observed standard SVG1.1 DOCTYPE removed; raw native plots retained separately. No external DTD or entity is loaded.',
@@ -229,6 +259,6 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
             'files': frozen}
 
     if native_toolchain is not None or comparison_context is not None:
-        result.update(h.delivery_record(**app), plotter=str(plotter))
+        result.update(h.delivery_record(**app))
         check_experimental_preview(destination, result, **app)
     return result
