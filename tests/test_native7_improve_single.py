@@ -1,7 +1,7 @@
 """Constructed selection controls, not actual selected7/Native qualification.
 
 The Native replay primitive is mocked explicitly to isolate ancestry checks.
-This unapplied prerequisite must not be used to open the selected7 guards.
+These controls establish ancestry logic only; Native/installed/GUI proof is separate.
 """
 import copy,json,tempfile,unittest
 from pathlib import Path

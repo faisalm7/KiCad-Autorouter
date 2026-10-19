@@ -9,6 +9,7 @@ class SelectedScopeTests(unittest.TestCase):
  def test_selected7_default_and_partial_allowed_advanced_refused(self):
   with patch.object(c,'NATIVE_VERSION','10.0.7'):
    p.require_native_scope();p.require_native_scope(scope='partial_completion');p.require_native_scope(purpose='thermal-recovery')
+   p.require_native_scope(purpose='improve',profile='tuned',adapter='both')
    for kwargs in ({'purpose':'improve'},{'scope':'selected_nets'},{'guidance':'placement-clearance-v1'},
       {'layers':['F.Cu']},{'profile':'tuned'},{'profile':'completion-only'},{'adapter':'none'},{'scoring':'via_low'},
       {'purpose':'thermal-recovery','scope':'partial_completion'},{'purpose':'thermal-recovery','profile':'completion-only'}):
@@ -18,7 +19,10 @@ class SelectedScopeTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp:
    source=Path(tmp)/'absent.kicad_pcb';out=Path(tmp)/'untouched'
    with patch.object(c,'NATIVE_VERSION','10.0.7'):
-    for call in (lambda:strategy.prune(source,out),lambda:placement_strategy.prune(source,out),
+    with self.assertRaisesRegex(p.Rejected,'unsupported: selected7 Improve source scope'):
+     strategy.prune(source,out)
+    self.assertFalse(out.exists())
+    for call in (lambda:placement_strategy.prune(source,out),
       lambda:cli.preview(source,purpose='improve'),
       lambda:p.route(source,out,adapter='both',guidance_policy='board-floors-v1')):
      with self.assertRaisesRegex(p.Rejected,'unsupported: selected Native'):call()

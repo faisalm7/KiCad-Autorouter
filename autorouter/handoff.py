@@ -108,6 +108,17 @@ def delivery_guards(receipt, report, native_toolchain, preview=None, destination
     """Replay existing non-byte guards after all delivery material/tool reads."""
     cmp.delivery_record(comparison_context,native_toolchain)
     comparison=cmp.check_record(Path(receipt).parent,report,comparison_context)
+    from . import strategy as pruning
+    if pruning.native7_marked(Path(receipt).parent,report):
+        if native_toolchain is not None or comparison_context is not None:
+            raise Rejected('Improve delivery cannot mix caller authority')
+        pairs=[]
+        if preview is not None:
+            from .review_view import check_native_preview
+            pairs=check_native_preview(destination,preview)
+        pruning.check_native7_final(Path(receipt).parent,report,additional=additional,
+            material=material,pairs=pairs)
+        return
     if native_toolchain is None and not comparison:
         if preview is not None:check_delivery_context(preview)
         return

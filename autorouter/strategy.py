@@ -33,6 +33,8 @@ MAX_FEEDBACK_DEPTH = 2
 MAX_FEEDBACK_ADDED_ROUTES = 8
 PRUNING_PREFERENCES_POLICY = "native-pruning-preferences-v1"
 SINGLE_SELECTION_POLICY = "selected-native7-single-pruning-lineage-v1"
+NATIVE7_PARENT_POLICY = "selected-native7-single-improve-parent-v1"
+NATIVE7_PARENT_FILE = "native7-improve-parent.json"
 ADAPTIVE_POLICY = "charged-first-single-sequence-v1"
 STRONG_INCUMBENT_POLICY = "free-angle-clearance20-v1"
 STRONG_WIDTH_INCUMBENT_POLICY = "free-angle-clearance20-global-width-v2"
@@ -311,6 +313,11 @@ def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial
             or record.get('accepted') is not (record['status'] == 'improvement_validated')
             or (record['status'] == 'drc_rejected') == _valid(native)):
         raise p.Rejected('adaptive Native outcome identity/status differs')
+    if guard_key=='single_trial_guard':
+        original=sx.read(Path(directory)/'snapshot'/candidate.name)
+        protected=[route for route in p.routes(original) if p.locked(route)]
+        p.check_final_netclass_evidence(folder,record,candidate,protected,default_target_policy=True,
+            default_target_basis=native7_default_target_basis(directory,data))
     if record['status'] != 'drc_rejected':
         if f.read_json(folder / 'metrics.json') != record.get('metrics'):
             raise p.Rejected('adaptive metric receipt differs')
@@ -322,10 +329,9 @@ def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial
 
 
 def check_single_selection(directory, data):
-    """Draft prerequisite only: reconstruct retained single-policy ancestry.
+    """Reconstruct retained single-policy ancestry after exact child readback.
 
-    This function is deliberately NOT wired to admission. Its future caller
-    must first verify the exact incumbent with a trusted live child context,
+    The caller must first verify the exact incumbent with a trusted child context,
     then run the central original/final/Native readers and the final all-root
     PRL collector. It supplies no selected-version or child authority itself.
     Incomplete trials remain charged but cannot enter the selected ancestry.
@@ -722,6 +728,219 @@ def check_incumbent_policy(directory, data, incumbent=None):
     return policy
 
 
+def native7_single_scope(source, effective, *, proposal_policy="single", incumbent_scoring=None, incumbent_policy=None):
+    """Source support only; Preview/prune capability admission is separate.
+
+    No workspace, Native worker, parent/child authority or receipt is produced.
+    This deliberately matches the child definition's canonical flat2Cu scope.
+    """
+    from . import provenance as pv
+    from .layer_policy import _two_copper_table
+    effective = pruning_scope(effective)
+    if (c.NATIVE_VERSION != '10.0.7' or type(proposal_policy) is not str or proposal_policy != 'single'
+            or incumbent_scoring is not None or incumbent_policy is not None
+            or effective['scoring_preference'] is not None):
+        raise p.Rejected('unsupported: selected7 Improve requires single/native/default-score incumbent')
+    try:
+        source = pv.canonical(Path(source))
+        from ._improve_context import _owned
+        if source.suffix!='.kicad_pcb':raise p.Rejected('unsupported: Improve requires the saved PCB identity')
+        for suffix in ('.kicad_pcb','.kicad_pro','.kicad_sch'):
+            _owned(pv.canonical(source.with_suffix(suffix)))
+        project=json.loads(pv.read_bytes(source.with_suffix('.kicad_pro')),object_pairs_hook=pv._strict_object)
+        settings=project.get('net_settings',{}) if type(project) is dict else None
+        classes=settings.get('classes') if type(settings) is dict else None
+        if (type(settings) is not dict or 'classes' in settings and (type(classes) is not list
+                or len(classes)!=1 or type(classes[0]) is not dict or classes[0].get('name')!='Default')):
+            raise p.Rejected('unsupported: selected7 Improve requires sole explicit/implicit Default')
+        tree = p.preflight(source, task_scope=('whole_board_unlocked_routing','native','source_all'))
+        _two_copper_table(tree)
+        if p.netclass_policy(source) is not None or p.check_schematic_class_support(source) is not None:
+            raise p.Rejected('unsupported: selected7 Improve requires unflagged Default flat schematic')
+    except (ValueError, OSError) as exc:
+        raise p.Rejected('unsupported: selected7 Improve source scope: '+str(exc)) from exc
+    return effective
+
+
+def _bind_native7_parent(directory, data, context):
+    """Retain the definition, never an executable Budget or serialized clocks."""
+    from . import _improve_context as child, floor_route as f
+    child.require(context)
+    if Path(directory) != context.parent:raise p.Rejected('Improve parent path differs')
+    target = Path(directory) / NATIVE7_PARENT_FILE
+    raw = (f.canonical(dict(schema=1,policy=NATIVE7_PARENT_POLICY,context=context.record()))+'\n').encode()
+    with target.open('xb') as stream:stream.write(raw)
+    data.update(single_selection_policy=SINGLE_SELECTION_POLICY,
+        native7_improve_parent=dict(policy=NATIVE7_PARENT_POLICY,file=NATIVE7_PARENT_FILE,sha256=hashlib.sha256(raw).hexdigest()),
+        incumbent_assigned_seconds=context.assigned_seconds,incumbent_allocation=dict(context.allocation))
+
+
+def native7_marked(directory,data):
+    path=Path(directory)/NATIVE7_PARENT_FILE
+    return (any(key in data for key in ('native7_improve_parent','single_selection_policy','native7_default_target_basis'))
+        or path.exists() or path.is_symlink()
+        or c.NATIVE_VERSION=='10.0.7' and data.get('strategy')=='native_validated_zone_net_pruning')
+
+
+def native7_parent(directory, data):
+    """Validate source-derived parent definition; this is NOT parent acceptance.
+
+    Marker deletion cannot downgrade selected7 pruning to a legacy parent.
+    No recursive call to the full parent reader and no live Budget from JSON.
+    """
+    from . import floor_route as f, provenance as pv
+    from .local_settings import policy_declaration
+    directory = pv.canonical(Path(directory)); path = directory / NATIVE7_PARENT_FILE
+    pruning = data.get('strategy') == 'native_validated_zone_net_pruning'
+    if not native7_marked(directory,data):return None
+    if (c.NATIVE_VERSION != '10.0.7' or type(data.get('schema')) is not int or data['schema'] != 1
+            or not pruning or data.get('single_selection_policy') != SINGLE_SELECTION_POLICY
+            or data.get('proposal_policy') != 'single' or data.get('engine_profile') != 'tuned'
+            or data.get('adapter') != 'both' or data.get('scope') != 'whole_board_unlocked_routing'
+            or data.get('incumbent_baseline') != 'B2_tuned'
+            or data.get('finalization_reserve_seconds') != NATIVE_FINAL_RESERVE_SECONDS
+            or data.get('finalization_cpu_reserve_seconds') != NATIVE_FINAL_RESERVE_SECONDS
+            or any(key in data for key in ('incumbent_policy','incumbent_policy_binding','incumbent_scoring_variant',
+                'incumbent_scoring_contract','incumbent_receipt_sha256','chain_pad_context','adaptive_branch',
+                'comparison_route','production_admitted','input_policy','engine_angle_binding'))):
+        raise p.Rejected('exact source-derived selected7 Improve parent required')
+    effective = check_pruning_preferences(directory,data)
+    native7_single_scope(Path(data['source']),effective,proposal_policy=data['proposal_policy'])
+    actual = p.tool_manifest()
+    if data.get('tools') != actual:raise p.Rejected('Improve parent selected tools changed')
+    raw_code = pv.read_bytes(directory/'code/strategy.py')
+    if (hashlib.sha256(raw_code).hexdigest() != actual['implementation_sha256'].get('autorouter/strategy.py')
+            or policy_declaration(raw_code,name='NATIVE7_PARENT_POLICY',expected=NATIVE7_PARENT_POLICY) != NATIVE7_PARENT_POLICY
+            or policy_declaration(raw_code,name='SINGLE_SELECTION_POLICY',expected=SINGLE_SELECTION_POLICY) != SINGLE_SELECTION_POLICY):
+        raise p.Rejected('Improve captured parent policy changed')
+    raw = pv.read_bytes(path,512*1024); contract = f.read_json(path)
+    expected = dict(policy=NATIVE7_PARENT_POLICY,file=NATIVE7_PARENT_FILE,sha256=hashlib.sha256(raw).hexdigest())
+    if (data.get('native7_improve_parent') != expected or type(contract) is not dict
+            or set(contract) != {'schema','policy','context'} or type(contract['schema']) is not int
+            or contract['schema'] != 1 or contract['policy'] != NATIVE7_PARENT_POLICY):
+        raise p.Rejected('Improve parent definition changed or missing')
+    return contract['context']
+
+
+def native7_incumbent_context(directory, data):
+    """Rebuild readback expectations only after independent parent-source checks.
+
+    Current runtime/tools, owned directory, preferences, code and both source
+    inventories are reread. The retained definition must match them exactly.
+    It cannot create an execution Budget or authorize another Route invocation.
+    """
+    from . import _improve_context as child, floor_route as f, handoff as h
+    retained = native7_parent(directory,data)
+    if retained is None:return None
+    directory = Path(directory); owner = {}; h.capture_destination(owner,directory)
+    context = child._Context(source=Path(data['source']),parent=directory,parent_owner=owner,
+        method_seconds=data['budget_seconds'],assigned_seconds=data['incumbent_assigned_seconds'],
+        allocation=data['incumbent_allocation'],tools=p.tool_manifest(),source_hashes=data['source_hashes'])
+    if (data.get('cpu_budget_seconds') != context.method_seconds
+            or f.canonical(retained) != context._seal):
+        raise p.Rejected('Improve retained definition differs from reconstructed source contract')
+    return context
+
+
+def check_native7_incumbent(directory, data, incumbent=None):
+    """Full child reader, never a recursion into the full parent reader."""
+    from . import _improve_context as child, floor_route as f
+    context = native7_incumbent_context(directory,data)
+    if context is None:return False
+    path = context.output/'result.json'
+    incumbent = f.read_json(path) if incumbent is None else incumbent
+    child.check_record(context.output,incumbent,context)
+    p.check_result(path,_improve_context=context)
+    native7_default_target_basis(directory,data)
+    return True
+
+
+def _native7_default_basis_material(directory):
+    """Bind the checked child's exact Default transform, never a new edit."""
+    from . import floor_route as f, default_targets as targets
+    directory=Path(directory);child=directory/'incumbent'
+    incumbent=f.read_json(child/'result.json');path=child/'default-targets.json'
+    binding=dict(policy=targets.POLICY,file=path.name,sha256=p.sha(path))
+    basis=f.read_json(path)
+    if (incumbent.get('default_target_transport')!=binding or type(basis) is not dict
+            or basis.get('policy')!=targets.POLICY):
+        raise p.Rejected('Improve requires the checked incumbent Default target basis')
+    return basis,dict(policy=targets.POLICY,receipt='incumbent/result.json',
+        receipt_sha256=p.sha(child/'result.json'),file='incumbent/default-targets.json',sha256=p.sha(path))
+
+
+def native7_default_target_basis(directory,data):
+    """After full child readback, inherit its basis for final/export audits.
+
+    This local binding is not standalone acceptance. Central selection and
+    fresh export readers still validate their own Native class-map evidence.
+    """
+    if native7_parent(directory,data) is None:return None
+    basis,binding=_native7_default_basis_material(directory)
+    if data.get('native7_default_target_basis')!=binding:
+        raise p.Rejected('Improve parent Default target lineage changed or missing')
+    return basis
+
+
+def native7_packets(directory, data):
+    """Bounded fixed parent/incumbent/trial population for final PRL replay.
+
+    This groups retained records only; it never qualifies an outcome. Callers
+    still owe child/selection/own-final checks and all material/tool freshness
+    before the shared last metadata fence. Abnormal Native failures remain
+    subject to the unchanged conservative shared guards.
+    """
+    from . import floor_route as f, provenance as pv
+    if native7_parent(directory,data) is None:return []
+    directory=Path(directory);rows=data.get('trials')
+    if type(rows) is not list or len(rows)>MAX_TRIALS:
+        raise p.Rejected('bounded selected7 Improve trial population required')
+    expected={f'trial-{index:04d}' for index in range(len(rows))};actual=set()
+    for index,path in enumerate(pv._directory(directory/'trials').iterdir()):
+        if index>=MAX_TRIALS or path.is_symlink() or not path.is_dir():
+            raise p.Rejected('selected7 Improve trial folder population differs')
+        actual.add(path.name)
+    if actual!=expected:raise p.Rejected('selected7 Improve omitted or extra trial folder')
+    packets=[(directory,data),(directory/'incumbent',f.read_json(directory/'incumbent/result.json'))]
+    for index,row in enumerate(rows):
+        folder=directory/'trials'/f'trial-{index:04d}';path=folder/'result.json';trial=f.read_json(path)
+        if row!={'id':folder.name,'receipt':str(path),'status':trial.get('status'),'accepted':trial.get('accepted')}:
+            raise p.Rejected('selected7 Improve trial summary identity differs')
+        packets.append((folder,trial))
+    return packets
+
+
+def check_native7_final(directory,data,*,material=None,additional=(),pairs=()):
+    """Compose existing Native metadata fences after all source/tool readers.
+
+    Callers first validate the own final Native result, exact child and trial
+    ancestry. Additional packets are separately checked fresh export stages.
+    No further source/tool callback may follow this shared last PRL replay.
+    """
+    from . import _improve_context as child, floor_route as f, local_settings as local
+    context=native7_incumbent_context(directory,data)
+    if context is None:return False
+    directory=Path(directory);candidate=directory/'candidate'/context.source.name
+    child.check_record(context.output,f.read_json(context.output/'result.json'),context)
+    original=sx.read(directory/'snapshot'/context.source.name)
+    protected=[route for route in p.routes(original) if p.locked(route)]
+    p.check_final_netclass_evidence(directory,data,candidate,protected,default_target_policy=True,
+        default_target_basis=native7_default_target_basis(directory,data))
+    packets=[*native7_packets(directory,data),*additional]
+    for folder,record in packets:p.check_experimental_local_settings(folder,record,None)
+    if material is not None:material()
+    local.check_final_events(packets,c.CLI,pairs=pairs)
+    return True
+
+
+def _single_trial_guard(job, started, seconds):
+    # The attached live Job enforces this work limit. This record merely lets
+    # the ancestry reader reject an over-budget outcome; it grants no authority.
+    if job.remaining() <= 0:raise p.Rejected('Improve trial has no live work budget')
+    return dict(wall_deadline_elapsed_seconds=min(seconds-NATIVE_FINAL_RESERVE_SECONDS,job.deadline-started),
+                work_cpu_limit_seconds=seconds-NATIVE_FINAL_RESERVE_SECONDS)
+
+
 def check_incumbent_scoring(directory, data):
     """Bind an explicitly chosen scoring preset to the fresh charged solve."""
     from . import floor_route as f
@@ -750,7 +969,7 @@ def check_incumbent_scoring(directory, data):
     if expected!=[step for step in data['steps'] if step.get('phase')=='incumbent']:
         raise p.Rejected('fresh pruning incumbent workers differ')
     p.check_engine_profile_record(inc,path.parent)
-    p.check_result(path)
+    if not check_native7_incumbent(directory,data,inc):p.check_result(path)
     if policy is not None:
         check_incumbent_policy(directory,data)
         from .local_settings import check_normal_policy
@@ -765,8 +984,14 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     checks. It is a planning reserve, not a promise that slow native tooling will
     finish. Exhausting the global budget always rejects the root result.
     """
-    p.require_native_scope(purpose='improve')
-    started, cpu_started = time.monotonic(), time.process_time()
+    # Capture the whole intake before settings/source checks. Source/variant
+    # support is checked before any output or worker is created.
+    entry_started, entry_cpu = time.monotonic(), time.process_time()
+    from .floor_route import child_cpu
+    operation_children = child_cpu()
+    p.require_native_scope(purpose='improve',profile='tuned',adapter='both')
+    native7 = c.NATIVE_VERSION == '10.0.7'
+    started, cpu_started = (entry_started,entry_cpu) if native7 else (time.monotonic(),time.process_time())
     incumbent_options=_incumbent_route_options(_incumbent_policy,incumbent_scoring,settings_path,preference_overrides)
     p.engine_scoring_settings(incumbent_scoring)  # Preserve legacy typed rejection before output.
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
@@ -793,6 +1018,9 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         raise p.Rejected("unknown pruning proposal policy")
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
         raise p.Rejected("pruning budget must be 30–900 seconds")
+    if native7:
+        native7_single_scope(Path(source).absolute(),effective,proposal_policy=proposal_policy,
+            incumbent_scoring=incumbent_scoring,incumbent_policy=_incumbent_policy)
     from .local_settings import canonical
     canonical(Path(source).absolute());canonical(Path(output).absolute())
     source = Path(source).resolve(strict=True)
@@ -803,6 +1031,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     final_job = p.Job(output, seconds, protect_local_settings=True)
     owner = {}; capture_destination(owner, output)
     final_job.started, final_job.deadline, final_job.cpu_started = started, deadline, cpu_started
+    if native7:final_job.child_cpu_started=operation_children
     (output / "checkpoints").mkdir()
     (output / "trials").mkdir()
     report = {"schema": 1, "status": "rejected", "accepted": False, "baseline": "C-prototype",
@@ -833,17 +1062,22 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         p.save_json(marker,{'schema':1,'strategy':report['strategy'],'incumbent_scoring_variant':incumbent_scoring})
         report['incumbent_scoring_contract']={'file':marker.name,'sha256':p.sha(marker)}
     all_steps = []
+    child_context = None; live_budget = None
 
     def original_fresh(source, snapshot, expected):
         pref.check_fresh(captured)
         _check_original(source, snapshot, expected)
 
     def cpu_used(extra_steps=()):
+        if native7:
+            # Includes intake/readback/waited controls, not nested step addition.
+            return time.process_time()-cpu_started+child_cpu()-operation_children
         return (time.process_time() - cpu_started
                 + sum((step.get("cpu_seconds") or 0) + (step.get("monitor_cpu_seconds") or 0)
                       for step in [*all_steps, *extra_steps]))
 
     def remaining_work_budget():
+        if live_budget is not None:return max(0.0,live_budget.remaining(work=True))
         return max(0.0, min(_remaining(deadline, NATIVE_FINAL_RESERVE_SECONDS),
                             seconds - cpu_used() - NATIVE_FINAL_RESERVE_SECONDS))
 
@@ -882,10 +1116,23 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         snapshot = output / "snapshot"
         shutil.copytree(source.parent, snapshot)
         original_fresh(source, snapshot, source_hashes)
-        incumbent_seconds = remaining_work_budget()
+        allocation = dict(elapsed_wall_seconds=time.monotonic()-started,elapsed_cpu_seconds=cpu_used()) if native7 else None
+        incumbent_seconds = (min(seconds-allocation['elapsed_wall_seconds'],seconds-allocation['elapsed_cpu_seconds'])
+            -NATIVE_FINAL_RESERVE_SECONDS) if native7 else remaining_work_budget()
         if incumbent_seconds < 5:
             raise p.Rejected("insufficient budget for incumbent and finalization reserve")
-        if incumbent_options is not None:
+        if native7:
+            from . import _improve_context as child
+            child_context = child._Context(source=source,parent=output,parent_owner=dict(owner),
+                method_seconds=seconds,assigned_seconds=incumbent_seconds,allocation=allocation,
+                tools=report["tools"],source_hashes=source_hashes)
+            live_budget = child._Budget(child_context,final_job,operation_children)
+            live_budget.attach(final_job)
+            _bind_native7_parent(output,report,child_context)
+            if live_budget.remaining(work=True) < 5:raise p.Rejected("Improve work budget exhausted during context intake")
+            incumbent = p.route(source,output/'incumbent',incumbent_seconds,False,'both','tuned',
+                _improve_context=child_context,_improve_budget=live_budget)
+        elif incumbent_options is not None:
             incumbent = p.route(source,output/'incumbent',incumbent_seconds,False,'both','tuned-free-angle',
                 scoring_variant='via_default',**incumbent_options)
             report['incumbent_receipt_sha256']=p.sha(output/'incumbent/result.json')
@@ -908,7 +1155,9 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         if not incumbent["accepted"]:
             report["status"] = "incumbent_rejected"
             raise p.Rejected("B2 incumbent rejected: " + str(incumbent.get("reason", incumbent["status"])))
-        p.check_result(output / "incumbent/result.json")
+        p.check_result(output / "incumbent/result.json",**({"_improve_context":child_context} if native7 else {}))
+        if native7:
+            _,report['native7_default_target_basis']=_native7_default_basis_material(output)
         from .netclass import PARENT_POLICY
         source_policy=p.netclass_policy(source)
         if source_policy is not None and source_policy['mode']==PARENT_POLICY:
@@ -948,10 +1197,12 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             trial_job = p.Job(output / "trials" / trial_id,
                               allowance, protect_local_settings=True)
             trial_job.deadline = min(trial_job.deadline, deadline - NATIVE_FINAL_RESERVE_SECONDS)
+            if native7:live_budget.attach(trial_job)
             candidate = trial_job.out / "candidate" / source.name
             record = {"id": trial_id, "proposal": proposal, "status": "rejected", "accepted": False,
                       "started_elapsed_seconds": time.monotonic() - started,
                       "base_candidate_sha256": p.sha(best)}
+            if native7:record["single_trial_guard"] = _single_trial_guard(trial_job,started,seconds)
             if proposal_policy == "adaptive":
                 record["adaptive_trial_guard"] = {"wall_deadline_elapsed_seconds":min(seconds-NATIVE_FINAL_RESERVE_SECONDS,trial_job.deadline-started),
                     "work_cpu_limit_seconds":seconds-NATIVE_FINAL_RESERVE_SECONDS}
@@ -961,7 +1212,8 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 if min(remaining_work_budget(), trial_job.deadline - time.monotonic()) < MIN_TRIAL_SECONDS:
                     preparation_exhausted = True
                     raise p.Rejected("insufficient trial budget after preparation")
-                digest, native = p.validate_candidate(trial_job, original, candidate, source_hashes, protected)
+                digest, native = p.validate_candidate(trial_job, original, candidate, source_hashes, protected,
+                    **({'default_target_policy':True} if native7 else {}))
                 original_fresh(source, snapshot, source_hashes)
                 record.update(candidate_sha256=digest, native=native,
                               native_report_sha256=p.sha(trial_job.out / "final-drc.json"))
@@ -980,8 +1232,11 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                         record["status"] = "cpu_reserve_exhausted"
                     elif _improves(metrics, best_metrics, native, best_native):
                         record["accepted"], record["status"] = True, "improvement_validated"
-                        best, best_metrics, best_native = candidate, metrics, native
-                        report["improvements"] += 1
+                        # selected7 commits only after the finished live-work
+                        # samples below, including its freshness/readback costs.
+                        if not native7:
+                            best, best_metrics, best_native = candidate, metrics, native
+                            report["improvements"] += 1
                     else:
                         record["status"] = "quality_rejected"
             except Exception as exc:
@@ -991,11 +1246,18 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 all_steps.extend(record["steps"])
                 record["finished_elapsed_seconds"] = time.monotonic() - started
                 record["finished_observed_cpu_seconds"] = cpu_used()
+                if native7 and (live_budget.remaining(work=True) <= 0
+                        or record["finished_elapsed_seconds"] > record["single_trial_guard"]["wall_deadline_elapsed_seconds"]
+                        or record["finished_observed_cpu_seconds"] > record["single_trial_guard"]["work_cpu_limit_seconds"]):
+                    record.update(accepted=False,status="work_reserve_exhausted")
                 p.save_json(trial_job.out / "result.json", record)
                 report["trials"].append({"id": trial_id, "receipt": str(trial_job.out / "result.json"),
                                          "status": record["status"], "accepted": record["accepted"]})
             if _cancelled(trial_job.steps):
                 raise Cancelled("pruning trial cancelled")
+            if native7 and record["accepted"]:
+                best,best_metrics,best_native = candidate,record["metrics"],record["native"]
+                report["improvements"] += 1
             original_fresh(source, snapshot, source_hashes)
             checkpoint("trial_completed", best, best_metrics,
                        {"trial": trial_id, "trial_status": record["status"]})
@@ -1190,13 +1452,17 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         report["best_observed_metrics"] = best_metrics
         report["best_observed_candidate"] = str(best)
         report["finalization_started_elapsed_seconds"] = time.monotonic() - started
+        # Work expiry stops proposals; the verified incumbent may use the
+        # reserved return window. Cancellation/stale inputs still reject, and
+        # full parent wall/CPU/Native/publication caps remain mandatory.
         if _remaining(deadline) < 12.0:
             raise p.Rejected("insufficient reserved time for final native validation")
         if seconds - cpu_used() < 12.0:
             raise p.Rejected("insufficient reserved CPU for final native validation")
         candidate = output / "candidate" / source.name
         shutil.copytree(best.parent, candidate.parent)
-        final_hash, native = p.validate_candidate(final_job, original, candidate, source_hashes, protected)
+        final_hash, native = p.validate_candidate(final_job, original, candidate, source_hashes, protected,
+            **({'default_target_policy':True} if native7 else {}))
         report['schematic_parity']=p.parity_declaration(source,source_hashes)
         final_job.native("metrics", "metrics", candidate, output / "metrics.json")
         metrics = json.loads((output / "metrics.json").read_text())
@@ -1231,10 +1497,15 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     report["peak_child_rss_bytes"] = max([step.get("max_rss_bytes") or 0 for step in all_steps] + [0])
     report["resource_limitations"] = "Global wall and measured-CPU acceptance budgets include B2, every failed trial, final native validation and monitor CPU. CPU is checked after stages/completion, not preempted by the OS. Process-group and workdir polling guards can overshoot; no process-tree memory quota or full orphan CPU accounting is claimed. Stored totals precede the last receipt write; both caps are checked after it."
 
+    from .floor_route import evidence_inventory
+    parent_completed = evidence_inventory(output) if native7 else None
+
     def account():
         report["wall_seconds"] = time.monotonic() - started
         report["parent_cpu_seconds"] = time.process_time() - cpu_started
         report["total_cpu_seconds"] = report["parent_cpu_seconds"] + report["child_cpu_seconds"] + report["monitor_cpu_seconds"]
+        if native7:
+            report.update(p.sequential_cpu_components(report["parent_cpu_seconds"],child_cpu()-operation_children,all_steps))
         if report["wall_seconds"] > seconds:
             report.update(accepted=False, status="timeout")
         elif report["total_cpu_seconds"] > seconds:
@@ -1255,6 +1526,16 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                 check_incumbent_scoring(output,report)
                 from .local_settings import check_normal_policy
                 check_normal_policy(output,report,max_bytes=128*1024**2,max_files=2048)
+            if native7:
+                # No full parent recursion. Central acceptance/export remain
+                # separate lead-owned seams; keep own source/selection checks.
+                check_incumbent_scoring(output,report)
+                check_single_selection(output,report)
+                def material():
+                    if p.tool_manifest()!=report["tools"] or evidence_inventory(output)!=parent_completed:
+                        raise p.Rejected("Improve parent evidence/tools changed during publication")
+                    original_fresh(source,snapshot,source_hashes)
+                check_native7_final(output,report,material=material)
 
     from .floor_route import publish
     publish(output, report, stable, account,

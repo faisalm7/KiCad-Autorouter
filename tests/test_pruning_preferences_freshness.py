@@ -166,6 +166,7 @@ class PruningPreferenceFreshness(unittest.TestCase):
         self.assertEqual(len(closures), 2)
         owner = {}; capture_destination(owner, case.run)
         env = dict(owned_destination=owned_destination, owner=owner, pref=pref, captured=case.captured, incumbent_options=None,
+                   native7=False,
                    report=case.data, output=case.run, source=case.source, p=p, c=c, _check_original=s._check_original,
                    _chain_context_fresh=s._chain_context_fresh,
                    _adaptive_branch_fresh=s._adaptive_branch_fresh)
@@ -197,7 +198,8 @@ class PruningPreferenceFreshness(unittest.TestCase):
 
     def test_publication_preserves_positive_and_invalidates_each_late_mutation(self):
         case = self.fixture()
-        self.assertTrue(self.publish(case)['accepted'])
+        report=self.publish(case)
+        self.assertTrue(report['accepted'],report.get('reason'))
         self.assertTrue(f.read_json(case.receipt)['accepted'])
         for mutation in ('preferences', 'native-report', 'source-project', 'source-rules', 'candidate-project',
                          'candidate-rules', 'snapshot-project', 'snapshot-rules', 'native-input-project', 'receipt'):

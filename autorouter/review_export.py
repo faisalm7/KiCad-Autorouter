@@ -183,6 +183,14 @@ def check_class_evidence(folder,data,binding,report, *, native_toolchain=None, e
     return required
 
 
+def default_target_basis(binding,report):
+    """Use the original checked Route transform or its exact Improve child."""
+    root=Path(binding['receipt']).parent
+    if 'default_target_transport' in report:return f.read_json(root/'default-targets.json')
+    from .strategy import native7_default_target_basis
+    return native7_default_target_basis(root,report)
+
+
 def check_stage(folder,data,binding,report,basis,contract,layers, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Reuse original-rule refill/final/process/native-context validators."""
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
@@ -219,11 +227,10 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
         extra={'schematic_parity':True} if data.get('schematic_parity')=='checked by final native DRC' else {}
         native=f.check_drc_stage(folder,data,'final-drc',candidate,folder/'final-drc-input'/candidate.name,False,expected,**extra,**worker)
         if native!=data['native']:raise p.Rejected('export actual final native report differs')
-        if p.netclass_policy(candidate) is not None or native_toolchain is not None or 'default_target_transport' in report:
+        target_basis=default_target_basis(binding,report)
+        if p.netclass_policy(candidate) is not None or native_toolchain is not None or target_basis is not None:
             p.check_final_netclass_evidence(folder,data,candidate,protected,native_toolchain=native_toolchain,
-                default_target_policy='default_target_transport' in report,sandboxed=True,
-                default_target_basis=f.read_json(Path(binding['receipt']).parent/'default-targets.json')
-                    if 'default_target_transport' in report else None)
+                default_target_policy=target_basis is not None,sandboxed=True,default_target_basis=target_basis)
         f.process_check(folder,data,'metrics',[*f.SANDBOX,*p.native_prefix(native_toolchain),'metrics',str(candidate),str(folder/'metrics.json')])
     if any(r not in p.routes(sx.read(candidate)) for r in protected):raise p.Rejected('export protected copper changed')
     from .pour_rule_area import qualify
@@ -244,7 +251,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
     from .pour_rule_area import qualify
     from . import schematic_field_evidence as fields
     check_class_evidence(folder,data,binding,report,**ctx)
-    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None or native_toolchain is not None or class_requirement is not None or 'default_target_transport' in report else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
+    expected_names=['refill-drc',*(['pour-keepout-audit'] if qualify(original) else []),*(['floor-final'] if contract is not None else ['final-netclasses'] if p.netclass_policy(candidate) is not None or native_toolchain is not None or class_requirement is not None or default_target_basis(binding,report) is not None else []),'final-drc',*(fields.names('final-drc') if fields.has_fields(data['native']['findings']) else []),*(['final-classes-netlist'] if class_requirement is not None else []),'metrics']
     if [s['name'] for s in data['steps']]!=expected_names or any(s['cwd']!=str(folder) for s in data['steps']):raise p.Rejected('export native-only stage history differs')
     for step in data['steps']:
         log=Path(step['log'])
@@ -295,7 +302,8 @@ def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_p
     if p.sha(path)!=before_hash or bind(binding['choice'],**ctx)[0]!=binding or evidence(path.parent)!=data['export_evidence']:
         raise p.Rejected('export changed during final readback')
     check_class_evidence(path.parent/'validation',data,binding,report,**ctx)
-    if native_toolchain is not None or comparison_context is not None:
+    from .strategy import native7_marked
+    if native_toolchain is not None or comparison_context is not None or native7_marked(Path(binding['receipt']).parent,report):
         def material():
             bound_material(binding)
             if (p.sha(path)!=before_hash or evidence(path.parent)!=data['export_evidence']
@@ -394,7 +402,8 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
                 if bind(binding['choice'],**ctx)[0]!=binding or h.runtime_inventory()!=runtime or p.tool_manifest(**({"native_toolchain":native_toolchain} if native_toolchain is not None else {}))!=tools:raise p.Rejected('export original inputs/runtime/tools changed')
                 if job and witness(job.out/'snapshot',project=True)!=binding['input_witnesses'][str(source.parent)]:raise p.Rejected('export original snapshot changed')
                 if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export completed evidence changed')
-                if native_toolchain is not None or comparison_context is not None:
+                from .strategy import native7_marked
+                if native_toolchain is not None or comparison_context is not None or native7_marked(Path(binding['receipt']).parent,report):
                     additional=((job.out,record),) if job and lifecycle.get('evidence') is not None else ()
                     def material():
                         bound_material(binding)
@@ -422,7 +431,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
             names=p.selected_scope_names(report)
             extra={'selected_names':names,'schematic_parity':p.selected_parity_required(report)} if names is not None else {}
             digest,native=p.validate_candidate(job,original,candidate,binding['source_hashes'],protected,
-                default_target_policy='default_target_transport' in report,
+                default_target_policy=default_target_basis(binding,report) is not None,
                 guidance_contract=contract,guidance_basis=basis,layer_contract=layers,class_context=class_context,**extra)
             record['schematic_parity']=p.parity_declaration(binding['source'],binding['source_hashes'])
             if class_requirement is not None:record['schematic_class_final']=job.schematic_class_final

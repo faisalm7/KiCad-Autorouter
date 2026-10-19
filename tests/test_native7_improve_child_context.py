@@ -181,7 +181,7 @@ class ImproveChildContextControls(unittest.TestCase):
             with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context)
             with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget)
             with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget,comparison_context=object())
-        # Parent remains unsupported; this patch does not wire prune or Preview.
+        # A method label alone cannot authorize the ordinary standard profile.
         with self.assertRaises(p.Rejected):p.require_native_scope(purpose='improve')
 
     def test_live_context_never_enters_ordinary_result_cache(self):

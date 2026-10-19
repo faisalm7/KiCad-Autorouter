@@ -1,8 +1,8 @@
-"""Private selected-7 Improve incumbent authority; no parent admission.
+"""Private selected-7 Improve incumbent authority for the exact single parent.
 
-A trusted future parent passes this live object explicitly. JSON, pathnames and
+A trusted parent passes this live object explicitly. JSON, pathnames and
 sidecars are detection/binding material, never factories for caller authority.
-The parent/Preview/export guards remain closed in this prerequisite slice.
+Parent readback reconstructs expectations only; execution requires a live Budget.
 """
 from dataclasses import dataclass, field
 import hashlib
@@ -319,6 +319,7 @@ def check_record(directory, data, context):
     raw = pv.read_bytes(directory / SIDECAR, 512 * 1024)
     marker = dict(policy=POLICY, file=SIDECAR, sha256=hashlib.sha256(raw).hexdigest())
     forbidden = ('strategy', 'input_policy', 'guidance_policy', 'routing_preferences', 'pruning_preferences',
+        'native7_improve_parent', 'single_selection_policy', 'native7_default_target_basis',
         'pruning_preferences_policy', 'incumbent_scoring_variant', 'incumbent_scoring_contract',
         'incumbent_receipt_sha256', 'comparison_route', 'production_admitted', 'diagnostic_schema',
         'production_qualified', 'experimental_route_policy', 'experimental_native_toolchain',

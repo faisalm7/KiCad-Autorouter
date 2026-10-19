@@ -51,6 +51,9 @@ def preview(board,settings=None,overrides=None,*,purpose='route'):
         and effective['scope'] in {'whole_board_unlocked_routing','partial_completion'} and effective['layers']=='source_all' else None)
     original=p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']),class_context=class_context)
     pending_classes=p.check_schematic_class_support(source,class_context=class_context)
+    if purpose=='improve' and c.NATIVE_VERSION=='10.0.7':
+        from .strategy import native7_single_scope
+        native7_single_scope(source,effective)
     if effective['guidance']!='native':
         from . import board_floor as g
         if p.netclass_policy(source) is not None:raise p.Rejected('unsupported: floor policy requires one Default class')

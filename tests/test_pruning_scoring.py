@@ -176,14 +176,14 @@ class StrongerIncumbentControls(unittest.TestCase):
    if late is not None and len(seen)==1:late()
   env=dict(s.__dict__);env.update(report=case.data,output=case.run,source=case.source,captured=None,owner=owner,
    pref=pref,owned_destination=h.owned_destination,original_fresh=s._check_original,incumbent_options={},
-   check_incumbent_scoring=incumbent_readback)
+   check_incumbent_scoring=incumbent_readback,native7=False)
   exec(compile(ast.fix_missing_locations(ast.Module(body=closures,type_ignores=[])),str(p.c.ROOT/'autorouter/strategy.py'),'exec'),env)
   result=f.publish(case.run,case.data,env['stable'],lambda:None,lambda:100,result_checker=lambda path:{'current':True})
   return result,seen
 
  def test_actual_pruning_stable_keeps_unchanged_owned_prl_current(self):
   case=self.publication_fixture('tuned',False);result,seen=self.publish_pruning_stable(case)
-  self.assertTrue(result['accepted']);self.assertTrue(seen)
+  self.assertTrue(result['accepted'],result.get('reason'));self.assertTrue(seen)
 
  @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac PRL flags required')
  def test_actual_pruning_stable_rejects_flag_only_late_fault_after_incumbent_readback(self):

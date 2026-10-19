@@ -110,6 +110,12 @@ def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing
     This is a capability guard, never a fallback or a validation pass.
     """
     if c.NATIVE_VERSION == '10.0.0':return
+    if purpose=='improve':
+        if (c.NATIVE_VERSION=='10.0.7' and scope=='whole_board_unlocked_routing'
+                and guidance=='native' and layers=='source_all' and profile=='tuned'
+                and adapter=='both' and scoring is None):
+            return  # Parent/Preview independently require the exact source/child policy.
+        raise Rejected('unsupported: selected Native Improve requires whole/native/tuned/both/all-source/default-score single pruning')
     scopes={'whole_board_unlocked_routing','partial_completion'} if purpose=='route' else {'whole_board_unlocked_routing'} if purpose=='thermal-recovery' else set()
     if (c.NATIVE_VERSION != '10.0.7' or scope not in scopes
             or guidance != 'native' or layers != 'source_all' or profile != 'standard'
@@ -1398,7 +1404,8 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
     engine=[s for s in data.get('steps',[]) if s.get('name')=='engine' and s.get('cwd')==str(directory)]
     if not engine:
         if data.get('baseline')!='C-prototype':raise Rejected('pour correction requires original native engine lineage')
-        check_result(directory/'incumbent/result.json')
+        from .strategy import check_native7_incumbent
+        if not check_native7_incumbent(directory,data):check_result(directory/'incumbent/result.json')
         return
     if len(engine)!=1:raise Rejected('ambiguous pour correction engine lineage')
     if data.get('adapter')=='none':
@@ -2703,7 +2710,9 @@ def check_result(path, *, native_toolchain=None, experimental_schematic_parity=F
                 or type(data.get('schema')) is not int or data['schema'] not in (1,3,4,5)
                 or data.get('accepted') is not True or data.get('status')!='routing_accepted'
                 or 'diagnostic_schema' in data or 'production_qualified' in data
-                or any(key in data for key in ('experimental_route_policy','experimental_native_toolchain','production_admitted','comparison_route','native_improve_child'))):
+                or any(key in data for key in ('experimental_route_policy','experimental_native_toolchain','production_admitted','comparison_route','native_improve_child','native7_improve_parent','single_selection_policy','native7_default_target_basis'))):
+            return _check_result_uncached(path)
+        if c.NATIVE_VERSION=='10.0.7' and data.get('strategy')=='native_validated_zone_net_pruning':
             return _check_result_uncached(path)
         if data['schema']==1:
             try:native=receipt_policy(data,target.parent)=='native'
@@ -2830,6 +2839,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
     # Parse once strictly before policy dispatch; duplicate selectors cannot hide schema3.
     data=read_json(path)
+    from . import strategy as pruning
+    is_improve_parent=pruning.native7_parent(path.parent,data) is not None
     from . import comparison, _improve_context as improve_child
     if _improve_context is not None and (native_toolchain is not None or experimental_schematic_parity is not False
             or comparison_context is not None or _rejected_attempt):
@@ -2837,14 +2848,19 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     is_improve_child=improve_child.check_record(path.parent,data,_improve_context)
     improve_material=tree_hash(path.parent) if is_improve_child else None
     is_comparison=comparison.check_record(path.parent,data,comparison_context)
+    if is_improve_parent and (is_improve_child or is_comparison or native_toolchain is not None or experimental_schematic_parity is not False):
+        raise Rejected('Improve parent cannot mix reader authority')
     if is_comparison:
         if native_toolchain is not None or experimental_schematic_parity is not False:raise Rejected('comparison cannot mix experimental Native authority')
         comparison_material=tree_hash(path.parent)
     else:check_experimental_route(data,native_toolchain,experimental_schematic_parity)
     if not is_comparison and not is_improve_child and native_toolchain is None and c.NATIVE_VERSION!='10.0.0':
-        if data.get('schema')!=1 or data.get('strategy') not in (None,'native_validated_thermal_bridge') or data.get('input_policy','native')!='native':
+        if (data.get('schema')!=1 or data.get('strategy') not in (None,'native_validated_thermal_bridge','native_validated_zone_net_pruning')
+                or data.get('input_policy','native')!='native'):
             raise Rejected('unsupported: selected Native version has no qualified advanced receipt lineage')
-        purpose='route'
+        purpose='improve' if is_improve_parent else 'route'
+        if data.get('strategy')=='native_validated_zone_net_pruning' and not is_improve_parent:
+            raise Rejected('selected Native Improve requires its exact source-derived parent')
         if data.get('strategy')=='native_validated_thermal_bridge':
             from .thermal import check_parent_scope
             if not check_parent_scope(path.parent,data):raise Rejected('selected Native thermal parent requires its exact source policy')
@@ -3159,6 +3175,14 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
             raise Rejected('Improve child evidence changed during readback')
         # No later tool/context callback may follow this metadata replay.
         check_experimental_local_settings(path.parent,data,None)
+    if is_improve_parent:
+        pruning.check_single_selection(path.parent,data)
+        def improve_parent_material():
+            if (bounded_inventory(source.parent,max_bytes=100*1024*1024)!=data['source_hashes']
+                    or bounded_evidence(path.parent)!=readback_material
+                    or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest):
+                raise Rejected('Improve source/parent evidence changed after final readers')
+        pruning.check_native7_final(path.parent,data,material=improve_parent_material)
     if _rejected_attempt:
         # Return only after the late evidence/source/process freshness guards.
         return {**({'comparison_route_policy':COMPARISON_ROUTE_POLICY,'production_admitted':False} if is_comparison else {}),'current':False,'validated_rejection':True,'routing_accepted':False,

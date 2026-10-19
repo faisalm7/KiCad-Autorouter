@@ -40,6 +40,20 @@ observed=[{key:value for key,value in row.items() if key!='source_zone_ast_sha25
 before=(digest(good),digest(project_bytes))
 
 class PourBindingSeams(unittest.TestCase):
+ def test_optimizer_incumbent_uses_contextual_reader_without_uncontextualized_retry(self):
+  # Native pour audit/refill are seams here; the production dispatch is real.
+  from autorouter import strategy
+  directory=Path('/__owned_pure_parent_lineage_control__');candidate=directory/'candidate'/'owned.kicad_pcb'
+  data={'baseline':'C-prototype','steps':[],'source_hashes':{'owned.kicad_pcb':digest(good)}}
+  for contextual in (True,False):
+   with self.subTest(contextual=contextual),mock.patch.object(pc,'read_bytes',return_value=good),mock.patch.object(p,'sha',return_value=digest(good)),mock.patch.object(f,'read_json',return_value={}),mock.patch.object(policy,'verify_native_record'),mock.patch.object(f,'process_check'),mock.patch.object(f,'check_drc_stage'),mock.patch.object(sx,'read',return_value=copy.deepcopy(tree)),mock.patch.object(strategy,'check_native7_incumbent',return_value=contextual) as reader,mock.patch.object(p,'check_result') as legacy:
+    p.check_pour_evidence(directory,data,tree,candidate)
+    reader.assert_called_once_with(directory,data)
+    if contextual:legacy.assert_not_called()
+    else:legacy.assert_called_once_with(directory/'incumbent/result.json')
+  with mock.patch.object(pc,'read_bytes',return_value=good),mock.patch.object(p,'sha',return_value=digest(good)),mock.patch.object(f,'read_json',return_value={}),mock.patch.object(policy,'verify_native_record'),mock.patch.object(f,'process_check'),mock.patch.object(f,'check_drc_stage'),mock.patch.object(sx,'read',return_value=copy.deepcopy(tree)),mock.patch.object(strategy,'check_native7_incumbent',side_effect=p.Rejected('context changed')),mock.patch.object(p,'check_result') as legacy:
+   with self.assertRaisesRegex(p.Rejected,'context changed'):p.check_pour_evidence(directory,data,tree,candidate)
+   legacy.assert_not_called()
  def test_native_input_capture_precedes_loaded_board(self):
   for raw,expected in ((good,True),(bad,False)):
    with self.subTest(matched=expected),mock.patch.dict(sys.modules,{'pcbnew':shim}),mock.patch.object(Path,'read_bytes',lambda self:raw if self==source else project_bytes),mock.patch.object(context,'observe_areas',lambda *args:{'footprint_zone_count':0,'zones':copy.deepcopy(observed)}):
