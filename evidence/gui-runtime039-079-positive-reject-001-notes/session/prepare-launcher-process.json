@@ -1,0 +1,43 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.2613057499984279,
+  "cpu_seconds": 0.23113399999999998,
+  "max_rss_bytes": 140623872,
+  "supervisor_cpu_seconds": 0.0049320000000001585,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 376832,
+  "sampled_peak_workdir_bytes": 1669279,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 134217728,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/scripts/install_gui.py",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/gui-launcher079"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/gui-session079/prepare-launcher.log",
+  "log_bytes": 15145,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/gui-session079",
+  "signal_cancellation_enabled": true,
+  "pid": 69518
+}

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+unset KICAD_API_SOCKET KICAD_API_TOKEN
+cd /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime
+exec /Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9 -B -m autorouter.gui

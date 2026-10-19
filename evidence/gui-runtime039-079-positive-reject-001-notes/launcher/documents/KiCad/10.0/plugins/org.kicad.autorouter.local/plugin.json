@@ -1,0 +1,28 @@
+{
+  "identifier": "org.kicad.autorouter.local",
+  "name": "Local Autorouter",
+  "description": "Offline routing and review in a separate project; save and close the source editor before routing.",
+  "runtime": {
+    "type": "exec"
+  },
+  "actions": [
+    {
+      "identifier": "route-separate",
+      "name": "Autorouter: separate project",
+      "description": "Configure, route, cancel and review a separate saved project.",
+      "entrypoint": "launch-autorouter",
+      "scopes": [
+        "pcb"
+      ],
+      "show-button": true,
+      "icons-light": [
+        "route24.png",
+        "route48.png"
+      ],
+      "icons-dark": [
+        "route24.png",
+        "route48.png"
+      ]
+    }
+  ]
+}
