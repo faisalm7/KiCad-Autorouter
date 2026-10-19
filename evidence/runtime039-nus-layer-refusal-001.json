@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "kind": "runtime039-NUS-layer-refusal-reviewed-geometry-free-metadata",
+  "recorded_utc": "2026-10-19T14:31:03.858103+00:00",
+  "accepted": false,
+  "workflow_delivered": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "57542e996f2b6e7704acd408ac99f6c72e70adc5",
+  "runtime_manifest_sha256": "ef7ea961238bf9d3e48e531dc3dcbd06700ac2fe5a270466e3d9365b81a6c728",
+  "native_version": "10.0.7",
+  "family_label": "nus-usb-led, exposed development source; independent pedigree not established",
+  "classification": "Capability/interchange refusal for original mixed/power copper types without display aliases, after successful Native DSN export and before engine. Not Native routing failure, invalid-source classification or infeasibility.",
+  "source_identity": {
+    "board_sha256": "a8e69c14ceec9dd0954c3027cc89ca6bbb9c0b0ec3aeede5feacfdd47736f362",
+    "complete_source_inventory_sha256": "c9fd63da0c9946a4a93a2c8ff1a1eeb029f3a15c6e4af8b4bfd2a3d37a9a135a",
+    "source_files": 6,
+    "source_bytes": 136913,
+    "original_source_unchanged": true,
+    "source_payload_publication": false
+  },
+  "settings": {
+    "schema": 1,
+    "scope": "whole_board_unlocked_routing",
+    "seconds": 90,
+    "adapter": "both",
+    "profile": "standard",
+    "guidance": "native",
+    "layers": "source_all",
+    "scoring_preference": null
+  },
+  "declared_budgets": {
+    "route": 90,
+    "export": 90
+  },
+  "protocol_sha256": "1028969b316fd08ccca0d0558e2121ab7f53b77e33af0c2e2e0bcea2b94535ca",
+  "workflow_receipt_sha256": "4549443c8d02e7b0a9c69187f0e457a92eb2ff1bdb103792b9d776cccca4986d",
+  "route_receipt_sha256": "fe66d2d099b09a4df89b85235ae94a8d6d7daf5f0ad13c724caf8b7215602842",
+  "observed_outcome": {
+    "workflow_failed": true,
+    "controls_passed": false,
+    "preview_exit_code": 0,
+    "route_exit_code": 2,
+    "route_status": "rejected",
+    "reason": "unqualified copper layer type or alias",
+    "engine_executed": false,
+    "import_executed": false,
+    "final_DRC_executed": false,
+    "accepted_candidate": false,
+    "review_intent_export_created": false
+  },
+  "actual_source_Native": {
+    "counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 5,
+      "exclusions": 0
+    },
+    "warning_type_counts": {
+      "lib_footprint_issues": 5
+    },
+    "ignored_check_keys": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "schematic_parity_checked": false,
+    "source_DRC_exit_code": 5,
+    "export_worker_exit_code": 0,
+    "workers": [
+      {
+        "name": "source-drc",
+        "status": "nonzero_exit",
+        "exit_code": 5,
+        "cleanup_complete": true,
+        "log_truncated": false,
+        "wall_seconds": 0.733308415976353,
+        "cpu_seconds": 0.385621
+      },
+      {
+        "name": "export",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "log_truncated": false,
+        "wall_seconds": 0.403210417018272,
+        "cpu_seconds": 0.380013
+      }
+    ]
+  },
+  "workflow_stage_metadata": [
+    {
+      "stage": "preview",
+      "exit_code": 0,
+      "cancel_requested": false,
+      "log_truncated": false,
+      "wall_seconds": 0.12250291695818305
+    },
+    {
+      "stage": "route",
+      "exit_code": 2,
+      "cancel_requested": false,
+      "log_truncated": false,
+      "wall_seconds": 1.456680417060852
+    }
+  ],
+  "cleanup_complete_recorded": true,
+  "no_truncation_recorded": true,
+  "unfulfilled_failed_receipt_policy": {
+    "raw_schematic_parity": "checked by final native DRC",
+    "actual_full_schematic_check_executed": false,
+    "meaning": "Unfulfilled initialized policy metadata; no final Native/fullSCH proof exists."
+  },
+  "complete_cost": {
+    "wall_seconds": 2.72,
+    "CPU_seconds": 2.09
+  },
+  "outer_complete_sample": {
+    "wall_seconds": 2.6863814579555765,
+    "CPU_seconds": 2.0639369999999997
+  },
+  "route_nested_sample": {
+    "wall_seconds": 1.3567021249327809,
+    "CPU_seconds": 0.998469
+  },
+  "accounting": "Nested CLI/sourceNative/export/outer samples are included in complete external exit, not additive. Preparation/research/authoring/diagnosis/curation additional; unmetered unknown, not zero.",
+  "rights": {
+    "recorded_license": "CERN-OHL-P-2.0 creator electronic-design grant; asset/model ancestry not closed",
+    "source_repository": "nushackers/hsp-pcb-intro",
+    "source_commit": "ad3fbd582e3915b585c453ea202f591720a1f427",
+    "model_declarations": 6,
+    "unique_model_references": 5,
+    "models_acquired": 0,
+    "asset_model_rights_closed": false,
+    "geometry_publication": false,
+    "raw_logs_Native_payloads_publication": false
+  },
+  "preservation": "Full original source/derived CAD/Native payloads/logs remain local. Reviewed geometry-free local-evidence-hashes identifies actual files without copying their content. No auto-retain/tree on NUS output.",
+  "limits": "One exposed development failed-method capability observation only. No accepted/fullSCH final or general/fair-comparison/routing-quality/speed/GUI/electrical/platform/human/restoration/release claim.",
+  "local_hash_receipt": {
+    "path": "evidence/runtime039-nus-layer-refusal-001-notes/local-evidence-hashes.json",
+    "sha256": "cd86a26b018d20a9777794a643cddd103dc8cca53f100d819c3c2071b6691332"
+  },
+  "files_index": {
+    "path": "evidence/runtime039-nus-layer-refusal-001-notes/files.json",
+    "sha256": "547d4b5c69fa9a13e2772cee1915df635e0c5e51f74eff7f7d6ed48746f3369f"
+  },
+  "curation_sample": {
+    "wall_seconds": 0.006620291969738901,
+    "CPU_seconds": 0.0028929999999999997,
+    "complete_external_unknown": true
+  },
+  "public_payload": {
+    "geometry_free": true,
+    "new_note_files": 2,
+    "note_bytes": 10811,
+    "raw_payloads_copied": 0
+  },
+  "source_layer_case": {
+    "original_copper_types": [
+      "mixed",
+      "power"
+    ],
+    "source_display_aliases_present": false,
+    "generic_error_does_not_identify_which_guard_condition_failed": true,
+    "display_alias_support_alone_qualifies_this_source": false,
+    "current_support": "unqualified/refused",
+    "basis": "Lead exact-source diagnosis; metadata wording amendment only, no Native/reader/source inspection rerun by this amendment."
+  },
+  "wording_amendment": {
+    "schema": 1,
+    "recorded_utc": "2026-10-19T14:36:08.768006+00:00",
+    "prior_summary_sha256": "33be32e9e70d2d22dba719f9e674e3f78ac17dcd336e9fdad194ebe41e597c87",
+    "prior_SCOPE_sha256": "51606cb879d79844ff020dbe618c8cc489479aa7e831a70a85474c9224bda12c",
+    "prior_index_sha256": "07216faa00f4d999eccd7884cb76db6490f72be75155adbf3ac36ee287d49d08",
+    "preserved_initial_metadata_local": ".runs/runtime039-nus-layer-wording-original-001",
+    "scope": "Clarifies generic layer-type/alias guard wording: this source has mixed/power types and no display aliases. It does not assert that the Sonde alias correction resolves NUS.",
+    "actual_error_string_unchanged": true,
+    "raw_evidence_hash_receipt_unchanged": true,
+    "raw_evidence_hash_receipt_sha256": "cd86a26b018d20a9777794a643cddd103dc8cca53f100d819c3c2071b6691332",
+    "Native_or_reader_executed": false,
+    "raw_payload_copied": false,
+    "additional_authoring_CPU": "Unmetered/unknown, not zero."
+  }
+}

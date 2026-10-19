@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-19T14:46:20.713617+00:00",
+  "reviewer": "/root/preset_picker_review",
+  "kind": "Independent skeptical AI source review; not human PCB review",
+  "read_only": true,
+  "tests_executed": false,
+  "Native_executed": false,
+  "source_sha256": {
+    "autorouter/default_targets.py": "4508f9ee7436d68a59325bbd93ccf44c8300e84e9a9701c5554f34a7425ea4ed",
+    "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+    "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+    "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+    "autorouter/pipeline.py": "143ef7a26d35d5da8cd707a90f24e806fe14ca35f9ea0df1ff1feae0ffd64923",
+    "tests/test_source_all_layer_identity.py": "d31d9513fa2e9935fd9d03837fe9e34dc158f1c8ce6d0690a65b789d480e1b3b"
+  },
+  "material_findings": [],
+  "observations": [
+    "Source-derived alias detection refuses deleted Native observation on corrected Default path.",
+    "Original physical ID/order/signal/stackup checks retained; exact Native canonical/display lookup and DSN label/index bindings.",
+    "Candidate source binding, original/protected/Native fences and existing live readback module identity retained.",
+    "Explicit masks and closed flat/hierarchy consumers remain refused, canonical2/4 schemas unchanged."
+  ],
+  "unsupported": [
+    "Mixed/power copper types (NUS).",
+    "Copper display aliases plus nonzero padless-reference aliases: older census expects canonical names.",
+    "Alias combinations with schematic class binders remain unqualified/fail-closed."
+  ],
+  "remaining": "Actual Native getter/export/import/refill/fullSCH/protected qualification, fresh full/install/current GUI and final fair routing evidence remain mandatory.",
+  "known_separate_reporting_issue": "Early failed receipts can carry intended schematic_parity text before final Native ran; no false acceptance established. Keep separate bounded reporting correction."
+}

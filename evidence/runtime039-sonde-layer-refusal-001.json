@@ -1,0 +1,368 @@
+{
+  "schema": 1,
+  "kind": "runtime039-sonde-pre-engine-layer-interchange-refusal",
+  "recorded_utc": "2026-10-19T14:28:06.774835+00:00",
+  "accepted": false,
+  "workflow_delivered": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "source_head": "57542e996f2b6e7704acd408ac99f6c72e70adc5",
+  "runtime_manifest_sha256": "ef7ea961238bf9d3e48e531dc3dcbd06700ac2fe5a270466e3d9365b81a6c728",
+  "native_version": "10.0.7",
+  "classification": "Capability/interchange refusal after successful Native DSN export, before engine; not Native DRC routing failure or source-invalid classification.",
+  "original_source": "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+  "source_hashes": {
+    "_licenses/LICENSE.CC-BY-SA-4.0": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5",
+    "_licenses/LICENSE.README": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d",
+    "fp-lib-table": "cc8af24e493a4d6d8ff8206d7c58d9b4209779095abeb4edbc0e5b2dc555cc9f",
+    "sonde xilinx.kicad_pcb": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+    "sonde xilinx.kicad_pro": "ee60a96f93cc36549b52da9b3eea9547d5ea1e83a671c449668987edfb73a901",
+    "sonde xilinx.kicad_sch": "5271d5d1472d4dab645870f97e62785be9eb95b793e1b8cf0d8ca607de95a985",
+    "sonde-xilinx.pretty/C_Axial_L5.1mm_D3.1mm_P12.50mm_Horizontal.kicad_mod": "ea2b7f922393cb792135103efd8304d933b476ca15ab957e7d2d85452abf2710",
+    "sonde-xilinx.pretty/C_Disc_D5.1mm_W3.2mm_P5.00mm.kicad_mod": "1aecdb4ad2120e99d792a4388eff86462154afbbc64cc1b06041a2c9c1e6fe65",
+    "sonde-xilinx.pretty/DIP-14_W7.62mm_LongPads.kicad_mod": "bfc91319c5905ed84ce72c8a8c3c19b0c6767f812083a063559c5407ecdc1146",
+    "sonde-xilinx.pretty/DSUB-25_Male_EdgeMount_P2.77mm.kicad_mod": "97e783488fc12772d98e9b734cd14a9b07632d2b9e5db4760b7ffec74e0520e4",
+    "sonde-xilinx.pretty/DSUB-9_Male_EdgeMount_P2.77mm.kicad_mod": "ad60738ef94ffc9848a1137ea9dbde55f8b2a2238d519098c5d5d33cee73238b",
+    "sonde-xilinx.pretty/D_A-405_P7.62mm_Horizontal.kicad_mod": "9299977270227d4a3f4bf01f88c1b9c8a2be3ac20212ec06000506d8a534bc0f",
+    "sonde-xilinx.pretty/PinHeader_1x06_P2.54mm_Vertical.kicad_mod": "4cf2a6eea9a9dc960638d14dcd8729452a5443f1a21bdb8ed1c6f5f56908ce8c",
+    "sonde-xilinx.pretty/R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal.kicad_mod": "48e73c07df158b05eaaf9281beffa4ac8c4aac1bec213ac21710f837d0901cd7",
+    "sonde_xilinx.kicad_sym": "67477c8ef19c1e2da41f760328c030dc04283805b2c76005d5ae48acd1fc365e",
+    "sym-lib-table": "b928ea6f61eb0e8804340a842a259e678b9a5fd8d5f9e69306160882361e6456"
+  },
+  "source_files": 16,
+  "source_bytes": 685767,
+  "source_unchanged_now": true,
+  "settings": {
+    "schema": 1,
+    "scope": "whole_board_unlocked_routing",
+    "seconds": 90,
+    "adapter": "both",
+    "profile": "standard",
+    "guidance": "native",
+    "layers": "source_all",
+    "scoring_preference": null
+  },
+  "declared_budgets": {
+    "route": 90,
+    "export": 90
+  },
+  "protocol_sha256": "3d656a6aaac3d289eddd270cd3533c15f29062e8ca13dd47c1faf63af8704894",
+  "workflow_receipt_sha256": "1d31225009e50b1ec334bd9e2c8416d45c20379d1aa03e04f54c44c1567bac59",
+  "route_receipt_sha256": "9c580ee74e5a7a899b87e207d47f39276a399e0959813e3960cfd75b275b517e",
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd",
+  "workflow": {
+    "status": "failed",
+    "error": "ValueError: Routing refused: ValueError: unqualified copper layer type or alias\nNo candidate accepted. Full failure receipt: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/result.json",
+    "controls_passed": false,
+    "preview_exit0": true,
+    "Route_exit2": true,
+    "stages": [
+      {
+        "stage": "preview",
+        "process": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "preview",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+            "--settings",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/settings.json"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 996,
+          "wall_seconds": 0.1626809169538319,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        },
+        "log_sha256": "c97a3be6099c098dff32896dc763635f4df2819950ba928d47da8f1165c4dd0c"
+      },
+      {
+        "stage": "route",
+        "process": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "route",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.data/boards/kicad-sonde-xilinx/sonde xilinx.kicad_pcb",
+            "--settings",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/settings.json",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route"
+          ],
+          "exit_code": 2,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 183,
+          "wall_seconds": 1.8282940000062808,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        },
+        "log_sha256": "3fe2753f13a2d8166066200a8b66c59002988a0e4aef7f8d81e9ace02ef20e9d"
+      }
+    ],
+    "wrapper_error": "AssertionError: "
+  },
+  "actual_Native": {
+    "source_DRC": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Copper connection too narrow",
+          "key": "connection_width"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Footprint 'DSUB-9_Male_EdgeMount_P2.77mm' does not match copy in library 'sonde-xilinx'",
+          "items": [
+            {
+              "description": "Footprint J2",
+              "pos": {
+                "x": 181.61,
+                "y": 90.1192
+              },
+              "uuid": "00000000-0000-0000-0000-00005a73b143"
+            }
+          ],
+          "severity": "warning",
+          "type": "lib_footprint_mismatch"
+        }
+      ]
+    },
+    "source_DRC_exit_code": 5,
+    "export_worker_status": "success",
+    "export_worker_exit_code": 0,
+    "native_DSN_sha256": "c367883a812381d09609e12a431e586ebaadd7fc335269d35df4e3558b17b771",
+    "workers": [
+      {
+        "status": "nonzero_exit",
+        "exit_code": 5,
+        "wall_seconds": 0.8071969170123339,
+        "cpu_seconds": 0.450046,
+        "max_rss_bytes": 201670656,
+        "supervisor_cpu_seconds": 0.011382000000000003,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 197328896,
+        "sampled_peak_workdir_bytes": 3090590,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+          "pcb",
+          "drc",
+          "--format",
+          "json",
+          "--severity-all",
+          "--all-track-errors",
+          "--refill-zones",
+          "--exit-code-violations",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/source-drc.json",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/source-drc-input/sonde xilinx.kicad_pcb"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/source-drc.log",
+        "log_bytes": 248,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route",
+        "signal_cancellation_enabled": true,
+        "pid": 82612,
+        "name": "source-drc",
+        "local_settings_policy": "job-owned-prl-immutable-v1",
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": false
+        },
+        "validated_input_sha256": "d0dee876715fcdd3f656dd6a77cc1141c39bec4d6f8492a3784d38edd6b9a998",
+        "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/snapshot/sonde xilinx.kicad_pcb"
+      },
+      {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 0.6043715419946238,
+        "cpu_seconds": 0.4881,
+        "max_rss_bytes": 219824128,
+        "supervisor_cpu_seconds": 0.007785000000000042,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 219758592,
+        "sampled_peak_workdir_bytes": 3350363,
+        "resource_guards": {
+          "max_group_rss_bytes": 4294967296,
+          "max_workdir_bytes": 536870912,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/autorouter/native.py",
+          "export",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/candidate/sonde xilinx.kicad_pcb",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/task.dsn",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/export-netclasses.json",
+          "--task-copper-fixed"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/export.log",
+        "log_bytes": 0,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route",
+        "signal_cancellation_enabled": true,
+        "pid": 82613,
+        "name": "export"
+      }
+    ]
+  },
+  "rejection": {
+    "status": "rejected",
+    "reason": "ValueError: unqualified copper layer type or alias",
+    "engine_executed": false,
+    "import_executed": false,
+    "final_DRC_executed": false,
+    "accepted_candidate": false,
+    "review_choice_export_created": false
+  },
+  "unfulfilled_failed_receipt_policy": {
+    "raw_schematic_parity": "checked by final native DRC",
+    "actual_full_schematic_check_executed": false,
+    "meaning": "Initialization/policy metadata only on this failed receipt, not actual final Native/fullSCH proof."
+  },
+  "historical_counts_NOT_current_or_prediction": [
+    0,
+    0,
+    26,
+    0
+  ],
+  "historical_scope": "Pinned10.0.0 historical whole B1 only; warnings/counts may change. Require own current039 final Route/export counts, opens=blocking=exclusions=0, all warnings retained. Never tune/retry to force this lead.",
+  "complete_cost": {
+    "wall_seconds": 2.95,
+    "CPU_seconds": 2.35
+  },
+  "outer_complete_sample": {
+    "wall_seconds": 2.895023124990985,
+    "CPU_seconds": 2.317625
+  },
+  "route_nested_sample": {
+    "wall_seconds": 1.73470016696956,
+    "CPU_seconds": 1.261394
+  },
+  "accounting": "All nested Native/CLI/outer samples are included by complete external exit; do not add twice. Preparation/research/authoring/diagnosis/curation additional; unmetered unknown, not zero.",
+  "rights": {
+    "license": "CC-BY-SA-4.0",
+    "source_repository": "KiCad/kicad-source-mirror",
+    "source_commit": "69cafb907ebc09e7722a2a464b1d466fc2e3608d",
+    "redistribution": "Only with exact CC-BY-SA-4.0/source notices and attribution; no new publication is performed here.",
+    "ledger": {
+      "path": "data/sources.json",
+      "bytes": 80885,
+      "sha256": "a2a8e9e22ff3e109de94733aa8f5e99ca5fd476ef9ec20be837c54100036eac1"
+    },
+    "notices": [
+      {
+        "path": ".data/boards/kicad-sonde-xilinx/_licenses/LICENSE.README",
+        "bytes": 2386,
+        "sha256": "837b45ba5235fd506f60f906b2f68820ccb16a154568eac19f5d3615cb9ee05d"
+      },
+      {
+        "path": ".data/boards/kicad-sonde-xilinx/_licenses/LICENSE.CC-BY-SA-4.0",
+        "bytes": 15164,
+        "sha256": "00ba11b9a22d453aed299954eaca389d8efef441a4673d84e2dc4ae10ebc7ca5"
+      }
+    ],
+    "geometry_payload_publication": false
+  },
+  "rights_scope": "Necessary licensed Sonde text payload and exact CC-BY-SA/source notices retained under this task; frozen preparation metadata geometry-publicationfalse is historical. No NUS payload inspected or copied.",
+  "limits": "One actual exposed development support refusal only; no source-invalid/routing-failure/infeasibility/accepted Native/fullSCH candidate or general gain/speed/fair-comparison/GUI/electrical/platform/release claim.",
+  "dependencies": [
+    {
+      "path": "evidence/runtime039-native-floor-schema-milestone-001.json",
+      "sha256": "c5c851c9b70156a734c604a83d4b50edbb86d2480b66e828278ffade037a5704",
+      "files_index": {
+        "path": "evidence/runtime039-native-floor-schema-milestone-001-notes/files.json",
+        "sha256": "783543c2bd76ea8d0d0f9849353192f8b9c99b3e43ff4344a393cdeec4f3a35a"
+      }
+    },
+    {
+      "path": "evidence/runtime039-clean-environment-001.json",
+      "sha256": "bd7f24eb35d7b10ec4bcac8120df498005d7023f08b02fee99c818579c70ad47",
+      "files_index": {
+        "path": "evidence/runtime039-clean-environment-001-notes/files.json",
+        "sha256": "8173032395841391e8211344d8bba8b5b26a8ad1a00e0c362fa32e0654bce8bf"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime039-079-hierarchy-high-budget-001.json",
+      "sha256": "bf1ef7df3575f827d8d28bed8f0a34911f0f8ad6712bddf515a0143aff317aa8",
+      "files_index": {
+        "path": "evidence/gui-runtime039-079-hierarchy-high-budget-001-notes/files.json",
+        "sha256": "9fc39975b54ab88e4fe5d56fa4fbc4c12d837b80a4068ef3828cbb839d03a9a5"
+      }
+    }
+  ],
+  "retention": {
+    "helper": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "functions": [
+      "retain",
+      "tree",
+      "cost"
+    ],
+    "max_file_bytes": 4194304,
+    "max_packet_payload_bytes": 16777216,
+    "max_new_files": 2000,
+    "new_payload_files": 40,
+    "new_payload_bytes": 1031265,
+    "material_rows": 145,
+    "counts_exclude_index_summary": true
+  },
+  "curation_sample": {
+    "wall_seconds": 0.08646537503227592,
+    "CPU_seconds": 0.058968999999999994,
+    "complete_external_unknown": true
+  },
+  "files_index": {
+    "path": "evidence/runtime039-sonde-layer-refusal-001-notes/files.json",
+    "sha256": "5acddd0bff4ad7a1ef273876ae67e2dad93046dba9812f0e89269d1c9969495d"
+  }
+}

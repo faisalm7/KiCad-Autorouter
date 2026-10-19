@@ -353,6 +353,11 @@ def audit_native(native, project, *, parent_policy=False, native_toolchain=None,
             or native.get("native_version") != expected_version or native.get("units") != "integer nanometres"):
         raise ValueError("Unexpected native version")
     if 'copper_layers' in native: four_copper_native_layers(native)
+    from .netclass_native import SOURCE_ALL_LAYER_KEY,validate_source_all_layers
+    if SOURCE_ALL_LAYER_KEY in native:
+        if native['native_version']!='10.0.7' or native_toolchain is not None or 'copper_layers' in native:
+            raise ValueError('source-all identity requires Native7 two-copper map')
+        validate_source_all_layers(native[SOURCE_ALL_LAYER_KEY])
     native_rows = native.get("nets")
     if not isinstance(native_rows, list) or not native_rows or len(native_rows) > 10000:
         raise ValueError("Missing or oversized native net inventory")
@@ -426,6 +431,7 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
     """Compare DSN to native-resolved membership; never evaluate pattern strings."""
     from autorouter import sexpr as sx
     from autorouter.adapter import _check_units
+    from autorouter.netclass_native import SOURCE_ALL_LAYER_KEY
 
     if derive_default_targets is True:
         from .default_targets import resolved_project
@@ -465,6 +471,13 @@ def audit_mapping(tree, native, project, *, parent_policy=False, native_toolchai
                 or any(len(row)!=4 or sx.one(row,'type')!=['type','signal']
                        or sx.one(row,'property')!=['property',['index',str(i)]] for i,row in enumerate(layer_nodes))):
             raise ValueError('four-copper DSN physical layer order/index differs')
+    elif SOURCE_ALL_LAYER_KEY in native:
+        from .netclass_native import validate_source_all_layers
+        rows=validate_source_all_layers(native[SOURCE_ALL_LAYER_KEY])
+        if (len(layer_nodes)!=2 or [_named(row,'DSN layer') for row in layer_nodes]!=[row['display_name'] for row in rows]
+                or any(len(row)!=4 or sx.one(row,'type')!=['type','signal']
+                       or sx.one(row,'property')!=['property',['index',str(i)]] for i,row in enumerate(layer_nodes))):
+            raise ValueError('source-all DSN physical layer order/label/index differs')
     elif len(layers) != 2 or len(layer_nodes) != 2:
         raise ValueError("Audit only understands two-layer through-via export")
     stacks = {_named(x, "DSN padstack"): x for x in sx.children(library, "padstack")}

@@ -81,6 +81,17 @@ def _parents(native, cls):
 
 
 def _layers(task, native, structure):
+    from .netclass_native import SOURCE_ALL_LAYER_KEY,check_source_all_layers
+    identity=check_source_all_layers(native,task)
+    if identity is not None:
+        rows=sx.children(structure,'layer')
+        if (len(rows)!=2 or any(len(row)!=4 or type(row[1]) is not str
+                or sx.unquote(row[1])!=observed['display_name']
+                or sx.one(row,'type')!=['type','signal']
+                or sx.one(row,'property')!=['property',['index',str(i)]]
+                for i,(row,observed) in enumerate(zip(rows,identity)))):
+            raise ValueError('DSN source-all display layer identity/order/index differs')
+        return [row['display_name'] for row in identity]
     if sx.one(task, 'version') == ['version', '20260206'] and 'copper_layers' in native:
         names = nc.four_copper_source_layers(task)
         if names != nc.four_copper_native_layers(native):
@@ -312,7 +323,7 @@ def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
     new = 'Via[0-' + str(len(names) - 1) + ']_' + floors.atom_um(target['via_diameter_nm']) + ':' + floors.atom_um(target['via_drill_nm']) + '_um'
     if sx.one(structure, 'via') != ['via', '"' + old + '"']:
         raise ValueError('one explicit Default routing via required')
-    fixed_via = _wiring(tree, names, native, '"' + old + '"')
+    fixed_via = _wiring(tree, [row[1] for row in sx.children(structure,'layer')], native, '"' + old + '"')
     stacks = sx.children(library, 'padstack')
     old_stack = next(stack for stack in stacks if sx.unquote(stack[1]) == old)
     if new != old and any(sx.unquote(stack[1]) == new for stack in stacks):
@@ -350,6 +361,9 @@ def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
                'engine_requirements': dict(floors.ENGINE_REQUIREMENTS),
                'routing_accepted': False, 'production_support_qualified': False,
                'native_execution_proven': False}
+    from .netclass_native import SOURCE_ALL_LAYER_KEY
+    if SOURCE_ALL_LAYER_KEY in native:
+        receipt[SOURCE_ALL_LAYER_KEY]=native[SOURCE_ALL_LAYER_KEY]
     return encoded, receipt
 
 

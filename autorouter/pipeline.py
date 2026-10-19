@@ -1220,6 +1220,9 @@ def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain
     from .netclass import PARENT_POLICY
     policy=netclass_policy(candidate)
     source_tree=sx.read(candidate)
+    from .netclass_native import SOURCE_ALL_LAYER_KEY,check_source_all_layers
+    if default_target_policy or SOURCE_ALL_LAYER_KEY in native:
+        check_source_all_layers(native,source_tree)
     if 'copper_layers' in native or sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in sx.one(source_tree,'layers',[]))==4:
         from .netclass import four_copper_source_layers,four_copper_native_layers
         if four_copper_source_layers(source_tree)!=four_copper_native_layers(native):raise Rejected('source/native copper layers differ')

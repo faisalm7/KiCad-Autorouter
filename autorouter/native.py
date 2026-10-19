@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 import pcbnew
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from autorouter.netclass_native import observe_class, observe_floors
+from autorouter.netclass_native import observe_class, observe_floors, observe_source_all_layers, SOURCE_ALL_LAYER_KEY
 from autorouter import config as c
 
 FIXED_PLACEMENT_SESSION_POLICY='fixed-placement-session-v1'
@@ -15,7 +15,7 @@ TASK_COPPER_FIXED_POLICY='native-task-copper-fixed-v1'
 def file_hash(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
-def netclasses(board, source, before):
+def netclasses(board, source, before, *, source_all_layers=False):
     """Resolve native classes without saving/normalizing the source board."""
     board.SynchronizeNetsAndNetClasses(False)
     count = board.GetCopperLayerCount()
@@ -53,6 +53,11 @@ def netclasses(board, source, before):
             'board_saved': False, 'nets': sorted(rows, key=lambda row: row['name']),
             'effective_floors_nm': effective_floors}
     if layer_record is not None: result['copper_layers'] = layer_record
+    if source_all_layers and count==2:
+        observed=observe_source_all_layers(board,Path(source).read_bytes(),pcbnew)
+        if observed is not None:result[SOURCE_ALL_LAYER_KEY]=observed
+        if before!=(file_hash(source),file_hash(project)):
+            raise RuntimeError('Board or project changed during native layer resolution')
     return result
 
 def main():
@@ -89,7 +94,7 @@ def main():
     if not board:
         raise RuntimeError('KiCad could not load board')
     if action == 'export':
-        mapping = netclasses(board, source, before) if mapping_requested else None
+        mapping = netclasses(board, source, before, source_all_layers=not experimental and c.NATIVE_VERSION=='10.0.7') if mapping_requested else None
         from autorouter.padless_alias import export_board,POLICY
         if POLICY!=EXPORT_ALIAS_POLICY:raise RuntimeError('Native export alias policy differs')
         exporter=(lambda native,path:task_copper.invoke(native,source,pcbnew,
@@ -100,7 +105,8 @@ def main():
                 raise RuntimeError('Board or project changed during DSN export')
             Path(sys.argv[4]).write_text(json.dumps(mapping, indent=2) + '\n')
     elif action == 'netclasses':
-        Path(output).write_text(json.dumps(netclasses(board, source, before), indent=2) + '\n')
+        Path(output).write_text(json.dumps(netclasses(board, source, before,
+            source_all_layers=not experimental and c.NATIVE_VERSION=='10.0.7'), indent=2) + '\n')
     elif action == 'import':
         from autorouter.adapter import fixed_placement_session
         from autorouter.placement_clearance import read_bytes

@@ -1,0 +1,53 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 0.8071969170123339,
+  "cpu_seconds": 0.450046,
+  "max_rss_bytes": 201670656,
+  "supervisor_cpu_seconds": 0.011382000000000003,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 197328896,
+  "sampled_peak_workdir_bytes": 3090590,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/source-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/source-drc-input/sonde xilinx.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route/source-drc.log",
+  "log_bytes": 248,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/ordinary-sonde-whole-001/autorouter-gui-13845a29f67d43f1b020ee7c58e501cd/route",
+  "signal_cancellation_enabled": true,
+  "pid": 82612,
+  "name": "source-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": false
+  }
+}
