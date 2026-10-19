@@ -173,6 +173,45 @@ class NormalPolicyReceiptControls(unittest.TestCase):
                 if retained=='binding_only':(folder/'final-drc-process.json').unlink()
                 with self.assertRaisesRegex(p.Rejected,'population'):ls.check_normal_policy(self.run,self.data)
 
+    def test_parent_census_binds_trial_without_standalone_code_and_journal_cwd(self):
+        folder,_,process,step=self._stage()
+        self.assertFalse((folder/'code').exists())
+        ls.check_normal_policy(self.run,self.data)
+        # Trials belong to the parent's pinned, complete worker population.
+        # No independent trial receipt or tool authority is supplied here.
+        retained=self.data['steps'].pop()
+        with self.assertRaisesRegex(p.Rejected,'population'):
+            ls.check_normal_policy(self.run,self.data)
+        self.data['steps'].append(retained)
+        path=folder/'final-drc-process.json';raw=path.read_bytes()
+        wrong=dict(process,cwd=str(self.run));p.save_json(path,wrong)
+        with self.assertRaisesRegex(p.Rejected,'policy or lineage'):
+            ls.check_normal_policy(self.run,self.data)
+        path.write_bytes(raw)
+        step['cwd']=str(self.run)
+        with self.assertRaisesRegex(p.Rejected,'duplicate|policy or lineage|population'):
+            ls.check_normal_policy(self.run,self.data)
+        step['cwd']=str(folder)
+        ls.check_normal_policy(self.run,self.data)
+
+    def test_last_parent_and_trial_replay_catches_late_nested_prl_flag(self):
+        import os,sys
+        if sys.platform!='darwin' or not hasattr(os,'chflags'):
+            self.skipTest('actual Mac file flags required')
+        self._put_prl_in_fixture();folder,_,_,step=self._stage()
+        packets=[(self.run,self.data),(folder,dict(steps=[step]))]
+        ls.check_normal_policy(self.run,self.data)
+        ls.check_final_events(packets,p.c.CLI)
+        prl=folder/'final-drc-input'/self.source.with_suffix('.kicad_prl').name
+        raw=prl.read_bytes();flags=prl.stat().st_flags
+        try:
+            os.chflags(prl,stat.UF_IMMUTABLE,follow_symlinks=False)
+            self.assertEqual(prl.read_bytes(),raw)
+            with self.assertRaisesRegex(p.Rejected,'flags'):
+                ls.check_final_events(packets,p.c.CLI)
+        finally:os.chflags(prl,flags,follow_symlinks=False)
+        ls.check_final_events(packets,p.c.CLI)
+
     def test_duplicate_declared_worker_is_not_an_extra_measured_attempt(self):
         self.data['steps'].append(copy.deepcopy(self.data['steps'][0]))
         with self.assertRaisesRegex(p.Rejected,'duplicate'):ls.check_normal_policy(self.run,self.data)

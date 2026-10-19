@@ -926,8 +926,14 @@ def check_native7_final(directory,data,*,material=None,additional=(),pairs=()):
     protected=[route for route in p.routes(original) if p.locked(route)]
     p.check_final_netclass_evidence(directory,data,candidate,protected,default_target_policy=True,
         default_target_basis=native7_default_target_basis(directory,data))
-    packets=[*native7_packets(directory,data),*additional]
-    for folder,record in packets:p.check_experimental_local_settings(folder,record,None)
+    owned=native7_packets(directory,data);additional=tuple(additional)
+    packets=[*owned,*additional]
+    # The pinned parent policy censuses every nested trial worker and binds
+    # its journal, source project and PRL event. A trial is not a standalone
+    # routing result with its own code/tool snapshot. Keep its Native/selection
+    # replay with the caller and every trial in the final metadata fence.
+    for folder,record in [*owned[:2],*additional]:
+        p.check_experimental_local_settings(folder,record,None)
     if material is not None:material()
     local.check_final_events(packets,c.CLI,pairs=pairs)
     return True

@@ -125,17 +125,25 @@ class Native7ParentControls(unittest.TestCase):
 
     def test_final_guard_preserves_own_default_audit_and_last_all_root_metadata(self):
         data=self.parent_data();self.incumbent_with_basis(data);(self.parent/'trials').mkdir()
+        trial=self.parent/'trials/trial-0000';trial.mkdir()
+        record=dict(status='quality_rejected',accepted=False,steps=[])
+        p.save_json(trial/'result.json',record)
+        data['trials']=[dict(id=trial.name,receipt=str(trial/'result.json'),status=record['status'],accepted=False)]
+        self.assertFalse((trial/'code').exists())
         events=[];flags={'late':False};extra=(self.workspace/'export-validation',{'steps':[]})
         pairs=[('constructed plot root','constructed binding','constructed process')]
         def material():events.append('material');flags['late']=True
         def metadata(packets,cli,*,pairs):
             events.append('last metadata')
-            self.assertEqual([row[0] for row in packets],[self.parent,self.context.output,extra[0]])
+            self.assertEqual([row[0] for row in packets],[self.parent,self.context.output,trial,extra[0]])
             self.assertEqual(len(pairs),1)
             if flags['late']:raise p.Rejected('constructed late metadata sentinel')
+        def lineage(folder,*args):
+            if folder==trial:raise p.Rejected('standalone trial code not part of parent census contract')
+            events.append('root')
         from autorouter import local_settings as local
         with patch.object(p,'check_final_netclass_evidence') as audit, \
-                patch.object(p,'check_experimental_local_settings',side_effect=lambda *args:events.append('root')), \
+                patch.object(p,'check_experimental_local_settings',side_effect=lineage), \
                 patch.object(local,'check_final_events',side_effect=metadata),self.assertRaisesRegex(p.Rejected,'late metadata sentinel'):
             s.check_native7_final(self.parent,data,additional=(extra,),pairs=pairs,material=material)
         self.assertTrue(audit.call_args.kwargs['default_target_policy'])
