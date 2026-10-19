@@ -1,0 +1,186 @@
+--- a/autorouter/strategy.py
++++ b/autorouter/strategy.py
+@@ -32,6 +32,7 @@
+ MAX_FEEDBACK_DEPTH = 2
+ MAX_FEEDBACK_ADDED_ROUTES = 8
+ PRUNING_PREFERENCES_POLICY = "native-pruning-preferences-v1"
++SINGLE_SELECTION_POLICY = "selected-native7-single-pruning-lineage-v1"
+ ADAPTIVE_POLICY = "charged-first-single-sequence-v1"
+ STRONG_INCUMBENT_POLICY = "free-angle-clearance20-v1"
+ STRONG_WIDTH_INCUMBENT_POLICY = "free-angle-clearance20-global-width-v2"
+@@ -271,7 +272,7 @@
+     return base, tuple(sorted(ids))
+ 
+ 
+-def _adaptive_trial_native(directory, data, record):
++def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial_guard"):
+     """Check a bound completed retained Native outcome; never run Native here."""
+     from . import floor_route as f
+     from .placement_clearance import read_bytes
+@@ -312,6 +313,88 @@
+             str(c.ROOT / 'autorouter/native.py'), 'metrics', str(candidate), str(folder / 'metrics.json')])
+         _quality(record['metrics'])
+     return True
++
++
++
++def check_single_selection(directory, data):
++    """Draft prerequisite only: reconstruct retained single-policy ancestry.
++
++    This function is deliberately NOT wired to admission. Its future caller
++    must first verify the exact incumbent with a trusted live child context,
++    then run the central original/final/Native readers and the final all-root
++    PRL collector. It supplies no selected-version or child authority itself.
++    Incomplete trials remain charged but cannot enter the selected ancestry.
++    """
++    from .floor_route import read_json, canonical
++    from .placement_clearance import read_bytes
++    from .local_settings import policy_declaration
++    directory=Path(directory);producer=directory/'code/strategy.py'
++    raw=read_bytes(producer,1024**2)
++    if (c.NATIVE_VERSION!='10.0.7' or type(data.get('schema')) is not int or data['schema']!=1
++            or data.get('single_selection_policy')!=SINGLE_SELECTION_POLICY
++            or data.get('strategy')!='native_validated_zone_net_pruning'
++            or data.get('proposal_policy')!='single' or data.get('engine_profile')!='tuned'
++            or data.get('adapter')!='both' or data.get('scope')!='whole_board_unlocked_routing'
++            or data.get('finalization_reserve_seconds')!=NATIVE_FINAL_RESERVE_SECONDS
++            or data.get('finalization_cpu_reserve_seconds')!=NATIVE_FINAL_RESERVE_SECONDS
++            or any(key in data for key in ('incumbent_policy','chain_pad_context','adaptive_branch'))
++            or hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/strategy.py')
++            or policy_declaration(raw,name='SINGLE_SELECTION_POLICY',expected=SINGLE_SELECTION_POLICY)!=SINGLE_SELECTION_POLICY):
++        raise p.Rejected('exact source-derived native single selection policy required')
++    check_pruning_preferences(directory,data)
++    source=Path(data['source']);original=sx.read(directory/'snapshot'/source.name)
++    protected=[route for route in p.routes(original) if p.locked(route)];nets=zone_net_ids(original)
++    incumbent=read_json(directory/'incumbent/result.json')
++    best=directory/'incumbent/candidate'/source.name
++    if (incumbent.get('accepted') is not True or incumbent.get('status')!='routing_accepted'
++            or incumbent.get('candidate')!=str(best) or p.sha(best)!=incumbent.get('candidate_sha256')):
++        raise p.Rejected('single selection needs its independently checked incumbent')
++    best_metrics,best_native=incumbent['metrics'],incumbent['native'];improvements=0
++    rows=data.get('trials')
++    if (type(rows) is not list or len(rows)>MAX_TRIALS
++            or {path.name for path in (directory/'trials').iterdir()}!={f'trial-{i:04d}' for i in range(len(rows))}):
++        raise p.Rejected('single trial population omitted or extended')
++    steps=[dict(step,phase='incumbent') for step in incumbent['steps']];individual=False
++    for index,row in enumerate(rows):
++        folder=directory/'trials'/f'trial-{index:04d}';path=folder/'result.json';trial=read_json(path)
++        if (row!={'id':folder.name,'receipt':str(path),'status':trial.get('status'),'accepted':trial.get('accepted')}
++                or trial.get('id')!=folder.name or trial.get('base_candidate_sha256')!=p.sha(best)
++                or type(trial.get('accepted')) is not bool):
++            raise p.Rejected('single trial identity or incumbent hash differs')
++        proposal=trial.get('proposal',{});kind=proposal.get('kind')
++        if kind not in {'whole_zone_net','individual_segment','individual_via'}:
++            raise p.Rejected('single policy cannot use another proposal variant')
++        if kind=='whole_zone_net' and individual:raise p.Rejected('single proposal phase reversed')
++        individual=individual or kind!='whole_zone_net'
++        if proposal not in proposals(sx.read(best),nets,protected,not individual):
++            raise p.Rejected('single deletion differs from current eligible copper')
++        expected=delete_routes(sx.read(best),proposal['route_ids'],nets,protected)
++        complete=_adaptive_trial_native(directory,data,trial,guard_key='single_trial_guard')
++        if complete:
++            if (sx.dump(expected)+'\n').encode()!=read_bytes(folder/'pre-refill.kicad_pcb'):
++                raise p.Rejected('single trial did not delete from its bound incumbent')
++            improves=trial['status']!='drc_rejected' and _improves(trial['metrics'],best_metrics,trial['native'],best_native)
++            if trial['accepted'] is not improves:
++                raise p.Rejected('single Native/quality outcome differs from selection')
++            if trial['accepted']:
++                best=folder/'candidate'/source.name;best_metrics,best_native=trial['metrics'],trial['native'];improvements+=1
++        elif trial['accepted']:
++            raise p.Rejected('incomplete single trial cannot replace incumbent')
++        for step in trial.get('steps',[]):
++            if step.get('cwd')!=str(folder) or step.get('phase')!=folder.name:
++                raise p.Rejected('single trial worker escaped fixed ancestry')
++        steps.extend(trial.get('steps',[]))
++    final=directory/'candidate'/source.name;tree=sx.read(final);selected=sx.read(best)
++    if (data.get('best_observed_candidate')!=str(best) or data.get('best_observed_metrics')!=best_metrics
++            or data.get('improvements')!=improvements or data.get('metrics')!=best_metrics
++            or p.sha(final)!=data.get('candidate_sha256') or p.immutable(tree)!=p.immutable(selected)
++            or p.routes(tree)!=p.routes(selected) or not _warning_signatures(data['native'])<=_warning_signatures(best_native)
++            or any(route not in p.routes(tree) for route in protected)):
++        raise p.Rejected('single final candidate differs from verified selected ancestry')
++    final_steps=[step for step in data['steps'] if step.get('phase')=='finalization']
++    if canonical(data['steps'])!=canonical(steps+final_steps):
++        raise p.Rejected('single parent omitted or duplicated attempted compute')
++    return best
+ 
+ 
+ def _adaptive_branch_fresh(directory, data):
+--- /dev/null
++++ b/tests/test_native7_improve_single.py
+@@ -0,0 +1,75 @@
++"""Constructed selection controls, not actual selected7/Native qualification.
++
++The Native replay primitive is mocked explicitly to isolate ancestry checks.
++This unapplied prerequisite must not be used to open the selected7 guards.
++"""
++import copy,json,tempfile,unittest
++from pathlib import Path
++from unittest.mock import patch
++from autorouter import pipeline as p,sexpr as sx,strategy as s
++from tests.test_strategy import BOARD,candidate_tree,metrics
++
++class SingleSelectionPrerequisiteTests(unittest.TestCase):
++    def setUp(self):
++        tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup);self.root=Path(tmp.name).resolve()
++        for name in ('code','snapshot','trials','incumbent/candidate','candidate'):(self.root/name).mkdir(parents=True)
++        code=self.root/'code/strategy.py';code.write_bytes(Path(s.__file__).read_bytes())
++        self.source=self.root/'source/owned.kicad_pcb';self.source.parent.mkdir();self.source.write_text(BOARD)
++        (self.root/'snapshot'/self.source.name).write_text(BOARD)
++        self.tree=candidate_tree(sx.parse(BOARD));self.best=self.root/'incumbent/candidate'/self.source.name;sx.write(self.best,self.tree)
++        self.native={'opens':0,'blocking':0,'warnings':0,'exclusions':0,'findings':[]}
++        self.inc={'accepted':True,'status':'routing_accepted','candidate':str(self.best),'candidate_sha256':p.sha(self.best),
++            'metrics':metrics(self.tree),'native':self.native,'steps':[]}
++        p.save_json(self.root/'incumbent/result.json',self.inc);sx.write(self.root/'candidate'/self.source.name,self.tree)
++        self.data=dict(schema=1,single_selection_policy=s.SINGLE_SELECTION_POLICY,strategy='native_validated_zone_net_pruning',
++            proposal_policy='single',engine_profile='tuned',adapter='both',scope='whole_board_unlocked_routing',
++            finalization_reserve_seconds=25.,finalization_cpu_reserve_seconds=25.,source=str(self.source),
++            tools={'implementation_sha256':{'autorouter/strategy.py':p.sha(code)}},trials=[],steps=[],improvements=0,
++            best_observed_candidate=str(self.best),best_observed_metrics=metrics(self.tree),metrics=metrics(self.tree),
++            candidate_sha256=p.sha(self.root/'candidate'/self.source.name),native=self.native)
++        for item in (patch.object(s.c,'NATIVE_VERSION','10.0.7'),patch.object(s,'check_pruning_preferences')):
++            item.start();self.addCleanup(item.stop)
++    def check(self):return s.check_single_selection(self.root,self.data)
++    def trial(self,accepted=True):
++        folder=self.root/'trials/trial-0000';folder.mkdir();(folder/'candidate').mkdir()
++        proposal=s.proposals(self.tree,{'1'},[r for r in p.routes(self.tree) if p.locked(r)],False)[0]
++        after=s.delete_routes(self.tree,proposal['route_ids'],{'1'},[r for r in p.routes(self.tree) if p.locked(r)])
++        sx.write(folder/'pre-refill.kicad_pcb',after);sx.write(folder/'candidate'/self.source.name,after)
++        result=dict(id=folder.name,proposal=proposal,base_candidate_sha256=p.sha(self.best),accepted=accepted,
++            status='improvement_validated' if accepted else 'quality_rejected',metrics=metrics(after),native=self.native,steps=[])
++        p.save_json(folder/'result.json',result)
++        self.data['trials']=[dict(id=folder.name,receipt=str(folder/'result.json'),status=result['status'],accepted=accepted)]
++        if accepted:
++            sx.write(self.root/'candidate'/self.source.name,after)
++            self.data.update(best_observed_candidate=str(folder/'candidate'/self.source.name),best_observed_metrics=metrics(after),
++                metrics=metrics(after),improvements=1,candidate_sha256=p.sha(self.root/'candidate'/self.source.name))
++        return folder,result
++    def test_no_improvement_returns_exact_retained_incumbent(self):self.assertEqual(self.check(),self.best)
++    def test_selected_single_deletion_and_protected_copper_are_reconstructed(self):
++        folder,_=self.trial()
++        with patch.object(s,'_adaptive_trial_native',return_value=True) as replay:
++            self.assertEqual(self.check(),folder/'candidate'/self.source.name)
++            self.assertEqual(replay.call_args.kwargs,{'guard_key':'single_trial_guard'})
++    def test_incomplete_trial_cannot_be_selected(self):
++        self.trial()
++        with patch.object(s,'_adaptive_trial_native',return_value=False),self.assertRaises(p.Rejected):self.check()
++    def test_reauthored_trial_cannot_switch_incumbent_or_policy(self):
++        folder,result=self.trial()
++        for key,value in [('base_candidate_sha256','0'*64),('proposal',dict(result['proposal'],kind='native_warning_cleanup'))]:
++            bad=copy.deepcopy(result);bad[key]=value;p.save_json(folder/'result.json',bad)
++            with patch.object(s,'_adaptive_trial_native',return_value=True),self.assertRaises(p.Rejected):self.check()
++    def test_final_hash_does_not_hide_protected_or_selected_copper_change(self):
++        self.trial();final=self.root/'candidate'/self.source.name;tree=sx.read(final)
++        locked=next(r for r in p.routes(tree) if p.locked(r));sx.one(locked,'width')[1]='0.300001';sx.write(final,tree)
++        self.data['candidate_sha256']=p.sha(final)
++        with patch.object(s,'_adaptive_trial_native',return_value=True),self.assertRaises(p.Rejected):self.check()
++    def test_source_policy_population_and_compute_census_cannot_downgrade(self):
++        for key,value in [('single_selection_policy',None),('proposal_policy','feedback'),('engine_profile','standard'),('steps',[{'phase':'omitted'}])]:
++            with self.subTest(key=key):
++                before=copy.deepcopy(self.data);self.data[key]=value
++                with self.assertRaises(p.Rejected):self.check()
++                self.data=before
++        (self.root/'trials/hidden').mkdir()
++        with self.assertRaises(p.Rejected):self.check()
++
++if __name__=='__main__':unittest.main()

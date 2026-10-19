@@ -83,4 +83,26 @@ Each accepted final still requires its **own** native refill/full-schematic/orig
 
 The output is local evidence, not a publication bundle. `hashes_only` does not sanitize files automatically. Keep source CAD, generated CAD/DSN/SES, plots and input copies local when redistribution title is unresolved; publish only reviewed facts, hashes and owned code. The4GiB startup check and per-worker polling guards are not an aggregate future-job disk reservation. Existing full-restoration capacity limits still apply.
 
+## Report completed stored evidence
+
+[`scripts/report_current_comparison.py`](../scripts/report_current_comparison.py) reports an entire frozen population after every planned arm has a terminal enclosure. Supply the original `population.json` and `frozen-children.json` with their exact SHA256 digests. Missing arms refuse reporting; unsupported inputs, cancellations, cap failures and harness failures remain unqualified rather than becoming completed routing negatives.
+
+The reporter checks frozen source/runtime/manifest/administration pins, sealed method and portfolio material, all portfolio attempts, and stored own-final source/candidate/report/process/full-schematic bindings. It preserves warnings, exclusions, ignored-check codes, protected counts and numeric metrics, including Native `track_length_mm`, alongside the producer version. Complete external exit wall/CPU costs are counted once; nested method/Native samples are not added again. These are stored-evidence checks, **not** new Native execution, central-reader replay or GUI revalidation.
+
+Use a fresh absolute output directory. It writes generated `report.json` and `files.json`; existing outputs refuse and partial outputs must not be automatically reused. This parameterized command does not rerun any comparison arm:
+
+```sh
+.venv/bin/python -B scripts/report_current_comparison.py \
+  --population '/absolute/frozen-comparison/population.json' \
+  --population-sha256 '<exact population.json sha256>' \
+  --children '/absolute/frozen-comparison/frozen-children.json' \
+  --children-sha256 '<exact frozen-children.json sha256>' \
+  --output '/absolute/KiCad-Autorouter-local/.runs/new-comparison-facts' \
+  --public-sanitize
+```
+
+Without `--public-sanitize`, output is local and includes bounded original failure text and ignored-check metadata; audit it before sharing. With the flag, safe ignored-check key codes and counts remain visible, while descriptions and free-form reasons become hashes plus exact local receipt/field references. Classification, warnings and failure counts do not change. Source CAD, generated CAD/DSN/SES, plots, logs and raw findings are not copied into the report. Sanitization does not clear redistribution rights or publish anything.
+
+The reporter's 11 constructed tests passed in 0.18 seconds wall/0.12 CPU; they establish reporting controls, not Native correctness. Its actual six-row IR043 stored-evidence report completed in 1.79 seconds wall/1.23 CPU, additional to the comparison costs. The native-only IR043 follow-up used an explicitly reviewed local wrapper. The public freezer above still requires its runtime042 GUI-installation qualification contract: do not fabricate that qualification or treat this report as portable runtime043 GUI support or a fully closed evaluation.
+
 [Current measured results](benchmark-runtime042.md) · [Supported scope and release gates](../REQUIREMENTS.md)

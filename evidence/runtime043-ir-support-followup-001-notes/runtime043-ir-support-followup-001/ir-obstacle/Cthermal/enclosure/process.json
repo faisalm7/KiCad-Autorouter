@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 65.03511824994348,
+  "cpu_seconds": 61.517308,
+  "max_rss_bytes": 311296000,
+  "supervisor_cpu_seconds": 0.16349599999999997,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 506363904,
+  "sampled_peak_workdir_bytes": 342,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-043/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-043/runtime/.runs/qualify-current-method-001.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-043/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime043-ir-support-followup-001/ir-obstacle/Cthermal/protocol.json",
+    "--protocol-sha256",
+    "e405e776897ecc4b2012e050f58b65342b27d72924a83cfd79efae13827a8a3b"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime043-ir-support-followup-001/ir-obstacle/Cthermal/enclosure/command.log",
+  "log_bytes": 342,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime043-ir-support-followup-001/ir-obstacle/Cthermal/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 98819
+}
