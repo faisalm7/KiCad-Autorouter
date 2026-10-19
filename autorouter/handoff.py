@@ -524,7 +524,11 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         for protected in (source.parent, receipt.parent, review_path.parent):
             if destination == protected or protected in destination.parents:
                 raise Rejected('choice output must be outside source, routing evidence and review')
-        central_check(); destination.mkdir(parents=True, exist_ok=False); created = True
+        central_check()
+        from .strategy import native7_parent
+        native7_choice = (native_toolchain is None and comparison_context is None
+                          and native7_parent(receipt.parent, report) is not None)
+        destination.mkdir(parents=True, exist_ok=False); created = True
         capture_destination(lifecycle,destination)
         names = set(candidate_hashes) | set(project_hashes)
         changes = {'added': sorted(set(project_hashes) - set(candidate_hashes)),
@@ -547,7 +551,12 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         save_json(destination / 'choice.json', record)
         if f.canonical(f.read_json(destination / 'choice.json')) != expected or f.canonical(record) != expected:
             raise Rejected('review choice changed during publication')
-        central_check()
+        if native7_choice:
+            # The second complete central read precedes only this separate
+            # output write. Keep the full live material/Native/plot/PRL fence.
+            material()
+        else:
+            central_check()
         if f.canonical(f.read_json(destination / 'choice.json')) != expected or f.canonical(record) != expected:
             raise Rejected('review choice changed during final readback')
         cap(); return record
