@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-19T16:14:22.302060+00:00",
+  "kind": "shared-inventory-receipt-and-resource-forecast-not-backup",
+  "source_head": "fdc07988d869d770156a8e67625ba3e6d8287d6e",
+  "forecast": {
+    "Git_executed": false,
+    "archive_created": false,
+    "authoritative_backup_or_release_qualification": false,
+    "backup_created": false,
+    "compact_delta": {
+      "deleted_directories": 0,
+      "deleted_files": 0,
+      "directories": 31919,
+      "directory_policy": "changed-and-new-ancestors-v1",
+      "files": 135284,
+      "logical_bytes": 6631742319
+    },
+    "disk": {
+      "free_after_bytes": 26434867200,
+      "free_before_bytes": 26435751936
+    },
+    "end_to_end_capacity": {
+      "capture_integrity_retained_directories_4KiB_bytes": 130740224,
+      "capture_integrity_retained_payload_4KiB_bytes": 6940659712,
+      "capture_integrity_retained_tree_4KiB_bytes": 7071399936,
+      "capture_integrity_root_directory_4KiB_bytes": 4096,
+      "combined_integrity_and_restore_peak_4KiB_bytes": 25566089216,
+      "headroom_after_integrity_restore_receipt_reserve_bytes": -2509680640,
+      "headroom_after_tracked_allowance_bytes": -4683878400,
+      "new_receipt_4KiB_bytes": 158117888,
+      "reserve_bytes": 3221225472,
+      "restore_only_peak_4KiB_bytes": 18494685184,
+      "rough_tracked_checkout_allowance_bytes": 2174197760,
+      "scope": "Capture integrity checkpoint followed by full restoration, retaining both scratch trees. Restore-only arithmetic above excludes this additional retained delta-check tree.",
+      "still_unknown": [
+        "Actual new compressed archive",
+        "Actual new Git bundle and restored object database/history",
+        "Other filesystem metadata and later growth"
+      ]
+    },
+    "exclusions_added": false,
+    "existing_full006_bundle": {
+      "bytes": 23595986,
+      "hash_checked": true,
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T181606Z-b9d396079eb4422f9ba8aee6b1a85b28/repository.bundle",
+      "scope": "Existing prior bundle only; not a current Git bundle or current history/checkout proof.",
+      "sha256": "1feb058bab8154fc38a93a9b3e448a53bbfe0f9992bd902cfb9479e599b9971a"
+    },
+    "forecast_completed": true,
+    "forecast_only_caps": {
+      "directories": 500000,
+      "files": 500000,
+      "logical_bytes": 21474836480
+    },
+    "full006": {
+      "directories": 68774,
+      "files": 303413,
+      "logical_bytes": 10358995320,
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.local-backups/checkpoint-20261015T181606Z-b9d396079eb4422f9ba8aee6b1a85b28/receipt.json",
+      "receipt_bytes": 77959854,
+      "sha256": "82dff0759a5a9ec89b23ee34f3f5330bd847a6f3fd65aeca5b3079db7c1787b3",
+      "verification_bytes": 2171,
+      "verification_sha256": "da329f130081f0d5dd7abc4f2bd1f37cb0459dfa72add26a7fd2f33acceb6154"
+    },
+    "full_CPU_seconds": 142.209689,
+    "inventory": {
+      "absent_scopes": [],
+      "canonical_serialized_bytes": 97319246,
+      "canonical_sha256": "3bcb90204ee0bd631ab746d621fbbdeb9246d829e9c25b79a5a0a69b90262b5b",
+      "directories": 100689,
+      "files": 438696,
+      "logical_bytes": 16990735475,
+      "per_scope": {
+        ".data": {
+          "directories": 171,
+          "files": 616,
+          "logical_bytes": 60683517
+        },
+        ".local-reference": {
+          "directories": 1,
+          "files": 6,
+          "logical_bytes": 62155
+        },
+        ".runs": {
+          "directories": 100517,
+          "files": 438074,
+          "logical_bytes": 16929989803
+        }
+      }
+    },
+    "limitations": [
+      "One shared inventory cutoff with per-file stability only; no second complete inventory equality or Git-state certification.",
+      "Other writers must be idle; result/log are subsequent small additions not in the measured cutoff.",
+      "No500k manifest, source paths or private source contents are published; only aggregate measurements and canonical hashes.",
+      "Production capture/receipt/chain limits remain unchanged. Forecast-only elevated bounds cannot authorize capture.",
+      "Compression and actual Git restoration are unmeasured; a positive arithmetic headroom is not a demonstrated feasible backup/restore."
+    ],
+    "native_executed": false,
+    "population_fits_current_capture_caps": false,
+    "production_caps": {
+      "LIMIT": 13153337344,
+      "MAX_CHAIN": 16,
+      "MAX_CHAIN_RECEIPT_BYTES": 201326592,
+      "MAX_FILES": 350000,
+      "MAX_RECEIPT_BYTES": 104857600
+    },
+    "production_caps_restored": true,
+    "receipt_forecast": {
+      "incremental_fits_current_receipt_cap_with_allowance": false,
+      "metadata_scope": "Exact current inventory/delta and shared receipt JSON formatting. New archive/bundle metadata stands in with fixed historical full006 fields; refs are caller-frozen if provided, otherwise historical only. SHA is of this forecast shape, not a real backup receipt.",
+      "serialized_incremental_bytes": 158113923,
+      "serialized_sha256": "d64d769046c41aa622ccd6581b53e1cb0dda17350382a38aeaf894dbc8c7ec0d",
+      "two_node_chain_receipt_bytes": 236073777,
+      "two_node_fits_current_chain_cap_with_allowance": false,
+      "unmeasured_metadata_allowance_bytes": 65536
+    },
+    "restoration_performed": false,
+    "restore_capacity": {
+      "base_restore_4KiB_bytes": 11358683136,
+      "conservative_restore_plus_stage_peak_4KiB_bytes": 18494685184,
+      "delta_staging_directories_4KiB_bytes": 130740224,
+      "delta_staging_payload_4KiB_bytes": 6940659712,
+      "headroom_after_conservative_peak_receipt_reserve_bytes": 4561723392,
+      "headroom_after_target_dirs_reserve_bytes": 4784463872,
+      "headroom_after_tracked_allowance_bytes": 2387525632,
+      "largest_transient_copy_4KiB_bytes": 64602112,
+      "new_receipt_4KiB_bytes": 158117888,
+      "reserve_bytes": 3221225472,
+      "rough_tracked_checkout_allowance_bytes": 2174197760,
+      "target_directories_4KiB_bytes": 412422144,
+      "target_payload_4KiB_bytes": 18017640448,
+      "unknown_additional_bytes": [
+        "Actual new compressed delta archive",
+        "Actual new repository bundle and restored Git object database/history",
+        "Filesystem metadata/allocation differences beyond4KiB arithmetic",
+        "Subsequent evidence/authoring growth"
+      ]
+    },
+    "schema": 1,
+    "scopes": [
+      ".runs",
+      ".data",
+      ".local-reference"
+    ],
+    "source_head": "fdc07988d869d770156a8e67625ba3e6d8287d6e",
+    "source_head_authority": "Caller-supplied frozen metadata; child never queries or certifies Git state.",
+    "status": "read_only_forecast_completed_not_backup",
+    "subprocess_executed_by_child": false,
+    "tracked_checkout": {
+      "bytes": 6993733,
+      "directories": 6669,
+      "files": 49230,
+      "limitation": "Supplied frozen tracked paths were statted, not queried from Git. Two times 4KiB working-tree allocation is a rough planning allowance, not an upper bound on Git object database/history, new bundle or physical storage.",
+      "logical_bytes": 945418748,
+      "observed_current_allocated_bytes": 1059782656,
+      "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime041-forecast-tracked-stat-001.json",
+      "rough_working_tree_allowance_bytes": 2174197760,
+      "sha256": "0041516ba627c4e44979af4af893d8cba5ad6d5df1d2f6a373b03c233a48b189",
+      "source_head": "fdc07988d869d770156a8e67625ba3e6d8287d6e",
+      "working_tree_4KiB_forecast_bytes": 1087098880
+    },
+    "wall_seconds": 187.5085036669625,
+    "writers_idle_asserted": true
+  },
+  "costs": {
+    "whole_external_wall_seconds": 187.83,
+    "whole_external_CPU_seconds": 142.73,
+    "user": 123.54,
+    "system": 19.19,
+    "enclosure_wall_seconds": 187.7822880409658,
+    "enclosure_full_CPU_seconds": 142.698926,
+    "nested_costs_included_not_additive": true,
+    "authoring_and_AI_review_CPU": null
+  },
+  "decision": {
+    "capture_or_restore_attempted": false,
+    "production_limits_changed": false,
+    "direct_full006_plus_new_incremental_GUI_integration_restore": "not admitted: actual compressed archive/new Git objects remain unknown; ordinary incremental+retained-integrity+fullrestore schedule has a measured4683878400B shortfall even before those additions. Direct create/fullverify without separate integrity scratch has2387525632B arithmetic remainder before unknown additions, not proven fit. No backup redesign or lowered guards.",
+    "owner_preference": "Artifacts remain on this Mac; no disk-failure protection claimed. No unrelated files removed.",
+    "next": "Preserve current essential evidence with verified Git checkpoints; resume new-target restoration only with measured sufficient space or an owner-approved destination. Do not repeat completed008/010. New raw is Mac-only and not covered by010."
+  },
+  "files_index": {
+    "path": "evidence/backups/runtime041-receipt-capacity-001-notes/files.json",
+    "sha256": "dbf9bf5279a11f0d4af002407841624ca282b2e95903d893081a99831c88c2aa"
+  },
+  "metadata_cutoff": "Subsequent small reports and GUI jobs are later additions; this forecast is not a certified snapshot or space reservation.",
+  "project_complete": false
+}

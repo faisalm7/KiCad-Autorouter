@@ -1,11 +1,11 @@
 # Use the autorouter on this Mac
 
-Start with a saved test project or a copy of your project. This is the current **runtime039 / GUI079 experimental workflow** for the existing KiCad 10.0.7 installation.
+Start with a saved test project or a copy of your project. This is the current **runtime041 / GUI080 experimental workflow** for the existing KiCad 10.0.7 installation.
 
-1. **Launch KiCad.** Save your work and close other KiCad applications. In Finder, double-click [Launch Autorouter.command](</Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/gui-launcher079/Launch Autorouter.command>). To find it manually, use Finder’s **Go → Go to Folder…** and paste:
+1. **Launch KiCad.** Save your work and close other KiCad applications. In Finder, double-click [Launch Autorouter.command](</Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-launcher080/Launch Autorouter.command>). To find it manually, use Finder’s **Go → Go to Folder…** and paste:
 
    ```text
-   /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-039/runtime/.runs/gui-launcher079
+   /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-launcher080
    ```
 
    The launcher opens KiCad with its own local plugin, settings and cache. Open your saved project in that manager, open PCB Editor and click the **green autorouter icon**.
@@ -22,6 +22,6 @@ Opening or editing an export can change its project settings and make its proof 
 
 Keep this checkout, runtime and existing pinned tools at their recorded paths. Normal routing needs no Codex, AI subscription or internet. This fixed-path local setup is not a standalone installer, clean-OS or Windows qualification.
 
-The ordinary GUI079 positive, reject, three independent source/settings/export-change refusals and engine cancellation have been observed. Actual forced queued-opening timing was **not** captured; that interval remains covered by software controls only. [Optional recovery](evidence/gui-runtime039-079-recovery-repair-001.json) has also completed review, explicit accept intent, fresh validation and checked KiCad opening on one exposed board with 22 warnings. Current [post-incumbent cancellation](evidence/gui-runtime039-079-postincumbent-cancel-001.json), [no-repair delivery](evidence/gui-runtime039-079-recovery-no-repair-001.json) and [hierarchy/high-budget delivery](evidence/gui-runtime039-079-hierarchy-high-budget-001.json) are also observed. Cancellation blocked positive adoption after preserving the accepted incumbent; the observed Native workers had finished normally, so Native interruption is not proved. The default ordinary method is unchanged. General completion or cleanup superiority, electrical/manufacturing approval and a formal release remain unproved. Full newer raw evidence remains Mac-only and a new full restoration is still capacity-blocked.
+Current041 GUI080 has actual toolbar launch, protected ordinary and renamed-layer routing, Edge before/after review, explicit acceptance, fresh validation and checked KiCad opening with0unrouted. Explicit rejection and static recovery refusals also pass. The remaining freshness, cancellation, hierarchy/high-budget and optional recovery delivery roles are pending. Forced queued-opening timing and Native interruption remain unproved. Corrected-standard/B1 stays default; general completion/cleanup/electrical superiority and formal release remain unmet. Newer raw evidence is Mac-only and current restoration is capacity-blocked.
 
-See the [detailed workflow](docs/gui-workflow.md), [saved settings](docs/routing-preferences.md), [CLI](docs/quickstart.md) and [structured interface](docs/structured-interface.md). [Current status](STATUS.md), [GUI positive/reject evidence](evidence/gui-runtime039-079-positive-reject-001.json), [Native/CLI evidence](evidence/runtime039-native-floor-schema-milestone-001.json) and the [support matrix](docs/experimental-rc.md) give the exact qualification limits.
+See the [detailed workflow](docs/gui-workflow.md), [saved settings](docs/routing-preferences.md), [CLI](docs/quickstart.md) and [structured interface](docs/structured-interface.md). [Current status](STATUS.md), [GUI progress](evidence/gui-runtime041-080-progress-001.json), [Native evidence](evidence/runtime041-native-milestone-001.json) and [support matrix](docs/experimental-rc.md) give the exact qualification limits.

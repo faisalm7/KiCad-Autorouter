@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 187.78105766698718,
+    "cpu_seconds": 142.347699,
+    "max_rss_bytes": 559104000,
+    "supervisor_cpu_seconds": 0.350381,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 559038464,
+    "sampled_peak_workdir_bytes": 15601,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 67108864,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/forecast-runtime041-capacity-receipt-001.py",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime041-capacity-receipt-001/forecast.json",
+      "--source-head",
+      "fdc07988d869d770156a8e67625ba3e6d8287d6e",
+      "--writers-idle",
+      "--tracked-stat-index",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime041-forecast-tracked-stat-001.json",
+      "--tracked-stat-sha256",
+      "0041516ba627c4e44979af4af893d8cba5ad6d5df1d2f6a373b03c233a48b189"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime041-capacity-receipt-001/command.log",
+    "log_bytes": 7088,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime041-capacity-receipt-001",
+    "signal_cancellation_enabled": true,
+    "pid": 14842
+  },
+  "sources_unchanged": true,
+  "wall_seconds": 187.7822880409658,
+  "full_CPU_seconds": 142.698926,
+  "forecast_sha256": "86c77f2c605a205e33eb72839a8d81c98a86ae49d0b96b8cc37d2de2509d945a",
+  "forecast_report_valid": true,
+  "forecast_report_error": null,
+  "passed": true,
+  "backup_created": false,
+  "restoration_performed": false,
+  "scope": "passed means the bounded forecast completed, never backup/restore or resource-cap qualification; external whole-process timing remains separate."
+}
