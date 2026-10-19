@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui080-observe-ordinary-cancel-001.py", line 174, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui080-observe-ordinary-cancel-001.py", line 95, in main
+    assert sources()==repair['source_hashes']
+           ^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui080-observe-ordinary-cancel-001.py", line 94, in sources
+    def sources():return {p.name:digest(p) for p in source.parent.iterdir()}
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui080-observe-ordinary-cancel-001.py", line 94, in <dictcomp>
+    def sources():return {p.name:digest(p) for p in source.parent.iterdir()}
+                                 ^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui080-observe-ordinary-cancel-001.py", line 26, in digest
+    def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+                                           ^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1050, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/repair/project/interf_u.pretty'
+real 0.06
+user 0.03
+sys 0.01

@@ -443,7 +443,6 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
         g.qualify_scope(json.loads(source.with_suffix('.kicad_pro').read_text()),task)
         if new_policy:pc.narrow_source(original)
         report.update(source_hashes=hashes,tools=p.tool_manifest())
-        report['schematic_parity']=p.parity_declaration(source,hashes)
         if new_policy:
             freeze=pc.capture_freeze(report['tools']);shutil.copy2(c.ROOT/'toolchain.lock.json',output/'placement-toolchain.lock.json')
             p.save_json(output/'placement-source-freeze.json',freeze)
@@ -480,6 +479,7 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
         imported=output/'imported.kicad_pcb';job.native('import','import',candidate,imported,output/'routes.ses')
         sx.write(candidate,p.transplant_routes(task,sx.read(imported)))
         final_hash,native=p.validate_candidate(job,original,candidate,hashes,[],guidance_contract=contract)
+        report['schematic_parity']=p.parity_declaration(source,hashes)
         job.native('metrics','metrics',candidate,output/'metrics.json');p.verify_candidate_files(candidate,hashes,final_hash)
         report.update(candidate=str(candidate),candidate_sha256=final_hash,native_report_sha256=p.sha(output/'final-drc.json'),native=native,
             metrics=read_json(output/'metrics.json'),invariants_unchanged=True,native_rejection_reasons=p.native_rejection_reasons(native),

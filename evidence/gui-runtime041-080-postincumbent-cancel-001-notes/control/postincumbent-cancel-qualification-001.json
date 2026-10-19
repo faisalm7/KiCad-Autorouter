@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-19T16:49:00.450252+00:00",
+  "role": "postincumbent_native_cancel_forced",
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab",
+  "actual_gui": true,
+  "actual_action": "Cancel button after controller ready signal; observed waiting for CLI cleanup then refusal",
+  "observed_findings": "Action was cancelled. No positive UI state adopted. No positive state adopted. Retained files were not deleted.",
+  "forced_window": true,
+  "natural_timing_claim": false,
+  "worker_pid": 19133,
+  "worker_status": "cancelled",
+  "worker_cleanup_complete": true,
+  "gui_cli_process": {
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+      "-B",
+      "-m",
+      "autorouter",
+      "recover",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+      "--seconds",
+      "90",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route"
+    ],
+    "exit_code": 2,
+    "cancel_requested": true,
+    "log_truncated": false,
+    "log_bytes": 156,
+    "wall_seconds": 17.62078054099993,
+    "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+  },
+  "parent_accepted": false,
+  "parent_status": "cancelled",
+  "valid_incumbent_retained": true,
+  "no_fallback_delivery": true,
+  "review_choice_export_absent": true,
+  "production_reader": {
+    "current": false,
+    "reason": "receipt is not an accepted routing result"
+  },
+  "known_pid_absence_sample": {
+    "pids": [
+      19133,
+      19074
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": ""
+  },
+  "source_unchanged": true,
+  "receipt_sha256": {
+    ".runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/postincumbent-pause-ready-001.json": "77424ec3728fb07b09a6cf223080d027985f8c0cd4edf6a6645baf2f1811c609",
+    ".runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/postincumbent-pause-result-001.json": "d24afca4974c6217704195ff460ed02dc3ff560a5af1bab0e657bc72b5b8e4aa",
+    ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/refill-drc-process.json": "247f9bc720a34df2011ff35976ba0ae5578ceadfa54e6581dbb9c41930302170",
+    ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/result.json": "14796fd168188231631c2756c8982ffcc00467974f214ad03872fb53a5da2a7b",
+    ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/incumbent/result.json": "850ff746859bb70a3d28ca9faf0eede1eb7b105efc5de4cafd58ed30348113fa",
+    ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route.command.process.json": "189fc744293d38e5c7697ac051134fc6110f8311011b21fcc1b732c403ddda09"
+  },
+  "Native_interruption_qualified_in_this_forced_interval": true,
+  "SIGINT_only_claim": false,
+  "all_phase_cancellation_claim": false,
+  "known_medium_reporting_defect": "Cancelled parent schematic_parity labels intended final check as checked despite interrupted final Native; acceptance remained false and reader/UI refused. Must correct metadata before final candidate comparison.",
+  "human_review": false
+}

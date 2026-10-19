@@ -111,7 +111,6 @@ def _recover(source, output, seconds):
         original = p.preflight(source)
         protected = copy.deepcopy([r for r in p.routes(original) if p.locked(r)])
         report.update(source_hashes=hashes, tools=p.tool_manifest())
-        report['schematic_parity']=p.parity_declaration(source,hashes)
         shutil.copytree(source.parent, output / "snapshot")
         (output / "code").mkdir()
         for relative, expected in report["tools"]["implementation_sha256"].items():
@@ -159,6 +158,7 @@ def _recover(source, output, seconds):
         candidate = output / "candidate" / source.name
         shutil.copytree(selected.parent, candidate.parent)
         final_hash, native = p.validate_candidate(job, original, candidate, hashes, protected)
+        report['schematic_parity']=p.parity_declaration(source,hashes)
         # The retained geometric certificate applies only to the exact selected
         # fill and copper. A different refill requires a new certificate.
         if final_hash != selected_hash:

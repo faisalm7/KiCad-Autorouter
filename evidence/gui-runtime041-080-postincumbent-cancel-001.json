@@ -1,0 +1,495 @@
+{
+  "schema": 1,
+  "kind": "actual-runtime041-GUI080-postincumbent-cancel-bounded-cutoff",
+  "recorded_utc": "2026-10-19T17:06:15.703781+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": true,
+  "actual_GUI_fully_qualified": false,
+  "human_PCB_review": false,
+  "physical_electrical_validation": false,
+  "Native_rerun_by_curation": false,
+  "production_readers_rerun_by_curation": false,
+  "source_head": "f7524d7bbfb4824640c8ca51dc978769b2fab98b",
+  "runtime_manifest_sha256": "3d1f5200848cec85a1d7fd0666dfcf3634f4aaa02caeeec66575f99df9a46399",
+  "native_version": "10.0.7",
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab",
+  "cutoffs": [
+    {
+      "path": ".runs/gui080-observations-002.json",
+      "sha256": "b35244177a14fcfe96d56607eaa0ea4f24ca727479a1b50504bfe1a72e215a19"
+    },
+    {
+      "path": ".runs/gui080-observations-003.json",
+      "sha256": "9405875023c329cc16934b367e82fdbd4e035a9304172a021f6f3241529b8d47"
+    }
+  ],
+  "actual_UI": [
+    {
+      "schema": 1,
+      "recorded_utc": "2026-10-19T16:49:00.450252+00:00",
+      "role": "postincumbent_native_cancel_forced",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab",
+      "actual_gui": true,
+      "actual_action": "Cancel button after controller ready signal; observed waiting for CLI cleanup then refusal",
+      "observed_findings": "Action was cancelled. No positive UI state adopted. No positive state adopted. Retained files were not deleted.",
+      "forced_window": true,
+      "natural_timing_claim": false,
+      "worker_pid": 19133,
+      "worker_status": "cancelled",
+      "worker_cleanup_complete": true,
+      "gui_cli_process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "recover",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+          "--seconds",
+          "90",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route"
+        ],
+        "exit_code": 2,
+        "cancel_requested": true,
+        "log_truncated": false,
+        "log_bytes": 156,
+        "wall_seconds": 17.62078054099993,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "parent_accepted": false,
+      "parent_status": "cancelled",
+      "valid_incumbent_retained": true,
+      "no_fallback_delivery": true,
+      "review_choice_export_absent": true,
+      "production_reader": {
+        "current": false,
+        "reason": "receipt is not an accepted routing result"
+      },
+      "known_pid_absence_sample": {
+        "pids": [
+          19133,
+          19074
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": ""
+      },
+      "source_unchanged": true,
+      "receipt_sha256": {
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/postincumbent-pause-ready-001.json": "77424ec3728fb07b09a6cf223080d027985f8c0cd4edf6a6645baf2f1811c609",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/postincumbent-pause-result-001.json": "d24afca4974c6217704195ff460ed02dc3ff560a5af1bab0e657bc72b5b8e4aa",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/refill-drc-process.json": "247f9bc720a34df2011ff35976ba0ae5578ceadfa54e6581dbb9c41930302170",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/result.json": "14796fd168188231631c2756c8982ffcc00467974f214ad03872fb53a5da2a7b",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/incumbent/result.json": "850ff746859bb70a3d28ca9faf0eede1eb7b105efc5de4cafd58ed30348113fa",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route.command.process.json": "189fc744293d38e5c7697ac051134fc6110f8311011b21fcc1b732c403ddda09"
+      },
+      "Native_interruption_qualified_in_this_forced_interval": true,
+      "SIGINT_only_claim": false,
+      "all_phase_cancellation_claim": false,
+      "known_medium_reporting_defect": "Cancelled parent schematic_parity labels intended final check as checked despite interrupted final Native; acceptance remained false and reader/UI refused. Must correct metadata before final candidate comparison.",
+      "human_review": false
+    }
+  ],
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+  "source_hashes": {
+    "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+    "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+    "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+  },
+  "source_unchanged_now": true,
+  "settings": {
+    "adapter": "both",
+    "guidance": "native",
+    "layers": "source_all",
+    "profile": "standard",
+    "schema": 1,
+    "scope": "whole_board_unlocked_routing",
+    "scoring_preference": null,
+    "seconds": 90
+  },
+  "parent": {
+    "status": "cancelled",
+    "accepted": false,
+    "receipt_sha256": "14796fd168188231631c2756c8982ffcc00467974f214ad03872fb53a5da2a7b"
+  },
+  "incumbent": {
+    "status": "routing_accepted",
+    "accepted": true,
+    "receipt_sha256": "850ff746859bb70a3d28ca9faf0eede1eb7b105efc5de4cafd58ed30348113fa"
+  },
+  "role": {
+    "forced_window": true,
+    "natural_timing_claim": false,
+    "actual_worker_interruption_in_this_forced_interval": true,
+    "worker_pid": 19133,
+    "worker_status": "cancelled",
+    "worker_exit_code": -15,
+    "worker_cleanup_complete": true,
+    "controller_observation": {
+      "CLI_signalled": false,
+      "GUI_signalled": false,
+      "Native_started_by_controller": false,
+      "SIGINT_only_claim": false,
+      "all_phase_cancellation_claim": false,
+      "ancestor_chain": [
+        {
+          "command": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli pcb drc --format json --severity-all --all-track-errors --refill-zones --exit-code-violations --output /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/refill-drc.json --save-board /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/refill/owned1007-transport.kicad_pcb",
+          "pid": 19133,
+          "ppid": 19074,
+          "start_time": "Mon Oct 19 09:47:02 2026",
+          "state": "Rs"
+        },
+        {
+          "command": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python -B -m autorouter recover /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb --seconds 90 --output /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route",
+          "pid": 19074,
+          "ppid": 10048,
+          "start_time": "Mon Oct 19 09:46:52 2026",
+          "state": "S"
+        },
+        {
+          "command": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -B -m autorouter.gui",
+          "pid": 10048,
+          "ppid": 1,
+          "start_time": "Mon Oct 19 08:41:18 2026",
+          "state": "S"
+        }
+      ],
+      "cancellation_qualified": false,
+      "cleanup_metadata_calls_maximum": 1,
+      "control_observation_complete": true,
+      "discovery_wall_seconds": 18.01844141597394,
+      "forced_window": true,
+      "gui_pid": 10048,
+      "helper_sha256": "8a92666191d9431992b1fe18085a0b9187990ded3578b2c18524ab766a899c73",
+      "hold_seconds": 15,
+      "hold_wall_seconds": 7.297735834028572,
+      "incumbent_accepted": true,
+      "incumbent_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/incumbent/candidate/owned1007-transport.kicad_pcb",
+      "incumbent_candidate_sha256": "9840050af711377f36d9151ece21e31dbeb277b19fa6f46c7cb234d49339e810",
+      "incumbent_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/incumbent/result.json",
+      "incumbent_sha256": "850ff746859bb70a3d28ca9faf0eede1eb7b105efc5de4cafd58ed30348113fa",
+      "known_worker_exit_during_hold": true,
+      "maximum_discovery_polls": 480,
+      "maximum_discovery_seconds": 120,
+      "metadata_call_timeout_seconds": 2,
+      "metadata_calls_may_overshoot_loop_deadline": true,
+      "natural_timing_claim": false,
+      "paused": true,
+      "paused_utc": "2026-10-19T16:47:02.518785+00:00",
+      "polls": 69,
+      "prepared_state_sha256": "a0ee6588cdaf5594c1baaf4564a79b86ff9117484f642eadfe4cc253ca6cd3ff",
+      "ready_sha256": "77424ec3728fb07b09a6cf223080d027985f8c0cd4edf6a6645baf2f1811c609",
+      "ready_written": true,
+      "resumed": false,
+      "routing_started_by_controller": false,
+      "runtime_manifest_sha256": "3d1f5200848cec85a1d7fd0666dfcf3634f4aaa02caeeec66575f99df9a46399",
+      "schema": 1,
+      "scope": "One deliberately forced post-incumbent Native refill-drc interval. STOP/CONT do not prove natural timing or cancellation by themselves. Actual GUI action, CLI cancellation and worker cleanup require separate matching receipts. PID/birth/command/cwd checks are cooperative snapshots, not atomic hostile-process authentication.",
+      "selected_Native_cli": {
+        "bytes": 2104624,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "sha256": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f"
+      },
+      "selected_gui_app": {
+        "bytes": 151616,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+        "sha256": "d093a4ba5f06f33a3d508023398447f01b41fc55a6cdbe8d72a01765c537fe61"
+      },
+      "settings_sha256": "1d01bd77effac74bbba43a77efe89759950c64c8e7d8342035abe89e9688420d",
+      "shared_child_path_helper_sha256": "e0bfa421ec519c31e8fbcc2dd601e74ea0a60b86f0c2a8377c92a05f25114d27",
+      "signals_target_one_verified_Native_worker_only": true,
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+      "source_hashes": {
+        "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+        "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+        "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+        "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+      },
+      "source_head": "f7524d7bbfb4824640c8ca51dc978769b2fab98b",
+      "source_observer_sha256": "21a7c6caa806744312e7ef4668a0d4350317369087aab9d6474206ba80330869",
+      "started_utc": "2026-10-19T16:46:44.500331+00:00",
+      "wall_seconds": 25.35941183299292,
+      "worker": {
+        "command": "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli pcb drc --format json --severity-all --all-track-errors --refill-zones --exit-code-violations --output /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/refill-drc.json --save-board /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/refill/owned1007-transport.kicad_pcb",
+        "pid": 19133,
+        "ppid": 19074,
+        "start_time": "Mon Oct 19 09:47:02 2026",
+        "state": "Rs"
+      },
+      "worker_exit_observed_utc": "2026-10-19T16:47:09.815236+00:00",
+      "worker_gone_at_cleanup": true,
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab"
+    },
+    "qualification": {
+      "schema": 1,
+      "recorded_utc": "2026-10-19T16:49:00.450252+00:00",
+      "role": "postincumbent_native_cancel_forced",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab",
+      "actual_gui": true,
+      "actual_action": "Cancel button after controller ready signal; observed waiting for CLI cleanup then refusal",
+      "observed_findings": "Action was cancelled. No positive UI state adopted. No positive state adopted. Retained files were not deleted.",
+      "forced_window": true,
+      "natural_timing_claim": false,
+      "worker_pid": 19133,
+      "worker_status": "cancelled",
+      "worker_cleanup_complete": true,
+      "gui_cli_process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "recover",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+          "--seconds",
+          "90",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route"
+        ],
+        "exit_code": 2,
+        "cancel_requested": true,
+        "log_truncated": false,
+        "log_bytes": 156,
+        "wall_seconds": 17.62078054099993,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "parent_accepted": false,
+      "parent_status": "cancelled",
+      "valid_incumbent_retained": true,
+      "no_fallback_delivery": true,
+      "review_choice_export_absent": true,
+      "production_reader": {
+        "current": false,
+        "reason": "receipt is not an accepted routing result"
+      },
+      "known_pid_absence_sample": {
+        "pids": [
+          19133,
+          19074
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": ""
+      },
+      "source_unchanged": true,
+      "receipt_sha256": {
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/postincumbent-pause-ready-001.json": "77424ec3728fb07b09a6cf223080d027985f8c0cd4edf6a6645baf2f1811c609",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/postincumbent-pause-result-001.json": "d24afca4974c6217704195ff460ed02dc3ff560a5af1bab0e657bc72b5b8e4aa",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/refill-drc-process.json": "247f9bc720a34df2011ff35976ba0ae5578ceadfa54e6581dbb9c41930302170",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/result.json": "14796fd168188231631c2756c8982ffcc00467974f214ad03872fb53a5da2a7b",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route/incumbent/result.json": "850ff746859bb70a3d28ca9faf0eede1eb7b105efc5de4cafd58ed30348113fa",
+        ".runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route.command.process.json": "189fc744293d38e5c7697ac051134fc6110f8311011b21fcc1b732c403ddda09"
+      },
+      "Native_interruption_qualified_in_this_forced_interval": true,
+      "SIGINT_only_claim": false,
+      "all_phase_cancellation_claim": false,
+      "known_medium_reporting_defect": "Cancelled parent schematic_parity labels intended final check as checked despite interrupted final Native; acceptance remained false and reader/UI refused. Must correct metadata before final candidate comparison.",
+      "human_review": false
+    },
+    "production_reader": {
+      "current": false,
+      "reason": "receipt is not an accepted routing result"
+    },
+    "parent_final_native_completed": false,
+    "incumbent_final_native_completed": true,
+    "no_review_choice_export": true,
+    "known_historical_reporting_defect": {
+      "raw_parent_schematic_parity": "checked by final native DRC",
+      "meaning": "Old041 parent incorrectly labels intended parity as checked despite interrupted own refill. Incumbent parity completed; parent admission/reader remain false. Raw041 bytes are preserved, never repaired by curation."
+    },
+    "SIGINT_only_claim": false,
+    "all_phase_cancellation_claim": false,
+    "permanent_worker_absence_claim": false
+  },
+  "accounting": {
+    "CLI_samples": [
+      {
+        "stage": "preview",
+        "receipt_sha256": "faffa8477e42a25b4109603ef84925af0739fe5f91c1fc6cbbfe1787487a0da4",
+        "log_sha256": "59d8ae816faece458c8e6653ad79b27bc8433eed39895ed42e4fe1b615ed4999",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "preview",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+            "--settings",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/settings.json"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 1064,
+          "wall_seconds": 0.1649545830000534,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      },
+      {
+        "stage": "route",
+        "receipt_sha256": "189fc744293d38e5c7697ac051134fc6110f8311011b21fcc1b732c403ddda09",
+        "log_sha256": "3d131e058fbaaed8a8d5afd61719291a96162f1cb38f8a96e92c56f416ae2222",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "recover",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+            "--seconds",
+            "90",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-424eb044902f4d65a288ffa2103076ab/route"
+          ],
+          "exit_code": 2,
+          "cancel_requested": true,
+          "log_truncated": false,
+          "log_bytes": 156,
+          "wall_seconds": 17.62078054099993,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      }
+    ],
+    "additional_complete_external": [
+      {
+        "path": ".runs/gui080-postincumbent-pause-001-time.log",
+        "sha256": "1a58c0100753913ad7a0da4174c6e8d014e9a0fd5a81d2fef7bbd33db5dfdfa4",
+        "complete_external": {
+          "wall_seconds": 25.45,
+          "CPU_seconds": 0.95
+        }
+      }
+    ],
+    "parent_nested": {
+      "wall_seconds": 17.367976667010225,
+      "CPU_seconds": 8.390533
+    },
+    "incumbent_nested": {
+      "wall_seconds": 6.8623810830758885,
+      "CPU_seconds": 4.897522
+    },
+    "whole_interactive_wall_seconds": null,
+    "whole_interactive_CPU_seconds": null,
+    "unmetered_authoring_review_costs_unknown": true,
+    "meaning": "CLI/parent/incumbent/repair/trial/Native nested observations are not additive; complete interactive cost is unknown."
+  },
+  "rights": "Owned fixture/core GPL; Interf CC-BY-SA4.0 plus Larry Ewing/GIMP attribution for source-derived payload. Exact source/notices retained or content-referenced. No private or downloaded tool payload.",
+  "limitations": "Role-specific functional/cancellation evidence, not full-GUI/human/physical/Windows/restoration or comparative routing-quality qualification.",
+  "dependencies": [
+    {
+      "path": "evidence/gui-runtime041-080-progress-001.json",
+      "sha256": "4bb6f6b09c3364a803ab79e2f6ef9212ef955dd626ffccbd9f909d27a22651e3",
+      "files_index": {
+        "path": "evidence/gui-runtime041-080-progress-001-notes/files.json",
+        "sha256": "e7d660ae478be13aae036f6a9db1d28d60a2e503d4149a3ad063f0e43fb86642"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime041-080-safety-001.json",
+      "sha256": "f963f1828ead4430a6418421a5682e20b73ed543b3d965bfb1ad20df1b53f208",
+      "files_index": {
+        "path": "evidence/gui-runtime041-080-safety-001-notes/files.json",
+        "sha256": "aaaab74a91ab821c88a8247bd022f5a146a370aa5a8aca03bb41a759ee7d65c3"
+      }
+    },
+    {
+      "path": "evidence/runtime041-native-milestone-001.json",
+      "sha256": "6b490ab1b16b6bbb81c0e4c3a3584d0d96b7d21a116a9cd69e2463d47642da34",
+      "files_index": {
+        "path": "evidence/runtime041-native-milestone-001-notes/files.json",
+        "sha256": "ec9435536030f6fe1a887c02c37b1af0949e068bb62afb40667dcb6c7c9f724e"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime039-079-recovery-no-repair-001.json",
+      "sha256": "aec84defed20515e425fa01b0c950e93ef7ddcb9d03bb4a676d28b312285173a",
+      "files_index": {
+        "path": "evidence/gui-runtime039-079-recovery-no-repair-001-notes/files.json",
+        "sha256": "94d3c77eec354dd91746b531f7b9c20580a72798748a9da17614494ad6b67597"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime039-079-recovery-repair-001.json",
+      "sha256": "a924dfce4a281cd552ce1de4a5cd3bd2f7847224f2de7a07a852c68ca821681e",
+      "files_index": {
+        "path": "evidence/gui-runtime039-079-recovery-repair-001-notes/files.json",
+        "sha256": "5d196397892ac669e22ecfc2f9092642d6d8ebd792efc50ce08365ad2a1477a6"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime039-079-postincumbent-cancel-001.json",
+      "sha256": "22e303b7770f560f658d2027bb34f37427b6eb3885b518b1cd8cf8071f3d80cf",
+      "files_index": {
+        "path": "evidence/gui-runtime039-079-postincumbent-cancel-001-notes/files.json",
+        "sha256": "65200447bf95511bc9f6c75041eb6b148102fffdbf5936e625b46dce7f0c41e8"
+      }
+    },
+    {
+      "path": "evidence/runtime039-native-floor-schema-milestone-001.json",
+      "sha256": "c5c851c9b70156a734c604a83d4b50edbb86d2480b66e828278ffade037a5704",
+      "files_index": {
+        "path": "evidence/runtime039-native-floor-schema-milestone-001-notes/files.json",
+        "sha256": "783543c2bd76ea8d0d0f9849353192f8b9c99b3e43ff4344a393cdeec4f3a35a"
+      }
+    },
+    {
+      "path": "evidence/runtime039-mixer-default-failure-001.json",
+      "sha256": "3711bed9b16ac771f69b4dda6a67258a087b943c99333181322f70fe8370640f",
+      "files_index": {
+        "path": "evidence/runtime039-mixer-default-failure-001-notes/files.json",
+        "sha256": "bc44ff15f0a71d8e8742756e97a4287cb0eae48e6a866ff500442fa5c0b04cd4"
+      }
+    },
+    {
+      "path": "evidence/runtime033-current-interf-Cthermal-001.json",
+      "sha256": "e249cb319fedd350439bf651b454e65e7bc57558b0307d514dc95a2c7b3e0707",
+      "files_index": {
+        "path": "evidence/runtime033-current-interf-Cthermal-001-notes/files.json",
+        "sha256": "dd6473b3958f12e55e199f44dc8ee5e3ab2d144a998437dfc766352a63994fb9"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime041-080-recovery-no-repair-001.json",
+      "sha256": "4abdf8dbd95a78daf4734894a4a7c3411c86fafd9efb1ba69ee4eca32e4027a8",
+      "files_index": {
+        "path": "evidence/gui-runtime041-080-recovery-no-repair-001-notes/files.json",
+        "sha256": "016aa9c0e124193282d3abc24d971f14347e113aae1b50a84b3be3a059c45eaa"
+      }
+    }
+  ],
+  "curator_template": {
+    "path": ".runs/curate-gui-runtime039-079-postincumbent-cancel-001.py",
+    "sha256": "b171d399c5ba90e2c5331c8ea86c7152097dbffd700889f1edb099aa831d001c"
+  },
+  "retention": {
+    "helper": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "functions": [
+      "retain",
+      "tree",
+      "cost"
+    ],
+    "max_file_bytes": 4194304,
+    "max_packet_payload_bytes": 16777216,
+    "max_new_files": 2000,
+    "new_payload_files": 52,
+    "new_payload_bytes": 2479219,
+    "material_rows": 206,
+    "omitted_binary_rows": 0,
+    "counts_exclude_index_summary": true
+  },
+  "curation_sample": {
+    "wall_seconds": 0.11676841706503183,
+    "CPU_seconds": 0.093024,
+    "complete_external_unknown": true
+  },
+  "files_index": {
+    "path": "evidence/gui-runtime041-080-postincumbent-cancel-001-notes/files.json",
+    "sha256": "0712eb79febce9e497a37836594baeb29e491aaa1c0dbc35423fc43ee41f8670"
+  }
+}

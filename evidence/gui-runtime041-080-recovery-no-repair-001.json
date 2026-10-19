@@ -1,0 +1,540 @@
+{
+  "schema": 1,
+  "kind": "actual-runtime041-GUI080-recovery-no-repair-bounded-cutoff",
+  "recorded_utc": "2026-10-19T17:06:11.143319+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": true,
+  "actual_GUI_fully_qualified": false,
+  "human_PCB_review": false,
+  "physical_electrical_validation": false,
+  "Native_rerun_by_curation": false,
+  "production_readers_rerun_by_curation": false,
+  "source_head": "f7524d7bbfb4824640c8ca51dc978769b2fab98b",
+  "runtime_manifest_sha256": "3d1f5200848cec85a1d7fd0666dfcf3634f4aaa02caeeec66575f99df9a46399",
+  "native_version": "10.0.7",
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414",
+  "cutoffs": [
+    {
+      "path": ".runs/gui080-observations-002.json",
+      "sha256": "b35244177a14fcfe96d56607eaa0ea4f24ca727479a1b50504bfe1a72e215a19"
+    },
+    {
+      "path": ".runs/gui080-observations-003.json",
+      "sha256": "9405875023c329cc16934b367e82fdbd4e035a9304172a021f6f3241529b8d47"
+    }
+  ],
+  "actual_UI": [
+    {
+      "recorded_utc": "2026-10-19T16:45:57.117216+00:00",
+      "role": "recovery_no_repair_delivery",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414",
+      "actual_gui": true,
+      "actual_stages": [
+        "Preview",
+        "Recover",
+        "Create review",
+        "Edge F.Cu+B.Cu image inspection",
+        "acknowledgement",
+        "Accept intent",
+        "Fresh export",
+        "Open checked export",
+        "selected7 manager Tools PCB Editor",
+        "PCB File Close then manager File Close Project"
+      ],
+      "observed_native": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_checks_retained": 2,
+      "whole_method_seconds": 90,
+      "additional_export_seconds": 90,
+      "observed_editor": {
+        "pads": 6,
+        "vias": 0,
+        "track_segments": 4,
+        "nets": 3,
+        "unrouted": 0,
+        "labels": [
+          "ROUTE",
+          "KEEP",
+          "GND"
+        ]
+      },
+      "observed_notice": "This file was created by an older version of KiCad. It will be converted to the new format when saved.",
+      "saved_conversion": false,
+      "preopen_receipt_sha256": "fd76333ab09bf4b1e8cecbc1c00608d6805fc485c46eac37560977d0eb24aa3b",
+      "postopen_receipt_sha256": "a211832c9f1da3f0da50cccfcdfacf5f095ffae96b277f5ac802745766c0a9e6",
+      "candidate_PCB_unchanged": true,
+      "source_unchanged": true,
+      "posteditor_current_validation": "not renewed; retain preopen proof at its original scope",
+      "natural_cancel_timing_attempt_missed": true,
+      "no_rerouting_performed_for_delivery": true,
+      "human_review": false
+    },
+    {
+      "recorded_utc": "2026-10-19T16:40:58.574481+00:00",
+      "role": "natural_postincumbent_cancel_interval_missed",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414",
+      "actual_gui": true,
+      "observer": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/postincumbent-cancel-observed-001.json",
+      "actual_action": "Attempted Cancel after observed final Native worker; job had completed before click, Cancel disabled",
+      "observed_status": "route completed; routing accepted; Create review enabled",
+      "gui_cli_process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "recover",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+          "--seconds",
+          "90",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/route"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 519,
+        "wall_seconds": 19.308958624999832,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "accepted_no_repair_result_retained": true,
+      "cancellation_pass": false,
+      "Native_interruption_proved": false,
+      "no_fallback_after_cancellation_proved": false,
+      "disposition": "Reuse this exact valid result for no-repair delivery; one separately predeclared fresh forced-window cancellation control remains necessary. No repeat natural timing fishing.",
+      "human_review": false
+    }
+  ],
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+  "source_hashes": {
+    "owned1007-transport.kicad_pcb": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+    "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+    "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+  },
+  "source_unchanged_now": true,
+  "settings": {
+    "adapter": "both",
+    "guidance": "native",
+    "layers": "source_all",
+    "profile": "standard",
+    "schema": 1,
+    "scope": "whole_board_unlocked_routing",
+    "scoring_preference": null,
+    "seconds": 90
+  },
+  "parent": {
+    "status": "routing_accepted",
+    "accepted": true,
+    "receipt_sha256": "230911b8e683c64f812573f7a8357f6c78a66a4d1882a0c8c7c0b4a1de9314a3"
+  },
+  "incumbent": {
+    "status": "routing_accepted",
+    "accepted": true,
+    "receipt_sha256": "af4aeba57661ade685011d3fa486519d53274355040c42cf80b92031c7268cd7"
+  },
+  "role": {
+    "parent_Native_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": []
+    },
+    "incumbent_Native_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": []
+    },
+    "export_Native_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": []
+    },
+    "parent_candidate_sha256": "d66460a47b01fcfcfaf54297490eb89b78279a54f53e07d3bcb8e22fed737b74",
+    "parent_own_final_Native_completed": true,
+    "export_own_final_Native_completed": true,
+    "whole_method_seconds": 90,
+    "separate_export_seconds": 90.0,
+    "protected_original_items": 1,
+    "thermal_protection_positive_control": null,
+    "recovery_needed": false,
+    "repair": null,
+    "before_open": {
+      "files": 85,
+      "bytes": 1446294,
+      "receipt_sha256": "fd76333ab09bf4b1e8cecbc1c00608d6805fc485c46eac37560977d0eb24aa3b",
+      "current_route_and_export_recorded": true
+    },
+    "after_open": {
+      "files": 86,
+      "bytes": 1464286,
+      "receipt_sha256": "a211832c9f1da3f0da50cccfcdfacf5f095ffae96b277f5ac802745766c0a9e6",
+      "changed": {
+        "validation/candidate/owned1007-transport-backups/owned1007-transport-2026-10-19_094539.zip": {
+          "before": null,
+          "after": "4c8a74f595a4a16b8d03a70ddec9708cedd02bb0c7a5a6b1460a74efd32745a5"
+        },
+        "validation/candidate/owned1007-transport.kicad_prl": {
+          "before": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+          "after": "f1bbff098af4057dd62ab3537c74ca550abbbcd79be17f3dfe9506f62dafc186"
+        },
+        "validation/candidate/owned1007-transport.kicad_pro": {
+          "before": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+          "after": "1620986cc59f99e79cc8b21c34827fc45389cdce3858562cc4616581d114cfd3"
+        }
+      },
+      "source_unchanged": true,
+      "candidate_PCB_unchanged": true,
+      "current_production_reader": null,
+      "new_Native_validity_inferred": false
+    },
+    "nested_costs": {
+      "review": {
+        "wall_seconds": 5.324272207915783,
+        "CPU_seconds": 5.192586999999999
+      },
+      "export": {
+        "wall_seconds": 6.785341417067684,
+        "CPU_seconds": 5.846125
+      }
+    },
+    "preopen_receipt_wall_seconds": 4.7316928749205545,
+    "preopen_complete_external_CPU_unknown": true
+  },
+  "accounting": {
+    "CLI_samples": [
+      {
+        "stage": "choice",
+        "receipt_sha256": "77307d4bbb164107fbef77d569d66cb0b8bbdc66703cef6a2d218c64b0125f48",
+        "log_sha256": "030d392fa71254a6cfd902cbf8aeba2f1e6bbafcefc1b947ddc89ea57d80b5cf",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "review-choice",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/review/review.json",
+            "--choice",
+            "accept",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/choice"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 37790,
+          "wall_seconds": 4.222394707999683,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      },
+      {
+        "stage": "export",
+        "receipt_sha256": "603763550610610e4cfde42df4348d37051c96a50543703c29c699cb4eaffcaf",
+        "log_sha256": "e0aef8b737e1c3b223b72dac950b9390ff8b6168354e6b2839715fd89ad48707",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "review-export",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/choice/choice.json",
+            "--seconds",
+            "90",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/export"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 551,
+          "wall_seconds": 8.446620290999817,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      },
+      {
+        "stage": "inspect-export-d7febeac16a6413a9158a988c3e712cd",
+        "receipt_sha256": "ecdc1e7b87244ca9ba8913501dac67977404e15c56076d60bb993ef434161a24",
+        "log_sha256": "a2b2e7da739353f68720e54aca33079eb5279422702ca619f399cf9336357640",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "review-export-check",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/export/export.json"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 780,
+          "wall_seconds": 4.479223250000359,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      },
+      {
+        "stage": "preview",
+        "receipt_sha256": "548e383b3df5646f284aea34fb817ca1487f9ca52be9248d8116b356018d7fdd",
+        "log_sha256": "59d8ae816faece458c8e6653ad79b27bc8433eed39895ed42e4fe1b615ed4999",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "preview",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+            "--settings",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/settings.json"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 1064,
+          "wall_seconds": 0.1342202079999879,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      },
+      {
+        "stage": "review",
+        "receipt_sha256": "68e66932e83de6ff31d98871241cfcfcb0ac0f207488465c6f75364c47173cdb",
+        "log_sha256": "a9206021cab1be4b41fc81ce6349000c05da61e5fbfc26f2a544ca1934d760ba",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "review-copy",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/route/result.json",
+            "--render",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/review"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 57843,
+          "wall_seconds": 5.8252588330001345,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      },
+      {
+        "stage": "route",
+        "receipt_sha256": "d78c1ff8ea2ec3011946563bbac06c5ede3c22698526ba3c2eb23a37e5108213",
+        "log_sha256": "46e223828c4e937510dbe838d574448afd71fb1baee5a8c55b7edc097a12fada",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "recover",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/recovery-controls-001/no-repair/project/owned1007-transport.kicad_pcb",
+            "--seconds",
+            "90",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/route"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 519,
+          "wall_seconds": 19.308958624999832,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      },
+      {
+        "stage": "verify_export",
+        "receipt_sha256": "223f6d9f68f6193e29d581072c5ab162357e67f669b69c452fe938922c4a7946",
+        "log_sha256": "a2b2e7da739353f68720e54aca33079eb5279422702ca619f399cf9336357640",
+        "sample": {
+          "argv": [
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.venv/bin/python",
+            "-B",
+            "-m",
+            "autorouter",
+            "review-export-check",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-041/runtime/.runs/gui-session080/jobs/autorouter-gui-3772928c5eb14119afa94c9c14446414/export/export.json"
+          ],
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "log_bytes": 780,
+          "wall_seconds": 4.274008290999973,
+          "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+        }
+      }
+    ],
+    "additional_complete_external": [
+      {
+        "path": ".runs/gui080-postincumbent-cancel-observer-001-time.log",
+        "sha256": "8fd03aec444e49b0b2208a651f3f9468e9d2aa671dc3abdaa4e6f8a03ae2df34",
+        "complete_external": {
+          "wall_seconds": 15.45,
+          "CPU_seconds": 0.32
+        }
+      }
+    ],
+    "parent_nested": {
+      "wall_seconds": 15.48926745809149,
+      "CPU_seconds": 12.821062000000001
+    },
+    "incumbent_nested": {
+      "wall_seconds": 6.813359166029841,
+      "CPU_seconds": 4.859116
+    },
+    "whole_interactive_wall_seconds": null,
+    "whole_interactive_CPU_seconds": null,
+    "unmetered_authoring_review_costs_unknown": true,
+    "meaning": "CLI/parent/incumbent/repair/trial/Native nested observations are not additive; complete interactive cost is unknown."
+  },
+  "rights": "Owned fixture/core GPL; Interf CC-BY-SA4.0 plus Larry Ewing/GIMP attribution for source-derived payload. Exact source/notices retained or content-referenced. No private or downloaded tool payload.",
+  "limitations": "Role-specific functional/cancellation evidence, not full-GUI/human/physical/Windows/restoration or comparative routing-quality qualification.",
+  "dependencies": [
+    {
+      "path": "evidence/gui-runtime041-080-progress-001.json",
+      "sha256": "4bb6f6b09c3364a803ab79e2f6ef9212ef955dd626ffccbd9f909d27a22651e3",
+      "files_index": {
+        "path": "evidence/gui-runtime041-080-progress-001-notes/files.json",
+        "sha256": "e7d660ae478be13aae036f6a9db1d28d60a2e503d4149a3ad063f0e43fb86642"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime041-080-safety-001.json",
+      "sha256": "f963f1828ead4430a6418421a5682e20b73ed543b3d965bfb1ad20df1b53f208",
+      "files_index": {
+        "path": "evidence/gui-runtime041-080-safety-001-notes/files.json",
+        "sha256": "aaaab74a91ab821c88a8247bd022f5a146a370aa5a8aca03bb41a759ee7d65c3"
+      }
+    },
+    {
+      "path": "evidence/runtime041-native-milestone-001.json",
+      "sha256": "6b490ab1b16b6bbb81c0e4c3a3584d0d96b7d21a116a9cd69e2463d47642da34",
+      "files_index": {
+        "path": "evidence/runtime041-native-milestone-001-notes/files.json",
+        "sha256": "ec9435536030f6fe1a887c02c37b1af0949e068bb62afb40667dcb6c7c9f724e"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime039-079-recovery-no-repair-001.json",
+      "sha256": "aec84defed20515e425fa01b0c950e93ef7ddcb9d03bb4a676d28b312285173a",
+      "files_index": {
+        "path": "evidence/gui-runtime039-079-recovery-no-repair-001-notes/files.json",
+        "sha256": "94d3c77eec354dd91746b531f7b9c20580a72798748a9da17614494ad6b67597"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime039-079-recovery-repair-001.json",
+      "sha256": "a924dfce4a281cd552ce1de4a5cd3bd2f7847224f2de7a07a852c68ca821681e",
+      "files_index": {
+        "path": "evidence/gui-runtime039-079-recovery-repair-001-notes/files.json",
+        "sha256": "5d196397892ac669e22ecfc2f9092642d6d8ebd792efc50ce08365ad2a1477a6"
+      }
+    },
+    {
+      "path": "evidence/gui-runtime039-079-postincumbent-cancel-001.json",
+      "sha256": "22e303b7770f560f658d2027bb34f37427b6eb3885b518b1cd8cf8071f3d80cf",
+      "files_index": {
+        "path": "evidence/gui-runtime039-079-postincumbent-cancel-001-notes/files.json",
+        "sha256": "65200447bf95511bc9f6c75041eb6b148102fffdbf5936e625b46dce7f0c41e8"
+      }
+    },
+    {
+      "path": "evidence/runtime039-native-floor-schema-milestone-001.json",
+      "sha256": "c5c851c9b70156a734c604a83d4b50edbb86d2480b66e828278ffade037a5704",
+      "files_index": {
+        "path": "evidence/runtime039-native-floor-schema-milestone-001-notes/files.json",
+        "sha256": "783543c2bd76ea8d0d0f9849353192f8b9c99b3e43ff4344a393cdeec4f3a35a"
+      }
+    },
+    {
+      "path": "evidence/runtime039-mixer-default-failure-001.json",
+      "sha256": "3711bed9b16ac771f69b4dda6a67258a087b943c99333181322f70fe8370640f",
+      "files_index": {
+        "path": "evidence/runtime039-mixer-default-failure-001-notes/files.json",
+        "sha256": "bc44ff15f0a71d8e8742756e97a4287cb0eae48e6a866ff500442fa5c0b04cd4"
+      }
+    },
+    {
+      "path": "evidence/runtime033-current-interf-Cthermal-001.json",
+      "sha256": "e249cb319fedd350439bf651b454e65e7bc57558b0307d514dc95a2c7b3e0707",
+      "files_index": {
+        "path": "evidence/runtime033-current-interf-Cthermal-001-notes/files.json",
+        "sha256": "dd6473b3958f12e55e199f44dc8ee5e3ab2d144a998437dfc766352a63994fb9"
+      }
+    }
+  ],
+  "curator_template": {
+    "path": ".runs/curate-gui-runtime039-079-recovery-no-repair-001.py",
+    "sha256": "3e2001fb212e5704255576e4b67ba0b950e76ddcb9f7905cdbdbcf764712edc5"
+  },
+  "retention": {
+    "helper": ".runs/curate-runtime030-native-workflow-qualification-001.py",
+    "helper_sha256": "b20865bb1b48b9e49301781d99176464ca56120922d19c918b403f9e13f5f7e1",
+    "functions": [
+      "retain",
+      "tree",
+      "cost"
+    ],
+    "max_file_bytes": 4194304,
+    "max_packet_payload_bytes": 16777216,
+    "max_new_files": 2000,
+    "new_payload_files": 95,
+    "new_payload_bytes": 2792153,
+    "material_rows": 521,
+    "omitted_binary_rows": 2,
+    "counts_exclude_index_summary": true
+  },
+  "curation_sample": {
+    "wall_seconds": 0.31175350002013147,
+    "CPU_seconds": 0.22946699999999998,
+    "complete_external_unknown": true
+  },
+  "files_index": {
+    "path": "evidence/gui-runtime041-080-recovery-no-repair-001-notes/files.json",
+    "sha256": "016aa9c0e124193282d3abc24d971f14347e113aae1b50a84b3be3a059c45eaa"
+  }
+}

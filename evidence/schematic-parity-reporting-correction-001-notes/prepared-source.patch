@@ -1,0 +1,286 @@
+--- a/autorouter/floor_route.py
++++ b/autorouter/floor_route.py
+@@ -441,11 +441,10 @@
+         if p.netclass_policy(source) is not None:raise p.Rejected('unsupported: floor policy requires one Default class')
+         task=g.task_from_source(original)
+         g.qualify_scope(json.loads(source.with_suffix('.kicad_pro').read_text()),task)
+         if new_policy:pc.narrow_source(original)
+         report.update(source_hashes=hashes,tools=p.tool_manifest())
+-        report['schematic_parity']=p.parity_declaration(source,hashes)
+         if new_policy:
+             freeze=pc.capture_freeze(report['tools']);shutil.copy2(c.ROOT/'toolchain.lock.json',output/'placement-toolchain.lock.json')
+             p.save_json(output/'placement-source-freeze.json',freeze)
+             report['placement_source_freeze']={'file':'placement-source-freeze.json','sha256':p.sha(output/'placement-source-freeze.json')}
+         shutil.copytree(source.parent,output/'snapshot');shutil.copytree(source.parent,output/'candidate');(output/'code').mkdir()
+@@ -478,10 +477,11 @@
+         if profile=='tuned':report['optimizer_threshold_audit']=p.optimizer_threshold_audit(output/'engine.log',0.1)
+         if not (output/'routes.ses').is_file():raise p.Rejected('engine emitted no SES')
+         imported=output/'imported.kicad_pcb';job.native('import','import',candidate,imported,output/'routes.ses')
+         sx.write(candidate,p.transplant_routes(task,sx.read(imported)))
+         final_hash,native=p.validate_candidate(job,original,candidate,hashes,[],guidance_contract=contract)
++        report['schematic_parity']=p.parity_declaration(source,hashes)
+         job.native('metrics','metrics',candidate,output/'metrics.json');p.verify_candidate_files(candidate,hashes,final_hash)
+         report.update(candidate=str(candidate),candidate_sha256=final_hash,native_report_sha256=p.sha(output/'final-drc.json'),native=native,
+             metrics=read_json(output/'metrics.json'),invariants_unchanged=True,native_rejection_reasons=p.native_rejection_reasons(native),
+             accepted=p.native_accepted(native),status='routing_accepted' if p.native_accepted(native) else 'drc_rejected',
+             whole_project_drc_clean=p.native_accepted(native) and native['warnings']==0)
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -2359,11 +2359,10 @@
+         source_policy=netclass_policy(source)
+         if selected is not None and source_policy is not None and source_policy['mode']==PARENT_POLICY:
+             raise Rejected('unsupported: selected-net composite class transport not qualified')
+         parity=source.with_suffix('.kicad_sch').name in before
+         if native_toolchain is not None and not parity:raise Rejected('unsupported: explicit experimental route requires complete native schematic')
+-        report['schematic_parity']=parity_declaration(source,before)
+         if selected is not None:
+             from . import routing_scope as rs
+             from .placement_clearance import read_bytes
+             report['scope']='selected_nets'
+             report['selected_net_binding']=rs.bind(read_bytes(source),selected)
+@@ -2478,10 +2477,11 @@
+             policy=import_policy,
+             **({'selected_names':selected} if import_policy==SELECTED_PROPOSAL_IMPORT_POLICY else {})))
+         report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
+         extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
+         final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,class_context=class_context,default_target_policy=default_targets,**extra)
++        report['schematic_parity']=parity_declaration(source,before)
+         if class_requirement is not None:
+             report['schematic_class_final']=job.schematic_class_final
+         if selected is not None:report['selected_net_audit']=rs.audit(original,sx.read(candidate),selected)
+         if layers is not None:report['layer_audit']=layers['audit']
+         report['native']=native
+--- a/autorouter/placement_strategy.py
++++ b/autorouter/placement_strategy.py
+@@ -312,11 +312,10 @@
+         if not report['accepted']:report['whole_project_drc_clean']=False
+     try:
+         p.check_storage(active_root=output);hashes=pc.inventory(source.parent);original=p.preflight(source);pc.narrow_source(original)
+         if any(p.locked(x) for x in p.routes(original)):raise p.Rejected('unsupported: placement pruning excludes protected routing')
+         report.update(source_hashes=hashes,tools=p.tool_manifest());shutil.copytree(source.parent,output/'snapshot');(output/'code').mkdir()
+-        report['schematic_parity']=p.parity_declaration(source,hashes)
+         for rel,expected in report['tools']['implementation_sha256'].items():
+             dest=output/'code'/Path(rel).name;shutil.copy2(c.ROOT/rel,dest)
+             if p.sha(dest)!=expected:raise p.Rejected('pruning code snapshot differs')
+         frozen=True;stable()
+         if allocation==STANDARD_ALLOCATION:
+@@ -347,15 +346,15 @@
+             if used+space_reserve>LIMIT:report['stop_reason']='complete evidence capacity reserve';return None
+             index=len(report['trials']);folder=output/'trials'/f'{index:04d}';trial_start=time.monotonic();trial_cpu=time.process_time()+f.child_cpu()
+             cap=min(s.MAX_TRIAL_SECONDS,remaining(time_reserve))
+             left=lambda:max(0,min(remaining(time_reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
+             trial=f.FloorJob(folder,cap,left,protect_local_settings=True);candidate=folder/'candidate'/source.name
+-            row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed'}
++            row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed','schematic_parity':'not checked'}
+             try:
+                 shutil.copytree(best.parent,candidate.parent);sx.write(candidate,deletion(best,proposal,nets))
++                digest,native=p.validate_candidate(trial,original,candidate,hashes,[],guidance_contract=gc,guidance_basis=basis)
+                 row['schematic_parity']=p.parity_declaration(source,hashes)
+-                digest,native=p.validate_candidate(trial,original,candidate,hashes,[],guidance_contract=gc,guidance_basis=basis)
+                 trial.native('metrics','metrics',candidate,folder/'metrics.json');metrics=f.read_json(folder/'metrics.json');pc.verify_candidate(candidate,hashes,digest)
+                 if left()<=0:raise p.Rejected('trial wall/full CPU cap exhausted')
+                 row.update(completed=True,candidate_sha256=digest,native=native,native_report_sha256=p.sha(folder/'final-drc.json'),metrics=metrics)
+                 accepted=p.native_accepted(native) and improves(metrics,best_metrics,native,best_native)
+                 row.update(accepted=accepted,status='improved' if accepted else 'quality_rejected' if p.native_accepted(native) else 'drc_rejected')
+@@ -382,10 +381,11 @@
+                 if row is None:break
+         stable()
+         if remaining()<12:raise p.Rejected('final native reserve exhausted')
+         report.update(selected_parent=str(best),selected_parent_sha256=p.sha(best));candidate=output/'candidate'/source.name;shutil.copytree(best.parent,candidate.parent)
+         digest,native=p.validate_candidate(job,original,candidate,hashes,[],guidance_contract=gc,guidance_basis=basis)
++        report['schematic_parity']=p.parity_declaration(source,hashes)
+         job.native('metrics','metrics',candidate,output/'metrics.json');metrics=f.read_json(output/'metrics.json')
+         if metrics!=best_metrics or not warnings(native)<=warnings(best_native):raise p.Rejected('final native quality differs')
+         pc.verify_candidate(candidate,hashes,digest);stable()
+         report.update(candidate=str(candidate),candidate_sha256=digest,native=native,native_report_sha256=p.sha(output/'final-drc.json'),metrics=metrics,
+             invariants_unchanged=True,accepted=p.native_accepted(native),status='routing_accepted' if p.native_accepted(native) else 'drc_rejected',
+--- a/autorouter/recovery.py
++++ b/autorouter/recovery.py
+@@ -109,11 +109,10 @@
+         p.check_storage(active_root=output)
+         hashes = p.tree_hash(source.parent)
+         original = p.preflight(source)
+         protected = copy.deepcopy([r for r in p.routes(original) if p.locked(r)])
+         report.update(source_hashes=hashes, tools=p.tool_manifest())
+-        report['schematic_parity']=p.parity_declaration(source,hashes)
+         shutil.copytree(source.parent, output / "snapshot")
+         (output / "code").mkdir()
+         for relative, expected in report["tools"]["implementation_sha256"].items():
+             dest = output / "code" / Path(relative).name
+             shutil.copy2(c.ROOT / relative, dest)
+@@ -157,10 +156,11 @@
+             raise p.Rejected("final native validation reserve exhausted")
+         p.verify_candidate_files(selected, hashes, selected_hash)
+         candidate = output / "candidate" / source.name
+         shutil.copytree(selected.parent, candidate.parent)
+         final_hash, native = p.validate_candidate(job, original, candidate, hashes, protected)
++        report['schematic_parity']=p.parity_declaration(source,hashes)
+         # The retained geometric certificate applies only to the exact selected
+         # fill and copper. A different refill requires a new certificate.
+         if final_hash != selected_hash:
+             raise p.Rejected("final emitted candidate differs from validated selection")
+         job.native("metrics", "metrics", candidate, output / "metrics.json")
+--- a/autorouter/review_export.py
++++ b/autorouter/review_export.py
+@@ -419,14 +419,14 @@
+                 target=job.out/'code'/Path(rel).name;target.write_bytes(raw);code[target.name]=digest
+             pc.verify_candidate(candidate,binding['source_hashes'],binding['validated_candidate_sha256']);stable()
+             protected=p.protected_for_record(report,original)
+             names=p.selected_scope_names(report)
+             extra={'selected_names':names,'schematic_parity':p.selected_parity_required(report)} if names is not None else {}
+-            record['schematic_parity']=p.parity_declaration(binding['source'],binding['source_hashes'])
+             digest,native=p.validate_candidate(job,original,candidate,binding['source_hashes'],protected,
+                 default_target_policy='default_target_transport' in report,
+                 guidance_contract=contract,guidance_basis=basis,layer_contract=layers,class_context=class_context,**extra)
++            record['schematic_parity']=p.parity_declaration(binding['source'],binding['source_hashes'])
+             if class_requirement is not None:record['schematic_class_final']=job.schematic_class_final
+             job.native('metrics','metrics',candidate,job.out/'metrics.json');metrics=f.read_json(job.out/'metrics.json');account();cap()
+             record.update(inputs=binding,tools=tools,runtime_source_sha256=runtime,code_inventory=code,source_hashes=binding['source_hashes'],
+                 candidate=str(candidate),candidate_sha256=digest,native=native,native_report_sha256=p.sha(job.out/'final-drc.json'),metrics=metrics,
+                 budget_seconds=seconds,cpu_budget_seconds=seconds,output_ceiling_bytes=OUTPUT_BYTES,output_file_ceiling=OUTPUT_FILES,
+--- a/autorouter/strategy.py
++++ b/autorouter/strategy.py
+@@ -780,11 +780,10 @@
+             elif p.netclass_policy(source) is not None or p.minimum_width_guard(source,'both') is not None:
+                 raise p.Rejected('stronger incumbent requires derived non-strict native class/width targets')
+         protected = copy.deepcopy([route for route in p.routes(original) if p.locked(route)])
+         nets = zone_net_ids(original)
+         report["source_hashes"] = source_hashes
+-        report['schematic_parity']=p.parity_declaration(source,source_hashes)
+         report["zone_net_ids"] = sorted(nets)
+         report["protected_routes"] = len(protected)
+         report["tools"] = p.tool_manifest()
+         code = output / "code"
+         code.mkdir()
+@@ -1108,10 +1107,11 @@
+         if seconds - cpu_used() < 12.0:
+             raise p.Rejected("insufficient reserved CPU for final native validation")
+         candidate = output / "candidate" / source.name
+         shutil.copytree(best.parent, candidate.parent)
+         final_hash, native = p.validate_candidate(final_job, original, candidate, source_hashes, protected)
++        report['schematic_parity']=p.parity_declaration(source,source_hashes)
+         final_job.native("metrics", "metrics", candidate, output / "metrics.json")
+         metrics = json.loads((output / "metrics.json").read_text())
+         _quality(metrics)
+         p.verify_candidate_files(candidate, source_hashes, final_hash)
+         original_fresh(source, snapshot, source_hashes)
+--- /dev/null
++++ b/tests/test_parity_reporting.py
+@@ -0,0 +1,117 @@
++"""Producer reporting controls with synthetic stages, never Native qualification."""
++import copy
++import json
++from pathlib import Path
++import tempfile
++import unittest
++
++import test_recovery as fixture
++from autorouter import pipeline as p
++
++
++CHECKED = 'checked by final native DRC'
++
++
++class SchematicRecoveryHarness(fixture.Harness):
++    """Reuse the recovery transaction while separating incumbent/parent checks."""
++    def __init__(self, base, mode='normal'):
++        super().__init__(base, mode)
++        self.source.with_suffix('.kicad_sch').write_text(
++            '(kicad_sch (version 20250114) '
++            '(uuid "e89e2fe7-1981-49d6-b263-ac3803e95cf9"))\n')
++
++    def baseline(self, source, out, seconds, *args):
++        result = super().baseline(source, out, seconds, *args)
++        candidate = Path(result['candidate'])
++        candidate.with_suffix('.kicad_sch').write_bytes(
++            self.source.with_suffix('.kicad_sch').read_bytes())
++        result.update(schematic_parity=CHECKED, source_hashes=p.tree_hash(self.source.parent))
++        result['steps'].append(self.step('final-drc', 0, 0))
++        (Path(out) / 'result.json').write_text(json.dumps(result))
++        return result
++
++    def validate(self, job, original, candidate, hashes, protected):
++        if self.mode == 'interrupt_parent_refill':
++            self.validation_calls += 1
++            self.advance(parent=.1, child=.5, wall=.5)
++            job.steps.append(dict(self.step('refill-drc', .5, .5),
++                                  status='cancelled', exit_code=-9))
++            raise KeyboardInterrupt
++        digest, native = super().validate(job, original, candidate, hashes, protected)
++        if self.mode == 'completed_negative':
++            native = copy.deepcopy(native)
++            native.update(blocking=1, findings=[dict(type='clearance', severity='error', items=[])])
++            job.steps[-1].update(status='nonzero_exit', exit_code=5)
++        return digest, native
++
++    def native(self, job, name, action, board, output, *args):
++        if self.mode == 'post_validation_cancel' and name == 'metrics':
++            job.steps.append(dict(self.step('metrics', 0, 0), status='cancelled', exit_code=-9))
++            raise KeyboardInterrupt
++        return super().native(job, name, action, board, output, *args)
++
++
++class ParityReporting(unittest.TestCase):
++    def exercise(self, mode):
++        with tempfile.TemporaryDirectory(dir=fixture.ROOT) as folder:
++            harness = SchematicRecoveryHarness(folder, mode)
++            before = p.tree_hash(harness.source.parent)
++            result = harness.run()
++            stored = json.loads((harness.out / 'result.json').read_bytes())
++            incumbent = json.loads((harness.out / 'incumbent/result.json').read_bytes())
++            self.assertEqual(p.tree_hash(harness.source.parent), before)
++            self.assertEqual(result, stored)
++            return stored, incumbent, harness.validation_calls
++
++    def test_completed_incumbent_does_not_label_interrupted_parent_checked(self):
++        result, incumbent, calls = self.exercise('interrupt_parent_refill')
++        self.assertEqual(calls, 1)
++        self.assertTrue(incumbent['accepted'])
++        self.assertEqual(incumbent['schematic_parity'], CHECKED)
++        self.assertEqual(result['status'], 'cancelled')
++        self.assertFalse(result['accepted'])
++        self.assertEqual(result['schematic_parity'], 'not checked')
++        self.assertTrue(any(row['name'] == 'final-drc' and row.get('phase') == 'incumbent'
++                            for row in result['steps']))
++        self.assertEqual([(row['name'], row['status']) for row in result['steps']
++                          if row.get('phase') != 'incumbent'], [('refill-drc', 'cancelled')])
++
++    def test_own_completed_validation_preserves_accepted_declaration(self):
++        result, _, calls = self.exercise('normal')
++        self.assertEqual(calls, 1)
++        self.assertTrue(result['accepted'])
++        self.assertEqual(result['schematic_parity'], CHECKED)
++        self.assertTrue(p.selected_parity_required(result))
++
++    def test_completed_negative_still_truthfully_reports_checked(self):
++        result, _, calls = self.exercise('completed_negative')
++        self.assertEqual(calls, 1)
++        self.assertEqual(result['status'], 'drc_rejected')
++        self.assertFalse(result['accepted'])
++        self.assertEqual(result['native']['blocking'], 1)
++        self.assertEqual(result['schematic_parity'], CHECKED)
++
++    def test_cancellation_after_own_validation_does_not_erase_completed_check(self):
++        result, _, calls = self.exercise('post_validation_cancel')
++        self.assertEqual(calls, 1)
++        self.assertEqual(result['status'], 'cancelled')
++        self.assertFalse(result['accepted'])
++        self.assertEqual(result['schematic_parity'], CHECKED)
++
++    def test_publication_cancellation_preserves_completed_check(self):
++        result, _, calls = self.exercise('publish_interrupt')
++        self.assertEqual(calls, 1)
++        self.assertEqual(result['status'], 'cancelled')
++        self.assertFalse(result['accepted'])
++        self.assertEqual(result['schematic_parity'], CHECKED)
++
++    def test_completed_source_without_schematic_remains_explicitly_unavailable(self):
++        with tempfile.TemporaryDirectory(dir=fixture.ROOT) as folder:
++            result = fixture.Harness(folder).run()
++            self.assertTrue(result['accepted'])
++            self.assertEqual(result['schematic_parity'],
++                             'unavailable: no native schematic in source project')
++
++
++if __name__ == '__main__':
++    unittest.main()

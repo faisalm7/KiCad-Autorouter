@@ -2361,7 +2361,6 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             raise Rejected('unsupported: selected-net composite class transport not qualified')
         parity=source.with_suffix('.kicad_sch').name in before
         if native_toolchain is not None and not parity:raise Rejected('unsupported: explicit experimental route requires complete native schematic')
-        report['schematic_parity']=parity_declaration(source,before)
         if selected is not None:
             from . import routing_scope as rs
             from .placement_clearance import read_bytes
@@ -2480,6 +2479,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
         extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
         final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,class_context=class_context,default_target_policy=default_targets,**extra)
+        report['schematic_parity']=parity_declaration(source,before)
         if class_requirement is not None:
             report['schematic_class_final']=job.schematic_class_final
         if selected is not None:report['selected_net_audit']=rs.audit(original,sx.read(candidate),selected)

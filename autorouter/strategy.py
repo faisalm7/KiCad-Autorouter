@@ -782,7 +782,6 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         protected = copy.deepcopy([route for route in p.routes(original) if p.locked(route)])
         nets = zone_net_ids(original)
         report["source_hashes"] = source_hashes
-        report['schematic_parity']=p.parity_declaration(source,source_hashes)
         report["zone_net_ids"] = sorted(nets)
         report["protected_routes"] = len(protected)
         report["tools"] = p.tool_manifest()
@@ -1110,6 +1109,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         candidate = output / "candidate" / source.name
         shutil.copytree(best.parent, candidate.parent)
         final_hash, native = p.validate_candidate(final_job, original, candidate, source_hashes, protected)
+        report['schematic_parity']=p.parity_declaration(source,source_hashes)
         final_job.native("metrics", "metrics", candidate, output / "metrics.json")
         metrics = json.loads((output / "metrics.json").read_text())
         _quality(metrics)

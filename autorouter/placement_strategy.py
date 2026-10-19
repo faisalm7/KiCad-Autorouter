@@ -314,7 +314,6 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
         p.check_storage(active_root=output);hashes=pc.inventory(source.parent);original=p.preflight(source);pc.narrow_source(original)
         if any(p.locked(x) for x in p.routes(original)):raise p.Rejected('unsupported: placement pruning excludes protected routing')
         report.update(source_hashes=hashes,tools=p.tool_manifest());shutil.copytree(source.parent,output/'snapshot');(output/'code').mkdir()
-        report['schematic_parity']=p.parity_declaration(source,hashes)
         for rel,expected in report['tools']['implementation_sha256'].items():
             dest=output/'code'/Path(rel).name;shutil.copy2(c.ROOT/rel,dest)
             if p.sha(dest)!=expected:raise p.Rejected('pruning code snapshot differs')
@@ -349,11 +348,11 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
             cap=min(s.MAX_TRIAL_SECONDS,remaining(time_reserve))
             left=lambda:max(0,min(remaining(time_reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
             trial=f.FloorJob(folder,cap,left,protect_local_settings=True);candidate=folder/'candidate'/source.name
-            row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed'}
+            row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed','schematic_parity':'not checked'}
             try:
                 shutil.copytree(best.parent,candidate.parent);sx.write(candidate,deletion(best,proposal,nets))
-                row['schematic_parity']=p.parity_declaration(source,hashes)
                 digest,native=p.validate_candidate(trial,original,candidate,hashes,[],guidance_contract=gc,guidance_basis=basis)
+                row['schematic_parity']=p.parity_declaration(source,hashes)
                 trial.native('metrics','metrics',candidate,folder/'metrics.json');metrics=f.read_json(folder/'metrics.json');pc.verify_candidate(candidate,hashes,digest)
                 if left()<=0:raise p.Rejected('trial wall/full CPU cap exhausted')
                 row.update(completed=True,candidate_sha256=digest,native=native,native_report_sha256=p.sha(folder/'final-drc.json'),metrics=metrics)
@@ -384,6 +383,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
         if remaining()<12:raise p.Rejected('final native reserve exhausted')
         report.update(selected_parent=str(best),selected_parent_sha256=p.sha(best));candidate=output/'candidate'/source.name;shutil.copytree(best.parent,candidate.parent)
         digest,native=p.validate_candidate(job,original,candidate,hashes,[],guidance_contract=gc,guidance_basis=basis)
+        report['schematic_parity']=p.parity_declaration(source,hashes)
         job.native('metrics','metrics',candidate,output/'metrics.json');metrics=f.read_json(output/'metrics.json')
         if metrics!=best_metrics or not warnings(native)<=warnings(best_native):raise p.Rejected('final native quality differs')
         pc.verify_candidate(candidate,hashes,digest);stable()
