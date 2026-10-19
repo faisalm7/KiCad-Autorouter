@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "kind": "runtime035-bounded-hierarchy-binder-contract-assessment-v1",
+  "recorded_utc": "2026-10-19T06:44:36.036108+00:00",
+  "decision": "Implement a new pure, source-derived Default-only unit/instance binder first, against the already retained003 bytes and owned falsifying fixtures. Keep hierarchy admission closed until its task/final/export integration and fresh Native controls pass. No new observability probe is needed.",
+  "execution": {
+    "source_edits": false,
+    "Native": false,
+    "tests": false,
+    "GUI": false,
+    "CI": false,
+    "Git": false,
+    "network": false,
+    "new_boards": false,
+    "delegation": false,
+    "bounded_read_only_Python_parse_and_hash": true
+  },
+  "pins": [
+    {
+      "path": "evidence/runtime035-hierarchy-observation-001.json",
+      "sha256": "b8abf382fece66449255c046c2a0952dc4a9f466463c1729f50d6320d17aee77"
+    },
+    {
+      "path": "evidence/runtime035-hierarchy-observation-001-notes/resume003/result.json",
+      "sha256": "263d10940aff846c8586685c36c80e6fa4fe8221e8657cfb48b83aecdb5ca873"
+    },
+    {
+      "path": "evidence/runtime035-hierarchy-observation-001-notes/resume003/observation/extracted-observations.json",
+      "sha256": "98ede471058366632e433880613213807436c6871a243d83f38a0d5ad68ab178"
+    },
+    {
+      "path": "evidence/runtime035-hierarchy-observation-001-notes/resume003/observation/native-pcb.json",
+      "sha256": "a2e2b9c59eda9dd3f15aad12ba8bc98d42f0af397f1d8eafc34be83714cd6fed"
+    },
+    {
+      "path": "evidence/runtime035-hierarchy-observation-001-notes/failed001/observation/hierarchy.net",
+      "sha256": "c083aa89cd7911262838eb97e9a35f9e9376428cbbdd087f48f3bc35735efcb8"
+    },
+    {
+      "path": "autorouter/pipeline.py",
+      "sha256": "8a0276c178649ff76383865e125c63803a71a15b144ac29905a0c072c67480af"
+    },
+    {
+      "path": "autorouter/schematic_classes.py",
+      "sha256": "6e51494b919b70f9b4f2758213af9dbc628cc99ba62310c624dc08a47cae8544"
+    },
+    {
+      "path": "autorouter/schematic_class_evidence.py",
+      "sha256": "b8d64906133de30b6a56d9601ecb40cbc58d186e8902c19b13f82856ca19756b"
+    },
+    {
+      "path": "autorouter/netclass.py",
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    },
+    {
+      "path": "autorouter/native.py",
+      "sha256": "eca9f355e18630b91ec8b367cc4885e5d01a03332eee824aee9356f49670558b"
+    },
+    {
+      "path": "autorouter/review_export.py",
+      "sha256": "0d740bd75cac50a1a74da79abc23bd8ce57bbe1a931fe18022bfd2816556596d"
+    },
+    {
+      "path": "autorouter/local_settings.py",
+      "sha256": "080c484f500ccf29ffb0e67a108494e6f12b4d2a39000c01731b0e460b6f6931"
+    }
+  ],
+  "current_product": "Immutable035 source7edc7229ea905e6734bf6cec8ff926a92e6a8613, selected10.0.7. No existing requirement, policy, original design, evidence or eligibility count changed.",
+  "coverage": {
+    "cohort": 25,
+    "static_eligible": 7,
+    "unsupported": 18,
+    "unchanged": true,
+    "hierarchy_only_rows": [
+      ".data/boards/kicad-multichannel/multichannel_mixer.kicad_pcb",
+      ".data/expansion009/als311-clock/hardware/hardware.kicad_pcb"
+    ],
+    "caveat": "These are two existing exposed families, not two mixer rows. Only mixer was observed here. Mixer-unrouted retains missing paired PRO and format blockers. ALS311 has not been shown to fit the proposed narrower contract."
+  },
+  "actual_retained_observations": {
+    "source": "CC-BY-SA-4.0 mixer,17 original files, two SCH files/version20250114, root+four distinct CH1\u20134 sheet UUID instances; board20241229 physical0F.Cu/2B.Cu.",
+    "census": "114 physical components,119 placed physical units plus50 power-symbol instances;327 distinct PCB pad UUIDs =280 connected terminals +47 original no-net copper pads;80 exported/Native copper net partitions, all Default.",
+    "unit_trap": "5 TL072 packages use1/2, but each placed unit lists all8 package pins. Embedded common0 pins4,8 plus unit1 pins1,2,3 and unit2 pins5,6,7 match Native A/B; styles1/2 have equal pin sets. Placed pin list alone cannot prove membership.",
+    "identity_trap": "Export multiatom stamps order unit1/2; PCB path uses unit1 UUID plus sheet UUIDs. Source instance paths include bound root UUID; PCB/export paths omit it. Strip only that known root; never flatten by reference.",
+    "alias_and_power": "Audio jack placed lib_id differs from embedded key through explicit lib_name Audio-Jack-2_Switch_1; Native libsource explicitly names that embedded part. Power markers have embedded(power), empty Footprint and no physical export component. Do not use colon splitting or a # reference heuristic as authority.",
+    "no_net_trap": "47 no-net entries are actual through-hole copper pads:32 duplicate-number MP and15 RN/SN/TN. Connected jack pins are literal R/S/T. They are not47 missing connections or harmless NPTH by inference; preserve all original pad geometry/netlessness exactly by UUID, separately from the connected terminal bijection.",
+    "warnings": "Raw48 unknowns remain:47 absent literal net vs Native0/empty representations plus1 aggregate scalar-parser failure on5 multiatom rows. Explained, not rewritten or admitted.",
+    "source_findings": "Source0opens/24clearance errors/206warnings/0exclusions. All24 involve12 unlocked track UUIDs; all605 routes unlocked. Whole routing may repair them under fixed original pads/rules.114 footprint-assignment metadata warnings and1 J6 Value(J6) vs symbol(CH1) warning remain visible; no physical/electrical equivalence."
+  },
+  "proposed_contract": {
+    "policy": "hierarchy-default-instance-unit-v1 (new literal; retain flat-class-parity-prerequisite-v1 unchanged)",
+    "initial_scope": "Only trusted selected10.0.7 ordinary native whole/partial routing, source_all layers, existing standard transport. Canonical2Cu board20241229 or20260206; SCH20250114; single explicit Default with empty assignments/patterns and no class flags anywhere captured. No selected-net/layer/guidance/advanced/comparison/experimental-tool context admission from this change.",
+    "closure": "Exact captured relative SCH bytes; resolve only canonical in-project Sheetfile paths, enumerate instances (not unique files). Refuse abs/..,variables,symlinks,case aliases,cycles,missing children,ambiguous project blocks and structural directives outside paired closure. Initial limits16SCH/64instances/depth8 within existing100MiB/2000files/512components/4096terminals.",
+    "instance_key": "(root UUID,ordered sheet UUID path,symbol UUID,unit). Match the one project name/root stem and exact full instances.project.path/reference/unit. Group units only for same instance+final reference+resolved embedded definition. Repeated child UUIDs require distinct proven paths; refs/units/UUID aliases refuse.",
+    "units": "Exact lib_id or explicit lib_name resolves one embedded definition; exported libsource agrees. Initially unit1 or units1+2 only. Common0+unit pin sets must match exported A/B membership; all drawing styles must have equal pin sets (no guessed convert default). Only common0-proven duplicates collapse. Bind all stamp atoms in unit order and PCB primary unit1 path. Explicit embedded(power)+empty footprint+export absence qualifies power-only instances; # names alone do not.",
+    "terminals": "Exact source path/footprint UUID/pin strings join connected PCB pads to complete SCH terminal partitions/net labels. Connected(ref,pin) unique; shared common pins form one physical terminal. Extra original no-net pads must be absent from library/export pin union; retain exact UUID/number/type/parent/geometry/netlessness, including duplicate MP. Missing connected pins or newly connected extras refuse.",
+    "classes": "Require original PRO qualify_project mode single_default; every joined SCH and Native PCB class must be exact Default. Bind each Native four-dimension scalar/parameter parent to the unchanged original Default value and priority. Class identity is distinct from board minimum-rule resolution. Do not call the parent/composite floor-target audit and weaken it to make this pass.",
+    "proof": "Bind all closure/board/PRO/netlist/map hashes and per-instance/unit/terminal/no-net matrix to exact policy/version/tools. Pure derive is never acceptance. Stage collection/replay rederives source and exact worker/output/PRL bindings; no receipt-selected support/policy/paths."
+  },
+  "class_floor_boundary": {
+    "actual": "Original Default width0.2/clearance0.2/via0.6/drill0.3mm; global minima width0.3/clearance0.3/via1.5/drill0.3mm. PRO meta4 also differs from flat_v1 required meta5/two-or-more parent classes.",
+    "trap": "schematic_classes._source_classes and _native_map/nc.audit_native are intentionally incompatible: the latter rejects logical class values below board floors. Merely passing parent_policy=False does not solve it.",
+    "minimal_resolution": "Separate this new Default-only identity proof from engine dimension/constraint proof. Preserve all original board floors/PRO/SCH and existing Default DSN/width/import/native/refill/final rule checks. Force existing Native netclasses outputs for hierarchy task/final identity checks even when netclass_policy returnsNone, without applying a nonexistent composite-target branch. Any future route still needs all final Native original-rule checks; below-floor generated tracks/vias cannot pass. No source class repair, floor_context10.0.0 bypass, global-minimum weakening or automatic source-invalid label."
+  },
+  "smallest_first_slice": {
+    "files": "New autorouter/schematic_hierarchy.py pure comparator plus focused owned unit/instance fixtures/tests; no admission change initially. Reuse sexpr, strict JSON byte parser and netclass scalar definitions. Replay retained003 only as diagnostic data, not repaired historical acceptance.",
+    "size": "Approximately400\u2013600 readable pure production lines; multiple observed semantics make a one-line guard relaxation unsafe. No new runner, parser, library resolver, algorithm, dataset or API is needed."
+  },
+  "followup_integration_locations": [
+    "pipeline.py402/454/476: source-derived explicit hierarchy context/requirement and task+final replay. Keep flat_v1 history; marker deletion cannot downgrade hierarchical source.",
+    "pipeline.py2240/2275,1380\u20131440: force existing task/final Native class-map outputs for Default hierarchy even when netclass_policy returnsNone. Preserve existing nonDefault audits, engine/import/refill/fullSCH/constraint checks.",
+    "schematic_class_evidence.py91/227/318: versioned derive dispatch with full closure bytes, existing actual worker grammar, costs, owned copies and original inventory.",
+    "New-policy SCH copy: existing check_drc_project(before,after,saved=False)+preserve/check_preserved can bind only the generated named PRL with exact after/material pins. Current flat before==after would repeat001 failure. Do not seed, restore, delete originals or manufacture001 binding.",
+    "review_export.py155/186/384: source-derived requirement and fresh final closure/SCH/class proof on exported candidate; no caller authority from receipt.",
+    "tool_manifest explicit module list/provenance runtime census: bind new helper/policy. Shared all-root PRL replay remains last after tool/material callbacks."
+  ],
+  "falsifying_controls": [
+    "Swap sibling paths while retaining child UUIDs/counts; wrong root; alias instance; missing/foreign project path; missing child/cycle/abs/../symlink/case collision.",
+    "Drop/reverse/duplicate stamp; swap unit UUID/pins; reference spans instances; duplicate unit/common assignment; unequal style sets; wrong lib_name; false power exemption.",
+    "Keep80 names/counts while swapping terminals; duplicate connected pin; missing shared pin; connect MP/RN/SN/TN; remove R/S/T; fake no-net exemption for netted duplicate.",
+    "Mutate closure/class parent/priority/global floor; child/unused flag; wrong meta/version/source/tool/process; delete task/final proof plus markers.",
+    "Generated-only PRL vs changed original/extra file; canceled/exit5 export/cleanup failure; late source/tool/material/PRL flag fault; central/export reader refusal."
+  ],
+  "finite_qualification_after_source_review": "Pure controls+flat/legacy compatibility first. Then one owned repeated-sheet two-unit Native positive and invalid pin/instance/class controls, followed by one bounded mixer whole-route+fresh export under unchanged rules. Preserve24/206 source findings and every outcome; no success presumed. Reuse003 during development, never repeat its observability probe for presentation. Fresh integration runs qualify changed product code only.",
+  "remaining_gates": "No hierarchy support or +coverage yet; ALS311 separately unassessed; original115symbol/assignment warnings and24source clearance conflicts retained; actual route completion/quality/electrical/human claims await their own evidence. Runtime035/GUI076, Windows011 failed attempts, restoration and other original gates are not changed by this assessment.",
+  "native_worker_requirement": "No new Native API needed initially: join literal PCB paths/pads as flat_v1 does, pinned Native SCH export and existing PCB class map. Retained GetPath supports feasibility, not production authority. A chosen new PCB observer would need its own worker-schema/process qualification."
+}

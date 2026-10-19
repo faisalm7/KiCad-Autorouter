@@ -58,6 +58,17 @@ def _source_layers(tree):
     # Only the format used in actual layer-mask initialization evidence so far.
     if not tree or tree[0] != 'kicad_pcb' or sx.one(tree, 'version') != ['version', '20260206']:
         raise ValueError('layer restriction requires qualified 20260206 format')
+    return _two_copper_table(tree)
+
+
+def _two_copper_table(tree, *, noncopper=NONCOPPER):
+    """Shared literal table check; callers independently qualify the format.
+
+    This does not broaden the layer-restriction policy above. The prospective
+    hierarchy comparator has a separate explicit version census and no routing
+    admission. Neither caller rewrites a source version to reuse this check.
+    """
+    from autorouter import sexpr as sx
     layers = sx.one(tree, 'layers')
     if layers is None:
         raise ValueError('missing source layer table')
@@ -75,7 +86,7 @@ def _source_layers(tree):
             if row[2] != 'signal' or len(row) != 3:
                 raise ValueError('unqualified copper layer type or alias')
             copper.append([row[0], name])
-        elif NONCOPPER.get(row[0]) != name or row[2] != 'user':
+        elif noncopper.get(row[0]) != name or row[2] != 'user':
             raise ValueError('unqualified noncopper layer identity; cannot exclude hidden copper')
     if (copper != [['0', 'F.Cu'], ['2', 'B.Cu']]
             or [[row[0], sx.unquote(row[1])] for row in layers[1:3]] != copper):

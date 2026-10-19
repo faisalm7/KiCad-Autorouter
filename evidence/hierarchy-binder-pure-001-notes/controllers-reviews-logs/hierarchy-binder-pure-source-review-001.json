@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "kind": "hierarchy-binder-pure-independent-source-review-v1",
+  "created_utc": "2026-10-19T06:58:57.117048+00:00",
+  "reviewer": "Independent AI source reviewer; not human or PCB/electrical review",
+  "decision": "No unresolved material source blocker identified in this one bounded pure-identity review after the observed census and private-input snapshot corrections. This is not admission or a Native pass. Parent must run pure/compatibility controls and fresh process-bound integration before any hierarchy eligibility change.",
+  "inspected_files": [
+    {
+      "path": "autorouter/schematic_hierarchy.py",
+      "bytes": 30330,
+      "lines": 553,
+      "sha256": "61cfd80a0e466e28ee286eb742a888ccf95ddf52f5458deec7daca57274a5347"
+    },
+    {
+      "path": "autorouter/layer_policy.py",
+      "bytes": 13502,
+      "lines": 272,
+      "sha256": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba"
+    },
+    {
+      "path": "tests/test_schematic_hierarchy.py",
+      "bytes": 26155,
+      "lines": 425,
+      "sha256": "439f705791d0f80d6e09f35637904ceea2e00f5095bef6c6c73dbfadb0edbb40"
+    },
+    {
+      "path": "experiments/schematic_hierarchy_fixture.py",
+      "bytes": 12101,
+      "lines": 216,
+      "sha256": "795b61f7e1f675c3458b91763c0b94b42e9097c510b146fc1e8a3a1a49273fa8"
+    },
+    {
+      "path": "tests/test_layer_policy.py",
+      "bytes": 11206,
+      "lines": 181,
+      "sha256": "43a6069adcde05bf399f2d89f17d34eb5e670c753bdbece28088dcbfb711e3d1"
+    },
+    {
+      "path": ".runs/runtime035-hierarchy-binder-contract-assessment-001.json",
+      "bytes": 13366,
+      "lines": 127,
+      "sha256": "aff734e9dd1397510499d632f21bb9eb8ec4a0588948c2c7dceeeee771b29c66"
+    },
+    {
+      "path": ".runs/hierarchy-binder-retained003-005.json",
+      "bytes": 187349,
+      "lines": 6592,
+      "sha256": "27e3ece23eb8ac73b9089636617b57e16c2a91e14e555e2a9c3cc3b37c2652db"
+    },
+    {
+      "path": "autorouter/schematic_classes.py",
+      "bytes": 22952,
+      "lines": 489,
+      "sha256": "6e51494b919b70f9b4f2758213af9dbc628cc99ba62310c624dc08a47cae8544"
+    },
+    {
+      "path": "autorouter/netclass.py",
+      "bytes": 32508,
+      "lines": 562,
+      "sha256": "a483d40e48a5774e4485afc187ec6c7fad3d1f69a74b35a6f96624223446aa0b"
+    }
+  ],
+  "scope": {
+    "full_primary_source": "Initial539-line schematic_hierarchy module plus root census/private-dict delta, final553 lines.",
+    "layer_policy": "Tiny helper extraction and directly relevant original guard/table logic; explicit _source_layers20260206 gate remains.",
+    "controls": "Owned generated fixture and current425-line hierarchy controls; relevant existing layer controls inspected. No execution.",
+    "dependencies": "Only directly invoked raw/tree/text/schema/path/UUID and project/dimension-parent helpers inspected, not a broad architecture review.",
+    "retained_replay": "Read summary, identity matrix structure and flags as retained development output. No replay, Native or raw archive scan performed."
+  },
+  "actionable_findings_and_disposition": [
+    {
+      "id": "H1",
+      "priority": "P2",
+      "status": "source_fix_inspected_not_executed",
+      "original_pin": "a7a8b64c4007ae9c9f1372719a4b7bc516d85027cf16c9f1d5f40e9a684b7be8",
+      "finding": "Physical components were bounded but power-only/placed-unit/expanded-pin output could exceed the intended census before a refusal.",
+      "fix": "Final source adds MAX_UNITS1024/MAX_POWER512; global embedded definition512/library-pin4096 and expanded unit/pin4096 counts. Checks occur before expanded member/power output insertion. Existing file16/instance64/depth8/raw byte bounds remain.",
+      "remaining": "New cap controls and retained replay at final bytes are parent work; this review did not execute them."
+    },
+    {
+      "id": "H2",
+      "priority": "P2",
+      "status": "source_fix_inspected_not_executed",
+      "intermediate_pin": "0d49006263851c7cbd7dce84e3a8da1930e53bcac806ac7892b01d034a9ae26f",
+      "finding": "The caller schematic dict could be replaced between parsing and final hash emission, binding hashes to different bytes.",
+      "fix": "derive now requires an exact dict and takes one private .copy at entry; the same private map is used for closure parsing and final hashes. Values are strictly nonempty bounded bytes, so a shallow mapping snapshot is sufficient.",
+      "remaining": "Actual caller/process/source freshness is separate and still requires integration proof."
+    },
+    {
+      "id": "H3",
+      "status": "not_a_current_defect",
+      "finding": "An early mutable test draft expected explicit numeric(net0 empty) extra pads to pass while the source refused them.",
+      "disposition": "Latest test439f7057 instead qualifies absent-net extras and explicitly refuses both named/empty numeric-zero extras. Conservative initial scope is intentional; do not widen source merely to satisfy the superseded test draft."
+    }
+  ],
+  "checked_identity_contracts": [
+    "Canonical captured relative closure, one exact project block, full known-root/sheet UUID paths, cycle/depth/instance bounds and unused/case-aliased file refusal. The pure helper cannot prove symlinks or actual filesystem custody; the caller must.",
+    "Document-scoped definition/pin UUIDs are distinct from physical instance identity. Same-document UUID collisions refuse; repeated child files and cross-document reused pin UUIDs remain separated by full instance path, symbol UUID, unit and final reference.",
+    "Embedded definitions resolve by exact lib_id or explicit lib_name, Native libsource and exact unit stamp order. Common0 plus unit/style membership is checked; single common-only unit0 implies placed1/NativeA only, not an invented second unit. Unit grouping cannot span file/instance/library/reference identities.",
+    "Exact physical component/unit/native terminal census and PCB-to-SCH exported terminal partitions are compared, not merely equal counts or net names. Original absent-net extra copper pads are separate UUID/hash records, not inferred NPTH or allowed connected terminals.",
+    "Numeric20241229 code/name PCB representation is strict and distinct from named-net20260206. Old-to-new rewriting is not used to qualify originals. Retained User5-9 are only literal known IDs/names/types under the separate source-all identity table.",
+    "Layer extraction preserves the original _source_layers20260206 requirement and default narrower NONCOPPER table. The hierarchy-specific call supplies its additional exact noncopper rows without widening explicit route-layer restrictions.",
+    "Strict JSON map source/hash/version/schema/boolean-integer guards, Default-only class identity, four original Default scalar nanometre values and explicit parameter parent/name/priority/specified/value checks remain."
+  ],
+  "class_floor_assessment": {
+    "finding": "No incorrect floor waiver found in this pure slice.",
+    "detail": "The source Default may be below original board minimum rules. The helper proves literal Default identity and Native parent/scalar parity, and deliberately does not call or weaken the composite/parent floor-target audit. It returns board_floors_waived=false and all routing/production acceptance flags false.",
+    "required_external_guards": "Original project/board inventory, unchanged global floors, generated width/via constraints, Native full-schematic/final DRC and final-candidate binding remain mandatory. This comparator alone cannot claim source preservation or admissible generated geometry.",
+    "warning": "class_parity_qualified=true is conditional identity output, not a fresh Native process result, source-valid label or routing acceptance."
+  },
+  "retained_development_replay": {
+    "path": ".runs/hierarchy-binder-retained003-005.json",
+    "comparator_sha256": "a7a8b64c4007ae9c9f1372719a4b7bc516d85027cf16c9f1d5f40e9a684b7be8",
+    "uses_final_reviewed_source": false,
+    "reported_passed": true,
+    "components": 114,
+    "connected_terminals": 280,
+    "nets": 80,
+    "instances": 5,
+    "extra_original_absent_net_pad_UUIDs": 47,
+    "Native_executed": false,
+    "support_admitted": false,
+    "routing_accepted": false,
+    "project_complete": false,
+    "scope": "Completed001netlist and003PCBmap reused verbatim. Extracted nested classmap is serialized for strict pure API; no new process/freshness/native/admission proof. All historical source24errors/206warnings/ignoredchecks remain unchanged.",
+    "interpretation": "Retained001 netlist/003 map diagnostic replay at older a7a8b64c comparator; not a fresh final-source replay or changed-product qualification. Source24errors/206warnings and metadata conflicts remain."
+  },
+  "unresolved_blocking_findings": [],
+  "remaining_gates": [
+    "Parent-run narrow pure controls, flat/layer compatibility and final-byte retained replay; no test result inferred here.",
+    "No production hierarchy dispatch yet. Task/final/export proof readers must independently capture and rederive exact closure/source/tool/actual Native output/process/PRL bindings; policy deletion cannot downgrade source requirements.",
+    "Owned repeated-sheet/unit actual Native positive and deliberately invalid identity/class/instance controls, final original-rule constraints and guarded export remain pending.",
+    "No new family, coverage, completion, quality, electrical/human review or superiority claim. Mixer development input is exposed; ALS311 and unrelated families remain unassessed."
+  ],
+  "review_execution": {
+    "source_edits": false,
+    "tests": false,
+    "Native_GUI_CI_build_jobs": false,
+    "network_research": false,
+    "recursive_delegation": false,
+    "new_source_boards": false,
+    "read_only_metadata_and_receipt_authoring": true
+  },
+  "claims": {
+    "pure_review_complete": true,
+    "fresh_final_source_replay_passed_by_reviewer": false,
+    "hierarchy_support_admitted": false,
+    "routing_accepted": false,
+    "production_qualified": false,
+    "Native_execution_performed_by_reviewer": false,
+    "human_review": false
+  }
+}
