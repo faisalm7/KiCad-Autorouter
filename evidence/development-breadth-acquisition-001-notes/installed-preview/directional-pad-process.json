@@ -1,0 +1,51 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 2,
+  "wall_seconds": 0.38907054194714874,
+  "cpu_seconds": 0.328519,
+  "max_rss_bytes": 53870592,
+  "supervisor_cpu_seconds": 0.006152999999999992,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 47431680,
+  "sampled_peak_workdir_bytes": null,
+  "resource_guards": {
+    "max_group_rss_bytes": 536870912,
+    "max_workdir_bytes": null,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/.venv/bin/python",
+    "-B",
+    "-m",
+    "autorouter",
+    "preview",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.data/directional-pad-demo-001/native-project/Hardware/SparkFun_Qwiic_Directional_Pad.kicad_pcb",
+    "--seconds",
+    "90",
+    "--scope",
+    "whole",
+    "--adapter",
+    "both",
+    "--profile",
+    "standard",
+    "--layers",
+    "source_all"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-breadth-installed-preview-001/directional-pad.log",
+  "log_bytes": 136,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime",
+  "signal_cancellation_enabled": true,
+  "pid": 15143
+}

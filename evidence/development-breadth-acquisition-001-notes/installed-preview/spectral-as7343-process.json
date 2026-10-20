@@ -1,0 +1,51 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 2,
+  "wall_seconds": 0.2669488750398159,
+  "cpu_seconds": 0.257781,
+  "max_rss_bytes": 55820288,
+  "supervisor_cpu_seconds": 0.0028439999999999854,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 50610176,
+  "sampled_peak_workdir_bytes": null,
+  "resource_guards": {
+    "max_group_rss_bytes": 536870912,
+    "max_workdir_bytes": null,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/.venv/bin/python",
+    "-B",
+    "-m",
+    "autorouter",
+    "preview",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.data/spectral-as7343-demo-001/native-project/Hardware/SparkFun_AS7343_Qwiic.kicad_pcb",
+    "--seconds",
+    "90",
+    "--scope",
+    "whole",
+    "--adapter",
+    "both",
+    "--profile",
+    "standard",
+    "--layers",
+    "source_all"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-breadth-installed-preview-001/spectral-as7343.log",
+  "log_bytes": 102,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime",
+  "signal_cancellation_enabled": true,
+  "pid": 15144
+}
