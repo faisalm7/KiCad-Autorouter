@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "policy": "single-default-global-floor-targets-v2",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/gui-session085/jobs/autorouter-gui-195967275c2c4d3ab8d63fcb5f3ed2ab/route/candidate/owned1007-transport.kicad_pcb",
+  "native_version": "10.0.7",
+  "input_sha256": "cbe659fbaab9fb733c3e1474286c582cee14f2ca58339d93cf2b67c871c3bab0",
+  "output_sha256": "0aada5e83d0139e84d7900cc9a7a23599d542a3fb0af47ca60b79605f09eafa0",
+  "project_sha256": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+  "task_sha256": "72ea130a31ae15ecad765bb08fa00ebf0b20a399f6fe733f72fedc68c0b2a77a",
+  "native_map_sha256": "2f39dddca52a2af20a83ac7b3f16740411c05fa0e724392a5ff20b5e5b73fb8f",
+  "raw_nm": {
+    "width_nm": 300000,
+    "clearance_nm": 200000,
+    "via_diameter_nm": 800000,
+    "via_drill_nm": 400000
+  },
+  "original_floors_nm": {
+    "min_track_width": 250000,
+    "min_clearance": 200000,
+    "min_via_diameter": 600000,
+    "min_through_hole_diameter": 300000,
+    "min_via_annular_width": 100000
+  },
+  "derived_nm": {
+    "width_nm": 300000,
+    "clearance_nm": 200000,
+    "via_diameter_nm": 800000,
+    "via_drill_nm": 400000
+  },
+  "raw_mapping_audit": {
+    "passed": true,
+    "native_nets": 3,
+    "exported_terminal_nets": 3,
+    "policy": {
+      "mode": "single_default",
+      "literal_assignments": {}
+    },
+    "classes": [
+      {
+        "dsn_class": "kicad_default",
+        "member_count": 3,
+        "via": "Via[0-1]_800:400_um",
+        "dimensions_nm": {
+          "width_nm": "300000",
+          "clearance_nm": "200000",
+          "via_diameter_nm": "800000",
+          "via_drill_nm": "400000"
+        }
+      }
+    ],
+    "membership": {
+      "GND": "kicad_default",
+      "KEEP": "kicad_default",
+      "ROUTE": "kicad_default"
+    },
+    "limitations": [
+      "Via drill is encoded by pinned KiCad via ID.",
+      "Terminal counts do not prove pin identities.",
+      "Imported route geometry and native DRC require separate validation."
+    ],
+    "routing_accepted": false,
+    "raw_default_for_target_derivation_only": true
+  },
+  "dimension_resolution": {
+    "native_floor_observation_required": true,
+    "implicit_class_fields": [],
+    "implicit_floor_fields": [],
+    "original_project_modified": false
+  },
+  "copper_layers": [
+    "upper_trace",
+    "lower_trace"
+  ],
+  "original_via_id": "Via[0-1]_800:400_um",
+  "derived_via_id": "Via[0-1]_800:400_um",
+  "original_via_stack_preserved": true,
+  "derived_via_stack_added": false,
+  "protected_via_stack_preserved": false,
+  "wiring_sha256": "f6f1ad6871c6dc45eaece12d8dd664862df3666da86673e436eaf204fb0d8019",
+  "engine_requirements": {
+    "automatic_neckdown": false,
+    "fanout.enabled": false,
+    "neck_width_um": 0
+  },
+  "routing_accepted": false,
+  "production_support_qualified": false,
+  "native_execution_proven": false,
+  "source_all_copper_layers": {
+    "copper_count": 2,
+    "layers": [
+      {
+        "canonical": "F.Cu",
+        "canonical_lookup_id": 0,
+        "display_lookup_id": 0,
+        "display_name": "upper_trace",
+        "enabled": true,
+        "id": 0,
+        "index": 0,
+        "standard_name": "F.Cu",
+        "type": "signal"
+      },
+      {
+        "canonical": "B.Cu",
+        "canonical_lookup_id": 2,
+        "display_lookup_id": 2,
+        "display_name": "lower_trace",
+        "enabled": true,
+        "id": 2,
+        "index": 1,
+        "standard_name": "B.Cu",
+        "type": "signal"
+      }
+    ],
+    "policy": "source-all-two-copper-identity-v1",
+    "schema": 1
+  }
+}

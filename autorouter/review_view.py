@@ -230,7 +230,9 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
     summary = {key: native.get(key) for key in ('opens', 'blocking', 'warnings', 'exclusions')}
     # The receipt schema is checked centrally by handoff; keep absent fields
     # explicit rather than inventing zero findings for another policy.
-    details = escape(json.dumps({'saved_native_findings': summary, 'candidate_metrics': metrics,
+    details = escape(json.dumps({'saved_native_findings': summary,
+                                'findings': native.get('findings', 'See original receipt'),
+                                'candidate_metrics': metrics,
                                 'ignored_checks': native.get('ignored_checks', 'See original receipt')}, indent=2))
     html = ('<!doctype html><html lang="en"><meta charset="utf-8">'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src \'self\'; style-src \'unsafe-inline\'">'

@@ -1,0 +1,24 @@
+# Runtime049: bounded Devobordo development comparison
+
+This exposed development case produced **no delivered board**. All six arms were frozen before dispatch and ran sequentially using immutable runtime049, source `6e2357f975554478c2ba9fa35f18fdc3c1d194f9`, manifest `70a388a6844d015350073401cb5f33bb1d552d1dc6195ece3aceee27baba5bd4`. No code, settings, board or constraint changes were made during the batch. [Generated facts and frozen frame](../evidence/runtime049-devobordo-development-001.json) retain every outcome and external exit.
+
+The full original three-file project is Travis8795/devobordo at `5823d7a0d7fc3d1d520dd00f87bc5a42e413d04b`; creator MIT provenance is recorded in the frozen source frame. Optional asset/model rights are not fully closed, so CAD, DSN, SES, plots and raw findings remain local. This is an already exposed family, not untouched confirmation or demonstrated independent ancestry. Its original routed source has 619 route items and no protected items; it is not a protected-copper positive. Original Native source findings are 0 opens, 1 blocking thermal-relief finding and 40 warnings. Expected opens on other source tasks are routing demand, not automatically invalid designs.
+
+| Arm | Stored outcome | Complete wall / CPU seconds |
+|---|---|---|
+| Actual installed default C | Capability refusal before engine; negative not qualified | 4.60 / 3.51 |
+| B0, stock engine configuration | Native completed negative: 48 opens, 26 blocking, 76 warnings, 0 exclusions | 76.28 / 88.21 |
+| Corrected adapter B1 | Capability refusal before engine; negative not qualified | 4.25 / 3.91 |
+| B2 single tuned | Capability refusal before engine; negative not qualified | 4.31 / 3.89 |
+| B2 three-score portfolio | Invalidated on an unqualified negative trial | 5.44 / 4.83 |
+| Optional thermal recovery C | Capability refusal before engine; negative not qualified | 4.30 / 3.78 |
+
+Every arm had the same 420-second routing allocation, 450-second method cap, 600-second complete delivery wall/CPU cap and 120-second export budget. These are ceilings, not a requirement to burn unused time after refusal. B0's unchanged stock profile has its own 60-second engine job timeout; that timed-out candidate was imported, refilled and checked rather than accepted from engine status. B0 retains common fidelity and Native safeguards; it is not an untouched vanilla workflow. API baseline delivery and actual product CLI workloads differ, so this table does not establish a general speed comparison. Optional Improve was not an arm.
+
+The six external exits total **99.18 wall / 108.13 CPU seconds**. Setup, prior qualification, GUI operation, research, authoring, targeted tests, AI review and reporting are additional. Nested Native and method samples are already included in each external exit. The first facts-report invocation refused its overlapping output destination before writing a report; both that failure and the successful disjoint invocation are retained. Complete raw evidence is Mac-only and outside backup010; Git-backed facts are not a full restoration copy.
+
+The corrected/default paths reject four native-exported circular keepouts inside a USB footprint image. The source contains two netless mechanical holes; exported diameter 1.15 mm matches the 0.65 mm drill plus twice the original 0.25 mm hole clearance. This is a source/export inference about mechanical obstacles, not permission to ignore an electrical rule. The first blocker is image→keepout; circle shapes were also outside the Default-target grammar. The stock candidate's DRC findings and the original thermal finding remain separate observations.
+
+Decision: revise this demonstrated general interchange gap narrowly. Main source now admits only the observed empty-name, single-circle footprint-local form, validates layer/arity/exact bounded dimensions, and preserves the entire image subtree. Unknown rule scopes still refuse. Synthetic and retained-export replay checks pass; a new owned fixture puts a mechanical hole directly across an otherwise straight route. Actual new-build Native positive, deliberately invalid hole-clearance control, installation/GUI qualification and a fresh versioned comparison are required. Runtime049 results remain unchanged. This repair is not a completion gain until those runs demonstrate it, and no broad C-over-B1/B2, cleanup-time or electrical-quality claim follows.
+
+Reproduction uses the retained reviewed freezer and committed shared controllers: `freeze_current_comparison.py`, `enclose_current_comparison.py`, `qualify_current_method.py`, `qualify_comparison_portfolio.py`, and `report_current_comparison.py`. The preserved population/children records identify every exact protocol, source hash, controller hash and output. Use fresh outputs with a newly frozen frame for a new build; never overwrite these runs or append a fixed arm as an unattended first attempt.

@@ -46,7 +46,9 @@ def pcb_property(ref, name, value, layer):
             ') (effects (font (size 1 1) (thickness 0.15))))')
 
 
-def board():
+def board(*, npth_keepouts=False):
+    if type(npth_keepouts) is not bool:
+        raise ValueError('npth_keepouts must be a boolean')
     rows = ['''(kicad_pcb (version 20260206) (generator "pcbnew")
   (generator_version "10.0") (general (thickness 1.6)) (paper "A4")
   (layers (0 "F.Cu" signal) (2 "B.Cu" signal)
@@ -69,6 +71,14 @@ def board():
         rows.append('(fp_rect (start -1.25 -1.25) (end 1.25 1.25) '
                     '(stroke (width 0.05) (type default)) (fill none) '
                     '(layer "F.CrtYd") (uuid ' + q(uid(ref + '-courtyard')) + '))')
+        if npth_keepouts and ref == 'J1':
+            # One mechanical hole lies on the otherwise direct ROUTE path.
+            # The other exercises a signed footprint-local coordinate. Neither
+            # is an electrical terminal or a schematic component.
+            for index, (hx, hy) in enumerate((('7', '0'), ('4', '-3'))):
+                rows.append('(pad "" np_thru_hole circle (at ' + hx + ' ' + hy + ') '
+                            '(size 0.65 0.65) (drill 0.65) (layers "*.Cu" "*.Mask") '
+                            '(uuid ' + q(uid('npth-keepout-' + str(index))) + '))')
         rows.append('(pad "1" thru_hole circle (at 0 0) (size 2 2) (drill 0.8) '
                     '(layers "*.Cu" "*.Mask") (net ' + q(net) +
                     ') (pinfunction "1") (pintype "passive") (uuid ' +
@@ -169,9 +179,9 @@ def project():
     return (json.dumps(value, indent=2, sort_keys=True) + '\n').encode()
 
 
-def files():
+def files(*, npth_keepouts=False):
     """The entire four-file source packet. DRU is absent from first creation."""
-    return {STEM + '.kicad_pcb': board(), STEM + '.kicad_sch': schematic(),
+    return {STEM + '.kicad_pcb': board(npth_keepouts=npth_keepouts), STEM + '.kicad_sch': schematic(),
             STEM + '.kicad_pro': project(),
             STEM + '.kicad_prl': (json.dumps({'meta': {'filename': STEM +
                 '.kicad_prl', 'version': 5}, 'board': {'active_layer': 0,
@@ -179,14 +189,14 @@ def files():
                 indent=2, sort_keys=True) + '\n').encode()}
 
 
-def write_project(output):
+def write_project(output, *, npth_keepouts=False):
     """Create one exact fresh packet without loading KiCad or changing source."""
     output = Path(output)
     if (not output.is_absolute() or output.exists() or output.is_symlink()
             or output.parent.resolve() != output.parent
             or not output.parent.is_dir() or '..' in output.parts):
         raise ValueError('fresh canonical absolute output with existing parent required')
-    material = files()
+    material = files(npth_keepouts=npth_keepouts)
     output.mkdir()
     for name, raw in material.items():
         with (output / name).open('xb') as stream:
@@ -196,5 +206,7 @@ def write_project(output):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--npth-keepouts', action='store_true',
+                        help='Add two owned mechanical holes, one blocking the direct route')
     args = parser.parse_args()
-    write_project(args.output)
+    write_project(args.output, npth_keepouts=args.npth_keepouts)

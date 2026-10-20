@@ -202,6 +202,21 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                       'ALL entries remain in the full findings receipt. Open it before completing review: ' + str(findings_receipt_path or receipt_path or 'retained workflow receipt')]
     return '\n'.join(lines)
 
+def _completed_summary(flow, stage, record):
+    """Render retained completed findings for stage completion and inspection."""
+    display = {**flow.records.get('route', {}), **record}
+    if stage == 'export': display.update(flow.records['export'])
+    if getattr(flow, 'method', 'route') in ('recover', 'improve'):
+        display['effective_preferences'] = json.loads(flow.settings_bytes)
+    receipt_name = {'preview': 'preview.command.log', 'route': 'route/result.json',
+        'review': 'review/review.json', 'choice': 'choice/choice.json', 'export': 'export/export.json'}[stage]
+    receipt_path = flow.workspace / receipt_name
+    findings_path = flow.workspace / 'route/result.json' if stage == 'review' else receipt_path
+    return human_summary(stage, display, receipt_path=receipt_path,
+                         findings_receipt_path=findings_path if display.get('native') or display.get('saved_native_findings') else None,
+                         method=getattr(flow, 'method', 'route'))
+
+
 _REGISTERED_ACTIONS = []
 
 
@@ -934,6 +949,10 @@ def main(argv=None):
                         import webbrowser
                         webbrowser.open(target.as_uri())
                     else: subprocess.Popen(['/usr/bin/open', '-a', str(c.CLI.parents[2]), str(target)])
+                    # Inspection shares the busy/progress timer. Restore the
+                    # completed findings if its last tick showed an old log.
+                    stage = 'export' if kind == 'export' else 'review'
+                    self.log.SetValue(_completed_summary(self.flow, stage, self.flow.records[stage]))
                 except Exception as exc: self.refused('Could not open retained project: ' + str(exc))
             else: self.refused(error or 'Inspection was cancelled. No project was opened.')
             self.refresh()
@@ -950,17 +969,7 @@ def main(argv=None):
                 self.refused(error)
             else:
                 self.flow = flow
-                display = {**flow.records.get('route', {}), **record}
-                if stage == 'export': display.update(flow.records['export'])
-                if getattr(flow, 'method', 'route') in ('recover', 'improve'):
-                    display['effective_preferences'] = json.loads(flow.settings_bytes)
-                receipt_name = {'preview': 'preview.command.log', 'route': 'route/result.json',
-                    'review': 'review/review.json', 'choice': 'choice/choice.json', 'export': 'export/export.json'}[stage]
-                receipt_path = flow.workspace / receipt_name
-                findings_path = flow.workspace / 'route/result.json' if stage == 'review' else receipt_path
-                self.log.SetValue(human_summary(stage, display, receipt_path=receipt_path,
-                                               findings_receipt_path=findings_path if display.get('native') or display.get('saved_native_findings') else None,
-                                               method=getattr(flow, 'method', 'route')))
+                self.log.SetValue(_completed_summary(flow, stage, record))
                 self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()
             if self.closing: self.timer.Stop(); self.Destroy()

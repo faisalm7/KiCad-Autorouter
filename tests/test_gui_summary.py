@@ -1,5 +1,6 @@
 """Portable presentation controls; not GUI or Native qualification."""
 import unittest
+import tempfile
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
@@ -80,6 +81,38 @@ class GuiSummaryTests(unittest.TestCase):
         self.assertIn('1 added; 0 removed; 2 changed files', text)
         self.assertIn('original source rules and settings; review-only changes are not adopted', text)
         self.assertNotIn("['history']", text)
+
+    def test_successful_open_restores_findings_after_inspection_progress_tick(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp).resolve()
+            route_dir = workspace / 'route'; route_dir.mkdir()
+            (route_dir / 'final-drc.log').write_text('Found 2 schematic parity issues\n')
+            review = dict(status='ready_for_manual_review', project_file=str(workspace / 'review/project/owned.kicad_pro'))
+            exported = dict(self.record(), status='export_validated', project_file=str(workspace / 'export/candidate/owned.kicad_pro'))
+            flow = SimpleNamespace(workspace=workspace, records={'route': self.record(), 'review': review, 'export': exported},
+                fresh=Mock(), check_open_export_material=Mock())
+            for kind in ('preview', 'review', 'export'):
+                with self.subTest(kind=kind):
+                    stage = 'export' if kind == 'export' else 'review'
+                    job = gui.CliJob()
+                    window = SimpleNamespace(job=job, busy=True, flow=flow, inspected=Mock(),
+                        status=Mock(), log=Mock(), refresh=Mock(), closing=False, refused=Mock())
+                    window_method('finished')(window, job, flow, stage, flow.records[stage], None)
+                    completed = window.log.SetValue.call_args.args[0]
+                    self.assertIn('First warning', completed)
+                    window.busy = True; window.job = gui.CliJob()
+                    window_method('tick')(window, None)
+                    self.assertIn('final-drc.log\nFound 2 schematic parity issues', window.log.SetValue.call_args.args[0])
+                    target = workspace / 'review/preview.html' if kind == 'preview' else Path(flow.records[stage]['project_file'])
+                    with patch('webbrowser.open'), patch.object(gui.subprocess, 'Popen'):
+                        window_method('opened')(window, kind, target, None)
+                    self.assertEqual(window.log.SetValue.call_args.args[0], completed)
+                    self.assertIn('Last warning', completed); self.assertIn('Ignored check description', completed)
+                    self.assertFalse(window.busy); self.assertIsNone(window.job)
+                    window.refused.assert_not_called()
+                    count = window.log.SetValue.call_count
+                    window_method('tick')(window, None)
+                    self.assertEqual(window.log.SetValue.call_count, count)
 
     def test_completed_stages_disabled_but_retained_review_and_export_openers_work(self):
         names = ('preview','route','review','cancel','open_preview','open_review','accept','reject','export','open_export')

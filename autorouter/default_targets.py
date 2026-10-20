@@ -115,10 +115,14 @@ def _layers(task, native, structure):
 
 
 def _grammar(tree):
-    """Keep the pinned export grammar, adding only fixed protected wiring."""
+    """Pinned export grammar plus fixed wiring and local circular hole keepouts."""
     grammar = {key: set(value) for key, value in floors.GRAMMAR.items()}
     grammar.update(wiring={'wire', 'via'}, wire={'path', 'net', 'type'})
     leaves = floors.LEAVES - {'wiring'}
+    # _layers separately binds these declarations to the source/Native table.
+    # Do not permit circle keepouts in other scopes or widen floor grammar.
+    layers = {row[1] for row in sx.children(sx.one(tree, 'structure', []), 'layer')
+              if len(row) > 1 and type(row[1]) is str}
     arities = {'pcb': 1, 'parser': 0, 'structure': 0, 'layer': 1, 'property': 0,
                'boundary': 0, 'keepout': 1, 'plane': 1, 'rule': 0, 'clearance': 1,
                'placement': 0, 'component': 1, 'place': 5, 'library': 0, 'image': 1,
@@ -135,6 +139,17 @@ def _grammar(tree):
         allowed = {'net', 'type'} if head == 'via' and path == ('pcb', 'wiring') else grammar.get(head, set())
         for child in node[1:]:
             if type(child) is list:
+                if head == 'image' and path == ('pcb', 'library') and child and child[0] == 'keepout':
+                    # Native represents an NPTH hole, including clearance, as
+                    # an unnamed footprint-local circle on each copper layer.
+                    # Retain that constraint verbatim; it is never a target edit.
+                    if (len(child) != 3 or child[1] != '""' or type(child[2]) is not list
+                            or len(child[2]) != 5 or child[2][0] != 'circle'
+                            or type(child[2][1]) is not str or child[2][1] not in layers):
+                        raise ValueError('qualified image-local circular keepout required')
+                    for index, atom in enumerate(child[2][2:]):
+                        _number(atom, positive=index == 0)
+                    continue
                 if not child or child[0] not in allowed:
                     raise ValueError('unknown DSN child/routing override')
                 walk(child, (*path, head))

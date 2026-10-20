@@ -155,12 +155,31 @@ class PlotCopyControls(unittest.TestCase):
                     'log_bytes': Path(log).stat().st_size, 'log_truncated': False}
         return run
 
-    def render(self, out, source, candidate, tool, worker):
+    def render(self, out, source, candidate, tool, worker, report=None):
         pin = {'kicad_cli': {'path': str(tool), 'sha256': p.sha(tool), 'bytes':tool.stat().st_size}}
         with patch.object(view.c, 'CLI', tool), patch.object(p,'selected_tool_pins',return_value=pin) as selected,patch.object(p, 'run', side_effect=worker):
-            result=view.render(out, source / 'board.kicad_pcb', candidate / 'board.kicad_pcb', {}, lambda: 30, lambda: None)
+            result=view.render(out, source / 'board.kicad_pcb', candidate / 'board.kicad_pcb',
+                               {} if report is None else report, lambda: 30, lambda: None)
             selected.assert_called_once_with()
             return result
+
+    def test_browser_review_retains_actionable_findings_as_inert_text(self):
+        from html import unescape
+        with tempfile.TemporaryDirectory() as tmp:
+            source,candidate,out,tool=self.projects(Path(tmp).resolve());calls=[]
+            finding={'severity':'warning','type':'footprint_symbol_field_mismatch',
+                'description':'Datasheet differs <script>alert(1)</script>',
+                'items':[{'description':'Footprint J1','pos':{'x':12.0,'y':10.0},'uuid':'original-item'}]}
+            native={'opens':0,'blocking':0,'warnings':1,'exclusions':0,
+                    'findings':[finding],'ignored_checks':[{'key':'retained-check','description':'Ignored check'}]}
+            self.render(out,source,candidate,tool,
+                self.plot_worker(source,candidate,lambda *args:None,calls),{'native':native})
+            page=(out/'preview.html').read_text()
+            self.assertNotIn('<script>',page)
+            details=json.loads(unescape(page.split('<pre>',1)[1].split('</pre>',1)[0]))
+            self.assertEqual(details['findings'],[finding])
+            self.assertEqual(details['saved_native_findings']['warnings'],1)
+            self.assertEqual(details['ignored_checks'],native['ignored_checks'])
 
     def test_selected7_plot_pin_is_used_and_mixed_path_or_size_refuses(self):
         for mismatch in (None,'old_default_path','bytes'):
