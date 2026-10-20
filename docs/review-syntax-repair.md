@@ -28,3 +28,31 @@ qualification. No routing-quality or completion improvement is established by
 this performance diagnosis.
 
 [Evidence and additional costs](../evidence/review-syntax-repair-001.json).
+
+## Failed installed051 regression and follow-up
+
+Full integration201 passed. Fresh runtime051 (`d44c2d70`) then ran one frozen
+IR Improve regression with the unchanged source and 420/450/600-second
+route/method/delivery budgets. Its 18-trial route again passed Native checks
+with 42 warnings, but review rejected at 34.92 seconds wall / 34.23 CPU.
+Complete external cost was 167.50 seconds wall / 152.12 CPU. It remains
+**not delivered**; no new GUI or broader qualification was attempted.
+
+A separate instrumented profile recorded 86 uncached syntax parses among
+708 calls, versus 641 parsing calls in the earlier profile. It also showed
+three complete incumbent replays in one central check and repeated parent/tool
+admission within each final guard. These profiles stop at different points and
+include instrumentation overhead; they are not a paired speed measurement.
+
+The follow-up source removes the early incumbent replay for admitted selected7
+parents. Both mandatory import-contract checks still perform full private-child
+validation. Direct pruning-parent imports and non-Native derived policy refuse.
+Final guard collection shares its already reconstructed context, then freshly
+checks the context, exact parent settings and sidecar before the final material
+and all-root PRL fences. Public collectors keep full admission. No private-child
+or parent result is cached. Tests inject late source, code, settings, sidecar,
+tool, ownership and directory-identity changes, including coherent hash edits.
+
+This follow-up still needs full integration and a new installed Native/GUI
+qualification. [Failed051 evidence](../evidence/runtime051-review-regression-001.json)
+is separate from the unchanged runtime050 comparison.

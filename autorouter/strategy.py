@@ -782,17 +782,9 @@ def native7_marked(directory,data):
         or c.NATIVE_VERSION=='10.0.7' and data.get('strategy')=='native_validated_zone_net_pruning')
 
 
-def native7_parent(directory, data):
-    """Validate source-derived parent definition; this is NOT parent acceptance.
-
-    Marker deletion cannot downgrade selected7 pruning to a legacy parent.
-    No recursive call to the full parent reader and no live Budget from JSON.
-    """
-    from . import floor_route as f, provenance as pv
-    from .local_settings import policy_declaration
-    directory = pv.canonical(Path(directory)); path = directory / NATIVE7_PARENT_FILE
+def _native7_parent_shape(directory, data):
+    """Exact retained parent settings; source/tool admission remains separate."""
     pruning = data.get('strategy') == 'native_validated_zone_net_pruning'
-    if not native7_marked(directory,data):return None
     if (c.NATIVE_VERSION != '10.0.7' or type(data.get('schema')) is not int or data['schema'] != 1
             or not pruning or data.get('single_selection_policy') != SINGLE_SELECTION_POLICY
             or data.get('proposal_policy') != 'single' or data.get('engine_profile') != 'tuned'
@@ -804,9 +796,14 @@ def native7_parent(directory, data):
                 'incumbent_scoring_contract','incumbent_receipt_sha256','chain_pad_context','adaptive_branch',
                 'comparison_route','production_admitted','input_policy','engine_angle_binding'))):
         raise p.Rejected('exact source-derived selected7 Improve parent required')
-    effective = check_pruning_preferences(directory,data)
-    native7_single_scope(Path(data['source']),effective,proposal_policy=data['proposal_policy'])
-    actual = p.tool_manifest()
+    return check_pruning_preferences(directory,data)
+
+
+def _native7_parent_binding(directory, data, actual):
+    """Rebind exact captured policy/sidecar; never create reader authority."""
+    from . import floor_route as f, provenance as pv
+    from .local_settings import policy_declaration
+    directory=Path(directory);path=directory/NATIVE7_PARENT_FILE
     if data.get('tools') != actual:raise p.Rejected('Improve parent selected tools changed')
     raw_code = pv.read_bytes(directory/'code/strategy.py')
     if (hashlib.sha256(raw_code).hexdigest() != actual['implementation_sha256'].get('autorouter/strategy.py')
@@ -820,6 +817,20 @@ def native7_parent(directory, data):
             or contract['schema'] != 1 or contract['policy'] != NATIVE7_PARENT_POLICY):
         raise p.Rejected('Improve parent definition changed or missing')
     return contract['context']
+
+
+def native7_parent(directory, data):
+    """Validate source-derived parent definition; this is NOT parent acceptance.
+
+    Marker deletion cannot downgrade selected7 pruning to a legacy parent.
+    No recursive call to the full parent reader and no live Budget from JSON.
+    """
+    from . import provenance as pv
+    directory=pv.canonical(Path(directory))
+    if not native7_marked(directory,data):return None
+    effective=_native7_parent_shape(directory,data)
+    native7_single_scope(Path(data['source']),effective,proposal_policy=data['proposal_policy'])
+    return _native7_parent_binding(directory,data,p.tool_manifest())
 
 
 def native7_incumbent_context(directory, data):
@@ -876,6 +887,11 @@ def native7_default_target_basis(directory,data):
     fresh export readers still validate their own Native class-map evidence.
     """
     if native7_parent(directory,data) is None:return None
+    return _checked_native7_default_basis(directory,data)
+
+
+def _checked_native7_default_basis(directory,data):
+    """Collect lineage after caller's full parent admission, not acceptance."""
     basis,binding=_native7_default_basis_material(directory)
     if data.get('native7_default_target_basis')!=binding:
         raise p.Rejected('Improve parent Default target lineage changed or missing')
@@ -890,9 +906,14 @@ def native7_packets(directory, data):
     before the shared last metadata fence. Abnormal Native failures remain
     subject to the unchanged conservative shared guards.
     """
-    from . import floor_route as f, provenance as pv
     if native7_parent(directory,data) is None:return []
-    directory=Path(directory);rows=data.get('trials')
+    return _checked_native7_packets(directory,data)
+
+
+def _checked_native7_packets(directory,data):
+    """Exact packet census; caller still owes parent/child/selection checks."""
+    from . import floor_route as f, provenance as pv
+    directory=pv.canonical(Path(directory));rows=data.get('trials')
     if type(rows) is not list or len(rows)>MAX_TRIALS:
         raise p.Rejected('bounded selected7 Improve trial population required')
     expected={f'trial-{index:04d}' for index in range(len(rows))};actual=set()
@@ -925,8 +946,8 @@ def check_native7_final(directory,data,*,material=None,additional=(),pairs=()):
     original=sx.read(directory/'snapshot'/context.source.name)
     protected=[route for route in p.routes(original) if p.locked(route)]
     p.check_final_netclass_evidence(directory,data,candidate,protected,default_target_policy=True,
-        default_target_basis=native7_default_target_basis(directory,data))
-    owned=native7_packets(directory,data);additional=tuple(additional)
+        default_target_basis=_checked_native7_default_basis(directory,data))
+    owned=_checked_native7_packets(directory,data);additional=tuple(additional)
     packets=[*owned,*additional]
     # The pinned parent policy censuses every nested trial worker and binds
     # its journal, source project and PRL event. A trial is not a standalone
@@ -934,6 +955,14 @@ def check_native7_final(directory,data,*,material=None,additional=(),pairs=()):
     # replay with the caller and every trial in the final metadata fence.
     for folder,record in [*owned[:2],*additional]:
         p.check_experimental_local_settings(folder,record,None)
+    # One late full live Context check replaces repeated admission inside the
+    # two collection helpers. Preserve fresh tools/source/owner/code and exact
+    # parent settings/sidecar after every class/lineage callback, even without
+    # a supplied byte-material callback. No private-child result is cached.
+    context.check()
+    if (_native7_parent_shape(directory,data)!=context._inputs['effective']
+            or f.canonical(_native7_parent_binding(directory,data,context.tools))!=context._seal):
+        raise p.Rejected('Improve parent definition changed during final guards')
     if material is not None:material()
     local.check_final_events(packets,c.CLI,pairs=pairs)
     return True

@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 30.689344332902692,
+    "cpu_seconds": 30.112579,
+    "max_rss_bytes": 275939328,
+    "supervisor_cpu_seconds": 0.06867899999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 275939328,
+    "sampled_peak_workdir_bytes": 501111,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 134217728,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-051/runtime/.venv/bin/python",
+      "-B",
+      "-m",
+      "cProfile",
+      "-o",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime051-improve-review-profile-001/review.pstats",
+      "-m",
+      "autorouter",
+      "review-copy",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-051/runtime/.runs/native7-method-runtime051-ir-review-regression-001-Cimprove/autorouter-gui-a3cb09a2cf7641929fb3a7275036df5f/route/result.json",
+      "--render",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime051-improve-review-profile-001/review"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime051-improve-review-profile-001/command.log",
+    "log_bytes": 92,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime051-improve-review-profile-001",
+    "signal_cancellation_enabled": true,
+    "pid": 54125
+  },
+  "wall_seconds": 31.045417833025567,
+  "full_CPU_seconds": 30.506030000000003,
+  "inputs_tools_unchanged": true,
+  "profile_exists": true,
+  "normal_workflow_success": false,
+  "cohort_outcome_changed": false,
+  "project_complete": false,
+  "controller_sha256": "fe78aa6443733dd157281d7612a5b10b318103c018c4139ac874bbcf5a09f59d"
+}

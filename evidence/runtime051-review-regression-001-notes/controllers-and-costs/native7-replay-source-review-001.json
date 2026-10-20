@@ -1,0 +1,110 @@
+{
+  "A_import_contract": [
+    {
+      "finding": "Only a parent already admitted by native7_parent skips the initial scoring replay. Nonadmitted/legacy scoring remains at entry. The newly explicit derived input_policy==native guard prevents an admitted parent taking another import policy branch.",
+      "where": "autorouter/pipeline.py:2848,2887-2910"
+    },
+    {
+      "finding": "Current-policy pruning and thermal parents reject any own root-cwd direct import, including mixed own+incumbent import populations. The no-direct branch requires the exact incumbent receipt, matching source/tools/steps, one actual incumbent import and the child own import proof; it then calls full check_incumbent_scoring.",
+      "where": "autorouter/pipeline.py:665-671,676-706"
+    },
+    {
+      "finding": "Both mandatory normal_import_contract calls remain, before and after own Native/process checks. Each pruning parent branch calls full scoring -> exact Native7 child Context -> uncached child reader. The initial bounded complete-evidence witness now precedes the first such full child replay.",
+      "where": "autorouter/pipeline.py:2951-2987,3127-3131"
+    },
+    {
+      "finding": "Child tool/profile/budget/Default validation, parent single-selection reconstruction with every trial, own final Native and late source/evidence/receipt witness remain required. No private-child/result semantic caching was introduced.",
+      "where": "autorouter/strategy.py:856-867,979-1011; autorouter/pipeline.py:3192-3201"
+    }
+  ],
+  "B_final_guard": [
+    {
+      "finding": "Factoring preserves public native7_parent admission: exact shape/preferences, actual source scope, actual tools, captured strategy policy declarations and exact parent sidecar hash/schema. Public default-basis/packet APIs still call that admission.",
+      "where": "autorouter/strategy.py:785-833"
+    },
+    {
+      "finding": "The private Default collector preserves both incumbent result->guide binding and parent->incumbent receipt/guide hash binding. The private packet collector keeps exact canonical bounded trial directory census and row/receipt/status/outcome identity, including unqualified trials without promoting them.",
+      "where": "autorouter/strategy.py:869-926"
+    },
+    {
+      "finding": "check_native7_final still reconstructs a full live Context and checks the exact child first. Following own final Default audit and own/extra lineage callbacks, context.check rechecks current tools, source/snapshot/code/preferences, UID/single-link material and captured parent dev/inode. Late exact shape/effective comparison plus captured policy/sidecar binding and retained-Context seal comparison catches sidecar changes even with coherently changed marker hash and material=None.",
+      "where": "autorouter/strategy.py:938-967"
+    },
+    {
+      "finding": "Parent/incumbent/all-trial and extra packets remain in shared final metadata replay. Late Context/shape/sidecar readers precede the caller material callback and last local.check_final_events; no new source/tool callback follows that final fence. Caller byte-material contracts and existing last PRL protections remain mandatory where supplied.",
+      "where": "autorouter/strategy.py:949-967"
+    }
+  ],
+  "claim_limits": [
+    "No051 successful review/delivery is claimed. Its failed measured review, all18 trials and warnings remain unchanged.",
+    "Source review and constructed tests do not establish review performance, actual Native correctness, GUI support, general routing improvement, release completeness or human/electrical review.",
+    "No cap increase, scope/admission expansion, parent/child result reuse, protocol modification or frozen-cohort retry/stitching."
+  ],
+  "immutable051_baseline_sha256": {
+    "autorouter/pipeline.py": "f55b9ed68abe93a2f67472e04cb17c108cfd5f6a4b5916e35273e454dd01f150",
+    "autorouter/strategy.py": "4b9bd8faf60d1c2992b0704d812c35c1c476bea4f7058c8b2db1dd3dd7ac9421"
+  },
+  "kind": "native7-parent-redundant-replay-source-review-v1",
+  "material_findings": [],
+  "observed_lead_execution": {
+    "artifact_sha256": {
+      ".runs/native7-parent-import-order-003-time.log": "8ff2357ba9ce790092a5bb7514b135003646d70f4fabc03455f54b315f115c66",
+      ".runs/native7-parent-import-order-003.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      ".runs/native7-replay-targeted-001-time.log": "8c3dc4f39d16e027490c55b449a666f3ab37c183f7e5db5d27a432a95c303b4a",
+      ".runs/native7-replay-targeted-001.log": "ed297429821eab6ae8acece508bdd13b031958405ef9d55e7d78b1476189529d",
+      ".runs/native7-replay-targeted-001/command.log": "b7278abded9eedb02c6973f7f1af29e96ef8a6c4e8d191dcf1f6c3238f862b5c",
+      ".runs/native7-replay-targeted-001/execution.json": "0c334cc2b1103bbed67fe30dcfb5f504606d1b953b377784b09494db6f09639c"
+    },
+    "current_source_full_suite": "Full202/fresh runtime052 qualification pending at review; 136-pass scope predates the final two-file hardening and is not relabelled a full current suite.",
+    "import_order003": {
+      "external_cpu_seconds": 0.46,
+      "external_wall_seconds": 0.54,
+      "result": "PASS",
+      "scope": "Includes the later explicit derived-native-policy hardening; separate overlapping operation, not additive to any Native review cost.",
+      "tests": 5,
+      "unittest_seconds": 0.352
+    },
+    "later_source_changes_from_targeted001": [
+      "autorouter/pipeline.py",
+      "tests/test_native7_parent_import_order.py"
+    ],
+    "targeted001": {
+      "cleanup_complete": true,
+      "controller_full_cpu_seconds": 25.447712,
+      "controller_wall_seconds": 25.91138345899526,
+      "external_time_cpu_seconds": 25.52,
+      "external_time_wall_seconds": 26.02,
+      "result": "PASS",
+      "source_current_at_run_end": true,
+      "tests": 136,
+      "unittest_seconds": 25.695
+    }
+  },
+  "review_scope": "Final narrow static review of A import replay deferral and B final-guard admission factoring against immutable051 baseline and the two focused test modules.",
+  "reviewer_scope": {
+    "AI": true,
+    "Native_run": false,
+    "guard_test_author": "this reviewer; test self-review is not independent review",
+    "human": false,
+    "product_or_existing_evidence_modified": false,
+    "product_source_author": "lead",
+    "production_reader_run": false,
+    "profile_run": false,
+    "tests_run_by_reviewer": false
+  },
+  "schema": 1,
+  "source_sha256": {
+    "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+    "autorouter/local_settings.py": "6f4adae700d7532218aac8e9627360107dadd2f6fcb04f4ef6a7b76471185fde",
+    "autorouter/pipeline.py": "13090ee072df063a8697fe0f1ad33e585220b40eebe719385c4632b0d1804637",
+    "autorouter/strategy.py": "e3de400f52d6b0ee6bf464dc9f55f9d0050053e95091d01073066fefffdb2452",
+    "tests/test_native7_guard_reconstruction.py": "b90456dc4baace736d6d249179a7c724fc85ae4c9c773fea831acd8db78443a3",
+    "tests/test_native7_parent_import_order.py": "ccc5add9a78f902e00d166c833a0c722190f9ce6765cbdda9049842998cf654e"
+  },
+  "test_review": {
+    "guard_reconstruction": "Six methods cover 20 late final-class/incumbent-lineage faults across source/preferences/code/sidecar/coherent sidecar rehash/tools/UID/same-byte parent inode replacement/source hardlink/shape with material=None, independent inner/outer guide bindings, bounded exact trial census, guarded public APIs and final all-root ordering. Worker/Native/PRL primitives remain explicit isolation stubs.",
+    "limits": "The two mandatory full-child import sites are also verified statically; the new import-dispatch sentinel test deliberately stops at the first site. Existing real stored Native evidence is not rerun by these tests.",
+    "parent_import_order": "Five constructed controls: actual constructed direct proof then pruning relabel; mixed import population; absent/empty census; admitted path reaches mandatory import boundary without early child replay; legacy path still scores at entry; non-native derived-policy refusal. Native7 admission or boundary sentinels are explicit stubs, not fabricated Native acceptance."
+  },
+  "verdict": "No material bypass or provenance regression found in this bounded source change. Lead-owned fresh full202/runtime052 review qualification remains required; failed051 remains failed."
+}

@@ -665,8 +665,8 @@ def normal_import_contract(directory,data,imports,*,input_policy,original,native
     if marker!=policy:raise Rejected('normal selected import tool declaration missing')
     if imports is None:raise Rejected('normal selected import requires qualified Native import census')
     direct=[row for row in imports if row['cwd']==str(root)]
-    if direct and data.get('strategy')=='native_validated_thermal_bridge':
-        raise Rejected('thermal parent requires its checked incumbent, not a direct import')
+    if direct and data.get('strategy') in {'native_validated_thermal_bridge','native_validated_zone_net_pruning'}:
+        raise Rejected('routing parent requires its checked incumbent, not a direct import')
     # input_policy is derived by the existing receipt_policy/recognize readers,
     # never directly from a JSON label. Nested incumbents have their own receipt.
     if input_policy!='native':return None
@@ -2889,7 +2889,11 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
             or 'pruning_preferences' in data or 'pruning_preferences_policy' in data
             or pruning_marker.exists() or pruning_marker.is_symlink()):
         from .strategy import check_incumbent_scoring
-        check_incumbent_scoring(path.parent,data)
+        if not is_improve_parent:
+            check_incumbent_scoring(path.parent,data)
+        # Selected7 parents must use the incumbent import branch below, which
+        # performs this complete private-child read both before and after the
+        # own Native checks. Do not perform a third, earlier unbracketed replay.
     elif 'incumbent_scoring_variant' in data or 'incumbent_receipt_sha256' in data:
         # Placement-backed pruning has its separate explicit incumbent contract.
         if data.get('input_policy')!='placement-pruning-v1':
@@ -2898,6 +2902,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         raise Rejected('selected-net evidence cannot downgrade routing scope')
     from . import placement_strategy as ps
     input_policy=ps.POLICY if ps.recognize(data,path.parent) else receipt_policy(data,path.parent)
+    if is_improve_parent and input_policy!='native':
+        raise Rejected('Improve parent requires its derived native import policy')
     placement_backed=input_policy in {'placement-clearance-v1','placement-search-v1',ps.POLICY}
     if angle_contract is not None:
         from .engine_angle import check_scope as check_engine_angle_scope
