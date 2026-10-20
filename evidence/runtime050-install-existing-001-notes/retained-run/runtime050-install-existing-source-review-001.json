@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "kind": "runtime050-install-existing-static-source-review-v1",
+  "recorded_utc": "2026-10-20T04:23:06.414684+00:00",
+  "reviewer": {
+    "agent": "/root/windows005_gate",
+    "AI_review": true,
+    "human_review": false
+  },
+  "reviewed_pins": [
+    {
+      "path": ".runs/runtime050-install-existing-qualification-001/protocol.json",
+      "sha256": "493cfb303c7f6b90d1c13f5195c8e487ce54ca7719619a76c3065960ff2f43a7",
+      "bytes": 18854
+    },
+    {
+      "path": ".runs/qualify-runtime050-install-existing-environment-001.py",
+      "sha256": "49a7fc82409285aae5ddc23183e88510b3cab7ea694b86b38b389fee15c63628",
+      "bytes": 24686
+    },
+    {
+      "path": ".runs/run-runtime050-install-existing-environment-001.py",
+      "sha256": "a322fa894cc14826519bcfe79398f5c55a7b0d3f2380f433fd7e47d7afd93609",
+      "bytes": 4714
+    }
+  ],
+  "findings": [],
+  "conclusion": "No remaining concrete static blocker found within the narrow identity port. This review is not actual installation, Native, workflow, GUI, clean-OS or standalone qualification.",
+  "basis": {
+    "historical_parent": {
+      "path": ".runs/qualify-runtime042-install-existing-environment-001.py",
+      "sha256": "c490cbdc14eb13ca4d34fd1d79bb8af51d92fc309a398548c27ffae7b3021e9c"
+    },
+    "historical_outer": {
+      "path": ".runs/run-runtime042-install-existing-environment-001.py",
+      "sha256": "d0aa940ecb8c52c1fce3602d7818d90d2f4975e61871543fe24665d445b84b20"
+    },
+    "shared_installer": {
+      "path": "scripts/prepare_runtime.py",
+      "sha256": "4efee63d98a5a55370a34c611eb79ae49f0653a76b5b22b5e37fdf4ccf4b0056"
+    },
+    "shared_workflow_driver": {
+      "path": "scripts/qualify_runtime_workflow.py",
+      "sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034"
+    },
+    "shared_workflow_enclosure": {
+      "path": ".runs/enclose-runtime030-ordinary-workflow-002.py",
+      "sha256": "69d87dee41f94fe9e479e505093914325ed653cbb0cd58c9545272afefc1d59c"
+    },
+    "historical_actual_reference": "evidence/runtime042-install-existing-001.json",
+    "AST_comparison": "ast.parse/ast.dump without executing or importing product modules; function bodies were compared directly between the historical042 and prepared050 parent.",
+    "AST_identical_functions": [
+      "remaining",
+      "material",
+      "fresh",
+      "command",
+      "check_delivery",
+      "final_check",
+      "account"
+    ],
+    "AST_identical_count": 7
+  },
+  "identity_and_contract_observations": {
+    "source_runtime": ".runs/runtime-directory-050/runtime",
+    "source_runtime_manifest_sha256": "c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8",
+    "installed_runtime": ".runs/runtime050 fresh install 001",
+    "installed_manifest_sha256": "8fdf819606e2345b932139f1c16c330825fd8634caef1b611b5e105b97be22a4",
+    "manifest_root_only_difference_observed": true,
+    "immutable_files_declared": 54,
+    "autorouter_modules_declared": 49,
+    "runtime_build_source_head": "aa0072c6b3d8090de2603e5ecb42a95968fb873b",
+    "native_version": "10.0.7",
+    "source_is_fixed_owned_four_route_partial2Cu_fixture": true,
+    "fixture": ".runs/task-copper-fixed-alias-native-004/source/owned1007-transport.kicad_pcb",
+    "fixture_PCB_sha256": "62cb74bf329f3eb259b595881a24ef2ac320b930ca738f732461ca38831f0128",
+    "fixture_role_limitation": "Installation/environment vertical slice using the preserved owned padless-alias/four-route fixture; no fresh renamed-copper-layer control claim.",
+    "expected_Native_counts": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "protected_routes": 4,
+    "settings": "partial_completion;90 seconds;both adapter;standard;native guidance;source_all;no scoring preference",
+    "bounds": {
+      "route_seconds": 90,
+      "export_seconds": 90,
+      "inner_wall_full_CPU_seconds": 240,
+      "inner_watchdog_seconds": 255,
+      "parent_wall_full_CPU_seconds": 300,
+      "doctor_seconds": 30,
+      "aggregate_bytes": 805306368,
+      "group_RSS_bytes": 4294967296,
+      "log_bytes": 524288
+    },
+    "final_source_material_and_plot_PRL_event_fences_unchanged": true,
+    "protocol_path_hashes_controller_hashes_source_and_venv_pins_matched_in_static_readback": true,
+    "setup_query_tools_and_new_root_manifest_matched_protocol": true,
+    "milestone_port_uses_actual050_full199_seven_cases_and_invalid_controls": true,
+    "installer_receipt_remains_non_authoritative": true,
+    "copy_scope": "Exact validated immutable population and pinned local engine; original .runs/.venv are not copied. A fresh --copies/--without-pip venv uses the same existing3.11.9 base and fixed external dependency locations."
+  },
+  "closed_initial_accounting_finding": {
+    "initial_protocol_sha256": "035e45cf84c4e2bbe68ce99242c06730ba6fb61996217496aecb94fdfa6e3937",
+    "issue": "Scope prose retained042 setup cost1.28wall/.74CPU, while completed050 setup was1.61wall/.89CPU. This was a reporting error, not a guard or budget change.",
+    "initial_protocol_preserved": "Lead reports preserving it separately; this receipt does not invent a preservation pathname.",
+    "predispatch_correction_observed": true,
+    "final_protocol_sha256": "493cfb303c7f6b90d1c13f5195c8e487ce54ca7719619a76c3065960ff2f43a7",
+    "correct_setup_complete_external": {
+      "wall_seconds": 1.61,
+      "CPU_seconds": 0.89,
+      "time_log_sha256": "bdab428fd48758ab4893fcb3edaa9f05fa4b2440b9c8dd4755fe56d3731401e4"
+    },
+    "source_purpose_now_explicitly_owned_four_route_partial2Cu": true,
+    "setup_cost_additional_to_Native_parent": true
+  },
+  "limitations": {
+    "source_only_static_review": true,
+    "product_imports": false,
+    "tests": false,
+    "Native": false,
+    "engine": false,
+    "GUI": false,
+    "tool_query_execution": false,
+    "Git_mutations": false,
+    "code_edits": false,
+    "delegation": false,
+    "only_created_file": ".runs/runtime050-install-existing-source-review-001.json",
+    "active_qualification_outputs_read_or_changed": false,
+    "actual_qualification_state": "Lead reported sequential execution started after the static review; this receipt makes no claim about its unfinished or final result.",
+    "review_wall_seconds": null,
+    "review_CPU_seconds": null,
+    "review_cost_unknown_not_zero": true,
+    "no_transferred_historical_qualification": true,
+    "no_human_electrical_quality_Windows_cleanOS_or_standalone_claim": true
+  }
+}
