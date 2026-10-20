@@ -1,0 +1,54 @@
+{
+  "checks": [
+    "Current parser/token/size policy invalidation and UTF-8 size validation still run before lookup.",
+    "Hit reordering stores no caller-owned mutable tree; _thaw_tree still independently creates nested lists.",
+    "A pop/reinsert/thaw exception remains inside the existing BaseException handler, which clears entries and counters. Nested operation lifetime and cancellation cleanup are unchanged.",
+    "Entry, aggregate input-byte and AST-node caps are unchanged; hits neither increment nor decrement aggregate counters, and misses retain their bounded eviction/bypass behavior.",
+    "Pipeline and strategy SHA pins equal immutable052: A+B authority guards, both mandatory full child reads and final all-root PRL fences are unchanged. No parent/private-child/result reuse was added."
+  ],
+  "immutable052_baseline_sha256": {
+    "autorouter/pipeline.py": "13090ee072df063a8697fe0f1ad33e585220b40eebe719385c4632b0d1804637",
+    "autorouter/sexpr.py": "c20f576fb36300deac8193efa3d524807a52d14a2a1a4306dedb62e267dfbfdc",
+    "autorouter/strategy.py": "e3de400f52d6b0ee6bf464dc9f55f9d0050053e95091d01073066fefffdb2452"
+  },
+  "kind": "operation-local-sexpr-lru-source-review-v1",
+  "material_findings": [],
+  "qualification_limits": [
+    "Retained051 and052 review failures remain failures; no retry/stitching or successful review is inferred.",
+    "No new wall/CPU/RSS improvement is established by source review or constructed parser controls. Bounds are raw-text bytes plus AST nodes, not an exact Python heap ceiling.",
+    "No cache/cap increase or admission/scope change. Lead owns checkpoint/full203/fresh053 actual delivery qualification."
+  ],
+  "regression": {
+    "behavior": "With two entries, interleave hot source text with two cold trial inputs; only three actual uncached derivations occur and final order is trial2/source, within the same byte/node caps. This meaningfully distinguishes LRU from the prior FIFO behavior.",
+    "file": "tests/test_sexpr_memo.py:98-107",
+    "lead_reported_controls": 8,
+    "log_sha256": {
+      ".runs/sexpr-memo-lru-targeted-001-time.log": "fb62af6e729d3955ba3456d61472f1eb9b0efe8cfbedf55a37de35e60ad343e3",
+      ".runs/sexpr-memo-lru-targeted-001.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "reviewer_executed_tests": false
+  },
+  "reviewed_change": {
+    "behavior": "On a valid syntax hit, pop then reinsert the same immutable entry to make it most recently used before returning a fresh mutable thaw. Existing miss eviction removes the oldest remaining entry. Raw-byte and node counters do not change on a hit because the exact same key/entry is retained.",
+    "diff_scope": "Comparison with immutable052 sexpr.py found only the hit pop/reinsert hunk; parser grammar, identities, size/node/entry bounds, exception clearing and file reads unchanged.",
+    "source": "autorouter/sexpr.py:90-94"
+  },
+  "schema": 1,
+  "scope": {
+    "AI_static_review": true,
+    "Native_run": false,
+    "human_review": false,
+    "original_cohort_modified": false,
+    "product_edits": false,
+    "production_reader_run": false,
+    "profile_run": false,
+    "tests_run": false
+  },
+  "source_sha256": {
+    "autorouter/pipeline.py": "13090ee072df063a8697fe0f1ad33e585220b40eebe719385c4632b0d1804637",
+    "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+    "autorouter/strategy.py": "e3de400f52d6b0ee6bf464dc9f55f9d0050053e95091d01073066fefffdb2452",
+    "tests/test_sexpr_memo.py": "5d130be19efb1695523ed22536105b32e9a7e294b8479c84feef2a401e96df3f"
+  },
+  "verdict": "No material hazard found in the bounded FIFO-to-LRU eviction change; fresh full203/runtime053 delivery qualification remains pending."
+}

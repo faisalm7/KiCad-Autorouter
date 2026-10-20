@@ -89,3 +89,13 @@ owned synthetic differential also produced identical trees; its timing is not
 actual job performance. [Evidence](../evidence/immutable-projection-repair-001.json)
 records these controls and additional costs. This change and LRU will enter the
 same fresh053 build after full203; no installed success is claimed yet.
+
+
+Full203 passed with2,541 tests and one skip. The separately frozen053 IR
+regression still failed review at30.34 seconds wall /30.03 CPU after18
+Native-valid trials with42 warnings. Complete cost154.50wall/141.03CPU;
+[retained failure](../evidence/runtime053-review-regression-001.json). No
+choice/export/delivery or broader Native/GUI qualification ran. The copying
+changes are insufficient. The next bounded assessment concerns repeatedly
+reconstructed authority Context, while retaining all full child/trial/Native
+checks and late freshness fences. No budget increase or parent acceptance cache.
