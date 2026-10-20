@@ -151,3 +151,12 @@ constant; renaming the alias preserves XML behavior and strict policy intake.
 Exact owner checks now also reject equal-valued bool/int and int/float changes
 in both Context owner maps. Full205 and a fresh055 installed delivery are
 still required; software controls and source review establish no routing gain.
+
+
+Full205 passed2,563 tests/one skip. [Fresh055 IR qualification](../evidence/runtime055-ir-delivery-001.json)
+completed the entire actual delivery with18trials and0/0/42/0 findings,
+complete308.82wall/291.69CPU. Review17.39s and choice13.62s fit unchanged30s
+ceilings; fresh Native export81.85s and checked-path23.00s also passed. This
+repairs this exposed delivery control; prior failures and frozen050 comparison
+stay unchanged. Seven owned Native tasks/current GUI/install/invalid controls
+still need this build's own qualification. No wider routing/electrical claim.
