@@ -4,6 +4,7 @@ import os
 import stat
 import sys
 import unittest
+from contextlib import ExitStack
 from pathlib import Path
 from unittest.mock import patch
 from autorouter import handoff as h, strategy as s, review_view as view, local_settings as local
@@ -14,6 +15,17 @@ from tests import test_handoff as fixture
 class Native7ReviewBoundaryTests(unittest.TestCase):
     def setUp(self):
         fixture.ReviewCopyTests.setUp(self)
+        # This handoff fixture has no real Improve Context. Isolate only that
+        # prerequisite, retaining the actual operation policy fingerprint.
+        guard=patch.object(h,'_review_validation_guard',side_effect=self.validation_guard)
+        guard.start();self.addCleanup(guard.stop)
+
+    def validation_guard(self,directory,report,identity):
+        def check():
+            if h._review_validation_identity()!=identity:
+                raise Rejected('review validation policy changed in constructed Context seam')
+        check()
+        return check
 
     def not_ready(self,target):
         fixture.ReviewCopyTests.not_ready(self,target)
@@ -22,7 +34,7 @@ class Native7ReviewBoundaryTests(unittest.TestCase):
         self.assertEqual(self.check.call_count,1)  # Full central read precedes narrowing.
         return {'source-derived':'constructed boundary only'}
 
-    def test_recognized_parent_keeps_two_full_reads_and_final_metadata_after_write(self):
+    def test_recognized_parent_keeps_one_full_read_and_final_metadata_after_write(self):
         target=self.root/'review';events=[]
         def guarded(*args,**kwargs):
             kwargs['material']()
@@ -36,8 +48,8 @@ class Native7ReviewBoundaryTests(unittest.TestCase):
         with patch.object(s,'native7_parent',side_effect=self.recognized),patch.object(h,'delivery_guards',side_effect=guarded),patch.object(view,'render',side_effect=rendered):
             record=h.review_copy(self.receipt,target,render=True)
         self.assertEqual(record['status'],'ready_for_manual_review')
-        self.assertEqual(self.check.call_count,2)
-        self.assertGreaterEqual(events.count('published'),2)
+        self.assertEqual(self.check.call_count,1)
+        self.assertGreaterEqual(events.count('published'),1)
         self.assertEqual(events[-1],'published')
         self.assertEqual(h.SECONDS,30)
 
@@ -54,12 +66,29 @@ class Native7ReviewBoundaryTests(unittest.TestCase):
         self.assertEqual(self.check.call_count,0)
         self.assertFalse((self.root/'review').exists())
 
-    def test_second_full_read_after_render_still_refuses_stale_parent(self):
-        verified=dict(self.check.return_value);self.check.side_effect=[verified,Rejected('stale parent')]
+    def test_semantic_reader_replacement_during_render_is_rejected_without_file_change(self):
         target=self.root/'review'
-        with patch.object(s,'native7_parent',side_effect=self.recognized),patch.object(h,'delivery_guards',side_effect=lambda *a,**kw:kw['material']()),patch.object(view,'render',return_value=None):
-            with self.assertRaisesRegex(Rejected,'stale parent'):h.review_copy(self.receipt,target,render=True)
+        with ExitStack() as changes:
+            def rendered(destination,before,candidate,report,remaining,stable,**ctx):
+                changes.enter_context(patch.object(h.p,'_check_result_uncached',lambda *a,**kw:None))
+                stable()
+            with patch.object(s,'native7_parent',side_effect=self.recognized),patch.object(h,'delivery_guards',side_effect=lambda *a,**kw:kw['material']()),patch.object(view,'render',side_effect=rendered):
+                with self.assertRaisesRegex(Rejected,'policy changed'):h.review_copy(self.receipt,target,render=True)
+        self.assertEqual(self.check.call_count,1)
         self.not_ready(target)
+
+    def test_policy_replacement_during_first_full_read_refuses_before_copy(self):
+        verified=dict(self.check.return_value)
+        target=self.root/'review'
+        with ExitStack() as changes:
+            def checked(*args,**kwargs):
+                changes.enter_context(patch.object(s,'check_single_selection',lambda *a,**kw:None))
+                return verified
+            self.check.side_effect=checked
+            with patch.object(s,'native7_parent',side_effect=self.recognized),patch.object(h,'delivery_guards',side_effect=lambda *a,**kw:kw['material']()):
+                with self.assertRaisesRegex(Rejected,'policy changed'):h.review_copy(self.receipt,target)
+        self.assertEqual(self.check.call_count,1)
+        self.assertFalse(target.exists())
 
     def test_render_callback_still_checks_all_source_bytes(self):
         target=self.root/'review'
@@ -70,15 +99,27 @@ class Native7ReviewBoundaryTests(unittest.TestCase):
             with self.assertRaisesRegex(Rejected,'source project'):h.review_copy(self.receipt,target,render=True)
         self.not_ready(target)
 
-    def test_late_publication_mutations_are_not_hidden_by_omitted_third_semantic_read(self):
+    def test_in_memory_report_cannot_change_while_receipt_bytes_stay_same(self):
+        target=self.root/'review';raw=self.receipt.read_bytes()
+        def rendered(destination,before,candidate,report,remaining,stable,**ctx):
+            report['native']={'warnings':0,'findings':[]}
+            stable()
+        with patch.object(s,'native7_parent',side_effect=self.recognized),patch.object(h,'delivery_guards',side_effect=lambda *a,**kw:kw['material']()),patch.object(view,'render',side_effect=rendered):
+            with self.assertRaisesRegex(Rejected,'in-memory'):
+                h.review_copy(self.receipt,target,render=True)
+        self.assertEqual(self.receipt.read_bytes(),raw)
+        self.assertEqual(self.check.call_count,1)
+        self.not_ready(target)
+
+    def test_late_publication_mutations_are_not_hidden_by_one_semantic_read(self):
         save=h.save_json;target=self.root/'review'
         def changed(path,record):
             save(path,record)
             if record['status']=='ready_for_manual_review':
-                (self.candidate/'board.kicad_dru').write_text('relaxed after second full read')
+                (self.candidate/'board.kicad_dru').write_text('relaxed after initial full read')
         with patch.object(s,'native7_parent',side_effect=self.recognized),patch.object(h,'delivery_guards',side_effect=lambda *a,**kw:kw['material']()),patch.object(h,'save_json',side_effect=changed):
             with self.assertRaises(Rejected):h.review_copy(self.receipt,target)
-        self.assertEqual(self.check.call_count,2)
+        self.assertEqual(self.check.call_count,1)
         self.not_ready(target)
 
     @unittest.skipUnless(sys.platform=='darwin' and hasattr(os,'chflags'),'actual Mac file flags required')

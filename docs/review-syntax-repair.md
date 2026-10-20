@@ -134,3 +134,20 @@ keeps all captured material constant during pure copying/rendering, and runs
 current original-Context, preview, PRL and publication fences. Fresh Native
 export and all acceptance criteria remain. This is an unqualified proposal
 until implementation, hostile controls and a new installed trial complete.
+
+
+[Implemented review/choice lifecycle](../evidence/review-single-full-repair-001.json)
+now performs one complete central read before copying/rendering or intent
+construction. Checker identity is captured before and checked after it, not
+adopted after a late callback. Constant byte and in-memory input records, the
+original Context owner/seal, and full current preview/PRL/publication guards
+bind the same checked candidate through pure writes. There is no saved parent
+or private-child acceptance cache. Ordinary full-read schedules and fresh
+Native export remain.
+
+160 existing and24 focused controls pass. The first existing run aborted at its
+log bound because an uppercase XML-module import was mistaken for a policy
+constant; renaming the alias preserves XML behavior and strict policy intake.
+Exact owner checks now also reject equal-valued bool/int and int/float changes
+in both Context owner maps. Full205 and a fresh055 installed delivery are
+still required; software controls and source review establish no routing gain.

@@ -1,0 +1,1578 @@
+..........................................EEFEEEEEEEEEEE.EEEEEEEFEEEEEEEEEEEEEE..........................EEEEEEEEEEEEEEEEFEEEEEEEEEEEEEEEEE...EEFEEFFFEE.EEEEEE.EEEEEEEE..F...FFEFFFFFFFFFF...FFFFF..F.E...E....
+======================================================================
+ERROR: test_native_final_tool_callback_cannot_hide_report_or_aliasproof_bytes (tests.test_validation_readback.NativeReadbackSession.test_native_final_tool_callback_cannot_hide_report_or_aliasproof_bytes) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/.cache/result-tests/tmplq6h34zx/run/final-drc.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 267, in test_native_final_tool_callback_cannot_hide_report_or_aliasproof_bytes
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_final_tool_callback_cannot_hide_report_or_aliasproof_bytes (tests.test_validation_readback.NativeReadbackSession.test_native_final_tool_callback_cannot_hide_report_or_aliasproof_bytes) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/.cache/result-tests/tmplq6h34zx/run/task.alias-export.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 267, in test_native_final_tool_callback_cannot_hide_report_or_aliasproof_bytes
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck) (module='autorouter.routing_scope')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 231, in test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck) (module='autorouter.native_edge')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 231, in test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck) (module='autorouter.padless_alias_native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 231, in test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck) (module='autorouter.thermal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 231, in test_native_live_scope_edge_alias_and_thermal_helpers_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_prl_flags_cannot_reuse (tests.test_validation_readback.NativeReadbackSession.test_native_prl_flags_cannot_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 251, in test_native_prl_flags_cannot_reuse
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_prl_link_metadata_cannot_reuse (tests.test_validation_readback.NativeReadbackSession.test_native_prl_link_metadata_cannot_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 239, in test_native_prl_link_metadata_cannot_reuse
+    p.check_result(self.receipt);link=self.root/'prl-hardlink'
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_source_report_aliasproof_and_missing_proof_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_source_report_aliasproof_and_missing_proof_force_recheck) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/.cache/result-tests/tmpj00ojjz_/source/test.kicad_pcb'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 210, in test_native_source_report_aliasproof_and_missing_proof_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_source_report_aliasproof_and_missing_proof_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_source_report_aliasproof_and_missing_proof_force_recheck) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/.cache/result-tests/tmpj00ojjz_/source/test.kicad_pro'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 210, in test_native_source_report_aliasproof_and_missing_proof_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_source_report_aliasproof_and_missing_proof_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_source_report_aliasproof_and_missing_proof_force_recheck) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/.cache/result-tests/tmpj00ojjz_/run/final-drc.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 210, in test_native_source_report_aliasproof_and_missing_proof_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_source_report_aliasproof_and_missing_proof_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_source_report_aliasproof_and_missing_proof_force_recheck) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/.cache/result-tests/tmpj00ojjz_/run/task.alias-export.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 210, in test_native_source_report_aliasproof_and_missing_proof_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_source_report_aliasproof_and_missing_proof_force_recheck (tests.test_validation_readback.NativeReadbackSession.test_native_source_report_aliasproof_and_missing_proof_force_recheck)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 219, in test_native_source_report_aliasproof_and_missing_proof_force_recheck
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_normal_native_full_first_check_then_copied_reuse (tests.test_validation_readback.NativeReadbackSession.test_normal_native_full_first_check_then_copied_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 199, in test_normal_native_full_first_check_then_copied_reuse
+    first=p.check_result(self.receipt);first['current']=False
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_actual_tool_path_change_fails_closed (tests.test_validation_readback.ReadbackSession.test_actual_tool_path_change_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 155, in test_actual_tool_path_change_fails_closed
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_callable_replacement_forces_full_check (tests.test_validation_readback.ReadbackSession.test_callable_replacement_forces_full_check)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 79, in test_callable_replacement_forces_full_check
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_eight_entry_bound_and_mixed_unsupported_uncached (tests.test_validation_readback.ReadbackSession.test_eight_entry_bound_and_mixed_unsupported_uncached)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 176, in test_eight_entry_bound_and_mixed_unsupported_uncached
+    p.check_result(target/'result.json')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_empty_directory_is_bound_and_requires_new_full_check (tests.test_validation_readback.ReadbackSession.test_empty_directory_is_bound_and_requires_new_full_check)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 37, in test_empty_directory_is_bound_and_requires_new_full_check
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_full_check_once_copied_value_and_context_exit (tests.test_validation_readback.ReadbackSession.test_full_check_once_copied_value_and_context_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 18, in test_full_check_once_copied_value_and_context_exit
+    first=p.check_result(self.receipt);first['current']=False
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_in_memory_critical_policy_change_invalidates_hit (tests.test_validation_readback.ReadbackSession.test_in_memory_critical_policy_change_invalidates_hit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 136, in test_in_memory_critical_policy_change_invalidates_hit
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_late_hit_mutation_rejects_and_clears (tests.test_validation_readback.ReadbackSession.test_late_hit_mutation_rejects_and_clears)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 72, in test_late_hit_mutation_rejects_and_clears
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 70, in changed
+    return real(*args)
+           ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_late_tool_callback_prl_flag_change_rejects_cached_witness (tests.test_validation_readback.ReadbackSession.test_late_tool_callback_prl_flag_change_rejects_cached_witness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 129, in test_late_tool_callback_prl_flag_change_rejects_cached_witness
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_legacy_zone_helper_replacement_invalidates_reuse (tests.test_validation_readback.ReadbackSession.test_legacy_zone_helper_replacement_invalidates_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 86, in test_legacy_zone_helper_replacement_invalidates_reuse
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_lock_and_live_implementation_identity_force_miss (tests.test_validation_readback.ReadbackSession.test_lock_and_live_implementation_identity_force_miss)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 162, in test_lock_and_live_implementation_identity_force_miss
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_floor_validator_and_bounds_invalidate_reuse (tests.test_validation_readback.ReadbackSession.test_native_floor_validator_and_bounds_invalidate_reuse) (name='validate_floors')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 96, in test_native_floor_validator_and_bounds_invalidate_reuse
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_native_floor_validator_and_bounds_invalidate_reuse (tests.test_validation_readback.ReadbackSession.test_native_floor_validator_and_bounds_invalidate_reuse) (name='MAX_NATIVE_INTEGER')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 96, in test_native_floor_validator_and_bounds_invalidate_reuse
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_nested_handled_failure_and_cancellation_clear (tests.test_validation_readback.ReadbackSession.test_nested_handled_failure_and_cancellation_clear)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 146, in test_nested_handled_failure_and_cancellation_clear
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_original_rules_reports_receipt_and_retained_code_mutations_reject (tests.test_validation_readback.ReadbackSession.test_original_rules_reports_receipt_and_retained_code_mutations_reject) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpnho4g8c1/source/fixture.kicad_pcb'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 28, in test_original_rules_reports_receipt_and_retained_code_mutations_reject
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_original_rules_reports_receipt_and_retained_code_mutations_reject (tests.test_validation_readback.ReadbackSession.test_original_rules_reports_receipt_and_retained_code_mutations_reject) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpnho4g8c1/source/fixture.kicad_pro'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 28, in test_original_rules_reports_receipt_and_retained_code_mutations_reject
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_original_rules_reports_receipt_and_retained_code_mutations_reject (tests.test_validation_readback.ReadbackSession.test_original_rules_reports_receipt_and_retained_code_mutations_reject) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpnho4g8c1/run/final-drc.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 28, in test_original_rules_reports_receipt_and_retained_code_mutations_reject
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_original_rules_reports_receipt_and_retained_code_mutations_reject (tests.test_validation_readback.ReadbackSession.test_original_rules_reports_receipt_and_retained_code_mutations_reject) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpnho4g8c1/run/result.json'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 28, in test_original_rules_reports_receipt_and_retained_code_mutations_reject
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_original_rules_reports_receipt_and_retained_code_mutations_reject (tests.test_validation_readback.ReadbackSession.test_original_rules_reports_receipt_and_retained_code_mutations_reject) (path=PosixPath('/Users/faisal/Projects/KiCad-Autorouter-local/tests/tmpnho4g8c1/run/code/placement_strategy.py'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 28, in test_original_rules_reports_receipt_and_retained_code_mutations_reject
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_prl_metadata_and_core_helper_changes_invalidate_reuse (tests.test_validation_readback.ReadbackSession.test_prl_metadata_and_core_helper_changes_invalidate_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 105, in test_prl_metadata_and_core_helper_changes_invalidate_reuse
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_symlink_alias_and_special_file_reject (tests.test_validation_readback.ReadbackSession.test_symlink_alias_and_special_file_reject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_validation_readback.py", line 48, in test_symlink_alias_and_special_file_reject
+    p.check_result(self.receipt)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2709, in check_result
+    return _check_result_scoped(path,native_toolchain=native_toolchain,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2760, in _check_result_scoped
+    before=_readback_witness(target,data,state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2692, in _readback_witness
+    live=_readback_live_identity(state['modules'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_bound_eight_original_contexts_and_operation_exit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_bound_eight_original_contexts_and_operation_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 211, in test_bound_eight_original_contexts_and_operation_exit
+    contexts.append(s.native7_incumbent_context(folder, value))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_coherently_rebound_definition_does_not_renew_warmed_context (tests.test_native7_context_reuse.Native7ContextReuseControls.test_coherently_rebound_definition_does_not_renew_warmed_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 88, in test_coherently_rebound_definition_does_not_renew_warmed_context
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_construction_once_in_operation_nested_sharing_and_no_outside_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_construction_once_in_operation_nested_sharing_and_no_outside_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 44, in test_construction_once_in_operation_nested_sharing_and_no_outside_reuse
+    cached = s.native7_incumbent_context(self.parent, data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='source', value='/Users/faisal/Projects/KiCad-Autorouter-local/.cache/tmp5qlpow3b/source/foreign.kicad_pcb')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='source_hashes', value={'owned.kicad_pcb': '0000000000000000000000000000000000000000000000000000000000000000', 'owned.kicad_pro': '44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a', 'owned.kicad_sch': '2fdfdfa9ee31e16ddfb37688ce30330664e27553f98cc0b31aefb8166a2523c2'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='tools', value={'kicad': '10.0.7', 'native_improve_child_policy': 'selected-native7-single-improve-child-v1', 'source_provenance': {'kind': 'runtime-directory-v1', 'native_version': '10.0.7', 'manifest_sha256': '1111111111111111111111111111111111111111111111111111111111111111'}, 'implementation_sha256': {'autorouter/pipeline.py': '8816e9e111fc929218e2eca568f126174142896d5a47989a4c626d7d61decc49', 'autorouter/strategy.py': '35724350fbeae58cea4c2326397b63cd010f2f52c33f5e70e79b3cff033651d7', 'autorouter/_improve_context.py': 'b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4'}, 'files': {'changed': '0000000000000000000000000000000000000000000000000000000000000000'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='budget_seconds', value=90.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='cpu_budget_seconds', value=90.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='incumbent_assigned_seconds', value=63.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='incumbent_allocation', value={'elapsed_wall_seconds': 1.0, 'elapsed_cpu_seconds': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit) (field='cpu_budget_seconds', value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 68, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_exact_and_canonical_constructor_request_changes_cannot_hit (tests.test_native7_context_reuse.Native7ContextReuseControls.test_exact_and_canonical_constructor_request_changes_cannot_hit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 77, in test_exact_and_canonical_constructor_request_changes_cannot_hit
+    cached = s.native7_incumbent_context(self.parent, data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_forged_marker_and_missing_constructor_intake_fail_closed (tests.test_native7_context_reuse.Native7ContextReuseControls.test_forged_marker_and_missing_constructor_intake_fail_closed) (missing=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 258, in test_forged_marker_and_missing_constructor_intake_fail_closed
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_forged_marker_and_missing_constructor_intake_fail_closed (tests.test_native7_context_reuse.Native7ContextReuseControls.test_forged_marker_and_missing_constructor_intake_fail_closed) (missing='source_hashes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 258, in test_forged_marker_and_missing_constructor_intake_fail_closed
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_forged_marker_and_missing_constructor_intake_fail_closed (tests.test_native7_context_reuse.Native7ContextReuseControls.test_forged_marker_and_missing_constructor_intake_fail_closed) (missing='cpu_budget_seconds')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 258, in test_forged_marker_and_missing_constructor_intake_fail_closed
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_forged_marker_and_missing_constructor_intake_fail_closed (tests.test_native7_context_reuse.Native7ContextReuseControls.test_forged_marker_and_missing_constructor_intake_fail_closed) (missing='incumbent_assigned_seconds')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 258, in test_forged_marker_and_missing_constructor_intake_fail_closed
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_late_tool_callback_parent_replacement_is_not_rebased (tests.test_native7_context_reuse.Native7ContextReuseControls.test_late_tool_callback_parent_replacement_is_not_rebased)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 167, in test_late_tool_callback_parent_replacement_is_not_rebased
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_live_class_method_and_module_policy_changes_cannot_reuse_construction (tests.test_native7_context_reuse.Native7ContextReuseControls.test_live_class_method_and_module_policy_changes_cannot_reuse_construction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 147, in test_live_class_method_and_module_policy_changes_cannot_reuse_construction
+    first = s.native7_incumbent_context(self.parent, data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='source')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='preferences')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='code')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='sidecar')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='rebound_sidecar')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='tools')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='owner')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='parent_replaced')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='source_hardlink')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_material_owner_sidecar_and_shape_faults_clear_all_reuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_material_owner_sidecar_and_shape_faults_clear_all_reuse) (kind='parent_shape')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 110, in test_material_owner_sidecar_and_shape_faults_clear_all_reuse
+    s.native7_incumbent_context(self.parent, data)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_nested_handled_errors_and_cancellation_clear_both_maps (tests.test_native7_context_reuse.Native7ContextReuseControls.test_nested_handled_errors_and_cancellation_clear_both_maps)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 223, in test_nested_handled_errors_and_cancellation_clear_both_maps
+    previous = s.native7_incumbent_context(self.parent, data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_no_budget_or_private_child_result_reuse_and_failure_clears (tests.test_native7_context_reuse.Native7ContextReuseControls.test_no_budget_or_private_child_result_reuse_and_failure_clears)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 239, in test_no_budget_or_private_child_result_reuse_and_failure_clears
+    context = s.native7_incumbent_context(self.parent, data)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_same_byte_code_hardlink_and_exact_owner_types_still_refuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_same_byte_code_hardlink_and_exact_owner_types_still_refuse) (kind='code_link')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 123, in test_same_byte_code_hardlink_and_exact_owner_types_still_refuse
+    cached = s.native7_incumbent_context(self.parent, data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_same_byte_code_hardlink_and_exact_owner_types_still_refuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_same_byte_code_hardlink_and_exact_owner_types_still_refuse) (kind='owner_bool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 123, in test_same_byte_code_hardlink_and_exact_owner_types_still_refuse
+    cached = s.native7_incumbent_context(self.parent, data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_same_byte_code_hardlink_and_exact_owner_types_still_refuse (tests.test_native7_context_reuse.Native7ContextReuseControls.test_same_byte_code_hardlink_and_exact_owner_types_still_refuse) (kind='owner_float')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_context_reuse.py", line 123, in test_same_byte_code_hardlink_and_exact_owner_types_still_refuse
+    cached = s.native7_incumbent_context(self.parent, data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    identity=_native7_context_identity(state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_actual_self_sigterm_after_choice_restores_handlers_and_invalidates (tests.test_handoff_search_choice.Controls.test_actual_self_sigterm_after_choice_restores_handlers_and_invalidates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 110, in test_actual_self_sigterm_after_choice_restores_handlers_and_invalidates
+    self.review();prior={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)};save=h.save_json;sent=False
+    ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 29, in review
+    def review(self):return h.review_copy(self.receipt,self.root/'review')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 456, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 350, in _review_copy
+    validation_identity=_review_validation_identity()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 144, in _review_validation_identity
+    return _native7_context_identity(state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_bound_preview_tampering_is_rejected_before_choice (tests.test_handoff_search_choice.Controls.test_bound_preview_tampering_is_rejected_before_choice)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 118, in test_bound_preview_tampering_is_rejected_before_choice
+    self.review();folder=self.root/'review';shutil.copytree(self.source,folder/'before');html=folder/'preview.html';html.write_text('<html>pure boundary fixture</html>')
+    ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 29, in review
+    def review(self):return h.review_copy(self.receipt,self.root/'review')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 456, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 350, in _review_copy
+    validation_identity=_review_validation_identity()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 144, in _review_validation_identity
+    return _native7_context_identity(state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_changed_review_board_blocks_accept_but_reject_is_persistent (tests.test_handoff_search_choice.Controls.test_changed_review_board_blocks_accept_but_reject_is_persistent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 56, in test_changed_review_board_blocks_accept_but_reject_is_persistent
+    self.review();(self.root/'review/project/board.kicad_pcb').write_text('(edited)')
+    ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 29, in review
+    def review(self):return h.review_copy(self.receipt,self.root/'review')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 456, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 350, in _review_copy
+    validation_identity=_review_validation_identity()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 144, in _review_validation_identity
+    return _native7_context_identity(state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_choice_never_inherits_native_approval_or_application (tests.test_handoff_search_choice.Controls.test_choice_never_inherits_native_approval_or_application)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 49, in test_choice_never_inherits_native_approval_or_application
+    self.review();result=self.choose();self.assertTrue(result['choice_recorded']);self.assertEqual(result['choice'],'accept')
+    ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 29, in review
+    def review(self):return h.review_copy(self.receipt,self.root/'review')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 456, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 350, in _review_copy
+    validation_identity=_review_validation_identity()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 144, in _review_validation_identity
+    return _native7_context_identity(state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_escaped_review_project_or_symlink_never_inspected (tests.test_handoff_search_choice.Controls.test_escaped_review_project_or_symlink_never_inspected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 92, in test_escaped_review_project_or_symlink_never_inspected
+    self.review();path=self.root/'review/review.json';record=json.loads(path.read_text());record['project']=str(self.source);path.write_text(json.dumps(record))
+    ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 29, in review
+    def review(self):return h.review_copy(self.receipt,self.root/'review')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 456, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 350, in _review_copy
+    validation_identity=_review_validation_identity()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 144, in _review_validation_identity
+    return _native7_context_identity(state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_existing_or_protected_choice_destination_keeps_all_files (tests.test_handoff_search_choice.Controls.test_existing_or_protected_choice_destination_keeps_all_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 127, in test_existing_or_protected_choice_destination_keeps_all_files
+    self.review();target=self.root/'choice';target.mkdir();(target/'keep').write_text('untouched')
+    ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 29, in review
+    def review(self):return h.review_copy(self.receipt,self.root/'review')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 456, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 350, in _review_copy
+    validation_identity=_review_validation_identity()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 144, in _review_validation_identity
+    return _native7_context_identity(state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 852, in _native7_context_identity
+    return p._readback_live_identity((*state['modules'],methods))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2676, in _readback_live_identity
+    elif name.strip('_').isupper():rows.append((module.__name__,name,value(item)))
+                                                                     ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 2669, in value
+    raise Rejected('unsupported mutable readback policy identity')
+autorouter.pipeline.Rejected: unsupported mutable readback policy identity
+
+======================================================================
+ERROR: test_final_budget_crossing_invalidates_record (tests.test_handoff_search_choice.Controls.test_final_budget_crossing_invalidates_record)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 132, in test_final_budget_crossing_invalidates_record
+    self.review();now=[0.0];save=h.save_json
+    ^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_handoff_search_choice.py", line 29, in review
+    def review(self):return h.review_copy(self.receipt,self.root/'review')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 456, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^

@@ -5,7 +5,7 @@ import hashlib
 import json
 import re
 import shutil
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as element_tree
 from . import config as c, floor_route as f, pipeline as p, placement_clearance as pc, sexpr as sx
 from . import local_settings as ls
 
@@ -30,7 +30,7 @@ def svg_bytes(path):
     raw = pc.read_bytes(path, 8 * 1024 * 1024)
     # Native plots are displayed as images, not inserted into the HTML DOM.
     # Reject active content or linked resources even if a plot is replaced.
-    root = ET.fromstring(display_svg(raw))
+    root = element_tree.fromstring(display_svg(raw))
     if root.tag != '{http://www.w3.org/2000/svg}svg':
         raise p.Rejected('native plot is not SVG')
     for node in root.iter():

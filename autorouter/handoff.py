@@ -137,6 +137,37 @@ def delivery_guards(receipt, report, native_toolchain, preview=None, destination
     local.check_final_events(packets, c.CLI if comparison else native_toolchain.cli, pairs=pairs)
 
 
+def _review_validation_identity():
+    from .strategy import _native7_context_identity
+    state=p._readback_session.get()
+    if state is None:raise Rejected('review validation operation required')
+    return _native7_context_identity(state)
+
+
+def _review_validation_guard(directory,report,identity):
+    """Keep the original fully checked Context through pure delivery writes.
+
+    This does not validate a parent or authorize a worker. The caller already
+    owes its complete central read, constant byte material and late full
+    delivery/preview/PRL guards. No accepted result is stored or returned here.
+    """
+    from . import _improve_context as child, strategy
+    context=strategy.native7_incumbent_context(directory,report)
+    if type(context) is not child._Context:raise Rejected('checked review parent Context required')
+    owner=dict(context._owner);seal=context._seal
+    def check():
+        if (context._seal!=seal or f.canonical(context.record())!=seal
+                or context.parent_owner!=owner or context._owner!=owner):
+            raise Rejected('original review parent Context changed')
+        child._check_parent_owner(owner,Path(directory))
+        child._check_parent_owner(context.parent_owner,Path(directory))
+        child._check_parent_owner(context._owner,Path(directory))
+        if _review_validation_identity()!=identity:
+            raise Rejected('review validation policy changed during delivery')
+    check()
+    return check
+
+
 def review_policy(report, directory, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Same explicit policy dispatch as the central checker; no inferred downgrade."""
     cmp.delivery_record(comparison_context,native_toolchain,experimental_schematic_parity)
@@ -205,6 +236,7 @@ def failed_session(lifecycle, exc):
 def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     destination = None; created = False; before_created = False; preview = None
+    validation_guard=None
     record = {'schema': 1, 'status': 'rejected', 'native_validation_performed': False,
               'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS,
               'accounting_point': 'Stored totals precede final publication checks; final wall and parent-plus-waited-child CPU caps include them. These are observed acceptance ceilings, not OS quotas.'}
@@ -239,6 +271,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
         cmp.delivery_path(receipt.parent,comparison_context,'route');cmp.delivery_path(Path(output).absolute(),comparison_context,'review')
         raw = pc.read_bytes(receipt, PROJECT_BYTES); receipt_digest = digest(raw)
         report = f.read_json(receipt)
+        report_canonical=f.canonical(report)
         if digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_digest:
             raise Rejected('receipt changed while reading review input')
         if not isinstance(report, dict):
@@ -273,6 +306,8 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
 
         def byte_material():
             cap()
+            if f.canonical(report)!=report_canonical:
+                raise Rejected('in-memory review routing receipt changed')
             if runtime_inventory() != runtime_hashes:
                 raise Rejected('review runtime source or toolchain lock changed')
             if digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_digest:
@@ -297,6 +332,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
                 for name, expected in preview['files'].items():
                     if digest(pc.read_bytes(destination / name, PROJECT_BYTES)) != expected:
                         raise Rejected('review preview changed after rendering')
+            if validation_guard is not None:validation_guard()
             cap()
 
         def material():
@@ -313,12 +349,18 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
             # No subprocess-bearing check follows this material sample.
             material()
 
+        validation_identity=_review_validation_identity()
         central_check()
         # Only a fully checked, source-derived selected7 parent uses the
         # narrower render callbacks below. A receipt marker grants no reuse.
         from .strategy import native7_parent
         native7_review = (native_toolchain is None and comparison_context is None
                           and native7_parent(receipt.parent, report) is not None)
+        if native7_review:
+            if _review_validation_identity()!=validation_identity:
+                raise Rejected('review validation policy changed during initial check')
+            validation_guard=_review_validation_guard(receipt.parent,report,validation_identity)
+        copy_material=byte_material if native7_review else material
         destination.mkdir(parents=True, exist_ok=False); created = True
         capture_destination(lifecycle,destination)
         project.mkdir()
@@ -327,7 +369,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
             with target.open('xb') as stream:
                 stream.write(payload)
         del captured
-        material()
+        copy_material()
         if render:
             before = destination / 'before'; before.mkdir()
             for relative, payload in original_capture.items():
@@ -335,7 +377,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
                 with target.open('xb') as stream:
                     stream.write(payload)
             before_created = True; del original_capture
-            material()
+            copy_material()
             from .review_view import render as render_view
             remaining = lambda: max(0, min(SECONDS - (time.monotonic() - start), SECONDS - (cpu_seconds() - cpu_start)))
             # Plot workers already preserve/check their own input and completed
@@ -355,21 +397,28 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
                       source_project_hashes=source_hashes, routing_evidence_hashes=evidence_hashes,
                       runtime_source_sha256=runtime_hashes,
                       limits='Disposable complete project files for manual review only; no fresh native check, applied result, GUI opening or live-editor approval. Saving/editing invalidates the original validation claim. Local bounded inventories are finite samples, not atomic authentication or protection against hostile concurrent writers, abrupt termination or power loss. Optional rendering checks the pinned plotter binary; this copy command does not rerun native validation or revalidate other installed native tools.')
-        central_check(); account(); cap()
+        # The selected7 parent was fully read before any copy or plot. Its
+        # captured bytes and original authority/policy stay constant; the full
+        # delivery guard above checks the current preview and metadata. Pure
+        # copies/record construction need no second child/trial replay.
+        if native7_review:
+            if render:byte_material()
+            else:material()
+        else:central_check()
+        account(); cap()
         expected = f.canonical(record)
         save_json(destination / 'review.json', record)
         if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
             raise Rejected('ready review metadata changed during publication')
         if native7_review:
-            # Only this separate review.json was written since the full central
-            # read above. Recheck all bytes and live Native/tool/plot/PRL guards;
-            # no third replay of unchanged child/selection semantics is needed.
+            # After the checked pure copy/render, only this separate JSON was
+            # written. Recheck current bytes, authority, Native/plot/PRL guards.
             material()
         else:
             central_check()
         if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
             raise Rejected('ready review metadata changed after validation')
-        material()
+        if not native7_review:material()
         if f.canonical(record) != expected or f.canonical(f.read_json(destination / 'review.json')) != expected:
             raise Rejected('ready review metadata changed during final material check')
         cap(); return record
@@ -424,6 +473,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
     """Record a design choice; it never approves/applies a PCB or invokes KiCad."""
     ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     destination = None; created = False
+    validation_guard=None
     record = {'schema': 1, 'status': 'rejected', 'choice_recorded': False,
               'routing_accepted': False, 'applied': False,
               'native_validation_performed': False, 'human_pcb_approval_observed': False,
@@ -460,7 +510,8 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         receipt = real_path(review['receipt']); receipt_hash = digest(pc.read_bytes(receipt, PROJECT_BYTES))
         if receipt_hash != review['receipt_sha256']:
             raise Rejected('reviewed routing receipt changed')
-        report = f.read_json(receipt); policy = review_policy(report, receipt.parent, **ctx)
+        report = f.read_json(receipt); report_canonical=f.canonical(report)
+        review_canonical=f.canonical(review);policy = review_policy(report, receipt.parent, **ctx)
         source = real_path(report['source']); candidate = real_path(report['candidate'])
         project = real_path(review['project'])
         if (candidate != receipt.parent / 'candidate' / source.name
@@ -502,6 +553,8 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         identity = {'candidate': str(candidate), 'candidate_sha256': report['candidate_sha256'], 'input_policy': policy}
         def byte_material():
             cap()
+            if f.canonical(report)!=report_canonical or f.canonical(review)!=review_canonical:
+                raise Rejected('in-memory review choice input changed')
             if (digest(pc.read_bytes(review_path, PROJECT_BYTES)) != review_hash
                     or digest(pc.read_bytes(receipt, PROJECT_BYTES)) != receipt_hash
                     or runtime_inventory() != runtime):
@@ -509,7 +562,9 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
             if (inventory(source.parent) != source_hashes or inventory(receipt.parent, evidence=True) != evidence_hashes
                     or inventory(candidate.parent) != candidate_hashes or inventory(project) != project_hashes):
                 raise Rejected('review choice material changed')
-            preview_material(); cap()
+            preview_material()
+            if validation_guard is not None:validation_guard()
+            cap()
         def material():
             byte_material()
             delivery_guards(receipt, report, native_toolchain, preview, review_path.parent, material=byte_material, comparison_context=comparison_context)
@@ -524,10 +579,15 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         for protected in (source.parent, receipt.parent, review_path.parent):
             if destination == protected or protected in destination.parents:
                 raise Rejected('choice output must be outside source, routing evidence and review')
+        validation_identity=_review_validation_identity()
         central_check()
         from .strategy import native7_parent
         native7_choice = (native_toolchain is None and comparison_context is None
                           and native7_parent(receipt.parent, report) is not None)
+        if native7_choice:
+            if _review_validation_identity()!=validation_identity:
+                raise Rejected('review validation policy changed during initial check')
+            validation_guard=_review_validation_guard(receipt.parent,report,validation_identity)
         destination.mkdir(parents=True, exist_ok=False); created = True
         capture_destination(lifecycle,destination)
         names = set(candidate_hashes) | set(project_hashes)
@@ -547,13 +607,14 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
             next_action=('Freshly validate the bound original candidate against its unchanged original complete project before exporting any separate accepted project. Edited GUI rules/metadata are not authoritative.'
                          if choice == 'accept' else 'Keep the original project. The review copy and evidence remain available; this command deletes nothing.'),
             accounting_point='Stored totals precede final publication. Whole wall/parent-plus-waited-child CPU caps and all material checks include final readback; observed ceilings, not OS quotas.')
-        central_check(); account(); cap(); expected = f.canonical(record)
+        (byte_material if native7_choice else central_check)()
+        account(); cap(); expected = f.canonical(record)
         save_json(destination / 'choice.json', record)
         if f.canonical(f.read_json(destination / 'choice.json')) != expected or f.canonical(record) != expected:
             raise Rejected('review choice changed during publication')
         if native7_choice:
-            # The second complete central read precedes only this separate
-            # output write. Keep the full live material/Native/plot/PRL fence.
+            # Only pure disposition construction and this separate write
+            # follow the full central read. Keep current authority/preview/PRL.
             material()
         else:
             central_check()
