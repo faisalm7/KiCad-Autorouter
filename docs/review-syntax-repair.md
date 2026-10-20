@@ -117,3 +117,20 @@ marker. Exact shape admission now precedes reuse intake, preserving its typed
 refusal;138 existing targeted tests pass. New hostile controls and
 [evidence](../evidence/native7-context-reconstruction-repair-001.json) are source
 qualification only. Full204 and one fresh054 installed delivery are required.
+
+
+Full204 passed with2,553 tests/one skip. Fresh054 still failed review after
+all four plots:30.02wall/29.32CPU; complete158.04wall/142.57CPU, no delivery.
+[Failure and additional profile](../evidence/runtime054-review-regression-001.json)
+remain separate from earlier runs. The rejected instrumented profile spent
+18.22cumulative seconds in one full parent/two private-child reads, including
+9.19trial selection; repeated final guards took9.13overlapping seconds. These
+samples cannot be summed or presented as normal user-visible timing.
+
+Parent-result caching is deferred: final guards do not independently replay
+full child/trial validation. The bounded next change keeps one full review
+check before any copying, checks live reader identity before and after it,
+keeps all captured material constant during pure copying/rendering, and runs
+current original-Context, preview, PRL and publication fences. Fresh Native
+export and all acceptance criteria remain. This is an unqualified proposal
+until implementation, hostile controls and a new installed trial complete.
