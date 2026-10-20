@@ -1,0 +1,127 @@
+{
+  "Native_executed": false,
+  "accepted": false,
+  "actual": {
+    "Native_counts": [
+      0,
+      0,
+      42,
+      0
+    ],
+    "attempt_qualified": false,
+    "child_path": ".runs/runtime050 fresh install 001/.runs/native7-method-runtime050-default-improve-development-001-ir-obstacle-Cimprove/result.json",
+    "child_sha256": "1e0d383f2b9d0d59a1587b84ce46fd51be084bce7dcced3022cc21a195bcf6d6",
+    "choice_exists": false,
+    "error": "Rejected: review copy exceeded 30-second wall or full CPU ceiling",
+    "export_exists": false,
+    "flattened_parent_steps": 121,
+    "four_plots_completed": true,
+    "frozen_routing_evidence_directories": 554,
+    "frozen_routing_evidence_files": 1154,
+    "ignored_checks": 7,
+    "method_outcome": "unqualified_failure",
+    "metrics": {
+      "copper_layers": 2,
+      "footprints": 12,
+      "pads": 30,
+      "track_length_mm": 138.26658297626523,
+      "version": "10.0.7",
+      "vias": 2,
+      "zones": 1
+    },
+    "nested_plot_CPU_seconds": 1.4152429999999998,
+    "nested_plot_wall_seconds": 1.7352067091269419,
+    "review_CLI_exit": 2,
+    "review_CLI_wall_seconds": 41.9442471669754,
+    "review_log": ".runs/runtime050 fresh install 001/.runs/native7-method-runtime050-default-improve-development-001-ir-obstacle-Cimprove/review.log",
+    "review_log_sha256": "59dee82a87752562e2670403240ddcd90f80d93d34392addcf8c0c063dcb2111",
+    "review_path": ".runs/runtime050 fresh install 001/.runs/native7-method-runtime050-default-improve-development-001-ir-obstacle-Cimprove/autorouter-gui-7b33ba775fec4b448c60cfa2477e19c9/review/review.json",
+    "review_record_full_CPU_seconds": 40.881463,
+    "review_record_wall_seconds": 41.824251999962144,
+    "review_sha256": "da52e39e92adaef5394a9dc078dd0ee02701604afc3e19c6e585ff0330e05ddd",
+    "review_status": "rejected",
+    "route_accepted": true,
+    "route_path": ".runs/runtime050 fresh install 001/.runs/native7-method-runtime050-default-improve-development-001-ir-obstacle-Cimprove/autorouter-gui-7b33ba775fec4b448c60cfa2477e19c9/route/result.json",
+    "route_sha256": "1dfab5db2735682d96917e39953f03c8aef36463adada62543a3ca7e3cc1c4a6",
+    "route_status": "routing_accepted",
+    "trial_count": 18,
+    "trial_statuses": {
+      "drc_rejected": 4,
+      "improvement_validated": 12,
+      "quality_rejected": 2
+    },
+    "within_budget": false
+  },
+  "causality": [
+    {
+      "finding": "The30second wall/fullCPU cap belongs to review copy. Two central_check calls bracket copy/render; selected7 already skips a third semantic replay after review.json. Wrapper enters validation_readback_session. Cap is checked after long nested calls return, explaining bounded-observation overshoot rather than a false pass.",
+      "lines": "205-216,307-315,359-375,393-410",
+      "path": "autorouter/handoff.py"
+    },
+    {
+      "finding": "Native7 parent markers and strategy explicitly bypass operation-scoped reuse; private incumbent Context likewise always uncached. Both handoff central checks therefore repeat the complete own final, exact incumbent,18-trial selection/reconstruction and final metadata logic.",
+      "lines": "2684-2728,3179-3187",
+      "path": "autorouter/pipeline.py"
+    },
+    {
+      "finding": "Every material phase re-enters strategy.check_native7_final; byte_material hashes the whole routing witness and is called both before delivery_guards and as its callback. This repeats the1154file/554directory census along with source/runtime/copied-project/preview material reads.",
+      "lines": "107-122,274-304",
+      "path": "autorouter/handoff.py"
+    },
+    {
+      "finding": "check_native7_final independently reconstructs caller-bound parent/context, child definition and Default basis, repeats normal parent/incumbent policy censuses, then shared final PRL replay. Several helpers re-enter native7_parent within one phase; source/tool/context work scales with retained history.",
+      "lines": "785-883,913-939",
+      "path": "autorouter/strategy.py"
+    },
+    {
+      "finding": "Normal policy inventories full retained roots, reparses worker metadata and checks every DRC. Final collector walks flattened parent steps plus incumbent/trial packets, so the same nested Native stages are encountered from parent and child records. process_check searches the supplied steps repeatedly; this is a secondary avoidable scaling hypothesis, not measured dominant time.",
+      "lines": "237-337,340-365",
+      "path": "autorouter/local_settings.py"
+    },
+    {
+      "finding": "Native7 rendering already uses byte_material rather than full ancestry replay between plots. All four actual plot workers completed; their1.735wall/1.415CPU nested samples cannot explain41.824wall/40.881CPU review cost. Keep these plot/input/output guards.",
+      "lines": "181-223,253-270",
+      "path": "autorouter/review_view.py"
+    }
+  ],
+  "central_readers_executed": false,
+  "costs": {
+    "note": "Unmetered read-only diagnosis additional, not zero; no new benchmark/helper run.",
+    "review_authoring_CPU_seconds": null,
+    "review_authoring_wall_seconds": null
+  },
+  "human_review": false,
+  "inference_limits": "No cProfile or fresh readback run here. Stored review metadata proves render completed and final-ready fields were assembled before refusal; the exact failing material/central callback and its time are not recorded. Lead profile must decide the first hot path. Plot samples overlap review/CLI and must not be added to them.",
+  "kind": "runtime050-Improve-review-cap-source-diagnosis-v1",
+  "recorded_utc": "2026-10-20T10:45:38.979604+00:00",
+  "runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001",
+  "runtime_manifest_sha256": "8fdf819606e2345b932139f1c16c330825fd8634caef1b611b5e105b97be22a4",
+  "schema": 1,
+  "smallest_proposed_remedy": {
+    "constraints": [
+      "A marker alone must never admit reuse. First execute the full ordinary Native7 parent checker; cache only its successful result in this live operation. Preserve source-derived parent policy and exact child Context reconstruction on reuse; no serialized execution Budget.",
+      "Before/after each reuse independently hash complete parent/incumbent/all-trial evidence and source trees, directory census, runtime/tools/captured code and live callable/default/constant identity; verify captured owned directory identity and all nested PRL metadata. Private child/comparison/experimental authorities remain separate and uncached.",
+      "Keep fresh Default/own Native/field-worker and shared all-root PRL/event fences after every last source/tool/material callback. No source/tool callback may follow the final PRL fence. No receipt/file-stat cache or persistent cache.",
+      "Pass one freshly computed bounded evidence witness through a single guard phase to avoid identical immediate whole-tree inventories only where callback ordering is proven; never substitute the initial baseline for a current read.",
+      "If collector duplication is profiled, deduplicate only exact canonical(root,stage) process/binding events after proving duplicate declarations agree, then replay all unique live PRL events last. Never first-wins, omit failed trials, or suppress field guards."
+    ],
+    "priority": "Reuse one successful Native7 parent semantic derivation inside the existing per-invocation validation_readback_session, if lead profile confirms repeated central replay dominates; do not raise30second ceiling.",
+    "qualification": [
+      "Constructed18/32trial controls must show reuse hits only on unchanged complete custody; changed child/trial/candidate/proposal/guide/report/journal/source/owner/inode/code or late tool-callback PRL flags refuse. Returned facts must be isolated from caller mutation.",
+      "Preserve comparison/private-child/negative no-cache boundaries, cancellation/corrective invalidation and measured fullCPU/wall caps. Test field-present and no-field roots plus plot-before/after material mutation.",
+      "After reviewed source/full/install, use fresh numbered qualification/review output and current Native/GUI delivery. Preserve this original failed review, all12arm results and failure classification; no retry stitched into the frozen cohort. No speed or completion claim until measured."
+    ]
+  },
+  "source_head": "aa0072c6b3d8090de2603e5ecb42a95968fb873b",
+  "source_only_AI_review": true,
+  "source_pins": {
+    "autorouter/handoff.py": "0ac5ad49ec7c0dcfbd89ca0890763aac1df4ea590d7412290f045c704c582f84",
+    "autorouter/local_settings.py": "6f4adae700d7532218aac8e9627360107dadd2f6fcb04f4ef6a7b76471185fde",
+    "autorouter/pipeline.py": "7f3d1c20f063f5aa6d55fddcb8896ecdc9c0de6f8a0f51d0faf49a3feebf542e",
+    "autorouter/review_view.py": "3d82f3328477ba0f578923ea754375382ef970c088f4263ce38bd828f107775e",
+    "autorouter/strategy.py": "4b9bd8faf60d1c2992b0704d812c35c1c476bea4f7058c8b2db1dd3dd7ac9421"
+  },
+  "tests_executed": false,
+  "unchanged": "Via_high patch remains unapplied/deferred. No cap/algorithm/constraint/sourceboard/protocol/runtime changes or Native reruns. This route is not a delivered CImprove result.",
+  "workflow_delivered": false
+}

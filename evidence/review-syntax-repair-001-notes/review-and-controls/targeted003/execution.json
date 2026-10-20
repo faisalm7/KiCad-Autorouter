@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 24.792807542020455,
+    "cpu_seconds": 23.768496,
+    "max_rss_bytes": 271876096,
+    "supervisor_cpu_seconds": 0.06519299999999999,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 271859712,
+    "sampled_peak_workdir_bytes": 204,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,os,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local/tests');os.chdir('/Users/faisal/Projects/KiCad-Autorouter-local');unittest.main(module=None)",
+      "tests.test_sexpr_memo",
+      "tests.test_validation_readback",
+      "tests.test_native7_improve_parent",
+      "tests.test_native7_improve_child_context",
+      "tests.test_native7_review_boundary",
+      "tests.test_native7_choice_boundary",
+      "tests.test_handoff",
+      "tests.test_inherited_trial_readback"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sexpr-memo-targeted-003/command.log",
+    "log_bytes": 204,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/sexpr-memo-targeted-003",
+    "signal_cancellation_enabled": true,
+    "pid": 43598
+  },
+  "wall_seconds": 24.794427207903937,
+  "full_cpu_seconds": 23.8344,
+  "source_sha256": {
+    "autorouter/sexpr.py": "c20f576fb36300deac8193efa3d524807a52d14a2a1a4306dedb62e267dfbfdc",
+    "autorouter/pipeline.py": "f55b9ed68abe93a2f67472e04cb17c108cfd5f6a4b5916e35273e454dd01f150",
+    "tests/test_sexpr_memo.py": "9883aea1a17e2e998c6847369940254d56d976ac89412bc65b5948394344def4",
+    "tests/test_validation_readback.py": "f357e3c008d249dbe6723834758e8f326ae6c40d436d9d7096f07cdd4c824094",
+    "tests/test_native7_improve_parent.py": "4d0fe9734803dc45970086fcdcf30ad6de6bbd6ba0eee3c9443f5f2d2d787a9c",
+    "tests/test_native7_improve_child_context.py": "49e6cad02c4d0500ac720b5c36dcedcea092979c6072747006800197b89aaa99",
+    "tests/test_native7_review_boundary.py": "a28d3981765dcf1c2f26c3bbd246edea8dd79941f0478cbd9a3b396955a2846e",
+    "tests/test_native7_choice_boundary.py": "7566f5aee681c41382d22d3785db2006baffb1b545f7f2dd25a0bb91b41fecef",
+    "tests/test_handoff.py": "64dcd8498441f3db3d4e0b30fd13f4e48d69c3e550ff358163956f5d051c004f",
+    "tests/test_inherited_trial_readback.py": "0b2a77936721b363c5b488c2ea9bed87401e4ae6d3acdb37ad59a12a8ebfea3f"
+  },
+  "controller_sha256": "6732db1c5e2b3dcba4a45c315771aa29becc6c8a37f745859689f4ded086188a",
+  "source_current": true,
+  "scope": "Targeted pure syntax and existing validation/private authority/delivery regression tests. No actual Native or routing quality claim."
+}

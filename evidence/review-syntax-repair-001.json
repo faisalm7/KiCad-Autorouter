@@ -1,0 +1,576 @@
+{
+  "schema": 1,
+  "kind": "review-syntax-repair-development-checkpoint-v1",
+  "recorded_utc": "2026-10-20T10:56:42.226480+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "old_product": "runtime050",
+  "frozen_comparison": "evidence/runtime050-default-improve-development-001.json",
+  "frozen_comparison_unchanged": true,
+  "profile": {
+    "schema": 1,
+    "kind": "instrumented-original050-review-profile-facts",
+    "total_calls": 167733977,
+    "primitive_calls": 154144800,
+    "instrumented_seconds": 38.731149262999985,
+    "largest_cumulative": [
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<built-in method builtins.exec>",
+        "primitive_calls": 1,
+        "calls": 104,
+        "self_seconds": 0.0015657470000000001,
+        "cumulative_seconds": 38.733060709
+      },
+      {
+        "file": "<frozen runpy>",
+        "line": 201,
+        "function": "run_module",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 8.333000000000001e-06,
+        "cumulative_seconds": 38.733024792
+      },
+      {
+        "file": "<frozen runpy>",
+        "line": 65,
+        "function": "_run_code",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 3.5840000000000003e-06,
+        "cumulative_seconds": 38.730143292
+      },
+      {
+        "file": "__main__.py",
+        "line": 1,
+        "function": "<module>",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 3.0747e-05,
+        "cumulative_seconds": 38.730120791000004
+      },
+      {
+        "file": "__main__.py",
+        "line": 109,
+        "function": "main",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 0.000293832,
+        "cumulative_seconds": 38.676800334
+      },
+      {
+        "file": "handoff.py",
+        "line": 393,
+        "function": "review_copy",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 3.4753000000000004e-05,
+        "cumulative_seconds": 38.648206542000004
+      },
+      {
+        "file": "handoff.py",
+        "line": 205,
+        "function": "_review_copy",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 5.937500000000001e-05,
+        "cumulative_seconds": 38.592178958000005
+      },
+      {
+        "file": "handoff.py",
+        "line": 306,
+        "function": "central_check",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 0.000147834,
+        "cumulative_seconds": 38.207327917
+      },
+      {
+        "file": "pipeline.py",
+        "line": 2684,
+        "function": "check_result",
+        "primitive_calls": 1,
+        "calls": 4,
+        "self_seconds": 0.0021761650000000003,
+        "cumulative_seconds": 34.704694166
+      },
+      {
+        "file": "pipeline.py",
+        "line": 2822,
+        "function": "_check_result_uncached",
+        "primitive_calls": 1,
+        "calls": 4,
+        "self_seconds": 0.006599862000000001,
+        "cumulative_seconds": 34.701336334000004
+      },
+      {
+        "file": "sexpr.py",
+        "line": 8,
+        "function": "parse",
+        "primitive_calls": 641,
+        "calls": 641,
+        "self_seconds": 12.765737555000001,
+        "cumulative_seconds": 17.196961206
+      },
+      {
+        "file": "strategy.py",
+        "line": 331,
+        "function": "check_single_selection",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 0.023042033,
+        "cumulative_seconds": 15.329957542
+      },
+      {
+        "file": "strategy.py",
+        "line": 950,
+        "function": "check_incumbent_scoring",
+        "primitive_calls": 3,
+        "calls": 3,
+        "self_seconds": 0.000151626,
+        "cumulative_seconds": 13.236195625
+      },
+      {
+        "file": "strategy.py",
+        "line": 845,
+        "function": "check_native7_incumbent",
+        "primitive_calls": 3,
+        "calls": 3,
+        "self_seconds": 3.6959e-05,
+        "cumulative_seconds": 13.226953792000002
+      },
+      {
+        "file": "strategy.py",
+        "line": 277,
+        "function": "_adaptive_trial_native",
+        "primitive_calls": 18,
+        "calls": 18,
+        "self_seconds": 0.008050506,
+        "cumulative_seconds": 12.613519292000001
+      },
+      {
+        "file": "pipeline.py",
+        "line": 629,
+        "function": "normal_import_contract",
+        "primitive_calls": 4,
+        "calls": 10,
+        "self_seconds": 0.008982388000000001,
+        "cumulative_seconds": 10.435664333
+      },
+      {
+        "file": "sexpr.py",
+        "line": 37,
+        "function": "read",
+        "primitive_calls": 210,
+        "calls": 210,
+        "self_seconds": 0.005050448,
+        "cumulative_seconds": 9.885079164
+      },
+      {
+        "file": "pipeline.py",
+        "line": 1599,
+        "function": "tool_manifest",
+        "primitive_calls": 55,
+        "calls": 55,
+        "self_seconds": 0.0016630640000000001,
+        "cumulative_seconds": 6.777959586000001
+      },
+      {
+        "file": "strategy.py",
+        "line": 785,
+        "function": "native7_parent",
+        "primitive_calls": 34,
+        "calls": 34,
+        "self_seconds": 0.007556617000000001,
+        "cumulative_seconds": 6.65554421
+      },
+      {
+        "file": "strategy.py",
+        "line": 913,
+        "function": "check_native7_final",
+        "primitive_calls": 2,
+        "calls": 2,
+        "self_seconds": 0.00044112400000000004,
+        "cumulative_seconds": 6.008539583
+      },
+      {
+        "file": "local_settings.py",
+        "line": 231,
+        "function": "check_normal_policy",
+        "primitive_calls": 15,
+        "calls": 15,
+        "self_seconds": 0.000501373,
+        "cumulative_seconds": 5.337222956000001
+      },
+      {
+        "file": "local_settings.py",
+        "line": 237,
+        "function": "_check_normal_policy",
+        "primitive_calls": 15,
+        "calls": 15,
+        "self_seconds": 0.007031224000000001,
+        "cumulative_seconds": 5.336721583
+      },
+      {
+        "file": "strategy.py",
+        "line": 872,
+        "function": "native7_default_target_basis",
+        "primitive_calls": 23,
+        "calls": 23,
+        "self_seconds": 0.0007147490000000001,
+        "cumulative_seconds": 4.699008
+      },
+      {
+        "file": "pipeline.py",
+        "line": 188,
+        "function": "sha",
+        "primitive_calls": 6145,
+        "calls": 6145,
+        "self_seconds": 0.007901472,
+        "cumulative_seconds": 4.623560251000001
+      },
+      {
+        "file": "pipeline.py",
+        "line": 1605,
+        "function": "<dictcomp>",
+        "primitive_calls": 55,
+        "calls": 55,
+        "self_seconds": 0.0005215360000000001,
+        "cumulative_seconds": 4.34740442
+      },
+      {
+        "file": "copy.py",
+        "line": 128,
+        "function": "deepcopy",
+        "primitive_calls": 1074,
+        "calls": 3872940,
+        "self_seconds": 2.172548116,
+        "cumulative_seconds": 4.249641923
+      },
+      {
+        "file": "copy.py",
+        "line": 201,
+        "function": "_deepcopy_list",
+        "primitive_calls": 2405,
+        "calls": 1060602,
+        "self_seconds": 0.995774523,
+        "cumulative_seconds": 4.216195575
+      },
+      {
+        "file": "_improve_context.py",
+        "line": 164,
+        "function": "check",
+        "primitive_calls": 19,
+        "calls": 19,
+        "self_seconds": 0.004436837,
+        "cumulative_seconds": 4.203908960000001
+      },
+      {
+        "file": "pipeline.py",
+        "line": 516,
+        "function": "preflight",
+        "primitive_calls": 59,
+        "calls": 59,
+        "self_seconds": 0.0055789920000000005,
+        "cumulative_seconds": 4.010111752
+      },
+      {
+        "file": "strategy.py",
+        "line": 825,
+        "function": "native7_incumbent_context",
+        "primitive_calls": 5,
+        "calls": 5,
+        "self_seconds": 8.983400000000001e-05,
+        "cumulative_seconds": 3.8626894170000003
+      },
+      {
+        "file": "schematic_field_evidence.py",
+        "line": 223,
+        "function": "readback",
+        "primitive_calls": 44,
+        "calls": 44,
+        "self_seconds": 0.015317119,
+        "cumulative_seconds": 3.6976014150000003
+      },
+      {
+        "file": "schematic_field_evidence.py",
+        "line": 129,
+        "function": "derive",
+        "primitive_calls": 44,
+        "calls": 44,
+        "self_seconds": 0.001728062,
+        "cumulative_seconds": 3.6714769630000004
+      },
+      {
+        "file": "placement_clearance.py",
+        "line": 41,
+        "function": "inventory",
+        "primitive_calls": 244,
+        "calls": 244,
+        "self_seconds": 0.11958417900000001,
+        "cumulative_seconds": 3.5337625810000004
+      },
+      {
+        "file": "handoff.py",
+        "line": 302,
+        "function": "material",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 8.959e-06,
+        "cumulative_seconds": 3.5024829590000004
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<built-in method _hashlib.openssl_sha256>",
+        "primitive_calls": 31408,
+        "calls": 31408,
+        "self_seconds": 3.3048327480000004,
+        "cumulative_seconds": 3.3048327480000004
+      },
+      {
+        "file": "handoff.py",
+        "line": 107,
+        "function": "delivery_guards",
+        "primitive_calls": 1,
+        "calls": 1,
+        "self_seconds": 0.00047841400000000003,
+        "cumulative_seconds": 3.209045333
+      },
+      {
+        "file": "floor_route.py",
+        "line": 264,
+        "function": "check_drc_stage",
+        "primitive_calls": 44,
+        "calls": 44,
+        "self_seconds": 0.0013583970000000001,
+        "cumulative_seconds": 3.2034896610000003
+      },
+      {
+        "file": "_improve_context.py",
+        "line": 182,
+        "function": "require",
+        "primitive_calls": 14,
+        "calls": 14,
+        "self_seconds": 3.2163000000000004e-05,
+        "cumulative_seconds": 3.098710168
+      },
+      {
+        "file": "padless_alias.py",
+        "line": 186,
+        "function": "check_exports",
+        "primitive_calls": 15,
+        "calls": 15,
+        "self_seconds": 0.002745251,
+        "cumulative_seconds": 2.8819686250000003
+      },
+      {
+        "file": "padless_alias.py",
+        "line": 193,
+        "function": "_check_exports",
+        "primitive_calls": 15,
+        "calls": 15,
+        "self_seconds": 0.0062566900000000005,
+        "cumulative_seconds": 2.879200832
+      }
+    ],
+    "largest_self": [
+      {
+        "file": "sexpr.py",
+        "line": 8,
+        "function": "parse",
+        "primitive_calls": 641,
+        "calls": 641,
+        "self_seconds": 12.765737555000001,
+        "cumulative_seconds": 17.196961206
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<built-in method _hashlib.openssl_sha256>",
+        "primitive_calls": 31408,
+        "calls": 31408,
+        "self_seconds": 3.3048327480000004,
+        "cumulative_seconds": 3.3048327480000004
+      },
+      {
+        "file": "copy.py",
+        "line": 128,
+        "function": "deepcopy",
+        "primitive_calls": 1074,
+        "calls": 3872940,
+        "self_seconds": 2.172548116,
+        "cumulative_seconds": 4.249641923
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'read' of '_io.BufferedReader' objects>",
+        "primitive_calls": 37481,
+        "calls": 37481,
+        "self_seconds": 1.932624168,
+        "cumulative_seconds": 1.932624168
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'update' of '_hashlib.HASH' objects>",
+        "primitive_calls": 6380,
+        "calls": 6380,
+        "self_seconds": 1.343240742,
+        "cumulative_seconds": 1.343240742
+      },
+      {
+        "file": "copy.py",
+        "line": 201,
+        "function": "_deepcopy_list",
+        "primitive_calls": 2405,
+        "calls": 1060602,
+        "self_seconds": 0.995774523,
+        "cumulative_seconds": 4.216195575
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'group' of 're.Match' objects>",
+        "primitive_calls": 17438140,
+        "calls": 17438140,
+        "self_seconds": 0.9876502090000001,
+        "cumulative_seconds": 0.9876502090000001
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<built-in method posix.stat>",
+        "primitive_calls": 555051,
+        "calls": 555051,
+        "self_seconds": 0.844478685,
+        "cumulative_seconds": 1.497542439
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'startswith' of 'str' objects>",
+        "primitive_calls": 11300824,
+        "calls": 11300824,
+        "self_seconds": 0.8377644000000001,
+        "cumulative_seconds": 0.8377644000000001
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'start' of 're.Match' objects>",
+        "primitive_calls": 17438072,
+        "calls": 17438072,
+        "self_seconds": 0.716191278,
+        "cumulative_seconds": 0.716191278
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'end' of 're.Match' objects>",
+        "primitive_calls": 17447445,
+        "calls": 17447445,
+        "self_seconds": 0.6726754810000001,
+        "cumulative_seconds": 0.6726754810000001
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'append' of 'list' objects>",
+        "primitive_calls": 18205973,
+        "calls": 18205973,
+        "self_seconds": 0.651858094,
+        "cumulative_seconds": 0.651858094
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "function": "<method 'isspace' of 'str' objects>",
+        "primitive_calls": 17438072,
+        "calls": 17438072,
+        "self_seconds": 0.638587994,
+        "cumulative_seconds": 0.638587994
+      },
+      {
+        "file": "pathlib.py",
+        "line": 56,
+        "function": "parse_parts",
+        "primitive_calls": 177898,
+        "calls": 177898,
+        "self_seconds": 0.623873887,
+        "cumulative_seconds": 0.966687539
+      },
+      {
+        "file": "pathlib.py",
+        "line": 536,
+        "function": "__str__",
+        "primitive_calls": 636179,
+        "calls": 636179,
+        "self_seconds": 0.35710479300000003,
+        "cumulative_seconds": 0.5882720800000001
+      }
+    ],
+    "profile_sha256": "444c8a08a9c70d1290e6d9a23fadbc963f8ff30062238ce39d25712190073cc4",
+    "profile_local_only": true,
+    "actual_product_status": "rejected",
+    "profiler_process_exit_zero_is_not_delivery": true,
+    "scope": "Instrumentation overhead additional. First central check exhausted unchanged30s observed cap; this is not normal timing or a new routing attempt. Original cohort remains failed/not-delivered."
+  },
+  "actual_profile_complete_cost": {
+    "wall_seconds": 39.22,
+    "CPU_seconds": 38.44
+  },
+  "failed_preparations": [
+    {
+      "attempt": "profile001",
+      "outcome": "disk guard refused before launch; cwd counted installedruntime",
+      "cost": {
+        "wall_seconds": 0.61,
+        "CPU_seconds": 0.48
+      }
+    },
+    {
+      "attempt": "profile002",
+      "outcome": "controller syntax error before launch",
+      "cost": {
+        "wall_seconds": 0.01,
+        "CPU_seconds": 0.0
+      }
+    },
+    {
+      "attempt": "targeted002",
+      "outcome": "nonexistent test module detected before controller creation; logged nonexistentcontroller failure",
+      "cost": {
+        "wall_seconds": 0.01,
+        "CPU_seconds": 0.0
+      }
+    }
+  ],
+  "targeted": {
+    "passed": true,
+    "tests": 103,
+    "complete_cost": {
+      "wall_seconds": 24.91,
+      "CPU_seconds": 23.91
+    },
+    "earlier_seven_tests_cost": {
+      "wall_seconds": 0.38,
+      "CPU_seconds": 0.18
+    }
+  },
+  "change": "Operation-local pure S-expression syntax memo; immutable stored tree and independent caller lists; bounded8MiB rawinputs/250000nodes/64entries. File reads and semantic/context/owner/Native/PRL checks all rerun. Native7 parent/privatechild reuse exclusions unchanged. No cap increase.",
+  "qualification": "Source change only; full integration, new numbered runtime Native/install/GUI qualification remain required. No new delivered routing or comparison gain inferred.",
+  "additional_cost": "Research, authoring, AIreview and curation additional/partly unmetered, notzero. Profile self/cumulative entries overlap and must not be summed.",
+  "backup_scope": "Owned source/metadata intended for auditedGit. Binaryprofile and later raw remain on thisMac/outside010; no restoration repeat or new diskfailure protection.",
+  "source_sha256": {
+    "autorouter/sexpr.py": "c20f576fb36300deac8193efa3d524807a52d14a2a1a4306dedb62e267dfbfdc",
+    "autorouter/pipeline.py": "f55b9ed68abe93a2f67472e04cb17c108cfd5f6a4b5916e35273e454dd01f150",
+    "tests/test_sexpr_memo.py": "9883aea1a17e2e998c6847369940254d56d976ac89412bc65b5948394344def4"
+  },
+  "files_index": {
+    "path": "evidence/review-syntax-repair-001-notes/files.json",
+    "sha256": "e712e3caba611ce0c662caf5acf97390ba6c2ec84c9834705a9b641031f04af0"
+  }
+}

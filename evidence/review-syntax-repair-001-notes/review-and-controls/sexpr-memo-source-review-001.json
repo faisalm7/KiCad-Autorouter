@@ -1,0 +1,82 @@
+{
+  "checked": [
+    {
+      "fact": "Original tokenizer, byte-size, parenthesis/root and >128 nesting checks remain in the uncached derivation. Every memo call re-encodes and checks the current MAX_BYTES before a hit. Exact input text is the key; comments/quotes/Unicode are not normalized.",
+      "where": "autorouter/sexpr.py:15-42,87-125"
+    },
+    {
+      "fact": "Policy binds current TOKEN, size/cache bounds, uncached parser callable and its code object; a changed tokenizer or parser body clears prior syntax. TOKEN is the current immutable compiled regex.",
+      "where": "autorouter/sexpr.py:94-99"
+    },
+    {
+      "fact": "The stored AST consists of immutable tuples and string atoms. First return is the separate newly parsed mutable tree; every hit recursively creates fresh mutable lists. A caller list mutation cannot modify the stored tree.",
+      "where": "autorouter/sexpr.py:71-84,104-123"
+    },
+    {
+      "fact": "Nested sessions intentionally share entries; parse errors, propagated exceptions and cancellation clear entries, byte and node counters. Outer exit clears all retained trees and resets the ContextVar. Policy-only references remain without retained input/AST.",
+      "where": "autorouter/sexpr.py:45-69,124-126"
+    },
+    {
+      "fact": "An individually oversized legal memo input or node census bypasses storage rather than adding a parser rejection. Successful insertion evicts oldest entries until aggregate raw-byte, node and entry bounds hold.",
+      "where": "autorouter/sexpr.py:105-122"
+    },
+    {
+      "fact": "read still stats and reads the file on every call. No file/stat, validation, source, tool or receipt result is memoized by this change.",
+      "where": "autorouter/sexpr.py:128-132"
+    },
+    {
+      "fact": "The readback session composes the pure parse session only. Explicit and marked Improve children, comparison contexts and marked Native7 parents retain existing uncached semantic-reader paths; no caller or execution Budget authority is newly cached.",
+      "where": "autorouter/pipeline.py:2620-2626,2693-2732"
+    }
+  ],
+  "focused_test_review": {
+    "coverage": "Actual uncached-call counting; returned-list isolation; operation exit; nested handled exception and KeyboardInterrupt; malformed parses clearing; tokenizer/MAX_BYTES/parser code replacement; byte/node/entry eviction and bypass; same-size current file reads; comments/Unicode/quoted atoms and unknown fields.",
+    "executed_by_reviewer": false,
+    "file": "tests/test_sexpr_memo.py",
+    "methods": 7,
+    "small_useful_additions_if_needed": [
+      "Check exact current nesting acceptance boundary and the next rejected depth, rather than only a much deeper rejected input.",
+      "After warming multibyte text, lower MAX_BYTES to its UTF-8 boundary to make byte-vs-character handling explicit.",
+      "Existing semantic readback tests should continue to exercise same-size material mutation and late PRL faults with this session composed; no new Native authority fixture is required for pure syntax reuse."
+    ]
+  },
+  "identity_limit_assessment": {
+    "bounded_future_controls": "If a parser replacement/wrapper with meaningful optional defaults is intentionally supported, bind those defaults or bypass memo for that replacement. A small regression can establish the chosen contract; do not silently claim arbitrary mutable wrapper/closure state is bound.",
+    "current_parser_defaults": "_parse_uncached has only the required text parameter, with no optional/default or keyword-only parameters. It is always invoked with text. Mutating its current defaults/kwdefaults alone cannot change this body result. Missing defaults in this new key is not a concrete bypass for this implementation.",
+    "helper_hot_replacement": "Function replacement of freeze/thaw invalidates because their callable objects are in policy. Their in-place code mutation is not separately keyed. These are new internal memo helpers rather than the original parser; broad hostile hot-patching of helper internals is outside this source-only acceptance review. If lead promises helper-code invalidation, add code-object fields and one focused test rather than a generic signature framework."
+  },
+  "kind": "operation-local-sexpr-memo-static-source-review-v1",
+  "material_findings": [],
+  "memory_limit_assessment": {
+    "fact": "These are aggregate raw-input and tree-node limits, not an 8MiB total-Python-heap ceiling. Text keys and string atoms plus tuple/dict/container overhead remain additionally allocated, but their population and lengths are bounded by input bytes, nodes and entries for the actual parser. No node/entry growth beyond these counters was found.",
+    "limits": {
+      "ast_nodes": 250000,
+      "entries": 64,
+      "raw_input_utf8_bytes": 8388608
+    },
+    "qualification_limit": "Actual peak RSS and whole review wall/fullCPU remain unmeasured here. Existing outer resource guards and review cap are unchanged."
+  },
+  "recommendation_receipt": {
+    "modified": false,
+    "path": ".runs/runtime050-parent-reuse-test-review-001.json",
+    "sha256": "1a782e5bc11960a0dcd4c8565edf3ff4e1c5f3c316213b7b415885e68ba7a383"
+  },
+  "reviewer": "AI source reviewer; not human PCB review",
+  "schema": 1,
+  "scope": {
+    "Native_run": false,
+    "cohort_modified": false,
+    "no_new_qualification_claim": true,
+    "original_runtime050_modified": false,
+    "product_edits": false,
+    "production_readers_run": false,
+    "profile_run": false,
+    "tests_run": false
+  },
+  "source_sha256": {
+    "autorouter/pipeline.py": "f55b9ed68abe93a2f67472e04cb17c108cfd5f6a4b5916e35273e454dd01f150",
+    "autorouter/sexpr.py": "c20f576fb36300deac8193efa3d524807a52d14a2a1a4306dedb62e267dfbfdc",
+    "tests/test_sexpr_memo.py": "9883aea1a17e2e998c6847369940254d56d976ac89412bc65b5948394344def4"
+  },
+  "verdict": "No material correctness or acceptance blocker found in the current fixed parser implementation. Proceed only through lead-owned focused regressions and measured fresh review qualification; no performance or Native pass is established by this review."
+}

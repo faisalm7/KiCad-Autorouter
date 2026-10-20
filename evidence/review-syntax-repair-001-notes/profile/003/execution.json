@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 38.786657084012404,
+    "cpu_seconds": 38.007476999999994,
+    "max_rss_bytes": 261226496,
+    "supervisor_cpu_seconds": 0.08630400000000002,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 261062656,
+    "sampled_peak_workdir_bytes": 282031,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 134217728,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001/.venv/bin/python",
+      "-B",
+      "-m",
+      "cProfile",
+      "-o",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-improve-review-profile-003/review.pstats",
+      "-m",
+      "autorouter",
+      "review-copy",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001/.runs/native7-method-runtime050-default-improve-development-001-ir-obstacle-Cimprove/autorouter-gui-7b33ba775fec4b448c60cfa2477e19c9/route/result.json",
+      "--render",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-improve-review-profile-003/review"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-improve-review-profile-003/command.log",
+    "log_bytes": 92,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-improve-review-profile-003",
+    "signal_cancellation_enabled": true,
+    "pid": 43460
+  },
+  "wall_seconds": 39.200041708070785,
+  "full_CPU_seconds": 38.42835099999999,
+  "inputs_tools_unchanged": true,
+  "profile_exists": true,
+  "normal_workflow_success": false,
+  "cohort_outcome_changed": false,
+  "project_complete": false,
+  "controller_sha256": "bfd0cf145ed53c2b0243d98cb0f3753ae13e4c909192573e7a99017cb40102d9"
+}

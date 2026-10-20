@@ -2618,7 +2618,10 @@ def validation_readback_session():
     state=existing if existing is not None else {'entries':{},'modules':modules}
     token=_readback_session.set(state)
     try:
-        yield
+        # Only pure syntax is reused: every file read, semantic check, private
+        # child authority reconstruction and final metadata fence still runs.
+        with sx.parsing_session():
+            yield
     except BaseException:
         state['entries'].clear()
         raise
