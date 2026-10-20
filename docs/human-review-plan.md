@@ -2,7 +2,11 @@
 
 **Unperformed owner-validation plan:** no independent human PCB review, cleanup timing, physical/electrical test, reviewer contact, order or spending has occurred under this plan. Contacting a reviewer or sharing a specific pack needs separate owner approval; incremental external spending remains$0 unless approved. AI review and Native checks are not human or physical observations.
 
-## Current candidate and exact inputs
+## Current056 entry point
+
+Use the [current056 review materials/index](runtime056-engineer-review.md), [CLI](quickstart.md) and [GUI contract](gui-workflow.md). They identify the exact current artifact and local hashes. Review/cleanup/physical observations remain unperformed. The older candidate paragraphs/commands below are historical and confer no056 qualification; the defect, blinding, timing, physical-readiness and authorization protocol remains applicable. Do not repeat completed historical experiments or recopy old CAD packs.
+
+## Historical039 candidate and exact inputs
 
 Use runtime039, source `57542e996f2b6e7704acd408ac99f6c72e70adc5`, manifest `ef7ea961238bf9d3e48e531dc3dcbd06700ac2fe5a270466e3d9365b81a6c728`. [Full184/install012 and five six-stage Native deliveries](../evidence/runtime039-native-floor-schema-milestone-001.json) retain each Route/export’s own full-schematic/original-design/protected proof. Ordinary whole4Cu preserves10 protected items with6 final warnings; partial2Cu preserves4 with0 final findings. The two owned floor/via controls each preserve1 item with6 warnings; hierarchy preserves0 and has0 findings. Original ignored checks, source opens and all final warnings stay visible. These owned exposed fixtures establish functionality, not independent-family routing quality or human cleanup.
 
