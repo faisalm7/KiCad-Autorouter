@@ -37,13 +37,16 @@ class ComparisonReportTests(unittest.TestCase):
         for name, raw in final.items(): (inputs / name).write_bytes(raw)
         expected = q.io.inventory(inputs)
         self.tools = dict(kicad='10.0.7', source_provenance=dict(git_head='d' * 40, manifest_sha256='e' * 64),
-                          files={str(self.root / 'kicad-cli'): 'f' * 64})
+                          files={str(self.root / 'kicad-cli'): 'f' * 64},
+                          implementation_sha256={name:q.digest(q.ROOT/name) for name in
+                            ('autorouter/pipeline.py','autorouter/schematic_field_evidence.py',
+                             'autorouter/schematic_fields.py','autorouter/sexpr.py')})
         self.plan = dict(source_hashes=source, tools=self.tools, source_head='d' * 40, runtime_manifest_sha256='e' * 64)
         self.binding = dict(source=str(candidate), input=str(inputs / candidate.name), before=expected, after=expected, saved=False)
         write(self.folder / 'final-drc-binding.json', self.binding)
         self.raw = {'$schema': 'https://schemas.kicad.org/drc.v1.json', 'kicad_version': '10.0.7', 'source': candidate.name,
                     'included_severities': ['error', 'warning', 'exclusion'], 'violations': [], 'unconnected_items': [],
-                    'schematic_parity': [], 'ignored_checks': ['lib_footprint_issues']}
+                    'schematic_parity': [], 'ignored_checks': [dict(key='lib_footprint_issues')]}
         self.report_pin = write(self.folder / 'final-drc.json', self.raw)
         self.step = dict(name='final-drc', argv=[str(self.root / 'kicad-cli'), 'pcb', 'drc', '--schematic-parity',
             '--all-track-errors', '--refill-zones', '--exit-code-violations', '--output', str(self.folder / 'final-drc.json'), str(inputs / candidate.name)],
@@ -51,7 +54,7 @@ class ComparisonReportTests(unittest.TestCase):
         write(self.folder / 'final-drc-process.json', self.step)
         self.data = dict(source_hashes=source, tools=self.tools, schematic_parity='checked by final native DRC', accepted=True,
             invariants_unchanged=True, candidate=str(candidate), candidate_sha256=q.digest(candidate), native_report_sha256=self.report_pin,
-            native=dict(opens=0, blocking=0, warnings=0, exclusions=0, findings=[], ignored_checks=['lib_footprint_issues']),
+            native=dict(opens=0, blocking=0, warnings=0, exclusions=0, findings=[], ignored_checks=[dict(key='lib_footprint_issues')]),
             whole_project_drc_clean=True, protected_route_import=dict(matches=[{'synthetic': 'protected identity'}]), steps=[self.step])
         self.receipt = self.folder / 'result.json'
         write(self.receipt, self.data)
@@ -95,7 +98,7 @@ class ComparisonReportTests(unittest.TestCase):
                 with self.assertRaises(ValueError): self.own()
 
     def test_warning_exit5_and_complete_negative_keep_original_counts(self):
-        finding = dict(severity='warning', type='synthetic_warning')
+        finding = dict(severity='warning', type='lib_footprint_issues', items=[])
         self.raw['violations'] = [finding]
         self.data['native_report_sha256'] = write(self.folder / 'final-drc.json', self.raw)
         self.data['native'].update(warnings=1, findings=[finding])
@@ -110,6 +113,38 @@ class ComparisonReportTests(unittest.TestCase):
         write(self.receipt, self.data)
         self.assertEqual(self.own(accepted=False)['Native_counts'], [0, 1, 0, 0])
         with self.assertRaises(ValueError): self.own(accepted=True)
+
+    def test_warning_only_application_policy_negative_keeps_zero_error_counts(self):
+        finding=dict(severity='warning',type='footprint_symbol_field_mismatch',items=[])
+        self.raw['schematic_parity']=[finding]
+        self.data['native_report_sha256']=write(self.folder/'final-drc.json',self.raw)
+        self.data['native'].update(warnings=1,findings=[finding],field_parity=dict(qualification=dict(qualified=False)))
+        self.data['accepted']=False
+        self.data['steps'][0].update(status='nonzero_exit',exit_code=5)
+        write(self.folder/'final-drc-process.json',self.data['steps'][0]);write(self.receipt,self.data)
+        result=self.own(accepted=False)
+        self.assertEqual(result['Native_counts'],[0,0,1,0])
+        self.assertIs(result['Native_application_policy']['accepted'],False)
+        with self.assertRaises(ValueError):self.own(accepted=True)
+
+    def test_application_policy_cannot_use_a_different_recorded_source(self):
+        pins=self.plan['tools']['implementation_sha256']
+        for name in pins:
+            original=pins[name];pins[name]='0'*64
+            write(self.receipt,self.data)
+            with self.subTest(name=name),self.assertRaisesRegex(ValueError,'application-policy source differs'):
+                self.own()
+            pins[name]=original
+            write(self.receipt,self.data)
+
+    def test_disabled_critical_check_is_policy_negative_even_without_count_errors(self):
+        self.raw['ignored_checks']=[dict(key='clearance')]
+        self.data['native'].update(ignored_checks=self.raw['ignored_checks'])
+        self.data['native_report_sha256']=write(self.folder/'final-drc.json',self.raw)
+        self.data['accepted']=False;write(self.receipt,self.data)
+        result=self.own(accepted=False)
+        self.assertEqual(result['Native_counts'],[0,0,0,0])
+        self.assertIs(result['Native_application_policy']['accepted'],False)
 
     def test_cap_or_cleanup_failure_never_promotes_negative(self):
         outer = dict(passed=True, status='completed', process=dict(status='success', exit_code=0, cleanup_complete=True, log_truncated=False))

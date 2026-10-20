@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "kind": "current-comparison-Native-application-policy-reporting-correction-source-cutoff-v1",
+  "recorded_utc": "2026-10-20T09:59:38.108238+00:00",
+  "edits_stopped": true,
+  "prior_source_cutoff": {
+    "path": ".runs/current-comparison-improve-administration-001.json",
+    "bytes": 7393,
+    "sha256": "6bf65bb86e7de485bb191d27e8ae61315328099ba0c40b4a40cb1de7b735d9b5"
+  },
+  "source_pins": [
+    {
+      "path": "scripts/freeze_current_comparison.py",
+      "bytes": 26896,
+      "sha256": "0a097e053da47c478eb4751112cf87037538af8f4e816de9fce452d05f9fe4d2"
+    },
+    {
+      "path": "scripts/qualify_current_method.py",
+      "bytes": 30409,
+      "sha256": "ea98a8c6ab1af6b6b4366cf397cd29130f5d2ccef36e33137b04bea205ade888"
+    },
+    {
+      "path": "scripts/enclose_current_comparison.py",
+      "bytes": 5997,
+      "sha256": "a441b05adc76deb55e75b809c0d6ec39f3d6a6ee7d700cf545c8f893d5e0dc34"
+    },
+    {
+      "path": "scripts/report_current_comparison.py",
+      "bytes": 56434,
+      "sha256": "bb3183531f50d6b16fb820246c76cfe590c0f9282e7d071c6b05c1bb0f0b5826"
+    },
+    {
+      "path": "tests/test_comparison_freezer.py",
+      "bytes": 24299,
+      "sha256": "3f9dc398314da6a543193fea44be9f6313be2be84d45891cdc4b0941c8334154"
+    },
+    {
+      "path": "tests/test_current_comparison_report.py",
+      "bytes": 19857,
+      "sha256": "708e5ed4a1966cfa7f3a24bd84520ad425d0cafee0b8f3fb352e1e03d74528b1"
+    },
+    {
+      "path": "tests/test_comparison_improve.py",
+      "bytes": 16729,
+      "sha256": "a80b6d74678f165b2910cc83414cfaa4ebc5f225536686d098e88328733cfd86"
+    }
+  ],
+  "bound_pure_application_policy_source_pins": [
+    {
+      "path": "autorouter/pipeline.py",
+      "bytes": 221960,
+      "sha256": "7f3d1c20f063f5aa6d55fddcb8896ecdc9c0de6f8a0f51d0faf49a3feebf542e"
+    },
+    {
+      "path": "autorouter/schematic_field_evidence.py",
+      "bytes": 18889,
+      "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+    },
+    {
+      "path": "autorouter/schematic_fields.py",
+      "bytes": 9958,
+      "sha256": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f"
+    },
+    {
+      "path": "autorouter/sexpr.py",
+      "bytes": 2045,
+      "sha256": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd"
+    }
+  ],
+  "changes": [
+    "The shared stored own-final reporter invokes the existing product native_accepted/native_rejection_reasons predicates only when all four recorded implementation source hashes match the loaded repository modules, with a second source-hash check after evaluation. The predicate implementation is reused rather than copied.",
+    "Completed Native negatives may have zero opens/blocking/exclusions when the unchanged application policy rejects critical warnings or disabled critical checks. Counts, findings, ignored checks and field qualification remain visible; no Native report is rewritten.",
+    "Native-valid quality_rejected trials remain completed and unselected, including a noncritical warning with field qualification false. Field qualification false alone introduces no new rejection criterion.",
+    "Delivered/accepted own finals must pass the unchanged application policy; drc_rejected trial own finals must fail that policy. Missing or different recorded policy implementation refuses.",
+    "Synthetic reporter controls now use typed known ignored-check dictionaries and known noncritical finding types/items so test fixtures model the actual product policy schema."
+  ],
+  "tests": [
+    {
+      "attempt": "red-001",
+      "command": ".venv/bin/python -B -m unittest tests.test_current_comparison_report.ComparisonReportTests.test_warning_only_application_policy_negative_keeps_zero_error_counts",
+      "launcher": "/usr/bin/time -p",
+      "login": false,
+      "passed": false,
+      "tests": 1,
+      "wall_seconds": 0.15,
+      "user_seconds": 0.1,
+      "system_seconds": 0.02,
+      "full_CPU_seconds": 0.12,
+      "detail": "Intentional regression reproduction before reporter correction: warning-only policy rejection refused by the old count-only completed-negative predicate.",
+      "stdout": {
+        "path": ".runs/current-comparison-native-policy-red-001.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_and_external_time": {
+        "path": ".runs/current-comparison-native-policy-red-001-time.log",
+        "bytes": 1660,
+        "sha256": "fcb980678bb5643c06273b223db634df46a3c978b294688ff3890e13bdb43072"
+      }
+    },
+    {
+      "attempt": "targeted-001",
+      "command": ".venv/bin/python -B -m unittest tests.test_current_comparison_report tests.test_comparison_improve",
+      "launcher": "/usr/bin/time -p",
+      "login": false,
+      "passed": false,
+      "tests": 35,
+      "wall_seconds": 0.75,
+      "user_seconds": 0.36,
+      "system_seconds": 0.32,
+      "full_CPU_seconds": 0.68,
+      "detail": "Four subtests of one pin-mutation control failed only because serialized receipt tools stayed old, reaching the earlier source/tools guard before the expected application-policy guard. All other controls passed. Test fixture corrected by serializing the same mutated tools before each check.",
+      "stdout": {
+        "path": ".runs/current-comparison-native-policy-targeted-001.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_and_external_time": {
+        "path": ".runs/current-comparison-native-policy-targeted-001-time.log",
+        "bytes": 3912,
+        "sha256": "a19253925f4ccb3159f3814d0e07a37b3860fb9d4b1b0efba0dd8c0918710b70"
+      }
+    },
+    {
+      "attempt": "targeted-002",
+      "command": ".venv/bin/python -B -m unittest tests.test_current_comparison_report tests.test_comparison_improve",
+      "launcher": "/usr/bin/time -p",
+      "login": false,
+      "passed": true,
+      "tests": 35,
+      "wall_seconds": 0.79,
+      "user_seconds": 0.38,
+      "system_seconds": 0.33,
+      "full_CPU_seconds": 0.71,
+      "detail": "Final affected reporter+Improve modules pass; constructed reporting guards, no Native or central readers.",
+      "stdout": {
+        "path": ".runs/current-comparison-native-policy-targeted-002.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_and_external_time": {
+        "path": ".runs/current-comparison-native-policy-targeted-002-time.log",
+        "bytes": 163,
+        "sha256": "28869f16fcd2c3c126a94a230ca2f7846de2eae84eb6dbd945583fdf1c010a6a"
+      }
+    }
+  ],
+  "prior_tests_reused_without_rerun": ".runs/current-comparison-improve-administration-001.json",
+  "prior_stored_schema_helper_check": {
+    "path": ".runs/runtime050-improve-report-schema-review-001/result.json",
+    "sha256": "9649e7836ab71c9e789d79a0686d2c8b5c0c2bf0e072c55c271f576feefddadd",
+    "scope": "Earlier reporter source pin; four actual stored schemas and seven in-memory controls, not rerun for this correction and not Native qualification."
+  },
+  "scope": {
+    "Native": false,
+    "engine": false,
+    "central_readers": false,
+    "GUI": false,
+    "full_suite": false,
+    "runtime_or_core_edits": false,
+    "source_board_changes": false,
+    "protocol_freeze": false,
+    "comparison_arms": false,
+    "Git_mutations": false,
+    "human_review": false,
+    "recursive_delegation": false
+  },
+  "additional_authoring_review_cost": {
+    "wall_seconds": null,
+    "CPU_seconds": null,
+    "interpretation": "Unknown additional cost, not zero. Recorded offline test process costs remain separate."
+  },
+  "remaining": "Lead integration/source review and audited checkpoint before any fresh comparison population freeze or sequential execution. No comparative, Native, GUI, electrical or human qualification claim from this correction."
+}

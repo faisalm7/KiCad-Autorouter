@@ -43,10 +43,26 @@ import sys
 
 KIND = 'installed-native7-current-method-v1'
 POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cthermal')
+IMPROVE_KIND = 'installed-native7-current-method-v2'
+IMPROVE_POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cimprove')
 ARMS = tuple(name for name in POPULATION if name != 'B2_portfolio')
 COMPARISON = ('B0', 'B1', 'B2single_tuned')
 LIMITS = dict(routing_seconds=420, method_wall_cpu_cap_seconds=450,
               delivery_wall_cpu_cap_seconds=600, export_validation_seconds=120)
+
+
+def method_contract(kind):
+    if kind == KIND: return POPULATION, 'qualify-current-method-001.py'
+    if kind == IMPROVE_KIND: return IMPROVE_POPULATION, 'qualify-current-method-002.py'
+    raise ValueError('unknown comparison method contract')
+
+
+def captured_method_settings(plan, defaults, improve_preset):
+    if plan['kind'] == KIND: return defaults
+    if plan['kind'] != IMPROVE_KIND: raise ValueError('unknown comparison method contract')
+    improved = improve_preset(defaults)
+    if plan.get('improve_settings') != improved: raise ValueError('frozen shipped single Improve settings differ')
+    return improved if plan['arm'] == 'Cimprove' else defaults
 
 
 def main():
@@ -60,7 +76,7 @@ def main():
     from autorouter import config as c, pipeline as p, floor_route as f, handoff as h, gui
     from autorouter import comparison as cmp, review_export as ex, review_view as view
     from autorouter import thermal, provenance as pv, placement_clearance as pc, sexpr as sx
-    from autorouter import local_settings as local, preferences as pref
+    from autorouter import local_settings as local, preferences as pref, strategy as pruning
 
     def require(condition, message):
         if not condition: raise p.Rejected(message)
@@ -73,14 +89,15 @@ def main():
     protocol = h.real_path(args.protocol)
     require(pv.file_digest(protocol)[0] == args.protocol_sha256, 'frozen protocol hash differs')
     plan = f.read_json(protocol); arm = plan.get('arm') if type(plan) is dict else None
+    population, child_name = method_contract(plan.get('kind') if type(plan) is dict else None)
     require(type(plan) is dict and type(plan.get('schema')) is int and plan['schema'] == 1
-        and plan.get('kind') == KIND and arm in ARMS and plan.get('population') == list(POPULATION)
+        and arm in population and arm != 'B2_portfolio' and plan.get('population') == list(population)
         and plan.get('limits') == LIMITS and plan.get('runtime') == str(runtime)
         and plan.get('whole_wall_full_cpu_seconds') == 600 and plan.get('pass_key') == 'controls_passed',
         'exact five-method member of the frozen six-arm420/450/600/export120 population required')
     self_path = h.real_path(__file__); self_pin = p.sha(self_path)
     require(self_path.parent == runtime/'.runs' and plan['controller'] == str(self_path)
-        and plan['controller_sha256'] == self_pin, 'exact frozen copied child required')
+        and self_path.name == child_name and plan['controller_sha256'] == self_pin, 'exact frozen copied child required')
     administration = h.real_path(plan['administration_root'])
     controller_source = administration/'scripts/qualify_current_method.py'
     require(pv.file_digest(controller_source)[0] == self_pin, 'copied child differs from public administration source')
@@ -103,6 +120,8 @@ def main():
         dict(profile='standard',adapter='both',guidance='native',layers='source_all',
              scope='whole_board_unlocked_routing',seconds=420,scoring_preference=None).items()),
         'frozen actual corrected-standard420 defaults required')
+    default_settings = settings
+    settings = captured_method_settings(plan, default_settings, gui.improve_preset)
     source = h.real_path(plan['source']); hashes = plan['source_hashes']; rights = plan['source_rights']
     inventory_pin = hashlib.sha256((json.dumps(hashes, sort_keys=True, separators=(',', ':'))+'\n').encode()).hexdigest()
     require(type(hashes) is dict and 1 <= len(hashes) <= 2000 and source.suffix == '.kicad_pcb'
@@ -116,8 +135,8 @@ def main():
     prerequisites = plan['prerequisite_sha256']
     require(type(prerequisites) is dict and 0 < len(prerequisites) <= 32, 'lead-frozen current qualification prerequisites required')
     outputs = plan['outputs']
-    require(type(outputs) is dict and set(outputs) == set(POPULATION)
-        and len(set(outputs.values())) == len(POPULATION) and plan['output'] == outputs[arm],
+    require(type(outputs) is dict and set(outputs) == set(population)
+        and len(set(outputs.values())) == len(population) and plan['output'] == outputs[arm],
         'all distinct population outputs must be frozen before use')
     canonical_outputs = set()
     for name, value in outputs.items():
@@ -127,26 +146,29 @@ def main():
                 'population output escaped runtime or overlaps source')
         require(path.name.startswith(cmp.PREFIX) if name in (*COMPARISON,'B2_portfolio') else
             path.name.startswith('native7-method-') and not cmp.marked(path), 'arm namespace differs from its frozen authority')
-    require(len(canonical_outputs) == len(POPULATION), 'population outputs alias the same canonical path')
+    require(len(canonical_outputs) == len(population), 'population outputs alias the same canonical path')
     out = h.real_path(outputs[arm], existing=False)
     require(not out.exists(), 'fresh arm output required')
     out.mkdir(mode=0o700); owner = {}; h.capture_destination(owner, out); p.check_storage(active_root=out)
     route = out/('thermal-route/result.json' if arm == 'Cthermal' else 'route/result.json')
     delivery_root = out; exported_path = out/'export/export.json'
     ctx = {}; authority = None; complete = None; flow = None
-    record = dict(schema=1, kind=KIND, arm=arm, population=list(POPULATION), accepted=False,
+    record = dict(schema=1, kind=plan['kind'], arm=arm, population=list(population), accepted=False,
         production_admitted=False, project_complete=False, actual_GUI=False, human_review=False,
         controls_passed=False, attempt_qualified=False, workflow_delivered=False, status='failed', outcome='not_started',
         protocol_sha256=args.protocol_sha256, controller_sha256=self_pin, limits=LIMITS,
         runtime=str(runtime), runtime_manifest_sha256=plan['runtime_manifest_sha256'], source_head=plan['source_head'],
         source=str(source), source_hashes=hashes, source_rights=rights, tools=tools,
         protected_route_items=sum(p.locked(row) for row in p.routes(sx.read(source))),
-        default_settings=settings, processes=[],
+        default_settings=default_settings, processes=[],
         transport=('caller Context/direct API plus library delivery' if arm in COMPARISON else
-            'actual Request/Workflow/CliJob headless workflow' if arm=='Cdefault' else 'actual recover/delivery CLI'),
+            'actual Request/Workflow/CliJob headless workflow' if arm in ('Cdefault','Cimprove') else 'actual recover/delivery CLI'),
         external_complete_exit_required=True, fair_full_matrix=False,
         scope='One frozen single-method result. B2single_tuned is one tuned attempt; portfolio is separate. Cdefault exercises the shipped workflow and aliases corrected-standard B1. Cthermal is experimental recover, not Improve. API comparison delivery is not ordinary product admission. No holdout, superiority, graphical interaction, human or physical claim.',
         stock_caveat='B0 disables project adapter corrections and must retain identical native/task DSN bytes. Common fixed-placement, alias, protected-copper, netclass and original-rule Native validation safeguards remain; this is not proof of an untouched official vanilla workflow.')
+    if plan['kind'] == IMPROVE_KIND:
+        record.update(method_settings=settings,
+            scope='Frozen v2 installed comparison. Cimprove is shipped single Improve with a charged tuned incumbent and25-second finalization reserve inside420. Cdefault/B1 unchanged; no GUI/human/electrical/superiority claim.')
 
     def left(): return preset.remaining(time.monotonic()-START, cpu()-CPU0)
 
@@ -203,7 +225,7 @@ def main():
     def negative():
         if authority is not None:return p.check_rejected_routing_attempt(route,comparison_context=authority)
         if arm=='Cdefault':return p.check_rejected_routing_attempt(route,ordinary_profile='standard')
-        raise p.Rejected('thermal parent has no qualified completed-negative method contract')
+        raise p.Rejected('strategy parent has no qualified completed-negative method contract')
 
     def stock_identity():
         if arm == 'B0':
@@ -225,6 +247,7 @@ def main():
             require(stock_identity() == record['stock_native_dsn_sha256'] == record['stock_task_dsn_sha256'],
                     'bound stock DSN observation changed')
         data = f.read_json(route); pairs = []; packets = [(route.parent, data)]
+        if arm == 'Cimprove': packets = pruning.native7_packets(route.parent, data)
         if arm=='Cthermal':
             packets.append((route.parent/'incumbent',f.read_json(route.parent/'incumbent/result.json')))
             for index,trial in enumerate((data.get('repair') or {}).get('trials',[]),1):
@@ -250,7 +273,11 @@ def main():
                     'negative route entered ready workflow state')
         fresh()  # Includes final Context/tool/material callbacks.
         require(record['workflow_delivered'] or method_left()>0, 'method cap exceeded during final negative readback')
-        local.check_final_events(packets, c.CLI, pairs=pairs)
+        if arm == 'Cimprove':
+            require(pruning.check_native7_final(route.parent, data,
+                additional=packets[-1:] if record['workflow_delivered'] else (), pairs=pairs) is True,
+                'Improve parent/incumbent/trial final metadata refused')
+        else: local.check_final_events(packets, c.CLI, pairs=pairs)
         require(record['workflow_delivered'] or method_left()>0, 'method cap exceeded during final negative metadata replay')
 
     try:
@@ -263,8 +290,8 @@ def main():
             ctx = dict(comparison_context=authority)
             result = p.route(source, route.parent, seconds=420, keep_existing=False,
                              adapter=adapter, engine_profile=profile, **ctx)
-        elif arm=='Cdefault':
-            flow = gui.Request(str(source),str(out),json.dumps(settings),True,'route').prepare()
+        elif arm in ('Cdefault','Cimprove'):
+            flow = gui.Request(str(source),str(out),json.dumps(settings),True,'improve' if arm=='Cimprove' else 'route').prepare()
             delivery_root = flow.workspace; route = delivery_root/'route/result.json'
             exported_path = delivery_root/'export/export.json'
             record['workspace'] = str(flow.workspace)
@@ -275,7 +302,7 @@ def main():
             require((cli_process['exit_code']==0) is (result.get('accepted') is True), 'CLI exit differs from durable route result')
             require(flow.ready==({'preview','route'} if result.get('accepted') is True else {'preview'})
                 and flow.choice is None, 'negative route was adopted or actual route state is missing')
-            effective = result.get('routing_preferences',{}).get('effective',{})
+            effective = result.get('pruning_preferences' if arm=='Cimprove' else 'routing_preferences',{}).get('effective',{})
             require(effective == settings, 'actual CLI default scope/settings changed')
             record['workflow_ready'] = sorted(flow.ready)
         else:
@@ -290,7 +317,7 @@ def main():
             require(result.get('source') == str(source) and result.get('source_hashes') == hashes
                 and result.get('tools') == tools and result.get('scope') == 'whole_board_unlocked_routing'
                 and result.get('budget_seconds') == result.get('cpu_budget_seconds') == 420
-                and result.get('adapter') == 'both' and result.get('engine_profile') == 'standard', 'installed CLI differs from frozen method')
+                and result.get('adapter') == 'both' and result.get('engine_profile') == ('tuned' if arm=='Cimprove' else 'standard'), 'installed CLI differs from frozen method')
         if result.get('status') == 'cancelled' or any(row.get('status') == 'cancelled' for row in result.get('steps',[])):
             raise KeyboardInterrupt
         if arm == 'B0':
@@ -362,7 +389,7 @@ def main():
         record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed', controls_passed=False,
             attempt_qualified=False, workflow_delivered=False, reason=type(exc).__name__+': '+str(exc))
     if route.is_file(): record['route_attempt'] = shared.read_attempt(route)
-    if arm == 'Cthermal' and (route.parent/'incumbent/result.json').is_file():
+    if arm in ('Cthermal','Cimprove') and (route.parent/'incumbent/result.json').is_file():
         record['incumbent_attempt'] = shared.read_attempt(route.parent/'incumbent/result.json')
     complete = f.evidence_inventory(out); record['completed_evidence'] = complete
 

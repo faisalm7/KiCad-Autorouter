@@ -2,7 +2,7 @@
 
 `scripts/freeze_current_comparison.py` prepares a comparison without routing a board. It replaces the historical, path-specific freezer for new experiments. It reads only the supplied projects, qualification packet, selected runtime and seven administration files; it does not scan the research archive. It is administration tooling, outside the shipped runtime.
 
-The current contract is deliberately narrow: this Mac, the selected KiCad10.0.7 runtime042 artifact, and its explicit fresh-root installation qualification. That qualification records actual native CLI delivery and one actual new-root GUI vertical slice. It does not transfer all GUI081 roles, qualify another platform or establish a clean-OS installation. The freezer checks the exact manifest, complete immutable population, tools and actual defaults. It cannot create missing native, GUI, legal or human evidence.
+The original `legacy-v1` contract is deliberately narrow: this Mac, selected KiCad10.0.7 and the runtime042 fresh-root qualification. That qualification records actual Native CLI delivery and one new-root GUI vertical slice. It does not transfer all GUI081 roles, qualify another platform or establish a clean OS. The separate `improve-v2` mode below uses current050 CLI installation evidence and explicitly has no new-root GUI qualification. Neither mode creates missing Native, legal or human evidence.
 
 Before executing a new comparison, state the failure or support gap, proposed general mechanism, fixed population, budgets and integrate/revise/defer decision rule. Develop on exposed inputs. This preparation is not a confirmation protocol or proof that family labels have independent ancestry.
 
@@ -53,7 +53,7 @@ cd /absolute/KiCad-Autorouter-local
   --expected-administration-head '<audited committed HEAD>' \
   --output /absolute/KiCad-Autorouter-local/.runs/new-comparison-namespace \
   --enclosure /absolute/KiCad-Autorouter-local/scripts/enclose_current_comparison.py \
-  --enclosure-sha256 9a77bdc832988f45d3bd920dfeeed09288700569db8da7788d043308deb478e4
+  --enclosure-sha256 a441b05adc76deb55e75b809c0d6ec39f3d6a6ee7d700cf545c8f893d5e0dc34
 ```
 
 Measure that complete setup command with `/usr/bin/time -l`; setup is additional cost. Successful preparation writes `population.json`, `frozen-children.json`, six protocols per family, the bounded tools-query process record and pinned input copies. It also installs or verifies the exact public current-method controller in the runtime's `.runs`. Preparation does not start Native routing or qualify future outcomes.
@@ -103,6 +103,20 @@ Use a fresh absolute output directory. It writes generated `report.json` and `fi
 
 Without `--public-sanitize`, output is local and includes bounded original failure text and ignored-check metadata; audit it before sharing. With the flag, safe ignored-check key codes and counts remain visible, while descriptions and free-form reasons become hashes plus exact local receipt/field references. Classification, warnings and failure counts do not change. Source CAD, generated CAD/DSN/SES, plots, logs and raw findings are not copied into the report. Sanitization does not clear redistribution rights or publish anything.
 
-The reporter's 11 constructed tests passed in 0.18 seconds wall/0.12 CPU; they establish reporting controls, not Native correctness. Its actual six-row IR043 stored-evidence report completed in 1.79 seconds wall/1.23 CPU, additional to the comparison costs. The native-only IR043 follow-up used an explicitly reviewed local wrapper. The public freezer above still requires its runtime042 GUI-installation qualification contract: do not fabricate that qualification or treat this report as portable runtime043 GUI support or a fully closed evaluation.
+The reporter's original 11 constructed tests passed in0.18seconds wall/0.12CPU; they establish reporting controls, not Native correctness. Its IR043 stored-evidence report completed in1.79wall/1.23CPU, additional to the comparison. That Native-only follow-up used a reviewed local wrapper. The original `legacy-v1` freezer retains its042 GUI-installation gate: no fabricated qualification, portable043 GUI support or fully closed evaluation follows.
 
 [Current measured results](benchmark-runtime042.md) · [Supported scope and release gates](../REQUIREMENTS.md)
+
+## Current050 default and Improve comparison
+
+`--population-version improve-v2` prepares a separate six-arm population: **B0, B1, B2single_tuned, B2_portfolio, Cdefault, Cimprove**. It replaces Cthermal only in this new version; old populations and evidence remain unchanged. Its copied controller is `qualify-current-method-002.py`, distinct from the old001. Corrected-standard/B1 stays the product default. Cimprove uses the actual installed `Request/Workflow/CliJob` Improve workflow with its tuned settings and internal25-second return reserve, all inside420seconds. It receives no free incumbent.
+
+This mode requires the [actual050 fresh-root CLI installation packet](../evidence/runtime050-install-existing-001.json), its exact manifest, source and54-file population, and current seven-case Native/full199/invalid-control dependency. That packet's GUI087 is prepared-only at its cutoff; [later actual ordinary GUI087 delivery](../evidence/gui-runtime050-install087-delivery-001.json) is separate evidence, not a retroactive change to the CLI prerequisite or fullGUI qualification. This is installed CLI development comparison, not graphical qualification or a fallback renewing old GUI evidence.
+
+The prospective study uses the **already exposed DS18B20 and IR families**, including DS18B20's prior stock success. IR has a zone that can exercise pruning; DS18B20 has none and may be a no-op. No new independent or untouched family is added. Source geometry, rules, layers and protected preparation stay identical across methods. Freeze both families and all12 protocols before execution, in family order DS18B20 then IR and arm order Cdefault, B0, B1, single tuned, portfolio, Improve. No board-specific code/settings changes during the run. Necessary later fixes get a new labelled run, never a stitched first-attempt claim.
+
+Each arm keeps420routing/450method/600complete wall and full-CPU caps plus120export validation. The12-arm aggregate ceiling is7,200seconds wall and7,200CPU, with one heavy worker; setup, authoring, review and reporting are additional. This is a ceiling, not an ETA or an aggregate disk reservation. Measure disk headroom between arms. No paid or background execution.
+
+Keep every incumbent and trial, including Native-valid but unselected `quality_rejected`, actual Native negatives and interrupted/reserve-exhausted attempts. A failed strategy parent remains **not delivered**, even if a child was valid. Every delivered parent/export and every completed trial retains its own Native/full-schematic/original/Default/field-PRL/candidate binding. Do not assume the parent refill preserves the selected child's file hash. Missing or changed proof refuses qualification; source conflicts and all warnings/ignored checks remain visible.
+
+Completion is primary. Compare vias and length separately only among admissible outputs; invalid copper is unranked. Shorter ground copper is not electrical suitability or measured engineer cleanup. Keep the API-versus-CLI workload caveat and every complete cost. These two exposed families cannot establish broad superiority or replace untouched confirmation. This mode is being implemented and qualified; no new comparison outcome is claimed here.

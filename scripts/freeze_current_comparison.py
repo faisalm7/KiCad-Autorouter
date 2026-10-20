@@ -43,8 +43,13 @@ ADMIN_FILES = ('scripts/qualify_comparison_portfolio.py', 'scripts/experiment_po
     'scripts/experiment_quality.py', 'scripts/qualify_installed_workflow.py',
     'scripts/qualify_current_method.py', 'scripts/freeze_current_comparison.py',
     'scripts/enclose_current_comparison.py')
-ENCLOSURE_SHA = '9a77bdc832988f45d3bd920dfeeed09288700569db8da7788d043308deb478e4'
+ENCLOSURE_SHA = 'a441b05adc76deb55e75b809c0d6ec39f3d6a6ee7d700cf545c8f893d5e0dc34'
 QUALIFICATION_KIND = 'runtime042-install-existing-actual-Native-and-single-GUI-vertical-slice-v1'
+IMPROVE_POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cimprove')
+IMPROVE_ARM_ORDER = ('Cdefault', 'B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cimprove')
+IMPROVE_POPULATION_KIND = 'frozen-current-improve-six-arm-exposed-development-v2'
+IMPROVE_METHOD_KIND = 'installed-native7-current-method-v2'
+IMPROVE_QUALIFICATION_KIND = 'runtime050-install-existing-actual-Native-CLI-prepared-GUI-only-v1'
 MAX_PROJECT_FILES = 2000
 # The unchanged arm controllers use the shared 32 MiB source census.
 MAX_PROJECT_BYTES = 32 * 1024**2
@@ -52,6 +57,58 @@ MAX_PROJECT_BYTES = 32 * 1024**2
 
 def require(ok, message):
     if not ok: raise ValueError(message)
+
+
+def contract(version):
+    if version == 'legacy-v1':
+        return POPULATION, ARM_ORDER, 'frozen-current-six-arm-exposed-development-v1', 'installed-native7-current-method-v1', 'qualify-current-method-001.py'
+    require(version == 'improve-v2', 'unknown comparison population version')
+    return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, IMPROVE_POPULATION_KIND, IMPROVE_METHOD_KIND, 'qualify-current-method-002.py'
+
+
+def qualification_scope(qualified, runtime, manifest_pin, identity, manifest, version):
+    """Keep the old GUI gate separate from the explicit050 CLI-only gate."""
+    native = qualified.get('Native')
+    require(type(qualified.get('schema')) is int and qualified['schema'] == 1
+        and type(native) is dict and qualified.get('runtime') == str(runtime)
+        and qualified.get('runtime_manifest_sha256') == manifest_pin and qualified.get('source_head') == identity['git_head']
+        and qualified.get('immutable_map_build_lock_version_unchanged') is True
+        and type(qualified.get('immutable_files')) is int and qualified['immutable_files'] == len(manifest['immutable_files_sha256'])
+        and qualified.get('accepted') is False and native.get('doctor_ready') is True
+        and native.get('six_stage_delivery') is True and native.get('counts') == [0,0,0,0]
+        and all(type(v) is int for v in native['counts'])
+        and identity.get('native_version') == '10.0.7' and manifest['local_engine'] is not None,
+        'exact qualified root/source/manifest/map required')
+    if version == 'legacy-v1':
+        require(qualified.get('kind') == QUALIFICATION_KIND and qualified.get('actual_newroot_GUI_vertical_slice') is True
+            and type(qualified.get('full188')) is dict and qualified['full188'].get('passed') is True
+            and native.get('protected4') is True, 'exact042 GUI qualification required; no historical GUI transfer')
+        return dict(kind=QUALIFICATION_KIND, full_GUI_claim=False), {}
+    require(version == 'improve-v2' and qualified.get('kind') == IMPROVE_QUALIFICATION_KIND
+        and qualified.get('workflow_CLI') is True and qualified.get('workflow_delivered') is True
+        and qualified.get('production_admitted') is False and qualified.get('actual_GUI') is False
+        and qualified.get('full_GUI_claim') is False and qualified.get('installation_record_is_authoritative') is False
+        and type(native.get('protected_routes')) is int and native['protected_routes'] == 4
+        and type(qualified.get('GUI087')) is dict and qualified['GUI087'].get('actual_GUI') is False
+        and qualified['GUI087'].get('state') == 'PREPARED_ONLY_NOT_EXECUTED',
+        'exact050 installed CLI/prepared-only GUI qualification required')
+    dependency = ROOT/'evidence/runtime050-native-milestone-002.json'
+    rows = qualified.get('dependencies')
+    require(type(rows) is list and len(rows) == 1 and type(rows[0]) is dict
+        and rows[0].get('path') == str(dependency.relative_to(ROOT)), 'exact050 Native prerequisite required')
+    _, proof = pinned_json(dependency, rows[0].get('sha256'))
+    expected = {'ordinary-whole4Cu','improve-floor2Cu','ordinary-hierarchy2Cu','ordinary-npth2Cu',
+                'improve-pour-only','ordinary-alias2Cu','improve-fractional'}
+    require(type(proof.get('schema')) is int and proof['schema'] == 1
+        and proof.get('kind') == 'runtime050-seven-completed-native-workflows-v1'
+        and proof.get('source_head') == identity['git_head']
+        and proof.get('runtime_manifest_sha256') == qualified.get('original_runtime_manifest_sha256')
+        and proof.get('Native_cohort_passed') is True and proof.get('full199',{}).get('passed') is True
+        and proof.get('invalid_controls',{}).get('passed') is True and type(proof.get('cases')) is list
+        and len(proof['cases']) == 7 and {row.get('case') for row in proof['cases']} == expected,
+        'completed050 full199/Native/invalid prerequisite differs')
+    return dict(kind=IMPROVE_QUALIFICATION_KIND, actual_GUI_qualified=False, full_GUI_claim=False,
+        scope='Installed Native CLI prerequisite; GUI087 prepared only, no current graphical qualification.'), {str(dependency): rows[0]['sha256']}
 
 
 def pinned_json(path, digest):
@@ -150,7 +207,9 @@ def query_runtime(runtime, output):
 
 
 def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, qualification,
-           qualification_sha256, expected_administration_head, output, enclosure, enclosure_sha256):
+           qualification_sha256, expected_administration_head, output, enclosure, enclosure_sha256,
+           population_version='legacy-v1'):
+    population_names, arm_order, population_kind, method_kind, child_name = contract(population_version)
     require(sys.platform == 'darwin', 'this freezer qualifies Mac/selected7 only')
     runtime = pv._directory(Path(runtime)); output = pv.canonical(Path(output)); enclosure = pv.canonical(Path(enclosure))
     require(Path(__file__).resolve() == ROOT/'scripts/freeze_current_comparison.py', 'exact public freezer required')
@@ -165,29 +224,19 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     manifest_raw, manifest = pinned_json(runtime/pv.MANIFEST, expected_manifest_sha256)
     implementation = {name: pin for name, pin in pv._file_map(manifest.get('immutable_files_sha256')).items() if name.startswith('autorouter/')}
     identity = pv._runtime_identity(runtime, implementation); source_head = identity['git_head']
-    native = qualified.get('Native'); full = qualified.get('full188')
-    require(type(qualified.get('schema')) is int and qualified['schema'] == 1
-        and type(native) is dict and type(full) is dict, 'qualified root evidence schema required')
-    require(qualified.get('kind') == QUALIFICATION_KIND and qualified.get('runtime') == str(runtime)
-        and qualified.get('runtime_manifest_sha256') == expected_manifest_sha256 and qualified.get('source_head') == source_head
-        and qualified.get('immutable_map_build_lock_version_unchanged') is True
-        and type(qualified.get('immutable_files')) is int and qualified['immutable_files'] == len(manifest['immutable_files_sha256'])
-        and qualified.get('actual_newroot_GUI_vertical_slice') is True and qualified.get('accepted') is False
-        and full.get('passed') is True and native.get('doctor_ready') is True
-        and native.get('six_stage_delivery') is True and native.get('protected4') is True
-        and native.get('counts') == [0,0,0,0] and all(type(v) is int for v in native['counts'])
-        and identity.get('native_version') == '10.0.7' and manifest['local_engine'] is not None, 'exact qualified root/source/manifest/map required; no historical GUI transfer')
+    qualification_record, qualification_dependencies = qualification_scope(
+        qualified, runtime, expected_manifest_sha256, identity, manifest, population_version)
     families = sources(spec, runtime); tracked = administration(expected_administration_head)
     require(shutil.disk_usage(ROOT).free >= 4*1024**3, 'at least4GiB startup headroom required; future jobs have no aggregate quota')
     outputs = {slug: {arm: str(runtime/'.runs'/(
         ('native7-comparison-' if arm.startswith('B') else 'native7-method-') + output.name + '-' + slug + '-' + arm))
-        for arm in POPULATION} for slug in families}
+        for arm in population_names} for slug in families}
     roots = [Path(value) for row in outputs.values() for value in row.values()]
     extras = {slug: [Path(outputs[slug]['B2_portfolio']+'-portfolio'), *[Path(outputs[slug]['B2_portfolio']+'-portfolio-'+f'{i:02d}-'+v)
         for i,v in enumerate(VARIANTS,1)]] for slug in families}
     roots += [path for row in extras.values() for path in row]
     require(len(set(roots)) == len(roots) and not any(os.path.lexists(pv.canonical(path)) for path in roots), 'fresh distinct population and portfolio roots required')
-    child = runtime/'.runs/qualify-current-method-001.py'; payload = pv.read_bytes(ROOT/'scripts/qualify_current_method.py')
+    child = runtime/'.runs'/child_name; payload = pv.read_bytes(ROOT/'scripts/qualify_current_method.py')
     if os.path.lexists(child):
         require(child.stat().st_uid == os.getuid() and pv.read_bytes(child) == payload, 'existing copied controller differs, is unowned or linked')
     output.mkdir(mode=0o700); owner = {}; h.capture_destination(owner, output)
@@ -206,6 +255,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         require(pv._directory(runtime/'.runs').stat().st_uid == os.getuid(), 'runtime work directory ownership changed')
         for path, pin in query_pins.items(): require(pv.file_digest(Path(path),512*1024)[0] == pin, 'runtime query proof changed')
         for name, pin in tools['files'].items(): require(pv.file_digest(pv.canonical(Path(name)), pv.MAX_ENGINE_BYTES)[0] == pin, 'queried tool bytes changed')
+        for name, pin in qualification_dependencies.items(): pinned_json(Path(name), pin)
         require(not any(os.path.lexists(path) for path in roots), 'Native outputs appeared before population frozen')
     fresh()
     if not os.path.lexists(child):
@@ -215,24 +265,31 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     for name, raw in inputs.items():
         with (output/name).open('xb') as stream: stream.write(raw)
     defaults = pref.validate(dict(query['defaults'], seconds=420))
-    population = dict(schema=1, kind='frozen-current-six-arm-exposed-development-v1', population=list(POPULATION),
-        planned_family_order=list(families), planned_arm_order=list(ARM_ORDER), runtime=str(runtime),
+    improve_settings = pref.validate(dict(defaults, profile='tuned'))
+    population = dict(schema=1, kind=population_kind, population=list(population_names),
+        planned_family_order=list(families), planned_arm_order=list(arm_order), runtime=str(runtime),
         runtime_manifest_sha256=expected_manifest_sha256, source_head=source_head, administration_head=expected_administration_head,
         families=families, outputs=outputs, limits=LIMITS, default_settings=defaults, tracked_administration_files_sha256=tracked,
-        qualification=dict(path=str(qualification),sha256=qualification_sha256,kind=QUALIFICATION_KIND,full_GUI_claim=False),
+        qualification=dict(path=str(qualification),sha256=qualification_sha256,**qualification_record),
         freezer_sha256=tracked['scripts/freeze_current_comparison.py'], enclosure_sha256=enclosure_sha256,
         policy='B1 corrected standard remains default. Fixed one tuned attempt plus ordered via_default/via_low/via_high balanced portfolio;30inside each trial and15root reserve, no extra budget or board tuning.',
         caveats='All exposed families/failures/warnings retained; rights are declarations, not legal clearance/holdout/independent pedigree. B0 shares fidelity safeguards, not untouched vanilla. API baselines versus actual default/recoverCLI startup differ. Recover420 is whole-method allocation. Every actual outer wall/fullCPU cost includes all startup/conversion/selection/Native/delivery/readback; setup separate. All raw local, publication hashes_only; no publication function or aggregate future-job quota.',
         Native_executed=False,actual_GUI=False,project_complete=False)
+    if population_version == 'improve-v2':
+        population.update(improve_settings=copy.deepcopy(improve_settings),
+            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and25 finalization reserve. Baselines and portfolio policy unchanged.',
+            caveats=population['caveats'].replace('Recover420 is whole-method allocation.',
+                'Improve420 is whole-method allocation including its incumbent and25-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
     population_pin = save_new(output/'population.json', population)
     prerequisite_paths = [Path(sources_path), Path(qualification), runtime/pv.MANIFEST, output/'sources.json', output/'qualification.json',
         output/'population.json', output/'tools-defaults.json', output/'tools-defaults-process.json', child, *[ROOT/name for name in tracked]]
     prerequisites = {str(path): pv.file_digest(path,4*1024**2)[0] for path in prerequisite_paths}
+    prerequisites.update(qualification_dependencies)
     require(0 < len(prerequisites) <= 32, 'current prerequisite ceiling exceeded')
     children = {}; admin = {name: tracked[name] for name in ADMIN_FILES[:3]}
     for slug, entry in families.items():
         children[slug] = {}
-        for arm in ARM_ORDER:
+        for arm in arm_order:
             folder = output/slug/arm; folder.mkdir(parents=True)
             common = dict(schema=1,runtime=str(runtime),runtime_manifest_sha256=expected_manifest_sha256,source_head=source_head,
                 tools=copy.deepcopy(tools),source=entry['source'],source_hashes=copy.deepcopy(entry['source_hashes']),source_rights=copy.deepcopy(entry['source_rights']),
@@ -247,11 +304,12 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
                     family=entry['source_rights']['family'],controller=str(ROOT/ADMIN_FILES[0]),controller_sha256=admin[ADMIN_FILES[0]],
                     portfolio_output=str(extras[slug][0]),material_roots=[str(path) for path in extras[slug]])
             else:
-                plan = dict(common,kind='installed-native7-current-method-v1',arm=arm,population=list(POPULATION),outputs=outputs[slug],
+                plan = dict(common,kind=method_kind,arm=arm,population=list(population_names),outputs=outputs[slug],
                     controller=str(child),controller_sha256=tracked['scripts/qualify_current_method.py'],qualifier_sha256=tracked['scripts/qualify_installed_workflow.py'],
                     source_inventory_sha256=hashlib.sha256((f.canonical(entry['source_hashes'])+'\n').encode()).hexdigest(),
                     source_rights_sha256=hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(),
                     prerequisite_sha256=prerequisites,default_settings=copy.deepcopy(defaults),limits=dict(LIMITS))
+                if population_version == 'improve-v2': plan['improve_settings'] = copy.deepcopy(improve_settings)
             path = folder/'protocol.json'; children[slug][arm] = dict(path=str(path),sha256=save_new(path,plan))
     fresh(); require(child.stat().st_uid == os.getuid() and pv.read_bytes(child) == payload, 'copied controller changed or unowned at final freeze')
     for rows in children.values():
@@ -269,6 +327,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2'), default='legacy-v1')
     for name in ('runtime','sources','qualification','output','enclosure'): parser.add_argument('--'+name,type=Path,required=True)
     for name in ('expected-manifest-sha256','sources-sha256','qualification-sha256','expected-administration-head','enclosure-sha256'):
         parser.add_argument('--'+name,required=True)

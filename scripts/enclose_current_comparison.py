@@ -9,6 +9,16 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));sys.dont_w
 from autorouter import pipeline as p,floor_route as f,handoff as h
 from autorouter.runner import run
 from autorouter.gui import child_environment
+
+
+def ordinary_method_contract(plan, child, external):
+ if external:return False
+ return ((plan.get('kind')=='installed-native7-current-method-v1'
+          and plan.get('arm') in ('Cdefault','Cthermal') and child.name=='qualify-current-method-001.py')
+     or (plan.get('kind')=='installed-native7-current-method-v2'
+          and plan.get('arm') in ('Cdefault','Cimprove') and child.name=='qualify-current-method-002.py'))
+
+
 ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--protocol-sha256',required=True);a=ap.parse_args()
 plan=f.read_json(a.protocol);pin=p.sha(a.protocol);assert pin==a.protocol_sha256
 runtime=Path(plan['runtime']);child=Path(plan['controller']);manifest=runtime/'runtime-distribution.json'
@@ -18,7 +28,7 @@ assert p.sha(Path(__file__))==plan['enclosure_sha256'] and plan['pass_key'] in (
 args=plan.get('controller_args',[]);assert args in ([],['--runtime',str(runtime)])
 budget=plan['whole_wall_full_cpu_seconds'];assert type(budget) is int and 30<=budget<=600
 delivery=Path(plan['output'])
-ordinary_method=(plan.get('kind')=='installed-native7-current-method-v1' and plan.get('arm') in ('Cdefault','Cthermal') and not external and child.name=='qualify-current-method-001.py')
+ordinary_method=ordinary_method_contract(plan,child,external)
 assert delivery.parent==runtime/'.runs' and (delivery.name.startswith('native7-comparison-') or (ordinary_method and delivery.name.startswith('native7-method-'))) and not delivery.exists()
 material_roots=[]
 if external:

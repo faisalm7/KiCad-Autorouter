@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "kind": "current-comparison-conditional-field-reporting-correction-source-cutoff-v1",
+  "recorded_utc": "2026-10-20T10:07:03.909029+00:00",
+  "edits_stopped": true,
+  "prior_source_cutoff": {
+    "path": ".runs/current-comparison-native-policy-correction-001.json",
+    "bytes": 7926,
+    "sha256": "f50eb353c6157f6e26f9ec2e7ef06785afae4df3c5eb265210f3d653fd647878"
+  },
+  "source_pins": [
+    {
+      "path": "scripts/freeze_current_comparison.py",
+      "bytes": 26896,
+      "sha256": "0a097e053da47c478eb4751112cf87037538af8f4e816de9fce452d05f9fe4d2"
+    },
+    {
+      "path": "scripts/qualify_current_method.py",
+      "bytes": 30409,
+      "sha256": "ea98a8c6ab1af6b6b4366cf397cd29130f5d2ccef36e33137b04bea205ade888"
+    },
+    {
+      "path": "scripts/enclose_current_comparison.py",
+      "bytes": 5997,
+      "sha256": "a441b05adc76deb55e75b809c0d6ec39f3d6a6ee7d700cf545c8f893d5e0dc34"
+    },
+    {
+      "path": "scripts/report_current_comparison.py",
+      "bytes": 57712,
+      "sha256": "1fc581c9abed5ee4c2e17dfb8a83fec82ed980e656bc4ffcfa72eba4553b5236"
+    },
+    {
+      "path": "tests/test_comparison_freezer.py",
+      "bytes": 24299,
+      "sha256": "3f9dc398314da6a543193fea44be9f6313be2be84d45891cdc4b0941c8334154"
+    },
+    {
+      "path": "tests/test_current_comparison_report.py",
+      "bytes": 19857,
+      "sha256": "708e5ed4a1966cfa7f3a24bd84520ad425d0cafee0b8f3fb352e1e03d74528b1"
+    },
+    {
+      "path": "tests/test_comparison_improve.py",
+      "bytes": 20588,
+      "sha256": "5d0b767d6940aee62c6089861fb048a0a3405941fe22c90be0f60f51ae559440"
+    }
+  ],
+  "product_contract": {
+    "path": "autorouter/schematic_field_evidence.py",
+    "bytes": 18889,
+    "sha256": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a"
+  },
+  "changes": [
+    "Improve auxiliary field applicability comes from the exact hash-bound own raw final Native report findings and exact recorded Native finding census, using existing schematic_field_evidence.has_fields/names/paths/local_settings_path helpers.",
+    "If footprint_symbol_field_mismatch is present, the existing complete field/netlist/proof/local-PRL/journal hash bridge remains mandatory and field qualification boolean stays visible.",
+    "If absent, all four field artifacts, two field process journals, own-root field process steps and the Native field_parity key must be absent, including dangling-symlink artifacts. The result reports status not_applicable and qualified null; it does not synthesize field evidence or require a false field qualification.",
+    "Default map/audit, refill, own Native and source/candidate/process bindings remain. No product policy, Native report, producer050 bytes or comparison runtime changed.",
+    "Tests now construct the real no-field shape by default; field-negative controls explicitly author the field finding/bridge. Existing application-policy false-alone control remains pure and introduces no new rejection criterion."
+  ],
+  "tests": [
+    {
+      "attempt": "red-001",
+      "command": ".venv/bin/python -B -m unittest tests.test_comparison_improve.ImproveFactsTests.test_no_native_field_findings_need_no_field_observations",
+      "launcher": "/usr/bin/time -p",
+      "login": false,
+      "passed": false,
+      "tests": 1,
+      "wall_seconds": 0.15,
+      "user_seconds": 0.11,
+      "system_seconds": 0.03,
+      "full_CPU_seconds": 0.14,
+      "scope": "Intentional RED before conditional fix: missing field proof on valid no-field shape caused FileNotFoundError.",
+      "stdout": {
+        "path": ".runs/current-comparison-no-field-red-001.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_and_external_time": {
+        "path": ".runs/current-comparison-no-field-red-001-time.log",
+        "bytes": 2031,
+        "sha256": "7a439bee631b514164bacb2fb7b202ec79e58b45e7abfe9ed50ae274ee4dfb1f"
+      }
+    },
+    {
+      "attempt": "targeted-001",
+      "command": ".venv/bin/python -B -m unittest tests.test_current_comparison_report tests.test_comparison_improve",
+      "launcher": "/usr/bin/time -p",
+      "login": false,
+      "passed": true,
+      "tests": 38,
+      "wall_seconds": 0.73,
+      "user_seconds": 0.32,
+      "system_seconds": 0.33,
+      "full_CPU_seconds": 0.65,
+      "scope": "Final two affected modules; synthetic reporting/custody controls only.",
+      "stdout": {
+        "path": ".runs/current-comparison-no-field-targeted-001.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr_and_external_time": {
+        "path": ".runs/current-comparison-no-field-targeted-001-time.log",
+        "bytes": 166,
+        "sha256": "89643a5887c2409e0ee3f0dc2d2ca2e1af09e2c5086aaed479bfb18227670ffb"
+      }
+    }
+  ],
+  "preserved_pre_correction_sources": [
+    {
+      "path": ".runs/current-comparison-no-field-pre-correction-001/scripts/report_current_comparison.py",
+      "bytes": 56434,
+      "sha256": "bb3183531f50d6b16fb820246c76cfe590c0f9282e7d071c6b05c1bb0f0b5826"
+    },
+    {
+      "path": ".runs/current-comparison-no-field-pre-correction-001/tests/test_current_comparison_report.py",
+      "bytes": 19857,
+      "sha256": "708e5ed4a1966cfa7f3a24bd84520ad425d0cafee0b8f3fb352e1e03d74528b1"
+    },
+    {
+      "path": ".runs/current-comparison-no-field-pre-correction-001/tests/test_comparison_improve.py",
+      "bytes": 16729,
+      "sha256": "a80b6d74678f165b2910cc83414cfaa4ebc5f225536686d098e88328733cfd86"
+    }
+  ],
+  "additional_authoring_review_cost": {
+    "wall_seconds": null,
+    "CPU_seconds": null,
+    "scope": "Unknown additional, not zero; test process costs recorded separately."
+  },
+  "scope": {
+    "Native": false,
+    "central_readers": false,
+    "engine": false,
+    "GUI": false,
+    "comparison": false,
+    "full_suite": false,
+    "runtime_core_source_changes": false,
+    "Git_mutations": false,
+    "human_review": false
+  }
+}

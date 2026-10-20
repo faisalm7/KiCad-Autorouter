@@ -1,0 +1,31 @@
+E
+======================================================================
+ERROR: test_no_native_field_findings_need_no_field_observations (tests.test_comparison_improve.ImproveFactsTests.test_no_native_field_findings_need_no_field_observations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 150, in test_no_native_field_findings_need_no_field_observations
+    fact=q.improve_auxiliary(self.trial_folder,self.trial,self.plan)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 284, in improve_auxiliary
+    proof = read(folder/'final-drc-fields-proof.json'); binding = read(folder/'final-drc-binding.json')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 45, in read
+    raw = pv.read_bytes(pv.canonical(Path(path)), MAX_JSON)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/provenance.py", line 73, in read_bytes
+    with _regular(path, limit) as (stream, size):
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/provenance.py", line 59, in _regular
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/g4/gcs4p1q561qgx6k1kqjr28600000gn/T/tmpoatijdj2/improve/route/trials/trial-0000/final-drc-fields-proof.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.024s
+
+FAILED (errors=1)
+real 0.15
+user 0.11
+sys 0.03

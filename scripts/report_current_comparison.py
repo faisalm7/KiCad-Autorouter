@@ -25,6 +25,7 @@ from scripts import freeze_current_comparison as frozen
 
 KEYS = ('opens', 'blocking', 'warnings', 'exclusions')
 KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequisite recorded by freezer; no new GUI claim',
+         frozen.IMPROVE_POPULATION_KIND: 'Installed050 CLI prerequisite; GUI087 prepared only, no current GUI qualification',
          'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
          'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied',
          'frozen-runtime050-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied'}
@@ -151,7 +152,30 @@ def ignored_check_facts(value, path, field, public_sanitize):
     return fact
 
 
-def own_final(receipt, *, export, plan, allowed, accepted, public_sanitize=False):
+def native_application_policy(native, plan):
+    """Reuse the pure product predicate only under its recorded source pins.
+
+    This does not run Native or a central reader. If the currently loaded pure
+    policy differs from the recorded implementation, refuse to reinterpret it.
+    """
+    from autorouter import pipeline as application, schematic_field_evidence, schematic_fields, sexpr
+    modules = (application,schematic_field_evidence,schematic_fields,sexpr)
+    pins = plan['tools'].get('implementation_sha256')
+    require(type(pins) is dict, 'recorded Native application-policy implementation required')
+    files = {}
+    for module in modules:
+        name = 'autorouter/'+Path(module.__file__).name
+        path = pv.canonical(Path(module.__file__))
+        require(path == ROOT/name and pins.get(name) == digest(path), 'Native application-policy source differs')
+        files[name] = pins[name]
+    accepted = application.native_accepted(native)
+    rejected = application.native_rejection_reasons(native)
+    require(type(accepted) is bool and accepted is (not rejected), 'Native application-policy predicates disagree')
+    for name,pin in files.items(): require(digest(ROOT/name) == pin, 'Native application-policy source changed')
+    return dict(accepted=accepted,rejection_reasons=rejected,implementation_sha256=files)
+
+
+def own_final(receipt, *, export, plan, allowed, accepted, public_sanitize=False, trial_parent=None):
     """The proven final-output/cwd selector, independent of phaseNone/trial order.
 
     This checks retained bytes/process metadata, not source semantics or a live
@@ -160,17 +184,24 @@ def own_final(receipt, *, export, plan, allowed, accepted, public_sanitize=False
     receipt = pv.canonical(Path(receipt))
     require(any(root in receipt.parents for root in allowed), 'receipt escaped frozen evidence roots')
     data = read(receipt); source_hashes = plan['source_hashes']
-    require(data['source_hashes'] == source_hashes and data['tools'] == plan['tools'], 'stored source/tools differ from frozen protocol')
-    identity = data['tools']['source_provenance']
+    trial = trial_parent is not None
+    header = trial_parent if trial else data
+    require(not trial or not export and receipt.parent.parent == Path(trial_parent['candidate']).parent.parent/'trials',
+            'trial escaped its exact Improve parent')
+    require(header['source_hashes'] == source_hashes and header['tools'] == plan['tools'], 'stored source/tools differ from frozen protocol')
+    identity = header['tools']['source_provenance']
     require(identity['git_head'] == plan['source_head'] and identity['manifest_sha256'] == plan['runtime_manifest_sha256']
-            and data['tools']['kicad'] == '10.0.7', 'stored selected7 identity differs')
-    require(data['schematic_parity'] == 'checked by final native DRC', 'own final full-SCH completion required')
+            and header['tools']['kicad'] == '10.0.7', 'stored selected7 identity differs')
+    if not trial: require(data['schematic_parity'] == 'checked by final native DRC', 'own final full-SCH completion required')
     require(data['export_accepted' if export else 'accepted'] is accepted, 'stored acceptance differs')
-    require(data['original_geometry_and_routing_unchanged' if export else 'invariants_unchanged'] is True, 'original invariants not established')
+    require(header['original_geometry_and_routing_unchanged' if export else 'invariants_unchanged'] is True, 'original invariants not established')
     native = counts(data['native'])
-    if accepted: require(native[0] == native[1] == native[3] == 0, 'delivered Native counts not routing-clean')
-    else: require(any(native[index] > 0 for index in (0, 1, 3)), 'completed-negative proof has no failing routing Native count')
-    candidate = pv.canonical(Path(data['candidate']))
+    policy = native_application_policy(data['native'],plan)
+    if accepted: require(policy['accepted'], 'delivered Native evidence rejected by application policy')
+    elif not trial or data['status'] == 'drc_rejected':
+        require(not policy['accepted'], 'completed-negative proof has no application-policy rejection')
+    else: require(policy['accepted'], 'Native-valid unselected trial rejected by application policy')
+    candidate = (receipt.parent/'candidate'/Path(plan['source']).name) if trial else pv.canonical(Path(data['candidate']))
     folder = receipt.parent / 'validation' if export else receipt.parent
     require(candidate == folder / 'candidate' / candidate.name and any(root in candidate.parents for root in allowed), 'candidate escaped own final directory')
     require(digest(candidate) == data['candidate_sha256'], 'candidate hash differs')
@@ -214,10 +245,10 @@ def own_final(receipt, *, export, plan, allowed, accepted, public_sanitize=False
                 ('argv', 'cwd', 'status', 'exit_code', 'cleanup_complete', 'log_truncated', 'pid')), 'own final process receipt differs')
     return dict(receipt=str(receipt), receipt_sha256=digest(receipt), candidate_sha256=data['candidate_sha256'],
         native_report_sha256=data['native_report_sha256'], process_sha256=digest(process_path), binding_sha256=digest(folder / 'final-drc-binding.json'),
-        Native_counts=native, finding_types=finding_types(data['native']),
+        Native_counts=native, Native_application_policy=policy, finding_types=finding_types(data['native']),
         ignored_checks=ignored_check_facts(raw['ignored_checks'], report, 'ignored_checks', public_sanitize),
         ignored_check_count=len(raw['ignored_checks']), protected_count=None if export or 'protected_route_import' not in data else len(data['protected_route_import']['matches']),
-        whole_project_drc_clean=data['whole_project_drc_clean'], full_schematic_flag=True,
+        whole_project_drc_clean=None if trial else data['whole_project_drc_clean'], full_schematic_flag=True,
         interpretation='Stored own-final bytes only; no new Native, central readback, human or electrical qualification.')
 
 
@@ -234,7 +265,7 @@ def classify(outer, data, timing, arm, summary=None):
     if arm == 'B2_portfolio': qualified = qualified and summary is not None and summary.get('status') in ('completed', 'no_valid_candidate')
     else: qualified = qualified and data.get('attempt_qualified') is True
     delivered = qualified and data.get('workflow_delivered') is True and data.get('outcome') in ('validated_delivery', 'validated_winner_delivery')
-    negative = qualified and data.get('workflow_delivered') is not True and data.get('outcome') in ('validated_completed_negative', 'validated_no_valid_candidate')
+    negative = qualified and arm != 'Cimprove' and data.get('workflow_delivered') is not True and data.get('outcome') in ('validated_completed_negative', 'validated_no_valid_candidate')
     qualified = bool(delivered or negative)
     return dict(attempt_qualified=qualified, workflow_delivered=bool(delivered), validated_completed_negative=bool(negative),
         evidence_classification='validated_delivery' if delivered else 'validated_completed_negative' if negative else 'unqualified_or_not_delivered_method',
@@ -242,9 +273,182 @@ def classify(outer, data, timing, arm, summary=None):
         method_sample=dict(wall_seconds=method[0], full_CPU_seconds=method[1]))
 
 
+def improve_auxiliary(folder, data, plan):
+    """Stored Default/field/PRL bridges, shared by parent, child and trials."""
+    from autorouter import schematic_field_evidence as fields
+    audit = read(folder/'final-netclass-audit.json'); mapping = folder/'final-netclasses.json'
+    require(audit['candidate_sha256'] == data['candidate_sha256']
+        and audit['project_sha256'] == plan['source_hashes'][Path(plan['source']).with_suffix('.kicad_pro').name]
+        and audit['native_map_file_sha256'] == digest(mapping) and audit['native']['passed'] is True
+        and audit['route_dimensions']['passed'] is True
+        and audit['default_targets']['policy'] == 'single-default-global-floor-targets-v2', 'own Improve Default audit differs')
+    names = ('final-netclass-audit.json','final-netclasses.json','final-netclasses-process.json',
+        'refill-drc.json','refill-drc-binding.json','refill-drc-process.json')
+    report = folder/'final-drc.json'; raw = read(report)
+    findings = raw['violations'] + raw['unconnected_items'] + raw['schematic_parity']
+    require(digest(report) == data['native_report_sha256'] and data['native']['findings'] == findings,
+            'own field applicability report differs')
+    field_names = fields.names('final-drc')
+    artifacts = (*fields.paths(folder,'final-drc'),fields.local_settings_path(folder,'final-drc'),
+                 *(folder/(name+'-process.json') for name in field_names))
+    if not fields.has_fields(findings):
+        require(not any(os.path.lexists(path) for path in artifacts)
+            and 'field_parity' not in data['native']
+            and not any(step.get('name') in field_names and step.get('cwd') == str(folder)
+                        for step in data['steps']), 'field evidence without Native field finding')
+        return dict(files_sha256={name:digest(folder/name) for name in names},
+            field_qualification=dict(status='not_applicable',qualified=None,
+                native_report_sha256=data['native_report_sha256']),
+            Default_targets_policy=audit['default_targets']['policy'],
+            protected_count=audit['route_dimensions']['checked']['protected'])
+    proof = read(fields.paths(folder,'final-drc')[2]); binding = read(folder/'final-drc-binding.json')
+    require(data['native']['field_parity'] == proof, 'own field proof differs from Native record')
+    for name, key in (('final-drc.json','native_report_sha256'),('final-drc-binding.json','binding_sha256'),
+        ('final-drc-fields.net','netlist_sha256'),('final-drc-fields.json','fields_sha256'),
+        ('final-drc-fields-local-settings.json','local_settings_guard_sha256')):
+        require(digest(folder/name) == proof[key], 'own field hash bridge changed')
+    guard = read(folder/'final-drc-fields-local-settings.json')
+    require(guard['input'] == binding['input'] and guard['before'] == guard['after'] == binding['after']
+        and guard['policy'] == 'job-owned-field-prl-immutable-v1', 'field input/PRL bridge differs')
+    protection = guard['protection']
+    require(protection['policy'] == 'mac-owned-prl-immutable-v1' and type(protection['present']) is bool
+        and (protection['present'] is False or protection.get('flags_restored') is True
+             and protection.get('bytes_unchanged') is True), 'field PRL restoration incomplete')
+    for name in field_names:
+        journal = folder/(name+'-process.json'); process = read(journal)
+        require(digest(journal) == guard['processes_sha256'][name] and process['cwd'] == str(folder)
+            and process['status'] == 'success' and process['exit_code'] == 0
+            and process['cleanup_complete'] is True and process['log_truncated'] is False, 'field process custody differs')
+    names += ('final-drc-fields-proof.json',
+        'final-drc-fields-local-settings.json','final-drc-fields-netlist-process.json','final-drc-fields-audit-process.json')
+    require(type(proof['qualification']) is dict and type(proof['qualification'].get('qualified')) is bool,
+            'typed field qualification required')
+    return dict(files_sha256={name:digest(folder/name) for name in names},
+        field_qualification=dict(qualified=proof['qualification']['qualified'],
+            detail=field_fact(proof['qualification'],folder/'final-drc-fields-proof.json','qualification',True)),
+        Default_targets_policy=audit['default_targets']['policy'],
+        protected_count=audit['route_dimensions']['checked']['protected'])
+
+
+def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=False):
+    """Retain every attempt; only completed trials receive own-final facts.
+
+    Trial records inherit caller-frozen source/tool context, never fabricated
+    Route headers. This is stored evidence reporting, not central revalidation.
+    """
+    receipt = pv.canonical(Path(receipt)); parent = read(receipt); folder = receipt.parent
+    require(type(qualified_parent) is bool, 'typed parent qualification required')
+    require(any(root in receipt.parents for root in allowed), 'Improve parent escaped frozen arm')
+    rows = parent.get('trials', [])
+    require(type(rows) is list and len(rows) <= 32, 'bounded Improve trial population required')
+    result = dict(parent_receipt_sha256=digest(receipt), trials=[], qualified_parent=qualified_parent)
+    incumbent_path = folder/'incumbent/result.json'
+    if not qualified_parent:
+        for row in rows:
+            require(type(row) is dict and type(row.get('id')) is str, 'raw trial row malformed')
+        # Failed parents remain raw; missing or incomplete trial material cannot
+        # be upgraded to an independently qualified routing result.
+    else:
+        require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
+            and parent['proposal_policy'] == 'single' and parent['engine_profile'] == 'tuned'
+            and parent['budget_seconds'] == parent['cpu_budget_seconds'] == 420
+            and parent['finalization_reserve_seconds'] == parent['finalization_cpu_reserve_seconds'] == 25,
+            'shipped single Improve parent contract differs')
+        marker = parent['native7_improve_parent']; sidecar = folder/'native7-improve-parent.json'
+        context = read(sidecar)['context']
+        require(marker == dict(policy='selected-native7-single-improve-parent-v1',file=sidecar.name,sha256=digest(sidecar))
+            and context['parent'] == str(folder) and context['output'] == str(folder/'incumbent')
+            and context['source'] == plan['source'] and context['source_hashes'] == plan['source_hashes']
+            and context['runtime'] == plan['runtime'] and context['method_seconds'] == 420
+            and context['finalization_reserve_seconds'] == 25 and context['scoring_variant'] is None
+            and context['profile'] == 'tuned' and context['proposal_policy'] == 'single'
+            and context['tools_sha256'] == hashlib.sha256(f.canonical(plan['tools']).encode()).hexdigest(),
+            'Improve parent marker/context differs')
+        result['parent_auxiliary'] = improve_auxiliary(folder,parent,plan)
+    best = None; best_metrics = None
+    if incumbent_path.is_file():
+        inc = read(incumbent_path); summary = parent.get('incumbent') or {}
+        summary_matches = (summary.get('receipt') == str(incumbent_path) and summary.get('status') == inc.get('status')
+            and summary.get('accepted') is inc.get('accepted'))
+        require(summary_matches or not qualified_parent, 'incumbent summary differs')
+        result['incumbent'] = dict(receipt=str(incumbent_path),receipt_sha256=digest(incumbent_path),
+            status=inc.get('status'),accepted=inc.get('accepted'),Native_counts=counts(inc.get('native')),
+            reasons=reasons(inc,incumbent_path,public_sanitize),summary_matches=summary_matches)
+        if qualified_parent:
+            child_context = incumbent_path.parent/'improve-child-context.json'
+            require(inc['native_improve_child'] == dict(policy='selected-native7-single-improve-child-v1',
+                file=child_context.name,sha256=digest(child_context)) and read(child_context) == context,
+                'incumbent context differs from its exact parent')
+            result['incumbent']['own_final'] = own_final(incumbent_path,export=False,plan=plan,allowed=allowed,accepted=True,public_sanitize=public_sanitize)
+            result['incumbent']['auxiliary'] = improve_auxiliary(incumbent_path.parent,inc,plan)
+            basis = parent['native7_default_target_basis']; guide = incumbent_path.parent/'default-targets.json'
+            require(basis == dict(policy='single-default-global-floor-targets-v2',receipt='incumbent/result.json',
+                receipt_sha256=digest(incumbent_path),file='incumbent/default-targets.json',sha256=digest(guide))
+                and inc['default_target_transport'] == dict(policy=basis['policy'],file=guide.name,sha256=basis['sha256']),
+                'mandatory inherited Default basis differs')
+        best, best_metrics = inc.get('candidate_sha256'),inc.get('metrics')
+    else: require(not qualified_parent, 'qualified Improve parent lacks incumbent')
+    trial_root = folder/'trials'
+    if qualified_parent:
+        require(trial_root.is_dir() and {path.name for path in trial_root.iterdir()} == {f'trial-{i:04d}' for i in range(len(rows))}, 'omitted or extra Improve trial folder')
+    for index,row in enumerate(rows):
+        directory = pv.canonical(trial_root/f'trial-{index:04d}'); path = directory/'result.json'
+        require(row.get('id') == directory.name and row.get('receipt') == str(path), 'trial escaped canonical ordered parent')
+        require(path.is_file() or not qualified_parent, 'qualified parent has missing trial receipt')
+        if not path.is_file():
+            result['trials'].append(dict(id=directory.name,receipt=str(path),missing=True)); continue
+        trial = read(path)
+        require(row == dict(id=directory.name,receipt=str(path),status=trial.get('status'),accepted=trial.get('accepted'))
+            and trial.get('id') == directory.name and type(row.get('accepted')) is bool
+            and type(trial.get('accepted')) is bool, 'trial summary differs')
+        fact = dict(id=directory.name,receipt=str(path),receipt_sha256=digest(path),status=trial.get('status'),
+            accepted=trial['accepted'],Native_counts=counts(trial.get('native')),metrics=metric_facts(trial.get('metrics')),
+            reasons=reasons(trial,path,public_sanitize))
+        if trial.get('native') is not None:
+            fact['finding_types'] = finding_types(trial['native'])
+            fact['ignored_checks'] = ignored_check_facts(trial['native']['ignored_checks'],path,'native.ignored_checks',public_sanitize)
+        raw_evidence = {}
+        for name,key in (('candidate/'+Path(plan['source']).name,'candidate_sha256'),('final-drc.json','native_report_sha256')):
+            file = directory/name
+            if file.is_file():
+                pin = digest(file)
+                require(trial.get(key) is None or trial[key] == pin, 'raw trial candidate/report hash differs')
+                raw_evidence[key] = pin
+        for name in ('final-drc-process.json','final-drc-binding.json','refill-drc-process.json'):
+            if (directory/name).is_file(): raw_evidence[name] = digest(directory/name)
+        fact['stored_native_evidence'] = raw_evidence
+        fact['Native_completion_qualified'] = False
+        completed = trial.get('status') in ('improvement_validated','quality_rejected','drc_rejected') and 'reason' not in trial
+        if qualified_parent:
+            require(trial.get('base_candidate_sha256') == best, 'trial base differs from previous checked best')
+            require(trial['accepted'] is (trial.get('status') == 'improvement_validated'), 'trial selection/status differs')
+        if qualified_parent and completed:
+            guard = trial['single_trial_guard']; start=trial['started_elapsed_seconds']; finish=trial['finished_elapsed_seconds']; used=trial['finished_observed_cpu_seconds']
+            values=(start,finish,used,guard['wall_deadline_elapsed_seconds'],guard['work_cpu_limit_seconds'])
+            require(all(type(v) in (int,float) and math.isfinite(v) and v >= 0 for v in values)
+                and start <= finish <= guard['wall_deadline_elapsed_seconds'] <= 395
+                and used <= guard['work_cpu_limit_seconds'] == 395
+                and all(step.get('status') in ('success','nonzero_exit') for step in trial['steps']), 'trial exceeded work reserve or worker failed')
+            fact['own_final'] = own_final(path,export=False,plan=plan,allowed=allowed,accepted=trial['accepted'],
+                public_sanitize=public_sanitize,trial_parent=parent)
+            fact['auxiliary'] = improve_auxiliary(directory,trial,plan)
+            fact['Native_completion_qualified'] = True
+            if trial['accepted']:best,best_metrics=trial['candidate_sha256'],trial['metrics']
+        else:
+            require(not qualified_parent or not trial['accepted'], 'unqualified trial was selected')
+            fact['interpretation']='Unqualified retained attempt; no Native-completion or selection claim.'
+        result['trials'].append(fact)
+    if qualified_parent:
+        require(parent['metrics'] == parent['best_observed_metrics'] == best_metrics, 'parent/selected-best metrics differ')
+        result['interpretation']='Own parent/incumbent and every trial retained; parent refill has its own hash, not an assumed selected-trial byte hash.'
+    return result
+
+
 def population_shape(population, children):
     require(type(population.get('schema')) is int and population['schema'] == 1 and population.get('kind') in KINDS, 'unsupported frozen population schema')
-    require(population['population'] == list(frozen.POPULATION) and population['planned_arm_order'] == list(frozen.ARM_ORDER)
+    version = 'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1'
+    names, order, _, _, _ = frozen.contract(version)
+    require(population['population'] == list(names) and population['planned_arm_order'] == list(order)
             and population['limits'] == frozen.LIMITS, 'frozen arm population/budgets differ')
     families = population['planned_family_order']
     require(type(families) is list and 1 <= len(families) <= 4 and len(set(families)) == len(families)
@@ -252,8 +456,8 @@ def population_shape(population, children):
     require(type(children.get('schema')) is int and children['schema'] == 1 and children['administration_head'] == population['administration_head']
             and children['policy_or_board_changes_after_first_arm'] is False, 'child freeze authority differs')
     for family in families:
-        require(re.fullmatch(r'[a-z][a-z0-9-]{0,63}', family) and set(children['protocols'][family]) == set(frozen.POPULATION)
-                and set(population['outputs'][family]) == set(frozen.POPULATION), 'omitted/extra planned arm')
+        require(re.fullmatch(r'[a-z][a-z0-9-]{0,63}', family) and set(children['protocols'][family]) == set(names)
+                and set(population['outputs'][family]) == set(names), 'omitted/extra planned arm')
     native_only = {
         'frozen-runtime043-labelled-IR-native-support-followup-v1': 'runtime043-labelled-native-only-IR-followup-prerequisites-v1',
         'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'runtime049-labelled-native-CLI-Devobordo-prerequisites-v1',
@@ -265,6 +469,10 @@ def population_shape(population, children):
                 and q['runtime_manifest_sha256'] == population['runtime_manifest_sha256'], 'Native-only prerequisite identity differs')
         require(q['kind'] == native_only[population['kind']]
                 and q['actual_GUI_qualified'] is False and q['full_GUI_claim'] is False, 'Native-only qualification promoted or malformed')
+    elif version == 'improve-v2':
+        q = population['qualification']
+        require(q['kind'] == frozen.IMPROVE_QUALIFICATION_KIND and q['actual_GUI_qualified'] is False
+            and q['full_GUI_claim'] is False, 'installed CLI-only qualification promoted or malformed')
     else:
         require(population['qualification']['kind'] == frozen.QUALIFICATION_KIND
                 and population['qualification']['full_GUI_claim'] is False, 'public freezer qualification schema differs')
@@ -290,6 +498,8 @@ def administration(population):
 
 
 def plan_binding(plan, family, arm, entry, population, population_path, population_pin):
+    version = 'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1'
+    names, _, _, method_kind, child_name = frozen.contract(version)
     runtime = Path(population['runtime']); output = pv.canonical(Path(population['outputs'][family][arm]))
     require(output.parent == runtime / '.runs' and plan['output'] == str(output), 'frozen method output differs')
     require(plan['runtime'] == str(runtime) and plan['runtime_manifest_sha256'] == population['runtime_manifest_sha256']
@@ -316,14 +526,15 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['controller'] == str(ROOT / frozen.ADMIN_FILES[0])
             and plan['controller_sha256'] == pins[frozen.ADMIN_FILES[0]], 'portfolio contract differs')
     else:
-        require(plan['kind'] == 'installed-native7-current-method-v1' and plan['arm'] == arm
-            and plan['population'] == list(frozen.POPULATION) and plan['outputs'] == population['outputs'][family]
+        require(plan['kind'] == method_kind and plan['arm'] == arm
+            and plan['population'] == list(names) and plan['outputs'] == population['outputs'][family]
             and plan['limits'] == frozen.LIMITS and plan['default_settings'] == population['default_settings']
-            and plan['controller'] == str(runtime / '.runs/qualify-current-method-001.py')
+            and plan['controller'] == str(runtime / '.runs'/child_name)
             and plan['controller_sha256'] == pins['scripts/qualify_current_method.py']
             and plan['qualifier_sha256'] == pins['scripts/qualify_installed_workflow.py']
             and plan['source_inventory_sha256'] == hashlib.sha256((f.canonical(entry['source_hashes']) + '\n').encode()).hexdigest()
             and plan['source_rights_sha256'] == hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(), 'method contract differs')
+        if version == 'improve-v2': require(plan['improve_settings'] == population['improve_settings'], 'Improve settings changed')
         prerequisites = plan['prerequisite_sha256']
         require(type(prerequisites) is dict and 1 <= len(prerequisites) <= 32, 'bounded frozen prerequisite map required')
         for path, pin in prerequisites.items(): require(digest(Path(path), MAX_JSON) == pin, 'prerequisite changed')
@@ -422,6 +633,8 @@ def report(*, population, population_sha256, children, children_sha256, output, 
                     proofs[label] = own_final(receipt, export=is_export, plan=plan, allowed=allowed, accepted=True, public_sanitize=public_sanitize)
                 require(proofs['route']['candidate_sha256'] == proofs['export']['candidate_sha256'], 'Route/export candidates differ')
                 row['delivered_own_proof'] = proofs
+                if arm == 'Cimprove':
+                    row['export_auxiliary'] = improve_auxiliary(Path(data['export_receipt']).parent/'validation',read(Path(data['export_receipt'])),plan)
                 if arm == 'B2_portfolio':
                     winner = summary['selected']
                     require(type(winner) is dict and winner['id'] in frozen.VARIANTS
@@ -435,8 +648,15 @@ def report(*, population, population_sha256, children, children_sha256, output, 
                     unattempted_variants=summary.get('unattempted_variants') if summary else list(frozen.VARIANTS),
                     selected=({key: summary['selected'].get(key) for key in ('id', 'result_sha256', 'candidate_sha256', 'native_report_sha256', 'vias', 'length_mm')} if summary and summary.get('selected') else None))
             if arm == 'B0': row['stock_DSN_observation'] = {key: data.get(key) for key in ('stock_native_dsn_sha256', 'stock_task_dsn_sha256', 'stock_dsn_identical')}
+            if arm == 'Cimprove':
+                parent_path = Path(data['workspace'])/'route/result.json' if data.get('workspace') else out/'route/result.json'
+                require(out in pv.canonical(parent_path).parents, 'Improve parent escaped frozen method')
+                if parent_path.is_file():
+                    row['Improve'] = improve_facts(parent_path,plan,allowed,
+                        qualified_parent=state['workflow_delivered'],public_sanitize=public_sanitize)
+                else: require(not state['attempt_qualified'], 'qualified Improve has no parent')
             if not state['attempt_qualified'] and arm != 'B2_portfolio':
-                raw_path = Path(data['workspace']) / 'route/result.json' if arm == 'Cdefault' and data.get('workspace') else out / ('thermal-route/result.json' if arm == 'Cthermal' else 'route/result.json')
+                raw_path = Path(data['workspace']) / 'route/result.json' if arm in ('Cdefault','Cimprove') and data.get('workspace') else out / ('thermal-route/result.json' if arm == 'Cthermal' else 'route/result.json')
                 require(out in pv.canonical(raw_path).parents, 'raw failure receipt escaped frozen method')
                 if raw_path.is_file():
                     raw = read(raw_path)
@@ -447,7 +667,7 @@ def report(*, population, population_sha256, children, children_sha256, output, 
                         interpretation='Raw source/design/transport/routing failure only; never promoted to qualified negative/delivery by this reporter.')
             metadata_pins = {name: digest(protocol.parent / name) for name in ('outer-time.log', 'outer.log', 'enclosure/process.json', 'enclosure/command.log', 'enclosure/result.json')}
             rows.append(row); observations.append((protocol, item['sha256'], out, plan, outer, arm, metadata_pins))
-    require(len(rows) == len(families) * 6, 'entire frozen denominator required')
+    require(len(rows) == len(families) * len(pop['population']), 'entire frozen denominator required')
     def fresh():
         if output_owner: require(frozen.h.owned_destination(output_owner) == output, 'report output directory was replaced')
         else: require(not os.path.lexists(output), 'report output appeared before exclusive creation')

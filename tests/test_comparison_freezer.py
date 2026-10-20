@@ -366,6 +366,57 @@ class ComparisonFreezerTests(unittest.TestCase):
         with self.assertRaises(SystemExit), mock.patch('sys.stderr'):
             q.main(['--routing-seconds', '900'])
 
+    def improve_qualification(self):
+        proof = dict(schema=1,kind='runtime050-seven-completed-native-workflows-v1',source_head='a'*40,
+            runtime_manifest_sha256='b'*64,Native_cohort_passed=True,full199=dict(passed=True),
+            invalid_controls=dict(passed=True),cases=[dict(case=name) for name in
+                ('ordinary-whole4Cu','improve-floor2Cu','ordinary-hierarchy2Cu','ordinary-npth2Cu',
+                 'improve-pour-only','ordinary-alias2Cu','improve-fractional')])
+        path=self.admin/'evidence/runtime050-native-milestone-002.json';path.parent.mkdir()
+        dependency=write_json(path,proof)
+        self.qualification.update(kind=q.IMPROVE_QUALIFICATION_KIND,workflow_CLI=True,workflow_delivered=True,
+            production_admitted=False,actual_GUI=False,full_GUI_claim=False,installation_record_is_authoritative=False,
+            original_runtime_manifest_sha256='b'*64,GUI087=dict(actual_GUI=False,state='PREPARED_ONLY_NOT_EXECUTED'),
+            Native=dict(doctor_ready=True,six_stage_delivery=True,protected_routes=4,counts=[0,0,0,0]),
+            dependencies=[dict(path=str(path.relative_to(self.admin)),sha256=dependency)])
+        self.qualification.pop('actual_newroot_GUI_vertical_slice')
+        self.qualification.pop('full188');self.repin_qualification()
+        return path,proof
+
+    def test_improve_v2_preserves_default_and_legacy_controller(self):
+        self.improve_qualification()
+        legacy=self.runtime/'.runs/qualify-current-method-001.py';legacy.write_bytes(b'preserved old copied controller')
+        result=self.freeze(population_version='improve-v2')
+        population=json.loads((self.output/'population.json').read_text())
+        self.assertEqual(population['population'],list(q.IMPROVE_POPULATION))
+        self.assertEqual(population['planned_arm_order'],list(q.IMPROVE_ARM_ORDER))
+        self.assertFalse(population['qualification']['actual_GUI_qualified'])
+        self.assertEqual(legacy.read_bytes(),b'preserved old copied controller')
+        self.assertNotIn('Cthermal',result['protocols']['owned'])
+        for arm,item in result['protocols']['owned'].items():
+            plan=json.loads(Path(item['path']).read_text())
+            if arm=='B2_portfolio':continue
+            self.assertEqual(plan['kind'],q.IMPROVE_METHOD_KIND)
+            self.assertEqual(Path(plan['controller']).name,'qualify-current-method-002.py')
+            self.assertEqual(plan['default_settings']['profile'],'standard')
+            self.assertEqual(plan['improve_settings'],dict(plan['default_settings'],profile='tuned'))
+            self.assertEqual(plan['limits'],q.LIMITS)
+
+    def test_population_versions_cannot_substitute_qualification(self):
+        self.refused(population_version='improve-v2')
+        self.improve_qualification();self.refused()
+        self.assertFalse(self.calls)
+
+    def test_improve_v2_rejects_GUI_promotion_and_failed_native_dependency(self):
+        path,proof=self.improve_qualification();original=copy.deepcopy(self.qualification)
+        for change in (dict(actual_GUI=True),dict(full_GUI_claim=True),dict(GUI087=dict(actual_GUI=True,state='PREPARED_ONLY_NOT_EXECUTED'))):
+            self.qualification=dict(original,**change);self.repin_qualification();self.refused(population_version='improve-v2')
+        self.qualification=original
+        proof['invalid_controls']['passed']=False
+        self.qualification['dependencies'][0]['sha256']=write_json(path,proof)
+        self.repin_qualification();self.refused(population_version='improve-v2')
+        self.assertFalse(self.calls)
+
 
 if __name__ == '__main__':
     unittest.main()

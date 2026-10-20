@@ -1,0 +1,25 @@
+E
+======================================================================
+ERROR: test_warning_only_application_policy_negative_keeps_zero_error_counts (tests.test_current_comparison_report.ComparisonReportTests.test_warning_only_application_policy_negative_keeps_zero_error_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_current_comparison_report.py", line 125, in test_warning_only_application_policy_negative_keeps_zero_error_counts
+    self.assertEqual(self.own(accepted=False)['Native_counts'],[0,0,1,0])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_current_comparison_report.py", line 63, in own
+    return q.own_final(self.receipt, export=False, plan=self.plan, allowed=[self.root], accepted=accepted)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 178, in own_final
+    require(any(native[index] > 0 for index in (0, 1, 3)), 'completed-negative proof has no failing routing Native count')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 37, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: completed-negative proof has no failing routing Native count
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (errors=1)
+real 0.15
+user 0.10
+sys 0.02
