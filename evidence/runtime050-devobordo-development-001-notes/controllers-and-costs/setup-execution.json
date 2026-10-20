@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "setup_passed": true,
+  "actual_GUI": false,
+  "Native_routing_or_DRC_executed": false,
+  "project_complete": false,
+  "administration_head": "1dadb9d380c33f8810fb0fa9494931af78bc08be",
+  "controller_sha256": "2d4960475d419d72d5aea50b65e6dbfaed0dd05afed47868e90007de8fa728d6",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 2.607070166966878,
+    "cpu_seconds": 2.267222,
+    "max_rss_bytes": 138723328,
+    "supervisor_cpu_seconds": 0.010407,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 50282496,
+    "sampled_peak_workdir_bytes": 2479,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/freeze-runtime050-devobordo-followup-001.py",
+      "--administration-head",
+      "1dadb9d380c33f8810fb0fa9494931af78bc08be"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-devobordo-freeze-enclosure-001/command.log",
+    "log_bytes": 2479,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-devobordo-freeze-enclosure-001",
+    "signal_cancellation_enabled": true,
+    "pid": 10323
+  },
+  "frozen_children_sha256": "c9117c695ee580e60ef06e28f0a5a29c18ef47f0411bb5d0e6a1886d72e573c5",
+  "sampled_wall_seconds": 2.608234249986708,
+  "sampled_full_CPU_seconds": 2.278487,
+  "external_complete_exit_required": true,
+  "scope": "One setup invocation,115s existing shared process timeout within120s setup acceptance.2MiB workdir guard covers enclosure logs only; frozen metadata sibling retains its own guards. No arms run. Parent/child CPU samples overlap external exit and are not additive."
+}

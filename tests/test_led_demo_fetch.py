@@ -297,4 +297,129 @@ class LedFetchControls(unittest.TestCase):
    return value
   with mock.patch.object(demo.publication,'publish',side_effect=mutate_after),self.assertRaises(ValueError):self.fetch()
   receipt=demo.publication.read_json(self.root/'.data/led-demo-test/result.json');self.assertEqual(receipt['status'],'invalidated');self.assertFalse(receipt['accepted']);self.assertFalse(receipt['source_files_exact']);self.assertTrue(list((self.root/'.data/led-demo-test').glob('invalidated-result-*')))
+class BreadthProfileControls(unittest.TestCase):
+ """Authored offline bytes exercise acquisition custody, never Native support."""
+ def setUp(self):
+  temp=tempfile.TemporaryDirectory(dir=demo.ROOT/'tests',prefix='breadth-fetch-test-');self.addCleanup(temp.cleanup)
+  self.root=Path(temp.name);self.calls=[]
+  for name in (*demo.MATERIAL,*demo.ARC_MATERIAL):
+   path=self.root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((demo.ROOT/name).read_bytes())
+
+ def authored(self,profile):
+  cfg=demo.fixed_profile(profile);payloads={}
+  for row in cfg['rows']:
+   prefix=('authored offline source '+row['source_path']+'\n').encode()
+   raw=prefix+b'x'*(row['bytes']-len(prefix));payloads[row['source_path']]=raw
+   row.update(sha256=demo.shared.sha(raw),git_blob_sha1=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest())
+  constant='DIRECTIONAL_PROFILE' if profile=='directional-pad' else 'SPECTRAL_PROFILE'
+  patch=mock.patch.object(demo,constant,cfg);patch.start();self.addCleanup(patch.stop)
+  def transport(row,record,path,allowance,remaining):
+   remaining();self.calls.append(row['source_path']);raw=payloads[row['source_path']]
+   with path.open('xb') as stream:stream.write(raw)
+   record.update(received_bytes=len(raw),response_sha256=demo.shared.sha(raw),url=row['raw_url'],status='response_received',http_status=200,wall_seconds=0.0)
+   return raw
+  return cfg,payloads,transport
+
+ def test_exact_profiles_pins_originals_and_no_fetch_plan(self):
+  expected={'directional-pad':('97943e7af32b431a7294c276c6518cfa115ab99d',5,1021384,7,1026570),
+   'spectral-as7343':('1fe67f31c12f14d0bf9ee33aa69fab26585cef6b',10,912544,12,917724)}
+  for profile,values in expected.items():
+   with self.subTest(profile=profile):
+    cfg=demo.fixed_profile(profile);rows={q['source_path']:q for q in cfg['rows']}
+    self.assertEqual((cfg['commit'],cfg['file_count'],cfg['bytes'],cfg['native_packet_files'],cfg['native_packet_bytes']),values)
+    self.assertEqual((len(rows),sum(q['bytes'] for q in rows.values())),values[1:3])
+    self.assertEqual((cfg['wall_budget_seconds'],cfg['cpu_budget_seconds'],cfg['output_byte_cap']),(300,300,2*1024**2))
+    self.assertEqual((cfg['max_requests'],cfg['network_byte_cap']),(values[1],values[2]+values[1]))
+    self.assertLess(cfg['bytes']+cfg['native_packet_bytes'],2*1024**2)
+    self.assertTrue(cfg['development_exposed']);self.assertFalse(cfg['independent_ancestry_established']);self.assertFalse(cfg['raw_assets_public'])
+    for name,row in rows.items():
+     self.assertEqual(row['raw_url'],'https://raw.githubusercontent.com/'+cfg['repository']+'/'+cfg['commit']+'/'+name)
+     self.assertEqual(row['mode'],'100644');self.assertEqual(len(row['git_blob_sha1']),40)
+     if name not in ('LICENSE.md','README.md'):self.assertNotIn('sha256',row)  # No invented pre-acquisition CAD SHA.
+    self.assertEqual(rows['LICENSE.md']['sha256'],'60350b68666a0d4903a7197114c723fc6d398d72218b785cc074013e39db374d' if profile=='directional-pad' else 'cc2731bed1b3d28242eaa4bc9992864b28650bdc69fb4c558ce6e0b7bfc74680')
+    plan=demo.fetch_demo(cfg['default_output'],profile_id=profile,root=self.root,transport=lambda *a:self.fail('offline plan transported'))
+    self.assertEqual((plan['network_requests'],plan['planned_network_requests'],plan['planned_bytes']),(0,values[1],values[2]))
+    cfg['rows'][0]['git_blob_sha1']='0'*40;self.assertNotEqual(demo.fixed_profile(profile)['rows'][0]['git_blob_sha1'],'0'*40)
+  self.assertFalse((self.root/'.data').exists())
+  spectral={q['source_path'] for q in demo.fixed_profile('spectral-as7343')['rows']}
+  self.assertEqual({n for n in spectral if n.endswith('.kicad_mod')},{'Hardware/AS7343.pretty/AMS_OLGA-8_2x3.1mm_P0.8mm.kicad_mod','Hardware/AS7343.pretty/LUXEON_3014_SMD_LED.kicad_mod'})
+  self.assertTrue({'Hardware/AS7343.kicad_sym','Hardware/fp-lib-table','Hardware/sym-lib-table'}<=spectral)
+  self.assertFalse(any('/Production/' in n or n.endswith(('.zip','.step','.FCStd','.jpg')) for n in spectral))
+
+ def test_full_sized_offline_packets_fit_unchanged_cap_and_capture_readonly(self):
+  for profile in ('directional-pad','spectral-as7343'):
+   with self.subTest(profile=profile):
+    cfg,payloads,transport=self.authored(profile)
+    result=demo.fetch_demo(cfg['default_output'],profile_id=profile,root=self.root,fetch=True,transport=transport)
+    self.assertEqual(result['status'],'acquired_unqualified');self.assertTrue(result['within_budget']);self.assertTrue(result['source_files_exact'])
+    self.assertFalse(result['accepted']);self.assertFalse(result['native_accepted']);self.assertEqual((result['native_jobs'],result['engine_jobs']),(0,0))
+    self.assertLess(result['output_bytes'],2*1024**2);self.assertEqual(result['response_layout'],'project')
+    out=self.root/cfg['default_output'];self.assertFalse((out/'responses').exists());before=demo.shared.inventory(out)
+    base,files=demo.capture_native_source(profile,root=self.root)
+    self.assertEqual(files,{**payloads,**{n:payloads[o] for n,o in cfg['native_packet_notice_copies'].items()}})
+    self.assertEqual(demo.verify_project(base,profile_id=profile,native_packet=True)['file_count'],cfg['native_packet_files'])
+    self.assertEqual(demo.shared.inventory(out),before)
+
+ def test_every_declared_spectral_dependency_missing_or_changed_refuses(self):
+  cfg,payloads,transport=self.authored('spectral-as7343');demo.fetch_demo(cfg['default_output'],profile_id=cfg['profile_id'],root=self.root,fetch=True,transport=transport)
+  base=self.root/cfg['default_output']/'native-project'
+  for name in ('Hardware/AS7343.kicad_sym','Hardware/AS7343.pretty/AMS_OLGA-8_2x3.1mm_P0.8mm.kicad_mod','Hardware/AS7343.pretty/LUXEON_3014_SMD_LED.kicad_mod','Hardware/fp-lib-table','Hardware/sym-lib-table','Hardware/SparkFun_AS7343_Qwiic.kicad_sch','Hardware/_licenses/creator/LICENSE.md'):
+   for fault in ('missing','changed','symlink'):
+    with self.subTest(name=name,fault=fault):
+     p=base/name;raw=p.read_bytes();p.unlink()
+     if fault=='changed':p.write_bytes(b'x'+raw[1:])
+     elif fault=='symlink':p.symlink_to(base/'README.md')
+     with self.assertRaises(ValueError):demo.capture_native_source(cfg['profile_id'],root=self.root)
+     if fault=='missing':self.assertFalse(p.exists())
+     else:p.unlink()
+     p.write_bytes(raw)
+  extra=base/'Hardware/extra.kicad_sch';extra.write_bytes(b'not in exact packet')
+  with self.assertRaises(ValueError):demo.capture_native_source(cfg['profile_id'],root=self.root)
+  self.assertEqual(extra.read_bytes(),b'not in exact packet')
+
+ def test_wrong_unhashed_CAD_blob_preserves_failed_partial_without_more_requests(self):
+  cfg,payloads,transport=self.authored('directional-pad')
+  next(row for row in cfg['rows'] if row['source_path'].endswith('.kicad_pcb')).pop('sha256')
+  def wrong(row,record,path,allowance,remaining):
+   if row['source_path'].endswith('.kicad_pcb'):
+    raw=payloads[row['source_path']];payloads[row['source_path']]=b'z'+raw[1:]
+   return transport(row,record,path,allowance,remaining)
+  result=demo.fetch_demo(cfg['default_output'],profile_id=cfg['profile_id'],root=self.root,fetch=True,transport=wrong)
+  self.assertEqual(result['status'],'failed');self.assertFalse(result['source_files_exact']);self.assertFalse(result['accepted'])
+  self.assertEqual(len(self.calls),3);self.assertIn('payload',result['first_failure'])
+  self.assertTrue((self.root/cfg['default_output']/'project'/cfg['board_path']).exists())
+
+ def test_replaced_nested_response_parent_cannot_write_outside_owned_scope(self):
+  cfg,payloads,transport=self.authored('spectral-as7343');victim=self.root/'victim';victim.mkdir()
+  def replaced(row,record,path,allowance,remaining):
+   if '/AS7343.pretty/' in row['source_path']:
+    folder=self.root/cfg['default_output']/'project/Hardware/AS7343.pretty'
+    folder.rename(folder.with_name('preserved'));folder.symlink_to(victim,target_is_directory=True)
+   return transport(row,record,path,allowance,remaining)
+  with self.assertRaises(Exception):demo.fetch_demo(cfg['default_output'],profile_id=cfg['profile_id'],root=self.root,fetch=True,transport=replaced)
+  self.assertEqual(list(victim.iterdir()),[]);self.assertFalse((self.root/cfg['default_output']/'native-project').exists())
+
+ def test_late_local_library_mutation_invalidates_retains_fault_and_originals(self):
+  cfg,payloads,transport=self.authored('spectral-as7343');real=demo.publication.publish;calls=[]
+  def stale(out,record,*args,**kwargs):
+   result=real(out,record,*args,**kwargs);calls.append(out)
+   if len(calls)==1:(out/'native-project/Hardware/AS7343.kicad_sym').write_bytes(b'late changed library')
+   return result
+  with mock.patch.object(demo.publication,'publish',side_effect=stale),self.assertRaises(ValueError):
+   demo.fetch_demo(cfg['default_output'],profile_id=cfg['profile_id'],root=self.root,fetch=True,transport=transport)
+  out=self.root/cfg['default_output'];record=demo.publication.read_json(out/'result.json')
+  self.assertEqual(record['status'],'invalidated');self.assertFalse(record['source_files_exact']);self.assertFalse(record['accepted'])
+  self.assertEqual((out/'project/Hardware/AS7343.kicad_sym').read_bytes(),payloads['Hardware/AS7343.kicad_sym'])
+  self.assertEqual((out/'native-project/Hardware/AS7343.kicad_sym').read_bytes(),b'late changed library')
+
+ def test_collision_unsafe_namespace_and_nonfixed_nested_scope_refuse(self):
+  cfg,_,transport=self.authored('spectral-as7343');out=self.root/cfg['default_output'];out.mkdir(parents=True);(out/'owner').write_bytes(b'keep')
+  with self.assertRaises(ValueError):demo.fetch_demo(cfg['default_output'],profile_id=cfg['profile_id'],root=self.root,fetch=True,transport=transport)
+  self.assertEqual((out/'owner').read_bytes(),b'keep');self.assertFalse(self.calls)
+  for name in ('../outside','.data/led-demo-wrong','.data/spectral-as7343-demo-a/child'):
+   with self.assertRaises(ValueError):demo.fetch_demo(name,profile_id=cfg['profile_id'],root=self.root,fetch=True,transport=transport)
+  cfg['directories'].append('Hardware/foreign.pretty')
+  with self.assertRaisesRegex(ValueError,'hierarchy'):demo.fetch_demo('.data/spectral-as7343-demo-other',profile_id=cfg['profile_id'],root=self.root,fetch=True,transport=transport)
+  self.assertFalse(self.calls)
+
 if __name__=='__main__':unittest.main()

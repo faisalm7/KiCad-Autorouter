@@ -1,0 +1,147 @@
+{
+  "additional_review_cost": {
+    "CPU_seconds": null,
+    "scope": "Unmetered additional source review and metadata hashing; unknown, not zero. Author-reported offline test costs were not rerun or independently measured here.",
+    "wall_seconds": null
+  },
+  "cached_metadata_and_notice_pins": [
+    {
+      "actual_source_payloads_inspected": false,
+      "commit": "97943e7af32b431a7294c276c6518cfa115ab99d",
+      "file_count": 5,
+      "max_requests": 5,
+      "network_byte_cap": 1021389,
+      "notice_packet_bytes": 1026570,
+      "notice_packet_file_count": 7,
+      "notice_size_SHA256_and_git_blob_pins_match": true,
+      "original_bytes": 1021384,
+      "pins": [
+        {
+          "bytes": 1724,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Qwiic_Directional_Pad/summary.json",
+          "sha256": "9b85d453b910164584f9b7e97343089d811c0615b14682965868648b2b98b17c"
+        },
+        {
+          "bytes": 22741,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Qwiic_Directional_Pad/tree.json",
+          "sha256": "c1b77f624b1be3b1c45f555083e99fd2c23ea628b76f10fc65c3bb165a84d20e"
+        },
+        {
+          "bytes": 2883,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Qwiic_Directional_Pad/LICENSE.md",
+          "sha256": "60350b68666a0d4903a7197114c723fc6d398d72218b785cc074013e39db374d"
+        },
+        {
+          "bytes": 2303,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Qwiic_Directional_Pad/README.md",
+          "sha256": "bfb7c604c33e3ba4c3cfb6312ae15b84b76e5c2c31fb71dafc58af922aab6e49"
+        }
+      ],
+      "profile": "directional-pad",
+      "selected_blob_tree_pins_match": true,
+      "tree_not_truncated": true
+    },
+    {
+      "actual_source_payloads_inspected": false,
+      "commit": "1fe67f31c12f14d0bf9ee33aa69fab26585cef6b",
+      "file_count": 10,
+      "max_requests": 10,
+      "network_byte_cap": 912554,
+      "notice_packet_bytes": 917724,
+      "notice_packet_file_count": 12,
+      "notice_size_SHA256_and_git_blob_pins_match": true,
+      "original_bytes": 912544,
+      "pins": [
+        {
+          "bytes": 2457,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Spectral_Sensor_Breakout_AS7343_Qwiic/summary.json",
+          "sha256": "3e80358465585442fb88abf1f179140747f082089c3624ae1edb5164dbe3d43b"
+        },
+        {
+          "bytes": 32725,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Spectral_Sensor_Breakout_AS7343_Qwiic/tree.json",
+          "sha256": "77dff08cf02598246e402d126c8e5625e56bea6a354798aeda54ee49612f5b2d"
+        },
+        {
+          "bytes": 2885,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Spectral_Sensor_Breakout_AS7343_Qwiic/LICENSE.md",
+          "sha256": "cc2731bed1b3d28242eaa4bc9992864b28650bdc69fb4c558ce6e0b7bfc74680"
+        },
+        {
+          "bytes": 2295,
+          "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_Spectral_Sensor_Breakout_AS7343_Qwiic/README.md",
+          "sha256": "e6afafa52c296f831dbde86b51284fbbc5a3e9603d854688c4d63efc5266ee04"
+        }
+      ],
+      "profile": "spectral-as7343",
+      "selected_blob_tree_pins_match": true,
+      "tree_not_truncated": true
+    }
+  ],
+  "checks": {
+    "bounds": "Both new profiles retain 2MiB output, 300s whole wall/fullCPU and shared30s request cap, with fixed5/10 requests and exact byte caps. Direct responses avoid an additional duplicate response tree. Full-sized offline controls are present; this reviewer did not execute them.",
+    "cached_identity": "All selected rows match cached tree type blob/mode100644/size/Git SHA1 at exact commit. Root LICENSE/README bytes match declared SHA256 and Git-blob pins. No pre-acquisition CAD SHA256 invented.",
+    "controls_read": "Offline authored controls cover fixed pins/plan-only/deepcopy, full-sized cap fit, read-only capture, dependency removal/change/link/extra member, wrong unhashed blob, replaced nested response parent, late library publication mutation, namespace/collision and nonfixed hierarchy refusal. These are synthetic transport controls, not Native proof.",
+    "held_nested_descriptor_identity": "Source retains raw/Hardware/AS7343.pretty descriptors through transport writes; owned() checks captured named directory identities and descriptor identities before/after writes. OwnedFile uses exclusive O_NOFOLLOW descriptor-relative creation and verifies the named inode. Error paths close held descriptors. Later publication retains directory identity and exact inventory guards.",
+    "publication_and_rights": "Both declarations retain SparkFun hardware CC-BY-SA4 attribution/ShareAlike and distinguish code MIT. Unclosed embedded artwork/model/library title and ancestry remain explicit. raw_assets_public=False, native/routing unqualified, no script/model/firmware/panel download or execution path added.",
+    "source_population": "Directional5 originals/7-file notice packet; Spectral10 originals/12-file notice packet. Spectral includes its symbol, both local footprints and both library tables. Exact file/directory inventories, size and Git-blob validation remain mandatory; notice copies are byte-identical and unknown/missing/changed/symlink members refuse."
+  },
+  "claims": {
+    "Native_qualified": false,
+    "actual_fetch_qualified": false,
+    "human_review": false,
+    "independent_pedigree_established": false,
+    "physical_electrical_validation": false,
+    "raw_asset_publication_approved": false
+  },
+  "conclusion": "No material acquisition-custody, cap, exact-population or publication regression found within the reviewed delta. This is bounded source review, not permission to claim actual successful fetch, Native support, complete source dependency closure or pedigree.",
+  "execution": {
+    "Git_operations": false,
+    "HTTP_requests": 0,
+    "JVM_jobs": 0,
+    "Native_jobs": 0,
+    "fetcher_executed": false,
+    "files_created": [
+      ".runs/development-breadth-profile-review-001.json"
+    ],
+    "product_imports": false,
+    "source_or_test_edits": false,
+    "tests_run": 0
+  },
+  "findings": [],
+  "inspected_source": {
+    "bytes": 127599,
+    "path": "scripts/fetch_led_demo.py",
+    "sha256": "e8917a48015dce2e28e669f36a3a887e26429227307872a8b7d77e08c5a0b1aa"
+  },
+  "inspected_tests": {
+    "bytes": 39654,
+    "path": "tests/test_led_demo_fetch.py",
+    "sha256": "636de76f45d5c2d5e6555e20c9cd5cac412df0c4249fe90b02068b6ff309514f"
+  },
+  "kind": "development-breadth-fixed-fetch-profiles-independent-source-review-v1",
+  "recorded_utc": "2026-10-20T02:51:57.011477+00:00",
+  "referenced_helper_portions": [
+    {
+      "bytes": 30425,
+      "path": "experiments/licensed_acquisition_v1/fetch.py",
+      "read_scope": "safe/contained/bounded/inventory/payload/alarm/fetch_one",
+      "sha256": "1f8bd087dbf7d7c63b51724c8bc7b752e3482d84e6feb9543a0fec9572dfc0dd"
+    },
+    {
+      "bytes": 37055,
+      "path": "autorouter/handoff.py",
+      "read_scope": "capture_destination and owned_destination",
+      "sha256": "0ac5ad49ec7c0dcfbd89ca0890763aac1df4ea590d7412290f045c704c582f84"
+    }
+  ],
+  "reviewer": "AI independent source reviewer; not human PCB review",
+  "schema": 1,
+  "scope": "Bounded read-only review of the two new fixed profile declarations, direct nested output changes, OwnedFile/held directory-descriptor lifetime and matching offline controls. Compared selected file mode/size/blob and notice pins with only the two exact cached repository trees/summaries/notices. No historical archive or source-board census.",
+  "triage_receipt": {
+    "bytes": 10225,
+    "path": ".runs/development-breadth-next-four-triage-001.json",
+    "scope": "Associated context pin only; this completed review did not separately assess or expand its candidate-selection research.",
+    "sha256": "4cb6240e86ade959ab20a48ae83b3d497c5d1c2c59ef5bfdb0db522a80c1cad7"
+  }
+}

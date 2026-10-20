@@ -975,7 +975,83 @@ DS18B20_PROFILE = {'schema': 1,
               'Prior research218s exceeded approximate180s; current acquisition does not erase that cost. '
               'Full priorCPU unmeasured.']}
 
+BREADTH_RIGHTS = (
+    'Pinned SparkFun LICENSE.md explicitly grants hardware CC-BY-SA4; retain exact '
+    'creator notices, attribution, license and modification records/ShareAlike. '
+    'Code MIT is separate. Embedded artwork/library/model title and electrical '
+    'suitability remain unqualified; no CAD/assets publication or independent pedigree claim.')
+
+DIRECTIONAL_PROFILE = dict(schema=1, profile_id='directional-pad', project_id='directional-pad',
+    repository='sparkfun/SparkFun_Qwiic_Directional_Pad',
+    commit='97943e7af32b431a7294c276c6518cfa115ab99d',
+    rows=[dict(source_path=name, bytes=size, git_blob_sha1=blob, mode='100644',
+        repository='sparkfun/SparkFun_Qwiic_Directional_Pad',
+        commit='97943e7af32b431a7294c276c6518cfa115ab99d', destination='directional-pad/'+name,
+        raw_url='https://raw.githubusercontent.com/sparkfun/SparkFun_Qwiic_Directional_Pad/97943e7af32b431a7294c276c6518cfa115ab99d/'+name,
+        rights_basis=BREADTH_RIGHTS, **({'sha256':sha} if sha else {}))
+        for name,size,blob,sha in (
+            ('LICENSE.md',2883,'37238686da3d06815b45154961d5744d28516153','60350b68666a0d4903a7197114c723fc6d398d72218b785cc074013e39db374d'),
+            ('README.md',2303,'017599ba0afe5b24581b300d1156bbe123043995','bfb7c604c33e3ba4c3cfb6312ae15b84b76e5c2c31fb71dafc58af922aab6e49'),
+            ('Hardware/SparkFun_Qwiic_Directional_Pad.kicad_pcb',728921,'bf09540c56340b496e32aa766c2281246daa5ff4',None),
+            ('Hardware/SparkFun_Qwiic_Directional_Pad.kicad_pro',15355,'23cc949300703bbcf47eb344bec45b87eecb96f5',None),
+            ('Hardware/SparkFun_Qwiic_Directional_Pad.kicad_sch',271922,'8b229dd81daae9f74ced99c0e31a949089f2cea3',None))],
+    directories=['Hardware'], board_path='Hardware/SparkFun_Qwiic_Directional_Pad.kicad_pcb',
+    output_prefix='directional-pad-demo-', default_output='.data/directional-pad-demo-001',
+    file_count=5, bytes=1021384, max_requests=5, network_byte_cap=1021389,
+    max_single_response_bytes=728922, output_byte_cap=2*1024**2,
+    wall_budget_seconds=300, cpu_budget_seconds=300, request_wall_seconds=30,
+    native_packet_notice_copies={'Hardware/_licenses/creator/LICENSE.md':'LICENSE.md',
+        'Hardware/_licenses/creator/README.md':'README.md'},
+    native_packet_files=7, native_packet_bytes=1026570, development_exposed=True,
+    independent_ancestry_established=False, native_validation_performed_by_fetch=False,
+    raw_assets_public=False, warnings=[
+        'Five exact originals plus two byte-identical creator notice copies; acquired source is development-exposed only.',
+        'Success-seeking control prospect, not a predicted/observed Native or routing pass.',
+        'Navigation Switch/template ancestry is unqualified; this is not an independent-family claim.',
+        'Actual format/layer/class/rule/schematic/dependency/asset/physical support remains unqualified.',
+        'Only fixed original design files/notices; no models, images, scripts, firmware or panel archives.',
+        'Prior notice/metadata research costs are unmetered, not zero; fresh GET costs are separately measured.'])
+
+SPECTRAL_PROFILE = dict(schema=1, profile_id='spectral-as7343', project_id='spectral-as7343',
+    repository='sparkfun/SparkFun_Spectral_Sensor_Breakout_AS7343_Qwiic',
+    commit='1fe67f31c12f14d0bf9ee33aa69fab26585cef6b',
+    rows=[dict(source_path=name, bytes=size, git_blob_sha1=blob, mode='100644',
+        repository='sparkfun/SparkFun_Spectral_Sensor_Breakout_AS7343_Qwiic',
+        commit='1fe67f31c12f14d0bf9ee33aa69fab26585cef6b', destination='spectral-as7343/'+name,
+        raw_url='https://raw.githubusercontent.com/sparkfun/SparkFun_Spectral_Sensor_Breakout_AS7343_Qwiic/1fe67f31c12f14d0bf9ee33aa69fab26585cef6b/'+name,
+        rights_basis=BREADTH_RIGHTS, **({'sha256':sha} if sha else {}))
+        for name,size,blob,sha in (
+            ('LICENSE.md',2885,'a66ad56c300f117554b167ce494e39fd2d30c372','cc2731bed1b3d28242eaa4bc9992864b28650bdc69fb4c558ce6e0b7bfc74680'),
+            ('README.md',2295,'cd707b0019cce403f1da2a43da5193bdb1e27624','e6afafa52c296f831dbde86b51284fbbc5a3e9603d854688c4d63efc5266ee04'),
+            ('Hardware/AS7343.kicad_sym',6156,'c582d0373fbe3b6eb16f6f144c51b23e55d65cdd',None),
+            ('Hardware/AS7343.pretty/AMS_OLGA-8_2x3.1mm_P0.8mm.kicad_mod',5053,'16e79f9e6bbdc65969559992e53ac6ffeeee7135',None),
+            ('Hardware/AS7343.pretty/LUXEON_3014_SMD_LED.kicad_mod',5241,'d8842a6c17bf9ecca7965d302bd46735bad5de5a',None),
+            ('Hardware/SparkFun_AS7343_Qwiic.kicad_pcb',627607,'f866e0d661126ec3340df823bcb27f76e7705968',None),
+            ('Hardware/SparkFun_AS7343_Qwiic.kicad_pro',16350,'8809efaee4722fb6cdafc2654bdb881b3914d408',None),
+            ('Hardware/SparkFun_AS7343_Qwiic.kicad_sch',246707,'422fc71fe287ee68280950c903d396ecee545eaf',None),
+            ('Hardware/fp-lib-table',123,'fd42d517b6acceeda62d9f919b84c305c55ed5d1',None),
+            ('Hardware/sym-lib-table',127,'c3068e13f14e7c57f94b9259424fc92509d9b2ab',None))],
+    directories=['Hardware','Hardware/AS7343.pretty'], board_path='Hardware/SparkFun_AS7343_Qwiic.kicad_pcb',
+    output_prefix='spectral-as7343-demo-', default_output='.data/spectral-as7343-demo-001',
+    file_count=10, bytes=912544, max_requests=10, network_byte_cap=912554,
+    max_single_response_bytes=627608, output_byte_cap=2*1024**2,
+    wall_budget_seconds=300, cpu_budget_seconds=300, request_wall_seconds=30,
+    native_packet_notice_copies={'Hardware/_licenses/creator/LICENSE.md':'LICENSE.md',
+        'Hardware/_licenses/creator/README.md':'README.md'},
+    native_packet_files=12, native_packet_bytes=917724, development_exposed=True,
+    independent_ancestry_established=False, native_validation_performed_by_fetch=False,
+    raw_assets_public=False, warnings=[
+        'Ten exact original design/library/table/notices plus two byte-identical notice copies; no panelized sibling.',
+        'Source metadata lists one schematic; actual child-sheet/library closure and Native support remain unqualified.',
+        'Retain both local footprint definitions, symbol library and tables; missing or changed population refuses.',
+        'README stale Eagle wording remains unchanged; modern filenames are not format/Native qualification.',
+        'Embedded asset/model title and SparkFun template ancestry remain unqualified; no independent-family claim.',
+        'No model/FreeCAD/STEP/image/Gerber/ZIP/firmware/upstream script is downloaded or executed.',
+        'Prior notice/metadata research costs are unmetered, not zero; fresh GET costs are separately measured.'])
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='directional-pad':return copy.deepcopy(DIRECTIONAL_PROFILE)
+    if profile_id=='spectral-as7343':return copy.deepcopy(SPECTRAL_PROFILE)
     if profile_id=='ds18b20':return copy.deepcopy(DS18B20_PROFILE)
     if profile_id=='universal-shift-interface':return copy.deepcopy(UNIVERSAL_SHIFT_PROFILE)
     if profile_id=='ir-obstacle':return copy.deepcopy(IR_OBSTACLE_PROFILE)
@@ -1069,8 +1145,9 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     if type(reuse_navigation_notices) is not bool or reuse_navigation_notices and profile_id!='navigation-switch':raise ValueError('explicit Navigation-only notice reuse flag required')
     if type(reuse_audio_notices) is not bool or reuse_audio_notices and profile_id!='audio-player-my1690x':raise ValueError('explicit Audio-only notice reuse flag required')
     if type(reuse_flipper_notices) is not bool or reuse_flipper_notices and profile_id!='pico-flipper':raise ValueError('explicit Flipper-only notice reuse flag required')
-    direct=profile_id in ('navigation-switch','audio-player-my1690x','pico-flipper');direct_label='Flipper' if profile_id=='pico-flipper' else 'Audio' if profile_id=='audio-player-my1690x' else 'Navigation'
-    if direct and (cfg['directories']!=['Hardware'] or any(shared.safe(r['source_path']).parent not in (Path('.'),Path('Hardware')) for r in rows)):
+    direct=profile_id in ('navigation-switch','audio-player-my1690x','pico-flipper','directional-pad','spectral-as7343');direct_label=profile_id
+    direct_directories=['Hardware','Hardware/AS7343.pretty'] if profile_id=='spectral-as7343' else ['Hardware']
+    if direct and (cfg['directories']!=direct_directories or any(shared.safe(r['source_path']).parent not in {Path('.'),*map(Path,direct_directories)} for r in rows)):
         raise ValueError('fixed '+direct_label+' direct response hierarchy differs')
     if out.exists():raise ValueError('destination already exists; preserve earlier attempts')
     if fetch is not True:
@@ -1083,10 +1160,10 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     cache=uv_license_cache(root,cfg) if reuse_uv_licenses else navigation_notice_cache(root,cfg) if reuse_navigation_notices else audio_notice_cache(root,cfg) if reuse_audio_notices else flipper_notice_cache(root,cfg) if reuse_flipper_notices else None
     extra=ARC_MATERIAL if nested else ()
     def material():return {n:shared.sha(shared.bounded(shared.contained(root,root/n))) for n in (*MATERIAL,*extra)}
-    witness=material();owner={};project_owner={};native_owner={};response_owner={};completed={};requests=[];received={};raw_fd=None;hardware_owner={};hardware_fd=None
+    witness=material();owner={};project_owner={};native_owner={};response_owner={};completed={};requests=[];received={};raw_fd=None;hardware_owner={};hardware_fd=None;library_owner={};library_fd=None
     def owned():
         h.owned_destination(owner)
-        for scope in (project_owner,native_owner,response_owner,hardware_owner):
+        for scope in (project_owner,native_owner,response_owner,hardware_owner,library_owner):
             if scope.get('created'):h.owned_destination(scope)
         if raw_fd is not None:
             identity=os.fstat(raw_fd);scope=response_owner if nested and not direct else project_owner
@@ -1095,6 +1172,11 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
             identity=os.fstat(hardware_fd);named=os.stat('Hardware',dir_fd=raw_fd,follow_symlinks=False)
             if (not stat.S_ISDIR(named.st_mode) or (named.st_dev,named.st_ino)!=hardware_owner['directory_identity']
                     or (identity.st_dev,identity.st_ino)!=hardware_owner['directory_identity']):raise ValueError('owned '+direct_label+' response parent differs')
+        if library_fd is not None:
+            identity=os.fstat(library_fd);named=os.stat('AS7343.pretty',dir_fd=hardware_fd,follow_symlinks=False)
+            if (not stat.S_ISDIR(named.st_mode) or (named.st_dev,named.st_ino)!=library_owner['directory_identity']
+                    or (identity.st_dev,identity.st_ino)!=library_owner['directory_identity']):
+                raise ValueError('owned spectral footprint response parent differs')
         return out
     def remaining():
         left=min(SECONDS-(time.monotonic()-started),SECONDS-(cpu()-cpu_started))
@@ -1109,7 +1191,12 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
             os.mkdir('Hardware',dir_fd=raw_fd)
             hardware_fd=os.open('Hardware',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|getattr(os,'O_CLOEXEC',0),dir_fd=raw_fd)
             h.capture_destination(hardware_owner,project/'Hardware');owned()
+            if profile_id=='spectral-as7343':
+                os.mkdir('AS7343.pretty',dir_fd=hardware_fd)
+                library_fd=os.open('AS7343.pretty',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|getattr(os,'O_CLOEXEC',0),dir_fd=hardware_fd)
+                h.capture_destination(library_owner,project/'Hardware/AS7343.pretty');owned()
     except BaseException:
+        if library_fd is not None:os.close(library_fd);library_fd=None
         if hardware_fd is not None:os.close(hardware_fd);hardware_fd=None
         os.close(raw_fd);raw_fd=None;raise
     record={'schema':1,'kind':'fixed_public_'+profile_id.replace('-','_')+'_source_acquisition','status':'running','accepted':False,
@@ -1179,7 +1266,9 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         stable()
         for index,row in enumerate(rows):
             stable();artifact=('responses/'+str(index+1).zfill(2)+'.payload') if nested and not direct else 'project/'+row['source_path'];req={'index':index,'source_path':row['source_path'],'artifact':artifact,'transport':'verified_cache' if cache is not None and row['source_path'] in cache['files'] else 'network'};requests.append(req)
-            response_fd=hardware_fd if direct and shared.safe(row['source_path']).parent==Path('Hardware') else raw_fd
+            parent=shared.safe(row['source_path']).parent
+            response_fd=(library_fd if direct and parent==Path('Hardware/AS7343.pretty') else
+                         hardware_fd if direct and parent==Path('Hardware') else raw_fd)
             allowance=network_cap-sum(r.get('received_bytes',0) for r in requests)
             if req['transport']=='verified_cache':
                 item=cache['files'][row['source_path']];raw=item['raw']
@@ -1209,6 +1298,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     except (Exception,KeyboardInterrupt) as exc:
         record.update(status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed',first_failure=type(exc).__name__+': '+str(exc))
     finally:
+        if library_fd is not None:os.close(library_fd);library_fd=None
         if hardware_fd is not None:os.close(hardware_fd);hardware_fd=None
         if raw_fd is not None:os.close(raw_fd);raw_fd=None
     publication.publish(out,record,stable,account,remaining,owned=owned)
@@ -1222,7 +1312,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20','directional-pad','spectral-as7343'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:
