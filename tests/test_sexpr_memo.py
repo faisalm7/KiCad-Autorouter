@@ -95,6 +95,17 @@ class SyntaxMemoTests(unittest.TestCase):
                 with self.assertRaises(ValueError):sx.read(path)
                 self.assertFalse(sx._parse_session.get()['entries'])
 
+    def test_hot_input_survives_cold_inputs_within_same_fixed_bounds(self):
+        counted, calls = self.counter()
+        with patch.object(sx, '_parse_uncached', counted), patch.object(sx, 'MEMO_ENTRIES', 2), sx.parsing_session():
+            for text in ('(source)', '(trial1)', '(source)', '(trial2)', '(source)'):
+                self.assertEqual(sx.parse(text), [text[1:-1]])
+            self.assertEqual(calls, ['(source)', '(trial1)', '(trial2)'])
+            state = sx._parse_session.get()
+            self.assertEqual(list(state['entries']), ['(trial2)', '(source)'])
+            self.assertLessEqual(state['bytes'], sx.MEMO_BYTES)
+            self.assertLessEqual(state['nodes'], sx.MEMO_NODES)
+
     def test_repeated_parsing_preserves_comments_unicode_quotes_and_dump(self):
         text = '; retained atoms\n(pcb (name "é\\\";trace") (unknown \"Ω\") ())'
         expected = sx.parse(text)

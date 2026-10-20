@@ -87,8 +87,10 @@ def parse(text):
             state.update(entries={}, bytes=0, nodes=0, policy=policy)
         size = len(text.encode())
         if size > MAX_BYTES:raise ValueError('board exceeds 32 MiB limit')
-        entry = state['entries'].get(text)
-        if entry is not None:return _thaw_tree(entry[0])
+        entry = state['entries'].pop(text, None)
+        if entry is not None:
+            state['entries'][text] = entry  # Keep frequently reused source syntax resident.
+            return _thaw_tree(entry[0])
         tree = _parse_uncached(text)
         if size > MEMO_BYTES or MEMO_ENTRIES < 1 or MEMO_NODES < 1:return tree
         remaining = [MEMO_NODES]

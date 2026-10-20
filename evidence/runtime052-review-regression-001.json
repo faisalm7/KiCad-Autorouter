@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "kind": "runtime052-review-scaling-repair-failed-regression-v1",
+  "recorded_utc": "2026-10-20T11:26:47.469386+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "source_head": "1645b61fe5df8f7618a39fc83b5e9f28aa2d4bd6",
+  "runtime_manifest_sha256": "62da7ee926bc716314ffc7cf5b896ef58cc2cc787cc44607237aa5b2333ecae6",
+  "full202": {
+    "passed": true,
+    "complete_cost": {
+      "wall_seconds": 154.33,
+      "CPU_seconds": 148.01
+    }
+  },
+  "build": {
+    "complete_cost": {
+      "wall_seconds": 3.62,
+      "CPU_seconds": 3.06
+    }
+  },
+  "preparation": {
+    "complete_cost": {
+      "wall_seconds": 0.46,
+      "CPU_seconds": 0.33
+    }
+  },
+  "single_fresh_exposed_IR_Improve": {
+    "delivered": false,
+    "attempt_qualified": false,
+    "complete_cost": {
+      "wall_seconds": 154.94,
+      "CPU_seconds": 141.84
+    },
+    "outer_complete_wall_seconds": 154.66356999997515,
+    "outer_complete_full_CPU_seconds": 141.568579,
+    "route_receipt_sha256": "025c2fb96197a19ee02ae8ba2ff19dcdffe4f8aa193ac450658fb02df8ed5b7d",
+    "review_receipt_sha256": "3bc6212508fbd6ba920978f97b1681fd26a387d00af2e7b559a844640d657e0b",
+    "candidate_sha256": "54c671a18603eba7f4817057acec3f219ef7a09d3e6b49d1c55beb67007eea3d",
+    "Native_counts": [
+      0,
+      0,
+      42,
+      0
+    ],
+    "trials": 18,
+    "review_wall_seconds": 30.62762087502051,
+    "review_CPU_seconds": 30.189515,
+    "review_CLI_wall_seconds": 30.748834167025052,
+    "failure": "review copy exceeded30second wall/fullCPU cap",
+    "unranked_partial_metrics": {
+      "version": "10.0.7",
+      "pads": 30,
+      "footprints": 12,
+      "zones": 1,
+      "vias": 2,
+      "track_length_mm": 138.26658297626523,
+      "copper_layers": 2
+    }
+  },
+  "followup": "One bounded pure-syntax LRU eviction change, no larger memory/time bound, semantic/parent/privatechild reuse or acceptance change. Constructed hot-input/cold-trial control shows source retention instead of FIFO eviction. Eight parser controls pass. Full203 and one new053 installed delivery qualification required; no repeat or promotion of052.",
+  "targeted": {
+    "tests": 8,
+    "passed": true,
+    "complete_cost": {
+      "wall_seconds": 0.36,
+      "CPU_seconds": 0.19
+    }
+  },
+  "profiles": "No052 profile was run. Previously retained050/051 diagnostics remain separately labelled and cannot be treated as052 normal timing. Current final guard/full privatechild/import/source/owner/tool/sidecar/PRL logic unchanged by LRU.",
+  "frozen050_comparison_unchanged": true,
+  "not_a_comparison": true,
+  "actual_GUI": false,
+  "human_review": false,
+  "costs": "Complete external events counted once; nested steps overlap. Research, authoring, AIreview and curation additional/partly unmetered, notzero. Source changes and required qualification failures retained; no stitched firstattempt or speed/superiority claim.",
+  "raw_scope": "Only owned code/logs and factual metadata/hashes retained publicly. Foreign CAD/DSN/SES/plots/full findings and later raw remain on thisMac/outside010. Full restoration capacity and backup bounds remain gates; no repeated restoration, deletion or limit increase.",
+  "source_sha256": {
+    "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+    "tests/test_sexpr_memo.py": "5d130be19efb1695523ed22536105b32e9a7e294b8479c84feef2a401e96df3f"
+  },
+  "files_index": {
+    "path": "evidence/runtime052-review-regression-001-notes/files.json",
+    "sha256": "eac7f5bc1994c2ff959df700279b1db0a7b4d3daf4191820aa8b5d31a8d7dafa"
+  }
+}

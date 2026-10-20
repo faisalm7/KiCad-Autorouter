@@ -56,3 +56,19 @@ tool, ownership and directory-identity changes, including coherent hash edits.
 This follow-up still needs full integration and a new installed Native/GUI
 qualification. [Failed051 evidence](../evidence/runtime051-review-regression-001.json)
 is separate from the unchanged runtime050 comparison.
+
+## Failed052 regression and fixed-bound LRU follow-up
+
+Full202 passed. Fresh052 again produced a Native-valid 18-trial IR route with
+42 warnings, then review rejected at 30.63 seconds wall / 30.19 CPU. Complete
+external cost was 154.94 seconds wall / 141.84 CPU. It remains not delivered;
+the [052 receipt](../evidence/runtime052-review-regression-001.json) preserves
+that failure. No 052 profile or broader Native/GUI qualification was run.
+
+The next source change refreshes syntax-cache recency on a hit. A constructed
+hot-source/cold-trial sequence demonstrates fewer parses than FIFO eviction.
+The existing 8 MiB / 250,000-node / 64-entry bounds, independent mutable return
+trees and every validation guard remain unchanged. Eight parser controls and
+skeptical source review pass. Full203 and one fresh runtime053 delivery
+regression are still required; neither a faster pure-parser control nor a near
+miss of the acceptance ceiling establishes delivered routing.
