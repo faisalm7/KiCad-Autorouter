@@ -2,7 +2,7 @@
 
 `scripts/freeze_current_comparison.py` prepares a comparison without routing a board. It replaces the historical, path-specific freezer for new experiments. It reads only the supplied projects, qualification packet, selected runtime and seven administration files; it does not scan the research archive. It is administration tooling, outside the shipped runtime.
 
-The original `legacy-v1` contract is deliberately narrow: this Mac, selected KiCad10.0.7 and the runtime042 fresh-root qualification. That qualification records actual Native CLI delivery and one new-root GUI vertical slice. It does not transfer all GUI081 roles, qualify another platform or establish a clean OS. The separate `improve-v2` mode below uses current050 CLI installation evidence and explicitly has no new-root GUI qualification. Neither mode creates missing Native, legal or human evidence.
+The original `legacy-v1` contract is deliberately narrow: this Mac, selected KiCad10.0.7 and the runtime042 fresh-root qualification. That qualification records actual Native CLI delivery and one new-root GUI vertical slice. It does not transfer all GUI081 roles, qualify another platform or establish a clean OS. The separate `improve-v2` mode below uses either the original050 CLI installation evidence or a pinned current seven/eleven-case Native/CLI cohort and explicitly has no new-root GUI qualification. Neither mode creates missing Native, legal or human evidence.
 
 Before executing a new comparison, state the failure or support gap, proposed general mechanism, fixed population, budgets and integrate/revise/defer decision rule. Develop on exposed inputs. This preparation is not a confirmation protocol or proof that family labels have independent ancestry.
 
@@ -71,7 +71,7 @@ Verify all frozen protocol hashes before starting any arm. Follow `planned_famil
 
 Run one supervised Native worker at a time. Check actual disk headroom and process cleanup between arms. Do not restart an arm under its old identifier, change a board or policy during a batch, move administration HEAD, or present a repaired continuation as an unattended first attempt. Capture terminal failures and unsupported inputs as well as successes. No background or automatic resume facility is provided.
 
-## Fixed policy and interpretation
+## Fixed legacy-v1 policy and interpretation
 
 All families receive B0 stock adapter, B1 corrected adapter, B2 tuned single, B2 fixed three-score portfolio, C shipped default and C optional thermal recovery. Execution order is Cdefault, B0, B1, B2single_tuned, B2_portfolio, Cthermal. Corrected-standard/B1 remains the shipped default; the freezer does not select a different policy per board.
 
@@ -105,20 +105,39 @@ Without `--public-sanitize`, output is local and includes bounded original failu
 
 The reporter's original 11 constructed tests passed in0.18seconds wall/0.12CPU; they establish reporting controls, not Native correctness. Its IR043 stored-evidence report completed in1.79wall/1.23CPU, additional to the comparison. That Native-only follow-up used a reviewed local wrapper. The original `legacy-v1` freezer retains its042 GUI-installation gate: no fabricated qualification, portable043 GUI support or fully closed evaluation follows.
 
-[Current measured results](benchmark-runtime042.md) · [Supported scope and release gates](../REQUIREMENTS.md)
+[Current measured results](benchmark-runtime056-default-improve.md) · [Supported scope and release gates](../REQUIREMENTS.md)
 
-## Current050 default and Improve comparison
+## Original050 default and Improve comparison
 
 `--population-version improve-v2` prepares a separate six-arm population: **B0, B1, B2single_tuned, B2_portfolio, Cdefault, Cimprove**. It replaces Cthermal only in this new version; old populations and evidence remain unchanged. Its copied controller is `qualify-current-method-002.py`, distinct from the old001. Corrected-standard/B1 stays the product default. Cimprove uses the actual installed `Request/Workflow/CliJob` Improve workflow with its tuned settings and internal25-second return reserve, all inside420seconds. It receives no free incumbent.
 
 This mode requires the [actual050 fresh-root CLI installation packet](../evidence/runtime050-install-existing-001.json), its exact manifest, source and54-file population, and current seven-case Native/full199/invalid-control dependency. That packet's GUI087 is prepared-only at its cutoff; [later actual ordinary GUI087 delivery](../evidence/gui-runtime050-install087-delivery-001.json) is separate evidence, not a retroactive change to the CLI prerequisite or fullGUI qualification. This is installed CLI development comparison, not graphical qualification or a fallback renewing old GUI evidence.
 
-The prospective study uses the **already exposed DS18B20 and IR families**, including DS18B20's prior stock success. IR has a zone that can exercise pruning; DS18B20 has none and may be a no-op. No new independent or untouched family is added. Source geometry, rules, layers and protected preparation stay identical across methods. Freeze both families and all12 protocols before execution, in family order DS18B20 then IR and arm order Cdefault, B0, B1, single tuned, portfolio, Improve. No board-specific code/settings changes during the run. Necessary later fixes get a new labelled run, never a stitched first-attempt claim.
+The original study uses the **already exposed DS18B20 and IR families**, including DS18B20's prior stock success. IR has a zone that can exercise pruning; DS18B20 has none and may be a no-op. No new independent or untouched family is added. Source geometry, rules, layers and protected preparation stay identical across methods. Freeze both families and all12 protocols before execution, in family order DS18B20 then IR and arm order Cdefault, B0, B1, single tuned, portfolio, Improve. No board-specific code/settings changes during the run. Necessary later fixes get a new labelled run, never a stitched first-attempt claim.
 
 Each arm keeps420routing/450method/600complete wall and full-CPU caps plus120export validation. The12-arm aggregate ceiling is7,200seconds wall and7,200CPU, with one heavy worker; setup, authoring, review and reporting are additional. This is a ceiling, not an ETA or an aggregate disk reservation. Measure disk headroom between arms. No paid or background execution.
 
 Keep every incumbent and trial, including Native-valid but unselected `quality_rejected`, actual Native negatives and interrupted/reserve-exhausted attempts. A failed strategy parent remains **not delivered**, even if a child was valid. Every delivered parent/export and every completed trial retains its own Native/full-schematic/original/Default/field-PRL/candidate binding. Do not assume the parent refill preserves the selected child's file hash. Missing or changed proof refuses qualification; source conflicts and all warnings/ignored checks remain visible.
 
-Completion is primary. Compare vias and length separately only among admissible outputs; invalid copper is unranked. Shorter ground copper is not electrical suitability or measured engineer cleanup. Keep the API-versus-CLI workload caveat and every complete cost. These two exposed families cannot establish broad superiority or replace untouched confirmation. This mode is being implemented and qualified; no new comparison outcome is claimed here.
+Completion is primary. Compare vias and length separately only among admissible outputs; invalid copper is unranked. Shorter ground copper is not electrical suitability or measured engineer cleanup. Keep the API-versus-CLI workload caveat and every complete cost. These two exposed families cannot establish broad superiority or replace untouched confirmation. The original050 study is terminal; later current studies require their own complete frozen populations.
 
-The [completed current study](benchmark-runtime050-default-improve.md) retains all12 outcomes, including ImproveIR review failure. No C-over-B1/B2 completion gain follows.
+The [completed historical050 study](benchmark-runtime050-default-improve.md) retains all12 outcomes, including ImproveIR review failure. No C-over-B1/B2 completion gain follows.
+
+## Current056 Native/CLI prerequisites
+
+The same `improve-v2` freezer now accepts a positive current seven/eleven-case Native workflow packet with its linked IR delivery/index, exact runtime/source/immutable census/tool pins, full-suite/build/venv/doctor lineage and complete registered own-final population. Retained raw metadata is hash-bound; the pinned product Native acceptance predicate still rejects critical disabled checks and unqualified critical warnings. Recorded workflow scope/profile/scoring/effective settings and actual engine journal must agree with case labels. This is a CLI-only gate: it cannot admit thermal populations or promote GUI qualification. Original042/050 contracts remain unchanged. [Implementation tests, actual retained-metadata readback and independent AI review](../evidence/current-comparison-native-cohort-056-001.json) preserve failed drafts and repairs; no Native result is created by this gate.
+
+For a new reproduction using the existing056 artifact and explicit licensed inputs, use the general command above with these choices and a **fresh** namespace:
+
+```text
+--population-version improve-v2
+--runtime /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-056/runtime
+--expected-manifest-sha256 b018b1bc6487183b000de62b743bd143cd2dddca71afe29428cadbd4cfdccded
+--qualification /Users/faisal/Projects/KiCad-Autorouter-local/evidence/runtime056-native-milestone-001.json
+--qualification-sha256 cc2973609c09bf607f08f0a0b1b9e15f93d03eb1bd99b0b696d56a228546e992
+--expected-administration-head 896ac626f38352702e5d7a237ec6b5cc45d7e04d
+```
+
+Those paths and pins identify this Mac's recorded artifact, not a portable installation. Use the exact committed administration and matching product-policy bytes; do not reset an active checkout to reproduce them. Prepare a separate owner-approved environment if needed. A new candidate/root requires its own corresponding qualification. The source map must enumerate all licensed input bytes and match its supplied hash; generated outputs must be unused. Do not execute against the completed056 namespace.
+
+[Completed056 full-population results](benchmark-runtime056-default-improve.md) show11deliveries and one stock Native negative. Default/corrected/tuned/restart/Improve each complete both exposed tasks; no completion win overB1/B2, untouched confirmation or electrical/cleanup superiority follows. Current056 actual GUI remains unqualified. The older050 failure is preserved unchanged.
