@@ -15,7 +15,7 @@ import uuid
 
 from autorouter import board_floor as g, chain_proposals as cp, pipeline as p, sexpr as sx
 
-POLICY = 'source-orthogonal-perimeter-escape-seed-v1'
+POLICY = 'source-orthogonal-perimeter-escape-seed-v2'
 NAMESPACE = uuid.UUID('25e7aa5e-2746-4c2d-9180-5607d3d95220')
 MAX_SEGMENTS = 256
 MAX_FOOTPRINTS = 512
@@ -79,9 +79,11 @@ def _layers(task):
         raise ValueError('source layer table required')
     ids, names, copper = set(), set(), []
     for row in rows[1:]:
-        if type(row) is not list or len(row) != 3 or any(type(v) is not str for v in row):
+        if type(row) is not list or len(row) not in (3,4) or any(type(v) is not str for v in row):
             raise ValueError('canonical layer declarations required')
         name = sx.unquote(row[1])
+        if len(row)==4 and (row[2]!='user' or name.endswith('.Cu') or not sx.unquote(row[3])):
+            raise ValueError('only noncopper user-layer display names allowed')
         if row[0] in ids or name in names:
             raise ValueError('duplicate layer identity')
         ids.add(row[0]); names.add(name)
@@ -170,7 +172,21 @@ def generate(task, original_protected, targets):
             pads = [(pad, net) for pad, net in pads if net and any(sx.unquote(v) in {'F.Cu', 'B.Cu', '*.Cu'} for v in sx.one(pad, 'layers', [])[1:])]
             if not 8 <= len(pads) <= 64:
                 skip('connected_pad_population_outside_8_64'); continue
-            geometry = [(pad, net, *_geometry(pad)) for pad, net in pads]
+            geometry=[]
+            for pad,net in pads:
+                # An untouched square centre pad with explicit solid zone
+                # connection cannot supply an outward perimeter axis. Preserve
+                # that source requirement; never propose copper from this pad.
+                # All other overrides still refuse the package.
+                center_pad=copy.deepcopy(pad)
+                if sx.children(pad,'zone_connect')==[['zone_connect','2']] and _at(sx.one(pad,'at'))[0]==(0,0):
+                    center_pad.remove(sx.one(center_pad,'zone_connect'))
+                    local,size=_geometry(center_pad)
+                    if size[0]!=size[1]:raise ValueError('square source centre pad required')
+                    skip('unchanged_square_center_solid_zone_pad',_id(sx.one(pad,'uuid')))
+                    continue
+                geometry.append((pad,net,*_geometry(pad)))
+            if len(geometry)<8:raise ValueError('at least8 ordinary perimeter candidates required')
         except (ValueError, IndexError, TypeError):
             skip('package_geometry_or_orientation_unsupported'); continue
         low = [min(row[2][i] for row in geometry) for i in (0, 1)]

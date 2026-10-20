@@ -245,6 +245,30 @@ class EscapeSeedControls(unittest.TestCase):
             task = board(package()); mutate(sx.one(task, 'layers'))
             with self.assertRaises(ValueError): self.generate(task)
 
+    def test_noncopper_display_names_are_preserved_without_copper_alias_authority(self):
+        task=board(package());sx.one(task,'layers')[3].append('"Owned paste display"')
+        out,info=self.generate(task)
+        self.assertEqual(info['generated_count'],8)
+        self.assertEqual(p.immutable(out),p.immutable(task))
+        self.assertEqual(sx.one(out,'layers'),sx.one(task,'layers'))
+        sx.one(task,'layers')[3][-1]='""'
+        with self.assertRaises(ValueError):self.generate(task)
+
+    def test_square_solid_zone_center_is_untouched_unseeded_and_visible(self):
+        fp=package();center=pad('solid-center',9,0,0,size=('1','1'))
+        center.append(['zone_connect','2']);fp.append(center);task=board(fp)
+        out,info=self.generate(task)
+        self.assertEqual(info['generated_count'],8)
+        self.assertEqual(p.immutable(out),p.immutable(task))
+        self.assertIn(dict(footprint_uuid=sx.unquote(uid('package')),pad_uuid=sx.unquote(uid('solid-center')),reason='unchanged_square_center_solid_zone_pad'),info['skips'])
+        for mutate in (lambda n:sx.one(n,'zone_connect').__setitem__(1,'1'),
+                       lambda n:sx.one(n,'at').__setitem__(1,'0.1'),
+                       lambda n:sx.one(n,'size').__setitem__(1,'1.1'),
+                       lambda n:n.append(['clearance','0']),
+                       lambda n:sx.one(n,'at').append('45')):
+            bad=copy.deepcopy(task);mutate(sx.children(sx.children(bad,'footprint')[0],'pad')[-1])
+            self.assertEqual(self.generate(bad)[1]['generated_count'],0)
+
     def test_uuid_identity_collision_missing_and_duplicate_refuse(self):
         task = board(package()); out, info = self.generate(task)
         collision = copy.deepcopy(task)

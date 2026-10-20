@@ -3,7 +3,7 @@
 SPDX-License-Identifier: GPL-3.0-or-later
 The grant covers this factory and every generated design file. Grammar follows
 native_schematic_transport_v1; identities, circuit and geometry are new.
-This deliberately roomy 16-pad contact control is not a quality benchmark.
+This deliberately roomy 16-perimeter-pad contact control is not a quality benchmark.
 """
 from decimal import Decimal
 import json
@@ -12,7 +12,7 @@ from experiments.native_schematic_transport_v1 import fixture as base
 
 STEM='owned-escape-seed'
 NS=uuid.UUID('87785284-49c5-47fc-a635-ad4842708d4a')
-CHIP='owned_escape_qfn16'
+CHIP='owned_escape_qfn17'
 ANCHOR='owned_escape_anchor'
 FIELD='OwnedEscapeIdentity'
 PITCH=Decimal('1.6')
@@ -48,6 +48,8 @@ def properties(ref,footprint):
 def board():
     # Reuse only the qualified syntax/layer/setup header, not its routes/design.
     header=base.board().decode().split('(footprint ',1)[0]
+    if header.count('(13 "F.Paste" user)')!=1:raise ValueError('exact owned noncopper header required')
+    header=header.replace('(13 "F.Paste" user)','(13 "F.Paste" user "OwnedPasteDisplay")')
     rows=[header]
     components=[('U1',CHIP,Decimal(50),Decimal(50))]
     components += [('J'+str(i+1),ANCHOR,*pin['anchor']) for i,pin in enumerate(pins())]
@@ -62,6 +64,7 @@ def board():
             for pin in pins():
                 px,py=pin['local'];n=pin['number']
                 rows.append('(pad '+q(n)+' smd roundrect (at '+mm(px)+' '+mm(py)+' '+str(pin['angle'])+') (size 0.8 0.25) (layers "F.Cu" "F.Mask" "F.Paste") (roundrect_rratio 0.25) (net '+q(pin['net'])+') (pinfunction '+q(n)+') (pintype "passive") (uuid '+q(uid('U1-pad-'+n))+'))')
+            rows.append('(pad "17" smd rect (at 0 0) (size 2 2) (layers "F.Cu" "F.Mask") (net "N01") (zone_connect 2) (pinfunction "17") (pintype "passive") (uuid '+q(uid('U1-pad-17'))+'))')
         else:
             index=int(ref[1:]);net='KEEP' if index>=17 else pins()[index-1]['net']
             rows.append('(pad "1" thru_hole circle (at 0 0) (size 0.8 0.8) (drill 0.3) (layers "*.Cu" "*.Mask") (net '+q(net)+') (pinfunction "1") (pintype "passive") (uuid '+q(uid(ref+'-pad'))+'))')
@@ -72,9 +75,13 @@ def board():
     for pin in pins():
         x,y=pin['local'];ax,ay=pin['anchor']
         rows.append('(segment (start '+mm(50+x)+' '+mm(50+y)+') (end '+mm(ax)+' '+mm(ay)+') (width 0.2) (layer "F.Cu") (net '+q(pin['net'])+') (uuid '+q(uid('reference-'+pin['number']))+'))')
+    rows.append(center_connector())
     rows.append('(segment (start 40 65) (end 60 65) (width 0.2) (layer "F.Cu") (net "KEEP") (locked yes) (uuid '+q(uid('protected-keep'))+'))')
     rows.append('(embedded_fonts no))')
     return ('\n'.join(rows)+'\n').encode()
+
+def center_connector():
+    return '(segment (start 50 50) (end 46.5 47.6) (width 0.2) (layer "F.Cu") (net "N01") (uuid '+q(uid('center-contact-control'))+'))'
 
 def lib_symbol(lib_id,name,footprint,count):
     rows=['(symbol '+q(lib_id)+' (pin_names (offset 0) hide) (exclude_from_sim no) (in_bom yes) (on_board yes)']
@@ -88,8 +95,8 @@ def lib_symbol(lib_id,name,footprint,count):
     rows.append('))');return '\n'.join(rows)
 
 def schematic():
-    rows=['(kicad_sch (version 20250114) (generator "eeschema") (generator_version "10.0") (uuid '+q(uid('schematic-root'))+') (paper "A4") (lib_symbols',lib_symbol('OwnedEscape:Chip16','Chip16',CHIP,16),lib_symbol('OwnedEscape:Anchor','Anchor',ANCHOR,1),')']
-    components=[('U1',CHIP,'OwnedEscape:Chip16',Decimal('40.64'),Decimal('30.48'),[(p['number'],p['net']) for p in pins()])]
+    rows=['(kicad_sch (version 20250114) (generator "eeschema") (generator_version "10.0") (uuid '+q(uid('schematic-root'))+') (paper "A4") (lib_symbols',lib_symbol('OwnedEscape:Chip17','Chip17',CHIP,17),lib_symbol('OwnedEscape:Anchor','Anchor',ANCHOR,1),')']
+    components=[('U1',CHIP,'OwnedEscape:Chip17',Decimal('40.64'),Decimal('30.48'),[(p['number'],p['net']) for p in pins()]+[('17','N01')])]
     components += [('J'+str(i+1),ANCHOR,'OwnedEscape:Anchor',Decimal('101.6'),Decimal('30.48')+Decimal(i)*Decimal('2.54'),[('1',p['net'])]) for i,p in enumerate(pins())]
     components += [(ref,ANCHOR,'OwnedEscape:Anchor',x,Decimal('83.82'),[('1','KEEP')]) for ref,x in (('J17',Decimal('40.64')),('J18',Decimal('101.6')))]
     for ref,footprint,lib_id,x,y,connections in components:

@@ -50,7 +50,7 @@ def current(plan):
 def completed_control(original):
     protected=[r for r in p.routes(original) if p.locked(r)]
     task=p.routing_task(original,'whole_board_unlocked_routing')
-    if len(p.routes(original))!=17 or len(protected)!=1 or p.routes(task)!=protected:raise p.Rejected('all16 reference paths must be removed before generation')
+    if len(p.routes(original))!=18 or len(protected)!=1 or p.routes(task)!=protected:raise p.Rejected('all17 reference paths must be removed before generation')
     seeded,metadata=seed.generate(task,protected,TARGETS)
     additions=[r for r in p.routes(seeded) if r not in protected]
     if len(additions)!=16 or p.immutable(seeded)!=p.immutable(original):raise p.Rejected('exact16 control stubs and unchanged design required')
@@ -68,6 +68,7 @@ def completed_control(original):
         end=sx.one(route,'end');ax,ay=pin['anchor']
         finished.append(['segment',['start',*end[1:]],['end',fixture.mm(ax),fixture.mm(ay)],['width','0.2'],['layer','"F.Cu"'],['net',sx.one(route,'net')[1]],['uuid',fixture.q(fixture.uid('tail-'+pin['number']))]])
     if seen!=set(pins) or p.immutable(finished)!=p.immutable(original):raise p.Rejected('complete controlled pin population changed')
+    finished.append(sx.parse(fixture.center_connector()))
     return finished,additions,protected,metadata
 
 def prepare(folder,head,output):

@@ -18,6 +18,9 @@ class EscapeControlBoundary(unittest.TestCase):
         self.assertTrue(all(not p.locked(route) for route in seeds))
         self.assertEqual(p.immutable(complete),p.immutable(original))
         self.assertFalse(metadata['contact_or_clearance_proven'])
+        self.assertEqual(len(sx.children(sx.children(original,'footprint')[0],'pad')),17)
+        self.assertEqual(sx.one(sx.children(sx.children(original,'footprint')[0],'pad')[-1],'zone_connect'),['zone_connect','2'])
+        self.assertTrue(any(len(row)==4 for row in sx.one(original,'layers')[1:]))
         # Altering removable reference geometry cannot change seed selection.
         changed=copy.deepcopy(original)
         sx.one(p.routes(changed)[0],'end')[1:]=['37','37']
