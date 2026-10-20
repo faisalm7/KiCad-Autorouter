@@ -170,6 +170,48 @@ class ComparisonReportTests(unittest.TestCase):
         population = copy.deepcopy(original); population['kind'] += '-unknown'
         with self.assertRaises(ValueError): q.population_shape(population, children)
 
+    def native050_population(self):
+        population, children = self.native049_population()
+        population.update(kind='frozen-runtime050-labelled-Devobordo-native-CLI-development-followup-v1',
+            source_head='aa0072c6b3d8090de2603e5ecb42a95968fb873b', runtime='/owned/runtime050',
+            runtime_manifest_sha256='c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8')
+        population['qualification'].update(kind='runtime050-labelled-native-CLI-Devobordo-prerequisites-v1',
+            source_head=population['source_head'], runtime=population['runtime'],
+            runtime_manifest_sha256=population['runtime_manifest_sha256'])
+        return population, children
+
+    def test_exact_runtime050_native_CLI_only_labels_are_supported(self):
+        population, children = self.native050_population()
+        self.assertEqual(q.population_shape(population, children), ['devobordo'])
+        self.assertIn('GUI qualification NOT supplied', q.KINDS[population['kind']])
+        self.assertIs(population['qualification']['actual_GUI_qualified'], False)
+        self.assertIs(population['qualification']['full_GUI_claim'], False)
+
+    def test_runtime050_rejects_GUI_promotion_foreign_identity_and_old_qualification(self):
+        original, children = self.native050_population()
+        mutations = [('actual_GUI_qualified', True), ('actual_GUI_qualified', 0),
+            ('full_GUI_claim', True), ('full_GUI_claim', 0), ('source_head', 'd' * 40),
+            ('runtime', '/owned/runtime049'), ('runtime_manifest_sha256', 'e' * 64),
+            ('kind', 'runtime049-labelled-native-CLI-Devobordo-prerequisites-v1'),
+            ('kind', 'runtime043-labelled-native-only-IR-followup-prerequisites-v1'),
+            ('kind', q.frozen.QUALIFICATION_KIND)]
+        for key, value in mutations:
+            with self.subTest(key=key, value=value):
+                population = copy.deepcopy(original); population['qualification'][key] = value
+                with self.assertRaises(ValueError): q.population_shape(population, children)
+        population, old_children = self.native049_population()
+        population['qualification']['kind'] = original['qualification']['kind']
+        with self.assertRaises(ValueError): q.population_shape(population, old_children)
+        population = copy.deepcopy(original); population['kind'] += '-unknown'
+        with self.assertRaises(ValueError): q.population_shape(population, children)
+
+    def test_runtime050_label_does_not_bypass_complete_population_or_fixed_budgets(self):
+        original, children = self.native050_population()
+        missing = copy.deepcopy(children); del missing['protocols']['devobordo']['B0']
+        with self.assertRaises(ValueError): q.population_shape(original, missing)
+        population = copy.deepcopy(original); population['limits'] = dict(population['limits'], whole_wall_seconds=601)
+        with self.assertRaises(ValueError): q.population_shape(population, children)
+
     def test_existing_public_and_runtime043_labels_keep_their_qualification_contracts(self):
         original, children = self.native049_population()
         pairs = [('frozen-current-six-arm-exposed-development-v1', q.frozen.QUALIFICATION_KIND),

@@ -26,7 +26,8 @@ from scripts import freeze_current_comparison as frozen
 KEYS = ('opens', 'blocking', 'warnings', 'exclusions')
 KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequisite recorded by freezer; no new GUI claim',
          'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
-         'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied'}
+         'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied',
+         'frozen-runtime050-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied'}
 MAX_JSON = 4 * 1024**2
 MAX_REPORT_BYTES = 16 * 1024**2
 
@@ -256,6 +257,7 @@ def population_shape(population, children):
     native_only = {
         'frozen-runtime043-labelled-IR-native-support-followup-v1': 'runtime043-labelled-native-only-IR-followup-prerequisites-v1',
         'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'runtime049-labelled-native-CLI-Devobordo-prerequisites-v1',
+        'frozen-runtime050-labelled-Devobordo-native-CLI-development-followup-v1': 'runtime050-labelled-native-CLI-Devobordo-prerequisites-v1',
     }
     if population['kind'] in native_only:
         q = population['qualification']
