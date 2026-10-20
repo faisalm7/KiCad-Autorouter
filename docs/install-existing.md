@@ -1,27 +1,33 @@
-# Install a pinned local runtime in a new folder
+# Install runtime050 into a fresh same-Mac folder
 
-The checkout's `scripts/prepare_runtime.py --install-existing` copies an existing verified runtime into a fresh owned folder without rebuilding its router. It preserves the source commit, exact immutable files, selected native version, lock and local engine, changing only the manifest's absolute root. The original folder remains intact. This is an explicit same-Mac installation operation; moving a folder or copying its launcher does not repair its identity.
+The checkout’s `scripts/prepare_runtime.py --install-existing` copies a still-bound, verified artifact without rebuilding it. Current source artifact is runtime050, source `aa0072c6b3d8090de2603e5ecb42a95968fb873b`, manifest `c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8`. Its [seven CLI workflows](../evidence/runtime050-native-milestone-002.json) and [partial GUI086 evidence](../evidence/gui-runtime050-086-progress-001.json) belong to that original root; they do not automatically qualify a new installation.
 
-The source must still be at its manifest-bound path, with a verified local engine. Supply its exact manifest SHA256 from the trusted qualification record. Changed/missing files, links, extra immutable files, a wrong manifest pin and existing destinations refuse. Source, installer and destination are checked again before returning. A failure preserves any partial destination; choose a new destination for a later attempt. A `.runs/install-existing-runtime-001.json` record may remain after a late refusal and is **not a completion or native-qualification marker**.
+The installer preserves the exact validated immutable-file census, build-source/version/lock hashes and local engine, changing only the manifest’s absolute root. The resulting manifest gets a different hash. Old `.runs`, jobs, settings, virtual environments and launchers are excluded. No dependency is downloaded or relocated.
 
-Run this helper from the updated source checkout. The curated runtime contains the routing and launcher support; its builder is supplied by the checkout. For example, using the current042 source artifact and a fresh destination whose parent already exists:
+Use a fresh owned destination whose parent already exists. The example below stops on failure inside a subshell. Replace the destination with an unused path; do not reuse a partial installation:
 
 ```sh
-cd /Users/faisal/Projects/KiCad-Autorouter-local
-.venv/bin/python -B scripts/prepare_runtime.py --install-existing \
-  --source /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime \
-  --expected-manifest-sha256 1dc25cf5133b7a0e0562704008b62bea328e46b61ec159a2bd326c3bf279aa2e \
-  --output '/absolute/NEW Autorouter runtime'
-.venv/bin/python -B -m venv --copies --without-pip '/absolute/NEW Autorouter runtime/.venv'
-cd '/absolute/NEW Autorouter runtime'
-.venv/bin/python -B -m autorouter doctor
-.venv/bin/python -B scripts/install_gui.py --output '/absolute/NEW Autorouter runtime/.runs/NEW-launcher'
+(
+  set -eu
+  cd '/Users/faisal/Projects/KiCad-Autorouter-local'
+  NEW_RUNTIME='/Users/faisal/Projects/KiCad-Autorouter-local/.runs/Autorouter 050 user install 001'
+  .venv/bin/python -B scripts/prepare_runtime.py --install-existing \
+    --source '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime' \
+    --expected-manifest-sha256 c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8 \
+    --output "$NEW_RUNTIME"
+  .venv/bin/python -B -m venv --copies --without-pip "$NEW_RUNTIME/.venv"
+  cd "$NEW_RUNTIME"
+  .venv/bin/python -B -m autorouter doctor
+  .venv/bin/python -B scripts/install_gui.py --output "$PWD/.runs/gui-launcher-user001"
+)
 ```
 
-Only continue after each command exits successfully. The install creates `.runs` for its record; old jobs, settings, virtual environments and launchers are deliberately excluded. Create a fresh launcher and use its README. Keep saved projects outside the immutable product files and retain their original constraints. Every new candidate still needs preview, explicit choice and fresh native-validated separate-project export. Doctor and launcher generation alone do not qualify actual routing or GUI operation.
+Run the installer from the checkout; it is not part of the curated runtime. After creating the copied Python environment, **change into the new runtime before `-m autorouter`**. An absolute interpreter alone does not prevent importing checkout code from the current directory. Keep the returned new-root manifest hash and installer/process records for qualification.
 
-The [actual042 fresh-root qualification](../evidence/runtime042-install-existing-001.json) passed on this Mac at `.runs/runtime042 fresh install 001`, manifest `0fa1f13c4a43385d2d0b513c7c84fb89bb6370eb9962531018f0d1ccbfd6f039`. Its53 immutable files match the original042 artifact exactly. A fresh copied environment, minimal HOME/TMP/PATH doctor and six-stage partial90/export90 native delivery passed, preserving four original copper items with0opens/0blocking/0warnings/0exclusions. Actual GUI082 launched from its new toolbar, loaded its preset, routed, displayed both copper layers in Edge, recorded acceptance, freshly exported and opened the checked candidate in KiCad. Closing without Save preserved source/PCB bytes; changed project metadata/backups do not renew the preopen Native proof.
+Changed/missing/extra immutable files, symlinks/hardlinks, wrong pins, an already moved source and existing destinations refuse. Source, installer, destination and record are rechecked before a successful return. Failure preserves partial output. `.runs/install-existing-runtime-001.json` may remain after a late refusal: it is a **non-authoritative installation record**, not an acceptance, completion or Native-qualification marker.
 
-That copy's launcher is `.runs/gui-launcher082/Launch Autorouter.command` relative to its root. This is one owned ordinary installation-path vertical slice, separate from the original042/081 functional campaign. It does not transfer all081 roles to a new root or qualify independent nontechnical use. Full188, setup, Native delivery, preparation and before/after capture costs are retained separately; complete interactive GUI CPU remains unknown.
+Doctor and launcher generation alone do not qualify routing or GUI. A new root needs its own complete Native workflow and actual graphical slice with current source/tool/manifest proofs. The lead’s fresh050 installation check is pending here; do not transfer the original root’s results or reuse launcher086 in the new folder. Use the new launcher README. For Edge, launch that new command with a child-only `BROWSER='/usr/bin/open -a "Microsoft Edge" %s'` override, or open its generated `review/preview.html` manually in Edge. Leave Chrome/default settings unchanged.
 
-Existing pinned KiCad/Java/Python locations on this same Mac remain required. No dependency is downloaded or relocated; no global app, security setting or repository is changed. This is not standalone, cleanOS, other-account or Windows qualification. No formal package is published. [Preparation](runtime-directory.md) · [Installation evidence and limits](install-test.md).
+The [historical042 fresh-root vertical slice](../evidence/runtime042-install-existing-001.json) qualified its own ordinary Native/GUI path on this Mac. It remains historical evidence, not proof for a new050 root or all GUI roles. Current050 GUI is partial; [active-Java cancellation](../evidence/gui-runtime050-086-active-engine-cancel-001.json) and the separate [negative, deferred escape probe](../evidence/qfn-escape-development-probe-002.json) retain their own scopes.
+
+Existing pinned KiCad10.0.7/Java/Python locations on the same Mac remain required. This does not establish standalone, cleanOS/account, relocated dependencies, Windows, fullGUI, general quality, independent human or physical/electrical qualification. No package is published. Sources and candidates stay separate; explicit review choice and fresh original-rule export checks remain mandatory. [CLI](quickstart.md) · [GUI](gui-workflow.md) · [Current status](../STATUS.md). [Previous guide preserved unchanged](history/2026-10-20-pre-runtime050-user-guides/install-existing.md).
