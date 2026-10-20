@@ -1,0 +1,2957 @@
+{
+  "schema": 1,
+  "kind": "runtime049-completed-native-cohort-and-no-trial-incumbent-return-v1",
+  "recorded_utc": "2026-10-20T00:37:56.497368+00:00",
+  "source_head": "6e2357f975554478c2ba9fa35f18fdc3c1d194f9",
+  "runtime_manifest_sha256": "70a388a6844d015350073401cb5f33bb1d552d1dc6195ece3aceee27baba5bd4",
+  "Native_cohort_passed": true,
+  "release_qualified": false,
+  "accepted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "full198": {
+    "passed": true,
+    "tests": 2451,
+    "skips": 1,
+    "complete_external_cost": {
+      "wall_seconds": 165.88,
+      "CPU_seconds": 150.04
+    }
+  },
+  "cases": [
+    {
+      "case": "improve-pour-only",
+      "method": "improve",
+      "protocol_sha256": "4d7de78189904093f45266d0008a3944fb5eec80e9945b7859c51e249faf2bb0",
+      "source_hashes": {
+        "owned1007-transport.kicad_pcb": "18401fed622715233479fe86b61533789ceb16bda22890c26023ddabe69625d2",
+        "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+        "owned1007-transport.kicad_pro": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+        "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+      },
+      "source_unchanged": true,
+      "controls_passed": true,
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "complete_external_cost": {
+        "wall_seconds": 194.9,
+        "CPU_seconds": 185.68
+      },
+      "sampled_wall_seconds": 194.85827904206235,
+      "sampled_full_CPU_seconds": 185.64843699999997,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "protected_count": 1,
+      "own_finals": {
+        "parent": {
+          "candidate_sha256": "7117088936ce052a1ef1aeb5c731f37688119aaa61c17ac427fa993707959ab1",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/route",
+            "report_sha256": "a3fac23b8b941f15b48b2497913dc020406688885c66ce612c1109d070aa6482",
+            "process_sha256": "d3a8a37d4cc2c23caedceff29946a8b6d0a59db3444eab8ff5b017d7448ac4d8",
+            "binding_sha256": "82ca2f83862cea30334c0afc4d6a07511af8e8ac0ab9898ffe789dd5ee0970f7",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "82ca2f83862cea30334c0afc4d6a07511af8e8ac0ab9898ffe789dd5ee0970f7"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "2e7fd985b67faf62e88da70009f168366beb2917de70c4f6f4a240d7b9710079"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "f5b72ef72795c190ef1f0f8cd0f904e8f83dad3da406a969fefa278635251324"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "fa432e74fe967df0efb623d8366084b023c88c93deebf580221a0f8800d17be5"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "b97d310cda95f40e403bdada53cf88c79671435122336d7da872e6ee556fbcbb"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "9e135cab7ac90596b876a1f1449632c0470a634dcacef153d5688372896426b6"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "2b362a571d37a88f364441aad430903942a3690621c3d94a8bfc69018ca2bfc1"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "d3a8a37d4cc2c23caedceff29946a8b6d0a59db3444eab8ff5b017d7448ac4d8"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "a3fac23b8b941f15b48b2497913dc020406688885c66ce612c1109d070aa6482"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "b568b01cd3dbf0f0f5942fdfebd54b88277419ffe73bf8a2e414474bb1a8689a"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "ba0ddb31432b290a0c0b41e38f4de8ce413e5bb2ba4091715c28db5b07212c97"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "9fc57040d702048e4e7f7d0792838b20b1e5ed5aafa48d64a65ff04238fe7a49"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "e11ac1e73fcc054125cafb5b9ebc04b0acc3c3ed2b057379cbe64ac377ce3a6e"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "048a95ac6e9f48b49dd6d0a7d23ee7ff7c4dc36de37df8e7e28e6788001e90ba"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1225065e5a637deaf8c5f333b2cb46cb7b9046a34c99b45d06569e68de360130"
+            },
+            {
+              "name": "native7-improve-parent.json",
+              "sha256": "5758938b4987645e1e88f094f9a643dd85de7ae202f6fe4a6be4686a5f307f34"
+            },
+            {
+              "name": "pour-keepout-audit-process.json",
+              "sha256": "03924dc9c68bce95c927ca7d2d20afc5274deba0309ad3776f088c8ae84b7358"
+            },
+            {
+              "name": "pour-keepout-audit.json",
+              "sha256": "f3ef7336f3560275e78a2eea1896e2b0c215ea9e9aac9d92dbafa7e945627d73"
+            },
+            {
+              "name": "pour-keepout-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "pruning-preferences.json",
+              "sha256": "e861ed2afbb51cfecd2590da8a42a10a5f4b376a42fbee5ed7f7a372a9869d3d"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "beeb409a999f5126779233f6df245d21410cde465e32c8bbb1c2cc71602b92e5"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "9e518af6658377651b70a8378594942da47c86a2ed63af4a8c5102f54a1aa5e0"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "fb58c05e5644f8c4dcda83bca04349ffc3b6a326bf0154a07aeaa29b28bd3fb9"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "5b9a2c1026f3ee82f1d9a849c65f4839720f207f434afd0238972880d786be4a"
+            },
+            {
+              "name": "result.json",
+              "sha256": "cdbfa95620210f5a014bd6f9e95524c99a03d13046ca0db3d9ef498f8395dfcf"
+            }
+          ]
+        },
+        "export": {
+          "candidate_sha256": "7117088936ce052a1ef1aeb5c731f37688119aaa61c17ac427fa993707959ab1",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/export/validation/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/export/validation",
+            "report_sha256": "4c01795c0f5ff4ef4e2beabeade445cea36985a9b962ba0be2fbeeffbf92fafb",
+            "process_sha256": "adddb6f4a7a8edb51a9e2559ae9456e9fc54be749d18668e727c555cafd08bac",
+            "binding_sha256": "1cd2327851278060a6cdef26f68573241bd45a7653cad152cb7b237dbfc38ff7",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "1cd2327851278060a6cdef26f68573241bd45a7653cad152cb7b237dbfc38ff7"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "346903290ce8f785c19d42c788e2cc9f6e09f173001b8410c048323694b56a82"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "2512ce795f785a5abb4bd16d7175c60695a3d425b60ec9c04e3b3c2ce41bd6ee"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "4e242ef91bd0ff614b16ed6827fbcd69259a44a9330917debb4f73a465a3c4e4"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "40842f8bebcb5714f7cea459bcc8e68f0535cc58b2365916b0480bf6469a6077"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "fc50be35cc9f90c020ebff72ecbfb1cfee79599ee6cf04d7eb7f970dedf8292f"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "5b0a2ecdac1f7762f38b8f347642dc660eb19187538513389eb6aa3a67349474"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "adddb6f4a7a8edb51a9e2559ae9456e9fc54be749d18668e727c555cafd08bac"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "4c01795c0f5ff4ef4e2beabeade445cea36985a9b962ba0be2fbeeffbf92fafb"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "f5d0790450bbbb3d4be1772d89503b8c9ac42a465fa8f62d472ef913c5b783b6"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "7a7225c7f3dc78d0d0f6b102cdfe1c46341019cbcd9c0c5b85972aab6b86b762"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "e7b42e0bea28e7686c096055af6b20af4fff4876676acea03684df02d3f5f516"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "b9499a475213bbd55e346a7a2e1dd14b3f2fba3abfda358eb9e94e81fa2c6de8"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "7e125bc709457ec9d830c8ef8ba520229472196e2297df135303c8722e76266f"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1225065e5a637deaf8c5f333b2cb46cb7b9046a34c99b45d06569e68de360130"
+            },
+            {
+              "name": "pour-keepout-audit-process.json",
+              "sha256": "77985733271f800d465ac4afd51560e99f41e33057af8bf71bafd42af4b004f3"
+            },
+            {
+              "name": "pour-keepout-audit.json",
+              "sha256": "d15f5a531cb5cf33bdad9a29adf34ebab173aebd66d93d3395040954233440e5"
+            },
+            {
+              "name": "pour-keepout-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "e1c7687df1eac07aac4304ef7aa42a4034bde1f8a83e503cec5f22a149ca2c4c"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "b303713fedcf38eb9f55f8213ebdb64a13b5b69a6e7126682440c367657221be"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "dc4a855399db1de4d6b28761e631c40563967e7d2ae3774ab615b052ae9c4aaf"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "12607d83f0c8b8dd8b97ad06b0523f4e53cdbd52a74ccaaa6f9faf7f85645287"
+            }
+          ]
+        },
+        "incumbent": {
+          "candidate_sha256": "5a56c46a3ff2caedf8ffd4f13e52019baa5d4441d3e2731cb319cc07351adb5a",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/route/incumbent/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/route/incumbent",
+            "report_sha256": "18780d1921c7e415bca36dfcb9f55ba02cc1fee098dd41df3bbc096481483227",
+            "process_sha256": "a7f3cc590c81fa2a9f0d92c3853d749a80df4ab0fac8ac584166f1f45b14cfee",
+            "binding_sha256": "4115579c490d03cb78552de1ca5059b5b91dace6d7cd33a574cbdd58e214ddd9",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "default-targets.json",
+              "sha256": "ecb9270fea3a8e280d7fb67d5f1908bc6787ba636ecd0f86b2cacc6032fad71d"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "4115579c490d03cb78552de1ca5059b5b91dace6d7cd33a574cbdd58e214ddd9"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "2eaf72744576461cebe45c67a91165144f40e89d8e16852f7da24ca02667d698"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "d6d9b2ea39d69e390777527e3ce62965ca71c29dc05b82423fe8adeff5303264"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "a8b5fea9316f1ba2be0a155e4c3fc730bc5e61bcb7aa707389d63ae27c7655b0"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "9115ed6553333a295de40d11e61433047658785a9d6e4197892850144db5c2c2"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "a8be38b1abcefbeb74f8422c5b7920975b2520ed51106d68e26ade3f93461c80"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "7333a5d3eaabb0542e4399bdc738bc486707bef81a77cab3e498f5609c974c85"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "a7f3cc590c81fa2a9f0d92c3853d749a80df4ab0fac8ac584166f1f45b14cfee"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "18780d1921c7e415bca36dfcb9f55ba02cc1fee098dd41df3bbc096481483227"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "935ec0e9bf7c58e5f4ce9ce2dbc25a5cec366a9953429400952603b5a2a18a01"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "7c172102033c78e4378d43bb199bc7946a52f7e2bdeb112ed16818dcfb6d93f6"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "877c9ab75745635468a4fa265cb111e1f41b49b491711a1ed57f737452a4670e"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "92d66e2a4d27c5b8c9fbc5ad0805c287d953cdef4e09a4395cf7a762d07f85e4"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "95c6f6589dc9a17e33f61caff8560ea993e730adcfa3aa7086b9398f3b486ab4"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1471e9dcd898f2195e9e5635bf9359eb8d58e458d267c929dff5926f67f02934"
+            },
+            {
+              "name": "pour-keepout-audit-process.json",
+              "sha256": "537708126ab3cac3d03392d8b0de91455da3c47857ac8c1392996f64da1e9d99"
+            },
+            {
+              "name": "pour-keepout-audit.json",
+              "sha256": "d1ae9beb044bbfaf53342b9bcc61519033fad05bc41ba31debfc28e86fe6617f"
+            },
+            {
+              "name": "pour-keepout-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "1c7a2d1b410d90268a06eb613423c5b7c2cf25c546255b8dd48333751e08d873"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "4bae180202a6c71f0f9fb525810cd05c2b065e52a7bcf1300f18569cadcf5cc4"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "7991a40ed62cc2e5a02bdf8c0deb068cf3b68f6db6da012a95b7aeb6910571ed"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "66ed6fb82b5effec40a1e142d71b2000e47345ef4d3417a3e953b3a6f107cafe"
+            },
+            {
+              "name": "result.json",
+              "sha256": "077e94db0ea17977cf67a6181ae50cd7843aa6a6fe4081c3ee7244362c6812bd"
+            }
+          ]
+        },
+        "trial-0000": {
+          "candidate_sha256": "7117088936ce052a1ef1aeb5c731f37688119aaa61c17ac427fa993707959ab1",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/route/trials/trial-0000/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/route/trials/trial-0000",
+            "report_sha256": "373f6d47bd12a52063b34238269bb3ebe4dcaec4733b72986cddccccfe4d61de",
+            "process_sha256": "a99da7e25aeb7572941e094f71e5d6685e171c3df4937914c35b5bdc18bf5980",
+            "binding_sha256": "ce42c495410fa7ae770a6f081f7c6134d73c68d53324e9a5eb58ca12ae9567fe",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "ce42c495410fa7ae770a6f081f7c6134d73c68d53324e9a5eb58ca12ae9567fe"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "ec20c977953abe7d15d27b6604301985c0bf9f69b8d7ee1d3538b95b70d38619"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "60b3c469cb9aaeec755cb293835e4ee8f5c4efe044d16259e0f4bbd337b47844"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "ce49de61de45d9a8c765eaccc79df3c0e34a4f4c2217ef3a11ea4e7284909695"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "a3ccf3999fab6e05961c7888e9344d4e8df9ccbce4beea084ea497eea67903dd"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "2f7e200dda3192e19bc8d6aed36ebce80861d654605c3860dd849df25a59fdc4"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "421c7bb479a37f0ecd13ce3230bcdc66e84118ad5c22fa3c70c065689b048a40"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "a99da7e25aeb7572941e094f71e5d6685e171c3df4937914c35b5bdc18bf5980"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "373f6d47bd12a52063b34238269bb3ebe4dcaec4733b72986cddccccfe4d61de"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "2be8a950cca828aa69ab2ceb925b5bb8a5a215fadf3a4f999739d70ded13762f"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "9b4e0b3926b59a8cf30fe8093e0205cdd28d0837d60ac63061ec6d5c05752044"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "d87b398259c9c7da2a095d4061b36ab3078f9f6ceb78421d40b4271c7ac9165e"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "0cc110bfb22b8ea9e0e73a5b498b796c422048b759b6b6f1807e32b4c2c950a9"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "92783bfe0ef2b9b91fe4f5850658972759f31b4b26741b0cda8a3a1c5ae96d77"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1225065e5a637deaf8c5f333b2cb46cb7b9046a34c99b45d06569e68de360130"
+            },
+            {
+              "name": "pour-keepout-audit-process.json",
+              "sha256": "841b68fa5a4434d1e3aea3aea35c22dff77575d8508419c758e7300bf3fa4ec3"
+            },
+            {
+              "name": "pour-keepout-audit.json",
+              "sha256": "121105977b9a66f29fb8ea1c1932da26880c720e448b8b5fb4fb6fd69c2d7c61"
+            },
+            {
+              "name": "pour-keepout-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "90698f1472f6684f2a77489e41a1c86703041bad5149c02ec02066dda0e8a143"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "9a6911923d1a594d1b3254093e6011c4acee56e1afd59aa33daa08e5a73763be"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "9dd82347f6dd69662e8b595b69a31e9476ef3c6c9b57b95604b12d4165e1bb92"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "0f53caae9484f86b9533e22888d9dddb0a5b0ee439d297fef873315f1746b3fe"
+            },
+            {
+              "name": "result.json",
+              "sha256": "5b8233673c3f85e400b3bdea4ee15294301da7ec2b68dbc5259279f97cb94ec6"
+            }
+          ]
+        }
+      },
+      "improvements": 1,
+      "trials": [
+        {
+          "id": "trial-0000",
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-pour-only-001/autorouter-gui-06f70f35d98645b1ae9b09d2b95eb8d7/route/trials/trial-0000/result.json",
+          "status": "improvement_validated",
+          "accepted": true
+        }
+      ],
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 2,
+        "vias": 0,
+        "track_length_mm": 28.0,
+        "copper_layers": 2
+      }
+    },
+    {
+      "case": "improve-fractional",
+      "method": "improve",
+      "protocol_sha256": "1cd61dd4113d6018eb11d132f57bef9fd6c1fd06e3bcf3af5a53cae41bdcbbd5",
+      "source_hashes": {
+        "owned1007-transport.kicad_pcb": "f5178bda1843eb873311f075727d73dec3cfeaa054ee92c77119f1cd4a641e25",
+        "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+        "owned1007-transport.kicad_pro": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+        "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+      },
+      "source_unchanged": true,
+      "controls_passed": true,
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "complete_external_cost": {
+        "wall_seconds": 165.42,
+        "CPU_seconds": 157.82
+      },
+      "sampled_wall_seconds": 165.37386404210702,
+      "sampled_full_CPU_seconds": 157.795196,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "protected_count": 1,
+      "own_finals": {
+        "parent": {
+          "candidate_sha256": "7b66ddfb386ba9ab3b8565438818c138f41e029554206b1ad5269da98f57cfa4",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/route",
+            "report_sha256": "fcff175a9d9588827e39d73c3c92c15f19e9d88ec68eaaf21ba405ec0d3bcade",
+            "process_sha256": "2135c85a70b70111aa375360c17a535becf7c2468f909c273b02e6fab8e5748b",
+            "binding_sha256": "239a48a8091fe2c8eed68b1c3080b5eb662a308bad1cab08f46b24164049dade",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "239a48a8091fe2c8eed68b1c3080b5eb662a308bad1cab08f46b24164049dade"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "c46570dbde10ca36ec49f97e43379ae58a89bca1b31741ede2186753d671462e"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "155a96177daa8e9aeeedd4232fb7e34f358a9b39f9aabcd38d779c240d6b1e5c"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "c345343823b3ee044e02459148d785eabdb3c2d47b268d27289c5a9ecd32ce1e"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "98c1993da0b40e39bae9456f897997e439010361da15cacdb296ae1a0b75eafb"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "e4f605f1d65a002683e53846ae7ba1f3a595e0bd4c8927a25bc0a2f1c0943d9d"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "0f0da3a5b5a0e59d32c89e2ab9c033d6e7375615dc9d37ba1373a7e1f5f22756"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "2135c85a70b70111aa375360c17a535becf7c2468f909c273b02e6fab8e5748b"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "fcff175a9d9588827e39d73c3c92c15f19e9d88ec68eaaf21ba405ec0d3bcade"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "e7a2d104f7e408fd2db2411589d774519fcf744f686d54b87e45515b125ac113"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "f546f059a609e56f52330cdbba6dc1e9d7c3ba418061363bbdfa7f81b78f95e9"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "e1002658812ed64c6fa72591aa9c61e8b6af68a99c0213ca3f324bcba5d01e32"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "36d5bf65befcfe6557949672226f4fbca7de29d1bbe6853b9759c09895a9f9d0"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "167d07ee7b1a99bfa1fce036cf7df1b50b49d92aae8510924aa8be1358f0a359"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "eb6f66acbeb910847b356f5ff96187e03b8dfb2f420cee106570291063649d97"
+            },
+            {
+              "name": "native7-improve-parent.json",
+              "sha256": "cb981ce604ac87846321053d5acbe385e51daa82fc7c793e7b36b28c1778e75f"
+            },
+            {
+              "name": "pruning-preferences.json",
+              "sha256": "174b0218048953ec6003fbba133e3760a3075f86a29da0428b3106853067d5be"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "0afbf96d49e4d26f386b76a3f5a3863cd03429453562e45c9923c438e68f6cf3"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "a76a3b6fc1e792ba1216e500e7214ec8f0b00eb9da84aac79fa592d7c9148d00"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "836a81e7e817b522b14baf6e1e108bfb5d2b908cc727750cb0a7fbff9e78a66c"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "57143a352ecfc758cbdc89d1e23b0e2c5e25892ee7b20e5dfe7aa56398e9e7de"
+            },
+            {
+              "name": "result.json",
+              "sha256": "7aa9664ea7ddda97784409ce495af6cb0f6cab5863137228931eeeec1fff6978"
+            }
+          ]
+        },
+        "export": {
+          "candidate_sha256": "7b66ddfb386ba9ab3b8565438818c138f41e029554206b1ad5269da98f57cfa4",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/export/validation/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/export/validation",
+            "report_sha256": "26416c9c5b85b55b02cc30ca720d443d0bab1cb1c2e54de48219fb29d7a473fd",
+            "process_sha256": "2a5f7dc04fe006435ffdc5d5238cdb83bf8913b1d138848ff2a240822b181c98",
+            "binding_sha256": "b8c137156e0beabdb398ef0473cb3d94b67d2316ec5b55520f91947cb29b4bd5",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "b8c137156e0beabdb398ef0473cb3d94b67d2316ec5b55520f91947cb29b4bd5"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "20ade4f8f3601df03dcbbf790ec4837425e477ecfe3e9446f2cdceab042643db"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "f8712de92a2851ec13346f5b40ba940d34eb76f8fdc0e25788a5a2efcf4cad7e"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "91ef355e4a947a4b3102eb6441233c6cccde9287f29f3ae338e6b20fcdfcd3cd"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "f14697883b2cfd775397ee49a63483214f2f03b768694e94c24ef3212e1d22d6"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "3bf187408be35c94831ea23acaeb49ed38b1a2aee44e1989bf11e98fc1bc3c38"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "ec5f6e04ca052a045d5da5e74430199f273a8dc52e1545311b5900b1bea9732b"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "2a5f7dc04fe006435ffdc5d5238cdb83bf8913b1d138848ff2a240822b181c98"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "26416c9c5b85b55b02cc30ca720d443d0bab1cb1c2e54de48219fb29d7a473fd"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "7c2894f6eac79752ebf262c24315b7924bd6f49190a478215c7ca066fcb35854"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "af7d7007a3a483e914d217ba0b9a50059920f3b18e1b61654b813ec7ea0fb188"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "a19c9b36c44e053a544c72eff75d6b409dcdee2221be210118e68ff24f76fe16"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "ff17358cc72aa2d6097802d1dafc0b3c7ad2fc7c902cec1f455c291149910865"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "b50edd8c96af765177b743c8b16d8e9a4ec5d77a66761fb64ce91ada436af1da"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "eb6f66acbeb910847b356f5ff96187e03b8dfb2f420cee106570291063649d97"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "ceafa2f9fdb0f757892d5f04d747749ef12a4d273c04f1e40271e0bc68839c52"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "a638cb4a1e2fcfb9196c38d8ee828fcf5f41bc16e5a3b0766a332dcadb72f08e"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "f2b03b292f91f85aaeab7a4f91732e50befc6a50c618e98b1c57c725de9b6108"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "6fcffe58bc68ef652981f0789b7ea2b2f4ddf04578bff3863b8a54599ebc8904"
+            }
+          ]
+        },
+        "incumbent": {
+          "candidate_sha256": "ca9fe4d1245e4457c5ae16dca8e77c38cfad466880bd0b5d231431154de30084",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/route/incumbent/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/route/incumbent",
+            "report_sha256": "59cef22bb29714198635b64a6798c76551deee5c64b91ca5cb129d1ace85ce59",
+            "process_sha256": "82a440c59c251143595a2b66ad19bd6ee75d2801908fbba7eaa326daf67b6ee5",
+            "binding_sha256": "70b157bf8d313c46c178d04d75ba29f91166b7b5fc4ab2e43880f467686d71dd",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "default-targets.json",
+              "sha256": "fb8211ef3774274b552401d099dec051f347e72c50844dcb9228b0ba349157db"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "70b157bf8d313c46c178d04d75ba29f91166b7b5fc4ab2e43880f467686d71dd"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "f4caf63ddb4eedbd236e19711a72dc722479dbbdf82920edb980c8cba11d4add"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "3e2c18ad5188b0a33875221745e8feb2b6b3904a348df7df447e04656c2fe574"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "ec126a41a6be44be2edaf0768c3b317ef423fd29a8d606ecb63270e02ce9c9d7"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "51104f5914903259a4db97e9dca010a8e0a7e435ee6f29c151ed0ec0da15afc1"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "ad428cbc7e9229c746004a02e2f98e4bc412d6a3f4c77e340992dafeea8d3900"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "03035e11586d7e07fd8c0fd5dd7c934c208c84d46e8287fb527e07684478631d"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "82a440c59c251143595a2b66ad19bd6ee75d2801908fbba7eaa326daf67b6ee5"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "59cef22bb29714198635b64a6798c76551deee5c64b91ca5cb129d1ace85ce59"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "7a5fb96006899178ab76a24c49a0c4b05951e604f0710465ea66aaad37c0b67e"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "2e590f539b51c8545158eeda2cb0321febd38ae8209d920b2649aab0ec4839a6"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "912dce4bc568516c417d2185d091052fc2d9d8f863688841f5950963b2b499f6"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "9ee5ec7d1537ba51e11309dff3b3417ff51ff9d1c87b58ed15c9b8b623db2e3c"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "3a05cc482a1449870c8d0baa4adde0ed233dc89b717460d79a5cc526fa56d7d3"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1bd8931d21702f22a9a965ddd651a627f83a0f73fe1846f26d667ab8e0c8a759"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "d1d7d57f6f2a739ebaa886cb26326923153ebcadefbef1cd126ecc4c8339662a"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "74a03350c9da54185868b7282ba8620166e40ecbe5c7b1b28ae961b0bc278017"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "2dd1cf880c1e8ee133fa063504c284b60fc258d0dcece2b22f88feff9d4cf4ad"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "cd973955691fd92d5e80986e2cf97a4c775b8c77819f8598ef20a8246edd7545"
+            },
+            {
+              "name": "result.json",
+              "sha256": "f7873769548a1207ea4c47a638a68adb416326334038785758333c730d781a62"
+            }
+          ]
+        },
+        "trial-0000": {
+          "candidate_sha256": "7b66ddfb386ba9ab3b8565438818c138f41e029554206b1ad5269da98f57cfa4",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/route/trials/trial-0000/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/route/trials/trial-0000",
+            "report_sha256": "19bb5728559ce717fb5757a161163c83a1c22e4facd5fece36bc7afc6e8f2767",
+            "process_sha256": "938dfe357332e48f372aec83315b7162bd5428e2992c3487fdd4990f422e3a5a",
+            "binding_sha256": "4bec480722d33aab5dd56094904d2e5ffb2f13a255d4f7d243046c25b517058d",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "4bec480722d33aab5dd56094904d2e5ffb2f13a255d4f7d243046c25b517058d"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "17403f7ebe281d2a557fd976aca4ef0d12d4675f9b11d818e8e60c6398ae8496"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "71bc37ec5199ad203a0d978db3e86f6de38f585fb382033ee415796fbb350b9c"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "b93d30bbb9b3598370b5ac63e953f0755aca150f85cf603432fedbc8b661bfd0"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "16b63b60f16dea73cb3f316fe81258e61255a3c0e889daf51e184044c9ab10d8"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "bef748683de5a0bd4225661279fbb8480b4bec1e0e5b13f3c8614e2093630977"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "7f1275ca35e275eb3655aabd283854ef95c0fea0409d1f899edab1712cd26c6d"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "938dfe357332e48f372aec83315b7162bd5428e2992c3487fdd4990f422e3a5a"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "19bb5728559ce717fb5757a161163c83a1c22e4facd5fece36bc7afc6e8f2767"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "655ff3a25a3f5187643a783f370f1e65e0438f0cd74aee3758b9c35ec67b29ba"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "f591b482cde4e71d7195505c8e3fc63eab2f4bc9896f84fe087636b3130c3c2c"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "d9cf7591a59942c14b3c4089e502ac1cf8d04e89336e3b4a1457eb59e1b7a7e3"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "14105459f644954a4b85e8f77860db2fc6207ebdf81f645c7d685d0bbbb91e02"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "5bf52593cf252867d787f308ae1e4a596cdd6db6d57b2636e9a28f330c3fdd32"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "eb6f66acbeb910847b356f5ff96187e03b8dfb2f420cee106570291063649d97"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "c4a6bfcaec1230e3acfd0178caa04c2b8f572d38d87d2130d8f13f57735b2166"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "8f83e4fe8c8fce847a39ef76b10f5e64e2ae711bbd284333777917e96396a690"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "07a64b92f15c41125e0cc40a4cdf57a082290bdf692c42bda559945d4ea2612e"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "3e5c615eb921fe5e9a948440d36b57c5f4eb2c60226d440726b77c47fe85b377"
+            },
+            {
+              "name": "result.json",
+              "sha256": "bb2b94211933417d6b4e40cadc80a5a9f0eed817dc9989181e516e62c8ddf7ac"
+            }
+          ]
+        }
+      },
+      "improvements": 1,
+      "trials": [
+        {
+          "id": "trial-0000",
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-fractional-001/autorouter-gui-dd1f1dbd2928402499b275065c1bdfc7/route/trials/trial-0000/result.json",
+          "status": "improvement_validated",
+          "accepted": true
+        }
+      ],
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 28.0,
+        "copper_layers": 2
+      }
+    },
+    {
+      "case": "improve-floor2Cu",
+      "method": "improve",
+      "protocol_sha256": "c17cb9704524c5091efaad2dd23db3a49c8c0dbe5db62d8cd8c292aa6e5a9cf2",
+      "source_hashes": {
+        "owned-default-floor-2cu.kicad_pcb": "3ab90927bf7c60879a832579c2f9af7007d0e3f96d72c8f626e64b1c20751346",
+        "owned-default-floor-2cu.kicad_prl": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "owned-default-floor-2cu.kicad_pro": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+        "owned-default-floor-2cu.kicad_sch": "3ffbee13f44f3362cda0a39dce89b0163ed34cb07b06def6abe5f7feb7d9b3d2"
+      },
+      "source_unchanged": true,
+      "controls_passed": true,
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "complete_external_cost": {
+        "wall_seconds": 167.7,
+        "CPU_seconds": 158.92
+      },
+      "sampled_wall_seconds": 167.6439844169654,
+      "sampled_full_CPU_seconds": 158.890843,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "protected_count": 1,
+      "own_finals": {
+        "parent": {
+          "candidate_sha256": "7b4c50fa972d8acf553de03d429689fb7eb8d5863e55a78b68d814729b6266e7",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/route",
+            "report_sha256": "fef91af666c15707a997470357dd7d2d85e1be2d9a17fae6881d3209adb7cd13",
+            "process_sha256": "658d64e005a0e620c65ddd79381ebbe7eea6f16409cac6f622272286a9239901",
+            "binding_sha256": "8d2b1919c1e023f564a19c9bb96d8bdf06c0a124924fefab48c4f03be3e994c4",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "8d2b1919c1e023f564a19c9bb96d8bdf06c0a124924fefab48c4f03be3e994c4"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "21e0ecbc403abe54c7f3943a8519953bc741eabd29303473b0a02029d59d5411"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "b5ccd7f7bd4707f66891b6f740438bc70afd22799a3e69f82e757912524cfa25"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "e23ca770ca931c7664292404497df6a58dceb3870c9861b440f51087ba0ed536"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "8e0aa7e7b6886d5161da86b868118129fa9a40a8df0d4fa4b51f2e4ee7b8697a"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "77c62b2441df2682f79ef89ccdd307b2faf2a58f9d3007f0ffb562dd2556a0c3"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "5d97291823ed6d2ca5ea5cfdac873f8240d5b82e9ad5b65550e1969f444572d5"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "658d64e005a0e620c65ddd79381ebbe7eea6f16409cac6f622272286a9239901"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "fef91af666c15707a997470357dd7d2d85e1be2d9a17fae6881d3209adb7cd13"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "e11a4c5ad98c0de133351654cf230ff48cecc78b6081aaf6cf68e6c0f664b4a8"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "3a6a52bc5fbbaaf81a4a6764f82012d145eee477b6ac3e8432a2ca81ab199d8c"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "7fa9ee53b50fabf5aa99333ebe937e0bf77ee6ab8f363bb8f78a44700633a845"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "81d40f5975dd51d032f4f5cdf4bcf07533ac15318b0e432f2dad05d5d399b8b2"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "ad9b52867f5a5437e5b1b0c905c0f1530831a16f0b95b8d936c392f6143a7fd6"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "16b847ce63ac5337456bd9751ceace462102bdb85251d568a9321f6ab23fc518"
+            },
+            {
+              "name": "native7-improve-parent.json",
+              "sha256": "c12c9e90b3793b549c3317d8a7131d230826a945cabcd52d40414371589f37c8"
+            },
+            {
+              "name": "pruning-preferences.json",
+              "sha256": "55dfada9016bff91b349a624df1f236358a7592a3f034225074463af8f15b76e"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "5be692d73bb4d566450cb154947c8b2124c757cebe59a85cac28ca16590617e5"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "96a3758f965647c0a542bb290d496c10c4b252780e994e563ba10ea4c99f85b9"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "1c975088f8a288fa96687c53965ad82154faee07ebd7037dd5db3a97be5d452d"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "e216113b72c1089d44d09f29886fe53ed2ec9ec350448c46ffdc0a7d48ebc3ca"
+            },
+            {
+              "name": "result.json",
+              "sha256": "ffd5171454a4fa90d8597de4c4bf543aacc2d5f696495faea8f2f072b911c770"
+            }
+          ]
+        },
+        "export": {
+          "candidate_sha256": "7b4c50fa972d8acf553de03d429689fb7eb8d5863e55a78b68d814729b6266e7",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/export/validation/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/export/validation",
+            "report_sha256": "da78e9c10f9cc5ee6d62d55453f1d51bc6ac7de096026d2be7e33bc827bf381b",
+            "process_sha256": "4f940fdf6339c340c53b32b6854e94e17018d1697dc5265871139881aab4d968",
+            "binding_sha256": "20c35662ea4a6bf673c07766d7ab34cdf0a1ff78deb5f6efa8f5a65d2691bd10",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "20c35662ea4a6bf673c07766d7ab34cdf0a1ff78deb5f6efa8f5a65d2691bd10"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "34b705b78fc117f258b381fd6d15b9f150da04680c78e09c0fb83aedd890f61e"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "20f7656e56a6e92ea024cb1463760a78f146aacf5d9ad41330c5c46b16c86ead"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "2bd2ca7ebbe09632fd252aa104d65671815aaf8e9a3e7db6bc52afb03df6b6cd"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "df25d6e33de3931f8109fe2fd297b92e5b81154309da501bbe19eb4b4e86a56a"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "2b834de1ad85af007e2aa3ca7e973a23cf650a82f634e56196507b5f14f3dd58"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "2c675a72bdf283537998397e1b623efdee55a8927194dcc0e7ad7faee3c364cc"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "4f940fdf6339c340c53b32b6854e94e17018d1697dc5265871139881aab4d968"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "da78e9c10f9cc5ee6d62d55453f1d51bc6ac7de096026d2be7e33bc827bf381b"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "ce53222b0c9f1d85d4dd18c86a8542ed54c894bc4aaba3cbcb03ca0553f481a7"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "503022b9306737dd0d2d602e8cff91909423d49b4706d4b1cfb3679d6d0b3b2f"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "f98e9c0e3efbdc5f3308d542b9fb5b30bdc716799b945e91ef0c3263e673a2ea"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "37a7e9ef83e8b7726479e5761af35e7d793df010fc97995b24a591d60cab208d"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "0730a11ac7aab4826545ca708cdf5def52df2b29a8c214b17bed70c8605872ac"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "16b847ce63ac5337456bd9751ceace462102bdb85251d568a9321f6ab23fc518"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "08ef70ee84480a42029b110464819e56fd1b73c50df5fcb1779f9fd750a58280"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "437d1639345884074232102a7491c0e5d7f587115331bdf7b87ea3b21dff9dba"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "99c7c0538714d481153cbd869db82dc05380bbf8192c291591f2d89ff9180cb5"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "d10e4e8d2ed39d2120db25aa1b50f633ce7e3dbf1966ab6e7a03811b9d554e32"
+            }
+          ]
+        },
+        "incumbent": {
+          "candidate_sha256": "648cdf5bac90c8e182b6958397ce28ceeb42159a5c027e84230bb171c6b4db33",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/route/incumbent/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/route/incumbent",
+            "report_sha256": "850ca475141fc30769ae85bbae2938035de21764166dd2efbe5936cd943ab3d4",
+            "process_sha256": "494eb4d5ef5afdba3289616459fd2ef788c47677dc5d333e6921e0c2c8ec31de",
+            "binding_sha256": "a03a9c2ff9f31bd4093e386e377e2f1132d0386c3ccb23d2dfaecbeb5c3c5d39",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "default-targets.json",
+              "sha256": "0897aa7452b76830d95f9891795e82819e848a9b9c47e61d873fe9740ab37032"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "a03a9c2ff9f31bd4093e386e377e2f1132d0386c3ccb23d2dfaecbeb5c3c5d39"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "6ac8e5f523b8d29751af6f974c775945def8661860899fe4ac0b372c51e2246b"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "68141e1b8e31797cf22e204d79abea2b47e07fae39ad2fee0cc2b1295fcee04f"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "76f8dc6aa5fd107302fa41732c88346bafe83b08036564bf8950d65fa86c4578"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "f298495ebb43b0edb101c3da1e7042d33f4b6ed9bc32dc28cacc6b4f9bda812a"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "8af2a18cccccfffe5e328a972d3be8b5c91866f2768a21e39688f6212eb39b4e"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "38538b40f6f643325846af9c6c503a899a90ac9c9b711069915c9b3d90a9bb92"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "494eb4d5ef5afdba3289616459fd2ef788c47677dc5d333e6921e0c2c8ec31de"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "850ca475141fc30769ae85bbae2938035de21764166dd2efbe5936cd943ab3d4"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "7a1c24e04b07326cdc4d9cc4df390e514bd8f94f2bae869d91dd31feca0edcec"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "c2f18a4a738c2346a8120361c18549ce0d5f1a37f0c79bf786175a9025a01bda"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "5589786d313f46b0291bd502ca011ab02f075523f002d1afec1495c10507d68f"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "a88c7d8cc3d1cfb964e294f1305755db05d06d5f135487b98c49b731c89e638e"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "d6e117ae56825a2817c0188012816ef8c020c875127d6f55c60e3195e7ff72ee"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "6e66327a34be92e7ce6816f73c8d3e36087efbd8a415fc8192365aa68779c39d"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "30bd2dae73cb2273dc59ce57db6454070da4ab807126c4d9fe388ef6be033bbd"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "2f0b009bde4495568b460ceb0b153e376bf81f8902a6ce55e1ad5e9064ffc0cd"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "6226486227fc319c6d33e048c645133e9397690d9851d3b50b8f74041d2e62a8"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "173f381d347be38ea12fffce9e0fd6e79de5cae0b1741bd3eca810f4526ecdb9"
+            },
+            {
+              "name": "result.json",
+              "sha256": "437823dea4fb4056bc31c541f8a44e06783800ec70362b4b8e7060f237253f83"
+            }
+          ]
+        },
+        "trial-0000": {
+          "candidate_sha256": "7b4c50fa972d8acf553de03d429689fb7eb8d5863e55a78b68d814729b6266e7",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/route/trials/trial-0000/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/route/trials/trial-0000",
+            "report_sha256": "83b64221903938017fa4ad2dd1077de9a1d2bec3507738007533ab0788edd9f2",
+            "process_sha256": "f6a9845fbf2230ecdd27b9ce6221ea17f656c5729fbf403a7837c943823873ab",
+            "binding_sha256": "95af4e96e5f4684e6729c5d57ccd21a4b28d2956b24ae48f78fffcb8228d6b21",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "95af4e96e5f4684e6729c5d57ccd21a4b28d2956b24ae48f78fffcb8228d6b21"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "b9e089c09a11cce9b353706765cfd9709463514a847244caf5fd812c32e64bde"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "226219266d27b80fa7205febbc82ca6679c04e7d53167c571780875f874d4815"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "b3c8001889dd87ceaf3b0643ab1587b6ccbe046ad6375203c280ef30f75a7bd6"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "a1ece347a722f130a4ba3ff5272d91c10f3ff39e7277b035abffde4ddbea30e4"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "8934ff2f0daa406a4d0215e9ae4c4aa15c5b6214d8050b722f74967f88f15ea0"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "e9b7312bf17651a2afa6fb2059d4e8a47f83a7d1bdfb3f000382a061f9922558"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "f6a9845fbf2230ecdd27b9ce6221ea17f656c5729fbf403a7837c943823873ab"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "83b64221903938017fa4ad2dd1077de9a1d2bec3507738007533ab0788edd9f2"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "6717c78fd6eb6e467a28c7fa84bb787537cf712f387188319ffa321eab58cc2b"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "8c79687f159a1ffad2a7fc58e9ce77bec70ed4f0835ea44e4fc9a7e8c0d829b3"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "b78e41d35d6de6c796e070e2679e5417dc393e5e6134e7cdb0431e353086ab54"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "51b264dec02268bfba9ccc5af4927d07bd34461da569830da433b646cd0f6f7b"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "3074bdb36d7d17e3985bf65ab2cd45e4e489fd03251f5d0ce980ba59ecb0b144"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "16b847ce63ac5337456bd9751ceace462102bdb85251d568a9321f6ab23fc518"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "703dd2ae498e0e73659029669f7197c7c148f6b4634a2a74a6094eb63b95e99c"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "33b99829dd276a3f4ba0614c747af6f6db5bed8a99a4a65b8cbaa49379ad2686"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "313cd53cbc1530843cb90bac4005264364e24339fd020104a3c148879e4d8322"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "914aecf65481ff953a97b49835f36f8922be13fea8a47e9e534106d4ccc47adf"
+            },
+            {
+              "name": "result.json",
+              "sha256": "6e11d2d49cd7c566e71923bded785a1afb71058885a599f46374553b4bfe7183"
+            }
+          ]
+        }
+      },
+      "improvements": 1,
+      "trials": [
+        {
+          "id": "trial-0000",
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-floor2Cu-001/autorouter-gui-653b1eda5a884fbe9c8241131782f8d1/route/trials/trial-0000/result.json",
+          "status": "improvement_validated",
+          "accepted": true
+        }
+      ],
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 1,
+        "track_length_mm": 30.463824115391933,
+        "copper_layers": 2
+      }
+    },
+    {
+      "case": "ordinary-alias2Cu",
+      "method": "route",
+      "protocol_sha256": "b5acf0e79ef7e5a68a78191d6ac2ed7f685e122d4524937fa30ed1e44363e78c",
+      "source_hashes": {
+        "owned1007-transport.kicad_pcb": "72ea130a31ae15ecad765bb08fa00ebf0b20a399f6fe733f72fedc68c0b2a77a",
+        "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+        "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+        "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+      },
+      "source_unchanged": true,
+      "controls_passed": true,
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "complete_external_cost": {
+        "wall_seconds": 28.76,
+        "CPU_seconds": 25.03
+      },
+      "sampled_wall_seconds": 28.682812834042124,
+      "sampled_full_CPU_seconds": 25.001358,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "protected_count": 4,
+      "own_finals": {
+        "parent": {
+          "candidate_sha256": "aff3baa28845aaa46e9b810f5b9cb4a0e89a975b8b82f6661e633b636f1047f0",
+          "Native_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-alias2Cu-001/autorouter-gui-68937763238b41e0b4c890907b8fdf42/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-alias2Cu-001/autorouter-gui-68937763238b41e0b4c890907b8fdf42/route",
+            "report_sha256": "20be76512cad078da2090f5dd26b51cb6aef11a42794858e0c4d135ad3f93882",
+            "process_sha256": "bbcec511997071d0c653e32ec4b79e1f406c9472b9c63fa4dc1f9a6b5453a79b",
+            "binding_sha256": "b5651ea1d15a9d1d724739bb5e8d7422cc9c6cdaf8345dfaa59ce773940dcc3b",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "default-targets.json",
+              "sha256": "216a596155caddf09ffd09728ca78a683718889ed85e3775cbd46f889d048857"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "b5651ea1d15a9d1d724739bb5e8d7422cc9c6cdaf8345dfaa59ce773940dcc3b"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "bbcec511997071d0c653e32ec4b79e1f406c9472b9c63fa4dc1f9a6b5453a79b"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "20be76512cad078da2090f5dd26b51cb6aef11a42794858e0c4d135ad3f93882"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "ddc12498cbff2387f35ea5b6f4a0565bb01e8906e623567a84bd1ce7db0a291b"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "075defedf5d9508905e70344cc28d3357ca68874e4f43cd903e33483a674df8e"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "492b7e00ee511bf41e52d36a4bc0057d3d8992ba685a922a9c7ac85429b58232"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "e82c90f0e3cb1810408b992bf793782c76ecc3c1784f759757b54341091f9fd1"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "0ce5f8f05b03bc61df240cdd9722246dfdb92e77f050391856aed332e5fd015f"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "613b88f0cfb50a604985559420cee6729cd98e5236f21944143d3071d2b7301c"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "617d717236c70c674f3f1cb490a4f40fb53ec8dbee918f1c185d905747af029d"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "0a8decd3f274c6e29f762d0805a34bfdf856e2c4391d467b731ce5c4ed9c2dda"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "8e1474aa806fe5371635cbb5a193c2751077929e5ed879f61a0165cf4fd84138"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "43d22da196fe93c7e419076a59a7ac9d26044ecbefee1cb26257b2f85df1c7f7"
+            },
+            {
+              "name": "result.json",
+              "sha256": "4b5ea8affdeb2148e1c4c072bc42e8c5debbeddb870d17862df076d6ef4fca23"
+            }
+          ]
+        },
+        "export": {
+          "candidate_sha256": "aff3baa28845aaa46e9b810f5b9cb4a0e89a975b8b82f6661e633b636f1047f0",
+          "Native_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-alias2Cu-001/autorouter-gui-68937763238b41e0b4c890907b8fdf42/export/validation/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-alias2Cu-001/autorouter-gui-68937763238b41e0b4c890907b8fdf42/export/validation",
+            "report_sha256": "15358024c95048007d7e4d82595b80dde8a386fcd896c09e0c17d170ea2bd042",
+            "process_sha256": "0063a3d6bcae1b6c1c281b97ae200ebd94d48418c4c1a60e46a73c261de31744",
+            "binding_sha256": "40619a95170604bf1b2d4531251adc65974019202282c0f0c99a8b6e28020cd2",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "40619a95170604bf1b2d4531251adc65974019202282c0f0c99a8b6e28020cd2"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "0063a3d6bcae1b6c1c281b97ae200ebd94d48418c4c1a60e46a73c261de31744"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "15358024c95048007d7e4d82595b80dde8a386fcd896c09e0c17d170ea2bd042"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "2ee66f9d7eeb6c601afe42519472f44f9918b99fe8964c620710bb32e9a2c7ad"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "6b42fb56cbe2b4762df45913878627796ecfda7e82ed2479746428423f266310"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "356fc1432e15756a57cb849a8f0227a96e92e5b4c807cb839948114dc1c08bfd"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "11694abf02f295271c25300b7fb3f15d5393a434cf9471d5ef7b9456366b7f09"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "d759bea69c9d77cf74bfa823680502ff87733699b67af01efd0ad414346047c6"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "613b88f0cfb50a604985559420cee6729cd98e5236f21944143d3071d2b7301c"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "05d299def07ed46d72b1c77a5f95dad82d2ccae0efa7f1cabe05982b7e2d54d2"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "020ce35a42afbf102c6ff1411639ae6c70a57ece3321d54cca4a9acf5db74754"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "501c4625af79400939bf339b7d718b2b03eda9a207650efee4d13c0df60d8b3b"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "e6956ee72b8f63f4b9f8de50b192889a3c323dcdd5099f7e0055801632b12932"
+            }
+          ]
+        }
+      },
+      "improvements": null,
+      "trials": null,
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 1,
+        "track_length_mm": 49.0,
+        "copper_layers": 2
+      }
+    },
+    {
+      "case": "ordinary-whole4Cu",
+      "method": "route",
+      "protocol_sha256": "a808231fa2dcdcb06e12745db5631aa50c6fc940aef23acbde1f8d891364cc1a",
+      "source_hashes": {
+        "owned-four-copper-forced-inner.kicad_pcb": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+        "owned-four-copper-forced-inner.kicad_prl": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+        "owned-four-copper-forced-inner.kicad_pro": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+        "owned-four-copper-forced-inner.kicad_sch": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+      },
+      "source_unchanged": true,
+      "controls_passed": true,
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "complete_external_cost": {
+        "wall_seconds": 33.14,
+        "CPU_seconds": 28.84
+      },
+      "sampled_wall_seconds": 33.11029341700487,
+      "sampled_full_CPU_seconds": 28.821246000000002,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "protected_count": 10,
+      "own_finals": {
+        "parent": {
+          "candidate_sha256": "0afcacecbad808636f6e7b1d87a1db39ece4cbd92c700ca6cd050b00e8d4aeda",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-whole4Cu-001/autorouter-gui-1163ec731d854478bbfd68d7b0df0e0b/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-whole4Cu-001/autorouter-gui-1163ec731d854478bbfd68d7b0df0e0b/route",
+            "report_sha256": "eb71c2bd2d9a1ad6c17aeda98792fa9b03d0e9df67a4e48b6b3c33acd67b877e",
+            "process_sha256": "25706027d126eaf319e8f9df77329d079e8c48b2e0bb9d735faec5ec213b0f5b",
+            "binding_sha256": "6a930d10cdfb1b907ab13db174926ab57f82ab197ab04c00e432f7ad6e546b1c",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-classes-binding.json",
+              "sha256": "e783d04cfa9fb1e8e37617d1ae94060b03cec6a24ef4719be62c9d915ef35025"
+            },
+            {
+              "name": "final-classes-netlist-process.json",
+              "sha256": "cd9fdf5c03c87b6af34293677be18cc179fe0cee310e59652a36a315cef1d3d3"
+            },
+            {
+              "name": "final-classes-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-classes-proof.json",
+              "sha256": "95f9b72f992034c6aa7c56b92ea86f53429b5c866cf0c7ec3d4ddbce980bf90c"
+            },
+            {
+              "name": "final-classes.net",
+              "sha256": "98993e73c78b71dfbf0221b964d2f0b46941a6832900e9180c11ce261c08625b"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "6a930d10cdfb1b907ab13db174926ab57f82ab197ab04c00e432f7ad6e546b1c"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "20c7c8de2834da789f4afd6a0b18ad915f3d94ed446cb3e9416fd358ca588d4c"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "aacee596d69f3bbe691fbe7d0d0a3dffef60a4392493c8127016ac3528974ddd"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "18363ffa815380fc3c2747d0fbd87140bef27c7f26b20600bd7d64c2a13e2717"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "649e10db515ccef542350da059dbf0dfb013551acdf4aeeb1ead1af4d17b253e"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "b3bb7ade5bb3a17ede36aa1484f6f06e9117cd4155ab7356a674d56a4e3520a8"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "904923834730378fa37ad400b274c2bc88e8b421a87c84941c0121af6189eaf3"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "25706027d126eaf319e8f9df77329d079e8c48b2e0bb9d735faec5ec213b0f5b"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "eb71c2bd2d9a1ad6c17aeda98792fa9b03d0e9df67a4e48b6b3c33acd67b877e"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "47e18d648c6879afac63793c291d27e763afb22aa393c3f25f47ceb65081ef63"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "03082de4e777f2621e559e860e537c06286897e7e116980796927214d7bbd9bc"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "ed5730eac872fb359b56f66ba1ff5caf4878dd473e8a4a7746fed3e78059c81d"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "36fdf244e74ab724b9a5162fcb193351d81b9a1aa7a4978e32758b7d9877283d"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "23f60c56a68bcebdc333add52c20829c937815264b12ace19c78fe8f7e9681e5"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "633b9d611576fb4e45a1cf80967ac395d1b452227a67dcfc6408ef6b9db693a3"
+            },
+            {
+              "name": "pour-keepout-audit-process.json",
+              "sha256": "64dab42e6342dc87c42d92bb5c8c7b264ca337fc9b77e3ba1c1c9e06ebf2c6ba"
+            },
+            {
+              "name": "pour-keepout-audit.json",
+              "sha256": "d9c933df0338e71c7e8e55ab7fbaa9f1862e512a0cefcca7d276ddf51b82227c"
+            },
+            {
+              "name": "pour-keepout-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "fb47c12680c8d012db3deb04989aa01192afd62040d74129620974551236e2be"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "a2b5253a1d592e855eaf11dea3d4a990fa74646a77b05d035c71d8cea5ec7f63"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "3617e22d4ceeca422098a0166f13f5d7c94b56926ea663306d2f3077e96b1401"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "00327f2b49639bf4fcd68945c75c80dcc5c7b5a2330de17e71c5f31b68a7b887"
+            },
+            {
+              "name": "result.json",
+              "sha256": "9b4440fab96eb6626c2b06bb7ba49ae91cbc58f59a6868eddc2985b07075604b"
+            }
+          ]
+        },
+        "export": {
+          "candidate_sha256": "0afcacecbad808636f6e7b1d87a1db39ece4cbd92c700ca6cd050b00e8d4aeda",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-whole4Cu-001/autorouter-gui-1163ec731d854478bbfd68d7b0df0e0b/export/validation/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-whole4Cu-001/autorouter-gui-1163ec731d854478bbfd68d7b0df0e0b/export/validation",
+            "report_sha256": "230ae41f500187f6d4a51791afb0606c7c29d1493e213b55114162def9ee32f4",
+            "process_sha256": "d59f86fb28f6baa5c22195847a43088974862bfc34ce4a5e83ea380e15390419",
+            "binding_sha256": "b49d0aecce43c4aeba27c948439d64fe0304545e7cf5a77dab6e92a581e5b6b0",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-classes-binding.json",
+              "sha256": "e6de2178a0addf37291f92d40ff4a875ae11851cf98ae8b88bee54a5b3dae52f"
+            },
+            {
+              "name": "final-classes-netlist-process.json",
+              "sha256": "70c9119b28e14c40efca1cee892ff1b2a0fce41039c7250988892372facf4604"
+            },
+            {
+              "name": "final-classes-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-classes-proof.json",
+              "sha256": "de95a63992236c5f22483a0eeed7ac2fff28221234209ca47fdaf08d6f0fd609"
+            },
+            {
+              "name": "final-classes.net",
+              "sha256": "b5b425872b2950ebb6246e41f55d16ffa049026522ef1412871ec00342975509"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "b49d0aecce43c4aeba27c948439d64fe0304545e7cf5a77dab6e92a581e5b6b0"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "a95f833094ebe578c22cfdbc1cc3d1dc73a1d24c5a103e9531667c2761c7de80"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "23cd20b6d281f32156bc025021db342dc7e8ba84dc3f10a1b45d656c24598871"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "a185643192198c128b0c4437cebf6f029af588a3a91c1c3a75c261b50bb6cff5"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "ebf1c89c9a2113dc207204c6ccf93c31e88fec5c5f3fecfcaa95c661e5cb2d1e"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "5c607ad0540d9778ae80de8351e021b2a295cd93d65b3902ebf7c603cb0f309f"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "db884dd153060956d975a8868401e3363b8db42b5760270a7d2882d86d121ab7"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "d59f86fb28f6baa5c22195847a43088974862bfc34ce4a5e83ea380e15390419"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "230ae41f500187f6d4a51791afb0606c7c29d1493e213b55114162def9ee32f4"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "0b14f42d7a243aae2e24b79944bad79d7b0685b58d22b4bcd93394b9585fbc80"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "9bbf9addb032c79896cb30bbc5a8d071af67f43353d36f23d782a1af2f9e1e45"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "81454b7d0c9c3e093981174beb5f3eaf809a927b15f871eed2f76366c2394be8"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "ba80818e66b9ac265e0a76186322c66d47f78e05abe5aee7bc5728a0dc2833e7"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "889984247dd0a6958b0fcb5b0fd1a24be246008697173b38fde8bd6181ae7aa7"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "633b9d611576fb4e45a1cf80967ac395d1b452227a67dcfc6408ef6b9db693a3"
+            },
+            {
+              "name": "pour-keepout-audit-process.json",
+              "sha256": "83bafc9873692325727f75f77228bbcce1029774127dd9ad1863a9378656e713"
+            },
+            {
+              "name": "pour-keepout-audit.json",
+              "sha256": "11d1e8d1ed1f5d7496e5e0de29a0902f1caaaa820c67d19e2c13a51b734153c3"
+            },
+            {
+              "name": "pour-keepout-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "5f86fa6ded56a0ff2d7b53c72493688ae75b4649fa2fa5c8d11e4ae92a8dfe03"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "bc506dedcc21e4a72ef92c8c37a0d3a5ef0d30fe8c71425bef54bd98c5ac6437"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "bf1c9391b6a2d12a4b57430599fbdde8802c9c52efe8e774794dbe822d02e6ac"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "bda98da8315555f183ea4dc8accf9fbaa55682c3f0057b81f4677932c092d79a"
+            }
+          ]
+        }
+      },
+      "improvements": null,
+      "trials": null,
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 3,
+        "vias": 2,
+        "track_length_mm": 152.26367124472972,
+        "copper_layers": 4
+      }
+    },
+    {
+      "case": "ordinary-hierarchy2Cu",
+      "method": "route",
+      "protocol_sha256": "523c3a6269ea09601cb3a0bceaf8e0c7d1463621a28491303c8304abbcb11aa1",
+      "source_hashes": {
+        "owned_channel.kicad_sch": "9b33eb14fec58954161dba6178bf6bf0a5422882774d684e815965e425614936",
+        "owned_hierarchy_native.kicad_pcb": "dbd5680b19cdc8fbf5081cc67bb13e1c300252f7772cb611c0880b8a85000ddc",
+        "owned_hierarchy_native.kicad_prl": "163a3e42f94ff5989729c2918adaddde2d343ccd116ebabc7997b9df2aece4f2",
+        "owned_hierarchy_native.kicad_pro": "dacc6e9f55222c6d9d4efb209fd7c0f47b6f96d24322b4ee91c4dcc83190f003",
+        "owned_hierarchy_native.kicad_sch": "fc55bb57df226e7cfa4e9dc037f6a88d38c1cac6f5777a42d8e4463a1369fdd2"
+      },
+      "source_unchanged": true,
+      "controls_passed": true,
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "complete_external_cost": {
+        "wall_seconds": 28.01,
+        "CPU_seconds": 24.91
+      },
+      "sampled_wall_seconds": 27.921492583933286,
+      "sampled_full_CPU_seconds": 24.874498999999997,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "protected_count": 0,
+      "own_finals": {
+        "parent": {
+          "candidate_sha256": "df7877e9fa455286b26dbde790a2b4a7404202e038bd82b03ad87782cb445770",
+          "Native_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-23262274755c47739b98cd8c35064b78/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-23262274755c47739b98cd8c35064b78/route",
+            "report_sha256": "597ceed9469ca87a0b89d24c211465c59769d6341bbda5c62e294dd726a046b8",
+            "process_sha256": "46d6cda6796f7f6996423feb8c670bf18ad0e9a2904a3b2e4ba5d3a3eb3df915",
+            "binding_sha256": "dca1a3f17d928b35ea6a556c5a3077f4897e1e4203ba0ceb7ceb4b3aaeaeb041",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "default-targets.json",
+              "sha256": "a166970d530cfc7e3adc7a31f8aa5026d6a6b640976263a1cb6f8b85430ed890"
+            },
+            {
+              "name": "final-classes-binding.json",
+              "sha256": "2c43f9ad1dc33f8c8751321e473dba60e91612365d09c403e5fa325b51291642"
+            },
+            {
+              "name": "final-classes-netlist-process.json",
+              "sha256": "9ef233ab502e550b08a8d2c4f78ef874bf38cb575aa2bd7741c82979e38cfa90"
+            },
+            {
+              "name": "final-classes-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-classes-proof.json",
+              "sha256": "fb8fbd0bbf43e698496b66dbae88ee2e596ebdc8f793de464cdc3f6132ad62a7"
+            },
+            {
+              "name": "final-classes.net",
+              "sha256": "3fd3849ae60f4a156b5ae2c7f68f509ab2503b95dfbdb416adc246a5c35b6d20"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "dca1a3f17d928b35ea6a556c5a3077f4897e1e4203ba0ceb7ceb4b3aaeaeb041"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "46d6cda6796f7f6996423feb8c670bf18ad0e9a2904a3b2e4ba5d3a3eb3df915"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "597ceed9469ca87a0b89d24c211465c59769d6341bbda5c62e294dd726a046b8"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "41b7249cf9046e08c955e0b53934fb617e5e4f7ea9e62b1dc44a548562950cbb"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "1ef3dd176d52d83aab836beff16b07ab8efe14fc837ce4e5626868bc2fbbdc41"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "92fc9252db01be8536b4080b383acb8bff024b0d744acdac1a08731bc3063465"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "ff5452aa57c347a7a48c9defe9ded8b22e7bfdf338a98a41b2188cca72f4990f"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "6a52d12a81b9b4f0f1c02b4a58cc51ef4b30551af5095f027654b28ee86ec452"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "ffc91e48bee838de1ddc20a324c3ec4f0c39c9fddb5ac7870c1189cc858db9cb"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "1ac1f0842b0f0e6fab9ce57548a5b89a8633a6251130a49297d0f5a60fb90267"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "46df119ccdf0664190b58ccfe662c4e420f50f6e7a5ad9269f7bfcc41cea3644"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "fabd135aeafd87e96dbc597b7ce92f518bc2e44109ecaf37f671381f1571d3b3"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "4b9200cd372a90caa178762b3279c03dcdc8ccc972ccda9f55c3d2572c8509bc"
+            },
+            {
+              "name": "result.json",
+              "sha256": "5e16825ee2e178b592145d49972eab8d6bd04041564cd98d16a6255e80b8445f"
+            }
+          ]
+        },
+        "export": {
+          "candidate_sha256": "df7877e9fa455286b26dbde790a2b4a7404202e038bd82b03ad87782cb445770",
+          "Native_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-23262274755c47739b98cd8c35064b78/export/validation/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-23262274755c47739b98cd8c35064b78/export/validation",
+            "report_sha256": "a136c97da236cab553bcad6de2b7c8b30a68f08297a0f9ad453b6141df1c0536",
+            "process_sha256": "9fc4342be8f1db5afb1c856e2a52c5c79eef4bfebf39a5793b0460035dc3a388",
+            "binding_sha256": "1ea94e3a356c57ba6242b77afe12e7cffd99fd1b10bca3737b7bfe2520e0e97a",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-classes-binding.json",
+              "sha256": "03c683c37fb7a125cee000e2d70e3fadc2fcc9ddb2e7629bd143ff2c7f015c85"
+            },
+            {
+              "name": "final-classes-netlist-process.json",
+              "sha256": "1420bacea0f973918c8fff17c32f1749445754ac28337ffd58f1ea8d4acfb0e5"
+            },
+            {
+              "name": "final-classes-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-classes-proof.json",
+              "sha256": "403d360706f60a498e68e952db78bbd2bd12ed470f4e9864a3e0fa46c1d4c18d"
+            },
+            {
+              "name": "final-classes.net",
+              "sha256": "a86ab59dfec2ff2109a223722020f415b682b76bb94dd8cf0939f8e42797bafa"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "1ea94e3a356c57ba6242b77afe12e7cffd99fd1b10bca3737b7bfe2520e0e97a"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "9fc4342be8f1db5afb1c856e2a52c5c79eef4bfebf39a5793b0460035dc3a388"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "a136c97da236cab553bcad6de2b7c8b30a68f08297a0f9ad453b6141df1c0536"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "b80365e24eab3831b9f0c5ee0b0db6fe6285a55a511b0117a6268d2f64db57bf"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "845c59e876934aa7759a7b349a4e83bd7506f8b928f9adae1c28b3aba6f18ee4"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "c12d10769ee3da348fc2f712022de156e8a42e7a1f81ae893c1923040430e029"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "74a5cc1115ba1857c3776d8dca8ae92559b0b34fe7d286621d3e975eea11ce5c"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "cd5ba61c07e2578054fb20e86a54e336d8fba1ca3e20c4f366cf6d4e77fc4731"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "ffc91e48bee838de1ddc20a324c3ec4f0c39c9fddb5ac7870c1189cc858db9cb"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "9ecc5b3f3b822a9a0592bc765a5c95881fac9101987a414d376e9f4f02206f73"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "190f246d40c75c9c0dd7bb5364f8baa9acc663ec1507c3f5c1f5ae053036a4c7"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "9aadf1ec690b3ea8a0ee11290571305c0d4381a17f5a6c05e0d1b50790248883"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "faf5c92c2be46a21a474bbfd8ce8ed82f919280cd84dc21479fbb5324100e736"
+            }
+          ]
+        }
+      },
+      "improvements": null,
+      "trials": null,
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 15,
+        "footprints": 5,
+        "zones": 0,
+        "vias": 0,
+        "track_length_mm": 103.7463002446602,
+        "copper_layers": 2
+      }
+    },
+    {
+      "case": "improve-no-removable-owned",
+      "method": "improve",
+      "protocol_sha256": "22c95118fe6844e27c53ace7291df901708c2ef1b9e0588040986f27a6ac8ef2",
+      "source_hashes": {
+        "owned1007-transport.kicad_pcb": "ee219fd4d77c5c0fb1f12dba2753ed1eb72138f33d7a829977b1f8fa6b8ce9e7",
+        "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+        "owned1007-transport.kicad_pro": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+        "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+      },
+      "source_unchanged": true,
+      "controls_passed": true,
+      "workflow_delivered": true,
+      "actual_GUI": false,
+      "complete_external_cost": {
+        "wall_seconds": 162.17,
+        "CPU_seconds": 153.34
+      },
+      "sampled_wall_seconds": 162.14043849997688,
+      "sampled_full_CPU_seconds": 153.31401900000003,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "protected_count": 2,
+      "own_finals": {
+        "parent": {
+          "candidate_sha256": "fd8f82b96ed37e8c18b765db46ae9d8ae476264e09c55e6dd0c6ebea0bbbc680",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-no-removable-owned-001/autorouter-gui-d70b789d050842dea502e6f56a92d1d7/route/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-no-removable-owned-001/autorouter-gui-d70b789d050842dea502e6f56a92d1d7/route",
+            "report_sha256": "53b0c8ee75ca9b2b9e75f218ba5614a8de40dbe0b26099c032ea8393a8abbcd1",
+            "process_sha256": "3a9058b117795aa6d96f792aaf275bc93b96eacc39164ed526184df93101cfc7",
+            "binding_sha256": "e96e9cc381602b20e4745d04c04c503cf1e2e22526042a479378cbbf12259c14",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "e96e9cc381602b20e4745d04c04c503cf1e2e22526042a479378cbbf12259c14"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "27aba590a1042af77dadee6b258fdaa3299270805e9cfc39401dd5b876df5100"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "f66aeeeab85f1e7980ee0f464d895616664f899f94062ab2c11772a083c64209"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "2a48fae8987262dd78e8483396ee34b0ac6609d2cefa5546692514d9f0f07352"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "92f42d3b159fdc1514806ca6e768be208bbfb6731d0cae32434bfe9283cef051"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "e960ad13cedbed73e16b3fd8cbf7dc70971ffb663ca2918d579ab1e63ca692a0"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "5439bde1d660ddc9395c1a0954f6ae7409b06a9e77d52795b28a11d74d7c5c62"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "3a9058b117795aa6d96f792aaf275bc93b96eacc39164ed526184df93101cfc7"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "53b0c8ee75ca9b2b9e75f218ba5614a8de40dbe0b26099c032ea8393a8abbcd1"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "ec8bbac81b7a3a2477b9632e25775b7d323ea9b49ada148dd7548cc794c88233"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "ad891c57bdd09cfdf8462d68b20fdec85c5867ab500f2ebfdcc6dec73b2a988b"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "db67b9a2a96f5a5b1ea3b575d8cde72258013e1dec6a6c4372e569b4ec165549"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "9d60c208ed79dc9268c20cac11af1df6d4a85121003791f8055acd846a857b7c"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "f12ed3dc9be971f99c9e80f35f879fdd539305e1e2e54d407bfef45f9ec2900f"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1bd8931d21702f22a9a965ddd651a627f83a0f73fe1846f26d667ab8e0c8a759"
+            },
+            {
+              "name": "native7-improve-parent.json",
+              "sha256": "cb305c9c70417ee7f1735a0691ee3efe718c736ae0a1adbc3ea4abeb8d7efd05"
+            },
+            {
+              "name": "pruning-preferences.json",
+              "sha256": "d3d824eb749f3e8a600aaf5ef213277827a6edca0001de09621d4a35192fe9cb"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "d5e4db75e18cd76e6974a5d821c801fc9596f6c28a269f9a53b2ea67dedab01f"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "ca36527b0d279ffc516d5147468e69073307d4322c8afd5c956be62ed6e8c0f9"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "8ef8760d936089fb5d7f297f1415dd7055d65116d0fd9ce433488c45d4a1dea3"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "515b4a93b03ff6cc0dc5d3e481233083defbd807657f63d93bef3c58362a47bf"
+            },
+            {
+              "name": "result.json",
+              "sha256": "f48401dd64438c4986737dcbcb77cc5363f113eb48a90b5868f316b14d192dff"
+            }
+          ]
+        },
+        "export": {
+          "candidate_sha256": "fd8f82b96ed37e8c18b765db46ae9d8ae476264e09c55e6dd0c6ebea0bbbc680",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-no-removable-owned-001/autorouter-gui-d70b789d050842dea502e6f56a92d1d7/export/validation/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-no-removable-owned-001/autorouter-gui-d70b789d050842dea502e6f56a92d1d7/export/validation",
+            "report_sha256": "bf530eaf64b591d056734f320089eff1b68794fb0f5b8a8edcdaaa5cb0944c2f",
+            "process_sha256": "8061e211618852af59ae0e43fc3f1803863cb59567bfc8c7c8797b2eb3f0be2a",
+            "binding_sha256": "6d807cd0e723df527bab1d9afce1945a3e85b08b23e12da3239f79e2b26ba619",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "6d807cd0e723df527bab1d9afce1945a3e85b08b23e12da3239f79e2b26ba619"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "8f943b809794a076142e4b64bce24756fb7cdf0a9a5f49d0526ae7e597b560ab"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "c0c6ce8905e71566337e11a131088949b72fe59a03b1a3d7eda08ca55922adb1"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "f68f9d43fc3ec8fd7d2fd9743894dda2263fa118909b810fa9518cfe81f37312"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "7a643c4c49a22bf71fa55bc38bde279e988627bbdaeae6b7fa3e6c5501798bc5"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "31e140ccf7ff94c186c81b2abe8d1c70cb4d035f5cc255280fb84ddb2d058e88"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "f6db597f79d9e4c1884b51f6db491fdaef93e737d9754eca2d86426b95d35bed"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "8061e211618852af59ae0e43fc3f1803863cb59567bfc8c7c8797b2eb3f0be2a"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "bf530eaf64b591d056734f320089eff1b68794fb0f5b8a8edcdaaa5cb0944c2f"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "42eb35c8ae53ee57dd561dfac585d2591e9d290283877961bdba9c7fdebb9632"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "499d865779f42068bc8fca2d06d9a2a0f7e10d1db9b21b2639a9e7e98372c5ad"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "c8f19d2a22dbfc01285ce1a38bdec3eb9af3e01f82267aa4141e7c62ffe74b98"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "327e2966f6dead0afd505ebd6e5a27c2fc18b0a83c4d970041fe5fc96b471004"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "bd50076d5fa1cbc38ce3c8f175abbc079b010612289d800465f2937b9e4037b0"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1bd8931d21702f22a9a965ddd651a627f83a0f73fe1846f26d667ab8e0c8a759"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "d53119500ea6aaacecc9f018ebb24065f40e94a23b1da7d68829df79e3866113"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "929ee651a6e51075e0a5175f89bda539b57f2a92cb0edae04917a4b07adefac2"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "e8bdc2990bb272597b854c27659f73cf5013effc34e7243948f517c00af460a7"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "3d70f7ff755d682a0abc905acab9879b88a15c2e2a6165a4a706579bc1ec02cf"
+            }
+          ]
+        },
+        "incumbent": {
+          "candidate_sha256": "fd8f82b96ed37e8c18b765db46ae9d8ae476264e09c55e6dd0c6ebea0bbbc680",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "ignored_checks": [
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            }
+          ],
+          "own_final": {
+            "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-no-removable-owned-001/autorouter-gui-d70b789d050842dea502e6f56a92d1d7/route/incumbent/final-drc.json",
+            "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-049/runtime/.runs/improve-no-removable-owned-001/autorouter-gui-d70b789d050842dea502e6f56a92d1d7/route/incumbent",
+            "report_sha256": "c9f46bcb14c29f9414d536a43aee76d2beed1bf37f23c4d25877932694a32bdf",
+            "process_sha256": "21cfde1fc6c5cf1102690bf85437c3f8e88061b62364b230c0efb25818c252a8",
+            "binding_sha256": "cb1e1c0e0340c9bc277c0b6eafca7655b1dc673f47cce261d0be3879fea23c72",
+            "full_schematic_flag": true
+          },
+          "retained_auxiliary": [
+            {
+              "name": "default-targets.json",
+              "sha256": "531fcdb8068fc391d4ec62a5c4c6db86405b1504d1480a882285f022fbeff703"
+            },
+            {
+              "name": "final-drc-binding.json",
+              "sha256": "cb1e1c0e0340c9bc277c0b6eafca7655b1dc673f47cce261d0be3879fea23c72"
+            },
+            {
+              "name": "final-drc-fields-audit-process.json",
+              "sha256": "4145d96bc564f3c0c05d8fc7bcae1b363f6d37cdec79d41934cc2bdc42a798c6"
+            },
+            {
+              "name": "final-drc-fields-audit.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-local-settings.json",
+              "sha256": "a9fd5f9a753359d522877bf31c64c858722c9f5a81a3dfc89d24711dd5ab6e09"
+            },
+            {
+              "name": "final-drc-fields-netlist-process.json",
+              "sha256": "9419d14edcfdba4cdc03b898449d1bc1cc5412d741a2202098f5df8f9b89a1a9"
+            },
+            {
+              "name": "final-drc-fields-netlist.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "final-drc-fields-proof.json",
+              "sha256": "452978718cb5ceef3db60299918819fc5a4cb2d96b97340ca3ac48296009a86c"
+            },
+            {
+              "name": "final-drc-fields.json",
+              "sha256": "f6b2ac737f02086a247ed3715a7ebafb29236a7f6651354874e9540737314df6"
+            },
+            {
+              "name": "final-drc-fields.net",
+              "sha256": "fb4457bd1b816ff6dd04187f9b239b6d79c9251b9ad945c353b7808f150c0585"
+            },
+            {
+              "name": "final-drc-process.json",
+              "sha256": "21cfde1fc6c5cf1102690bf85437c3f8e88061b62364b230c0efb25818c252a8"
+            },
+            {
+              "name": "final-drc.json",
+              "sha256": "c9f46bcb14c29f9414d536a43aee76d2beed1bf37f23c4d25877932694a32bdf"
+            },
+            {
+              "name": "final-drc.log",
+              "sha256": "af10fe1ac13cc0b04c646e2a3d1901adf9d246ea42b212c853515a2983853e70"
+            },
+            {
+              "name": "final-netclass-audit.json",
+              "sha256": "135fe89f3856980c06e983b1b1e1b0831222304f9a436febc5e4c9b6c8a8c1a6"
+            },
+            {
+              "name": "final-netclasses-process.json",
+              "sha256": "79d87fa159c0b2fe181c2a795305f882cac3e567dceb748e835219c095437b8d"
+            },
+            {
+              "name": "final-netclasses.json",
+              "sha256": "994d383d184ba256413b0da0f9cb00a2d29dfa1d10382666ebece209d6de95b0"
+            },
+            {
+              "name": "final-netclasses.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "metrics-process.json",
+              "sha256": "44b651bf6dc56ce7353e5244740e0375667094744fda21c411e9ad135df6e15c"
+            },
+            {
+              "name": "metrics.json",
+              "sha256": "1bd8931d21702f22a9a965ddd651a627f83a0f73fe1846f26d667ab8e0c8a759"
+            },
+            {
+              "name": "refill-drc-binding.json",
+              "sha256": "ca15bb25155c0ebb229cb27cb11b2164b5197f59e04a7462440f2c6a2604f1ab"
+            },
+            {
+              "name": "refill-drc-process.json",
+              "sha256": "48768990742274a62fccba431fdc82e1f2b4e828acfb198899e4f7b593970278"
+            },
+            {
+              "name": "refill-drc.json",
+              "sha256": "ccc58587e2694c9ef15b6bb303f56080ef1c5b802e3eef320601adebe4f4382c"
+            },
+            {
+              "name": "refill-drc.log",
+              "sha256": "f949dd0e70c940504cfabd185230ef4e93737254b68aeb779203f49a59e0559c"
+            },
+            {
+              "name": "result.json",
+              "sha256": "c09bcabd6a153d689bcd48e1fcb28119353218d4bfecfaf53b7ddfd1075f1ae7"
+            }
+          ]
+        }
+      },
+      "improvements": 0,
+      "trials": [],
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 42.0,
+        "copper_layers": 2
+      },
+      "no_trial_incumbent_return": true,
+      "natural_budget_expiry_proved": false,
+      "reference_route_disclosed": true,
+      "comparison_eligible": false
+    }
+  ],
+  "complete_deliveries_external_cost": {
+    "wall_seconds": 780.1,
+    "CPU_seconds": 734.54
+  },
+  "prior_progress": {
+    "path": "evidence/runtime049-pour-and-safety-progress-002.json",
+    "sha256": "0650bc225c866fd393e5b82000b7f5c579f0eb4469b84c8b3b89b8a8132a197e",
+    "scope": "Immutable earlier cutoff plus actual invalid/cancel controls and failed40s probe; later completed cases are reported here, not rewritten there."
+  },
+  "result": "All six frozen owned/exposed cases complete six installed workflow stages. Additional disclosed-reference/locked-copper control returns its actual verified incumbent with zero trials/improvements and fresh own final/export Native/fullSCH/original/protected2 checks. Every final proof retains warnings/ignored checks. No independent family, broad quality or natural expiry claim.",
+  "return_limit": "No-removable-zone-copper return is observed at90s, not natural work-budget expiry. The one40s directCLI probe safely refused before incumbent and remains unproved; no tuned retries.",
+  "reporting_failure": {
+    "kind": "first-curator expected-count assertion only",
+    "complete_external_cost": {
+      "wall_seconds": 0.45,
+      "CPU_seconds": 0.11
+    },
+    "Native_repeated": false
+  },
+  "GUI": "GUI085 prepared/manager launch observed but project selection currently blocked by disabledOpen despite selected valid file; no current049 toolbar/wxGUI role qualified.042 remains last actual graphical qualification. Edge only; Chrome untouched. Owner asked once to double-click selectedproject, not unlock/security.",
+  "next": "Finish actual049 GUI085 roles and queued source/settings/export freshness/recovery, then bounded relevant equal-budget development comparison. No rebuild/repeat of completed cases on restart.",
+  "backup_scope": "Selected owned small text evidence for auditedGit; complete raw/candidateCAD/new049 outputs remain on thisMac/outside010. Capacity-blocked full restoration is not repeated or claimed.",
+  "accounting": "Complete external delivery exits summed once; nested samples overlap. Full198,preparation/doctor,failed40s/control callers,controller authoring,AI review,reporting/research and unknown whole-interactiveCPU additional, notzero.",
+  "files_index": {
+    "path": "evidence/runtime049-native-milestone-002-notes/files.json",
+    "sha256": "ba8601a190a99df8bd9445daa8489f5b60639059f4c34793178c5593427f855d"
+  }
+}

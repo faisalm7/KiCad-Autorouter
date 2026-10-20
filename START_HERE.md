@@ -1,6 +1,6 @@
 # Use the autorouter on this Mac
 
-Start with a saved test project or a copy of your project. This is the current **runtime042 / GUI081 experimental workflow** for the existing KiCad 10.0.7 installation.
+Start with a saved test project or a copy of your project. The steps below describe the **last GUI-qualified runtime042 / GUI081 experimental workflow** for the isolated KiCad10.0.7 installation. Current development runtime049 has completed its [Native CLI milestone](evidence/runtime049-native-milestone-002.json); its actual GUI085 qualification is still pending. The042 roles below do not qualify049.
 
 1. **Launch KiCad.** Save your work and close other KiCad applications. In Finder, double-click [Launch Autorouter.command](</Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-042/runtime/.runs/gui-launcher081/Launch Autorouter.command>). To find it manually, use Finder’s **Go → Go to Folder…** and paste:
 
