@@ -1,4 +1,4 @@
-Current checkpoint: [048 qualification facts](../evidence/runtime048-pilot-cutoff-001.json) supersede older next steps: two delivered Improve controls,one safe pour-only identity refusal,three unexecuted cases; full197/build/doctor pass. KiCad access resolved,actual current GUI still pending.043 ordinary Native/042 graphical roles remain historical;048 is not a qualified release candidate. Repair the demonstrated interchange seam before fresh current qualification.
+Current checkpoint: [049 progress/safety](../evidence/runtime049-pour-and-safety-progress-002.json) supersedes old next steps. Source6e2357/manifest70a388 passes full198/build/doctor and actual pour-only/fractional delivery; real short/protected-width and own-engineSIGINT controls pass.40s reserve probe is negative before incumbent,not expiry/return proof. Complete remaining049cohort/no-improvement/actualGUI085 gates; no rebuild/repeat of completed steps on restart.049 remains unqualified;043 ordinary Native/042 graphical roles remain historical.
 
 # Experimental candidate and release gates
 
