@@ -25,7 +25,8 @@ from scripts import freeze_current_comparison as frozen
 
 KEYS = ('opens', 'blocking', 'warnings', 'exclusions')
 KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequisite recorded by freezer; no new GUI claim',
-         'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied'}
+         'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
+         'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied'}
 MAX_JSON = 4 * 1024**2
 MAX_REPORT_BYTES = 16 * 1024**2
 
@@ -252,11 +253,15 @@ def population_shape(population, children):
     for family in families:
         require(re.fullmatch(r'[a-z][a-z0-9-]{0,63}', family) and set(children['protocols'][family]) == set(frozen.POPULATION)
                 and set(population['outputs'][family]) == set(frozen.POPULATION), 'omitted/extra planned arm')
-    if population['kind'] == 'frozen-runtime043-labelled-IR-native-support-followup-v1':
+    native_only = {
+        'frozen-runtime043-labelled-IR-native-support-followup-v1': 'runtime043-labelled-native-only-IR-followup-prerequisites-v1',
+        'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'runtime049-labelled-native-CLI-Devobordo-prerequisites-v1',
+    }
+    if population['kind'] in native_only:
         q = population['qualification']
         require(q['source_head'] == population['source_head'] and q['runtime'] == population['runtime']
                 and q['runtime_manifest_sha256'] == population['runtime_manifest_sha256'], 'Native-only prerequisite identity differs')
-        require(q['kind'] == 'runtime043-labelled-native-only-IR-followup-prerequisites-v1'
+        require(q['kind'] == native_only[population['kind']]
                 and q['actual_GUI_qualified'] is False and q['full_GUI_claim'] is False, 'Native-only qualification promoted or malformed')
     else:
         require(population['qualification']['kind'] == frozen.QUALIFICATION_KIND

@@ -140,6 +140,49 @@ class ComparisonReportTests(unittest.TestCase):
         pop['qualification']['actual_GUI_qualified'] = True
         with self.assertRaises(ValueError): q.population_shape(pop, original)
 
+    def native049_population(self):
+        population = dict(schema=1, kind='frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1',
+            population=list(q.frozen.POPULATION), planned_arm_order=list(q.frozen.ARM_ORDER), limits=q.frozen.LIMITS,
+            planned_family_order=['devobordo'], families={'devobordo': {}},
+            outputs={'devobordo': dict.fromkeys(q.frozen.POPULATION, 'path')}, administration_head='a' * 40,
+            source_head='b' * 40, runtime='/owned/runtime049', runtime_manifest_sha256='c' * 64,
+            qualification=dict(kind='runtime049-labelled-native-CLI-Devobordo-prerequisites-v1', source_head='b' * 40,
+                runtime='/owned/runtime049', runtime_manifest_sha256='c' * 64, actual_GUI_qualified=False, full_GUI_claim=False))
+        children = dict(schema=1, administration_head='a' * 40, policy_or_board_changes_after_first_arm=False,
+            protocols={'devobordo': dict.fromkeys(q.frozen.POPULATION, {})})
+        return population, children
+
+    def test_exact_runtime049_native_only_labels_are_supported(self):
+        population, children = self.native049_population()
+        self.assertEqual(q.population_shape(population, children), ['devobordo'])
+        self.assertIn('GUI qualification NOT supplied', q.KINDS[population['kind']])
+
+    def test_runtime049_cannot_promote_or_substitute_qualification(self):
+        original, children = self.native049_population()
+        mutations = [('actual_GUI_qualified', True), ('actual_GUI_qualified', 0), ('full_GUI_claim', True),
+            ('full_GUI_claim', 0), ('kind', q.frozen.QUALIFICATION_KIND),
+            ('kind', 'runtime043-labelled-native-only-IR-followup-prerequisites-v1'), ('kind', 'unqualified'),
+            ('source_head', 'd' * 40), ('runtime', '/other/runtime'), ('runtime_manifest_sha256', 'e' * 64)]
+        for name, value in mutations:
+            with self.subTest(field=name, value=value):
+                population = copy.deepcopy(original); population['qualification'][name] = value
+                with self.assertRaises(ValueError): q.population_shape(population, children)
+        population = copy.deepcopy(original); population['kind'] += '-unknown'
+        with self.assertRaises(ValueError): q.population_shape(population, children)
+
+    def test_existing_public_and_runtime043_labels_keep_their_qualification_contracts(self):
+        original, children = self.native049_population()
+        pairs = [('frozen-current-six-arm-exposed-development-v1', q.frozen.QUALIFICATION_KIND),
+            ('frozen-runtime043-labelled-IR-native-support-followup-v1',
+             'runtime043-labelled-native-only-IR-followup-prerequisites-v1')]
+        for kind, qualification in pairs:
+            with self.subTest(kind=kind):
+                population = copy.deepcopy(original); population['kind'] = kind
+                population['qualification']['kind'] = qualification
+                self.assertEqual(q.population_shape(population, children), ['devobordo'])
+                population['qualification']['kind'] = original['qualification']['kind']
+                with self.assertRaises(ValueError): q.population_shape(population, children)
+
     def test_public_sanitize_preserves_failure_reference_not_text(self):
         value = 'unsupported source design conflict; local detail'
         plain = q.field_fact(value, self.receipt, 'reason', False)
