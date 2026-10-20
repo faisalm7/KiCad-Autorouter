@@ -1,0 +1,34 @@
+...............................................................................................E..........................................
+======================================================================
+ERROR: test_receipt_marker_alone_cannot_select_narrower_callbacks (tests.test_native7_review_boundary.Native7ReviewBoundaryTests.test_receipt_marker_alone_cannot_select_narrower_callbacks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_review_boundary.py", line 53, in test_receipt_marker_alone_cannot_select_narrower_callbacks
+    with self.assertRaises(Rejected):h.review_copy(self.receipt,self.root/'review',render=True)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 409, in review_copy
+    record = _review_copy(receipt, output, start, cpu_start, render, lifecycle, **ctx)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 316, in _review_copy
+    central_check()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 307, in central_check
+    material()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 304, in material
+    delivery_guards(receipt, report, native_toolchain, preview, destination, material=byte_material, comparison_context=comparison_context)
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/handoff.py", line 119, in delivery_guards
+    pruning.check_native7_final(Path(receipt).parent,report,additional=additional,
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 1007, in check_native7_final
+    context=native7_incumbent_context(directory,data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 870, in native7_incumbent_context
+    request=_native7_context_request(directory,data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/strategy.py", line 839, in _native7_context_request
+    return canonical(dict(parent=str(directory),source=data['source'],source_hashes=data['source_hashes'],
+                                                                                    ~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'source_hashes'
+
+----------------------------------------------------------------------
+Ran 138 tests in 25.637s
+
+FAILED (errors=1)

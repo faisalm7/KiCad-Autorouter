@@ -833,7 +833,73 @@ def native7_parent(directory, data):
     return _native7_parent_binding(directory,data,p.tool_manifest())
 
 
+def _native7_context_request(directory,data):
+    """Exact caller inputs; a retained sidecar alone cannot bind these."""
+    from .floor_route import canonical
+    return canonical(dict(parent=str(directory),source=data['source'],source_hashes=data['source_hashes'],
+        tools=data['tools'],method_seconds=data['budget_seconds'],cpu_seconds=data['cpu_budget_seconds'],
+        assigned_seconds=data['incumbent_assigned_seconds'],allocation=data['incumbent_allocation']))
+
+
+def _native7_context_identity(state):
+    from types import SimpleNamespace
+    from ._improve_context import _Context
+    # The shared module identity binds classes, but not their mutable methods.
+    # Include all Context constructor/check/record bodies and property access.
+    methods=SimpleNamespace(__name__='selected7-readback-Context-methods',
+        **{name:getattr(_Context,name) for name in ('__init__','__post_init__','_material','record','check')},
+        output_get=_Context.output.fget)
+    return p._readback_live_identity((*state['modules'],methods))
+
+
 def native7_incumbent_context(directory, data):
+    """Reuse only construction in one operation, never child/parent results.
+
+    Keep the original captured owner/inode. Every use still checks current
+    owned source/snapshot/code/preferences, tools, exact request and definition.
+    This object cannot supply a live execution Budget or authorize a Route.
+    """
+    from . import _improve_context as child, floor_route as f, provenance as pv
+    state=p._readback_session.get()
+    if state is None:return _native7_incumbent_context_uncached(directory,data)
+    contexts=state['native7_contexts']
+    try:
+        directory=pv.canonical(Path(directory))
+        if not native7_marked(directory,data):return _native7_incumbent_context_uncached(directory,data)
+        _native7_parent_shape(directory,data)  # Malformed markers never reach reuse intake.
+        identity=_native7_context_identity(state)
+        request=_native7_context_request(directory,data)
+        entry=contexts.get(directory)
+        if entry is not None and entry[0]!=identity:
+            contexts.clear();entry=None
+        if entry is not None:
+            _,expected,context,seal=entry
+            if request!=expected or type(context) is not child._Context or context._seal!=seal:
+                raise p.Rejected('Improve reconstructed Context request changed')
+            child.require(context)
+        else:
+            context=_native7_incumbent_context_uncached(directory,data)
+            if context is None:return None
+            seal=context._seal
+        # Fresh binding follows the last Context/tool/source callback. Do not
+        # reconstruct/recapture stale authority to make a mismatching hit pass.
+        if (_native7_parent_shape(directory,data)!=context._inputs['effective']
+                or f.canonical(_native7_parent_binding(directory,data,context.tools))!=seal
+                or _native7_context_request(directory,data)!=request
+                or _native7_context_identity(state)!=identity or context._seal!=seal
+                or f.canonical(context.record())!=seal or context.parent_owner!=context._owner):
+            raise p.Rejected('Improve reconstructed Context changed during readback')
+        child._check_parent_owner(context.parent_owner,directory)
+        if entry is None:
+            if len(contexts)>=8:contexts.pop(next(iter(contexts)))
+            contexts[directory]=(identity,request,context,seal)
+        return context
+    except BaseException:
+        p._clear_readback_entries(state)
+        raise
+
+
+def _native7_incumbent_context_uncached(directory, data):
     """Rebuild readback expectations only after independent parent-source checks.
 
     Current runtime/tools, owned directory, preferences, code and both source

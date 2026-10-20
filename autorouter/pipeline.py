@@ -2610,6 +2610,11 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
 _readback_session=ContextVar('autorouter_validated_readback_session',default=None)
 
 
+def _clear_readback_entries(state):
+    state['entries'].clear()
+    state['native7_contexts'].clear()
+
+
 @contextmanager
 def validation_readback_session():
     """Reuse bounded routing consistency checks only within this invocation.
@@ -2628,18 +2633,19 @@ def validation_readback_session():
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              routing_scope,thermal,thermal_geometry,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
     existing=_readback_session.get()
-    state=existing if existing is not None else {'entries':{},'modules':modules}
+    state=existing if existing is not None else {'entries':{},'native7_contexts':{},'modules':modules}
     token=_readback_session.set(state)
     try:
-        # Only pure syntax is reused: every file read, semantic check, private
-        # child authority reconstruction and final metadata fence still runs.
+        # Private child/parent results are never reused. A reconstructed
+        # Context may retain its original owner, but checks its live material
+        # and exact definition on every use; all semantic readers still run.
         with sx.parsing_session():
             yield
     except BaseException:
-        state['entries'].clear()
+        _clear_readback_entries(state)
         raise
     finally:
-        if existing is None:state['entries'].clear()
+        if existing is None:_clear_readback_entries(state)
         _readback_session.reset(token)
 
 
@@ -2698,6 +2704,18 @@ def _readback_witness(path,data,state):
 
 
 def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None, _improve_context=None):
+    """Clear operation reuse on failures, including uncached private readers."""
+    try:
+        return _check_result_scoped(path,native_toolchain=native_toolchain,
+            experimental_schematic_parity=experimental_schematic_parity,
+            comparison_context=comparison_context,_improve_context=_improve_context)
+    except BaseException:
+        state=_readback_session.get()
+        if state is not None:_clear_readback_entries(state)
+        raise
+
+
+def _check_result_scoped(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None, _improve_context=None):
     """Check evidence; optional scoped reuse never substitutes fresh native DRC."""
     try:c.current_native_selection()
     except (ValueError,OSError) as exc:raise Rejected('selected native toolchain changed: '+str(exc)) from exc
@@ -2755,7 +2773,7 @@ def check_result(path, *, native_toolchain=None, experimental_schematic_parity=F
         state['entries'][target]=(before,copy.deepcopy(result))
         return result
     except BaseException:
-        state['entries'].clear()
+        _clear_readback_entries(state)
         raise
 
 

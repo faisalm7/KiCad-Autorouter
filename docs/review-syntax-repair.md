@@ -99,3 +99,21 @@ choice/export/delivery or broader Native/GUI qualification ran. The copying
 changes are insufficient. The next bounded assessment concerns repeatedly
 reconstructed authority Context, while retaining all full child/trial/Native
 checks and late freshness fences. No budget increase or parent acceptance cache.
+
+
+## Reconstruction-only authority reuse
+
+The new source repair retains one originally reconstructed private Context
+within the existing validation operation, bounded to eight definitions. It
+never stores a parent or child acceptance result. Each use checks current
+source/snapshot/code/preferences and tools, exact constructor inputs, saved
+shape/definition seal, critical live methods and the original captured owner.
+A same-byte replacement directory cannot renew that original owner. Failures,
+cancellation and operation exit clear the definitions. All full child, trial,
+selection, Native, process, Default and final PRL readers still run.
+
+The first existing regression run exposed a changed error path for a forged
+marker. Exact shape admission now precedes reuse intake, preserving its typed
+refusal;138 existing targeted tests pass. New hostile controls and
+[evidence](../evidence/native7-context-reconstruction-repair-001.json) are source
+qualification only. Full204 and one fresh054 installed delivery are required.
