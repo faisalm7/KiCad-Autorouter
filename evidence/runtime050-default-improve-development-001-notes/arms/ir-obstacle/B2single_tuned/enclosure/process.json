@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 95.4560193340294,
+  "cpu_seconds": 93.299073,
+  "max_rss_bytes": 321388544,
+  "supervisor_cpu_seconds": 0.241271,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 280297472,
+  "sampled_peak_workdir_bytes": 349,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001/.runs/qualify-current-method-002.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-default-improve-development-001/ir-obstacle/B2single_tuned/protocol.json",
+    "--protocol-sha256",
+    "10ac2b50b0a93f55af4994c846cd429bfa925f3a1a22383b90b64888f92a133b"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-default-improve-development-001/ir-obstacle/B2single_tuned/enclosure/command.log",
+  "log_bytes": 349,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-default-improve-development-001/ir-obstacle/B2single_tuned/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 41969
+}

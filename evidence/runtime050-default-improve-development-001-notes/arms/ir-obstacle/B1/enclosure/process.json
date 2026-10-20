@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 97.38284441595897,
+  "cpu_seconds": 94.429377,
+  "max_rss_bytes": 281296896,
+  "supervisor_cpu_seconds": 0.256093,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 268206080,
+  "sampled_peak_workdir_bytes": 336,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001/.runs/qualify-current-method-002.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050 fresh install 001",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-default-improve-development-001/ir-obstacle/B1/protocol.json",
+    "--protocol-sha256",
+    "787843a0508ff6ba99924f0e8f87dd4d28f540799b10471753f096f0b2d089d5"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-default-improve-development-001/ir-obstacle/B1/enclosure/command.log",
+  "log_bytes": 336,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime050-default-improve-development-001/ir-obstacle/B1/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 41907
+}
