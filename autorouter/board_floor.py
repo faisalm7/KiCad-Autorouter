@@ -98,8 +98,10 @@ def derive(raw,floors,*,target_policy=POLICY):
     return targets
 
 
-def source_net_identity(task):
+def source_net_identity(task, *, allow_pour_only_areas=False):
     """Bind old numbered and KiCad10 named references without guessing aliases."""
+    if type(allow_pour_only_areas) is not bool:
+        raise ValueError('explicit pour-only identity scope required')
     declared=sx.children(task,'net');table={};names=set()
     for node in declared:
         if (len(node)!=3 or any(not isinstance(x,str) for x in node)
@@ -130,6 +132,15 @@ def source_net_identity(task):
                     and all(isinstance(x,list) and len(x)==2 and x[0] in flags and x[1]=='allowed' for x in keepouts[0][1:])
                     and {x[0] for x in keepouts[0][1:]}==flags):
                 return ''
+            if allow_pour_only_areas:
+                # Refill reconciliation also receives the source-form marker
+                # of an already supported pour-only area. Qualify the complete
+                # board and this exact root owner; never alias a routing net.
+                # Other callers retain their original narrower grammar.
+                from . import pour_rule_area as pour
+                owner_hash=sha(sx.dump(owner).encode())
+                if any(row['source_zone_ast_sha256']==owner_hash for row in pour.qualify(task)):
+                    return ''
         if len(node)!=2 or not node[1].startswith(chr(34)) or not node[1].endswith(chr(34)):
             raise ValueError('unqualified named task net reference')
         return sx.unquote(node[1])

@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 1.2488100409973413,
+    "cpu_seconds": 1.1548859999999999,
+    "max_rss_bytes": 61014016,
+    "supervisor_cpu_seconds": 0.0075899999999999995,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 60096512,
+    "sampled_peak_workdir_bytes": 182,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "-c",
+      "import sys,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');s=unittest.defaultTestLoader.loadTestsFromNames(['tests.test_refill_pour_identity', 'tests.test_refill_route_nets', 'tests.test_board_floor_empty_area', 'tests.test_pour_binding_seams', 'tests.test_pour_native_record', 'tests.test_four_copper_pour', 'tests.test_native7_improve_child_context', 'tests.test_native7_improve_single', 'tests.test_native7_improve_parent']);result=unittest.TextTestRunner(verbosity=1).run(s);raise SystemExit(0 if result.wasSuccessful() else 1)"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pour-refill-targeted-integration-001/command.log",
+    "log_bytes": 182,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/pour-refill-targeted-integration-001",
+    "signal_cancellation_enabled": true,
+    "pid": 78130
+  },
+  "source_sha256": {
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py": "7f3d1c20f063f5aa6d55fddcb8896ecdc9c0de6f8a0f51d0faf49a3feebf542e",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_refill_pour_identity.py": "cdcad53c903a40bb7ac794a352daa7895772696d65524960f13a7c7351846c58"
+  },
+  "actual_Native": false
+}

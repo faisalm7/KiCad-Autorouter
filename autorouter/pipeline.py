@@ -917,7 +917,9 @@ def check_refill_route_nets(original, filled):
     """
     from . import board_floor as g, routing_scope as rs
     def identities(tree):
-        _,resolve=g.source_net_identity(tree)
+        # The exact source-qualified root pour-only area may retain net0 while
+        # KiCad's saved form omits it. It is not a route/terminal net alias.
+        _,resolve=g.source_net_identity(tree,allow_pour_only_areas=True)
         return {identity:(route[0],resolve(sx.one(route,'net')))
                 for identity,route in rs._route_map(tree).items()}
     try:before,after=identities(original),identities(filled)
