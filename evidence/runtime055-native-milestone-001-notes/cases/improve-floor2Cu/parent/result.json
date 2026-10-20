@@ -1,0 +1,1703 @@
+{
+  "schema": 1,
+  "status": "routing_accepted",
+  "accepted": true,
+  "baseline": "C-prototype",
+  "strategy": "native_validated_zone_net_pruning",
+  "adapter": "both",
+  "proposal_policy": "single",
+  "feedback_max_depth": 2,
+  "feedback_max_added_routes": 8,
+  "engine_profile": "tuned",
+  "incumbent_baseline": "B2_tuned",
+  "novel_routing_algorithm_claim": false,
+  "reference_routes_used_for_selection": false,
+  "scope": "whole_board_unlocked_routing",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/default-floor-owned-controls-001/source-2Cu/owned-default-floor-2cu.kicad_pcb",
+  "budget_seconds": 90,
+  "cpu_budget_seconds": 90,
+  "cpu_budget_enforcement": "post-stage accounting and post-completion acceptance cap; not OS CPU preemption",
+  "finalization_reserve_seconds": 25.0,
+  "finalization_cpu_reserve_seconds": 25.0,
+  "started_utc": "2026-10-20T12:38:58.678431+00:00",
+  "physical_electrical_validation": false,
+  "schematic_parity": "checked by final native DRC",
+  "trials": [
+    {
+      "id": "trial-0000",
+      "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/result.json",
+      "status": "improvement_validated",
+      "accepted": true
+    }
+  ],
+  "checkpoints": [
+    "checkpoints/0000.json",
+    "checkpoints/0001.json",
+    "checkpoints/0002.json"
+  ],
+  "steps": [
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.8945218329317868,
+      "cpu_seconds": 0.377873,
+      "max_rss_bytes": 79085568,
+      "supervisor_cpu_seconds": 0.011943000000000037,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 77283328,
+      "sampled_peak_workdir_bytes": 1365832,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/source-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/source-drc-input/owned-default-floor-2cu.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/source-drc.log",
+      "log_bytes": 254,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99545,
+      "name": "source-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/source-drc-input/owned-default-floor-2cu.kicad_prl",
+        "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "3ab90927bf7c60879a832579c2f9af7007d0e3f96d72c8f626e64b1c20751346",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/snapshot/owned-default-floor-2cu.kicad_pcb",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.4574026669142768,
+      "cpu_seconds": 0.40105199999999996,
+      "max_rss_bytes": 110444544,
+      "supervisor_cpu_seconds": 0.0071069999999999744,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 39174144,
+      "sampled_peak_workdir_bytes": 1390328,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "export",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/task.dsn",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/export-netclasses.json",
+        "--task-copper-fixed"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/export.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99546,
+      "name": "export",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2792716670082882,
+      "cpu_seconds": 0.27342099999999997,
+      "max_rss_bytes": 90865664,
+      "supervisor_cpu_seconds": 0.004793999999999965,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 86769664,
+      "sampled_peak_workdir_bytes": 1400163,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "obstacles",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/obstacles.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/obstacles.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99547,
+      "name": "obstacles",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 2.5387972500175238,
+      "cpu_seconds": 1.5790669999999998,
+      "max_rss_bytes": 197935104,
+      "supervisor_cpu_seconds": 0.029749000000000025,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 196231168,
+      "sampled_peak_workdir_bytes": 1412778,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java",
+        "-Xms128m",
+        "-Xmx2g",
+        "-XX:ActiveProcessorCount=1",
+        "-Djava.awt.headless=true",
+        "-jar",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.tools/freerouting-2.5.0.jar",
+        "--gui.enabled=false",
+        "--api_server.enabled=false",
+        "--mcp_server.enabled=false",
+        "-da",
+        "--user_data_path=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/engine-config",
+        "--logging.file.enabled=false",
+        "--router.autorouter.max_passes=100",
+        "--router.job_timeout=00:00:22",
+        "--router.automatic_neckdown=false",
+        "--router.fanout.enabled=false",
+        "--router.neck_width_um=0",
+        "--router.optimizer.max_threads=1",
+        "--router.optimizer.max_passes=50",
+        "--router.optimizer.timeout=00:00:22",
+        "--router.optimizer.improvement_threshold=0.001",
+        "--router.optimizer.enable_preflight_guards=false",
+        "--router.optimizer.max_consecutive_failures=100",
+        "--router.optimizer.max_consecutive_failures_pass1=100",
+        "-de",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/task.dsn",
+        "-do",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/routes.ses"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/engine.log",
+      "log_bytes": 3403,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99548,
+      "name": "engine",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.41398341697640717,
+      "cpu_seconds": 0.390808,
+      "max_rss_bytes": 113131520,
+      "supervisor_cpu_seconds": 0.008221000000000034,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 69746688,
+      "sampled_peak_workdir_bytes": 1444157,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "import",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/imported.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/routes.ses",
+        "--task-copper-fixed"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/import.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99549,
+      "name": "import",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6192496250150725,
+      "cpu_seconds": 0.324669,
+      "max_rss_bytes": 80314368,
+      "supervisor_cpu_seconds": 0.010982000000000047,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 77938688,
+      "sampled_peak_workdir_bytes": 1484964,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/refill/owned-default-floor-2cu.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/refill-drc.log",
+      "log_bytes": 266,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99550,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/refill/owned-default-floor-2cu.kicad_prl",
+        "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "48ddb0c4e5ee8ee8423f60e32185efe6087c044d2a00c60c9e07191b9a6d36a1",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/refill/owned-default-floor-2cu.kicad_pcb",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2896764170145616,
+      "cpu_seconds": 0.284364,
+      "max_rss_bytes": 92487680,
+      "supervisor_cpu_seconds": 0.006032999999999955,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 84049920,
+      "sampled_peak_workdir_bytes": 1493071,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "netclasses",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-netclasses.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-netclasses.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99551,
+      "name": "final-netclasses",
+      "phase": "incumbent"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7744007079163566,
+      "cpu_seconds": 0.42322899999999997,
+      "max_rss_bytes": 211451904,
+      "supervisor_cpu_seconds": 0.007975000000000065,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 209846272,
+      "sampled_peak_workdir_bytes": 1541735,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-input/owned-default-floor-2cu.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc.log",
+      "log_bytes": 285,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99552,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-input/owned-default-floor-2cu.kicad_prl",
+        "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "7e5448315144a5ce2feb4d9636b8d93b3a55acd5221170ad44f58cfe6350c7ae",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/candidate/owned-default-floor-2cu.kicad_pcb",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2854859170038253,
+      "cpu_seconds": 0.27027399999999996,
+      "max_rss_bytes": 177766400,
+      "supervisor_cpu_seconds": 0.007109000000000032,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 177307648,
+      "sampled_peak_workdir_bytes": 1555339,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-input/owned-default-floor-2cu.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99553,
+      "name": "final-drc-fields-netlist",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.28065904206596315,
+      "cpu_seconds": 0.27429099999999995,
+      "max_rss_bytes": 90505216,
+      "supervisor_cpu_seconds": 0.00561199999999995,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 86097920,
+      "sampled_peak_workdir_bytes": 1559974,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-input/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99554,
+      "name": "final-drc-fields-audit",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.28051791701000184,
+      "cpu_seconds": 0.27434699999999995,
+      "max_rss_bytes": 90324992,
+      "supervisor_cpu_seconds": 0.005475000000000119,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 85737472,
+      "sampled_peak_workdir_bytes": 1569492,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent",
+      "signal_cancellation_enabled": true,
+      "pid": 99555,
+      "name": "metrics",
+      "phase": "incumbent"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.3705463329097256,
+      "cpu_seconds": 0.306762,
+      "max_rss_bytes": 79970304,
+      "supervisor_cpu_seconds": 0.0048479999999999634,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 53772288,
+      "sampled_peak_workdir_bytes": 106193,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/refill/owned-default-floor-2cu.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/refill-drc.log",
+      "log_bytes": 274,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 99556,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/refill/owned-default-floor-2cu.kicad_prl",
+        "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "da06be47509dbb25b0ebe98a528ce070eeea8f06f8b321aa82de4d9611599b6e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/refill/owned-default-floor-2cu.kicad_pcb",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2829687499906868,
+      "cpu_seconds": 0.27913299999999996,
+      "max_rss_bytes": 91750400,
+      "supervisor_cpu_seconds": 0.0044200000000000905,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 85295104,
+      "sampled_peak_workdir_bytes": 114014,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "netclasses",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-netclasses.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-netclasses.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 99557,
+      "name": "final-netclasses",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.43448041705414653,
+      "cpu_seconds": 0.397584,
+      "max_rss_bytes": 211402752,
+      "supervisor_cpu_seconds": 0.004662999999999862,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 53919744,
+      "sampled_peak_workdir_bytes": 162608,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-input/owned-default-floor-2cu.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc.log",
+      "log_bytes": 293,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 99558,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-input/owned-default-floor-2cu.kicad_prl",
+        "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "da06be47509dbb25b0ebe98a528ce070eeea8f06f8b321aa82de4d9611599b6e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/candidate/owned-default-floor-2cu.kicad_pcb",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.269416082999669,
+      "cpu_seconds": 0.257415,
+      "max_rss_bytes": 177668096,
+      "supervisor_cpu_seconds": 0.004469000000000278,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 177471488,
+      "sampled_peak_workdir_bytes": 176210,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-input/owned-default-floor-2cu.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 99559,
+      "name": "final-drc-fields-netlist",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2791682919487357,
+      "cpu_seconds": 0.27394399999999997,
+      "max_rss_bytes": 91062272,
+      "supervisor_cpu_seconds": 0.004302000000000028,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 86130688,
+      "sampled_peak_workdir_bytes": 180926,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-input/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 99560,
+      "name": "final-drc-fields-audit",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.27985970792360604,
+      "cpu_seconds": 0.27490699999999996,
+      "max_rss_bytes": 91324416,
+      "supervisor_cpu_seconds": 0.004786999999999875,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 86261760,
+      "sampled_peak_workdir_bytes": 190492,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000",
+      "signal_cancellation_enabled": true,
+      "pid": 99561,
+      "name": "metrics",
+      "phase": "trial-0000"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.6443300419487059,
+      "cpu_seconds": 0.3246,
+      "max_rss_bytes": 80052224,
+      "supervisor_cpu_seconds": 0.019458999999999893,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 77496320,
+      "sampled_peak_workdir_bytes": 3238123,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/refill-drc.json",
+        "--save-board",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/refill/owned-default-floor-2cu.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/refill-drc.log",
+      "log_bytes": 256,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route",
+      "signal_cancellation_enabled": true,
+      "pid": 99562,
+      "name": "refill-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/refill/owned-default-floor-2cu.kicad_prl",
+        "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "da06be47509dbb25b0ebe98a528ce070eeea8f06f8b321aa82de4d9611599b6e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/refill/owned-default-floor-2cu.kicad_pcb",
+      "phase": "finalization"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.298386917100288,
+      "cpu_seconds": 0.284949,
+      "max_rss_bytes": 92766208,
+      "supervisor_cpu_seconds": 0.012170999999999932,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 82624512,
+      "sampled_peak_workdir_bytes": 3245798,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "netclasses",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-netclasses.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-netclasses.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route",
+      "signal_cancellation_enabled": true,
+      "pid": 99563,
+      "name": "final-netclasses",
+      "phase": "finalization"
+    },
+    {
+      "status": "nonzero_exit",
+      "exit_code": 5,
+      "wall_seconds": 0.7284363750368357,
+      "cpu_seconds": 0.42656,
+      "max_rss_bytes": 211451904,
+      "supervisor_cpu_seconds": 0.01686999999999994,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 209797120,
+      "sampled_peak_workdir_bytes": 3294290,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "pcb",
+        "drc",
+        "--format",
+        "json",
+        "--severity-all",
+        "--all-track-errors",
+        "--refill-zones",
+        "--schematic-parity",
+        "--exit-code-violations",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc.json",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-input/owned-default-floor-2cu.kicad_pcb"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc.log",
+      "log_bytes": 275,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route",
+      "signal_cancellation_enabled": true,
+      "pid": 99564,
+      "name": "final-drc",
+      "local_settings_policy": "job-owned-prl-immutable-v1",
+      "local_settings_protection": {
+        "policy": "mac-owned-prl-immutable-v1",
+        "present": true,
+        "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-input/owned-default-floor-2cu.kicad_prl",
+        "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+        "flags_before": 0,
+        "flags_during": 2,
+        "flags_restored": true,
+        "bytes_unchanged": true
+      },
+      "validated_input_sha256": "da06be47509dbb25b0ebe98a528ce070eeea8f06f8b321aa82de4d9611599b6e",
+      "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/candidate/owned-default-floor-2cu.kicad_pcb",
+      "phase": "finalization"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2863210830837488,
+      "cpu_seconds": 0.270306,
+      "max_rss_bytes": 177995776,
+      "supervisor_cpu_seconds": 0.012659000000000198,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 177553408,
+      "sampled_peak_workdir_bytes": 3307747,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+        "sch",
+        "export",
+        "netlist",
+        "--format",
+        "kicadsexpr",
+        "--output",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-fields.net",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-input/owned-default-floor-2cu.kicad_sch"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-fields-netlist.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route",
+      "signal_cancellation_enabled": true,
+      "pid": 99567,
+      "name": "final-drc-fields-netlist",
+      "phase": "finalization"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2891725410008803,
+      "cpu_seconds": 0.279281,
+      "max_rss_bytes": 91406336,
+      "supervisor_cpu_seconds": 0.011193000000000008,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 85344256,
+      "sampled_peak_workdir_bytes": 3312375,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "fields",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-input/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-fields.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/final-drc-fields-audit.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route",
+      "signal_cancellation_enabled": true,
+      "pid": 99572,
+      "name": "final-drc-fields-audit",
+      "phase": "finalization"
+    },
+    {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.28932870796415955,
+      "cpu_seconds": 0.279714,
+      "max_rss_bytes": 91127808,
+      "supervisor_cpu_seconds": 0.012005999999999961,
+      "monitor_cpu_seconds": 0.0,
+      "sampled_peak_group_rss_bytes": 85360640,
+      "sampled_peak_workdir_bytes": 3321823,
+      "resource_guards": {
+        "max_group_rss_bytes": 4294967296,
+        "max_workdir_bytes": 536870912,
+        "poll_interval_seconds": 0.25,
+        "os_enforced": false,
+        "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+      },
+      "argv": [
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/autorouter/native.py",
+        "metrics",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/candidate/owned-default-floor-2cu.kicad_pcb",
+        "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/metrics.json"
+      ],
+      "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/metrics.log",
+      "log_bytes": 0,
+      "log_truncated": false,
+      "cleanup_complete": true,
+      "resource_accounting": {
+        "method": "wait4 child rusage",
+        "cpu_scope": "direct child plus descendants accounted for by child wait",
+        "rss_scope": "kernel peak, not simultaneous process-tree total",
+        "native_rss_unit": "bytes",
+        "memory_limit_enforced": false,
+        "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+      },
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route",
+      "signal_cancellation_enabled": true,
+      "pid": 99580,
+      "name": "metrics",
+      "phase": "finalization"
+    }
+  ],
+  "improvements": 1,
+  "pruning_preferences_policy": "native-pruning-preferences-v1",
+  "pruning_preferences": {
+    "file": "pruning-preferences.json",
+    "sha256": "b7468b87179c1357539f3c6ec282cce36b900cf6ea16ba1f480bd8a01ba59bc3",
+    "effective": {
+      "adapter": "both",
+      "guidance": "native",
+      "layers": "source_all",
+      "profile": "tuned",
+      "schema": 1,
+      "scope": "whole_board_unlocked_routing",
+      "scoring_preference": null,
+      "seconds": 90
+    }
+  },
+  "source_hashes": {
+    "owned-default-floor-2cu.kicad_pcb": "3ab90927bf7c60879a832579c2f9af7007d0e3f96d72c8f626e64b1c20751346",
+    "owned-default-floor-2cu.kicad_prl": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+    "owned-default-floor-2cu.kicad_pro": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+    "owned-default-floor-2cu.kicad_sch": "3ffbee13f44f3362cda0a39dce89b0163ed34cb07b06def6abe5f7feb7d9b3d2"
+  },
+  "zone_net_ids": [
+    "\"GND\""
+  ],
+  "protected_routes": 1,
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+      "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+      "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+      "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+      "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+      "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+      "autorouter/gui.py": "1289ad334980c219a3d78a9c56a036d903f6af2795dc3ae5c6aff36acbf0e409",
+      "autorouter/handoff.py": "71755df430f0c0e1cc7eca319c10c909dfdd74022a25a33306e6916874e50ffe",
+      "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "6f4adae700d7532218aac8e9627360107dadd2f6fcb04f4ef6a7b76471185fde",
+      "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+      "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+      "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+      "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+      "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+      "autorouter/pipeline.py": "8816e9e111fc929218e2eca568f126174142896d5a47989a4c626d7d61decc49",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+      "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+      "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+      "autorouter/review_export.py": "c37064122519fd34c576088952efb131983b122321ab215d1608ab452d53defd",
+      "autorouter/review_view.py": "110f9e750c7b7699aaef7021e6d5b5cdec5d7dc136c6ee73f19f6d0d04181748",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+      "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+      "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+      "autorouter/strategy.py": "35724350fbeae58cea4c2326397b63cd010f2f52c33f5e70e79b3cff033651d7",
+      "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+      "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72"
+    },
+    "git_head": "38e193cdf94a814ee50baacb786e7f64214f02b8",
+    "source_provenance": {
+      "kind": "runtime-directory-v1",
+      "git_head": "38e193cdf94a814ee50baacb786e7f64214f02b8",
+      "build_source": {
+        "files_sha256": {
+          "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+          "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+          "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+          "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+          "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+          "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+          "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+          "autorouter/gui.py": "1289ad334980c219a3d78a9c56a036d903f6af2795dc3ae5c6aff36acbf0e409",
+          "autorouter/handoff.py": "71755df430f0c0e1cc7eca319c10c909dfdd74022a25a33306e6916874e50ffe",
+          "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "6f4adae700d7532218aac8e9627360107dadd2f6fcb04f4ef6a7b76471185fde",
+          "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+          "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+          "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+          "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+          "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "autorouter/pipeline.py": "8816e9e111fc929218e2eca568f126174142896d5a47989a4c626d7d61decc49",
+          "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+          "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+          "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+          "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+          "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+          "autorouter/review_export.py": "c37064122519fd34c576088952efb131983b122321ab215d1608ab452d53defd",
+          "autorouter/review_view.py": "110f9e750c7b7699aaef7021e6d5b5cdec5d7dc136c6ee73f19f6d0d04181748",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+          "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+          "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+          "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+          "autorouter/strategy.py": "35724350fbeae58cea4c2326397b63cd010f2f52c33f5e70e79b3cff033651d7",
+          "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+          "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+          "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+          "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+          "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+          "toolchain.lock.json": "cec0446e5ed3554b0c0b286cbb61e5aceb5bc013e87839db3f7081b9fd2f24d9"
+        },
+        "git_head": "38e193cdf94a814ee50baacb786e7f64214f02b8",
+        "kind": "git-checkout"
+      },
+      "manifest_sha256": "abadbf86758c7060be9a796f1ed58c6d3f08110b181481092bd15f47971774cb",
+      "native_version": "10.0.7"
+    },
+    "kicad": "10.0.7",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_protected_via_import_policy": "legacy-via-off-source-v3",
+    "normal_task_copper_fixed_policy": "native-task-copper-fixed-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1",
+    "comparison_route_policy": "selected-native7-fixed-comparison-v2",
+    "native_improve_child_policy": "selected-native7-single-improve-child-v1"
+  },
+  "single_selection_policy": "selected-native7-single-pruning-lineage-v1",
+  "native7_improve_parent": {
+    "policy": "selected-native7-single-improve-parent-v1",
+    "file": "native7-improve-parent.json",
+    "sha256": "393e6bd3cc9f41251624fbdd3901e2f560ed1817e6886998c45eac6f94e38230"
+  },
+  "incumbent_assigned_seconds": 64.82567862491123,
+  "incumbent_allocation": {
+    "elapsed_wall_seconds": 0.17432137508876622,
+    "elapsed_cpu_seconds": 0.170623
+  },
+  "incumbent": {
+    "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/incumbent/result.json",
+    "status": "routing_accepted",
+    "accepted": true,
+    "metrics": {
+      "version": "10.0.7",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 1,
+      "track_length_mm": 44.46382411539193,
+      "copper_layers": 2
+    },
+    "wall_seconds": 8.087508875061758
+  },
+  "source_drc": {
+    "opens": 1,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Missing connection between items",
+        "items": [
+          {
+            "description": "Pad 1 [ROUTE] of J1 on F.Cu",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "c081cf3e-74b4-5a4a-a61a-53ce6f9bd335"
+          },
+          {
+            "description": "Pad 1 [ROUTE] of J2 on B.Cu",
+            "pos": {
+              "x": 26.0,
+              "y": 10.0
+            },
+            "uuid": "2dc958ac-a3c2-5ee2-9e5a-711057110324"
+          }
+        ],
+        "severity": "error",
+        "type": "unconnected_items"
+      }
+    ]
+  },
+  "task_sha256": "3ab90927bf7c60879a832579c2f9af7007d0e3f96d72c8f626e64b1c20751346",
+  "native7_default_target_basis": {
+    "policy": "single-default-global-floor-targets-v2",
+    "receipt": "incumbent/result.json",
+    "receipt_sha256": "473663263da05ede030ba512529e15ab719800b71613b01d6c24393736d54f51",
+    "file": "incumbent/default-targets.json",
+    "sha256": "e0d0ce924169e786fe6b05a47967ff37e33d5d0c6406f59d266956308ff15e9d"
+  },
+  "incumbent_metrics": {
+    "version": "10.0.7",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 1,
+    "track_length_mm": 44.46382411539193,
+    "copper_layers": 2
+  },
+  "best_observed_metrics": {
+    "version": "10.0.7",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 1,
+    "track_length_mm": 30.463824115391933,
+    "copper_layers": 2
+  },
+  "best_observed_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/trials/trial-0000/candidate/owned-default-floor-2cu.kicad_pcb",
+  "finalization_started_elapsed_seconds": 12.631560416077264,
+  "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-055/runtime/.runs/improve-floor2Cu-001/autorouter-gui-bad5750baee84a6eb2fc29a8bf96c3fd/route/candidate/owned-default-floor-2cu.kicad_pcb",
+  "candidate_sha256": "da06be47509dbb25b0ebe98a528ce070eeea8f06f8b321aa82de4d9611599b6e",
+  "native_report_sha256": "b63291c858cc797f8f69491a99e5dd981abb181666b451b321eff4700b55a49d",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 6,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": [
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 12.0,
+              "y": 10.0
+            },
+            "uuid": "f010a997-fb09-5d4c-a57b-5d02d9289de7"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 26.0,
+              "y": 10.0
+            },
+            "uuid": "f094b307-823b-5f7e-84d3-f65789d65adf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J3",
+            "pos": {
+              "x": 12.0,
+              "y": 16.0
+            },
+            "uuid": "3acb9364-baea-572f-a27a-acd807f2f338"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J4",
+            "pos": {
+              "x": 26.0,
+              "y": 16.0
+            },
+            "uuid": "98ba78c4-c504-5a34-8106-cc284cd354cd"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J5",
+            "pos": {
+              "x": 12.0,
+              "y": 24.0
+            },
+            "uuid": "1f651557-f97f-58bd-882a-f9d1a672b308"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J6",
+            "pos": {
+              "x": 26.0,
+              "y": 24.0
+            },
+            "uuid": "95a2d749-cac5-5592-bcd8-c493a06fa8ae"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "b63291c858cc797f8f69491a99e5dd981abb181666b451b321eff4700b55a49d",
+      "binding_sha256": "66c899e788ca2625b62e26951a9d44fd817398ef93bb279365445cdc56fe7ae1",
+      "netlist_sha256": "466a7166e9cec3b031a92bf4eecdf8b8647e7b4510626c47c6a50e0b23086c61",
+      "fields_sha256": "2f6940bd3d643a62b40a6fcdf1cb70db8e848a210049f3cbe430c50eb5cbb908",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 6,
+        "compared_field_count": 18,
+        "comparison_map": [
+          {
+            "reference": "J1",
+            "uuid": "f010a997-fb09-5d4c-a57b-5d02d9289de7",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J1",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J1"
+            }
+          },
+          {
+            "reference": "J2",
+            "uuid": "f094b307-823b-5f7e-84d3-f65789d65adf",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J2",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J2"
+            }
+          },
+          {
+            "reference": "J3",
+            "uuid": "3acb9364-baea-572f-a27a-acd807f2f338",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J3",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J3"
+            }
+          },
+          {
+            "reference": "J4",
+            "uuid": "98ba78c4-c504-5a34-8106-cc284cd354cd",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J4",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J4"
+            }
+          },
+          {
+            "reference": "J5",
+            "uuid": "1f651557-f97f-58bd-882a-f9d1a672b308",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J5",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J5"
+            }
+          },
+          {
+            "reference": "J6",
+            "uuid": "95a2d749-cac5-5592-bcd8-c493a06fa8ae",
+            "schematic_fields": {
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J6",
+              "Datasheet": "",
+              "Description": "Project-owned transport diagnostic one-pin terminal"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Project-owned transport diagnostic one-pin terminal",
+              "OwnedTransportIdentity": "owned-default-floor-via-control-001-2Cu:J6"
+            }
+          }
+        ],
+        "warning_uuids": [
+          "1f651557-f97f-58bd-882a-f9d1a672b308",
+          "3acb9364-baea-572f-a27a-acd807f2f338",
+          "95a2d749-cac5-5592-bcd8-c493a06fa8ae",
+          "98ba78c4-c504-5a34-8106-cc284cd354cd",
+          "f010a997-fb09-5d4c-a57b-5d02d9289de7",
+          "f094b307-823b-5f7e-84d3-f65789d65adf"
+        ],
+        "warning_hashes": [
+          "4f2679967bfa6e3bde0005a71e0b7927a420f79bdee88b70617d00b138158f0f",
+          "87d944c5a1f48f56ac0ca910f0cdd9b0b802a3a2af340b5163cba067b9644e81",
+          "8f67cf38c219025510a4af3f6a930dc3fc40e5617b1e68cbea852cfdece96b7f",
+          "d8ce131037ae60929f1233c73ca374d5d3b39fa953b9f1423f156eb9e972d871",
+          "e2141c28c69e57893be6cf52d3e95943996f711dd18c3ec234ad1b01880cace0",
+          "ecce97407b0135a8b9a698a1853d8d04b90ec90ac046e6366ec7f3f0eab495d7"
+        ],
+        "native_export_sha256": "466a7166e9cec3b031a92bf4eecdf8b8647e7b4510626c47c6a50e0b23086c61",
+        "observer_sha256": "8db9c30a08e87e55ed4bf1b597554adcb8f864eda05b1ff5c1ea41a28ce666e9",
+        "drc_report_sha256": "a3737f56f34e7ce9285b812b093a3dc462116414c3b2f4a5de06a5bfe28155e4"
+      },
+      "local_settings_guard_sha256": "881c34aef41fa79ca283054a17384ced28f74f36911ab6b12af665d30012a67e"
+    }
+  },
+  "metrics": {
+    "version": "10.0.7",
+    "pads": 6,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 1,
+    "track_length_mm": 30.463824115391933,
+    "copper_layers": 2
+  },
+  "invariants_unchanged": true,
+  "native_rejection_reasons": [],
+  "whole_project_drc_clean": false,
+  "child_cpu_seconds": 8.52855,
+  "monitor_cpu_seconds": 0.0,
+  "peak_child_rss_bytes": 211451904,
+  "resource_limitations": "Global wall and measured-CPU acceptance budgets include B2, every failed trial, final native validation and monitor CPU. CPU is checked after stages/completion, not preempted by the OS. Process-group and workdir polling guards can overshoot; no process-tree memory quota or full orphan CPU accounting is claimed. Stored totals precede the last receipt write; both caps are checked after it.",
+  "wall_seconds": 17.519822375033982,
+  "parent_cpu_seconds": 6.147451,
+  "total_cpu_seconds": 14.676001,
+  "control_child_cpu_seconds": 0.0
+}

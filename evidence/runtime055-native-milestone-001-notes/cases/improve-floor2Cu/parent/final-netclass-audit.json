@@ -1,0 +1,157 @@
+{
+  "native": {
+    "passed": true,
+    "policy": {
+      "mode": "single_default",
+      "literal_assignments": {}
+    },
+    "native_nets": 3,
+    "nets": [
+      {
+        "name": "GND",
+        "netcode": 3,
+        "copper_pad_count": 2,
+        "class": "Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": -1
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 100000,
+            "specified": true,
+            "priority": -1
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "priority": -1
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "priority": -1
+          }
+        },
+        "width_nm": 200000,
+        "clearance_nm": 100000,
+        "via_diameter_nm": 600000,
+        "via_drill_nm": 300000
+      },
+      {
+        "name": "KEEP",
+        "netcode": 2,
+        "copper_pad_count": 2,
+        "class": "Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": -1
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 100000,
+            "specified": true,
+            "priority": -1
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "priority": -1
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "priority": -1
+          }
+        },
+        "width_nm": 200000,
+        "clearance_nm": 100000,
+        "via_diameter_nm": 600000,
+        "via_drill_nm": 300000
+      },
+      {
+        "name": "ROUTE",
+        "netcode": 1,
+        "copper_pad_count": 2,
+        "class": "Default",
+        "parameter_parents": {
+          "width_nm": {
+            "name": "Default",
+            "value_nm": 200000,
+            "specified": true,
+            "priority": -1
+          },
+          "clearance_nm": {
+            "name": "Default",
+            "value_nm": 100000,
+            "specified": true,
+            "priority": -1
+          },
+          "via_diameter_nm": {
+            "name": "Default",
+            "value_nm": 600000,
+            "specified": true,
+            "priority": -1
+          },
+          "via_drill_nm": {
+            "name": "Default",
+            "value_nm": 300000,
+            "specified": true,
+            "priority": -1
+          }
+        },
+        "width_nm": 200000,
+        "clearance_nm": 100000,
+        "via_diameter_nm": 600000,
+        "via_drill_nm": 300000
+      }
+    ],
+    "routing_accepted": false,
+    "raw_default_for_target_derivation_only": true
+  },
+  "route_dimensions": {
+    "passed": true,
+    "checked": {
+      "segments": 6,
+      "arcs": 0,
+      "vias": 1,
+      "protected": 1
+    },
+    "policy": "exact effective native targets for new routes; protected originals unchanged"
+  },
+  "candidate_sha256": "da06be47509dbb25b0ebe98a528ce070eeea8f06f8b321aa82de4d9611599b6e",
+  "project_sha256": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+  "default_targets": {
+    "policy": "single-default-global-floor-targets-v2",
+    "raw_nm": {
+      "width_nm": 200000,
+      "clearance_nm": 100000,
+      "via_diameter_nm": 600000,
+      "via_drill_nm": 300000
+    },
+    "original_floors_nm": {
+      "min_track_width": 300000,
+      "min_clearance": 200000,
+      "min_via_diameter": 900000,
+      "min_through_hole_diameter": 400000,
+      "min_via_annular_width": 250000
+    },
+    "derived_nm": {
+      "width_nm": 300000,
+      "clearance_nm": 200000,
+      "via_diameter_nm": 900000,
+      "via_drill_nm": 400000
+    }
+  },
+  "native_map_file_sha256": "4e24b399a908b71b02a7855c48a79ca2a22f67f6bafa87158b5cf6307dbcf1af"
+}
