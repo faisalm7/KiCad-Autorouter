@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-runtime056-cancel-001.py", line 21, in <module>
+    p.check_storage()
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 242, in check_storage
+    if total>limit:raise Rejected('18 GiB '+('project cache/data' if active_root is None else 'active job')+' ceiling exceeded')
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: 18 GiB project cache/data ceiling exceeded
+        9.08 real         0.51 user         4.16 sys
+            45432832  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3622  page reclaims
+                 281  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+               47853  voluntary context switches
+                1751  involuntary context switches
+         53162527051  instructions retired
+         17804168077  cycles elapsed
+            35815952  peak memory footprint
