@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "production_admitted": false,
+  "passed": false,
+  "status": "failed",
+  "project_complete": false,
+  "actual_GUI": false,
+  "protocol_sha256": "6345bc4cd595ac49b4ecd626b70c44cf83f9468f520f4288c88476de5bad3b44",
+  "process": {
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "wall_seconds": 0.04582424997352064,
+    "cpu_seconds": 0.039899,
+    "max_rss_bytes": 20594688,
+    "supervisor_cpu_seconds": 0.0035159999999999914,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 163840,
+    "sampled_peak_workdir_bytes": 835,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-056/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-056/runtime/.runs/qualify-runtime056-hole-safety-001.py",
+      "--protocol",
+      ".runs/runtime056-native-controls-001/invalid/protocol.json",
+      "--protocol-sha256",
+      "6345bc4cd595ac49b4ecd626b70c44cf83f9468f520f4288c88476de5bad3b44"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime056-native-controls-001/invalid/enclosure/command.log",
+    "log_bytes": 835,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime056-native-controls-001/invalid/enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 14797
+  },
+  "child_receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-056/runtime/.runs/native7-comparison-control-runtime056-npth-invalid-001/result.json",
+  "child_sha256": null,
+  "completed_evidence": null,
+  "scope": "Three deliberately invalid copied-candidate controls after fresh ordinary056 NPTH positive: actual Native short and hole_clearance, plus protectedwidth+1nm original-design refusal. All Native/refill/fullSCH/Default/source/finalPRL guards remain;120s child/135s complete outer. No engine rerun, acceptance, GUI, population falseacceptance or electrical claim.",
+  "complete_wall_seconds": 0.142396833980456,
+  "complete_full_CPU_seconds": 0.12574
+}
