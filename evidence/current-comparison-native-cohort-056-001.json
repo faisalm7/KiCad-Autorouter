@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "kind": "current-selected7-CLI-cohort-comparison-administration-qualification-v1",
+  "recorded_utc": "2026-10-20T14:06:49.816317+00:00",
+  "project_complete": false,
+  "Native_executed": false,
+  "actual_GUI": false,
+  "source_sha256": {
+    "scripts/freeze_current_comparison.py": "2f52fc2f895fca4fda50b2b3d20b54ff4c94234fd75994ee1ae68069dfedbc00",
+    "tests/test_comparison_freezer.py": "250ed3fab1a400b52ae9f98297faa8de1490fba1da8ecbe42279861270ca20a4",
+    "scripts/report_current_comparison.py": "0ba011298586ee7e89ffaa65c9184a6a25ef231f819c34474d2e3b75b557982e",
+    "tests/test_current_comparison_report.py": "c567aacb98b75dd4b194b768f4b08af448ab4012d697bd9138521ccd1b695aae"
+  },
+  "tests": {
+    "freezer": {
+      "passed": true,
+      "tests": 32,
+      "complete_cost": {
+        "wall_seconds": 7.01,
+        "CPU_seconds": 6.54,
+        "user_seconds": 3.28,
+        "system_seconds": 3.26,
+        "time_log_sha256": "e7d618fe07866573706c2395a83f4f5d05647e0e98a18c37fb5a80cb6bf70e30",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-comparison-freezer-targeted-056-003-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    "reporter": {
+      "passed": true,
+      "tests": 22,
+      "complete_cost": {
+        "wall_seconds": 0.27,
+        "CPU_seconds": 0.22,
+        "user_seconds": 0.14,
+        "system_seconds": 0.08,
+        "time_log_sha256": "e74a48aedbbd346901d694cf438b81a99c2081ece5c293043a1f8e4f42cf32fd",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-comparison-reporter-targeted-056-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    }
+  },
+  "final_retained_metadata_readback": {
+    "passed": true,
+    "complete_cost": {
+      "wall_seconds": 0.48,
+      "CPU_seconds": 0.39,
+      "user_seconds": 0.26,
+      "system_seconds": 0.13,
+      "time_log_sha256": "89c5c5f4491ab78fd232dcdd916b620f757e2c6f9102e80ef78213f5a3f7bf53",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-comparison-native-cohort-readback-056-003-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "independent_AI_review": {
+    "schema": 1,
+    "recorded_utc": "2026-10-20T14:06:49.715161+00:00",
+    "source_only": true,
+    "human_review": false,
+    "Native_executed": false,
+    "no_concrete_bypass_found": true,
+    "files_sha256": {
+      "scripts/freeze_current_comparison.py": "2f52fc2f895fca4fda50b2b3d20b54ff4c94234fd75994ee1ae68069dfedbc00",
+      "tests/test_comparison_freezer.py": "250ed3fab1a400b52ae9f98297faa8de1490fba1da8ecbe42279861270ca20a4",
+      "scripts/report_current_comparison.py": "0ba011298586ee7e89ffaa65c9184a6a25ef231f819c34474d2e3b75b557982e",
+      "tests/test_current_comparison_report.py": "c567aacb98b75dd4b194b768f4b08af448ab4012d697bd9138521ccd1b695aae"
+    },
+    "reviewer": "/root/context_reuse_skeptic",
+    "scope": "Independent AI source review and narrow rechecks of two semantic gaps plus actual schema corrections. No tests/Native/GUI/CI/Git by reviewer. Product Native policy, exact registered workflow/scoring/engine journal, source/root/manifest and CLI-only authority retained; old042/050 paths unchanged. No broad correctness/GUI/electrical/quality claim.",
+    "initial_findings_preserved": true
+  },
+  "draft001": {
+    "scope": "Successful but insufficient27 freezer/22 reporter tests and real retained-metadata readback; no benchmark arm frozen or run under this draft.",
+    "defects": [
+      "Counts alone did not apply the product Native acceptance policy, including critical ignored checks and field warnings.",
+      "Registered case labels lacked actual retained routing contract/score binding."
+    ],
+    "disposition": "Correct shared metadata gate and retain regressions before prospective execution; runtime/native validators unchanged.",
+    "freezer_test_cost": {
+      "wall_seconds": 5.25,
+      "CPU_seconds": 4.93,
+      "user_seconds": 2.44,
+      "system_seconds": 2.49,
+      "time_log_sha256": "1dbbdeb7c96fc3323c72932b5a8f28f787d5c28420b3d0761f4bcf701dae77af",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-comparison-freezer-targeted-056-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "metadata_readback_cost": {
+      "wall_seconds": 0.41,
+      "CPU_seconds": 0.33,
+      "user_seconds": 0.22,
+      "system_seconds": 0.11,
+      "time_log_sha256": "6e89cd15d96b8ef569663eb8c1c1170de669512f9e4ede25ef9f20e9a29c36e5",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-comparison-native-cohort-readback-056-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "draft002": {
+    "tests_passed": 30,
+    "freezer_test_cost": {
+      "wall_seconds": 7.03,
+      "CPU_seconds": 6.62,
+      "user_seconds": 3.26,
+      "system_seconds": 3.36,
+      "time_log_sha256": "ffee60de0cc976979ecba32f535e2daeb507b9efd4b68ee072f7268b721d638a",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-comparison-freezer-targeted-056-002-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "real_metadata_readback_passed": false,
+    "metadata_readback_cost": {
+      "wall_seconds": 0.3,
+      "CPU_seconds": 0.26,
+      "user_seconds": 0.2,
+      "system_seconds": 0.06,
+      "time_log_sha256": "8562127847fcd2f74a9c013faec3ebd1cafc485e72231f3eb20886c0f83606fa",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/current-comparison-native-cohort-readback-056-002-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "reason": "Real retained056 metadata rejected because engine settings precede four I/O args rather than ending argv. Independent source review also found Improve parent key presence contradicted the actual forbidden-key contract. Fix both fixture assumptions before any experiment, preserving the failed readback; no Native rerun."
+  },
+  "current_runtime": {
+    "source_head": "a03b5e8b6ae523d9f099cf211815900053629fe3",
+    "manifest_sha256": "b018b1bc6487183b000de62b743bd143cd2dddca71afe29428cadbd4cfdccded",
+    "runtime_rebuilt": false,
+    "prerequisite": {
+      "path": "evidence/runtime056-native-milestone-001.json",
+      "sha256": "cc2973609c09bf607f08f0a0b1b9e15f93d03eb1bd99b0b696d56a228546e992"
+    }
+  },
+  "scope": "Shared freezer/reporter extend improve-v2 only to explicit current positive seven/eleven-case Native CLI cohort lineage. No GUI/thermal admission or old042/050 contract change. The experiment itself is not yet frozen/executed; actual Native acceptance for every new final remains mandatory.",
+  "accounting": "All tests, failed-draft review/readback and final readback are additional to Native qualification and the future comparison. Source authoring and AI review are additional and partly unmetered, notzero.",
+  "retention": "Owned scripts/tests/logs and metadata only; foreign CAD/raw findings/tools excluded. Raw remains Mac-only/outside010, not a full restoration or release.",
+  "files_index": {
+    "path": "evidence/current-comparison-native-cohort-056-001-notes/files.json",
+    "sha256": "f6bacfc48f08765d7cf7807af0bddd78905b7f24308274a576140b69b1f67e98"
+  }
+}

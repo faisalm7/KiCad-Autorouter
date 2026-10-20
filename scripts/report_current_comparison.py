@@ -25,7 +25,7 @@ from scripts import freeze_current_comparison as frozen
 
 KEYS = ('opens', 'blocking', 'warnings', 'exclusions')
 KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequisite recorded by freezer; no new GUI claim',
-         frozen.IMPROVE_POPULATION_KIND: 'Installed050 CLI prerequisite; GUI087 prepared only, no current GUI qualification',
+         frozen.IMPROVE_POPULATION_KIND: 'Pinned installed Native/CLI prerequisites; GUI qualification NOT supplied',
          'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
          'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied',
          'frozen-runtime050-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied'}
@@ -471,7 +471,14 @@ def population_shape(population, children):
                 and q['actual_GUI_qualified'] is False and q['full_GUI_claim'] is False, 'Native-only qualification promoted or malformed')
     elif version == 'improve-v2':
         q = population['qualification']
-        require(q['kind'] == frozen.IMPROVE_QUALIFICATION_KIND and q['actual_GUI_qualified'] is False
+        if q['kind'] == frozen.NATIVE_COHORT_QUALIFICATION_KIND:
+            require(q.get('Native_cohort_only') is True and q.get('source_head') == population['source_head']
+                and q.get('runtime') == population['runtime']
+                and q.get('runtime_manifest_sha256') == population['runtime_manifest_sha256'],
+                'Native-cohort prerequisite identity differs')
+        else:
+            require(q['kind'] == frozen.IMPROVE_QUALIFICATION_KIND, 'unknown installed CLI-only qualification')
+        require(q['actual_GUI_qualified'] is False
             and q['full_GUI_claim'] is False, 'installed CLI-only qualification promoted or malformed')
     else:
         require(population['qualification']['kind'] == frozen.QUALIFICATION_KIND

@@ -50,6 +50,13 @@ IMPROVE_ARM_ORDER = ('Cdefault', 'B0', 'B1', 'B2single_tuned', 'B2_portfolio', '
 IMPROVE_POPULATION_KIND = 'frozen-current-improve-six-arm-exposed-development-v2'
 IMPROVE_METHOD_KIND = 'installed-native7-current-method-v2'
 IMPROVE_QUALIFICATION_KIND = 'runtime050-install-existing-actual-Native-CLI-prepared-GUI-only-v1'
+NATIVE_COHORT_QUALIFICATION_KIND = 'current-selected-native7-positive-cohort-CLI-only-v1'
+NATIVE_CASES = {'ordinary-npth2Cu': ('route', 1), 'improve-pour-only': ('improve', 1),
+    'improve-fractional': ('improve', 1), 'improve-floor2Cu': ('improve', 1),
+    'ordinary-alias2Cu': ('route', 4), 'ordinary-whole4Cu': ('route', 10),
+    'ordinary-hierarchy2Cu': ('route', 0)}
+HIGH_CASES = {'via-high-whole2Cu': ('route', 1), 'via-high-partial2Cu': ('route', 4),
+    'via-high-whole4Cu': ('route', 10), 'via-high-partial4Cu': ('route', 10)}
 MAX_PROJECT_FILES = 2000
 # The unchanged arm controllers use the shared 32 MiB source census.
 MAX_PROJECT_BYTES = 32 * 1024**2
@@ -68,6 +75,9 @@ def contract(version):
 
 def qualification_scope(qualified, runtime, manifest_pin, identity, manifest, version):
     """Keep the old GUI gate separate from the explicit050 CLI-only gate."""
+    if type(qualified.get('kind')) is str and re.fullmatch(
+            r'runtime[0-9]{3}-(seven|eleven)-completed-native-workflows-v1', qualified['kind']):
+        return native_cohort_scope(qualified, runtime, manifest_pin, identity, manifest, version)
     native = qualified.get('Native')
     require(type(qualified.get('schema')) is int and qualified['schema'] == 1
         and type(native) is dict and qualified.get('runtime') == str(runtime)
@@ -109,6 +119,249 @@ def qualification_scope(qualified, runtime, manifest_pin, identity, manifest, ve
         'completed050 full199/Native/invalid prerequisite differs')
     return dict(kind=IMPROVE_QUALIFICATION_KIND, actual_GUI_qualified=False, full_GUI_claim=False,
         scope='Installed Native CLI prerequisite; GUI087 prepared only, no current graphical qualification.'), {str(dependency): rows[0]['sha256']}
+
+
+def native_cohort_accepted(native, implementation):
+    """Use the recorded product policy, never a second counts-only policy."""
+    from autorouter import schematic_field_evidence, schematic_fields, sexpr
+    pins = {}
+    for module in (p, schematic_field_evidence, schematic_fields, sexpr):
+        path = pv.canonical(Path(module.__file__)); name = 'autorouter/'+path.name
+        require(path.parent == Path(p.__file__).parent and implementation.get(name) == pv.file_digest(path)[0],
+                'Native application-policy implementation differs')
+        pins[path] = implementation[name]
+    accepted = p.native_accepted(native); reasons = p.native_rejection_reasons(native)
+    require(type(accepted) is bool and accepted is (not reasons), 'Native policy predicates disagree')
+    for path, pin in pins.items(): require(pv.file_digest(path)[0] == pin, 'Native policy source changed')
+    return accepted
+
+
+def native_cohort_scope(proof, runtime, manifest_pin, identity, manifest, version):
+    """Consume a sealed metadata cohort, not replace any Native child validator.
+
+    These summaries lack a root/map field: bind their indexed original manifest
+    and build/full-suite lineage to the actual requested immutable root. Recheck
+    these retained bytes at final freeze; an index hash alone is not their bytes.
+    Warnings remain visible and do not establish electrical/whole-project clean.
+    """
+    match = re.fullmatch(r'runtime([0-9]{3})-(seven|eleven)-completed-native-workflows-v1', proof['kind'])
+    require(version == 'improve-v2' and match is not None and runtime.is_relative_to(ROOT)
+        and type(proof.get('schema')) is int and proof['schema'] == 1
+        and proof.get('source_head') == identity['git_head'] and proof.get('runtime_manifest_sha256') == manifest_pin
+        and identity.get('native_version') == '10.0.7' and manifest['local_engine'] is not None
+        and proof.get('Native_cohort_passed') is True and proof.get('accepted') is False
+        and proof.get('actual_GUI') is False and proof.get('project_complete') is False
+        and proof.get('full_GUI_claim', False) is False and proof.get('release_qualified') is False
+        and type(proof.get('invalid_controls')) is dict and proof['invalid_controls'].get('passed') is True,
+        'positive current Native cohort required; no GUI/thermal admission')
+    dependencies = {}; material = {}
+    def public_path(name):
+        require(type(name) is str and name.startswith('evidence/') and str(Path(name)) == name
+            and not ({'.', '..', '.runs'} & set(name.split('/'))), 'canonical retained evidence path required')
+        return pv.canonical(ROOT/name)
+    def index(binding):
+        require(type(binding) is dict and set(binding) == {'path', 'sha256'}, 'pinned retained index required')
+        path = public_path(binding['path']); _, data = pinned_json(path, binding['sha256'])
+        dependencies[str(path)] = binding['sha256']
+        require(type(data.get('schema')) is int and data['schema'] == 1
+            and type(data.get('material')) is list and 1 <= len(data['material']) <= 4000, 'bounded material index required')
+        for row in data['material']:
+            require(type(row) is dict and type(row.get('original')) is str
+                and not Path(row['original']).is_absolute() and str(Path(row['original'])) == row['original']
+                and not ({'.', '..'} & set(row['original'].split('/')))
+                and type(row.get('bytes')) is int and 0 <= row['bytes'] <= 4*1024**2
+                and type(row.get('sha256')) is str and pv._DIGEST.fullmatch(row['sha256']), 'malformed retained material')
+            public_path(row.get('retained'))
+            old = material.get(row['original'])
+            require(old is None or (old['sha256'], old['bytes']) == (row['sha256'], row['bytes']), 'conflicting retained material')
+            material[row['original']] = row
+    def retained(original, pin=None):
+        require(original.is_relative_to(ROOT), 'original proof escaped administration/runtime')
+        row = material.get(str(original.relative_to(ROOT)))
+        require(row is not None and (pin is None or row['sha256'] == pin), 'missing or differently pinned retained proof')
+        raw, value = pinned_json(public_path(row['retained']), row['sha256'])
+        require(len(raw) == row['bytes'], 'retained proof size differs')
+        return value
+    def success(process):
+        return (type(process) is dict and process.get('status') == 'success'
+            and type(process.get('exit_code')) is int and process['exit_code'] == 0
+            and process.get('cleanup_complete') is True and process.get('log_truncated') is False)
+    def counts(value):
+        return (type(value) is list and len(value) == 4 and all(type(n) is int and n >= 0 for n in value)
+            and value[0] == value[1] == value[3] == 0)
+    index(proof.get('files_index'))
+    link = proof.get('IR_repair')
+    require(type(link) is dict, 'current IR delivery dependency required')
+    ir_path = public_path(link.get('path')); _, ir = pinned_json(ir_path, link.get('sha256'))
+    dependencies[str(ir_path)] = link['sha256']
+    require(ir.get('kind') == 'runtime'+match[1]+'-single-fresh-exposed-IR-Improve-delivery-repair-regression-v1'
+        and type(ir.get('schema')) is int and ir['schema'] == 1 and ir.get('source_head') == identity['git_head']
+        and ir.get('runtime_manifest_sha256') == manifest_pin and ir.get('workflow_delivered') is True
+        and ir.get('attempt_qualified') is True and ir.get('accepted') is False and ir.get('actual_GUI') is False
+        and ir.get('project_complete') is False and ir.get('not_a_comparison') is True
+        and ir.get('full_GUI_claim', False) is False
+        and ir.get('files_index') == link.get('files_index')
+        and type(ir.get('single_fresh_exposed_IR_Improve')) is dict
+        and ir['single_fresh_exposed_IR_Improve'].get('delivered') is True
+        and counts(ir['single_fresh_exposed_IR_Improve'].get('Native_counts')), 'current pinned IR delivery differs')
+    index(ir['files_index'])
+    require(retained(runtime/pv.MANIFEST, manifest_pin) == manifest, 'retained original runtime/map differs')
+    prepared = retained(runtime.parent/'preparation.json')
+    full_keys = [key for key in prepared if re.fullmatch(r'full[0-9]+_execution_sha256', key)]
+    require(prepared.get('prepared') is True and prepared.get('source_head') == identity['git_head']
+        and prepared.get('runtime') == str(runtime) and prepared.get('manifest_sha256') == manifest_pin
+        and type(prepared.get('recipe')) is dict and prepared['recipe'].get('source_provenance') == identity
+        and len(full_keys) == 1, 'current build lineage differs')
+    full_name = full_keys[0].split('_')[0]; full_dir = ROOT/'.runs'/('full-integration-'+full_name[4:])
+    full = retained(full_dir/'execution.json', prepared[full_keys[0]]); plan = retained(full_dir/'protocol.json')
+    require(type(ir.get(full_name)) is dict and ir[full_name].get('passed') is True
+        and full.get('passed') is True and full.get('sources_unchanged') is True and success(full.get('process'))
+        and type(plan.get('tools')) is dict and plan['tools'].get('git_head') == identity['git_head']
+        and type(plan.get('source_sha256')) is dict
+        and all(plan.get('source_sha256', {}).get(name) == pin for name, pin in manifest['immutable_files_sha256'].items()
+                if name.startswith('autorouter/'))
+        and success(retained(runtime.parent/'venv-process.json', prepared.get('venv_process_sha256'))), 'full/build process proof differs')
+    doctors = [ROOT/name for name in material if Path(name).name == 'doctor.json']
+    require(len(doctors) == 1, 'unique current doctor proof required')
+    doctor = retained(doctors[0]); doctor_process = retained(doctors[0].with_name('doctor-process.json'))
+    require(doctor.get('ready') is True and doctor.get('workspace') == str(runtime)
+        and type(doctor.get('checks')) is dict
+        and doctor['checks'].get('runtime_provenance') == dict(verified=True, identity=identity)
+        and success(doctor_process), 'current doctor proof differs')
+    expected = dict(NATIVE_CASES, **HIGH_CASES) if match[2] == 'eleven' else NATIVE_CASES
+    rows = proof.get('cases')
+    require(type(rows) is list and len(rows) == len(expected)
+        and all(type(row) is dict and type(row.get('case')) is str for row in rows)
+        and {row.get('case') for row in rows} == set(expected), 'complete unique registered Native population required')
+    tool_files = None
+    for row in rows:
+        label = row['case']; method, protected = expected[label]; finals = row.get('own_finals')
+        trials = row.get('trials'); trial_names = []
+        if method == 'improve':
+            require(type(trials) is list and len(trials) <= 32, 'bounded Improve trial census required')
+            trial_names = ['trial-%04d' % n for n in range(len(trials))]
+            require([trial.get('id') for trial in trials if type(trial) is dict] == trial_names, 'trial census differs')
+        require(row.get('method') == method and row.get('controls_passed') is True and row.get('workflow_delivered') is True
+            and row.get('source_unchanged') is True and row.get('actual_GUI') is False and counts(row.get('Native_counts'))
+            and type(row.get('protected_count')) is int and row['protected_count'] == protected
+            and row.get('scoring_preference') == ('via_high' if label in HIGH_CASES else None)
+            and type(row.get('source_hashes')) is dict and 1 <= len(row['source_hashes']) <= MAX_PROJECT_FILES
+            and all(type(pin) is str and pv._DIGEST.fullmatch(pin) for pin in row['source_hashes'].values())
+            and type(finals) is dict and all(type(value) is dict and type(value.get('own_final')) is dict for value in finals.values())
+            and set(finals) == {'parent', 'export', *(['incumbent', *trial_names] if method == 'improve' else [])}
+            and all(type(row.get(key)) is str and pv._DIGEST.fullmatch(row[key]) for key in ('route_sha256','export_sha256')),
+            'positive registered workflow/final census required; counts alone are insufficient')
+        parent = finals['parent']['own_final']
+        require(type(parent.get('cwd')) is str, 'own final directory required')
+        directory = Path(parent['cwd'])
+        require(directory.name == 'route' and directory.parent.parent == runtime/'.runs'/(label+'-001')
+            and re.fullmatch(r'autorouter-gui-[0-9a-f]{32}', directory.parent.name), 'own proof runtime/root differs')
+        route = retained(directory/'result.json', row.get('route_sha256'))
+        exported = retained(directory.parent/'export/export.json', row.get('export_sha256'))
+        require(route.get('accepted') is True and exported.get('export_accepted') is True
+            and route.get('invariants_unchanged') is True
+            and type(route.get('source')) is str and Path(route['source']).suffix == '.kicad_pcb'
+            and type(route.get('tools')) is dict and route['tools'].get('source_provenance') == identity
+            and route['tools'].get('git_head') == identity['git_head'] and route['tools'].get('kicad') == '10.0.7'
+            and route['tools'].get('implementation_sha256') == {name: pin for name, pin in manifest['immutable_files_sha256'].items() if name.startswith('autorouter/')}
+            and exported.get('tools') == route['tools']
+            and route.get('source_hashes') == exported.get('source_hashes') == row.get('source_hashes')
+            and exported.get('original_geometry_and_routing_unchanged') is True
+            and type(exported.get('inputs')) is dict and exported['inputs'].get('receipt') == str(directory/'result.json')
+            and exported['inputs'].get('receipt_sha256') == row['route_sha256'], 'retained route/export lineage differs')
+        scope = 'partial_completion' if label in {'ordinary-alias2Cu','via-high-partial2Cu','via-high-partial4Cu'} else 'whole_board_unlocked_routing'
+        profile = 'tuned' if method == 'improve' else 'standard'; score = 'via_high' if label in HIGH_CASES else None
+        settings = dict(schema=1,scope=scope,profile=profile,scoring_preference=score,
+            seconds=120 if label.endswith('4Cu') else 90,adapter='both',guidance='native',layers='source_all')
+        require(type(row.get('child_sha256')) is str and pv._DIGEST.fullmatch(row['child_sha256']), 'actual workflow child required')
+        workflow = retained(directory.parent.parent/'result.json', row['child_sha256'])
+        choice = route.get('pruning_preferences' if method == 'improve' else 'routing_preferences')
+        require(workflow.get('method') == method and workflow.get('settings') == settings
+            and workflow.get('status') == 'completed' and workflow.get('workflow_delivered') is True
+            and route.get('scope') == scope and route.get('engine_profile') == profile and route.get('adapter') == 'both'
+            and route.get('input_policy','native') == 'native' and type(choice) is dict and choice.get('effective') == settings
+            and (route.get('strategy') == 'native_validated_zone_net_pruning'
+                 and route.get('scoring_variant') is None and 'incumbent_scoring_variant' not in route
+                 if method == 'improve' else route.get('strategy') is None and 'scoring_variant' in route and route['scoring_variant'] == score),
+            'registered method/scope/profile/scoring differs from retained workflow')
+        if method == 'route':
+            budget = route.get('engine_budget'); engine = retained(directory/'engine-process.json')
+            require(type(budget) is dict and budget.get('profile') == profile
+                and budget.get('scoring') == p.engine_scoring_settings(score)
+                and type(budget.get('argv')) is list and budget['argv'] and all(type(arg) is str for arg in budget['argv'])
+                and type(engine.get('argv')) is list and all(type(arg) is str for arg in engine['argv'])
+                and engine['argv'][-4:] == ['-de',str(directory/'task.dsn'),'-do',str(directory/'routes.ses')]
+                and engine['argv'][-len(budget['argv'])-4:-4] == budget['argv'] and engine.get('cwd') == str(directory)
+                and success(engine), 'ordinary engine scoring/configuration journal differs')
+            prefixes = ('--router.scoring.via_costs','--router.scoring.plane_via_costs')
+            require([arg for arg in engine['argv'] if arg.startswith(prefixes)] == p.engine_scoring_settings(score)['argv']
+                and type(route.get('steps')) is list
+                and [step for step in route['steps'] if type(step) is dict and step.get('name') == 'engine'] == [engine],
+                'actual engine scoring flags or unique journal differ')
+        files = route['tools'].get('files')
+        require(type(files) is dict and 1 <= len(files) <= 8
+            and all(type(name) is str and type(pin) is str and pv._DIGEST.fullmatch(pin) for name, pin in files.items())
+            and (tool_files is None or files == tool_files), 'cohort tool pins differ')
+        tool_files = files
+        cli = [name for name in files if Path(name).name == 'kicad-cli']
+        require(len(cli) == 1, 'unique pinned Native CLI required')
+        for name, final in finals.items():
+            own = final.get('own_final', {}); folder = directory if name == 'parent' else directory.parent/'export/validation' if name == 'export' else directory/'incumbent' if name == 'incumbent' else directory/'trials'/name
+            require(final.get('accepted') is True and counts(final.get('Native_counts'))
+                and own.get('cwd') == str(folder) and own.get('output') == str(folder/'final-drc.json')
+                and own.get('full_schematic_flag') is True and type(final.get('candidate_sha256')) is str
+                and pv._DIGEST.fullmatch(final['candidate_sha256'])
+                and all(type(own.get(key)) is str and pv._DIGEST.fullmatch(own[key])
+                        for key in ('report_sha256','process_sha256','binding_sha256')), 'positive own final Native proof required')
+            report = retained(folder/'final-drc.json', own['report_sha256'])
+            process = retained(folder/'final-drc-process.json', own['process_sha256'])
+            binding = retained(folder/'final-drc-binding.json', own['binding_sha256'])
+            data = route if name == 'parent' else exported if name == 'export' else retained(folder/'result.json')
+            require(data.get('export_accepted' if name == 'export' else 'accepted') is True
+                and data.get('candidate_sha256') == final['candidate_sha256']
+                and data.get('native_report_sha256') == own['report_sha256']
+                and (data.get('invariants_unchanged') is True if name == 'incumbent' else data.get('invariants_unchanged',True) is True),
+                'actual final acceptance/original invariant header differs')
+            if name == 'incumbent':
+                require(data.get('scope') == 'whole_board_unlocked_routing' and data.get('engine_profile') == 'tuned'
+                    and data.get('adapter') == 'both' and 'scoring_variant' in data and data['scoring_variant'] is None,
+                    'Improve incumbent settings differ')
+            families = [report.get(key) for key in ('unconnected_items','violations','schematic_parity')]
+            require(all(type(items) is list and all(type(item) is dict for item in items) for items in families), 'malformed final Native finding families')
+            findings = families[1]+families[0]+families[2]
+            native = data.get('native')
+            actual = [len(families[0]), sum(item.get('severity') == 'error' for item in families[1]+families[2]),
+                sum(item.get('severity') == 'warning' for item in findings),
+                sum(item.get('severity') == 'exclusion' or item.get('excluded', False) for item in findings)]
+            require(report.get('kicad_version') == '10.0.7' and report.get('source') == Path(route['source']).name
+                and report.get('$schema') == 'https://schemas.kicad.org/drc.v1.json'
+                and type(report.get('included_severities')) is list
+                and all(type(value) is str for value in report['included_severities'])
+                and set(report['included_severities']) == {'error','warning','exclusion'}
+                and all(item.get('severity') in {'error','warning','exclusion'} for item in findings)
+                and actual == final['Native_counts']
+                and report.get('ignored_checks') == final.get('ignored_checks')
+                and type(process.get('argv')) is list and process.get('cwd') == str(folder)
+                and (process['argv'][:3] == [cli[0],'pcb','drc'] or process['argv'][:len(f.SANDBOX)+3] == [*f.SANDBOX,cli[0],'pcb','drc'])
+                and process['argv'][-1:] == [str(folder/'final-drc-input'/Path(route['source']).name)]
+                and str(folder/'final-drc.json') in process['argv']
+                and all(flag in process['argv'] for flag in ('--schematic-parity','--all-track-errors','--refill-zones','--exit-code-violations'))
+                and type(process.get('exit_code')) is int and process['exit_code'] == (5 if findings else 0)
+                and process.get('status') == ('nonzero_exit' if findings else 'success') and process.get('cleanup_complete') is True
+                and binding.get('source') == str(folder/'candidate'/Path(route['source']).name) and binding.get('saved') is False
+                and binding.get('before') == dict(row['source_hashes'], **{Path(route['source']).name: final['candidate_sha256']}),
+                'retained own Native counts/process/input binding differs')
+            require(type(native) is dict and [native.get(key) for key in ('opens','blocking','warnings','exclusions')] == actual
+                and native.get('findings') == findings and native.get('ignored_checks') == report['ignored_checks']
+                and native_cohort_accepted(native,route['tools']['implementation_sha256']),
+                'retained final Native evidence rejected by immutable product policy')
+        require(finals['parent']['Native_counts'] == finals['export']['Native_counts'] == row['Native_counts']
+            and finals['parent']['candidate_sha256'] == finals['export']['candidate_sha256'] == route.get('candidate_sha256') == exported.get('candidate_sha256'),
+            'delivered candidate/counts differ')
+    return dict(kind=NATIVE_COHORT_QUALIFICATION_KIND, evidence_kind=proof['kind'], Native_cohort_only=True,
+        runtime=str(runtime), source_head=identity['git_head'], runtime_manifest_sha256=manifest_pin,
+        actual_GUI_qualified=False, full_GUI_claim=False, tools_files_sha256=tool_files,
+        scope='Current positive Native/CLI cohort and linked Improve delivery; no GUI/thermal/electrical qualification.'), dependencies
 
 
 def pinned_json(path, digest):
@@ -247,6 +500,8 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         and tools['git_head'] == source_head and tools['kicad'] == '10.0.7'
         and tools['comparison_route_policy'] == 'selected-native7-fixed-comparison-v2', 'actual runtime query/defaults differ')
     require(type(tools.get('files')) is dict and 1 <= len(tools['files']) <= 8, 'bounded actual tool pins required')
+    if qualification_record.get('Native_cohort_only') is True:
+        require(qualification_record['tools_files_sha256'] == tools['files'], 'Native cohort tools differ from current runtime query')
     def fresh():
         require(h.owned_destination(owner) == output and administration(expected_administration_head) == tracked, 'administration changed')
         require(pinned_json(sources_path, sources_sha256)[0] == raw_sources and pinned_json(qualification, qualification_sha256)[0] == raw_qualification
@@ -256,6 +511,9 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         for path, pin in query_pins.items(): require(pv.file_digest(Path(path),512*1024)[0] == pin, 'runtime query proof changed')
         for name, pin in tools['files'].items(): require(pv.file_digest(pv.canonical(Path(name)), pv.MAX_ENGINE_BYTES)[0] == pin, 'queried tool bytes changed')
         for name, pin in qualification_dependencies.items(): pinned_json(Path(name), pin)
+        if qualification_record.get('Native_cohort_only') is True:
+            require(qualification_scope(qualified, runtime, expected_manifest_sha256, identity, manifest, population_version)
+                    == (qualification_record, qualification_dependencies), 'Native cohort dependencies changed')
         require(not any(os.path.lexists(path) for path in roots), 'Native outputs appeared before population frozen')
     fresh()
     if not os.path.lexists(child):

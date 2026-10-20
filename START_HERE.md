@@ -1,12 +1,12 @@
-# Use runtime050 on this Mac
+# Use runtime056 on this Mac
 
-The current immutable experimental runtime is **050**, source `aa0072c6b3d8090de2603e5ecb42a95968fb873b`, manifest `c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8`. Its [seven Native CLI workflows completed](evidence/runtime050-native-milestone-002.json). [GUI086 qualification is partial](evidence/gui-runtime050-086-progress-001.json); this is not a finished or release-qualified product.
+The current immutable experimental runtime is **056**, source `a03b5e8b6ae523d9f099cf211815900053629fe3`, manifest `b018b1bc6487183b000de62b743bd143cd2dddca71afe29428cadbd4cfdccded`. Its [eleven Native CLI workflows completed](evidence/runtime056-native-milestone-001.json). [GUI089 is prepared only](evidence/gui-runtime056-089-preparation-001.json), and the latest tool check reports Mac locked. The workflow below is implemented but still needs current graphical qualification. This is not a finished or release-qualified product.
 
 1. **Start the existing isolated launcher.** Save work and close conflicting KiCad managers/editors first. To use Edge without changing Chrome or the default browser, run this in Terminal:
 
    ```sh
    BROWSER='/usr/bin/open -a "Microsoft Edge" %s' \
-     '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/.runs/gui-launcher086/Launch Autorouter.command'
+     '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-056/runtime/.runs/gui-launcher089/Launch Autorouter.command'
    ```
 
    The override belongs only to that child session. Alternatively, double-click the same launcher in Finder and open generated `review/preview.html` manually through **Microsoft Edge → File → Open File…**. Do not change the system browser. The existing launcher is path-bound; do not move or edit it.
@@ -19,10 +19,10 @@ The current immutable experimental runtime is **050**, source `aa0072c6b3d8090de
 
 5. **Validate a separate export.** **Fresh export** runs new original-rule Native checks into another project. **Open checked export** checks current proof before opening it in KiCad. The original is not overwritten; live apply/undo is not offered. Opening an export can change PRO/PRL/backups and stale its proof even if the PCB is unchanged. A refusal does not repair or renew that evidence.
 
-The owned starting source is runtime050’s `.runs/gui-session086/project/owned1007-transport.kicad_pcb`, with `.runs/gui-session086/route-settings.json`. Preserve its original bytes and use fresh output names. [Detailed GUI steps](docs/gui-workflow.md) explain customization and the narrower optional methods; [CLI instructions](docs/quickstart.md) always enter the runtime directory before `-m autorouter`.
+The owned starting source is runtime056’s `.runs/gui-session089/project/owned1007-transport.kicad_pcb`, with `.runs/gui-session089/route-settings.json`. Preserve its original bytes and use fresh output names. [Detailed GUI steps](docs/gui-workflow.md) explain customization and the narrower optional methods; [CLI instructions](docs/quickstart.md) always enter the runtime directory before `-m autorouter`.
 
-Current evidence includes [actual active-Java cancellation](evidence/gui-runtime050-086-active-engine-cancel-001.json), source/settings/stale-export refusals and checked ordinary/Improve opening. The [single menu-timing attempt missed its interval](evidence/gui-runtime050-086-queued-miss-001.json); it is not queued-callback proof. The separate [escape-seed probe was negative and deferred](evidence/qfn-escape-development-probe-002.json); it is not a runtime050 feature or routing gain.
+Historical050 evidence includes [actual active-Java cancellation](evidence/gui-runtime050-086-active-engine-cancel-001.json), source/settings/stale-export refusals and checked ordinary/Improve opening. The [single menu-timing attempt missed its interval](evidence/gui-runtime050-086-queued-miss-001.json); it is not queued-callback proof. The separate [escape-seed probe was negative and deferred](evidence/qfn-escape-development-probe-002.json); it is not a runtime056 feature or routing gain.
 
 Normal routing needs no AI account or internet. Existing pinned KiCad10.0.7, Java and Python paths on this same Mac remain required. No standalone, clean-OS, Windows, full-GUI, broad routing-quality, human or electrical qualification is claimed. [Current status](STATUS.md) · [Support limits](docs/experimental-rc.md) · [Fresh-folder installation](docs/install-existing.md). [Previous guide preserved unchanged](docs/history/2026-10-20-pre-runtime050-user-guides/START_HERE.md).
 
-Current limitation: optional Improve can produce valid routing but fail review creation when its retained trial ancestry is larger. The [frozen two-family evaluation](docs/benchmark-runtime050-default-improve.md) records this actual failure; it is not a delivered success. Keep ordinary standard Route as the default. A repair and fresh qualification are pending.
+Optional Improve remains experimental. [Fresh056 exposed IR delivery](evidence/runtime056-ir-delivery-002.json) passes after the general review-scaling repair, but it does not repair or replace the failed [frozen050 comparison](docs/benchmark-runtime050-default-improve.md). A fresh current comparison remains required. Keep corrected-standard Route as the default.

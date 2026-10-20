@@ -260,6 +260,48 @@ class ComparisonReportTests(unittest.TestCase):
                 population['qualification']['kind'] = original['qualification']['kind']
                 with self.assertRaises(ValueError): q.population_shape(population, children)
 
+    def native_cohort_population(self):
+        population, children = self.native049_population()
+        population.update(kind=q.frozen.IMPROVE_POPULATION_KIND,
+            population=list(q.frozen.IMPROVE_POPULATION),
+            planned_arm_order=list(q.frozen.IMPROVE_ARM_ORDER),
+            outputs={'devobordo': dict.fromkeys(q.frozen.IMPROVE_POPULATION, 'path')})
+        population['qualification'].update(kind=q.frozen.NATIVE_COHORT_QUALIFICATION_KIND,
+            Native_cohort_only=True)
+        children['protocols'] = {'devobordo': dict.fromkeys(q.frozen.IMPROVE_POPULATION, {})}
+        return population, children
+
+    def test_native_cohort_report_keeps_CLI_only_identity_and_complete_population(self):
+        population, children = self.native_cohort_population()
+        self.assertEqual(q.population_shape(population, children), ['devobordo'])
+        self.assertIn('GUI qualification NOT supplied', q.KINDS[population['kind']])
+        missing = copy.deepcopy(children); del missing['protocols']['devobordo']['B0']
+        with self.assertRaises(ValueError): q.population_shape(population, missing)
+        original = copy.deepcopy(population)
+        for key, value in [('Native_cohort_only', False), ('Native_cohort_only', 1),
+                ('actual_GUI_qualified', True), ('actual_GUI_qualified', 0),
+                ('full_GUI_claim', True), ('full_GUI_claim', 0), ('source_head', 'd' * 40),
+                ('runtime', '/other/runtime'), ('runtime_manifest_sha256', 'e' * 64),
+                ('kind', 'unqualified')]:
+            with self.subTest(field=key, value=value):
+                population = copy.deepcopy(original); population['qualification'][key] = value
+                with self.assertRaises(ValueError): q.population_shape(population, children)
+        for key in ('Native_cohort_only', 'runtime', 'source_head', 'runtime_manifest_sha256'):
+            population = copy.deepcopy(original); del population['qualification'][key]
+            with self.assertRaises(ValueError): q.population_shape(population, children)
+        population = copy.deepcopy(original)
+        population.update(kind='frozen-current-six-arm-exposed-development-v1',
+            population=list(q.frozen.POPULATION), planned_arm_order=list(q.frozen.ARM_ORDER),
+            outputs={'devobordo': dict.fromkeys(q.frozen.POPULATION, 'path')})
+        children['protocols'] = {'devobordo': dict.fromkeys(q.frozen.POPULATION, {})}
+        with self.assertRaises(ValueError): q.population_shape(population, children)
+
+    def test_existing050_Improve_CLI_report_contract_is_preserved(self):
+        population, children = self.native_cohort_population()
+        population['qualification'] = dict(kind=q.frozen.IMPROVE_QUALIFICATION_KIND,
+            actual_GUI_qualified=False, full_GUI_claim=False)
+        self.assertEqual(q.population_shape(population, children), ['devobordo'])
+
     def test_public_sanitize_preserves_failure_reference_not_text(self):
         value = 'unsupported source design conflict; local detail'
         plain = q.field_fact(value, self.receipt, 'reason', False)

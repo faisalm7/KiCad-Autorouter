@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "kind": "comparison-metadata-admission-draft001-reviewed-defects-v1",
+  "project_complete": false,
+  "Native_executed": false,
+  "source_pins": {
+    "scripts/freeze_current_comparison.py": "6a4fce254a4d1330485aee32616e596bbf46c074fba8141b75ae74d27a944de8",
+    "tests/test_comparison_freezer.py": "2afdabe09e551870ae26dc42b7d9cf75809827c41fb7479f75e620a377ac418d",
+    "scripts/report_current_comparison.py": "0ba011298586ee7e89ffaa65c9184a6a25ef231f819c34474d2e3b75b557982e",
+    "tests/test_current_comparison_report.py": "c567aacb98b75dd4b194b768f4b08af448ab4012d697bd9138521ccd1b695aae"
+  },
+  "tests": {
+    "freezer": {
+      "passed": true,
+      "tests": 27,
+      "complete_wall_seconds": 5.25,
+      "complete_CPU_seconds": 4.93
+    },
+    "reporter": {
+      "passed": true,
+      "tests": 22,
+      "complete_wall_seconds": 0.27,
+      "complete_CPU_seconds": 0.22
+    }
+  },
+  "readback": {
+    "passed": true,
+    "complete_wall_seconds": 0.41,
+    "complete_CPU_seconds": 0.33,
+    "scope": "Existing retained056 Native metadata through draft001; no Native executed."
+  },
+  "independent_review": {
+    "source_only": true,
+    "human": false,
+    "findings": [
+      "Counts alone admit ignored policy-critical checks and unqualified field warnings; require pinned product predicate.",
+      "Case labels lack actual retained route scope/profile/scoring binding; bind actual registered contracts and high-cost flags."
+    ]
+  },
+  "disposition": "Draft not used to freeze or execute any benchmark arm. Correct shared freezer before prospective run; retain these successful but insufficient tests/readback and additional costs unchanged."
+}

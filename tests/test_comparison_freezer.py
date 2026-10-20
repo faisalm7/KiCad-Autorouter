@@ -417,6 +417,243 @@ class ComparisonFreezerTests(unittest.TestCase):
         self.repin_qualification();self.refused(population_version='improve-v2')
         self.assertFalse(self.calls)
 
+    def native_cohort_qualification(self, eleven=True):
+        """Inert retained JSON, not fabricated evidence of a Native execution."""
+        runtime=self.admin/'.runs/native-runtime';self.runtime.rename(runtime);self.runtime=runtime
+        from autorouter import schematic_field_evidence, schematic_fields, sexpr
+        for module in (q.p,schematic_field_evidence,schematic_fields,sexpr):
+            name='autorouter/'+Path(module.__file__).name;raw=Path(module.__file__).read_bytes()
+            (runtime/name).write_bytes(raw);digest=sha(raw)
+            self.manifest['immutable_files_sha256'][name]=digest
+            self.manifest['build_source']['files_sha256'][name]=digest;self.implementation[name]=digest
+        self.manifest['root']=str(runtime);pin=write_json(runtime/q.pv.MANIFEST,self.manifest)
+        identity=q.pv._runtime_identity(runtime,self.implementation)
+        self.query.update(runtime=str(runtime),interpreter=str(runtime/'.venv/bin/python'),prefix=str(runtime/'.venv'))
+        self.query['tools']['source_provenance']=identity
+        cli=self.admin/'kicad-cli';cli.write_bytes(b'owned inert tool; never executed\n')
+        self.query['tools']['files']={str(cli):sha(cli.read_bytes())}
+        self.arguments.update(runtime=runtime,expected_manifest_sha256=pin)
+        directory=self.admin/'evidence/native-fixture';directory.mkdir(parents=True)
+        material=[]
+        def put(original,value):
+            path=directory/('%04d.json'%len(material));digest=write_json(path,value)
+            material.append(dict(original=str(original.relative_to(self.admin)),retained=str(path.relative_to(self.admin)),
+                sha256=digest,bytes=path.stat().st_size))
+            return digest
+        success=dict(status='success',exit_code=0,cleanup_complete=True,log_truncated=False)
+        put(runtime/q.pv.MANIFEST,self.manifest)
+        full=self.admin/'.runs/full-integration-999'
+        full_pin=put(full/'execution.json',dict(passed=True,sources_unchanged=True,process=success))
+        put(full/'protocol.json',dict(tools=dict(git_head='a'*40),source_sha256=self.implementation))
+        venv_pin=put(runtime.parent/'venv-process.json',success)
+        put(runtime.parent/'preparation.json',dict(prepared=True,source_head='a'*40,runtime=str(runtime),manifest_sha256=pin,
+            recipe=dict(source_provenance=identity),full999_execution_sha256=full_pin,venv_process_sha256=venv_pin))
+        doctor=self.admin/'.runs/runtime777-native-qualification-001'
+        put(doctor/'doctor.json',dict(ready=True,workspace=str(runtime),checks=dict(runtime_provenance=dict(verified=True,identity=identity))))
+        put(doctor/'doctor-process.json',success)
+        lineage=copy.deepcopy(material);rows=[]
+        source=Path(self.spec['families']['owned']['source']);hashes=self.spec['families']['owned']['source_hashes']
+        expected=dict(q.NATIVE_CASES,**q.HIGH_CASES) if eleven else q.NATIVE_CASES
+        for ordinal,(label,(method,protected)) in enumerate(expected.items()):
+            folder=runtime/'.runs'/(label+'-001')/('autorouter-gui-%032x'%ordinal)/'route'
+            trials=[dict(id='trial-0000')] if method=='improve' else None
+            finals={};native_counts=[0,0,1,0];final_records={}
+            score='via_high' if label in q.HIGH_CASES else None
+            scope='partial_completion' if label in ('ordinary-alias2Cu','via-high-partial2Cu','via-high-partial4Cu') else 'whole_board_unlocked_routing'
+            settings=dict(schema=1,scope=scope,profile='tuned' if method=='improve' else 'standard',scoring_preference=score,
+                seconds=120 if label.endswith('4Cu') else 90,adapter='both',guidance='native',layers='source_all')
+            names=['parent','export']+(['incumbent','trial-0000'] if method=='improve' else [])
+            for name in names:
+                where=folder if name=='parent' else folder.parent/'export/validation' if name=='export' else folder/'incumbent' if name=='incumbent' else folder/'trials'/name
+                report={'$schema':'https://schemas.kicad.org/drc.v1.json','kicad_version':'10.0.7','source':source.name,
+                    'included_severities':['error','warning','exclusion'],'unconnected_items':[],
+                    'violations':[dict(severity='warning',type='lib_footprint_mismatch',items=[])],'schematic_parity':[],'ignored_checks':[]}
+                report_pin=put(where/'final-drc.json',report)
+                argv=[str(cli),'pcb','drc','--schematic-parity','--all-track-errors','--refill-zones','--exit-code-violations',
+                    '--output',str(where/'final-drc.json'),str(where/'final-drc-input'/source.name)]
+                process_pin=put(where/'final-drc-process.json',dict(argv=argv,cwd=str(where),status='nonzero_exit',exit_code=5,cleanup_complete=True))
+                binding_pin=put(where/'final-drc-binding.json',dict(source=str(where/'candidate'/source.name),saved=False,
+                    before=dict(hashes,**{source.name:'c'*64})))
+                finals[name]=dict(accepted=True,candidate_sha256='c'*64,Native_counts=native_counts,ignored_checks=[],
+                    own_final=dict(cwd=str(where),output=str(where/'final-drc.json'),full_schematic_flag=True,
+                        report_sha256=report_pin,process_sha256=process_pin,binding_sha256=binding_pin))
+                final_records[name]=dict(accepted=True,candidate_sha256='c'*64,native_report_sha256=report_pin,
+                    native=dict(opens=0,blocking=0,warnings=1,exclusions=0,findings=report['violations'],ignored_checks=[]))
+                if name in ('incumbent','trial-0000'):
+                    data=final_records[name]
+                    if name=='incumbent':data.update(invariants_unchanged=True,scope='whole_board_unlocked_routing',engine_profile='tuned',adapter='both',scoring_variant=None)
+                    put(where/'result.json',data)
+            route=dict(final_records['parent'],source=str(source),tools=self.query['tools'],source_hashes=hashes,
+                invariants_unchanged=True,scope=scope,engine_profile=settings['profile'],adapter='both',scoring_variant=score)
+            if method=='improve':
+                route.update(strategy='native_validated_zone_net_pruning',pruning_preferences=dict(effective=settings))
+            else:
+                flags=[] if score is None else ['--router.scoring.via_costs=100','--router.scoring.plane_via_costs=10']
+                scoring=dict(variant=None,argv=[]) if score is None else dict(variant=score,via_costs=100,plane_via_costs=10,argv=flags)
+                args=['--router.autorouter.max_passes=30',*flags]
+                engine=dict(success,name='engine',argv=['/owned/java','--',*args,'-de',str(folder/'task.dsn'),'-do',str(folder/'routes.ses')],cwd=str(folder))
+                put(folder/'engine-process.json',engine)
+                route.update(routing_preferences=dict(effective=settings),engine_budget=dict(profile='standard',scoring=scoring,argv=args),steps=[engine])
+            route_pin=put(folder/'result.json',route)
+            exported=dict(final_records['export'],export_accepted=True,tools=self.query['tools'],source_hashes=hashes,
+                original_geometry_and_routing_unchanged=True,inputs=dict(receipt=str(folder/'result.json'),receipt_sha256=route_pin))
+            export_pin=put(folder.parent/'export/export.json',exported)
+            child_pin=put(folder.parent.parent/'result.json',dict(method=method,settings=settings,status='completed',workflow_delivered=True))
+            rows.append(dict(case=label,method=method,protected_count=protected,Native_counts=native_counts,
+                controls_passed=True,workflow_delivered=True,source_unchanged=True,actual_GUI=False,source_hashes=hashes,
+                scoring_preference='via_high' if label in q.HIGH_CASES else None,own_finals=finals,trials=trials,
+                route_sha256=route_pin,export_sha256=export_pin,child_sha256=child_pin))
+        self.native_index=self.admin/'evidence/native-index.json';self.ir_index=self.admin/'evidence/ir-index.json'
+        native_binding=dict(path=str(self.native_index.relative_to(self.admin)),sha256=write_json(self.native_index,dict(schema=1,material=material)))
+        ir_binding=dict(path=str(self.ir_index.relative_to(self.admin)),sha256=write_json(self.ir_index,dict(schema=1,material=lineage)))
+        self.ir_path=self.admin/'evidence/ir-delivery.json'
+        self.ir_proof=dict(schema=1,kind='runtime777-single-fresh-exposed-IR-Improve-delivery-repair-regression-v1',source_head='a'*40,
+            runtime_manifest_sha256=pin,workflow_delivered=True,attempt_qualified=True,accepted=False,actual_GUI=False,
+            project_complete=False,not_a_comparison=True,files_index=ir_binding,full999=dict(passed=True),
+            single_fresh_exposed_IR_Improve=dict(delivered=True,Native_counts=[0,0,42,0]))
+        self.qualification=dict(schema=1,kind='runtime777-'+('eleven' if eleven else 'seven')+'-completed-native-workflows-v1',
+            source_head='a'*40,runtime_manifest_sha256=pin,Native_cohort_passed=True,accepted=False,actual_GUI=False,
+            project_complete=False,release_qualified=False,invalid_controls=dict(passed=True),cases=rows,files_index=native_binding,
+            IR_repair=dict(path=str(self.ir_path.relative_to(self.admin)),sha256=write_json(self.ir_path,self.ir_proof),files_index=ir_binding))
+        self.repin_qualification()
+
+    def test_native_cohort_freezes_CLI_only_with_warnings_and_exact_identity(self):
+        self.native_cohort_qualification()
+        result=self.freeze(population_version='improve-v2')
+        population=json.loads((self.output/'population.json').read_text());scope=population['qualification']
+        self.assertEqual(scope['kind'],q.NATIVE_COHORT_QUALIFICATION_KIND)
+        self.assertEqual((scope['runtime'],scope['source_head'],scope['runtime_manifest_sha256']),
+            (str(self.runtime),'a'*40,self.arguments['expected_manifest_sha256']))
+        self.assertIs(scope['actual_GUI_qualified'],False);self.assertIs(scope['full_GUI_claim'],False)
+        self.assertEqual(set(result['protocols']['owned']),set(q.IMPROVE_POPULATION))
+        self.assertEqual(population['default_settings']['scoring_preference'],None)
+        plan=json.loads(Path(result['protocols']['owned']['Cimprove']['path']).read_text())
+        self.assertLessEqual(len(plan['prerequisite_sha256']),32)
+        self.assertEqual(plan['limits'],q.LIMITS)
+
+    def test_seven_native_cohort_is_explicit_and_cannot_qualify_thermal(self):
+        self.native_cohort_qualification(eleven=False)
+        self.refused();self.assertFalse(self.calls)
+        scope,_=q.qualification_scope(self.qualification,self.runtime,self.arguments['expected_manifest_sha256'],
+            self.query['tools']['source_provenance'],self.manifest,'improve-v2')
+        self.assertTrue(scope['Native_cohort_only']);self.assertFalse(scope['actual_GUI_qualified'])
+
+    def test_native_cohort_rejects_drift_malformed_counts_and_missing_positive_proof(self):
+        self.native_cohort_qualification();original=copy.deepcopy(self.qualification)
+        changes=[lambda d:d.update(source_head='b'*40),lambda d:d.update(runtime_manifest_sha256='0'*64),
+            lambda d:d.update(actual_GUI=True),lambda d:d.update(full_GUI_claim=True),lambda d:d.update(Native_cohort_passed=False),
+            lambda d:d['cases'][0].update(controls_passed=False),lambda d:d['cases'][0].update(Native_counts=[0,False,1,0]),
+            lambda d:d['cases'][0].update(Native_counts=[1,0,1,0]),lambda d:d['cases'][0].update(own_finals={}),
+            lambda d:d['cases'][0]['own_finals']['parent']['own_final'].pop('process_sha256'),
+            lambda d:d['cases'][0]['own_finals']['parent'].update(accepted=False),
+            lambda d:d['cases'][0]['own_finals']['parent']['own_final'].update(cwd=str(self.base/'foreign/route'))]
+        for change in changes:
+            self.qualification=copy.deepcopy(original);change(self.qualification);self.repin_qualification()
+            with self.subTest(change=change):self.refused(population_version='improve-v2')
+        self.assertFalse(self.calls)
+
+    def test_native_cohort_requires_current_linked_index_build_and_IR_delivery(self):
+        self.native_cohort_qualification()
+        for path in (self.ir_path,self.ir_index,self.native_index):
+            raw=path.read_bytes();path.write_bytes(raw+b' ')
+            with self.subTest(path=path):self.refused(population_version='improve-v2')
+            path.write_bytes(raw)
+        self.ir_proof['source_head']='b'*40
+        self.qualification['IR_repair']['sha256']=write_json(self.ir_path,self.ir_proof)
+        self.repin_qualification();self.refused(population_version='improve-v2');self.assertFalse(self.calls)
+
+    def test_native_cohort_rechecks_retained_proof_bytes_after_runtime_query(self):
+        self.native_cohort_qualification()
+        index=json.loads(self.native_index.read_bytes())
+        row=next(row for row in index['material'] if row['original'].endswith('/final-drc-process.json'))
+        path=self.admin/row['retained'];self.query_callback=lambda:path.write_bytes(path.read_bytes()+b' ')
+        self.refused(population_version='improve-v2')
+        self.assertEqual(len(self.calls),1);self.assertFalse((self.output/'frozen-children.json').exists())
+
+    def native_json(self, original, change=None):
+        """Reauthor a constructed retained record and its index, not real evidence."""
+        index=json.loads(self.native_index.read_bytes())
+        row=next(row for row in index['material'] if row['original']==str(original.relative_to(self.admin)))
+        path=self.admin/row['retained'];data=json.loads(path.read_bytes())
+        if change is not None:
+            change(data);row.update(sha256=write_json(path,data),bytes=path.stat().st_size)
+            self.qualification['files_index']['sha256']=write_json(self.native_index,index)
+        return data,row['sha256']
+
+    def test_native_cohort_uses_product_policy_for_every_final_despite_zero_error_counts(self):
+        self.native_cohort_qualification()
+        original=copy.deepcopy(self.qualification)
+        saved={path:path.read_bytes() for path in (self.admin/'evidence/native-fixture').iterdir()}
+        saved[self.native_index]=self.native_index.read_bytes()
+        for name in ('parent','export','incumbent','trial-0000'):
+            for fault in ('disabled-critical-check','unqualified-field-warning'):
+                for path,raw in saved.items():path.write_bytes(raw)
+                self.qualification=copy.deepcopy(original)
+                row=next(row for row in self.qualification['cases'] if row['case']=='improve-fractional')
+                folder=Path(row['own_finals']['parent']['own_final']['cwd'])
+                where=folder if name=='parent' else folder.parent/'export/validation' if name=='export' else folder/'incumbent' if name=='incumbent' else folder/'trials'/name
+                def report_fault(data):
+                    if fault=='disabled-critical-check':data['ignored_checks']=[dict(key='clearance')]
+                    else:data['violations'][0]['type']='footprint_symbol_field_mismatch'
+                report,report_pin=self.native_json(where/'final-drc.json',report_fault)
+                final=row['own_finals'][name];final['own_final']['report_sha256']=report_pin;final['ignored_checks']=report['ignored_checks']
+                def native_fault(data):
+                    data['native_report_sha256']=report_pin
+                    data['native'].update(ignored_checks=report['ignored_checks'],findings=report['violations'])
+                    if fault=='unqualified-field-warning':data['native']['field_parity']=dict(qualification=dict(qualified=False))
+                record=folder.parent/'export/export.json' if name=='export' else where/'result.json'
+                _,record_pin=self.native_json(record,native_fault)
+                if name=='parent':
+                    row['route_sha256']=record_pin
+                    _,row['export_sha256']=self.native_json(folder.parent/'export/export.json',lambda d:d['inputs'].update(receipt_sha256=record_pin))
+                elif name=='export':row['export_sha256']=record_pin
+                self.repin_qualification()
+                with self.subTest(final=name,fault=fault),self.assertRaisesRegex(ValueError,'immutable product policy'):
+                    self.freeze(population_version='improve-v2')
+        self.assertFalse(self.calls)
+
+    def test_native_cohort_actual_route_and_workflow_must_match_registered_preference(self):
+        self.native_cohort_qualification();original=copy.deepcopy(self.qualification)
+        saved={path:path.read_bytes() for path in (self.admin/'evidence/native-fixture').iterdir()}
+        saved[self.native_index]=self.native_index.read_bytes()
+        faults=[dict(scope='partial_completion'),dict(engine_profile='tuned'),dict(scoring_variant=None),dict(invariants_unchanged=False)]
+        for fault in faults:
+            for path,raw in saved.items():path.write_bytes(raw)
+            self.qualification=copy.deepcopy(original)
+            row=next(row for row in self.qualification['cases'] if row['case']=='via-high-whole2Cu')
+            folder=Path(row['own_finals']['parent']['own_final']['cwd'])
+            _,row['route_sha256']=self.native_json(folder/'result.json',lambda d:d.update(fault))
+            _,row['export_sha256']=self.native_json(folder.parent/'export/export.json',lambda d:d['inputs'].update(receipt_sha256=row['route_sha256']))
+            self.repin_qualification()
+            with self.subTest(fault=fault):self.refused(population_version='improve-v2')
+        self.assertFalse(self.calls)
+
+    def test_native_cohort_high_cost_requires_actual_engine_journal_flags(self):
+        self.native_cohort_qualification()
+        row=next(row for row in self.qualification['cases'] if row['case']=='via-high-whole2Cu')
+        folder=Path(row['own_finals']['parent']['own_final']['cwd'])
+        engine,_=self.native_json(folder/'engine-process.json',lambda d:d['argv'].insert(-4,'--router.scoring.via_costs=0'))
+        _,row['route_sha256']=self.native_json(folder/'result.json',lambda d:d.update(steps=[engine]))
+        _,row['export_sha256']=self.native_json(folder.parent/'export/export.json',lambda d:d['inputs'].update(receipt_sha256=row['route_sha256']))
+        self.repin_qualification();self.refused(population_version='improve-v2');self.assertFalse(self.calls)
+
+    def test_native_cohort_improve_forbids_even_null_incumbent_score_marker(self):
+        self.native_cohort_qualification()
+        row=next(row for row in self.qualification['cases'] if row['case']=='improve-fractional')
+        folder=Path(row['own_finals']['parent']['own_final']['cwd'])
+        _,row['route_sha256']=self.native_json(folder/'result.json',lambda d:d.update(incumbent_scoring_variant=None))
+        _,row['export_sha256']=self.native_json(folder.parent/'export/export.json',lambda d:d['inputs'].update(receipt_sha256=row['route_sha256']))
+        self.repin_qualification();self.refused(population_version='improve-v2');self.assertFalse(self.calls)
+
+    def test_native_cohort_engine_IO_tail_is_bound_to_its_own_directory(self):
+        self.native_cohort_qualification()
+        row=next(row for row in self.qualification['cases'] if row['case']=='via-high-whole2Cu')
+        folder=Path(row['own_finals']['parent']['own_final']['cwd'])
+        engine,_=self.native_json(folder/'engine-process.json',lambda d:d['argv'].__setitem__(-3,str(folder/'foreign.dsn')))
+        _,row['route_sha256']=self.native_json(folder/'result.json',lambda d:d.update(steps=[engine]))
+        _,row['export_sha256']=self.native_json(folder.parent/'export/export.json',lambda d:d['inputs'].update(receipt_sha256=row['route_sha256']))
+        self.repin_qualification();self.refused(population_version='improve-v2');self.assertFalse(self.calls)
+
 
 if __name__ == '__main__':
     unittest.main()
