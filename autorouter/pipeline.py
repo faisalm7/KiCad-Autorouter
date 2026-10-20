@@ -105,6 +105,8 @@ def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing
     """Keep a selected tool version from silently admitting unqualified modes.
 
     The 1007 ordinary Route/Preview remains corrected standard whole/partial.
+    The explicit via_high Route preference changes only search costs; None
+    remains the corrected-standard default. Recovery/Improve keep default cost.
     The separate fixed thermal method reuses standard whole-board Route.
     Existing 1000 advanced contracts stay intact.
     This is a capability guard, never a fallback or a validation pass.
@@ -117,10 +119,11 @@ def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing
             return  # Parent/Preview independently require the exact source/child policy.
         raise Rejected('unsupported: selected Native Improve requires whole/native/tuned/both/all-source/default-score single pruning')
     scopes={'whole_board_unlocked_routing','partial_completion'} if purpose=='route' else {'whole_board_unlocked_routing'} if purpose=='thermal-recovery' else set()
+    score_supported=(scoring is None or (purpose=='route' and type(scoring) is str and scoring=='via_high'))
     if (c.NATIVE_VERSION != '10.0.7' or scope not in scopes
             or guidance != 'native' or layers != 'source_all' or profile != 'standard'
-            or adapter != 'both' or scoring is not None):
-        raise Rejected('unsupported: selected Native version permits corrected-standard whole/partial Route or fixed whole-board thermal recovery on all source layers; other combinations require separate qualification')
+            or adapter != 'both' or not score_supported):
+        raise Rejected('unsupported: selected Native version permits corrected-standard whole/partial Route with default or high via cost, or fixed default-cost whole-board thermal recovery on all source layers; other combinations require separate qualification')
 
 
 
@@ -2825,20 +2828,25 @@ def check_resource_accounting(data, *, child_key='child_cpu_seconds'):
         raise Rejected('inconsistent CPU accounting')
 
 
-def check_rejected_routing_attempt(path, *, ordinary_profile='tuned', comparison_context=None):
+def check_rejected_routing_attempt(path, *, ordinary_profile='tuned', comparison_context=None, ordinary_scoring=None):
     """Diagnose a completed caller-selected ordinary or fixed comparison failure.
 
     This bypasses the positive readback cache. All retained Native, process,
     source, rule and budget checks still run; no fresh Native execution occurs.
     Cancellation, stale inputs and invalid/incomplete evidence raise.
     Ordinary expectation defaults to tuned; standard requires explicit caller
-    selection. Comparison Context owns its profile and permits no nondefault
-    ordinary selector. No diagnostic result authorizes acceptance or application.
+    selection. Ordinary standard via_high additionally needs an explicit live
+    ordinary_scoring='via_high' expectation on selected7; it is never inferred
+    from a receipt. Comparison Context owns its profile/score and permits no
+    nondefault ordinary selector. No diagnostic authorizes acceptance/application.
     """
     if type(ordinary_profile) is not str or ordinary_profile not in {'standard','tuned'}:
         raise Rejected('completed-negative ordinary profile requires literal standard or tuned')
     if comparison_context is not None and ordinary_profile!='tuned':
         raise Rejected('ordinary profile selector cannot mix comparison Context')
+    if ordinary_scoring is not None and (type(ordinary_scoring) is not str or ordinary_scoring!='via_high'
+            or ordinary_profile!='standard' or comparison_context is not None or c.NATIVE_VERSION!='10.0.7'):
+        raise Rejected('ordinary diagnostic score requires explicit selected7 standard via_high')
     if comparison_context is not None:
         from .comparison import require_context
         require_context(comparison_context)
@@ -2850,11 +2858,12 @@ def check_rejected_routing_attempt(path, *, ordinary_profile='tuned', comparison
     options={'_rejected_attempt':True}
     if comparison_context is not None:options['comparison_context']=comparison_context
     elif ordinary_profile!='tuned':options['_rejected_profile']=ordinary_profile
+    if ordinary_scoring is not None:options['_rejected_scoring']=ordinary_scoring
     return _check_result_uncached(target,**options)
 
 
 def _check_result_uncached(path, *, native_toolchain=None, experimental_schematic_parity=False,
-                           _rejected_attempt=False, comparison_context=None, _rejected_profile='tuned', _improve_context=None):
+                           _rejected_attempt=False, comparison_context=None, _rejected_profile='tuned', _improve_context=None, _rejected_scoring=None):
     """Check local evidence consistency; this is not authentication or fresh DRC.
 
     All receipts are mutable local JSON. A party rewriting the complete evidence
@@ -2869,6 +2878,10 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         raise Rejected('completed-negative ordinary profile requires literal standard or tuned')
     if _rejected_profile!='tuned' and (not _rejected_attempt or comparison_context is not None):
         raise Rejected('ordinary diagnostic profile requires ordinary completed-negative mode')
+    if _rejected_scoring is not None and (type(_rejected_scoring) is not str or _rejected_scoring!='via_high'
+            or not _rejected_attempt or _rejected_profile!='standard' or comparison_context is not None
+            or _improve_context is not None or native_toolchain is not None or c.NATIVE_VERSION!='10.0.7'):
+        raise Rejected('ordinary diagnostic score requires selected7 standard completed-negative mode')
     path=Path(path).resolve(strict=True)
     from .floor_route import receipt_policy, read_json
     from .placement_clearance import read_bytes as bounded_bytes
@@ -2950,7 +2963,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
                 or data.get('accepted') is not False or data.get('status')!='drc_rejected'
                 or data.get('baseline')!=engine_baseline(negative_profile,negative_adapter) or data.get('adapter')!=negative_adapter
                 or data.get('engine_profile')!=negative_profile or input_policy!='native'
-                or (not is_comparison and negative_profile=='standard' and data.get('scoring_variant') is not None)
+                or (not is_comparison and negative_profile=='standard' and data.get('scoring_variant') != _rejected_scoring)
                 or data.get('scope')!='whole_board_unlocked_routing'
                 or any(key in data for key in ('strategy','input_policy','guidance_policy',
                     'diagnostic_schema','production_qualified','engine_angle_binding',

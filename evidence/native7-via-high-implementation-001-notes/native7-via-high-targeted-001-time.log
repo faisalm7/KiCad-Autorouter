@@ -1,0 +1,48 @@
+.....E.............................................................
+======================================================================
+ERROR: test_persistent_bytes_and_standard_engine_change_only_two_cost_flags (tests.test_native7_via_high.ViaHighPreferenceTests.test_persistent_bytes_and_standard_engine_change_only_two_cost_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/preferences.py", line 91, in _read
+    return read_bytes(path, MAX_PRESET_BYTES)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/placement_clearance.py", line 30, in read_bytes
+    if any(x.is_symlink() for x in (path,*path.parents)):raise p.Rejected('placement symlink unsupported')
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+autorouter.pipeline.Rejected: placement symlink unsupported
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_native7_via_high.py", line 19, in test_persistent_bytes_and_standard_engine_change_only_two_cost_flags
+    captured=pref.load(path);before=path.read_bytes()
+             ^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/preferences.py", line 141, in load
+    raw = _read(path)
+          ^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/preferences.py", line 93, in _read
+    raise PreferenceError('cannot read bounded regular preferences file: ' + str(exc)) from exc
+autorouter.preferences.PreferenceError: cannot read bounded regular preferences file: placement symlink unsupported
+
+----------------------------------------------------------------------
+Ran 67 tests in 4.590s
+
+FAILED (errors=1)
+        4.81 real         2.80 user         1.79 sys
+           244039680  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              102854  page reclaims
+                 702  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1348  voluntary context switches
+                3080  involuntary context switches
+         51395533510  instructions retired
+         17210144796  cycles elapsed
+           240321232  peak memory footprint
