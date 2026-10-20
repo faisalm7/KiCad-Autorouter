@@ -1,3 +1,5 @@
+Current checkpoint: [048 qualification facts](../evidence/runtime048-pilot-cutoff-001.json) supersede older next steps: two delivered Improve controls,one safe pour-only identity refusal,three unexecuted cases; full197/build/doctor pass. KiCad access resolved,actual current GUI still pending.043 ordinary Native/042 graphical roles remain historical;048 is not a qualified release candidate. Repair the demonstrated interchange seam before fresh current qualification.
+
 # Experimental candidate and release gates
 
 **Current Native candidate: runtime043**, source `6ec7ad2344ed060d5e0971965ef05bd9de68925d`, manifest `6fdfe60bcbe6aecc2c950a6917b22d8e591f5ae3078eca5a52ae051a1aac5aa3`. [Full190/build/doctor/eight deliveries](../evidence/runtime043-native-milestone-001.json), [invalid controls](../evidence/runtime043-native-invalid-001.json) and [general correction diagnostics/follow-up](../evidence/runtime043-general-corrections-native-001.json) complete. **GUI083 setup and isolated-manager launch are observed, but no PCB/job opened;042 remains the last graphical qualification.** No formal release or general superiority claim.
