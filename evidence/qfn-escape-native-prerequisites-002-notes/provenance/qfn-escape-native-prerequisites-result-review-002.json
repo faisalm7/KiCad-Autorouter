@@ -1,0 +1,166 @@
+{
+  "Native_or_engine_or_acceptance_reader_executed": false,
+  "cases": [
+    {
+      "Native_counts": [
+        0,
+        0,
+        19,
+        0
+      ],
+      "candidate_sha256": "40a5f7db951f60ff6413cc5c4412f3360af6ee05af32fa4738e275e6421edcac",
+      "case": "positive",
+      "control_passed": true,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "reason": null,
+      "steps": [
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "refill-drc",
+          "status": "success"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "final-netclasses",
+          "status": "success"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 5,
+          "name": "final-drc",
+          "status": "nonzero_exit"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "final-drc-fields-netlist",
+          "status": "success"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "final-drc-fields-audit",
+          "status": "success"
+        }
+      ]
+    },
+    {
+      "Native_counts": [
+        0,
+        2,
+        19,
+        0
+      ],
+      "candidate_sha256": "e116f689ce9558ce6205f4edd62eb776378decdcb36244c7b548a699d4dbc960",
+      "case": "outside_short",
+      "control_passed": true,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "reason": null,
+      "steps": [
+        {
+          "cleanup_complete": true,
+          "exit_code": 5,
+          "name": "refill-drc",
+          "status": "nonzero_exit"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "final-netclasses",
+          "status": "success"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 5,
+          "name": "final-drc",
+          "status": "nonzero_exit"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "final-drc-fields-netlist",
+          "status": "success"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "final-drc-fields-audit",
+          "status": "success"
+        }
+      ]
+    },
+    {
+      "Native_counts": null,
+      "candidate_sha256": "71f2f35ca7a023598afada8f096916ae073c8aed1372e3abafff4f4b07e9c922",
+      "case": "seed_width_mutation",
+      "control_passed": true,
+      "ignored_checks": null,
+      "reason": "generated track differs from native netclass target: N15",
+      "steps": [
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "refill-drc",
+          "status": "success"
+        },
+        {
+          "cleanup_complete": true,
+          "exit_code": 0,
+          "name": "final-netclasses",
+          "status": "success"
+        }
+      ]
+    }
+  ],
+  "enclosure_sha256": "c8bffffc6a1881e1c02f3483784f76278873be752be5057a92c970564d62a0ec",
+  "findings": [],
+  "human_review": false,
+  "kind": "owned-escape-controls-static-result-review-v1",
+  "limits": "Existing raw reports/processes/bindings/field/PRL/default audits and pure original geometry compared; no Native validation repeated. Roomy control-only completion tails are not solver-generated routing or dense escape performance. Review/authoring elapsed and CPU unknown additional, notzero.",
+  "own_final": {
+    "outside_short": {
+      "binding_sha256": "0e96952ffe380b808f0875116bd85285c4e9d619a6d3999037cb55614a6a6110",
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/outside_short",
+      "full_schematic_flag": true,
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/outside_short/final-drc.json",
+      "process_sha256": "e85fd3440d4092791ad6309bb46147df85ba9c7d727768d40ac38c8a4808ed24",
+      "report_sha256": "71692ec836f050a00389a162a9aa240d6cd02b290a7c6a325eb342747270f06f"
+    },
+    "positive": {
+      "binding_sha256": "23963e26e7dc9c323d0d4902a23fff36665c838a6afb25762b4d04d8837deed9",
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/positive",
+      "full_schematic_flag": true,
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/positive/final-drc.json",
+      "process_sha256": "779c6a2c07617d3d3a70dcdb01a1edd9248085fb3a8c83faa187405663acf04d",
+      "report_sha256": "afcbbdb1e271bcb158386f448413dee0610151551d553b83b37afdcc6d1395ef"
+    }
+  },
+  "protocol_sha256": "9aa58882194df68abfc673cb900bc3e28d2f28a654d2ce1ebdafcdec93a1af7d",
+  "recorded_utc": "2026-10-20T03:45:37.833803+00:00",
+  "restored_PRL_events": 7,
+  "result_sha256": "e675708b7660b466d9be63b4cfe764869fccdb58cc280b00cb04ea02817aeeb3",
+  "reviewer": "AI static actual-result readback; curator and original-v1 generator author. Not independent generator-source or human review",
+  "runtime_tools_code_hashes_match": true,
+  "schema": 1,
+  "source_and_completed_material_unchanged": true
+}

@@ -9,6 +9,7 @@ from decimal import Decimal
 import json
 import uuid
 from experiments.native_schematic_transport_v1 import fixture as base
+from autorouter import sexpr as sx
 
 STEM='owned-escape-seed'
 NS=uuid.UUID('87785284-49c5-47fc-a635-ad4842708d4a')
@@ -78,7 +79,20 @@ def board():
     rows.append(center_connector())
     rows.append('(segment (start 40 65) (end 60 65) (width 0.2) (layer "F.Cu") (net "KEEP") (locked yes) (uuid '+q(uid('protected-keep'))+'))')
     rows.append('(embedded_fonts no))')
-    return ('\n'.join(rows)+'\n').encode()
+    # Exercise actual legacy numbered serialization as a fresh Native scope.
+    # Same authored geometry/rules/terminal names; no existing board is edited.
+    tree=sx.parse('\n'.join(rows));sx.one(tree,'version')[1]='20241229'
+    names=['KEEP',*[pin['net'] for pin in pins()]]
+    codes={name:str(i+1) for i,name in enumerate(names)}
+    declarations=[['net','0','""'],*(['net',codes[name],q(name)] for name in names)]
+    first=next(i for i,node in enumerate(tree) if isinstance(node,list) and node and node[0]=='footprint')
+    tree[first:first]=declarations
+    for fp in sx.children(tree,'footprint'):
+        for pad in sx.children(fp,'pad'):
+            node=sx.one(pad,'net');name=sx.unquote(node[1]);node[1:]=[codes[name],q(name)]
+    for route in sx.children(tree,'segment'):
+        node=sx.one(route,'net');node[1:]=[codes[sx.unquote(node[1])]]
+    return (sx.dump(tree)+'\n').encode()
 
 def center_connector():
     return '(segment (start 50 50) (end 46.5 47.6) (width 0.2) (layer "F.Cu") (net "N01") (uuid '+q(uid('center-contact-control'))+'))'

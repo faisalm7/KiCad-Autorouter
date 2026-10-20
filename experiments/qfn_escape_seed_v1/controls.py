@@ -52,13 +52,14 @@ def completed_control(original):
     task=p.routing_task(original,'whole_board_unlocked_routing')
     if len(p.routes(original))!=18 or len(protected)!=1 or p.routes(task)!=protected:raise p.Rejected('all17 reference paths must be removed before generation')
     seeded,metadata=seed.generate(task,protected,TARGETS)
+    _,resolve=seed.g.source_net_identity(seeded)
     additions=[r for r in p.routes(seeded) if r not in protected]
     if len(additions)!=16 or p.immutable(seeded)!=p.immutable(original):raise p.Rejected('exact16 control stubs and unchanged design required')
     # Only this known-positive witness uses its authored independent anchors.
     # These tails are never supplied to seed.generate or a research solver.
     pins={pin['net']:pin for pin in fixture.pins()};seen=set();finished=copy.deepcopy(seeded)
     for route in additions:
-        net=sx.unquote(sx.one(route,'net')[1]);pin=pins[net]
+        net=resolve(sx.one(route,'net'));pin=pins[net]
         if net in seen:raise p.Rejected('one control seed per distinct chip net required')
         seen.add(net);x,y=pin['local']
         if sx.one(route,'start')!=['start',fixture.mm(50+x),fixture.mm(50+y)]:
@@ -68,7 +69,11 @@ def completed_control(original):
         end=sx.one(route,'end');ax,ay=pin['anchor']
         finished.append(['segment',['start',*end[1:]],['end',fixture.mm(ax),fixture.mm(ay)],['width','0.2'],['layer','"F.Cu"'],['net',sx.one(route,'net')[1]],['uuid',fixture.q(fixture.uid('tail-'+pin['number']))]])
     if seen!=set(pins) or p.immutable(finished)!=p.immutable(original):raise p.Rejected('complete controlled pin population changed')
-    finished.append(sx.parse(fixture.center_connector()))
+    # Control-only centre connection is copied after proposal, with its source
+    # format. It never enters generator selection or the development solver.
+    connectors=[r for r in p.routes(original) if sx.unquote(sx.one(r,'uuid')[1])==fixture.uid('center-contact-control')]
+    if len(connectors)!=1:raise p.Rejected('one authored control-only centre connector required')
+    finished.append(copy.deepcopy(connectors[0]))
     return finished,additions,protected,metadata
 
 def prepare(folder,head,output):
@@ -125,7 +130,8 @@ def actor(protocol,pin,output):
             for case in CASES:
                 current(plan);case_tree=copy.deepcopy(complete)
                 if case=='outside_short':
-                    a,b=sorted(additions,key=lambda r:sx.unquote(sx.one(r,'net')[1]))[:2]
+                    _,resolve=seed.g.source_net_identity(complete)
+                    a,b=sorted(additions,key=lambda r:resolve(sx.one(r,'net')))[:2]
                     case_tree.append(['segment',['start',*sx.one(a,'end')[1:]],['end',*sx.one(b,'end')[1:]],['width','0.2'],['layer','"F.Cu"'],['net',sx.one(a,'net')[1]],['uuid',fixture.q(plan['short_uuid'])]])
                 if case=='seed_width_mutation':
                     identity=sx.one(additions[0],'uuid');matches=[r for r in p.routes(case_tree) if sx.one(r,'uuid')==identity]

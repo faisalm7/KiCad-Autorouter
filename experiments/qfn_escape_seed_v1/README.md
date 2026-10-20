@@ -20,7 +20,7 @@ stubs for a narrowly supported orthogonal perimeter geometry. It preserves
 original protected copper, skips unsupported shapes visibly and refuses caps
 rather than returning a prefix. It creates no vias and proves no clearance.
 Footprint overrides, rotations, custom pads and noncanonical copper tables stay
-outside this experiment. Version2 preserves noncopper display aliases and leaves
+outside this experiment. Version3 preserves noncopper display aliases and leaves
 an explicitly solid-connected square centre pad untouched and unseeded. Other
 pad overrides still refuse the package. Colliding seeds must fail subsequent
 Native validation.
@@ -36,7 +36,7 @@ Before any new engine probe, `controls.py` runs one sequential finite batch:
 1. Remove all 17 authored reference routes, retain only the locked KEEP, generate
    16 stubs, and add control-only tails to independent external anchors. Require
    actual full schematic Native 0 opens/0 blocking/0 exclusions; retain warnings.
-   The version2 control also connects its unchanged solid-zone centre terminal
+   The current control also connects its unchanged solid-zone centre terminal
    using an authored control-only connector after proposal generation.
 2. Add an identified cross-net short outside the package. Require actual Native
    errors bound to that short, no changed warning population and no acceptance.
@@ -57,12 +57,12 @@ paths. Use fresh names, never overwrite a completed protocol/output:
 ```sh
 runtime=.runs/runtime-directory-050/runtime
 "$runtime/.venv/bin/python" -B experiments/qfn_escape_seed_v1/controls.py prepare \
-  --preparation "$PWD/.runs/qfn-escape-controls-preparation-002" \
-  --output "$PWD/.runs/qfn-escape-controls-native-002" --head VERIFIED_COMMIT
+  --preparation "$PWD/.runs/qfn-escape-controls-preparation-003" \
+  --output "$PWD/.runs/qfn-escape-controls-native-003" --head VERIFIED_COMMIT
 # Inspect and retain the returned protocol/hash before the single bounded run.
 "$runtime/.venv/bin/python" -B experiments/qfn_escape_seed_v1/controls.py run \
-  --protocol "$PWD/.runs/qfn-escape-controls-preparation-002/protocol.json" \
-  --sha256 FROZEN_SHA256 --output "$PWD/.runs/qfn-escape-controls-native-002"
+  --protocol "$PWD/.runs/qfn-escape-controls-preparation-003/protocol.json" \
+  --sha256 FROZEN_SHA256 --output "$PWD/.runs/qfn-escape-controls-native-003"
 ```
 
 Record external wall/CPU for preparation and run, including failures. A future
@@ -77,8 +77,7 @@ preparation1.01/.52; warnings and two ignored checks remain. Those results do no
 qualify changed version2. A source-only eligibility check stopped version1 on
 noncopper display-name syntax before any engine test; centre-pad inspection found
 the second selection blocker. Both failures are retained. Version2 changes source
-grammar/selection, not targets, length policy or original boards. The changed
-35-pad owned control needs its own fresh Native results.
+grammar/selection, not targets, length policy or original boards. [Version2 actual controls](../../evidence/qfn-escape-native-prerequisites-002.json) passed0/0/19/0, short0/2/19/0 and width refusal;8.08wall/6.12CPU plus preparation1.02/.49. No engine improvement followed from these controls.
 
 `probe.py` is a single separately frozen exposed-development diagnostic using
 the unchanged installed partial Route with420s allocation and450s complete method
@@ -90,10 +89,22 @@ original locked copper. Parent acceptance, production and delivery flags remain
 false even for a clean diagnostic. No graphical/delivery implementation or
 export is established by this probe; its120s export reserve is unspent.
 
-Only run after current version2 prerequisites and reviewed source are checkpointed.
+Only run after current version3 prerequisites and reviewed source are checkpointed.
 Freeze exact outputs before the single attempt. Record preparation with the
 existing complete-exit format at `PREPARATION_PATH-time.log`; pass that file's
 completed SHA with `--preparation-time-sha256` to `probe.py run`. The shared
 comparison cost parser charges that complete preparation cost; the earlier
 stored setup sample cannot substitute for it. Preserve failures and stop: no
 automatic retry, policy selection, product integration or stronger quality claim.
+
+The first development probe was dispatched once and failed before any engine:
+Native source DRC exited3 because the experimental writer copied legacy pad
+`(net code "name")` syntax into a segment, where only `(net code)` is valid.
+No final Native counts, completion result or delivery exists. Complete external
+exit2.65wall/2.51CPU plus preparation0.75/.68 is retained separately. Version3
+fixes that demonstrated writer defect, retains the original pad/table mapping,
+and adds a corrected grammar regression. The owned Native003 source now uses
+numbered20241229 syntax with the same geometry/targets/centre/display controls.
+Fresh003 positive/short/width controls must pass before one separately frozen
+corrected probe002. Prior001 is never overwritten or stitched into a first-attempt
+product result. No geometry, length, via, constraint or default-policy tuning.

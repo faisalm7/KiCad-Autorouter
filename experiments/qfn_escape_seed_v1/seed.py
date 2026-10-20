@@ -15,7 +15,7 @@ import uuid
 
 from autorouter import board_floor as g, chain_proposals as cp, pipeline as p, sexpr as sx
 
-POLICY = 'source-orthogonal-perimeter-escape-seed-v2'
+POLICY = 'source-orthogonal-perimeter-escape-seed-v3'
 NAMESPACE = uuid.UUID('25e7aa5e-2746-4c2d-9180-5607d3d95220')
 MAX_SEGMENTS = 256
 MAX_FOOTPRINTS = 512
@@ -214,7 +214,11 @@ def generate(task, original_protected, targets):
             source_ids.add(identity)
             segment = ['segment', ['start', *map(_mm, start)], ['end', *map(_mm, end)],
                        ['width', _mm(targets['width_nm'])], ['layer', '"F.Cu"'],
-                       copy.deepcopy(sx.one(pad, 'net')), ['uuid', '"' + identity + '"']]
+                       # Pads may carry legacy (net code "name"); route items
+                       # require only the code. Named10 boards already use one
+                       # quoted name atom. Identity is validated above by the
+                       # shared resolver; never copy pad-only label syntax.
+                       ['net', sx.one(pad, 'net')[1]], ['uuid', '"' + identity + '"']]
             generated.append(segment)
             seeds.append(dict(pad_uuid=pid, footprint_uuid=fid, segment_uuid=identity,
                               start_nm=list(start), end_nm=list(end), width_nm=targets['width_nm']))

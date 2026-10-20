@@ -22,8 +22,8 @@ from scripts.report_current_comparison import complete_cost
 SOURCE_MANIFEST=ROOT/'.runs/runtime045-devobordo-development-source-001.json'
 SOURCE_PIN='40254aaf8790681522b2b69a5edae3cbbdc6a2a5b24283d42e76d16c1017ab72'
 EXTRA=(*shared.EXTRA,'experiments/qfn_escape_seed_v1/probe.py','scripts/report_current_comparison.py','scripts/freeze_current_comparison.py')
-CONTROL=ROOT/'.runs/qfn-escape-controls-native-002/result.json'
-ENCLOSED_CONTROL=ROOT/'.runs/qfn-escape-controls-native-002-enclosure/result.json'
+CONTROL=ROOT/'.runs/qfn-escape-controls-native-003/result.json'
+ENCLOSED_CONTROL=ROOT/'.runs/qfn-escape-controls-native-003-enclosure/result.json'
 
 def paths(plan,protocol,output):
     preparation=shared.run_path(protocol.parent);output=shared.run_path(output)
@@ -63,7 +63,7 @@ def prepare(folder,output,head):
             or not enclosed['passed'] or enclosed['child_sha256']!=p.sha(CONTROL)
             or control['accepted'] or control['production_admitted'] or control['engine_executed']
             or any(not row['control_passed'] for row in control['cases'].values())):raise p.Rejected('all three completed owned Native controls required')
-    preparation=f.read_json(ROOT/'.runs/qfn-escape-controls-preparation-002/protocol.json')
+    preparation=f.read_json(ROOT/'.runs/qfn-escape-controls-preparation-003/protocol.json')
     shared.current(preparation)
     if shared.material(CONTROL.parent)!=control['completed_evidence']:raise p.Rejected('completed control evidence changed')
     plan=dict(schema=1,kind='source-geometry-escape-single-development-probe-v1',administration_head=head,
@@ -71,7 +71,7 @@ def prepare(folder,output,head):
         runtime_manifest_sha256=shared.MANIFEST,source=source['source'],source_hashes=source['source_hashes'],
         source_rights=source['source_rights'],publication=source['publication'],tools=p.tool_manifest(),
         code_sha256={name:p.sha(ROOT/name) for name in EXTRA},
-        prerequisites={str(path):p.sha(path) for path in (CONTROL,ENCLOSED_CONTROL,ROOT/'evidence/runtime050-devobordo-development-001.json',ROOT/'.runs/qfn-escape-controls-preparation-002/protocol.json')},
+        prerequisites={str(path):p.sha(path) for path in (CONTROL,ENCLOSED_CONTROL,ROOT/'evidence/runtime050-devobordo-development-001.json',ROOT/'.runs/qfn-escape-controls-preparation-003/protocol.json')},
         targets=shared.TARGETS,policy=shared.seed.POLICY,
         limits=dict(routing_wall_full_CPU_seconds=420,method_wall_full_CPU_seconds=450,complete_wall_full_CPU_seconds=600,export_seconds_reserved=120,per_outer_Native_step_seconds=30,group_RSS_bytes=4*1024**3,aggregate_output_bytes=100*1024**2),
         population=['one fixed escape initialization; no length/via/neckdown/optimizer variants'],

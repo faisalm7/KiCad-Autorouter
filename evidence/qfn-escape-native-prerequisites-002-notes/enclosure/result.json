@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "passed": true,
+  "accepted": false,
+  "production_admitted": false,
+  "child_sha256": "e675708b7660b466d9be63b4cfe764869fccdb58cc280b00cb04ea02817aeeb3",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 7.832193624926731,
+    "cpu_seconds": 5.865262,
+    "max_rss_bytes": 238649344,
+    "supervisor_cpu_seconds": 0.022309999999999997,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 238649344,
+    "sampled_peak_workdir_bytes": 131,
+    "resource_guards": {
+      "max_group_rss_bytes": 2147483648,
+      "max_workdir_bytes": 33554432,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/qfn_escape_seed_v1/controls.py",
+      "actor",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-preparation-002/protocol.json",
+      "--sha256",
+      "9aa58882194df68abfc673cb900bc3e28d2f28a654d2ce1ebdafcdec93a1af7d",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002-enclosure/command.log",
+    "log_bytes": 131,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002-enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 17713
+  },
+  "protocol_sha256": "9aa58882194df68abfc673cb900bc3e28d2f28a654d2ce1ebdafcdec93a1af7d",
+  "complete_wall_seconds": 8.065719000063837,
+  "complete_full_CPU_seconds": 6.110819000000001,
+  "preparation_costs": {
+    "wall_seconds": 0.850715541979298,
+    "full_CPU_seconds": 0.34318
+  },
+  "scope": "Owned Native controls only; complete outer/inner output and individual Native worker limits are distinct polling bounds, not hostile-writer containment. No engine/routing-quality/GUI/electrical qualification."
+}

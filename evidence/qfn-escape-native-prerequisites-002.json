@@ -1,0 +1,211 @@
+{
+  "schema": 1,
+  "kind": "owned-QFN-escape-seed-v2-Native-prerequisites-v1",
+  "recorded_utc": "2026-10-20T03:45:37.889582+00:00",
+  "accepted": false,
+  "routing_accepted": false,
+  "production_admitted": false,
+  "project_complete": false,
+  "engine_executed": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "runtime_source_head": "aa0072c6b3d8090de2603e5ecb42a95968fb873b",
+  "runtime_manifest_sha256": "c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8",
+  "administration_head": "74c6f4b0a51a74e41f0de0956af43e081aaf414f",
+  "dependency": {
+    "path": "evidence/runtime050-native-milestone-002.json",
+    "sha256": "1d0d2019d5505f1fad0134cc2163b3337ce227e1b8d841c8c3c8a81e21a94934"
+  },
+  "previous_prerequisites": {
+    "path": "evidence/qfn-escape-native-prerequisites-001.json",
+    "sha256": "9b9f265d14fe271b3cad5373c62c037d002e10047f18ce719eeb2df1a1da751e"
+  },
+  "protocol_sha256": "9aa58882194df68abfc673cb900bc3e28d2f28a654d2ce1ebdafcdec93a1af7d",
+  "source_hashes": {
+    "owned-escape-seed.kicad_pcb": "0554b2b1ad130383d8f99329ad1c0301620f90bae3c27580e255a802e49da27a",
+    "owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+    "owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+    "owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778"
+  },
+  "seed_count": 16,
+  "original_protected_count": 1,
+  "cases": [
+    {
+      "case": "positive",
+      "control_passed": true,
+      "Native_counts": [
+        0,
+        0,
+        19,
+        0
+      ],
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "candidate_sha256": "40a5f7db951f60ff6413cc5c4412f3360af6ee05af32fa4738e275e6421edcac",
+      "reason": null,
+      "steps": [
+        {
+          "name": "refill-drc",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-netclasses",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-drc",
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-drc-fields-netlist",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-drc-fields-audit",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        }
+      ]
+    },
+    {
+      "case": "outside_short",
+      "control_passed": true,
+      "Native_counts": [
+        0,
+        2,
+        19,
+        0
+      ],
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "candidate_sha256": "e116f689ce9558ce6205f4edd62eb776378decdcb36244c7b548a699d4dbc960",
+      "reason": null,
+      "steps": [
+        {
+          "name": "refill-drc",
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-netclasses",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-drc",
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-drc-fields-netlist",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-drc-fields-audit",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        }
+      ]
+    },
+    {
+      "case": "seed_width_mutation",
+      "control_passed": true,
+      "Native_counts": null,
+      "ignored_checks": null,
+      "candidate_sha256": "71f2f35ca7a023598afada8f096916ae073c8aed1372e3abafff4f4b07e9c922",
+      "reason": "generated track differs from native netclass target: N15",
+      "steps": [
+        {
+          "name": "refill-drc",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        },
+        {
+          "name": "final-netclasses",
+          "status": "success",
+          "exit_code": 0,
+          "cleanup_complete": true
+        }
+      ]
+    }
+  ],
+  "own_final": {
+    "positive": {
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/positive/final-drc.json",
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/positive",
+      "report_sha256": "afcbbdb1e271bcb158386f448413dee0610151551d553b83b37afdcc6d1395ef",
+      "process_sha256": "779c6a2c07617d3d3a70dcdb01a1edd9248085fb3a8c83faa187405663acf04d",
+      "binding_sha256": "23963e26e7dc9c323d0d4902a23fff36665c838a6afb25762b4d04d8837deed9",
+      "full_schematic_flag": true
+    },
+    "outside_short": {
+      "output": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/outside_short/final-drc.json",
+      "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-002/outside_short",
+      "report_sha256": "71692ec836f050a00389a162a9aa240d6cd02b290a7c6a325eb342747270f06f",
+      "process_sha256": "e85fd3440d4092791ad6309bb46147df85ba9c7d727768d40ac38c8a4808ed24",
+      "binding_sha256": "0e96952ffe380b808f0875116bd85285c4e9d619a6d3999037cb55614a6a6110",
+      "full_schematic_flag": true
+    }
+  },
+  "static_review": {
+    "path": ".runs/qfn-escape-native-prerequisites-result-review-002.json",
+    "sha256": "00fe8b9abfd44269623ac411ed87fc9208583fd6d1dc2ef07829d1e61d6f169b"
+  },
+  "accounting": {
+    "Native_batch_complete": {
+      "wall_seconds": 8.08,
+      "CPU_seconds": 6.12
+    },
+    "preparation_complete_additional": {
+      "wall_seconds": 1.02,
+      "CPU_seconds": 0.49
+    },
+    "enclosing_sample": {
+      "wall_seconds": 8.065719000063837,
+      "CPU_seconds": 6.110819000000001
+    },
+    "actor_sample": {
+      "wall_seconds": 6.984412458026782,
+      "CPU_seconds": 5.1266989999999995
+    },
+    "limits": "Nested actor/outer samples overlap complete Native batch exit; do not add them. Preparation is additional. Source authoring/AI review/curation are additional; unknown authoring/review is notzero. Curator exit measured separately."
+  },
+  "scope": "One roomy owned contact witness plus Native outside-short and exact Default seed-width guard negatives. Positive0/0/19/0 and short0/2/19/0 retain19fieldwarnings/twoignoredchecks; width has real refill/map but no final Native count. Seventeen reference paths removed before generation, including the centre connector; independent control-only tails plus that source-derived control connector complete the positive. Source pin17 solid-centre pad is retained and skipped; noncopper display alias preserved. All seeds/tails remain generated; only one original KEEP protected. No engine, routing gain, new family, electrical or product admission.",
+  "backup": "Owned metadata/log/PRL and reproducing source only. CAD/netlist/cache/plot/ZIP/tool binaries remain local outside010; no new raw restoration claim.",
+  "files_index": {
+    "path": "evidence/qfn-escape-native-prerequisites-002-notes/files.json",
+    "sha256": "dc209c41251315c872268b53f3e9bdef28d515f7180be106e9829bf63c90843f"
+  }
+}

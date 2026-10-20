@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "kind": "qfn-escape-v3-source-only-skeptical-review-v1",
+  "created_utc": "2026-10-20T03:52:41.541397+00:00",
+  "reviewer": {
+    "agent": "/root/windows005_gate",
+    "review_type": "AI source review",
+    "human_review": false
+  },
+  "scope": {
+    "purpose": "One finite review of the v3 legacy route-net serialization correction and its owned fixture/control/probe integration; no expansion of geometry or routing policy.",
+    "source_pins": [
+      {
+        "path": "experiments/qfn_escape_seed_v1/seed.py",
+        "bytes": 12731,
+        "sha256": "a451a99a24dfddb2b3c325a05edd23eacb4ce16dc9e99ddb158b2fa11dcf7b2e"
+      },
+      {
+        "path": "experiments/qfn_escape_seed_v1/fixture.py",
+        "bytes": 9428,
+        "sha256": "7a570b199bee5024237623ef8e7799e17e9861231768aea0a5b943e793b280a0"
+      },
+      {
+        "path": "experiments/qfn_escape_seed_v1/controls.py",
+        "bytes": 20789,
+        "sha256": "ec00ca5153cf8959b9aa9d4aef4f80239ffd95ae84a211c669c417439f17e155"
+      },
+      {
+        "path": "experiments/qfn_escape_seed_v1/probe.py",
+        "bytes": 21394,
+        "sha256": "0d1f476dee04dcfff6f83d75398902329913c73f01f2fa1a17324a27b50b7173"
+      },
+      {
+        "path": "experiments/qfn_escape_seed_v1/README.md",
+        "bytes": 7434,
+        "sha256": "f323bd1bdb50370eb5d7759997717fbb52f8d7ac1ffd81c1f6a3f380be186dee"
+      },
+      {
+        "path": "tests/test_qfn_escape_seed.py",
+        "bytes": 17101,
+        "sha256": "b04c1cb696a4cfd1d4b2047fcb58959035dc0f89cac2105400dc808feea55671"
+      },
+      {
+        "path": "tests/test_qfn_escape_controls.py",
+        "bytes": 2702,
+        "sha256": "d6ac9aca29e3446339e9e8626e4ee194e7cf44000ddbc995218582ee631fe862"
+      }
+    ],
+    "referenced_shared_resolver": {
+      "path": "autorouter/board_floor.py",
+      "bytes": 34619,
+      "sha256": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7"
+    },
+    "prior_reviews_preserved": [
+      {
+        "path": ".runs/qfn-escape-source-review-001.json",
+        "bytes": 9197,
+        "sha256": "5aebed6eef13c6bcda4a18c4a9f2c2dc64cfd1e3aa60934649fde22f64d4b25b"
+      },
+      {
+        "path": ".runs/qfn-escape-v2-source-review-001.json",
+        "bytes": 7007,
+        "sha256": "28d76fe15f0b012a85eaa6285e93eab9daba2174aef99d44c922b9285ab2eefe"
+      },
+      {
+        "path": ".runs/qfn-escape-v2-probe-source-review-001.json",
+        "bytes": 8248,
+        "sha256": "1b8f453d81cc5e6d6dc7cea82bd4e570444041c64f6c418504d8d625c2d99e4e"
+      }
+    ],
+    "source_files_modified_by_reviewer": false,
+    "only_created_file": ".runs/qfn-escape-v3-source-review-001.json"
+  },
+  "findings": [],
+  "conclusion": "No new concrete source blocker found in the reviewed v3 delta. This is not Native, engine, product, GUI, electrical, human, or comparative qualification.",
+  "reviewed_v3_contract": [
+    {
+      "component": "seed.py",
+      "behavior": "Policy is source-orthogonal-perimeter-escape-seed-v3. Generated segment net nodes retain only the already validated first pad-net atom: legacy numeric code or modern quoted name. Source pad code/name pairs and root declarations are not rewritten.",
+      "basis": "The existing shared source_net_identity checks root code/name declarations and every pad/route reference before generation. A legacy pad code/name pair is not a valid segment net serialization; the v3 output removes only that redundant route label.",
+      "unchanged": "Geometry, target dimensions, stub length, protected-route treatment, canonical copper scope and engine parameters."
+    },
+    {
+      "component": "fixture.py",
+      "behavior": "The fresh owned Native003 control uses complete 20241229 numeric net declarations, pad code/name pairs and route code-only references. Geometry remains 19 footprints/35 pads, 16 perimeter stubs, connected centre terminal/control connector and locked KEEP; the flat schematic has the corresponding 17-pin library definition.",
+      "mechanical_scope": "The centre connector is an authored reference/control item. Its copy after seed generation preserves source serialization; generated stubs gain no protection exemption."
+    },
+    {
+      "component": "controls.py",
+      "behavior": "Shared net-name resolution selects tails and the deliberately shorted pair from numbered routes. All unlocked reference routes are removed before proposal generation. The uniquely identified authored centre connector is copied only after generation. Only original locked KEEP is protected.",
+      "preserved_guards": "Existing destination/source disjointness, exact Native process and map checks, field checks and final all-packet local-PRL/event sweeps remain in scope."
+    },
+    {
+      "component": "probe.py",
+      "behavior": "Prerequisites explicitly name fresh controls-native-003, its enclosure and preparation-003 protocol, without fallback to earlier control packets. Sole-source/hash binding, prerequisite material/PRL freshness and independent final validation against the original remain required.",
+      "pending_attempt": "Corrected probe002 must be frozen separately after fresh Native003 controls and the lead checkpoint. No protocol or run was created by this reviewer."
+    },
+    {
+      "component": "tests/test_qfn_escape_seed.py",
+      "behavior": "The numbered-format regression requires code-only generated route net nodes, unchanged source pad code/name pairs and shared resolver agreement; a mismatched pad label still refuses. Existing geometry/protected/alias/centre and control-boundary regressions remain present.",
+      "execution": "Source inspected only; tests were not executed by this reviewer."
+    }
+  ],
+  "preserved_actual_v2_failure": {
+    "attempt": "probe001",
+    "evidence_basis": "Lead-reported completed result and stable README; this source review did not rerun or independently revalidate the actual process packet.",
+    "state": "failed_before_engine",
+    "source_drc_exit_code": 3,
+    "failure": "Native source load/parse closing error at offset 216418; generated segment used the pad code plus name rather than route code-only grammar.",
+    "Native_final_counts_available": false,
+    "engine_executed": false,
+    "SES_available": false,
+    "delivery": false,
+    "external_complete_cost": {
+      "wall_seconds": 2.65,
+      "full_CPU_seconds": 2.51
+    },
+    "separate_preparation_cost": {
+      "wall_seconds": 0.75,
+      "full_CPU_seconds": 0.68
+    },
+    "original_failure_preserved": true,
+    "not_a_first_attempt_success": true,
+    "correction_scope": "Source-format correction, with no hypothesis, target, constraint, seed-length or engine-parameter tuning."
+  },
+  "pending_qualification": {
+    "fresh_Native003_controls": "not executed or qualified by this reviewer; pending lead execution",
+    "separately_frozen_corrected_probe002": "pending after fresh controls and checkpoint",
+    "runtime050_immutable": true,
+    "original_source_unchanged_by_review": true,
+    "production_qualified": false,
+    "engine_or_routing_improvement_claim": false,
+    "GUI_qualification_claim": false,
+    "human_or_electrical_qualification_claim": false
+  },
+  "prior_review_closures_retained": {
+    "sole_source_and_fresh_control_material": "Existing exact source/rights/hash binding and current prerequisite material checks remain required.",
+    "field_and_PRL_last_sweep": "Existing controls, child and independent-final packet flag sweeps remain last after material reads.",
+    "complete_preparation_accounting": "Existing exact completed external preparation time-log hash and shared complete_cost helper remain required.",
+    "capacity_statement_correction": "An earlier reviewer statement of a shared 32 MiB material limit was incorrect and is withdrawn. experiments/hfe_original_native_v1/driver.py has LIMIT=128*1024**2 and passes it explicitly to inventory; the probe 100 MiB guard is tighter. Owned controls separately retain their intended 32 MiB aggregate sample. No cap was raised to close a finding."
+  },
+  "test_information": {
+    "lead_reported_current_pure_controls": {
+      "tests": 20,
+      "passed": true,
+      "wall_seconds": 0.35,
+      "full_CPU_seconds": 0.28
+    },
+    "reviewer_reran_tests": false,
+    "synthetic_tests_are_not_Native_or_engine_proof": true
+  },
+  "review_operations": {
+    "source_and_metadata_reads": true,
+    "receipt_write_only": true,
+    "product_module_imports": false,
+    "tests": false,
+    "Native": false,
+    "engine": false,
+    "GUI": false,
+    "network": false,
+    "Git_mutations": false,
+    "delegation": false,
+    "additional_review_wall_seconds": null,
+    "additional_review_CPU_seconds": null,
+    "cost_limitation": "Review elapsed wall/CPU were not measured; unknown additional cost is not zero. Metadata hashing and receipt creation do not establish any routing validation."
+  }
+}

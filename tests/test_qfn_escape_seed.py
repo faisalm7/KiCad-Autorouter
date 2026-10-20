@@ -172,7 +172,11 @@ class EscapeSeedControls(unittest.TestCase):
             sx.one(node, 'net')[1:] = ['1', '"N"']
         out, info = self.generate(task)
         self.assertEqual(info['generated_count'], 8)
-        self.assertTrue(all(sx.one(r, 'net') == ['net', '1', '"N"'] for r in p.routes(out)))
+        self.assertTrue(all(sx.one(r, 'net') == ['net', '1'] for r in p.routes(out)))
+        # Pad code/name mapping remains exact, while route grammar is numeric.
+        self.assertTrue(all(sx.one(n,'net')==['net','1','"N"'] for n in sx.children(sx.children(out,'footprint')[0],'pad')))
+        _,resolve=q.g.source_net_identity(out)
+        self.assertEqual({resolve(sx.one(r,'net')) for r in p.routes(out)},{'N'})
         sx.one(sx.children(sx.children(task, 'footprint')[0], 'pad')[0], 'net')[2] = '"wrong"'
         with self.assertRaises(ValueError): self.generate(task)
 
