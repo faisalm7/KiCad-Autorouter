@@ -1,0 +1,483 @@
+{
+  "schema": 1,
+  "kind": "qfn-escape-probe002-stored-result-AI-review-v1",
+  "recorded_utc": "2026-10-20T04:14:11.394456+00:00",
+  "reviewer": {
+    "agent": "/root/windows005_gate",
+    "human_review": false,
+    "scope": "Independent bounded source/JSON/hash/process/accounting readback; no Native, engine, central reader, semantic invariant validator, or experiment rerun."
+  },
+  "findings": [],
+  "conclusion": "Stored evidence supports a completed Native diagnostic that is negative and not accepted. No new concrete custody/accounting discrepancy found within this review. Defer this mechanism without integration or parameter retries.",
+  "identity": {
+    "administration_head_from_frozen_protocol": "4bf7314b748ad39c3f0cfaef7e24681639e2db4f",
+    "runtime_source_head": "aa0072c6b3d8090de2603e5ecb42a95968fb873b",
+    "runtime_manifest_sha256": "c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8",
+    "selected_Native_version": "10.0.7",
+    "code_sha256": {
+      "experiments/qfn_escape_seed_v1/__init__.py": "71d28e430cf001e4360a36b25eca96f85a3a4f3711184d693375884ae47c89c0",
+      "experiments/qfn_escape_seed_v1/fixture.py": "7a570b199bee5024237623ef8e7799e17e9861231768aea0a5b943e793b280a0",
+      "experiments/qfn_escape_seed_v1/seed.py": "a451a99a24dfddb2b3c325a05edd23eacb4ce16dc9e99ddb158b2fa11dcf7b2e",
+      "experiments/qfn_escape_seed_v1/controls.py": "ec00ca5153cf8959b9aa9d4aef4f80239ffd95ae84a211c669c417439f17e155",
+      "experiments/hfe_original_native_v1/driver.py": "129c7933031a19d1b215dee7eb230386123f09cb0e74b83e228abd09025b169c",
+      "experiments/placement_handoff_native_v1/driver.py": "a84176cbab44199c5d10c80860f391d56f624b2624da2d157eb8810266796f8c",
+      "experiments/native_schematic_transport_v1/fixture.py": "e3380f9dd1e62d29895eb4f58facc85ebdf52fbee5bcd4958b4b6d503dfa172c",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "experiments/qfn_escape_seed_v1/probe.py": "0d1f476dee04dcfff6f83d75398902329913c73f01f2fa1a17324a27b50b7173",
+      "scripts/report_current_comparison.py": "aa630b7d0aad9e7a2356ddc0fbb03894578fd4bff9a601e9a04c104fed86c9f7",
+      "scripts/freeze_current_comparison.py": "7b46075113d271e87206462bfb614d1fd33cec483fca6f9b593ec87f271b2a64"
+    },
+    "protocol_sha256": "2aac6b5c7949abc48a30bcde966bd2f11eeb37190081f8eb1af87c0a86f8097d",
+    "source_hashes": {
+      "devboard.kicad_pcb": "4219b40718dc6d39406a4769a96fc0b52af5eaff917ce8c00b2733d82fa6514f",
+      "devboard.kicad_pro": "ca3e5ad43d5cd2360d237fb8017abe18f2c9e07efc800271daf488c07d6206c6",
+      "devboard.kicad_sch": "faef18f8c19a1e0c929512deed7fe8c193d961fa177e6f9c75f6fd43a7b26913"
+    },
+    "seeded_source_hashes": {
+      "devboard.kicad_pcb": "644c2813b40e2607702e8c2f9760ddb66c768efebce9eb719807636399e017a8",
+      "devboard.kicad_pro": "ca3e5ad43d5cd2360d237fb8017abe18f2c9e07efc800271daf488c07d6206c6",
+      "devboard.kicad_sch": "faef18f8c19a1e0c929512deed7fe8c193d961fa177e6f9c75f6fd43a7b26913"
+    },
+    "candidate_sha256": "6f36379aaaa2fe98b17c5d92eeb772aabda9ae76ec842eafdd86bc8d4b875e21",
+    "own_native_report_sha256": "8fa0349bd9e1f2d4829acaf6acdf0ce3e849991d6b8f5775cb433b28b314ebd8",
+    "inspected_metadata_pins": [
+      {
+        "path": ".runs/qfn-escape-probe-preparation-002/protocol.json",
+        "bytes": 18932,
+        "sha256": "2aac6b5c7949abc48a30bcde966bd2f11eeb37190081f8eb1af87c0a86f8097d"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/result.json",
+        "bytes": 162362,
+        "sha256": "2ce7985e8cad5d0b0ab261bed14e2810ff120622b5e4d9b16758a639075795f7"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002-enclosure/result.json",
+        "bytes": 3618,
+        "sha256": "1b8a8e195194dc41e30f2db387561006c7101b7bb6299bb0ffa5a29deec8d69f"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002-enclosure/process.json",
+        "bytes": 2149,
+        "sha256": "dff6bcd076febe8244cb6ffa582cf027678596e546592b94ff2cdcc9689573c3"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002-time.log",
+        "bytes": 755,
+        "sha256": "f10a9bdbf5acc02612e486c685993ec47e1a4770cf229403f7d7b0423b0fb8e8"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-preparation-002-time.log",
+        "bytes": 753,
+        "sha256": "7b9f1803574a159116d4915db811919c817aebb28272edfd0f9885f1447271e0"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/partial-route/result.json",
+        "bytes": 276483,
+        "sha256": "953e48a5941bb71db464c9ba9fe37c11f0608f69db893dabd16451e3bfa50fae"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/partial-route/source-drc.json",
+        "bytes": 135631,
+        "sha256": "b322627e8a7458b4a746a7e4f5ed2cd15090f2029e75877c7bb03232aec6a7d7"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/partial-route/source-drc-binding.json",
+        "bytes": 1052,
+        "sha256": "90b1eb7203cc26cce40ffa4fd17adaffcad203fd467dfdd8e5eb571dd4a9ac7f"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/partial-route/final-drc.json",
+        "bytes": 126325,
+        "sha256": "e9cddbeae25321b0599b10ef975cfc019c0753d309515c526eeadea683cfde92"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/seed-plan.json",
+        "bytes": 29355,
+        "sha256": "ae4b7639ea2146bade6d296fed5bb0c441e5bbfaf1a96f936dba9a4ac4b8a167"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/original-target-query/original-netclasses.json",
+        "bytes": 52047,
+        "sha256": "a345f516ac6878add6e15de0daef2372bba6a1c3b9e9315ba41160ce93b5696c"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/original-target-query/target-audit.json",
+        "bytes": 56676,
+        "sha256": "938d27003c7bb93aa73741dfa41e0efffdeae6ca92055aca941b3581fd698acc"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/final-drc.json",
+        "bytes": 126302,
+        "sha256": "8fa0349bd9e1f2d4829acaf6acdf0ce3e849991d6b8f5775cb433b28b314ebd8"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/final-drc-binding.json",
+        "bytes": 1145,
+        "sha256": "22ca6605f95e1b032ecb3d1d6ab3ac171c965cdb6ff0024586a84bba27a540fe"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/refill-drc-binding.json",
+        "bytes": 1063,
+        "sha256": "301dc3afbc048fabba9e18fa0fa4f5fd094d9ddebbd4b894cdb087748f805c7d"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/final-drc-process.json",
+        "bytes": 2314,
+        "sha256": "4abb14ddee36793637cd945c80ad5982812f196e18e7f66b23d51c98d9f123bf"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/refill-drc-process.json",
+        "bytes": 2302,
+        "sha256": "b80c5b8b8e344f66102ed300afb032d64e7d6847031d4c94f3582d20c675f7d1"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/final-netclasses.json",
+        "bytes": 52052,
+        "sha256": "66c9238cfcc6bd60a5f33c72a5caa8be8a9205826b7f600719264e390a632f73"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/final-netclass-audit.json",
+        "bytes": 56772,
+        "sha256": "8924b2ba6bb7959398a2647c97a39f33d387b0486df94c0d5bbef2faed2dfdd6"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/final-drc-fields-proof.json",
+        "bytes": 626,
+        "sha256": "fa1a0d1c996b5cdf311c84539e14291d0d909c19aa2b3beb9dccba838c3d922a"
+      },
+      {
+        "path": ".runs/qfn-escape-probe-native-002/whole-original-validation/final-drc-fields-local-settings.json",
+        "bytes": 1662,
+        "sha256": "12a1beacc43160694407b756550e13862102fccb12f9fed3433ca0183df75ca9"
+      },
+      {
+        "path": "evidence/runtime050-devobordo-development-001.json",
+        "bytes": 37940,
+        "sha256": "09cbea0b1731bae31572ba9d6934045ab7eb3a7dfb4bd69bdd1306cbaded8bdc"
+      },
+      {
+        "path": "evidence/runtime050-devobordo-development-001-notes/facts/report.json",
+        "bytes": 36325,
+        "sha256": "9a4a3025d31220e90a91005940982e08975daee804da2f14330a32cf3bf1740e"
+      },
+      {
+        "path": ".runs/runtime-directory-050/runtime/runtime-distribution.json",
+        "bytes": 11630,
+        "sha256": "c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8"
+      }
+    ]
+  },
+  "observed_outcome": {
+    "status": "completed_native_diagnostic",
+    "wrapper_passed": true,
+    "wrapper_attempt_qualified": true,
+    "qualification_meaning": "The fixed diagnostic completed its evidence checks, not a routing/field-clean/product qualification.",
+    "accepted": false,
+    "production_admitted": false,
+    "workflow_delivered": false,
+    "Native_routing_scope_passed": false,
+    "child_status": "drc_rejected",
+    "child_accepted": false,
+    "seed_count": 64,
+    "whole_original_counts": [
+      67,
+      3,
+      136,
+      0
+    ],
+    "count_order": [
+      "opens",
+      "blocking",
+      "warnings",
+      "exclusions"
+    ],
+    "field_qualification": {
+      "qualified": false,
+      "reason": "duplicate source symbol or footprint field"
+    },
+    "full_schematic_DRC_executed": true,
+    "field_clean_claim": false,
+    "ignored_check_keys": [
+      "missing_courtyard",
+      "solder_mask_bridge",
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries",
+      "footprint_filters_mismatch",
+      "silk_over_copper",
+      "silk_edge_clearance",
+      "pth_inside_courtyard",
+      "npth_inside_courtyard",
+      "footprint_type_mismatch"
+    ]
+  },
+  "private_finding_classification": {
+    "raw_geometry_or_finding_descriptions_retained_in_this_review": false,
+    "whole_original_type_counts": {
+      "error:clearance": 3,
+      "warning:track_dangling": 62,
+      "warning:lib_footprint_issues": 40,
+      "error:unconnected_items": 67,
+      "warning:footprint_symbol_field_mismatch": 34
+    },
+    "source_seeded_snapshot_counts": [
+      95,
+      8,
+      103,
+      0
+    ],
+    "source_seeded_snapshot_type_counts": {
+      "error:clearance": 3,
+      "error:starved_thermal": 5,
+      "warning:track_dangling": 63,
+      "warning:lib_footprint_issues": 40,
+      "error:unconnected_items": 95
+    },
+    "source_DRC_had_schematic_parity_flag": false,
+    "source_to_final_warning_count_caveat": "Source DRC lacks the final schematic-parity flag; final warnings include 34 footprint/symbol field mismatches, so warning totals do not have identical check coverage.",
+    "three_clearance_error_item_classes": [
+      [
+        "generated_seed",
+        "original_source"
+      ],
+      [
+        "generated_seed",
+        "original_source"
+      ],
+      [
+        "generated_seed",
+        "original_source"
+      ]
+    ],
+    "all_three_clearance_pairs_already_present_in_seeded_source_DRC": true,
+    "other_new_route_items_in_three_clearance_findings": 0,
+    "unknown_items_in_three_clearance_findings": 0,
+    "inference": "Every final clearance error pairs a generated seed UUID with an original source UUID. This establishes conflicts in this fixed proposal, without claiming that changing a length/parameter would repair completion."
+  },
+  "binding_and_guard_readback": {
+    "original_live_source_and_query_copy_hashes_match": true,
+    "seeded_PRO_SCH_and_final_PRO_SCH_preserve_original_hashes": true,
+    "child_candidate_final_candidate_and_final_DRC_input_same_hash": true,
+    "final_DRC_binding_before_after_hashes_match_current_files": true,
+    "own_final_status_exit": [
+      "nonzero_exit",
+      5
+    ],
+    "refill_status_exit": [
+      "nonzero_exit",
+      5
+    ],
+    "final_full_schematic_flag": true,
+    "field_proof_and_guard_hash_chain_match": true,
+    "field_PRL_guard_records_bytes_unchanged_flags_restored": true,
+    "all_current_six_PRL_flags": 0,
+    "original_protected_count": 0,
+    "final_Default_checked_routes": {
+      "segments": 234,
+      "arcs": 0,
+      "vias": 6,
+      "protected": 0
+    },
+    "seeds_not_exempt_from_final_dimension_checks": true,
+    "final_Default_targets": {
+      "policy": "single-default-global-floor-targets-v2",
+      "raw_nm": {
+        "width_nm": 200000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 600000,
+        "via_drill_nm": 300000
+      },
+      "original_floors_nm": {
+        "min_track_width": 0,
+        "min_clearance": 0,
+        "min_via_diameter": 500000,
+        "min_through_hole_diameter": 300000,
+        "min_via_annular_width": 100000
+      },
+      "derived_nm": {
+        "width_nm": 200000,
+        "clearance_nm": 200000,
+        "via_diameter_nm": 600000,
+        "via_drill_nm": 300000
+      }
+    },
+    "original_geometry_protection_claim": "Stored producer ran original-only immutable/protected checks and final publication replay; reviewer inspected those call sites and their frozen source/material but did not rerun semantic validators.",
+    "process_raw_records_match_stored_steps_except_explicit_DRC_binding_enrichment": true,
+    "outer_Native_steps": 7,
+    "child_steps": 11,
+    "all_eighteen_step_cleanup_true_and_logs_untruncated": true,
+    "enclosure_cleanup_true": true,
+    "process_status_is_recorded_not_fresh_liveness_probe": true,
+    "completed_material": {
+      "files": 183,
+      "bytes": 10699458,
+      "directories_including_root": 62,
+      "all_stored_hashes_and_directory_census_match": true,
+      "symlinks": 0,
+      "excluded_publications": "Only shared material exclusions: root result.json/result.json.partial and invalidated/interrupted root-publication prefixes."
+    },
+    "runtime_implementation_hashes_and_all_protocol_prerequisite_hashes_match": true,
+    "executable_file_rehash_by_reviewer": false
+  },
+  "accounting": {
+    "authoritative_external_probe": {
+      "wall_seconds": 79.21,
+      "full_CPU_seconds": 93.82,
+      "user_seconds": 91.75,
+      "system_seconds": 2.07
+    },
+    "separate_complete_preparation": {
+      "wall_seconds": 0.86,
+      "full_CPU_seconds": 0.68
+    },
+    "combined_probe_plus_preparation": {
+      "wall_seconds": 80.07,
+      "full_CPU_seconds": 94.5
+    },
+    "nested_samples_not_added": {
+      "actor_wall": 76.34698104101699,
+      "actor_CPU": 91.545581,
+      "enclosure_wall": 79.18933729093987,
+      "enclosure_CPU": 93.79752
+    },
+    "limits": {
+      "routing_wall_full_CPU_seconds": 420,
+      "method_wall_full_CPU_seconds": 450,
+      "complete_wall_full_CPU_seconds": 600,
+      "export_seconds_reserved": 120,
+      "per_outer_Native_step_seconds": 30,
+      "group_RSS_bytes": 4294967296,
+      "aggregate_output_bytes": 104857600
+    },
+    "within450_method_and600_complete_caps": true,
+    "reserved_export120_unspent_no_delivery": true,
+    "resource_enforcement_limitation": "Stored resource limits are sampled; polling may overshoot or miss peaks, and RSS can double-count shared pages. No new OS enforcement claim.",
+    "additional_review_wall_seconds": null,
+    "additional_review_CPU_seconds": null,
+    "additional_review_cost_unknown_not_zero": true
+  },
+  "development_reference_only": {
+    "unchanged_frozen050_summary_sha256": "09cbea0b1731bae31572ba9d6934045ab7eb3a7dfb4bd69bdd1306cbaded8bdc",
+    "six_prior_rows": [
+      {
+        "arm": "Cdefault",
+        "outcome": "validated_completed_negative",
+        "Native_counts": [
+          66,
+          1,
+          74,
+          0
+        ],
+        "validated_completed_negative": true,
+        "workflow_delivered": false
+      },
+      {
+        "arm": "B0",
+        "outcome": "validated_completed_negative",
+        "Native_counts": [
+          48,
+          26,
+          76,
+          0
+        ],
+        "validated_completed_negative": true,
+        "workflow_delivered": false
+      },
+      {
+        "arm": "B1",
+        "outcome": "validated_completed_negative",
+        "Native_counts": [
+          66,
+          1,
+          74,
+          0
+        ],
+        "validated_completed_negative": true,
+        "workflow_delivered": false
+      },
+      {
+        "arm": "B2single_tuned",
+        "outcome": "validated_completed_negative",
+        "Native_counts": [
+          66,
+          1,
+          74,
+          0
+        ],
+        "validated_completed_negative": true,
+        "workflow_delivered": false
+      },
+      {
+        "arm": "B2_portfolio",
+        "outcome": "validated_no_valid_candidate",
+        "Native_counts": null,
+        "validated_completed_negative": true,
+        "workflow_delivered": false
+      },
+      {
+        "arm": "Cthermal",
+        "outcome": "method_not_delivered",
+        "Native_counts": null,
+        "validated_completed_negative": false,
+        "workflow_delivered": false
+      }
+    ],
+    "portfolio_trials": [
+      {
+        "variant": "via_default",
+        "status": "drc_rejected",
+        "Native_counts": [
+          66,
+          1,
+          74,
+          0
+        ],
+        "eligible": false,
+        "validated_rejection": true
+      },
+      {
+        "variant": "via_low",
+        "status": "drc_rejected",
+        "Native_counts": [
+          62,
+          1,
+          74,
+          0
+        ],
+        "eligible": false,
+        "validated_rejection": true
+      },
+      {
+        "variant": "via_high",
+        "status": "drc_rejected",
+        "Native_counts": [
+          65,
+          2,
+          74,
+          0
+        ],
+        "eligible": false,
+        "validated_rejection": true
+      }
+    ],
+    "comparison_scope": "Existing exposed development results are references, not freshly rerun equal-budget arms. Original probe001 failure and all six baseline records were not modified. No fresh fair comparison, first-attempt, unattended, speed, superiority or quality claim.",
+    "invalid_candidate_metrics": {
+      "track_length_mm": 348.74802300833136,
+      "vias": 6,
+      "may_rank_quality": false
+    },
+    "decision": "No integration; defer without seed-length/target/engine parameter attempts."
+  },
+  "limitations": {
+    "Native_actual": true,
+    "Native_actual_meaning": "Previously executed stored own-original full-SCH/refill/final process evidence; none executed by reviewer.",
+    "reviewer_Native_engine_GUI_tests_production_readers_network_Git_mutations": false,
+    "source_or_product_edits": false,
+    "CAD_or_raw_findings_copied_for_publication": false,
+    "actual_GUI": false,
+    "human_physical_electrical_qualification": false,
+    "independent_family_population_or_product_claim": false,
+    "raw_artifacts_remain_local": true,
+    "preserved_failed_probe001": "Historical failure remains separate; this corrected probe002 is not stitched into a first-attempt success."
+  }
+}

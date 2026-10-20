@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "passed": true,
+  "accepted": false,
+  "production_admitted": false,
+  "workflow_delivered": false,
+  "protocol_sha256": "2aac6b5c7949abc48a30bcde966bd2f11eeb37190081f8eb1af87c0a86f8097d",
+  "child_sha256": "2ce7985e8cad5d0b0ab261bed14e2810ff120622b5e4d9b16758a639075795f7",
+  "process": {
+    "status": "success",
+    "exit_code": 0,
+    "wall_seconds": 78.05501966702286,
+    "cpu_seconds": 93.24213400000001,
+    "max_rss_bytes": 398163968,
+    "supervisor_cpu_seconds": 0.21173899999999996,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 244760576,
+    "sampled_peak_workdir_bytes": 185,
+    "resource_guards": {
+      "max_group_rss_bytes": 4294967296,
+      "max_workdir_bytes": 2097152,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/qfn_escape_seed_v1/probe.py",
+      "actor",
+      "--protocol",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-probe-preparation-002/protocol.json",
+      "--sha256",
+      "2aac6b5c7949abc48a30bcde966bd2f11eeb37190081f8eb1af87c0a86f8097d",
+      "--preparation-time-sha256",
+      "7b9f1803574a159116d4915db811919c817aebb28272edfd0f9885f1447271e0",
+      "--output",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-probe-native-002"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-probe-native-002-enclosure/command.log",
+    "log_bytes": 185,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-probe-native-002-enclosure",
+    "signal_cancellation_enabled": true,
+    "pid": 18691
+  },
+  "complete_wall_seconds": 79.18933729093987,
+  "complete_full_CPU_seconds": 93.79752,
+  "preparation_complete_cost": {
+    "wall_seconds": 0.86,
+    "CPU_seconds": 0.68,
+    "user_seconds": 0.5,
+    "system_seconds": 0.18,
+    "time_log_sha256": "7b9f1803574a159116d4915db811919c817aebb28272edfd0f9885f1447271e0",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-probe-preparation-002-time.log",
+    "scope": "Complete external exit; nested method/Native samples are included, not added again."
+  },
+  "external_complete_exit_required": true,
+  "scope": "Exposed development diagnostic, not a replacement arm in completed frozen050 cohort or an unattended installed product. Same420 Route allocation/450 complete method cap/600 complete cap; generation, queries, partial Route, selection and independent final validation count. No delivery implementation in this probe; reserved export time is unspent, not a validated export. Existing6arm baselines are reused development evidence, no fresh fair performance/speed/holdout claim."
+}

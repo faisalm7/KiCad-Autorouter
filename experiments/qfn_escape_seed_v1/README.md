@@ -105,6 +105,22 @@ exit2.65wall/2.51CPU plus preparation0.75/.68 is retained separately. Version3
 fixes that demonstrated writer defect, retains the original pad/table mapping,
 and adds a corrected grammar regression. The owned Native003 source now uses
 numbered20241229 syntax with the same geometry/targets/centre/display controls.
-Fresh003 positive/short/width controls must pass before one separately frozen
-corrected probe002. Prior001 is never overwritten or stitched into a first-attempt
-product result. No geometry, length, via, constraint or default-policy tuning.
+[Fresh003 numbered controls](../../evidence/qfn-escape-native-prerequisites-003.json)
+passed once: positive0/0/19/0, short0/2/19/0, width guard refusal; external8.07wall/
+6.11CPU plus preparation0.61/.47. The separately frozen
+[corrected probe002](../../evidence/qfn-escape-development-probe-002.json) then
+completed as a negative diagnostic: **67 opens,3 blocking errors,136 warnings,
+0 exclusions**. All three clearance errors pair a seed with original geometry
+and were present in the seeded source before engine execution. Whole-original
+Default validation checks all seeds as new copper with zero original protected
+routes. Full schematic checking ran; field qualification remained false because
+of duplicate source symbol/footprint fields. No route or delivery was accepted.
+
+Complete probe79.21wall/93.82CPU plus preparation0.86/.68 totals80.07/94.50;
+nested samples overlap. Older failures, controls, authoring and AI review are
+additional. Compared with exposed corrected-default66/1/74/0, this demonstrates
+no completion or cleanup gain. Invalid route metrics are not quality rankings.
+**Decision: defer fixed outward stubs, without parameter retries or integration.**
+Prior001 and the six-arm cohort are unchanged; no stitched unattended or fresh
+fair-comparison claim. Do not run the completed example paths again. No geometry,
+length, via, constraint or default-policy tuning follows from this result.

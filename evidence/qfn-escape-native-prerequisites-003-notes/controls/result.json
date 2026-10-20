@@ -1,0 +1,2316 @@
+{
+  "schema": 1,
+  "status": "completed",
+  "passed": true,
+  "accepted": false,
+  "production_admitted": false,
+  "routing_accepted": false,
+  "engine_executed": false,
+  "protocol_sha256": "980c0a7900eaa36cfdc4256fc5e1ab356a47b41d4c47bc2e401fa1c0a8416b02",
+  "cases": {
+    "positive": {
+      "control_passed": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/candidate/owned-escape-seed.kicad_pcb",
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.693527250085026,
+          "cpu_seconds": 0.355524,
+          "max_rss_bytes": 81395712,
+          "supervisor_cpu_seconds": 0.008973000000000009,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 78004224,
+          "sampled_peak_workdir_bytes": 224056,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/refill/owned-escape-seed.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/refill-drc.log",
+          "log_bytes": 185,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 18612,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/refill/owned-escape-seed.kicad_prl",
+            "sha256": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "483b835024ff4e874dffcfde215150a77c193a34d37eb41cf2886c1aed2d1404",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/refill/owned-escape-seed.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.30306475004181266,
+          "cpu_seconds": 0.28743799999999997,
+          "max_rss_bytes": 92405760,
+          "supervisor_cpu_seconds": 0.004736000000000018,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 73039872,
+          "sampled_peak_workdir_bytes": 243261,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/candidate/owned-escape-seed.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 18613,
+          "name": "final-netclasses"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.7805317919701338,
+          "cpu_seconds": 0.445171,
+          "max_rss_bytes": 214122496,
+          "supervisor_cpu_seconds": 0.0069509999999999295,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 211845120,
+          "sampled_peak_workdir_bytes": 355598,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-input/owned-escape-seed.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc.log",
+          "log_bytes": 205,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 18614,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-input/owned-escape-seed.kicad_prl",
+            "sha256": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "483b835024ff4e874dffcfde215150a77c193a34d37eb41cf2886c1aed2d1404",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/candidate/owned-escape-seed.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.286684374907054,
+          "cpu_seconds": 0.271686,
+          "max_rss_bytes": 179355648,
+          "supervisor_cpu_seconds": 0.005190999999999946,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 178962432,
+          "sampled_peak_workdir_bytes": 385734,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-fields.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-input/owned-escape-seed.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-fields-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 18615,
+          "name": "final-drc-fields-netlist"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.28723583300597966,
+          "cpu_seconds": 0.281583,
+          "max_rss_bytes": 91045888,
+          "supervisor_cpu_seconds": 0.004429000000000016,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 82493440,
+          "sampled_peak_workdir_bytes": 393040,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/autorouter/native.py",
+            "fields",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-input/owned-escape-seed.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-fields.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive/final-drc-fields-audit.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/positive",
+          "signal_cancellation_enabled": true,
+          "pid": 18616,
+          "name": "final-drc-fields-audit"
+        }
+      ],
+      "candidate_sha256": "483b835024ff4e874dffcfde215150a77c193a34d37eb41cf2886c1aed2d1404",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 19,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 40.0,
+                  "y": 47.6
+                },
+                "uuid": "3bbb60b7-6f89-560c-96e6-6e9b51166ef8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 40.0,
+                  "y": 49.2
+                },
+                "uuid": "d42fd7c2-45b5-5d02-a979-bc98b1c0d9d6"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 40.0,
+                  "y": 50.8
+                },
+                "uuid": "756547e1-9c3b-5e16-bd5f-3ef8694860f9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 40.0,
+                  "y": 52.4
+                },
+                "uuid": "b595b699-6c24-52c0-845a-32564a8519c4"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 60.0,
+                  "y": 47.6
+                },
+                "uuid": "a113ae0e-6465-57db-a817-5f9d1b4f4399"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 60.0,
+                  "y": 49.2
+                },
+                "uuid": "6ede49fe-f03e-57b6-a36e-eb1410bab43a"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J7",
+                "pos": {
+                  "x": 60.0,
+                  "y": 50.8
+                },
+                "uuid": "058cb3ca-2969-546f-ab48-3af526cc365e"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J8",
+                "pos": {
+                  "x": 60.0,
+                  "y": 52.4
+                },
+                "uuid": "007d80d9-fa63-51fc-82ce-eb053cfbdd76"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J9",
+                "pos": {
+                  "x": 47.6,
+                  "y": 40.0
+                },
+                "uuid": "41aa5225-8eba-5956-8740-ba765d5944b7"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J10",
+                "pos": {
+                  "x": 49.2,
+                  "y": 40.0
+                },
+                "uuid": "ddc91a90-f93a-5b20-8477-a63d295fef3d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J11",
+                "pos": {
+                  "x": 50.8,
+                  "y": 40.0
+                },
+                "uuid": "ecfcaf5f-0363-5f63-bbbf-f70292e4cdaa"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J12",
+                "pos": {
+                  "x": 52.4,
+                  "y": 40.0
+                },
+                "uuid": "8943dc77-e445-544f-9ede-4427de6eaab0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J13",
+                "pos": {
+                  "x": 47.6,
+                  "y": 60.0
+                },
+                "uuid": "c7275438-a1d3-5e63-8742-39f6c0d7c0cf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J14",
+                "pos": {
+                  "x": 49.2,
+                  "y": 60.0
+                },
+                "uuid": "350eead2-2f12-5f21-9d18-d17b5f1e0c13"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J15",
+                "pos": {
+                  "x": 50.8,
+                  "y": 60.0
+                },
+                "uuid": "81ad507a-f1f0-5e7a-b543-cb9d876a188c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J16",
+                "pos": {
+                  "x": 52.4,
+                  "y": 60.0
+                },
+                "uuid": "bb945b37-20d3-5838-8c9f-0bbb9e22e2a5"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J17",
+                "pos": {
+                  "x": 40.0,
+                  "y": 65.0
+                },
+                "uuid": "1388befa-7519-5299-b14d-95c372820c80"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J18",
+                "pos": {
+                  "x": 60.0,
+                  "y": 65.0
+                },
+                "uuid": "16023c97-bd4e-59c0-8ef4-4cc2f9226d67"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 50.0,
+                  "y": 50.0
+                },
+                "uuid": "a6855e76-1cc6-5a07-b999-158016f77903"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "3df003c7ff0f5b21d4b7696ae8e5cee195e0c2657b0ff51627f5bf2d21a57b9f",
+          "binding_sha256": "9514c65a660301f970271f8228e2a6f979bb598e98ab9def88c9c84375dd8385",
+          "netlist_sha256": "7a750362b417587ee35df87f62a920d873ae46d0e61035f10e930ace2b08c740",
+          "fields_sha256": "c808102c505686e9d5d39ae6b5f74c2fd39856077552531717b0aa1bb83cce40",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 19,
+            "compared_field_count": 57,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "3bbb60b7-6f89-560c-96e6-6e9b51166ef8",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J1",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J1"
+                }
+              },
+              {
+                "reference": "J10",
+                "uuid": "ddc91a90-f93a-5b20-8477-a63d295fef3d",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J10",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J10"
+                }
+              },
+              {
+                "reference": "J11",
+                "uuid": "ecfcaf5f-0363-5f63-bbbf-f70292e4cdaa",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J11",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J11"
+                }
+              },
+              {
+                "reference": "J12",
+                "uuid": "8943dc77-e445-544f-9ede-4427de6eaab0",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J12",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J12"
+                }
+              },
+              {
+                "reference": "J13",
+                "uuid": "c7275438-a1d3-5e63-8742-39f6c0d7c0cf",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J13",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J13"
+                }
+              },
+              {
+                "reference": "J14",
+                "uuid": "350eead2-2f12-5f21-9d18-d17b5f1e0c13",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J14",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J14"
+                }
+              },
+              {
+                "reference": "J15",
+                "uuid": "81ad507a-f1f0-5e7a-b543-cb9d876a188c",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J15",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J15"
+                }
+              },
+              {
+                "reference": "J16",
+                "uuid": "bb945b37-20d3-5838-8c9f-0bbb9e22e2a5",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J16",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J16"
+                }
+              },
+              {
+                "reference": "J17",
+                "uuid": "1388befa-7519-5299-b14d-95c372820c80",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J17",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J17"
+                }
+              },
+              {
+                "reference": "J18",
+                "uuid": "16023c97-bd4e-59c0-8ef4-4cc2f9226d67",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J18",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J18"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "d42fd7c2-45b5-5d02-a979-bc98b1c0d9d6",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J2",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "756547e1-9c3b-5e16-bd5f-3ef8694860f9",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J3",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "b595b699-6c24-52c0-845a-32564a8519c4",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J4",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "a113ae0e-6465-57db-a817-5f9d1b4f4399",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J5",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "6ede49fe-f03e-57b6-a36e-eb1410bab43a",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J6",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J6"
+                }
+              },
+              {
+                "reference": "J7",
+                "uuid": "058cb3ca-2969-546f-ab48-3af526cc365e",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J7",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J7"
+                }
+              },
+              {
+                "reference": "J8",
+                "uuid": "007d80d9-fa63-51fc-82ce-eb053cfbdd76",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J8",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J8"
+                }
+              },
+              {
+                "reference": "J9",
+                "uuid": "41aa5225-8eba-5956-8740-ba765d5944b7",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J9",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J9"
+                }
+              },
+              {
+                "reference": "U1",
+                "uuid": "a6855e76-1cc6-5a07-b999-158016f77903",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:U1",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:U1"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "007d80d9-fa63-51fc-82ce-eb053cfbdd76",
+              "058cb3ca-2969-546f-ab48-3af526cc365e",
+              "1388befa-7519-5299-b14d-95c372820c80",
+              "16023c97-bd4e-59c0-8ef4-4cc2f9226d67",
+              "350eead2-2f12-5f21-9d18-d17b5f1e0c13",
+              "3bbb60b7-6f89-560c-96e6-6e9b51166ef8",
+              "41aa5225-8eba-5956-8740-ba765d5944b7",
+              "6ede49fe-f03e-57b6-a36e-eb1410bab43a",
+              "756547e1-9c3b-5e16-bd5f-3ef8694860f9",
+              "81ad507a-f1f0-5e7a-b543-cb9d876a188c",
+              "8943dc77-e445-544f-9ede-4427de6eaab0",
+              "a113ae0e-6465-57db-a817-5f9d1b4f4399",
+              "a6855e76-1cc6-5a07-b999-158016f77903",
+              "b595b699-6c24-52c0-845a-32564a8519c4",
+              "bb945b37-20d3-5838-8c9f-0bbb9e22e2a5",
+              "c7275438-a1d3-5e63-8742-39f6c0d7c0cf",
+              "d42fd7c2-45b5-5d02-a979-bc98b1c0d9d6",
+              "ddc91a90-f93a-5b20-8477-a63d295fef3d",
+              "ecfcaf5f-0363-5f63-bbbf-f70292e4cdaa"
+            ],
+            "warning_hashes": [
+              "2248f2f329ba8715dbcdfe891f53b9c765a5baaaa00942ef40a2b74e853d9bf3",
+              "2d5fabef4a3a067df4cf2fd290ddc0e765241563c94f075c976b78b746ee8bc1",
+              "3ced790a58f3ce36e896c1ca9427c92b2983a270f820bad142b8cbd2571ca49a",
+              "4b3e95635d0926df0e7c1ff9e44f7fbd9dce498bef8937cb57fd65876246c741",
+              "4e803e8e9ed2d796bf00fad0928422457a3c503eb668e434d0831a8add75ea84",
+              "5d53d009e33ddf2f66e73e0f2e50d876db1dbb749cc88b9dbbe020b2121ce952",
+              "5d920b9eb0b3114fe9df218897182b6a6c2aceda5cb889d553ce80c7205c71bd",
+              "7fcb773fb4504d8248cfeaae22cfe9b7122d7f05105ddf505179954bdb0fd6fb",
+              "8ebdb8f1e62636e32c2e4ca7e1ccc7d20390767535a1fb502e5597ca3e4912b2",
+              "960a4399b7e7c0a3b330bbbaa106fb34ba17075622c4dff1394a3668c7333a05",
+              "9c1f17c76381013970f872d8b3c02ae7376a45fac71eacbf7b8e27230f287438",
+              "a7a77fafe972aedde295380c5f6288808956096dd7e6e88fb54dff263265182a",
+              "ab2429abbe8998b0d7d71a898841ba26cec7003a5cabd160831db9aa9c1ee2be",
+              "acc8b32ab3fea371065c6dcece916f9109d3db9b85209c54a7a3a1dbf86aa7f6",
+              "ba33dff27d4ea8f38c9cdfd3a804dcb73db8c09a536b691747b7459f2f575f9f",
+              "eafc1073665b86f0b2bbaabcee8e6e09ba3b6816fb9f3836f7377b7ac465a0fe",
+              "f6e2805810aefe354ec2e86a7238e72b291bf762e617cdacc7e75e41b9fadf94",
+              "f8da7be8bbf75271d71d2e4c75c5d6d58cffe9c2d9752a51bd0e65e4761c97b1",
+              "fe27f8bffc8cc6e7e26bcf23dc6bd27a28bc6bc25dd54172f9c63434b02d927c"
+            ],
+            "native_export_sha256": "7a750362b417587ee35df87f62a920d873ae46d0e61035f10e930ace2b08c740",
+            "observer_sha256": "ab17f9d5c3379c609168aec107f8c755f773efb59e5706bda2969dbc4683d1cb",
+            "drc_report_sha256": "ee7140c8d31de6b0db401fdd284576c122d04e77420c1eb451215b3423a3a03c"
+          },
+          "local_settings_guard_sha256": "771776dff0351b559d488cc89f306b0c98f8ba0df3b497e9db9e5ccec6489566"
+        }
+      },
+      "source_geometry_unchanged": true,
+      "original_protected_count": 1
+    },
+    "outside_short": {
+      "control_passed": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/candidate/owned-escape-seed.kicad_pcb",
+      "steps": [
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.6115062499884516,
+          "cpu_seconds": 0.31854699999999997,
+          "max_rss_bytes": 81068032,
+          "supervisor_cpu_seconds": 0.005979999999999985,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 77922304,
+          "sampled_peak_workdir_bytes": 226018,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/refill/owned-escape-seed.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/refill-drc.log",
+          "log_bytes": 190,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short",
+          "signal_cancellation_enabled": true,
+          "pid": 18617,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/refill/owned-escape-seed.kicad_prl",
+            "sha256": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "3e43b20c1cd5a817e4514109e83bc1124894989f7f5e95039c5cf7c538226f6c",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/refill/owned-escape-seed.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.3071765420027077,
+          "cpu_seconds": 0.296311,
+          "max_rss_bytes": 93061120,
+          "supervisor_cpu_seconds": 0.0048160000000000425,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 52805632,
+          "sampled_peak_workdir_bytes": 245280,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/candidate/owned-escape-seed.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short",
+          "signal_cancellation_enabled": true,
+          "pid": 18618,
+          "name": "final-netclasses"
+        },
+        {
+          "status": "nonzero_exit",
+          "exit_code": 5,
+          "wall_seconds": 0.7208797499770299,
+          "cpu_seconds": 0.43946399999999997,
+          "max_rss_bytes": 214269952,
+          "supervisor_cpu_seconds": 0.007299999999999973,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 212041728,
+          "sampled_peak_workdir_bytes": 359314,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--schematic-parity",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc.json",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-input/owned-escape-seed.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc.log",
+          "log_bytes": 210,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short",
+          "signal_cancellation_enabled": true,
+          "pid": 18619,
+          "name": "final-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-input/owned-escape-seed.kicad_prl",
+            "sha256": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "3e43b20c1cd5a817e4514109e83bc1124894989f7f5e95039c5cf7c538226f6c",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/candidate/owned-escape-seed.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.28052324999589473,
+          "cpu_seconds": 0.26793599999999995,
+          "max_rss_bytes": 179601408,
+          "supervisor_cpu_seconds": 0.005155999999999938,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 179208192,
+          "sampled_peak_workdir_bytes": 389500,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "sch",
+            "export",
+            "netlist",
+            "--format",
+            "kicadsexpr",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-fields.net",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-input/owned-escape-seed.kicad_sch"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-fields-netlist.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short",
+          "signal_cancellation_enabled": true,
+          "pid": 18620,
+          "name": "final-drc-fields-netlist"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.2760224170051515,
+          "cpu_seconds": 0.270803,
+          "max_rss_bytes": 91291648,
+          "supervisor_cpu_seconds": 0.004259000000000013,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 86065152,
+          "sampled_peak_workdir_bytes": 396844,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/autorouter/native.py",
+            "fields",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-input/owned-escape-seed.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-fields.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short/final-drc-fields-audit.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/outside_short",
+          "signal_cancellation_enabled": true,
+          "pid": 18621,
+          "name": "final-drc-fields-audit"
+        }
+      ],
+      "candidate_sha256": "3e43b20c1cd5a817e4514109e83bc1124894989f7f5e95039c5cf7c538226f6c",
+      "native": {
+        "opens": 0,
+        "blocking": 2,
+        "warnings": 19,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Tracks crossing",
+            "items": [
+              {
+                "description": "Track [N01] on F.Cu, length 1.6000 mm",
+                "pos": {
+                  "x": 45.6,
+                  "y": 47.6
+                },
+                "uuid": "096d6152-8296-5e34-bcb3-6523aaed6b87"
+              },
+              {
+                "description": "Track [N02] on F.Cu, length 0.9000 mm",
+                "pos": {
+                  "x": 46.5,
+                  "y": 49.2
+                },
+                "uuid": "4ae9ba27-5856-565d-abac-77dd8ba1e2d4"
+              }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+          },
+          {
+            "description": "Tracks crossing",
+            "items": [
+              {
+                "description": "Track [N01] on F.Cu, length 1.6000 mm",
+                "pos": {
+                  "x": 45.6,
+                  "y": 47.6
+                },
+                "uuid": "096d6152-8296-5e34-bcb3-6523aaed6b87"
+              },
+              {
+                "description": "Track [N02] on F.Cu, length 5.6000 mm",
+                "pos": {
+                  "x": 45.6,
+                  "y": 49.2
+                },
+                "uuid": "309677a0-45b2-5f5e-8e56-551e3728b1c1"
+              }
+            ],
+            "severity": "error",
+            "type": "tracks_crossing"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J1",
+                "pos": {
+                  "x": 40.0,
+                  "y": 47.6
+                },
+                "uuid": "3bbb60b7-6f89-560c-96e6-6e9b51166ef8"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J2",
+                "pos": {
+                  "x": 40.0,
+                  "y": 49.2
+                },
+                "uuid": "d42fd7c2-45b5-5d02-a979-bc98b1c0d9d6"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J3",
+                "pos": {
+                  "x": 40.0,
+                  "y": 50.8
+                },
+                "uuid": "756547e1-9c3b-5e16-bd5f-3ef8694860f9"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J4",
+                "pos": {
+                  "x": 40.0,
+                  "y": 52.4
+                },
+                "uuid": "b595b699-6c24-52c0-845a-32564a8519c4"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J5",
+                "pos": {
+                  "x": 60.0,
+                  "y": 47.6
+                },
+                "uuid": "a113ae0e-6465-57db-a817-5f9d1b4f4399"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J6",
+                "pos": {
+                  "x": 60.0,
+                  "y": 49.2
+                },
+                "uuid": "6ede49fe-f03e-57b6-a36e-eb1410bab43a"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J7",
+                "pos": {
+                  "x": 60.0,
+                  "y": 50.8
+                },
+                "uuid": "058cb3ca-2969-546f-ab48-3af526cc365e"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J8",
+                "pos": {
+                  "x": 60.0,
+                  "y": 52.4
+                },
+                "uuid": "007d80d9-fa63-51fc-82ce-eb053cfbdd76"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J9",
+                "pos": {
+                  "x": 47.6,
+                  "y": 40.0
+                },
+                "uuid": "41aa5225-8eba-5956-8740-ba765d5944b7"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J10",
+                "pos": {
+                  "x": 49.2,
+                  "y": 40.0
+                },
+                "uuid": "ddc91a90-f93a-5b20-8477-a63d295fef3d"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J11",
+                "pos": {
+                  "x": 50.8,
+                  "y": 40.0
+                },
+                "uuid": "ecfcaf5f-0363-5f63-bbbf-f70292e4cdaa"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J12",
+                "pos": {
+                  "x": 52.4,
+                  "y": 40.0
+                },
+                "uuid": "8943dc77-e445-544f-9ede-4427de6eaab0"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J13",
+                "pos": {
+                  "x": 47.6,
+                  "y": 60.0
+                },
+                "uuid": "c7275438-a1d3-5e63-8742-39f6c0d7c0cf"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J14",
+                "pos": {
+                  "x": 49.2,
+                  "y": 60.0
+                },
+                "uuid": "350eead2-2f12-5f21-9d18-d17b5f1e0c13"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J15",
+                "pos": {
+                  "x": 50.8,
+                  "y": 60.0
+                },
+                "uuid": "81ad507a-f1f0-5e7a-b543-cb9d876a188c"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J16",
+                "pos": {
+                  "x": 52.4,
+                  "y": 60.0
+                },
+                "uuid": "bb945b37-20d3-5838-8c9f-0bbb9e22e2a5"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J17",
+                "pos": {
+                  "x": 40.0,
+                  "y": 65.0
+                },
+                "uuid": "1388befa-7519-5299-b14d-95c372820c80"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint J18",
+                "pos": {
+                  "x": 60.0,
+                  "y": 65.0
+                },
+                "uuid": "16023c97-bd4e-59c0-8ef4-4cc2f9226d67"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          },
+          {
+            "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+            "items": [
+              {
+                "description": "Footprint U1",
+                "pos": {
+                  "x": 50.0,
+                  "y": 50.0
+                },
+                "uuid": "a6855e76-1cc6-5a07-b999-158016f77903"
+              }
+            ],
+            "severity": "warning",
+            "type": "footprint_symbol_field_mismatch"
+          }
+        ],
+        "field_parity": {
+          "schema": 1,
+          "policy": "datasheet-absence-only-v1",
+          "native_report_sha256": "743a0bb91de0a6e24b5ca4d7fd559c4333187e24323b3671c5320af550cda64a",
+          "binding_sha256": "5e51e731ef344f9546079231edf8798936d745bd4963d2742ea40a6c156644de",
+          "netlist_sha256": "295d8236eeaea120a804b1a9b1aef0fe6bb3493b4c029d49f72caa53cee9e9e5",
+          "fields_sha256": "a5df8aca80f2f7f51c5f2a07e72f371b0ebbd7cf46f6c8bcda8171222a09f3ee",
+          "qualification": {
+            "qualified": true,
+            "policy": "datasheet-effective-empty-v1",
+            "component_count": 19,
+            "compared_field_count": 57,
+            "comparison_map": [
+              {
+                "reference": "J1",
+                "uuid": "3bbb60b7-6f89-560c-96e6-6e9b51166ef8",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J1",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J1"
+                }
+              },
+              {
+                "reference": "J10",
+                "uuid": "ddc91a90-f93a-5b20-8477-a63d295fef3d",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J10",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J10"
+                }
+              },
+              {
+                "reference": "J11",
+                "uuid": "ecfcaf5f-0363-5f63-bbbf-f70292e4cdaa",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J11",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J11"
+                }
+              },
+              {
+                "reference": "J12",
+                "uuid": "8943dc77-e445-544f-9ede-4427de6eaab0",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J12",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J12"
+                }
+              },
+              {
+                "reference": "J13",
+                "uuid": "c7275438-a1d3-5e63-8742-39f6c0d7c0cf",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J13",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J13"
+                }
+              },
+              {
+                "reference": "J14",
+                "uuid": "350eead2-2f12-5f21-9d18-d17b5f1e0c13",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J14",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J14"
+                }
+              },
+              {
+                "reference": "J15",
+                "uuid": "81ad507a-f1f0-5e7a-b543-cb9d876a188c",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J15",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J15"
+                }
+              },
+              {
+                "reference": "J16",
+                "uuid": "bb945b37-20d3-5838-8c9f-0bbb9e22e2a5",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J16",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J16"
+                }
+              },
+              {
+                "reference": "J17",
+                "uuid": "1388befa-7519-5299-b14d-95c372820c80",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J17",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J17"
+                }
+              },
+              {
+                "reference": "J18",
+                "uuid": "16023c97-bd4e-59c0-8ef4-4cc2f9226d67",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J18",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J18"
+                }
+              },
+              {
+                "reference": "J2",
+                "uuid": "d42fd7c2-45b5-5d02-a979-bc98b1c0d9d6",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J2",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J2"
+                }
+              },
+              {
+                "reference": "J3",
+                "uuid": "756547e1-9c3b-5e16-bd5f-3ef8694860f9",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J3",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J3"
+                }
+              },
+              {
+                "reference": "J4",
+                "uuid": "b595b699-6c24-52c0-845a-32564a8519c4",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J4",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J4"
+                }
+              },
+              {
+                "reference": "J5",
+                "uuid": "a113ae0e-6465-57db-a817-5f9d1b4f4399",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J5",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J5"
+                }
+              },
+              {
+                "reference": "J6",
+                "uuid": "6ede49fe-f03e-57b6-a36e-eb1410bab43a",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J6",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J6"
+                }
+              },
+              {
+                "reference": "J7",
+                "uuid": "058cb3ca-2969-546f-ab48-3af526cc365e",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J7",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J7"
+                }
+              },
+              {
+                "reference": "J8",
+                "uuid": "007d80d9-fa63-51fc-82ce-eb053cfbdd76",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J8",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J8"
+                }
+              },
+              {
+                "reference": "J9",
+                "uuid": "41aa5225-8eba-5956-8740-ba765d5944b7",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:J9",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:J9"
+                }
+              },
+              {
+                "reference": "U1",
+                "uuid": "a6855e76-1cc6-5a07-b999-158016f77903",
+                "schematic_fields": {
+                  "OwnedEscapeIdentity": "owned-escape-seed:U1",
+                  "Datasheet": "",
+                  "Description": "Owned escape contact control"
+                },
+                "pcb_fields": {
+                  "Datasheet": "~",
+                  "Description": "Owned escape contact control",
+                  "OwnedEscapeIdentity": "owned-escape-seed:U1"
+                }
+              }
+            ],
+            "warning_uuids": [
+              "007d80d9-fa63-51fc-82ce-eb053cfbdd76",
+              "058cb3ca-2969-546f-ab48-3af526cc365e",
+              "1388befa-7519-5299-b14d-95c372820c80",
+              "16023c97-bd4e-59c0-8ef4-4cc2f9226d67",
+              "350eead2-2f12-5f21-9d18-d17b5f1e0c13",
+              "3bbb60b7-6f89-560c-96e6-6e9b51166ef8",
+              "41aa5225-8eba-5956-8740-ba765d5944b7",
+              "6ede49fe-f03e-57b6-a36e-eb1410bab43a",
+              "756547e1-9c3b-5e16-bd5f-3ef8694860f9",
+              "81ad507a-f1f0-5e7a-b543-cb9d876a188c",
+              "8943dc77-e445-544f-9ede-4427de6eaab0",
+              "a113ae0e-6465-57db-a817-5f9d1b4f4399",
+              "a6855e76-1cc6-5a07-b999-158016f77903",
+              "b595b699-6c24-52c0-845a-32564a8519c4",
+              "bb945b37-20d3-5838-8c9f-0bbb9e22e2a5",
+              "c7275438-a1d3-5e63-8742-39f6c0d7c0cf",
+              "d42fd7c2-45b5-5d02-a979-bc98b1c0d9d6",
+              "ddc91a90-f93a-5b20-8477-a63d295fef3d",
+              "ecfcaf5f-0363-5f63-bbbf-f70292e4cdaa"
+            ],
+            "warning_hashes": [
+              "2248f2f329ba8715dbcdfe891f53b9c765a5baaaa00942ef40a2b74e853d9bf3",
+              "2d5fabef4a3a067df4cf2fd290ddc0e765241563c94f075c976b78b746ee8bc1",
+              "3ced790a58f3ce36e896c1ca9427c92b2983a270f820bad142b8cbd2571ca49a",
+              "4b3e95635d0926df0e7c1ff9e44f7fbd9dce498bef8937cb57fd65876246c741",
+              "4e803e8e9ed2d796bf00fad0928422457a3c503eb668e434d0831a8add75ea84",
+              "5d53d009e33ddf2f66e73e0f2e50d876db1dbb749cc88b9dbbe020b2121ce952",
+              "5d920b9eb0b3114fe9df218897182b6a6c2aceda5cb889d553ce80c7205c71bd",
+              "7fcb773fb4504d8248cfeaae22cfe9b7122d7f05105ddf505179954bdb0fd6fb",
+              "8ebdb8f1e62636e32c2e4ca7e1ccc7d20390767535a1fb502e5597ca3e4912b2",
+              "960a4399b7e7c0a3b330bbbaa106fb34ba17075622c4dff1394a3668c7333a05",
+              "9c1f17c76381013970f872d8b3c02ae7376a45fac71eacbf7b8e27230f287438",
+              "a7a77fafe972aedde295380c5f6288808956096dd7e6e88fb54dff263265182a",
+              "ab2429abbe8998b0d7d71a898841ba26cec7003a5cabd160831db9aa9c1ee2be",
+              "acc8b32ab3fea371065c6dcece916f9109d3db9b85209c54a7a3a1dbf86aa7f6",
+              "ba33dff27d4ea8f38c9cdfd3a804dcb73db8c09a536b691747b7459f2f575f9f",
+              "eafc1073665b86f0b2bbaabcee8e6e09ba3b6816fb9f3836f7377b7ac465a0fe",
+              "f6e2805810aefe354ec2e86a7238e72b291bf762e617cdacc7e75e41b9fadf94",
+              "f8da7be8bbf75271d71d2e4c75c5d6d58cffe9c2d9752a51bd0e65e4761c97b1",
+              "fe27f8bffc8cc6e7e26bcf23dc6bd27a28bc6bc25dd54172f9c63434b02d927c"
+            ],
+            "native_export_sha256": "295d8236eeaea120a804b1a9b1aef0fe6bb3493b4c029d49f72caa53cee9e9e5",
+            "observer_sha256": "e37e6011ff1a2a2b0ce6c37470e039bd0b993a87219479f34f924542c5f72227",
+            "drc_report_sha256": "b5cba6cc860e8669f725491e802fde2e65cb5a613aaa174bfe2ff4c45b1dd1a8"
+          },
+          "local_settings_guard_sha256": "23a3eb4bd6cc9d11aa33e939e8874757f883885edd8f5d2806459ca4315b5d9f"
+        }
+      },
+      "source_geometry_unchanged": true,
+      "original_protected_count": 1
+    },
+    "seed_width_mutation": {
+      "control_passed": true,
+      "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/candidate/owned-escape-seed.kicad_pcb",
+      "steps": [
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.6567660829750821,
+          "cpu_seconds": 0.336268,
+          "max_rss_bytes": 81510400,
+          "supervisor_cpu_seconds": 0.011152999999999968,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 78053376,
+          "sampled_peak_workdir_bytes": 224093,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+            "pcb",
+            "drc",
+            "--format",
+            "json",
+            "--severity-all",
+            "--all-track-errors",
+            "--refill-zones",
+            "--exit-code-violations",
+            "--output",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/refill-drc.json",
+            "--save-board",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/refill/owned-escape-seed.kicad_pcb"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/refill-drc.log",
+          "log_bytes": 196,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation",
+          "signal_cancellation_enabled": true,
+          "pid": 18622,
+          "name": "refill-drc",
+          "local_settings_policy": "job-owned-prl-immutable-v1",
+          "local_settings_protection": {
+            "policy": "mac-owned-prl-immutable-v1",
+            "present": true,
+            "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/refill/owned-escape-seed.kicad_prl",
+            "sha256": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+            "flags_before": 0,
+            "flags_during": 2,
+            "flags_restored": true,
+            "bytes_unchanged": true
+          },
+          "validated_input_sha256": "a8e7a2377a25c34c21bc6f44f13cfc64b39ed718b99e9155e49dfdfe2eb72178",
+          "emitted_candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/refill/owned-escape-seed.kicad_pcb"
+        },
+        {
+          "status": "success",
+          "exit_code": 0,
+          "wall_seconds": 0.28716008400078863,
+          "cpu_seconds": 0.281628,
+          "max_rss_bytes": 91471872,
+          "supervisor_cpu_seconds": 0.00448599999999999,
+          "monitor_cpu_seconds": 0.0,
+          "sampled_peak_group_rss_bytes": 85262336,
+          "sampled_peak_workdir_bytes": 243387,
+          "resource_guards": {
+            "max_group_rss_bytes": 2147483648,
+            "max_workdir_bytes": 134217728,
+            "poll_interval_seconds": 0.25,
+            "os_enforced": false,
+            "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+          },
+          "argv": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1)(allow default)(deny network*)",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/autorouter/native.py",
+            "netclasses",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/candidate/owned-escape-seed.kicad_pcb",
+            "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/final-netclasses.json"
+          ],
+          "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation/final-netclasses.log",
+          "log_bytes": 0,
+          "log_truncated": false,
+          "cleanup_complete": true,
+          "resource_accounting": {
+            "method": "wait4 child rusage",
+            "cpu_scope": "direct child plus descendants accounted for by child wait",
+            "rss_scope": "kernel peak, not simultaneous process-tree total",
+            "native_rss_unit": "bytes",
+            "memory_limit_enforced": false,
+            "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+          },
+          "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/qfn-escape-controls-native-003/seed_width_mutation",
+          "signal_cancellation_enabled": true,
+          "pid": 18623,
+          "name": "final-netclasses"
+        }
+      ],
+      "reason": "generated track differs from native netclass target: N15",
+      "rejected_before_final_DRC": true,
+      "candidate_sha256": "a8e7a2377a25c34c21bc6f44f13cfc64b39ed718b99e9155e49dfdfe2eb72178"
+    }
+  },
+  "unattempted": [],
+  "steps": [],
+  "source_hashes": {
+    "owned-escape-seed.kicad_pcb": "870c75a9b69a63e38af040e9ad164db23fd0dee29163c4ad3e8bf2e74aced61c",
+    "owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+    "owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+    "owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778"
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+      "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+      "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+      "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+      "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+      "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+      "autorouter/gui.py": "1289ad334980c219a3d78a9c56a036d903f6af2795dc3ae5c6aff36acbf0e409",
+      "autorouter/handoff.py": "0ac5ad49ec7c0dcfbd89ca0890763aac1df4ea590d7412290f045c704c582f84",
+      "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "6f4adae700d7532218aac8e9627360107dadd2f6fcb04f4ef6a7b76471185fde",
+      "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+      "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+      "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+      "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+      "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+      "autorouter/pipeline.py": "7f3d1c20f063f5aa6d55fddcb8896ecdc9c0de6f8a0f51d0faf49a3feebf542e",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+      "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+      "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+      "autorouter/review_export.py": "c37064122519fd34c576088952efb131983b122321ab215d1608ab452d53defd",
+      "autorouter/review_view.py": "3d82f3328477ba0f578923ea754375382ef970c088f4263ce38bd828f107775e",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+      "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+      "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+      "autorouter/strategy.py": "4b9bd8faf60d1c2992b0704d812c35c1c476bea4f7058c8b2db1dd3dd7ac9421",
+      "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+      "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72"
+    },
+    "git_head": "aa0072c6b3d8090de2603e5ecb42a95968fb873b",
+    "source_provenance": {
+      "kind": "runtime-directory-v1",
+      "git_head": "aa0072c6b3d8090de2603e5ecb42a95968fb873b",
+      "build_source": {
+        "files_sha256": {
+          "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+          "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+          "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+          "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+          "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+          "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+          "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+          "autorouter/gui.py": "1289ad334980c219a3d78a9c56a036d903f6af2795dc3ae5c6aff36acbf0e409",
+          "autorouter/handoff.py": "0ac5ad49ec7c0dcfbd89ca0890763aac1df4ea590d7412290f045c704c582f84",
+          "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "6f4adae700d7532218aac8e9627360107dadd2f6fcb04f4ef6a7b76471185fde",
+          "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+          "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+          "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+          "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+          "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "autorouter/pipeline.py": "7f3d1c20f063f5aa6d55fddcb8896ecdc9c0de6f8a0f51d0faf49a3feebf542e",
+          "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+          "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+          "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+          "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+          "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+          "autorouter/review_export.py": "c37064122519fd34c576088952efb131983b122321ab215d1608ab452d53defd",
+          "autorouter/review_view.py": "3d82f3328477ba0f578923ea754375382ef970c088f4263ce38bd828f107775e",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+          "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+          "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+          "autorouter/sexpr.py": "c65b209def530fab9ca1481c67ed2d8217a294b73df8e5e41458e269f917b6dd",
+          "autorouter/strategy.py": "4b9bd8faf60d1c2992b0704d812c35c1c476bea4f7058c8b2db1dd3dd7ac9421",
+          "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+          "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+          "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+          "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+          "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+          "toolchain.lock.json": "cec0446e5ed3554b0c0b286cbb61e5aceb5bc013e87839db3f7081b9fd2f24d9"
+        },
+        "git_head": "aa0072c6b3d8090de2603e5ecb42a95968fb873b",
+        "kind": "git-checkout"
+      },
+      "manifest_sha256": "c037a58401e7c55c070ecd6be87820371a9e5150122f62a77173889997e42fe8",
+      "native_version": "10.0.7"
+    },
+    "kicad": "10.0.7",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-050/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_protected_via_import_policy": "legacy-via-off-source-v3",
+    "normal_task_copper_fixed_policy": "native-task-copper-fixed-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1",
+    "comparison_route_policy": "selected-native7-fixed-comparison-v2",
+    "native_improve_child_policy": "selected-native7-single-improve-child-v1"
+  },
+  "completed_evidence": {
+    "files": {
+      "outside_short/candidate/owned-escape-seed.kicad_pcb": "3e43b20c1cd5a817e4514109e83bc1124894989f7f5e95039c5cf7c538226f6c",
+      "outside_short/candidate/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "outside_short/candidate/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "outside_short/candidate/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778",
+      "outside_short/final-drc-binding.json": "5e51e731ef344f9546079231edf8798936d745bd4963d2742ea40a6c156644de",
+      "outside_short/final-drc-fields-audit-process.json": "52ac4c11f3e95429eb03227b9a638dad59c711f8ba5429cb1c700f916d070fd7",
+      "outside_short/final-drc-fields-audit.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outside_short/final-drc-fields-local-settings.json": "23a3eb4bd6cc9d11aa33e939e8874757f883885edd8f5d2806459ca4315b5d9f",
+      "outside_short/final-drc-fields-netlist-process.json": "803c26314eb9ed1e7a39d257867e8fe333f115811b4e1fec1aedcccc526fc66b",
+      "outside_short/final-drc-fields-netlist.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outside_short/final-drc-fields-proof.json": "2e220994163d11244a02d4044254b8e73883cc1e0df5608c8b2d05d267dc4aaf",
+      "outside_short/final-drc-fields.json": "a5df8aca80f2f7f51c5f2a07e72f371b0ebbd7cf46f6c8bcda8171222a09f3ee",
+      "outside_short/final-drc-fields.net": "295d8236eeaea120a804b1a9b1aef0fe6bb3493b4c029d49f72caa53cee9e9e5",
+      "outside_short/final-drc-input/owned-escape-seed.kicad_pcb": "3e43b20c1cd5a817e4514109e83bc1124894989f7f5e95039c5cf7c538226f6c",
+      "outside_short/final-drc-input/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "outside_short/final-drc-input/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "outside_short/final-drc-input/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778",
+      "outside_short/final-drc-process.json": "09882d59bc02e7d7288d5465dfe54633681504a4acc7ae331f75a72dd75e4140",
+      "outside_short/final-drc.json": "743a0bb91de0a6e24b5ca4d7fd559c4333187e24323b3671c5320af550cda64a",
+      "outside_short/final-drc.log": "048f628e2454c9b76693fbc1e90cd4ecff667d3e10589cd42da09f4e00c9560c",
+      "outside_short/final-netclass-audit.json": "92e9ebc232e51ba70d9c1c609c7ad9f50725f824f8e1598a6e1a74a1e20ddbf8",
+      "outside_short/final-netclasses-process.json": "de2a2fa95b7a16b9dda805395dbf247d234ddf451b89d3665a69bf8350982d4b",
+      "outside_short/final-netclasses.json": "0052e175631157f4852ebd3c888a50c1ff17e7c1cd40ca9cf1f36dede33b5d84",
+      "outside_short/final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outside_short/kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+      "outside_short/kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+      "outside_short/kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+      "outside_short/kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+      "outside_short/kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+      "outside_short/kicad-config/10.0/kicad_common.json": "4346a2239acfb2507daf9e677b3743f7efdaaf0f3ae1eebe54a05f193f274a9d",
+      "outside_short/kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+      "outside_short/kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+      "outside_short/pre-refill.kicad_pcb": "3e43b20c1cd5a817e4514109e83bc1124894989f7f5e95039c5cf7c538226f6c",
+      "outside_short/refill-drc-binding.json": "1baeee50ac0ca900375634bfd4647fbd64d5042ea425558f3b0aece8094ffd4b",
+      "outside_short/refill-drc-process.json": "a39dbd110b9a1464da543253b43cb2a1ce5303f0c738f4519152769b30eddc8d",
+      "outside_short/refill-drc.json": "bbc7387daa847291e116df72e1c9e1596e0aa0397443d573913fccf63767b73e",
+      "outside_short/refill-drc.log": "87ab430062bf5bf39a96e3e591cc8c50c0a09278de7631d80b67026deb2ecc3e",
+      "outside_short/refill/owned-escape-seed.kicad_pcb": "c1f11aa861fc4588213b91ac8281078ca6129d5dc183dc850b77dd5aecbe840e",
+      "outside_short/refill/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "outside_short/refill/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "outside_short/refill/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778",
+      "positive/candidate/owned-escape-seed.kicad_pcb": "483b835024ff4e874dffcfde215150a77c193a34d37eb41cf2886c1aed2d1404",
+      "positive/candidate/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "positive/candidate/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "positive/candidate/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778",
+      "positive/final-drc-binding.json": "9514c65a660301f970271f8228e2a6f979bb598e98ab9def88c9c84375dd8385",
+      "positive/final-drc-fields-audit-process.json": "bdde5970863cc517db02a8ed6239c2dbb0067d0e50236017a42534499f87ba57",
+      "positive/final-drc-fields-audit.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "positive/final-drc-fields-local-settings.json": "771776dff0351b559d488cc89f306b0c98f8ba0df3b497e9db9e5ccec6489566",
+      "positive/final-drc-fields-netlist-process.json": "91f50a25d0125272f24f7b031e4cef02d0801c4217a2843fdf7a53d90a9d5709",
+      "positive/final-drc-fields-netlist.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "positive/final-drc-fields-proof.json": "26c20189ef88a9d860e764f93ccc07555db3a484cf6129d6dcd37bb17ca0dacb",
+      "positive/final-drc-fields.json": "c808102c505686e9d5d39ae6b5f74c2fd39856077552531717b0aa1bb83cce40",
+      "positive/final-drc-fields.net": "7a750362b417587ee35df87f62a920d873ae46d0e61035f10e930ace2b08c740",
+      "positive/final-drc-input/owned-escape-seed.kicad_pcb": "483b835024ff4e874dffcfde215150a77c193a34d37eb41cf2886c1aed2d1404",
+      "positive/final-drc-input/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "positive/final-drc-input/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "positive/final-drc-input/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778",
+      "positive/final-drc-process.json": "29e41d69225b61d7d476016e67ed0689b8af2d65801bc8ad543e09112b1a564d",
+      "positive/final-drc.json": "3df003c7ff0f5b21d4b7696ae8e5cee195e0c2657b0ff51627f5bf2d21a57b9f",
+      "positive/final-drc.log": "349fe140cb742261106ce095dbdb9c7a382f1a3949f0e175f0a35a423633d31e",
+      "positive/final-netclass-audit.json": "92bf56c73d7d08390c6c00475a4db4ab2f360748d9f69bd5baaf17de23996dfe",
+      "positive/final-netclasses-process.json": "72fc9eb53ea228990854ebf6b965cfbe2eae23b039192826d129397ccc67d6ea",
+      "positive/final-netclasses.json": "df30c48bbc7d76d9a21ba2d0a5bead84e880318c1ace9f5ffbcc4411d9df14a2",
+      "positive/final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "positive/kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+      "positive/kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+      "positive/kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+      "positive/kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+      "positive/kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+      "positive/kicad-config/10.0/kicad_common.json": "cc65b3bd8c2b621e5cc0a79779af500e87b6f3e124c34ed677fba5bb33830524",
+      "positive/kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+      "positive/kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+      "positive/pre-refill.kicad_pcb": "483b835024ff4e874dffcfde215150a77c193a34d37eb41cf2886c1aed2d1404",
+      "positive/refill-drc-binding.json": "f7dffe2a2cdfac10d02b271404954ea8a794710072f72a3ee8f5e4878ad1bb0e",
+      "positive/refill-drc-process.json": "f9c934219ae4184c6c17c5787d7eb6840f955271dcf48f397e41fb87af035e0a",
+      "positive/refill-drc.json": "74b750112b4776156c2a161af5eb4ad70882b491546258860d4a4464dceffb28",
+      "positive/refill-drc.log": "584015b5ebd85b09cc7f58c3f9e89a3c7f69cc9502953f9d12fbb40455a7d0a5",
+      "positive/refill/owned-escape-seed.kicad_pcb": "dd60ee67b2e747ddd299dc10c5035dd70bd97f9380dfd0322a7edc8fc26f9b52",
+      "positive/refill/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "positive/refill/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "positive/refill/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778",
+      "seed_width_mutation/candidate/owned-escape-seed.kicad_pcb": "a8e7a2377a25c34c21bc6f44f13cfc64b39ed718b99e9155e49dfdfe2eb72178",
+      "seed_width_mutation/candidate/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "seed_width_mutation/candidate/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "seed_width_mutation/candidate/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778",
+      "seed_width_mutation/final-netclasses-process.json": "85886870956ade69fe98763b8fde52c1525aa59f5fcbeac106d353dd74a09ad5",
+      "seed_width_mutation/final-netclasses.json": "a30bc2b1b5dcbfe1bd592e4d3f67de0eeef4ac610ce986ad36fb31a554407b18",
+      "seed_width_mutation/final-netclasses.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seed_width_mutation/kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+      "seed_width_mutation/kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+      "seed_width_mutation/kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+      "seed_width_mutation/kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+      "seed_width_mutation/kicad-config/10.0/kicad_common.json": "7ef76cdb9962651f8116b725177f0f5f2ba67ad895129f4dd1d95c7198eeb9b4",
+      "seed_width_mutation/kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+      "seed_width_mutation/pre-refill.kicad_pcb": "a8e7a2377a25c34c21bc6f44f13cfc64b39ed718b99e9155e49dfdfe2eb72178",
+      "seed_width_mutation/refill-drc-binding.json": "ca8ab8200d5ec046825e808eac44e372610441e9e34233b2c40979de07cb4271",
+      "seed_width_mutation/refill-drc-process.json": "6aa41e00b00f2e58e83ff0c460848d578e95f2ab5a8662992aae7aae1b7b52bc",
+      "seed_width_mutation/refill-drc.json": "6907b79d951e825f8ecb7d51a0c91deb6676582c891c028421a55afe67d180a5",
+      "seed_width_mutation/refill-drc.log": "d5b6fdb73b009de9e81919222e905b4cb916f9bab1d6467e4101653aa6327144",
+      "seed_width_mutation/refill/owned-escape-seed.kicad_pcb": "6bdc7fed6216bee0610bf4e6b5e8da482e5b0fb210b3c833ef62b98e29f96407",
+      "seed_width_mutation/refill/owned-escape-seed.kicad_prl": "1901e8da5371236ebb05a0ae8e90e742628c093dbe793b4af93bbe19f4fb4855",
+      "seed_width_mutation/refill/owned-escape-seed.kicad_pro": "087b1eaf6653c91f41fe4f67b3b47b8ccebc85db03892033987c211ed73b53f8",
+      "seed_width_mutation/refill/owned-escape-seed.kicad_sch": "cecc3223f328ea09ff4109b13c400eba4bfeb0c495745d0008f31c9371ff2778"
+    },
+    "directories": [
+      ".",
+      "outside_short",
+      "outside_short/candidate",
+      "outside_short/final-drc-input",
+      "outside_short/kicad-cache",
+      "outside_short/kicad-cache/kicad",
+      "outside_short/kicad-cache/kicad/10.0",
+      "outside_short/kicad-config",
+      "outside_short/kicad-config/10.0",
+      "outside_short/kicad-config/10.0/colors",
+      "outside_short/kicad-documents",
+      "outside_short/kicad-documents/kicad",
+      "outside_short/kicad-documents/kicad/10.0",
+      "outside_short/kicad-documents/kicad/10.0/3dmodels",
+      "outside_short/kicad-documents/kicad/10.0/3rdparty",
+      "outside_short/kicad-documents/kicad/10.0/footprints",
+      "outside_short/kicad-documents/kicad/10.0/plugins",
+      "outside_short/kicad-documents/kicad/10.0/projects",
+      "outside_short/kicad-documents/kicad/10.0/scripting",
+      "outside_short/kicad-documents/kicad/10.0/symbols",
+      "outside_short/kicad-documents/kicad/10.0/template",
+      "outside_short/refill",
+      "outside_short/tmp",
+      "outside_short/tmp/org.kicad.kicad",
+      "outside_short/tmp/org.kicad.kicad/instances",
+      "positive",
+      "positive/candidate",
+      "positive/final-drc-input",
+      "positive/kicad-cache",
+      "positive/kicad-cache/kicad",
+      "positive/kicad-cache/kicad/10.0",
+      "positive/kicad-config",
+      "positive/kicad-config/10.0",
+      "positive/kicad-config/10.0/colors",
+      "positive/kicad-documents",
+      "positive/kicad-documents/kicad",
+      "positive/kicad-documents/kicad/10.0",
+      "positive/kicad-documents/kicad/10.0/3dmodels",
+      "positive/kicad-documents/kicad/10.0/3rdparty",
+      "positive/kicad-documents/kicad/10.0/footprints",
+      "positive/kicad-documents/kicad/10.0/plugins",
+      "positive/kicad-documents/kicad/10.0/projects",
+      "positive/kicad-documents/kicad/10.0/scripting",
+      "positive/kicad-documents/kicad/10.0/symbols",
+      "positive/kicad-documents/kicad/10.0/template",
+      "positive/refill",
+      "positive/tmp",
+      "positive/tmp/org.kicad.kicad",
+      "positive/tmp/org.kicad.kicad/instances",
+      "seed_width_mutation",
+      "seed_width_mutation/candidate",
+      "seed_width_mutation/kicad-cache",
+      "seed_width_mutation/kicad-cache/kicad",
+      "seed_width_mutation/kicad-cache/kicad/10.0",
+      "seed_width_mutation/kicad-config",
+      "seed_width_mutation/kicad-config/10.0",
+      "seed_width_mutation/kicad-config/10.0/colors",
+      "seed_width_mutation/kicad-documents",
+      "seed_width_mutation/kicad-documents/kicad",
+      "seed_width_mutation/kicad-documents/kicad/10.0",
+      "seed_width_mutation/kicad-documents/kicad/10.0/3dmodels",
+      "seed_width_mutation/kicad-documents/kicad/10.0/3rdparty",
+      "seed_width_mutation/kicad-documents/kicad/10.0/footprints",
+      "seed_width_mutation/kicad-documents/kicad/10.0/plugins",
+      "seed_width_mutation/kicad-documents/kicad/10.0/projects",
+      "seed_width_mutation/kicad-documents/kicad/10.0/scripting",
+      "seed_width_mutation/kicad-documents/kicad/10.0/symbols",
+      "seed_width_mutation/kicad-documents/kicad/10.0/template",
+      "seed_width_mutation/refill",
+      "seed_width_mutation/tmp",
+      "seed_width_mutation/tmp/org.kicad.kicad",
+      "seed_width_mutation/tmp/org.kicad.kicad/instances"
+    ]
+  },
+  "wall_seconds": 7.109925958095118,
+  "full_CPU_seconds": 5.145726
+}
