@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "kind": "pure-derived-fill-projection-development-checkpoint-v1",
+  "recorded_utc": "2026-10-20T11:37:14.147617+00:00",
+  "accepted": false,
+  "project_complete": false,
+  "change": "Remove only root routes and direct root-zone derived fill before deepcopy for immutable comparison; discard old direct derived fill before transplant deepcopy. Retained intent is independently copied; refill route/net identity still runs first. No Native, semantic or authority checks skipped; no bounds raised.",
+  "mechanism": "Instrumented051 profile showed repeated immutable/transplant deepcopies of fill that was immediately discarded. This general pure projection avoids copying discarded geometry, independent of board names or route scores.",
+  "targeted": {
+    "passed": true,
+    "tests": 7,
+    "complete_cost": {
+      "wall_seconds": 0.19,
+      "CPU_seconds": 0.13
+    },
+    "scope": "Exact prior-function output oracle, unknown/nested fields, all root route kinds, input immutability, disjoint output lists, lost-zone and route/net/UUID/kind/missing-route refusals. Some fill-equivalence controls explicitly stub only the identity seam; real identity refusals also run."
+  },
+  "synthetic": {
+    "result": {
+      "schema": 1,
+      "passed": true,
+      "kind": "synthetic-pure-invariant-projection-differential-v1",
+      "source_sha256": "80683aa7995fbacc8a45a959471d7d2c426b4b07ced3e9b58b56010257499886",
+      "generated_points": 20000,
+      "repetitions_per_method": 20,
+      "same_exact_output": true,
+      "source_unchanged": true,
+      "rows": {
+        "previous": {
+          "wall_seconds": 0.38392012496478856,
+          "CPU_seconds": 0.383827
+        },
+        "project_retained_before_copy": {
+          "wall_seconds": 0.00030691700521856546,
+          "CPU_seconds": 0.00030700000000005723
+        }
+      },
+      "whole_wall_seconds": 0.4304364159470424,
+      "whole_full_CPU_seconds": 0.427354,
+      "pipeline_sha256": "60adafdefb1dd088aa64fe32c30fcd3a41da560e3e937af9ada8b0da3618987d",
+      "controller_sha256": "1a00bc90a5ebba34396348282327d2e1a4138afd20295a10f2e72b3be1236711",
+      "Native_executed": false,
+      "accepted": false,
+      "project_complete": false,
+      "scope": "Owned synthetic AST normalization only. The previous function is the exact pre-change immutable projection. No actual board routing/delivery/comparative/electrical/Native/GUI claim; pure microbenchmark timings are not user-visible job speed. Authoring/review/qualification costs additional."
+    },
+    "complete_cost": {
+      "wall_seconds": 0.56,
+      "CPU_seconds": 0.52
+    },
+    "scope": "Owned synthetic AST only, not actual board/job speed or Native validation. Generated large AST stays local; reproducible controller retained."
+  },
+  "qualification": "Combine with already checkpointed fixed-bound LRU syntax change before full203 and new runtime053. Full integration and actual installed delivery still required. No promotion/retry/stitch of050/051/052 results.",
+  "curation_preparation_failure": "001 failed before writing any output because shared retain helper required missing hashlib import; following git add/audit also refused missing packet/empty index. No committed or staged payload. Costs not measured, not zero; exact error retained.",
+  "actual_GUI": false,
+  "Native_executed": false,
+  "human_review": false,
+  "costs": "Measured complete exits counted once. Research, authoring, AI review and curation additional/partly unmetered, not zero. Profile cumulative entries overlap.",
+  "backup_scope": "Owned source and small evidence checkpoint only. Later raw stays Mac-only/outside010; no full restoration repeated or disk-failure protection claimed.",
+  "source_sha256": {
+    "autorouter/pipeline.py": "60adafdefb1dd088aa64fe32c30fcd3a41da560e3e937af9ada8b0da3618987d",
+    "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+    "tests/test_immutable_projection.py": "ad3dfb381ffe812779c47f3216f89a0abfd1ea76e4d4ba3e8a0b62ed909ec258"
+  },
+  "files_index": {
+    "path": "evidence/immutable-projection-repair-001-notes/files.json",
+    "sha256": "bc83c236085f90bcf1bae58dec4491d5f011efa8d45543ec39afd39741739c6c"
+  }
+}

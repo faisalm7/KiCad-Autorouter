@@ -242,12 +242,25 @@ def check_storage(*, active_root=None):
         raise Rejected('less than 2 GiB disk headroom')
     return total
 
-def immutable(tree):
-    t=copy.deepcopy(tree)
-    t[:]=[n for n in t if not isinstance(n,list) or not n or n[0] not in ROUTES]
-    for z in sx.children(t,'zone'):
-        z[:]=[n for n in z if not isinstance(n,list) or not n or n[0] not in DERIVED_ZONE]
+def _without_derived_fill(tree):
+    """Shallow parsed-board projection; deepcopy retained data before use.
+
+    Only top-level zone fill is derived. Unknown fields, nested zone-like
+    records and every zone's original intent stay in this projection.
+    """
+    t=copy.copy(tree)
+    for index,node in enumerate(tree):
+        if isinstance(node,list) and node and node[0]=='zone':
+            zone=copy.copy(node)
+            zone[:]=[n for n in node if not isinstance(n,list) or not n or n[0] not in DERIVED_ZONE]
+            t[index]=zone
     return t
+
+
+def immutable(tree):
+    t=_without_derived_fill(tree)
+    t[:]=[n for n in t if not isinstance(n,list) or not n or n[0] not in ROUTES]
+    return copy.deepcopy(t)
 
 def routes(tree): return [n for n in tree if isinstance(n,list) and n and n[0] in ROUTES]
 
@@ -931,7 +944,7 @@ def check_refill_route_nets(original, filled):
 
 def transplant_fill(original, filled):
     check_refill_route_nets(original,filled)
-    out=copy.deepcopy(original)
+    out=copy.deepcopy(_without_derived_fill(original))
     fill_by_id={sx.one(z,'uuid')[1]:z for z in sx.children(filled,'zone')}
     for z in sx.children(out,'zone'):
         zid=sx.one(z,'uuid')[1]

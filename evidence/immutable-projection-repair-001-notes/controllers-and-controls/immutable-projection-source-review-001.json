@@ -1,0 +1,38 @@
+{
+  "constructed_controls": {
+    "file": "tests/test_immutable_projection.py",
+    "lead_reported_cpu_seconds": 0.13,
+    "lead_reported_result": "PASS, unmodified",
+    "lead_reported_wall_seconds": 0.19,
+    "methods": 7,
+    "rerun_by_reviewer": false,
+    "scope": "Exact pre-change immutable/fill-body oracles; unknown and nested fields; all root route kinds; rules, terminals, stackup and nets; unchanged inputs and detached output; explicit identity seam plus separate unmocked shared route/net identity checks."
+  },
+  "kind": "immutable-derived-fill-projection-static-source-review-v1",
+  "known_limits": [
+    "Only parsed plain-list/string ASTs are covered; arbitrary mutable subclasses or custom copy hooks are outside this helper contract.",
+    "The private shallow intermediate can share retained nodes temporarily; safety depends on both public callers retaining the final deepcopy before editing or returning data.",
+    "Tests and static review do not establish Native routing correctness, performance improvement, current runtime qualification or GUI support. Existing failed051/052 results remain unchanged."
+  ],
+  "reviewed_scope": [
+    "_without_derived_fill makes a shallow root and root-zone projection, removing only direct DERIVED_ZONE children of root zones. Unknown root/footprint/zone fields, nested fill-looking fields and original zone intent remain retained.",
+    "immutable removes only root ROUTES and deepcopies the retained projection before returning. Its public result remains detached from original input.",
+    "transplant_fill retains the existing route/net identity check before projection, deepcopies retained original data and separately deepcopies new fill by matching original zone UUID. Source routes and non-fill intent remain original; missing source zones still refuse."
+  ],
+  "reviewer_scope": {
+    "AI_static_review": true,
+    "Native_run": false,
+    "human_review": false,
+    "other_files_edited": false,
+    "performance_measured": false,
+    "product_edits": false,
+    "test_author": "this reviewer; test self-review is not independent",
+    "tests_rerun": false
+  },
+  "schema": 1,
+  "source_sha256": {
+    "autorouter/pipeline.py": "60adafdefb1dd088aa64fe32c30fcd3a41da560e3e937af9ada8b0da3618987d",
+    "tests/test_immutable_projection.py": "ad3dfb381ffe812779c47f3216f89a0abfd1ea76e4d4ba3e8a0b62ed909ec258"
+  },
+  "verdict": "No material blocker found in the reviewed plain-AST projection change."
+}

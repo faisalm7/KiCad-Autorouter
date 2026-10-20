@@ -72,3 +72,20 @@ trees and every validation guard remain unchanged. Eight parser controls and
 skeptical source review pass. Full203 and one fresh runtime053 delivery
 regression are still required; neither a faster pure-parser control nor a near
 miss of the acceptance ceiling establishes delivered routing.
+
+
+## Retained-data projection in the same next build
+
+The earlier051 instrumented profile also showed repeated copies of derived
+zone fill that invariant comparison immediately discarded. The new projection
+filters only root routes and direct root-zone derived fill before copying the
+retained tree. Fill transplant still checks route/net identity first and copies
+new Native fill. Unknown fields and nested lookalike records remain intact.
+Both public operations return detached lists and leave their inputs unchanged.
+
+Seven focused tests pass against the exact previous implementations, including
+unknown intent, input/output isolation and real route/net/UUID/kind refusals. An
+owned synthetic differential also produced identical trees; its timing is not
+actual job performance. [Evidence](../evidence/immutable-projection-repair-001.json)
+records these controls and additional costs. This change and LRU will enter the
+same fresh053 build after full203; no installed success is claimed yet.
