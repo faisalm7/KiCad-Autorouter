@@ -44,6 +44,28 @@ def bound_material(binding):
         or binding['input_witnesses'][str(Path(binding['validated_candidate']).parent)]['files']!=binding['candidate_hashes']):
         raise p.Rejected('bound delivery source/candidate capture changed')
 
+def _export_validation_guard(binding,report,identity):
+    """Keep a fully checked parent through this export's pure delivery writes.
+
+    Entry bind and both independent final-reader binds still run in full. This
+    only replaces stable()'s redundant replays; no result or worker authority
+    is cached. Every byte witness and the original Context owner/seal remain
+    live, together with the export policy callbacks and late delivery guards.
+    """
+    context_guard=h._review_validation_guard(Path(binding['receipt']).parent,report,identity)
+    seal=(f.canonical(binding),f.canonical(report))
+    def pure():
+        context_guard()
+        if (f.canonical(binding),f.canonical(report))!=seal:
+            raise p.Rejected('original export binding or routing record changed')
+    def check(*,material=True):
+        pure()
+        if material:
+            bound_material(binding)
+            pure()
+    check()
+    return check
+
 def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Shared handoff contract/current checker plus exact recorded intent identity."""
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
@@ -385,7 +407,16 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
             output_ceiling_bytes=OUTPUT_BYTES,output_file_ceiling=OUTPUT_FILES)
         for sig in previous:signal.signal(sig,interrupted)
         with p.validation_readback_session():
+            validation_identity=h._review_validation_identity()
             cap();binding,report=bind(choice_path,**ctx);out=h.real_path(output,existing=False)
+            from .strategy import native7_parent
+            native7_export=(native_toolchain is None and comparison_context is None
+                            and native7_parent(Path(binding['receipt']).parent,report) is not None)
+            validation_guard=None
+            if native7_export:
+                if h._review_validation_identity()!=validation_identity:
+                    raise p.Rejected('export validation policy changed during initial check')
+                validation_guard=_export_validation_guard(binding,report,validation_identity)
             if out.exists():raise p.Rejected('export output already exists')
             for protected in [Path(x).parent for x in (binding['source'],binding['receipt'],binding['review'],binding['choice'])]:
                 if out==protected or protected in out.parents:raise p.Rejected('export must be outside source/routing/review/choice trees')
@@ -399,18 +430,28 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
             def stable():
                 cap()
                 if lifecycle.get('created'):h.owned_destination(lifecycle)
-                if bind(binding['choice'],**ctx)[0]!=binding or h.runtime_inventory()!=runtime or p.tool_manifest(**({"native_toolchain":native_toolchain} if native_toolchain is not None else {}))!=tools:raise p.Rejected('export original inputs/runtime/tools changed')
+                if validation_guard is not None:validation_guard()
+                elif bind(binding['choice'],**ctx)[0]!=binding:raise p.Rejected('export original inputs changed')
+                if h.runtime_inventory()!=runtime or p.tool_manifest(**({"native_toolchain":native_toolchain} if native_toolchain is not None else {}))!=tools:raise p.Rejected('export original inputs/runtime/tools changed')
                 if job and witness(job.out/'snapshot',project=True)!=binding['input_witnesses'][str(source.parent)]:raise p.Rejected('export original snapshot changed')
                 if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export completed evidence changed')
+                # A tool callback could replace the guard dispatcher itself;
+                # compare live policy before relying on its material callback.
+                if validation_guard is not None:validation_guard()
                 from .strategy import native7_marked
                 if native_toolchain is not None or comparison_context is not None or native7_marked(Path(binding['receipt']).parent,report):
                     additional=((job.out,record),) if job and lifecycle.get('evidence') is not None else ()
                     def material():
+                        if validation_guard is not None:validation_guard()
                         bound_material(binding)
                         if h.runtime_inventory()!=runtime:raise p.Rejected('export runtime changed after tool checks')
                         if job and witness(job.out/'snapshot',project=True)!=binding['input_witnesses'][str(source.parent)]:raise p.Rejected('export snapshot changed after tool checks')
                         if lifecycle.get('evidence') is not None and evidence(out)!=lifecycle['evidence']:raise p.Rejected('export evidence changed after tool checks')
                     h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=additional,material=material,comparison_context=comparison_context)
+                    # Do not rely on dispatchers calling our callback. This
+                    # final identity/seal fence reads no source or tool after
+                    # delivery_guards' last PRL metadata check.
+                    if validation_guard is not None:validation_guard(material=False)
                 cap()
             stable();out.mkdir(parents=True,exist_ok=False);h.capture_destination(lifecycle,out)
             job=ExportJob(out/'validation',seconds,remaining,protect_local_settings=True,**worker)

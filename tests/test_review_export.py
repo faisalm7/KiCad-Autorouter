@@ -171,9 +171,11 @@ class ExportControls(unittest.TestCase):
         for mode in ('signal','CPU'):
             with self.subTest(mode=mode):
                 self.output=self.root/('cleanup-'+mode);extra=[0.];real=h.cpu_seconds
+                real_session=p.validation_readback_session
                 @contextmanager
                 def session():
-                    try:yield
+                    try:
+                        with real_session():yield
                     finally:
                         if mode=='signal':raise KeyboardInterrupt
                         extra[0]=121.
@@ -186,9 +188,11 @@ class ExportControls(unittest.TestCase):
                 self.output=self.root/('owner-output-'+str(fail));retained=self.root/('retained-owned-'+str(fail));replacement=self.root/('preexisting-target-'+str(fail));replacement.mkdir()
                 (replacement/'keep').write_text('preserve original target');(replacement/'export.json').write_text('preexisting unrelated metadata')
                 before=e.witness(replacement)
+                real_session=p.validation_readback_session
                 @contextmanager
                 def session():
-                    try:yield
+                    try:
+                        with real_session():yield
                     finally:
                         self.output.rename(retained);replacement.rename(self.output)
                         if fail:raise RuntimeError('deliberate session cleanup exception')
@@ -198,9 +202,11 @@ class ExportControls(unittest.TestCase):
                 self.assertEqual(e.witness(self.output),before);self.assertTrue((retained/'export.json').exists());self.preserved()
                 with self.assertRaises(p.Rejected):e.check_export(retained/'export.json')
     def test_context_exit_exception_without_replacement_invalidates_ready_export(self):
+        real_session=p.validation_readback_session
         @contextmanager
         def session():
-            try:yield
+            try:
+                with real_session():yield
             finally:raise RuntimeError('deliberate final session failure')
         with patch.object(p,'validation_readback_session',session),self.assertRaisesRegex(RuntimeError,'deliberate final session failure'):self.export()
         self.no_positive();self.assertTrue(list(self.output.glob('invalidated-export-*')));self.preserved()

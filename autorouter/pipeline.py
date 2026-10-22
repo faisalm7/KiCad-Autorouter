@@ -2629,12 +2629,12 @@ def validation_readback_session():
     from . import (_improve_context,adapter,board_floor,default_targets,engine_angle,floor_context,floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,
                    native_edge,netclass,netclass_native,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
-                   provenance,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
+                   provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
     import sys
     modules=(sys.modules[__name__],c,sx,_improve_context,adapter,board_floor,default_targets,engine_angle,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,netclass_native,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
-             routing_scope,thermal,thermal_geometry,provenance,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
+             routing_scope,thermal,thermal_geometry,provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
     existing=_readback_session.get()
     state=existing if existing is not None else {'entries':{},'native7_contexts':{},'modules':modules}
     token=_readback_session.set(state)
