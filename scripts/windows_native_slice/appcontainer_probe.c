@@ -9,6 +9,8 @@
 #include <ws2tcpip.h>
 #include <windows.h>
 #include <sddl.h>
+#include <objbase.h>
+#include <fwpmu.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -101,6 +103,87 @@ static int tcp_probe(const char *address, unsigned short port, const char *label
     return !connected && error == WSAEACCES;
 }
 
+
+/* Evidence-only attempts against this live owner's exact fresh objects.
+ * No content/delete call, NULL key, owner change or weakened DACL is used. */
+static int mutation_probe(wchar_t **targets) {
+    union { ULONGLONG align; BYTE bytes[SECURITY_MAX_SID_SIZE]; } system, admins, rights;
+    union { ULONGLONG align; BYTE bytes[512]; } storage;
+    const DWORD requests[2] = {WRITE_DAC, WRITE_OWNER};
+    const char *names[2] = {"write_dac", "write_owner"};
+    GUID keys[2], zero = {0};
+    HANDLE engine = NULL;
+    PACL acl = (PACL)storage.bytes;
+    DWORD n, error;
+    int file, operation, object, ok = 1;
+    for (file = 0; file < 2; ++file) {
+        size_t length = wcslen(targets[file]);
+        if (length < 10 || length > 240 || targets[file][1] != L':' || targets[file][2] != L'\\' ||
+            wcschr(targets[file], L'"') || wcschr(targets[file], L'\r') ||
+            wcschr(targets[file], L'\n') || wcsstr(targets[file], L"..")) return 0;
+    }
+    if (wcscmp(targets[0], targets[1]) == 0) return 0;
+    for (object = 0; object < 2; ++object) {
+        if (CLSIDFromString(targets[object + 2], &keys[object]) != S_OK ||
+            memcmp(&keys[object], &zero, sizeof(zero)) == 0) return 0;
+    }
+    if (memcmp(&keys[0], &keys[1], sizeof(keys[0])) == 0) return 0;
+    for (file = 0; file < 2; ++file) for (operation = 0; operation < 2; ++operation) {
+        HANDLE handle = CreateFileW(targets[file], requests[operation],
+            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
+            OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT, NULL);
+        int opened = handle != INVALID_HANDLE_VALUE;
+        error = opened ? ERROR_SUCCESS : GetLastError();
+        /* An unexpected grant is a failure: close it without modifying anything. */
+        if (opened && !CloseHandle(handle)) ok = 0;
+        printf("{\"kind\":\"state_mutation\",\"role\":%d,\"pid\":%lu,\"target\":%d,"
+               "\"operation\":\"%s\",\"opened\":%s,\"winerror\":%lu,\"explicit_access_denied\":%s}\n",
+               PROBE_ROLE, (unsigned long)GetCurrentProcessId(), file, names[operation],
+               opened ? "true" : "false", (unsigned long)error,
+               !opened && error == ERROR_ACCESS_DENIED ? "true" : "false");
+        fflush(stdout);
+        if (opened || error != ERROR_ACCESS_DENIED) ok = 0;
+    }
+    /* Exact same three non-inheriting ACEs and protection as pg_security.
+     * Even an unexpected successful setter can only reapply that same DACL. */
+    n = SECURITY_MAX_SID_SIZE;
+    if (!CreateWellKnownSid(WinLocalSystemSid, NULL, system.bytes, &n)) return 0;
+    n = SECURITY_MAX_SID_SIZE;
+    if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, NULL, admins.bytes, &n)) return 0;
+    n = SECURITY_MAX_SID_SIZE;
+    if (!CreateWellKnownSid(WinCreatorOwnerRightsSid, NULL, rights.bytes, &n)) return 0;
+    if (!InitializeAcl(acl, (DWORD)sizeof(storage.bytes), ACL_REVISION) ||
+        !AddAccessDeniedAceEx(acl, ACL_REVISION, 0, WRITE_DAC | WRITE_OWNER, rights.bytes) ||
+        !AddAccessAllowedAceEx(acl, ACL_REVISION, 0,
+            FWPM_ACTRL_READ | FWPM_ACTRL_ADD_LINK | READ_CONTROL | DELETE, system.bytes) ||
+        !AddAccessAllowedAceEx(acl, ACL_REVISION, 0,
+            FWPM_ACTRL_READ | FWPM_ACTRL_ADD_LINK | READ_CONTROL | DELETE, admins.bytes) ||
+        !IsValidAcl(acl) || acl->AceCount != 3) return 0;
+    /* Open in the actual LowBox process, never via host impersonation/handle. */
+    error = FwpmEngineOpen0(NULL, RPC_C_AUTHN_WINNT, NULL, NULL, &engine);
+    printf("{\"kind\":\"mutation_engine_open\",\"role\":%d,\"pid\":%lu,\"winerror\":%lu}\n",
+           PROBE_ROLE, (unsigned long)GetCurrentProcessId(), (unsigned long)error);
+    fflush(stdout);
+    if (error != ERROR_SUCCESS) return 0; /* entry denial is NOT object proof */
+    for (object = 0; object < 2; ++object) {
+        SECURITY_INFORMATION info = DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION;
+        error = object == 0
+            ? FwpmSubLayerSetSecurityInfoByKey0(engine, &keys[object], info, NULL, NULL, acl, NULL)
+            : FwpmFilterSetSecurityInfoByKey0(engine, &keys[object], info, NULL, NULL, acl, NULL);
+        printf("{\"kind\":\"policy_mutation\",\"role\":%d,\"pid\":%lu,\"target\":%d,"
+               "\"operation\":\"reapply_same_protected_dacl\",\"winerror\":%lu,\"explicit_access_denied\":%s}\n",
+               PROBE_ROLE, (unsigned long)GetCurrentProcessId(), object, (unsigned long)error,
+               error == ERROR_ACCESS_DENIED ? "true" : "false");
+        fflush(stdout);
+        if (error != ERROR_ACCESS_DENIED) ok = 0;
+    }
+    error = FwpmEngineClose0(engine);
+    printf("{\"kind\":\"mutation_engine_close\",\"role\":%d,\"pid\":%lu,\"winerror\":%lu}\n",
+           PROBE_ROLE, (unsigned long)GetCurrentProcessId(), (unsigned long)error);
+    fflush(stdout);
+    return ok && error == ERROR_SUCCESS;
+}
+
 int wmain(int argc, wchar_t **argv) {
     TOKEN_FACTS self, child;
     WSADATA winsock;
@@ -110,9 +193,9 @@ int wmain(int argc, wchar_t **argv) {
     char address[16];
     unsigned long port, hold;
     DWORD child_exit = 0;
-    int created = 0, failed = 1;
+    int created = 0, failed = 1, mutation_ok = 1;
     volatile int role = PROBE_ROLE;
-    if (argc != 5) return 64;
+    if (argc != 5 && argc != 9) return 64;
     errno = 0; port = wcstoul(argv[2], &end, 10);
     if (errno || !*argv[2] || *end || port == 0 || port > 65535) return 64;
     errno = 0; hold = wcstoul(argv[4], &end, 10);
@@ -125,9 +208,13 @@ int wmain(int argc, wchar_t **argv) {
     if (WSAStartup(MAKEWORD(2, 2), &winsock) != 0) return 67;
     if (!tcp_probe("127.0.0.1", (unsigned short)port, "owned_loopback") ||
         !tcp_probe(address, 443, "public_ipv4")) goto done;
+    if (argc == 9) mutation_ok = mutation_probe(argv + 5);
     if (role == 1) {
         if (wcschr(argv[3], L'"') || wcscmp(argv[3], L"-") == 0) goto done;
-        if (swprintf_s(command, 32768, L"\"%ls\" %ls %lu - %lu", argv[3], argv[1], port, hold) < 0) goto done;
+        if (argc == 9) {
+            if (swprintf_s(command, 32768, L"\"%ls\" %ls %lu - %lu \"%ls\" \"%ls\" %ls %ls",
+                argv[3], argv[1], port, hold, argv[5], argv[6], argv[7], argv[8]) < 0) goto done;
+        } else if (swprintf_s(command, 32768, L"\"%ls\" %ls %lu - %lu", argv[3], argv[1], port, hold) < 0) goto done;
         ZeroMemory(&startup, sizeof(startup)); startup.cb = sizeof(startup);
         startup.dwFlags = STARTF_USESTDHANDLES;
         startup.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
@@ -149,6 +236,7 @@ int wmain(int argc, wchar_t **argv) {
         if (WaitForSingleObject(process.hProcess, 20000) != WAIT_OBJECT_0 ||
             !GetExitCodeProcess(process.hProcess, &child_exit) || child_exit != 0) goto done;
     } else if (role != 2 || wcscmp(argv[3], L"-") != 0) goto done;
+    if (!mutation_ok) goto done;
     if (hold) Sleep(hold * 1000);
     failed = 0;
 done:

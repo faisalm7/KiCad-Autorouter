@@ -272,7 +272,7 @@ def _setup_argv(argv,root):
  if vc.parent.name!='MSVC' or not re.fullmatch(r'[0-9]+(?:\.[0-9]+)+',vc.name):raise ValueError('versioned MSVC compiler required')
  if '/LD' in argv:return _guard_setup_argv(argv,root,exe,vc)
  probe=Path(__file__).with_name('appcontainer_probe.c').resolve(strict=True)
- if len(argv)!=24 or argv[1:8]!=['/nologo','/W4','/WX','/O1','/MT','/DUNICODE','/D_UNICODE'] or argv[8] not in ('/DPROBE_ROLE=1','/DPROBE_ROLE=2'):raise ValueError('exact owned canary compiler flags required')
+ if len(argv)!=26 or argv[1:8]!=['/nologo','/W4','/WX','/O1','/MT','/DUNICODE','/D_UNICODE'] or argv[8] not in ('/DPROBE_ROLE=1','/DPROBE_ROLE=2'):raise ValueError('exact owned canary compiler flags required')
  role=argv[8][-1]
  kit=Path(os.environ['ProgramFiles(x86)']).absolute()/'Windows Kits/10'
  include=argv[9:13]
@@ -285,7 +285,7 @@ def _setup_argv(argv,root):
  target=root/('probe-parent.exe' if role=='1' else 'probe-child.exe')
  expected=[str(exe),'/nologo','/W4','/WX','/O1','/MT','/DUNICODE','/D_UNICODE','/DPROBE_ROLE='+role,
            *['/I'+str(p) for p in includes],str(probe),'/Fo'+str(root/('role'+role+'.obj')),'/Fe'+str(target),
-           '/link','/INCREMENTAL:NO',*['/LIBPATH:'+str(p) for p in libraries],'kernel32.lib','advapi32.lib','ws2_32.lib']
+           '/link','/INCREMENTAL:NO',*['/LIBPATH:'+str(p) for p in libraries],'kernel32.lib','advapi32.lib','ws2_32.lib','fwpuclnt.lib','ole32.lib']
  if argv!=expected:raise ValueError('only the exact owned AppContainer probe build is allowed')
  for path in [*includes,*libraries]:
   safe(path,vc if path.is_relative_to(vc) else kit)

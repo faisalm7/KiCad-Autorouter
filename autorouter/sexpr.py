@@ -3,6 +3,7 @@ import re
 from contextlib import contextmanager
 from contextvars import ContextVar
 from pathlib import Path
+from marshal import dumps as _clone_encode, loads as _clone_decode
 
 TOKEN = re.compile(r'\s+|;[^\n]*|\(|\)|"(?:\\.|[^"\\])*"|[^\s()";]+')
 MAX_BYTES = 32 * 1024 * 1024
@@ -10,6 +11,26 @@ MEMO_BYTES = 8 * 1024 * 1024
 MEMO_NODES = 250000
 MEMO_ENTRIES = 64
 _parse_session = ContextVar('autorouter_sexpr_parse_session', default=None)
+
+
+def clone(tree):
+    """Copy list/string syntax, preserving aliases and mutation independence.
+
+    The decoder receives only bytes made here from checked built-in values;
+    it never reads a file or caller-supplied serialized data. This is a pure
+    copy, not a syntax/result cache. Keep the codec callables visible to the
+    shared live-policy identity. Explicit format4 works in both pinned Pythons.
+    """
+    pending = [tree]; seen = set()
+    while pending:
+        node = pending.pop()
+        if type(node) is str:continue
+        if type(node) is not list:raise TypeError('S-expression list or atom required')
+        identity = id(node)
+        if identity in seen:continue
+        seen.add(identity); pending.extend(node)
+    return _clone_decode(_clone_encode(tree, 4))
+
 
 def _parse_uncached(text):
     if len(text.encode()) > MAX_BYTES:

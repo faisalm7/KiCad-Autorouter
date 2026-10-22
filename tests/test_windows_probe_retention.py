@@ -155,7 +155,7 @@ class WindowsProbeRetentionControls(unittest.TestCase):
                 result = {'cases': []}
                 scope.update(guard=SimpleNamespace(scratch=folder, scope=folder, profile_sid='mock-not-security-proof'),
                     parent='owned-parent', child='owned-child', address='127.0.0.1', port=1,
-                    persistent_guard=object(), result=result,
+                    persistent_guard=object(), lowbox_mutation=False, result=result,
                     check_tokens=lambda *a, **k: self.fail('tokens must not be checked after malformed log'))
                 error = UnicodeDecodeError if fault == 'parse' else OSError
                 with self.assertRaises(error): self.probe_loop(scope)
@@ -170,7 +170,7 @@ class WindowsProbeRetentionControls(unittest.TestCase):
             folder = Path(tmp)
             scope = dict(guard=SimpleNamespace(scratch=folder, scope=folder, profile_sid='mock'),
                 parent='owned-parent', child='owned-child', address='127.0.0.1', port=1,
-                persistent_guard=object(), result={'cases': []}, records=lambda p: [],
+                persistent_guard=object(), lowbox_mutation=False, result={'cases': []}, records=lambda p: [],
                 run=lambda *a, **k: dict(status='success', cleanup_complete=True, process_count=2),
                 check_tokens=lambda *a, **k: None, retain_owned_log=lambda *a: {'complete': False})
             with self.assertRaisesRegex(RuntimeError, 'log retention is incomplete'):

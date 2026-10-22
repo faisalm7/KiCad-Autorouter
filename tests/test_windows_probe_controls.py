@@ -478,11 +478,12 @@ class WindowsProbeControls(unittest.TestCase):
             argv=[str(exe),'/nologo','/W4','/WX','/O1','/MT','/DUNICODE','/D_UNICODE','/DPROBE_ROLE=1',
                   *['/I'+str(p) for p in includes],str((ROOT/'appcontainer_probe.c').resolve()),
                   '/Fo'+str(setup/'role1.obj'),'/Fe'+str(setup/'probe-parent.exe'),'/link','/INCREMENTAL:NO',
-                  *['/LIBPATH:'+str(p) for p in libraries],'kernel32.lib','advapi32.lib','ws2_32.lib']
+                  *['/LIBPATH:'+str(p) for p in libraries],'kernel32.lib','advapi32.lib','ws2_32.lib','fwpuclnt.lib','ole32.lib']
             with patch.dict(os.environ,{'ProgramFiles':str(program),'ProgramFiles(x86)':str(program86)}):
                 self.assertEqual(gate(argv,setup)[2]['kind'],'fixed-owned-C-canary-build')
                 for index,value in ((8,'/DPROBE_ROLE=3'),(13,str(root/'other.c')),(14,'/Fo'+str(root/'escape.obj')),
-                                    (15,'/Fe'+str(root/'escape.exe')),(17,'@response.rsp')):
+                                    (15,'/Fe'+str(root/'escape.exe')),(17,'@response.rsp'),
+                                    (24,'other.lib'),(25,'@linker.rsp')):
                     altered=argv.copy();altered[index]=value
                     with self.subTest(index=index),self.assertRaises(ValueError):gate(altered,setup)
                 with self.assertRaises(ValueError):gate(argv+['/extra'],setup)

@@ -139,13 +139,55 @@ def check_tokens(rows, sid, *, cancelled=False):
         raise RuntimeError('Cancellation did not observe the actual resumed child')
 
 
-def main(argv=None, *, persistent_guard=None, prepared_setup=None):
+def check_mutations(rows):
+    """Require exact denial rows bound to both already checked actual tokens."""
+    tokens = [row for row in rows if row.get('kind') == 'self_token']
+    if (len(tokens) != 2 or any(type(row.get('role')) is not int or type(row.get('pid')) is not int
+            or row['pid'] <= 0 for row in tokens) or {row['role'] for row in tokens} != {1, 2}):
+        raise RuntimeError('Two typed actual mutation token identities required')
+    pids = {row['role']: row['pid'] for row in tokens}
+    if len(set(pids.values())) != 2:
+        raise RuntimeError('Distinct actual parent/child PIDs required')
+    kinds = {'state_mutation', 'policy_mutation', 'mutation_engine_open', 'mutation_engine_close'}
+    actual = [row for row in rows if row.get('kind') in kinds]
+    expected = {(role, 'state_mutation', target, operation)
+                for role in (1, 2) for target in (0, 1) for operation in ('write_dac', 'write_owner')}
+    expected |= {(role, 'policy_mutation', target, 'reapply_same_protected_dacl')
+                 for role in (1, 2) for target in (0, 1)}
+    expected |= {(role, kind, None, None) for role in (1, 2)
+                 for kind in ('mutation_engine_open', 'mutation_engine_close')}
+    observed = set()
+    for row in actual:
+        role, kind, target = row.get('role'), row['kind'], row.get('target')
+        key = (role, kind, target, row.get('operation'))
+        if (type(role) is not int or role not in pids or type(row.get('pid')) is not int or
+                row['pid'] != pids[role] or key not in expected or key in observed or
+                (kind in ('state_mutation', 'policy_mutation') and type(target) is not int) or
+                type(row.get('winerror')) is not int):
+            raise RuntimeError('Missing/duplicated/wrong-identity mutation observation')
+        observed.add(key)
+        engine = kind.startswith('mutation_engine_')
+        if engine:
+            if row['winerror'] != 0:
+                raise RuntimeError('LowBox WFP entry/close unavailable; not an object-mutation proof')
+        elif (row['winerror'] != 5 or row.get('explicit_access_denied') is not True or
+              (kind == 'state_mutation' and row.get('opened') is not False)):
+            raise RuntimeError('Only explicit error5 denial qualifies; no unknown or access grant')
+    if observed != expected:
+        raise RuntimeError('Both actual executables must complete every fresh-object mutation control')
+    return {'passed': True, 'state_access_denials': 8, 'policy_same_DACL_denials': 4,
+            'scope': 'Two own state paths rights requests and sublayer/filter1 same-DACL setters only.'}
+
+
+def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutation=False):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scope', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
     args = parser.parse_args(argv)
     if platform.machine().lower() not in ('amd64', 'x86_64'):
         raise RuntimeError('This compiler canary is x64 only')
+    if type(lowbox_mutation) is not bool or (lowbox_mutation and persistent_guard is None):
+        raise RuntimeError('Mutation control requires exact live persistent owner')
     scope = args.scope.absolute()
     report = args.report.absolute()
     setup = scope.with_name(scope.name + '-setup')
@@ -218,7 +260,7 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None):
                         '/DPROBE_ROLE=' + str(role), *['/I' + str(p) for p in includes], str(source),
                         '/Fo' + str(setup / ('role' + str(role) + '.obj')), '/Fe' + str(target),
                         '/link', '/INCREMENTAL:NO', *['/LIBPATH:' + str(p) for p in libraries],
-                        'kernel32.lib', 'advapi32.lib', 'ws2_32.lib']
+                        'kernel32.lib', 'advapi32.lib', 'ws2_32.lib', 'fwpuclnt.lib', 'ole32.lib']
                 before = time.monotonic()
                 builds.append({**execute(argv, cwd=setup, log=setup / ('compile' + str(role) + '.log'), retain_raw=persistent_guard is not None),
                                'wall_seconds': time.monotonic() - before,
@@ -238,17 +280,36 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None):
                                                   'budgets': {'positive_seconds': 15, 'cancel_seconds': 10,
                                                               'cancel_after_seconds': 2}}
             parent, child = (str(guard.tool_root / name) for name in ('probe-parent.exe', 'probe-child.exe'))
+            mutation_targets = []
+            if lowbox_mutation:
+                # Seal the same tools/scratch and arm the same owner before naming
+                # only its own CREATE_NEW files and WFP objects; no extra Job.
+                guard.before_launch(parent, guard.scratch, guard.scratch / 'denial.log', guard.scope, 15)
+                mutation_targets = persistent_guard.mutation_targets()
+                result['mutation_targets'] = {'state_paths': mutation_targets[:2],
+                                              'WFP_keys': mutation_targets[2:]}
+                result['kind'] = 'non-admitting-Windows-LowBox-owned-mutation-control015'
+                result['scope'] = ('Fresh own journal/context WRITE_DAC/WRITE_OWNER open requests and '
+                                   'own sublayer/filter1 same protected-DACL setters from both zero-capability '
+                                   'tokens; existing IPv4/normal/cancel. No content/delete/owner-setter, other '
+                                   'filters, crash/reuse, IPv6/UDP/inbound, Native or Windows product claim.')
             for label, hold, cap, cancel in [('denial', 0, 15, None), ('descendant_cancel', 15, 10, 2)]:
                 log = guard.scratch / (label + '.log')
                 process = None
                 probe_error = None
                 try:
-                    process = run([parent, address, str(port), child, str(hold)], cwd=guard.scratch,
+                    probe_argv = [parent, address, str(port), child, str(hold)]
+                    if lowbox_mutation and cancel is None:
+                        probe_argv += mutation_targets
+                    process = run(probe_argv, cwd=guard.scratch,
                                   log=log, root=guard.scope, firewall_check=None, appcontainer=guard,
                                   seconds=cap, cancel_after=cancel)
                     rows = records(log)
                     result['cases'].append({'label': label, 'process': process, 'records': rows})
                     check_tokens(rows, guard.profile_sid, cancelled=cancel is not None)
+                    if lowbox_mutation and cancel is None:
+                        result['mutation_control'] = check_mutations(rows)
+                        guard.check_contract()
                     expected = 'success' if cancel is None else 'cancelled'
                     if process['status'] != expected or process['cleanup_complete'] is not True or process['process_count'] < 2:
                         raise RuntimeError('Actual bounded descendant process/cleanup outcome differs')

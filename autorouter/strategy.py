@@ -79,7 +79,7 @@ def delete_routes(tree, identifiers, nets, protected):
     requested = set(identifiers)
     if not requested or not requested <= allowed:
         raise p.Rejected("deletion includes protected, absent, or non-zone-net routing")
-    result = copy.deepcopy(tree)
+    result = sx.clone(tree)
     result[:] = [node for node in result if not (isinstance(node, list) and node and node[0] in p.ROUTES and route_id(node) in requested)]
     if any(route not in p.routes(result) for route in protected):
         raise p.Rejected("deletion changed protected route")

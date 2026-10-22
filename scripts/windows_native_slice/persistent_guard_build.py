@@ -229,6 +229,9 @@ def main():
         plan = read_json(protocol)
         require(plan['schema'] == 1 and type(plan['schema']) is int and plan['kind'] == expected_kind and
                 plan['source_base_head'] == BASE_HEAD, 'exact frozen protocol kind/base required')
+        mutation = plan.get('lowbox_mutation_control', False)
+        require(type(mutation) is bool and (not mutation or canary), 'explicit SID-only mutation mode required')
+        result['lowbox_mutation_control_requested'] = mutation
         pins = plan['source_files_sha256']
         require(type(pins) is dict and set(pins) == set(source_names), 'exact stage-specific frozen source paths required')
         def fresh():
@@ -288,7 +291,7 @@ def main():
                     result['actual_profile_operations'] = None
                     result['socket_tests_performed'] = None
                     code = run_canary(['--scope', str(scope), '--report', str(canary_report)],
-                                      persistent_guard=state, prepared_setup=setup)
+                                      persistent_guard=state, prepared_setup=setup, lowbox_mutation=mutation)
                     child = read_json(canary_report, 192 * 1024)
                     result['canary'] = child
                     require(code == 0 and child['passed'] is True and child['cleanup']['cleanup_complete'] is True,
@@ -296,6 +299,10 @@ def main():
                     result['actual_policy_operations'] = True
                     result['actual_profile_operations'] = True
                     result['socket_tests_performed'] = True
+                    if mutation:
+                        require(child.get('mutation_control', {}).get('passed') is True, 'owned LowBox mutation controls incomplete')
+                        result['actual_lowbox_mutation_control'] = child['mutation_control']
+                        result['scope'] = child['scope']
             fresh()
         result['source_files_sha256'] = pins
         result['passed'] = True

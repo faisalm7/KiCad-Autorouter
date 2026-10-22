@@ -264,7 +264,7 @@ def _without_derived_fill(tree):
 def immutable(tree):
     t=_without_derived_fill(tree)
     t[:]=[n for n in t if not isinstance(n,list) or not n or n[0] not in ROUTES]
-    return copy.deepcopy(t)
+    return sx.clone(t)
 
 def routes(tree): return [n for n in tree if isinstance(n,list) and n and n[0] in ROUTES]
 
@@ -634,7 +634,7 @@ def routing_task(original,scope,names=None):
         from . import routing_scope as rs
         task=rs.task(original,names)
     elif scope in {'whole_board_unlocked_routing','partial_completion'}:
-        task=copy.deepcopy(original)
+        task=sx.clone(original)
         if scope=='whole_board_unlocked_routing':
             task[:]=[node for node in task if not isinstance(node,list) or not node or node[0] not in ROUTES or locked(node)]
     else:raise Rejected('unknown original routing task scope')
@@ -948,13 +948,13 @@ def check_refill_route_nets(original, filled):
 
 def transplant_fill(original, filled):
     check_refill_route_nets(original,filled)
-    out=copy.deepcopy(_without_derived_fill(original))
+    out=sx.clone(_without_derived_fill(original))
     fill_by_id={sx.one(z,'uuid')[1]:z for z in sx.children(filled,'zone')}
     for z in sx.children(out,'zone'):
         zid=sx.one(z,'uuid')[1]
         if zid not in fill_by_id: raise Rejected('native refill lost zone')
         z[:]=[n for n in z if not isinstance(n,list) or not n or n[0] not in DERIVED_ZONE]
-        z.extend(copy.deepcopy(n) for n in fill_by_id[zid] if isinstance(n,list) and n and n[0] in DERIVED_ZONE)
+        z.extend(sx.clone(n) for n in fill_by_id[zid] if isinstance(n,list) and n and n[0] in DERIVED_ZONE)
     return out
 
 def parse_report(path, board_name, *, native_toolchain=None):

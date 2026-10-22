@@ -534,6 +534,29 @@ class PersistentGuardState:
             self.poison(error)
             raise
 
+    def mutation_targets(self):
+        """Only fresh current-owner names/keys; evidence, never cleanup authority."""
+        try:
+            row = self.check_armed()
+            _require(self._phase == 'armed' and row['state'] == 2 and
+                     row['policy_may_exist'] == 1 and row['jobs'] == row['processes'] == 0 and
+                     row['pending_create'] == 0 and row['keys'] == self._keys and
+                     row['sid_hex'] == self._sid.hex(), 'fresh armed unused owner required')
+            names = ('name-' + self._name + '.jsonl', 'context-' + self._name + '.json')
+            _require(all(name in self._owned_names and name in self._files for name in names),
+                     'only this CREATE_NEW owner journal/context may be targeted')
+            keys = [uuid.UUID(hex=value) for value in self._keys[:2]]
+            _require(len(keys) == 2 and keys[0].int and keys[1].int and keys[0] != keys[1],
+                     'two exact nonzero distinct current-owner keys required')
+            result = [str(self._root / name) for name in names] + ['{' + str(key) + '}' for key in keys]
+            _require(all(len(value) <= 240 and not any(c in value for c in '\0\r\n"')
+                         for value in result), 'bounded nonquoted mutation targets required')
+            self._fresh()
+            return result
+        except BaseException as error:
+            self.poison(error)
+            raise
+
     def check_armed(self):
         return self._invoke('PG_CheckArmed')
 
