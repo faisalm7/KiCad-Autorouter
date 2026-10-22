@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "kind": "runtime062-Improve-review-failure-and-bounded-source-correction-v1",
+  "project_complete": false,
+  "runtime062_changed": false,
+  "new_runtime_qualified": false,
+  "GUI_qualified": false,
+  "comparison": {
+    "facts_sha256": "cf529c6262acf7896a797ec11c7eb84c4b0051df42c2cad32c197e817ccc182f",
+    "independent_raw_review_sha256": "d9b76d28e6e9d0951f234a483d8912efafdfa3655b9a3c25b939c5ca4b2c5b8e",
+    "four_deliveries": true,
+    "B0": "validated negative, two starved thermals",
+    "Cimprove": "unqualified rendered-review timeout; never retried or relabelled",
+    "all_trials": 29,
+    "accepted_raw_trials": 25,
+    "DRC_negative_raw_trials": 4
+  },
+  "failure": {
+    "review_CLI_exit": 2,
+    "review_wall_seconds": 46.153119459049776,
+    "review_cap_wall_and_CPU_seconds": 30,
+    "route_candidate_status": "routing_accepted",
+    "delivered": false,
+    "accept_intent": false,
+    "export": false
+  },
+  "profiles": [
+    {
+      "attempt": 1,
+      "controller_sha256": "47ef6196374eb8bc6bed83ddb864130c2c366af9865f7b56b8fd98ddfbb2da71",
+      "cost": {
+        "wall_seconds": 0.14,
+        "CPU_seconds": 0.09,
+        "user_seconds": 0.08,
+        "system_seconds": 0.01,
+        "time_log_sha256": "99595567a056e7a69d33762fcced06f2c9db7cfb9b45f66c6b7415da022ddaa6",
+        "source": ".runs/profile-runtime062-reader-001/time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "state": "pre-profile setup failure: incorrect manifest basename; no stored reader run",
+      "retained_error_sha256": "99595567a056e7a69d33762fcced06f2c9db7cfb9b45f66c6b7415da022ddaa6"
+    },
+    {
+      "attempt": 2,
+      "controller_sha256": "11f9ea4b7782b1256a992ae55acc0101ba72c03fc95a4e3957bb45bd0fe4d5ab",
+      "cost": {
+        "wall_seconds": 90.73,
+        "CPU_seconds": 88.96,
+        "user_seconds": 85.26,
+        "system_seconds": 3.7,
+        "time_log_sha256": "7699304c791702f561d29dc73d758c69514240a18b7668f3eeecfddf0c1f1ef9",
+        "source": ".runs/profile-runtime062-reader-002/time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "state": "90-second instrumented partial profile, no acceptance transfer",
+      "operation_session": false,
+      "source_and_all_method_evidence_unchanged": true,
+      "result_sha256": "0d2518ea3b6d8b2be9f2506cdbc00c51c6c578cafb3be193a325c5b30323432e",
+      "profile_sha256": "c16ffc1e0c1ebb69e32102148154a8f8c93f145da681f291bca692dad5cf859c",
+      "cumulative_sha256": "3da32764605b59bf10a9ddcbe64a515f6fb35fc942e7dd3c5c9987d58ef52782",
+      "interpretation": "Direct reader lacks review operation context; diagnostic only."
+    },
+    {
+      "attempt": 3,
+      "controller_sha256": "b7c34b8f0f13c94e65e6092ecad06c9a53f48c243ee371c05ac20ded131af749",
+      "cost": {
+        "wall_seconds": 90.74,
+        "CPU_seconds": 89.43,
+        "user_seconds": 82.87,
+        "system_seconds": 6.56,
+        "time_log_sha256": "c9cced56a4a9c12de84be2662c021d1f56651aff74ef313c58f565fed44a490e",
+        "source": ".runs/profile-runtime062-reader-003/time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "state": "90-second instrumented partial profile, no acceptance transfer",
+      "operation_session": true,
+      "source_and_all_method_evidence_unchanged": true,
+      "result_sha256": "a25c4373434625829a6955b5c4d74065a74334800f6f67d49c1ef941c45a73ea",
+      "profile_sha256": "eb6a8cd879600610760547c5c84165ea73b1fad5e245722b9f6a9a9a3762c964",
+      "cumulative_sha256": "25d3538a7727db4cbd7d9b0520a979e16b4454da2e4dbc2eebe9d48fc1a2d8a1",
+      "interpretation": "Reader uses actual review operation session; still instrumented/partial, not ordinary runtime."
+    }
+  ],
+  "diagnosis": "Repeated public parent admission in each completed-trial class audit; representative partial profile003 records31 basis calls/150 tool manifests with29 trial replays. Cumulative samples overlap and are instrumented; not complete costs or a speedup claim.",
+  "correction": "Original live Context/owner/seal/policy and class or Default basis surround one bounded selection operation. Each trial still replays Native/class/process/deletion/quality/selection; original source, complete owned bytes/directories and context are checked after final callbacks. Callback expires at operation exit. Existing review pure guard is shared; no semantic acceptance result reused, no budget or syntax-cache bound increased. Independent source review requested and closed an additional source-fence gap before integration.",
+  "targeted": [
+    {
+      "attempt": 1,
+      "tests": 43,
+      "passed": true,
+      "cost": {
+        "wall_seconds": 4.11,
+        "CPU_seconds": 3.77,
+        "user_seconds": 2.81,
+        "system_seconds": 0.96,
+        "time_log_sha256": "0a5f44da36926ad2ae2ffbe894e3dd65074e3e9a18812e9b1b16a823a8c41e92",
+        "source": ".runs/native7-selection-basis-targeted-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "attempt": 2,
+      "tests": 44,
+      "passed": true,
+      "late_source_mutation_regression": true,
+      "cost": {
+        "wall_seconds": 4.4,
+        "CPU_seconds": 4.07,
+        "user_seconds": 3.03,
+        "system_seconds": 1.04,
+        "time_log_sha256": "12525f98c74b9e1e279c23077013bfbe6f64e88a99c5457e5940df0c27f60a5e",
+        "source": ".runs/native7-selection-basis-targeted-002-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    }
+  ],
+  "source_sha256": {
+    "autorouter/strategy.py": "0b8dbe51799468b592b3ea3c5e33cf33171ba3d34aaf4b360d85509ed5dfd925",
+    "autorouter/handoff.py": "a88afe9e93f5775d673680e6a2ae8ab0650c4f340f94a535866c206266e59b5c",
+    "tests/test_native7_selection_basis.py": "aedc0814f3d08684c805ca1c5a791db7fe973321b154a1bdf98d15621cf5a5bf",
+    "tests/test_native7_improve_single.py": "9f3f33ad3feb94706b8c997ffdc51a45a6df15ee1568c6c95d4c37d3db15cd11"
+  },
+  "AI_reviews": {
+    ".runs/review-runtime062-reader-hotspot-001.json": "07b59240844bdae6c4c7505812ae8191035a598031e184b07c31f8d9fe12edd5",
+    ".runs/review-runtime062-arcdice-comparison-001.json": "d9b76d28e6e9d0951f234a483d8912efafdfa3655b9a3c25b939c5ca4b2c5b8e",
+    ".runs/review-native7-selection-basis-source-001.json": "013033d0b9bfd9c5d7b71bfae01e7815d2288e1e161fe2a669198421e95f4dea"
+  },
+  "human_review": false,
+  "full_integration": {
+    "passed": true,
+    "tests": 2694,
+    "skipped": 1,
+    "source_sha256_unchanged": true,
+    "execution_sha256": "60397a481685ed18dd486106b249a6ff9a253cdc4bf8545294f9e0f763f49479",
+    "cost": {
+      "wall_seconds": 173.19,
+      "CPU_seconds": 164.72,
+      "user_seconds": 95.11,
+      "system_seconds": 69.61,
+      "time_log_sha256": "4a088834547088a08841bfe1d10c8959e2220bf4892f1c57c2f8b42cd481c50f",
+      "source": ".runs/full-integration-221-outer-time-001.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "source_checkpoint_before_commit": "55fde59d5cb2ba78c01b95be041ded122526d5af",
+    "meaning": "Working source bytes sealed before and after full221; later commit changes provenance HEAD, not tested code."
+  },
+  "remaining": [
+    "Audit/checkpoint this correction; new immutable artifact and fresh installed native/GUI qualification remain required.",
+    "Measure actual current delivery without transferring old062 failure; no default change or completion superiority.",
+    "Prepared062GUI097 remains running; tool still reports Mac locked.",
+    "Windows015 is source-only unapplied draft; actual native Windows and release/breadth/human/electrical/full-restoration gates remain."
+  ],
+  "accounting": "All distinct external diagnostics/targeted costs retained. cProfile changes runtime and both instrumented readers interrupted. No new solver/refill/DRC/render/acceptance/export by these diagnostics. Authoring/AI/review cost additional unknown."
+}

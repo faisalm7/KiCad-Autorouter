@@ -13,6 +13,7 @@ import datetime
 import hashlib
 import json
 import math
+from contextlib import contextmanager
 from pathlib import Path
 import shutil
 import time
@@ -276,7 +277,7 @@ def _adaptive_key(base, proposal):
     return base, tuple(sorted(ids))
 
 
-def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial_guard"):
+def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial_guard", _single_basis=None):
     """Check a bound completed retained Native outcome; never run Native here."""
     from . import floor_route as f
     from .placement_clearance import read_bytes
@@ -284,6 +285,8 @@ def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial
     # matching guard returns False before any Native/input binding replay.
     if type(guard_key) is not str or guard_key not in {'adaptive_trial_guard', 'single_trial_guard'}:
         raise p.Rejected('unknown pruning trial guard')
+    if _single_basis is not None and (guard_key != 'single_trial_guard' or not callable(_single_basis)):
+        raise p.Rejected('single trial basis requires its enclosing selection operation')
     if (record.get('status') not in {'improvement_validated', 'drc_rejected', 'quality_rejected'}
             or 'reason' in record or _cancelled(record.get('steps', []))):
         return False
@@ -318,7 +321,7 @@ def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial
     if guard_key=='single_trial_guard':
         original=sx.read(Path(directory)/'snapshot'/candidate.name)
         protected=[route for route in p.routes(original) if p.locked(route)]
-        basis = native7_default_target_basis(directory,data)
+        basis = native7_default_target_basis(directory,data) if _single_basis is None else _single_basis()
         marker = data.get('native7_improve_parent')
         parent_classes = (type(marker) is dict and marker.get('policy') == NATIVE7_PARENT_CLASS_POLICY)
         # Only the explicitly admitted new parent contract disables the old
@@ -336,6 +339,12 @@ def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial
 
 
 def check_single_selection(directory, data):
+    with p.validation_readback_session():
+        with _single_selection_basis(directory,data) as basis:
+            return _check_single_selection(directory,data,_single_basis=basis)
+
+
+def _check_single_selection(directory, data, *, _single_basis=None):
     """Reconstruct retained single-policy ancestry after exact child readback.
 
     The caller must first verify the exact incumbent with a trusted child context,
@@ -387,7 +396,8 @@ def check_single_selection(directory, data):
         if proposal not in proposals(sx.read(best),nets,protected,not individual):
             raise p.Rejected('single deletion differs from current eligible copper')
         expected=delete_routes(sx.read(best),proposal['route_ids'],nets,protected)
-        complete=_adaptive_trial_native(directory,data,trial,guard_key='single_trial_guard')
+        complete=_adaptive_trial_native(directory,data,trial,guard_key='single_trial_guard',
+            **({'_single_basis':_single_basis} if _single_basis is not None else {}))
         if complete:
             if (sx.dump(expected)+'\n').encode()!=read_bytes(folder/'pre-refill.kicad_pcb'):
                 raise p.Rejected('single trial did not delete from its bound incumbent')
@@ -892,6 +902,85 @@ def _native7_context_identity(state):
         **{name:getattr(_Context,name) for name in ('__init__','__post_init__','_material','record','check')},
         output_get=_Context.output.fget, policy_get=_Context.policy.fget)
     return p._readback_live_identity((*state['modules'],methods))
+
+
+def _native7_context_guard(context, identity):
+    """Retain the original owner/seal/policy through pure checked operations.
+
+    This guard grants no acceptance and does not replace fresh material reads.
+    Both selection and delivery callers owe full Context and byte fences.
+    """
+    from . import _improve_context as child, floor_route as f
+    if type(context) is not child._Context:raise p.Rejected('checked original Improve Context required')
+    owner=dict(context._owner);seal=context._seal;directory=context.parent
+    def check():
+        if (context._seal!=seal or f.canonical(context.record())!=seal
+                or context.parent_owner!=owner or context._owner!=owner):
+            raise p.Rejected('original Improve Context changed')
+        child._check_parent_owner(owner,directory)
+        child._check_parent_owner(context.parent_owner,directory)
+        child._check_parent_owner(context._owner,directory)
+        state=p._readback_session.get()
+        if state is None or _native7_context_identity(state)!=identity:
+            raise p.Rejected('Improve validation policy changed during operation')
+    check()
+    return check
+
+
+@contextmanager
+def _single_selection_basis(directory, data):
+    """Bracket trial replay with one original, live class/Default contract.
+
+    Each trial still replays its own Native, class, process and selection proof.
+    Only repeated parent admission moves outside the loop. No accepted result,
+    child authority or witness survives this operation; final all-root PRL
+    replay remains the central caller's separate last obligation.
+    """
+    from . import floor_route as f, handoff as h, _improve_context as child, placement_clearance as pc
+    directory=Path(directory)
+    if not native7_marked(directory,data):
+        yield None
+        return
+    state=p._readback_session.get()
+    if state is None:raise p.Rejected('single selection validation operation required')
+    identity=_native7_context_identity(state)
+    context=native7_incumbent_context(directory,data)
+    child.require(context)
+    def collect():
+        if context.netclass_policy is not None:
+            _checked_native7_parent_class_basis(directory,data,context)
+            return None
+        return _checked_native7_default_basis(directory,data)
+    basis=collect();basis_seal=f.canonical(basis);data_seal=f.canonical(data)
+    material=h.evidence_witness(directory)
+    source_material=pc.inventory(context.source.parent,with_directories=True)
+    guard=_native7_context_guard(context,identity)
+    active=True
+    def checked_basis():
+        if not active:raise p.Rejected('single selection basis operation ended')
+        guard()
+        if f.canonical(data)!=data_seal or f.canonical(basis)!=basis_seal:
+            raise p.Rejected('original single selection class basis changed')
+        return basis
+    try:
+        checked_basis()
+        yield checked_basis
+        checked_basis()
+        # Do not recapture a replacement Context or rebase to new bytes.
+        child.require(context)
+        if (f.canonical(_native7_parent_binding(directory,data,context.tools))!=context._seal
+                or _native7_parent_shape(directory,data)!=context._inputs['effective']
+                or f.canonical(collect())!=basis_seal
+                or h.evidence_witness(directory)!=material):
+            raise p.Rejected('single selection material changed during trial replay')
+        # Source may change during the preceding class/owned-material readers.
+        # Retain both full directories/bytes and the child's ownership/link checks.
+        if (pc.inventory(context.source.parent,with_directories=True)!=source_material
+                or child._inventory(context.source.parent)!=context.source_hashes):
+            raise p.Rejected('single selection source changed after final callbacks')
+        checked_basis()
+    finally:
+        active=False
 
 
 def native7_incumbent_context(directory, data):

@@ -151,21 +151,9 @@ def _review_validation_guard(directory,report,identity):
     owes its complete central read, constant byte material and late full
     delivery/preview/PRL guards. No accepted result is stored or returned here.
     """
-    from . import _improve_context as child, strategy
+    from . import strategy
     context=strategy.native7_incumbent_context(directory,report)
-    if type(context) is not child._Context:raise Rejected('checked review parent Context required')
-    owner=dict(context._owner);seal=context._seal
-    def check():
-        if (context._seal!=seal or f.canonical(context.record())!=seal
-                or context.parent_owner!=owner or context._owner!=owner):
-            raise Rejected('original review parent Context changed')
-        child._check_parent_owner(owner,Path(directory))
-        child._check_parent_owner(context.parent_owner,Path(directory))
-        child._check_parent_owner(context._owner,Path(directory))
-        if _review_validation_identity()!=identity:
-            raise Rejected('review validation policy changed during delivery')
-    check()
-    return check
+    return strategy._native7_context_guard(context,identity)
 
 
 def review_policy(report, directory, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):

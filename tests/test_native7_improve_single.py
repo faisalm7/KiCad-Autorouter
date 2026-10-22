@@ -29,7 +29,9 @@ class SingleSelectionPrerequisiteTests(unittest.TestCase):
             candidate_sha256=p.sha(self.root/'candidate'/self.source.name),native=self.native)
         for item in (patch.object(s.c,'NATIVE_VERSION','10.0.7'),patch.object(s,'check_pruning_preferences')):
             item.start();self.addCleanup(item.stop)
-    def check(self):return s.check_single_selection(self.root,self.data)
+    # Isolate ancestry reconstruction; the public operation's real Context
+    # and late byte fences have their own owned-fixture regression controls.
+    def check(self):return s._check_single_selection(self.root,self.data)
     def trial(self,accepted=True):
         folder=self.root/'trials/trial-0000';folder.mkdir();(folder/'candidate').mkdir()
         proposal=s.proposals(self.tree,{'1'},[r for r in p.routes(self.tree) if p.locked(r)],False)[0]
