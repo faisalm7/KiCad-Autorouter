@@ -2,6 +2,13 @@
 
 Prepared October 9, 2026. The master prompt's mechanisms, thresholds, and workflow choices are proposed engineering requirements, not findings established by these sources. Recheck mutable documentation, versions, permissions, and APIs when executing.
 
+## Current bounded development-source screen (October22,2026)
+
+[Owned research facts](evidence/development-two-source-research-runtime062-001.json) records12 primary requests/2,675,712 bytes/36.73seconds after first request plus two search calls; whole CPU/authoring are unknown. CAD text was transiently read, not persisted as acquired projects. Full license bodies and some dependencies remain unread. No scripts, Native, engine, model or acquisition ran. No new eligible board or independent family is claimed; both leads are exposed and deferred.
+
+- [TROPIC01 Mini TS1702](https://github.com/tropicsquare/devboards/tree/5457ca1e0534df59e5587dba332f30014d7874dc/TROPIC01_Mini_Board/TS1702): publisher root README assigns hardware CERN-OHL-P-2.0; subfolder license prose names another shield, so per-asset scope remains ambiguous. Static native trio lead has eight unsupported custom QFN pads and an unsupported severity key. Native parity, ancestry, embedded assets and redistribution are unqualified. Do not remove constraints or start an open-ended custom-pad campaign.
+- [Light Weather V3](https://github.com/dominicmason555/lightweatherv3/tree/a00a2c017505cdd96852b539a4877489e587e8ac): publisher README identifies hardware CERN-OHL-S and firmwareGPLv3; full license body and schematic body remain unread. Original20221018 PCB format is unsupported;201footprints including141anonymous ones must be retained. Absolute model paths and explicit current-limited USB intent remain unqualified. No conversion/admission or electrical suitability claim.
+
 ## Checked while preparing this local handoff
 
 1. GitHub API reads for `faisalm7/KiCad-Autorouter` returned a public repository, size zero, and an empty branches collection. This is a point-in-time observation, not permission to overwrite later work.
