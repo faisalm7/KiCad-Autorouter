@@ -1,0 +1,49 @@
+.....FF........................................................................E..........................
+======================================================================
+ERROR: test_literal_classes_not_weakened (tests.test_board_floor_policy.FloorReceipt.test_literal_classes_not_weakened)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_board_floor_policy.py", line 183, in test_literal_classes_not_weakened
+    import test_netclass as legacy
+ModuleNotFoundError: No module named 'test_netclass'
+
+======================================================================
+FAIL: test_sandbox_prefix_cannot_be_added_to_a_standard_native_metrics_journal (tests.test_strategy.AdaptiveNativeJournalControls.test_sandbox_prefix_cannot_be_added_to_a_standard_native_metrics_journal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 777, in test_sandbox_prefix_cannot_be_added_to_a_standard_native_metrics_journal
+    with patch.object(self.f, 'check_drc_stage', side_effect=self.stage), self.assertRaisesRegex(p.Rejected, 'provenance'):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_standard_native_worker_journal_and_drc_contract_match_checker (tests.test_strategy.AdaptiveNativeJournalControls.test_standard_native_worker_journal_and_drc_contract_match_checker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_strategy.py", line 770, in test_standard_native_worker_journal_and_drc_contract_match_checker
+    self.assertTrue(s._adaptive_trial_native(self.root, self.data, self.record))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 106 tests in 3.602s
+
+FAILED (failures=2, errors=1)
+real 3.93
+user 1.95
+sys 1.70
+            63209472  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                6007  page reclaims
+                 358  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1519  voluntary context switches
+                2153  involuntary context switches
+         43629552319  instructions retired
+         13449279067  cycles elapsed
+            52740624  peak memory footprint

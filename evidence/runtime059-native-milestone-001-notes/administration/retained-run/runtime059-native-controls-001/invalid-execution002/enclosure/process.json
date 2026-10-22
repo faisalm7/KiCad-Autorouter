@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 7.44034199998714,
+  "cpu_seconds": 5.797688,
+  "max_rss_bytes": 250134528,
+  "supervisor_cpu_seconds": 0.029389,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 153436160,
+  "sampled_peak_workdir_bytes": 63,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-059/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-059/runtime/.runs/qualify-runtime059-hole-safety-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime059-native-controls-001/invalid-execution002/protocol.json",
+    "--protocol-sha256",
+    "0c49e9052b792f0e13881ecbc7d4d2fca76da033e0fa22cee19277ea6238a7ac"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime059-native-controls-001/invalid-execution002/enclosure/command.log",
+  "log_bytes": 63,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime059-native-controls-001/invalid-execution002/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 3850
+}

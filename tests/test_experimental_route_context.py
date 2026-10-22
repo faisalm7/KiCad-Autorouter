@@ -59,9 +59,12 @@ class ExperimentalRouteContext(unittest.TestCase):
                 p.route(self.root/'missing.kicad_pcb',out,native_toolchain=self.nt,experimental_schematic_parity=True,**kw)
             self.assertFalse(out.exists())
     def test_explicit_reader_bypasses_production_cache(self):
+        # Canonical authored input satisfies intake; this mock exercises only
+        # explicit dispatch/cache exclusion, never Native acceptance.
+        receipt=self.root/'result.json';p.save_json(receipt,self.row)
         with p.validation_readback_session(),patch.object(p,'_check_result_uncached',return_value={'controlled':True}) as reader:
-            self.assertEqual(p.check_result('unused',native_toolchain=self.nt,experimental_schematic_parity=True),{'controlled':True})
-        reader.assert_called_once_with('unused',native_toolchain=self.nt,experimental_schematic_parity=True)
+            self.assertEqual(p.check_result(receipt,native_toolchain=self.nt,experimental_schematic_parity=True),{'controlled':True})
+        reader.assert_called_once_with(receipt,native_toolchain=self.nt,experimental_schematic_parity=True)
     def test_shared_publisher_uses_explicit_reader_and_preserves_default(self):
         for explicit in (False,True):
             out=self.root/str(explicit);out.mkdir();row={'accepted':True,'status':'routing_accepted'}

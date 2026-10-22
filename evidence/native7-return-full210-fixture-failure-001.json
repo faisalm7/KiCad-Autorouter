@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "kind": "full210-failed-canonical-input-fixture-corrected-v1",
+  "accepted": false,
+  "project_complete": false,
+  "Native_qualification": false,
+  "new_runtime_built": false,
+  "source_head": "50f63338a67cdbdb81e0392fff7dda5dceaf5b4d",
+  "full210": {
+    "passed": false,
+    "tests": 2609,
+    "errors": 1,
+    "skipped": 1,
+    "sources_unchanged": true,
+    "complete_cost": {
+      "wall_seconds": 182.87,
+      "CPU_seconds": 176.09,
+      "user_seconds": 99.01,
+      "system_seconds": 77.08,
+      "time_log_sha256": "2fd266e6de408cc96c4714b8e5e203b5b719405448e1fadd212b281f3c2ab167",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-210-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "failure": "ExperimentalRouteContext.test_explicit_reader_bypasses_production_cache passed literal unused to a mocked reader; the new mandatory canonical receipt intake correctly refuses before reaching the mock.",
+  "fix": "Only the authored unit fixture now saves a real canonical result.json and asserts its Path reaches the explicit mocked reader. Production guards unchanged; no receipt or Native authority invented.",
+  "targeted": {
+    "passed": true,
+    "tests": 10,
+    "Native": false,
+    "complete_cost": {
+      "wall_seconds": 0.25,
+      "CPU_seconds": 0.2,
+      "user_seconds": 0.17,
+      "system_seconds": 0.03,
+      "time_log_sha256": "b72f3bd896d6ab61d941cf107bc39a9322ea54929a519048dcca97a07e01af2d",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/return-session-explicit-fixture-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "next_gate": "Fresh full211 required before preparing runtime059; no full integration or Native pass inferred from focused tests.",
+  "limits": "Full unit/integration fixture suite is not real routing/Native/GUI qualification; all failed output, costs and prior source packet preserved. No original source project modified.",
+  "files_index": {
+    "path": "evidence/native7-return-full210-fixture-failure-001-notes/files.json",
+    "sha256": "507455c8ea6685b5247d3e55317e942424503694c718ab1be425243dd73c1d9f"
+  }
+}

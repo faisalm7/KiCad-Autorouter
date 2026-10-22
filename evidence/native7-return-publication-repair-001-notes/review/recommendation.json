@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "kind": "native7-return-session-placement-and-reserve-source-recommendation-v1",
+  "recorded_UTC": "2026-10-22T11:47:57.293670+00:00",
+  "recommendation": "One coherent native7-only publication readback-session scope plus40s internal return reserve; keep all global caps and full guards unchanged, then qualify once on the actual normal90s Native path.",
+  "source_only_AI_not_human": true,
+  "Native_run_by_reviewer": false,
+  "workers_run_by_reviewer": false,
+  "tests_run": false,
+  "Git": false,
+  "edits_outside_this_receipt": false,
+  "accepted": false,
+  "project_complete": false,
+  "input_sha256": {
+    ".runs/runtime058-return-timing-002/cold/result.json": "7e1e65937ec420904a236ed9415bc2e34138463aa8cba0fd25e74f015b65ed05",
+    ".runs/runtime058-return-timing-002/cold/process.json": "d35980f2c5ab81aebc0cbc7e7770f22830b6ed1d41768ed448bfe893227d53a9",
+    ".runs/runtime058-return-timing-002/session/result.json": "60eb0c1fbcfd75ca9b49da9113c8f0720951e4a317dcbbe2ed09e09d7b8e4859",
+    ".runs/runtime058-return-timing-002/session/process.json": "b21a337aca58389f8ca4a6af55def35bb03c26903067ad3c608c5a112114b117",
+    ".runs/runtime058-return-timing-002-time.log": "768e0980c9b287b825ec12440a73c88ef178b8772f0e9d6998154edcce66b7eb"
+  },
+  "source_snapshot_sha256": {
+    "autorouter/strategy.py": "d7b3f5a8bdeb8da850d6bfcc371f6d5c1e7d11da10189e7cc2e2ade36d44f9ca",
+    "autorouter/floor_route.py": "86508a19a429e14f71148d4b46b5bb76386a15665faf9c8245affc3ab89f6a92",
+    "autorouter/pipeline.py": "108bd90c3f67b8dc37b98a9a17172c81573d5938d8fabfeca11880594f0341e1",
+    "autorouter/_improve_context.py": "6ef92d75698a082e234aa2407fc25fc3f58d5a99d64c82c4888680b7c30ff20c"
+  },
+  "source_snapshot_scope": "Captured during lead integration; recommendation and source lifetime analysis, not final independent approval of subsequent edits/tests.",
+  "terminal_timing002": {
+    "cold": {
+      "sequence_wall_seconds": 39.95032579207327,
+      "sequence_full_CPU_seconds": 39.739202,
+      "sampled_worker_wall_seconds": 40.191173290950246,
+      "sampled_worker_full_CPU_seconds": 39.976737,
+      "simulated_postaccount_wall_seconds": 30.434477583039552,
+      "stages": [
+        {
+          "name": "stable_before_account",
+          "wall_seconds": 9.515702457982115,
+          "full_CPU_seconds": 9.469722
+        },
+        {
+          "name": "stable_after_omitted_write",
+          "wall_seconds": 9.0688692079857,
+          "full_CPU_seconds": 8.956335000000001
+        },
+        {
+          "name": "one_full_stored_reader",
+          "wall_seconds": 12.358585000038147,
+          "full_CPU_seconds": 12.346475000000005
+        },
+        {
+          "name": "stable_after_reader",
+          "wall_seconds": 9.007023375015706,
+          "full_CPU_seconds": 8.966532999999998
+        }
+      ]
+    },
+    "session": {
+      "sequence_wall_seconds": 27.628355792025104,
+      "sequence_full_CPU_seconds": 27.431911000000003,
+      "sampled_worker_wall_seconds": 27.872672709054314,
+      "sampled_worker_full_CPU_seconds": 27.672294,
+      "simulated_postaccount_wall_seconds": 20.70380470796954,
+      "stages": [
+        {
+          "name": "stable_before_account",
+          "wall_seconds": 6.860026707989164,
+          "full_CPU_seconds": 6.84694
+        },
+        {
+          "name": "stable_after_omitted_write",
+          "wall_seconds": 6.251888707978651,
+          "full_CPU_seconds": 6.098282
+        },
+        {
+          "name": "one_full_stored_reader",
+          "wall_seconds": 8.387284124968573,
+          "full_CPU_seconds": 8.370888
+        },
+        {
+          "name": "stable_after_reader",
+          "wall_seconds": 6.0646318750223145,
+          "full_CPU_seconds": 6.054888999999999
+        }
+      ]
+    }
+  },
+  "additional_complete_timing002_cost": {
+    "complete_external_wall_seconds": 70.68,
+    "complete_external_full_CPU_seconds": 70.25
+  },
+  "timing_interpretation": "Cold/no-session then session, one pair on unchanged stored13-trial failed058 parent. Stage costs are nested and must not be added to complete external exit costs. Session includes both Context reconstruction reuse and SX parsing memo, not accepted semantic-result reuse. Fixed order and warm OS file caches limit causal attribution; no generic speed or completed product return claim. Prior cProfile001 timed out, warm unstarted, full worker CPU unknown additional/not zero and excluded from002 totals.",
+  "placement": {
+    "caller": "Only strategy.prune native7 branch passes the existing p.validation_readback_session factory; ordinary publication uses the unchanged no-session default. Scope authority is an internal caller choice, not a serialized receipt marker.",
+    "helper": "Enter scope inside floor.publish existing try, enclosing all three stable calls, account, provisional write, canonical equality and one full p.check_result. Exit before final remaining()/final_check and before successful return.",
+    "cleanup": "A session exit exception or cancellation must reach the same owned archive/corrective-negative path; account() there samples after cleanup. Final wall/fullCPU cap must execute after successful cleanup. Do not merely wrap return publish(...) in prune, which would leave exit costs/failures outside publication invalidation.",
+    "post_exit": "Recheck owned destination plus exact canonical in-memory report and on-disk result equality after exit. Keep final remaining()/final_check inside the guarded try. A context-exit callback can replace the owned directory or mutate the receipt after an equality check inside the scope.",
+    "unchanged": "No removal/reordering of repeated source/code/tool/material/Native/Default/selection/PRL guards. Native7 parent and privatechild semantic readers remain full; no accepted result cache or new execution authority.",
+    "token_lifetime": "Put _readback_session.reset(token) in an inner finally so it executes even if cache clearing raises or is interrupted. Keep nested-session behavior and failure clearing; no cross-operation Context/state leakage."
+  },
+  "reserve": {
+    "old_seconds": 25,
+    "new_recommended_seconds": 40,
+    "global_method_seconds_unchanged": 90,
+    "new_live_work_boundary_seconds": 50,
+    "new_min4_trial_admission_cutoff_seconds": 46,
+    "observed_whole_session_worker_seconds": 27.872672709054314,
+    "observed_final_native_step_wall_seconds": 2.9398446689592674,
+    "rationale": "Whole session worker about28.38s plus observed final Native steps about2.94s is about31.32s, leaving about8.68s planning headroom under40. This is conservative for the one observed EEPROM return, not a universal bound; mandatory final publication still refuses any overrun.",
+    "policy": "Unify strategy and child Context/Budget admission, assignment limits, recorded finalization wall/CPU reserve and trial-deadline readers through one constant. Source/parent/definition/module pins must bind new40 semantics. Preserve original immutable058/25 receipts as historical; do not reinterpret them under new main.",
+    "implications": "Same90 global cap now assigns at most50s to work before intake costs, leaving fewer incumbent/engine/trial seconds. Existing source and engine hard guards remain. No guarantee an incumbent or trial fits; the normal90 source qualification must establish actual delivery or retain failure without a parameter loop.420 totals and comparison settings remain unchanged global caps, but their new policy outputs require their own fresh evidence.",
+    "wording": "Update current user-facing/internal statements of25s to40 where they describe the new policy; keep old immutable evidence/protocol descriptions at25."
+  },
+  "concrete_adversarial_regressions": [
+    "Context manager yields, then raises RuntimeError or KeyboardInterrupt during exit: no current canonical positive may survive; owned corrective publication remains guarded.",
+    "Context exit consumes the remaining wall/fullCPU reserve without raising: final post-exit cap must invalidate rather than return the earlier positive sample.",
+    "Context exit replaces the output directory: post-exit owner check must fail and the pre-existing replacement directory must never be archived/overwritten.",
+    "Context exit changes the report object or canonical JSON after the inside-scope equality check: post-exit exact equality must reject.",
+    "Cache clear raises/is interrupted before ContextVar reset: reset must still occur, and the next operation must not inherit the prior Context/cache state."
+  ],
+  "status": "RECOMMENDATION_SAVED_LEAD_OWNS_INTEGRATION_AND_QUALIFICATION",
+  "limits": "No further source investigation, Native/tests/workers or timing revisions. This receipt does not qualify the integrated fix, electrical use, human review or release."
+}

@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "kind": "working-source-native7-Improve-publication-return-repair-v1",
+  "accepted": false,
+  "production_admitted": false,
+  "project_complete": false,
+  "Native_qualification": false,
+  "actual_GUI": false,
+  "new_runtime_built": false,
+  "human_review": false,
+  "source_base_checkpoint": "7a715a4dc10ecb9e6376dac4051093adf271268f",
+  "source_sha256": {
+    "autorouter/pipeline.py": "108bd90c3f67b8dc37b98a9a17172c81573d5938d8fabfeca11880594f0341e1",
+    "autorouter/strategy.py": "d7b3f5a8bdeb8da850d6bfcc371f6d5c1e7d11da10189e7cc2e2ade36d44f9ca",
+    "autorouter/_improve_context.py": "6ef92d75698a082e234aa2407fc25fc3f58d5a99d64c82c4888680b7c30ff20c",
+    "autorouter/floor_route.py": "86508a19a429e14f71148d4b46b5bb76386a15665faf9c8245affc3ab89f6a92",
+    "tests/test_publication_readback_scope.py": "28f76059b8c0cf20e4e44062dd557edbc2abc8ae40fecdc0b1088783730534c7",
+    "tests/test_strategy.py": "f10d6935126c92dfac813ee256de49e297ac992efca0a45c3e3117368df5eb16",
+    "tests/test_native7_improve_child_context.py": "57d4fac9de37d561732f0ccf274e57a07829535b70e6b5f9198fb98b6a8440a3",
+    "tests/test_native7_improve_parent.py": "c71a8c2f831f65f543d48661222ab7668e4d882c34565138f6bbde9d38e81ddf",
+    "tests/test_native7_context_reuse.py": "e888b0add2c8981feabd2118f38527ee706d27ac0cb26f2dd334a55b68f0cc50",
+    "tests/test_native7_improve_single.py": "ecb3af8e0b7db0c3463582922b9d72849a20a38fa4a81cc3cbe1e37ad3e9a3ad",
+    "tests/test_pruning_scoring.py": "4e376043bcdd7fd00ea13bcd9fc0b1c3ba0d06b7fd64d278f7f19f774bc47267",
+    "tests/test_improve_readback_identity.py": "0a0653f07425179d3db2928bbad3d60152e8de6462fca63816e442821516a230"
+  },
+  "failure": "evidence/runtime058-natural-expiry-001.json",
+  "diagnostic": "evidence/runtime058-return-timing-001.json",
+  "change": "Only Native7 Improve publication opts into existing scoped Context construction/S-expression parse reuse. All three stable callbacks, one full parent/privatechild/trial stored reader, original/tool/material/Native/Default/selection/PRL guards remain. No accepted-result cache, changed original constraint or new execution authority.",
+  "cleanup": "Readback scope enters inside shared publish try and exits before final wall/fullCPU acceptance caps/final_check; cleanup errors/cancellation take existing owned archive/negative path. Destination owner and exact report/canonical receipt equality rechecked after exit. ContextVar token resets even when cache clearing raises.",
+  "scheduling": {
+    "old_reserve_seconds": 25,
+    "new_reserve_seconds": 40,
+    "global_route_caps_unchanged": true,
+    "shared_constant": "autorouter._improve_context.RESERVE_SECONDS",
+    "native90_work_limit_seconds": 50,
+    "mechanism": "Withhold work time for actual proof/native publication rather than raising job budget. Measured scoped proof worker28.381s plus observed final Native steps2.940s motivated40s planning reserve; not a universal bound or native success. Less time remains for incumbent/search/trials."
+  },
+  "tests": [
+    {
+      "run": "return-session-targeted-001",
+      "passed": false,
+      "Native": false,
+      "complete_cost": {
+        "wall_seconds": 3.93,
+        "CPU_seconds": 3.65,
+        "user_seconds": 1.95,
+        "system_seconds": 1.7,
+        "time_log_sha256": "21b2e5de0a3db7580e3ed74a159d3e48f28dbcdd15c4966b692ba057714d6158",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/return-session-targeted-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "run": "return-session-targeted-002",
+      "passed": true,
+      "Native": false,
+      "complete_cost": {
+        "wall_seconds": 3.88,
+        "CPU_seconds": 3.69,
+        "user_seconds": 1.96,
+        "system_seconds": 1.73,
+        "time_log_sha256": "8761c2b0c7dd2daedb46a4c415e5efaad3e06780d3b3ed46dd516b34e30c3280",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/return-session-targeted-002-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "run": "return-session-targeted-native7-001",
+      "passed": false,
+      "Native": false,
+      "complete_cost": {
+        "wall_seconds": 37.21,
+        "CPU_seconds": 36.05,
+        "user_seconds": 22.73,
+        "system_seconds": 13.32,
+        "time_log_sha256": "ff139965812ba18c91f13b3e816fbfc9201181bf97db9515c69bb3eb3ffcc0b7",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/return-session-targeted-native7-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "run": "return-session-targeted-correction-001",
+      "passed": true,
+      "Native": false,
+      "complete_cost": {
+        "wall_seconds": 0.71,
+        "CPU_seconds": 0.66,
+        "user_seconds": 0.39,
+        "system_seconds": 0.27,
+        "time_log_sha256": "bca92f609ada3610706ce65f77f3cca858a2ca60fe86de701d35c7c7cf261611",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/return-session-targeted-correction-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    }
+  ],
+  "focused_controls": "All publication proof callbacks still run in-session; post-exit expiry of wall or CPU, cleanup RuntimeError/KeyboardInterrupt, receipt/report mutation, output replacement and token-reset failures tested with authored files. Six current scope controls pass. Existing private Context/Budget, native7 lineage, material/PRL/cache/selection/source/preference controls retain their explicit Native mocks or authored fixtures; no new Native claim.",
+  "failed_test_administration": "First106-run had2 outdated adaptive95 work-limit expectations and1 legacy test import needing project-test path. Corrected106 passes after80 expectations and child-only PYTHONPATH=tests. Native7-targeted158 had6 errors solely from temporary migration of historical reporter fixture25\u219240; kept reporter/versioned25 test unchanged and reran that module plus the expanded scope module24pass. Remaining152 tests in that run passed; no Native executed. Raw failures/costs preserved; no hidden rerun or weakened production checks.",
+  "compatibility": "Historical058/25 runtime and its eighteen-arm report/protocols remain immutable. Current comparison reporter/freezer still pin25 and must be consciously migrated/versioned before any new40-policy benchmark; not used to qualify this source repair. Two mocked-reader fixtures now save authored canonical result.json for the new identity intake; central guard not weakened.",
+  "remaining": "Full integration, new immutable runtime, fresh Native90 return and canonical/archived controls, native/install/actualGUI qualification required. No broader completion/electrical/cleanup/Windows/independent install/release claim.",
+  "review_scope": "AI source review only; not Native execution or human PCB review.",
+  "accounting": "All test costs listed separately including failures. Timing diagnostics and source/AI/authoring/curation are additional; unknown overhead not zero. Nested costs are not added to external complete exits.",
+  "files_index": {
+    "path": "evidence/native7-return-publication-repair-001-notes/files.json",
+    "sha256": "ea21584e7e1310dcdea18633b16a0fe2837216a52ed20389b0236f67a90a2f08"
+  }
+}

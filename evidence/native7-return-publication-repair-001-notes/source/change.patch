@@ -1,0 +1,563 @@
+diff --git a/autorouter/_improve_context.py b/autorouter/_improve_context.py
+index 4e92de0a2..da712e3f1 100644
+--- a/autorouter/_improve_context.py
++++ b/autorouter/_improve_context.py
+@@ -16,7 +16,7 @@ from . import config as c, provenance as pv
+ 
+ POLICY = 'selected-native7-single-improve-child-v1'
+ SIDECAR = 'improve-child-context.json'
+-RESERVE_SECONDS = 25
++RESERVE_SECONDS = 40
+ 
+ 
+ def _encode(value):
+@@ -81,7 +81,7 @@ class _Context:
+         from . import handoff as h, pipeline as p
+         if (not isinstance(self.source, Path) or not isinstance(self.parent, Path)
+                 or not _number(self.method_seconds) or not 30 <= self.method_seconds <= 900
+-                or not _number(self.assigned_seconds) or not 5 <= self.assigned_seconds <= 875
++                or not _number(self.assigned_seconds) or not 5 <= self.assigned_seconds <= 900 - RESERVE_SECONDS
+                 or type(self.allocation) is not dict or set(self.allocation) != {'elapsed_wall_seconds', 'elapsed_cpu_seconds'}
+                 or any(not _number(value) or value < 0 for value in self.allocation.values())
+                 or self.assigned_seconds != min(self.method_seconds - self.allocation['elapsed_wall_seconds'],
+diff --git a/autorouter/floor_route.py b/autorouter/floor_route.py
+index d820f3cc0..a43cb74a4 100644
+--- a/autorouter/floor_route.py
++++ b/autorouter/floor_route.py
+@@ -4,6 +4,7 @@ No strategy, portfolio, recovery or handoff support is implied by this policy.
+ """
+ from __future__ import annotations
+ import copy
++from contextlib import nullcontext
+ import datetime
+ import json
+ import math
+@@ -328,7 +329,7 @@ class FloorJob(p.Job):
+         return super().step(name,argv if already_sandboxed else [*SANDBOX,*argv],allowed)
+ 
+ 
+-def publish(output,report,stable,account,remaining,*,owned=None,final_check=None,result_checker=None):
++def publish(output,report,stable,account,remaining,*,owned=None,final_check=None,result_checker=None,readback_context=None):
+     """No canonical positive survives cancellation, staleness or write failure."""
+     def archive():
+         if owned is not None:owned()
+@@ -338,14 +339,21 @@ def publish(output,report,stable,account,remaining,*,owned=None,final_check=None
+                 if owned is not None:owned()
+                 path.rename(output/(prefix+uuid.uuid4().hex+path.suffix))
+     try:
+-        stable();account();expected=canonical(report)
++        # Reuse construction/parsing only within these unchanged proof reads.
++        # Exit belongs inside invalidation and before the final acceptance cap:
++        # cleanup time, failure and cancellation cannot escape accounting.
++        with nullcontext() if readback_context is None else readback_context():
++            stable();account();expected=canonical(report)
++            if owned is not None:owned()
++            p.save_json(output/'result.json',report)
++            if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed after publication')
++            stable()
++            if report['accepted']:(p.check_result if result_checker is None else result_checker)(output/'result.json')
++            stable()
++            if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed during final readback')
+         if owned is not None:owned()
+-        p.save_json(output/'result.json',report)
+-        if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed after publication')
+-        stable()
+-        if report['accepted']:(p.check_result if result_checker is None else result_checker)(output/'result.json')
+-        stable()
+-        if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed during final readback')
++        if canonical(report)!=expected or canonical(read_json(output/'result.json'))!=expected:
++            raise p.Rejected('floor receipt changed during readback cleanup')
+         if report['accepted'] and remaining()<=0:raise p.Rejected('floor budget exceeded during final publication')
+         if final_check is not None:
+             final_check()
+diff --git a/autorouter/pipeline.py b/autorouter/pipeline.py
+index 5253b7143..eced8bab0 100644
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -2648,8 +2648,10 @@ def validation_readback_session():
+         _clear_readback_entries(state)
+         raise
+     finally:
+-        if existing is None:_clear_readback_entries(state)
+-        _readback_session.reset(token)
++        try:
++            if existing is None:_clear_readback_entries(state)
++        finally:
++            _readback_session.reset(token)
+ 
+ 
+ def _readback_live_identity(modules):
+diff --git a/autorouter/strategy.py b/autorouter/strategy.py
+index 32cbc8623..a50752701 100644
+--- a/autorouter/strategy.py
++++ b/autorouter/strategy.py
+@@ -23,9 +23,10 @@ from . import config as c, pipeline as p, sexpr as sx
+ # Historical placement contracts consume this legacy value; keep their
+ # stored allocations reproducible. Native pruning owns its separate reserve.
+ FINAL_RESERVE_SECONDS = 15.0
+-# Actual 77-footprint/full-schematic/class validation plus publication overran
+-# the former 15-second tail. All total wall/CPU acceptance caps remain strict.
+-NATIVE_FINAL_RESERVE_SECONDS = 25.0
++# The measured natural-return failure exhausted25s; scoped proof reads alone
++# still took28s. Reserve40s for validation/publication, without raising the job
++# budget. Keep the private live work deadline and producer policy identical.
++from ._improve_context import RESERVE_SECONDS as NATIVE_FINAL_RESERVE_SECONDS
+ MIN_TRIAL_SECONDS = 4.0
+ MAX_TRIAL_SECONDS = 12.0
+ MAX_TRIALS = 32
+@@ -1081,7 +1082,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
+           settings_path=None, preference_overrides=None, _incumbent_policy=None):
+     """Run tuned B2 plus greedy pruning within one wall/CPU budget, retaining trials.
+ 
+-    A 25-second reserve is withheld from B2/trials for final emission and native
++    A 40-second reserve is withheld from B2/trials for final emission and native
+     checks. It is a planning reserve, not a promise that slow native tooling will
+     finish. Exhausting the global budget always rejects the root result.
+     """
+@@ -1641,5 +1642,6 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
+     from .floor_route import publish
+     publish(output, report, stable, account,
+             lambda: min(deadline-time.monotonic(), seconds-cpu_used()),
+-            owned=lambda: owned_destination(owner))
++            owned=lambda: owned_destination(owner),
++            readback_context=p.validation_readback_session if native7 else None)
+     return report
+diff --git a/tests/test_improve_readback_identity.py b/tests/test_improve_readback_identity.py
+index d100f86f7..3159476bb 100644
+--- a/tests/test_improve_readback_identity.py
++++ b/tests/test_improve_readback_identity.py
+@@ -15,7 +15,7 @@ class ImproveLiveIdentity(unittest.TestCase):
+ 
+     def test_private_policy_and_callable_changes_remain_bound(self):
+         first=p._readback_live_identity((child,))
+-        for name,value in (('RESERVE_SECONDS',24),('POLICY','changed-policy'),('require',lambda *_:None)):
++        for name,value in (('RESERVE_SECONDS',39),('POLICY','changed-policy'),('require',lambda *_:None)):
+             with self.subTest(name=name),patch.object(child,name,value):
+                 self.assertNotEqual(first,p._readback_live_identity((child,)))
+         self.assertEqual(first,p._readback_live_identity((child,)))
+diff --git a/tests/test_native7_context_reuse.py b/tests/test_native7_context_reuse.py
+index 01a17a366..81c41a2ce 100644
+--- a/tests/test_native7_context_reuse.py
++++ b/tests/test_native7_context_reuse.py
+@@ -59,7 +59,7 @@ class Native7ContextReuseControls(unittest.TestCase):
+             ('source_hashes', dict(self.hashes, **{self.source.name: '0' * 64})),
+             ('tools', dict(self.tools, files={'changed': '0' * 64})),
+             ('budget_seconds', 90.0), ('cpu_budget_seconds', 90.0),
+-            ('incumbent_assigned_seconds', 63.0),
++            ('incumbent_assigned_seconds', 48.0),
+             ('incumbent_allocation', dict(elapsed_wall_seconds=1.0, elapsed_cpu_seconds=2)),
+             ('cpu_budget_seconds', True),
+         ]
+@@ -87,9 +87,9 @@ class Native7ContextReuseControls(unittest.TestCase):
+         with p.validation_readback_session():
+             s.native7_incumbent_context(self.parent, data)
+             changed = copy.deepcopy(data)
+-            changed['incumbent_assigned_seconds'] = 62
++            changed['incumbent_assigned_seconds'] = 47
+             changed['incumbent_allocation']['elapsed_cpu_seconds'] = 3
+-            replacement = self.make(assigned_seconds=62,
++            replacement = self.make(assigned_seconds=47,
+                                     allocation=dict(elapsed_wall_seconds=1, elapsed_cpu_seconds=3))
+             contract = f.read_json(path)
+             contract['context'] = replacement.record()
+@@ -149,7 +149,7 @@ class Native7ContextReuseControls(unittest.TestCase):
+                 second = s.native7_incumbent_context(self.parent, data)
+                 self.assertIsNot(first, second)
+                 self.assertEqual(first._seal, second._seal)
+-            with patch.object(child, 'RESERVE_SECONDS', 24), self.assertRaises(p.Rejected):
++            with patch.object(child, 'RESERVE_SECONDS', 39), self.assertRaises(p.Rejected):
+                 s.native7_incumbent_context(self.parent, data)
+             self.assert_empty(p._readback_session.get())
+ 
+@@ -232,7 +232,9 @@ class Native7ContextReuseControls(unittest.TestCase):
+ 
+     def test_no_budget_or_private_child_result_reuse_and_failure_clears(self):
+         data = self.parent_data()
+-        self.record()
++        # Retain authored child metadata for canonical filename/existence
++        # intake; no Native acceptance is supplied by this mocked reader.
++        p.save_json(self.context.output / 'result.json', self.record())
+         with patch.object(child, '_Budget', side_effect=AssertionError('no live Budget')) as budget, \
+                 patch.object(p, '_check_result_uncached', return_value={'constructed': True}) as reader, \
+                 p.validation_readback_session():
+diff --git a/tests/test_native7_improve_child_context.py b/tests/test_native7_improve_child_context.py
+index 9155d9924..a879a6218 100644
+--- a/tests/test_native7_improve_child_context.py
++++ b/tests/test_native7_improve_child_context.py
+@@ -53,7 +53,7 @@ class ImproveChildContextControls(unittest.TestCase):
+         self.context = self.make()
+ 
+     def make(self, **changes):
+-        values = dict(source=self.source, parent=self.parent, parent_owner=dict(self.owner), method_seconds=90, assigned_seconds=63,
++        values = dict(source=self.source, parent=self.parent, parent_owner=dict(self.owner), method_seconds=90, assigned_seconds=48,
+             allocation=dict(elapsed_wall_seconds=1, elapsed_cpu_seconds=2),
+             tools=copy.deepcopy(self.tools), source_hashes=copy.deepcopy(self.hashes))
+         values.update(changes)
+@@ -61,7 +61,7 @@ class ImproveChildContextControls(unittest.TestCase):
+ 
+     def authorize(self, context=None, **changes):
+         values = dict(context=self.context if context is None else context, source=self.source,
+-            output=self.parent/'incumbent', seconds=63, keep=False, adapter='both', profile='tuned',
++            output=self.parent/'incumbent', seconds=48, keep=False, adapter='both', profile='tuned',
+             scoring=None, guidance='native', extras=())
+         values.update(changes); return child.authorize(**values)
+ 
+@@ -74,17 +74,17 @@ class ImproveChildContextControls(unittest.TestCase):
+         data = dict(schema=1, source=str(self.source), source_hashes=copy.deepcopy(self.hashes),
+             tools=copy.deepcopy(self.tools), baseline=p.engine_baseline('tuned','both'), engine_profile='tuned',
+             adapter='both', scope='whole_board_unlocked_routing', scoring_variant=None,
+-            budget_seconds=63, cpu_budget_seconds=63)
++            budget_seconds=48, cpu_budget_seconds=48)
+         child.bind(output,data,self.context)
+         return data
+ 
+     def test_exact_child_request_and_reserved_assignment(self):
+         self.authorize()
+-        for changes in ({'method_seconds':True}, {'assigned_seconds':True}, {'assigned_seconds':64},
++        for changes in ({'method_seconds':True}, {'assigned_seconds':True}, {'assigned_seconds':49},
+                 {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':-1}},
+-                {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':2,'reserve':25}}):
++                {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':2,'reserve':40}}):
+             with self.subTest(changes=changes), self.assertRaises((p.Rejected, ValueError)):self.make(**changes)
+-        for name,value in (('seconds',64),('keep',True),('profile','standard'),('adapter','none'),
++        for name,value in (('seconds',49),('keep',True),('profile','standard'),('adapter','none'),
+                 ('scoring','via_default'),('guidance','board-floors-v1'),('extras',(False,)),
+                 ('source',self.source.with_name('other.kicad_pcb')),('output',self.parent/'other')):
+             with self.subTest(name=name), self.assertRaises(p.Rejected):self.authorize(**{name:value})
+@@ -150,7 +150,7 @@ class ImproveChildContextControls(unittest.TestCase):
+     def test_caller_and_marker_required_without_reconstructing_authority(self):
+         data=self.record(); self.assertTrue(child.check_record(self.context.output,data,self.context))
+         with self.assertRaises(p.Rejected):child.check_record(self.context.output,data,None)
+-        for key,value in (('budget_seconds',64),('scoring_variant','via_low'),('adapter','none'),
++        for key,value in (('budget_seconds',49),('scoring_variant','via_low'),('adapter','none'),
+                 ('engine_fanout_override',False),('comparison_route',{})):
+             wrong=copy.deepcopy(data);wrong[key]=value
+             with self.subTest(key=key),self.assertRaises(p.Rejected):child.check_record(self.context.output,wrong,self.context)
+@@ -177,15 +177,18 @@ class ImproveChildContextControls(unittest.TestCase):
+         class StopBeforeJob(Exception):pass
+         budget=self.budget()
+         with patch.object(p,'sha',return_value=c.JAR_SHA256), patch.object(p,'check_storage',side_effect=StopBeforeJob):
+-            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned')
+-            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context)
+-            with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget)
+-            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget,comparison_context=object())
++            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,48,False,'both','tuned')
++            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,48,False,'both','tuned',_improve_context=self.context)
++            with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,48,False,'both','tuned',_improve_context=self.context,_improve_budget=budget)
++            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,48,False,'both','tuned',_improve_context=self.context,_improve_budget=budget,comparison_context=object())
+         # A method label alone cannot authorize the ordinary standard profile.
+         with self.assertRaises(p.Rejected):p.require_native_scope(purpose='improve')
+ 
+     def test_live_context_never_enters_ordinary_result_cache(self):
+         path=self.context.output/'result.json'
++        # Authored child metadata satisfies canonical-path intake only; the
++        # full Native reader remains the explicit constructed seam below.
++        p.save_json(path,self.record())
+         with p.validation_readback_session(), patch.object(p,'_check_result_uncached',return_value={'constructed':True}) as raw:
+             state=p._readback_session.get()
+             self.assertIn(child,state['modules'])
+@@ -201,13 +204,13 @@ class ImproveChildContextControls(unittest.TestCase):
+         with patch.object(child.time,'monotonic',return_value=job.started+4), \
+                 patch.object(child.time,'process_time',return_value=job.cpu_started+6), \
+                 patch.object(f,'child_cpu',return_value=budget.children_start+7):
+-            self.assertEqual(budget.remaining(),52)
++            self.assertEqual(budget.remaining(),37)
+             self.assertEqual(budget.remaining(work=False),77)
+         # Long Context intake cannot renew the parent's absolute work window.
+-        worker=p.Job(self.context.output,63,protect_local_settings=True)
++        worker=p.Job(self.context.output,48,protect_local_settings=True)
+         budget.attach(worker)
+-        self.assertLessEqual(worker.deadline,job.deadline-25)
+-        with patch.object(child.time,'monotonic',return_value=job.started+66), \
++        self.assertLessEqual(worker.deadline,job.deadline-40)
++        with patch.object(child.time,'monotonic',return_value=job.started+51), \
+                 patch.object(child.time,'process_time',return_value=job.cpu_started+1), \
+                 patch.object(f,'child_cpu',return_value=budget.children_start), \
+                 patch.object(p,'run') as run:
+@@ -216,11 +219,11 @@ class ImproveChildContextControls(unittest.TestCase):
+             run.assert_not_called()
+             # Work has expired; the parent still has its reserved return time.
+             budget.attach(job)
+-            self.assertEqual(job.remaining(),24)
++            self.assertEqual(job.remaining(),39)
+ 
+     def test_budget_cpu_exhaustion_clock_mutations_and_foreign_jobs_refuse(self):
+         budget=self.budget();job=self.parent_job
+-        with patch.object(child.time,'process_time',return_value=job.cpu_started+66), \
++        with patch.object(child.time,'process_time',return_value=job.cpu_started+51), \
+                 patch.object(f,'child_cpu',return_value=budget.children_start):
+             self.assertLess(budget.remaining(),0)
+             self.assertGreater(budget.remaining(work=False),0)
+diff --git a/tests/test_native7_improve_parent.py b/tests/test_native7_improve_parent.py
+index 980b04ce6..b25528a58 100644
+--- a/tests/test_native7_improve_parent.py
++++ b/tests/test_native7_improve_parent.py
+@@ -38,8 +38,8 @@ class Native7ParentControls(unittest.TestCase):
+         data=dict(schema=1,strategy='native_validated_zone_net_pruning',proposal_policy='single',
+             engine_profile='tuned',adapter='both',scope='whole_board_unlocked_routing',incumbent_baseline='B2_tuned',
+             source=str(self.source),source_hashes=copy.deepcopy(self.hashes),tools=copy.deepcopy(self.tools),
+-            budget_seconds=90,cpu_budget_seconds=90,finalization_reserve_seconds=25,
+-            finalization_cpu_reserve_seconds=25,pruning_preferences_policy=s.PRUNING_PREFERENCES_POLICY,
++            budget_seconds=90,cpu_budget_seconds=90,finalization_reserve_seconds=40,
++            finalization_cpu_reserve_seconds=40,pruning_preferences_policy=s.PRUNING_PREFERENCES_POLICY,
+             pruning_preferences=dict(file=path.name,sha256=p.sha(path),effective=effective),steps=[],trials=[])
+         s._bind_native7_parent(self.parent,data,self.context)
+         return data
+@@ -82,7 +82,7 @@ class Native7ParentControls(unittest.TestCase):
+     def test_parent_marker_policy_and_definition_deletion_cannot_downgrade(self):
+         data=self.parent_data();path=self.parent/s.NATIVE7_PARENT_FILE
+         for key,value in (('proposal_policy','feedback'),('single_selection_policy','other'),
+-                ('incumbent_assigned_seconds',64),('tools',{})):
++                ('incumbent_assigned_seconds',49),('tools',{})):
+             wrong=copy.deepcopy(data);wrong[key]=value
+             with self.subTest(key=key),self.assertRaises((p.Rejected,KeyError,ValueError)):
+                 s.native7_incumbent_context(self.parent,wrong)
+@@ -92,7 +92,7 @@ class Native7ParentControls(unittest.TestCase):
+ 
+     def test_rebound_source_or_definition_does_not_rebase_parent(self):
+         data=self.parent_data();path=self.parent/s.NATIVE7_PARENT_FILE
+-        contract=f.read_json(path);contract['context']['assigned_seconds']=64
++        contract=f.read_json(path);contract['context']['assigned_seconds']=49
+         p.save_json(path,contract);data['native7_improve_parent']['sha256']=p.sha(path)
+         with self.assertRaises(p.Rejected):s.native7_incumbent_context(self.parent,data)
+         # Even coherent hashing cannot restore a changed original source.
+@@ -160,13 +160,13 @@ class Native7ParentControls(unittest.TestCase):
+         with patch.object(child.time,'monotonic',return_value=103),patch.object(child.time,'process_time',return_value=3),patch.object(f,'child_cpu',return_value=4):
+             budget=child._Budget(ctx,job,2);budget.attach(job)
+             trial=p.Job(parent/'trials/trial-0000',120,protect_local_settings=True);budget.attach(trial)
+-            self.assertEqual(trial.deadline,165)
++            self.assertEqual(trial.deadline,150)
+             guard=s._single_trial_guard(trial,100,90)
+-            self.assertEqual(guard,dict(wall_deadline_elapsed_seconds=65,work_cpu_limit_seconds=65))
++            self.assertEqual(guard,dict(wall_deadline_elapsed_seconds=50,work_cpu_limit_seconds=50))
+             # Full parent headroom differs from work headroom; JSON allocation
+             # never resets the elapsed execution budget.
+-            self.assertEqual(budget.remaining(work=False)-budget.remaining(work=True),25)
+-            with patch.object(child.time,'monotonic',return_value=166):
++            self.assertEqual(budget.remaining(work=False)-budget.remaining(work=True),40)
++            with patch.object(child.time,'monotonic',return_value=151):
+                 with self.assertRaises(p.Rejected):s._single_trial_guard(trial,100,90)
+ 
+     def test_actual_finalization_body_allows_reserved_return_but_not_whole_shortfall(self):
+@@ -187,7 +187,7 @@ class Native7ParentControls(unittest.TestCase):
+             and any(isinstance(target,ast.Name) and target.id=='candidate' for target in node.targets))
+         code=compile(ast.fix_missing_locations(ast.Module(body=body[start:end+1],type_ignores=[])),
+             '<actual-improve-finalization-entry>','exec')
+-        for wall_remaining,cpu_remaining,passes in ((25,25,True),(12,12,True),(11.99,25,False),(25,11.99,False)):
++        for wall_remaining,cpu_remaining,passes in ((40,40,True),(12,12,True),(11.99,40,False),(40,11.99,False)):
+             now=190-wall_remaining;budget=SimpleNamespace(remaining=lambda *,work:0 if work else min(wall_remaining,cpu_remaining))
+             env=dict(native7=True,live_budget=budget,report={},started=100,deadline=190,seconds=90,
+                 cpu_used=lambda:90-cpu_remaining,output=self.parent,source=self.source,p=p,time=s.time,_remaining=s._remaining)
+diff --git a/tests/test_native7_improve_single.py b/tests/test_native7_improve_single.py
+index 3b080e4fe..0188973f8 100644
+--- a/tests/test_native7_improve_single.py
++++ b/tests/test_native7_improve_single.py
+@@ -23,7 +23,7 @@ class SingleSelectionPrerequisiteTests(unittest.TestCase):
+         p.save_json(self.root/'incumbent/result.json',self.inc);sx.write(self.root/'candidate'/self.source.name,self.tree)
+         self.data=dict(schema=1,single_selection_policy=s.SINGLE_SELECTION_POLICY,strategy='native_validated_zone_net_pruning',
+             proposal_policy='single',engine_profile='tuned',adapter='both',scope='whole_board_unlocked_routing',
+-            finalization_reserve_seconds=25.,finalization_cpu_reserve_seconds=25.,source=str(self.source),
++            finalization_reserve_seconds=40.,finalization_cpu_reserve_seconds=40.,source=str(self.source),
+             tools={'implementation_sha256':{'autorouter/strategy.py':p.sha(code)}},trials=[],steps=[],improvements=0,
+             best_observed_candidate=str(self.best),best_observed_metrics=metrics(self.tree),metrics=metrics(self.tree),
+             candidate_sha256=p.sha(self.root/'candidate'/self.source.name),native=self.native)
+@@ -77,7 +77,7 @@ class SingleSelectionPrerequisiteTests(unittest.TestCase):
+         # replaces only the first subsequent file/Native binding primitive;
+         # it does not claim that a constructed record passed Native validation.
+         data={'budget_seconds':90.,'cpu_budget_seconds':90.,'source':str(self.source),'source_hashes':{}}
+-        guard={'wall_deadline_elapsed_seconds':65.,'work_cpu_limit_seconds':65.}
++        guard={'wall_deadline_elapsed_seconds':50.,'work_cpu_limit_seconds':50.}
+         for field in ('adaptive_trial_guard','single_trial_guard'):
+             record={'id':'trial-0000','status':'quality_rejected','steps':[],
+                 'finished_elapsed_seconds':10.,'finished_observed_cpu_seconds':10.,
+diff --git a/tests/test_pruning_scoring.py b/tests/test_pruning_scoring.py
+index 59cac95fa..4f3992f6f 100644
+--- a/tests/test_pruning_scoring.py
++++ b/tests/test_pruning_scoring.py
+@@ -97,7 +97,7 @@ class StrongerIncumbentControls(unittest.TestCase):
+    engine_profile='tuned',incumbent_baseline='B2_free_angle_clearance20',incumbent_policy=s.STRONG_INCUMBENT_POLICY,
+    incumbent_scoring_variant='via_default',incumbent_receipt_sha256=p.sha(child/'result.json'),
+    source=inc['source'],source_hashes=copy.deepcopy(inc['source_hashes']),tools=copy.deepcopy(inc['tools']),
+-   budget_seconds=180,cpu_budget_seconds=180,finalization_reserve_seconds=25.,finalization_cpu_reserve_seconds=25.,
++   budget_seconds=180,cpu_budget_seconds=180,finalization_reserve_seconds=40.,finalization_cpu_reserve_seconds=40.,
+    steps=[dict(row,phase='incumbent') for row in inc['steps']])
+   marker=self.root/'pruning-scoring.json';p.save_json(marker,dict(schema=1,strategy=parent['strategy'],incumbent_scoring_variant='via_default'))
+   parent['incumbent_scoring_contract']=dict(file=marker.name,sha256=p.sha(marker))
+diff --git a/tests/test_strategy.py b/tests/test_strategy.py
+index be884f5ac..923d0b294 100644
+--- a/tests/test_strategy.py
++++ b/tests/test_strategy.py
+@@ -234,7 +234,7 @@ class StrategyControlFlowTests(unittest.TestCase):
+         self.assertEqual(result["trials"], [])
+ 
+     def test_preparation_exhaustion_retains_trial_without_native_attempt(self):
+-        self.baseline_advance = 85
++        self.baseline_advance = 70
+         self.trial_copy_advance = 7
+         result = self.exercise()
+         self.assertTrue(result["accepted"], result)
+@@ -254,7 +254,7 @@ class StrategyControlFlowTests(unittest.TestCase):
+         self.assertLess(result["wall_seconds"], 30)
+ 
+     def test_preparation_cpu_exhaustion_refuses_native_with_wall_time_remaining(self):
+-        self.baseline_child_cpu = 85.0
++        self.baseline_child_cpu = 70.0
+         self.trial_copy_cpu_advance = 7
+         result = self.exercise()
+         self.assertTrue(result["accepted"], result)
+@@ -531,7 +531,7 @@ class StrategyControlFlowTests(unittest.TestCase):
+         self.assertEqual(decision['probe_trials'],['trial-0001'])
+         self.assertNotIn('chain_pad_context',result)
+         self.assertEqual(result['chain_context_skipped'],'adaptive improved')
+-        self.assertEqual(result['finalization_reserve_seconds'],25.)
++        self.assertEqual(result['finalization_reserve_seconds'],40.)
+         self.assertEqual(result['metrics']['track_length_mm'],8.)
+ 
+     def test_adaptive_branch_rebinds_after_last_inventory_callback(self):
+@@ -712,7 +712,7 @@ class StrategyControlFlowTests(unittest.TestCase):
+ 
+     def test_adaptive_over_deadline_native_label_is_not_a_completed_probe(self):
+         record=dict(status='drc_rejected',accepted=False,steps=[],
+-            adaptive_trial_guard={'wall_deadline_elapsed_seconds':12.,'work_cpu_limit_seconds':95.},
++            adaptive_trial_guard={'wall_deadline_elapsed_seconds':12.,'work_cpu_limit_seconds':80.},
+             finished_elapsed_seconds=13.,finished_observed_cpu_seconds=1.)
+         self.assertFalse(s._adaptive_trial_native(self.output,{'budget_seconds':120.,'cpu_budget_seconds':120.},record))
+ 
+@@ -756,7 +756,7 @@ class AdaptiveNativeJournalControls(unittest.TestCase):
+                          source_hashes=p.tree_hash(self.candidate.parent),
+                          budget_seconds=120., cpu_budget_seconds=120.)
+         self.record = dict(id='trial-0000', status='improvement_validated', accepted=True,
+-                           adaptive_trial_guard=dict(wall_deadline_elapsed_seconds=95., work_cpu_limit_seconds=95.),
++                           adaptive_trial_guard=dict(wall_deadline_elapsed_seconds=80., work_cpu_limit_seconds=80.),
+                            finished_elapsed_seconds=1., finished_observed_cpu_seconds=1.,
+                            candidate_sha256=p.sha(self.candidate), native_report_sha256=p.sha(report),
+                            native=self.native, metrics=self.measure, steps=self.job.steps)
+diff --git a/tests/test_publication_readback_scope.py b/tests/test_publication_readback_scope.py
+new file mode 100644
+index 00000000..37abfbe2
+--- /dev/null
++++ b/tests/test_publication_readback_scope.py
+@@ -0,0 +1,123 @@
++"""Real shared publication/session boundaries on authored bytes, never Native."""
++from contextlib import contextmanager
++import unittest
++from unittest.mock import patch
++
++from autorouter import floor_route as f, pipeline as p
++from tests import test_native_diagnostic_publication as fixture
++
++
++class PublicationReadbackScope(unittest.TestCase):
++    setUp = fixture.NativeDiagnosticPublicationControls.setUp
++    inputs = fixture.NativeDiagnosticPublicationControls.inputs
++
++    def publication(self, name, on_exit=lambda: None):
++        out, source, report, stable, account, remaining, owned, clock = self.inputs(name)
++        # This is an authored control-flow positive; the explicit checker below
++        # checks only this fixture. It cannot establish routing acceptance.
++        report.update(accepted=True)
++        events = []; states = []
++
++        @contextmanager
++        def scope():
++            with p.validation_readback_session():
++                state = p._readback_session.get(); states.append(state)
++                state['native7_contexts']['authored-sentinel'] = object()
++                events.append('enter')
++                yield
++            events.append('exit'); on_exit()
++
++        def check():
++            self.assertIs(p._readback_session.get(), states[0]); stable()
++            events.append('stable')
++
++        def read(path):
++            self.assertIs(p._readback_session.get(), states[0])
++            self.assertTrue(f.read_json(path)['accepted']); events.append('reader')
++
++        def cap():
++            self.assertIsNone(p._readback_session.get())
++            self.assertEqual(states[0]['native7_contexts'], {})
++            events.append('cap'); return remaining()
++
++        actual = f.publish(out, report, check, account, cap, owned=owned,
++                           result_checker=read, readback_context=scope)
++        return actual, out, events, states
++
++    def test_all_proofs_run_in_one_session_and_exit_precedes_final_cap(self):
++        actual, out, events, states = self.publication('positive')
++        self.assertTrue(actual['accepted'])
++        self.assertEqual(events, ['enter', 'stable', 'stable', 'reader', 'stable', 'exit', 'cap'])
++        self.assertTrue(f.read_json(out/'result.json')['accepted'])
++        self.assertEqual(states[0]['entries'], {})
++
++    def test_exit_wall_or_CPU_exhaustion_invalidates_provisional_positive(self):
++        for component in ('wall', 'CPU'):
++            with self.subTest(component=component):
++                budget = dict(wall=10, CPU=10)
++                original = self.inputs
++                def inputs(name):
++                    values = list(original(name)); values[5] = lambda: min(budget.values())
++                    return values
++                with patch.object(self, 'inputs', inputs):
++                    actual, out, events, states = self.publication(component,
++                        on_exit=lambda: budget.update({component: 0}))
++                self.assertFalse(actual['accepted']); self.assertIn('budget', actual['reason'])
++                self.assertFalse(f.read_json(out/'result.json')['accepted'])
++                self.assertTrue(list(out.glob('invalidated-result-*')))
++                self.assertIsNone(p._readback_session.get())
++
++    def test_exit_exception_or_cancellation_invalidates_and_resets_session(self):
++        for error in (RuntimeError('cleanup failed'), KeyboardInterrupt('cancel during cleanup')):
++            with self.subTest(error=type(error).__name__):
++                def fail():raise error
++                actual, out, events, states = self.publication(type(error).__name__, on_exit=fail)
++                self.assertFalse(actual['accepted'])
++                self.assertEqual(actual['status'], 'cancelled' if isinstance(error, KeyboardInterrupt) else 'invalidated')
++                self.assertFalse(f.read_json(out/'result.json')['accepted'])
++                self.assertTrue(list(out.glob('invalidated-result-*')))
++                self.assertIsNone(p._readback_session.get())
++
++    def test_exit_receipt_or_record_mutation_is_invalidated(self):
++        for kind in ('receipt', 'record'):
++            with self.subTest(kind=kind):
++                original = self.inputs; saved = []
++                def inputs(name):
++                    values = original(name); saved.append(values); return values
++                def mutate():
++                    out, _, report, *_ = saved[0]
++                    if kind == 'record':report['changed'] = True
++                    else:
++                        value = f.read_json(out/'result.json'); value['changed'] = True
++                        p.save_json(out/'result.json', value)
++                with patch.object(self, 'inputs', inputs):
++                    actual, out, _, _ = self.publication(kind, on_exit=mutate)
++                self.assertFalse(actual['accepted']); self.assertIn('cleanup', actual['reason'])
++                self.assertFalse(f.read_json(out/'result.json')['accepted'])
++
++    def test_session_token_resets_even_when_cache_cleanup_raises(self):
++        for error in (RuntimeError('cache clear failed'), KeyboardInterrupt('cache clear cancelled')):
++            with self.subTest(error=type(error).__name__):
++                with patch.object(p, '_clear_readback_entries', side_effect=error):
++                    with self.assertRaises(type(error)):
++                        with p.validation_readback_session():
++                            self.assertIsNotNone(p._readback_session.get())
++                self.assertIsNone(p._readback_session.get())
++
++    def test_exit_directory_replacement_is_never_overwritten(self):
++        original = self.inputs; saved = []
++        def inputs(name):
++            values = original(name); saved.append(values); return values
++        def replace():
++            out = saved[0][0]; out.rename(out.with_name(out.name+'-preserved'))
++            out.mkdir(); (out/'owner-marker').write_text('replacement must survive')
++        with patch.object(self, 'inputs', inputs), self.assertRaises(p.Rejected):
++            self.publication('replacement', on_exit=replace)
++        out = saved[0][0]
++        self.assertEqual((out/'owner-marker').read_text(), 'replacement must survive')
++        self.assertEqual({path.name for path in out.iterdir()}, {'owner-marker'})
++        self.assertTrue((out.with_name(out.name+'-preserved')/'result.json').is_file())
++        self.assertIsNone(p._readback_session.get())
++
++
++if __name__ == '__main__':unittest.main()

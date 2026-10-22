@@ -1,0 +1,127 @@
+..............................................................................E..E....EE...EE.................................................................
+======================================================================
+ERROR: test_auxiliary_keeps_Default_evidence_hash_not_unknown_payload (tests.test_comparison_improve.ImproveFactsTests.test_auxiliary_keeps_Default_evidence_hash_not_unknown_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 272, in test_auxiliary_keeps_Default_evidence_hash_not_unknown_payload
+    fact=self.facts()['trials'][0]['auxiliary']
+         ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 138, in facts
+    return q.improve_facts(self.folder/'result.json',self.plan,[self.root],qualified_parent=qualified,public_sanitize=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 352, in improve_facts
+    require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 37, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: shipped single Improve parent contract differs
+
+======================================================================
+ERROR: test_field_qualification_false_stays_visible (tests.test_comparison_improve.ImproveFactsTests.test_field_qualification_false_stays_visible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 222, in test_field_qualification_false_stays_visible
+    field=self.facts()['trials'][0]['auxiliary']['field_qualification']
+          ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 138, in facts
+    return q.improve_facts(self.folder/'result.json',self.plan,[self.root],qualified_parent=qualified,public_sanitize=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 352, in improve_facts
+    require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 37, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: shipped single Improve parent contract differs
+
+======================================================================
+ERROR: test_quality_rejected_is_completed_native_valid_unselected (tests.test_comparison_improve.ImproveFactsTests.test_quality_rejected_is_completed_native_valid_unselected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 141, in test_quality_rejected_is_completed_native_valid_unselected
+    fact=self.facts()['trials'][0]
+         ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 138, in facts
+    return q.improve_facts(self.folder/'result.json',self.plan,[self.root],qualified_parent=qualified,public_sanitize=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 352, in improve_facts
+    require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 37, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: shipped single Improve parent contract differs
+
+======================================================================
+ERROR: test_quality_rejected_valid_warning_is_not_rejected_for_field_false_alone (tests.test_comparison_improve.ImproveFactsTests.test_quality_rejected_valid_warning_is_not_rejected_for_field_false_alone)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 183, in test_quality_rejected_valid_warning_is_not_rejected_for_field_false_alone
+    fact=self.facts()['trials'][0]
+         ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 138, in facts
+    return q.improve_facts(self.folder/'result.json',self.plan,[self.root],qualified_parent=qualified,public_sanitize=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 352, in improve_facts
+    require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 37, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: shipped single Improve parent contract differs
+
+======================================================================
+ERROR: test_trial_work_expiry_cannot_be_completed_or_selected (tests.test_comparison_improve.ImproveFactsTests.test_trial_work_expiry_cannot_be_completed_or_selected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 287, in test_trial_work_expiry_cannot_be_completed_or_selected
+    self.assertFalse(self.facts()['trials'][0]['Native_completion_qualified'])
+                     ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 138, in facts
+    return q.improve_facts(self.folder/'result.json',self.plan,[self.root],qualified_parent=qualified,public_sanitize=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 352, in improve_facts
+    require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 37, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: shipped single Improve parent contract differs
+
+======================================================================
+ERROR: test_warning_only_policy_rejected_trial_retains_own_negative_proof (tests.test_comparison_improve.ImproveFactsTests.test_warning_only_policy_rejected_trial_retains_own_negative_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 175, in test_warning_only_policy_rejected_trial_retains_own_negative_proof
+    fact=self.facts()['trials'][0]
+         ^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_comparison_improve.py", line 138, in facts
+    return q.improve_facts(self.folder/'result.json',self.plan,[self.root],qualified_parent=qualified,public_sanitize=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 352, in improve_facts
+    require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 37, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: shipped single Improve parent contract differs
+
+----------------------------------------------------------------------
+Ran 158 tests in 36.935s
+
+FAILED (errors=6)
+real 37.21
+user 22.73
+sys 13.32
+           250150912  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             1829104  page reclaims
+                2850  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                3443  voluntary context switches
+               24100  involuntary context switches
+        326698662236  instructions retired
+        127499670878  cycles elapsed
+           244220600  peak memory footprint

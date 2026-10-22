@@ -1,0 +1,48 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 40.70548270805739,
+  "cpu_seconds": 40.473296,
+  "max_rss_bytes": 266272768,
+  "supervisor_cpu_seconds": 0.11310900000000002,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 265388032,
+  "sampled_peak_workdir_bytes": 4101,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 8388608,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-return-timing-draft-002.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-return-timing-protocol-draft-002.json",
+    "--protocol-sha256",
+    "be5ed59f9efed660f5b1bbc44f0d69ec5cfaca25f3b5de99dd0055e367cf94f2",
+    "--execute",
+    "--worker",
+    "cold"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-return-timing-002/cold/command.log",
+  "log_bytes": 524,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-return-timing-002/cold",
+  "signal_cancellation_enabled": true,
+  "pid": 80984
+}

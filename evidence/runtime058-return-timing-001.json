@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "kind": "runtime058-stored-return-check-timing-with-failed-profiler-v1",
+  "recorded_utc": "2026-10-22T11:52:11.037591+00:00",
+  "source_head": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+  "runtime_manifest_sha256": "4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74",
+  "runtime": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime",
+  "accepted": false,
+  "production_admitted": false,
+  "Native": false,
+  "routing": false,
+  "applied": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "project_complete": false,
+  "prior_attempt": {
+    "status": "timeout",
+    "cold_completed": false,
+    "session_started": false,
+    "result_written": false,
+    "pstats_written": false,
+    "cleanup_complete": true,
+    "complete_external_wall_seconds": 91.24,
+    "complete_full_CPU_seconds": null,
+    "reported_outer_CPU_seconds": 1.21,
+    "reported_direct_time_wrapper_CPU_seconds": 0.0015979999999999998,
+    "time_log_sha256": "5b6f537c830f817d760f4a7df9baee241506675ae7f49ad9b07be7490d5ad674",
+    "accounting": "The killed /usr/bin/time wrapper did not wait/reap its worker into rusage. Both CPU samples are incomplete; unknown additional full worker CPU is not zero. No timing result or pstats was produced."
+  },
+  "completed_pair": {
+    "order": [
+      "cold",
+      "session"
+    ],
+    "complete_external_cost": {
+      "wall_seconds": 70.68,
+      "CPU_seconds": 70.25,
+      "user_seconds": 58.58,
+      "system_seconds": 11.67,
+      "time_log_sha256": "768e0980c9b287b825ec12440a73c88ef178b8772f0e9d6998154edcce66b7eb",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-return-timing-002-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "variants": [
+      {
+        "variant": "cold",
+        "process_wall_seconds": 40.70548270805739,
+        "waited_worker_CPU_seconds": 40.473296,
+        "stages": [
+          {
+            "name": "stable_before_account",
+            "wall_seconds": 9.515702457982115,
+            "full_CPU_seconds": 9.469722
+          },
+          {
+            "name": "stable_after_omitted_write",
+            "wall_seconds": 9.0688692079857,
+            "full_CPU_seconds": 8.956335000000001
+          },
+          {
+            "name": "one_full_stored_reader",
+            "wall_seconds": 12.358585000038147,
+            "full_CPU_seconds": 12.346475000000005
+          },
+          {
+            "name": "stable_after_reader",
+            "wall_seconds": 9.007023375015706,
+            "full_CPU_seconds": 8.966532999999998
+          }
+        ],
+        "sequence_wall_seconds": 39.95032579207327,
+        "sequence_full_CPU_seconds": 39.739202,
+        "simulated_post_account_wall_seconds": 30.434477583039552,
+        "simulated_post_account_full_CPU_seconds": 30.269343000000006,
+        "inputs_unchanged": true,
+        "result_sha256": "7e1e65937ec420904a236ed9415bc2e34138463aa8cba0fd25e74f015b65ed05",
+        "cleanup_complete": true
+      },
+      {
+        "variant": "session",
+        "process_wall_seconds": 28.381055457983166,
+        "waited_worker_CPU_seconds": 28.162340999999998,
+        "stages": [
+          {
+            "name": "stable_before_account",
+            "wall_seconds": 6.860026707989164,
+            "full_CPU_seconds": 6.84694
+          },
+          {
+            "name": "stable_after_omitted_write",
+            "wall_seconds": 6.251888707978651,
+            "full_CPU_seconds": 6.098282
+          },
+          {
+            "name": "one_full_stored_reader",
+            "wall_seconds": 8.387284124968573,
+            "full_CPU_seconds": 8.370888
+          },
+          {
+            "name": "stable_after_reader",
+            "wall_seconds": 6.0646318750223145,
+            "full_CPU_seconds": 6.054888999999999
+          }
+        ],
+        "sequence_wall_seconds": 27.628355792025104,
+        "sequence_full_CPU_seconds": 27.431911000000003,
+        "simulated_post_account_wall_seconds": 20.70380470796954,
+        "simulated_post_account_full_CPU_seconds": 20.524059,
+        "inputs_unchanged": true,
+        "result_sha256": "60eb0c1fbcfd75ca9b49da9113c8f0720951e4a317dcbbe2ed09e09d7b8e4859",
+        "cleanup_complete": true
+      }
+    ]
+  },
+  "input_fences_recorded": {
+    "packet_files": 813,
+    "packet_bytes": 26229091,
+    "PRL_metadata_entries": 32,
+    "source_hashes": {
+      "EEPROM_Board.kicad_pcb": "669ddc8b96718f36db3f2281025f4cbc717041ed5e9ed8547922fab9d27096f6",
+      "EEPROM_Board.kicad_pro": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+      "EEPROM_Board.kicad_sch": "a47e4f38a2670abd7d61bedbe868f93c33788d5dc9b5b3145f4b977e5ebcb3a3"
+    },
+    "scope": "Successful002 recorded before/after material, original runtime/tools, owner and PRL checks. The001 timeout supplies no completed postcheck. This curator does not rerun source readers, Native or acceptance."
+  },
+  "sequence": [
+    "stable_before_account",
+    "stable_after_omitted_write",
+    "one_full_stored_reader",
+    "stable_after_reader"
+  ],
+  "omissions": [
+    "Do not call floor.publish, account(), save_json on production evidence, archive(), final_check() or remaining() from the old90 operation. No original producer clock/Budget is reconstructed or spoofed.",
+    "No actual provisional/canonical write between first and second stable checks: the current timeout canonical result remains unchanged while the archived positive is read solely for diagnostic consistency costs.",
+    "No production Native finalization, metrics worker, candidate copy, original intake or review/choice/export is performed. Only stored consistency readers and their unchanged late PRL guards run.",
+    "Captured preferences and destination owner are recreated read-only from fixed original bytes/current pinned original inode for profiling; this does not resurrect the original live operation or grant candidate acceptance.",
+    "Default native7 single branch has incumbent_options=None; alternate-policy branch is absent exactly as in this observed run. First stable is retained and timed separately; simulated post-account subtotal comprises second stable+full reader+third stable.",
+    "OS file caches/pre-existing disk state and fixed cold-then-session order are uncontrolled. This is one diagnostic pair, not a fair performance benchmark, and supplies no function-level attribution. No positive or25-second fit is promised."
+  ],
+  "resource_limits": {
+    "each_worker_wall_seconds": 90,
+    "each_worker_complete_measured_CPU_seconds": 90,
+    "log_bytes": 1048576,
+    "polled_group_RSS_bytes": 2147483648,
+    "output_workdir_bytes": 8388608,
+    "workers_at_once": 1,
+    "network": "unchanged sandbox-exec deny network*",
+    "whole_cost": "Direct Python worker (sandbox-exec exec chain) is reaped by unchanged runner.wait4; process CPU/monitor/supervisor records are retained even on timeout. Each worker keeps90s wall/measuredCPU acceptance,1MiB log,2GiB polledRSS and8MiB output guard. Lead outer /usr/bin/time complete exit is separate and includes nested worker cost, not added again to stage samples. No inner time wrapper."
+  },
+  "interpretation": "One fixed cold-then-session pair: cold means no operation session, not cold OS caches. Session combines existing S-expression memo and Context reconstruction reuse; contributions and generic speedups cannot be inferred. All repeated semantic/source/tool/PRL checks were retained. The Native7 parent/privatechild path does not cache accepted semantic results. Even the session sequence exceeds the historical25s reserve; this is diagnostic evidence for a separately qualified return repair, not proof that a future90s operation fits.",
+  "archive_scope": "The known-vulnerable immutable058 reader consumed an archived provisional positive solely as a stored cost seam. Its canonical result remained timeout/unaccepted. This packet grants neither canonical freshness nor handoff/candidate acceptance and does not promote the archive.",
+  "accounting": "The002 external70.68wall/70.25CPU includes both workers, setup and cleanup; do not add nested stage/sequence/worker samples. The00191.24wall is an additional failed attempt with full CPU unknown. Authoring, AI source review and future curation cost are additional/unknown, not zero. No routing, Native, review, choice, export, candidate copy, account(), canonical publication or final live deadline acceptance was measured.",
+  "retention": "Only owned controllers/protocols, process/results metadata and bounded text logs, plus the pinned shared retention/cost source functions. No foreign CAD/DSN/SES, plots, full Native findings, tools, binaries or pstats. This small metadata packet is not a backup of the813 source/evidence files, full raw restoration or release/electrical/human qualification. The separate source recommendation is not merged here.",
+  "files_index": {
+    "path": "evidence/runtime058-return-timing-001-notes/files.json",
+    "sha256": "63e9bdce8664337c793105ad53ba5243a76b8e66600dcb02d3cdfbf8614e9dec"
+  }
+}
