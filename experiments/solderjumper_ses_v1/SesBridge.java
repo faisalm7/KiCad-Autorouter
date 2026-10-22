@@ -88,7 +88,7 @@ public final class SesBridge {
                 || !Files.isDirectory(directory.getParent(), LinkOption.NOFOLLOW_LINKS)) {
             throw new IllegalArgumentException("fresh output with existing regular parent required");
         }
-        Files.createDirectory(directory, PosixFilePermissions.asFileAttribute("rwx------"));
+        Files.createDirectory(directory, PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------")));
         Map<String, Object> row = AreaContactProbe.map("scene", args[0], "status", "starting",
                 "requested_obstacle", true, "local250_requested", false);
         Map<String, Object> result = AreaContactProbe.map("schema", 1,

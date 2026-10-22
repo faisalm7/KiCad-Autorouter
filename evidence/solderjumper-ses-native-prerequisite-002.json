@@ -1,0 +1,479 @@
+{
+  "schema": 1,
+  "kind": "owned-solderjumper-current-Native-baselines-and-bridge-compile-failure-v1",
+  "recorded_utc": "2026-10-22T10:02:55.934729+00:00",
+  "controller_source": "45e75aeb156b62c581fdfb019f287ecf19040dfd",
+  "runtime_source": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+  "runtime_manifest_sha256": "4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74",
+  "preparation_sha256": "60b89ade3e6fe477afbe9e4dc77ef79cee0d61aa51a5b0c5f93cef83d7161203",
+  "local_result": {
+    "path": ".runs/solderjumper-ses-native-vertical-slice-002/execution001/result.json",
+    "sha256": "f36179fff2fd208e887a9552c3bb4e45e1a58edc04123dea09e38771ecc2100a"
+  },
+  "protocol": {
+    "local_path": ".runs/solderjumper-ses-native-vertical-slice-002/protocol.json",
+    "sha256": "090f3df7ce81cbfa0de3d5a4634724f171ea7f7b37037d60a1341de55b18374b"
+  },
+  "status": "failed_bridge_compile_after_two_native_source_checks",
+  "accepted": false,
+  "production_admitted": false,
+  "custom_pad_support_qualified": false,
+  "source_baselines": [
+    {
+      "case": "back90-positive",
+      "native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 4,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "key": "silk_edge_clearance"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint CONVEX",
+                "pos": {
+                  "x": 25.0,
+                  "y": 30.0
+                },
+                "uuid": "831c8714-9c32-5eb8-98d5-c88cabba2cb5"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint CONCAVE",
+                "pos": {
+                  "x": 25.0,
+                  "y": 20.0
+                },
+                "uuid": "70fcf9a3-c3b0-5565-92a7-bd8da7f3e206"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint FOREIGN_A",
+                "pos": {
+                  "x": 34.0,
+                  "y": 20.0
+                },
+                "uuid": "7f0ed9dd-8cda-5055-bb28-0f3e7dd9285c"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint FOREIGN_B",
+                "pos": {
+                  "x": 31.0,
+                  "y": 20.0
+                },
+                "uuid": "9cf660d1-8b09-5e49-b8d7-5d0dd310d469"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          }
+        ]
+      },
+      "binding": {
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-positive/snapshot/pic_programmer.kicad_pcb",
+        "input": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-positive/source-drc-input/pic_programmer.kicad_pcb",
+        "before": {
+          "pic_programmer.kicad_pcb": "1f93df6ce751ab5da5e6e74ea95e26b0537a374a64e6d015f5ae4bc7a901768c",
+          "pic_programmer.kicad_prl": "4824220f18df9e3371304177dbd8a2514843eda39c91011ff731d5597a995f1d",
+          "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+          "pic_programmer.kicad_sch": "be9c3ab18d2c4e37e73ed0ae557d3c979a173ddee6c12f68787fd96dac7d0181"
+        },
+        "after": {
+          "pic_programmer.kicad_pcb": "1f93df6ce751ab5da5e6e74ea95e26b0537a374a64e6d015f5ae4bc7a901768c",
+          "pic_programmer.kicad_prl": "4824220f18df9e3371304177dbd8a2514843eda39c91011ff731d5597a995f1d",
+          "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+          "pic_programmer.kicad_sch": "be9c3ab18d2c4e37e73ed0ae557d3c979a173ddee6c12f68787fd96dac7d0181"
+        },
+        "saved": false,
+        "local_settings_policy": "job-owned-prl-immutable-v1",
+        "field_local_settings_policy": "job-owned-field-prl-immutable-v1"
+      },
+      "process": {
+        "status": "nonzero_exit",
+        "exit_code": 5,
+        "wall_seconds": 1.1225456249667332,
+        "cpu_seconds": 0.525817,
+        "max_rss_bytes": 210681856,
+        "supervisor_cpu_seconds": 0.011902999999999997,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 209977344,
+        "sampled_peak_workdir_bytes": 129364,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 10485760,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+          "pcb",
+          "drc",
+          "--format",
+          "json",
+          "--severity-all",
+          "--all-track-errors",
+          "--refill-zones",
+          "--schematic-parity",
+          "--exit-code-violations",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-positive/source-drc.json",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-positive/source-drc-input/pic_programmer.kicad_pcb"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-positive/source-drc.log",
+        "log_bytes": 244,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-positive",
+        "signal_cancellation_enabled": true,
+        "pid": 72346,
+        "name": "source-drc",
+        "local_settings_policy": "job-owned-prl-immutable-v1",
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": true,
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-positive/source-drc-input/pic_programmer.kicad_prl",
+          "sha256": "4824220f18df9e3371304177dbd8a2514843eda39c91011ff731d5597a995f1d",
+          "flags_before": 0,
+          "flags_during": 2,
+          "flags_restored": true,
+          "bytes_unchanged": true
+        }
+      },
+      "report_sha256": "9ba442891cf7b4cd39085f6a016ee4fa8489a3ded48b7ddefc4a2289981fcbbd",
+      "binding_sha256": "3a3437479c40c67e8d32d775974ae026d0df1a053bce5b24be564e0e44f15800",
+      "source_inputs_unchanged": true
+    },
+    {
+      "case": "back90-false_hull",
+      "native": {
+        "opens": 1,
+        "blocking": 0,
+        "warnings": 5,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          },
+          {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+          },
+          {
+            "description": "Silkscreen clipped by board edge",
+            "key": "silk_edge_clearance"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Track has unconnected end",
+            "items": [
+              {
+                "description": "Track [CONTACT] on bottom_layer, length 8.9035 mm",
+                "pos": {
+                  "x": 24.75,
+                  "y": 29.5
+                },
+                "uuid": "60363aa2-deee-53e9-8a30-e267fd75aa50"
+              }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint CONVEX",
+                "pos": {
+                  "x": 25.0,
+                  "y": 30.0
+                },
+                "uuid": "831c8714-9c32-5eb8-98d5-c88cabba2cb5"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint CONCAVE",
+                "pos": {
+                  "x": 25.0,
+                  "y": 20.0
+                },
+                "uuid": "70fcf9a3-c3b0-5565-92a7-bd8da7f3e206"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint FOREIGN_A",
+                "pos": {
+                  "x": 34.0,
+                  "y": 20.0
+                },
+                "uuid": "7f0ed9dd-8cda-5055-bb28-0f3e7dd9285c"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Footprint has no courtyard defined",
+            "items": [
+              {
+                "description": "Footprint FOREIGN_B",
+                "pos": {
+                  "x": 31.0,
+                  "y": 20.0
+                },
+                "uuid": "9cf660d1-8b09-5e49-b8d7-5d0dd310d469"
+              }
+            ],
+            "severity": "warning",
+            "type": "missing_courtyard"
+          },
+          {
+            "description": "Missing connection between items",
+            "items": [
+              {
+                "description": "Track [CONTACT] on bottom_layer, length 8.9035 mm",
+                "pos": {
+                  "x": 24.75,
+                  "y": 29.5
+                },
+                "uuid": "60363aa2-deee-53e9-8a30-e267fd75aa50"
+              },
+              {
+                "description": "Pad 1 [CONTACT] of CONCAVE on bottom_layer",
+                "pos": {
+                  "x": 25.0,
+                  "y": 20.0
+                },
+                "uuid": "4915a982-bb17-52b4-bbe6-f66f4a60b95a"
+              }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+          }
+        ]
+      },
+      "binding": {
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-false_hull/snapshot/pic_programmer.kicad_pcb",
+        "input": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-false_hull/source-drc-input/pic_programmer.kicad_pcb",
+        "before": {
+          "pic_programmer.kicad_pcb": "40c309016e6832b31f09f845bf8e1127a59aa1d1be2a73df5ee515c3e9378b11",
+          "pic_programmer.kicad_prl": "4824220f18df9e3371304177dbd8a2514843eda39c91011ff731d5597a995f1d",
+          "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+          "pic_programmer.kicad_sch": "6f3b56ffa9190e62a55e2593636289ae3b273a3d9a83de1df1960681638caf3f"
+        },
+        "after": {
+          "pic_programmer.kicad_pcb": "40c309016e6832b31f09f845bf8e1127a59aa1d1be2a73df5ee515c3e9378b11",
+          "pic_programmer.kicad_prl": "4824220f18df9e3371304177dbd8a2514843eda39c91011ff731d5597a995f1d",
+          "pic_programmer.kicad_pro": "3b0ac39da5af86d0baa2a64da55a89c39ba00148dc82b54f3062f5c3650a5cc5",
+          "pic_programmer.kicad_sch": "6f3b56ffa9190e62a55e2593636289ae3b273a3d9a83de1df1960681638caf3f"
+        },
+        "saved": false,
+        "local_settings_policy": "job-owned-prl-immutable-v1",
+        "field_local_settings_policy": "job-owned-field-prl-immutable-v1"
+      },
+      "process": {
+        "status": "nonzero_exit",
+        "exit_code": 5,
+        "wall_seconds": 0.7693295419448987,
+        "cpu_seconds": 0.435994,
+        "max_rss_bytes": 210763776,
+        "supervisor_cpu_seconds": 0.008458000000000077,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 209125376,
+        "sampled_peak_workdir_bytes": 130632,
+        "resource_guards": {
+          "max_group_rss_bytes": 1073741824,
+          "max_workdir_bytes": 10485760,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/usr/bin/sandbox-exec",
+          "-p",
+          "(version 1)(allow default)(deny network*)",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+          "pcb",
+          "drc",
+          "--format",
+          "json",
+          "--severity-all",
+          "--all-track-errors",
+          "--refill-zones",
+          "--schematic-parity",
+          "--exit-code-violations",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-false_hull/source-drc.json",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-false_hull/source-drc-input/pic_programmer.kicad_pcb"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-false_hull/source-drc.log",
+        "log_bytes": 246,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-false_hull",
+        "signal_cancellation_enabled": true,
+        "pid": 72347,
+        "name": "source-drc",
+        "local_settings_policy": "job-owned-prl-immutable-v1",
+        "local_settings_protection": {
+          "policy": "mac-owned-prl-immutable-v1",
+          "present": true,
+          "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/source-back90-false_hull/source-drc-input/pic_programmer.kicad_prl",
+          "sha256": "4824220f18df9e3371304177dbd8a2514843eda39c91011ff731d5597a995f1d",
+          "flags_before": 0,
+          "flags_during": 2,
+          "flags_restored": true,
+          "bytes_unchanged": true
+        }
+      },
+      "report_sha256": "8fd02d2549a919078ad803ab3ae9c551cd1de2fc240c8635673f16734c8f92a7",
+      "binding_sha256": "df968ebd1309cbfc7e015641b661e28611a02485d622b92f9d3644a4e8f84961",
+      "source_inputs_unchanged": true
+    }
+  ],
+  "compiler_process": {
+    "status": "nonzero_exit",
+    "exit_code": 1,
+    "wall_seconds": 0.6474874159321189,
+    "cpu_seconds": 1.191683,
+    "max_rss_bytes": 132268032,
+    "supervisor_cpu_seconds": 0.0062670000000000226,
+    "monitor_cpu_seconds": 0.0,
+    "sampled_peak_group_rss_bytes": 121552896,
+    "sampled_peak_workdir_bytes": 452,
+    "resource_guards": {
+      "max_group_rss_bytes": 1073741824,
+      "max_workdir_bytes": 10485760,
+      "poll_interval_seconds": 0.25,
+      "os_enforced": false,
+      "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+    },
+    "argv": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/javac",
+      "-J-Xmx256m",
+      "-J-XX:ActiveProcessorCount=1",
+      "-J-Duser.home=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/compile/home",
+      "-J-Djava.io.tmpdir=/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/compile/tmp",
+      "-proc:none",
+      "-classpath",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.tools/freerouting-2.5.0.jar",
+      "-d",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/compile/classes",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/solderjumper_ses_v1/SesBridge.java",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/custom_pad_area_probe_v1/AreaContactProbe.java",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/MixedClassProbe.java",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/pic_mixed_transport_probe_v1/ExactPointWitness.java"
+    ],
+    "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/compile/javac.log",
+    "log_bytes": 452,
+    "log_truncated": false,
+    "cleanup_complete": true,
+    "resource_accounting": {
+      "method": "wait4 child rusage",
+      "cpu_scope": "direct child plus descendants accounted for by child wait",
+      "rss_scope": "kernel peak, not simultaneous process-tree total",
+      "native_rss_unit": "bytes",
+      "memory_limit_enforced": false,
+      "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+    },
+    "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/execution001/compile",
+    "signal_cancellation_enabled": true,
+    "pid": 72348,
+    "name": "javac"
+  },
+  "compiler_log": "/Users/faisal/Projects/KiCad-Autorouter-local/experiments/solderjumper_ses_v1/SesBridge.java:91: error: incompatible types: String cannot be converted to Set<PosixFilePermission>\n        Files.createDirectory(directory, PosixFilePermissions.asFileAttribute(\"rwx------\"));\n                                                                              ^\nNote: Some messages have been simplified; recompile with -Xdiags:verbose to get full output\n1 error\n",
+  "engine_routing_executed": false,
+  "SES_executed": false,
+  "complete_external_exit": {
+    "wall_seconds": 4.04,
+    "CPU_seconds": 3.64,
+    "time_log_sha256": "25784da3f52b24dc37e7d2fabbb845bdd98c66416ede4b96227e879a937889fe"
+  },
+  "nested_sample": {
+    "wall_seconds": 3.751078457920812,
+    "CPU_seconds": 3.360368,
+    "additive": false
+  },
+  "fixture_correction": "Only two quoted electrical-pin enum atoms per new SCH corrected. PCB/PRO/PRL and every other SCH AST unchanged; all four pin types checked. Initial incorrect four-change assertion failed .05wall/.04CPU and retained; corrected check .05/.04 PASS; generation .09/.04. No Native results fabricated by pure checks.",
+  "decision": "Fix Java asFileAttribute with PosixFilePermissions.fromString; retain compiler failure. Reuse these completed source baselines through existing Native/field/PRL readback in one explicitly frozen continuation, not a repeat Native trial. Sum all actual attempt costs within unchanged180s execution budget; one positive30s routing attempt remains unperformed.",
+  "proof_scope": "Observation/hash/binding/process metadata only; actual final source Native report bytes retained in original local job. Not their full backup or renewed production authority. Four ignored checks and every warning remain visible; false-hull opens are intentional demand, not a source-policy conflict. Same-CONTACT owned scene does not qualify different-net Cheapino jumpers, general custom pads, routing improvement, human/electrical or release.",
+  "rights": "Project-owned diagnostic metadata only; no raw CAD/source artwork/binaries/private source included."
+}

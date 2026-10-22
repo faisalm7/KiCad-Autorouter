@@ -1,0 +1,83 @@
+{
+  "accepted": false,
+  "actual_prior_receipt_sha256": "f36179fff2fd208e887a9552c3bb4e45e1a58edc04123dea09e38771ecc2100a",
+  "additional_costs": "Research, source authoring and AI review not fully metered; unknown, not zero. No experiment runtime is excluded from the original budget.",
+  "additional_preparation_complete_CPU_seconds": 0.07,
+  "additional_preparation_complete_wall_seconds": 0.11,
+  "artifact_scope": "Metadata only. Raw diagnostic projects/logs stay local and outside backup010; this receipt is not their backup.",
+  "budget": {
+    "aggregate_bytes": 10485760,
+    "aggregate_entries": 2048,
+    "aggregate_files": 1024,
+    "maximum_positive_engine_attempts": 1,
+    "original_full_CPU_seconds": 180,
+    "original_wall_seconds": 180,
+    "positive_engine_seconds": 30,
+    "prior_complete_CPU_seconds": 4.85,
+    "prior_complete_wall_seconds": 5.64,
+    "remaining_full_CPU_seconds_before_continuation": 175.15,
+    "remaining_wall_seconds_before_continuation": 174.36,
+    "return_reserve_seconds": 25
+  },
+  "changed_source_sha256": {
+    "experiments/solderjumper_ses_v1/SesBridge.java": "02dc86897207c3e0b31a36093a2055479c9a91365c5de69cd24cab8cf73b34b6",
+    "experiments/solderjumper_ses_v1/controller.py": "78c3017294d95fff9bc5902e7f36516172c01ea8067cfb56f0f6f9b7cffdd073"
+  },
+  "human_review": false,
+  "kind": "owned-solderjumper-explicit-continuation-source-review",
+  "preserved_producer": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/controller-executed001.py",
+    "sha256": "cd1c558bd1e4e6ae1e11069432023e247f6359067a7573252ce3c96a9470ad3d"
+  },
+  "product_candidate_unchanged": "runtime058",
+  "production_admitted": false,
+  "protocol": {
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/solderjumper-ses-native-vertical-slice-002/protocol-continuation002.json",
+    "sha256": "ea37f5443ccb2818991b96c445136077cb04e944cee544838ebd087b75d2261b"
+  },
+  "readback": "Shared floor.check_drc_stage checks actual input/snapshot hashes, argv/process/Native/full-SCH/PRL/field evidence. Only validated_input_sha256 and emitted_candidate are reconstructed from the exact binding for readback and explicitly labelled derived. Historical producer records remain unchanged.",
+  "recorded_utc": "2026-10-22T10:09:21.759875+00:00",
+  "remaining_finite_stages": [
+    "fresh compile",
+    "positive nonrouting SES roundtrip and own final Native",
+    "negative unchanged nonrouting SES roundtrip and own final Native",
+    "at most one positive route-empty standard CLI engine attempt and own final Native"
+  ],
+  "review": [
+    {
+      "agent": "context_reuse_skeptic",
+      "blocking_findings": [],
+      "role": "continuation author mechanical review",
+      "scope": "continuation delta only; AST-only; no Java/Native execution"
+    },
+    {
+      "agent": "preset_picker_review",
+      "blocking_findings": [],
+      "role": "skeptical source review",
+      "scope": "continuation delta and exact retained source receipt/process/binding only; no edits or Java/Native execution"
+    }
+  ],
+  "schema": 1,
+  "scope_limits": [
+    "Same-CONTACT two owned back90 scenes only",
+    "No Cheapino execution or different-net separation qualification",
+    "No production custom-pad admission or routing-quality/comparative claim",
+    "Polling quotas may overshoot; retained failures consume original budget"
+  ],
+  "source_baselines_reused": {
+    "back90-false_hull": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 1,
+      "warnings": 5
+    },
+    "back90-positive": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 0,
+      "warnings": 4
+    }
+  },
+  "source_checkpoint_before_continuation": "45e75aeb156b62c581fdfb019f287ecf19040dfd",
+  "status": "prepared_not_executed"
+}

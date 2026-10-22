@@ -9,7 +9,20 @@ of four changed atoms is also retained. Current controller/worker pins select th
 002 preparation explicitly, with unchanged180s/30s/25s/resource limits. No result
 or production admission is inferred from the correction or pure checks.
 
-`SesBridge.java` is draft source only: it has not been compiled or run. It selects
+The corrected002 source checks are retained in
+[the second prerequisite receipt](../../evidence/solderjumper-ses-native-prerequisite-002.json):
+positive0opens/0blocking/4warnings/0exclusions and deliberate false-contact
+negative1/0/5/0, with current full-schematic Native checks and original rules.
+The following compile failed on the new selector's POSIX permission-attribute
+argument, before any Java observation, SES roundtrip or routing. The one-line
+type correction is not evidence that compilation or later stages pass.
+The explicitly pinned execution002 continuation reuses those actual source
+proofs through the shared readback helpers, retaining both failed runs and
+deducting their complete5.64wall/4.85CPU from the original180s limits. It has a
+fresh output directory, the same25s reserve/one30s engine attempt, aggregate
+resource caps across old and new artifacts, and no implicit retry.
+
+`SesBridge.java` remains experimental. It selects
 only `back90-positive` or `back90-false_hull`, then delegates to the retained
 `MixedClassProbe.run(raw, true, row, false, sesPath)`. This uses the existing
 HeadlessBoardManager load, SettingsMerger, awaited post-load work, observation and
