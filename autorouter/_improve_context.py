@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import stat
 import time
+from typing import Optional
 from . import config as c, provenance as pv
 
 POLICY = 'selected-native7-single-improve-child-v1'
@@ -74,7 +75,7 @@ class _Context:
     allocation: dict
     tools: dict
     source_hashes: dict
-    netclass_policy: dict | None = None
+    netclass_policy: Optional[dict] = None
     _inputs: dict = dataclasses.field(init=False, repr=False)
     _owner: dict = dataclasses.field(init=False, repr=False)
     _seal: str = dataclasses.field(init=False, repr=False)

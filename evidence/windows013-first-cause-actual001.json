@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "kind": "Windows013-first-cause-actual-failure-v1",
+  "recorded_utc": "2026-10-22T17:01:11.833056+00:00",
+  "state": "CLOSED_FAILED_NO_RETRY",
+  "source_head": "65e5608b6426c7580133af7dddddd1f4f96a1478",
+  "protocol_sha256": "1b456ca2c370c18300a70f6aa83cc8c0018f5811208c893d601c93a0fd525f79",
+  "CI": {
+    "id": 39818014434,
+    "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39818014434",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "job_started_at": "2026-10-22T16:54:34Z",
+    "job_completed_at": "2026-10-22T16:54:56Z",
+    "job_elapsed_seconds": 22,
+    "runner": "windows-2022",
+    "all_other_modes_skipped": true,
+    "artifact_uploads": 0,
+    "cache_uploads": 0,
+    "incremental_spending": 0
+  },
+  "control_passed": false,
+  "strict_compile_load_NULL15_passed": true,
+  "INFO_bytes": 196,
+  "DIAGNOSTIC_bytes": 136,
+  "first_failure": {
+    "C_diagnostic": {
+      "actual": 65,
+      "element_index": 0,
+      "error": 13,
+      "expected": 1,
+      "object_index": 1,
+      "predicate": "flags",
+      "recorded": true,
+      "stage": "filter_fields"
+    },
+    "C_diagnostic_error": null,
+    "exception_type": "OSError",
+    "message": "[WinError 13] The data is invalid.",
+    "metadata": null,
+    "operation": "PG_Arm",
+    "phase": "bound",
+    "stage": "C_call",
+    "winerror": 13
+  },
+  "contained_token_denial_cancel_cases": 0,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "accepted": false,
+  "cleanup_complete": false,
+  "project_complete": false,
+  "observed": {
+    "original14_plus_additive_getterNULL": 15,
+    "first_C_diagnostic_survived_sticky_poison": true,
+    "C_jobs": 0,
+    "C_processes": 0,
+    "state": 5,
+    "poisoned": true,
+    "policy_may_exist": 1,
+    "policy_presence": "Unknown; conservative flag is neither presence nor absence proof.",
+    "host_state_files": 9,
+    "host_state_bytes": 6170,
+    "journal_events": [
+      "RESERVED",
+      "PREPARED",
+      "CONTEXT",
+      "ORPHAN",
+      "ABANDONED"
+    ],
+    "exact_state_log_chunks_hash_verified": true,
+    "host_TCP_positives": 2,
+    "owned_TCP_server_reaped": true,
+    "controller_reaped": true,
+    "old_owner_cleanup_authorized": false
+  },
+  "costs": {
+    "enclosure_wall_seconds_before_exit": 10.2553818,
+    "controller_process_CPU_seconds": 0.5,
+    "separate_setup_Job_CPU_seconds": [
+      1.171875,
+      0.078125,
+      0.28125,
+      0.265625
+    ],
+    "disjoint_measured_CPU_subtotal_seconds": 2.296875,
+    "whole_CI_CPU_seconds": null,
+    "local_retention_failure001_wall_CPU": [
+      0.07,
+      0.04
+    ],
+    "local_retention_resume002_wall_CPU": [
+      0.05,
+      0.03
+    ]
+  },
+  "accounting": "Complete controller process CPU plus four separate owned setup Jobs only; nested readiness/canary controller samples are not added. Whole CI/PowerShell/post-report overhead and authoring/review/retrieval cost unknown additional, not zero. Job duration includes checkout/setup; administrative API latency is separate. Local extraction001 refused colon-containing producer labels after retaining metadata/state;002 verified those existing bytes and resumed remaining logs under hashed safe names. No CI/runtime retry or overwritten failure. API/log retrieval, authoring/review/research are additional unknown.",
+  "primary_interpretation": {
+    "verified_numeric_header": "https://raw.githubusercontent.com/microsoft/win32metadata/main/generation/WinSDK/RecompiledIdlHeaders/shared/fwpmtypes.h",
+    "verified_semantics": "https://learn.microsoft.com/en-us/windows/win32/api/fwpmtypes/ns-fwpmtypes-fwpm_filter0",
+    "PERSISTENT": 1,
+    "INDEXED": 64,
+    "observed_flags": 65,
+    "meaning": "Microsoft describes INDEXED as faster classification lookup; header defines0x40. The actual returned flags were PERSISTENT|INDEXED. Automatic addition on every supported version is an inference not established by this one observation.",
+    "decision": "Review a narrow explicit indexed-readback correction before at most one new separately frozen corrective canary; no broad bitmask/unknown flag acceptance, no disabling/owner/DACL/policy/cancel/cleanup relaxation.013 remains closed; no installer loop."
+  },
+  "supporting_sha256": {
+    ".runs/windows013-first-cause-actual001/actions.log": "c022b602c0dc6084f41a7712012b822511958fb3f147e120ea3c466819da42a6",
+    ".runs/windows013-first-cause-actual001/run.json": "4e300345a40facb1c2940d1a9073928c36d98f5e7d079986081cc441cf9b3c78",
+    ".runs/windows013-first-cause-actual001/jobs.json": "1fd829c8b4b3ed5b7ec08399ddbcb518d28b65212443ad4f931d0375b089ed04",
+    ".runs/windows013-first-cause-actual001/retrieval.json": "3a081f9a372c1f897f3575ab97c89093ebda5afe5f2f89180fd72f2f01d37a56",
+    ".runs/windows013-first-cause-actual001/readiness.json": "021164cf6b4a49b19f1c3dd191fe2800e615abfd6a2ed287502941df9303bb0a",
+    ".runs/windows013-first-cause-actual001/canary.json": "113f0cf27b140ea71b8d4e483f1393d260d35c5ebdbf5128cdaf21acfd20ab9a",
+    ".runs/windows013-first-cause-actual001/enclosure.json": "5f4f709dbcec558a81e1a83fea46f665b6f3b8b8069a4fd74348bc04ba9a93a4",
+    ".runs/windows013-first-cause-actual001/closure.json": "6a1127944560cc62d99f198b8c91b8f3eb63df3007c3a5e27623beb381986cda",
+    ".runs/retain-windows013-actual-001.py": "2c48bda1f8cf1bbb7afaa59939eb4c35869e9ef1a98662f4914e37341120f9f8",
+    ".runs/retain-windows013-actual-002.py": "bd5045a3768546597820cac74679db9e3b1b6fe0babb4b64ef0bb41b6e78c281",
+    ".runs/retain-windows013-actual-001-time.log": "27728dcb9b6b2c9c05c22b1eb60b09501cbcd53155910fc98b2ba94192bc98eb",
+    ".runs/retain-windows013-actual-002-time.log": "60169dc04758281ed4fa2fa2786e6dafbb45ed432abf1080e4adb54e16d7e961"
+  },
+  "raw_retention": "Raw CI, own nine state files/journal and exact compiler/setup logs remain local; prospective061 capture cutoff must explicitly include them. Saved receipts give no cleanup/removal authority. Runner policy/profile/ACL objects were deliberately not removed on failed ownership; no successful cleanup, restoration, denial/cancellation or actual native routing follows.",
+  "limits": "Separate AI/owner/product/physical/electrical/install qualification remains open. This is a real bounded diagnostic failure, not a Windows support pass."
+}

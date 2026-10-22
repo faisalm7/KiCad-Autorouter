@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "kind": "runtime061-real-GUI-interpreter-startup-failure-v1",
+  "recorded_utc": "2026-10-22T17:13:20.869102+00:00",
+  "source_head": "57d1bec99a5053237fbf82630a1e76139b0f746f",
+  "installed_manifest_sha256": "dfeba186f6ea8233d44d203b7ecb3ff396fb6f0ff7544381c9ae116619875666",
+  "GUI_state": "CLOSED_FAILED_IMPORT_NO_ROUTING",
+  "Native061_status": "Preserved terminal passes; no rerun or GUI inference.",
+  "actual_GUI_qualified": false,
+  "originals_unchanged": {
+    "ordinary-alias2Cu": {
+      "owned1007-transport.kicad_pcb": "72ea130a31ae15ecad765bb08fa00ebf0b20a399f6fe733f72fedc68c0b2a77a",
+      "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+      "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+      "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    "via-high-partial2Cu": {
+      "owned1007-transport.kicad_pcb": "72ea130a31ae15ecad765bb08fa00ebf0b20a399f6fe733f72fedc68c0b2a77a",
+      "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+      "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+      "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    },
+    "improve-parent-class": {
+      "owned1007-transport.kicad_pcb": "f5178bda1843eb873311f075727d73dec3cfeaa054ee92c77119f1cd4a641e25",
+      "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+      "owned1007-transport.kicad_pro": "e84df6b57ef37c1113073e5d403360d0d13ceae67ea2394fa66171b1287826ed",
+      "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+    }
+  },
+  "GUI_jobs": 0,
+  "source": "Exact immutable installed061; official KiCad10.0.7 bundled Python3.9.13.",
+  "failure": {
+    "type": "TypeError",
+    "module": "autorouter/_improve_context.py",
+    "line": 77,
+    "expression": "netclass_policy: dict | None = None",
+    "cause": "Annotation evaluated on Python3.9 at GUI entrypoint import; CLI Python3.11 does not expose this error."
+  },
+  "observations": [
+    "Owner asked Check again. No router process/window was observed. Menus/window controls worked; toolbar coordinate actions unchanged in normal and zoomed inspection.",
+    "Exact installed061 GUI import reproduced the startup error. This does not independently prove what each prior physical toolbar click executed.",
+    "Owned manager closed normally with Cmd+Q. Subsequent exact process inventory found no KiCad or GUI workers. No PID kill, source save or immutable runtime patch."
+  ],
+  "manager_costs": {
+    "attempt001_wall_CPU": [
+      0.43,
+      0.26
+    ],
+    "attempt002_wall_waitedCPU": [
+      1914.3,
+      18.83
+    ],
+    "limitation": "Includes interactive pauses; waited child CPU is not complete GUI-tree CPU. No unattended speed claim."
+  },
+  "fix": {
+    "working_change": "Use typing.Optional[dict]; no runtime guard or policy change.",
+    "targeted001_wall_CPU": [
+      0.39,
+      0.2
+    ],
+    "targeted002_wall_CPU": [
+      0.4,
+      0.26
+    ],
+    "actual_interpreter_imports": [
+      "autorouter.gui",
+      "autorouter.pipeline",
+      "autorouter.strategy",
+      "autorouter.review_export",
+      "wx"
+    ],
+    "claim": "Actual source import only; no window/control/routing/Native/new artifact qualification.",
+    "new_build": "runtime062 pending; installed061 is immutable."
+  },
+  "supporting_sha256": {
+    ".runs/runtime061 fresh install 001/.runs/runtime061-gui096-python39-import-001.log": "fc49ed8a33b085101c47c9db0018369e968978679aebc283e4599d5e6745e7f5",
+    ".runs/runtime061 fresh install 001/.runs/gui-session096/manager-time-001.log": "f2e348a778dafa787b81655a0fd58b29e5f8c93c0b1c7748688c82795283d44d",
+    ".runs/runtime061 fresh install 001/.runs/gui-session096/manager-time-002.log": "0471f12873c8606189baed0233781d85c1b3cb67ab7184e91fbfd129bbdacd92",
+    ".runs/runtime061 fresh install 001/.runs/gui-session096/manager-console-001.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".runs/runtime061 fresh install 001/.runs/gui-session096/manager-console-002.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".runs/runtime061 fresh install 001/.runs/gui-session096/observed-setup-001.json": "30277f4a8a305cf361846662b009292fb308c09007bb7a90bb4134720066e8ec",
+    ".runs/runtime062-gui-python39-targeted-001.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".runs/runtime062-gui-python39-targeted-001-time.log": "ba01cf8d929bcbaf002ca5b6a881396464890c38373e690b8d36189a6a4631c1",
+    ".runs/runtime062-gui-python39-targeted-002.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".runs/runtime062-gui-python39-targeted-002-time.log": "5822c077da68e250d06152d9433d0d5e3297c7e14f80e20e3e6873732a9a48ea",
+    "autorouter/_improve_context.py": "56c99c574a876cebdf09def10e5c63d565462eb689fadba3afdeae6528aefbfd",
+    "tests/test_gui_python_compatibility.py": "8e2d24f307be586596cf6d685ce61df3d4487ace799aca4a184b68a75caac427"
+  },
+  "durability": "These post-cutoff failure/closure/fix observations are not covered by selected-runtime061-current-002. That completed exact subset remains valid; no restoration repeated.",
+  "release_blocker": "Critical GUI launch failure in061. Fresh062 build/install/native/GUI qualification required before usable candidate claim; no further061 toolbar action requested."
+}
