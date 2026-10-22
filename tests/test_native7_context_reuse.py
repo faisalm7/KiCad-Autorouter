@@ -59,7 +59,7 @@ class Native7ContextReuseControls(unittest.TestCase):
             ('source_hashes', dict(self.hashes, **{self.source.name: '0' * 64})),
             ('tools', dict(self.tools, files={'changed': '0' * 64})),
             ('budget_seconds', 90.0), ('cpu_budget_seconds', 90.0),
-            ('incumbent_assigned_seconds', 63.0),
+            ('incumbent_assigned_seconds', 48.0),
             ('incumbent_allocation', dict(elapsed_wall_seconds=1.0, elapsed_cpu_seconds=2)),
             ('cpu_budget_seconds', True),
         ]
@@ -87,9 +87,9 @@ class Native7ContextReuseControls(unittest.TestCase):
         with p.validation_readback_session():
             s.native7_incumbent_context(self.parent, data)
             changed = copy.deepcopy(data)
-            changed['incumbent_assigned_seconds'] = 62
+            changed['incumbent_assigned_seconds'] = 47
             changed['incumbent_allocation']['elapsed_cpu_seconds'] = 3
-            replacement = self.make(assigned_seconds=62,
+            replacement = self.make(assigned_seconds=47,
                                     allocation=dict(elapsed_wall_seconds=1, elapsed_cpu_seconds=3))
             contract = f.read_json(path)
             contract['context'] = replacement.record()
@@ -149,7 +149,7 @@ class Native7ContextReuseControls(unittest.TestCase):
                 second = s.native7_incumbent_context(self.parent, data)
                 self.assertIsNot(first, second)
                 self.assertEqual(first._seal, second._seal)
-            with patch.object(child, 'RESERVE_SECONDS', 24), self.assertRaises(p.Rejected):
+            with patch.object(child, 'RESERVE_SECONDS', 39), self.assertRaises(p.Rejected):
                 s.native7_incumbent_context(self.parent, data)
             self.assert_empty(p._readback_session.get())
 
@@ -232,7 +232,9 @@ class Native7ContextReuseControls(unittest.TestCase):
 
     def test_no_budget_or_private_child_result_reuse_and_failure_clears(self):
         data = self.parent_data()
-        self.record()
+        # Retain authored child metadata for canonical filename/existence
+        # intake; no Native acceptance is supplied by this mocked reader.
+        p.save_json(self.context.output / 'result.json', self.record())
         with patch.object(child, '_Budget', side_effect=AssertionError('no live Budget')) as budget, \
                 patch.object(p, '_check_result_uncached', return_value={'constructed': True}) as reader, \
                 p.validation_readback_session():

@@ -2648,8 +2648,10 @@ def validation_readback_session():
         _clear_readback_entries(state)
         raise
     finally:
-        if existing is None:_clear_readback_entries(state)
-        _readback_session.reset(token)
+        try:
+            if existing is None:_clear_readback_entries(state)
+        finally:
+            _readback_session.reset(token)
 
 
 def _readback_live_identity(modules):

@@ -234,7 +234,7 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.assertEqual(result["trials"], [])
 
     def test_preparation_exhaustion_retains_trial_without_native_attempt(self):
-        self.baseline_advance = 85
+        self.baseline_advance = 70
         self.trial_copy_advance = 7
         result = self.exercise()
         self.assertTrue(result["accepted"], result)
@@ -254,7 +254,7 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.assertLess(result["wall_seconds"], 30)
 
     def test_preparation_cpu_exhaustion_refuses_native_with_wall_time_remaining(self):
-        self.baseline_child_cpu = 85.0
+        self.baseline_child_cpu = 70.0
         self.trial_copy_cpu_advance = 7
         result = self.exercise()
         self.assertTrue(result["accepted"], result)
@@ -531,7 +531,7 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.assertEqual(decision['probe_trials'],['trial-0001'])
         self.assertNotIn('chain_pad_context',result)
         self.assertEqual(result['chain_context_skipped'],'adaptive improved')
-        self.assertEqual(result['finalization_reserve_seconds'],25.)
+        self.assertEqual(result['finalization_reserve_seconds'],40.)
         self.assertEqual(result['metrics']['track_length_mm'],8.)
 
     def test_adaptive_branch_rebinds_after_last_inventory_callback(self):
@@ -712,7 +712,7 @@ class StrategyControlFlowTests(unittest.TestCase):
 
     def test_adaptive_over_deadline_native_label_is_not_a_completed_probe(self):
         record=dict(status='drc_rejected',accepted=False,steps=[],
-            adaptive_trial_guard={'wall_deadline_elapsed_seconds':12.,'work_cpu_limit_seconds':95.},
+            adaptive_trial_guard={'wall_deadline_elapsed_seconds':12.,'work_cpu_limit_seconds':80.},
             finished_elapsed_seconds=13.,finished_observed_cpu_seconds=1.)
         self.assertFalse(s._adaptive_trial_native(self.output,{'budget_seconds':120.,'cpu_budget_seconds':120.},record))
 
@@ -756,7 +756,7 @@ class AdaptiveNativeJournalControls(unittest.TestCase):
                          source_hashes=p.tree_hash(self.candidate.parent),
                          budget_seconds=120., cpu_budget_seconds=120.)
         self.record = dict(id='trial-0000', status='improvement_validated', accepted=True,
-                           adaptive_trial_guard=dict(wall_deadline_elapsed_seconds=95., work_cpu_limit_seconds=95.),
+                           adaptive_trial_guard=dict(wall_deadline_elapsed_seconds=80., work_cpu_limit_seconds=80.),
                            finished_elapsed_seconds=1., finished_observed_cpu_seconds=1.,
                            candidate_sha256=p.sha(self.candidate), native_report_sha256=p.sha(report),
                            native=self.native, metrics=self.measure, steps=self.job.steps)

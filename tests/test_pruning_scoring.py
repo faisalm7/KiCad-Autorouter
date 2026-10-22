@@ -97,7 +97,7 @@ class StrongerIncumbentControls(unittest.TestCase):
    engine_profile='tuned',incumbent_baseline='B2_free_angle_clearance20',incumbent_policy=s.STRONG_INCUMBENT_POLICY,
    incumbent_scoring_variant='via_default',incumbent_receipt_sha256=p.sha(child/'result.json'),
    source=inc['source'],source_hashes=copy.deepcopy(inc['source_hashes']),tools=copy.deepcopy(inc['tools']),
-   budget_seconds=180,cpu_budget_seconds=180,finalization_reserve_seconds=25.,finalization_cpu_reserve_seconds=25.,
+   budget_seconds=180,cpu_budget_seconds=180,finalization_reserve_seconds=40.,finalization_cpu_reserve_seconds=40.,
    steps=[dict(row,phase='incumbent') for row in inc['steps']])
   marker=self.root/'pruning-scoring.json';p.save_json(marker,dict(schema=1,strategy=parent['strategy'],incumbent_scoring_variant='via_default'))
   parent['incumbent_scoring_contract']=dict(file=marker.name,sha256=p.sha(marker))

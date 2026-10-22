@@ -23,7 +23,7 @@ class SingleSelectionPrerequisiteTests(unittest.TestCase):
         p.save_json(self.root/'incumbent/result.json',self.inc);sx.write(self.root/'candidate'/self.source.name,self.tree)
         self.data=dict(schema=1,single_selection_policy=s.SINGLE_SELECTION_POLICY,strategy='native_validated_zone_net_pruning',
             proposal_policy='single',engine_profile='tuned',adapter='both',scope='whole_board_unlocked_routing',
-            finalization_reserve_seconds=25.,finalization_cpu_reserve_seconds=25.,source=str(self.source),
+            finalization_reserve_seconds=40.,finalization_cpu_reserve_seconds=40.,source=str(self.source),
             tools={'implementation_sha256':{'autorouter/strategy.py':p.sha(code)}},trials=[],steps=[],improvements=0,
             best_observed_candidate=str(self.best),best_observed_metrics=metrics(self.tree),metrics=metrics(self.tree),
             candidate_sha256=p.sha(self.root/'candidate'/self.source.name),native=self.native)
@@ -77,7 +77,7 @@ class SingleSelectionPrerequisiteTests(unittest.TestCase):
         # replaces only the first subsequent file/Native binding primitive;
         # it does not claim that a constructed record passed Native validation.
         data={'budget_seconds':90.,'cpu_budget_seconds':90.,'source':str(self.source),'source_hashes':{}}
-        guard={'wall_deadline_elapsed_seconds':65.,'work_cpu_limit_seconds':65.}
+        guard={'wall_deadline_elapsed_seconds':50.,'work_cpu_limit_seconds':50.}
         for field in ('adaptive_trial_guard','single_trial_guard'):
             record={'id':'trial-0000','status':'quality_rejected','steps':[],
                 'finished_elapsed_seconds':10.,'finished_observed_cpu_seconds':10.,

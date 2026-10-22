@@ -23,9 +23,10 @@ from . import config as c, pipeline as p, sexpr as sx
 # Historical placement contracts consume this legacy value; keep their
 # stored allocations reproducible. Native pruning owns its separate reserve.
 FINAL_RESERVE_SECONDS = 15.0
-# Actual 77-footprint/full-schematic/class validation plus publication overran
-# the former 15-second tail. All total wall/CPU acceptance caps remain strict.
-NATIVE_FINAL_RESERVE_SECONDS = 25.0
+# The measured natural-return failure exhausted25s; scoped proof reads alone
+# still took28s. Reserve40s for validation/publication, without raising the job
+# budget. Keep the private live work deadline and producer policy identical.
+from ._improve_context import RESERVE_SECONDS as NATIVE_FINAL_RESERVE_SECONDS
 MIN_TRIAL_SECONDS = 4.0
 MAX_TRIAL_SECONDS = 12.0
 MAX_TRIALS = 32
@@ -1081,7 +1082,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
           settings_path=None, preference_overrides=None, _incumbent_policy=None):
     """Run tuned B2 plus greedy pruning within one wall/CPU budget, retaining trials.
 
-    A 25-second reserve is withheld from B2/trials for final emission and native
+    A 40-second reserve is withheld from B2/trials for final emission and native
     checks. It is a planning reserve, not a promise that slow native tooling will
     finish. Exhausting the global budget always rejects the root result.
     """
@@ -1641,5 +1642,6 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     from .floor_route import publish
     publish(output, report, stable, account,
             lambda: min(deadline-time.monotonic(), seconds-cpu_used()),
-            owned=lambda: owned_destination(owner))
+            owned=lambda: owned_destination(owner),
+            readback_context=p.validation_readback_session if native7 else None)
     return report

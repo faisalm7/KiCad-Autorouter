@@ -38,8 +38,8 @@ class Native7ParentControls(unittest.TestCase):
         data=dict(schema=1,strategy='native_validated_zone_net_pruning',proposal_policy='single',
             engine_profile='tuned',adapter='both',scope='whole_board_unlocked_routing',incumbent_baseline='B2_tuned',
             source=str(self.source),source_hashes=copy.deepcopy(self.hashes),tools=copy.deepcopy(self.tools),
-            budget_seconds=90,cpu_budget_seconds=90,finalization_reserve_seconds=25,
-            finalization_cpu_reserve_seconds=25,pruning_preferences_policy=s.PRUNING_PREFERENCES_POLICY,
+            budget_seconds=90,cpu_budget_seconds=90,finalization_reserve_seconds=40,
+            finalization_cpu_reserve_seconds=40,pruning_preferences_policy=s.PRUNING_PREFERENCES_POLICY,
             pruning_preferences=dict(file=path.name,sha256=p.sha(path),effective=effective),steps=[],trials=[])
         s._bind_native7_parent(self.parent,data,self.context)
         return data
@@ -82,7 +82,7 @@ class Native7ParentControls(unittest.TestCase):
     def test_parent_marker_policy_and_definition_deletion_cannot_downgrade(self):
         data=self.parent_data();path=self.parent/s.NATIVE7_PARENT_FILE
         for key,value in (('proposal_policy','feedback'),('single_selection_policy','other'),
-                ('incumbent_assigned_seconds',64),('tools',{})):
+                ('incumbent_assigned_seconds',49),('tools',{})):
             wrong=copy.deepcopy(data);wrong[key]=value
             with self.subTest(key=key),self.assertRaises((p.Rejected,KeyError,ValueError)):
                 s.native7_incumbent_context(self.parent,wrong)
@@ -92,7 +92,7 @@ class Native7ParentControls(unittest.TestCase):
 
     def test_rebound_source_or_definition_does_not_rebase_parent(self):
         data=self.parent_data();path=self.parent/s.NATIVE7_PARENT_FILE
-        contract=f.read_json(path);contract['context']['assigned_seconds']=64
+        contract=f.read_json(path);contract['context']['assigned_seconds']=49
         p.save_json(path,contract);data['native7_improve_parent']['sha256']=p.sha(path)
         with self.assertRaises(p.Rejected):s.native7_incumbent_context(self.parent,data)
         # Even coherent hashing cannot restore a changed original source.
@@ -160,13 +160,13 @@ class Native7ParentControls(unittest.TestCase):
         with patch.object(child.time,'monotonic',return_value=103),patch.object(child.time,'process_time',return_value=3),patch.object(f,'child_cpu',return_value=4):
             budget=child._Budget(ctx,job,2);budget.attach(job)
             trial=p.Job(parent/'trials/trial-0000',120,protect_local_settings=True);budget.attach(trial)
-            self.assertEqual(trial.deadline,165)
+            self.assertEqual(trial.deadline,150)
             guard=s._single_trial_guard(trial,100,90)
-            self.assertEqual(guard,dict(wall_deadline_elapsed_seconds=65,work_cpu_limit_seconds=65))
+            self.assertEqual(guard,dict(wall_deadline_elapsed_seconds=50,work_cpu_limit_seconds=50))
             # Full parent headroom differs from work headroom; JSON allocation
             # never resets the elapsed execution budget.
-            self.assertEqual(budget.remaining(work=False)-budget.remaining(work=True),25)
-            with patch.object(child.time,'monotonic',return_value=166):
+            self.assertEqual(budget.remaining(work=False)-budget.remaining(work=True),40)
+            with patch.object(child.time,'monotonic',return_value=151):
                 with self.assertRaises(p.Rejected):s._single_trial_guard(trial,100,90)
 
     def test_actual_finalization_body_allows_reserved_return_but_not_whole_shortfall(self):
@@ -187,7 +187,7 @@ class Native7ParentControls(unittest.TestCase):
             and any(isinstance(target,ast.Name) and target.id=='candidate' for target in node.targets))
         code=compile(ast.fix_missing_locations(ast.Module(body=body[start:end+1],type_ignores=[])),
             '<actual-improve-finalization-entry>','exec')
-        for wall_remaining,cpu_remaining,passes in ((25,25,True),(12,12,True),(11.99,25,False),(25,11.99,False)):
+        for wall_remaining,cpu_remaining,passes in ((40,40,True),(12,12,True),(11.99,40,False),(40,11.99,False)):
             now=190-wall_remaining;budget=SimpleNamespace(remaining=lambda *,work:0 if work else min(wall_remaining,cpu_remaining))
             env=dict(native7=True,live_budget=budget,report={},started=100,deadline=190,seconds=90,
                 cpu_used=lambda:90-cpu_remaining,output=self.parent,source=self.source,p=p,time=s.time,_remaining=s._remaining)

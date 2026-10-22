@@ -16,7 +16,7 @@ from . import config as c, provenance as pv
 
 POLICY = 'selected-native7-single-improve-child-v1'
 SIDECAR = 'improve-child-context.json'
-RESERVE_SECONDS = 25
+RESERVE_SECONDS = 40
 
 
 def _encode(value):
@@ -81,7 +81,7 @@ class _Context:
         from . import handoff as h, pipeline as p
         if (not isinstance(self.source, Path) or not isinstance(self.parent, Path)
                 or not _number(self.method_seconds) or not 30 <= self.method_seconds <= 900
-                or not _number(self.assigned_seconds) or not 5 <= self.assigned_seconds <= 875
+                or not _number(self.assigned_seconds) or not 5 <= self.assigned_seconds <= 900 - RESERVE_SECONDS
                 or type(self.allocation) is not dict or set(self.allocation) != {'elapsed_wall_seconds', 'elapsed_cpu_seconds'}
                 or any(not _number(value) or value < 0 for value in self.allocation.values())
                 or self.assigned_seconds != min(self.method_seconds - self.allocation['elapsed_wall_seconds'],

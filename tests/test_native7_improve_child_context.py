@@ -53,7 +53,7 @@ class ImproveChildContextControls(unittest.TestCase):
         self.context = self.make()
 
     def make(self, **changes):
-        values = dict(source=self.source, parent=self.parent, parent_owner=dict(self.owner), method_seconds=90, assigned_seconds=63,
+        values = dict(source=self.source, parent=self.parent, parent_owner=dict(self.owner), method_seconds=90, assigned_seconds=48,
             allocation=dict(elapsed_wall_seconds=1, elapsed_cpu_seconds=2),
             tools=copy.deepcopy(self.tools), source_hashes=copy.deepcopy(self.hashes))
         values.update(changes)
@@ -61,7 +61,7 @@ class ImproveChildContextControls(unittest.TestCase):
 
     def authorize(self, context=None, **changes):
         values = dict(context=self.context if context is None else context, source=self.source,
-            output=self.parent/'incumbent', seconds=63, keep=False, adapter='both', profile='tuned',
+            output=self.parent/'incumbent', seconds=48, keep=False, adapter='both', profile='tuned',
             scoring=None, guidance='native', extras=())
         values.update(changes); return child.authorize(**values)
 
@@ -74,17 +74,17 @@ class ImproveChildContextControls(unittest.TestCase):
         data = dict(schema=1, source=str(self.source), source_hashes=copy.deepcopy(self.hashes),
             tools=copy.deepcopy(self.tools), baseline=p.engine_baseline('tuned','both'), engine_profile='tuned',
             adapter='both', scope='whole_board_unlocked_routing', scoring_variant=None,
-            budget_seconds=63, cpu_budget_seconds=63)
+            budget_seconds=48, cpu_budget_seconds=48)
         child.bind(output,data,self.context)
         return data
 
     def test_exact_child_request_and_reserved_assignment(self):
         self.authorize()
-        for changes in ({'method_seconds':True}, {'assigned_seconds':True}, {'assigned_seconds':64},
+        for changes in ({'method_seconds':True}, {'assigned_seconds':True}, {'assigned_seconds':49},
                 {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':-1}},
-                {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':2,'reserve':25}}):
+                {'allocation':{'elapsed_wall_seconds':1,'elapsed_cpu_seconds':2,'reserve':40}}):
             with self.subTest(changes=changes), self.assertRaises((p.Rejected, ValueError)):self.make(**changes)
-        for name,value in (('seconds',64),('keep',True),('profile','standard'),('adapter','none'),
+        for name,value in (('seconds',49),('keep',True),('profile','standard'),('adapter','none'),
                 ('scoring','via_default'),('guidance','board-floors-v1'),('extras',(False,)),
                 ('source',self.source.with_name('other.kicad_pcb')),('output',self.parent/'other')):
             with self.subTest(name=name), self.assertRaises(p.Rejected):self.authorize(**{name:value})
@@ -150,7 +150,7 @@ class ImproveChildContextControls(unittest.TestCase):
     def test_caller_and_marker_required_without_reconstructing_authority(self):
         data=self.record(); self.assertTrue(child.check_record(self.context.output,data,self.context))
         with self.assertRaises(p.Rejected):child.check_record(self.context.output,data,None)
-        for key,value in (('budget_seconds',64),('scoring_variant','via_low'),('adapter','none'),
+        for key,value in (('budget_seconds',49),('scoring_variant','via_low'),('adapter','none'),
                 ('engine_fanout_override',False),('comparison_route',{})):
             wrong=copy.deepcopy(data);wrong[key]=value
             with self.subTest(key=key),self.assertRaises(p.Rejected):child.check_record(self.context.output,wrong,self.context)
@@ -177,15 +177,18 @@ class ImproveChildContextControls(unittest.TestCase):
         class StopBeforeJob(Exception):pass
         budget=self.budget()
         with patch.object(p,'sha',return_value=c.JAR_SHA256), patch.object(p,'check_storage',side_effect=StopBeforeJob):
-            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned')
-            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context)
-            with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget)
-            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,63,False,'both','tuned',_improve_context=self.context,_improve_budget=budget,comparison_context=object())
+            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,48,False,'both','tuned')
+            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,48,False,'both','tuned',_improve_context=self.context)
+            with self.assertRaises(StopBeforeJob):p.route(self.source,self.context.output,48,False,'both','tuned',_improve_context=self.context,_improve_budget=budget)
+            with self.assertRaises(p.Rejected):p.route(self.source,self.context.output,48,False,'both','tuned',_improve_context=self.context,_improve_budget=budget,comparison_context=object())
         # A method label alone cannot authorize the ordinary standard profile.
         with self.assertRaises(p.Rejected):p.require_native_scope(purpose='improve')
 
     def test_live_context_never_enters_ordinary_result_cache(self):
         path=self.context.output/'result.json'
+        # Authored child metadata satisfies canonical-path intake only; the
+        # full Native reader remains the explicit constructed seam below.
+        p.save_json(path,self.record())
         with p.validation_readback_session(), patch.object(p,'_check_result_uncached',return_value={'constructed':True}) as raw:
             state=p._readback_session.get()
             self.assertIn(child,state['modules'])
@@ -201,13 +204,13 @@ class ImproveChildContextControls(unittest.TestCase):
         with patch.object(child.time,'monotonic',return_value=job.started+4), \
                 patch.object(child.time,'process_time',return_value=job.cpu_started+6), \
                 patch.object(f,'child_cpu',return_value=budget.children_start+7):
-            self.assertEqual(budget.remaining(),52)
+            self.assertEqual(budget.remaining(),37)
             self.assertEqual(budget.remaining(work=False),77)
         # Long Context intake cannot renew the parent's absolute work window.
-        worker=p.Job(self.context.output,63,protect_local_settings=True)
+        worker=p.Job(self.context.output,48,protect_local_settings=True)
         budget.attach(worker)
-        self.assertLessEqual(worker.deadline,job.deadline-25)
-        with patch.object(child.time,'monotonic',return_value=job.started+66), \
+        self.assertLessEqual(worker.deadline,job.deadline-40)
+        with patch.object(child.time,'monotonic',return_value=job.started+51), \
                 patch.object(child.time,'process_time',return_value=job.cpu_started+1), \
                 patch.object(f,'child_cpu',return_value=budget.children_start), \
                 patch.object(p,'run') as run:
@@ -216,11 +219,11 @@ class ImproveChildContextControls(unittest.TestCase):
             run.assert_not_called()
             # Work has expired; the parent still has its reserved return time.
             budget.attach(job)
-            self.assertEqual(job.remaining(),24)
+            self.assertEqual(job.remaining(),39)
 
     def test_budget_cpu_exhaustion_clock_mutations_and_foreign_jobs_refuse(self):
         budget=self.budget();job=self.parent_job
-        with patch.object(child.time,'process_time',return_value=job.cpu_started+66), \
+        with patch.object(child.time,'process_time',return_value=job.cpu_started+51), \
                 patch.object(f,'child_cpu',return_value=budget.children_start):
             self.assertLess(budget.remaining(),0)
             self.assertGreater(budget.remaining(work=False),0)

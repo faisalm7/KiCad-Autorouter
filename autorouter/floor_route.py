@@ -4,6 +4,7 @@ No strategy, portfolio, recovery or handoff support is implied by this policy.
 """
 from __future__ import annotations
 import copy
+from contextlib import nullcontext
 import datetime
 import json
 import math
@@ -328,7 +329,7 @@ class FloorJob(p.Job):
         return super().step(name,argv if already_sandboxed else [*SANDBOX,*argv],allowed)
 
 
-def publish(output,report,stable,account,remaining,*,owned=None,final_check=None,result_checker=None):
+def publish(output,report,stable,account,remaining,*,owned=None,final_check=None,result_checker=None,readback_context=None):
     """No canonical positive survives cancellation, staleness or write failure."""
     def archive():
         if owned is not None:owned()
@@ -338,14 +339,21 @@ def publish(output,report,stable,account,remaining,*,owned=None,final_check=None
                 if owned is not None:owned()
                 path.rename(output/(prefix+uuid.uuid4().hex+path.suffix))
     try:
-        stable();account();expected=canonical(report)
+        # Reuse construction/parsing only within these unchanged proof reads.
+        # Exit belongs inside invalidation and before the final acceptance cap:
+        # cleanup time, failure and cancellation cannot escape accounting.
+        with nullcontext() if readback_context is None else readback_context():
+            stable();account();expected=canonical(report)
+            if owned is not None:owned()
+            p.save_json(output/'result.json',report)
+            if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed after publication')
+            stable()
+            if report['accepted']:(p.check_result if result_checker is None else result_checker)(output/'result.json')
+            stable()
+            if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed during final readback')
         if owned is not None:owned()
-        p.save_json(output/'result.json',report)
-        if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed after publication')
-        stable()
-        if report['accepted']:(p.check_result if result_checker is None else result_checker)(output/'result.json')
-        stable()
-        if canonical(read_json(output/'result.json'))!=expected:raise p.Rejected('floor receipt changed during final readback')
+        if canonical(report)!=expected or canonical(read_json(output/'result.json'))!=expected:
+            raise p.Rejected('floor receipt changed during readback cleanup')
         if report['accepted'] and remaining()<=0:raise p.Rejected('floor budget exceeded during final publication')
         if final_check is not None:
             final_check()
