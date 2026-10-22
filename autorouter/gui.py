@@ -448,18 +448,23 @@ class Workflow:
         return target
 
     def check_open_export_material(self):
-        """Seal the queued open gap using the existing bounded byte witness.
+        """Recheck queued export bytes and current retained PRL metadata.
 
         This is not another Native check or an atomic editor transaction.
         The worker's current CLI reader remains the acceptance authority.
         """
         from . import review_export as ex
+        from . import local_settings as local
         from .floor_route import canonical as canonical_json
         exported = self.records['export']
         root = self.workspace / 'export'
+        material = ex.evidence(root)
         if (canonical_json(read_record(root / 'export.json')) != canonical_json(exported)
-                or ex.evidence(root) != exported.get('export_evidence')):
+                or material != exported.get('export_evidence')):
             raise ValueError('Checked export changed while opening. Start a fresh preview; retained files were not reaccepted.')
+        for relative in material['files']:
+            if Path(relative).suffix == '.kicad_prl' and not local.check_current_metadata(root / relative):
+                raise ValueError('Checked export local settings disappeared while opening.')
 
 
 def check_improve_settings(config):

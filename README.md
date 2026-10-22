@@ -1,5 +1,7 @@
 # KiCad-Autorouter
 
+Current GUI qualification found a [queued opening metadata gap](evidence/gui-prl-opening-repair-001.json). Its narrow correction passes targeted regressions; a changed immutable build still needs Native/install/actual GUI qualification. The preserved runtime056 remains experimental and GUI-unqualified.
+
 An experimental open-source autorouter that runs locally without an AI account. It preserves original design constraints and protected copper, validates separate candidates with native KiCad, and offers saved settings, preview, progress, cancellation, review and explicit accept/reject intent.
 
 [Local setup](docs/runtime-directory.md) · [KiCad workflow](docs/gui-workflow.md) · [Preferences](docs/routing-preferences.md) · [CLI](docs/quickstart.md) · [Structured interface](docs/structured-interface.md)

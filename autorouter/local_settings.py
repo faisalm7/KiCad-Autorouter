@@ -77,18 +77,31 @@ def protected_step(job,name,argv,*,allowed=(0,)):
 def drc_step(job,name,argv):
     return protected_step(job,name,argv,allowed=(0,5))
 
+def check_current_metadata(path):
+    """Check current PRL file metadata; return False only when absent.
+
+    Byte/provenance checks remain with the caller. This also serves the final
+    GUI opening fence after the worker has replayed the full Native evidence.
+    """
+    path=canonical(Path(path))
+    if path.suffix!='.kicad_prl':raise p.Rejected('PRL preservation path must name local settings')
+    try:info=path.lstat()
+    except FileNotFoundError:return False
+    if (not stat.S_ISREG(info.st_mode) or info.st_nlink!=1
+            or getattr(info,'st_flags',None)!=0):
+        raise p.Rejected('PRL retained current file/flags differ')
+    return True
+
 def check_preserved(path,before,event):
     """Recheck exact retained PRL bytes, metadata and one preserve() event."""
     path=canonical(Path(path))
     if path.suffix!='.kicad_prl':raise p.Rejected('PRL preservation path must name local settings')
     if type(before) is not dict:raise p.Rejected('PRL expected input map required')
-    if path.exists():
-        canonical(path)
-        if not stat.S_ISREG(path.lstat().st_mode) or path.stat().st_nlink!=1 or path.stat().st_flags!=0:raise p.Rejected('PRL retained current file/flags differ')
+    present=check_current_metadata(path)
     if path.name not in before:
         expected={'policy':POLICY,'present':False}
     else:
-        if (not hasattr(stat,'UF_IMMUTABLE') or not path.exists() or not stat.S_ISREG(path.lstat().st_mode)
+        if (not hasattr(stat,'UF_IMMUTABLE') or not present or not path.exists() or not stat.S_ISREG(path.lstat().st_mode)
                 or path.stat().st_nlink!=1 or path.stat().st_flags!=0 or p.sha(path)!=before[path.name]):
             raise p.Rejected('PRL current retained bytes/flags differ')
         expected={'policy':POLICY,'present':True,'path':str(path),'sha256':before[path.name],'flags_before':0,'flags_during':stat.UF_IMMUTABLE,'flags_restored':True,'bytes_unchanged':True}

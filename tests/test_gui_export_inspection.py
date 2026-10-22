@@ -1,5 +1,7 @@
 """Pre-open reader/liveness controls; actual Native proofs qualified separately."""
 import json
+import os
+import stat
 from pathlib import Path
 from unittest.mock import Mock
 from unittest.mock import patch
@@ -138,6 +140,36 @@ class ExportInspectionTests(unittest.TestCase):
                     gt.window_method('opened')(window,'export',target,None)
                 opener.assert_not_called();self.assertIsNone(window.flow)
                 self.assertFalse(flow.ready)
+
+    @unittest.skipUnless(hasattr(os,'chflags') and hasattr(stat,'UF_IMMUTABLE'), 'Mac PRL metadata policy')
+    def test_queued_same_byte_prl_metadata_changes_refuse_open(self):
+        from autorouter import review_export as ex
+        for location in ('candidate','final-drc-input'):
+            for change in ('unchanged','hardlink','immutable_flag'):
+                with self.subTest(location=location,change=change):
+                    flow,project,record=self.prepared()
+                    prl=flow.workspace/'export/validation'/location/project.with_suffix('.kicad_prl').name
+                    prl.parent.mkdir(parents=True,exist_ok=True);prl.write_bytes(b'{}\n')
+                    flow.records['export']['export_evidence']=ex.evidence(flow.workspace/'export')
+                    (flow.workspace/'export/export.json').write_text(json.dumps(flow.records['export']))
+                    job=self.job(record);target=flow.inspect_path('export',job=job)
+                    before=ex.evidence(flow.workspace/'export');link=self.root/('queued-link-'+flow.workspace.name)
+                    try:
+                        if change=='hardlink':os.link(prl,link)
+                        elif change=='immutable_flag':os.chflags(prl,stat.UF_IMMUTABLE,follow_symlinks=False)
+                        self.assertEqual(ex.evidence(flow.workspace/'export'),before)
+                        window=self.window(flow,job)
+                        with patch.object(gui.subprocess,'Popen') as opener:
+                            gt.window_method('opened')(window,'export',target,None)
+                        if change=='unchanged':
+                            opener.assert_called_once();self.assertIs(window.flow,flow)
+                        else:
+                            opener.assert_not_called();self.assertIsNone(window.flow)
+                            self.assertFalse(flow.ready);self.assertFalse(flow.records);self.assertIsNone(flow.choice)
+                            self.assertIn('PRL',window.log.SetValue.call_args.args[0])
+                    finally:
+                        os.chflags(prl,0,follow_symlinks=False)
+                        if link.exists():link.unlink()
 
 
 if __name__=='__main__':unittest.main()

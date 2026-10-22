@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "kind": "queued-opening-retained-PRL-metadata-repair-with-partial-GUI089-v1",
+  "recorded_utc": "2026-10-22T04:43:43.796847+00:00",
+  "project_complete": false,
+  "release_qualified": false,
+  "Native_executed": false,
+  "GUI_qualified": false,
+  "runtime056_unchanged": true,
+  "runtime056_manifest_sha256": "b018b1bc6487183b000de62b743bd143cd2dddca71afe29428cadbd4cfdccded",
+  "counterexample": {
+    "result_sha256": "bec7a89a000288f52059e7902872d4aa4c243d71c48a2267db228439cb1d2cc1",
+    "cases": [
+      "same-byte hardlink1to2",
+      "same-byte flags0toUF_IMMUTABLE"
+    ],
+    "scope": "Constructed actual callback body with mocked reader/opener, no wx/Native/real opening. Existing Native PRL policy refused while queued callback opened the mock; byte negative and unchanged positive behave as recorded."
+  },
+  "repair": "Reuse one current-metadata helper for regular canonical single-link zero-flags PRLs in existing Native replay and final GUI fence. Retained bounded bytes/directories/exact receipt still checked first; no Native acceptance cache or guard weakening.",
+  "implementation_sha256": {
+    "autorouter/gui.py": "d5f4a0e042bec68c55c7b789cd61de39ef3eee6e8e223ac285a241af8980327b",
+    "autorouter/local_settings.py": "22b0e82b010ab807d366713c3f5b5492bc108adb09b70bb7eddcafa2f52c2920",
+    "tests/test_gui_export_inspection.py": "4ec4323f72e7990d24edebb6e4787de7adc9d1d24e1bd0d0a4ab73f2a3f130f8"
+  },
+  "targeted": {
+    "passed": true,
+    "tests": 88,
+    "complete_cost": {
+      "wall_seconds": 3.8,
+      "CPU_seconds": 3.5,
+      "user_seconds": 2.51,
+      "system_seconds": 0.99,
+      "time_log_sha256": "58b95c4ef6ac7b5d178d675f267abefa8a14f0e192b54d56df13d2ee643a1df8",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui-prl-opening-targeted-002-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "scope": "Unit/callback regression only, not actual GUI/Native qualification."
+  },
+  "failed_targeted_preflight001": {
+    "complete_cost": {
+      "wall_seconds": 0.22,
+      "CPU_seconds": 0.19,
+      "user_seconds": 0.05,
+      "system_seconds": 0.14,
+      "time_log_sha256": "b771fa47e81e4fc6846efac1add6127b325725fabd2e23201b649c8ee288a495",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui-prl-opening-targeted-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "cause": "Runner monitored full checkout rather than finite log directory and refused before test spawn.002 uses the established full-suite log-directory monitoring pattern with child chdir, same resource bounds. No cap raise or Native rerun."
+  },
+  "actual_GUI089_partial": {
+    "toolbar_launched_current_runtime": true,
+    "initial_closed_ack_refused": true,
+    "loaded_original_partial90": true,
+    "saved_preset_bytes_match": true,
+    "routing_jobs": 0,
+    "complete_launcher_cost": {
+      "wall_seconds": 274.64,
+      "CPU_seconds": 5.43,
+      "user_seconds": 4.25,
+      "system_seconds": 1.18,
+      "time_log_sha256": "e05c9ddc6d3a11e82795b3920c79e22443ee771479e9372b86241aafe2661358",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/gui-runtime056-089-launch-20261021-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "scope": "Actual CUA launch/setup/inspection/toolbar/refusal/load/save observations only. Stopped before routing after reproduced correctness gap. Manager and idle router closed normally; next changed candidate needs fresh qualification."
+  },
+  "independent_AI_review": {
+    "reviewer": "/root/context_reuse_skeptic",
+    "source_only": true,
+    "no_concrete_issue_found": true,
+    "source_pins": {
+      "autorouter/gui.py": "d5f4a0e042bec68c55c7b789cd61de39ef3eee6e8e223ac285a241af8980327b",
+      "autorouter/local_settings.py": "22b0e82b010ab807d366713c3f5b5492bc108adb09b70bb7eddcafa2f52c2920",
+      "tests/test_gui_export_inspection.py": "4ec4323f72e7990d24edebb6e4787de7adc9d1d24e1bd0d0a4ab73f2a3f130f8"
+    },
+    "limits": "No tests/Native/GUI execution or human approval by reviewer; atomic editor loading remains outside scope."
+  },
+  "next_gate": "Audit/commit source correction, build a new immutable candidate and run meaningful full Native/install/GUI qualification. Do not mutate056 or transfer its GUI authority.",
+  "rights": "Owned code/fixtures/diagnostic text only; no private or foreign CAD or tool binaries. New raw remains Mac-only/outside010; no full restoration.",
+  "accounting": "Complete exits retained once. Counterexample.42wall/.30CPU from its own recorded exit; launcher interactive interval is not route compute. Authoring/AI review/interactive UI and curation add costs; unknown is notzero.",
+  "files_index": {
+    "path": "evidence/gui-prl-opening-repair-001-notes/files.json",
+    "sha256": "c4a4c1be6ba070e50aac1de9910bfa01f2b62a17a837944b61029369cda96781"
+  }
+}
