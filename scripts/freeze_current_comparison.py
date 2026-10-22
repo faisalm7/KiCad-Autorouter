@@ -640,6 +640,16 @@ def pinned_json(path, digest):
     return raw, value
 
 
+def qualification_dependency(path, pin, version):
+    """The current40 closure also pins one Python reporter, not JSON."""
+    path = Path(path)
+    if version == CURRENT40_VERSION and path == ROOT/'scripts/report_current_comparison.py':
+        require(pin == CURRENT40_REPORTER_SHA and pv.file_digest(path,4*1024**2)[0] == pin,
+                'current40 reporter dependency changed')
+        return
+    pinned_json(path,pin)
+
+
 def administration(head):
     require(type(head) is str and pv._HEAD.fullmatch(head), 'exact administration HEAD required')
     require(pv.git_head(ROOT) == head, 'administration HEAD changed')
@@ -776,7 +786,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         require(pv._directory(runtime/'.runs').stat().st_uid == os.getuid(), 'runtime work directory ownership changed')
         for path, pin in query_pins.items(): require(pv.file_digest(Path(path),512*1024)[0] == pin, 'runtime query proof changed')
         for name, pin in tools['files'].items(): require(pv.file_digest(pv.canonical(Path(name)), pv.MAX_ENGINE_BYTES)[0] == pin, 'queried tool bytes changed')
-        for name, pin in qualification_dependencies.items(): pinned_json(Path(name), pin)
+        for name, pin in qualification_dependencies.items(): qualification_dependency(Path(name),pin,population_version)
         if qualification_record.get('Native_cohort_only') is True:
             require(qualification_scope(qualified, runtime, expected_manifest_sha256, identity, manifest, population_version)
                     == (qualification_record, qualification_dependencies), 'Native cohort dependencies changed')

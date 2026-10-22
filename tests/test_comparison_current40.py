@@ -15,6 +15,21 @@ from tests.test_current_comparison_report import write
 
 
 class Current40Contracts(unittest.TestCase):
+    def test_reporter_dependency_is_not_parsed_as_json_or_admitted_in_legacy(self):
+        with tempfile.TemporaryDirectory() as name:
+            root=Path(name).resolve();path=root/'scripts/report_current_comparison.py';path.parent.mkdir()
+            path.write_bytes(b'"""owned Python reporter fixture"""\npass\n');pin=report.digest(path)
+            with patch.object(frozen,'ROOT',root),patch.object(frozen,'CURRENT40_REPORTER_SHA',pin):
+                frozen.qualification_dependency(path,pin,frozen.CURRENT40_VERSION)
+                with self.assertRaises(ValueError):frozen.qualification_dependency(path,pin,'improve-v2')
+                with self.assertRaises(ValueError):frozen.qualification_dependency(path,'0'*64,frozen.CURRENT40_VERSION)
+                other=root/'other.py';other.write_bytes(path.read_bytes())
+                with self.assertRaises(ValueError):frozen.qualification_dependency(other,pin,frozen.CURRENT40_VERSION)
+                valid=root/'evidence.json';json_pin=write(valid,dict(owned=True))
+                frozen.qualification_dependency(valid,json_pin,frozen.CURRENT40_VERSION)
+                valid.write_bytes(valid.read_bytes()+b' ')
+                with self.assertRaises(ValueError):frozen.qualification_dependency(valid,json_pin,frozen.CURRENT40_VERSION)
+
     def test_exact_versions_and_reserve_do_not_alias(self):
         self.assertEqual(frozen.contract('improve-v2')[3:],(method.IMPROVE_KIND,'qualify-current-method-002.py'))
         self.assertEqual(frozen.contract(frozen.CURRENT40_VERSION)[3:],(method.CURRENT40_KIND,'qualify-current-method-003.py'))

@@ -1,34 +1,33 @@
 # Curated local runtime directory
 
-Current **runtime059**, source `50f63338a67cdbdb81e0392fff7dda5dceaf5b4d`, manifest `3cb071002cdcba008801545bf0813e20118f142a98aa6bda84af32d0668604dc`, is the curated experimental artifact. Full2112609tests/1skip and [twelve Native workflows/three invalid controls](../evidence/runtime059-native-milestone-001.json) pass. Canonical-receipt identity and Improve publication/40s return repairs are included within unchanged global budgets; one EEPROM90 safe-best return does not prove literal50s expiry/general return safety. [GUI094 assigned core observations are closed](../evidence/gui-runtime059-094-observations-001.json), including ordinary/high/Improve fresh export and checked opening. FullGUI and fresh installation remain unqualified; Native/preopen proof bytes stay onMac, beyond the public metadata-only journals.
+Current **runtime060**, source `972b395878b734ccf47c7691d66435c42c032634`, has original manifest `bb703d58271947e15430dc62187ace0afb1a5c70e3e76fe861933e717aa3becd`. Its fresh installed manifest is `8f385b397ddb6379ce35bab92d62ceff55029c6a796f7d3269c5c5b34ed1ba30`;54 immutable files/build source/engine match except the declared root. [Full2122615tests/1skip,13 installed Native workflows/3 invalid controls](../evidence/runtime060-installed-native-milestone-001.json) pass. [GUI095's assigned ordinary/high/Improve observations are closed](../evidence/gui-runtime060-095-observations-001.json), including fresh Native export/checked opening and active-engine cancellation. FullGUI and independent installation axes remain open.
 
-Original runtime:
+Use the already tested installed runtime:
 
-```text
-/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-059/runtime
+```sh
+cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime060 fresh install 001'
+.venv/bin/python -B -m autorouter doctor
 ```
 
-Enter that directory before `.venv/bin/python -B -m autorouter`; an absolute interpreter alone can import checkout code from the wrong CWD. Code/resources/licences/manifest are immutable; `.runs` and `.venv` are mutable and unattested. Source projects remain separate. Normal jobs need no AI account, Git, network or research archive. Documentation/administration changes do not require rebuilding this unchanged artifact.
+Enter this CWD before `-m autorouter`; an absolute interpreter alone can import checkout code from the wrong directory. Immutable code/resources/licences/manifest are separate from mutable `.runs`/`.venv`. Sources stay separate from candidates. Normal jobs need no AI/network/Git/research archive. Documentation changes do not require rebuilding this unchanged artifact.
 
-[Explicit existing-artifact installation](install-existing.md) preserves the immutable census/build source/lock/engine and changes only the absolute root. Fresh installation059 is pending. Historical fresh root `/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058 fresh install 001`, manifest `19bdfe08169624f49a3b2bee1b789258f2ccaac63ad24a1e06c1d6ba371788f2`, retains [two actual partial90 CLI slices](../evidence/runtime058-install-existing-001.json) and [one installed GUI093 slice](../evidence/gui-runtime058-install093-observations-002.json). Their protected4/0all delivery and stale-refusal observations do not qualify059 or other combinations.
+The existing isolated launcher is `'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime060 fresh install 001/.runs/gui-launcher095/Launch Autorouter.command'`; prepared source/preset/jobs are under `'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime060 fresh install 001/.runs/gui-session095'`. GUI095 closed normally. Keep the Native lane idle before new work; use the child-only Edge override in [GUI steps](gui-workflow.md), or open review HTML manually in Edge. Leave Chrome/default settings unchanged. Do not move/edit launchers or copy old jobs/venvs to simulate installation.
 
-The existing original059 launcher is `/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-059/runtime/.runs/gui-launcher094/Launch Autorouter.command`; its isolated project/preset/jobs are under `.runs/gui-session094`. The assigned session closed normally; keep the Native lane idle before new work. Use the child-only Edge override in [GUI steps](gui-workflow.md), or manually open review HTML in Edge; leave Chrome/default settings unchanged. Do not move/edit a launcher or copy old jobs/venvs to simulate installation. Original058 GUI092 and installed093 remain separate historical scopes.
-
-Known Medium GUI defect: Improve help still states25s although the actual shared reserve is40s. The [draft patch](../.runs/gui-reserve-help-fix-draft-001.patch) is applied to checkout source; immutable059 stays unchanged. GUI094 Cancel interrupted validation after Javaexit0, not an active engine. These limits, exact queued timing and fullGUI remain open.
+[Install-existing](install-existing.md) copies a still-bound artifact without rebuilding and excludes old mutable state. Current same-Mac fresh-folder evidence is real; cleanOS/account/dependency relocation/standalone/independent-user axes are not. The installed GUI observed40s Improve help, incumbent progress, a trial log in a separate cancellation control and active-Java−9/cleanup/CLI2. Exact queued timing, all-phase cancellation and thermal Recover remain unqualified.
 
 For intentional development builds only, choose a fresh destination from reviewed committed source:
 
 ```sh
-cd /Users/faisal/Projects/KiCad-Autorouter-local
-.venv/bin/python -B scripts/prepare_runtime.py --output /absolute/NEW-runtime --copy-local-engine --native-version 10.0.7
-.venv/bin/python -B -m venv --copies --without-pip /absolute/NEW-runtime/.venv
-cd /absolute/NEW-runtime
+cd '/Users/faisal/Projects/KiCad-Autorouter-local'
+.venv/bin/python -B scripts/prepare_runtime.py --output '/absolute/NEW-runtime' --copy-local-engine --native-version 10.0.7
+.venv/bin/python -B -m venv --copies --without-pip '/absolute/NEW-runtime/.venv'
+cd '/absolute/NEW-runtime'
 .venv/bin/python -B -m autorouter doctor
-.venv/bin/python -B scripts/install_gui.py --output /absolute/NEW-runtime/.runs/NEW-launcher
+.venv/bin/python -B scripts/install_gui.py --output '/absolute/NEW-runtime/.runs/NEW-launcher'
 ```
 
-These are build reproduction commands, not instructions to rebuild059. The destination parent must exist and be real/owned; collisions refuse and partial output remains after failure. A different source/root needs its own evidence. Doctor proves readiness, not board acceptance; launcher creation is not GUI qualification.
+These are build reproduction commands, not instructions to rebuild060. Parents must be real/owned; collisions refuse, and failed partial output remains. A changed build/root requires its own evidence. Doctor proves readiness and launcher generation proves preparation, not board/GUI acceptance.
 
-Nothing downloads. Existing official KiCad10.0.7/macOS arm64, Java25.0.2, Python3.11.9 base and Freerouting2.5.0 remain pinned. Copy-local-engine copies that existing JAR only. Without explicit `--native-version`, build preparation selects historical10.0.0. The install-existing mode instead preserves the artifact's selection unchanged. Copied interpreters/`-B` avoid immutable bytecode; unexpected files/symlinks refuse.
+Nothing downloads. Existing official KiCad10.0.7/macOS arm64, Java25.0.2, Python3.11.9 and Freerouting2.5.0 remain pinned. Copy-local-engine copies the existing matching JAR. Without explicit `--native-version`, build preparation selects historical10.0.0; install-existing preserves selection. Copied interpreters/`-B` avoid immutable bytecode; unexpected files/symlinks refuse.
 
-Same Mac/account/basePython/fixed dependencies is not standalone, cleanOS/account, relocation, Windows or independent-user support. Manifest consistency is not hostile-user/power-loss protection or a raw backup. Review/export never overwrites originals; transactional apply/undo remains unavailable. Historical [058 Native](../evidence/runtime058-native-milestone-001.json)/[IR](../evidence/runtime058-ir-delivery-001.json)/[EEPROM](../evidence/runtime058-eeprom-improve-regression-001.json) and [GUI092](../evidence/gui-runtime058-092-observations-001.json) remain version-specific, including the immutable [archived-reader High](../evidence/runtime058-archived-receipt-defect-001.json) and [25s-return failure](../evidence/runtime058-natural-expiry-001.json). [Installation limits](install-test.md) · [Preferences](routing-preferences.md) · [Status](../STATUS.md). [Historical057 installation](../evidence/runtime057-install-existing-001.json)/[GUI091](../evidence/gui-runtime057-install091-delivery-001.json) retain their exact scope. [Restoration capacity](../evidence/backups/runtime041-receipt-capacity-001.json) remains blocked; [selected059](../evidence/backups/selected-runtime059-current-001.json) covers its mapped Native/GUI094 proof scope only, while later ArcDice/progress work and other raw050–059 remain Mac-only/outside010. No formal release/tag/package publication.
+Historical [059 Native](../evidence/runtime059-native-milestone-001.json)/[GUI094](../evidence/gui-runtime059-094-observations-001.json) and [058 install](../evidence/runtime058-install-existing-001.json)/[GUI093](../evidence/gui-runtime058-install093-observations-002.json) keep their original scope. Immutable058's [archived-reader High](../evidence/runtime058-archived-receipt-defect-001.json)/[return failure](../evidence/runtime058-natural-expiry-001.json) are unchanged. [Selected060](../evidence/backups/selected-runtime060-current-001.json) captures/subset-restores the8411-file mapped Native/GUI/admissions cutoff onMac only; actual012 CI/later comparison work are outside it. Full restoration remains [capacity-blocked](../evidence/backups/runtime041-receipt-capacity-001.json). No release, fullGUI, Windows, human/electrical or full reconstruction claim. [Installation limits](install-test.md) · [Status](../STATUS.md).
