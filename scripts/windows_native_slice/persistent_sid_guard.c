@@ -24,6 +24,14 @@
 #define PG_ORPHAN 5u
 #define PG_ACCESS (FWPM_ACTRL_READ | FWPM_ACTRL_ADD_LINK | READ_CONTROL | DELETE)
 
+/* Evidence only: first failure remains latched across PG_Poison. No handle,
+ * SID, GUID, address or cleanup authority is returned by this additive API. */
+typedef struct PG_DIAGNOSTIC {
+    DWORD abi, bytes, recorded, error, object_index, element_index;
+    CHAR stage[48], predicate[48];
+    DWORD expected_low, expected_high, actual_low, actual_high;
+} PG_DIAGNOSTIC;
+typedef char PG_DIAGNOSTIC_must_be_136_bytes[(sizeof(PG_DIAGNOSTIC) == 136) ? 1 : -1];
 typedef struct PG_OWNER PG_OWNER;
 typedef struct PG_INFO {
     DWORD abi, bytes, state, poisoned;
@@ -54,6 +62,7 @@ struct PG_OWNER {
     HANDLE process[PG_PROCESSES];
     DWORD process_job[PG_PROCESSES];
     DWORD resume_checked[PG_PROCESSES];
+    PG_DIAGNOSTIC first_diagnostic;
 };
 
 static const GUID *const pg_layers[4] = {
@@ -68,6 +77,33 @@ static DWORD pg_valid(PG_OWNER *g) {
     if (g == NULL || g->magic != PG_MAGIC || g->pid != GetCurrentProcessId() ||
         g->tid != GetCurrentThreadId()) return ERROR_INVALID_HANDLE;
     return ERROR_SUCCESS;
+}
+static void pg_label(CHAR target[48], const char *text) {
+    DWORD i;
+    for (i = 0; i < 47 && text[i] != '\0'; ++i) target[i] = text[i];
+    target[i] = '\0';
+}
+static void pg_note(PG_OWNER *g, const char *stage, DWORD object_index,
+                    DWORD element_index, const char *predicate, DWORD error,
+                    ULONGLONG expected, ULONGLONG actual) {
+    PG_DIAGNOSTIC *d = &g->first_diagnostic;
+    if (d->recorded) return;
+    d->abi = 1; d->bytes = (DWORD)sizeof(*d); d->recorded = 1;
+    d->error = error; d->object_index = object_index; d->element_index = element_index;
+    pg_label(d->stage, stage); pg_label(d->predicate, predicate);
+    d->expected_low = (DWORD)expected; d->expected_high = (DWORD)(expected >> 32);
+    d->actual_low = (DWORD)actual; d->actual_high = (DWORD)(actual >> 32);
+}
+static DWORD pg_api(PG_OWNER *g, const char *stage, DWORD object_index, DWORD error) {
+    if (error != ERROR_SUCCESS) pg_note(g, stage, object_index, 0, "api_return", error, 0, error);
+    return error;
+}
+static BOOL pg_equal(PG_OWNER *g, const char *stage, DWORD object_index,
+                     DWORD element_index, const char *predicate, DWORD error,
+                     ULONGLONG actual, ULONGLONG expected) {
+    if (actual == expected) return TRUE;
+    pg_note(g, stage, object_index, element_index, predicate, error, expected, actual);
+    return FALSE;
 }
 static DWORD pg_fail(PG_OWNER *g, DWORD error) {
     if (error == ERROR_SUCCESS) error = ERROR_INVALID_DATA;
@@ -127,7 +163,7 @@ static DWORD pg_security(PG_OWNER *g) {
         !SetSecurityDescriptorControl(&g->security, SE_DACL_PROTECTED, SE_DACL_PROTECTED)) return pg_last();
     return ERROR_SUCCESS;
 }
-static DWORD pg_check_security(PG_OWNER *g, const GUID *key, BOOL filter) {
+static DWORD pg_check_security(PG_OWNER *g, const GUID *key, BOOL filter, DWORD object_index) {
     PACL acl = NULL;
     PSID owner = NULL, group = NULL;
     PSECURITY_DESCRIPTOR sd = NULL;
@@ -139,64 +175,93 @@ static DWORD pg_check_security(PG_OWNER *g, const GUID *key, BOOL filter) {
         FwpmSubLayerGetSecurityInfoByKey0(g->engine, key,
         DACL_SECURITY_INFORMATION | OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION,
         &owner, &group, &acl, NULL, &sd);
+    error = pg_api(g, "security_get", object_index, error);
     if (error != ERROR_SUCCESS) return error;
-    if (sd == NULL || acl == NULL || owner == NULL || group == NULL ||
-        !IsValidSid(owner) || !EqualSid(owner, g->owner_sid) ||
-        !IsValidSid(group) || !EqualSid(group, g->admins_sid) ||
-        !IsValidSecurityDescriptor(sd) || !IsValidAcl(acl) ||
-        !GetSecurityDescriptorControl(sd, &control, &revision) ||
-        (control & SE_DACL_PROTECTED) == 0 || acl->AceCount != 3) error = ERROR_INVALID_SECURITY_DESCR;
+    if (!pg_equal(g, "security_fields", object_index, 0, "sd_present", ERROR_INVALID_SECURITY_DESCR, sd != NULL, 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "acl_present", ERROR_INVALID_SECURITY_DESCR, acl != NULL, 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "owner_present", ERROR_INVALID_SECURITY_DESCR, owner != NULL, 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "group_present", ERROR_INVALID_SECURITY_DESCR, group != NULL, 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "owner_sid_valid", ERROR_INVALID_SECURITY_DESCR, !!IsValidSid(owner), 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "owner_sid_exact", ERROR_INVALID_SECURITY_DESCR, !!EqualSid(owner, g->owner_sid), 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "group_sid_valid", ERROR_INVALID_SECURITY_DESCR, !!IsValidSid(group), 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "group_sid_exact", ERROR_INVALID_SECURITY_DESCR, !!EqualSid(group, g->admins_sid), 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "descriptor_valid", ERROR_INVALID_SECURITY_DESCR, !!IsValidSecurityDescriptor(sd), 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "acl_valid", ERROR_INVALID_SECURITY_DESCR, !!IsValidAcl(acl), 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "control_read", ERROR_INVALID_SECURITY_DESCR, !!GetSecurityDescriptorControl(sd, &control, &revision), 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "dacl_protected", ERROR_INVALID_SECURITY_DESCR, (control & SE_DACL_PROTECTED) != 0, 1) ||
+        !pg_equal(g, "security_fields", object_index, 0, "ace_count", ERROR_INVALID_SECURITY_DESCR, acl->AceCount, 3)) error = ERROR_INVALID_SECURITY_DESCR;
     for (i = 0; error == ERROR_SUCCESS && i < 3; ++i) {
         ACCESS_ALLOWED_ACE *ace = NULL;
         PSID sid;
         DWORD bit, expected;
-        if (!GetAce(acl, i, (LPVOID *)&ace)) { error = pg_last(); break; }
+        if (!GetAce(acl, i, (LPVOID *)&ace)) {
+            error = pg_last(); pg_note(g, "ace_get", object_index, i, "api_return", error, 0, error); break;
+        }
         sid = (PSID)&ace->SidStart;
-        if (ace->Header.AceSize < offsetof(ACCESS_ALLOWED_ACE, SidStart) + 8 ||
-            ace->Header.AceType != (i == 0 ? ACCESS_DENIED_ACE_TYPE : ACCESS_ALLOWED_ACE_TYPE) || ace->Header.AceFlags != 0 ||
-            ace->Mask != (DWORD)(i == 0 ? (WRITE_DAC | WRITE_OWNER) : PG_ACCESS) ||
-            8u + 4u * (*GetSidSubAuthorityCount(sid)) >
-                (DWORD)ace->Header.AceSize - (DWORD)offsetof(ACCESS_ALLOWED_ACE, SidStart) ||
-            !IsValidSid(sid)) { error = ERROR_INVALID_ACL; break; }
+        if (!pg_equal(g, "ace_fields", object_index, i, "minimum_size", ERROR_INVALID_ACL, ace->Header.AceSize >= offsetof(ACCESS_ALLOWED_ACE, SidStart) + 8, 1) ||
+            !pg_equal(g, "ace_fields", object_index, i, "type", ERROR_INVALID_ACL, ace->Header.AceType, (i == 0 ? ACCESS_DENIED_ACE_TYPE : ACCESS_ALLOWED_ACE_TYPE)) ||
+            !pg_equal(g, "ace_fields", object_index, i, "flags", ERROR_INVALID_ACL, ace->Header.AceFlags, 0) ||
+            !pg_equal(g, "ace_fields", object_index, i, "mask", ERROR_INVALID_ACL, ace->Mask, (DWORD)(i == 0 ? (WRITE_DAC | WRITE_OWNER) : PG_ACCESS)) ||
+            !pg_equal(g, "ace_fields", object_index, i, "sid_bounds", ERROR_INVALID_ACL, 8u + 4u * (*GetSidSubAuthorityCount(sid)) <=
+                (DWORD)ace->Header.AceSize - (DWORD)offsetof(ACCESS_ALLOWED_ACE, SidStart), 1) ||
+            !pg_equal(g, "ace_fields", object_index, i, "sid_valid", ERROR_INVALID_ACL, !!IsValidSid(sid), 1)) { error = ERROR_INVALID_ACL; break; }
         expected = (DWORD)offsetof(ACCESS_ALLOWED_ACE, SidStart) + GetLengthSid(sid);
-        if (ace->Header.AceSize != expected) { error = ERROR_INVALID_ACL; break; }
+        if (!pg_equal(g, "ace_fields", object_index, i, "exact_size", ERROR_INVALID_ACL, ace->Header.AceSize, expected)) { error = ERROR_INVALID_ACL; break; }
         bit = i == 0 ? (EqualSid(sid, g->owner_rights_sid) ? 4u : 0u) :
             EqualSid(sid, g->system_sid) ? 1u : EqualSid(sid, g->admins_sid) ? 2u : 0u;
-        if (bit == 0 || (seen & bit) != 0) { error = ERROR_INVALID_ACL; break; }
+        if (!pg_equal(g, "ace_fields", object_index, i, "sid_kind", ERROR_INVALID_ACL, bit != 0, 1) ||
+            !pg_equal(g, "ace_fields", object_index, i, "sid_distinct", ERROR_INVALID_ACL, (seen & bit), 0)) { error = ERROR_INVALID_ACL; break; }
         seen |= bit;
     }
-    if (error == ERROR_SUCCESS && seen != 7) error = ERROR_INVALID_ACL;
+    if (error == ERROR_SUCCESS && !pg_equal(g, "security_fields", object_index, 0, "sid_census", ERROR_INVALID_ACL, seen, 7)) error = ERROR_INVALID_ACL;
     FwpmFreeMemory0(&sd);
     return error;
 }
 static DWORD pg_check_policy(PG_OWNER *g) {
     FWPM_SUBLAYER0 *sub = NULL;
     DWORD error = FwpmSubLayerGetByKey0(g->engine, &g->sublayer, &sub), i;
+    error = pg_api(g, "sublayer_get", 0, error);
     if (error != ERROR_SUCCESS) return error;
-    if (sub == NULL || !pg_guid_equal(&sub->subLayerKey, &g->sublayer) ||
-        sub->flags != FWPM_SUBLAYER_FLAG_PERSISTENT || sub->providerKey != NULL ||
-        sub->providerData.size != 0 || sub->weight != 0x7f00) error = ERROR_INVALID_DATA;
+    if (!pg_equal(g, "sublayer_fields", 0, 0, "present", ERROR_INVALID_DATA, sub != NULL, 1) ||
+        !pg_equal(g, "sublayer_fields", 0, 0, "key_exact", ERROR_INVALID_DATA, pg_guid_equal(&sub->subLayerKey, &g->sublayer), 1) ||
+        !pg_equal(g, "sublayer_fields", 0, 0, "flags", ERROR_INVALID_DATA, sub->flags, FWPM_SUBLAYER_FLAG_PERSISTENT) ||
+        !pg_equal(g, "sublayer_fields", 0, 0, "provider_null", ERROR_INVALID_DATA, sub->providerKey == NULL, 1) ||
+        !pg_equal(g, "sublayer_fields", 0, 0, "provider_data_bytes", ERROR_INVALID_DATA, sub->providerData.size, 0) ||
+        !pg_equal(g, "sublayer_fields", 0, 0, "weight", ERROR_INVALID_DATA, sub->weight, 0x7f00)) error = ERROR_INVALID_DATA;
     FwpmFreeMemory0((void **)&sub);
-    if (error == ERROR_SUCCESS) error = pg_check_security(g, &g->sublayer, FALSE);
+    if (error == ERROR_SUCCESS) error = pg_check_security(g, &g->sublayer, FALSE, 0);
     for (i = 0; error == ERROR_SUCCESS && i < 4; ++i) {
         FWPM_FILTER0 *f = NULL;
         error = FwpmFilterGetByKey0(g->engine, &g->filters[i], &f);
+        error = pg_api(g, "filter_get", i + 1, error);
         if (error != ERROR_SUCCESS) break;
-        if (f == NULL || !pg_guid_equal(&f->filterKey, &g->filters[i]) ||
-            !pg_guid_equal(&f->layerKey, pg_layers[i]) || !pg_guid_equal(&f->subLayerKey, &g->sublayer) ||
-            f->flags != FWPM_FILTER_FLAG_PERSISTENT || f->providerKey != NULL || f->providerData.size != 0 ||
-            f->weight.type != FWP_UINT8 || f->weight.uint8 != 15 || f->numFilterConditions != 1 ||
-            f->filterCondition == NULL || f->action.type != FWP_ACTION_BLOCK || f->rawContext != 0 || f->reserved != NULL) {
+        if (!pg_equal(g, "filter_fields", i + 1, 0, "present", ERROR_INVALID_DATA, f != NULL, 1) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "key_exact", ERROR_INVALID_DATA, pg_guid_equal(&f->filterKey, &g->filters[i]), 1) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "layer_exact", ERROR_INVALID_DATA, pg_guid_equal(&f->layerKey, pg_layers[i]), 1) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "sublayer_exact", ERROR_INVALID_DATA, pg_guid_equal(&f->subLayerKey, &g->sublayer), 1) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "flags", ERROR_INVALID_DATA, f->flags, FWPM_FILTER_FLAG_PERSISTENT) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "provider_null", ERROR_INVALID_DATA, f->providerKey == NULL, 1) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "provider_data_bytes", ERROR_INVALID_DATA, f->providerData.size, 0) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "weight_type", ERROR_INVALID_DATA, f->weight.type, FWP_UINT8) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "weight", ERROR_INVALID_DATA, f->weight.uint8, 15) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "condition_count", ERROR_INVALID_DATA, f->numFilterConditions, 1) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "condition_present", ERROR_INVALID_DATA, f->filterCondition != NULL, 1) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "action", ERROR_INVALID_DATA, f->action.type, FWP_ACTION_BLOCK) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "raw_context", ERROR_INVALID_DATA, f->rawContext, 0) ||
+            !pg_equal(g, "filter_fields", i + 1, 0, "reserved_null", ERROR_INVALID_DATA, f->reserved == NULL, 1)) {
             error = ERROR_INVALID_DATA;
         } else {
             FWPM_FILTER_CONDITION0 *c = f->filterCondition;
-            if (!pg_guid_equal(&c->fieldKey, &FWPM_CONDITION_ALE_PACKAGE_ID) || c->matchType != FWP_MATCH_EQUAL ||
-                c->conditionValue.type != FWP_SID || c->conditionValue.sid == NULL ||
-                !IsValidSid(c->conditionValue.sid) || GetLengthSid(c->conditionValue.sid) != g->sid_bytes ||
-                !EqualSid(c->conditionValue.sid, g->sid)) error = ERROR_INVALID_SID;
+            if (!pg_equal(g, "filter_condition", i + 1, 0, "field_exact", ERROR_INVALID_SID, pg_guid_equal(&c->fieldKey, &FWPM_CONDITION_ALE_PACKAGE_ID), 1) ||
+                !pg_equal(g, "filter_condition", i + 1, 0, "match_type", ERROR_INVALID_SID, c->matchType, FWP_MATCH_EQUAL) ||
+                !pg_equal(g, "filter_condition", i + 1, 0, "value_type", ERROR_INVALID_SID, c->conditionValue.type, FWP_SID) ||
+                !pg_equal(g, "filter_condition", i + 1, 0, "sid_present", ERROR_INVALID_SID, c->conditionValue.sid != NULL, 1) ||
+                !pg_equal(g, "filter_condition", i + 1, 0, "sid_valid", ERROR_INVALID_SID, !!IsValidSid(c->conditionValue.sid), 1) ||
+                !pg_equal(g, "filter_condition", i + 1, 0, "sid_bytes", ERROR_INVALID_SID, GetLengthSid(c->conditionValue.sid), g->sid_bytes) ||
+                !pg_equal(g, "filter_condition", i + 1, 0, "sid_exact", ERROR_INVALID_SID, !!EqualSid(c->conditionValue.sid, g->sid), 1)) error = ERROR_INVALID_SID;
         }
         FwpmFreeMemory0((void **)&f);
-        if (error == ERROR_SUCCESS) error = pg_check_security(g, &g->filters[i], TRUE);
+        if (error == ERROR_SUCCESS) error = pg_check_security(g, &g->filters[i], TRUE, i + 1);
     }
     return error;
 }
@@ -257,17 +322,31 @@ PG_API PG_GetInfo(PG_OWNER *g, PG_INFO *info, DWORD bytes) {
     info->pending_create = g->pending_create; info->pending_job = g->pending_job;
     return ERROR_SUCCESS;
 }
+PG_API PG_GetDiagnostic(PG_OWNER *g, PG_DIAGNOSTIC *diagnostic, DWORD bytes) {
+    DWORD error = pg_valid(g);
+    if (error != ERROR_SUCCESS) return error;
+    if (diagnostic == NULL || bytes != sizeof(*diagnostic)) return ERROR_BAD_LENGTH;
+    *diagnostic = g->first_diagnostic;
+    diagnostic->abi = 1; diagnostic->bytes = (DWORD)sizeof(*diagnostic);
+    return ERROR_SUCCESS;
+}
 PG_API PG_Arm(PG_OWNER *g) {
     FWPM_SESSION0 session;
     FWPM_SUBLAYER0 sub;
     DWORD error, i;
     BOOL transaction = FALSE;
     if (pg_valid(g) != ERROR_SUCCESS) return ERROR_INVALID_HANDLE;
-    if (g->poisoned || g->state != PG_NEW) return pg_fail(g, ERROR_INVALID_STATE);
+    if (g->poisoned || g->state != PG_NEW) {
+        pg_note(g, "arm_state", 0, 0, "new_unpoisoned", ERROR_INVALID_STATE, 1,
+                !g->poisoned && g->state == PG_NEW);
+        return pg_fail(g, ERROR_INVALID_STATE);
+    }
     ZeroMemory(&session, sizeof(session)); session.txnWaitTimeoutInMSec = 2000;
     error = FwpmEngineOpen0(NULL, RPC_C_AUTHN_WINNT, NULL, &session, &g->engine);
+    error = pg_api(g, "engine_open", 0, error);
     if (error != ERROR_SUCCESS) return pg_fail(g, error);
     error = FwpmTransactionBegin0(g->engine, 0);
+    error = pg_api(g, "transaction_begin", 0, error);
     if (error != ERROR_SUCCESS) return pg_fail(g, error);
     transaction = TRUE;
     ZeroMemory(&sub, sizeof(sub)); sub.subLayerKey = g->sublayer;
@@ -275,6 +354,7 @@ PG_API PG_Arm(PG_OWNER *g) {
     sub.flags = FWPM_SUBLAYER_FLAG_PERSISTENT; sub.weight = 0x7f00;
     g->policy_may_exist = 1; /* Conservative after any policy mutation attempt. */
     error = FwpmSubLayerAdd0(g->engine, &sub, &g->security);
+    error = pg_api(g, "sublayer_add", 0, error);
     for (i = 0; error == ERROR_SUCCESS && i < 4; ++i) {
         FWPM_FILTER0 f;
         FWPM_FILTER_CONDITION0 condition;
@@ -286,12 +366,14 @@ PG_API PG_Arm(PG_OWNER *g) {
         condition.conditionValue.type = FWP_SID; condition.conditionValue.sid = (SID *)g->sid;
         f.numFilterConditions = 1; f.filterCondition = &condition; f.action.type = FWP_ACTION_BLOCK;
         error = FwpmFilterAdd0(g->engine, &f, &g->security, NULL);
+        error = pg_api(g, "filter_add", i + 1, error);
     }
     if (error == ERROR_SUCCESS) {
         /* A failed/ambiguous commit may have persisted policy. Never clean it
          * merely because this call returned an error or the session closes. */
         g->policy_may_exist = 1;
         error = FwpmTransactionCommit0(g->engine);
+        error = pg_api(g, "transaction_commit", 0, error);
         if (error == ERROR_SUCCESS) transaction = FALSE;
     }
     if (error == ERROR_SUCCESS) error = pg_check_policy(g);

@@ -20,9 +20,9 @@ import uuid
 from contextlib import ExitStack
 
 if __package__:
-    from .persistent_guard_build import Info, bind_library, hosted
+    from .persistent_guard_build import Diagnostic, Info, bind_library, hosted
 else:
-    from persistent_guard_build import Info, bind_library, hosted
+    from persistent_guard_build import Diagnostic, Info, bind_library, hosted
 
 
 def _require(value, message):
@@ -67,6 +67,7 @@ class PersistentGuardState:
         self._records = 0
         self._journal_raw = b''
         self._last = None
+        self._first_failure = None
         self._contract = self._sid = self._keys = None
         self._phase = 'new'
         self._cleanup = False
@@ -370,7 +371,55 @@ class PersistentGuardState:
         self._last = row
         return row
 
+    def _remember_failure(self, operation, stage, error, metadata=None):
+        """Evidence only; never raises, invokes witnesses or grants cleanup."""
+        if self._first_failure is not None:
+            return
+        # Evidence capture must not replace the original exception even if an
+        # external witness supplied an exception with broken text/properties.
+        try:
+            message = str(error)[:1024]
+        except BaseException:
+            message = '<exception text unavailable>'
+        try:
+            winerror = getattr(error, 'winerror', None)
+        except BaseException:
+            winerror = None
+        if type(winerror) is not int or not 0 <= winerror <= 0xffffffff:
+            winerror = None
+        row = {'operation': operation, 'stage': stage, 'phase': self._phase,
+               'exception_type': type(error).__name__, 'message': message, 'winerror': winerror,
+               'metadata': metadata, 'C_diagnostic': None, 'C_diagnostic_error': None}
+        # In particular this runs only AFTER attempted immediate process capture.
+        # No getter/witness is inserted before PG_RegisterProcess takes custody.
+        try:
+            _require(threading.get_ident() == self._thread and os.getpid() == self._pid and
+                     not self._abandoned and bool(self._owner.value),
+                     'diagnostic unavailable without live creator-thread owner')
+            diagnostic = Diagnostic()
+            code = int(self._lib.PG_GetDiagnostic(self._owner, C.byref(diagnostic), C.sizeof(diagnostic)))
+            if code:
+                raise C.WinError(code)
+            _require(diagnostic.abi == 1 and diagnostic.bytes == 136 and diagnostic.recorded in (0, 1),
+                     'fixed C diagnostic layout differs')
+            row['C_diagnostic'] = {
+                'recorded': bool(diagnostic.recorded), 'error': int(diagnostic.error),
+                'stage': bytes(diagnostic.stage).decode('ascii'),
+                'predicate': bytes(diagnostic.predicate).decode('ascii'),
+                'object_index': int(diagnostic.object_index), 'element_index': int(diagnostic.element_index),
+                'expected': int(diagnostic.expected_low) | (int(diagnostic.expected_high) << 32),
+                'actual': int(diagnostic.actual_low) | (int(diagnostic.actual_high) << 32)}
+        except BaseException as diagnostic_error:
+            try:
+                detail = str(diagnostic_error)[:384]
+            except BaseException:
+                detail = '<diagnostic exception text unavailable>'
+            row['C_diagnostic_error'] = type(diagnostic_error).__name__ + ': ' + detail
+        self._first_failure = row
+
     def _invoke(self, name, *args, created_registration=False):
+        stage = 'before_fresh'
+        metadata = None
         try:
             if created_registration:
                 # The actual newly created handle must enter C custody before
@@ -381,16 +430,27 @@ class PersistentGuardState:
                          'only immediate live created-process capture may precede witnesses')
             else:
                 self._fresh()
+            stage = 'owner_present'
             _require(bool(self._owner.value), 'prepared live C owner required')
+            stage = 'C_call'
             error = int(getattr(self._lib, name)(self._owner, *args))
             if error:
                 raise C.WinError(error)
+            stage = 'get_info'
             row = self._info()
+            stage = 'owner_identity_predicate'
+            metadata = {'expected': {'poisoned': 0, 'sid_exact': True, 'keys_exact': True},
+                        'actual': {'poisoned': row['poisoned'],
+                                   'sid_exact': self._sid is None or row['sid_hex'] == self._sid.hex(),
+                                   'keys_exact': self._keys is None or row['keys'] == self._keys}}
             _require(not row['poisoned'] and (self._sid is None or row['sid_hex'] == self._sid.hex()) and
                      (self._keys is None or row['keys'] == self._keys), 'live owner identity/state differs')
+            stage = 'after_fresh'
+            metadata = None
             self._fresh()
             return row
         except BaseException as error:
+            self._remember_failure(name, stage, error, metadata)
             self.poison(error)
             raise
 
@@ -452,14 +512,25 @@ class PersistentGuardState:
             raise
 
     def arm(self):
+        stage = 'bound_phase_predicate'
+        metadata = {'expected': 'bound', 'actual': self._phase}
         try:
             _require(self._phase == 'bound', 'durable actual SID/keys/context required before Arm')
+            stage = 'invoke'
+            metadata = None
             row = self._invoke('PG_Arm')
+            stage = 'armed_policy_predicate'
+            metadata = {'expected': {'state': 2, 'policy_may_exist': 1},
+                        'actual': {'state': row['state'], 'policy_may_exist': row['policy_may_exist']}}
             _require(row['state'] == 2 and row['policy_may_exist'] == 1, 'armed policy readback differs')
+            stage = 'journal_ARMED'
+            metadata = None
             self._append('ARMED', {'state': 2, 'policy_may_exist': 1})
             self._phase = 'armed'
+            stage = 'after_journal_fresh'
             self._fresh()
         except BaseException as error:
+            self._remember_failure('arm', stage, error, metadata)
             self.poison(error)
             raise
 
@@ -492,6 +563,7 @@ class PersistentGuardState:
 
     def poison(self, reason):
         """Irreversible; also handles an exception outside any C call."""
+        self._remember_failure('poison', 'external_or_uninstrumented', reason)
         self._bad = True
         self._cleanup = False
         message = (type(reason).__name__ + ': ' + str(reason) if isinstance(reason, BaseException) else str(reason))[:1024]
@@ -608,7 +680,7 @@ class PersistentGuardState:
                               'records': self._records, 'bytes': len(self._journal_raw),
                               'sha256': hashlib.sha256(self._journal_raw).hexdigest(), 'incomplete': self._journal_bad},
                   'context_sha256': self._contract, 'source_pins': self._pins,
-                  'last_live_C_info': self._last, 'errors': self._errors,
+                  'last_live_C_info': self._last, 'first_failure': self._first_failure, 'errors': self._errors,
                   'bounds': {'records': 16, 'per_record_bytes': 2048, 'journal_bytes': 32768,
                              'context_bytes': 65536, 'state_entries': 145, 'state_bytes': self.MAX_STATE_BYTES},
                   'limitations': 'Unqualified Windows prototype. Flush/ACL/native denial/crash controls remain required. '

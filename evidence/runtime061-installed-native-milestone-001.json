@@ -1,0 +1,1452 @@
+{
+  "schema": 1,
+  "kind": "runtime061-installed-native-milestone-public-facts-v1",
+  "state": "NATIVE_AND_INVALID_CONTROLS_CLOSED_GUI096_PENDING",
+  "recorded_utc": "2026-10-22T16:50:31.994910+00:00",
+  "source_head": "57d1bec99a5053237fbf82630a1e76139b0f746f",
+  "original_manifest_sha256": "3aa4bd2afa7254ea797987b0dcf5e793d1de0e0c4d737575a9ab9bcebbdbed22",
+  "installed_manifest_sha256": "dfeba186f6ea8233d44d203b7ecb3ff396fb6f0ff7544381c9ae116619875666",
+  "immutable_files": 54,
+  "immutable_map_build_source_engine_equal_except_root": true,
+  "runtime_immutable_files_sha256": {
+    "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "RUNTIME_README.txt": "bffdb3851244bac9698ab61aed64da5020cc4f4d0eaa181848a5330f295bad72",
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+    "autorouter/_improve_context.py": "0d9b572db15bc155095f4f04a3c5f55982601b7dab8e04ab5d65de91bdc01bfa",
+    "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+    "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+    "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+    "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+    "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+    "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+    "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+    "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+    "autorouter/floor_route.py": "86508a19a429e14f71148d4b46b5bb76386a15665faf9c8245affc3ab89f6a92",
+    "autorouter/gui.py": "319689b674c96361ceb979d149eb626751d29d189aa5444dc80f22c8d1097703",
+    "autorouter/handoff.py": "71755df430f0c0e1cc7eca319c10c909dfdd74022a25a33306e6916874e50ffe",
+    "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+    "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+    "autorouter/local_settings.py": "22b0e82b010ab807d366713c3f5b5492bc108adb09b70bb7eddcafa2f52c2920",
+    "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+    "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+    "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+    "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+    "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+    "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+    "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+    "autorouter/pipeline.py": "5db673f428d78ea5964a3601d1a7c9024614be098bfdc8b66eec03b759372a21",
+    "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+    "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+    "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+    "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+    "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+    "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+    "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+    "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+    "autorouter/review_export.py": "975c71786b8bb97d723a1ba0b6e6541ba22d00646f6df2068b1fc832d6c3a3ef",
+    "autorouter/review_view.py": "110f9e750c7b7699aaef7021e6d5b5cdec5d7dc136c6ee73f19f6d0d04181748",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+    "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+    "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+    "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+    "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+    "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+    "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+    "autorouter/strategy.py": "baea93a45b789651b154baa5510c5a1e5133b62ab84ae805976b6b8e2d498d6d",
+    "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+    "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+    "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+    "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+    "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+    "toolchain.lock.json": "cec0446e5ed3554b0c0b286cbb61e5aceb5bc013e87839db3f7081b9fd2f24d9"
+  },
+  "installation_record_is_authoritative": false,
+  "qualification": {
+    "passed": true,
+    "delivered_cases": 13,
+    "denominator": 13,
+    "unstarted_cases": 0,
+    "whole_batch_wall_full_CPU_cap_seconds": 900,
+    "actual_GUI_qualified": false,
+    "release_qualified": false,
+    "project_complete": false
+  },
+  "source_sets": {
+    "source-01": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-02": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-03": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-04": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-05": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-06": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-07": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-08": {
+      "split": "development-exposed",
+      "rights": {
+        "family": "WestianPKl EEPROM_Board exposed development family",
+        "license": "CERN-OHL-P-2.0; publisher root README at b89a09c2e95cc0a6954d0576389f07868b80c1ad, SHA256 22839f4cb0115d47b94d3aa27063550d197f2ce0c6ce5dc3b829a4a78da292b5. Local development only; public artifacts are owned facts/hashes, not CAD. Per-asset/model/title closure is not claimed.",
+        "provenance": "https://github.com/WestianPKl/pcb-docs/tree/b89a09c2e95cc0a6954d0576389f07868b80c1ad/EEPROM_Board ; three byte-identical original PCB/PRO/SCH working copies, source template under .data/development-eeprom-001/project remains read-only. Only working-copy permissions changed. Whole-board unlocked routing removes the selected existing tracks/vias identically for all six arms; footprints, original rules, stackup, zones and source schematic are preserved by the shared implementation. No source scripts, alternate models or constraints added/removed. Development exposed, independent ancestry and electrical suitability unqualified."
+      }
+    },
+    "source-09": {
+      "split": "development-exposed",
+      "rights": {
+        "family": "ArcDice",
+        "license": "MIT",
+        "provenance": "VorosEgyes/ArcDice@5908d99db1ef98b5996b380c75e5aee8bb8caaa6; retained publisher README/LICENSE",
+        "publication": "hashes_only",
+        "independent_ancestry_established": false,
+        "asset_model_title_closed": false
+      }
+    }
+  },
+  "cases": [
+    {
+      "case": "via-high-whole2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-01",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "44b13f50e16528bfd6ae069d695b88c7e46a656425161ce20995b0019661c39f",
+      "execution_sha256": "c20f28324e57ecb9d8c9ad2c1d37becffc6a6f72d8b9aa76080a4dd259dde9fc",
+      "child_sha256": "26793c561651cec28b971fa6db273b61525206f28b79cc48a96e9464c0ee79d7",
+      "parent": {
+        "receipt_sha256": "0d844cf8d38d1ff02705f3042bbd08141a00e83d998dfb299ccbffe5d00c2bd6",
+        "candidate_sha256": "16f1baf765ef71dde3b71202752113003d77f1aeec44c18df19295205602d90c",
+        "native_report_sha256": "de3ca871e8e7d773cb04466f595c167e2eef2b56a553a5627d0d430cb344e8c0",
+        "process_sha256": "473a386aa2ea80e9bc61d74c83c0ef60655947a0f60062b12eb90ce08cceca3c",
+        "binding_sha256": "624ce223c1778f1f1684f9f3bd14bd448e32ad1768ae0de82c9649f42532ff38",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "a35a61e0d215aeba1d2bd7e2ab4435629f8a981934e7e1ef6c1c482afe755c22",
+        "candidate_sha256": "16f1baf765ef71dde3b71202752113003d77f1aeec44c18df19295205602d90c",
+        "native_report_sha256": "2902f2209a969b00a8905085ab4b0ac1453d2dbdda888d70619e64ccd1200576",
+        "process_sha256": "ae43e3b022166ba41d75ba29692c3711d743b99d2ed6def98073e6832ca1d700",
+        "binding_sha256": "aa4923f432afb80019634016e8a3158e6a5ce3d2edc5459e9e1394a131f6b061",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 25.390321417013183,
+      "sampled_complete_full_CPU_seconds": 22.448051999999997
+    },
+    {
+      "case": "via-high-partial2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-02",
+      "settings": {
+        "schema": 1,
+        "scope": "partial_completion",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 4,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "9ad292f76e5f66b8ee59ea6a5e8ab309ea1dadd33be23dcb57f5ed8614583238",
+      "execution_sha256": "d6e7b1d1ff3eaa0adb5135a6fb1554306f9c2f62179e01d4c7c0ffdfa13e562b",
+      "child_sha256": "847be3769ea77af09db8851e718c9d7bdeaa9a2198eea27b8ffef3f6f71b9a3c",
+      "parent": {
+        "receipt_sha256": "7278b0dda740f01650de41c3e63cf6e53840aadf6fe98d8566ed7adad1f1cfc3",
+        "candidate_sha256": "31467e78a92ec17779e12f93f8c3baabc7ae934a4020f9e7cfad9426349e2533",
+        "native_report_sha256": "5cec866f99c550c2f76995fd316024dc5dacc59ee60518b347211a350b139858",
+        "process_sha256": "f18b2d3bd8318f9be8e11ecac4bf5fdc9acddfee118737f5796ecc9f129835cf",
+        "binding_sha256": "f38c654821ee25714f7303ed9197d15169c3f0251c876666f87330dfd1db09ff",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "744aa268d14eeb3b19b1298e2697f5cd03c59a6ee2a8696e4b492a7ccb6df27e",
+        "candidate_sha256": "31467e78a92ec17779e12f93f8c3baabc7ae934a4020f9e7cfad9426349e2533",
+        "native_report_sha256": "480dabb277264b2f6ceae23d07df6af09e97c2fffcd07e244beb4c220bc640d5",
+        "process_sha256": "2e4abbee47645eedffa36afb9e88152c8ececa31225f0cd7dcadb6b65884fd0d",
+        "binding_sha256": "747685b9a1e6de76991a693d950402b713bcf14321e162aeddb59da401b79969",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 27.608795500011183,
+      "sampled_complete_full_CPU_seconds": 24.648563
+    },
+    {
+      "case": "via-high-whole4Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-03",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 120,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 120,
+        "export": 120
+      },
+      "protected_count": 10,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "356ebfffe9006f84eeec5abf02988b29f94f7d3e08966de9bcd8add6d2e47737",
+      "execution_sha256": "b50944d4d835d93c3fc6d2ca3eafa76776be69aab12ccb6367f61fe79631d82f",
+      "child_sha256": "f21210b06d161b38536b68d19760f130d45632d0cd260e238e734d64ea271916",
+      "parent": {
+        "receipt_sha256": "5aaac93c76b973cc5d8c9798528e5e6271148fe973c1d51179ff55c852045541",
+        "candidate_sha256": "02d4e610a7cf47278159549800e982a74c7bfbfb44f3fc42e3643ede64cf94cf",
+        "native_report_sha256": "9e0b0f156e525bd0a9b7fcfef3f483a1215126683fdba4926f52405482fb9dd1",
+        "process_sha256": "a8d98e98b9d8c86385b1928636f720226b5c85fb3791f6cdd2f851e49e2e3db5",
+        "binding_sha256": "32c5da5cb1c90dcdd6ed5f7f7b16888aa116b07276019c5456689fc628d3bf5c",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "40ef934bff61d8b4c27141800daa2d7f7e55a52c35175088ca7cb55e7883fb58",
+        "candidate_sha256": "02d4e610a7cf47278159549800e982a74c7bfbfb44f3fc42e3643ede64cf94cf",
+        "native_report_sha256": "1fad2aee7ed9270ea4f871d018b1fc59278eea2b4ac9f29585da1a5da84499f6",
+        "process_sha256": "e5127552e141822cb7a7a719c572794766cca2dcd1c35948e26967427b0ed3b9",
+        "binding_sha256": "d4149f2dc49c3ce370cb4086caba90debe9dff9d8e440ae74d20aefb5769845a",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 30.02146650000941,
+      "sampled_complete_full_CPU_seconds": 27.583641
+    },
+    {
+      "case": "via-high-partial4Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-03",
+      "settings": {
+        "schema": 1,
+        "scope": "partial_completion",
+        "seconds": 120,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 120,
+        "export": 120
+      },
+      "protected_count": 10,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "e55614576b1023688605dbb9e445885dd7a6011966fe83bd87d6699b6877f47a",
+      "execution_sha256": "34c97985aa0036174bbfe38339fbdfe3bdbad3c0dff1e2931c476e043431985f",
+      "child_sha256": "07c34711af733cc98a5bb916b4baa5bb4649a7a5509fc7d923a29937825ddea1",
+      "parent": {
+        "receipt_sha256": "e81e02c250e7ceb8a8ba181d79a0cd57dd9a2d6b45bad396810b5beac5949b7e",
+        "candidate_sha256": "a1bc1f039061620c11e84d1ceba90cf4b601c4461afc29b9400b50bd84f3ac08",
+        "native_report_sha256": "e227f04b9e40384cea2a6585d99848e60a81671ee584ab53b2ea1efcfeb1b8c5",
+        "process_sha256": "8481f29bb638abbc0b5b5af6183e29cfde36e813e9e5198778de3cc1cb98fbbe",
+        "binding_sha256": "2aa351d6a387bcf4be78e07411b3cca09ce2d91c026fe7c521187f32252a1aec",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "b3ffb3f153c2318413e63fd48d03616d248d603456f21c00ffe117082c51d4c5",
+        "candidate_sha256": "a1bc1f039061620c11e84d1ceba90cf4b601c4461afc29b9400b50bd84f3ac08",
+        "native_report_sha256": "1c179238fe938339a9526678fb8e4afdbdf0d5d60e59ff362add5bc579c4f313",
+        "process_sha256": "b08a5b65427ffb6dced460af811a801a4951cf5a234f52f670ca0304b3a9d422",
+        "binding_sha256": "4046bb4215853456eec2a19525458e648bd5fb0972ff327c0175564df2316746",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 30.127936708042398,
+      "sampled_complete_full_CPU_seconds": 27.589425000000002
+    },
+    {
+      "case": "ordinary-npth2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-01",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "e1e11cd4e2542665209f0dea21c920e50c688f87dfa506f74f33b90c3e7471eb",
+      "execution_sha256": "2f6e90076860e81bdaa96d04ebac4c3380e535346e2d428cc320b65ba2279513",
+      "child_sha256": "16da05bc2df892ca4e745e21cb8266c25d01c42a3bb9f8e7edaeec62dd87da0f",
+      "parent": {
+        "receipt_sha256": "93177271de54565a88b2eafba8d042c7791cd28125728ef462be412ecff10197",
+        "candidate_sha256": "9b43e5eb03bb63489604383f4003b92aa4b956a4fb4b95a008f47545d8fe6285",
+        "native_report_sha256": "1646b315adce3444cbd845c9747cec327ec6ce7b74b27d1739832904181c2e04",
+        "process_sha256": "4a2847eb722aaf4a4b5e149b7451cc24fa294626e5b6a8a19e1cbca310b7bb87",
+        "binding_sha256": "875754adc240cbabdcd7aee3f7943eec9e7842b6db48f0dd4a40430ec82d345c",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "3667161941d5fef67a879c0a3c0d72187ce07e7f1a19dd71d833b7df304733ec",
+        "candidate_sha256": "9b43e5eb03bb63489604383f4003b92aa4b956a4fb4b95a008f47545d8fe6285",
+        "native_report_sha256": "d7141079b1145b60c2fdd59f71046095fd085d5c6a577829a04b960f72799ad3",
+        "process_sha256": "a44aa3ff8901653a3663e0061675270603b2cf08593f1e42d59896f4955b8981",
+        "binding_sha256": "94b89ebb0f48e339c398994fd36f909970caa0bd3affc03aed11246d2a72b6d9",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 25.11009258404374,
+      "sampled_complete_full_CPU_seconds": 22.300613999999996
+    },
+    {
+      "case": "improve-pour-only",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-04",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "tuned",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "0d935a22dbda58abb98d5f7aaf8f8d1a46e2a50c24a87bb25df32b722e70a5f2",
+      "execution_sha256": "8bb609dfa34a862a9219c54f2b8701a61574580b06702d4eaa3203101c518865",
+      "child_sha256": "8bee83e841648af66c2ee2cd9ed58d1140e4161cc8a623ad0ea0610e021fe7b1",
+      "parent": {
+        "receipt_sha256": "62d58b7e8d5dc1be49a1e8d4e2741980d545f7adbd47f01e5b91300b1998588b",
+        "candidate_sha256": "8e7cf044a7334a94450c7765e0f2e1b24f9f335fcf47aff74b8318c42d2e65a4",
+        "native_report_sha256": "d406f06697e078bfa5d573a71f2081d44cab19033362c81271e3e5de9c8aab25",
+        "process_sha256": "ef033f2606472a51baed9e84a3f8f13e310e42866380188345ca146a2c638105",
+        "binding_sha256": "a01720716092fd244a3f12aa689839f928227e642ecb9f5d361f02bc49e8db5e",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "f19516a76026e695212d3fe3a6bcf44ffadb966203d95a1d57508bae64a89512",
+        "candidate_sha256": "8e7cf044a7334a94450c7765e0f2e1b24f9f335fcf47aff74b8318c42d2e65a4",
+        "native_report_sha256": "06116c16a678944ab960314c138d814df7b3bd4bf17a0d5d298012bbd59a6e5d",
+        "process_sha256": "08605a86e1af5318a783bc008fd2aacfe95b9e4bd8ab2ef6d2ddc29c6e6b58d8",
+        "binding_sha256": "13a130cf17129eb4c0810cc6dad46be57f9f9123500326c59e00cdb68f2b7bcb",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        }
+      ],
+      "sampled_complete_wall_seconds": 100.29445754201151,
+      "sampled_complete_full_CPU_seconds": 95.885321
+    },
+    {
+      "case": "improve-fractional",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-05",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "tuned",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "9d6b9af44481a3dbcd3724c66049496130c5e7227ad395f903f36c57f9c06ebd",
+      "execution_sha256": "62eed50c175a23fd06b4cf6a509aeefea4211ff7e3c0ff67900bede58e1cc3ed",
+      "child_sha256": "b54796d1e153ef767b13c65d98a3973c9277fbd4c9fd53324635d13dc89d4dfc",
+      "parent": {
+        "receipt_sha256": "634886cbafda6d5dd896b385f0a1e7a6216cc6e79570670d7fc164fa4bbd01df",
+        "candidate_sha256": "fd07b14250500ed022162e249528d05d39c70a3b0c0426302df8bea270229af6",
+        "native_report_sha256": "4850ceb4ef7fc24b72537d3a415864521b7b8a4e0957271f96bbe3cc7692a521",
+        "process_sha256": "58e54d021edbe08c35c2c958f9a747971b4e4be97d17366ddf7a53d2145f0a4a",
+        "binding_sha256": "895c9516b34dc042066c17a3ee890ad99f22b8eb8074db383c1ff97e29f086b2",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "ae1f4f21611c5ac3c0948625248f892f3210ad826002e8ce6fe0e54e83fa663b",
+        "candidate_sha256": "fd07b14250500ed022162e249528d05d39c70a3b0c0426302df8bea270229af6",
+        "native_report_sha256": "59d7883384562c2b61394e79b58f5f5957e480807c9d95948d00c5bd9caddf9c",
+        "process_sha256": "80341b931a47f41f9b430ed561d2a03cb037fe200dfbc22306f3dc8155affb2d",
+        "binding_sha256": "7bcd551f6952623eb146e6621586268343156ee2ae07767002ac3432b6d8ffe1",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        }
+      ],
+      "sampled_complete_wall_seconds": 85.97927183308639,
+      "sampled_complete_full_CPU_seconds": 81.529084
+    },
+    {
+      "case": "improve-floor2Cu",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-06",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "tuned",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "23189eda7e473af3e67a7b525f3f813cf1d42f622e760159ac45193a8a8f202b",
+      "execution_sha256": "c8a966ea81ee0fcb3f4c9d15fed9fe002d217ed4d03f60ff8879bbe074af7e7f",
+      "child_sha256": "f9b462a588666f99aa34e72f7225bd9464d33ebe492c40339bf52f5e62de42ea",
+      "parent": {
+        "receipt_sha256": "d4866c92b7ec9e775f716ce3d3719e13284c8f24388510efb43f35666166872c",
+        "candidate_sha256": "acf986a1877758ad86e07ff35093e88d79cd9309c4c1c4209c45aa14000dcf6e",
+        "native_report_sha256": "c26361fdb8bd5481eb3f0f617e9d8eeb605054f2a1baca43ee678d7c00bbc0eb",
+        "process_sha256": "84227f29cbe9645e39f6ff2b22db366f91e1b58e407efe6db24c1d1a4a818fcc",
+        "binding_sha256": "c8bf18977c088f06633d0c6f4784f7192eb71ec5fa61ca8b5e0be51597c73700",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "3258012e25d94b9bd807bb3d437791fb2d9fdbbbaccf81959160eb193e42be07",
+        "candidate_sha256": "acf986a1877758ad86e07ff35093e88d79cd9309c4c1c4209c45aa14000dcf6e",
+        "native_report_sha256": "802705097f6ce1b04ea3f650954c675be175d66389710457113b68e26c3e3071",
+        "process_sha256": "98cc090f2a354c08ab8fe2cb0cf080921cd7b3bf3e504ff887a4d84ba58313a9",
+        "binding_sha256": "cf84c33feb0427dfb1aded15623d2ba630ad80999d2c16706ff1a870d844a571",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        }
+      ],
+      "sampled_complete_wall_seconds": 87.46583541703876,
+      "sampled_complete_full_CPU_seconds": 82.578776
+    },
+    {
+      "case": "ordinary-alias2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-02",
+      "settings": {
+        "schema": 1,
+        "scope": "partial_completion",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 4,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "e03084f9d50a7e303207aa9eae87eaf4d4cee31a5937ecc28a8b7548aafdc0a9",
+      "execution_sha256": "e62beb479bb74ac33f22ba7d7c6f6ba5f662b1f234c77206b4ea227c6e721db0",
+      "child_sha256": "f0ab6b00cdfc649f6658731adfdf88972cc32621be3cdecbbbab8b62af8211d5",
+      "parent": {
+        "receipt_sha256": "0ffb19f7a2a89364dcf8dd911adf6c6fcdcec5a8e53395a32d34d5b39dbe892f",
+        "candidate_sha256": "d9b59972ec52958956b19eaabfddc724df732466f57b0c59738c4bee71286407",
+        "native_report_sha256": "9ff3b1c0e3c744eaf9c49731a12df239d4fb77da0a68f29060cd1014193c45d1",
+        "process_sha256": "896e58ab01347060cb8a4ec7042b3824ad51cae6e78e07824d53a8e8c5012c61",
+        "binding_sha256": "ce48200311777f657eefade18318830dd4a298fe35418595718782a7db781dbd",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "440ba4aac077c1394862fcede61c5d34d870863af5567f3a28e29c2bb8636d29",
+        "candidate_sha256": "d9b59972ec52958956b19eaabfddc724df732466f57b0c59738c4bee71286407",
+        "native_report_sha256": "89c0e3f1476e3641937d8456fe589aa9a3a6fe00de2ceff9263727098b4a8859",
+        "process_sha256": "9e6304fe1aef74f91eb849b3c8e65befd2cd8f09f3932145ef638cbd717d9a91",
+        "binding_sha256": "0b34b17d34f0eec656b35d52305d443ae35a8dbce52e4817d1cdbfd1907a5385",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 27.80520175001584,
+      "sampled_complete_full_CPU_seconds": 25.065013999999998
+    },
+    {
+      "case": "ordinary-whole4Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-03",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 120,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 120,
+        "export": 120
+      },
+      "protected_count": 10,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "dd6d43a29d3a6dcf3cd48b6eea712a407ab405d09e45cd00176d668ef305847a",
+      "execution_sha256": "9096cd0eeb8c5df066425f4ab8f0981f3e39793d9a01f9ce03c651339433aa1b",
+      "child_sha256": "2fdc201fb317c33787ed5d53c01f326589f65665c0c5e741ad2393344daa6e69",
+      "parent": {
+        "receipt_sha256": "28fab1ab3518fd703de137f98e67c87b2e8803d9a17738896ea26f1975f67640",
+        "candidate_sha256": "c238ca0f60e5a2a6964b9c3d6d92b2ce67fa072cb75106893f1a3c67c7284df6",
+        "native_report_sha256": "a2631592b16cf88d7115a73c4fc06eb245fc51c1015d135830d0360f54e0a4b9",
+        "process_sha256": "3c7b7fe973047912aec19f27b4dbd28d203e2a747074562cb82240cc59f7bbc1",
+        "binding_sha256": "dcbda69a65661c3275e053fd17514fa5334266ce613d7815dbacced2ce8aebaa",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "b4b2b8ad69dd66e477dfbc54204211edcb110aae2a63036e174ce1ce4364e7c0",
+        "candidate_sha256": "c238ca0f60e5a2a6964b9c3d6d92b2ce67fa072cb75106893f1a3c67c7284df6",
+        "native_report_sha256": "a2efacf50bdcf82ce946fdad4bfc0cecce48ebb27b1c148098638ec669a8dffb",
+        "process_sha256": "152a547c7e6a6153af1ea7afff6983cafd2d9d881a64467c7f08d0d3b73d9459",
+        "binding_sha256": "0f301ddeba705cfaf2c59534bf9ea2b210c8efe893ee006a677790b50f1cc33e",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 30.336743374937214,
+      "sampled_complete_full_CPU_seconds": 28.228314
+    },
+    {
+      "case": "ordinary-hierarchy2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-07",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 0,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "efea45dd56963ca8f8de42cc7c562a21abab662ae769759ae8f91cd3c4f09869",
+      "execution_sha256": "fc677325c617e817954bbc88bb84428ad4ecaa8f66a375a527400d740bf94c15",
+      "child_sha256": "8c7026286434a65b9c8d61df865e1217583d41f6428b5713821671031fca1785",
+      "parent": {
+        "receipt_sha256": "daa7dce9eeb0640cbb9d149ffbbb4231539152c617ea780d1a9c02a13fdb6eb6",
+        "candidate_sha256": "9bb7c409379bd65005f72e56b67ccfd74bebede7a34e55ea118b837536afda46",
+        "native_report_sha256": "acd2bf8180c019289245d7260717b378470863a64ca67dee9fbc7116b5ec7311",
+        "process_sha256": "ecfa3d05379c24a23e643d29526ef53cbcb68c576f7cef2ae6e3ea1ee68950b4",
+        "binding_sha256": "96d2eaf4e62ea5f18c0ef369cff29700fb0def445c5079e4b99a4e7256be51b8",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "e61ca40c78d5346ae9d9ccae4ba26165b3d8a1f56e9948c8a0666071fca93cdd",
+        "candidate_sha256": "9bb7c409379bd65005f72e56b67ccfd74bebede7a34e55ea118b837536afda46",
+        "native_report_sha256": "5a07d03147d1a56a28d76101dae17c065a1b5317e068933f6971131b16574fe9",
+        "process_sha256": "0d24c584c6807f668bcc0e837c948aa37817214069dcf7414b740bc715da2b62",
+        "binding_sha256": "daaea4b385b04ae21dd3c5eda0504cd47411ded3daba777912f8766b1b125324",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 26.406804583966732,
+      "sampled_complete_full_CPU_seconds": 24.429212999999997
+    },
+    {
+      "case": "improve-eeprom90-return",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-08",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "tuned",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 0,
+      "Native_counts": [
+        0,
+        0,
+        36,
+        0
+      ],
+      "ignored_check_count": 7,
+      "protocol_sha256": "cf757428d7a7d0e9a70712c812119bd235b248a5765632b4fac493d898a27b72",
+      "execution_sha256": "4b73eee681d569bf608ce61dce859b05cdcbdeeea76efcb6ab28958b5fbc208c",
+      "child_sha256": "5116d27fd5149ad31bd4b89af50eef920528e15d7946f061c723ce2d8e97040b",
+      "parent": {
+        "receipt_sha256": "4ec985c91ace2d04ecffa7910c0bdb809bfa50d43316b7eaee567950c4d166a9",
+        "candidate_sha256": "3491fd5a6a5de4404898802009232b19d2fcb53c3aa9b6cfed4dee602740c01a",
+        "native_report_sha256": "7c757e2f78ad76d3e5cbcebf399b25a58cd18e86c97a8b29c33cb75405d2d8e4",
+        "process_sha256": "857e4e7196dc2ede56001224670a4b61bd27cbd88d188dd9b2ce716e523b9fbe",
+        "binding_sha256": "4d3f32e956a1570c0d40deffaa9cc864dcc1084a83994389abad275725a91d4e",
+        "Native_counts": [
+          0,
+          0,
+          36,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 16,
+          "warning:lib_footprint_issues": 20
+        },
+        "ignored_check_count": 7,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "e9c92f86a939a0a890f78a4697c0284f787d51c4201fd1545d25413fcbb0bd6b",
+        "candidate_sha256": "3491fd5a6a5de4404898802009232b19d2fcb53c3aa9b6cfed4dee602740c01a",
+        "native_report_sha256": "3458ae5bc03a1e2e335e269d90eb07800b4f94f093e0592e331dd65e7c58cc0c",
+        "process_sha256": "5d08678ac0981547355067e57a62ada28b694394322129f4b664666aa1b11c2d",
+        "binding_sha256": "fa79b4f67d23620970a208b64b84e16f086bef8e3269c3f84b8591ce010df404",
+        "Native_counts": [
+          0,
+          0,
+          36,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 16,
+          "warning:lib_footprint_issues": 20
+        },
+        "ignored_check_count": 7,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [
+        {
+          "status": "drc_rejected",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        },
+        {
+          "status": "improvement_validated",
+          "receipt_sha256": null
+        }
+      ],
+      "sampled_complete_wall_seconds": 190.88663058297243,
+      "sampled_complete_full_CPU_seconds": 188.346023
+    },
+    {
+      "case": "ordinary-arcdice-admission",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-09",
+      "settings": {
+        "schema": 1,
+        "seconds": 90,
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 0,
+      "Native_counts": [
+        0,
+        0,
+        26,
+        0
+      ],
+      "ignored_check_count": 5,
+      "protocol_sha256": "c791ee9886c508306009eebc14dca2b3ff8dbffd900ed9edf10111e18f34cb95",
+      "execution_sha256": "c37b43f9b239cda3d3bbcbfcba251e864f73a6a2a6f9a9e976f2077e85c37706",
+      "child_sha256": "238775bfb04747dca6df64de63c30c7adef64e187e16798a42b8ff86776e87d8",
+      "parent": {
+        "receipt_sha256": "6864c45bb129a9bc0cb643f139615e5b7619c410e47596708932e0c628cb0dae",
+        "candidate_sha256": "4ba73c0b380728e2e36f8bbfdea64bafcb6c4c16033bb9799608949a00856797",
+        "native_report_sha256": "02d560051209356b43c2e61e78ed90f892e00cbf8f152254bc06d736cb6a58a4",
+        "process_sha256": "1c5f669d4ce61d041de30b199db5488e3217a88b50b12d7733e3714d4aecd7b5",
+        "binding_sha256": "746015a0704939a48f1565a9671f2e5e56a50a45a6bab4a83a8a8e85f8dc90d9",
+        "Native_counts": [
+          0,
+          0,
+          26,
+          0
+        ],
+        "finding_types": {
+          "warning:lib_footprint_issues": 26
+        },
+        "ignored_check_count": 5,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "export": {
+        "receipt_sha256": "f546c9bcaaa713658260c027953f6b0a80c92a39fa85e549302121be5f78128f",
+        "candidate_sha256": "4ba73c0b380728e2e36f8bbfdea64bafcb6c4c16033bb9799608949a00856797",
+        "native_report_sha256": "e5a0ec324d88f7b2ef1e3d9081a8551a2d2a3692a2e1ee85f1955494fd99784a",
+        "process_sha256": "c3bf5dbbfd267de388ce85662ddf04efa2d2696846de02cc84f73216b2afd403",
+        "binding_sha256": "d230a9a3dd66662b66226555873c894f5fb9410c7af93409ee373c54ffca468a",
+        "Native_counts": [
+          0,
+          0,
+          26,
+          0
+        ],
+        "finding_types": {
+          "warning:lib_footprint_issues": 26
+        },
+        "ignored_check_count": 5,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true
+      },
+      "trials": [],
+      "sampled_complete_wall_seconds": 37.48321612493601,
+      "sampled_complete_full_CPU_seconds": 36.767219000000004
+    }
+  ],
+  "invalid_controls": {
+    "passed": true,
+    "child_sha256": "86b5d5f23d4f1cff53767696655b3dae54b77ee564cb7a7a38ba8cae2fb9acd5",
+    "cases": [
+      {
+        "case": "short",
+        "passed": true,
+        "rejection": "Actual original-rule full-schematic Native shorting_items",
+        "Native_counts": [
+          0,
+          4,
+          6,
+          0
+        ]
+      },
+      {
+        "case": "protected-width",
+        "passed": true,
+        "rejection": "protected route changed",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ]
+      },
+      {
+        "case": "hole-clearance",
+        "passed": true,
+        "rejection": "Actual original-rule full-schematic Native hole_clearance",
+        "Native_counts": [
+          1,
+          1,
+          7,
+          0
+        ]
+      }
+    ],
+    "meaning": "Actual short/hole Native rejection; Native-eligible protected-width+1nm diagnostic still refuses original-design invariant. No population false-acceptance estimate."
+  },
+  "parent_class_control": {
+    "passed": true,
+    "scope": "One owned matched flat schematic; KEEP Default / ROUTE SIGNAL / GND POWER. Original PCB/SCH/PRL unchanged; original class PRO set before freezing. Not ArcDice/broad class/electrical/quality evidence.",
+    "master_sha256": "dbd14a84791bd9f1446511fd10462f76e118190f98ca01021569c62ce8fdc0f2",
+    "completed_trial_count": 1,
+    "protected_count": 1,
+    "parent": {
+      "receipt_sha256": "f3916fee11d98cd625e876a40ed69f38ca398132025207763484476965fb10b1",
+      "candidate_sha256": "2f2eaab3e7aeb1007849ec0ad1348f073e3a0233e79b7da75fbddcf49c5b64ea",
+      "native_report_sha256": "0c4a0d7c2fe95eb41eee40ed83fcd20a5d9bc09e510949efac4710e9d845240b",
+      "process_sha256": "2f39d0b4ce450d8e4504ab917beb761e799ee2855d75109d9e87a3d9abd298b2",
+      "binding_sha256": "2ad016fa0088c03178b632c013d7d5d3ba98d51ec8dbbe4ce2cc8bd1ead3d4b5",
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "finding_types": {
+        "warning:footprint_symbol_field_mismatch": 6
+      },
+      "ignored_check_count": 2,
+      "whole_project_drc_clean": false,
+      "full_schematic_flag": true
+    },
+    "export": {
+      "receipt_sha256": "d222d76ae1c1413093f6a776fb4be9ee09588e2cae495057339ded647b00d057",
+      "candidate_sha256": "2f2eaab3e7aeb1007849ec0ad1348f073e3a0233e79b7da75fbddcf49c5b64ea",
+      "native_report_sha256": "7eeddb4a96637dbd07f19f694949d507df8dc52a92d6063035af447fb03c336f",
+      "process_sha256": "dcffbfe9a1980043f551c0e7ffa4fc72578a7c389624c5fcc344694d5f64d5c1",
+      "binding_sha256": "6bab8a61a5e51fe12c1f5349e27e63975d5a20578ab766bd73b53a13207c0666",
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "finding_types": {
+        "warning:footprint_symbol_field_mismatch": 6
+      },
+      "ignored_check_count": 2,
+      "whole_project_drc_clean": false,
+      "full_schematic_flag": true
+    },
+    "controls": [
+      {
+        "case": "width-target",
+        "passed": true
+      },
+      {
+        "case": "class-source-PRO",
+        "passed": true
+      }
+    ],
+    "negative_meaning": "Wrong generated ROUTE width .35->.30 is Native-eligible but rejected by exact class-target audit. Changed original SIGNAL target .35->.36 is rejected by source PRO/file custody before validation workers. Both diagnostic Native findings remain0/0/6/0. No engine for negatives.",
+    "startup_failure": "Relative protocol argument refused before child payload/Native; .15wall/.14CPU additional. Original failure retained; absolute-argument invocation002 is sole actual control."
+  },
+  "complete_external_costs": {
+    "full-integration-215": {
+      "wall_seconds": 172.81,
+      "CPU_seconds": 163.1,
+      "user_seconds": 93.29,
+      "system_seconds": 69.81,
+      "time_log_sha256": "acea9986525c7eea43824075bc00c26f30e1c436e8e8567f426c0390f7e61d82",
+      "source": ".runs/full-integration-215-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "full-integration-216": {
+      "wall_seconds": 174.72,
+      "CPU_seconds": 165.42,
+      "user_seconds": 94.42,
+      "system_seconds": 71.0,
+      "time_log_sha256": "9661b9ad05225f55f534a032b5288fa358cca5b4d205f2260190169573e816fc",
+      "source": ".runs/full-integration-216-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "prepare-runtime061-001": {
+      "wall_seconds": 3.69,
+      "CPU_seconds": 3.0,
+      "user_seconds": 2.25,
+      "system_seconds": 0.75,
+      "time_log_sha256": "f75fd502277b71457081253e8627b36688a8aa6769ec74b12ab15e692e9b68fc",
+      "source": ".runs/prepare-runtime061-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-install-existing-copy-001": {
+      "wall_seconds": 0.36,
+      "CPU_seconds": 0.31,
+      "user_seconds": 0.22,
+      "system_seconds": 0.09,
+      "time_log_sha256": "ddebfdfd0089995e91d96db25bcbd2aa8646dc194e20dc574099cf474b61e323",
+      "source": ".runs/runtime061-install-existing-copy-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-install-existing-venv-001": {
+      "wall_seconds": 0.19,
+      "CPU_seconds": 0.15,
+      "user_seconds": 0.11,
+      "system_seconds": 0.04,
+      "time_log_sha256": "b848d2258647b0a89c3530ad69618219528f7e025427d36b6fafd6527565fbaf",
+      "source": ".runs/runtime061-install-existing-venv-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-installed-native-freeze-001": {
+      "wall_seconds": 7.6,
+      "CPU_seconds": 2.89,
+      "user_seconds": 2.06,
+      "system_seconds": 0.83,
+      "time_log_sha256": "5ec4db0a92f985e01c6fab9b267a175ace67f9d763e4ca3177b858f7af3eb609",
+      "source": ".runs/runtime061-installed-native-freeze-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-parent-class-native-freeze-001": {
+      "wall_seconds": 0.18,
+      "CPU_seconds": 0.15,
+      "user_seconds": 0.11,
+      "system_seconds": 0.04,
+      "time_log_sha256": "167f8cfa00d41cbf83790ad2e40f768bf2344185c2adb96566b2da7609b8365f",
+      "source": ".runs/runtime061-parent-class-native-freeze-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-parent-class-native-001": {
+      "wall_seconds": 0.15,
+      "CPU_seconds": 0.14,
+      "user_seconds": 0.12,
+      "system_seconds": 0.02,
+      "time_log_sha256": "650c3635df322bed3d53596d76a9fe0b3ac1db9cf4a682ecaea9d17a8696522d",
+      "source": ".runs/runtime061-parent-class-native-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-parent-class-native-002": {
+      "wall_seconds": 171.71,
+      "CPU_seconds": 164.57,
+      "user_seconds": 124.46,
+      "system_seconds": 40.11,
+      "time_log_sha256": "2c7922af9087f8e81ae7f08abab0650e1b597e6dbe65134b9bbf67e8c93e8de6",
+      "source": ".runs/runtime061-parent-class-native-002-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-installed-native-batch-001": {
+      "wall_seconds": 728.48,
+      "CPU_seconds": 692.7,
+      "user_seconds": 554.03,
+      "system_seconds": 138.67,
+      "time_log_sha256": "6c2725f5be4c08f548f58565c568981e22a4a11af6e14a4e35737fe91fd2fb6a",
+      "source": ".runs/runtime061-installed-native-batch-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "freeze-runtime061-installed-native-invalid-001": {
+      "wall_seconds": 0.16,
+      "CPU_seconds": 0.12,
+      "user_seconds": 0.09,
+      "system_seconds": 0.03,
+      "time_log_sha256": "79072d5cb008344a1f940f507ca3dba051da90a7c5dd4b321879f085b9f9fe71",
+      "source": ".runs/freeze-runtime061-installed-native-invalid-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-native-invalid-001": {
+      "wall_seconds": 7.59,
+      "CPU_seconds": 5.86,
+      "user_seconds": 4.98,
+      "system_seconds": 0.88,
+      "time_log_sha256": "a1f1bf9b5772548ea7243274a8ba40aebc84138eb5e318fa69a7a7c716c5534f",
+      "source": ".runs/runtime061-native-invalid-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "runtime061-gui096-preparation-001": {
+      "wall_seconds": 31.66,
+      "CPU_seconds": 28.72,
+      "user_seconds": 21.13,
+      "system_seconds": 7.59,
+      "time_log_sha256": "79cb88e38b8db30e61ceef6bb5d1069c8aeb4dbee82d1e3ec9ce14da54a0a40b",
+      "source": ".runs/runtime061-gui096-preparation-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "accounting": "Distinct listed complete operations are separate. Per-case/CLI/Native/trial samples are nested in batch/class/invalid enclosures; never add again. Full215 failed one fake-window test fixture; corrected fixture and full216 pass, runtime bytes unchanged. Earlier malformed fixture failures and targeted logs retained. Two readback sample attempts raced completed PIDs, exit255/no profile; rounded0.00 is not zero compute. Authoring, AI/source review and unmetered metadata work are unknown additional. GUI preparation is separate from actual interactive GUI runtime. No unattended first-attempt or generic speed claim.",
+  "supporting_sha256": {
+    ".runs/runtime061-installed-native-qualification-001/frozen.json": "6352416dcae0ddbc2ff163734f55daaf738630263fac35eac381265f6af7f78e",
+    ".runs/runtime061-installed-native-qualification-001/batch-result.json": "d7de8019c13cfb89b5a23362608984f7024586e68a09811bcd3c6609b7cbb56c",
+    ".runs/runtime061 fresh install 001/runtime-distribution.json": "dfeba186f6ea8233d44d203b7ecb3ff396fb6f0ff7544381c9ae116619875666",
+    ".runs/runtime-directory-061/runtime/runtime-distribution.json": "3aa4bd2afa7254ea797987b0dcf5e793d1de0e0c4d737575a9ab9bcebbdbed22",
+    "evidence/runtime060-installed-native-milestone-001.json": "247dc62ed162afb08aaf60db668ad5277cbce5e593c371658f35bd85668eb3eb",
+    ".runs/runtime061-installed-native-qualification-001/via-high-whole2Cu/protocol.json": "44b13f50e16528bfd6ae069d695b88c7e46a656425161ce20995b0019661c39f",
+    ".runs/runtime061-installed-native-qualification-001/via-high-whole2Cu/execution.json": "c20f28324e57ecb9d8c9ad2c1d37becffc6a6f72d8b9aa76080a4dd259dde9fc",
+    ".runs/runtime061 fresh install 001/.runs/via-high-whole2Cu-001/result.json": "26793c561651cec28b971fa6db273b61525206f28b79cc48a96e9464c0ee79d7",
+    ".runs/runtime060-installed-native-qualification-001/via-high-whole2Cu/protocol.json": "73f8bfb5d2eaab8fe3a2ffc2f10ca7e9ff024d7ce2961691ba99b2ecfec2fbf2",
+    ".runs/runtime061 fresh install 001/.runs/via-high-whole2Cu-001/autorouter-gui-4357d30f5b2b4de0b5f099743664f406/route/result.json": "0d844cf8d38d1ff02705f3042bbd08141a00e83d998dfb299ccbffe5d00c2bd6",
+    ".runs/runtime061 fresh install 001/.runs/via-high-whole2Cu-001/autorouter-gui-4357d30f5b2b4de0b5f099743664f406/export/export.json": "a35a61e0d215aeba1d2bd7e2ab4435629f8a981934e7e1ef6c1c482afe755c22",
+    ".runs/runtime061-installed-native-qualification-001/via-high-partial2Cu/protocol.json": "9ad292f76e5f66b8ee59ea6a5e8ab309ea1dadd33be23dcb57f5ed8614583238",
+    ".runs/runtime061-installed-native-qualification-001/via-high-partial2Cu/execution.json": "d6e7b1d1ff3eaa0adb5135a6fb1554306f9c2f62179e01d4c7c0ffdfa13e562b",
+    ".runs/runtime061 fresh install 001/.runs/via-high-partial2Cu-001/result.json": "847be3769ea77af09db8851e718c9d7bdeaa9a2198eea27b8ffef3f6f71b9a3c",
+    ".runs/runtime060-installed-native-qualification-001/via-high-partial2Cu/protocol.json": "98e2a15eb2976275942b4269047605581b650c7aedd7d012cbdef284fdd56e98",
+    ".runs/runtime061 fresh install 001/.runs/via-high-partial2Cu-001/autorouter-gui-1de5a1f55439419d8f140fbd37d804ba/route/result.json": "7278b0dda740f01650de41c3e63cf6e53840aadf6fe98d8566ed7adad1f1cfc3",
+    ".runs/runtime061 fresh install 001/.runs/via-high-partial2Cu-001/autorouter-gui-1de5a1f55439419d8f140fbd37d804ba/export/export.json": "744aa268d14eeb3b19b1298e2697f5cd03c59a6ee2a8696e4b492a7ccb6df27e",
+    ".runs/runtime061-installed-native-qualification-001/via-high-whole4Cu/protocol.json": "356ebfffe9006f84eeec5abf02988b29f94f7d3e08966de9bcd8add6d2e47737",
+    ".runs/runtime061-installed-native-qualification-001/via-high-whole4Cu/execution.json": "b50944d4d835d93c3fc6d2ca3eafa76776be69aab12ccb6367f61fe79631d82f",
+    ".runs/runtime061 fresh install 001/.runs/via-high-whole4Cu-001/result.json": "f21210b06d161b38536b68d19760f130d45632d0cd260e238e734d64ea271916",
+    ".runs/runtime060-installed-native-qualification-001/via-high-whole4Cu/protocol.json": "ce1e7dd020f6ff35550c8db981016c46561fa08fcc1e9b1fffa3a2338cd82575",
+    ".runs/runtime061 fresh install 001/.runs/via-high-whole4Cu-001/autorouter-gui-1dcc6c32a0c2405c876df11c35ab0bef/route/result.json": "5aaac93c76b973cc5d8c9798528e5e6271148fe973c1d51179ff55c852045541",
+    ".runs/runtime061 fresh install 001/.runs/via-high-whole4Cu-001/autorouter-gui-1dcc6c32a0c2405c876df11c35ab0bef/export/export.json": "40ef934bff61d8b4c27141800daa2d7f7e55a52c35175088ca7cb55e7883fb58",
+    ".runs/runtime061-installed-native-qualification-001/via-high-partial4Cu/protocol.json": "e55614576b1023688605dbb9e445885dd7a6011966fe83bd87d6699b6877f47a",
+    ".runs/runtime061-installed-native-qualification-001/via-high-partial4Cu/execution.json": "34c97985aa0036174bbfe38339fbdfe3bdbad3c0dff1e2931c476e043431985f",
+    ".runs/runtime061 fresh install 001/.runs/via-high-partial4Cu-001/result.json": "07c34711af733cc98a5bb916b4baa5bb4649a7a5509fc7d923a29937825ddea1",
+    ".runs/runtime060-installed-native-qualification-001/via-high-partial4Cu/protocol.json": "a3e4812d3293233e4d27478b6d561f1bc40684303127b4ac3fb5a9bd5bd6681f",
+    ".runs/runtime061 fresh install 001/.runs/via-high-partial4Cu-001/autorouter-gui-95773e15584c4e26993dabb8d29abbdc/route/result.json": "e81e02c250e7ceb8a8ba181d79a0cd57dd9a2d6b45bad396810b5beac5949b7e",
+    ".runs/runtime061 fresh install 001/.runs/via-high-partial4Cu-001/autorouter-gui-95773e15584c4e26993dabb8d29abbdc/export/export.json": "b3ffb3f153c2318413e63fd48d03616d248d603456f21c00ffe117082c51d4c5",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-npth2Cu/protocol.json": "e1e11cd4e2542665209f0dea21c920e50c688f87dfa506f74f33b90c3e7471eb",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-npth2Cu/execution.json": "2f6e90076860e81bdaa96d04ebac4c3380e535346e2d428cc320b65ba2279513",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-npth2Cu-001/result.json": "16da05bc2df892ca4e745e21cb8266c25d01c42a3bb9f8e7edaeec62dd87da0f",
+    ".runs/runtime060-installed-native-qualification-001/ordinary-npth2Cu/protocol.json": "f3e854ea65d2e3667950da2fe161b0d4eba47529a0fd57dc927fb253b4e554fc",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-npth2Cu-001/autorouter-gui-73a3988056544583bb538e284d65950e/route/result.json": "93177271de54565a88b2eafba8d042c7791cd28125728ef462be412ecff10197",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-npth2Cu-001/autorouter-gui-73a3988056544583bb538e284d65950e/export/export.json": "3667161941d5fef67a879c0a3c0d72187ce07e7f1a19dd71d833b7df304733ec",
+    ".runs/runtime061-installed-native-qualification-001/improve-pour-only/protocol.json": "0d935a22dbda58abb98d5f7aaf8f8d1a46e2a50c24a87bb25df32b722e70a5f2",
+    ".runs/runtime061-installed-native-qualification-001/improve-pour-only/execution.json": "8bb609dfa34a862a9219c54f2b8701a61574580b06702d4eaa3203101c518865",
+    ".runs/runtime061 fresh install 001/.runs/improve-pour-only-001/result.json": "8bee83e841648af66c2ee2cd9ed58d1140e4161cc8a623ad0ea0610e021fe7b1",
+    ".runs/runtime060-installed-native-qualification-001/improve-pour-only/protocol.json": "f2d5bb9c6561dc7a899913f3c5f7997983c765501b1c14714945c34dc500b306",
+    ".runs/runtime061 fresh install 001/.runs/improve-pour-only-001/autorouter-gui-bb38477401f5452d851c04877cd400b4/route/result.json": "62d58b7e8d5dc1be49a1e8d4e2741980d545f7adbd47f01e5b91300b1998588b",
+    ".runs/runtime061 fresh install 001/.runs/improve-pour-only-001/autorouter-gui-bb38477401f5452d851c04877cd400b4/export/export.json": "f19516a76026e695212d3fe3a6bcf44ffadb966203d95a1d57508bae64a89512",
+    ".runs/runtime061-installed-native-qualification-001/improve-fractional/protocol.json": "9d6b9af44481a3dbcd3724c66049496130c5e7227ad395f903f36c57f9c06ebd",
+    ".runs/runtime061-installed-native-qualification-001/improve-fractional/execution.json": "62eed50c175a23fd06b4cf6a509aeefea4211ff7e3c0ff67900bede58e1cc3ed",
+    ".runs/runtime061 fresh install 001/.runs/improve-fractional-001/result.json": "b54796d1e153ef767b13c65d98a3973c9277fbd4c9fd53324635d13dc89d4dfc",
+    ".runs/runtime060-installed-native-qualification-001/improve-fractional/protocol.json": "0c3933a237272e58def8a8ad6fd622b90ce65ec660b4d5ad60d6809336e3f7af",
+    ".runs/runtime061 fresh install 001/.runs/improve-fractional-001/autorouter-gui-8b2e64fb15eb4d81870490224cf0527e/route/result.json": "634886cbafda6d5dd896b385f0a1e7a6216cc6e79570670d7fc164fa4bbd01df",
+    ".runs/runtime061 fresh install 001/.runs/improve-fractional-001/autorouter-gui-8b2e64fb15eb4d81870490224cf0527e/export/export.json": "ae1f4f21611c5ac3c0948625248f892f3210ad826002e8ce6fe0e54e83fa663b",
+    ".runs/runtime061-installed-native-qualification-001/improve-floor2Cu/protocol.json": "23189eda7e473af3e67a7b525f3f813cf1d42f622e760159ac45193a8a8f202b",
+    ".runs/runtime061-installed-native-qualification-001/improve-floor2Cu/execution.json": "c8a966ea81ee0fcb3f4c9d15fed9fe002d217ed4d03f60ff8879bbe074af7e7f",
+    ".runs/runtime061 fresh install 001/.runs/improve-floor2Cu-001/result.json": "f9b462a588666f99aa34e72f7225bd9464d33ebe492c40339bf52f5e62de42ea",
+    ".runs/runtime060-installed-native-qualification-001/improve-floor2Cu/protocol.json": "2a86eb24317715c894d8e0dd27f3f14a5a403979b1498b946e4504e0921e87e1",
+    ".runs/runtime061 fresh install 001/.runs/improve-floor2Cu-001/autorouter-gui-ec0b649682444e0f8210d22604dfa2ad/route/result.json": "d4866c92b7ec9e775f716ce3d3719e13284c8f24388510efb43f35666166872c",
+    ".runs/runtime061 fresh install 001/.runs/improve-floor2Cu-001/autorouter-gui-ec0b649682444e0f8210d22604dfa2ad/export/export.json": "3258012e25d94b9bd807bb3d437791fb2d9fdbbbaccf81959160eb193e42be07",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-alias2Cu/protocol.json": "e03084f9d50a7e303207aa9eae87eaf4d4cee31a5937ecc28a8b7548aafdc0a9",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-alias2Cu/execution.json": "e62beb479bb74ac33f22ba7d7c6f6ba5f662b1f234c77206b4ea227c6e721db0",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-alias2Cu-001/result.json": "f0ab6b00cdfc649f6658731adfdf88972cc32621be3cdecbbbab8b62af8211d5",
+    ".runs/runtime060-installed-native-qualification-001/ordinary-alias2Cu/protocol.json": "77b709d05596eeee209031267859e96e5c2d4f0099eddfcb8a0cc29c4d0f8edb",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-alias2Cu-001/autorouter-gui-8604df0347874ff7b75bdc310a2747ca/route/result.json": "0ffb19f7a2a89364dcf8dd911adf6c6fcdcec5a8e53395a32d34d5b39dbe892f",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-alias2Cu-001/autorouter-gui-8604df0347874ff7b75bdc310a2747ca/export/export.json": "440ba4aac077c1394862fcede61c5d34d870863af5567f3a28e29c2bb8636d29",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-whole4Cu/protocol.json": "dd6d43a29d3a6dcf3cd48b6eea712a407ab405d09e45cd00176d668ef305847a",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-whole4Cu/execution.json": "9096cd0eeb8c5df066425f4ab8f0981f3e39793d9a01f9ce03c651339433aa1b",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-whole4Cu-001/result.json": "2fdc201fb317c33787ed5d53c01f326589f65665c0c5e741ad2393344daa6e69",
+    ".runs/runtime060-installed-native-qualification-001/ordinary-whole4Cu/protocol.json": "0134e3f6c8ce561f20ab0c41dbef5917cc8abb7295d6a8c82f5bd3c68a4e269c",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-whole4Cu-001/autorouter-gui-0027a5e2ec5144768ff0c64331ce9422/route/result.json": "28fab1ab3518fd703de137f98e67c87b2e8803d9a17738896ea26f1975f67640",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-whole4Cu-001/autorouter-gui-0027a5e2ec5144768ff0c64331ce9422/export/export.json": "b4b2b8ad69dd66e477dfbc54204211edcb110aae2a63036e174ce1ce4364e7c0",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-hierarchy2Cu/protocol.json": "efea45dd56963ca8f8de42cc7c562a21abab662ae769759ae8f91cd3c4f09869",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-hierarchy2Cu/execution.json": "fc677325c617e817954bbc88bb84428ad4ecaa8f66a375a527400d740bf94c15",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-hierarchy2Cu-001/result.json": "8c7026286434a65b9c8d61df865e1217583d41f6428b5713821671031fca1785",
+    ".runs/runtime060-installed-native-qualification-001/ordinary-hierarchy2Cu/protocol.json": "125691796df97742148e68324f598e4cc3e820cfb77b578bf872d8e435a0acd4",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-b0024e79cc524438b51d554aefc81234/route/result.json": "daa7dce9eeb0640cbb9d149ffbbb4231539152c617ea780d1a9c02a13fdb6eb6",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-b0024e79cc524438b51d554aefc81234/export/export.json": "e61ca40c78d5346ae9d9ccae4ba26165b3d8a1f56e9948c8a0666071fca93cdd",
+    ".runs/runtime061-installed-native-qualification-001/improve-eeprom90-return/protocol.json": "cf757428d7a7d0e9a70712c812119bd235b248a5765632b4fac493d898a27b72",
+    ".runs/runtime061-installed-native-qualification-001/improve-eeprom90-return/execution.json": "4b73eee681d569bf608ce61dce859b05cdcbdeeea76efcb6ab28958b5fbc208c",
+    ".runs/runtime061 fresh install 001/.runs/improve-eeprom90-return-001/result.json": "5116d27fd5149ad31bd4b89af50eef920528e15d7946f061c723ce2d8e97040b",
+    ".runs/runtime060-installed-native-qualification-001/improve-eeprom90-return/protocol.json": "8795be21056220d473524b3652726495858547ac290be31da3e5babe40b1a2ae",
+    ".runs/runtime061 fresh install 001/.runs/improve-eeprom90-return-001/autorouter-gui-f78f6b8553b342aeb914d93cdc293ce1/route/result.json": "4ec985c91ace2d04ecffa7910c0bdb809bfa50d43316b7eaee567950c4d166a9",
+    ".runs/runtime061 fresh install 001/.runs/improve-eeprom90-return-001/autorouter-gui-f78f6b8553b342aeb914d93cdc293ce1/export/export.json": "e9c92f86a939a0a890f78a4697c0284f787d51c4201fd1545d25413fcbb0bd6b",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-arcdice-admission/protocol.json": "c791ee9886c508306009eebc14dca2b3ff8dbffd900ed9edf10111e18f34cb95",
+    ".runs/runtime061-installed-native-qualification-001/ordinary-arcdice-admission/execution.json": "c37b43f9b239cda3d3bbcbfcba251e864f73a6a2a6f9a9e976f2077e85c37706",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-arcdice-admission-001/result.json": "238775bfb04747dca6df64de63c30c7adef64e187e16798a42b8ff86776e87d8",
+    ".runs/runtime060-installed-native-qualification-001/ordinary-arcdice-admission/protocol.json": "6386ee2399fbaf3acabe034b2cad0a0b0356dd9e921b2d5ac83bd63cb71b615d",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-arcdice-admission-001/autorouter-gui-08e0c64091ae41e9bfdf34175d3b9177/route/result.json": "6864c45bb129a9bc0cb643f139615e5b7619c410e47596708932e0c628cb0dae",
+    ".runs/runtime061 fresh install 001/.runs/ordinary-arcdice-admission-001/autorouter-gui-08e0c64091ae41e9bfdf34175d3b9177/export/export.json": "f546c9bcaaa713658260c027953f6b0a80c92a39fa85e549302121be5f78128f",
+    ".runs/runtime061 fresh install 001/.runs/native7-comparison-control-runtime061-npth-invalid-001/result.json": "86b5d5f23d4f1cff53767696655b3dae54b77ee564cb7a7a38ba8cae2fb9acd5",
+    ".runs/runtime061-native-controls-001/invalid/enclosure/result.json": "0836ddcd1109830172dd8509d7b74e043252f7f3b4aab7bc6738d16abe287271",
+    ".runs/runtime061 fresh install 001/.runs/native7-comparison-parent-class-qualification-001/result.json": "dbd14a84791bd9f1446511fd10462f76e118190f98ca01021569c62ce8fdc0f2",
+    ".runs/improve-parent-class-native-qualification-001/protocol.json": "7956299f9799afc405ce182bb81c167854581853b848a604a1982937a90357c7",
+    ".runs/improve-parent-class-native-qualification-001/positive/protocol.json": "0b5c305ca32af7d5c47206a5b18ba6afc3bb7c9c611f19757165cc47f557f06f",
+    ".runs/runtime061 fresh install 001/.runs/parent-class-positive-001/autorouter-gui-4734c84e52db4a178242e0d89048e137/route/result.json": "f3916fee11d98cd625e876a40ed69f38ca398132025207763484476965fb10b1",
+    ".runs/runtime061 fresh install 001/.runs/parent-class-positive-001/autorouter-gui-4734c84e52db4a178242e0d89048e137/export/export.json": "d222d76ae1c1413093f6a776fb4be9ee09588e2cae495057339ded647b00d057",
+    ".runs/full-integration-216/execution.json": "e888103434d5334116459196cf4bc0c974776c68a892d8023625c4718c3267bb",
+    ".runs/runtime-directory-061/preparation.json": "e095bb3cd8fae43becab32249f2b545a68cb51c955c69ec8d7f867735a50180d",
+    ".runs/full-integration-215-time.log": "acea9986525c7eea43824075bc00c26f30e1c436e8e8567f426c0390f7e61d82",
+    ".runs/full-integration-216-time.log": "9661b9ad05225f55f534a032b5288fa358cca5b4d205f2260190169573e816fc",
+    ".runs/prepare-runtime061-001-time.log": "f75fd502277b71457081253e8627b36688a8aa6769ec74b12ab15e692e9b68fc",
+    ".runs/runtime061-install-existing-copy-001-time.log": "ddebfdfd0089995e91d96db25bcbd2aa8646dc194e20dc574099cf474b61e323",
+    ".runs/runtime061-install-existing-venv-001-time.log": "b848d2258647b0a89c3530ad69618219528f7e025427d36b6fafd6527565fbaf",
+    ".runs/runtime061-installed-native-freeze-001-time.log": "5ec4db0a92f985e01c6fab9b267a175ace67f9d763e4ca3177b858f7af3eb609",
+    ".runs/runtime061-parent-class-native-freeze-001-time.log": "167f8cfa00d41cbf83790ad2e40f768bf2344185c2adb96566b2da7609b8365f",
+    ".runs/runtime061-parent-class-native-001-time.log": "650c3635df322bed3d53596d76a9fe0b3ac1db9cf4a682ecaea9d17a8696522d",
+    ".runs/runtime061-parent-class-native-002-time.log": "2c7922af9087f8e81ae7f08abab0650e1b597e6dbe65134b9bbf67e8c93e8de6",
+    ".runs/runtime061-installed-native-batch-001-time.log": "6c2725f5be4c08f548f58565c568981e22a4a11af6e14a4e35737fe91fd2fb6a",
+    ".runs/freeze-runtime061-installed-native-invalid-001-time.log": "79072d5cb008344a1f940f507ca3dba051da90a7c5dd4b321879f085b9f9fe71",
+    ".runs/runtime061-native-invalid-001-time.log": "a1f1bf9b5772548ea7243274a8ba40aebc84138eb5e318fa69a7a7c716c5534f",
+    ".runs/runtime061-gui096-preparation-001-time.log": "79cb88e38b8db30e61ceef6bb5d1069c8aeb4dbee82d1e3ec9ce14da54a0a40b"
+  },
+  "current_GUI": "GUI096 preparedb2204f4af7507d361681d581a0ff87fe907b4ffca718e19d0138b871ce2ef6e2; exact fresh inspection project is open, menus work, coordinate toolbar clicks unchanged in zoomed/normal window. One owner toolbar action requested. Setup only, no061GUI routing/delivery/cancel/render qualification transferred from060GUI095.",
+  "scope": "Pinned isolated official KiCad10.0.7/macOS arm64, current copied no-pip venv/private HOME-TMP/minimal PATH for Native CLI. Same Mac/account/basePython/external KiCad/Java; no standalone/cleanOS/independent install/Windows. Complete warnings/ignored checks remain visible; acceptance is neither whole-project DRC cleanliness nor electrical/human approval. Native support controls are not a completion/quality gain beyond B1/B2, family breadth or untouched confirmation. Shipped default remains corrected standard; Improve is optional.",
+  "raw_retention": "All original/native/candidate/trial/fullSCH/field/class/PRL/source/process proofs remain local; public stored facts/hashes are not a raw backup or renewed live acceptance. Earlier060/current40 archives do not cover061. New061 incremental capture pending at this packet cutoff.",
+  "lead_curation": {
+    "shared_helpers": "scripts.report_current_comparison.own_final/complete_cost; no Native or central readers rerun",
+    "no_CAD_or_raw_findings_publication": true
+  }
+}

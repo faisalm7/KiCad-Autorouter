@@ -76,6 +76,13 @@ class Info(C.Structure):
                                      'abort_error', 'pending_create', 'pending_job')]
 
 
+class Diagnostic(C.Structure):
+    _fields_ = [(name, C.c_uint32) for name in
+                ('abi', 'bytes', 'recorded', 'error', 'object_index', 'element_index')] + [
+        ('stage', C.c_char * 48), ('predicate', C.c_char * 48)] + [
+        (name, C.c_uint32) for name in ('expected_low', 'expected_high', 'actual_low', 'actual_high')]
+
+
 def bind_library(path):
     """Bind the single SDK ABI; no guard/profile/policy is created here."""
     offsets = dict(abi=0, bytes=4, state=8, poisoned=12, sublayer=16, filters=32,
@@ -85,12 +92,16 @@ def bind_library(path):
             'exact x64 DWORD/GUID ABI required')
     require(C.sizeof(Info) == 196 and all(getattr(Info, key).offset == value for key, value in offsets.items()),
             '196-byte INFO layout differs')
+    require(C.sizeof(Diagnostic) == 136 and Diagnostic.stage.offset == 24 and
+            Diagnostic.predicate.offset == 72 and Diagnostic.expected_low.offset == 120,
+            '136-byte read-only diagnostic layout differs')
     library = C.WinDLL(str(path), winmode=0x900)
     dword, owner = C.c_uint32, C.c_void_p
     owner_pointer, byte_pointer = C.POINTER(owner), C.POINTER(C.c_ubyte)
     signatures = {
         'PG_Create': [byte_pointer, dword, owner_pointer],
         'PG_GetInfo': [owner, C.POINTER(Info), dword],
+        'PG_GetDiagnostic': [owner, C.POINTER(Diagnostic), dword],
         'PG_Arm': [owner], 'PG_CheckArmed': [owner],
         'PG_RegisterJob': [owner, C.c_void_p, C.POINTER(dword)],
         'PG_BeginCreate': [owner, dword], 'PG_Poison': [owner, dword],
@@ -106,13 +117,14 @@ def bind_library(path):
 def null_abi(path):
     library, signatures, offsets = bind_library(path)
     dword, owner = C.c_uint32, C.c_void_p
-    info, slot, empty = Info(), dword(0xffffffff), owner()
+    info, diagnostic, slot, empty = Info(), Diagnostic(), dword(0xffffffff), owner()
     # Every owner is NULL. No valid SID, PG_OWNER, profile or armed context is
     # produced; the named functions return before their policy/lifecycle bodies.
     cases = [
         ('Create_null_output', 'PG_Create', (None, 0, None), 87),
         ('Create_null_SID', 'PG_Create', (None, 0, C.byref(empty)), 1337),
         ('GetInfo_null_owner', 'PG_GetInfo', (None, C.byref(info), C.sizeof(info)), 6),
+        ('GetDiagnostic_null_owner', 'PG_GetDiagnostic', (None, C.byref(diagnostic), C.sizeof(diagnostic)), 6),
         ('Arm_null_owner', 'PG_Arm', (None,), 6),
         ('CheckArmed_null_owner', 'PG_CheckArmed', (None,), 6),
         ('RegisterJob_null_owner', 'PG_RegisterJob', (None, None, C.byref(slot)), 6),
@@ -129,10 +141,10 @@ def null_abi(path):
         actual = int(getattr(library, name)(*args))
         rows.append(dict(case=label, export=name, expected=expected, actual=actual, passed=actual == expected))
         require(actual == expected, 'NULL ABI refusal differs: ' + label)
-    require(empty.value is None and bytes(info) == bytes(196) and slot.value == 0xffffffff,
+    require(empty.value is None and bytes(info) == bytes(196) and bytes(diagnostic) == bytes(136) and slot.value == 0xffffffff,
             'NULL ABI changed output storage or produced an owner')
     return dict(passed=True, exports_bound=sorted(signatures), outcomes=rows,
-                INFO_bytes=C.sizeof(info), INFO_offsets=offsets, winmode=0x900,
+                INFO_bytes=C.sizeof(info), INFO_offsets=offsets, DIAGNOSTIC_bytes=C.sizeof(diagnostic), winmode=0x900,
                 valid_owner_created=False, valid_SID_supplied=False, actual_policy_operations=False)
 
 

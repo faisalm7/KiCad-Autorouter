@@ -73,15 +73,16 @@ class WindowsProbeControls(unittest.TestCase):
         owner=SimpleNamespace(_thread_check=lambda:calls.append('thread'),_bad=False,_abandoned=False,
             _owner=SimpleNamespace(value=1),_lib=SimpleNamespace(PG_RegisterProcess=register),
             _info=lambda:calls.append('info') or dict(poisoned=0),_sid=None,_keys=None,_fresh=fresh,
+            _remember_failure=lambda *args:calls.append('first_failure'),
             poison=lambda error:calls.append('poison'))
         invoke=self.process_function('_invoke',source='persistent_guard_state.py',_require=require)
         with self.assertRaisesRegex(RuntimeError,'source changed'):
             invoke(owner,'PG_RegisterProcess',0,object(),object(),created_registration=True)
-        self.assertEqual(calls,['thread','capture_actual_process','info','source_witness','poison'])
+        self.assertEqual(calls,['thread','capture_actual_process','info','source_witness','first_failure','poison'])
         calls.clear()
         with self.assertRaisesRegex(RuntimeError,'source changed'):
             invoke(owner,'PG_RegisterProcess',0,object(),object())
-        self.assertEqual(calls,['source_witness','poison'])
+        self.assertEqual(calls,['source_witness','first_failure','poison'])
 
     def test_all_sixteen_decimal_tombstone_slots_are_valid_and_exhaustion_is_visible(self):
         import os,re
