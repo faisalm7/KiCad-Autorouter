@@ -1,0 +1,60 @@
+{
+  "GUI_qualification": false,
+  "Native_qualification": false,
+  "accounting": "Complete distinct exits; authoring/AI additional unknown, notzero. No Native/engine/build/install yet.",
+  "evidence": [
+    {
+      "bytes": 44379,
+      "path": ".runs/full-integration-215/protocol.json",
+      "sha256": "80166bc56aaaeac776750fa63b56f4fb8fd304a5b9af8e031fa264f88d8dc5fc"
+    },
+    {
+      "bytes": 1946,
+      "path": ".runs/full-integration-215/execution.json",
+      "sha256": "6d015403acd23471155f53120fc2b81c77e35916499d895b8d5c7b02616e27d9"
+    },
+    {
+      "bytes": 457448,
+      "path": ".runs/full-integration-215/command.log",
+      "sha256": "985928fc10020d63d1c4cafaef619eca97a7e40d041e2a6eb58789845e3eeedd"
+    },
+    {
+      "bytes": 757,
+      "path": ".runs/full-integration-215-time.log",
+      "sha256": "acea9986525c7eea43824075bc00c26f30e1c436e8e8567f426c0390f7e61d82"
+    },
+    {
+      "bytes": 889,
+      "path": ".runs/runtime061-parent-class-targeted-003-time.log",
+      "sha256": "bd57c30a8b372833754939f12fad6baa76b75a9e9c020e35d8b36ec2529fa1b6"
+    },
+    {
+      "bytes": 9766,
+      "path": "tests/test_gui_budget_refusal.py",
+      "sha256": "b9199d671f052b28164ad2c7c5b01c656fa367f861478088e6d844b09dd120b4"
+    }
+  ],
+  "full215": {
+    "CPU_seconds": 163.1,
+    "failures": 1,
+    "passed": false,
+    "reason": "Existing test_gui_budget_refusal successful-load fake window lacked log widget. Real Window always initializes log. Added Mock display to fixture; runtime code unchanged.",
+    "skipped": 1,
+    "sources_unchanged": true,
+    "tests": 2654,
+    "wall_seconds": 172.81
+  },
+  "kind": "runtime061-integration-test-fixture-correction-v1",
+  "next": "Run fresh full216 integration against unchanged runtime code and corrected fixture; build/install/native/GUI only after pass. Failed215 retained. Prior060 qualification is not transferred.",
+  "production_admitted": false,
+  "project_complete": false,
+  "schema": 1,
+  "source_checkpoint": "6b9c0bf4d979efc9e1fc3ac44e02ced2c32caff8",
+  "targeted003": {
+    "CPU_seconds": 1.47,
+    "passed": true,
+    "scope": "Actual callback/summary/class control tests, constructed not GUI/Native.",
+    "tests": 37,
+    "wall_seconds": 1.67
+  }
+}
