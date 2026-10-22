@@ -1,6 +1,6 @@
 # KiCad-Autorouter
 
-**Runtime059 is under qualification.** It fixes canonical receipt admission and reserves40 seconds for optional Improve proof delivery within unchanged total limits. Full integration, twelve native CLI workflows and three invalid controls pass; actual GUI094 and fresh-folder installation remain in progress or pending. [Current gates](STATUS.md).
+**Runtime059 is under qualification.** It fixes canonical receipt admission and reserves40 seconds for optional Improve proof delivery within unchanged total limits. Full integration, twelve native CLI workflows and three invalid controls pass; actual GUI094 core observations are closed, with full GUI and fresh-folder installation still unqualified. Improve help has a known25s/actual40s display defect queued for correction. [Current gates](STATUS.md).
 
 An experimental open-source autorouter that runs locally without an AI account. It preserves original design constraints and protected copper, validates separate candidates with native KiCad, and offers saved settings, preview, progress, cancellation, rendered review and explicit accept/reject intent.
 
