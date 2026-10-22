@@ -1,0 +1,49 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 3.059554792009294,
+  "cpu_seconds": 2.530594,
+  "max_rss_bytes": 53198848,
+  "supervisor_cpu_seconds": 0.009488999999999997,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 53182464,
+  "sampled_peak_workdir_bytes": 114,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py",
+    "--population",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-development-001/population.json",
+    "--population-sha256",
+    "cb39bc8fd63b77c44f5ee96bb0d9bdf5f8571500f53c91cf19c24e0904bc5e4e",
+    "--children",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-development-001/frozen-children.json",
+    "--children-sha256",
+    "aeb1379bb7e34066517043c4a9dd517a5de45e1100044892ce696db7ed45b485",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-facts-001",
+    "--public-sanitize"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-report-enclosure-001/command.log",
+  "log_bytes": 114,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-report-enclosure-001",
+  "signal_cancellation_enabled": true,
+  "pid": 32332
+}

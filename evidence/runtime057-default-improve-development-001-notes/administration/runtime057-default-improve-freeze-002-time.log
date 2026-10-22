@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/freeze-runtime057-default-improve-development-001.py", line 161, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/freeze-runtime057-default-improve-development-001.py", line 69, in main
+    admitted,dependencies=factory.qualification_scope(native,ORIGINAL_RUNTIME,ORIGINAL_MANIFEST,original_identity,original,'improve-v2')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/freeze_current_comparison.py", line 80, in qualification_scope
+    return native_cohort_scope(qualified, runtime, manifest_pin, identity, manifest, version)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/freeze_current_comparison.py", line 202, in native_cohort_scope
+    require(ir.get('kind') == 'runtime'+match[1]+'-single-fresh-exposed-IR-Improve-'+ir_kinds[ir_keys[0]]
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/freeze_current_comparison.py", line 66, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: current pinned IR delivery differs
+real 0.47
+user 0.30
+sys 0.14
+            53133312  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               20483  page reclaims
+                 243  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 298  voluntary context switches
+                1069  involuntary context switches
+          3307093962  instructions retired
+          1231290949  cycles elapsed
+            43500072  peak memory footprint

@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 35.46776229189709,
+  "cpu_seconds": 26.826552,
+  "max_rss_bytes": 258899968,
+  "supervisor_cpu_seconds": 0.119226,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 501907456,
+  "sampled_peak_workdir_bytes": 342,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057 fresh install 001/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057 fresh install 001/.runs/qualify-current-method-002.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057 fresh install 001",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-development-001/ds18b20/Cdefault/protocol.json",
+    "--protocol-sha256",
+    "1443cf936baebbe5f33812f42c721edec1305f96594cfc6f9288d31f73c5783e"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-development-001/ds18b20/Cdefault/enclosure/command.log",
+  "log_bytes": 342,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-default-improve-development-001/ds18b20/Cdefault/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 29357
+}
