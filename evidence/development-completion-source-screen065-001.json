@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "kind": "single-development-completion-source-static-screen",
+  "state": "BOUNDED_DEFER_NO_RUNNABLE_INPUT_NOMINATED",
+  "candidate": {
+    "name": "Black Magic Probe original hardware",
+    "publisher": "blackmagic-debug",
+    "repository": "https://codeberg.org/blackmagic-debug/blackmagic-hardware",
+    "revision": "d4f1685539fb9a60b3e89e5ae862869cc767c626",
+    "revision_url": "https://codeberg.org/blackmagic-debug/blackmagic-hardware/commit/d4f1685539fb9a60b3e89e5ae862869cc767c626",
+    "branch": "main",
+    "exposure": "Inspected current publisher metadata; this candidate is now exposed development evidence, not an untouched holdout. No sibling/contrib CAD contents were opened."
+  },
+  "motivation": "A debug MCU with several external interfaces was a plausible new fixed-placement completion challenge distinct from existing DS/IR/EEPROM/ArcDice inputs. Actual terminal density, corridors or baseline difficulty were not established; no likely completion advantage is claimed.",
+  "duplicate_check": {
+    "command": "rg -n -i 'black.?magic|blackmagic-hardware|bmpm' SOURCE_LEDGER.md evidence",
+    "exit_code": 1,
+    "matches": 0,
+    "source_ledger_sha256": "b5bd47e92aa211ad7f0e926d8325a89d2fea7b7924fbd62beea68798b12e728c",
+    "scope": "Targeted aliases before research; no historical archive census, reopening of deferred boards or second candidate."
+  },
+  "search": {
+    "queries_used": 1,
+    "query_limit": 2,
+    "query": "Black Magic Probe KiCad hardware repository licence",
+    "domain_filter": "github.com",
+    "tool_wall_seconds": 1.155,
+    "tool_status": "success",
+    "tool_return_bytes": null,
+    "search_CPU_seconds": null,
+    "lead": "https://github.com/blackmagic-debug/blackmagic-hardware",
+    "scope": "Search result led to the publisher Codeberg repository; unrelated result snippets were not followed or treated as verified sources."
+  },
+  "request_bounds": {
+    "primary_GET_limit": 5,
+    "primary_GETs_used": 3,
+    "primary_statuses": [
+      200,
+      200,
+      200
+    ],
+    "redirects_followed": 0,
+    "primary_bytes": 12007,
+    "primary_active_request_wall_seconds": 1.928,
+    "primary_first_started_utc": "2026-10-22T20:17:45.303Z",
+    "primary_last_completed_utc": "2026-10-22T20:17:56.298Z",
+    "primary_request_window_wall_seconds": 10.995,
+    "primary_bound_seconds": 180,
+    "primary_phase_elapsed_at_stop_seconds": 83.125,
+    "per_response_metadata_ceiling_bytes": 1048576,
+    "CPU_seconds": null,
+    "accounting": "Exact fetched metadata body bytes/status/hash and request durations recorded below. Search/tool/authoring/review CPU and administrative overhead are unknown additional, not zero. No benchmark/speed claim."
+  },
+  "HTTP": [
+    {
+      "method": "GET",
+      "url": "https://codeberg.org/api/v1/repos/blackmagic-debug/blackmagic-hardware",
+      "started_utc": "2026-10-22T20:17:45.303Z",
+      "status": 200,
+      "location": null,
+      "bytes": 2873,
+      "sha256": "d84e9dfa16586713b8c07da861341f4528c8f169c272eb4d4acefca059e3703f",
+      "wall_ms": 513
+    },
+    {
+      "method": "GET",
+      "url": "https://codeberg.org/api/v1/repos/blackmagic-debug/blackmagic-hardware/branches/main",
+      "started_utc": "2026-10-22T20:17:49.919Z",
+      "status": 200,
+      "location": null,
+      "bytes": 780,
+      "sha256": "a540540490b2949a9ee45eb5396485e5180b92988d284bab344182648643fda9",
+      "wall_ms": 689
+    },
+    {
+      "method": "GET",
+      "url": "https://codeberg.org/api/v1/repos/blackmagic-debug/blackmagic-hardware/git/trees/d4f1685539fb9a60b3e89e5ae862869cc767c626?recursive=true",
+      "started_utc": "2026-10-22T20:17:55.572Z",
+      "status": 200,
+      "location": null,
+      "bytes": 8354,
+      "sha256": "99985b149c74a97c2e19cfb6e606970ac7efb6326e2d2c5979c18f68e506a63c",
+      "wall_ms": 726
+    }
+  ],
+  "tree": {
+    "endpoint": "https://codeberg.org/api/v1/repos/blackmagic-debug/blackmagic-hardware/git/trees/d4f1685539fb9a60b3e89e5ae862869cc767c626?recursive=true",
+    "returned_entries": 31,
+    "total_count": 31,
+    "page": 1,
+    "truncated": false,
+    "complete_current_tree": true,
+    "native_files": [],
+    "legacy_root_files": [
+      {
+        "path": "blackmagic.pcb",
+        "bytes": 58603,
+        "git_blob_sha1": "57b3a2fb781ad2ffc635df4b1b06024b55f4a6b9",
+        "url": "https://codeberg.org/blackmagic-debug/blackmagic-hardware/src/commit/d4f1685539fb9a60b3e89e5ae862869cc767c626/blackmagic.pcb"
+      },
+      {
+        "path": "blackmagic.sch",
+        "bytes": 81790,
+        "git_blob_sha1": "049c3dc98cc105bb2ccb82e5ee259acb335e2f54",
+        "url": "https://codeberg.org/blackmagic-debug/blackmagic-hardware/src/commit/d4f1685539fb9a60b3e89e5ae862869cc767c626/blackmagic.sch"
+      },
+      {
+        "path": "blackmagic_mini.pcb",
+        "bytes": 92497,
+        "git_blob_sha1": "fa20164ee3216459116adea133a22ab1b774930f",
+        "url": "https://codeberg.org/blackmagic-debug/blackmagic-hardware/src/commit/d4f1685539fb9a60b3e89e5ae862869cc767c626/blackmagic_mini.pcb"
+      },
+      {
+        "path": "blackmagic_mini.sch",
+        "bytes": 61254,
+        "git_blob_sha1": "951a8baf04994e0098426ee141d00386db373fee",
+        "url": "https://codeberg.org/blackmagic-debug/blackmagic-hardware/src/commit/d4f1685539fb9a60b3e89e5ae862869cc767c626/blackmagic_mini.sch"
+      }
+    ],
+    "notice_paths_found": []
+  },
+  "rights": {
+    "PCB_design_grant_verified": false,
+    "full_notice_verified": false,
+    "licence_body_fetched": false,
+    "fact": "No licence/COPYING/NOTICE path appears in the complete31-entry current tree. Public repository status is not a redistribution grant. No licence or hardware redistribution right is inferred from search snippets, firmware licences or contributed derivatives.",
+    "third_party_asset_rights": "Unknown; no assets acquired, executed or redistributed.",
+    "independent_ancestry": "Not established. Original/contributed ancestry and library/assets were not reconstructed."
+  },
+  "support": {
+    "modern_native_format": "Not available to qualify: no complete native KiCad PCB/PRO/SCH project in this pinned tree. Legacy .pcb/.sch filenames are metadata only; bodies were not fetched.",
+    "PRL_and_rule_preservation": "No native PRL/PRO/rule project files found; nothing was stripped, synthesized, converted or waived.",
+    "physical_constraints": "Uninspected: layers, pads, net ties, rules/exclusions/severities, impedance/current/class requirements, protected copper and complete schematic equivalence remain unknown.",
+    "Native_original_diagnostic": false,
+    "Preview": false,
+    "baseline_or_Improve_run": false,
+    "valid_incumbent": false
+  },
+  "decision": "Do not acquire/convert/freeze/run this revision for the requested supported comparison. Missing complete modern native project and unverified hardware grant are concrete pre-acquisition blockers. Stop at one candidate; do not chase historical revisions, forks or a second lead under this task.",
+  "actions_not_performed": [
+    "CAD/firmware/script/model/archive acquisition",
+    "untrusted hooks or source execution",
+    "Native/engine/Preview/tests/CI/Git",
+    "runtime/product/tracked edits",
+    "board sanitization or constraint relaxation",
+    "external contact/publication",
+    "delegation"
+  ],
+  "retention": "Only owned facts/URLs/response hashes and Git blob metadata are saved. No foreign source payload or API author personal fields retained. HTTP response buffers were used only for static metadata and are cleared after this receipt.",
+  "remaining_goal": "No runnable new input nominated. Broader completion evidence and a mechanism beyond a valid incumbent remain open; this metadata defer establishes no B1/B2/C result.",
+  "lead_curation": {
+    "source_receipt_sha256": "cedbc1099a2f4b042fa42bda55fdb9ee5919172837f8dd63e2fea765b09170a5",
+    "scope": "Bounded primary-metadata screen only; no CAD payload, licence grant, Native admission, independent family or routing gain inferred."
+  }
+}

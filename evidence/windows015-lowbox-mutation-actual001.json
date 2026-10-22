@@ -1,0 +1,323 @@
+{
+  "schema": 1,
+  "kind": "Windows015-LowBox-owned-mutation-control-actual-failure-v1",
+  "recorded_utc": "2026-10-22T20:08:55.074Z",
+  "state": "CLOSED_FAILED_NO_RETRY",
+  "source_head": "4ed438a14f89e684bfdf9211039b02ee35cc8853",
+  "protocol_sha256": "0b0706a439b93d6750ff6261a1355e15a9c01673f065147657ce5029e8df3502",
+  "CI": {
+    "id": 39844256869,
+    "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39844256869",
+    "status": "completed",
+    "conclusion": "failure",
+    "job": "windows015-lowbox-mutation-once",
+    "job_id": 120053228543,
+    "job_started_at": "2026-10-22T19:55:01Z",
+    "job_completed_at": "2026-10-22T19:55:34Z",
+    "job_elapsed_seconds": 33,
+    "whole_workflow_wall_including_queue_seconds": null,
+    "actual_windows": "Windows-2022Server-10.0.20348-SP0",
+    "architecture": "AMD64",
+    "MSVC": "14.44.35207",
+    "SDK": "10.0.26100.0",
+    "all_other_modes_skipped": true,
+    "artifact_uploads": 0,
+    "run_attempt": null,
+    "run_attempt_scope": "Sole actual run supplied; API run_attempt was not captured in run.json. No retry performed by this retention/public-metadata work."
+  },
+  "control_passed": false,
+  "accepted": false,
+  "Native_executed": false,
+  "Native_admitted": false,
+  "Windows_support": false,
+  "project_complete": false,
+  "strict_compile_load_NULL15_passed": true,
+  "same_C_predicate35_passed": true,
+  "flags_NULL_output_refusal": 24,
+  "requested_flags_unchanged": 1,
+  "returned_flags_required": 65,
+  "INFO_bytes": 196,
+  "DIAGNOSTIC_bytes": 136,
+  "first_failure": {
+    "C_diagnostic": {
+      "actual": 0,
+      "element_index": 0,
+      "error": 0,
+      "expected": 0,
+      "object_index": 0,
+      "predicate": "",
+      "recorded": false,
+      "stage": ""
+    },
+    "C_diagnostic_error": null,
+    "exception_type": "str",
+    "message": "LowBox WFP entry/close unavailable; not an object-mutation proof",
+    "metadata": null,
+    "operation": "poison",
+    "phase": "armed",
+    "stage": "external_or_uninstrumented",
+    "winerror": null
+  },
+  "concrete_first_cause": "Both contained actual capability0 roles received ACCESS_DENIED (Win32 5) opening the WFP engine session. Therefore no WFP object-security setter or engine-close observation ran. This was explicitly classified unavailable and poisoned, not accepted as setter-denial proof.",
+  "cases": [
+    {
+      "case": "denial",
+      "status": "nonzero_exit",
+      "exit_code": 68,
+      "owned_Job_cleanup_complete": true,
+      "process_count": 4,
+      "wall_seconds": 0.2340000000000373,
+      "full_Job_CPU_seconds": 0.125,
+      "raw_log_sha256": "3bbcced23b3cd65b6685671b261936d0b2ec37e3f7b2ddaf8acc30b8440209c6",
+      "observations": [
+        {
+          "capabilities": 0,
+          "is_appcontainer": 1,
+          "kind": "self_token",
+          "role": 1
+        },
+        {
+          "connected": false,
+          "endpoint": "owned_loopback",
+          "explicit_access_denied": true,
+          "kind": "tcp",
+          "role": 1,
+          "wsa_error": 10013
+        },
+        {
+          "connected": false,
+          "endpoint": "public_ipv4",
+          "explicit_access_denied": true,
+          "kind": "tcp",
+          "role": 1,
+          "wsa_error": 10013
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_dac",
+          "role": 1,
+          "target": 0,
+          "winerror": 5
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_owner",
+          "role": 1,
+          "target": 0,
+          "winerror": 5
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_dac",
+          "role": 1,
+          "target": 1,
+          "winerror": 5
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_owner",
+          "role": 1,
+          "target": 1,
+          "winerror": 5
+        },
+        {
+          "kind": "mutation_engine_open",
+          "role": 1,
+          "winerror": 5
+        },
+        {
+          "capabilities": 0,
+          "is_appcontainer": 1,
+          "kind": "suspended_child_token",
+          "role": 1
+        },
+        {
+          "kind": "child_resumed"
+        },
+        {
+          "capabilities": 0,
+          "is_appcontainer": 1,
+          "kind": "self_token",
+          "role": 2
+        },
+        {
+          "connected": false,
+          "endpoint": "owned_loopback",
+          "explicit_access_denied": true,
+          "kind": "tcp",
+          "role": 2,
+          "wsa_error": 10013
+        },
+        {
+          "connected": false,
+          "endpoint": "public_ipv4",
+          "explicit_access_denied": true,
+          "kind": "tcp",
+          "role": 2,
+          "wsa_error": 10013
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_dac",
+          "role": 2,
+          "target": 0,
+          "winerror": 5
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_owner",
+          "role": 2,
+          "target": 0,
+          "winerror": 5
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_dac",
+          "role": 2,
+          "target": 1,
+          "winerror": 5
+        },
+        {
+          "explicit_access_denied": true,
+          "kind": "state_mutation",
+          "opened": false,
+          "operation": "write_owner",
+          "role": 2,
+          "target": 1,
+          "winerror": 5
+        },
+        {
+          "kind": "mutation_engine_open",
+          "role": 2,
+          "winerror": 5
+        }
+      ]
+    }
+  ],
+  "stage_coverage": {
+    "setup_DLL_and_two_role_builds_completed": true,
+    "owner_journal_reached_ARMED": true,
+    "parent_and_child_capabilities0": true,
+    "IPv4_TCP_explicit_denials": 4,
+    "state_WRITE_DAC_WRITE_OWNER_open_denials": 8,
+    "state_objects": "Exactly the new owned journal and context; indices0/1 only. No write was performed.",
+    "WFP_engine_entry_errors": [
+      5,
+      5
+    ],
+    "WFP_object_security_setters_executed": 0,
+    "engine_close_observations": 0,
+    "descendant_cancel_case_executed": false,
+    "host_TCP_positive_endpoints_before": 2,
+    "host_TCP_positive_after_observed": false
+  },
+  "cleanup": {
+    "complete": false,
+    "all_owned_jobs_reaped": true,
+    "controller_reaped": true,
+    "owned_TCP_server_reaped": true,
+    "persistent_removal_verified": false,
+    "original_dacls_restored": false,
+    "profile_registry_absence_not_queried": true,
+    "phase": "orphan",
+    "poisoned": true,
+    "abandoned": true,
+    "policy_may_exist": 1,
+    "policy_presence": "Unknown; conservative policy_may_exist=1 is neither actual presence nor absence proof.",
+    "reason": "Persistent ownership became failed/poisoned; policy, ACL and profile cleanup was refused. No old-owner cleanup authority."
+  },
+  "observed": {
+    "host_state_files": 9,
+    "host_state_bytes": 6351,
+    "journal_events": [
+      "RESERVED",
+      "PREPARED",
+      "CONTEXT",
+      "ARMED",
+      "ORPHAN",
+      "ABANDONED"
+    ],
+    "exact_state_log_chunks_hash_verified": true,
+    "locally_retained_payload_files": 14,
+    "locally_retained_payload_bytes": 9036,
+    "compiler_main_zero_owned_Job_cleanup": "Guard compiler main exit0; remaining owned compiler member terminated/reaped and zero active verified. Natural descendant completion is not claimed."
+  },
+  "costs": {
+    "CI_active_job_wall_seconds": 33,
+    "enclosure_wall_seconds_before_exit": 11.4023559,
+    "controller_process_CPU_seconds": 0.78125,
+    "separate_setup_Job_CPU_seconds": [
+      1.171875,
+      0.046875,
+      0.375,
+      0.328125
+    ],
+    "separate_probe_Job_CPU_seconds": [
+      0.125
+    ],
+    "disjoint_measured_CPU_subtotal_seconds": 2.828125,
+    "whole_CI_CPU_seconds": null,
+    "remaining_CI_CPU_seconds": null,
+    "local_retention_complete": {
+      "wall_seconds": 0.09,
+      "CPU_seconds": 0.05,
+      "user_seconds": 0.02,
+      "system_seconds": 0.03,
+      "time_log_sha256": "4cc594b5f68617f78467706e45811dd3c28b442f1cf754aabe0dd916d84a54ab",
+      "source": ".runs/windows015-lowbox-mutation-actual001/retainer-001-time.log"
+    }
+  },
+  "accounting": "Active-job wall includes checkout/setup/reporting; enclosure and setup/probe wall are nested, not added. CPU subtotal includes complete controller process CPU plus four separate setup Jobs and one probe Job. Nested readiness/canary controller samples are not added. Whole workflow including queue and remaining CI/post-report CPU are unknown, not zero. Local retention is separate; retrieval, authoring, AI review and this draft preparation are unknown additional.",
+  "supporting_sha256": {
+    ".runs/windows015-lowbox-mutation-actual001/actions.log": "bfbc50bb51d2090b65a6833e965427c06fbd9cc50063476d60509e40b75efb6f",
+    ".runs/windows015-lowbox-mutation-actual001/run.json": "a21c9dcb0bd43df0ad6a49f1a51a639e9496321f53cb5750d9190b59b5065de5",
+    ".runs/windows015-lowbox-mutation-actual001/parsed-rows.json": "fad6a74fcdb54cad4ac53f33744b0c2672c139db319569d4906a8779c8adba97",
+    ".runs/windows015-lowbox-mutation-actual001/closure.json": "ba3b231c65154358552492936a4c04c208933f759feecbb13d0b443dae218b5a",
+    ".runs/windows015-lowbox-mutation-actual001/retainer.py": "1de125e7a538dd831bc5724206c0167fd31f5e36cade0a104a09b3ce8f134cac",
+    ".runs/windows015-lowbox-mutation-actual001/retainer-001.log": "e99d22b80a0387756dd4e8b810d6c0ba6f8bf04a858fac3e95e33980760bc7e9",
+    ".runs/windows015-lowbox-mutation-actual001/retainer-001-time.log": "4cc594b5f68617f78467706e45811dd3c28b442f1cf754aabe0dd916d84a54ab",
+    ".runs/windows015-lowbox-mutation-actual001/review/retention.json": "852ac56885aa4e8e9c3f5c376ca2bd6039534c648d2870458c2ad8f190945800",
+    ".runs/windows015-lowbox-mutation-actual001/review/retention-exit.json": "828f9ac3672eb8094218c61d56b8e0cbadef4e7e4ecfdd85d58925c4cf38eed3",
+    ".runs/windows015-entry-denial-decision-001.json": "ebf74792f3d7f2062fa5762cfcae6f4dfb3c7f649babd62cb510b4077565c2ba"
+  },
+  "source_hashes": {
+    "persistent_sid_guard_C": "5c1e7ee7fc450b2bdcdd97e5fc44bb397dfa93dd185772391f329fa9f8e34196",
+    "role_probe_C": "12707ca17dc7ea5127cbc2caf09cd0e53da2be91fdb0b97db1c53aecfd1f6afa",
+    "worker": "12707ca17dc7ea5127cbc2caf09cd0e53da2be91fdb0b97db1c53aecfd1f6afa",
+    "canary_controller": "9fa7a0b532a808a7428d30ad555761fe348faa765ee8b5c20b1ad8405b01f1d0"
+  },
+  "raw_retention": "Exact original CI/actions and parsed metadata, nine owned state files and five compiler/setup/probe logs remain on Mac. Public draft contains owned facts and hashes only; raw state/ACL/context maps, SIDs/PIDs, host paths, compiler binaries/vendor sources and raw CI log contents are not copied here. No supplemental backup/restore qualification is established for actual015. Diagnostic state never grants removal/adoption authority.",
+  "rights_and_privacy": "Project-owned metadata derived from the public project CI and its owned controls. No credentials, private-board material, foreign CAD, vendor source or downloaded tool binaries included. No external contact or publication performed by this task.",
+  "finite_blocker_and_decision": {
+    "blocker": "Current015 cannot prove WFP object mutation denial because contained session entry failed; cleanup/removal also remains unverified.",
+    "decision": "REVISE A SEPARATE PROSPECTIVE DIRECT-API ENTRY-DENIAL CONTROL; DEFER EQUIVALENCE TO THE BROADER TAMPER GATE. This can test a useful necessary entry boundary without relabeling015 or claiming object-setter coverage. It is not by itself Windows Native admission.",
+    "minimum_new_control": "If separately frozen later: matching same-parameter host open/close positives, both actual0cap roles with exact entry5, no accessible inherited/delegated session, fresh original-owner readback and complete owned cleanup. Unknown/missing/error results still fail/poison. This is a direct API entry barrier only.",
+    "not_equivalent_to": "Object-setter execution, usable preexisting/delegated handle attacks, privileged brokers, other API/authentication paths or a general hostile-code boundary.",
+    "no_automatic_followon": true
+  },
+  "limitations": [
+    "015 remains a real failed diagnostic; no relabeling as a pass.",
+    "Eight state access-right denials do not isolate file DACL denial from directory-access effects.",
+    "No active cancellation, post-control connectivity, WFP setter, policy/profile removal or restoration pass from this run.",
+    "No Windows Native/KiCad/JVM routing/import/refill/export/GUI/product/release/electrical/human-review qualification.",
+    "Public metadata and SHA references are not a raw proof backup; actual015 raw remains Mac-only."
+  ],
+  "lead_curation": {
+    "draft_sha256": "79af6670ca3a4bcd89168f8ebf9876de2ddef28c8b4fc47d5c5058401a6bc1a3",
+    "scope": "Stored actual CI facts and source-only decision reviewed; no new CI, Native, installation, authority, release or accepted Windows claim."
+  }
+}

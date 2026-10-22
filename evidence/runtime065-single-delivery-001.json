@@ -1,0 +1,292 @@
+{
+  "schema": 1,
+  "kind": "runtime065-single-installed-Improve-delivery-regression-public-facts-v1",
+  "recorded_utc": "2026-10-22T20:14:00.392806+00:00",
+  "source_head": "4ed438a14f89e684bfdf9211039b02ee35cc8853",
+  "runtime_manifest_sha256": "e881abd82a06a30828999b55e6c9301ea845f1d6e8b252d36751efe6b21d38fa",
+  "project_complete": false,
+  "actual_GUI_qualified": false,
+  "release_qualified": false,
+  "classification": {
+    "attempt_qualified": true,
+    "workflow_delivered": true,
+    "validated_completed_negative": false,
+    "evidence_classification": "validated_delivery",
+    "complete_external_cap_ok": true,
+    "method_cap_ok": true,
+    "method_sample": {
+      "wall_seconds": 205.4446346249897,
+      "full_CPU_seconds": 187.775587
+    }
+  },
+  "limits": {
+    "delivery_wall_cpu_cap_seconds": 600,
+    "export_validation_seconds": 120,
+    "method_wall_cpu_cap_seconds": 450,
+    "routing_seconds": 420
+  },
+  "internal_return_reserve_seconds": 40,
+  "complete_external_cost": {
+    "wall_seconds": 507.91,
+    "CPU_seconds": 485.97,
+    "user_seconds": 425.85,
+    "system_seconds": 60.12,
+    "time_log_sha256": "02674e8786022644d534e9e4dfb5858ed5b2acb14e2dfac9bd14f3219978f74d",
+    "source": ".runs/runtime065-arcdice-review-regression-001/outer-time.log",
+    "scope": "Complete external exit; nested method/Native samples are included, not added again."
+  },
+  "stages": [
+    {
+      "stage": "preview",
+      "exit_code": 0,
+      "complete_CLI_wall_seconds": 0.41837329196278006,
+      "process_sha256": "b7a057b4737e6cb5108be9d020e09832a1bea6e785ed69be8079c8e9e070ea1f"
+    },
+    {
+      "stage": "route",
+      "exit_code": 0,
+      "complete_CLI_wall_seconds": 173.46430208301172,
+      "process_sha256": "16efb1cb3328616e430dcf22710b8364d27b0957e230b729ad36b19aa6643cfe"
+    },
+    {
+      "stage": "review",
+      "exit_code": 0,
+      "complete_CLI_wall_seconds": 29.156412542099133,
+      "process_sha256": "38bbb1cd0ad6767f842f639532b74eb1428f2e53532f44483181b70b17e3db91"
+    },
+    {
+      "stage": "choice",
+      "exit_code": 0,
+      "complete_CLI_wall_seconds": 25.935709208017215,
+      "process_sha256": "1df76b2de7289a91d710ffca9469df8e98db44aa882790c28b386156da7a2bc5"
+    },
+    {
+      "stage": "export",
+      "exit_code": 0,
+      "complete_CLI_wall_seconds": 86.00826383405365,
+      "process_sha256": "09f806b2d09ea441c5ba725699df9f5f3f3b030eb4eeff320e9142b04a9c0737"
+    },
+    {
+      "stage": "verify_export",
+      "exit_code": 0,
+      "complete_CLI_wall_seconds": 51.65820049995091,
+      "process_sha256": "e1ae0e3a7d8e5a6b421b0d32c7bdaf026f62f523f8fb11860310d4a3463db761"
+    }
+  ],
+  "review_stored_own_sample": {
+    "wall_seconds": 27.318220040993765,
+    "full_CPU_seconds": 27.076438999999997,
+    "within_budget": true,
+    "cap_seconds": 30,
+    "scope": "Own prepublication sample; complete CLI and whole external costs also retained. No ceiling increased."
+  },
+  "parent": {
+    "receipt": ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/route/result.json",
+    "receipt_sha256": "ced9e455fac2aa6118abb29e5d372ab79bf359aab92f2d611b38cc67795b0b67",
+    "candidate_sha256": "89a6d2333ae2a789c5ba6ee25eefc3a12003e461c6bbe2b09cbc02753033c9f6",
+    "native_report_sha256": "14be85f204a9c65ad7d127daff1b65ea2c54b0918d339881fbe2ec44ef9c75c3",
+    "process_sha256": "604cbc1d154045d59cce1ac14a8b219bcd2162e249b6e1f73840d93bbec18333",
+    "binding_sha256": "eefb9bdee84f56d51d88eed4e226c61eeb4240006ebddf0cd15db12a5a3adbe7",
+    "Native_counts": [
+      0,
+      0,
+      26,
+      0
+    ],
+    "Native_application_policy": {
+      "accepted": true,
+      "rejection_reasons": [],
+      "implementation_sha256": {
+        "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+        "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+        "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+        "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+      }
+    },
+    "finding_types": {
+      "warning:lib_footprint_issues": 26
+    },
+    "ignored_checks": {
+      "receipt": ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/route/final-drc.json",
+      "field": "ignored_checks",
+      "sha256": "94bf7a4eacd1aba2798caf7192896c966c67cd3404c00d7b4b33bf91e7e3cf06",
+      "bytes": 465,
+      "text_not_retained": "explicit public sanitize",
+      "keys": [
+        "missing_courtyard",
+        "track_not_centered_on_via",
+        "tuning_profile_track_geometries",
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch"
+      ],
+      "count": 5
+    },
+    "ignored_check_count": 5,
+    "protected_count": null,
+    "whole_project_drc_clean": false,
+    "full_schematic_flag": true,
+    "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification.",
+    "class_evidence": {
+      "policy": {
+        "mode": "native-parent-dimensions-v1",
+        "resolution": "pinned native effective class and explicit parameter parents",
+        "source_class_names": [
+          "Default",
+          "POWER",
+          "SIGNAL"
+        ],
+        "pattern_evaluation_in_python": false
+      },
+      "passed": true,
+      "protected_count": 0,
+      "proof_sha256": {
+        "final-netclasses.json": "840e1303ccd23dec332e3533b65b2e113287dd719174129637218e6601d14aed",
+        "final-netclass-audit.json": "5666ad98de13585e87f78dfbe99fcf923a9e480bee59086d59acbf86952f7f8b",
+        "refill-drc.json": "b16e51d85a445f693544c63e7daaa2ea8f9e33b81c89d57827b6fcb1ae7db332",
+        "refill-drc-binding.json": "1e8d81fa9543a59926a6dff86e3c524601fc8254cd28581e701b83ed830368e9",
+        "refill-drc-process.json": "cc30fdf713cf0c9659f4169f2a99db9e897718d4f5eed6372b39ac2f22eed18f"
+      }
+    }
+  },
+  "export": {
+    "receipt": ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/export/export.json",
+    "receipt_sha256": "7f64dce162d61d44e6f73939cf07fd68fa553a1137dba413c6d7645a4d5b7807",
+    "candidate_sha256": "89a6d2333ae2a789c5ba6ee25eefc3a12003e461c6bbe2b09cbc02753033c9f6",
+    "native_report_sha256": "186b84714cbd441ef455e0251cb61aca85d739935102f847bc202d8ebef60f74",
+    "process_sha256": "3ffa533ddf9824f2b77c982046dacffbb312de7f959708cdda3fcc39485d8e46",
+    "binding_sha256": "0d65a7c5366a51891d9030bf772c794761c03e4f1a21144c151822f803dbbfde",
+    "Native_counts": [
+      0,
+      0,
+      26,
+      0
+    ],
+    "Native_application_policy": {
+      "accepted": true,
+      "rejection_reasons": [],
+      "implementation_sha256": {
+        "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+        "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+        "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+        "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+      }
+    },
+    "finding_types": {
+      "warning:lib_footprint_issues": 26
+    },
+    "ignored_checks": {
+      "receipt": ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/export/validation/final-drc.json",
+      "field": "ignored_checks",
+      "sha256": "94bf7a4eacd1aba2798caf7192896c966c67cd3404c00d7b4b33bf91e7e3cf06",
+      "bytes": 465,
+      "text_not_retained": "explicit public sanitize",
+      "keys": [
+        "missing_courtyard",
+        "track_not_centered_on_via",
+        "tuning_profile_track_geometries",
+        "footprint_filters_mismatch",
+        "footprint_type_mismatch"
+      ],
+      "count": 5
+    },
+    "ignored_check_count": 5,
+    "protected_count": null,
+    "whole_project_drc_clean": false,
+    "full_schematic_flag": true,
+    "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification.",
+    "class_evidence": {
+      "policy": {
+        "mode": "native-parent-dimensions-v1",
+        "resolution": "pinned native effective class and explicit parameter parents",
+        "source_class_names": [
+          "Default",
+          "POWER",
+          "SIGNAL"
+        ],
+        "pattern_evaluation_in_python": false
+      },
+      "passed": true,
+      "protected_count": 0,
+      "proof_sha256": {
+        "final-netclasses.json": "88ad0a175bcee33cc42b34e9df8cdbced41dce4c6577b2cb164c895e1b1cf85f",
+        "final-netclass-audit.json": "63a31b4b3ea15a65b20eeb706bf90dd7c91eb4e0a1cdec0a711f0243f4087666",
+        "refill-drc.json": "67d3c9bba4e821908b76de18da78957139bdb3df09ee03e3004d581d8bd4275f",
+        "refill-drc-binding.json": "2db5ca5db9710f7f14baeca1290e3ed0d5200f226b48db4108b0c75a85ba2b5b",
+        "refill-drc-process.json": "7edee8b05c5fd26dde963410824593e51dbc2b89ddf1aa30c2364a25ed449a7a"
+      }
+    }
+  },
+  "trials": {
+    "total": 29,
+    "status_counts": {
+      "drc_rejected": 4,
+      "improvement_validated": 25
+    }
+  },
+  "metrics": {
+    "version": "10.0.7",
+    "pads": 63,
+    "footprints": 26,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 464.0647858114649,
+    "copper_layers": 2
+  },
+  "source_rights": {
+    "family": "ArcDice",
+    "license": "MIT",
+    "provenance": "VorosEgyes/ArcDice@5908d99db1ef98b5996b380c75e5aee8bb8caaa6; retained publisher README/LICENSE; provisional exposed ArcDice revision/derivative cluster; independent ancestry, embedded model/asset title, electrical suitability and CAD redistribution are unqualified. Development use only; no holdout claim."
+  },
+  "source_hashes": {
+    "ArcDice.kicad_pcb": "098e90725279e698f61d7f4a5f0281202ba32f655b9c430047c019783a60bf96",
+    "ArcDice.kicad_pro": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+    "ArcDice.kicad_sch": "388bb0410c3372c2331c84b44ba8a45e10c4b34206a3b28b65cb90057129e4de",
+    "_licenses/creator/LICENSE": "13aa5751cc47416650ad3c976d1c001f32ca3b3d49caac777ae66e819a437298",
+    "_licenses/creator/README.md": "876a106e288ec606cf29239d6129d07b79a134005769ba50ef0d450622c1751b"
+  },
+  "source_original_constraints": true,
+  "whole_project_drc_clean": false,
+  "human_PCB_review": false,
+  "physical_electrical_validation": false,
+  "comparison": "Single regression of the previously exposed ArcDice delivery timeout. Same source/settings/constraints420 routing450 method600 delivery120 export40 internal reserve. Five other shared-controller slots reserved but unexecuted; not a fresh six-arm study, unattended first attempt, completion gain or broad quality claim. Historical062063064 failed deliveries remain unchanged.",
+  "accounting": "Complete exit includes conversion, attempts, selection, validators, render, acceptance intent, fresh Native export, readbacks and guarded publication. Stage/own/Native/trial samples overlap and are not added again. Full224/build/install/query/smoke/freezes/profiling/reviews are additional development costs retained separately. Authoring, AI and unmetered work unknown additional, not zero.",
+  "supporting_sha256": {
+    ".runs/runtime065-arcdice-review-regression-001/protocol.json": "16d14b6ccbde338dfc62524b8dd10d5ab01977d605ed46a06039f4c678ed021b",
+    ".runs/runtime065-arcdice-review-regression-001/enclosure/result.json": "42169089f8cff76c53246059a9ac625da968bdb6a1628b6ff0e8312de7099cf9",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/result.json": "549ab746f18f135c441281dd0b7dd0e4639db8c0891ae546374d2e89fc0e900d",
+    ".runs/runtime065-arcdice-review-regression-001/outer-time.log": "02674e8786022644d534e9e4dfb5858ed5b2acb14e2dfac9bd14f3219978f74d",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/route/result.json": "ced9e455fac2aa6118abb29e5d372ab79bf359aab92f2d611b38cc67795b0b67",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/export/export.json": "7f64dce162d61d44e6f73939cf07fd68fa553a1137dba413c6d7645a4d5b7807",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/review/review.json": "eb99e31ccf9bc1eb016f01a10e7815f5f5b76827ac89a87890bc2eed83b5936b",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/autorouter-gui-02f77fa87fa44e05a4d08c9d0dfc7ed9/choice/choice.json": "64ef2ba0eda55f56c054b6a886d8fd23ae4311cb1f0f98178828aafdead3cb0a",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/preview.process.json": "b7a057b4737e6cb5108be9d020e09832a1bea6e785ed69be8079c8e9e070ea1f",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/route.process.json": "16efb1cb3328616e430dcf22710b8364d27b0957e230b729ad36b19aa6643cfe",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/review.process.json": "38bbb1cd0ad6767f842f639532b74eb1428f2e53532f44483181b70b17e3db91",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/choice.process.json": "1df76b2de7289a91d710ffca9469df8e98db44aa882790c28b386156da7a2bc5",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/export.process.json": "09f806b2d09ea441c5ba725699df9f5f3f3b030eb4eeff320e9142b04a9c0737",
+    ".runs/runtime065 fresh install 001/.runs/native7-method-runtime065-arcdice-review-regression-001-Cimprove/verify_export.process.json": "e1ae0e3a7d8e5a6b421b0d32c7bdaf026f62f523f8fb11860310d4a3463db761",
+    ".runs/review-runtime065-single-delivery-actual-001.json": "b2437cfdf56634577b14875c92cc8b9bf92c970c41ada452b38fe20314de83a7",
+    ".runs/full-integration-224/execution.json": "76eaf887f5ae73e1c4fe280955c53d1586edde83ebace019eeaa5315edf7618f",
+    ".runs/runtime065 fresh install 001/runtime-distribution.json": "e881abd82a06a30828999b55e6c9301ea845f1d6e8b252d36751efe6b21d38fa",
+    ".runs/runtime065-single-delivery-metadata-001-time.log": "71c67f374fb3605366c962c4f2dbf0cdd0bd2182e903efaa9a18f6ca67660164"
+  },
+  "review": {
+    "receipt_sha256": "b2437cfdf56634577b14875c92cc8b9bf92c970c41ada452b38fe20314de83a7",
+    "scope": "Skeptical AI stored-byte/proof review32 own packets incl29 trials; no live reader/Native/test execution or human review."
+  },
+  "remaining": "Separate065 frozen13 cohort/invalid3/ownedclass/install and actualGUI milestone; currentGUI access blocked. No broader completion/cleanup/confirmation/Windows or fullrestoration qualification. Newer raw still outside062capturecutoffs until measured next increment.",
+  "metadata_projection_failure": {
+    "script": ".runs/record-runtime065-single-delivery-001.py",
+    "reason": "The single protocol lacks the optional parent-class reporting marker; Default-only auxiliary helper refused before output. Corrected projection002 uses the existing explicit parent-class auditor without changing protocol or evidence.",
+    "cost": {
+      "wall_seconds": 0.59,
+      "CPU_seconds": 0.34,
+      "user_seconds": 0.19,
+      "system_seconds": 0.15,
+      "time_log_sha256": "71c67f374fb3605366c962c4f2dbf0cdd0bd2182e903efaa9a18f6ca67660164",
+      "source": ".runs/runtime065-single-delivery-metadata-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "Native_executed": false
+  }
+}
