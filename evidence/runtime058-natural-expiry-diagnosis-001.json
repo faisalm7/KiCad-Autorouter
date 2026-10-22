@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "kind": "runtime058-natural-expiry-failed-return-and-archived-positive-diagnosis-v1",
+  "recorded_UTC": "2026-10-22T11:23:40.944386+00:00",
+  "source_only_AI_diagnosis_not_human": true,
+  "new_execution_by_reviewer": false,
+  "Native_rerun": false,
+  "central_reader_rerun_by_reviewer": false,
+  "Java": false,
+  "tests": false,
+  "product_edits": false,
+  "Git": false,
+  "actual_GUI": false,
+  "accepted": false,
+  "project_complete": false,
+  "input_sha256": {
+    ".runs/runtime058-natural-expiry-001/control-result.json": "3f70926f5208b0f6e85aca2505e84144f561a04be9f09ed9e3092c4570024578",
+    ".runs/runtime058-natural-expiry-001/execution.json": "9e6ba619fde4a96a86df93ae753d687a515e0a024a568740768c5a47000b7ebd",
+    ".runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/result.json": "7d9a90ad53ce6151f1f2248d6e3f0739be0e7e49f044663cb5f5255807ed6b75",
+    ".runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/route/result.json": "d7ce86b7ca0ad4d095cfeb99ecf0c23e96a792c7103d8b9a270ab98fa463ab61",
+    ".runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/route/invalidated-result-adbd003ac0424510bb53ca1153d1fc99.json": "d4fe76e512a0b8a6d4422d5f080a8e5725bf0eb6b997580387fbbb513caf56a4",
+    ".runs/runtime058-natural-expiry-archived-reader-002/process.json": "54471af708e34c8e7d0c94578f1685b19b336b9f12dab469885b95437e3e182b",
+    ".runs/runtime058-natural-expiry-archived-reader-002/command.log": "69ecb4fa015844f1fa2175d6229130bb3b47937c8c67100dde705639159e2b7c",
+    ".runs/runtime058-natural-expiry-001-time.log": "0963e0554af41b32d7584aa62519f159b0250037939537dfc1c661e714440479"
+  },
+  "source_sha256": {
+    "autorouter/pipeline.py": "b5d4dde6cf63dfd40c7bbcb2374d7a7515211e767cf849244dabc3af194208b9",
+    "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+    "autorouter/strategy.py": "35724350fbeae58cea4c2326397b63cd010f2f52c33f5e70e79b3cff033651d7",
+    "autorouter/handoff.py": "71755df430f0c0e1cc7eca319c10c909dfdd74022a25a33306e6916874e50ffe",
+    "autorouter/review_export.py": "975c71786b8bb97d723a1ba0b6e6541ba22d00646f6df2068b1fc832d6c3a3ef",
+    "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+    ".runs/runtime058-natural-expiry-draft-001.py": "c88164d259900cd0a3fd9045403c38f17b78fa7f06a120b5916d29d23d4cb3eb"
+  },
+  "actual": {
+    "method_seconds": 90,
+    "work_boundary_seconds": 65,
+    "min_trial_admission_seconds": 4,
+    "trial_count": 13,
+    "improvements": 12,
+    "pending_unattempted_singletons": 30,
+    "finalization_started_elapsed_seconds": 62.77936404198408,
+    "literal65_work_deadline_observed": false,
+    "natural_trial_admission_cutoff_supported": true,
+    "canonical_status": "timeout",
+    "canonical_accepted": false,
+    "canonical_reason": "Rejected: floor budget exceeded during final publication",
+    "canonical_route_wall_seconds": 105.5194122500252,
+    "canonical_route_full_CPU_seconds": 102.382463,
+    "actual_route_CLI_wall_seconds": 105.62174854194745,
+    "full_return_tail_seconds": 42.84238449996337,
+    "Native_counts": [
+      0,
+      0,
+      36,
+      0
+    ],
+    "candidate_sha256": "bb37a1dc0f71966782cf59a2a8526369edb01ea651958aac0f4c1cb346bffe9a",
+    "completed_workflow_stages": [
+      "preview",
+      "route"
+    ],
+    "review_executed": false,
+    "choice_executed": false,
+    "export_executed": false,
+    "background_export_inspection_executed": false,
+    "workflow_delivered": false,
+    "complete_external_wall_seconds": 107.63,
+    "complete_external_full_CPU_seconds": 105.08
+  },
+  "publication_observation": {
+    "provisional_positive_wall_seconds": 75.12205262493808,
+    "provisional_positive_full_CPU_seconds": 72.068822,
+    "finalization_to_provisional_account_wall_seconds": 12.342688582953997,
+    "provisional_account_to_failed_canonical_wall_seconds": 30.39735962508712,
+    "provisional_account_to_failed_canonical_CPU_seconds": 30.313641000000004,
+    "scope": "Stored samples bound aggregate intervals, not a per-function profile. The single13.11s standalone archived reader is a later observation, not an exact decomposition of publication cost."
+  },
+  "findings": [
+    {
+      "severity": "high",
+      "issue": "Invalidated provisional positive is accepted by public consistency reader",
+      "actual_reader": {
+        "status": "success",
+        "exit_code": 0,
+        "current": true,
+        "applied": false,
+        "sampled_wall_seconds": 13.112165292026475,
+        "sampled_CPU_seconds": 12.933701000000001
+      },
+      "source_cause": "Positive _check_result_uncached resolves the supplied pathname before parsing and has no required result.json name fence. _check_result_scoped canonical-name conditions merely decide cache eligibility; native7 parents go through uncached dispatch. The completed-negative reader already requires exact canonical result.json. floor.publish deliberately preserves provisional positives under invalidated-result-* while excluding those archive names from evidence inventory.",
+      "handoff_exposure": "Source-only: h._review_copy accepts any real filename, binds the same parent/candidate/evidence, then relies on check_result. _review_choice and review_export.bind keep that supplied receipt identity and likewise rely on central checking; review/choice filenames are guarded but the source routing filename is not. An archive accepted centrally has no independent source-name fence on these paths. No actual review/choice/export from the archive was attempted. Fresh Native export would still be required; no electrically invalid application/export is demonstrated.",
+      "minimal_fix": "Use one exact canonical result-path contract for every positive/public reader and direct uncached entry: original absolute target must be named result.json and equal its strict resolved path before resolving/dispatching/cache branches. Apply to ordinary, native7 parent/privatechild, comparison and explicit Native-toolchain paths. Reuse the completed-negative rule; prefix blacklists alone are insufficient. Preserve archive bytes as forensic history, never as current authority.",
+      "compatibility": "Scoped cache, negative reader and all observed normal producer/child/comparison/handoff callers already use */result.json. No documented legitimate accepted non-result.json API caller was observed in the bounded source callsite scan; this is not an exhaustive external-client audit."
+    },
+    {
+      "severity": "high",
+      "issue": "Live work admission stopped but reserved usable return failed",
+      "source_cause": "strategy.prune records work stop and validates final candidate, then floor.publish calls stable/account/write, stable, one full p.check_result, stable and final remaining() check. Stable replays selected7 selection/Context/Default/source/tool/metadata; the central read also performs full incumbent/trial/parent consistency. The final late cap correctly invalidates the canonical positive. Current reserve does not guarantee complete final proof/publication fits.",
+      "smallest_valid_direction": "Preserve the late whole wall/fullCPU acceptance check and the full parent/incumbent/trial/Native/selection read. First consider existing operation-local validation_readback_session around publication to avoid reconstructed Context construction, then remove only redundant semantic replays across pure publication using the already reviewed original-Context/owner/seal/live-policy/full-byte witness pattern plus final all-root PRL guards. No accepted-result cache, skipped fresh Native, new budget or approximate acceptance. This is a source candidate, not an established25s repair; qualification must show complete return. If the mandatory remaining full read cannot fit, scheduling must stop work earlier based on conservative complete return work, or the control must remain refused; do not substitute the75.12s inner sample for actual return."
+    },
+    {
+      "severity": "metadata",
+      "issue": "Original draft emitted an unconditional authority description after early failure",
+      "original_field": "own_proof_authority",
+      "correction": "Only Preview and Route ran. The failed Route performed its own final Native checks and final publication reader, but no full exported-parent reader, export worker or background export inspection ran. Original control-result bytes are preserved; this separate note supplies the correction."
+    }
+  ],
+  "safety_and_scope": "Candidate Native0/0/36/0 and12 observed improvements establish retained Native-valid geometry only. Canonical timeout is a failed accepted return and no delivered project. Do not promote the archived positive or claim safe-incumbent usability. Existing058comparison rows use their own canonical finals and are not restitched; this discovery limits noncanonical-reader freshness claims. CellScan remains an unexecuted draft. No retry, extra budget, fake clock, SIGSTOP, source alteration or new Native execution."
+}

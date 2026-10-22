@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/retain-runtime058-natural-expiry-001.py", line 24, in <module>
+    summary=dict(schema=1,kind='runtime058-normal-Improve90-return-budget-negative-v1',accepted=False,production_admitted=False,project_complete=False,actual_GUI=False,human_review=False,workflow_delivered=False,strict_return_passed=False,source_head='8f5e96b88dd22cd25919bb71ce47711612994efa',runtime_manifest_sha256='4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74',recorded_stages=['preview','route'],route_status=r['status'],reason=r['reason'],trial_count=control['trial_count'],improvements=control['improvements'],pending_unattempted_singletons=control['pending_unattempted_singletons'],finalization_started_elapsed_seconds=control['finalization_started_elapsed_seconds'],complete_route_CLI_wall_seconds=control['complete_route_CLI_wall_seconds'],complete_return_tail_seconds=control['complete_route_return_tail_seconds'],admission_stop_inference=control['natural_time_admission_stop_supported'],literal_work_deadline_observed=control['literal_work_limit_observed'],recorded_undelivered_candidate_counts=[r['native'][k] for k in ('opens','blocking','warnings','exclusions')],candidate_sha256=r['candidate_sha256'],route_receipt_sha256=p.sha(route),final_Native_report_sha256=p.sha(route.parent/'final-drc.json'),complete_external_cost=complete_cost(ROOT/'.runs/runtime058-natural-expiry-001-time.log'),source_unchanged=control.get('freshness_error') is None and control.get('publication_freshness_error') is None,invalid_control_field='Original control-result own_proof_authority text unconditionally describes a completed exporter; that field is incorrect for this failed attempt. Only preview and route ran. No review/choice/export/export inspection occurred. Original bytes are retained, not silently corrected.',decision='Demonstrated general return-budget usability failure; guard refused rather than accepting after budget. Preserve the verified but undelivered candidate as evidence only; no retry/cap increase/fallback or success claim. Diagnose proof/publication cost before a new product build.',accounting='Complete external execution includes nested enclosure/CLI costs once; curation/diagnosis/authoring/review are additional, unknown until measured. A sub65s admission cutoff with pending proposals is not literal65s expiry evidence.',retention='Owned numeric/process/controller metadata only; actual source/CAD/DSN/SES/final Native findings/bindings remain private on this Mac. Facts are not their backup.',files_index=dict(path=str(idx.relative_to(ROOT)),sha256=p.sha(idx)))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 70, in complete_cost
+    require(all(math.isfinite(v) and v >= 0 for v in (wall, user, system)), 'invalid complete exit cost')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py", line 70, in <genexpr>
+    require(all(math.isfinite(v) and v >= 0 for v in (wall, user, system)), 'invalid complete exit cost')
+                ^^^^
+NameError: name 'math' is not defined. Did you mean: 'Path'?
+real 0.17
+user 0.09
+sys 0.02
+            46858240  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3622  page reclaims
+                  12  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 422  voluntary context switches
+                 172  involuntary context switches
+          1011485914  instructions retired
+           419819312  cycles elapsed
+            37175800  peak memory footprint

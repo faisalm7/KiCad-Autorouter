@@ -505,3 +505,17 @@ exclusion, licence judgement or absence-of-sources claim. HFE's mistaken
 unacquired description was corrected against its already acquired evidence;
 that board was not reacquired or rerun. No Native/engine/CAD acquisition follows
 from this search, and reserved families remain untouched.
+
+### October 22 official Freerouting release metadata
+
+At 2026-10-22T10:46:23 UTC, one bounded HTTP 200 GET of the official latest-release
+API reported [Freerouting v2.5.0](https://github.com/freerouting/freerouting/releases/tag/v2.5.0),
+published 2026-10-05T15:58:39Z, neither draft nor prerelease. This matches the
+already frozen engine version; no comparison inputs or runtime changed.
+[Owned metadata receipt](evidence/freerouting-release-reality-20261022-001.json)
+binds the 35,858-byte response by hash; the response body remains local.
+Complete acquisition cost of 0.49 wall / 0.05 CPU seconds is additional to routing costs;
+authoring/review costs are unknown additional, not zero. An earlier web-tool
+InternalError was a tool failure, not an observed upstream HTTP status.
+This point-in-time metadata does not establish binary compatibility, safety,
+engine ranking, Native qualification or a permanently latest version.

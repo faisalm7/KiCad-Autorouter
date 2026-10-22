@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "kind": "runtime058-invalidated-positive-receipt-identity-defect-v1",
+  "accepted": false,
+  "production_admitted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "Native_executed": false,
+  "applied": false,
+  "confirmed": true,
+  "severity": "High: stale positive/budget consistency and review-source provenance bypass; no demonstrated electrically invalid export",
+  "source_head": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+  "runtime_manifest_sha256": "4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74",
+  "canonical_receipt": {
+    "sha256": "d7ce86b7ca0ad4d095cfeb99ecf0c23e96a792c7103d8b9a270ab98fa463ab61",
+    "accepted": false,
+    "status": "timeout",
+    "reason": "Rejected: floor budget exceeded during final publication",
+    "wall_seconds": 105.5194122500252,
+    "CPU_seconds": 102.382463
+  },
+  "archived_receipt": {
+    "sha256": "d4fe76e512a0b8a6d4422d5f080a8e5725bf0eb6b997580387fbbb513caf56a4",
+    "accepted": true,
+    "status": "routing_accepted",
+    "wall_seconds": 75.12205262493808,
+    "CPU_seconds": 72.068822
+  },
+  "actual_reader_result": {
+    "current": true,
+    "candidate": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/route/candidate/EEPROM_Board.kicad_pcb",
+    "candidate_sha256": "bb37a1dc0f71966782cf59a2a8526369edb01ea651958aac0f4c1cb346bffe9a",
+    "applied": false,
+    "authentication": "none; mutable local evidence consistency only",
+    "warning": "Fresh native validation is required before application; human PCB review and electrical/physical validation remain required."
+  },
+  "process_sha256": "54471af708e34c8e7d0c94578f1685b19b336b9f12dab469885b95437e3e182b",
+  "complete_actual_cost": {
+    "wall_seconds": 13.2,
+    "CPU_seconds": 13.06,
+    "user_seconds": 11.17,
+    "system_seconds": 1.89,
+    "time_log_sha256": "3884c3c3ed9b70166001198fdb9649e0e427510990ee63339054293fe4ccbec9",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-natural-expiry-archived-reader-002-time.log",
+    "scope": "Complete external exit; nested method/Native samples are included, not added again."
+  },
+  "additional_setup_failure_cost": {
+    "wall_seconds": 0.11,
+    "CPU_seconds": 0.09,
+    "user_seconds": 0.07,
+    "system_seconds": 0.02,
+    "time_log_sha256": "213d1e0a6d6c15edc48e4273d6a12086e9d53fa243a0204d2e68609d45b8bb18",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-natural-expiry-archived-reader-001-time.log",
+    "scope": "Complete external exit; nested method/Native samples are included, not added again."
+  },
+  "inputs_unchanged": true,
+  "child_environment": "Child-only PYTHONPATH selects immutable runtime058; scratch CWD rather than runtime CWD is size-guarded. No global environment/security change.",
+  "setup_failure": "001 size guard counted whole runtime CWD and refused before CLI launch, with no command.log; no reader refusal was established.002 changes only the scratch CWD/module selection, retaining90s/2GiB/2MiB limits.",
+  "observation": "The public check-result CLI returned current:true for invalidated-result-*.json while canonical result.json was timeout/accepted:false. Review-source consumers call this central reader without an independent filename fence, per source inspection; no review/choice/export was executed in this reproducer.",
+  "decision": "Fix exact canonical result.json identity for every positive-reader dispatch, not just invalidated-* prefixes. Retain a regression and fresh Native/installation qualification. Do not renew archival positives or claim fixed before tests.",
+  "accounting": "Actual and setup-failure exits separate; no Native/routing/GUI work. Curation, diagnosis, authoring and review additional. Outer inline supervisor source was not saved before execution; its argv/CWD/limits and observed outputs are retained, not a fabricated pre-execution controller pin.",
+  "files_index": {
+    "path": "evidence/runtime058-archived-receipt-defect-001-notes/files.json",
+    "sha256": "6ade94055cde1591ab5caad984f1dccbf8e71f3c2c9e116db2c768f55f04de72"
+  }
+}

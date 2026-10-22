@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 120.61754670809023,
+  "cpu_seconds": 115.500494,
+  "max_rss_bytes": 255328256,
+  "supervisor_cpu_seconds": 0.389389,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 272039936,
+  "sampled_peak_workdir_bytes": 225,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058 fresh install 001/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_comparison_portfolio.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058 fresh install 001",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-installed-three-family-001/ds18b20/B2_portfolio/protocol.json",
+    "--protocol-sha256",
+    "350d2a09ec184142fcf206604f93d9e52d990ac33fc8d079d80657ca6ee043a1"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-installed-three-family-001/ds18b20/B2_portfolio/enclosure/command.log",
+  "log_bytes": 225,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-installed-three-family-001/ds18b20/B2_portfolio/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 74950
+}

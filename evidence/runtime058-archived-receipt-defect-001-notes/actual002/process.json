@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 13.112165292026475,
+  "cpu_seconds": 12.933701000000001,
+  "max_rss_bytes": 260751360,
+  "supervisor_cpu_seconds": 0.037322999999999995,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 260734976,
+  "sampled_peak_workdir_bytes": 569,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.venv/bin/python",
+    "-B",
+    "-m",
+    "autorouter",
+    "check-result",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/route/invalidated-result-adbd003ac0424510bb53ca1153d1fc99.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-natural-expiry-archived-reader-002/command.log",
+  "log_bytes": 569,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-natural-expiry-archived-reader-002",
+  "signal_cancellation_enabled": true,
+  "pid": 78464
+}

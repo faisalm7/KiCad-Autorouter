@@ -2,9 +2,9 @@
 
 **Unperformed owner-validation plan:** no independent human PCB review, cleanup timing, physical/electrical test, reviewer contact, order or spending has occurred under this plan. Contacting a reviewer or sharing a specific pack needs separate owner approval; incremental external spending remains$0 unless approved. AI review and Native checks are not human or physical observations.
 
-## Current056 entry point
+## Current058 entry point
 
-Use the [current056 review materials/index](runtime056-engineer-review.md), [CLI](quickstart.md) and [GUI contract](gui-workflow.md). They identify the exact current artifact and local hashes. Review/cleanup/physical observations remain unperformed. The older candidate paragraphs/commands below are historical and confer no056 qualification; the defect, blinding, timing, physical-readiness and authorization protocol remains applicable. Do not repeat completed historical experiments or recopy old CAD packs.
+Use the [current058 custodian materials](runtime058-engineer-review.md), [completed installed18-arm study](benchmark-runtime058-installed.md), [CLI](quickstart.md) and [GUI contract](gui-workflow.md). The study retains16deliveries/two stock negatives with no completion advantage overB1/B2; matched cleanup selection and actual human fields remain unperformed/null. A new High archived-invalidated-positive readback bypass and failed natural-return control block release/readback safety: hold human-pack execution until repair/new-candidate qualification. Existing canonical Native-positive results remain evidence, not blanket invalidated. No CAD pack/contact/randomization/physical work occurred. The older paragraphs/commands below are historical and confer no058 qualification. Existing defect, blinding, timing, physical-readiness and authorization procedures stay unchanged.
 
 ## Historical039 candidate and exact inputs
 

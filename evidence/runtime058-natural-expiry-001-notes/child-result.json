@@ -1,0 +1,1190 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "workflow_delivered": false,
+  "status": "failed",
+  "actual_GUI": false,
+  "human_review": false,
+  "method": "improve",
+  "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-eeprom-001/reference-project/EEPROM_Board.kicad_pcb",
+  "source_hashes": {
+    "EEPROM_Board.kicad_pcb": "669ddc8b96718f36db3f2281025f4cbc717041ed5e9ed8547922fab9d27096f6",
+    "EEPROM_Board.kicad_pro": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+    "EEPROM_Board.kicad_sch": "a47e4f38a2670abd7d61bedbe868f93c33788d5dc9b5b3145f4b977e5ebcb3a3"
+  },
+  "tools": {
+    "implementation_sha256": {
+      "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+      "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+      "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+      "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+      "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+      "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+      "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+      "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+      "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+      "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+      "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+      "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+      "autorouter/gui.py": "d5f4a0e042bec68c55c7b789cd61de39ef3eee6e8e223ac285a241af8980327b",
+      "autorouter/handoff.py": "71755df430f0c0e1cc7eca319c10c909dfdd74022a25a33306e6916874e50ffe",
+      "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+      "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+      "autorouter/local_settings.py": "22b0e82b010ab807d366713c3f5b5492bc108adb09b70bb7eddcafa2f52c2920",
+      "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+      "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+      "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+      "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+      "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+      "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+      "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+      "autorouter/pipeline.py": "b5d4dde6cf63dfd40c7bbcb2374d7a7515211e767cf849244dabc3af194208b9",
+      "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+      "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+      "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+      "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+      "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+      "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+      "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+      "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+      "autorouter/review_export.py": "975c71786b8bb97d723a1ba0b6e6541ba22d00646f6df2068b1fc832d6c3a3ef",
+      "autorouter/review_view.py": "110f9e750c7b7699aaef7021e6d5b5cdec5d7dc136c6ee73f19f6d0d04181748",
+      "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+      "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+      "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+      "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+      "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+      "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+      "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+      "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+      "autorouter/strategy.py": "35724350fbeae58cea4c2326397b63cd010f2f52c33f5e70e79b3cff033651d7",
+      "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+      "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+      "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+      "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+      "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72"
+    },
+    "git_head": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+    "source_provenance": {
+      "kind": "runtime-directory-v1",
+      "git_head": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+      "build_source": {
+        "files_sha256": {
+          "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+          "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+          "autorouter/_improve_context.py": "b83a43cfb1bc1d06d6f68a4ed0bc9dff3bb7bfecc4bc7b9ce06415accec031d4",
+          "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+          "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+          "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+          "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+          "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+          "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+          "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+          "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+          "autorouter/floor_route.py": "46595170e798a71a93ff93d509b156c45a735fa1dbf07707cb85eb56b8e50e66",
+          "autorouter/gui.py": "d5f4a0e042bec68c55c7b789cd61de39ef3eee6e8e223ac285a241af8980327b",
+          "autorouter/handoff.py": "71755df430f0c0e1cc7eca319c10c909dfdd74022a25a33306e6916874e50ffe",
+          "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+          "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+          "autorouter/local_settings.py": "22b0e82b010ab807d366713c3f5b5492bc108adb09b70bb7eddcafa2f52c2920",
+          "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+          "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+          "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+          "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+          "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+          "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+          "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+          "autorouter/pipeline.py": "b5d4dde6cf63dfd40c7bbcb2374d7a7515211e767cf849244dabc3af194208b9",
+          "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+          "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+          "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+          "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+          "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+          "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+          "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+          "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+          "autorouter/review_export.py": "975c71786b8bb97d723a1ba0b6e6541ba22d00646f6df2068b1fc832d6c3a3ef",
+          "autorouter/review_view.py": "110f9e750c7b7699aaef7021e6d5b5cdec5d7dc136c6ee73f19f6d0d04181748",
+          "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+          "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+          "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+          "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+          "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+          "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+          "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+          "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+          "autorouter/strategy.py": "35724350fbeae58cea4c2326397b63cd010f2f52c33f5e70e79b3cff033651d7",
+          "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+          "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+          "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+          "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+          "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+          "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+          "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+          "toolchain.lock.json": "cec0446e5ed3554b0c0b286cbb61e5aceb5bc013e87839db3f7081b9fd2f24d9"
+        },
+        "git_head": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+        "kind": "git-checkout"
+      },
+      "manifest_sha256": "4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74",
+      "native_version": "10.0.7"
+    },
+    "kicad": "10.0.7",
+    "freerouting": "2.5.0",
+    "files": {
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli": "0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3.9": "fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so": "610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e",
+      "/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java": "7c809be6b69f3fcc388afdacbcafae4e5a7f380a27483ff27c722e5e44521ed6",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.tools/freerouting-2.5.0.jar": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7"
+    },
+    "network": "engine sandbox-exec deny network*",
+    "normal_drc_local_settings_policy": "job-owned-prl-immutable-v1",
+    "normal_selected_proposal_import_policy": "selected-proposals-exact-source-v1",
+    "normal_protected_via_import_policy": "legacy-via-off-source-v3",
+    "normal_task_copper_fixed_policy": "native-task-copper-fixed-v1",
+    "normal_native_export_alias_policy": "source-bound-padless-export-v1",
+    "comparison_route_policy": "selected-native7-fixed-comparison-v2",
+    "native_improve_child_policy": "selected-native7-single-improve-child-v1"
+  },
+  "settings": {
+    "adapter": "both",
+    "guidance": "native",
+    "layers": "source_all",
+    "profile": "tuned",
+    "schema": 1,
+    "scope": "whole_board_unlocked_routing",
+    "scoring_preference": null,
+    "seconds": 90
+  },
+  "settings_path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-natural-expiry-001/settings.json",
+  "settings_sha256": "5b82b6a50dcb6e10ba34705b04d4e210825e6c39ef21c971d4bc12eb233e6a87",
+  "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0",
+  "driver_sha256": "0b1a3bc61e576d6475a4c922a7727b7831ccf28f3e0a9d2d80b557e3c1964034",
+  "processes": [
+    {
+      "stage": "preview",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "preview",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-eeprom-001/reference-project/EEPROM_Board.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/settings.json",
+          "--purpose",
+          "improve"
+        ],
+        "exit_code": 0,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 1008,
+        "wall_seconds": 0.22977700002957135,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "96f07218d2bf0766636a02a043217e6932ada6f819fe3002dac3e7e31ad77b68"
+    },
+    {
+      "stage": "route",
+      "process": {
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.venv/bin/python",
+          "-B",
+          "-m",
+          "autorouter",
+          "improve",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-eeprom-001/reference-project/EEPROM_Board.kicad_pcb",
+          "--settings",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/settings.json",
+          "--output",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/route"
+        ],
+        "exit_code": 2,
+        "cancel_requested": false,
+        "log_truncated": false,
+        "log_bytes": 597,
+        "wall_seconds": 105.62174854194745,
+        "cleanup_scope": "CLI existing workers; UI does not certify descendant cleanup"
+      },
+      "log_sha256": "455141df91ad9b077b8e2873fd6a740622039ff336952deaabf1b9db88f32179"
+    }
+  ],
+  "whole_budget_seconds": 240,
+  "scope": "New curated runtime using actual production Request/Workflow/CliJob/CLI and native proof readers, owned complete schematic and protected copper. SOFTWARE TEST accept intent; no actual window/human/comparative/standalone claim.",
+  "error": "ValueError: Routing refused: Rejected: floor budget exceeded during final publication\nNo candidate accepted. Full failure receipt: /Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-natural-expiry-eeprom-001/autorouter-gui-9bfb9e1a759f42718111d22bf25bcfc0/route/result.json",
+  "route_receipt_sha256": "d7ce86b7ca0ad4d095cfeb99ecf0c23e96a792c7103d8b9a270ab98fa463ab61",
+  "route_status": "timeout",
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 36,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Footprint has no courtyard defined",
+        "key": "missing_courtyard"
+      },
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      },
+      {
+        "description": "Footprint doesn't match symbol's footprint filters",
+        "key": "footprint_filters_mismatch"
+      },
+      {
+        "description": "PTH inside courtyard",
+        "key": "pth_inside_courtyard"
+      },
+      {
+        "description": "NPTH inside courtyard",
+        "key": "npth_inside_courtyard"
+      },
+      {
+        "description": "Footprint component type doesn't match footprint pads",
+        "key": "footprint_type_mismatch"
+      }
+    ],
+    "findings": [
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 144.75,
+              "y": 89.425
+            },
+            "uuid": "00d72169-ed51-4dae-8096-f83b2f97e7bb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Diode_SMD'",
+        "items": [
+          {
+            "description": "Footprint D4",
+            "pos": {
+              "x": 124.49,
+              "y": 95.03
+            },
+            "uuid": "0a2bff8c-606e-414f-bb4e-8ab7008b3b95"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H3",
+            "pos": {
+              "x": 109.435,
+              "y": 111.045
+            },
+            "uuid": "1ada37de-cf5f-4e7d-9bb8-5d76f0af2505"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 153.6975,
+              "y": 100.93
+            },
+            "uuid": "20c1f282-b9ab-4f47-b200-106fefaf81cf"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 153.6975,
+              "y": 97.08
+            },
+            "uuid": "2c77bcc1-49d7-4177-8579-2f7e17403fd2"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'LED_SMD'",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 146.635,
+              "y": 89.475
+            },
+            "uuid": "2cc31b64-1d30-4740-8725-dc005e558516"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_SO'",
+        "items": [
+          {
+            "description": "Footprint U1",
+            "pos": {
+              "x": 148.26,
+              "y": 98.33
+            },
+            "uuid": "4034d13a-c873-49bd-9f87-64654abfa6bb"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H4",
+            "pos": {
+              "x": 166.96,
+              "y": 111.045
+            },
+            "uuid": "5f1af201-362c-487d-8361-617b4eb253f7"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 142.8475,
+              "y": 100.33
+            },
+            "uuid": "6a4fd939-da65-4eb9-adf6-24a06b3203cd"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 123.9675,
+              "y": 97.16
+            },
+            "uuid": "7f04244b-7026-4a5f-886c-97fe370fdb42"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 153.6975,
+              "y": 99.03
+            },
+            "uuid": "a3a98eb9-e875-439b-b8ca-5ec1701d41b1"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Button_Switch_THT'",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 130.0,
+              "y": 93.33
+            },
+            "uuid": "a618cc8d-35b0-479d-83ef-9bcdf76c4e6a"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 153.71,
+              "y": 95.08
+            },
+            "uuid": "ab9bf665-6a2b-4cbb-bb89-19535b869fbf"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+        "items": [
+          {
+            "description": "Footprint U2",
+            "pos": {
+              "x": 144.76,
+              "y": 93.23
+            },
+            "uuid": "bdb8eb43-7099-4988-8128-3b1892e32c6c"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+        "items": [
+          {
+            "description": "Footprint Q1",
+            "pos": {
+              "x": 120.3025,
+              "y": 96.62
+            },
+            "uuid": "c8f6ebd2-c81a-4db9-bf54-65448a34b4c0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H1",
+            "pos": {
+              "x": 166.96,
+              "y": 82.145
+            },
+            "uuid": "d3eaf0b7-2b6f-41cf-a4d3-9374050179ce"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 142.8475,
+              "y": 96.43
+            },
+            "uuid": "e10df293-db58-4481-9661-c88ce2efdb28"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'MountingHole'",
+        "items": [
+          {
+            "description": "Footprint H2",
+            "pos": {
+              "x": 109.435,
+              "y": 82.145
+            },
+            "uuid": "e2869e4d-e7ac-4616-93f7-0e4b0ebe66d0"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 142.8475,
+              "y": 98.38
+            },
+            "uuid": "ee98f355-e479-48b7-9c26-531561a9dd5f"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 114.285,
+              "y": 90.365
+            },
+            "uuid": "0a99623c-5112-4d2e-a3a5-e35ea39d7463"
+          }
+        ],
+        "severity": "warning",
+        "type": "lib_footprint_issues"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint C1",
+            "pos": {
+              "x": 153.71,
+              "y": 95.08
+            },
+            "uuid": "ab9bf665-6a2b-4cbb-bb89-19535b869fbf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint D1",
+            "pos": {
+              "x": 146.635,
+              "y": 89.475
+            },
+            "uuid": "2cc31b64-1d30-4740-8725-dc005e558516"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint H1",
+            "pos": {
+              "x": 166.96,
+              "y": 82.145
+            },
+            "uuid": "d3eaf0b7-2b6f-41cf-a4d3-9374050179ce"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint H2",
+            "pos": {
+              "x": 109.435,
+              "y": 82.145
+            },
+            "uuid": "e2869e4d-e7ac-4616-93f7-0e4b0ebe66d0"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint H3",
+            "pos": {
+              "x": 109.435,
+              "y": 111.045
+            },
+            "uuid": "1ada37de-cf5f-4e7d-9bb8-5d76f0af2505"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint H4",
+            "pos": {
+              "x": 166.96,
+              "y": 111.045
+            },
+            "uuid": "5f1af201-362c-487d-8361-617b4eb253f7"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J1",
+            "pos": {
+              "x": 114.285,
+              "y": 90.365
+            },
+            "uuid": "0a99623c-5112-4d2e-a3a5-e35ea39d7463"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R1",
+            "pos": {
+              "x": 142.8475,
+              "y": 96.43
+            },
+            "uuid": "e10df293-db58-4481-9661-c88ce2efdb28"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R2",
+            "pos": {
+              "x": 142.8475,
+              "y": 98.38
+            },
+            "uuid": "ee98f355-e479-48b7-9c26-531561a9dd5f"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R3",
+            "pos": {
+              "x": 142.8475,
+              "y": 100.33
+            },
+            "uuid": "6a4fd939-da65-4eb9-adf6-24a06b3203cd"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R4",
+            "pos": {
+              "x": 153.6975,
+              "y": 97.08
+            },
+            "uuid": "2c77bcc1-49d7-4177-8579-2f7e17403fd2"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R5",
+            "pos": {
+              "x": 153.6975,
+              "y": 99.03
+            },
+            "uuid": "a3a98eb9-e875-439b-b8ca-5ec1701d41b1"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R6",
+            "pos": {
+              "x": 153.6975,
+              "y": 100.93
+            },
+            "uuid": "20c1f282-b9ab-4f47-b200-106fefaf81cf"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R7",
+            "pos": {
+              "x": 144.75,
+              "y": 89.425
+            },
+            "uuid": "00d72169-ed51-4dae-8096-f83b2f97e7bb"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint R8",
+            "pos": {
+              "x": 123.9675,
+              "y": 97.16
+            },
+            "uuid": "7f04244b-7026-4a5f-886c-97fe370fdb42"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      },
+      {
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint SW1",
+            "pos": {
+              "x": 130.0,
+              "y": 93.33
+            },
+            "uuid": "a618cc8d-35b0-479d-83ef-9bcdf76c4e6a"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "field_parity": {
+      "schema": 1,
+      "policy": "datasheet-absence-only-v1",
+      "native_report_sha256": "3573b3105fe6bb7047150228651653bcb87bd43604e04da87bb5ff7f0132d5b2",
+      "binding_sha256": "661435bfa8bac21edd2f92dd5b461c7faec5ad056ffd3cf4bb4ecc9b9f7b8aa9",
+      "netlist_sha256": "7b458d7c22e6ac375e63d9e32766a3fa7a41460ece2e95e7690820dc9f63e390",
+      "fields_sha256": "704ccf89b2fdfdc32a4ae0cefef1aee7a00eb93fb281dbe00fa5fc2835795056",
+      "qualification": {
+        "qualified": true,
+        "policy": "datasheet-effective-empty-v1",
+        "component_count": 20,
+        "compared_field_count": 81,
+        "comparison_map": [
+          {
+            "reference": "C1",
+            "uuid": "ab9bf665-6a2b-4cbb-bb89-19535b869fbf",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Unpolarized capacitor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Unpolarized capacitor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "D1",
+            "uuid": "2cc31b64-1d30-4740-8725-dc005e558516",
+            "schematic_fields": {
+              "Sim.Pins": "1=K 2=A",
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Light emitting diode"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Light emitting diode",
+              "Sim.Pins": "1=K 2=A",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "D4",
+            "uuid": "0a2bff8c-606e-414f-bb4e-8ab7008b3b95",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bzt52b2v4.pdf",
+              "Description": "500mW Zener Diode, SOD-123F"
+            },
+            "pcb_fields": {
+              "Datasheet": "https://diotec.com/tl_files/diotec/files/pdf/datasheets/bzt52b2v4.pdf",
+              "Description": "500mW Zener Diode, SOD-123F",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "H1",
+            "uuid": "d3eaf0b7-2b6f-41cf-a4d3-9374050179ce",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Mounting Hole with connection"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Mounting Hole with connection",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "H2",
+            "uuid": "e2869e4d-e7ac-4616-93f7-0e4b0ebe66d0",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Mounting Hole with connection"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Mounting Hole with connection",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "H3",
+            "uuid": "1ada37de-cf5f-4e7d-9bb8-5d76f0af2505",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Mounting Hole with connection"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Mounting Hole with connection",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "H4",
+            "uuid": "5f1af201-362c-487d-8361-617b4eb253f7",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Mounting Hole with connection"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Mounting Hole with connection",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "J1",
+            "uuid": "0a99623c-5112-4d2e-a3a5-e35ea39d7463",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Generic connector, double row, 02x06, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Generic connector, double row, 02x06, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "Q1",
+            "uuid": "c8f6ebd2-c81a-4db9-bf54-65448a34b4c0",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "http://www.aosmd.com/pdfs/datasheet/AO3401A.pdf",
+              "Description": "-4.0A Id, -30V Vds, P-Channel MOSFET, SOT-23"
+            },
+            "pcb_fields": {
+              "Datasheet": "http://www.aosmd.com/pdfs/datasheet/AO3401A.pdf",
+              "Description": "-4.0A Id, -30V Vds, P-Channel MOSFET, SOT-23",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R1",
+            "uuid": "e10df293-db58-4481-9661-c88ce2efdb28",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R2",
+            "uuid": "ee98f355-e479-48b7-9c26-531561a9dd5f",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R3",
+            "uuid": "6a4fd939-da65-4eb9-adf6-24a06b3203cd",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R4",
+            "uuid": "2c77bcc1-49d7-4177-8579-2f7e17403fd2",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R5",
+            "uuid": "a3a98eb9-e875-439b-b8ca-5ec1701d41b1",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R6",
+            "uuid": "20c1f282-b9ab-4f47-b200-106fefaf81cf",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R7",
+            "uuid": "00d72169-ed51-4dae-8096-f83b2f97e7bb",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "R8",
+            "uuid": "7f04244b-7026-4a5f-886c-97fe370fdb42",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "Resistor"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "Resistor",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "SW1",
+            "uuid": "a618cc8d-35b0-479d-83ef-9bcdf76c4e6a",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "",
+              "Description": "4x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol"
+            },
+            "pcb_fields": {
+              "Datasheet": "~",
+              "Description": "4x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "U1",
+            "uuid": "4034d13a-c873-49bd-9f87-64654abfa6bb",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "http://www.st.com/content/ccc/resource/technical/document/datasheet/b0/d8/50/40/5a/85/49/6f/DM00071904.pdf/files/DM00071904.pdf/jcr:content/translations/en.DM00071904.pdf",
+              "Description": "2Kb (256x8) I2C Serial EEPROM, 2.5-5.5V, SOIC-8"
+            },
+            "pcb_fields": {
+              "Datasheet": "http://www.st.com/content/ccc/resource/technical/document/datasheet/b0/d8/50/40/5a/85/49/6f/DM00071904.pdf/files/DM00071904.pdf/jcr:content/translations/en.DM00071904.pdf",
+              "Description": "2Kb (256x8) I2C Serial EEPROM, 2.5-5.5V, SOIC-8",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          },
+          {
+            "reference": "U2",
+            "uuid": "bdb8eb43-7099-4988-8128-3b1892e32c6c",
+            "schematic_fields": {
+              "Sim.Device": "",
+              "Sim.Library": "",
+              "Datasheet": "http://www.vishay.com.hk/docs/66597/sip32431.pdf",
+              "Description": "10 pA, Ultra Low Leakage and Quiescent Current, Load Switch with Reverse Blocking, High Enable, SC-70-6"
+            },
+            "pcb_fields": {
+              "Datasheet": "http://www.vishay.com.hk/docs/66597/sip32431.pdf",
+              "Description": "10 pA, Ultra Low Leakage and Quiescent Current, Load Switch with Reverse Blocking, High Enable, SC-70-6",
+              "Sim.Device": "",
+              "Sim.Library": ""
+            }
+          }
+        ],
+        "warning_uuids": [
+          "00d72169-ed51-4dae-8096-f83b2f97e7bb",
+          "0a99623c-5112-4d2e-a3a5-e35ea39d7463",
+          "1ada37de-cf5f-4e7d-9bb8-5d76f0af2505",
+          "20c1f282-b9ab-4f47-b200-106fefaf81cf",
+          "2c77bcc1-49d7-4177-8579-2f7e17403fd2",
+          "2cc31b64-1d30-4740-8725-dc005e558516",
+          "5f1af201-362c-487d-8361-617b4eb253f7",
+          "6a4fd939-da65-4eb9-adf6-24a06b3203cd",
+          "7f04244b-7026-4a5f-886c-97fe370fdb42",
+          "a3a98eb9-e875-439b-b8ca-5ec1701d41b1",
+          "a618cc8d-35b0-479d-83ef-9bcdf76c4e6a",
+          "ab9bf665-6a2b-4cbb-bb89-19535b869fbf",
+          "d3eaf0b7-2b6f-41cf-a4d3-9374050179ce",
+          "e10df293-db58-4481-9661-c88ce2efdb28",
+          "e2869e4d-e7ac-4616-93f7-0e4b0ebe66d0",
+          "ee98f355-e479-48b7-9c26-531561a9dd5f"
+        ],
+        "warning_hashes": [
+          "03ace70f776caeb6e9f4532949357ccaeabb883c15ce089474c0fd2386025fc3",
+          "0858a97fd68685c415962178184e53690feac8be42d35e16e629bd50e5627fde",
+          "10f841b656404e62fb84cef0264ae91b299f6fab7171331d2dec9a7737ea42fe",
+          "12b0b35a7a474bd0547274aaaa90b60bf135ed35a60e9005e3eca1a2645e53e7",
+          "3634ec0a2093f2eff67aa5cec841f1e102bca4948275c9d895c228e4dd58cb8e",
+          "4c31e9e06162bfb5027500c9ad80aaca852ef73922390d9b3e1b2ed708d392b8",
+          "62078d7e30e53f4b11c090df8b76b05485d5de548107f6b22e40aa2dbd9c8f5d",
+          "66c0091ef617a217f412023c420b3d7b4ac0fe66b73131b0c3c053d904b5c899",
+          "6dda425ddbe17dcfcdb3f65a7041c920e6f02783de9c573236647887fdc42cbf",
+          "6e05f626aacb5c16696966dc385bc455f166deced633facda1426e5245e50e9b",
+          "70c5d16a369b910bbeace39a3ca78989273883851a201d7d670db789668b5416",
+          "8be16b45e1dd1590ff5fcd0c9598ee1f3ff0801bbbc0c55d55aa71a6bb66d676",
+          "98c31b49ab879fea5cf5e41fde213dc818621c1b27413739afb02a6d74a7cab1",
+          "adac66b1ae8d157e1a0a663a996d7cdce5b18d57374d14f1ca2111bd079604b3",
+          "da7f3f1b5ff8a1ab3bf887c4e60a384e470b4202c44757587162674601b265ce",
+          "f914545e6eeee5c6f932fbf59b015a037457a01907fd7fc82d76cae35578e403"
+        ],
+        "native_export_sha256": "7b458d7c22e6ac375e63d9e32766a3fa7a41460ece2e95e7690820dc9f63e390",
+        "observer_sha256": "069051719fdf7dcf3ea3d4c320394432957e31d12323a5cd394856a6135461be",
+        "drc_report_sha256": "8e85dbfbfdbde5db09d7c9e26a165b6b4beee5ff1a87d128105a5e22235a527b"
+      },
+      "local_settings_guard_sha256": "be96d73abd85db326e630c09d0a8749c905642d6d656661ae3665cdc381ecdc5"
+    }
+  },
+  "metrics": {
+    "version": "10.0.7",
+    "pads": 63,
+    "footprints": 20,
+    "zones": 1,
+    "vias": 7,
+    "track_length_mm": 304.6378873865708,
+    "copper_layers": 2
+  },
+  "candidate_sha256": "bb37a1dc0f71966782cf59a2a8526369edb01ea651958aac0f4c1cb346bffe9a",
+  "sampled_wall_seconds": 106.607054250082,
+  "sampled_full_cpu_seconds": 103.448142,
+  "publication_allowance_seconds": 2,
+  "external_exit_required": true
+}

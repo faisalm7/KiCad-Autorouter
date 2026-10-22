@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "kind": "runtime058-three-family-report-launcher-draft-v1",
+  "status": "DRAFT_NOT_EXECUTED",
+  "launcher": {
+    "path": ".runs/run-runtime058-three-family-report-001.py",
+    "sha256": "af5f3dfd48e18e7e634dab55515aad7b53cf7953cd10251ea4aca2e163b265b8",
+    "lines": 33,
+    "derived_from": {
+      "path": ".runs/run-runtime057-comparison-report-001.py",
+      "sha256": "1d9d72d5c4024c68efadcdb8dd1d6f686983a4a59c2dfede2efa64b017350615"
+    }
+  },
+  "population_sha256": "7aa591a491b9358868c351b4cf357dcbe38351185bdfc5a7e91832a5330a71f8",
+  "frozen_children_sha256": "c0e04f9d0751cf1272abe00ed68ec3af9ccdea53759d32695c3d950fe0895b8f",
+  "fixed_administration_head": "f832b0435ea231332de1ac3831d166bc71c10b12",
+  "runtime": ".runs/runtime058 fresh install 001",
+  "runtime_manifest_sha256": "19bdfe08169624f49a3b2bee1b789258f2ccaac63ad24a1e06c1d6ba371788f2",
+  "build_source": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+  "reporter": {
+    "path": "scripts/report_current_comparison.py",
+    "sha256": "0ba011298586ee7e89ffaa65c9184a6a25ef231f819c34474d2e3b75b557982e",
+    "source_review": "population_shape lines453-486 accepts1-4families and uses explicit planned_family_order; report lines570+ uses that order for rows. No hard-coded twelve-arm limit; full denominator length is families times arms."
+  },
+  "source_only_checks": {
+    "planned_family_order": [
+      "ds18b20",
+      "ir-obstacle",
+      "eeprom"
+    ],
+    "sorted_JSON_family_keys": [
+      "ds18b20",
+      "eeprom",
+      "ir-obstacle"
+    ],
+    "protocols_checked": 18,
+    "all_protocol_hashes_match_children": true,
+    "all_runtime_roots_manifest_build_source_outputs_and_population_pins_match": true,
+    "all_protocol_tool_manifests_equal_stored_query": true,
+    "stored_query_sha256": "a940c17ee147d3a8972d58623a6041958eaada7ce9c24eee0bd4e6d028ba1244",
+    "AST_only": "PASS",
+    "schema_or_admission_blocker_found": false
+  },
+  "invocation": {
+    "public_sanitize": true,
+    "facts": ".runs/runtime058-installed-three-family-report-001",
+    "enclosure": ".runs/runtime058-installed-three-family-report-enclosure-001",
+    "seconds": 60,
+    "log_bytes": 1048576,
+    "RSS_bytes": 1073741824,
+    "enclosure_bytes": 2097152,
+    "changes": "Identity/path/pin port of existing31-line launcher plus two direct checks of unchanged reporter hash. Shared reporter/enclosure/bounds unchanged."
+  },
+  "required_before_execution": [
+    "All18 arms terminal with complete outer logs/time/process/enclosure evidence; wrapper checks all18 enclosure receipts exist before launching.",
+    "Keep administration HEAD f832b0435ea231332de1ac3831d166bc71c10b12 fixed THROUGH REPORTING, even after all18 arms finish.",
+    "Facts/enclosure paths must remain absent; no retries into an existing namespace."
+  ],
+  "commands": {
+    "launcher": [
+      "/usr/bin/time",
+      "-lp",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+      "-B",
+      "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/run-runtime058-three-family-report-001.py"
+    ]
+  },
+  "execution": {
+    "launcher": false,
+    "reporter": false,
+    "query": false,
+    "Native": false,
+    "Java": false,
+    "Git": false,
+    "tests": false
+  },
+  "scope": "Draft and stored frozen-protocol metadata comparison only. No completed18-arm outcome assumed or reported; no Native/central-reader replay or new audit framework. Reporting retains generated sanitized facts, no CAD/logs/full findings."
+}
