@@ -190,11 +190,16 @@ def native_cohort_scope(proof, runtime, manifest_pin, identity, manifest, versio
         return (type(value) is list and len(value) == 4 and all(type(n) is int and n >= 0 for n in value)
             and value[0] == value[1] == value[3] == 0)
     index(proof.get('files_index'))
-    link = proof.get('IR_repair')
+    ir_kinds = {'IR_repair': 'delivery-repair-regression-v1',
+                'IR_delivery': 'delivery-regression-v1'}
+    ir_keys = [key for key in proof if type(key) is str and key.startswith('IR_')]
+    require(len(ir_keys) == 1 and ir_keys[0] in ir_kinds,
+        'exactly one known current IR delivery dependency required')
+    link = proof[ir_keys[0]]
     require(type(link) is dict, 'current IR delivery dependency required')
     ir_path = public_path(link.get('path')); _, ir = pinned_json(ir_path, link.get('sha256'))
     dependencies[str(ir_path)] = link['sha256']
-    require(ir.get('kind') == 'runtime'+match[1]+'-single-fresh-exposed-IR-Improve-delivery-repair-regression-v1'
+    require(ir.get('kind') == 'runtime'+match[1]+'-single-fresh-exposed-IR-Improve-'+ir_kinds[ir_keys[0]]
         and type(ir.get('schema')) is int and ir['schema'] == 1 and ir.get('source_head') == identity['git_head']
         and ir.get('runtime_manifest_sha256') == manifest_pin and ir.get('workflow_delivered') is True
         and ir.get('attempt_qualified') is True and ir.get('accepted') is False and ir.get('actual_GUI') is False

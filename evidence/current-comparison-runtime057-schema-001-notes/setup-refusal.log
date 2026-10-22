@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/freeze-runtime057-default-improve-development-001.py", line 158, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/freeze-runtime057-default-improve-development-001.py", line 66, in main
+    admitted,dependencies=factory.qualification_scope(native,ORIGINAL_RUNTIME,ORIGINAL_MANIFEST,original_identity,original,'improve-v2')
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/freeze_current_comparison.py", line 80, in qualification_scope
+    return native_cohort_scope(qualified, runtime, manifest_pin, identity, manifest, version)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/freeze_current_comparison.py", line 194, in native_cohort_scope
+    require(type(link) is dict, 'current IR delivery dependency required')
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/freeze_current_comparison.py", line 66, in require
+    if not ok: raise ValueError(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: current IR delivery dependency required
+real 0.57
+user 0.30
+sys 0.14
+            53149696  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               20372  page reclaims
+                 269  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 317  voluntary context switches
+                 978  involuntary context switches
+          3303452376  instructions retired
+          1224550416  cycles elapsed
+            43516456  peak memory footprint

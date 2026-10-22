@@ -531,6 +531,61 @@ class ComparisonFreezerTests(unittest.TestCase):
         self.assertLessEqual(len(plan['prerequisite_sha256']),32)
         self.assertEqual(plan['limits'],q.LIMITS)
 
+    def test_native_cohort_delivery_spelling_freezes_with_matching_receipt(self):
+        self.native_cohort_qualification()
+        link=self.qualification.pop('IR_repair')
+        self.ir_proof['kind']='runtime777-single-fresh-exposed-IR-Improve-delivery-regression-v1'
+        link['sha256']=write_json(self.ir_path,self.ir_proof)
+        link['scope']='Completed current delivery; not a historical repair receipt.'
+        self.qualification['IR_delivery']=link
+        self.repin_qualification()
+        result=self.freeze(population_version='improve-v2')
+        population=json.loads((self.output/'population.json').read_text())
+        self.assertFalse(population['qualification']['actual_GUI_qualified'])
+        self.assertFalse(population['qualification']['full_GUI_claim'])
+        plan=json.loads(Path(result['protocols']['owned']['Cimprove']['path']).read_text())
+        self.assertEqual(plan['prerequisite_sha256'][str(self.ir_path)],link['sha256'])
+        self.assertEqual(plan['limits'],q.LIMITS)
+        self.assertEqual(len(self.calls),1)
+
+    def test_native_cohort_IR_dependency_missing_unknown_or_dual_refuses(self):
+        self.native_cohort_qualification();original=copy.deepcopy(self.qualification)
+        for kind in ('missing','unknown','dual_same','dual_null','known_and_unknown'):
+            with self.subTest(kind=kind):
+                self.qualification=copy.deepcopy(original)
+                link=copy.deepcopy(self.qualification['IR_repair'])
+                if kind=='missing':self.qualification.pop('IR_repair')
+                elif kind=='unknown':
+                    self.qualification.pop('IR_repair');self.qualification['IR_current']=link
+                elif kind=='dual_same':self.qualification['IR_delivery']=link
+                elif kind=='dual_null':self.qualification['IR_delivery']=None
+                else:self.qualification['IR_other']=link
+                self.repin_qualification();self.refused(population_version='improve-v2')
+                self.assertFalse(self.output.exists())
+        self.assertFalse(self.calls)
+
+    def test_native_cohort_IR_spelling_cannot_change_kind_source_or_index_contract(self):
+        self.native_cohort_qualification();original=copy.deepcopy(self.qualification)
+        original_ir=copy.deepcopy(self.ir_proof)
+        suffixes={'IR_repair':'delivery-repair-regression-v1','IR_delivery':'delivery-regression-v1'}
+        for spelling in suffixes:
+            for fault in ('wrong_kind','unknown_kind','wrong_source','wrong_index','malformed_link'):
+                with self.subTest(spelling=spelling,fault=fault):
+                    self.qualification=copy.deepcopy(original)
+                    link=self.qualification.pop('IR_repair')
+                    self.ir_proof=copy.deepcopy(original_ir)
+                    suffix=suffixes[spelling]
+                    if fault=='wrong_kind':suffix=next(value for value in suffixes.values() if value!=suffix)
+                    elif fault=='unknown_kind':suffix='delivery-regression-v2'
+                    self.ir_proof['kind']='runtime777-single-fresh-exposed-IR-Improve-'+suffix
+                    if fault=='wrong_source':self.ir_proof['source_head']='b'*40
+                    link['sha256']=write_json(self.ir_path,self.ir_proof)
+                    if fault=='wrong_index':link['files_index']=copy.deepcopy(self.qualification['files_index'])
+                    self.qualification[spelling]=[] if fault=='malformed_link' else link
+                    self.repin_qualification();self.refused(population_version='improve-v2')
+                    self.assertFalse(self.output.exists())
+        self.assertFalse(self.calls)
+
     def test_seven_native_cohort_is_explicit_and_cannot_qualify_thermal(self):
         self.native_cohort_qualification(eleven=False)
         self.refused();self.assertFalse(self.calls)
