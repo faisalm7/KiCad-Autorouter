@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "kind": "native7-export-test-isolation-correction-v1",
+  "recorded_utc": "2026-10-22T07:53:56.277247+00:00",
+  "base_head": "3fe0741b01816ca8655edf7a22f5d44b79fcdd02",
+  "test_source": {
+    "path": "tests/test_native7_export_validation_guard.py",
+    "sha256": "3c8264083ed6f59eb5c5c19769c737132e200db80c1091b4e2f91621b1c62936",
+    "bytes": 20478
+  },
+  "runtime_source_unchanged": {
+    "autorouter/pipeline.py": "b5d4dde6cf63dfd40c7bbcb2374d7a7515211e767cf849244dabc3af194208b9",
+    "autorouter/review_export.py": "975c71786b8bb97d723a1ba0b6e6541ba22d00646f6df2068b1fc832d6c3a3ef"
+  },
+  "failed_full208": {
+    "execution": {
+      "schema": 1,
+      "process": {
+        "status": "nonzero_exit",
+        "exit_code": 1,
+        "wall_seconds": 176.27595837507397,
+        "cpu_seconds": 168.909628,
+        "max_rss_bytes": 323813376,
+        "supervisor_cpu_seconds": 0.529254,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 324288512,
+        "sampled_peak_workdir_bytes": 526224,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 2097152,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-suite-local-root-019.py"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-208/command.log",
+        "log_bytes": 482414,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/full-integration-208",
+        "signal_cancellation_enabled": true,
+        "pid": 38226
+      },
+      "wall_seconds": 176.7519050000701,
+      "full_cpu_seconds": 169.76944200000003,
+      "sources_unchanged": true,
+      "controller_sha256": "788333f8d844f6ec99bb692db63fe2f83fdedac67cfc7fb476364c6be0e7324a",
+      "log_sha256": "a0ff0c1fdb0d8bff501ec44b9ab70535663eb0d1caa0c28f69c6e31ec3b3ae43",
+      "passed": false
+    },
+    "tests": 2600,
+    "failures": 4,
+    "errors": 18,
+    "skipped": 1,
+    "log": {
+      "path": ".runs/full-integration-208/command.log",
+      "sha256": "a0ff0c1fdb0d8bff501ec44b9ab70535663eb0d1caa0c28f69c6e31ec3b3ae43",
+      "bytes": 482414
+    },
+    "protocol": {
+      "path": ".runs/full-integration-208/protocol.json",
+      "sha256": "00b0609950634db998ba5fde2970d0c8a8da8d8455506e2cc1eb906298fbc627",
+      "bytes": 43810
+    },
+    "controller": {
+      "path": ".runs/run-full-integration-208.py",
+      "sha256": "788333f8d844f6ec99bb692db63fe2f83fdedac67cfc7fb476364c6be0e7324a",
+      "bytes": 3468,
+      "utf8": "import time,resource,fcntl,os,stat\nSTART=time.monotonic()\ndef cpu():return sum(x.ru_utime+x.ru_stime for x in (resource.getrusage(resource.RUSAGE_SELF),resource.getrusage(resource.RUSAGE_CHILDREN)))\nCPU0=cpu()\nfrom pathlib import Path\nimport sys,json\nROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));sys.dont_write_bytecode=True\nfrom autorouter import pipeline as p\nfrom autorouter.runner import run\nHEAD='3fe0741b01816ca8655edf7a22f5d44b79fcdd02'\nlane=open(ROOT/'.runs/quality-experiment.lock','r+')\ninfo=os.fstat(lane.fileno());assert stat.S_ISREG(info.st_mode) and info.st_nlink==1\nfcntl.flock(lane,fcntl.LOCK_EX|fcntl.LOCK_NB)\ntools=p.tool_manifest();assert tools['git_head']==HEAD\nout=ROOT/'.runs/full-integration-208';out.mkdir()\nsources=[*sorted((ROOT/'autorouter').glob('*.py')),*sorted((ROOT/'tests').glob('*.py')),*sorted((ROOT/'scripts/windows_native_slice').glob('*.ps1')),*sorted((ROOT/'scripts/windows_native_slice').glob('*.py')),*sorted((ROOT/'scripts/windows_native_slice').glob('*.c')),*sorted((ROOT/'experiments/legacy_via_import_v1').glob('*.py')),*sorted((ROOT/'experiments/task_copper_fixed_v1').glob('*.py')),*sorted((ROOT/'experiments/qfn_escape_seed_v1').glob('*.py')),ROOT/'scripts/experiment_portfolio.py',ROOT/'scripts/experiment_quality.py',ROOT/'scripts/qualify_comparison_portfolio.py',ROOT/'scripts/qualify_review_export.py',ROOT/'scripts/qualify_installed_workflow.py',ROOT/'scripts/prepare_runtime.py',ROOT/'scripts/freeze_current_comparison.py',ROOT/'scripts/enclose_current_comparison.py',ROOT/'scripts/qualify_current_method.py',ROOT/'scripts/report_current_comparison.py',ROOT/'scripts/native_edge_controls.py',ROOT/'scripts/qualify_runtime_workflow.py',ROOT/'scripts/install_smoke.py',ROOT/'scripts/install_gui.py',ROOT/'scripts/prepare_gui_plugin.py',ROOT/'toolchain.lock.json',ROOT/'experiments/schematic_hierarchy_fixture.py',ROOT/'experiments/schematic_hierarchy_native_v1/fixture.py',ROOT/'experiments/native_schematic_transport_v1/fixture.py']\npins={str(path.relative_to(ROOT)):p.sha(path) for path in sources}\np.save_json(out/'protocol.json',{'tools':tools,'source_sha256':pins,'discovery':'.runs/full-suite-local-root-019.py','discovery_sha256':p.sha(ROOT/'.runs/full-suite-local-root-019.py'),'bounds_seconds':480,'scope':'Full current integration after Native7 export stable replay repair. Entry and two independent final full binds, source/trial/choice/review/runtime/tool/Default/field/PRL witnesses, original Context owner and live policy seals remain; budgets unchanged. Constructed late-mutation/dispatcher controls and all prior tests; no test-only Native/GUI/install/quality/Windows/release claim.'})\nprocess=run([str(ROOT/'.venv/bin/python'),'-B',str(ROOT/'.runs/full-suite-local-root-019.py')],cwd=out,log=out/'command.log',timeout=max(.001,480-(time.monotonic()-START)),max_log_bytes=512*1024,max_workdir_bytes=2*1024**2,max_group_rss_bytes=2*1024**3)\nstable=p.tool_manifest()==tools and all(p.sha(ROOT/name)==pin for name,pin in pins.items())\nrecord={'schema':1,'process':process,'wall_seconds':time.monotonic()-START,'full_cpu_seconds':cpu()-CPU0,'sources_unchanged':stable,'controller_sha256':p.sha(Path(__file__)),'log_sha256':p.sha(out/'command.log'),'passed':stable and process['status']=='success' and process['exit_code']==0 and process['cleanup_complete'] is True}\np.save_json(out/'execution.json',record);print(json.dumps(record));raise SystemExit(0 if record['passed'] else 2)\n"
+    }
+  },
+  "cause": "The test_export_entry_identity_is_captured_before_initial_bind outer bind patch closed before a callback-added patch on a separate ExitStack. Cleanup restored the synthetic entry callback instead of the real bind. Later ordinary exports received the stale Improve fixture report. native7_marked itself restored correctly. This is a test isolation defect, not a demonstrated runtime Native failure.",
+  "repair": "Both nested bind patches now share one ExitStack. Each subcase asserts original bind identity after closure; both test classes assert policy and readback-session restoration after all fixture cleanups. Original refusal, no-worker, no-output, three-full-bind and invalidation assertions remain.",
+  "prior_order_reproduction": {
+    "tests": 38,
+    "failures": 4,
+    "errors": 17,
+    "wall_seconds": 5.04,
+    "CPU_seconds": 4.83,
+    "log": {
+      "path": ".runs/export-native7-order-targeted-001-time.log",
+      "sha256": "6616c1061c541ef9a2a0401aa177cb85c4664b454894f359eb8d61b5debea1f2",
+      "bytes": 34183
+    }
+  },
+  "focused_after_repair": {
+    "command": "PYTHONPATH=tests /usr/bin/time -lp .venv/bin/python -B -m unittest tests.test_native7_export_validation_guard tests.test_review_export tests.test_schematic_class_pipeline",
+    "passed": true,
+    "tests": 56,
+    "wall_seconds": 7.92,
+    "CPU_seconds": 7.55,
+    "logs": [
+      {
+        "path": ".runs/export-native7-order-targeted-002.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "utf8": ""
+      },
+      {
+        "path": ".runs/export-native7-order-targeted-002-time.log",
+        "sha256": "f611c394f389e6bfb09934492ad9054365107510fe67b4b7824fe13d4b7e51ab",
+        "bytes": 908,
+        "utf8": "........................................................\n----------------------------------------------------------------------\nRan 56 tests in 7.708s\n\nOK\nreal 7.92\nuser 5.15\nsys 2.40\n            63406080  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                6051  page reclaims\n                 185  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   1  signals received\n                1075  voluntary context switches\n                2947  involuntary context switches\n         93541615443  instructions retired\n         27984312729  cycles elapsed\n            53084712  peak memory footprint\n"
+      }
+    ]
+  },
+  "additional_agent_checks": {
+    "new_module_then_one_ordinary_positive_tests": 15,
+    "both_import_forms_passed": true,
+    "unittest_seconds": [
+      3.017,
+      3.007
+    ],
+    "full_external_cost": "Unmetered additional; reported by subagent, no separate retained raw log."
+  },
+  "review": {
+    "kind": "Narrow independent AI static review; not human PCB or Native review",
+    "finding": "No blocker. Shared ExitStack restores nested patches LIFO; identity assertions run after fixture cleanup. Acceptance assertions unchanged.",
+    "reviewed_source_sha256": "3c8264083ed6f59eb5c5c19769c737132e200db80c1091b4e2f91621b1c62936"
+  },
+  "next": "Fresh full209 on checkpointed source, then actual runtime058 preparation/Native/EEPROM/install/GUI qualification under unchanged limits. Preserve full208 and unexecuted source-bound drafts.",
+  "Native_executed": false,
+  "GUI_qualified": false,
+  "performance_fixed_claim": false,
+  "project_complete": false,
+  "artifact_scope": "Small project-owned source/facts only. Raw failed full log stays retained on this Mac; this record does not back it up. No CAD or downloaded engine.",
+  "authoring_review_other_cost": "Additional and partly unknown; never zero."
+}

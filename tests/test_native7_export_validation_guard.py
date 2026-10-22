@@ -16,12 +16,33 @@ from tests import test_native7_improve_parent as fixture
 from tests import test_review_export as export_fixture
 
 
+def remember_export_policy(case):
+    """Assert isolation after fixture cleanups, including discovery aliases."""
+    targets = ((e, 'bind'), (e, '_export_validation_guard'), (e, 'bound_material'),
+        (e, '_check_export'), (e, 'run'), (e, 'witness'), (e, 'KIND'), (e, 'OUTPUT_BYTES'),
+        (s, 'native7_parent'), (s, 'native7_marked'), (s, 'native7_default_target_basis'),
+        (s, 'check_native7_final'), (h, '_review_validation_guard'),
+        (h, 'delivery_guards'), (h, 'check_result'), (p, 'check_result'),
+        (p, 'tool_manifest'), (child._Context, 'check'),
+        (e.c, 'ROOT'), (e.c, 'NATIVE_VERSION'))
+    saved = [(target, name, getattr(target, name)) for target, name in targets]
+    session = p._readback_session.get()
+    def restored():
+        for target, name, value in saved:
+            with case.subTest(restored=target.__name__ + '.' + name):
+                case.assertIs(getattr(target, name), value)
+        case.assertIs(p._readback_session.get(), session)
+    # Registered first, so this runs after the fixture's temporary patches close.
+    case.addCleanup(restored)
+
+
 class Native7ExportValidationGuardControls(unittest.TestCase):
     make = fixture.Native7ParentControls.make
     record = fixture.Native7ParentControls.record
     parent_data = fixture.Native7ParentControls.parent_data
 
     def setUp(self):
+        remember_export_policy(self)
         fixture.Native7ParentControls.setUp(self)
         self.report = self.parent_data()
         incumbent = self.record()
@@ -234,6 +255,7 @@ class Native7ExportValidationGuardControls(unittest.TestCase):
 
     def test_export_entry_identity_is_captured_before_initial_bind(self):
         output = self.workspace / 'entry-export'
+        original_bind = e.bind
         for name, value in (('bind', lambda *a, **kw: None),
                 ('_export_validation_guard', lambda *a, **kw: None),
                 ('KIND', 'changed-during-entry')):
@@ -242,11 +264,15 @@ class Native7ExportValidationGuardControls(unittest.TestCase):
                     stack.enter_context(patch.object(e, name, value))
                     return self.binding, self.report
                 # Stop at the entry fence. No mocked Native outcome is used.
-                with patch.object(e, 'bind', entry), patch.object(e, 'run') as worker:
-                    with self.assertRaisesRegex(p.Rejected, 'policy changed during initial check'):
-                        e.export(self.choice, output)
-                    worker.assert_not_called()
+                # Both bind patches must share LIFO ownership. Closing an outer
+                # with-patch before this stack would restore the entry callback.
+                stack.enter_context(patch.object(e, 'bind', entry))
+                worker = stack.enter_context(patch.object(e, 'run'))
+                with self.assertRaisesRegex(p.Rejected, 'policy changed during initial check'):
+                    e.export(self.choice, output)
+                worker.assert_not_called()
                 self.assertFalse(output.exists())
+            self.assertIs(e.bind, original_bind)
 
     def test_final_pure_fence_checks_seals_without_source_or_tool_reads(self):
         material, witness, tools = e.bound_material, e.witness, p.tool_manifest
@@ -278,11 +304,14 @@ class Native7ExportFinalBoundaryControls(unittest.TestCase):
     The complete export, full bind calls, final policy fingerprint, witnesses,
     publication and invalidation execute. These controls cannot qualify Native7.
     """
-    setUp = export_fixture.ExportControls.setUp
     native_run = export_fixture.ExportControls.native_run
     export = export_fixture.ExportControls.export
     preserved = export_fixture.ExportControls.preserved
     no_positive = export_fixture.ExportControls.no_positive
+
+    def setUp(self):
+        remember_export_policy(self)
+        export_fixture.ExportControls.setUp(self)
 
     def native7_controls(self, stack, final=None):
         def context_guard(directory, report, identity):
