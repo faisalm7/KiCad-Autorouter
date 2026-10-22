@@ -467,3 +467,19 @@ The finite intake uses [WestianPKl/pcb-docs EEPROM_Board](https://github.com/Wes
 ## 2026-10-22 UTC: finite Cheapino static development intake
 
 [Stored facts](evidence/development-cheapino-001.json) bind six exact files (1,883,342 bytes) from [Tompi/Cheapino at e4bc9a9](https://github.com/tompi/cheapino/tree/e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60). The pinned publisher LICENSE.txt grants CC-BY-4.0; creator attribution is Tompi/Cheapino contributors. Per-asset/model/artwork title and independent pedigree remain unclosed; no raw CAD/assets are published. Flat schematic definitions are embedded, but this is not Native parity. Fourteen standard solder-jumper custom pads cause unchanged production preflight refusal. Decision DEFER, no Native/engine/comparison/eligible-family/holdout claim or source constraint removal. Exact topology differs from three exposed projects; this is a non-identity screen only. Static classification matches the already studied convex/concave anchor geometry. A separate bounded two-owned-scene SES/Native prerequisite may address that practical support blocker; area002 import/contact evidence is reused, not repeated or relabeled routing support. Four complete measured phases total4.02wall/1.72CPU, finalization.12/.09 additional; web/authoring/AI costs are additional unknown. Models/scripts/upstream hooks were not executed. Originals and detailed classification remain Mac-only/outside010.
+
+### Owned transport prerequisite, subsequent actual result
+
+The [bounded current10.0.7 diagnostic](evidence/solderjumper-ses-native-diagnostic-001.json)
+now completes both owned back90 SES roundtrips and one route-empty standard CLI
+attempt under the original180s/30s/25s limits. Positive0/0/4/0, unchanged
+false-contact negative1/0/5/0 and generated positive0/0/4/0 retain their own
+original-rule/fullSCH/refill/geometry/dimension/PRL/final-hash proofs and four
+ignored checks. Generated contact reaches both custom bodies beyond anchors.
+Both prerequisite failures and pure/reporting failures remain retained; three
+complete executions cost26.56wall/23.78CPU, with preparation, tests, reporting,
+authoring and AI review additional. [Stored-material AI review](evidence/solderjumper-ses-native-material-review-001.json)
+and shared final-DRC readback found no material discrepancy. These same-CONTACT
+scenes do not qualify different-net jumper separation, arbitrary custom pads,
+Cheapino, a product workflow, electrical fitness or comparative routing gain.
+No upstream capability or licence claim was added. Production guards stay closed.

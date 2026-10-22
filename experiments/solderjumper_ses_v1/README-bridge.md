@@ -22,6 +22,19 @@ deducting their complete5.64wall/4.85CPU from the original180s limits. It has a
 fresh output directory, the same25s reserve/one30s engine attempt, aggregate
 resource caps across old and new artifacts, and no implicit retry.
 
+The [completed diagnostic](../../evidence/solderjumper-ses-native-diagnostic-001.json)
+now records both actual nonrouting SES roundtrips and one route-empty positive
+CLI attempt. Positive and generated finals are0/0/4/0; the unchanged negative is
+1/0/5/0 with its expected concave-notch open. All preserve four ignored checks,
+original project/schematic/rules, exact body geometry and final Native bindings.
+The generated route reaches the bodies beyond their anchors. Three complete
+executions including failures cost26.56wall/23.78CPU; preparation, pure tests,
+reporting and authoring/review are additional. The [stored-material AI review](../../evidence/solderjumper-ses-native-material-review-001.json)
+and shared final-DRC readback found no material discrepancy. These are narrow
+diagnostic results, with every accepted/production flag false. Different-net
+solder-jumper separation, Cheapino and production custom pads remain unqualified.
+Do not replay these completed scenes as new experiments.
+
 `SesBridge.java` remains experimental. It selects
 only `back90-positive` or `back90-false_hull`, then delegates to the retained
 `MixedClassProbe.run(raw, true, row, false, sesPath)`. This uses the existing
