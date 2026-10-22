@@ -1,5 +1,14 @@
 # Two-scene nonrouting SES selector
 
+The first current-Native source prerequisite stopped before compilation/routing:
+[retained failure](../../evidence/solderjumper-ses-native-prerequisite-001.json).
+KiCad rejected two quoted pin-type enum atoms in each newly authored schematic.
+Fresh002 fixtures correct only those tokens; PCB/PRO/PRL bytes and every other
+schematic atom remain unchanged. The first failed verifier's incorrect expectation
+of four changed atoms is also retained. Current controller/worker pins select the
+002 preparation explicitly, with unchanged180s/30s/25s/resource limits. No result
+or production admission is inferred from the correction or pure checks.
+
 `SesBridge.java` is draft source only: it has not been compiled or run. It selects
 only `back90-positive` or `back90-false_hull`, then delegates to the retained
 `MixedClassProbe.run(raw, true, row, false, sesPath)`. This uses the existing

@@ -6,7 +6,7 @@ is not acceptance; caller binds process success, code and final material. No sav
 """
 import argparse,hashlib,json,os,re,sys
 from pathlib import Path
-PREPARATION_SHA='dd77c0a61885362ff25414c47f361486332aea70f7ae5e4e2c286f908fff36fb'
+PREPARATION_SHA='60b89ade3e6fe477afbe9e4dc77ef79cee0d61aa51a5b0c5f93cef83d7161203'
 CASES=('back90-positive','back90-false_hull')
 REPOSITORY=Path(__file__).resolve().parents[2]
 def main():

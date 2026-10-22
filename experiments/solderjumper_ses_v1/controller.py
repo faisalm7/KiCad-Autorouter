@@ -14,9 +14,9 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2];HERE=Path(__file__).resolve().parent
 RUNTIME=ROOT/'.runs/runtime-directory-058/runtime'
-BASE=ROOT/'.runs/solderjumper-ses-native-vertical-slice-001'
+BASE=ROOT/'.runs/solderjumper-ses-native-vertical-slice-002'
 MANIFEST='4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74'
-PREP='dd77c0a61885362ff25414c47f361486332aea70f7ae5e4e2c286f908fff36fb'
+PREP='60b89ade3e6fe477afbe9e4dc77ef79cee0d61aa51a5b0c5f93cef83d7161203'
 CASES=('back90-positive','back90-false_hull');BOARD='pic_programmer.kicad_pcb'
 HELPERS=tuple('experiments/'+name for name in (
  'solderjumper_ses_v1/controller.py','solderjumper_ses_v1/transform.py','solderjumper_ses_v1/native_context.py',
