@@ -199,6 +199,15 @@ def native_cohort_scope(proof, runtime, manifest_pin, identity, manifest, versio
     require(type(link) is dict, 'current IR delivery dependency required')
     ir_path = public_path(link.get('path')); _, ir = pinned_json(ir_path, link.get('sha256'))
     dependencies[str(ir_path)] = link['sha256']
+    delivery = ir.get('single_fresh_exposed_IR_Improve')
+    classification = delivery.get('classification') if type(delivery) is dict else None
+    delivered = type(delivery) is dict and (
+        (ir_keys[0] == 'IR_repair' and delivery.get('delivered') is True and 'classification' not in delivery)
+        or (ir_keys[0] == 'IR_delivery' and 'delivered' not in delivery and type(classification) is dict
+            and classification.get('evidence_classification') == 'validated_delivery'
+            and all(classification.get(key) is True for key in
+                    ('attempt_qualified','workflow_delivered','complete_external_cap_ok','method_cap_ok'))
+            and classification.get('validated_completed_negative') is False))
     require(ir.get('kind') == 'runtime'+match[1]+'-single-fresh-exposed-IR-Improve-'+ir_kinds[ir_keys[0]]
         and type(ir.get('schema')) is int and ir['schema'] == 1 and ir.get('source_head') == identity['git_head']
         and ir.get('runtime_manifest_sha256') == manifest_pin and ir.get('workflow_delivered') is True
@@ -206,9 +215,7 @@ def native_cohort_scope(proof, runtime, manifest_pin, identity, manifest, versio
         and ir.get('project_complete') is False and ir.get('not_a_comparison') is True
         and ir.get('full_GUI_claim', False) is False
         and ir.get('files_index') == link.get('files_index')
-        and type(ir.get('single_fresh_exposed_IR_Improve')) is dict
-        and ir['single_fresh_exposed_IR_Improve'].get('delivered') is True
-        and counts(ir['single_fresh_exposed_IR_Improve'].get('Native_counts')), 'current pinned IR delivery differs')
+        and delivered and counts(delivery.get('Native_counts')), 'current pinned IR delivery differs')
     index(ir['files_index'])
     require(retained(runtime/pv.MANIFEST, manifest_pin) == manifest, 'retained original runtime/map differs')
     prepared = retained(runtime.parent/'preparation.json')

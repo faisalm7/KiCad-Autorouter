@@ -29,6 +29,13 @@ def write_json(path, value):
     return sha(raw)
 
 
+def IR_delivery_classification():
+    return dict(evidence_classification='validated_delivery', attempt_qualified=True,
+        workflow_delivered=True, validated_completed_negative=False,
+        complete_external_cap_ok=True, method_cap_ok=True,
+        method_sample=dict(wall_seconds=1.0, full_CPU_seconds=1.0))
+
+
 class ComparisonFreezerTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
@@ -535,6 +542,8 @@ class ComparisonFreezerTests(unittest.TestCase):
         self.native_cohort_qualification()
         link=self.qualification.pop('IR_repair')
         self.ir_proof['kind']='runtime777-single-fresh-exposed-IR-Improve-delivery-regression-v1'
+        delivery=self.ir_proof['single_fresh_exposed_IR_Improve'];delivery.pop('delivered')
+        delivery['classification']=IR_delivery_classification()
         link['sha256']=write_json(self.ir_path,self.ir_proof)
         link['scope']='Completed current delivery; not a historical repair receipt.'
         self.qualification['IR_delivery']=link
@@ -574,6 +583,9 @@ class ComparisonFreezerTests(unittest.TestCase):
                     self.qualification=copy.deepcopy(original)
                     link=self.qualification.pop('IR_repair')
                     self.ir_proof=copy.deepcopy(original_ir)
+                    if spelling=='IR_delivery':
+                        delivery=self.ir_proof['single_fresh_exposed_IR_Improve'];delivery.pop('delivered')
+                        delivery['classification']=IR_delivery_classification()
                     suffix=suffixes[spelling]
                     if fault=='wrong_kind':suffix=next(value for value in suffixes.values() if value!=suffix)
                     elif fault=='unknown_kind':suffix='delivery-regression-v2'
@@ -582,6 +594,42 @@ class ComparisonFreezerTests(unittest.TestCase):
                     link['sha256']=write_json(self.ir_path,self.ir_proof)
                     if fault=='wrong_index':link['files_index']=copy.deepcopy(self.qualification['files_index'])
                     self.qualification[spelling]=[] if fault=='malformed_link' else link
+                    self.repin_qualification();self.refused(population_version='improve-v2')
+                    self.assertFalse(self.output.exists())
+        self.assertFalse(self.calls)
+
+    def test_native_cohort_IR_classification_requires_typed_positive_unambiguous_schema(self):
+        self.native_cohort_qualification();original=copy.deepcopy(self.qualification)
+        original_ir=copy.deepcopy(self.ir_proof)
+        faults=['missing','string','negative_label','unknown_label','dual','wrong_schema']
+        faults += [(key,value) for key in ('attempt_qualified','workflow_delivered',
+            'complete_external_cap_ok','method_cap_ok','validated_completed_negative')
+            for value in (None,1,0,'true','missing')]
+        faults += [(key,False) for key in ('attempt_qualified','workflow_delivered',
+            'complete_external_cap_ok','method_cap_ok')]
+        faults += [('validated_completed_negative',True)]
+        for spelling in ('IR_repair','IR_delivery'):
+            for fault in faults if spelling=='IR_delivery' else ('missing','dual','wrong_schema'):
+                with self.subTest(spelling=spelling,fault=fault):
+                    self.qualification=copy.deepcopy(original);link=self.qualification.pop('IR_repair')
+                    self.ir_proof=copy.deepcopy(original_ir);delivery=self.ir_proof['single_fresh_exposed_IR_Improve']
+                    if spelling=='IR_delivery':
+                        self.ir_proof['kind']='runtime777-single-fresh-exposed-IR-Improve-delivery-regression-v1'
+                        delivery.pop('delivered');delivery['classification']=IR_delivery_classification()
+                        if fault=='missing':delivery.pop('classification')
+                        elif fault=='string':delivery['classification']='delivered'
+                        elif fault=='negative_label':delivery['classification']['evidence_classification']='validated_completed_negative'
+                        elif fault=='unknown_label':delivery['classification']['evidence_classification']='delivered'
+                        elif fault=='dual':delivery['delivered']=True
+                        elif fault=='wrong_schema':delivery.pop('classification');delivery['delivered']=True
+                        else:
+                            key,value=fault
+                            if value=='missing':delivery['classification'].pop(key)
+                            else:delivery['classification'][key]=value
+                    elif fault=='missing':delivery.pop('delivered')
+                    elif fault=='dual':delivery['classification']=IR_delivery_classification()
+                    else:delivery.pop('delivered');delivery['classification']=IR_delivery_classification()
+                    link['sha256']=write_json(self.ir_path,self.ir_proof);self.qualification[spelling]=link
                     self.repin_qualification();self.refused(population_version='improve-v2')
                     self.assertFalse(self.output.exists())
         self.assertFalse(self.calls)
