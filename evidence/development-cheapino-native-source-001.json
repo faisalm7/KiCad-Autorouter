@@ -1,0 +1,181 @@
+{
+  "accepted": false,
+  "accounting": {
+    "authoring_and_AI_review": "Additional and partly unmetered; unknown, not zero.",
+    "complete_native_diagnostic_CPU_seconds": 5.81,
+    "complete_native_diagnostic_wall_seconds": 5.56,
+    "complete_preparation_CPU_seconds": 0.56,
+    "complete_preparation_wall_seconds": 0.64,
+    "nested_included_not_added": true,
+    "nested_native_CPU_seconds": 5.513964,
+    "nested_native_wall_seconds": 5.250912832911126
+  },
+  "actual_steps": [
+    {
+      "cleanup_complete": true,
+      "exit_code": 5,
+      "log_truncated": false,
+      "name": "original-drc",
+      "status": "nonzero_exit"
+    },
+    {
+      "cleanup_complete": true,
+      "exit_code": 0,
+      "log_truncated": false,
+      "name": "original-drc-fields-netlist",
+      "status": "success"
+    },
+    {
+      "cleanup_complete": true,
+      "exit_code": 0,
+      "log_truncated": false,
+      "name": "original-drc-fields-audit",
+      "status": "success"
+    }
+  ],
+  "backup_scope": "These are owned facts/code/protocol only. Full reports/projects remain local; backup010 does not cover them. A hash list is not a backup.",
+  "comparison_ready": false,
+  "controller_scope": "Retained producer copy, not an executable from the notes path: original fixed namespace is .runs/development-cheapino-native-source-001. It calls unchanged shared Job/runner/DRC/readback/PRL/publication; --prepare and --execute are explicit.",
+  "counts": {
+    "blocking": 49,
+    "exclusions": 0,
+    "opens": 3,
+    "warnings": 245
+  },
+  "decision": "DEFER. Do not run a Cheapino routing comparison or expand its custom-pad transport campaign now. The separate same-net owned diagnostic is retained; different-net separation and production admission remain unqualified. No constraint, severity, exclusion, pad, class or source file was changed.",
+  "electrical_fitness": false,
+  "eligible_family_count": 0,
+  "engine": false,
+  "finding_types": {
+    "duplicate_footprints": 8,
+    "extra_footprint": 9,
+    "footprint_symbol_field_mismatch": 49,
+    "footprint_symbol_mismatch": 1,
+    "footprint_type_mismatch": 39,
+    "hole_clearance": 4,
+    "hole_to_hole": 4,
+    "holes_co_located": 7,
+    "lib_footprint_issues": 59,
+    "silk_edge_clearance": 1,
+    "silk_over_copper": 101,
+    "silk_overlap": 6,
+    "starved_thermal": 6,
+    "unconnected_items": 3
+  },
+  "holdout": false,
+  "ignored_checks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    }
+  ],
+  "independent_family_established": false,
+  "interpretation": "Three original unconnected items are routing demand, not by themselves invalid source. Other original findings include39blocking footprint-type mismatches,4hole-clearance errors and6starved thermals;49footprint/symbol-field mismatches,9extrafootprints,8duplicate-footprint warnings and1footprint-symbol mismatch are retained. Some geometric findings may depend on routing/refill; no assumption that all49blocking findings are immutable. Footprint/schematic identity conflicts require source-design diagnosis and cannot be waived or repaired by changing original intent.",
+  "kind": "cheapino-original-project-native-diagnostic-facts-v1",
+  "limits": {
+    "RSS_bytes": 1073741824,
+    "entries": 2048,
+    "files": 1024,
+    "log_bytes": 262144,
+    "native_seconds": 60,
+    "output_bytes": 52428800,
+    "overall_CPU": 120,
+    "overall_wall": 120,
+    "workers": 1
+  },
+  "local_native_proof_sha256": {
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/3d_viewer.json": "7c95b3fdd72f837a3cc49248249c40bc24c07b75bafe02d0d091a0864746b6a9",
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/cvpcb.json": "3a24bbacab369da74efdaff851be8869d8ca2e5e4ca28304f9eb57041bdad759",
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/eeschema.json": "ad360fd6896e8d8f65059a2aaff40139e8c37f5f758954d3b94be9033fb114fb",
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/fpedit.json": "4d824ab97688dcfc144494386c6991dc0a31f324228d6a85cea279a474f51bb0",
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/kicad.json": "20c9db1c1f2caacc9f2fb9bf25909f0e50dcb86f5fbda21233168c0d751bc650",
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/kicad_common.json": "e4a57e9729d0025ee7e6d149398cb2d5cacbd7ef822bfca38b517f972f5b2622",
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/pcbnew.json": "412c1fe43f0db375147a9d25f5c7da6768ae054d94300cef57c9349bd3374e7a",
+    ".runs/development-cheapino-native-source-001/native-original-001/kicad-config/10.0/symbol_editor.json": "9b42635c84a17cb400a5ff58be7e9376289054294c8ab6b9d92257af7f87a8aa",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-binding.json": "5a01aa8db2f59979b832334a8a1807dfd25f8dfa6a027c94352aeca7a01e20e5",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields-audit-process.json": "c2f377d90e0eab0b79bf5990d29a4d7b67fcf4a67f4a2dbc3a4f363d2ee74140",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields-audit.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields-local-settings.json": "2bff3b81f54cf43426ca975965af5786cae5c78d97cc06c9c30d62600648d3e5",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields-netlist-process.json": "406e821a142e36ac3d7af545cb1c6bccb70e0a5d72e619c31bd7a47cc8e64582",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields-netlist.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields-proof.json": "088deea71ed88494669528adf967b52b6603eb6c755e7f263c930dc86d25acc2",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields.json": "920bb1e0c033b9d41b196cbbf68813dbd7bff6b83b07e516a75926065d9dd282",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-fields.net": "e4423e17dc5fc095b2ed420beeb24ea4d5f358eac9c7c12379d7119d384381af",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-input/cheapino.kicad_pcb": "37fe7036e7151d7afc141547d12a61a8c8be9823b6e544d37b0cfb75531b46d7",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-input/cheapino.kicad_prl": "3d064ffc98302d40722aa47ed9566284a802715f0c9daae2c4a912cb78c25789",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-input/cheapino.kicad_pro": "db2f488838279e8ee7bce7b3ac976b8c08c272b3f242650268766d11e89efede",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-input/cheapino.kicad_sch": "dcb802dd3cf4d25986d5a66805450dc9fc8491d293e1f3dd97e2d84caf2fd7af",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-input/cheapino.round-tracks-config": "5620f0b5036744b63065e133fe9fd6ef4d2810f72ebba740fa445c9d149b0863",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc-process.json": "090844065d4e00065af01794151b8fbd1bedd8ce1cdfe613748cf17069b8f679",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc.json": "a36e956ee2d9b9eef6b88c35a1a944b44201a72248835f6a9159dfcee777f4f1",
+    ".runs/development-cheapino-native-source-001/native-original-001/original-drc.log": "650566e8c1b26c8677cdb4002ba55774ca048a6ed752ac156748922d294973c2",
+    ".runs/development-cheapino-native-source-001/native-original-001/result.json": "671195331d7116cc2e7cbe4d92eeb733bf5bcb3af9aaf0357f2d511f32ecaba6"
+  },
+  "local_result": {
+    "path": ".runs/development-cheapino-native-source-001/native-original-001/result.json",
+    "sha256": "671195331d7116cc2e7cbe4d92eeb733bf5bcb3af9aaf0357f2d511f32ecaba6"
+  },
+  "native_version": "10.0.7",
+  "original_rule_severities_exclusions_and_round_tracks_configuration_retained": true,
+  "preparation_sha256": "9b4c32817721d8d242c49ac0fd0857cddb545d0a259e62b6f2706360c0e7da40",
+  "production_admitted": false,
+  "protocol_sha256": "268b5365ccd3a16961ecdd8bc9e75be18a9bdfde7a81ada929d9a0982647ae06",
+  "public_owned_code_and_protocol": {
+    "evidence/development-cheapino-native-source-001-notes/native-original-probe-001.py": "e288db14a811a616b385ac6bcd9faf9bbc6b8a6d57d41bea765305c2911017e2",
+    "evidence/development-cheapino-native-source-001-notes/protocol.json": "268b5365ccd3a16961ecdd8bc9e75be18a9bdfde7a81ada929d9a0982647ae06"
+  },
+  "recorded_utc": "2026-10-22T10:24:50.708358+00:00",
+  "repository": "tompi/cheapino",
+  "review": "Lead source/protocol review before execution and shared final original-DRC readback; not independent human PCB review.",
+  "revision": "e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60",
+  "rights": "PublisherCC-BY4 grant as recorded in intake; per-asset/model/artwork title and ancestry remain unclosed. No raw CAD/README/licence body/detailed findings or models published.",
+  "routing_attempted": false,
+  "runtime_manifest_sha256": "4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74",
+  "runtime_source": "8f5e96b88dd22cd25919bb71ce47711612994efa",
+  "schema": 1,
+  "source_hashes": {
+    "cheapino.kicad_pcb": "37fe7036e7151d7afc141547d12a61a8c8be9823b6e544d37b0cfb75531b46d7",
+    "cheapino.kicad_pro": "db2f488838279e8ee7bce7b3ac976b8c08c272b3f242650268766d11e89efede",
+    "cheapino.kicad_sch": "dcb802dd3cf4d25986d5a66805450dc9fc8491d293e1f3dd97e2d84caf2fd7af",
+    "cheapino.round-tracks-config": "5620f0b5036744b63065e133fe9fd6ef4d2810f72ebba740fa445c9d149b0863"
+  },
+  "source_intake": "evidence/development-cheapino-001.json",
+  "source_native_policy": false,
+  "source_native_reasons": [
+    "native blocking=49",
+    "native error finding: footprint_type_mismatch",
+    "native error finding: hole_clearance",
+    "native error finding: starved_thermal",
+    "native error finding: unconnected_items",
+    "native opens=3",
+    "policy-critical native finding: footprint_symbol_field_mismatch (warning)",
+    "policy-critical native finding: hole_clearance (error)",
+    "policy-critical native finding: hole_to_hole (warning)",
+    "policy-critical native finding: starved_thermal (error)",
+    "policy-critical native finding: unconnected_items (error)"
+  ],
+  "source_packet_files": 6,
+  "source_prl_present": false,
+  "source_unchanged": true,
+  "status": "completed_diagnostic_source_conflicts"
+}

@@ -1,31 +1,31 @@
 # Run the current local CLI
 
-Use immutable **runtime057**, source `ac1a48c3b25b2217e0f8252e0e6da21905f144a4`, manifest `9c667b15b916fc18fadec6dcbd6e0f9710a0c4cc6daeb36fc616f111ef03722e`. Its [eleven actual six-stage Native workflows](../evidence/runtime057-native-milestone-001.json) and [exposed IR Improve delivery](../evidence/runtime057-ir-delivery-001.json) passed on this Mac with isolated KiCad10.0.7. Normal routing needs no AI account or network. Existing pinned dependencies remain necessary; this is not standalone, clean-OS or Windows qualification. [Ordinary GUI090](../evidence/gui-runtime057-090-ordinary-001.json), [controls/deliveries](../evidence/gui-runtime057-090-controls-deliveries-001.json) and [one fresh-root GUI091 slice](../evidence/gui-runtime057-install091-delivery-001.json) have actual scoped evidence; exact queued timing/fullGUI/release qualification remain open.
+Use immutable **runtime058**, source `8f5e96b88dd22cd25919bb71ce47711612994efa`, original manifest `4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74`. [Eleven Native workflows](../evidence/runtime058-native-milestone-001.json), [IR Improve](../evidence/runtime058-ir-delivery-001.json) and [EEPROM Improve](../evidence/runtime058-eeprom-improve-regression-001.json) pass within recorded scopes. [GUI092 ordinary](../evidence/gui-runtime058-092-ordinary-001.json)/[observations](../evidence/gui-runtime058-092-observations-001.json) and [installed GUI093](../evidence/gui-runtime058-install093-observations-002.json) are actual functional evidence, not fullGUI or release qualification.
 
-**Enter the runtime directory before every `-m autorouter` session.** Running its absolute Python while staying in the checkout can import the wrong source/tool profile. Keep other Native/engine jobs idle. These commands use the existing owned alias-layer example and partial90 preset; they create fresh results, not overwrite earlier evidence:
+**Enter the runtime directory before every `-m autorouter` session.** An absolute interpreter while staying in the checkout can import the wrong source/tool profile. Keep other Native/engine jobs idle. This owned original-root example uses its preserved alias source/partial90 preset and fresh output names:
 
 ```sh
-cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/runtime'
+cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime'
 .venv/bin/python -B -m autorouter doctor
 .venv/bin/python -B -m autorouter preview \
-  .runs/gui-session090/project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session090/route-settings.json
+  .runs/gui-session092/project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session092/route-settings.json
 .venv/bin/python -B -m autorouter route \
-  .runs/gui-session090/project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session090/route-settings.json --output .runs/my-route-001
+  .runs/gui-session092/project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session092/route-settings.json --output .runs/my-route-001
 .venv/bin/python -B -m autorouter check-result .runs/my-route-001/result.json
 .venv/bin/python -B -m autorouter review-copy .runs/my-route-001/result.json \
   --render --output .runs/my-review-001
 ```
 
-Run each command only after its predecessor succeeds. Choose unused output names. Preserve the sample’s source/preset bytes. For your project, replace the PCB path with an absolute saved path and keep paired PRO/SCH/rule files together. Save and close source editors before routing; unsaved buffers cannot be inspected. Preview is static support information, not Native acceptance.
+Run each command only after its predecessor succeeds. Do not rerun completed jobs to read their evidence. For your project, supply an absolute saved PCB and keep paired PRO/SCH/rules together. Save/close source editors first; unsaved buffers cannot be inspected. Preview is static support information, not Native acceptance.
 
-Open `.runs/my-review-001/preview.html` with **Microsoft Edge → File → Open File…**, without changing Chrome or the default browser. Inspect before/after copper, all layers, findings, warnings and ignored checks. If inspecting the KiCad review project, close its editors and **File → Close Project** before recording your choice.
+Open `.runs/my-review-001/preview.html` through **Microsoft Edge → File → Open File…**, leaving Chrome/default settings unchanged. Inspect before/after copper, all layers, findings, warnings and ignored checks. If inspecting the KiCad review project, close its editors and **File → Close Project** before recording intent.
 
-Only after that review, record acceptance and create a separately validated export:
+After review, accept and create a separately validated export:
 
 ```sh
-cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/runtime'
+cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime'
 .venv/bin/python -B -m autorouter review-choice .runs/my-review-001/review.json \
   --choice accept --output .runs/my-choice-001
 .venv/bin/python -B -m autorouter review-export .runs/my-choice-001/choice.json \
@@ -33,10 +33,12 @@ cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/ru
 .venv/bin/python -B -m autorouter review-export-check .runs/my-export-001/export.json
 ```
 
-Use `--choice reject` **instead of acceptance**, with a fresh output, to refuse delivery. Intent does not overwrite the original or certify a PCB. `review-export` runs fresh Native checks; `review-export-check` checks stored current consistency without fresh DRC. Explicit export budgets must be30–120s. Later editor changes can stale that proof even if the PCB stays unchanged. Do not alter receipts to recover acceptance. Control-C requests cancellation and retains unaccepted output.
+Use `--choice reject` instead of accept, with a fresh output, to refuse delivery. Intent does not overwrite the original or certify a PCB. Review-export runs fresh Native checks; review-export-check checks stored current consistency without fresh DRC. Export budgets are30–120s. Editor metadata changes can stale proof even with unchanged PCB bytes. Never edit receipts to recover acceptance. Control-C requests cancellation and retains unaccepted output.
 
-For customization, `settings-init --output .runs/my-settings-001.json` writes a new editable preset; supply it through `--settings`. Keep presets outside the source. Route `--keep-existing` or `--scope partial` protects every original route; whole-board routing preserves locked copper. The selected10.0.7 ordinary path uses native guidance, standard/both, source_all and default via cost or explicit `via_high`. The higher cost is optional and does not guarantee fewer vias. Unsupported selected-net/layer/other-score/tuned combinations refuse; do not use old10.0.0 examples as this profile’s support contract. [Preferences](routing-preferences.md) · [Current scope](experimental-rc.md).
+Create an editable preset with `settings-init --output .runs/my-settings-001.json`, then pass `--settings`. Whole routing preserves locked copper; `--keep-existing`/`--scope partial` protects every original route. Current ordinary scope is standard/both/native/source_all on supported2/4Cu, engine-default or explicit `via_high` search costs. Selected nets/layer subsets/other scores/ordinary tuned refuse. [Preferences](routing-preferences.md).
 
-Optional Improve is a distinct narrow whole-board2Cu/flat/single-Default method with a tuned incumbent and internal25s return reserve. Thermal recovery is a separate supported2Cu whole-method path. Neither changes the default Route method or silently weakens original rules/protection. See [GUI method requirements and budgets](gui-workflow.md); current ordinary/high/Improve GUI090 roles have actual evidence, not fullGUI qualification. [Current GUI090 active-engine cancellation](../evidence/gui-runtime057-090-controls-deliveries-001.json) retains SIGINT/cleanup/CLI2/unaccepted scope; [historical050 Cancel](../evidence/gui-runtime050-086-active-engine-cancel-001.json) remains version-specific. Neither proves every phase or algorithm entry. Exact queued-callback timing remains unproved. The [separate escape-seed diagnostic is negative and deferred](../evidence/qfn-escape-development-probe-002.json), not a shipped strategy or quality gain.
+Optional Improve requires qualified2Cu/flat/single-Default whole/native/tuned/both/source_all/default score and includes an internal25s return reserve. Thermal recovery has a separate narrow contract and is not current GUI-qualified. Neither changes B1 default or promises completion/electrical gain. [GUI method requirements](gui-workflow.md).
 
-Routing-scope acceptance, whole-project DRC cleanliness and physical/electrical suitability are different. Warnings remain visible; no broad completion, independent human or release claim follows from these controls. [Current status](../STATUS.md) · [Install a fresh same-Mac runtime](install-existing.md). [Historical LED/ArcDice commands and results remain in the unchanged previous guide](history/2026-10-20-pre-runtime050-user-guides/quickstart.md); they are not runtime057 qualification.
+Current GUI092 engine Cancel records−9/cleanup/CLI2/unaccepted/no downstream; the first small-job Cancel hit validation after Java finished. No graceful/all-phase/algorithm-entry guarantee follows. Exact queued timing remains unproved. [Historical057 comparisons](benchmark-runtime057-default-improve.md) and [EEPROM failure](benchmark-runtime057-eeprom.md) remain unchanged by058 singleton successes. The [negative escape experiment](../evidence/qfn-escape-development-probe-002.json) remains deferred, outside the product.
+
+Normal jobs need no AI/network/Git/archive, but pinned same-Mac/account/basePython/external tools remain required. Standalone/cleanOS/Windows/independent-user/fullGUI/human/physical gates remain open. [Status](../STATUS.md) · [Installation](install-existing.md) · [Historical guide preserved unchanged](history/2026-10-20-pre-runtime050-user-guides/quickstart.md).

@@ -483,3 +483,25 @@ and shared final-DRC readback found no material discrepancy. These same-CONTACT
 scenes do not qualify different-net jumper separation, arbitrary custom pads,
 Cheapino, a product workflow, electrical fitness or comparative routing gain.
 No upstream capability or licence claim was added. Production guards stay closed.
+
+### Subsequent Cheapino original-source diagnostic
+
+[Current original-project Native facts](evidence/development-cheapino-native-source-001.json)
+record3opens/49blocking/245warnings/0exclusions and six original ignored checks
+on pinned10.0.7, with all six source files unchanged, full schematic/refill and
+field/PRL evidence. No routing or preflight override ran. The three opens are
+routing demand;39footprint-type errors,4hole-clearance errors,6starved thermals
+and the retained footprint/schematic identity warnings require separate source
+diagnosis. Some geometric findings may depend on routing; not all49 are claimed
+immutable. Decision: defer Cheapino routing/further transport work rather than
+relax original intent. Preparation.64wall/.56CPU and Native5.56/5.81 are separate
+complete events; authoring/review additional. No raw CAD, detailed findings,
+notice body or source-title/ancestry/electrical clearance is published.
+
+The separate [finite next-family search](evidence/development-next-family-research-001.json)
+used two queries and two exact repository endpoints; empty search results and
+two404s yielded no verified recipe. This is a research failure, not a population
+exclusion, licence judgement or absence-of-sources claim. HFE's mistaken
+unacquired description was corrected against its already acquired evidence;
+that board was not reacquired or rerun. No Native/engine/CAD acquisition follows
+from this search, and reserved families remain untouched.
