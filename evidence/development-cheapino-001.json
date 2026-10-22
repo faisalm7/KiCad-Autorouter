@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "kind": "cheapino-bounded-static-intake-facts-only-v1",
+  "recorded_utc": "2026-10-22T09:28:47.648267+00:00",
+  "repository": "https://github.com/tompi/cheapino",
+  "revision": "e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60",
+  "original_records": [
+    {
+      "bytes": 1729120,
+      "git_blob_sha1": "d16cc7333aa993fa754523b3fa1cc29c9be64267",
+      "path": "pcb/cheapino.kicad_pcb",
+      "sha256": "37fe7036e7151d7afc141547d12a61a8c8be9823b6e544d37b0cfb75531b46d7",
+      "url": "https://raw.githubusercontent.com/tompi/cheapino/e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60/pcb/cheapino.kicad_pcb"
+    },
+    {
+      "bytes": 14429,
+      "git_blob_sha1": "40730df95fddd432be19733135f82def9cb5e9b4",
+      "path": "pcb/cheapino.kicad_pro",
+      "sha256": "db2f488838279e8ee7bce7b3ac976b8c08c272b3f242650268766d11e89efede",
+      "url": "https://raw.githubusercontent.com/tompi/cheapino/e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60/pcb/cheapino.kicad_pro"
+    },
+    {
+      "bytes": 119782,
+      "git_blob_sha1": "b134f6e064fc0891f72106c805f6f10274fd54de",
+      "path": "pcb/cheapino.kicad_sch",
+      "sha256": "dcb802dd3cf4d25986d5a66805450dc9fc8491d293e1f3dd97e2d84caf2fd7af",
+      "url": "https://raw.githubusercontent.com/tompi/cheapino/e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60/pcb/cheapino.kicad_sch"
+    },
+    {
+      "bytes": 18657,
+      "git_blob_sha1": "da6ab6cc8f333d7e89a99812866df8f24374d47c",
+      "path": "LICENSE.txt",
+      "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
+      "url": "https://raw.githubusercontent.com/tompi/cheapino/e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60/LICENSE.txt"
+    },
+    {
+      "bytes": 1318,
+      "git_blob_sha1": "67af9e5fd983530b25e62724ce2d8ca42830c679",
+      "path": "readme.md",
+      "sha256": "ddc51e1a6a9a3069c9e3f800abc016301a24971990c096be1e8af95238716cc3",
+      "url": "https://raw.githubusercontent.com/tompi/cheapino/e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60/readme.md"
+    },
+    {
+      "bytes": 36,
+      "git_blob_sha1": "aef996c3c120ce9ff986fa3d8067b051fdf41da7",
+      "path": "pcb/cheapino.round-tracks-config",
+      "sha256": "5620f0b5036744b63065e133fe9fd6ef4d2810f72ebba740fa445c9d149b0863",
+      "url": "https://raw.githubusercontent.com/tompi/cheapino/e4bc9a9757a9d196e0dc6d3e3f453ae633bf1b60/pcb/cheapino.round-tracks-config"
+    }
+  ],
+  "publisher_grant": "CC-BY-4.0",
+  "creator_attribution": "Tompi / Cheapino contributors; embedded PCB also declares by Tompi.",
+  "per_asset_title_closed": false,
+  "raw_CAD_publication": false,
+  "protocol_sha256": "1984c8d791cfbe6f9534049d4244762270fe6bc7f3bdbad42d38e6ae6c8fbf5d",
+  "local_result": {
+    "path": ".runs/development-cheapino-001/result.json",
+    "sha256": "8119df06d6527180d93552afaaeecfb7d03bc5ccc2ea37cf130ce65acad98f62"
+  },
+  "classification": {
+    "local_path": ".runs/development-cheapino-001/custom-pad-classification-001.json",
+    "sha256": "d04b2ef23d372d2b91ef2aa814ed35cc880c7f733cc20ab8faad301725400203",
+    "finding": "14 custom pads in seven standard SolderJumper pairs match the previously studied convex/concave primitive/anchor class; no new geometry probe. Existing area002 is import/contact-only, not SES/Native routing qualification."
+  },
+  "observed": {
+    "footprints": 59,
+    "pads": 557,
+    "custom_pads": 14,
+    "copper_layers": [
+      [
+        "0",
+        "\"F.Cu\"",
+        "signal"
+      ],
+      [
+        "31",
+        "\"B.Cu\"",
+        "signal"
+      ]
+    ],
+    "classes": [
+      "Default"
+    ],
+    "drc_exclusions": [],
+    "net_tie_footprints": 0,
+    "schematic_closure": {
+      "embedded_definitions": 6,
+      "extends": 0,
+      "missing_embedded_ids": [],
+      "netclass_flags": 0,
+      "placed_symbols": 50,
+      "root_sheets": 0,
+      "sheetfile_properties": [],
+      "used_lib_ids": [
+        "Connector:RJ45_Shielded",
+        "Device:RotaryEncoder_Switch",
+        "Jumper:SolderJumper_2_Open",
+        "Switch:SW_Push",
+        "project:RP2040-Zero",
+        "pspice:DIODE"
+      ]
+    }
+  },
+  "static_guard": {
+    "Improve_flat_source": {
+      "pure_static_pass": false,
+      "reason": "unsupported: custom pads not qualified; legacy 20240108 task scope: custom pad unsupported"
+    },
+    "ordinary_native_whole": {
+      "pure_static_pass": false,
+      "reason": "unsupported: custom pads not qualified; legacy 20240108 task scope: custom pad unsupported"
+    }
+  },
+  "decision": "DEFER",
+  "eligible_family_count": 0,
+  "independent_family_established": false,
+  "holdout": false,
+  "split": "development-exposed",
+  "Native": false,
+  "engine": false,
+  "GUI": false,
+  "accepted": false,
+  "source_unchanged": true,
+  "reasons": [
+    "Current pure ordinary whole/native/source_all preflight explicitly refuses14 custom pads, including the legacy20240108 source-task qualifier. No pad, rule, format or routing declaration was changed.",
+    "Schematic is flat and all6 used symbol definitions are embedded, but that is not Native schematic/PCB parity. Actual model/library asset title and independent pedigree remain unclosed.",
+    "This is a reversible split-keyboard/duplex-matrix project with RJ45 interconnect per the publisher. No Ethernet/RF, timing, impedance, rated-current, return-path or physical fitness is inferred from connector or net names."
+  ],
+  "accounting": {
+    "authoring_web_static_review_and_finalization": "Additional unmetered costs, unknown rather than zero.",
+    "complete_phase_CPU_seconds": 1.72,
+    "complete_phase_wall_seconds": 4.02,
+    "failed_first_inspection": {
+      "corrected_numbered_attempt": "static-inspection002",
+      "originals_modified": false,
+      "raw_failure_preserved": true,
+      "reason": "Owned helper filename inspect.py shadowed stdlib inspect during dataclasses import; no preflight/Native ran on that first attempt."
+    },
+    "nested_process_samples_additive": false,
+    "per_phase_complete_exit": {
+      "acquisition": {
+        "CPU_seconds": 0.26,
+        "scope": "Complete external exit; nested method/Native samples are included, not added again.",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-cheapino-001/acquire-time.log",
+        "system_seconds": 0.06,
+        "time_log_sha256": "286f62df25c2a8374639750929d436e9615b344ddbfd66962ce927b2a7dd7511",
+        "user_seconds": 0.2,
+        "wall_seconds": 1.68
+      },
+      "corrected_static_inspection002": {
+        "CPU_seconds": 0.97,
+        "scope": "Complete external exit; nested method/Native samples are included, not added again.",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-cheapino-001/static-inspection002-time.log",
+        "system_seconds": 0.04,
+        "time_log_sha256": "23d0dd8e10d1e2378539f226c3d0802d00bfef246b136d74824b7c2051d4b801",
+        "user_seconds": 0.93,
+        "wall_seconds": 1.0
+      },
+      "failed_static_inspection001": {
+        "CPU_seconds": 0.36,
+        "scope": "Complete external exit; nested method/Native samples are included, not added again.",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-cheapino-001/inspect-time.log",
+        "system_seconds": 0.03,
+        "time_log_sha256": "b64c1cc69d7be38ecd1e6192a37e9bb555370d4361fdec7153380a84a627bfd0",
+        "user_seconds": 0.33,
+        "wall_seconds": 0.38
+      },
+      "primary_contents_metadata": {
+        "CPU_seconds": 0.13,
+        "scope": "Complete external exit; nested method/Native samples are included, not added again.",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/development-cheapino-001/metadata-time.log",
+        "system_seconds": 0.02,
+        "time_log_sha256": "f15c8c75e4712d4d6a4cdbf046bff95a0045c40a441cc72cf8985e8b2731dae4",
+        "user_seconds": 0.11,
+        "wall_seconds": 0.96
+      }
+    }
+  },
+  "finalization_additional_complete_cost": {
+    "wall_seconds": 0.12,
+    "CPU_seconds": 0.09
+  },
+  "proof_scope": "Project-owned hash/count/static-disposition metadata only. No CAD, detailed geometry, source artwork, models, scripts, screenshots or foreign Native findings included. Exact originals and full inspection remain Mac-only/outside010. Different topology is a non-identity screen, not pedigree proof.",
+  "next": "Do not route Cheapino or remove custom pads. A separately reviewed two-owned-scene SES/Native integration proposal addresses this practical support blocker; no production admission or rerun of completed area002 import/contact cases."
+}

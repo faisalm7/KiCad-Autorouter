@@ -1,0 +1,42 @@
+{
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058 fresh install 001/.venv/bin/python",
+    "-B",
+    "-c",
+    "import json,sys;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058 fresh install 001');from autorouter import pipeline as p,preferences as pref;print(json.dumps(dict(runtime=str(p.c.ROOT),interpreter=sys.executable,prefix=sys.prefix,tools=p.tool_manifest(),defaults=dict(pref.DEFAULTS)),sort_keys=True))"
+  ],
+  "cleanup_complete": true,
+  "cpu_seconds": 0.20418299999999998,
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-install-existing-qualification-001",
+  "exit_code": 0,
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-install-existing-qualification-001/tools-defaults.json",
+  "log_bytes": 12537,
+  "log_truncated": false,
+  "max_rss_bytes": 138821632,
+  "monitor_cpu_seconds": 0.0,
+  "pid": 61339,
+  "resource_accounting": {
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "memory_limit_enforced": false,
+    "method": "wait4 child rusage",
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds",
+    "native_rss_unit": "bytes",
+    "rss_scope": "kernel peak, not simultaneous process-tree total"
+  },
+  "resource_guards": {
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed.",
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 16777216,
+    "os_enforced": false,
+    "poll_interval_seconds": 0.25
+  },
+  "sampled_peak_group_rss_bytes": 229376,
+  "sampled_peak_workdir_bytes": 12537,
+  "signal_cancellation_enabled": true,
+  "status": "success",
+  "supervisor_cpu_seconds": 0.004514999999999991,
+  "wall_seconds": 0.26358045905362815
+}
