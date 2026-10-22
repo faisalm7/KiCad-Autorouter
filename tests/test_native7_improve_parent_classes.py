@@ -162,6 +162,17 @@ class ParentClassImproveControls(unittest.TestCase):
         with patch.object(p,'check_result',side_effect=rewrite),self.assertRaisesRegex(p.Rejected,'captured DSN basis'):
             p.check_parent_dsn_basis(self.parent,data,_improve_context=self.context)
 
+    def test_pure_dsn_lineage_keeps_every_basis_without_child_acceptance(self):
+        data=self.parent_data();inc=self.incumbent(data)
+        with patch.object(p,'check_result',side_effect=AssertionError('pure lineage grants no child acceptance')):
+            self.assertEqual(p._parent_dsn_lineage(self.parent,data),inc)
+            for name in ('result.json','native.dsn','task.dsn','export-netclasses.json'):
+                path=self.context.output/name;raw=path.read_bytes()
+                try:
+                    path.write_bytes(raw+b'\n')
+                    with self.subTest(name=name),self.assertRaises(p.Rejected):p._parent_dsn_lineage(self.parent,data)
+                finally:path.write_bytes(raw)
+
     def test_late_parent_class_audit_precedes_material_and_all_root_prl_last(self):
         data = self.parent_data();self.incumbent(data);(self.parent/'trials').mkdir()
         events=[]

@@ -1,5 +1,6 @@
 """Constructed review-boundary regressions; actual Native/GUI qualification is separate."""
 import json
+import shutil
 import os
 import stat
 import sys
@@ -20,7 +21,7 @@ class Native7ReviewBoundaryTests(unittest.TestCase):
         guard=patch.object(h,'_review_validation_guard',side_effect=self.validation_guard)
         guard.start();self.addCleanup(guard.stop)
 
-    def validation_guard(self,directory,report,identity):
+    def validation_guard(self,directory,report,identity,*,entry_owner=None):
         def check():
             if h._review_validation_identity()!=identity:
                 raise Rejected('review validation policy changed in constructed Context seam')
@@ -58,6 +59,32 @@ class Native7ReviewBoundaryTests(unittest.TestCase):
         with patch.object(s,'native7_parent') as recognize:
             with self.assertRaises(Rejected):h.review_copy(self.receipt,self.root/'review')
             recognize.assert_not_called()
+
+    def test_selected_entry_keeps_all_final_guards_after_one_complete_read(self):
+        target=self.root/'review';events=[]
+        def guarded(*args,**kwargs):
+            kwargs['material']();events.append('published' if (target/'review.json').exists() else 'final')
+        def rendered(*args,**kwargs):
+            self.assertEqual(self.check.call_count,1);self.assertEqual(events,[])
+        with patch.object(s,'native7_marked',return_value=True),patch.object(s,'_native7_parent_policy'), \
+                patch.object(s,'_native7_parent_shape'),patch.object(s,'native7_parent',side_effect=self.recognized), \
+                patch.object(h,'delivery_guards',side_effect=guarded),patch.object(view,'render',side_effect=rendered):
+            result=h.review_copy(self.receipt,target,render=True)
+        self.assertEqual(result['status'],'ready_for_manual_review');self.assertEqual(events,['final','published'])
+
+    def test_same_byte_routing_parent_replacement_during_initial_reader_refuses(self):
+        target=self.root/'review';retained=self.root/'original-run';verified=dict(self.check.return_value)
+        def replaced(*args,**kwargs):
+            self.run.rename(retained);shutil.copytree(retained,self.run);return verified
+        self.check.side_effect=replaced
+        try:
+            with patch.object(s,'native7_marked',return_value=True),patch.object(s,'_native7_parent_policy'), \
+                    patch.object(s,'_native7_parent_shape'),patch.object(s,'native7_parent') as recognize:
+                with self.assertRaises(Rejected):h.review_copy(self.receipt,target)
+                recognize.assert_not_called()
+            self.assertFalse(target.exists())
+        finally:
+            if retained.exists():shutil.rmtree(self.run);retained.rename(self.run)
 
     def test_receipt_marker_alone_cannot_select_narrower_callbacks(self):
         data=dict(self.data,native7_improve_parent={'policy':'forged'})

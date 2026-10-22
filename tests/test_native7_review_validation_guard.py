@@ -4,6 +4,7 @@ The guard retains original owner/seal/live policy only. Complete byte custody
 and the late fresh Context/Native/PRL guards remain its callers' obligations.
 """
 import copy
+import os
 import shutil
 import unittest
 from unittest.mock import patch
@@ -45,6 +46,15 @@ class Native7ReviewValidationGuardControls(unittest.TestCase):
             finally:
                 shutil.rmtree(self.parent)
                 retained.rename(self.parent)
+
+    def test_entry_owner_is_not_recaptured_by_context_or_uid_changes(self):
+        data=self.parent_data();entry,check=h._routing_entry_owner(self.parent)
+        with p.validation_readback_session():
+            identity=h._review_validation_identity()
+            self.assertIsNone(h._review_validation_guard(self.parent,data,identity,entry_owner=entry)())
+            wrong=copy.deepcopy(entry);wrong['directory_identity']=(entry['directory_identity'][0],entry['directory_identity'][1]+1)
+            with self.assertRaises(p.Rejected):h._review_validation_guard(self.parent,data,identity,entry_owner=wrong)
+        with patch.object(h.os,'getuid',return_value=os.getuid()+1),self.assertRaises(p.Rejected):check()
 
     def test_equal_valued_owner_type_mutations_are_not_invisible(self):
         data=self.parent_data()

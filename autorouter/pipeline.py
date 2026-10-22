@@ -1379,12 +1379,15 @@ def parent_dsn_basis(directory):
             'files_sha256':{name:sha(base/name) for name in
                 ('result.json','native.dsn','task.dsn','export-netclasses.json')}}
 
-def check_parent_dsn_basis(directory,data,*,_improve_context=None):
-    """A C label never removes the native/DSN contract in the new class scope."""
+def _parent_dsn_lineage(directory,data):
+    """Pure four-file ancestry, not child or parent acceptance.
+
+    The central selected7 reader brackets this with its two full incumbent
+    reads. Standalone callers must use check_parent_dsn_basis instead.
+    """
     from .floor_route import read_json
     from .netclass import PARENT_POLICY
     directory=Path(directory);base=directory/'incumbent/result.json'
-    captured_basis = parent_dsn_basis(directory) if _improve_context is not None else None
     if (data.get('strategy')!='native_validated_zone_net_pruning'
             or data.get('netclass_parent_dsn_basis')!=parent_dsn_basis(directory)):
         raise Rejected('parent-class strategy requires its exact native/DSN incumbent basis')
@@ -1396,6 +1399,14 @@ def check_parent_dsn_basis(directory,data,*,_improve_context=None):
         raise Rejected('parent-class incumbent task/source lineage differs')
     inherited=[{key:value for key,value in step.items() if key!='phase'} for step in data['steps'] if step.get('phase')=='incumbent']
     if inherited!=incumbent.get('steps'):raise Rejected('parent-class incumbent process/cost lineage differs')
+    return incumbent
+
+
+def check_parent_dsn_basis(directory,data,*,_improve_context=None):
+    """A C label never removes the native/DSN contract in the new class scope."""
+    directory=Path(directory);base=directory/'incumbent/result.json'
+    captured_basis = parent_dsn_basis(directory) if _improve_context is not None else None
+    incumbent=_parent_dsn_lineage(directory,data)
     if _improve_context is None:
         check_result(base)
     else:
@@ -3085,7 +3096,10 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
             if is_improve_parent:
                 context = pruning.native7_incumbent_context(path.parent,data)
                 pruning._checked_native7_parent_class_basis(path.parent,data,context)
-                check_parent_dsn_basis(path.parent,data,_improve_context=context)
+                # The two mandatory normal_import_contract calls fully read
+                # this exact child before and after own Native checks. Keep
+                # its class/DSN lineage here without a third nested full read.
+                _parent_dsn_lineage(path.parent,data)
             else:
                 check_parent_dsn_basis(path.parent,data)
         if data.get('baseline')!='C-prototype' and default_target_contract is None:

@@ -1,5 +1,6 @@
 """Constructed choice-publication seams; no actual Native/GUI approval claim."""
 import json
+import shutil
 import os
 import stat
 import sys
@@ -23,7 +24,7 @@ class Native7ChoiceBoundaryTests(unittest.TestCase):
         guard=patch.object(h,'_review_validation_guard',side_effect=self.validation_guard)
         guard.start();self.addCleanup(guard.stop)
 
-    def validation_guard(self,directory,report,identity):
+    def validation_guard(self,directory,report,identity,*,entry_owner=None):
         def check():
             if h._review_validation_identity()!=identity:
                 raise Rejected('review validation policy changed in constructed Context seam')
@@ -54,6 +55,36 @@ class Native7ChoiceBoundaryTests(unittest.TestCase):
 
     def test_ordinary_choice_retains_three_full_reads(self):
         self.choose();self.assertEqual(self.check.call_count,3)
+
+    def test_selected_choice_checks_preview_metadata_before_write_and_after(self):
+        events=[];target=self.root/'choice'
+        def guarded(*args,**kwargs):
+            kwargs['material']();events.append((target/'choice.json').exists())
+        with patch.object(s,'native7_marked',return_value=True),patch.object(s,'_native7_parent_policy'), \
+                patch.object(s,'_native7_parent_shape'),patch.object(s,'native7_parent',side_effect=self.recognized), \
+                patch.object(h,'delivery_guards',side_effect=guarded):
+            self.choose()
+        self.assertEqual(self.check.call_count,1);self.assertEqual(events,[False,True])
+
+    def test_same_byte_entry_replacement_cannot_be_recaptured_by_choice(self):
+        retained=self.root/'original-run';verified=dict(self.check.return_value)
+        def replaced(*args,**kwargs):
+            self.run.rename(retained);shutil.copytree(retained,self.run);return verified
+        self.check.side_effect=replaced
+        try:
+            with patch.object(s,'native7_marked',return_value=True),patch.object(s,'_native7_parent_policy'), \
+                    patch.object(s,'_native7_parent_shape'),patch.object(s,'native7_parent') as recognize:
+                with self.assertRaises(Rejected):self.choose()
+                recognize.assert_not_called()
+            self.assertFalse((self.root/'choice').exists())
+        finally:
+            if retained.exists():shutil.rmtree(self.run);retained.rename(self.run)
+
+    def test_invalid_preview_guard_refuses_before_any_selected_choice_write(self):
+        with patch.object(s,'native7_marked',return_value=True),patch.object(s,'_native7_parent_policy'), \
+                patch.object(s,'_native7_parent_shape'),patch.object(h,'delivery_guards',side_effect=Rejected('invalid preview guide')):
+            with self.assertRaisesRegex(Rejected,'invalid preview guide'):self.choose()
+        self.assertEqual(self.check.call_count,1);self.assertFalse((self.root/'choice').exists())
 
     def test_failed_first_full_read_never_selects_narrower_path(self):
         self.check.return_value['current']=False
