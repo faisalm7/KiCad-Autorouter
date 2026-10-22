@@ -16,7 +16,9 @@ def ordinary_method_contract(plan, child, external):
  return ((plan.get('kind')=='installed-native7-current-method-v1'
           and plan.get('arm') in ('Cdefault','Cthermal') and child.name=='qualify-current-method-001.py')
      or (plan.get('kind')=='installed-native7-current-method-v2'
-          and plan.get('arm') in ('Cdefault','Cimprove') and child.name=='qualify-current-method-002.py'))
+          and plan.get('arm') in ('Cdefault','Cimprove') and child.name=='qualify-current-method-002.py')
+     or (plan.get('kind')=='installed-native7-current-method-v3-current40'
+          and plan.get('arm') in ('Cdefault','Cimprove') and child.name=='qualify-current-method-003.py'))
 
 
 ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--protocol-sha256',required=True);a=ap.parse_args()

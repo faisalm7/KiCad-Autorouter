@@ -12,6 +12,7 @@ A failure retains its partial new namespace; never delete/reuse it automatically
 """
 from pathlib import Path
 import argparse
+import ast
 import copy
 import hashlib
 import json
@@ -43,13 +44,28 @@ ADMIN_FILES = ('scripts/qualify_comparison_portfolio.py', 'scripts/experiment_po
     'scripts/experiment_quality.py', 'scripts/qualify_installed_workflow.py',
     'scripts/qualify_current_method.py', 'scripts/freeze_current_comparison.py',
     'scripts/enclose_current_comparison.py')
-ENCLOSURE_SHA = 'a441b05adc76deb55e75b809c0d6ec39f3d6a6ee7d700cf545c8f893d5e0dc34'
+LEGACY_ENCLOSURE_SHA = 'a441b05adc76deb55e75b809c0d6ec39f3d6a6ee7d700cf545c8f893d5e0dc34'
+ENCLOSURE_SHA = '2c0a80af01f20f8985f1560cf6c10fb4a707bd4784832b963d6918858c44219b'
 QUALIFICATION_KIND = 'runtime042-install-existing-actual-Native-and-single-GUI-vertical-slice-v1'
 IMPROVE_POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cimprove')
 IMPROVE_ARM_ORDER = ('Cdefault', 'B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cimprove')
 IMPROVE_POPULATION_KIND = 'frozen-current-improve-six-arm-exposed-development-v2'
 IMPROVE_METHOD_KIND = 'installed-native7-current-method-v2'
 IMPROVE_QUALIFICATION_KIND = 'runtime050-install-existing-actual-Native-CLI-prepared-GUI-only-v1'
+CURRENT40_VERSION = 'improve-v3-current40'
+CURRENT40_POPULATION_KIND = 'frozen-current-improve-six-arm-exposed-development-v3-current40'
+CURRENT40_METHOD_KIND = 'installed-native7-current-method-v3-current40'
+CURRENT40_QUALIFICATION_KIND = 'runtime060-fresh-installed-thirteen-current40-CLI-only-v1'
+CURRENT40_REPORTER_SHA = 'a0a925ad9c03602f34efdcc0a249e81729effb9231576b62977f35801a809f13'
+CURRENT40_HEAD = '972b395878b734ccf47c7691d66435c42c032634'
+# This finite adapter admits these completed receipts, not arbitrary future
+# cohorts or a sanitized summary. Relative paths contain no foreign source.
+CURRENT40_060_PINS = {
+    '.runs/runtime060-installed-native-qualification-001/frozen.json': '907b271df390469c81df035986970deba28e9289ae43e1f5c32c59f6c363ea1d',
+    '.runs/runtime060-installed-native-qualification-001/batch-result.json': 'b2fa39d3955f99ad73cf5fadda9fc7b9dd67011a2d2080a7f89452880b0c474c',
+    '.runs/runtime060-native-controls-001/invalid/protocol.json': 'e533ee37df9a36cc3cf8bad61a71c8242c2b41b3798d68ced2741e6c842924bd',
+    '.runs/runtime060-native-controls-001/invalid/enclosure/result.json': '5f2592c22367d0bb879b92739733bf9c70ba4d899982f10a29e96bd007b2ced6',
+}
 NATIVE_COHORT_QUALIFICATION_KIND = 'current-selected-native7-positive-cohort-CLI-only-v1'
 NATIVE_CASES = {'ordinary-npth2Cu': ('route', 1), 'improve-pour-only': ('improve', 1),
     'improve-fractional': ('improve', 1), 'improve-floor2Cu': ('improve', 1),
@@ -69,12 +85,16 @@ def require(ok, message):
 def contract(version):
     if version == 'legacy-v1':
         return POPULATION, ARM_ORDER, 'frozen-current-six-arm-exposed-development-v1', 'installed-native7-current-method-v1', 'qualify-current-method-001.py'
+    if version == CURRENT40_VERSION:
+        return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, CURRENT40_POPULATION_KIND, CURRENT40_METHOD_KIND, 'qualify-current-method-003.py'
     require(version == 'improve-v2', 'unknown comparison population version')
     return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, IMPROVE_POPULATION_KIND, IMPROVE_METHOD_KIND, 'qualify-current-method-002.py'
 
 
 def qualification_scope(qualified, runtime, manifest_pin, identity, manifest, version):
-    """Keep the old GUI gate separate from the explicit050 CLI-only gate."""
+    """Keep historical gates separate from the exact installed060/current40 gate."""
+    if version == CURRENT40_VERSION:
+        return current40_installed_scope(qualified, runtime, manifest_pin, identity, manifest)
     if type(qualified.get('kind')) is str and re.fullmatch(
             r'runtime[0-9]{3}-(seven|eleven)-completed-native-workflows-v1', qualified['kind']):
         return native_cohort_scope(qualified, runtime, manifest_pin, identity, manifest, version)
@@ -376,6 +396,240 @@ def native_cohort_scope(proof, runtime, manifest_pin, identity, manifest, versio
         scope='Current positive Native/CLI cohort and linked Improve delivery; no GUI/thermal/electrical qualification.'), dependencies
 
 
+def current40_reserve(runtime, implementation):
+    """Read a pinned immutable declaration without executing runtime modules."""
+    path = runtime/'autorouter/_improve_context.py'
+    raw = pv.read_bytes(path)
+    require(hashlib.sha256(raw).hexdigest() == implementation.get('autorouter/_improve_context.py'),
+            'current40 reserve declaration differs from immutable map')
+    values = [ast.literal_eval(node.value) for node in ast.parse(raw).body
+        if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name)
+            and target.id == 'RESERVE_SECONDS' for target in node.targets)]
+    require(len(values) == 1 and type(values[0]) is int and values[0] == 40,
+            'current40 requires the exact40-second return policy')
+    return values[0]
+
+
+def installed_root_binding(old, new, receipt, original, runtime, source_pin, destination_pin):
+    """Installation records describe a copy; immutable maps remain authority."""
+    require(old.get('root') == str(original) and new == dict(old, root=str(runtime))
+        and type(old.get('immutable_files_sha256')) is dict and len(old['immutable_files_sha256']) == 54
+        and old.get('native_version') == '10.0.7' and old.get('local_engine') is not None
+        and receipt.get('schema') == 1 and receipt.get('kind') == 'existing-runtime-installation-record-v1'
+        and receipt.get('source_root') == str(original)
+        and receipt.get('source_manifest_sha256') == source_pin
+        and receipt.get('destination_manifest_sha256') == destination_pin
+        and receipt.get('destination_root') == str(runtime)
+        and receipt.get('immutable_files') == 54 and receipt.get('local_engine') == new['local_engine']
+        and receipt.get('record_is_authoritative') is False
+        and receipt.get('receipt_may_remain_on_refusal') is True
+        and receipt.get('same_mac_dependency_locations_required') is True
+        and all(receipt.get(key) is False for key in ('mutable_state_copied','venv_created',
+            'launcher_created','native_qualification_performed','standalone','published')),
+        'exact nonauthoritative root-only installation binding required')
+
+
+def current40_installed_scope(qualified, runtime, manifest_pin, identity, manifest):
+    """Exact completed060 installed13 lineage and stored own proofs, never Native.
+
+    An additional runtime/cohort needs its own reviewed adapter. The old
+    seven/eleven+IR and042/050 contracts are deliberately not broadened.
+    """
+    from scripts import report_current_comparison as report
+    from autorouter import local_settings
+    base = ROOT/'.runs/runtime060-installed-native-qualification-001'
+    original = ROOT/'.runs/runtime-directory-060/runtime'
+    require(runtime == ROOT/'.runs/runtime060 fresh install 001'
+        and identity.get('git_head') == CURRENT40_HEAD and identity.get('native_version') == '10.0.7'
+        and manifest_pin == '8f385b397ddb6379ce35bab92d62ceff55029c6a796f7d3269c5c5b34ed1ba30',
+        'exact installed060 source/root/manifest required')
+    dependencies = {}
+    def bound(path, pin):
+        path = pv.canonical(Path(path)); value = pinned_json(path,pin)[1]
+        dependencies[str(path)] = pin
+        return value
+    fixed = {name:bound(ROOT/name,pin) for name,pin in CURRENT40_060_PINS.items()}
+    frozen = fixed[str((base/'frozen.json').relative_to(ROOT))]
+    batch = fixed[str((base/'batch-result.json').relative_to(ROOT))]
+    invalid_plan = fixed['.runs/runtime060-native-controls-001/invalid/protocol.json']
+    invalid = fixed['.runs/runtime060-native-controls-001/invalid/enclosure/result.json']
+    require(qualified == frozen and frozen.get('runtime') == str(runtime)
+        and frozen.get('source_head') == identity['git_head'] and frozen.get('runtime_manifest_sha256') == manifest_pin
+        and frozen.get('source_runtime') == str(original) and frozen.get('installation_record_is_authoritative') is False
+        and batch.get('passed') is True and batch.get('completed_cases') == 13 and batch.get('unstarted_cases') == 0
+        and batch.get('frozen_sha256') == CURRENT40_060_PINS[str((base/'frozen.json').relative_to(ROOT))]
+        and batch.get('full_CPU_complete') is True
+        and all(type(batch.get(key)) in (int,float) and 0 <= batch[key] <= 900
+                for key in ('wall_seconds','full_CPU_seconds')), 'exact completed installed13 cohort required')
+    report_source = ROOT/'scripts/report_current_comparison.py'
+    require(Path(report.__file__).resolve() == report_source
+        and pv.file_digest(report_source)[0] == CURRENT40_REPORTER_SHA,
+        'exact reviewed current40 stored-evidence helper required')
+    pins = frozen['prerequisite_sha256']
+    for path,pin in {
+        ROOT/'.runs/freeze-runtime060-installed-native-draft-001.py':frozen['controller_sha256'],
+        ROOT/'.runs/enclose-runtime044-workflow-001.py':frozen['enclosure_sha256'],
+        ROOT/'scripts/qualify_runtime_workflow.py':frozen['driver_sha256'],
+        Path(invalid_plan['controller']):invalid_plan['controller_sha256']}.items():
+        require(pv.file_digest(path)[0] == pin, 'recorded Native controller/driver changed')
+    def prior(path):
+        return bound(path,pins[str(path)])
+    implementation = {name:pin for name,pin in manifest['immutable_files_sha256'].items() if name.startswith('autorouter/')}
+    current40_reserve(runtime,implementation)
+    old = prior(original/pv.MANIFEST); prepared = prior(original.parent/'preparation.json')
+    require(pv._runtime_identity(original,implementation) == prepared['recipe']['source_provenance']
+        and prepared.get('prepared') is True and prepared.get('source_head') == identity['git_head']
+        and prepared.get('runtime') == str(original)
+        and prepared.get('manifest_sha256') == frozen['source_manifest_sha256'] == pins[str(original/pv.MANIFEST)],
+        'current original build identity differs')
+    receipt = prior(runtime/'.runs/install-existing-runtime-001.json')
+    installed_root_binding(old,manifest,receipt,original,runtime,frozen['source_manifest_sha256'],manifest_pin)
+    require(receipt['source_manifest_sha256'] == frozen['source_manifest_sha256']
+        and receipt['destination_manifest_sha256'] == manifest_pin
+        and pins[str(runtime/'.runs/install-existing-runtime-001.json')] == frozen['installation_receipt_sha256'],
+        'installation/cohort pins differ')
+    returned = prior(ROOT/'.runs/runtime060-install-existing-copy-001.log')
+    require(returned.get('root') == str(runtime) and returned.get('source_provenance') == identity
+        and returned.get('installation_receipt_sha256') == frozen['installation_receipt_sha256']
+        and returned.get('local_engine_copied') is True and returned.get('standalone') is False,
+        'installer return binding differs')
+    def success(value):
+        return (value.get('status') == 'success' and type(value.get('exit_code')) is int
+            and value['exit_code'] == 0 and value.get('cleanup_complete') is True and value.get('log_truncated') is False)
+    full = prior(ROOT/'.runs/full-integration-212/execution.json')
+    full_plan = prior(ROOT/'.runs/full-integration-212/protocol.json')
+    require(prepared.get('full212_execution_sha256') == pins[str(ROOT/'.runs/full-integration-212/execution.json')]
+        and full.get('passed') is True and full.get('sources_unchanged') is True and success(full['process'])
+        and full_plan['tools']['git_head'] == identity['git_head']
+        and all(full_plan['source_sha256'].get(name) == pin for name,pin in implementation.items()),
+        'current full212 source/process binding differs')
+    venv = prior(ROOT/'.runs/runtime060-install-existing-venv-process-001.json')
+    require(success(venv) and venv.get('cwd') == str(runtime)
+        and venv.get('argv') == [*f.SANDBOX,prepared['base_python']['path'],'-B','-m','venv',
+                                 '--copies','--without-pip',str(runtime/'.venv')]
+        and pv.file_digest(runtime/'.venv/bin/python',pv.MAX_ENGINE_BYTES)[0] == prepared['base_python']['sha256'],
+        'actual copied interpreter/process differs')
+    def cfg(root):
+        path = root/'.venv/pyvenv.cfg'
+        require(pv.file_digest(path,64*1024)[0] == pins[str(path)], 'copied environment configuration changed')
+        return dict(line.strip().split(' = ',1) for line in pv.read_bytes(path,64*1024).decode().splitlines())
+    source_cfg,current_cfg = cfg(original),cfg(runtime)
+    require(all(current_cfg.get(key) == source_cfg.get(key) for key in
+                ('home','version','executable','include-system-site-packages'))
+        and current_cfg.get('version') == '3.11.9' and current_cfg.get('include-system-site-packages') == 'false',
+        'base interpreter/environment changed')
+    doctor = prior(base/'doctor.json')
+    require(success(prior(base/'doctor-process.json')) and doctor.get('ready') is True
+        and doctor.get('workspace') == str(runtime)
+        and doctor['checks'].get('runtime_provenance') == dict(verified=True,identity=identity),
+        'current installed doctor binding differs')
+    tools = prior(base/'tools-defaults.json')['tools']
+    require(tools.get('source_provenance') == identity and tools.get('implementation_sha256') == implementation
+        and success(prior(base/'tools-defaults-process.json')), 'installed tools query differs')
+    expected = dict(NATIVE_CASES,**HIGH_CASES,**{
+        'improve-eeprom90-return':('improve',0),'ordinary-arcdice-admission':('route',0)})
+    require(len(frozen['protocols']) == len(batch['rows']) == 13
+        and {row['case'] for row in frozen['protocols']} == {row['case'] for row in batch['rows']} == set(expected),
+        'complete unique thirteen-case population required')
+    packets = []; proof_facts = []; plot_pairs = []
+    for item,row in zip(frozen['protocols'],batch['rows']):
+        label = item['case']; method,protected = expected[label]
+        require(row['case'] == label and row.get('passed') is True and row.get('status') == 'passed', 'cohort row changed')
+        path = base/label/'protocol.json'; plan = bound(path,item['protocol_sha256'])
+        execution = bound(path.parent/'execution.json',row['execution_sha256'])
+        process = bound(path.parent/'batch-process.json',row['process_sha256'])
+        require(plan.get('runtime') == str(runtime) and plan.get('runtime_manifest_sha256') == manifest_pin
+            and plan.get('source_head') == identity['git_head'] and plan.get('tools') == tools and plan.get('method') == method
+            and execution.get('controls_passed') is True and execution.get('workflow_delivered') is True
+            and execution.get('protocol_sha256') == item['protocol_sha256'] and success(execution['process'])
+            and success(process) and execution.get('protected_count') == protected
+            and all(type(execution.get(key)) in (int,float) and 0 <= execution[key] <= 255
+                for key in ('complete_wall_seconds','complete_full_CPU_seconds')),
+            'actual installed workflow/process/cap differs')
+        output = runtime/'.runs'/(label+'-001')
+        require(plan.get('output') == str(output) and execution.get('child_receipt') == str(output/'result.json')
+            and io.inventory(Path(plan['source']).parent) == plan['source_hashes'], 'registered source/output differs')
+        child = bound(output/'result.json',execution['child_sha256'])
+        workspace = Path(child['workspace']); route_path = workspace/'route/result.json'; export_path = workspace/'export/export.json'
+        require(workspace.parent == output and re.fullmatch(r'autorouter-gui-[0-9a-f]{32}',workspace.name)
+            and child.get('status') == 'completed' and child.get('workflow_delivered') is True
+            and child.get('method') == method and child.get('settings') == plan['settings']
+            and child.get('source_hashes') == plan['source_hashes'] and child.get('tools') == tools,
+            'actual installed child identity/settings differ')
+        parent = bound(route_path,child['route_receipt_sha256']); exported = report.read(export_path)
+        require(parent.get('accepted') is True and exported.get('export_accepted') is True
+            and exported['inputs']['receipt'] == str(route_path)
+            and exported['inputs']['receipt_sha256'] == child['route_receipt_sha256']
+            and parent['candidate_sha256'] == exported['candidate_sha256'] == child['candidate_sha256'],
+            'canonical parent/export lineage differs')
+        delivery,pairs = report.installed_delivery(child,plan,output,workspace)
+        proof_facts.append(delivery); plot_pairs.extend(pairs)
+        allowed = [output]
+        for receipt_path,is_export,data in ((route_path,False,parent),(export_path,True,exported)):
+            own = report.own_final(receipt_path,export=is_export,plan=plan,allowed=allowed,accepted=True,public_sanitize=True)
+            folder = receipt_path.parent/'validation' if is_export else receipt_path.parent
+            audit = report.read(folder/'final-netclass-audit.json')
+            require(audit.get('candidate_sha256') == own['candidate_sha256']
+                and audit.get('project_sha256') == plan['source_hashes'][Path(plan['source']).with_suffix('.kicad_pro').name]
+                and audit.get('native_map_file_sha256') == report.digest(folder/'final-netclasses.json')
+                and audit.get('native',{}).get('passed') is True
+                and audit.get('route_dimensions',{}).get('passed') is True
+                and audit['route_dimensions']['checked']['protected'] == protected,
+                'own class/dimension/original protection evidence differs')
+            require(own['Native_counts'] == row['Native_counts']
+                and own['ignored_check_count'] == row['ignored_check_count'], 'cohort warnings/ignored census differs')
+            packets.append((folder,data)); proof_facts.append(dict(own_final=own,
+                class_audit_sha256=report.digest(folder/'final-netclass-audit.json'),
+                class_map_sha256=report.digest(folder/'final-netclasses.json')))
+        if method == 'improve':
+            # Exact stored producer receipts bind settings, selection and return
+            # policy; shared reporting checks each child's own Native proof.
+            require(parent.get('finalization_reserve_seconds') == parent.get('finalization_cpu_reserve_seconds') == 40
+                and parent.get('budget_seconds') == parent.get('cpu_budget_seconds') == plan['settings']['seconds'],
+                'current Improve return policy differs')
+            # Reuse the versioned reporter's exact parent/context/incumbent
+            # basis/worker/trial-selection lineage, not hashes first computed
+            # during this admission. The frozen parent pins its incumbent.
+            replay_plan = dict(plan,kind=CURRENT40_METHOD_KIND,improve_finalization_reserve_seconds=40)
+            facts = report.improve_facts(route_path,replay_plan,allowed,qualified_parent=True,
+                public_sanitize=True,prerequisite_seconds=plan['settings']['seconds'])
+            proof_facts.append(facts)
+            incumbent_path = route_path.parent/'incumbent/result.json'
+            packets.append((incumbent_path.parent,report.read(incumbent_path)))
+            for fact in facts['trials']:
+                if fact['Native_completion_qualified']:
+                    trial_path = Path(fact['receipt']); packets.append((trial_path.parent,report.read(trial_path)))
+    require(invalid.get('passed') is True and invalid.get('status') == 'completed' and success(invalid['process'])
+        and invalid_plan.get('runtime') == str(runtime) and invalid_plan.get('runtime_manifest_sha256') == manifest_pin
+        and invalid.get('protocol_sha256') == CURRENT40_060_PINS['.runs/runtime060-native-controls-001/invalid/protocol.json'],
+        'current installed invalid controls differ')
+    negative = bound(Path(invalid['child_receipt']),invalid['child_sha256'])
+    require(negative.get('control_passed') is True and negative.get('status') == 'completed'
+        and negative.get('accepted') is False and negative.get('production_admitted') is False
+        and [row.get('case') for row in negative['cases']] == ['short','protected-width','hole-clearance']
+        and all(row.get('passed') is True for row in negative['cases']), 'three actual invalid controls required')
+    invalid_output = Path(invalid_plan['output'])
+    require(report.inventory(invalid_output) == invalid.get('completed_evidence'),
+            'stored invalid-control material changed')
+    # Large proof closure is replayed by this adapter before/after the query;
+    # only its fixed top bindings enter the bounded32 child prerequisite map.
+    closure = hashlib.sha256(f.canonical(dict(dependencies=dependencies,own_finals=proof_facts)).encode()).hexdigest()
+    top = {str(ROOT/name):pin for name,pin in CURRENT40_060_PINS.items()}
+    top[str(report_source)] = CURRENT40_REPORTER_SHA
+    cli = [Path(name) for name in tools['files'] if Path(name).name == 'kicad-cli']
+    require(len(cli) == 1, 'unique actual pinned Native CLI required')
+    local_settings.check_final_events(packets,cli[0],pairs=plot_pairs)
+    for name in invalid['completed_evidence']:
+        if name.endswith('.kicad_prl'):
+            require(local_settings.check_current_metadata(invalid_output/name) is True,
+                    'invalid-control PRL metadata changed')
+    return dict(kind=CURRENT40_QUALIFICATION_KIND,Native_cohort_only=True,
+        runtime=str(runtime),source_head=identity['git_head'],runtime_manifest_sha256=manifest_pin,
+        actual_GUI_qualified=False,full_GUI_claim=False,tools_files_sha256=tools['files'],
+        finalization_reserve_seconds=40,cohort_cases=13,stored_proof_closure_sha256=closure,
+        scope='Exact installed060/current40 Native CLI prerequisite only; no GUI/electrical/holdout qualification.'),top
+
+
 def pinned_json(path, digest):
     require(type(digest) is str and pv._DIGEST.fullmatch(digest), 'exact lowercase SHA256 required')
     path = pv.canonical(Path(path)); raw = pv.read_bytes(path, 4 * 1024**2)
@@ -545,11 +799,13 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         policy='B1 corrected standard remains default. Fixed one tuned attempt plus ordered via_default/via_low/via_high balanced portfolio;30inside each trial and15root reserve, no extra budget or board tuning.',
         caveats='All exposed families/failures/warnings retained; rights are declarations, not legal clearance/holdout/independent pedigree. B0 shares fidelity safeguards, not untouched vanilla. API baselines versus actual default/recoverCLI startup differ. Recover420 is whole-method allocation. Every actual outer wall/fullCPU cost includes all startup/conversion/selection/Native/delivery/readback; setup separate. All raw local, publication hashes_only; no publication function or aggregate future-job quota.',
         Native_executed=False,actual_GUI=False,project_complete=False)
-    if population_version == 'improve-v2':
+    if population_version in ('improve-v2', CURRENT40_VERSION):
         population.update(improve_settings=copy.deepcopy(improve_settings),
-            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and25 finalization reserve. Baselines and portfolio policy unchanged.',
+            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and'+str(40 if population_version == CURRENT40_VERSION else 25)+' finalization reserve. Baselines and portfolio policy unchanged.',
             caveats=population['caveats'].replace('Recover420 is whole-method allocation.',
-                'Improve420 is whole-method allocation including its incumbent and25-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
+                'Improve420 is whole-method allocation including its incumbent and'+str(40 if population_version == CURRENT40_VERSION else 25)+'-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
+    if population_version == CURRENT40_VERSION:
+        population['improve_finalization_reserve_seconds'] = current40_reserve(runtime,implementation)
     population_pin = save_new(output/'population.json', population)
     prerequisite_paths = [Path(sources_path), Path(qualification), runtime/pv.MANIFEST, output/'sources.json', output/'qualification.json',
         output/'population.json', output/'tools-defaults.json', output/'tools-defaults-process.json', child, *[ROOT/name for name in tracked]]
@@ -579,7 +835,8 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
                     source_inventory_sha256=hashlib.sha256((f.canonical(entry['source_hashes'])+'\n').encode()).hexdigest(),
                     source_rights_sha256=hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(),
                     prerequisite_sha256=prerequisites,default_settings=copy.deepcopy(defaults),limits=dict(LIMITS))
-                if population_version == 'improve-v2': plan['improve_settings'] = copy.deepcopy(improve_settings)
+                if population_version in ('improve-v2', CURRENT40_VERSION): plan['improve_settings'] = copy.deepcopy(improve_settings)
+                if population_version == CURRENT40_VERSION: plan['improve_finalization_reserve_seconds'] = 40
             path = folder/'protocol.json'; children[slug][arm] = dict(path=str(path),sha256=save_new(path,plan))
     fresh(); require(child.stat().st_uid == os.getuid() and pv.read_bytes(child) == payload, 'copied controller changed or unowned at final freeze')
     for rows in children.values():
@@ -597,7 +854,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2'), default='legacy-v1')
+    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2',CURRENT40_VERSION), default='legacy-v1')
     for name in ('runtime','sources','qualification','output','enclosure'): parser.add_argument('--'+name,type=Path,required=True)
     for name in ('expected-manifest-sha256','sources-sha256','qualification-sha256','expected-administration-head','enclosure-sha256'):
         parser.add_argument('--'+name,required=True)

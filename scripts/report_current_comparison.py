@@ -25,6 +25,7 @@ from scripts import freeze_current_comparison as frozen
 
 KEYS = ('opens', 'blocking', 'warnings', 'exclusions')
 KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequisite recorded by freezer; no new GUI claim',
+         frozen.CURRENT40_POPULATION_KIND: 'Exact installed060/current40 Native CLI prerequisites; no new GUI qualification',
          frozen.IMPROVE_POPULATION_KIND: 'Pinned installed Native/CLI prerequisites; GUI qualification NOT supplied',
          'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
          'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied',
@@ -330,13 +331,106 @@ def improve_auxiliary(folder, data, plan):
         protected_count=audit['route_dimensions']['checked']['protected'])
 
 
-def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=False):
+def improve_reserve(plan):
+    from scripts.qualify_current_method import method_reserve, IMPROVE_KIND
+    # Historical direct helper callers supplied source/tool plans without kind.
+    # Their contract stays25; parent bytes never select their own reserve.
+    return method_reserve(plan if 'kind' in plan else dict(kind=IMPROVE_KIND))
+
+
+def preview_material(root, preview):
+    """Replay hashes from the pinned review log, not mutable export witnesses."""
+    for name,pin in preview['files'].items():
+        path = pv.canonical(root/name)
+        require(root in path.parents and digest(path) == pin, 'recorded preview bytes changed')
+    for name,hashes in preview['input_trees'].items():
+        path = pv.canonical(root/name)
+        require(root in path.parents and io.inventory(path) == hashes, 'recorded preview input changed')
+
+
+def installed_delivery(child, plan, out, workspace):
+    """Replay the retained six-stage CLI/material bridges, without running tools.
+
+    Own Native/source/constraint checks remain the caller's responsibility.
+    Reuse product material/plot guards rather than create another validator.
+    """
+    from autorouter import review_export as ex
+    method = plan['method']; settings = workspace/'settings.json'
+    require(read(settings) == plan['settings'] and method in ('route','improve'),
+            'captured installed settings/method differ')
+    prefix = [str(Path(plan['runtime'])/'.venv/bin/python'),'-B','-m','autorouter']
+    route = workspace/'route/result.json'; review = workspace/'review/review.json'
+    choice = workspace/'choice/choice.json'; export = workspace/'export/export.json'
+    commands = {
+        'preview':['preview',plan['source'],'--settings',str(settings)] + (['--purpose','improve'] if method=='improve' else []),
+        'route':[method,plan['source'],'--settings',str(settings),'--output',str(route.parent)],
+        'review':['review-copy',str(route),'--render','--output',str(review.parent)],
+        'choice':['review-choice',str(review),'--choice','accept','--output',str(choice.parent)],
+        'export':['review-export',str(choice),'--seconds',str(plan['budgets']['export']),'--output',str(export.parent)],
+        'verify_export':['review-export-check',str(export)]}
+    require([row.get('stage') for row in child['processes']] == list(commands),
+            'complete ordered six-stage installed process census required')
+    logs = {}
+    for item in child['processes']:
+        stage = item['stage']; path = out/(stage+'.log'); process = item['process']
+        require(digest(path) == item['log_sha256'] and read(out/(stage+'.process.json')) == process
+            and process['argv'] == prefix+commands[stage] and type(process['exit_code']) is int
+            and process['exit_code'] == 0 and process['cancel_requested'] is False
+            and process['log_truncated'] is False and process['log_bytes'] == path.stat().st_size,
+            'installed CLI log/argv/process custody differs')
+        logs[stage] = read(path)
+    r,ch,x = read(review),read(choice),read(export)
+    parent = read(route)
+    require(logs['review'] == r and logs['choice'] == ch
+        and all(logs['route'].get(key) == parent.get(key) for key in logs['route'])
+        and r['receipt'] == ch['receipt'] == str(route)
+        and r['receipt_sha256'] == ch['receipt_sha256'] == child['route_receipt_sha256'] == digest(route)
+        and ch['review'] == str(review) and ch['review_sha256'] == digest(review)
+        and ch['choice'] == 'accept' and ch['choice_recorded'] is True
+        and ch['human_pcb_approval_observed'] is False and ch['applied'] is False
+        and x['inputs']['choice'] == str(choice) and x['inputs']['review'] == str(review)
+        and x['budget_seconds'] == x['cpu_budget_seconds'] == plan['budgets']['export']
+        and x['within_budget'] is True
+        and all(logs['export'].get(key) == x.get(key) for key in logs['export'])
+        and logs['verify_export'].get('current') is True and logs['verify_export'].get('applied') is False
+        and logs['verify_export'].get('candidate_sha256') == x['candidate_sha256'],
+        'stored installed review/choice/export binding differs')
+    ex.bound_material(x['inputs'])
+    require(ex.evidence(export.parent) == x['export_evidence'], 'stored export material changed')
+    preview_material(review.parent,r['preview'])
+    # Same retained plot-process composition used by the installed workflow
+    # driver's final guard. Administration may select a different KiCad than
+    # this immutable runtime; derive no authority from administration config.
+    plot_root = review.parent/'plot-work'; pairs = []
+    cli = [name for name in plan['tools']['files'] if Path(name).name == 'kicad-cli']
+    require(len(cli) == 1 and r['preview']['plotter'] == cli[0]
+        and r['preview']['plotter_sha256'] == plan['tools']['files'][cli[0]], 'stored plotter differs')
+    for step in r['preview']['steps']:
+        require(step['cwd'] == str(plot_root) and step['argv'][:len(f.SANDBOX)+4]
+            == [*f.SANDBOX,cli[0],'pcb','export','svg'], 'stored plot worker escaped selected tool/root')
+        process = f.process_check(plot_root,r['preview'],step['name'],step['argv'])
+        pairs.append((plot_root,read(plot_root/(step['name']+'-input-binding.json')),process))
+    return dict(six_ordered_CLI_stages=True,settings_sha256=digest(settings),
+        review_sha256=digest(review),choice_sha256=digest(choice),export_sha256=digest(export)),pairs
+
+
+def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=False,
+                  prerequisite_seconds=None):
     """Retain every attempt; only completed trials receive own-final facts.
 
     Trial records inherit caller-frozen source/tool context, never fabricated
     Route headers. This is stored evidence reporting, not central revalidation.
     """
+    # Comparisons remain420. Only the exact current40 prerequisite adapter
+    # supplies its independently frozen90s cohort budget; receipts cannot pick it.
+    seconds = 420
+    if prerequisite_seconds is not None:
+        require(plan.get('kind') == frozen.CURRENT40_METHOD_KIND
+            and type(prerequisite_seconds) is int and prerequisite_seconds == 90,
+            'only the current40 completed90s prerequisite contract is allowed')
+        seconds = prerequisite_seconds
     receipt = pv.canonical(Path(receipt)); parent = read(receipt); folder = receipt.parent
+    reserve = improve_reserve(plan)
     require(type(qualified_parent) is bool, 'typed parent qualification required')
     require(any(root in receipt.parents for root in allowed), 'Improve parent escaped frozen arm')
     rows = parent.get('trials', [])
@@ -351,16 +445,19 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
     else:
         require(parent['accepted'] is True and parent['strategy'] == 'native_validated_zone_net_pruning'
             and parent['proposal_policy'] == 'single' and parent['engine_profile'] == 'tuned'
-            and parent['budget_seconds'] == parent['cpu_budget_seconds'] == 420
-            and parent['finalization_reserve_seconds'] == parent['finalization_cpu_reserve_seconds'] == 25,
+            and parent['budget_seconds'] == parent['cpu_budget_seconds'] == seconds
+            and type(parent['finalization_reserve_seconds']) is int
+            and type(parent['finalization_cpu_reserve_seconds']) is int
+            and parent['finalization_reserve_seconds'] == parent['finalization_cpu_reserve_seconds'] == reserve,
             'shipped single Improve parent contract differs')
         marker = parent['native7_improve_parent']; sidecar = folder/'native7-improve-parent.json'
         context = read(sidecar)['context']
         require(marker == dict(policy='selected-native7-single-improve-parent-v1',file=sidecar.name,sha256=digest(sidecar))
             and context['parent'] == str(folder) and context['output'] == str(folder/'incumbent')
             and context['source'] == plan['source'] and context['source_hashes'] == plan['source_hashes']
-            and context['runtime'] == plan['runtime'] and context['method_seconds'] == 420
-            and context['finalization_reserve_seconds'] == 25 and context['scoring_variant'] is None
+            and context['runtime'] == plan['runtime'] and context['method_seconds'] == seconds
+            and type(context['finalization_reserve_seconds']) is int
+            and context['finalization_reserve_seconds'] == reserve and context['scoring_variant'] is None
             and context['profile'] == 'tuned' and context['proposal_policy'] == 'single'
             and context['tools_sha256'] == hashlib.sha256(f.canonical(plan['tools']).encode()).hexdigest(),
             'Improve parent marker/context differs')
@@ -386,6 +483,10 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
                 receipt_sha256=digest(incumbent_path),file='incumbent/default-targets.json',sha256=digest(guide))
                 and inc['default_target_transport'] == dict(policy=basis['policy'],file=guide.name,sha256=basis['sha256']),
                 'mandatory inherited Default basis differs')
+            if plan.get('kind') == frozen.CURRENT40_METHOD_KIND:
+                require([dict(step,phase='incumbent') for step in inc['steps']]
+                    == [step for step in parent['steps'] if step.get('phase') == 'incumbent'],
+                    'parent incumbent worker lineage differs')
         best, best_metrics = inc.get('candidate_sha256'),inc.get('metrics')
     else: require(not qualified_parent, 'qualified Improve parent lacks incumbent')
     trial_root = folder/'trials'
@@ -422,12 +523,16 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
         if qualified_parent:
             require(trial.get('base_candidate_sha256') == best, 'trial base differs from previous checked best')
             require(trial['accepted'] is (trial.get('status') == 'improvement_validated'), 'trial selection/status differs')
+            if plan.get('kind') == frozen.CURRENT40_METHOD_KIND:
+                require([dict(step,phase=directory.name) for step in trial['steps']]
+                    == [step for step in parent['steps'] if step.get('phase') == directory.name],
+                    'parent trial worker lineage differs')
         if qualified_parent and completed:
             guard = trial['single_trial_guard']; start=trial['started_elapsed_seconds']; finish=trial['finished_elapsed_seconds']; used=trial['finished_observed_cpu_seconds']
             values=(start,finish,used,guard['wall_deadline_elapsed_seconds'],guard['work_cpu_limit_seconds'])
             require(all(type(v) in (int,float) and math.isfinite(v) and v >= 0 for v in values)
-                and start <= finish <= guard['wall_deadline_elapsed_seconds'] <= 395
-                and used <= guard['work_cpu_limit_seconds'] == 395
+                and start <= finish <= guard['wall_deadline_elapsed_seconds'] <= seconds-reserve
+                and used <= guard['work_cpu_limit_seconds'] == seconds-reserve
                 and all(step.get('status') in ('success','nonzero_exit') for step in trial['steps']), 'trial exceeded work reserve or worker failed')
             fact['own_final'] = own_final(path,export=False,plan=plan,allowed=allowed,accepted=trial['accepted'],
                 public_sanitize=public_sanitize,trial_parent=parent)
@@ -446,7 +551,8 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
 
 def population_shape(population, children):
     require(type(population.get('schema')) is int and population['schema'] == 1 and population.get('kind') in KINDS, 'unsupported frozen population schema')
-    version = 'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1'
+    version = (frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
+        'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1')
     names, order, _, _, _ = frozen.contract(version)
     require(population['population'] == list(names) and population['planned_arm_order'] == list(order)
             and population['limits'] == frozen.LIMITS, 'frozen arm population/budgets differ')
@@ -469,6 +575,18 @@ def population_shape(population, children):
                 and q['runtime_manifest_sha256'] == population['runtime_manifest_sha256'], 'Native-only prerequisite identity differs')
         require(q['kind'] == native_only[population['kind']]
                 and q['actual_GUI_qualified'] is False and q['full_GUI_claim'] is False, 'Native-only qualification promoted or malformed')
+    elif version == frozen.CURRENT40_VERSION:
+        q = population['qualification']
+        require(q.get('kind') == frozen.CURRENT40_QUALIFICATION_KIND and q.get('Native_cohort_only') is True
+            and q.get('source_head') == population['source_head'] == frozen.CURRENT40_HEAD
+            and q.get('runtime') == population['runtime']
+            and q.get('runtime_manifest_sha256') == population['runtime_manifest_sha256']
+            and type(q.get('cohort_cases')) is int and q['cohort_cases'] == 13
+            and type(q.get('finalization_reserve_seconds')) is int and q['finalization_reserve_seconds'] == 40
+            and type(population.get('improve_finalization_reserve_seconds')) is int
+            and population['improve_finalization_reserve_seconds'] == 40
+            and q.get('actual_GUI_qualified') is False and q.get('full_GUI_claim') is False,
+            'current40 installed qualification/reserve differs')
     elif version == 'improve-v2':
         q = population['qualification']
         if q['kind'] == frozen.NATIVE_COHORT_QUALIFICATION_KIND:
@@ -505,7 +623,8 @@ def administration(population):
 
 
 def plan_binding(plan, family, arm, entry, population, population_path, population_pin):
-    version = 'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1'
+    version = (frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
+        'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1')
     names, _, _, method_kind, child_name = frozen.contract(version)
     runtime = Path(population['runtime']); output = pv.canonical(Path(population['outputs'][family][arm]))
     require(output.parent == runtime / '.runs' and plan['output'] == str(output), 'frozen method output differs')
@@ -513,7 +632,9 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['source_head'] == population['source_head'] and plan['source'] == entry['source']
             and plan['source_hashes'] == entry['source_hashes'] and plan['source_rights'] == entry['source_rights']
             and plan['population_protocol_path'] == str(population_path) and plan['population_protocol_sha256'] == population_pin
-            and plan['enclosure_sha256'] == population['enclosure_sha256'] == frozen.ENCLOSURE_SHA
+            and plan['enclosure_sha256'] == population['enclosure_sha256']
+            and plan['enclosure_sha256'] in ((frozen.ENCLOSURE_SHA,) if version == frozen.CURRENT40_VERSION
+                else (frozen.LEGACY_ENCLOSURE_SHA,frozen.ENCLOSURE_SHA))
             and plan['whole_wall_full_cpu_seconds'] == 600 and plan['pass_key'] == 'controls_passed'
             and plan['administration_root'] == str(ROOT), 'frozen source/runtime/protocol binding differs')
     tools = plan['tools']; provenance = tools['source_provenance']
@@ -541,12 +662,55 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['qualifier_sha256'] == pins['scripts/qualify_installed_workflow.py']
             and plan['source_inventory_sha256'] == hashlib.sha256((f.canonical(entry['source_hashes']) + '\n').encode()).hexdigest()
             and plan['source_rights_sha256'] == hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(), 'method contract differs')
-        if version == 'improve-v2': require(plan['improve_settings'] == population['improve_settings'], 'Improve settings changed')
+        if version in ('improve-v2',frozen.CURRENT40_VERSION):
+            require(plan['improve_settings'] == population['improve_settings'], 'Improve settings changed')
+            require(improve_reserve(plan) == (40 if version == frozen.CURRENT40_VERSION else 25),
+                    'method reserve differs from frozen version')
         prerequisites = plan['prerequisite_sha256']
         require(type(prerequisites) is dict and 1 <= len(prerequisites) <= 32, 'bounded frozen prerequisite map required')
         for path, pin in prerequisites.items(): require(digest(Path(path), MAX_JSON) == pin, 'prerequisite changed')
     require(digest(Path(plan['controller'])) == plan['controller_sha256'], 'copied/external controller changed')
     return output
+
+
+def unsupported_improve_preview(plan, data, out):
+    """Recognize one exact current product refusal; never qualify the attempt.
+
+    Every other failure keeps the existing unqualified classification. This is
+    observed CLI evidence, not a source eligibility bypass or Native result.
+    """
+    if plan.get('kind') != frozen.CURRENT40_METHOD_KIND or plan.get('arm') != 'Cimprove':
+        return None
+    reason = 'unsupported: selected7 Improve requires sole explicit/implicit Default'
+    processes = data.get('processes',[])
+    if not (data.get('status') == 'failed' and data.get('outcome') == 'unqualified_failure'
+            and data.get('attempt_qualified') is False and data.get('controls_passed') is False
+            and data.get('workflow_delivered') is False and len(processes) == 1
+            and processes[0].get('stage') == 'preview'):
+        return None
+    workspace = pv.canonical(Path(data['workspace']))
+    require(workspace.parent == out and re.fullmatch(r'autorouter-gui-[0-9a-f]{32}',workspace.name),
+            'unsupported preview workspace escaped frozen arm')
+    item = processes[0]; log = out/'preview.log'; journal = out/'preview.process.json'
+    require(item.get('log') == str(log) and digest(log) == item.get('log_sha256')
+        and item.get('journal') == str(journal) and digest(journal) == item.get('journal_sha256'),
+        'unsupported preview log/process custody differs')
+    process = read(journal)
+    expected = [str(Path(plan['runtime'])/'.venv/bin/python'),'-B','-m','autorouter',
+        'preview',plan['source'],'--settings',str(workspace/'settings.json'),'--purpose','improve']
+    require(process == item.get('process') and item.get('argv') == process.get('argv') == expected
+        and process.get('cancel_requested') is False and process.get('log_truncated') is False
+        and type(process.get('exit_code')) is int and process['exit_code'] == 2
+        and process.get('log_bytes') == log.stat().st_size
+        and read(workspace/'settings.json') == plan['improve_settings']
+        and not any(os.path.lexists(workspace/name) for name in ('route','review','choice','export')),
+        'unsupported preview was cancelled, entered delivery or changed settings')
+    if read(log) != dict(accepted=False,error=reason): return None
+    return dict(policy='current40-source-bound-installed-preview-refusal-v1',
+        observed_unsupported=True, reason_code='Improve_requires_sole_Default',
+        Native_completion_qualified=False, CLI_exit_code=2,
+        log_sha256=digest(log),process_sha256=digest(journal),
+        interpretation='Actual source/settings-bound Preview refused before Route; retained in the full denominator, not a validated Native negative.')
 
 
 def report(*, population, population_sha256, children, children_sha256, output, public_sanitize=False):
@@ -614,6 +778,13 @@ def report(*, population, population_sha256, children, children_sha256, output, 
                         else: require(trial.get('eligible') is not True and trial.get('validated_rejection') is not True, 'qualified trial has no own receipt')
                         trials.append(fact)
             state = classify(outer, data, timing, arm, summary)
+            unsupported = unsupported_improve_preview(plan,data,out)
+            if unsupported is not None:
+                require(not state['attempt_qualified'] and process.get('cleanup_complete') is True
+                    and process.get('log_truncated') is False and type(process.get('exit_code')) is int
+                    and process['exit_code'] == 2 and state['complete_external_cap_ok'] and state['method_cap_ok'],
+                    'unsupported observation has incomplete outer/process/budget evidence')
+                state['evidence_classification'] = 'unsupported_source_scope'
             if arm == 'B2_portfolio' and state['attempt_qualified']:
                 require(bound and summary.get('all_variants_attempted') is True and len(trials) == 3
                         and [row['variant'] for row in trials] == list(frozen.VARIANTS)
@@ -626,6 +797,7 @@ def report(*, population, population_sha256, children, children_sha256, output, 
                 route_metrics=metric_facts(data.get('route_metrics')), delivered_metrics=metric_facts(data.get('metrics')),
                 protocol_sha256=item['sha256'], outer_sha256=digest(outer_path), child_sha256=outer['child_sha256'], source_hashes=entry['source_hashes'],
                 reasons=dict(child=reasons(data, child, public_sanitize), outer=reasons(outer, outer_path, public_sanitize)))
+            if unsupported is not None: row['support_observation'] = unsupported
             if state['attempt_qualified'] and arm != 'B2_portfolio':
                 if state['validated_completed_negative']:
                     require(data.get('negative_readback', {}).get('validated_rejection') is True, 'negative has no stored reader witness')

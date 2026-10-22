@@ -44,6 +44,7 @@ import sys
 KIND = 'installed-native7-current-method-v1'
 POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cthermal')
 IMPROVE_KIND = 'installed-native7-current-method-v2'
+CURRENT40_KIND = 'installed-native7-current-method-v3-current40'
 IMPROVE_POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cimprove')
 ARMS = tuple(name for name in POPULATION if name != 'B2_portfolio')
 COMPARISON = ('B0', 'B1', 'B2single_tuned')
@@ -54,12 +55,25 @@ LIMITS = dict(routing_seconds=420, method_wall_cpu_cap_seconds=450,
 def method_contract(kind):
     if kind == KIND: return POPULATION, 'qualify-current-method-001.py'
     if kind == IMPROVE_KIND: return IMPROVE_POPULATION, 'qualify-current-method-002.py'
+    if kind == CURRENT40_KIND: return IMPROVE_POPULATION, 'qualify-current-method-003.py'
     raise ValueError('unknown comparison method contract')
+
+
+def method_reserve(plan):
+    if plan.get('kind') == IMPROVE_KIND:
+        if 'improve_finalization_reserve_seconds' in plan: raise ValueError('legacy25 contract has no current40 override')
+        return 25
+    if plan.get('kind') == CURRENT40_KIND:
+        value = plan.get('improve_finalization_reserve_seconds')
+        if type(value) is not int or value != 40: raise ValueError('current40 reserve binding differs')
+        return value
+    raise ValueError('unknown Improve reserve contract')
 
 
 def captured_method_settings(plan, defaults, improve_preset):
     if plan['kind'] == KIND: return defaults
-    if plan['kind'] != IMPROVE_KIND: raise ValueError('unknown comparison method contract')
+    if plan['kind'] not in (IMPROVE_KIND,CURRENT40_KIND): raise ValueError('unknown comparison method contract')
+    method_reserve(plan)
     improved = improve_preset(defaults)
     if plan.get('improve_settings') != improved: raise ValueError('frozen shipped single Improve settings differ')
     return improved if plan['arm'] == 'Cimprove' else defaults
@@ -122,6 +136,10 @@ def main():
         'frozen actual corrected-standard420 defaults required')
     default_settings = settings
     settings = captured_method_settings(plan, default_settings, gui.improve_preset)
+    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND):
+        require(type(pruning.NATIVE_FINAL_RESERVE_SECONDS) is int
+            and pruning.NATIVE_FINAL_RESERVE_SECONDS == method_reserve(plan),
+            'installed Improve runtime reserve differs from versioned comparison')
     source = h.real_path(plan['source']); hashes = plan['source_hashes']; rights = plan['source_rights']
     inventory_pin = hashlib.sha256((json.dumps(hashes, sort_keys=True, separators=(',', ':'))+'\n').encode()).hexdigest()
     require(type(hashes) is dict and 1 <= len(hashes) <= 2000 and source.suffix == '.kicad_pcb'
@@ -166,9 +184,10 @@ def main():
         external_complete_exit_required=True, fair_full_matrix=False,
         scope='One frozen single-method result. B2single_tuned is one tuned attempt; portfolio is separate. Cdefault exercises the shipped workflow and aliases corrected-standard B1. Cthermal is experimental recover, not Improve. API comparison delivery is not ordinary product admission. No holdout, superiority, graphical interaction, human or physical claim.',
         stock_caveat='B0 disables project adapter corrections and must retain identical native/task DSN bytes. Common fixed-placement, alias, protected-copper, netclass and original-rule Native validation safeguards remain; this is not proof of an untouched official vanilla workflow.')
-    if plan['kind'] == IMPROVE_KIND:
+    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND):
         record.update(method_settings=settings,
-            scope='Frozen v2 installed comparison. Cimprove is shipped single Improve with a charged tuned incumbent and25-second finalization reserve inside420. Cdefault/B1 unchanged; no GUI/human/electrical/superiority claim.')
+            scope='Frozen versioned installed comparison. Cimprove is shipped single Improve with a charged tuned incumbent and'
+                +str(method_reserve(plan))+'-second finalization reserve inside420. Cdefault/B1 unchanged; no GUI/human/electrical/superiority claim.')
 
     def left(): return preset.remaining(time.monotonic()-START, cpu()-CPU0)
 

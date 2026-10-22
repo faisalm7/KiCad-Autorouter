@@ -1,0 +1,296 @@
+{
+  "schema": 1,
+  "kind": "Windows012-one-shot-actual-arm-handshake-failure-v1",
+  "recorded_utc": "2026-10-22T14:40:39.382730+00:00",
+  "state": "CLOSED_FAILED_NO_RERUN_UNDER012",
+  "project_complete": false,
+  "accepted": false,
+  "Windows_support": false,
+  "Native_admitted": false,
+  "Native_executed": false,
+  "installer_executed": false,
+  "source_head": "48bef9a6b7dd20b88a0e772735a19bf0a4408e2d",
+  "protocol_sha256": "265c5021d8d36f75469c7da40d17197f648d83397e4e3f3f14f9f8dffd0c54ee",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "0d6f538a3e9b75f3f18e5b0bfd13cef1523ff0cd9f3fa5959fbdd23c56ba5620",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "d0c7fb7b183492456dd9f5178f71f519e4bb0f057d6a9c07a48efc4e54e21ffb",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+    "scripts/windows_native_slice/persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d"
+  },
+  "CI": {
+    "run_id": 39796057903,
+    "url": "https://github.com/faisalm7/KiCad-Autorouter/actions/runs/39796057903",
+    "job_id": 119883496722,
+    "status": "completed",
+    "conclusion": "failure",
+    "standard_runner": "windows-2022",
+    "actual_log_observed": true,
+    "job_metadata_lag": {
+      "run_status": "completed",
+      "run_conclusion": "failure",
+      "run_updated_at": "2026-10-22T14:33:11Z",
+      "job_status": "queued",
+      "job_conclusion": null,
+      "job_steps_count": 0,
+      "job_completed_at": null,
+      "interpretation": "Completed/failure run metadata and executed timestamped logs establish the failed run. The retained job response still says queued with no steps; it cannot support a successful or zero-duration job claim."
+    },
+    "minimal_permissions": "contents:read",
+    "artifact_uploads": 0,
+    "cache_uploads": 0,
+    "incremental_spending": 0,
+    "spending_basis": "Fresh public repository/standard runner/no artifact/cache/custom-image verification and official billing rule; not inferred from timing, no claim about existing account spend/storage."
+  },
+  "observations": {
+    "guard_DLL_compiled": true,
+    "guard_DLL_SHA256": "96fa7458537f504810efa1e95332f9637ec10b478d067db9017ea8b55c745b31",
+    "NULL_ABI_cases": 14,
+    "NULL_ABI_all_passed": true,
+    "NULL_ABI_is_not_valid_owner_policy_proof": true,
+    "actual_Windows": "Windows-2022Server-10.0.20348-SP0",
+    "profile_CreateAppContainerProfile_hresult": 0,
+    "profile_SID_recorded": true,
+    "requested_capability_count": 0,
+    "host_positive_TCP_before": [
+      {
+        "endpoint": "owned_loopback",
+        "connected": true,
+        "payload_bytes_sent": 0
+      },
+      {
+        "endpoint": "public_ipv4",
+        "connected": true,
+        "payload_bytes_sent": 0
+      }
+    ],
+    "owned_scope_ACL_grants_recorded": true,
+    "final_C_info": {
+      "state": 5,
+      "poisoned": 1,
+      "policy_may_exist": 1,
+      "last_error": 13,
+      "abort_error": 0,
+      "jobs": 0,
+      "processes": 0,
+      "pending_create": 0,
+      "pending_job": 0
+    },
+    "C_info_state_5_means": "PG_ORPHAN",
+    "phase": "orphan",
+    "abandoned": true,
+    "receipt_authorizes_cleanup": false,
+    "verified_policy_removal_observed": false,
+    "AppContainer_token_records": 0,
+    "denial_cases": 0,
+    "denial_process_receipt_or_log_available": false,
+    "owned_TCP_server_thread_reaped": true,
+    "state_material_complete": true,
+    "state_material_bytes": 6171,
+    "state_material_file_count": 9,
+    "journal_records": 5,
+    "journal_SHA256": "3f0f32e77839dd6a91e4e9619dee2694392e496bcc1f1c13fc2de9ff1ffedd18",
+    "context_SHA256": "24d221f35a7f981e35456034cf12bc9cab487a34ba7f4a1398a7d248245d3acf"
+  },
+  "phase_assessment": {
+    "established": "Fresh profile/actual SID preparation, owned ACL grants and bound context preceded arm. C policy_may_exist=1 proves PG_Arm reached at least the mutation-attempt latch immediately before FwpmSubLayerAdd0 (C276). Failure occurred before any guarded Job/process was registered, token/case/denial record was produced, or denial.log existed.",
+    "not_established": [
+      "Which WFP API or equality/readback predicate first failed",
+      "Whether policy transaction committed, rolled back or left any/all persistent objects",
+      "Whether PG_Arm itself returned13 or a following _info/_fresh check raised before ARMED publication",
+      "Any package-token, descendant denial, WSA10013 refusal or cancellation result",
+      "Persistent-object absence, AppContainer profile deletion or original ACL restoration"
+    ],
+    "why_error_is_not_localizing": "Python _invoke wraps PG_Arm plus post-call info/freshness. poison() calls PG_Poison(...,13), and C pg_fail overwrites last_error on each poison. Final last_error13 therefore cannot identify the first C/API failure. abort_error0 is also ambiguous: its initial value and successful transaction-abort result are both0.",
+    "source_references": [
+      "scripts/windows_native_slice/appcontainer_launch.py:361",
+      "scripts/windows_native_slice/persistent_guard_state.py:373",
+      "scripts/windows_native_slice/persistent_guard_state.py:454",
+      "scripts/windows_native_slice/persistent_guard_state.py:507",
+      "scripts/windows_native_slice/persistent_sid_guard.c:72",
+      "scripts/windows_native_slice/persistent_sid_guard.c:260",
+      "scripts/windows_native_slice/persistent_sid_guard.c:276",
+      "scripts/windows_native_slice/persistent_sid_guard.c:297"
+    ]
+  },
+  "cleanup": {
+    "aggregate_cleanup_complete": false,
+    "original_DACLs_restored": false,
+    "persistent_removal_verified": false,
+    "profile_delete_hresult_recorded": false,
+    "profile_registry_absence_not_queried": true,
+    "all_owned_jobs_reaped_flag": true,
+    "guard_jobs_registered": 0,
+    "guard_processes_registered": 0,
+    "meaning": "Owned setup Jobs report cleanup and the local TCP server thread reaped. Guard Job/process counts are0; its all_owned_jobs_reaped flag is not evidence of a launched/cancelled AppContainer tree. Persistent cleanup was deliberately refused after poison. Profile/scope ACL grants and possible persistent policy remain unproved/retained; closing non-dynamic WFP engine/local handles does not delete persistent objects. No full cleanup claim.",
+    "source_references": [
+      "scripts/windows_native_slice/appcontainer_launch.py:456",
+      "scripts/windows_native_slice/appcontainer_launch.py:478",
+      "scripts/windows_native_slice/appcontainer_launch.py:501",
+      "scripts/windows_native_slice/persistent_sid_guard.c:421"
+    ]
+  },
+  "costs": {
+    "disjoint_owned_setup_Job_receipts": [
+      {
+        "stage": "guard_DLL_compile",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 9.468999999999937,
+        "full_job_cpu_seconds": 0.796875,
+        "process_count": 4,
+        "compiler_remainder_controller_terminated": true,
+        "verified_zero_active_after_owned_cleanup": true,
+        "remaining_member_image_identity_observed": false
+      },
+      {
+        "stage": "DNS",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 0.125,
+        "full_job_cpu_seconds": 0.046875,
+        "process_count": 2,
+        "compiler_remainder_controller_terminated": false,
+        "verified_zero_active_after_owned_cleanup": null,
+        "remaining_member_image_identity_observed": null
+      },
+      {
+        "stage": "probe_role_1_compile",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 0.4370000000000118,
+        "full_job_cpu_seconds": 0.203125,
+        "process_count": 3,
+        "compiler_remainder_controller_terminated": false,
+        "verified_zero_active_after_owned_cleanup": null,
+        "remaining_member_image_identity_observed": null
+      },
+      {
+        "stage": "probe_role_2_compile",
+        "status": "success",
+        "exit_code": 0,
+        "cleanup_complete": true,
+        "wall_seconds": 0.23499999999989996,
+        "full_job_cpu_seconds": 0.25,
+        "process_count": 3,
+        "compiler_remainder_controller_terminated": false,
+        "verified_zero_active_after_owned_cleanup": null,
+        "remaining_member_image_identity_observed": null
+      }
+    ],
+    "readiness_sample_wall_seconds": 11.656000000000063,
+    "readiness_controller_CPU_sample_seconds": 0.25,
+    "canary_nested_wall_sample_seconds": 0.9839999999999236,
+    "canary_nested_controller_CPU_sample_seconds": 0.140625,
+    "enclosure_wall_before_exit_seconds": 12.6757909,
+    "enclosure_controller_process_CPU_seconds": 0.296875,
+    "whole_external_CPU_seconds": null,
+    "enclosure_controller_reaped": true,
+    "enclosure_timed_out": false,
+    "CI_log_first_timestamp": "2026-10-22T14:29:16.8806854Z",
+    "CI_log_last_timestamp": "2026-10-22T14:29:40.3401753Z",
+    "CI_log_timestamp_span_seconds": 23.4594899,
+    "complete_job_duration_seconds": null,
+    "provider_billed_CPU_or_minutes": null,
+    "interpretation": "Controller/canary/readiness samples overlap; do not add them. Setup Job CPU includes exited descendants and is separate from controller CPU. No full external CI CPU or authoritative completed-job duration is available; no zero-cost or speed inference from stale API timing.",
+    "known_disjoint_exited_controller_plus_setup_Job_CPU_subtotal_seconds": 1.59375,
+    "known_CPU_subtotal_terms_seconds": [
+      0.296875,
+      0.796875,
+      0.046875,
+      0.203125,
+      0.25
+    ],
+    "known_CPU_subtotal_is_whole_CI_CPU": false,
+    "administrative_run_create_update_span_seconds": 240,
+    "administrative_span_is_execution_duration": false
+  },
+  "original_top_operation_flags": {
+    "actual_policy_operations": null,
+    "actual_profile_operations": null,
+    "socket_tests_performed": null
+  },
+  "actual_raw_log_retention": {
+    "compiler_bytes": 250,
+    "compiler_log_sha256": "4d43bc3e5a5175bdf57656f9fd15977ad515d16f6daa3a95448e47b8a38e3441",
+    "decoded_available_material_files": 12,
+    "decoded_owned_bytes": 6271,
+    "missing_denial_log": true,
+    "raw_files_sha256": {
+      "actions.log": "d33e2c48fce3cf9175e609f17594c31a2044cb0089734e66a65e4dfe45ed7984",
+      "actions.log.process.json": "20bb2fb4e3641ced4aed03977e3b8846ab28faf7328a77341ac9e78926d9e0b8",
+      "actions.log.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compile-guard.log": "4d43bc3e5a5175bdf57656f9fd15977ad515d16f6daa3a95448e47b8a38e3441",
+      "decoded-owned-material/index.json": "8932168a6f8e138db7a61c85075b222600f5ed4dd1cdd189850204cdb1647fb1",
+      "decoded-owned-material/log-000.bin": "893dea77e56f64bf6e271dac31c1e84492e9ba1657270df6083e81ab7cafe0be",
+      "decoded-owned-material/log-001.bin": "8900ac7f6230e3a34d2a8e0acd8a6eccc9b6a7ea681a36ce6452542fee497242",
+      "decoded-owned-material/log-002.bin": "8900ac7f6230e3a34d2a8e0acd8a6eccc9b6a7ea681a36ce6452542fee497242",
+      "decoded-owned-material/state-000.bin": "24d221f35a7f981e35456034cf12bc9cab487a34ba7f4a1398a7d248245d3acf",
+      "decoded-owned-material/state-001.bin": "b80d08e738266158b94b76660564fb29ebbf8c183287d9f58fbd7970d518eb6f",
+      "decoded-owned-material/state-002.bin": "a0a4460a0a47fa7a9961d2413f8de4e04a607e61a27c7c10f75c8dfa46a11ae0",
+      "decoded-owned-material/state-003.bin": "5f4a1c88817f3d27b2b71022c50b5e4d64b37db0d68ec318a3cee36e85dcf099",
+      "decoded-owned-material/state-004.bin": "3ba1291704b8dc89b469342d8dd29bb830e71697919a3d670bef139d24e23cba",
+      "decoded-owned-material/state-005.bin": "9d43fe0ccf28842056b67c4adc57e4cd3a98783db53e5af94d68b8d890fe0c78",
+      "decoded-owned-material/state-006.bin": "3f0f32e77839dd6a91e4e9619dee2694392e496bcc1f1c13fc2de9ff1ffedd18",
+      "decoded-owned-material/state-007.bin": "1db06a264a114674561a23dbb306f9c039a18b42dd4af4b7059c9e32790f8e41",
+      "decoded-owned-material/state-008.bin": "4f1b223330e465962866c8d16b0cbd985e2f3a0d73156aa74b56a1f9cef3532e",
+      "dispatch.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dispatch.stdout.log": "435bb7b50da178b344d226884c74d7d2f0b044f20ebdc9bc07faaf042d119d4e",
+      "enclosure.json": "ce95a7cca7d4740347cbe541bac104681ef5dc6e32bd5db649fc9529363c50ab",
+      "job.json": "99c5e7307332b61f101d9603988cba9ec2e87b13ce81f6bfd84d55888da6deda",
+      "job.json.process.json": "f6bb4a13a45fdc6af96adf01844cc7095ba28cf5d358eb5890ba07578357a64a",
+      "job.json.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pre-dispatch.json": "61bbfadca57bcecb5d7c921a02076e7d3d2a96be8a26c7f953fa541d8af3b300",
+      "readiness.json": "df165ca2497a496c0ca1cd0371f2b4349130a578e0fb5a66c48f825bd1acf6e4",
+      "run-api.json": "a27de948d39b3af7bb8e3e1891113ddffa0d23a42825e133f510f9584d38b712",
+      "run-api.json.process.json": "373c7505d906412473f55ee2545186eb2608106895ff087ea4c7f0462e4717f7",
+      "run-api.json.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status001.json": "83f0cea12c071855c6e53c3b74cc39a8ce204101176c4eb135e893d095f7c37c",
+      "status002.json": "83f0cea12c071855c6e53c3b74cc39a8ce204101176c4eb135e893d095f7c37c",
+      "status003.json": "3853986dba2e048f1408993979b379e56784ad435fb1650172ecb6d1de503129"
+    }
+  },
+  "independent_source_AI_review": {
+    "sha256": "8bc7f8fbc191a94ab378bb9f031e3db8385e89b0c16a74b1ea05968065cf9936",
+    "human_review": false,
+    "scope": {
+      "read_only_except_this_new_receipt": true,
+      "source_or_raw_evidence_modified": false,
+      "tests_or_API_calls_executed": false,
+      "Native_JVM_GUI_CI_executed": false,
+      "network_or_research": false,
+      "Git_operations": false,
+      "delegation": false,
+      "raw_state_chunks_decoded_by_reviewer": false,
+      "additional_review_wall_seconds": null,
+      "additional_review_full_CPU_seconds": null,
+      "meaning": "Bounded source/metadata readback only; additional review cost unknown, not zero. Lead separately decodes retained raw state."
+    }
+  },
+  "decision": "One explicit current-C experiment executed. Its compile/NULL positives do not establish policy, denial or cleanup.012 is closed; no rerun, fallback, installer or Native Windows admission.",
+  "remaining_gate": {
+    "decision": "Defer functional correction/cause assertion pending bounded first-failure diagnostics; this closed single-run protocol grants no rerun.",
+    "minimum_source_change_if_separately_authorized": [
+      "Record the Python arm-handshake substage (before freshness, C call, info, after freshness) and returned error before poison/cleanup can mask it. Preserve the original cause separately from cleanup errors.",
+      "Expose bounded typed C first-failure stage/predicate and expected/actual readback values before pg_fail; distinguish add/commit/abort/API-error from sublayer/filter/security predicate mismatch. Keep current proof equality, SID/layer/action, ownership/DACL, poison and cleanup rules unchanged.",
+      "Make top-level attempt/profile/socket observation flags distinguish observed attempt from validated outcome rather than leave ambiguous nulls; never translate unavailable into pass."
+    ],
+    "minimum_controls": [
+      "Offline fault controls must demonstrate first-error preservation through repeated poison and cleanup failure; ABI build/NULL checks remain compilation-only.",
+      "Any future explicit protocol must first prove exact requested WFP object/security readback, then actual zero-capability parent/descendant identity and independently positive TCP controls with explicit10013 denial; timeout/unknown remains failure.",
+      "No removal/adoption/reuse of this orphan identity. Policy/profile/ACL cleanup must still require the live-owner zero-active/signalled/verified-removal authority; no safeguard relaxation or installer/native step is justified by this failure."
+    ],
+    "no_source_change_implemented": true
+  },
+  "owner_action_required": null,
+  "backup_scope": "Raw CI/decoded state/logs retained locally in the durable folder; outside the earlier selected060 capture cutoff. Public owned facts/hashes omit random WFP filename tokens and decoded state bytes. No disk-failure protection or full-restoration claim.",
+  "publication": "Project-owned source/result facts only; no board/CAD, private input, credentials, binaries, full state bodies or base64 included. Formal release and external contact remain unauthorized."
+}
