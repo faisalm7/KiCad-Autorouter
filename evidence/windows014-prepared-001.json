@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "kind": "windows014-prepared-offline-controls-v1",
+  "recorded_utc": "2026-10-22T17:55:57.633635+00:00",
+  "state": "INTEGRATED_OFFLINE_PASS_ACTUAL_WINDOWS_NOT_EXECUTED",
+  "source_base_checkpoint": "0c074254769e2b508bf320c91ca9b5268b691dee",
+  "protocol_sha256": "aeaa79c6420ff6028a3ba62ac2e11b92ea0a07001c9c7e8317fac12f082b9fee",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "149378f61d2de52d0b644b83f5138a597ebc1690c3f17690753d4645da41346b",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "0d6f538a3e9b75f3f18e5b0bfd13cef1523ff0cd9f3fa5959fbdd23c56ba5620",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "5c1e7ee7fc450b2bdcdd97e5fc44bb397dfa93dd185772391f329fa9f8e34196",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "d0c7fb7b183492456dd9f5178f71f519e4bb0f057d6a9c07a48efc4e54e21ffb",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+    "scripts/windows_native_slice/persistent_guard_state.py": "b3f5783c964857fdc9fe86414a60d3647cbd11e4750be29ba0aafa48efa105e0"
+  },
+  "workflow_sha256": "55b33ce343b632daaa6daba79c5ae769ee1b8f16aa3d2324b2ece152542eb661",
+  "regression_sha256": "c47d41a393f279258c579425d6a39592988c1a648d6e6d2f57ce761f413d2ac5",
+  "correction": {
+    "requested_flags": 1,
+    "required_returned_flags": 65,
+    "unindexed_or_extra_bits_refuse": true,
+    "all_other_owner_security_action_condition_cancel_cleanup_guards_unchanged": true
+  },
+  "independent_AI_source_review": {
+    "receipt_sha256": "cfd026d2ae104af559790d0c073876751918a7d80f1b52c0e63f1b32ea22284f",
+    "material_findings": [],
+    "scope": "Source-only; no Windows, C compile, Native or human review."
+  },
+  "targeted": {
+    "command": ".venv/bin/python -B -m unittest discover -s tests -p 'test_windows*.py' -v",
+    "tests": 64,
+    "skipped": 1,
+    "passed": true,
+    "stderr_and_time_log_sha256": "1ceb4061ba47dfdd89893426fc659930b55c356d7dfa9a2cd2df106066705265",
+    "complete_cost": {
+      "wall_seconds": 0.98,
+      "CPU_seconds": 0.88,
+      "user_seconds": 0.5,
+      "system_seconds": 0.38,
+      "time_log_sha256": "1ceb4061ba47dfdd89893426fc659930b55c356d7dfa9a2cd2df106066705265",
+      "source": ".runs/windows014-targeted-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "scope": "Constructed Python harness/AST controls, not actual C semantics or WFP isolation."
+  },
+  "full": {
+    "tests": 2667,
+    "skipped": 1,
+    "passed": true,
+    "execution_sha256": "cececf4e2ed31280604db27ab6b8e693795dd52589cc15503e84a3271fb69c56",
+    "protocol_sha256": "41b5a07424236d5e841517cb71e62b0b8a6afd7488aa9549129524b4b013af5d",
+    "complete_cost": {
+      "wall_seconds": 166.47,
+      "CPU_seconds": 159.14,
+      "user_seconds": 92.23,
+      "system_seconds": 66.91,
+      "time_log_sha256": "cf2e343402fef9756f98ba08ba94efcd0765eb5d5d63b75e0188da03c9ee32da",
+      "source": ".runs/full-integration-219-outer-time-001.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "runtime062": {
+    "installed_manifest_sha256": "91ac790f38cd34c2842fb6d4208f13bf1a289fbcc15bc3b5b9048eaa5ef070d9",
+    "immutable_files": 54,
+    "unchanged": true,
+    "rebuild": false,
+    "Native_cohort_repeated": false
+  },
+  "next_gate": "Audited push/readback; fresh public-standard-runner zero-cost/permission/idle check; at most one explicitly frozen014 CI attempt. Compile/load/15NULL and35 same-C-predicate cases must pass before a live owner. Any failure closes014; no retry/follow-on/old-owner adoption/installer/native admission.",
+  "actual_Windows_executed": false,
+  "Native_admitted": false,
+  "Windows_supported": false,
+  "GUI097": "Live preserved; current access reports locked Mac. Ordinary checked delivery and post-editor CLI stale refusal recorded separately; remaining GUI controls pending.",
+  "prior013": "Closed failed, exact returned flags1vs65 first cause. Cleanup refused; policy presence unknown. Historical failure and raw evidence unchanged.",
+  "accounting": "Listed offline complete costs are separate from unknown additional authoring/AI/review. Existing062 native/GUI costs are not repeated or included here."
+}

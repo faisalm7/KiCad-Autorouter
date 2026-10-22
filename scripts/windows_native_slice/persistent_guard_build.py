@@ -102,6 +102,7 @@ def bind_library(path):
         'PG_Create': [byte_pointer, dword, owner_pointer],
         'PG_GetInfo': [owner, C.POINTER(Info), dword],
         'PG_GetDiagnostic': [owner, C.POINTER(Diagnostic), dword],
+        'PG_TestFilterFlags': [dword, C.POINTER(Diagnostic), dword],
         'PG_Arm': [owner], 'PG_CheckArmed': [owner],
         'PG_RegisterJob': [owner, C.c_void_p, C.POINTER(dword)],
         'PG_BeginCreate': [owner, dword], 'PG_Poison': [owner, dword],
@@ -148,6 +149,44 @@ def null_abi(path):
                 valid_owner_created=False, valid_SID_supplied=False, actual_policy_operations=False)
 
 
+def filter_flags_controls(path):
+    """Run the exact C readback predicate without a live guard or WFP call."""
+    library, _, _ = bind_library(path)
+    # Exhaust every one-bit mutation, including missing PERSISTENT/INDEXED,
+    # disabled/boot/provider/callout flags and every unknown high bit. Reject
+    # neither-bit and all-bit composites too. No contains/subset mask passes.
+    cases = [('exact_persistent_indexed', 0x41, 0)] + [
+        ('toggle_bit_' + str(bit), 0x41 ^ (1 << bit), 13) for bit in range(32)] + [
+        ('neither_flag', 0, 13), ('all_flags', 0xffffffff, 13)]
+    null_code = int(library.PG_TestFilterFlags(0x41, None, C.sizeof(Diagnostic)))
+    require(null_code == 24, 'flags predicate NULL output refusal differs')
+    rows = []
+    for label, flags, expected in cases:
+        diagnostic = Diagnostic()
+        actual = int(library.PG_TestFilterFlags(flags, C.byref(diagnostic), C.sizeof(diagnostic)))
+        require(actual == expected and diagnostic.abi == 1 and diagnostic.bytes == 136,
+                'exact C flags predicate differs: ' + label)
+        if expected:
+            require(diagnostic.recorded == 1 and diagnostic.error == 13 and
+                    bytes(diagnostic.stage) == b'filter_fields' and bytes(diagnostic.predicate) == b'flags' and
+                    diagnostic.object_index == 1 and diagnostic.element_index == 0 and
+                    diagnostic.expected_low == 0x41 and diagnostic.expected_high == 0 and
+                    diagnostic.actual_low == flags and diagnostic.actual_high == 0,
+                    'exact C flags first-cause metadata differs: ' + label)
+        else:
+            require(not diagnostic.recorded and not diagnostic.error and not bytes(diagnostic.stage) and
+                    not bytes(diagnostic.predicate) and not diagnostic.object_index and not diagnostic.element_index and
+                    not any((diagnostic.expected_low, diagnostic.expected_high,
+                             diagnostic.actual_low, diagnostic.actual_high)),
+                    'successful flags predicate invented failure evidence')
+        rows.append(dict(case=label, flags=flags, expected=expected, actual=actual,
+                         passed=actual == expected))
+    return dict(passed=True, predicate_cases=len(cases), outcomes=rows,
+                exact_returned_flags=0x41, unchanged_requested_flags=1, null_output_refusal=null_code,
+                actual_policy_operations=False, valid_owner_created=False, Native_admitted=False,
+                scope='Ownerless scalar C predicate only; not actual readback, WFP enforcement or cleanup proof.')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--protocol', type=Path, required=True)
@@ -173,7 +212,8 @@ def main():
                   Native_admitted=False, Native_executed=False, actual_policy_operations=False,
                   actual_profile_operations=False, socket_tests_performed=False, installer_executed=False,
                   source_base_head=BASE_HEAD, expected_source_sha=args.expected_source_sha,
-                  protocol_sha256=args.protocol_sha256, compiler_process=None, NULL_ABI=None, errors=[],
+                  protocol_sha256=args.protocol_sha256, compiler_process=None, NULL_ABI=None,
+                  filter_flags_controls=None, errors=[],
                   scope='Fixed owned SDK DLL build plus NULL-argument refusal ABI only. No valid guard, policy, profile, sockets or Native support.')
     process, log, state = None, setup / 'compile-guard.log', None
     if canary:
@@ -234,6 +274,7 @@ def main():
                 require(identity['sha256'] == process['compiler_output']['sha256'], 'compiled DLL identity changed')
                 result['DLL'] = dict(path=str(dll), **identity)
                 result['NULL_ABI'] = null_abi(dll)
+                result['filter_flags_controls'] = filter_flags_controls(dll)
                 fresh()
                 if canary:
                     from persistent_guard_state import PersistentGuardState

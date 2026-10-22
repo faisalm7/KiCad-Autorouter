@@ -105,6 +105,27 @@ static BOOL pg_equal(PG_OWNER *g, const char *stage, DWORD object_index,
     pg_note(g, stage, object_index, element_index, predicate, error, expected, actual);
     return FALSE;
 }
+/* Exact observed Windows2022 readback form. The add request stays PERSISTENT.
+ * INDEXED is classification lookup metadata, not a disabled/permit flag. */
+typedef char PG_flags_must_match_SDK[((FWPM_FILTER_FLAG_PERSISTENT == 0x1) &&
+    (FWPM_FILTER_FLAG_INDEXED == 0x40)) ? 1 : -1];
+static BOOL pg_filter_readback_flags(PG_OWNER *g, DWORD object_index, DWORD flags) {
+    return pg_equal(g, "filter_fields", object_index, 0, "flags", ERROR_INVALID_DATA,
+                    flags, (DWORD)(FWPM_FILTER_FLAG_PERSISTENT | FWPM_FILTER_FLAG_INDEXED));
+}
+/* Ownerless pure predicate control: stack storage only, no valid owner,
+ * handles, SID, WFP API, profile, policy mutation or cleanup authority. */
+PG_API PG_TestFilterFlags(DWORD flags, PG_DIAGNOSTIC *diagnostic, DWORD bytes) {
+    PG_OWNER scratch;
+    BOOL equal;
+    if (diagnostic == NULL || bytes != sizeof(*diagnostic)) return ERROR_BAD_LENGTH;
+    ZeroMemory(&scratch, sizeof(scratch));
+    equal = pg_filter_readback_flags(&scratch, 1, flags);
+    *diagnostic = scratch.first_diagnostic;
+    diagnostic->abi = 1; diagnostic->bytes = (DWORD)sizeof(*diagnostic);
+    SecureZeroMemory(&scratch, sizeof(scratch));
+    return equal ? ERROR_SUCCESS : ERROR_INVALID_DATA;
+}
 static DWORD pg_fail(PG_OWNER *g, DWORD error) {
     if (error == ERROR_SUCCESS) error = ERROR_INVALID_DATA;
     g->poisoned = 1; g->last_error = error; g->state = PG_ORPHAN;
@@ -239,7 +260,7 @@ static DWORD pg_check_policy(PG_OWNER *g) {
             !pg_equal(g, "filter_fields", i + 1, 0, "key_exact", ERROR_INVALID_DATA, pg_guid_equal(&f->filterKey, &g->filters[i]), 1) ||
             !pg_equal(g, "filter_fields", i + 1, 0, "layer_exact", ERROR_INVALID_DATA, pg_guid_equal(&f->layerKey, pg_layers[i]), 1) ||
             !pg_equal(g, "filter_fields", i + 1, 0, "sublayer_exact", ERROR_INVALID_DATA, pg_guid_equal(&f->subLayerKey, &g->sublayer), 1) ||
-            !pg_equal(g, "filter_fields", i + 1, 0, "flags", ERROR_INVALID_DATA, f->flags, FWPM_FILTER_FLAG_PERSISTENT) ||
+            !pg_filter_readback_flags(g, i + 1, f->flags) ||
             !pg_equal(g, "filter_fields", i + 1, 0, "provider_null", ERROR_INVALID_DATA, f->providerKey == NULL, 1) ||
             !pg_equal(g, "filter_fields", i + 1, 0, "provider_data_bytes", ERROR_INVALID_DATA, f->providerData.size, 0) ||
             !pg_equal(g, "filter_fields", i + 1, 0, "weight_type", ERROR_INVALID_DATA, f->weight.type, FWP_UINT8) ||
