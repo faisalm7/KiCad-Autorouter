@@ -1,0 +1,60 @@
+{
+  "status": "nonzero_exit",
+  "exit_code": 5,
+  "wall_seconds": 0.7259354999987409,
+  "cpu_seconds": 0.427056,
+  "max_rss_bytes": 211501056,
+  "supervisor_cpu_seconds": 0.011766000000000165,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 209829888,
+  "sampled_peak_workdir_bytes": 162618,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "drc",
+    "--format",
+    "json",
+    "--severity-all",
+    "--all-track-errors",
+    "--refill-zones",
+    "--schematic-parity",
+    "--exit-code-violations",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-floor2Cu-001/autorouter-gui-ebf70b70c98042bab76cf070c174b8f1/route/trials/trial-0000/final-drc.json",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-floor2Cu-001/autorouter-gui-ebf70b70c98042bab76cf070c174b8f1/route/trials/trial-0000/final-drc-input/owned-default-floor-2cu.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-floor2Cu-001/autorouter-gui-ebf70b70c98042bab76cf070c174b8f1/route/trials/trial-0000/final-drc.log",
+  "log_bytes": 293,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-floor2Cu-001/autorouter-gui-ebf70b70c98042bab76cf070c174b8f1/route/trials/trial-0000",
+  "signal_cancellation_enabled": true,
+  "pid": 59830,
+  "name": "final-drc",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": true,
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-floor2Cu-001/autorouter-gui-ebf70b70c98042bab76cf070c174b8f1/route/trials/trial-0000/final-drc-input/owned-default-floor-2cu.kicad_prl",
+    "sha256": "74eeb94050e726f2bd8c97414daa020ab3576eb07abb1e2180885bca65083beb",
+    "flags_before": 0,
+    "flags_during": 2,
+    "flags_restored": true,
+    "bytes_unchanged": true
+  }
+}

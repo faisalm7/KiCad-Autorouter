@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/curate-runtime058-native-milestone-001.py", line 244, in <module>
+    batch_time_path=ROOT/'.runs/runtime058-native-batch-001-time.log';assert p.sha(batch_time_path)==args.native_batch_time_sha256
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/autorouter/pipeline.py", line 192, in sha
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+                          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1050, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/faisal/.pyenv/versions/3.11.9/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-native-batch-001-time.log'
+real 1.62
+user 0.80
+sys 0.43
+            54706176  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                4157  page reclaims
+                  12  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                4542  voluntary context switches
+                 124  involuntary context switches
+         16727239359  instructions retired
+          4603959656  cycles elapsed
+            45007376  peak memory footprint

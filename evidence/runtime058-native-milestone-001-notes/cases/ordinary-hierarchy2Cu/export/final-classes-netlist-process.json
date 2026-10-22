@@ -1,0 +1,48 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.33088520797900856,
+  "cpu_seconds": 0.316829,
+  "max_rss_bytes": 178257920,
+  "supervisor_cpu_seconds": 0.0069829999999999615,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 175996928,
+  "sampled_peak_workdir_bytes": 1488316,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 268435456,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "sch",
+    "export",
+    "netlist",
+    "--format",
+    "kicadsexpr",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-61d2b27489764909bde1008d459e8435/export/validation/final-classes.net",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-61d2b27489764909bde1008d459e8435/export/validation/final-classes-input/owned_hierarchy_native.kicad_sch"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-61d2b27489764909bde1008d459e8435/export/validation/final-classes-netlist.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/ordinary-hierarchy2Cu-001/autorouter-gui-61d2b27489764909bde1008d459e8435/export/validation",
+  "signal_cancellation_enabled": true,
+  "pid": 60226,
+  "name": "final-classes-netlist"
+}

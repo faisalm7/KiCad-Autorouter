@@ -1,0 +1,62 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.3247010000050068,
+  "cpu_seconds": 0.31857499999999994,
+  "max_rss_bytes": 79216640,
+  "supervisor_cpu_seconds": 0.007471999999999923,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 53723136,
+  "sampled_peak_workdir_bytes": 158144,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "pcb",
+    "export",
+    "svg",
+    "--mode-single",
+    "--layers",
+    "B.Cu,Edge.Cuts",
+    "--fit-page-to-board",
+    "--exclude-drawing-sheet",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-fractional-001/autorouter-gui-958890dc4cab4adfa082c4265a886238/review/plot-work/native-plots/after-B.Cu.svg",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-fractional-001/autorouter-gui-958890dc4cab4adfa082c4265a886238/review/plot-work/after-B.Cu-input/owned1007-transport.kicad_pcb"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-fractional-001/autorouter-gui-958890dc4cab4adfa082c4265a886238/review/plot-work/after-B.Cu.log",
+  "log_bytes": 224,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-fractional-001/autorouter-gui-958890dc4cab4adfa082c4265a886238/review/plot-work",
+  "signal_cancellation_enabled": true,
+  "pid": 59666,
+  "name": "after-B.Cu",
+  "local_settings_policy": "job-owned-prl-immutable-v1",
+  "local_settings_protection": {
+    "policy": "mac-owned-prl-immutable-v1",
+    "present": true,
+    "path": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/improve-fractional-001/autorouter-gui-958890dc4cab4adfa082c4265a886238/review/plot-work/after-B.Cu-input/owned1007-transport.kicad_prl",
+    "sha256": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "flags_before": 0,
+    "flags_during": 2,
+    "flags_restored": true,
+    "bytes_unchanged": true
+  }
+}

@@ -1,0 +1,49 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-22T01:04:51",
+    "ignored_checks": [
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.7",
+    "schematic_parity": [],
+    "source": "owned-default-floor-2cu.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [ROUTE] of J1 on F.Cu",
+                    "pos": {
+                        "x": 12.0,
+                        "y": 10.0
+                    },
+                    "uuid": "c081cf3e-74b4-5a4a-a61a-53ce6f9bd335"
+                },
+                {
+                    "description": "Pad 1 [ROUTE] of J2 on B.Cu",
+                    "pos": {
+                        "x": 26.0,
+                        "y": 10.0
+                    },
+                    "uuid": "2dc958ac-a3c2-5ee2-9e5a-711057110324"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": []
+}

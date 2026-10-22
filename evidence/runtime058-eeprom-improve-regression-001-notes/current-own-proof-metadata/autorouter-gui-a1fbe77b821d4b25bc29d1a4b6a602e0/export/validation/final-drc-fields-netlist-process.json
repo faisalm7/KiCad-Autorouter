@@ -1,0 +1,48 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 0.3076995419105515,
+  "cpu_seconds": 0.292801,
+  "max_rss_bytes": 181747712,
+  "supervisor_cpu_seconds": 0.00752700000000317,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 177373184,
+  "sampled_peak_workdir_bytes": 2964727,
+  "resource_guards": {
+    "max_group_rss_bytes": 2147483648,
+    "max_workdir_bytes": 268435456,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.tools/kicad-10.0.7-local-001/KiCad.app/Contents/MacOS/kicad-cli",
+    "sch",
+    "export",
+    "netlist",
+    "--format",
+    "kicadsexpr",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-method-runtime058-eeprom-improve-regression-001-Cimprove/autorouter-gui-a1fbe77b821d4b25bc29d1a4b6a602e0/export/validation/final-drc-fields.net",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-method-runtime058-eeprom-improve-regression-001-Cimprove/autorouter-gui-a1fbe77b821d4b25bc29d1a4b6a602e0/export/validation/final-drc-input/EEPROM_Board.kicad_sch"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-method-runtime058-eeprom-improve-regression-001-Cimprove/autorouter-gui-a1fbe77b821d4b25bc29d1a4b6a602e0/export/validation/final-drc-fields-netlist.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/native7-method-runtime058-eeprom-improve-regression-001-Cimprove/autorouter-gui-a1fbe77b821d4b25bc29d1a4b6a602e0/export/validation",
+  "signal_cancellation_enabled": true,
+  "pid": 61075,
+  "name": "final-drc-fields-netlist"
+}

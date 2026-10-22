@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 7.361194083001465,
+  "cpu_seconds": 5.731796,
+  "max_rss_bytes": 211664896,
+  "supervisor_cpu_seconds": 0.026979000000000017,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 153468928,
+  "sampled_peak_workdir_bytes": 63,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/qualify-runtime058-hole-safety-001.py",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-native-controls-001/invalid/protocol.json",
+    "--protocol-sha256",
+    "fa50b60b80fcfb4553b832814d1dd000bcb840025e93d867d1057f9c954fe22d"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-native-controls-001/invalid/enclosure/command.log",
+  "log_bytes": 63,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-native-controls-001/invalid/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 60246
+}

@@ -1,0 +1,51 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 25.995315833948553,
+  "cpu_seconds": 23.302161,
+  "max_rss_bytes": 282492928,
+  "supervisor_cpu_seconds": 0.07862799999999999,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 460734464,
+  "sampled_peak_workdir_bytes": 0,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 536870912,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/qualify_runtime_workflow.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime",
+    "--source",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/native7-npth-keepout-owned-source-001/source/owned1007-transport.kicad_pcb",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-058/runtime/.runs/ordinary-npth2Cu-001",
+    "--method",
+    "route",
+    "--settings",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-native-qualification-001/ordinary-npth2Cu/settings.json"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-native-qualification-001/ordinary-npth2Cu/enclosure/command.log",
+  "log_bytes": 0,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime058-native-qualification-001/ordinary-npth2Cu/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 59414
+}
