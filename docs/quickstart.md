@@ -1,18 +1,18 @@
 # Run the current local CLI
 
-Use immutable **runtime056**, source `a03b5e8b6ae523d9f099cf211815900053629fe3`, manifest `b018b1bc6487183b000de62b743bd143cd2dddca71afe29428cadbd4cfdccded`. Its [eleven actual six-stage Native workflows](../evidence/runtime056-native-milestone-001.json) and [exposed IR Improve delivery](../evidence/runtime056-ir-delivery-002.json) passed on this Mac with isolated KiCad10.0.7. Normal routing needs no AI account or network. Existing pinned dependencies remain necessary; this is not standalone, clean-OS or Windows qualification. [Current graphical preparation](../evidence/gui-runtime056-089-preparation-001.json) remains unqualified.
+Use immutable **runtime057**, source `ac1a48c3b25b2217e0f8252e0e6da21905f144a4`, manifest `9c667b15b916fc18fadec6dcbd6e0f9710a0c4cc6daeb36fc616f111ef03722e`. Its [eleven actual six-stage Native workflows](../evidence/runtime057-native-milestone-001.json) and [exposed IR Improve delivery](../evidence/runtime057-ir-delivery-001.json) passed on this Mac with isolated KiCad10.0.7. Normal routing needs no AI account or network. Existing pinned dependencies remain necessary; this is not standalone, clean-OS or Windows qualification. [Ordinary GUI090](../evidence/gui-runtime057-090-ordinary-001.json), [controls/deliveries](../evidence/gui-runtime057-090-controls-deliveries-001.json) and [one fresh-root GUI091 slice](../evidence/gui-runtime057-install091-delivery-001.json) have actual scoped evidence; exact queued timing/fullGUI/release qualification remain open.
 
 **Enter the runtime directory before every `-m autorouter` session.** Running its absolute Python while staying in the checkout can import the wrong source/tool profile. Keep other Native/engine jobs idle. These commands use the existing owned alias-layer example and partial90 preset; they create fresh results, not overwrite earlier evidence:
 
 ```sh
-cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-056/runtime'
+cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/runtime'
 .venv/bin/python -B -m autorouter doctor
 .venv/bin/python -B -m autorouter preview \
-  .runs/gui-session089/project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session089/route-settings.json
+  .runs/gui-session090/project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session090/route-settings.json
 .venv/bin/python -B -m autorouter route \
-  .runs/gui-session089/project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session089/route-settings.json --output .runs/my-route-001
+  .runs/gui-session090/project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session090/route-settings.json --output .runs/my-route-001
 .venv/bin/python -B -m autorouter check-result .runs/my-route-001/result.json
 .venv/bin/python -B -m autorouter review-copy .runs/my-route-001/result.json \
   --render --output .runs/my-review-001
@@ -25,7 +25,7 @@ Open `.runs/my-review-001/preview.html` with **Microsoft Edge → File → Open 
 Only after that review, record acceptance and create a separately validated export:
 
 ```sh
-cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-056/runtime'
+cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/runtime'
 .venv/bin/python -B -m autorouter review-choice .runs/my-review-001/review.json \
   --choice accept --output .runs/my-choice-001
 .venv/bin/python -B -m autorouter review-export .runs/my-choice-001/choice.json \
@@ -37,6 +37,6 @@ Use `--choice reject` **instead of acceptance**, with a fresh output, to refuse 
 
 For customization, `settings-init --output .runs/my-settings-001.json` writes a new editable preset; supply it through `--settings`. Keep presets outside the source. Route `--keep-existing` or `--scope partial` protects every original route; whole-board routing preserves locked copper. The selected10.0.7 ordinary path uses native guidance, standard/both, source_all and default via cost or explicit `via_high`. The higher cost is optional and does not guarantee fewer vias. Unsupported selected-net/layer/other-score/tuned combinations refuse; do not use old10.0.0 examples as this profile’s support contract. [Preferences](routing-preferences.md) · [Current scope](experimental-rc.md).
 
-Optional Improve is a distinct narrow whole-board2Cu/flat/single-Default method with a tuned incumbent and internal25s return reserve. Thermal recovery is a separate supported2Cu whole-method path. Neither changes the default Route method or silently weakens original rules/protection. See [GUI method requirements and budgets](gui-workflow.md); current GUI089 is prepared only. [Historical050 active-Java Cancel](../evidence/gui-runtime050-086-active-engine-cancel-001.json) does not qualify056. Exact queued-callback timing remains unproved. The [separate escape-seed diagnostic is negative and deferred](../evidence/qfn-escape-development-probe-002.json), not a shipped strategy or quality gain.
+Optional Improve is a distinct narrow whole-board2Cu/flat/single-Default method with a tuned incumbent and internal25s return reserve. Thermal recovery is a separate supported2Cu whole-method path. Neither changes the default Route method or silently weakens original rules/protection. See [GUI method requirements and budgets](gui-workflow.md); current ordinary/high/Improve GUI090 roles have actual evidence, not fullGUI qualification. [Current GUI090 active-engine cancellation](../evidence/gui-runtime057-090-controls-deliveries-001.json) retains SIGINT/cleanup/CLI2/unaccepted scope; [historical050 Cancel](../evidence/gui-runtime050-086-active-engine-cancel-001.json) remains version-specific. Neither proves every phase or algorithm entry. Exact queued-callback timing remains unproved. The [separate escape-seed diagnostic is negative and deferred](../evidence/qfn-escape-development-probe-002.json), not a shipped strategy or quality gain.
 
-Routing-scope acceptance, whole-project DRC cleanliness and physical/electrical suitability are different. Warnings remain visible; no broad completion, independent human or release claim follows from these controls. [Current status](../STATUS.md) · [Install a fresh same-Mac runtime](install-existing.md). [Historical LED/ArcDice commands and results remain in the unchanged previous guide](history/2026-10-20-pre-runtime050-user-guides/quickstart.md); they are not runtime056 qualification.
+Routing-scope acceptance, whole-project DRC cleanliness and physical/electrical suitability are different. Warnings remain visible; no broad completion, independent human or release claim follows from these controls. [Current status](../STATUS.md) · [Install a fresh same-Mac runtime](install-existing.md). [Historical LED/ArcDice commands and results remain in the unchanged previous guide](history/2026-10-20-pre-runtime050-user-guides/quickstart.md); they are not runtime057 qualification.
