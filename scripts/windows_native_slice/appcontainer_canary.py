@@ -4,6 +4,7 @@ Uses the existing Job Object runner and an independently positive TCP control.
 No installer, KiCad, Java, CAD, firewall rule or network exemption is involved.
 """
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -25,7 +26,7 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def execute(argv, *, cwd, log, seconds=30):
+def execute(argv, *, cwd, log, seconds=30, retain_raw=False):
     """Authoring/compiler setup only, not a routing or isolation outcome."""
     process = None
     diagnostic = {'kind': 'additional-owned-setup-process'}
@@ -37,13 +38,19 @@ def execute(argv, *, cwd, log, seconds=30):
         # Even API/bound/cleanup exceptions must preserve available diagnostic
         # bytes. An ephemeral path/hash cannot recover a failed compiler log.
         diagnostic.update(process=process, process_receipt_available=process is not None)
-        try:
-            with Path(log).open('rb') as stream:
-                raw = stream.read(256 * 1024 + 1)
-            diagnostic.update(log_utf8=raw[:256 * 1024].decode('utf-8', errors='replace'),
-                              log_truncated=len(raw) > 256 * 1024)
-        except OSError as exc:
-            diagnostic['log_read_error'] = type(exc).__name__ + ': ' + str(exc)
+        if retain_raw:
+            material = retain_owned_log(log, 'setup:' + Path(log).name, process)
+            diagnostic['log_material'] = material
+            if material['complete'] is not True:
+                diagnostic['log_read_error'] = 'actual owned setup log retention incomplete'
+        else:
+            try:
+                with Path(log).open('rb') as stream:
+                    raw = stream.read(256 * 1024 + 1)
+                diagnostic.update(log_utf8=raw[:256 * 1024].decode('utf-8', errors='replace'),
+                                  log_truncated=len(raw) > 256 * 1024)
+            except OSError as exc:
+                diagnostic['log_read_error'] = type(exc).__name__ + ': ' + str(exc)
         print(json.dumps(diagnostic), flush=True)
     if 'log_read_error' in diagnostic:
         raise RuntimeError('Setup diagnostic unavailable; no success claim')
@@ -84,6 +91,30 @@ def records(path):
     if len(raw) > 256 * 1024:
         raise RuntimeError('Canary log exceeded bound')
     return [json.loads(line) for line in raw.decode('utf-8').splitlines() if line.strip()]
+
+
+
+def retain_owned_log(path, label, process):
+    """Existing bounded stdout/chunk convention; material is never authority."""
+    meta = dict(kind='owned-canary-log-material', label=label, path=str(path),
+                complete=False, process_receipt_available=process is not None)
+    try:
+        with Path(path).open('rb') as stream:
+            raw = stream.read(256 * 1024 + 1)
+        size = Path(path).stat().st_size
+        kept = raw[:256 * 1024]
+        meta.update(bytes=size, retained_bytes=len(kept), sha256=hashlib.sha256(kept).hexdigest(),
+                    chunks=(len(kept) + 24575) // 24576, truncated=size != len(kept))
+        meta['complete'] = (size == len(raw) == len(kept) and process is not None
+                            and meta['sha256'] == process.get('log_sha256'))
+        print(json.dumps(meta), flush=True)
+        for index, offset in enumerate(range(0, len(kept), 24 * 1024)):
+            print(json.dumps(dict(kind='owned-canary-log-base64-chunk', label=label, index=index,
+                                  data=base64.b64encode(kept[offset:offset + 24 * 1024]).decode('ascii'))), flush=True)
+    except Exception as exc:
+        meta.update(complete=False, error=type(exc).__name__ + ': ' + str(exc)[:256])
+        print(json.dumps(meta), flush=True)
+    return meta
 
 
 def check_tokens(rows, sid, *, cancelled=False):
@@ -163,7 +194,7 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None):
         # unfavorable result. No credentials, request payload, TLS or CAD sent.
         dns_log = setup / 'DNS.log'
         result['DNS_process'] = execute([sys.executable, '-I', '-B', str(Path(__file__).with_name('appcontainer_dns.py').resolve())],
-                                        cwd=setup, log=dns_log, seconds=5)
+                                        cwd=setup, log=dns_log, seconds=5, retain_raw=persistent_guard is not None)
         dns = json.loads(dns_log.read_text(encoding='utf-8'))
         if set(dns) != {'hostname', 'IPv4'} or dns['hostname'] != 'api.github.com':
             raise RuntimeError('Unexpected DNS prerequisite receipt')
@@ -189,7 +220,7 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None):
                         '/link', '/INCREMENTAL:NO', *['/LIBPATH:' + str(p) for p in libraries],
                         'kernel32.lib', 'advapi32.lib', 'ws2_32.lib']
                 before = time.monotonic()
-                builds.append({**execute(argv, cwd=setup, log=setup / ('compile' + str(role) + '.log')),
+                builds.append({**execute(argv, cwd=setup, log=setup / ('compile' + str(role) + '.log'), retain_raw=persistent_guard is not None),
                                'wall_seconds': time.monotonic() - before,
                                'exe': str(target), 'exe_sha256': digest(target)})
             if builds[0]['exe_sha256'] == builds[1]['exe_sha256']:
@@ -209,15 +240,27 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None):
             parent, child = (str(guard.tool_root / name) for name in ('probe-parent.exe', 'probe-child.exe'))
             for label, hold, cap, cancel in [('denial', 0, 15, None), ('descendant_cancel', 15, 10, 2)]:
                 log = guard.scratch / (label + '.log')
-                process = run([parent, address, str(port), child, str(hold)], cwd=guard.scratch,
-                              log=log, root=guard.scope, firewall_check=None, appcontainer=guard,
-                              seconds=cap, cancel_after=cancel)
-                rows = records(log)
-                result['cases'].append({'label': label, 'process': process, 'records': rows})
-                check_tokens(rows, guard.profile_sid, cancelled=cancel is not None)
-                expected = 'success' if cancel is None else 'cancelled'
-                if process['status'] != expected or process['cleanup_complete'] is not True or process['process_count'] < 2:
-                    raise RuntimeError('Actual bounded descendant process/cleanup outcome differs')
+                process = None
+                probe_error = None
+                try:
+                    process = run([parent, address, str(port), child, str(hold)], cwd=guard.scratch,
+                                  log=log, root=guard.scope, firewall_check=None, appcontainer=guard,
+                                  seconds=cap, cancel_after=cancel)
+                    rows = records(log)
+                    result['cases'].append({'label': label, 'process': process, 'records': rows})
+                    check_tokens(rows, guard.profile_sid, cancelled=cancel is not None)
+                    expected = 'success' if cancel is None else 'cancelled'
+                    if process['status'] != expected or process['cleanup_complete'] is not True or process['process_count'] < 2:
+                        raise RuntimeError('Actual bounded descendant process/cleanup outcome differs')
+                except BaseException as exc:
+                    probe_error = exc
+                    raise
+                finally:
+                    if persistent_guard is not None:
+                        material = retain_owned_log(log, label, process)
+                        result.setdefault('probe_log_material', []).append(material)
+                        if material['complete'] is not True and probe_error is None:
+                            raise RuntimeError('Actual probe log retention is incomplete; no canary pass')
             result['guard_evidence'] = guard.evidence
         result['cleanup'] = guard.cleanup_receipt
         if result['cleanup'].get('cleanup_complete') is not True:

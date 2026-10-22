@@ -94,9 +94,11 @@ try {
     $reaped = $true
     $code = $process.ExitCode
     if (-not $stdout.Wait(1000) -or -not $stderr.Wait(1000)) { throw 'Bounded controller output retrieval failed.' }
-    if ($stdout.Result.Length -gt 1048576 -or $stderr.Result.Length -gt 65536) { throw 'Readiness output bound exceeded.' }
-    Write-Output $stdout.Result
-    if ($stderr.Result.Length -gt 0) { Write-Output $stderr.Result }
+    # Retain bounded diagnostic prefixes before refusing an oversized result.
+    # A missing suffix is incomplete proof, never a pass or permission to retry.
+    Write-Output $stdout.Result.Substring(0, [Math]::Min(1048576, $stdout.Result.Length))
+    if ($stderr.Result.Length -gt 0) { Write-Output $stderr.Result.Substring(0, [Math]::Min(65536, $stderr.Result.Length)) }
+    if ($stdout.Result.Length -gt 1048576 -or $stderr.Result.Length -gt 65536) { throw 'Readiness output bound exceeded; printed prefixes are incomplete proof.' }
     if (-not (Test-Path -LiteralPath $reportPath) -or (Get-Item -LiteralPath $reportPath).Length -gt 262144) {
         throw 'Missing or oversized readiness report.'
     }

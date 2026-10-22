@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "windows012-policy-once-preparation-v1",
+  "state": "PREPARED_TARGETED_CONTROLS_PASS_NO_CI_EXECUTION",
+  "recorded_utc": "2026-10-22T13:54:54.342692+00:00",
+  "protocol_path": "scripts/windows_native_slice/persistent_guard_policy_protocol012.json",
+  "protocol_sha256": "265c5021d8d36f75469c7da40d17197f648d83397e4e3f3f14f9f8dffd0c54ee",
+  "source_files_sha256": {
+    "scripts/windows_native_slice/persistent_guard_build.py": "8fdd7a4d1b6371c8bab0992d7ca1f9bda7afa7ea60a2a01d1b60ea44a3b17916",
+    "scripts/windows_native_slice/persistent_guard_build.ps1": "0d6f538a3e9b75f3f18e5b0bfd13cef1523ff0cd9f3fa5959fbdd23c56ba5620",
+    "scripts/windows_native_slice/persistent_sid_guard.c": "8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714",
+    "scripts/windows_native_slice/windows_process.py": "13aa7faa5f7404c75fb9b0ddce02ff9b27aaf378f4e8a6568c2eaaf919f2f3aa",
+    "scripts/windows_native_slice/appcontainer_canary.py": "d0c7fb7b183492456dd9f5178f71f519e4bb0f057d6a9c07a48efc4e54e21ffb",
+    "scripts/windows_native_slice/appcontainer_launch.py": "38e1bc2520c704928cf3e4d48cf336b4f09433e793b0c412222e571c3ab29d3a",
+    "scripts/windows_native_slice/appcontainer_probe.c": "31359d8cb82e674e56f3ec9829511dfaa716b5446b8686a0ec74f49f05cbdaf4",
+    "scripts/windows_native_slice/appcontainer_dns.py": "ca71ab09cff0e486631b9b1b19bf46617445e8ce81826359a878efa407f6ca19",
+    "scripts/windows_native_slice/appcontainer_diagnostic.ps1": "55468669e10ebfda0f8269bb06c07e2b7245530510a24df7c5323bb1e685cc20",
+    "scripts/windows_native_slice/persistent_guard_state.py": "fb4e1483cb7b433732844f51f37e1097d32b35a9b542a90bd57f7bb5a0a93f9d"
+  },
+  "workflow_sha256": "c35f2ab1949bedffdb3e299b0836dd38933ee8b0329b08e617395bd4f292e4ad",
+  "regression_test_sha256": "4935e5a3bb307d3beb03f3c07bbba3f33a7e61cb28d37a7e34280def1442409e",
+  "changes": [
+    "One manual public-repository standardwindows2022/3minute/noartifact/no-cache job; exact detached source and protocol pins supplied externally at dispatch.",
+    "Retain exact bounded persistent-canary DNS/setup/probe log bytes as existing base64 chunk convention, including exceptions; processSHA match required for complete material. Missing/oversized/mismatched material refuses.",
+    "Bounded stdout/stderr prefixes retained before unchanged output-limit refusal.",
+    "Regression: absent process logSHA now preserves available bytes but never makes material complete. Corrected draft dispatch requires expected_protocol_sha=HASH."
+  ],
+  "unchanged_security": "Exact C8de5747968410e085d4b460a56080ee5987a8a83f22f29f776062351caf63714, process13aa7faa..., launch38e1bc..., statefb4e1483...; actualTokenOwner restrictedSYSTEM/Admins, OWNER_RIGHTS denyWD/WO, exact protected3ACE, no privilege or policy relaxation.",
+  "tests": {
+    "command": ".venv/bin/python -B -m unittest tests.test_windows_probe_controls tests.test_windows_isolation_diagnostic tests.test_windows_probe_retention",
+    "passed": true,
+    "tests": 50,
+    "complete_wall_seconds": 0.79,
+    "complete_CPU_seconds": 0.72,
+    "time_log_sha256": "0fa4b1a7ca58bf76c4c6e9c500d2198ff6e85c326a0212b4ab4995fcedbdc6f7",
+    "scope": "Constructed/AST log-retention and existing boundary controls onMac; no Windows security qualification."
+  },
+  "source_review": {
+    "review_receipt_sha256": "6852cf926fc55fc64777c501f2cdea509b8653f5ccdadcd1ebfe9838edfb9fa6",
+    "readiness_template_correction_sha256": "1090edff399eac69f5fd41fea70c3a3fefeeae6d09747f9fced022778a9b109d",
+    "lead": "Complete patch/test/source reviewed,10protocol file hashes and YAML actual parsed withMacsystemRuby; PowerShell reviewed as source, noMacpwsh parser available."
+  },
+  "dispatch": {
+    "count": 0,
+    "expected_commit": null,
+    "expected_protocol_sha": "265c5021d8d36f75469c7da40d17197f648d83397e4e3f3f14f9f8dffd0c54ee",
+    "after_checks": "Audited pushed/readback commit, no active Native/heavy/CI job or prior012dispatch, fresh publicstandard$0/zero-storage/capability check; exactlyone attempt. No rerun under012 on failure."
+  },
+  "current_policy_lowbox_network_lifetime_tested": false,
+  "Native_executed": false,
+  "Windows_support": false,
+  "human_review": false,
+  "raw_evidence_backup": false,
+  "unqualified": [
+    "LowBox state/policy mutation resistance",
+    "controller death/crash and cross-process reused-identity refusal",
+    "IPv6/UDP/inbound/all-network",
+    "power-loss/BFE-off/boot and nonadmin installation",
+    "actual KiCad/JVM routing/cancel/refill/validation/export",
+    "Windows product support, GUI, electrical/human review or release"
+  ],
+  "accounting": "Authoring/AI/source review and metadata overhead additional unknown, notzero. Actual futureCI wall/fullCPU remain unmeasured. Historical011 failures/build004 preserved; current preparation has no canary result."
+}

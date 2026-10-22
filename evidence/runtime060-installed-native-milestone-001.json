@@ -1,0 +1,3975 @@
+{
+  "schema": 1,
+  "kind": "runtime060-installed-Native-milestone-public-metadata-v1",
+  "state": "RECORDED_CLOSED_CURRENT_NATIVE_AND_INVALID_CONTROLS",
+  "recorded_utc": "2026-10-22T13:46:43.933826+00:00",
+  "source_head": "972b395878b734ccf47c7691d66435c42c032634",
+  "original_manifest_sha256": "bb703d58271947e15430dc62187ace0afb1a5c70e3e76fe861933e717aa3becd",
+  "installed_manifest_sha256": "8f385b397ddb6379ce35bab92d62ceff55029c6a796f7d3269c5c5b34ed1ba30",
+  "immutable_files": 54,
+  "immutable_map_build_source_engine_equal_except_root": true,
+  "runtime_immutable_files_sha256": {
+    "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "RUNTIME_README.txt": "bffdb3851244bac9698ab61aed64da5020cc4f4d0eaa181848a5330f295bad72",
+    "autorouter/__init__.py": "143b8ddf391aedb7f2edea2965fcb9cafc618f593a7ea0fb0554a5e9f95ae082",
+    "autorouter/__main__.py": "9238d9c8310469904013761751d2ec0f01417118445a15550d78870ca4056533",
+    "autorouter/_improve_context.py": "6ef92d75698a082e234aa2407fc25fc3f58d5a99d64c82c4888680b7c30ff20c",
+    "autorouter/adapter.py": "504f544fa16666d93c55d267c7dce1097e648bdbae7ceba62545261d612c26c1",
+    "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+    "autorouter/chain_proposals.py": "8a25ed4d552e7d258063b35a49feab46857c87ca0082a7dcfafe2b6b04a34a6b",
+    "autorouter/comparison.py": "cf34a48cd99b9e1738d60d199ee27cf4b612994033aae22eb1cfe1e52b2ef99d",
+    "autorouter/config.py": "d17900038513d02cfffd998758b00aca7fa9ed874c6472d52bf5ccf5ef4cb9dd",
+    "autorouter/default_targets.py": "d5773d20143f5b781ad9cacb93bfa0ce9b33a7283ee66746ab67b0fe93d629eb",
+    "autorouter/engine_angle.py": "977f392326158291cb136939576152685c6871756aec0e70e7784545dd8e393e",
+    "autorouter/floor_context.py": "88dc6bf29ff536f10cd4c37575ae2476ed056b05167007d65f0fe796360ebd3d",
+    "autorouter/floor_route.py": "86508a19a429e14f71148d4b46b5bb76386a15665faf9c8245affc3ab89f6a92",
+    "autorouter/gui.py": "a32f51ffe38fdd0d0d86785b2676892d18259745bcc1102508cc446831fbc00f",
+    "autorouter/handoff.py": "71755df430f0c0e1cc7eca319c10c909dfdd74022a25a33306e6916874e50ffe",
+    "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+    "autorouter/legacy_zone.py": "b6975dfe013daefea3d2ed5c6922e1e5ab960d781b9ea00ffc109b2f7a49914b",
+    "autorouter/local_settings.py": "22b0e82b010ab807d366713c3f5b5492bc108adb09b70bb7eddcafa2f52c2920",
+    "autorouter/native.py": "7820395a88b4cf06e6b4cac2b49d021609f2a0440eeb4119b03a72d736af60c8",
+    "autorouter/native_connected.py": "3292401ccac9cb8f5d102f9ba19978ba151edf827766f25f0a6f7f93d9391977",
+    "autorouter/native_edge.py": "5065dfb5280ef461c4c3eeb061d9cfad241b6a6f4c51f98dbf268b2282b6f671",
+    "autorouter/netclass.py": "a1da0ce8a9cd189771f794d92a204bd000c84a21fbf846a2fd3287add0cf8463",
+    "autorouter/netclass_native.py": "ced6d14dcc3f00baeabbe51b7bedee16b55d0349b5acbfec21cd4b83c19a138b",
+    "autorouter/padless_alias.py": "47f908564ff70341ff10f6080446428b26916ed5bc5022a5c35282f16cf597b7",
+    "autorouter/padless_alias_native.py": "9942fc2426ca53de74a2a1dbf2f9e7fb2f6e443d026fe8562d86d444b1a001a3",
+    "autorouter/pipeline.py": "108bd90c3f67b8dc37b98a9a17172c81573d5938d8fabfeca11880594f0341e1",
+    "autorouter/placement_clearance.py": "53f35206860617ed44fd5c5f1eb165894368b079e35fc89e060adc2f01997f41",
+    "autorouter/placement_strategy.py": "4dd2e6e1667413599d440df7ede53f6ea53213c3f62ef5d221c84e068679d994",
+    "autorouter/placement_transform.py": "cde384f548f7999f87296f071c4b1089c18abda59a02f323dfaa84c17bffee22",
+    "autorouter/pour_rule_area.py": "5a5b8a6b80490d1b01dc214188f84445b25a20b6cf6ea20fcea1f70fff3f76da",
+    "autorouter/pour_rule_area_native.py": "676a4ba771164b2e70e7a9459461fa7943935124646f4653a96cdd43d3f5ae82",
+    "autorouter/preferences.py": "d6a39475d8e13483cd74921111c5438f3a0877866a2456d0b805490326681425",
+    "autorouter/provenance.py": "930acc56a00194c9d04ebbba8e7ad3df591a824c87fa0d296f49f71615ab76de",
+    "autorouter/recovery.py": "2a10f52fb68195398e42ccb90f7d809ae7708c1fb6967c762b959d031de2422f",
+    "autorouter/review_export.py": "975c71786b8bb97d723a1ba0b6e6541ba22d00646f6df2068b1fc832d6c3a3ef",
+    "autorouter/review_view.py": "110f9e750c7b7699aaef7021e6d5b5cdec5d7dc136c6ee73f19f6d0d04181748",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "autorouter/runner.py": "050cf3ef88baf6c2efcc00e575d6d1f4c82b73ad084b6499f265e8fca9c17c8e",
+    "autorouter/schematic_class_evidence.py": "f9e21d1805a5fb579194ac477cc8ea624fd65cdc084f3a2145ff464d84d37353",
+    "autorouter/schematic_classes.py": "fcead72406efbbc3d7a0a365742ec42ff8ed3e61417f72853abafdf0038d7c89",
+    "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+    "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+    "autorouter/schematic_hierarchy.py": "745b566268f8a8ae4e9978cd26d73d67f1e2ea81a95dcdfcecf36aba611b84be",
+    "autorouter/sexpr.py": "6cd6cd1ae150624ce31bdc36afaffe7a85994cd2830255fea7daf117fc1c146b",
+    "autorouter/strategy.py": "d7b3f5a8bdeb8da850d6bfcc371f6d5c1e7d11da10189e7cc2e2ade36d44f9ca",
+    "autorouter/task_copper.py": "007aea6651cf5f027564b61690ae00e60f8d38583accec28138e8895739e47a0",
+    "autorouter/thermal.py": "195e024f037b7e44217ee1cb71c18c261f9c5235ee3d299632f8f7b85577da41",
+    "autorouter/thermal_contact.py": "0b6f92a4047a14317f2ba1fbf68bf779ae56279572af27010be7d37f339d9274",
+    "autorouter/thermal_geometry.py": "909d1faa60b5d2ad9cdd6e4e5b30284c0ff9309074a6004e34c489994c95086f",
+    "autorouter/thermal_worker.py": "c31cd59caef0649e3a5e0c707505880692f3e103c91345e3de1be4b938a81e72",
+    "scripts/install_gui.py": "0a7c487951c1641e4e790105939394bc3c430612a6cfe7376bd62f5acd67f56f",
+    "scripts/prepare_gui_plugin.py": "dfa0580e0ef88791601053922ba164eedadad8a9fd9a3d8935e6a75e4017798a",
+    "toolchain.lock.json": "cec0446e5ed3554b0c0b286cbb61e5aceb5bc013e87839db3f7081b9fd2f24d9"
+  },
+  "engine_sha256": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+  "installation_record_is_authoritative": false,
+  "full212": {
+    "passed": true,
+    "tests": 2615,
+    "skipped": 1,
+    "test_loop_wall_seconds": 183.078
+  },
+  "qualification": {
+    "passed": true,
+    "delivered_cases": 13,
+    "denominator": 13,
+    "unstarted_cases": 0,
+    "whole_batch_seconds": 900,
+    "stored_own_final_checks": 42
+  },
+  "source_sets": {
+    "source-01": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-02": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-03": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-04": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-05": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-06": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-07": {
+      "split": "owned-diagnostic",
+      "rights": {
+        "scope": "Project-owned diagnostic fixture; no broader ancestry/electrical claim."
+      }
+    },
+    "source-08": {
+      "split": "development-exposed",
+      "rights": {
+        "family": "WestianPKl EEPROM_Board exposed development family",
+        "license": "CERN-OHL-P-2.0; publisher root README at b89a09c2e95cc0a6954d0576389f07868b80c1ad, SHA256 22839f4cb0115d47b94d3aa27063550d197f2ce0c6ce5dc3b829a4a78da292b5. Local development only; public artifacts are owned facts/hashes, not CAD. Per-asset/model/title closure is not claimed.",
+        "provenance": "https://github.com/WestianPKl/pcb-docs/tree/b89a09c2e95cc0a6954d0576389f07868b80c1ad/EEPROM_Board ; three byte-identical original PCB/PRO/SCH working copies, source template under .data/development-eeprom-001/project remains read-only. Only working-copy permissions changed. Whole-board unlocked routing removes the selected existing tracks/vias identically for all six arms; footprints, original rules, stackup, zones and source schematic are preserved by the shared implementation. No source scripts, alternate models or constraints added/removed. Development exposed, independent ancestry and electrical suitability unqualified."
+      }
+    },
+    "source-09": {
+      "split": "development-exposed",
+      "rights": {
+        "family": "ArcDice",
+        "license": "MIT",
+        "provenance": "VorosEgyes/ArcDice@5908d99db1ef98b5996b380c75e5aee8bb8caaa6; retained publisher README/LICENSE",
+        "publication": "hashes_only",
+        "independent_ancestry_established": false,
+        "asset_model_title_closed": false
+      }
+    }
+  },
+  "cases": [
+    {
+      "case": "via-high-whole2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-01",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "73f8bfb5d2eaab8fe3a2ffc2f10ca7e9ff024d7ce2961691ba99b2ecfec2fbf2",
+      "execution_sha256": "ded0ed52e548ba763b11cb8a7abe67c3a4484a33e1f63c029523b28606bfa871",
+      "child_sha256": "4d2ee7c567a034946c4f27264903cb9f271056cba781edf6f7c5a551e94254cc",
+      "parent": {
+        "receipt_sha256": "eec250b37fa8982b723c48c925df8202ba4fe47ba72643333b8b436b9658aa27",
+        "candidate_sha256": "2190bbaf1c55dbf31e4424db606cf5fa474abbc62fb0f67b91e5c4a053f2c09b",
+        "native_report_sha256": "71b600fcb3d0ca62ff500476af701c982fe4ab17598ee5b44e95f32acdea258d",
+        "process_sha256": "0eb0135121141e534729c94a253720921303d34c8bbb4ec328547980ec7c68c2",
+        "binding_sha256": "119f17f45811bf4a6de10e552e5ea023510829ad94ce774ab671f96078192e36",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-fb90910c42b84efb9c77ecfc54e1b2d7/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "5e1e19d9fa716f4bcb303757450c18ca733114f26944a1fadbec25687cb097f0",
+          "native_map_sha256": "a4d9c9a7a8364aa69a28c35fd828681b22bd0f3b52daa28530d4c18758f6c358",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8122287499718368,
+          "cpu_seconds": 0.463271,
+          "max_rss_bytes": 211582976
+        }
+      },
+      "export": {
+        "receipt_sha256": "20b13aa1f5d6071cf9ccb5c43742f1391130de900343a01d47e1082f58e48a2a",
+        "candidate_sha256": "2190bbaf1c55dbf31e4424db606cf5fa474abbc62fb0f67b91e5c4a053f2c09b",
+        "native_report_sha256": "dadf31d7a89d163de321de46ceebb07c1f64608fcccb28d150279fb71a234278",
+        "process_sha256": "e8fab899a8c99baee0c61f33202c04e68b8e478c2eaf3e65036b38b12e2a03ab",
+        "binding_sha256": "85520cec74937fb0da76f051bb13a90cb09f5c860ecf89568584d947bdcf632f",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-fb90910c42b84efb9c77ecfc54e1b2d7/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "7a87a892a562f38f903af3462066c6921ff79f938139e1304086d44db50da187",
+          "native_map_sha256": "53f10553072ec16dba32039f575394dcc87359ca0b19b52656823e0f7fd884df",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7452753341058269,
+          "cpu_seconds": 0.444788,
+          "max_rss_bytes": 211812352
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 27.03,
+        "CPU_seconds": 23.99,
+        "user_seconds": 19.22,
+        "system_seconds": 4.77,
+        "time_log_sha256": "4ab3ed753cffefc47ce02f709e27a9532b9abdf484a1213bda8c47deaa45c2d7",
+        "source": ".runs/runtime060-installed-native-qualification-001/via-high-whole2Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 27.001862708013505,
+        "full_CPU_seconds": 23.969831
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.14402566594071686,
+          "full_CPU_seconds": null,
+          "log_sha256": "4b0dc6cc7c2ca24a97f1b14b9cad7de8f9a677ee458482c12ccce25234843091"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 9.00755258393474,
+          "full_CPU_seconds": null,
+          "log_sha256": "1d7c3c6bee7ff088e42a503e557ac23fa72426d780e5e8874a4ff61ae4808f5a"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 3.255956375040114,
+          "full_CPU_seconds": null,
+          "log_sha256": "f37ed6b37d9763b9ba0b99b5befc3389d57257dfdd6874950c0e5c347e416624"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 1.6891457920428365,
+          "full_CPU_seconds": null,
+          "log_sha256": "d6e064ce9e7eae9b2048ad595bf7d73d6d51974b0b969e7a290e9ab24a7cb8f0"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 6.465334917069413,
+          "full_CPU_seconds": null,
+          "log_sha256": "71281b53c782658e702ebe558818f4b1b97ce9791ed8905aecebe56324abd3fa"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.6332120419247076,
+          "full_CPU_seconds": null,
+          "log_sha256": "462bb8446cda3e77733f5b9c6daff075edbf78a807768465e1a65e3ca576d8c5"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 8.042087459005415,
+        "total_cpu_seconds": 5.728945,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 0,
+          "track_length_mm": 43.58196443741532,
+          "pads": 8,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 0,
+          "track_length_mm": 43.58196443741532,
+          "pads": 8,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "via-high-partial2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-02",
+      "settings": {
+        "schema": 1,
+        "scope": "partial_completion",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 4,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "98e2a15eb2976275942b4269047605581b650c7aedd7d012cbdef284fdd56e98",
+      "execution_sha256": "1f8be6c21b3119dc3d800043c2122f61f0b86cf3fcd68393c017beced7b1e7db",
+      "child_sha256": "797112794645843a5a54c696560f8f50f3201e8aa1254fa3434f7b93be7a2b10",
+      "parent": {
+        "receipt_sha256": "c199084dd28526fa0f0c3061c6ae43cef22a76a9282d1388b13b485b57a05457",
+        "candidate_sha256": "223501e46bf1cfbbd86683933e894243675db447f5cddea865670ea5e8d37a9f",
+        "native_report_sha256": "325f694ed16dd2ae4d876b81dc08f544c41f06656bf3e0dab2c3109d8d33039f",
+        "process_sha256": "6b22cf41d25afc8a722d61fe2ecefe2f7b4aa9003eef4e79b1a36cb34bbe5e14",
+        "binding_sha256": "5c3c3234863ca85d8120ef6c8a66b629be0bbce648a58b808a90910f9e264660",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-a63df2f9715741f283ca1a061ba72d17/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "124ca0749feb3e651c5927b7a0c0cc9c5b5b8bc423088873c85692f996ed32bf",
+          "native_map_sha256": "2e9e7ac5c3374dad7ab432bd54c0a5c569f4f27218daec47161a20d87e6847d0",
+          "project_sha256": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+          "native_and_dimensions_passed": true,
+          "protected_count": 4,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": null,
+          "field_status": "not_applicable"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.5016807919600978,
+          "cpu_seconds": 0.42499099999999995,
+          "max_rss_bytes": 211501056
+        }
+      },
+      "export": {
+        "receipt_sha256": "9954a3b1827fb79e2d5606836658bb068db1fdfdb86158bd1f49630003801639",
+        "candidate_sha256": "223501e46bf1cfbbd86683933e894243675db447f5cddea865670ea5e8d37a9f",
+        "native_report_sha256": "d8aa951fd91b24b350748b1a4e137f1b81cdc8136bce87f5845d25660cadb057",
+        "process_sha256": "3734f432c77cbf5c6b3c4eb3e0899f90daa0dcec4f29974827272449d88ce47a",
+        "binding_sha256": "4fbcc38aba7f625fdb4721e08e7da1a231e48f7098669bce9fa1e17bd4307ee6",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-a63df2f9715741f283ca1a061ba72d17/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "43e7ad0b210e68eb4941e716d191cb593bcd1f2fbd0e55a4c422e50b593e3ace",
+          "native_map_sha256": "28ef5711c0062b9e3aa6f9f7dd66eab086b1b91ec62004b4555430bdb5da74e7",
+          "project_sha256": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+          "native_and_dimensions_passed": true,
+          "protected_count": 4,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": null,
+          "field_status": "not_applicable"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7889979170868173,
+          "cpu_seconds": 0.44543999999999995,
+          "max_rss_bytes": 211763200
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 28.03,
+        "CPU_seconds": 25.73,
+        "user_seconds": 21.24,
+        "system_seconds": 4.49,
+        "time_log_sha256": "9dff43805808d86b887de3d89170e8c774f99dc5c28d40c7b3232aa14f7c6dc6",
+        "source": ".runs/runtime060-installed-native-qualification-001/via-high-partial2Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 27.964372541056946,
+        "full_CPU_seconds": 25.702475
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.11959958402439952,
+          "full_CPU_seconds": null,
+          "log_sha256": "d04d4fdead8cf6238b77b144b09ea05235150b1fbe4e524b16cc1e1b3dc12150"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 8.163586500100791,
+          "full_CPU_seconds": null,
+          "log_sha256": "4d31d2e573c6067d76480c6ac9b2d254f1c7ccdb9ebe9cdb6c0e7042e0a9075b"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 3.6983550830045715,
+          "full_CPU_seconds": null,
+          "log_sha256": "7b438a6041fa5b001192c7fa62b7f2fbde3ff1054affdfbb0f79543da2707a21"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 2.1752621249761432,
+          "full_CPU_seconds": null,
+          "log_sha256": "151478916283ff9ab7799eb9d9076ca09e25c8ef5334436ff284277bdeb7eb84"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 6.370705542038195,
+          "full_CPU_seconds": null,
+          "log_sha256": "345cbe901849ad7802e1c2c1b4274179b2013f1bb94f994657adfaa75ca80a59"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.9638072500238195,
+          "full_CPU_seconds": null,
+          "log_sha256": "1aaf96125ca8de1b47dbd736f5b925a7b23655a9161eee08bc3a26c79700ddc6"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 6.803239417029545,
+        "total_cpu_seconds": 5.304208,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 1,
+          "track_length_mm": 49.0,
+          "pads": 6,
+          "footprints": 8,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 1,
+          "track_length_mm": 49.0,
+          "pads": 6,
+          "footprints": 8,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "via-high-whole4Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-03",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 120,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 120,
+        "export": 120
+      },
+      "protected_count": 10,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "ce1e7dd020f6ff35550c8db981016c46561fa08fcc1e9b1fffa3a2338cd82575",
+      "execution_sha256": "fd025af34b540b169a8549fe9c2ee3cfdcade14dece20f31f29cb688c26c9e46",
+      "child_sha256": "5a10fc99dcb9c8a935180418e45e2343d8dfc6a80e18088e84e59562a09d9398",
+      "parent": {
+        "receipt_sha256": "ecb41cbb637bb25e377d2da45e4e4d45e5398051730ef18a7d321b7def7c484e",
+        "candidate_sha256": "f05dd32f581f6483e2227f4e8dbdc965f445d97b0290bca19f4c3796c2e7af67",
+        "native_report_sha256": "c877dc28bc64f2709132193d24f1efec0c5f0894b26b45e8c0032fc564e143e7",
+        "process_sha256": "4db35dfc02a4c542105df4d9472a8d5a46b3b156a85f15e3aca03771409a5fde",
+        "binding_sha256": "8c429ca4fea78225ab444b8f8f1a0b8a2c4592cab977c9a3af062fa3d985a358",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-aa4b754bb98849cab8d41722a605816d/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "e7649392938c51dda9894c3af2ba4c8255a29f75401bb22bc6d49d8acccf89bb",
+          "native_map_sha256": "3cda3d570989dd7f05ba26ec15bab76c3a0eac3279f5a11390b527f107e6a315",
+          "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+          "native_and_dimensions_passed": true,
+          "protected_count": 10,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable.",
+          "field_qualified": true,
+          "field_proof_sha256": "6f18b12c9ae60e93dcf9b87508ca7371cdf90191914ddd8dafd674b52eeaf071"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.4949280839646235,
+          "cpu_seconds": 0.45045999999999997,
+          "max_rss_bytes": 212156416
+        }
+      },
+      "export": {
+        "receipt_sha256": "99ab1fabbedcde55d3b380aa7becfd3f7e317501ceb36542a292620d18e51d54",
+        "candidate_sha256": "f05dd32f581f6483e2227f4e8dbdc965f445d97b0290bca19f4c3796c2e7af67",
+        "native_report_sha256": "2ff6d07d608a700948616740f47da4767c47031ed3b86adda89c1a490367c514",
+        "process_sha256": "4d169ddb0216a2a7c506b3fe79e1cd7f1dbbd366cb733f8615a03df694127955",
+        "binding_sha256": "bd25f3eec121e148f9d3542bd0cf098b40d33ffd2e7404be5dea1bfb8fc9f1d3",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-aa4b754bb98849cab8d41722a605816d/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "6b3e97eb729ad355686382bf1f0acb19b902c0ad4c8a4252f25fb0c3b816a810",
+          "native_map_sha256": "83b5dee934322f21d5c307cae08889e1a4726bac1e27d8734577ebb680d2643b",
+          "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+          "native_and_dimensions_passed": true,
+          "protected_count": 10,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable.",
+          "field_qualified": true,
+          "field_proof_sha256": "4192a48078a0d558896f41d89ecf2ad377fb3807ceb81a53129ac0218314df76"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7995895839994773,
+          "cpu_seconds": 0.460962,
+          "max_rss_bytes": 212074496
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 31.65,
+        "CPU_seconds": 29.32,
+        "user_seconds": 23.81,
+        "system_seconds": 5.51,
+        "time_log_sha256": "5e3933d0c67d00deddb2349f2148f0683c1a370ba67d6c5e9f6ce5d265cf875f",
+        "source": ".runs/runtime060-installed-native-qualification-001/via-high-whole4Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 31.61692695808597,
+        "full_CPU_seconds": 29.300806
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.13895837496966124,
+          "full_CPU_seconds": null,
+          "log_sha256": "78b8ebb61ab8703805069c3fa17b3367165c2dc43b06e2ded665d14fd21a6675"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 10.008439833996817,
+          "full_CPU_seconds": null,
+          "log_sha256": "b0e0bbdabb62c43992f3c3b5b73bb7b2ef1e765b8457ecc912a96057ae883db4"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 4.773661874933168,
+          "full_CPU_seconds": null,
+          "log_sha256": "16296fa14202b1c692811ad8968230c04e1fbd543f70d0df4107fe1325f51bbe"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 1.835963458986953,
+          "full_CPU_seconds": null,
+          "log_sha256": "fcde6b42d9938f5ac12ca002ea68d9c8e5ac2dfdea73a4c1b51dd2bb79e9d606"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 7.8854410839267075,
+          "full_CPU_seconds": null,
+          "log_sha256": "59f71d4a63034f0f2a05107b7f2669278dbd5722d4b7070224d6402f3d4b77de"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.8191275000572205,
+          "full_CPU_seconds": null,
+          "log_sha256": "36d09621e57714207e1f6488f3862b60e060ae902cc43e7e21cd981ae94439dd"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 8.827470166026615,
+        "total_cpu_seconds": 7.468401999999999,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 2,
+          "track_length_mm": 152.26367124472972,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "copper_layers": 4,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 2,
+          "track_length_mm": 152.26367124472972,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "copper_layers": 4,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "via-high-partial4Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-03",
+      "settings": {
+        "schema": 1,
+        "scope": "partial_completion",
+        "seconds": 120,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": "via_high"
+      },
+      "budgets": {
+        "route": 120,
+        "export": 120
+      },
+      "protected_count": 10,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "a3e4812d3293233e4d27478b6d561f1bc40684303127b4ac3fb5a9bd5bd6681f",
+      "execution_sha256": "7d85e6eb6b113ac13ba82c4c908b2b968bc982d9b7ef42da4a3293b32eade9aa",
+      "child_sha256": "fbbe3346703a6cfbaa29229b0be9de0989f697db17bf1107f12a2ad8bcb750fd",
+      "parent": {
+        "receipt_sha256": "34f9c482179a5803a158aa690ccde337e73d6c5c9b21da5594c050a9ea7f4cb6",
+        "candidate_sha256": "3d4dd0f3bf7334fcc2804d9be139b7537a6102e63b2807166ff471b5fab15a47",
+        "native_report_sha256": "6e2d0bd85cd26dfb794aebd7d482b6f4c51a2b70f9e0ece1c62739aa222f0176",
+        "process_sha256": "9ef5ccf0876bc580fe74c8fe92e7a664d8d1e0185f069af880523e0758082d4d",
+        "binding_sha256": "e9773ced1538c250bf203e4480d47606aa97c42cc3f26c373c2ccb40ae2e1a3a",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-5d5b0fbcade041c88691b8b9d91de0fd/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "7b8e06e5211582c812c59925377bdb8a7319fc0bf53560e614a9e3e17d130652",
+          "native_map_sha256": "178b6e6b1be49b637f1b60fc852755047fa2712067dce39957eee1ecfbd9a6c7",
+          "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+          "native_and_dimensions_passed": true,
+          "protected_count": 10,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable.",
+          "field_qualified": true,
+          "field_proof_sha256": "b8b7a0ceae69f9dc1153c1bb4fd2448eda699573de6c0860e9cc37f406564471"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7212363749276847,
+          "cpu_seconds": 0.432148,
+          "max_rss_bytes": 212008960
+        }
+      },
+      "export": {
+        "receipt_sha256": "95024775adf196d3da57cac12e95f2a6c1f9a07e874db012e5be0a7744f20a87",
+        "candidate_sha256": "3d4dd0f3bf7334fcc2804d9be139b7537a6102e63b2807166ff471b5fab15a47",
+        "native_report_sha256": "91ef7faf2c4f5ced8b2c271ba4b5eab03d1bac675d27ccf1203f9cdfd9d2fae1",
+        "process_sha256": "03206af8f9f5cc7b0d5d86b0c32d67f8e481937d5ab11bd02a3bf26245e5ef2d",
+        "binding_sha256": "741e46db5188f4348d0789019e555a72eb7d5ba32e9bd685137ede240ffaafc6",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-5d5b0fbcade041c88691b8b9d91de0fd/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "92dd55d1d094b3d539291a0b12aaf13602e678567277531e77195ef9088cf19f",
+          "native_map_sha256": "bd5deeda6d29f3e3539ffcff2a8c4a2cf870923e7c44ef6a1fda2c01ec076cd0",
+          "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+          "native_and_dimensions_passed": true,
+          "protected_count": 10,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable.",
+          "field_qualified": true,
+          "field_proof_sha256": "613758a08218a394a2f6dbff7f8124a6aafe88fb4e507809d5f4b92da344c029"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8186980839818716,
+          "cpu_seconds": 0.468574,
+          "max_rss_bytes": 212008960
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 31.48,
+        "CPU_seconds": 29.17,
+        "user_seconds": 23.69,
+        "system_seconds": 5.48,
+        "time_log_sha256": "e604bafea3a9db64de6f6839de261fd06269da2ec37c89ff6e48c8b3545c8a76",
+        "source": ".runs/runtime060-installed-native-qualification-001/via-high-partial4Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 31.452659417060204,
+        "full_CPU_seconds": 29.145653000000003
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.14468558400403708,
+          "full_CPU_seconds": null,
+          "log_sha256": "37b396672eff44a62a0e15309f35695f8565e31803f9cdf73ebd07dd3d203d91"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 10.12209650001023,
+          "full_CPU_seconds": null,
+          "log_sha256": "5ce38572ea6a4ba1fdeb67294e741789a1d14dcac7b13d7b5af3c33af7283ed6"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 4.762643834110349,
+          "full_CPU_seconds": null,
+          "log_sha256": "7dfe2ec866f722dcb2b0fd2518dcb983df837e67b74519c88f56c3623df86b00"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 1.8399285409832373,
+          "full_CPU_seconds": null,
+          "log_sha256": "ee19b95c942652d5439ea51f9c424f033bccc877f2d4a68371abdaab469f1782"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 7.611281082965434,
+          "full_CPU_seconds": null,
+          "log_sha256": "d011224583778e34ddb33789475f88f7e73715b0a70d66fb5ac5bf3f0013d4a9"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.7956201659981161,
+          "full_CPU_seconds": null,
+          "log_sha256": "2beecd1de2d74f0d7aa7a96ab5ad9d6b7daa108be8464db2d6a7a6c484e85194"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 8.914539207937196,
+        "total_cpu_seconds": 7.351469999999999,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 2,
+          "track_length_mm": 152.26367124472972,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "copper_layers": 4,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 2,
+          "track_length_mm": 152.26367124472972,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "copper_layers": 4,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "ordinary-npth2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-01",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "f3e854ea65d2e3667950da2fe161b0d4eba47529a0fd57dc927fb253b4e554fc",
+      "execution_sha256": "eeb3839848fc712f25bfdddc64ed415737f617cebd05e16c7b64a30224c9f853",
+      "child_sha256": "55c19cacde3b05fc2ab93984f32e23f03237e56c0eb28165e9946fc75ac355d5",
+      "parent": {
+        "receipt_sha256": "05343375b811c4041ba952a7be973e3444aa6b690faaf5219e9b932ec6895e0a",
+        "candidate_sha256": "36fe72eeeb93aad40a408cf2f7e23c1e1028f92e2640ce4ba91fcb01880ed5f9",
+        "native_report_sha256": "73fd3a20690d4a7c9d47e5fe847a9123da791a563268ac2a6b6932f90658be7c",
+        "process_sha256": "817caf626629603a2ba3ce72fd253918fd65c66dd4c47e88f692e2aa04ec208c",
+        "binding_sha256": "f1935ddbdacb5b567fdecafb344da093679e56bb6ae7c5ad9512953785803e89",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-0ee96b1cd0c241cfa3b21a880eec4a15/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "03f3780312449cb353ec03efc24f799925ebec4e45e85edd33dade71c9f7b0b2",
+          "native_map_sha256": "ea1fbfdf573d8400779a0730172f883c8356e7de900bb3c5f3d247c528329359",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7777635420206934,
+          "cpu_seconds": 0.444901,
+          "max_rss_bytes": 211927040
+        }
+      },
+      "export": {
+        "receipt_sha256": "6d53068b47a09d0461442a1b7e5e8bd0877190a148af490e7b4180ada60605e2",
+        "candidate_sha256": "36fe72eeeb93aad40a408cf2f7e23c1e1028f92e2640ce4ba91fcb01880ed5f9",
+        "native_report_sha256": "df9bf96a5142c8bd5706afa63c5b070cec4b7a64e8e428ea5449b2798ac9b771",
+        "process_sha256": "7e1a32a96b6ce3215fab379bd1a2c7326a342dbc8b301def1c115659025c3ab9",
+        "binding_sha256": "25253d0aab7042944459871e2b7045ebb240bc5f6a78a55a91729431a2de801b",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-0ee96b1cd0c241cfa3b21a880eec4a15/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "2136f27e23063e836df7bd16491814420da38a9afe28ac331cfd30a4cffed100",
+          "native_map_sha256": "7ae090b34511c29825160e91dd6e0f64c70ae035acf7e6fddf8135e810018e47",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.4492166250711307,
+          "cpu_seconds": 0.410907,
+          "max_rss_bytes": 211419136
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 26.01,
+        "CPU_seconds": 23.62,
+        "user_seconds": 19.14,
+        "system_seconds": 4.48,
+        "time_log_sha256": "07b1edbffcd4418f80981b93b11120942b11cebdf868c06e8a9e60c6cbcf79ef",
+        "source": ".runs/runtime060-installed-native-qualification-001/ordinary-npth2Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 25.977824875037186,
+        "full_CPU_seconds": 23.591324
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.10932854190468788,
+          "full_CPU_seconds": null,
+          "log_sha256": "ca8978609e2acc82793868bfd33fecf7d7111e24bd2848182dfd0608854a84ef"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 8.614872499951161,
+          "full_CPU_seconds": null,
+          "log_sha256": "eedae13bba7a418326645a263faa430d113ef54d84a8b9b0c0829b4286084840"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 3.159962125006132,
+          "full_CPU_seconds": null,
+          "log_sha256": "176e6b0b0481f1ec291483e6548ad1b8396bd8c0bd20629a8f9eda438f6b9d60"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 1.6677434580633417,
+          "full_CPU_seconds": null,
+          "log_sha256": "88bcceb0dc3cb0b52118735635205428ff9550072d422695c2126f97e0b97928"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 6.14710158307571,
+          "full_CPU_seconds": null,
+          "log_sha256": "391b728b0f7860e20aa18d9c072cfbdaef3dae72e2e92ec0e0a4a191720d9c88"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.5813750829547644,
+          "full_CPU_seconds": null,
+          "log_sha256": "264cc127ad7530253879c34cacc405132183c97bf00e793de55fb907ad020d6c"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 7.675712917000055,
+        "total_cpu_seconds": 5.667631000000001,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 0,
+          "track_length_mm": 43.58196443741532,
+          "pads": 8,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 0,
+          "track_length_mm": 43.58196443741532,
+          "pads": 8,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "improve-pour-only",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-04",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "tuned",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "f2d5bb9c6561dc7a899913f3c5f7997983c765501b1c14714945c34dc500b306",
+      "execution_sha256": "3245b66b13ee5a844045403d63329731f2f184e583f499c66e88c7f2d8785d5e",
+      "child_sha256": "93991b359adcd566b85599ade7f35128e716f54304afe3d97271d2a39652bcb0",
+      "parent": {
+        "receipt_sha256": "b7c07e54a642395d2e92a10a17ad44b4070ac2a111c2e21b509f319a09f69355",
+        "candidate_sha256": "e53b682eaf86bff6da421f47d84eac754d50c4f0833dd13da304cd76dea72f53",
+        "native_report_sha256": "a35d95b0d94b5c5a8757ecd8752757e15d33a2142074ca1c7e49d0b0ad765fa4",
+        "process_sha256": "ad6da816a06033def5c49ed215fc1179973b477d5c3e138b6ccbad16930e27db",
+        "binding_sha256": "99e3be892ac2486998e5daa97ca173bfbd4850402a1115644d1addbc16df353b",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-3607c77e9843474dbbb77c9b93af6745/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "5e1e77bdd64ef9c51ea0428dd27a82e40e8e481d83661240f939676f810f0887",
+          "native_map_sha256": "893c2bffd1638bddcbd0972dddb428e09d86f50e08b1a3bfb11bad0dfd97b4ec",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7448958330787718,
+          "cpu_seconds": 0.436408,
+          "max_rss_bytes": 211877888
+        }
+      },
+      "export": {
+        "receipt_sha256": "d1fce63c4f7c04a064a4435adf50d66d23f54a7ff18f0b79b9eed71bc3e6f165",
+        "candidate_sha256": "e53b682eaf86bff6da421f47d84eac754d50c4f0833dd13da304cd76dea72f53",
+        "native_report_sha256": "5cb1b8894eab1d3c2d4ace17683fc679ff41677b15d749448cf1152a89727ab0",
+        "process_sha256": "b74a74a133aad72f50884d19b15a3c1d0c6e22a7d92a9ae811c8d75d26d19730",
+        "binding_sha256": "fef531ed93393d9d54f5ac459ddb2871d9fd5c2e16bd222c55afdedfc6eba60b",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-3607c77e9843474dbbb77c9b93af6745/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "86073cedd3466bba249b2879a5554910d11a7ee208a11a15c9f62ceaa69be390",
+          "native_map_sha256": "edb4a7edc0b9664df0a0691af150b3ceeafb53545299751196ea563f1227fe6f",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8200176249956712,
+          "cpu_seconds": 0.466058,
+          "max_rss_bytes": 211517440
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 105.56,
+        "CPU_seconds": 101.04,
+        "user_seconds": 74.39,
+        "system_seconds": 26.65,
+        "time_log_sha256": "d12ef344deea7904ae2b856eef2cb89c504ceb60a6c4f7842758efa6bd183157",
+        "source": ".runs/runtime060-installed-native-qualification-001/improve-pour-only/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 105.53091845905874,
+        "full_CPU_seconds": 101.01614200000002
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.1322967909509316,
+          "full_CPU_seconds": null,
+          "log_sha256": "453ccb7554a767832f5643d671ddf26a4b8fdcabfc9fd02b31691701581ba312"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 26.94092066702433,
+          "full_CPU_seconds": null,
+          "log_sha256": "675a8f856e367f451a80af5cab3595e95f37d0264d9d0736cd99241a1257b533"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 9.416999916895293,
+          "full_CPU_seconds": null,
+          "log_sha256": "cbc95908bd203d2f67cf35266b06308491a6d45212e54cb9da4d14989f719081"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 6.984790249960497,
+          "full_CPU_seconds": null,
+          "log_sha256": "b1c5c05f27420f76cacd3a7386cf260915bc0d34741bf4b84eafd4faac9da264"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 22.925582083989866,
+          "full_CPU_seconds": null,
+          "log_sha256": "1668aa262f5365c21525d8a658d14910c05561a4a018d23ebac2de6d074c379f"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 11.129514666972682,
+          "full_CPU_seconds": null,
+          "log_sha256": "c54ea36bada895eb143a4b95dd0cab79d07be603840bea1c6364b91fc696ae68"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 19.335777958040126,
+        "total_cpu_seconds": 16.157193999999997,
+        "finalization_started_elapsed_seconds": 14.22523204202298
+      },
+      "Improve": {
+        "trial_count": 1,
+        "improvements": 1,
+        "incumbent": {
+          "receipt_sha256": "52ddc31ffa2af35fae0ff21e3fddaf8d183e1eb9e590697d2b626d9dffe0bd3a",
+          "candidate_sha256": "a95db89851ab290d31c9924bf133a722bc19d265a7733717a1c9f6269134042b",
+          "native_report_sha256": "e25a72014a4ddef7657271ebed5621cf5420eb5496bb04df9e06e560f38408ff",
+          "process_sha256": "a8d65c5f9ed8a34e9f832ad171cb3b623a3fc3bd5e7adb81a9cd2b28c1ca942c",
+          "binding_sha256": "67d85fe69b9c60e7d38c2601de03260b3280ddd476484fb67641e1ba767e0e17",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "finding_types": {
+            "warning:footprint_symbol_field_mismatch": 6
+          },
+          "ignored_check_count": 2,
+          "whole_project_drc_clean": false,
+          "full_schematic_flag": true,
+          "receipt_relative_to_case_output": "autorouter-gui-3607c77e9843474dbbb77c9b93af6745/route/incumbent/result.json",
+          "ignored_checks": {
+            "keys": [
+              "track_not_centered_on_via",
+              "tuning_profile_track_geometries"
+            ],
+            "count": 2,
+            "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+          },
+          "application_policy_accepted": true,
+          "rejection_reason_count": 0,
+          "auxiliary": {
+            "audit_sha256": "946bc0ad432d5175564e0b62c70e00e16eb565c9894f73e91223bb3b5b330f36",
+            "native_map_sha256": "5f4154a807015b652d8b9cc0a872fbc3995d2b1e259c141cca1877a8b4ca750f",
+            "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+            "native_and_dimensions_passed": true,
+            "protected_count": 1,
+            "Default_targets_policy": "single-default-global-floor-targets-v2",
+            "field_qualified": true,
+            "field_status": null
+          },
+          "metrics": {
+            "vias": 0,
+            "track_length_mm": 42.0,
+            "pads": 6,
+            "footprints": 6,
+            "zones": 2,
+            "copper_layers": 2,
+            "version": "10.0.7"
+          },
+          "nested_final_Native_process_sample": {
+            "wall_seconds": 0.740501582971774,
+            "cpu_seconds": 0.431612,
+            "max_rss_bytes": 211632128
+          }
+        },
+        "trials": [
+          {
+            "id": "trial-0000",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "63d82ba064523b591ded904aa5aba1ad2b49079b2e7dc78d2b41ccaaa892a676",
+              "candidate_sha256": "e53b682eaf86bff6da421f47d84eac754d50c4f0833dd13da304cd76dea72f53",
+              "native_report_sha256": "3543b9bb29a44079799e3128431c24c704cd0060c011d4c0244214d9e8be1ad3",
+              "process_sha256": "fe8a9abc803bda41e6d69e7b657f559cf9c0de29f2326369d2d400cca7eb784e",
+              "binding_sha256": "c463cca973ea153f5159de8819e6a572a27e029b60ee0b791bac374c048bb5cd",
+              "Native_counts": [
+                0,
+                0,
+                6,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 6
+              },
+              "ignored_check_count": 2,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-3607c77e9843474dbbb77c9b93af6745/route/trials/trial-0000/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries"
+                ],
+                "count": 2,
+                "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "1fab80e54273cd6fa7923c5f28d546cb615a62c6a42731125f46333444c25394",
+                "native_map_sha256": "1223ee7c9826c69d57198ccbdbb1b7c0dd757478f9751351b15a94a756f2aafe",
+                "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+                "native_and_dimensions_passed": true,
+                "protected_count": 1,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.7337102909805253,
+                "cpu_seconds": 0.43002799999999997,
+                "max_rss_bytes": 211582976
+              }
+            },
+            "started_elapsed_seconds": 11.187368166982196,
+            "finished_elapsed_seconds": 14.222077499958687,
+            "finished_observed_cpu_seconds": 11.633733,
+            "metrics": {
+              "vias": 0,
+              "track_length_mm": 28.0,
+              "pads": 6,
+              "footprints": 6,
+              "zones": 2,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          }
+        ]
+      },
+      "metrics": {
+        "parent": {
+          "vias": 0,
+          "track_length_mm": 28.0,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 2,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 0,
+          "track_length_mm": 28.0,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 2,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "improve-fractional",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-05",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "tuned",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "0c3933a237272e58def8a8ad6fd622b90ce65ec660b4d5ad60d6809336e3f7af",
+      "execution_sha256": "45a7b0f5028641b1e6b2869e5da47e5e65f448cd5fa6f420177f4d05ee1f787e",
+      "child_sha256": "1216dc74cb4f0c22dc83eac8a2d7faf6b6b9f299bdb4e265e26e02cee34420cf",
+      "parent": {
+        "receipt_sha256": "7c67ae6352150ce060cfd8d3c92652e75cb2c40159200e49b23d2e16586f5be6",
+        "candidate_sha256": "028be38aafea600d9cd292072eaaa18c9baa190aeca7cf7d6db084eba17fa929",
+        "native_report_sha256": "9ae90a1739e570d197c9150878d0ec99e69eab6616fc70831eab3e5b17f0d0af",
+        "process_sha256": "a0226a3c38086fd081352cce95fc2035a9c3c0b79987302e39904639b97cfd0e",
+        "binding_sha256": "632a73497105970c2e30da12b25df5b785717dc15fa1cce0a377069f3c07c217",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-940dd330a3e549029cf524a4537622d6/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "a23b871eb5c0e1a4b216305525321042061aec6d0b79a0f4947a71dff4577c7d",
+          "native_map_sha256": "8f1fad55d85681166377c52d9a8de90bda2204bc3daeeee6955802913f89e095",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7237980420468375,
+          "cpu_seconds": 0.431214,
+          "max_rss_bytes": 211599360
+        }
+      },
+      "export": {
+        "receipt_sha256": "b1c5a1530a366bbddbfcdf6e21b8a6d9c9b6497c1ef4acb629bf82298ef3e29c",
+        "candidate_sha256": "028be38aafea600d9cd292072eaaa18c9baa190aeca7cf7d6db084eba17fa929",
+        "native_report_sha256": "80bb7f03e1541eb984074fa1faf2adc79f227dab97cf24a1a8d1eed704611835",
+        "process_sha256": "42afb90c87d4f9397a450b6187d9e8aa9c8beaa56be996cc6521d75bf32e2187",
+        "binding_sha256": "024afe7c7543212cd4fd66747221baec6b0ff98c6747bc7812bc087890cf77b2",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-940dd330a3e549029cf524a4537622d6/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "02f746759439ed4b5db570135451e6e717f140e7c7758302c91cee1474dc9942",
+          "native_map_sha256": "fe26ff3bcb7cd3545359ee2896ee179f564677400d203b7be64dc21082855997",
+          "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8314720410853624,
+          "cpu_seconds": 0.462981,
+          "max_rss_bytes": 211681280
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 89.99,
+        "CPU_seconds": 85.39,
+        "user_seconds": 63.03,
+        "system_seconds": 22.36,
+        "time_log_sha256": "ce6b3691ce7f5b9635f24bc09edc50cad5ba91c4f2cf6b32a0bc3349e141007f",
+        "source": ".runs/runtime060-installed-native-qualification-001/improve-fractional/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 89.96263770898804,
+        "full_CPU_seconds": 85.369998
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.13141191704198718,
+          "full_CPU_seconds": null,
+          "log_sha256": "81b59c10a2dcbab8d46f66a094754491a01cae098b31dfe3199ec2215f3d4fb5"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 24.91396400006488,
+          "full_CPU_seconds": null,
+          "log_sha256": "24c6b6dc3163a2ebf274ba65d0bb9ef523d8a5201c8f069a9954cd7e0c6a72ee"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 8.273591957986355,
+          "full_CPU_seconds": null,
+          "log_sha256": "e0fa1d109d240e82bae5597f3b59ded5b1427d18342217139548a91b2b9417bd"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 5.915804042015225,
+          "full_CPU_seconds": null,
+          "log_sha256": "5d53a0276cd2fef08438b576d25e2a417e07e02213b7e6bf21555397254a6aa7"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 19.297107332968153,
+          "full_CPU_seconds": null,
+          "log_sha256": "ac39b2b9689e1bebacc70df87fb53e16e50fe18a6e4851fb5c28eab9e6ec603c"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 9.108471291023307,
+          "full_CPU_seconds": null,
+          "log_sha256": "ef8ee882201206a767efd10e600b940b93b5604b927f9acc6ba579bbf8a8a166"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 18.438099959050305,
+        "total_cpu_seconds": 15.021004000000001,
+        "finalization_started_elapsed_seconds": 13.718874374986626
+      },
+      "Improve": {
+        "trial_count": 1,
+        "improvements": 1,
+        "incumbent": {
+          "receipt_sha256": "412087e3ef6c94b48c656c26875cd88a4d5d4bdd4a7cbee1238d11de35170ca3",
+          "candidate_sha256": "9a9b5f478372f9cc24df8ffd376150be788e006f3fa4339a0b6020c8305045e6",
+          "native_report_sha256": "643a6bc0f7e3ea163b676709f528186207f3b84059a1b177e2740dd4f3bda159",
+          "process_sha256": "9bd924052735e9f5952705849da12d0bf8fefa9066efb64be458438ea92a149c",
+          "binding_sha256": "ba595d5beeef3ea9990085578b80fc9adc501ea5c5a517642218b8977d152cc9",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "finding_types": {
+            "warning:footprint_symbol_field_mismatch": 6
+          },
+          "ignored_check_count": 2,
+          "whole_project_drc_clean": false,
+          "full_schematic_flag": true,
+          "receipt_relative_to_case_output": "autorouter-gui-940dd330a3e549029cf524a4537622d6/route/incumbent/result.json",
+          "ignored_checks": {
+            "keys": [
+              "track_not_centered_on_via",
+              "tuning_profile_track_geometries"
+            ],
+            "count": 2,
+            "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+          },
+          "application_policy_accepted": true,
+          "rejection_reason_count": 0,
+          "auxiliary": {
+            "audit_sha256": "d9e81bb9676a6b05979efa19815ba295425423c953852de2b8f47700dabcb8f4",
+            "native_map_sha256": "384863345f571198c903a9e22314966dbea3aaa4876d42d852172f1ec4e5c820",
+            "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+            "native_and_dimensions_passed": true,
+            "protected_count": 1,
+            "Default_targets_policy": "single-default-global-floor-targets-v2",
+            "field_qualified": true,
+            "field_status": null
+          },
+          "metrics": {
+            "vias": 0,
+            "track_length_mm": 42.0,
+            "pads": 6,
+            "footprints": 6,
+            "zones": 1,
+            "copper_layers": 2,
+            "version": "10.0.7"
+          },
+          "nested_final_Native_process_sample": {
+            "wall_seconds": 0.7961129159666598,
+            "cpu_seconds": 0.44781899999999997,
+            "max_rss_bytes": 211714048
+          }
+        },
+        "trials": [
+          {
+            "id": "trial-0000",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "7005ac6c496b96fc36203f4dbeef2a2990e868a81a39064a08dfafa9f755ee12",
+              "candidate_sha256": "028be38aafea600d9cd292072eaaa18c9baa190aeca7cf7d6db084eba17fa929",
+              "native_report_sha256": "17e50b5c75ce4b3a4353f1dce6ee61025530a47d300dde62f56696e93180ce0e",
+              "process_sha256": "a5ce3ea56d70cb8c696233fa1e6e20cf59e1ff7324bed80b787b331d2cd65257",
+              "binding_sha256": "a18ed697322a6e4c71406e6afce54ad57f1b39a2d179e688ece6cc0c1a1c358e",
+              "Native_counts": [
+                0,
+                0,
+                6,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 6
+              },
+              "ignored_check_count": 2,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-940dd330a3e549029cf524a4537622d6/route/trials/trial-0000/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries"
+                ],
+                "count": 2,
+                "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "2624648a016fff64d2abc0ef1fc48734b855a4bad051baf647e610eee3aa7493",
+                "native_map_sha256": "c89ea172b96bcecb5c074908575c1fa9d061c4764586b4d4e50c8270ac9da595",
+                "project_sha256": "34e7f86eef740735896725404399fda59d4c223c27a88a05b293c455d02bc6b1",
+                "native_and_dimensions_passed": true,
+                "protected_count": 1,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.7252492500701919,
+                "cpu_seconds": 0.433328,
+                "max_rss_bytes": 211501056
+              }
+            },
+            "started_elapsed_seconds": 11.073631584062241,
+            "finished_elapsed_seconds": 13.715850417036563,
+            "finished_observed_cpu_seconds": 10.883420000000001,
+            "metrics": {
+              "vias": 0,
+              "track_length_mm": 28.0,
+              "pads": 6,
+              "footprints": 6,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          }
+        ]
+      },
+      "metrics": {
+        "parent": {
+          "vias": 0,
+          "track_length_mm": 28.0,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 0,
+          "track_length_mm": 28.0,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "improve-floor2Cu",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-06",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "tuned",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 1,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "2a86eb24317715c894d8e0dd27f3f14a5a403979b1498b946e4504e0921e87e1",
+      "execution_sha256": "40e46138f83ad7d13e471b9d86f3ce58bac6dc850d3f7765fe0fbddfb1decf6b",
+      "child_sha256": "d63e87a95035c59b73c988bd8391cd553a26f2c2b24e5977202db8028f280449",
+      "parent": {
+        "receipt_sha256": "1b8513af3b8fb5d4dc2373c1c74188405a8237f7606eefcccc715c89ca38fc65",
+        "candidate_sha256": "e649c7a057e278a59bd30fdeb6bc92c6fe56b3ff9d823428808acac9a0697434",
+        "native_report_sha256": "6ce26975cee9c0103d710aaf46897e74784289c85b0a4a098c8db9c85f66123b",
+        "process_sha256": "9b3ae4f1789266815204b71c982e1de2f42fec7213afb5823160bcb5ee041f59",
+        "binding_sha256": "35eb59d8679a751262be19adeabd21983bff4dd10b0b4b2760c41fe01a457b8d",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-474cfeed60554fb5b13e35b08c4b80a3/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "184b10158ca790e62b240babdecc66b0c20034fd85ba1e8b09dfb4125c505192",
+          "native_map_sha256": "9c213026d5d13f6231dec8bb59c97782e25816bbc38fda929802da471696de04",
+          "project_sha256": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.4836694170953706,
+          "cpu_seconds": 0.40956699999999996,
+          "max_rss_bytes": 211566592
+        }
+      },
+      "export": {
+        "receipt_sha256": "6502049f3b0f94bef81a09ab49488c44ce5f1a87a12fb0d88a686172f20b024e",
+        "candidate_sha256": "e649c7a057e278a59bd30fdeb6bc92c6fe56b3ff9d823428808acac9a0697434",
+        "native_report_sha256": "217924f97fecd459fba9a2025249d70ac1dbf4125c2d53160bf5383d650f9a0a",
+        "process_sha256": "124d434672051fd2e821c3a32fae3655833f026dac2d1826e777cf0882ade87a",
+        "binding_sha256": "9d5eb572cd0393195b20fa8a8dca8cd7036de9a964ae8fae11693d0ada0e7fdf",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-474cfeed60554fb5b13e35b08c4b80a3/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "a8e8c9f456fd2ae4b94748cf1eadcd3747d34bb1bf6d2d92b4809cd087448cf8",
+          "native_map_sha256": "8b449c3efc85f98447b8eb6486740cbe0dccc603a92ee824a2eb101724e3a353",
+          "project_sha256": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+          "native_and_dimensions_passed": true,
+          "protected_count": 1,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8001945839496329,
+          "cpu_seconds": 0.457906,
+          "max_rss_bytes": 211615744
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 90.01,
+        "CPU_seconds": 85.72,
+        "user_seconds": 63.24,
+        "system_seconds": 22.48,
+        "time_log_sha256": "1d6cabcae6ce5d9c22f1ebdf5ee0ba1a6b5260227347a7b97db3f0b2c206cc63",
+        "source": ".runs/runtime060-installed-native-qualification-001/improve-floor2Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 89.9758943329798,
+        "full_CPU_seconds": 85.692527
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.12988395895808935,
+          "full_CPU_seconds": null,
+          "log_sha256": "71a77480485d86ccbee4a02630cb7459a0098c06992a3aa4b5cb797d7cdfeb8e"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 24.615354666952044,
+          "full_CPU_seconds": null,
+          "log_sha256": "b6da934e0fbc526cdf5c4f64e0cdf50998f0b5999e19816cd5824ba6780c3f6c"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 8.238249915884808,
+          "full_CPU_seconds": null,
+          "log_sha256": "1e73e7cb3fd679794d6c7c47a7a01b93ccb39b71dad5cf7341129df0ff0bdb8d"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 5.939710541977547,
+          "full_CPU_seconds": null,
+          "log_sha256": "07bc0b98dd8d8190b5d2852af21d233b516f175c48e15c7d5cf4d78d64be0f5a"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 19.470020417007618,
+          "full_CPU_seconds": null,
+          "log_sha256": "ea62e4204fd6952cac39c50f219e702f45725e7bf5c24728a1570def584cc047"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 9.379853708902374,
+          "full_CPU_seconds": null,
+          "log_sha256": "d2fc96c284472db5ace76a96d2c3d14600c230be0b37abdd728b7d9e0424eb1b"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 18.191068125073798,
+        "total_cpu_seconds": 15.094884999999998,
+        "finalization_started_elapsed_seconds": 13.748002125066705
+      },
+      "Improve": {
+        "trial_count": 1,
+        "improvements": 1,
+        "incumbent": {
+          "receipt_sha256": "62013630a6622d893b005e5c2bfc6548687705f130e2c9fb34a35945067241bb",
+          "candidate_sha256": "41622d82720ba8374cc9d2069e390f9e069d560e3219ea2b103cafd81eb7acba",
+          "native_report_sha256": "ab800ea261a85baa07efb3a5ce3a077382d66c8eb154d399b7a96ebb4980ba39",
+          "process_sha256": "6f17e1f677d9a8ad83c9372498ef2322c8c7e6c7f862cf3608fec03546ab19f3",
+          "binding_sha256": "744fb7961bc15adf18ebd013f6fcfc9a6053a6086c009c995846bf0c4546d0e7",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "finding_types": {
+            "warning:footprint_symbol_field_mismatch": 6
+          },
+          "ignored_check_count": 2,
+          "whole_project_drc_clean": false,
+          "full_schematic_flag": true,
+          "receipt_relative_to_case_output": "autorouter-gui-474cfeed60554fb5b13e35b08c4b80a3/route/incumbent/result.json",
+          "ignored_checks": {
+            "keys": [
+              "track_not_centered_on_via",
+              "tuning_profile_track_geometries"
+            ],
+            "count": 2,
+            "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+          },
+          "application_policy_accepted": true,
+          "rejection_reason_count": 0,
+          "auxiliary": {
+            "audit_sha256": "904a04835fa2b7da3b8f84ca097775ad52ad1bb32500fe518c7ea8b87f5603e1",
+            "native_map_sha256": "d0b9b07c0d016eaa05e78cf756bccbf8677d58e54eb9330624d921fba30213e3",
+            "project_sha256": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+            "native_and_dimensions_passed": true,
+            "protected_count": 1,
+            "Default_targets_policy": "single-default-global-floor-targets-v2",
+            "field_qualified": true,
+            "field_status": null
+          },
+          "metrics": {
+            "vias": 1,
+            "track_length_mm": 44.46382411539193,
+            "pads": 6,
+            "footprints": 6,
+            "zones": 1,
+            "copper_layers": 2,
+            "version": "10.0.7"
+          },
+          "nested_final_Native_process_sample": {
+            "wall_seconds": 0.7835242080036551,
+            "cpu_seconds": 0.44935,
+            "max_rss_bytes": 211517440
+          }
+        },
+        "trials": [
+          {
+            "id": "trial-0000",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "c1cd30f531efebfeba246afd1b799c2890885ad8708178e7c55492bf412c569a",
+              "candidate_sha256": "e649c7a057e278a59bd30fdeb6bc92c6fe56b3ff9d823428808acac9a0697434",
+              "native_report_sha256": "6406447af1f6eca43ab38e56db19f78282732022da981bbe5d60c0b316598d9e",
+              "process_sha256": "746f699c44f1b630ddd60db85b296e608bcfb2e3f1c9734126a52e87393d409c",
+              "binding_sha256": "dfdfe5a4d46e58c3a7602055464d500f743294738537573fad3e842b23ca888a",
+              "Native_counts": [
+                0,
+                0,
+                6,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 6
+              },
+              "ignored_check_count": 2,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-474cfeed60554fb5b13e35b08c4b80a3/route/trials/trial-0000/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries"
+                ],
+                "count": 2,
+                "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "4c13f7c1a746bafd84ccfb7421e66eee7ba35034b81958b8bad0ce8e0fd45651",
+                "native_map_sha256": "6e58775cb868d5f1cd16ef49669e7d11fc4083549eb5e4cc2cdfbb523bd7b148",
+                "project_sha256": "35c8ac586d103a26efd1403be52c3f224e4b63b418297d25ee72b47f3156a922",
+                "native_and_dimensions_passed": true,
+                "protected_count": 1,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.7284644159954041,
+                "cpu_seconds": 0.433115,
+                "max_rss_bytes": 211681280
+              }
+            },
+            "started_elapsed_seconds": 11.08230991603341,
+            "finished_elapsed_seconds": 13.744851083029062,
+            "finished_observed_cpu_seconds": 11.007981000000001,
+            "metrics": {
+              "vias": 1,
+              "track_length_mm": 30.463824115391933,
+              "pads": 6,
+              "footprints": 6,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          }
+        ]
+      },
+      "metrics": {
+        "parent": {
+          "vias": 1,
+          "track_length_mm": 30.463824115391933,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 1,
+          "track_length_mm": 30.463824115391933,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "ordinary-alias2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-02",
+      "settings": {
+        "schema": 1,
+        "scope": "partial_completion",
+        "seconds": 90,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 4,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "77b709d05596eeee209031267859e96e5c2d4f0099eddfcb8a0cc29c4d0f8edb",
+      "execution_sha256": "ee8d5cc392fa2b6e8b6ad4a24dbf140c280e33c62e89a4604336b704875a46be",
+      "child_sha256": "df9871a96de2a295a07dedb865217dbbed6a7a43b03673773c79b50e4a44a9f5",
+      "parent": {
+        "receipt_sha256": "2499115b6af1b84e938aac4113167171b204a5f65358d3790bde71b71ed2baf1",
+        "candidate_sha256": "11f4a77aacdd9d7ddc68e90fb31ea150166862e043404f71349f263b7347fb6e",
+        "native_report_sha256": "c43cd2d74dd9bcd97ef274b284ed81a41e206bc88685cd4e37603fcd57987219",
+        "process_sha256": "9a0fb581ea48a6c47768b09d43cec1e5c08732488c95c36a2d0d149882256811",
+        "binding_sha256": "37d51d9fc152b3921515a8cae839053e37e00bfc11ef5daffb6de59555beb61f",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-027b02ea49df4b358c76cb08d3d76c9e/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "a4916f0a284e3745983c2657daa8260a902da271be059f84e804a3998bc95b51",
+          "native_map_sha256": "baf6ffbba3ea707a695c7f28458260e237533617dbb56c10044ac9cd92741601",
+          "project_sha256": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+          "native_and_dimensions_passed": true,
+          "protected_count": 4,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": null,
+          "field_status": "not_applicable"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7909211670048535,
+          "cpu_seconds": 0.44240799999999997,
+          "max_rss_bytes": 211648512
+        }
+      },
+      "export": {
+        "receipt_sha256": "3e58e35f7fb6f04aead1a72b83e367e463569a783b63a461034a30f057a1732b",
+        "candidate_sha256": "11f4a77aacdd9d7ddc68e90fb31ea150166862e043404f71349f263b7347fb6e",
+        "native_report_sha256": "026e21cc33190e4b94359ea94f95bcb1876d920cb2382a16c5b917f5dd2266c0",
+        "process_sha256": "321bdbd56ba63408e5b1c448bc2d550346645ea6a6679db3eae21e84657aea3d",
+        "binding_sha256": "3cb1da896fe3f6fc1d38a1708083659e74c548abf26c322b89f0f03266a6addb",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-027b02ea49df4b358c76cb08d3d76c9e/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "69c22444a6ca6fadd02bb8d4af5c067a2ad28e971910d5d122f80e16a8a59ac7",
+          "native_map_sha256": "b383fd8fb841c227e7b6c714ed739f3ba0a9820e00aa1220fd56349f7ada0b03",
+          "project_sha256": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+          "native_and_dimensions_passed": true,
+          "protected_count": 4,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": null,
+          "field_status": "not_applicable"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7827255829470232,
+          "cpu_seconds": 0.453943,
+          "max_rss_bytes": 211533824
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 28.92,
+        "CPU_seconds": 25.92,
+        "user_seconds": 21.34,
+        "system_seconds": 4.58,
+        "time_log_sha256": "2618aea755d02ac886ee7b7e8f8a242d02d3a0875e1be3107925d987b36170f7",
+        "source": ".runs/runtime060-installed-native-qualification-001/ordinary-alias2Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 28.88784125004895,
+        "full_CPU_seconds": 25.904281
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.1176030000206083,
+          "full_CPU_seconds": null,
+          "log_sha256": "d00a72719ed984e80254a1b02c5ecbfabc2cf672770b19ce345ffe403db5a0b1"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 9.08626454102341,
+          "full_CPU_seconds": null,
+          "log_sha256": "87c2a3a1281780a5da3aa37c604be79c340b7ad91ec1b05371fa1b6d113aefca"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 3.7191128339618444,
+          "full_CPU_seconds": null,
+          "log_sha256": "0aa4793540ced5a8fd4ff05c911973e1b705a52f80feeb6b3ffac15bf09b65c3"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 2.061345084104687,
+          "full_CPU_seconds": null,
+          "log_sha256": "74defd0709b65a377ae92fb49a0bac93ce028d76e4e78b40efcfe1396d34371b"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 6.369005792075768,
+          "full_CPU_seconds": null,
+          "log_sha256": "329881f8efbb1724acafbd9691f03611a34b6aa9ac37efec35affd956ad5b651"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.9996954160742462,
+          "full_CPU_seconds": null,
+          "log_sha256": "0273fbbddb957b84f72478c9867988cf559c410235d48425495027ebc782b71c"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 7.7244920830708,
+        "total_cpu_seconds": 5.469708000000001,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 1,
+          "track_length_mm": 49.0,
+          "pads": 6,
+          "footprints": 8,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 1,
+          "track_length_mm": 49.0,
+          "pads": 6,
+          "footprints": 8,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "ordinary-whole4Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-03",
+      "settings": {
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "seconds": 120,
+        "adapter": "both",
+        "profile": "standard",
+        "guidance": "native",
+        "layers": "source_all",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 120,
+        "export": 120
+      },
+      "protected_count": 10,
+      "Native_counts": [
+        0,
+        0,
+        6,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "0134e3f6c8ce561f20ab0c41dbef5917cc8abb7295d6a8c82f5bd3c68a4e269c",
+      "execution_sha256": "fe4a76048c21772a9dc55eb322e1143b60ddc98d3416ceb94221017a1f8edabd",
+      "child_sha256": "6953d0d1dca468404fbbf9be1926494f32d706a6a42461e877bf7afddb55dfe5",
+      "parent": {
+        "receipt_sha256": "4cd1a237c81dab2a6bdb5b52f0c370004faf8065cf6d878cc878472e920efdca",
+        "candidate_sha256": "1664931f03ff0fa1ef70a2e50d1bbb49652f919215cfafbd373ba0aa4aacc5df",
+        "native_report_sha256": "353bfcf47f21ac365c584eeb185186aa67bf07aa019f33d686b5075784984d2d",
+        "process_sha256": "d926e346610e22daf8e3e087814abf0cca21c6f98f4d2843e83b15ca72b25562",
+        "binding_sha256": "8b0d1019d906b7b46567433b9d98413bd4cde482563571681131c82bbeb56d49",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-feb89ff9edf449de9b7ca8305e06de1b/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "c517bb5e93bd2e2346b01fd77b9eca865073e678d86bf4e5ac4c2a443caf2f62",
+          "native_map_sha256": "5fd5b47ccbbaa06d859915a774798ac326cadba12cb020f0fdf62060562e07be",
+          "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+          "native_and_dimensions_passed": true,
+          "protected_count": 10,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable.",
+          "field_qualified": true,
+          "field_proof_sha256": "5425db87a25103d499d5781a7cbd0403d8413c9005dbce2addc7f52f86c8753c"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7305051669245586,
+          "cpu_seconds": 0.432563,
+          "max_rss_bytes": 211976192
+        }
+      },
+      "export": {
+        "receipt_sha256": "c1f7690f5597a92329111103a6ffd58ce7d950d857a76e28a56bb1f561a08fd2",
+        "candidate_sha256": "1664931f03ff0fa1ef70a2e50d1bbb49652f919215cfafbd373ba0aa4aacc5df",
+        "native_report_sha256": "0b8a67527e076122f17c33a90e8b3f84f5f241fa5e3ed7a0893153b033811b67",
+        "process_sha256": "f10f5fff7f0ec47128eddca9c0822051dddcd63e56d5a03a8b24d5b26a2dc5b1",
+        "binding_sha256": "7b23d52c00db643858f101b019b559076b1d2753cd1ac935a4412f5efd6b212a",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-feb89ff9edf449de9b7ca8305e06de1b/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "29c9ecbb0758b1a3894270ed3af2f8183a7cdd092296c00e530125787ee0a052",
+          "native_map_sha256": "0a29faa0a4c86969fd0beea55b66897f409da24353a1568e49274e0984f292f5",
+          "project_sha256": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+          "native_and_dimensions_passed": true,
+          "protected_count": 10,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable.",
+          "field_qualified": true,
+          "field_proof_sha256": "ff369e518b2d4fde1c5ab28954139f03238cfee25ef6e10fdb1b70ab7b76ff8d"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8289587919134647,
+          "cpu_seconds": 0.458873,
+          "max_rss_bytes": 212090880
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 31.86,
+        "CPU_seconds": 29.13,
+        "user_seconds": 23.66,
+        "system_seconds": 5.47,
+        "time_log_sha256": "e28da1f766307320b46cf8c05a84c2b4b87517221e1b9f595b844f2739e3c7b7",
+        "source": ".runs/runtime060-installed-native-qualification-001/ordinary-whole4Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 31.82934275001753,
+        "full_CPU_seconds": 29.107425
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.13787520793266594,
+          "full_CPU_seconds": null,
+          "log_sha256": "5acc12050985b9c5946822dabb75afe7ee82952a21c789d2648797c826d4e598"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 10.149792540934868,
+          "full_CPU_seconds": null,
+          "log_sha256": "85fd02f797cd8e9bf81dd1fbd6ec01d76b0ca905b8db7c270457338274d12f52"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 4.8048204579390585,
+          "full_CPU_seconds": null,
+          "log_sha256": "8bc8bf95fc92539c51ecbdb0ded95611fa245f5be7f5028638e72cb1ee6198c2"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 1.8837457499466836,
+          "full_CPU_seconds": null,
+          "log_sha256": "391d1584298cab753953bafa838b15ae7ae23b4ca72ff6b98a1736408271171e"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 7.717598500079475,
+          "full_CPU_seconds": null,
+          "log_sha256": "9901a835cfffb3d1226d06b4a28198ae008feab35019c3beae892291c860c64b"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.8273574580671266,
+          "full_CPU_seconds": null,
+          "log_sha256": "858d58c9a06b4dcc3738dc29c6532ca2ca2717a07692c00df3615e09fb66f435"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 8.973221000051126,
+        "total_cpu_seconds": 7.295732,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 2,
+          "track_length_mm": 152.26367124472972,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "copper_layers": 4,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 2,
+          "track_length_mm": 152.26367124472972,
+          "pads": 6,
+          "footprints": 6,
+          "zones": 3,
+          "copper_layers": 4,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "ordinary-hierarchy2Cu",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-07",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 0,
+      "Native_counts": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ignored_check_count": 2,
+      "protocol_sha256": "125691796df97742148e68324f598e4cc3e820cfb77b578bf872d8e435a0acd4",
+      "execution_sha256": "209a2b123e634d354d9e942ace66ffcce01b64968139757d40baf642171c49d0",
+      "child_sha256": "18959506e13ff8194d9807f2096ced6a359be60eff3862ebb9bf0320e132a3e5",
+      "parent": {
+        "receipt_sha256": "8b79a6b4cee6d3d3df376a443923771834d3a6c52c036e080120a179f58e2565",
+        "candidate_sha256": "c330739d9c84c0dcbc7fb03e094518783aef1d79d3b98a0c4e0b4daa4a25c862",
+        "native_report_sha256": "91c4601f06ce1afa84018b739a9f35724a440a4ec08db6975394cb6ab53bbf85",
+        "process_sha256": "c7d894f363978f92900b2fb6776423b55ee42310e0fde20d943055d2b145004a",
+        "binding_sha256": "bf707b7118a378918af8a2de1842b0ef972f383b19ebe560a3d276304d36e0b0",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-716c8daed80a4287830db9795c5acc68/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "550db6dbcb0eb67dc48b70bd80be2b7ec35fd18ab9e3424d34be87c1993e6756",
+          "native_map_sha256": "9f761a933db5badb38021704b8306337e829d7fe69698a612b542c727acebd5c",
+          "project_sha256": "dacc6e9f55222c6d9d4efb209fd7c0f47b6f96d24322b4ee91c4dcc83190f003",
+          "native_and_dimensions_passed": true,
+          "protected_count": 0,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": null,
+          "field_status": "not_applicable"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.7285080829169601,
+          "cpu_seconds": 0.462054,
+          "max_rss_bytes": 212156416
+        }
+      },
+      "export": {
+        "receipt_sha256": "1c04ec22db8cc220cccb15b8af4d9bf54cf8f0b4e6af7c3fa9d53e3e37161122",
+        "candidate_sha256": "c330739d9c84c0dcbc7fb03e094518783aef1d79d3b98a0c4e0b4daa4a25c862",
+        "native_report_sha256": "d8d26f74028b22a90e325e2c9cddc7a33e6bba92531d44c0d37b87165c819a35",
+        "process_sha256": "1c985bcc5dc084a147a16cc7915b46d9485017c3aa8e79ca6cf4480670e1de8c",
+        "binding_sha256": "c37b98ac9e612c649842cc8aab7771ecfbc9834e957b6df9142276e8d4e83ed4",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "finding_types": {},
+        "ignored_check_count": 2,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-716c8daed80a4287830db9795c5acc68/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2,
+          "field_sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "cedf604f5746e935fe9c647694963bb520e66a8da36df65b022915e622067725",
+          "native_map_sha256": "bac5fb30fd9431b23fd1115a864c53bd4065cf0c4c54db61879610319c82950b",
+          "project_sha256": "dacc6e9f55222c6d9d4efb209fd7c0f47b6f96d24322b4ee91c4dcc83190f003",
+          "native_and_dimensions_passed": true,
+          "protected_count": 0,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": null,
+          "field_status": "not_applicable"
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8115348339779302,
+          "cpu_seconds": 0.48460299999999995,
+          "max_rss_bytes": 212238336
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 26.98,
+        "CPU_seconds": 25.24,
+        "user_seconds": 20.36,
+        "system_seconds": 4.88,
+        "time_log_sha256": "146fceb25b94b0dda65be2fa50465890a04ea688d291841b2d4927537eac930d",
+        "source": ".runs/runtime060-installed-native-qualification-001/ordinary-hierarchy2Cu/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 26.94836162496358,
+        "full_CPU_seconds": 25.225320999999997
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.1433429589960724,
+          "full_CPU_seconds": null,
+          "log_sha256": "93d90ce7a8675118ddba696ff64a7e936161000c058e7ecc48d4d6e8e444da2d"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 8.719811458024196,
+          "full_CPU_seconds": null,
+          "log_sha256": "37b8aac2f281b66ea1d40554100e598c049783f1a848d5d062aeb879e09a0aa6"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 3.3368964169640094,
+          "full_CPU_seconds": null,
+          "log_sha256": "5ba6383b6857ff8fbf591fd185a0bab52bff48de3b17fa234d59616b7dd00f96"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 1.773575249942951,
+          "full_CPU_seconds": null,
+          "log_sha256": "f7fbf38bc83571ec1c19b58c8c6fa583d468480892be4601c985ac7e51a4ba29"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 6.237740374985151,
+          "full_CPU_seconds": null,
+          "log_sha256": "ecf7d9606c0dce0888f5e72941dd20bc19b26211d6156c0b4d74e25fa5ef6efa"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 1.74132999998983,
+          "full_CPU_seconds": null,
+          "log_sha256": "851b59d6ea41e36a2dcdb15491c552b25bf8edf0aaa4f6b0d5cd48296e6781e4"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 7.563257750007324,
+        "total_cpu_seconds": 6.272398,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 0,
+          "track_length_mm": 103.7463002446602,
+          "pads": 15,
+          "footprints": 5,
+          "zones": 0,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 0,
+          "track_length_mm": 103.7463002446602,
+          "pads": 15,
+          "footprints": 5,
+          "zones": 0,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "improve-eeprom90-return",
+      "status": "passed",
+      "method": "improve",
+      "source_id": "source-08",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "tuned",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 0,
+      "Native_counts": [
+        0,
+        0,
+        36,
+        0
+      ],
+      "ignored_check_count": 7,
+      "protocol_sha256": "8795be21056220d473524b3652726495858547ac290be31da3e5babe40b1a2ae",
+      "execution_sha256": "9d172c7af2503208ca2545eb2225c79589bf74d9d59f8fa9a91a17d73a1fad71",
+      "child_sha256": "3b7a7faf1547a26b1b3fc4ca3cf25cbcdd394ef1155c7abeaaab26a25adfe561",
+      "parent": {
+        "receipt_sha256": "7d9a335f929e3edaf11c99326791497c8bdb6775efa91bed037c28281069ac29",
+        "candidate_sha256": "daa8b844ca44f0215adeb62486a0a71cd2b94b5a92079e7fd35f78db88a5d103",
+        "native_report_sha256": "aa71d99871de7b3a40903caed2cbcc920f0151971a19e4f44852c944709fb232",
+        "process_sha256": "9e85cf2e168a2b21fdbc9607b99bca7cd6ec642483da8746c2d970190a5b2565",
+        "binding_sha256": "8485f62d1adcafe2bb5a88d30aeaeabb58e0f1abb1ee3a233397d00c2a76fb55",
+        "Native_counts": [
+          0,
+          0,
+          36,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 16,
+          "warning:lib_footprint_issues": 20
+        },
+        "ignored_check_count": 7,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "missing_courtyard",
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries",
+            "footprint_filters_mismatch",
+            "pth_inside_courtyard",
+            "npth_inside_courtyard",
+            "footprint_type_mismatch"
+          ],
+          "count": 7,
+          "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "eaf0da2201b85801a39ca2d99955a5f48bd875f2c5cb5c835e0fd34769973585",
+          "native_map_sha256": "ed4d38accef362951b8b872c208c2bbc4e4417d939d0bae9165fd4ef8f8469b0",
+          "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+          "native_and_dimensions_passed": true,
+          "protected_count": 0,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8326160419965163,
+          "cpu_seconds": 0.533668,
+          "max_rss_bytes": 225705984
+        }
+      },
+      "export": {
+        "receipt_sha256": "8a36af0b77c2fd594b7b844a9e8b11b0a695f112748f9c5bf4c8202da128c06b",
+        "candidate_sha256": "daa8b844ca44f0215adeb62486a0a71cd2b94b5a92079e7fd35f78db88a5d103",
+        "native_report_sha256": "1b125f947d11219162f441677376cb15b275dd336b3d058442480d74d9a809ce",
+        "process_sha256": "cc22ba199c91ad8ef161403ccaee7c992b5f71e7480108d81ff353472bbf1610",
+        "binding_sha256": "c57d6ba152ae55f4e175eaeb261b67f356c015fa325bf64001228223188331b5",
+        "Native_counts": [
+          0,
+          0,
+          36,
+          0
+        ],
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 16,
+          "warning:lib_footprint_issues": 20
+        },
+        "ignored_check_count": 7,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "missing_courtyard",
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries",
+            "footprint_filters_mismatch",
+            "pth_inside_courtyard",
+            "npth_inside_courtyard",
+            "footprint_type_mismatch"
+          ],
+          "count": 7,
+          "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "357c584f80c0b4953a5fe83255dd0edfd07192659ae88559d5f94a88ca8a64ea",
+          "native_map_sha256": "d00d2c6e268702571b7958d36f2c5fb0306c43f739100a144cef4b6c5d80733a",
+          "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+          "native_and_dimensions_passed": true,
+          "protected_count": 0,
+          "Default_targets_policy": "single-default-global-floor-targets-v2",
+          "field_qualified": true,
+          "field_status": null
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.9092846249695867,
+          "cpu_seconds": 0.564809,
+          "max_rss_bytes": 226099200
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 197.26,
+        "CPU_seconds": 194.76,
+        "user_seconds": 159.71,
+        "system_seconds": 35.05,
+        "time_log_sha256": "e5dfc8dd6173cbd2c9d902979b13112a7a448cd2142c752398cd43ce6a6806ed",
+        "source": ".runs/runtime060-installed-native-qualification-001/improve-eeprom90-return/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 197.2225292500807,
+        "full_CPU_seconds": 194.73774000000003
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.2193678340408951,
+          "full_CPU_seconds": null,
+          "log_sha256": "96f07218d2bf0766636a02a043217e6932ada6f819fe3002dac3e7e31ad77b68"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 73.65504833299201,
+          "full_CPU_seconds": null,
+          "log_sha256": "287824ae88e7e6db589d6e579017dba16571546e868216cfc7adfdeb2faee7bd"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 14.109394375002012,
+          "full_CPU_seconds": null,
+          "log_sha256": "9e5b9a453e2bb94300f89172de9f91ff8d2b22ac30c63e9d4d808f1a99deffef"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 11.021020208019763,
+          "full_CPU_seconds": null,
+          "log_sha256": "0eb68b7583d5b275d57e038c20a2d3ff8b2828010a61fb22cb776965c6b43077"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 35.24963120894972,
+          "full_CPU_seconds": null,
+          "log_sha256": "451b711bda944fe10e2b743ee9b8d13a350c892bc7e7632188d0907d8d7abbe9"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 18.279217583942227,
+          "full_CPU_seconds": null,
+          "log_sha256": "bae8959372aaa93d4439322a2971da564f9e599ee928a994051c65bdce22acd6"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 56.78666133293882,
+        "total_cpu_seconds": 55.433915,
+        "finalization_started_elapsed_seconds": 48.23737591598183
+      },
+      "Improve": {
+        "trial_count": 9,
+        "improvements": 8,
+        "incumbent": {
+          "receipt_sha256": "84ac35e1151e9e242bfb0649cbd20db9b4ad591f5d0a124e5808b6a677842f13",
+          "candidate_sha256": "4f06a63f583f295b5921891e7b7a78e7097f66afa9b08c54a5b70e764c945066",
+          "native_report_sha256": "1bae907304751287df3a282cb68896680d34ff3e6af8dd8cabb8a9f8c4b1943a",
+          "process_sha256": "f286361581802bd45e2b77546a434a38c5b68c8318565c51bf62d095ff7d6716",
+          "binding_sha256": "924e156cdd708ebc91b2086224f2e8dd1ce40e195dee26ba3538254e53db19a6",
+          "Native_counts": [
+            0,
+            0,
+            36,
+            0
+          ],
+          "finding_types": {
+            "warning:footprint_symbol_field_mismatch": 16,
+            "warning:lib_footprint_issues": 20
+          },
+          "ignored_check_count": 7,
+          "whole_project_drc_clean": false,
+          "full_schematic_flag": true,
+          "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/incumbent/result.json",
+          "ignored_checks": {
+            "keys": [
+              "missing_courtyard",
+              "track_not_centered_on_via",
+              "tuning_profile_track_geometries",
+              "footprint_filters_mismatch",
+              "pth_inside_courtyard",
+              "npth_inside_courtyard",
+              "footprint_type_mismatch"
+            ],
+            "count": 7,
+            "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+          },
+          "application_policy_accepted": true,
+          "rejection_reason_count": 0,
+          "auxiliary": {
+            "audit_sha256": "fc7dbe1c7490ec12e58fae1def973786a4010597c19a2fb7f1886c3f15bec5c9",
+            "native_map_sha256": "569d9f45a49965f9066facf1459bf67385499e567feb8e92928d6dd2e78d23ca",
+            "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+            "native_and_dimensions_passed": true,
+            "protected_count": 0,
+            "Default_targets_policy": "single-default-global-floor-targets-v2",
+            "field_qualified": true,
+            "field_status": null
+          },
+          "metrics": {
+            "vias": 7,
+            "track_length_mm": 428.6979882297271,
+            "pads": 63,
+            "footprints": 20,
+            "zones": 1,
+            "copper_layers": 2,
+            "version": "10.0.7"
+          },
+          "nested_final_Native_process_sample": {
+            "wall_seconds": 0.8686322499997914,
+            "cpu_seconds": 0.544118,
+            "max_rss_bytes": 225673216
+          }
+        },
+        "trials": [
+          {
+            "id": "trial-0000",
+            "status": "drc_rejected",
+            "accepted": false,
+            "own_final": {
+              "receipt_sha256": "7edb4e9550afc59c5c2b4129f1614d866a190c7c1781fee0542202bb778cf751",
+              "candidate_sha256": "ed453fa033459ba978f6a523eee7d484c84b26497cc6eb9ef4b27dacd185d588",
+              "native_report_sha256": "c4a50658cefaaa1143ee41ab07d8c85173dac20bf50905d3c4b3fb2b0cda8065",
+              "process_sha256": "053189deca11d34a0a5417b8fdabf300d3b10c6eb2643fd808e2db0e5e477a80",
+              "binding_sha256": "30bb1e0c020df453ecb7b3e003892cecf8c87d69fcbaee10f4297818340285d9",
+              "Native_counts": [
+                0,
+                2,
+                36,
+                0
+              ],
+              "finding_types": {
+                "error:starved_thermal": 2,
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0000/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": false,
+              "rejection_reason_count": 3,
+              "auxiliary": {
+                "audit_sha256": "c0ea6a178af77f2396dbc7ecd3c5b6ebc353af1cb4bb1cc8db971e06d32e91ee",
+                "native_map_sha256": "2f35d277eae9360e30e6607513bb64a3c7269a37cd507a24d37d186ffdaa7646",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.8175977920182049,
+                "cpu_seconds": 0.528553,
+                "max_rss_bytes": 225935360
+              }
+            },
+            "started_elapsed_seconds": 19.931146041024476,
+            "finished_elapsed_seconds": 22.80276066600345,
+            "finished_observed_cpu_seconds": 26.696891,
+            "metrics": null
+          },
+          {
+            "id": "trial-0001",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "7a66003d901e8d8c447fe0795bcf9f5c1510aea4e8dd70058c0b78b369f14fd4",
+              "candidate_sha256": "01f49b33cc97831f998c4dcc576c055e4d8310dd0ebf8ae608f96ffc7d708191",
+              "native_report_sha256": "4baea56096141a7798082be0b00905a758223748c211a406b633c3e7bb574a77",
+              "process_sha256": "5145563ca2e732988f4d192b6111ad78f414671be168a58c314988444ba88a9e",
+              "binding_sha256": "8cfcd090c21e6d520a338916595e5ba23bd329b7cfe86557a0c2d3d9a58b7893",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0001/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "518c8a9bd7011212b84b6a29c2df1f06ce16f7599698787d62ec927af7d1f5f5",
+                "native_map_sha256": "a4f4e15ef9b03c966c15c44358992bfcdfe3dc8640adafc398964dc62c8397e7",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.8057304170215502,
+                "cpu_seconds": 0.531372,
+                "max_rss_bytes": 225624064
+              }
+            },
+            "started_elapsed_seconds": 22.845395416021347,
+            "finished_elapsed_seconds": 25.99650845793076,
+            "finished_observed_cpu_seconds": 29.305711000000002,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 399.7979882297271,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          },
+          {
+            "id": "trial-0002",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "b0eaafa42864c911b802a8a161d6b8f778daf95a70ad84f1e36241e4b44215d7",
+              "candidate_sha256": "30346424c67bda279f1b97dd181e5561c88b9c6385efe5565154ee464e0b9255",
+              "native_report_sha256": "d03caa55ba68f1e05dab6537526c35df203178426d14f150f3b0ca48be95f137",
+              "process_sha256": "ade64720882f173f70c11ecbcea2f5aade835de04262cc605d9c1b641cce9168",
+              "binding_sha256": "a3001e2419ad23830c1b5d013d3b8823a8f082c9324c0c0933f15c4760c7b3f8",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0002/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "c16b7e8204c83024f4c1f674136e8f2e7853f72028130b0e1b89e3694cc72219",
+                "native_map_sha256": "33ccaf6c18a8e082c73faf47b0765e6ea3d84ff5b4ad55bad049185c820fa2c9",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.804727082955651,
+                "cpu_seconds": 0.5301539999999999,
+                "max_rss_bytes": 225771520
+              }
+            },
+            "started_elapsed_seconds": 26.022335625020787,
+            "finished_elapsed_seconds": 29.17942837497685,
+            "finished_observed_cpu_seconds": 31.895241,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 383.7279882297269,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          },
+          {
+            "id": "trial-0003",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "2cfed86b15b7a9cd638b6b5846228068ef406c9a44e7306b1d0ea748d6ddb3e3",
+              "candidate_sha256": "ca7f8b4869f2d622868a8ed84eeec0917fca479d8ddd8abbe42a3a37c16b77d7",
+              "native_report_sha256": "95824e6dcac9c41d3b6e70fe9a651fe324715161a831af1088e3333596bf1240",
+              "process_sha256": "acbea5d5a9071664de38c58d2003f2f3b7635a1f9951b0f2b8b3bddb1fb098cb",
+              "binding_sha256": "22a4335e847b9f83c84b1d913d1cd8480a09bcd9b5f5b3754616dbb657f72666",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0003/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "42b1312b229bcdb3df1a6844ef58a5402d0b5df24102b27056c95e8d02f56f9a",
+                "native_map_sha256": "3450f3ecc907f461278c5849b919e154493ab1de86fa46f7dbffe6d1f1c60cd1",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.8077355000423267,
+                "cpu_seconds": 0.528292,
+                "max_rss_bytes": 225640448
+              }
+            },
+            "started_elapsed_seconds": 29.20472391601652,
+            "finished_elapsed_seconds": 32.36588795797434,
+            "finished_observed_cpu_seconds": 34.49170599999999,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 369.5542882297269,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          },
+          {
+            "id": "trial-0004",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "2a27ea37ac1651cdd0e18187fe3439793f8cc1ac9fb363e3213cd1cbe1041fbc",
+              "candidate_sha256": "da09abd7e12a50d29c15afa1d0ca48f2ec007a8775140c49df48fcfc3b5b1587",
+              "native_report_sha256": "091e49ec720b0410be1de89a747abff3d1a2c0f0f30e5e1c788a1c786f78720e",
+              "process_sha256": "0153086ec7eb03ef0800388527c0d931407579b6080cee9367af4fc0c8e7c8c3",
+              "binding_sha256": "af9407ea001ac9ed30aa3a20bd9af0e4bcf604a143a66f47cf07970edfbcf12d",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0004/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "7076c7300a86abfdd8d071e65eb684c27a5c5c94dfad5d50f5fe63f10c545f74",
+                "native_map_sha256": "8db968d31123825994b3c439ad3952c88eb27ec290a009324b695f4091c13f64",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.8063050829805434,
+                "cpu_seconds": 0.525577,
+                "max_rss_bytes": 225509376
+              }
+            },
+            "started_elapsed_seconds": 32.39158645796124,
+            "finished_elapsed_seconds": 35.529778165975586,
+            "finished_observed_cpu_seconds": 37.07791400000001,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 356.05802393993173,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          },
+          {
+            "id": "trial-0005",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "b5766a2058a9e36c88f3ae714576629ff0cf8cb0d531ae2d5ae1f44661473a7c",
+              "candidate_sha256": "86623d98e02c8014e4a4ccd807d4741ea1cae356034ab8969386ce2826d42cb5",
+              "native_report_sha256": "5629a8e30cf44af8216b5f3cdf7d16e54fb4c438f024d1020685e7b7fddebcb8",
+              "process_sha256": "e4c615708bbbf84950e6b22019c1b301a0c3cc4ee81379e37e0d85740be863c2",
+              "binding_sha256": "ea8668b0c7fce27a1be45e3c8cfc4f6a516b09bf0436ebd51da4fb65f721d829",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0005/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "54c71144e229716b728d810db6b464440c7526460ad641a8572de0d6d4aa4550",
+                "native_map_sha256": "4694e318d821ac69cb93677a9d2164c15d248179117df9ae87933709aa8c6894",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.7992019999073818,
+                "cpu_seconds": 0.527195,
+                "max_rss_bytes": 225673216
+              }
+            },
+            "started_elapsed_seconds": 35.55680662498344,
+            "finished_elapsed_seconds": 38.72329458303284,
+            "finished_observed_cpu_seconds": 39.6724,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 342.7188239399317,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          },
+          {
+            "id": "trial-0006",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "5edba39395556685702f74146394c6ada3d7d767d6cb82eb1ce8e130365e0d9a",
+              "candidate_sha256": "7de6cf829a62783f86dc51ad7753d90f6dab3c5ca606514751c87f96486a6f2c",
+              "native_report_sha256": "775d56b0f138977a4541ad066fee62432761740abef258819e9b1245e452f260",
+              "process_sha256": "964a24abf498823ea481772b8e1b975e1804e2e4f3919e0550da0aa8aafb1a88",
+              "binding_sha256": "747c56243214fb7fe9f0c52d3f7bdfadeacc1d97247c0664fd8245c0c32f4dc4",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0006/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "db7a23c89526558356dac7414401958ef4f2adb5fd84a5873f17e67bad841f70",
+                "native_map_sha256": "caf7169f62811a8830dd82e75c75cc2a3baae2ff128a8bc1b6ea544464bc3e65",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.8121760829817504,
+                "cpu_seconds": 0.533594,
+                "max_rss_bytes": 226017280
+              }
+            },
+            "started_elapsed_seconds": 38.75028558296617,
+            "finished_elapsed_seconds": 41.88618045800831,
+            "finished_observed_cpu_seconds": 42.264147,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 335.86202393993176,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          },
+          {
+            "id": "trial-0007",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "7b23d5614fce32dd897c6287682bf6e00831e8794806143785e3a4acc601045f",
+              "candidate_sha256": "abec192cc7126ce4d31cfeecd1e1590d7ca57c36b04375a80b65dabc85b8259f",
+              "native_report_sha256": "563141bbdeb2406b712fb38eb36ffe7da949d29d3462590ef4f16896dcceffe0",
+              "process_sha256": "4738a21b1fe32db99281a5a244dcd3cd0b7ddd03ca29989bfc550a0934e03ab8",
+              "binding_sha256": "4e31aaebcb6860d631f67abd3eda6306154dd4bb5e1fb43ffa1b17d68dc738a5",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0007/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "429c3c7af63e95a0ce9e66c7de923c4b70a9ff7e333b0de3ff79d8492b28a7df",
+                "native_map_sha256": "9c9262c5e2e7d88c5d1f32b272f9f6670d45bab126fdfbb5e0052b51f9f8c7dc",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.8166508750291541,
+                "cpu_seconds": 0.534117,
+                "max_rss_bytes": 225476608
+              }
+            },
+            "started_elapsed_seconds": 41.914110040990636,
+            "finished_elapsed_seconds": 45.06031529093161,
+            "finished_observed_cpu_seconds": 44.858281000000005,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 329.0565239399317,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          },
+          {
+            "id": "trial-0008",
+            "status": "improvement_validated",
+            "accepted": true,
+            "own_final": {
+              "receipt_sha256": "c26fae1a33e2fc165f7be93d6e6d0cb3e398d34103da1d2ce3292db1735ee7bb",
+              "candidate_sha256": "daa8b844ca44f0215adeb62486a0a71cd2b94b5a92079e7fd35f78db88a5d103",
+              "native_report_sha256": "b333b11c6cdfcf57b1b8fc069dc12e86dda6b39fa6d77863f716b06be8c03ec3",
+              "process_sha256": "4cdffbd3c466964044582055e6cf3f4af57e4a981404ee729a12c7efe3e5d51e",
+              "binding_sha256": "48120088b61e6a75f697a269db5d4d3c1c4a1e0bcbf571af6cf901a32375ff07",
+              "Native_counts": [
+                0,
+                0,
+                36,
+                0
+              ],
+              "finding_types": {
+                "warning:footprint_symbol_field_mismatch": 16,
+                "warning:lib_footprint_issues": 20
+              },
+              "ignored_check_count": 7,
+              "whole_project_drc_clean": null,
+              "full_schematic_flag": true,
+              "receipt_relative_to_case_output": "autorouter-gui-f96156997cc146c1b800c84e4431f13b/route/trials/trial-0008/result.json",
+              "ignored_checks": {
+                "keys": [
+                  "missing_courtyard",
+                  "track_not_centered_on_via",
+                  "tuning_profile_track_geometries",
+                  "footprint_filters_mismatch",
+                  "pth_inside_courtyard",
+                  "npth_inside_courtyard",
+                  "footprint_type_mismatch"
+                ],
+                "count": 7,
+                "field_sha256": "8a25f40181131fcf3f12dc8e4c14faebf74be1a617bad3f3f99ea30d718ac90d"
+              },
+              "application_policy_accepted": true,
+              "rejection_reason_count": 0,
+              "auxiliary": {
+                "audit_sha256": "01aedfe1fe2760a0404642d36addca4e3be9b6c9c07b9530c86964209f19a6a9",
+                "native_map_sha256": "1a4eb47279b02ab74c4db8f7b566a93f8a56a30678ad1788c96a5cd3d1cc4c42",
+                "project_sha256": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+                "native_and_dimensions_passed": true,
+                "protected_count": 0,
+                "Default_targets_policy": "single-default-global-floor-targets-v2",
+                "field_qualified": true,
+                "field_status": null
+              },
+              "nested_final_Native_process_sample": {
+                "wall_seconds": 0.8123882919317111,
+                "cpu_seconds": 0.532152,
+                "max_rss_bytes": 225771520
+              }
+            },
+            "started_elapsed_seconds": 45.089110458036885,
+            "finished_elapsed_seconds": 48.21334454102907,
+            "finished_observed_cpu_seconds": 47.436957,
+            "metrics": {
+              "vias": 7,
+              "track_length_mm": 323.38652393993175,
+              "pads": 63,
+              "footprints": 20,
+              "zones": 1,
+              "copper_layers": 2,
+              "version": "10.0.7"
+            }
+          }
+        ],
+        "return_samples": {
+          "route_CLI_wall_seconds": 73.65504833299201,
+          "finalization_start_elapsed_seconds": 48.23737591598183,
+          "route_CLI_tail_from_finalization_start_seconds": 25.41767241701018,
+          "reserve_seconds": 40,
+          "literal50s_expiry_established": false,
+          "scope": "Different producer scopes preserved; subtraction is a routeCLI tail sample, not a general guarantee."
+        }
+      },
+      "metrics": {
+        "parent": {
+          "vias": 7,
+          "track_length_mm": 323.38652393993175,
+          "pads": 63,
+          "footprints": 20,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 7,
+          "track_length_mm": 323.38652393993175,
+          "pads": 63,
+          "footprints": 20,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    },
+    {
+      "case": "ordinary-arcdice-admission",
+      "status": "passed",
+      "method": "route",
+      "source_id": "source-09",
+      "settings": {
+        "schema": 1,
+        "seconds": 90,
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null
+      },
+      "budgets": {
+        "route": 90,
+        "export": 90
+      },
+      "protected_count": 0,
+      "Native_counts": [
+        0,
+        0,
+        26,
+        0
+      ],
+      "ignored_check_count": 5,
+      "protocol_sha256": "6386ee2399fbaf3acabe034b2cad0a0b0356dd9e921b2d5ac83bd63cb71b615d",
+      "execution_sha256": "82eebfe23f928e92575042b4cfba581038d2e23fd79ea95db01efca96358d940",
+      "child_sha256": "55337eb2e19d46a4996d023e0b9ff18b6a44937aae26d0bf80c8a375e7333bc2",
+      "parent": {
+        "receipt_sha256": "05fb01853e509767c294532e3fa9fe1d8f4676616d6d03077ea7c9f77d4aaa99",
+        "candidate_sha256": "d4f251e9989edaacf94cfb172f23e0392c148a13f1335f5c291c70d65fe44907",
+        "native_report_sha256": "97e10b24212074860053195dd9fd26a3ed04bd01a2e03f8f6a5d8d34f5ddc58b",
+        "process_sha256": "331c3f818e1ff9356d59809cf800ed5276d987b23b8a2eaa00611943927d5ad3",
+        "binding_sha256": "d0cd52b23a5684fd3d974c233f54fedb9e145897ee36d5037c703d17fd934ba0",
+        "Native_counts": [
+          0,
+          0,
+          26,
+          0
+        ],
+        "finding_types": {
+          "warning:lib_footprint_issues": 26
+        },
+        "ignored_check_count": 5,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-ba085125ca104b848bfb54184f526908/route/result.json",
+        "ignored_checks": {
+          "keys": [
+            "missing_courtyard",
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries",
+            "footprint_filters_mismatch",
+            "footprint_type_mismatch"
+          ],
+          "count": 5,
+          "field_sha256": "94bf7a4eacd1aba2798caf7192896c966c67cd3404c00d7b4b33bf91e7e3cf06"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "9842ca9d47d0eef892439f7f364577e5675974ac87dc5d66efa83030ebf88ed1",
+          "native_map_sha256": "b5875fe7682242c67d52739ab63d0515f47f15c285a853576578731b212cff24",
+          "project_sha256": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+          "native_and_dimensions_passed": true,
+          "protected_count": 0,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable."
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.8889542919350788,
+          "cpu_seconds": 0.5959949999999999,
+          "max_rss_bytes": 235978752
+        }
+      },
+      "export": {
+        "receipt_sha256": "083612ab25ae601047eb61c4b0ce23ee329acb1ca846e5118dc12aadec5d2861",
+        "candidate_sha256": "d4f251e9989edaacf94cfb172f23e0392c148a13f1335f5c291c70d65fe44907",
+        "native_report_sha256": "c607b0597a313a5c5bfed130969b254b64b41f1fd81a991a7c084ffa74a76c3f",
+        "process_sha256": "d1039495df8a6009f51507668e277d4fd0ad063f3a8cd07d6dbb255378e3057b",
+        "binding_sha256": "06f4419c10e35d8c778b6e0faa18916bd2787f7f2aaf9513da69fb03f4e12746",
+        "Native_counts": [
+          0,
+          0,
+          26,
+          0
+        ],
+        "finding_types": {
+          "warning:lib_footprint_issues": 26
+        },
+        "ignored_check_count": 5,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "receipt_relative_to_case_output": "autorouter-gui-ba085125ca104b848bfb54184f526908/export/export.json",
+        "ignored_checks": {
+          "keys": [
+            "missing_courtyard",
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries",
+            "footprint_filters_mismatch",
+            "footprint_type_mismatch"
+          ],
+          "count": 5,
+          "field_sha256": "94bf7a4eacd1aba2798caf7192896c966c67cd3404c00d7b4b33bf91e7e3cf06"
+        },
+        "application_policy_accepted": true,
+        "rejection_reason_count": 0,
+        "auxiliary": {
+          "audit_sha256": "07cabf3ff1009525519575f81588bee62ff5b7d2b42b0c42e85a35413988b74b",
+          "native_map_sha256": "76e595f780569578094908b5ca2cd4e260748efb9ca593f53666c063c5e9c4ff",
+          "project_sha256": "be12f193331f3091ef31b9df28dc968119be56269adddcd5b2ed2921523223f6",
+          "native_and_dimensions_passed": true,
+          "protected_count": 0,
+          "Default_targets_policy": null,
+          "scope": "Original multi-class Native audit; single-Default policy not applicable."
+        },
+        "nested_final_Native_process_sample": {
+          "wall_seconds": 0.9327916250331327,
+          "cpu_seconds": 0.62044,
+          "max_rss_bytes": 236044288
+        }
+      },
+      "complete_external": {
+        "wall_seconds": 39.17,
+        "CPU_seconds": 38.51,
+        "user_seconds": 33.61,
+        "system_seconds": 4.9,
+        "time_log_sha256": "b9408ecbefba544035a02cdbb62c774804e30ec59aee17426d68e2c8ea99acd4",
+        "source": ".runs/runtime060-installed-native-qualification-001/ordinary-arcdice-admission/complete-command-and-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      },
+      "nested_enclosure_sample": {
+        "wall_seconds": 39.12724662502296,
+        "full_CPU_seconds": 38.480076999999994
+      },
+      "nested_CLI_wall_samples": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.22028695803601295,
+          "full_CPU_seconds": null,
+          "log_sha256": "e8ab5a35c70b4f617c6f4f0b2b5d8b77097e6958706843a13226f0951385e258"
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 12.695674666087143,
+          "full_CPU_seconds": null,
+          "log_sha256": "87aa674643a64c4a7ce5faabf19c58ffeec83c9aa6d428e67619d05b26c33552"
+        },
+        {
+          "stage": "review",
+          "wall_seconds": 4.678446750040166,
+          "full_CPU_seconds": null,
+          "log_sha256": "97413c3cb9791248064404bed9a6b7723dc9f7308ff3a1a15778558054c614e4"
+        },
+        {
+          "stage": "choice",
+          "wall_seconds": 2.7951165830018,
+          "full_CPU_seconds": null,
+          "log_sha256": "d2ac4cab39a22cb9ba98c9a6c379191e92ea0024c3a038051db18e8973cab1d2"
+        },
+        {
+          "stage": "export",
+          "wall_seconds": 8.207158874953166,
+          "full_CPU_seconds": null,
+          "log_sha256": "172da00b22d5ff8d145e806d54f1f33898ddd11e6c6950486d5995068d4d6ab1"
+        },
+        {
+          "stage": "verify_export",
+          "wall_seconds": 2.952592832967639,
+          "full_CPU_seconds": null,
+          "log_sha256": "d58f124b1a4bc69044ab14fbeb37dced97fdebf1c0eb7e5ea5111850839d7930"
+        }
+      ],
+      "parent_sample": {
+        "wall_seconds": 10.294364125002176,
+        "total_cpu_seconds": 10.279812,
+        "finalization_started_elapsed_seconds": null
+      },
+      "metrics": {
+        "parent": {
+          "vias": 0,
+          "track_length_mm": 636.9890979739067,
+          "pads": 63,
+          "footprints": 26,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        },
+        "export": {
+          "vias": 0,
+          "track_length_mm": 636.9890979739067,
+          "pads": 63,
+          "footprints": 26,
+          "zones": 1,
+          "copper_layers": 2,
+          "version": "10.0.7"
+        }
+      }
+    }
+  ],
+  "invalid_controls": {
+    "passed": true,
+    "cases": [
+      {
+        "case": "short",
+        "refused_as_expected": true,
+        "Native_counts": [
+          0,
+          4,
+          6,
+          0
+        ],
+        "ignored_check_count": 2,
+        "finding_types": {
+          "error:hole_clearance": 1,
+          "error:shorting_items": 1,
+          "error:solder_mask_bridge": 1,
+          "error:tracks_crossing": 1,
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "report_sha256": "00fb6d499abe28c71b2ae410083445f2583151f3e974740cd7fbf5e4fe2e0382",
+        "binding_sha256": "0750abdefa54101269bf58f5c5a5f673ac5843831e81dceb68cd894cd5bb63ee",
+        "wall_seconds": 2.726462124963291,
+        "full_CPU_seconds": 1.7989419999999998,
+        "scope": "Actual original-rule fullSCH Native invalidity refused."
+      },
+      {
+        "case": "protected-width",
+        "refused_as_expected": true,
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "ignored_check_count": 2,
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "report_sha256": "b61a1e8d14c5071e6e212c08f51f86715ece8d09ae69eb3ccc8f5215f3ab550f",
+        "binding_sha256": "8c20a87d5caf7d91f123ba390a7baec1e57359bf06c8f42b97be6f6cd62cbb6b",
+        "wall_seconds": 1.0822359580779448,
+        "full_CPU_seconds": 1.0032419999999997,
+        "scope": "Original protected-route invariant refusal; Native diagnostic alone is not acceptance authority."
+      },
+      {
+        "case": "hole-clearance",
+        "refused_as_expected": true,
+        "Native_counts": [
+          1,
+          1,
+          7,
+          0
+        ],
+        "ignored_check_count": 2,
+        "finding_types": {
+          "error:hole_clearance": 1,
+          "error:unconnected_items": 1,
+          "warning:footprint_symbol_field_mismatch": 6,
+          "warning:track_dangling": 1
+        },
+        "report_sha256": "634cdb608f0e886d9a058514fcd25c8e09b6953337556dbacd7a6497a217685a",
+        "binding_sha256": "6682db32111318f8d4215b99ff870c6d8f75d0892939f7ad4a7a56e9053151dc",
+        "wall_seconds": 2.350799125037156,
+        "full_CPU_seconds": 1.7301109999999995,
+        "scope": "Actual original-rule fullSCH Native invalidity refused."
+      }
+    ],
+    "child_sha256": "1116dd47c1c026544dfa41f4f3933bf8d7502c44abaf91c9a84d8ac0330b9c18",
+    "nested_enclosure_sample": {
+      "wall_seconds": 7.5789414999308065,
+      "full_CPU_seconds": 5.834452000000001
+    }
+  },
+  "complete_external_costs": {
+    "integration212": {
+      "wall_seconds": 184.46,
+      "CPU_seconds": 176.49,
+      "user_seconds": 98.82,
+      "system_seconds": 77.67,
+      "time_log_sha256": "8d467d020f25c4cc336b653f5385a3540a210bc7b1fe6799d88f61e04376cf38",
+      "source": ".runs/full-integration-212-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "original_preparation": {
+      "wall_seconds": 3.91,
+      "CPU_seconds": 3.26,
+      "user_seconds": 2.38,
+      "system_seconds": 0.88,
+      "time_log_sha256": "5ae614580cd7bba88a23a40a135abc569d7924dd9ad4c91732778d26acc384d2",
+      "source": ".runs/prepare-runtime060-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "fresh_install_copy": {
+      "wall_seconds": 0.48,
+      "CPU_seconds": 0.33,
+      "user_seconds": 0.21,
+      "system_seconds": 0.12,
+      "time_log_sha256": "97d5e38a114c90b8b7073726bac081aebfc74fc4cf2858d70802e7753f0e0563",
+      "source": ".runs/runtime060-install-existing-copy-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "fresh_copied_venv": {
+      "wall_seconds": 0.15,
+      "CPU_seconds": 0.13,
+      "user_seconds": 0.1,
+      "system_seconds": 0.03,
+      "time_log_sha256": "4207935c263cb5c7d23a583f4ab880e6aa23ceee60783a04fbca1b58521e1a11",
+      "source": ".runs/runtime060-install-existing-venv-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "Native_freeze_query_doctor": {
+      "wall_seconds": 3.41,
+      "CPU_seconds": 2.68,
+      "user_seconds": 1.93,
+      "system_seconds": 0.75,
+      "time_log_sha256": "75d92f683248ad0636bb51791c035979ead2ece9ad67a532f909c49554033b04",
+      "source": ".runs/runtime060-installed-native-freeze-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "Native_batch13": {
+      "wall_seconds": 757.17,
+      "CPU_seconds": 722.95,
+      "user_seconds": 570.16,
+      "system_seconds": 152.79,
+      "time_log_sha256": "659cfce868e7f2ffa315598fe2707a402a725522da9f9d8090cc7d7d1f5554f1",
+      "source": ".runs/runtime060-installed-native-batch-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "invalid_freeze": {
+      "wall_seconds": 0.09,
+      "CPU_seconds": 0.08,
+      "user_seconds": 0.07,
+      "system_seconds": 0.01,
+      "time_log_sha256": "b91bf17d77b35589c63be8f770b6694841551bbddc1e7fd67f02a2b7f8ecc6a7",
+      "source": ".runs/runtime060-installed-invalid-freeze-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "invalid_run3": {
+      "wall_seconds": 7.63,
+      "CPU_seconds": 5.87,
+      "user_seconds": 4.97,
+      "system_seconds": 0.9,
+      "time_log_sha256": "ea766280e2044ec4e2a5f0a93599c3f3288e1ea83f1860c1e37f740e098e4f10",
+      "source": ".runs/runtime060-installed-invalid-run-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "accounting": {
+    "distinct_outer_wall_seconds": 957.3,
+    "distinct_outer_CPU_seconds": 911.79,
+    "batch_nested_sample": {
+      "wall_seconds": 756.8452384999255,
+      "full_CPU_seconds": 722.656107
+    },
+    "rule": "Case/CLI/Native/trial/enclosure samples are nested in batch/invalid complete costs and are NOT added again. Each listed complete outer cost is a distinct operation.",
+    "unknown_additional": [
+      "Authoring, AI/source review, earlier metadata reads and one prewrite in-memory construction assertion are unmetered additional costs, not zero. No old producer bytes changed.",
+      "Per-stage CliJob receipts have wall only; full per-stage CPU is unavailable.",
+      "GUI095 preparation/interactive work is lead-owned, active and excluded.",
+      "Historical intake costs/previous-version failures are not remeasured or added here.",
+      "Metadata-generation sample excludes preceding reads and postwrite exit."
+    ],
+    "metadata_generation_partial_sample": {
+      "wall_seconds": 0.8892335420241579,
+      "controller_CPU_seconds": 0.7360639999999999
+    }
+  },
+  "supporting_sha256": {
+    "scripts/report_current_comparison.py": "0ba011298586ee7e89ffaa65c9184a6a25ef231f819c34474d2e3b75b557982e",
+    ".runs/runtime060-installed-native-qualification-001/frozen.json": "907b271df390469c81df035986970deba28e9289ae43e1f5c32c59f6c363ea1d",
+    ".runs/runtime060-installed-native-qualification-001/batch-result.json": "b2fa39d3955f99ad73cf5fadda9fc7b9dd67011a2d2080a7f89452880b0c474c",
+    ".runs/runtime-directory-060/preparation.json": "82146575a4fbadfbb14ec9bd90588b2909ab0cb5c4283df878136e80985717ef",
+    ".runs/runtime-directory-060/runtime/runtime-distribution.json": "bb703d58271947e15430dc62187ace0afb1a5c70e3e76fe861933e717aa3becd",
+    ".runs/runtime060 fresh install 001/runtime-distribution.json": "8f385b397ddb6379ce35bab92d62ceff55029c6a796f7d3269c5c5b34ed1ba30",
+    ".runs/runtime060 fresh install 001/.runs/install-existing-runtime-001.json": "53b44a3c9060d4fb77a9b8c23fca1f677357443e4c6f420541fcd9bf96d3767d",
+    ".runs/runtime060-install-existing-copy-001.log": "5e64608657b91fde78533b4e17a624c734b7dda371f20ec33b496a854aa632ea",
+    ".runs/runtime060-install-existing-venv-process-001.json": "8487a03a1e78a5205f7e6e382c615b406c9bb74bcaeecea9a784f67d9e6de443",
+    ".runs/full-integration-212/execution.json": "761fc1f503e294bde166ea213d590d5919024740d45c868b7f694a88788130b7",
+    ".runs/full-integration-212/protocol.json": "071b4acbc913789c376d738fc42b2dadcb22529a2c9c572083a4f3bc7e364a12",
+    ".runs/runtime060-native-controls-001/invalid/protocol.json": "e533ee37df9a36cc3cf8bad61a71c8242c2b41b3798d68ced2741e6c842924bd",
+    ".runs/runtime060-native-controls-001/invalid/enclosure/result.json": "5f2592c22367d0bb879b92739733bf9c70ba4d899982f10a29e96bd007b2ced6",
+    ".runs/runtime060-native-controls-001/invalid/enclosure/process.json": "4a1e5ce87d7de687ca6c5e5192c4c79095447a88923b97dc2a990a115cf74487"
+  },
+  "scope": {
+    "Native_executed_by_this_review": false,
+    "central_readers_rerun": false,
+    "runtime_query_rerun": false,
+    "stored_bytes_only": true,
+    "actual_GUI_qualified": false,
+    "full_install_or_cleanOS_qualified": false,
+    "Windows_qualified": false,
+    "accepted": false,
+    "production_admitted": false,
+    "project_complete": false,
+    "human_review": false,
+    "electrical_validation": false,
+    "comparison_superiority": false,
+    "holdout_or_independent_breadth": false,
+    "foreign_CAD_or_full_findings_included": false,
+    "raw_proof_backup": false,
+    "limits": "Thirteen explicit current installed060 CLI workflows and three invalid controls. EEPROM/ArcDice are development-exposed; no rights/title closure or general gain. Stored own-final source/Native/original/field/class/PRL/protection facts do not renew central acceptance. Raw proofs remain on this Mac; compact metadata is not a full backup. ArcDice development use is admitted under publisher MIT in data/development-arcdice-001.json; independent ancestry and CAD/assets redistribution are not established."
+  },
+  "lead_curation": {
+    "detailed_local_draft_sha256": "e6455b0169a3b9c88579d0c7367ca63a4702892a7a523b3aaca5f49a086ec389",
+    "supporting_files_and_54_immutable_maps_rechecked": true,
+    "no_Native_rerun": true,
+    "no_central_readers_rerun": true,
+    "omitted_repeated_auxiliary_file_maps": "Detailed draft and actual bound receipts retain them locally; public hash facts do not replace original raw proofs.",
+    "current_GUI": "GUI095 active; no core/full GUI claim from this packet."
+  }
+}
