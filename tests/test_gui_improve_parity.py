@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 from unittest.mock import Mock, patch
 import unittest
-from autorouter import gui, preferences as pref
+from autorouter import gui, preferences as pref, strategy
 from tests import test_gui as gui_fixture
 from tests.test_gui import window_method
 from tests import test_gui_improve_preset as preset_fixture
@@ -45,7 +45,8 @@ class ImproveSettingsParityTests(unittest.TestCase):
         window.budget_label.SetLabel.assert_called_once_with('Whole Improve-method budget (seconds)')
         window.method_note.SetLabel.assert_called_once_with(gui.IMPROVE_HELP)
         self.assertIn('tuned incumbent',gui.IMPROVE_HELP)
-        self.assertIn('25-second internal return reserve',gui.IMPROVE_HELP)
+        self.assertEqual(gui.IMPROVE_RETURN_RESERVE_SECONDS,strategy.NATIVE_FINAL_RESERVE_SECONDS)
+        self.assertIn(f'{strategy.NATIVE_FINAL_RESERVE_SECONDS:g}-second internal return reserve',gui.IMPROVE_HELP)
         window.refused.assert_not_called();self.assertEqual(config,before)
 
     def test_actual_selector_does_not_hide_selected7_score_refusal(self):
@@ -84,6 +85,7 @@ class ImproveSummaryParityTests(unittest.TestCase):
         record=dict(self.route,budget_seconds=30,effective_preferences=dict(pref.DEFAULTS,seconds=30,scope='partial_completion'))
         before=copy.deepcopy(record)
         text=gui.human_summary('review',record,method='improve')
+        self.assertIn(f'{strategy.NATIVE_FINAL_RESERVE_SECONDS:g}-second internal return reserve',text)
         self.assertIn('whole Improve-method budget 420 s',text)
         self.assertIn('Reroute unlocked copper; preserve locked routing',text)
         self.assertNotIn('preserve all existing routing',text)

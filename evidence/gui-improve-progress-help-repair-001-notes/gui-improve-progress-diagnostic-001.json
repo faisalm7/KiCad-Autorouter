@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "kind": "GUI094-Improve-progress-source-diagnosis-and-unapplied-patch-v1",
+  "recorded_utc": "2026-10-22T12:59:07.748048+00:00",
+  "diagnosis": "Window.tick enumerates nested incumbent/recovery logs only when method is recover. Improve writes its tuned incumbent under route/incumbent and pruning validations under route/trials/trial-NNNN. The cancelled current job has no candidate root-phase log among tick\u2019s six names, so current tick performs no SetValue while incumbent work is active. act(route) leaves the previous log text until tick or finished; that permits retained Preview details during active Improve.",
+  "actual_scope": "Static exact source and stored GUI094 log/journal bytes only; no fresh wx/Native execution or timer replay. The exact live text at a particular prior tick was not separately captured, so this is a demonstrated source/layout mechanism, not a new observed GUI timing pass.",
+  "source_pins": [
+    {
+      "path": "autorouter/gui.py",
+      "bytes": 63305,
+      "sha256": "d5f4a0e042bec68c55c7b789cd61de39ef3eee6e8e223ac285a241af8980327b"
+    },
+    {
+      "path": "autorouter/strategy.py",
+      "bytes": 103265,
+      "sha256": "d7b3f5a8bdeb8da850d6bfcc371f6d5c1e7d11da10189e7cc2e2ade36d44f9ca"
+    }
+  ],
+  "evidence_pins": [
+    {
+      "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/observed-improve-delivery-001.json",
+      "bytes": 3757,
+      "sha256": "02884504f124475fa9aa08359ab1e98902a422e93a9c47d15d18bf565056106c"
+    },
+    {
+      "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/observed-cancel-001.json",
+      "bytes": 1337,
+      "sha256": "e76f4645cf7fd4b2e31682283e38c960390a515768dfa956266b3337f4929422"
+    },
+    {
+      "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/observed-closure-final-001.json",
+      "bytes": 8855,
+      "sha256": "4c8fe57af5c3711ac7fba00955670ae7437aafd955a75ac15e3265771f7b6e25"
+    }
+  ],
+  "job_layout": [
+    {
+      "role": "delivered_Improve",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba",
+      "root_log_names_present": [
+        "final-drc.log",
+        "refill-drc.log"
+      ],
+      "stored_log_facts": [
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/final-drc.log",
+          "bytes": 274,
+          "sha256": "9875b1a84aca7dc4fd67ac015f10c08225e9a289618b2e637dac7de551839f73",
+          "mtime_ns": 1792672519677908018
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/refill-drc.log",
+          "bytes": 255,
+          "sha256": "df880d987a4e6f406fca30c8bf79c6290dfc5eadfc6eca3794d41b2354d918c3",
+          "mtime_ns": 1792672518551364226
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/incumbent/final-drc.log",
+          "bytes": 284,
+          "sha256": "a4ca967df656e8593a3a9e303c056fa1505a9c00d13c93dabe73cc0363a05235",
+          "mtime_ns": 1792672511480182000
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/incumbent/refill-drc.log",
+          "bytes": 265,
+          "sha256": "5d519906a8435b05ba76e7a3ce22a2a28b45ed565770fca3abb481cb16f5d8af",
+          "mtime_ns": 1792672510390222869
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/incumbent/engine.log",
+          "bytes": 3408,
+          "sha256": "c2ddb3c363ea8499f65602777a4e41ed4309029741ab025ed0d5c032833b7372",
+          "mtime_ns": 1792672508962511680
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/incumbent/export.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "mtime_ns": 1792672505820128784
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/incumbent/source-drc.log",
+          "bytes": 253,
+          "sha256": "518c7ccb67c8776a07e731627152ead5878f7c5ff1b7d2261ce43c606504188f",
+          "mtime_ns": 1792672505750595266
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/trials/trial-0000/final-drc.log",
+          "bytes": 292,
+          "sha256": "4bd99e07909bd064152a1edbcc289be7f117255fc90cf0941d6352f25d9c25e2",
+          "mtime_ns": 1792672516916564529
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route/trials/trial-0000/refill-drc.log",
+          "bytes": 273,
+          "sha256": "a404ef9374f3cbf23fe28874a7ca3ff36044615b681f92e09cd69ce9bbee57a8",
+          "mtime_ns": 1792672515806299832
+        }
+      ],
+      "workflow_command_pins": [
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/preview.command.log",
+          "bytes": 1040,
+          "sha256": "bb4e95b1a7e9901a3b778da8e498122206c4a1fd4a0e9734f17befd1a83d856a"
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route.command.log",
+          "bytes": 520,
+          "sha256": "74df5d682e41b129ada7ebbe3d5452fff75af4507e615b64a6673e8434089086"
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-29b1602bb0204bae881e1de7b607fcba/route.command.process.json",
+          "bytes": 931,
+          "sha256": "77134187f3052455c7c7a4f86b2389abdebfe3ab93c69c0af60793835013cd68"
+        }
+      ]
+    },
+    {
+      "role": "cancelled_Improve",
+      "workspace": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a",
+      "root_log_names_present": [],
+      "stored_log_facts": [
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/route/incumbent/final-drc.log",
+          "bytes": 284,
+          "sha256": "33553d4c6e30d7f3ee36b622ae92b9dc2e631d70ff3f962274d9ab60987a574b",
+          "mtime_ns": 1792672886662428262
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/route/incumbent/refill-drc.log",
+          "bytes": 265,
+          "sha256": "f0ad441a4f97a517c92bd02eb5edaaa2811e9527f5ca5e1bb14347ecbc1cf208",
+          "mtime_ns": 1792672885573179967
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/route/incumbent/engine.log",
+          "bytes": 3408,
+          "sha256": "7965447efdcb0fa05ce3c077e80db6233992c4a36924eb934a6ed5cebe867e2f",
+          "mtime_ns": 1792672884178524968
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/route/incumbent/export.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "mtime_ns": 1792672881041841091
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/route/incumbent/source-drc.log",
+          "bytes": 253,
+          "sha256": "f75d2458eae1df200949f90a94b12c4c95fd2f251029da5db048c396a5d46fc0",
+          "mtime_ns": 1792672880974866373
+        }
+      ],
+      "workflow_command_pins": [
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/preview.command.log",
+          "bytes": 1040,
+          "sha256": "bb4e95b1a7e9901a3b778da8e498122206c4a1fd4a0e9734f17befd1a83d856a"
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/route.command.log",
+          "bytes": 196,
+          "sha256": "d1015df05e9d4974f58503b0fcfa063f404e35a4be923ae4421502b848ac9f74"
+        },
+        {
+          "path": ".runs/runtime-directory-059/runtime/.runs/gui-session094/jobs/autorouter-gui-27e01f1f8fd14b5ea25bc2c9c8798c4a/route.command.process.json",
+          "bytes": 929,
+          "sha256": "22d65b5847bfae515bf3f6110df9e462f383d9cb8d49f20d18384bc06116aa1f"
+        }
+      ]
+    }
+  ],
+  "proposal": "Extend the existing bounded newest-mtime nested-log branch to Improve: exact incumbent plus 32 canonical trial-0000..0031 directories, same six phase log names and 2048-byte tail. Root ordinary log order and recovery namespace remain unchanged. No recursive directory walk, process handling, validation, state adoption, cancellation or acceptance change.",
+  "patch": {
+    "path": ".runs/gui-improve-progress-fix-draft-001.patch",
+    "bytes": 5388,
+    "sha256": "e2b76e51371cd33403f84c1e2b1808f85613563d303621adbd755c976278249e"
+  },
+  "proposed_test_module": "tests/test_gui_improve_progress.py",
+  "constructed_tests": 6,
+  "tests_run": false,
+  "patch_applied": false,
+  "test_scope": "Actual callback AST via existing test_gui.window_method; constructed temporary files only. Incumbent visibility, latest trial/parent finalization, bounded namespace, 2048-byte tail/leaf-symlink refusal, terminal-message preservation and disappearing-file race.",
+  "required_after_integration": [
+    "Lead review/application only after frozen ArcDice run closes",
+    "Targeted constructed progress tests plus existing recovery/summary/cancellation guards",
+    "Fresh candidate build and actual GUI Improve progress observation before product GUI qualification"
+  ],
+  "claims": {
+    "current_runtime_changed": false,
+    "Native_or_engine_executed": false,
+    "actual_GUI_executed": false,
+    "progress_GUI_qualified": false,
+    "routing_gain": false,
+    "human_review": false
+  },
+  "limits": [
+    "Stored completed files prove layout, not every intermediate timing/state.",
+    "Like existing recovery display, mtime selects a recent log; it does not prove worker liveness or truthful percentage.",
+    "No new intermediate acceptance or late callback authority is introduced.",
+    "Authoring/static AI-review cost additional unknown; no performance measurement."
+  ]
+}

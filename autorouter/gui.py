@@ -18,6 +18,7 @@ import time
 import uuid
 
 from . import config as c, preferences as pref
+from ._improve_context import RESERVE_SECONDS as IMPROVE_RETURN_RESERVE_SECONDS
 
 LOG_LIMIT = 2 * 1024 * 1024
 GUI_IMPROVE_MIN_SECONDS = 90
@@ -29,7 +30,7 @@ THERMAL_HELP = ('Experimental thermal recovery has a validated completion result
     'reserves are inside it. Fresh export has a separate budget. Failed/cancelled work and its incumbent '
     'are retained; no automatic application, acceptance intent or fallback.')
 IMPROVE_HELP = ('Experimental Improve uses a tuned incumbent, bounded pruning trials and final Native validation. '
-    'The whole Improve-method budget includes its 25-second internal return reserve; it is not an added '
+    f'The whole Improve-method budget includes its {IMPROVE_RETURN_RESERVE_SECONDS:g}-second internal return reserve; it is not an added '
     'allowance or a completion guarantee. Fresh export has a separate budget. Selected KiCad 10.0.7 '
     'requires qualified canonical two-layer, flat, single-Default sources and engine-default via cost; '
     'unsupported inputs refuse. No live-board application or electrical approval is implied.')
@@ -984,9 +985,16 @@ def main(argv=None):
             root = self.flow.workspace / 'route'
             names = ('final-drc', 'refill-drc', 'engine', 'export', 'source-drc', 'thermal-geometry')
             paths = [root / (name + '.log') for name in names]
-            if getattr(self.flow, 'method', 'route') == 'recover':
-                roots = [root / 'incumbent', root / 'recovery']
-                roots += [root / 'recovery' / ('trial-%02d' % index) for index in range(1, 5)]
+            method = getattr(self.flow, 'method', 'route')
+            if method in ('recover', 'improve'):
+                roots = [root / 'incumbent']
+                if method == 'recover':
+                    roots += [root / 'recovery']
+                    roots += [root / 'recovery' / ('trial-%02d' % index) for index in range(1, 5)]
+                else:
+                    # Match the pruning producer's fixed MAX_TRIALS=32 namespace;
+                    # never walk arbitrary job or historical directories.
+                    roots += [root / 'trials' / ('trial-%04d' % index) for index in range(32)]
                 paths += [directory / (name + '.log') for directory in roots for name in names]
                 dated = []
                 for path in paths:

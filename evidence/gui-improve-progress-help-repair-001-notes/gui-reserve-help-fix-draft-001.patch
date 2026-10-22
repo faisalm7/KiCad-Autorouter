@@ -1,0 +1,50 @@
+diff --git a/autorouter/gui.py b/autorouter/gui.py
+--- a/autorouter/gui.py
++++ b/autorouter/gui.py
+@@ -18,6 +18,7 @@
+ import uuid
+ 
+ from . import config as c, preferences as pref
++from ._improve_context import RESERVE_SECONDS as IMPROVE_RETURN_RESERVE_SECONDS
+ 
+ LOG_LIMIT = 2 * 1024 * 1024
+ GUI_IMPROVE_MIN_SECONDS = 90
+@@ -29,7 +30,7 @@
+     'reserves are inside it. Fresh export has a separate budget. Failed/cancelled work and its incumbent '
+     'are retained; no automatic application, acceptance intent or fallback.')
+ IMPROVE_HELP = ('Experimental Improve uses a tuned incumbent, bounded pruning trials and final Native validation. '
+-    'The whole Improve-method budget includes its 25-second internal return reserve; it is not an added '
++    f'The whole Improve-method budget includes its {IMPROVE_RETURN_RESERVE_SECONDS:g}-second internal return reserve; it is not an added '
+     'allowance or a completion guarantee. Fresh export has a separate budget. Selected KiCad 10.0.7 '
+     'requires qualified canonical two-layer, flat, single-Default sources and engine-default via cost; '
+     'unsupported inputs refuse. No live-board application or electrical approval is implied.')
+diff --git a/tests/test_gui_improve_parity.py b/tests/test_gui_improve_parity.py
+--- a/tests/test_gui_improve_parity.py
++++ b/tests/test_gui_improve_parity.py
+@@ -5,7 +5,7 @@
+ import tempfile
+ from unittest.mock import Mock, patch
+ import unittest
+-from autorouter import gui, preferences as pref
++from autorouter import gui, preferences as pref, strategy
+ from tests import test_gui as gui_fixture
+ from tests.test_gui import window_method
+ from tests import test_gui_improve_preset as preset_fixture
+@@ -45,7 +45,8 @@
+         window.budget_label.SetLabel.assert_called_once_with('Whole Improve-method budget (seconds)')
+         window.method_note.SetLabel.assert_called_once_with(gui.IMPROVE_HELP)
+         self.assertIn('tuned incumbent',gui.IMPROVE_HELP)
+-        self.assertIn('25-second internal return reserve',gui.IMPROVE_HELP)
++        self.assertEqual(gui.IMPROVE_RETURN_RESERVE_SECONDS,strategy.NATIVE_FINAL_RESERVE_SECONDS)
++        self.assertIn(f'{strategy.NATIVE_FINAL_RESERVE_SECONDS:g}-second internal return reserve',gui.IMPROVE_HELP)
+         window.refused.assert_not_called();self.assertEqual(config,before)
+ 
+     def test_actual_selector_does_not_hide_selected7_score_refusal(self):
+@@ -84,6 +85,7 @@
+         record=dict(self.route,budget_seconds=30,effective_preferences=dict(pref.DEFAULTS,seconds=30,scope='partial_completion'))
+         before=copy.deepcopy(record)
+         text=gui.human_summary('review',record,method='improve')
++        self.assertIn(f'{strategy.NATIVE_FINAL_RESERVE_SECONDS:g}-second internal return reserve',text)
+         self.assertIn('whole Improve-method budget 420 s',text)
+         self.assertIn('Reroute unlocked copper; preserve locked routing',text)
+         self.assertNotIn('preserve all existing routing',text)
