@@ -1,0 +1,49 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 1.9042785411002114,
+  "cpu_seconds": 1.6995749999999998,
+  "max_rss_bytes": 52854784,
+  "supervisor_cpu_seconds": 0.006952,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 53084160,
+  "sampled_peak_workdir_bytes": 154,
+  "resource_guards": {
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/scripts/report_current_comparison.py",
+    "--population",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-development-001/population.json",
+    "--population-sha256",
+    "f9c871ea5259cc4b977b6448ceb9439dffb6e8f5626bf2b437d90afd2a8cf99b",
+    "--children",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-development-001/frozen-children.json",
+    "--children-sha256",
+    "99101afda90de8fe7af40e8183ffb6d903be8f2b97cf24aa0ed3347bf51e17cc",
+    "--output",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-facts-001",
+    "--public-sanitize"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-report-enclosure-001/command.log",
+  "log_bytes": 154,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-report-enclosure-001",
+  "signal_cancellation_enabled": true,
+  "pid": 35951
+}

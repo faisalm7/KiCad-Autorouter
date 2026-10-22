@@ -1,0 +1,28 @@
+# Runtime057 EEPROM development comparison
+
+The [completed six-arm packet](../evidence/runtime057-eeprom-development-001.json), SHA `d679f83e507225b83861e08d8380ecc3b28294aabdfd4475aea1aae11386ff79`, records **four deliveries, one stock Native rejection and one optimizer delivery failure**. Corrected-standard/B1 remains the default. There is no completion improvement over B1/B2; optional Improve regresses on delivery and needs a general export-efficiency repair.
+
+This is one newly exposed development project: [WestianPKl/pcb-docs EEPROM_Board at b89a09c](https://github.com/WestianPKl/pcb-docs/tree/b89a09c2e95cc0a6954d0576389f07868b80c1ad/EEPROM_Board). The [intake](../evidence/development-eeprom-001.json) pins exact original PCB/PRO/SCH/README, publisher CERN-OHL-P-2.0 designation, static scope, installed Preview and original Native0/0/36/0. Per-asset/model/title, ancestry independence, electrical suitability and CAD distribution remain unqualified. The byte-identical working reference changed permissions only. Whole-board preparation is identical across methods; no original constraint, zone or component changed, and original protected-route count is zero.
+
+Actual curated runtime057 source is `ac1a48c3b25b2217e0f8252e0e6da21905f144a4`, original manifest `9c667b15b916fc18fadec6dcbd6e0f9710a0c4cc6daeb36fc616f111ef03722e`. Execution administration was `781b4be312427ef1d5748957786e312e6ab07255`. This uses the original installed runtime root, not the separate fresh-root057 study or a clean OS.
+
+| Method | Delivered | Delivered copper mm / vias | Complete wall s | Complete CPU s |
+|---|---|---:|---:|---:|
+| Cdefault | Yes | 428.698 / 7 | 40.06 | 44.93 |
+| B0 stock | No:2opens/3blocking | Unranked negative | 15.57 | 17.39 |
+| B1 corrected | Yes | 428.698 / 7 | 102.89 | 107.43 |
+| B2 single tuned | Yes | 428.698 / 7 | 103.10 | 107.94 |
+| B2 restart portfolio | Yes | 514.441 / 2 | 161.95 | 179.52 |
+| Cimprove | No:export budget refusal | Undelivered; unranked | 412.79 | 393.98 |
+
+Every completed delivery retains Native0opens/0blocking/36warnings/0exclusions and its own final refill/full-schematic/original-rule/hash/field/PRL proof. Seven ignored checks remain. These warnings comprise20library-footprint issues and16footprint/symbol-field mismatches; they are not suppressed or whole-project cleanliness. A zero protected count is not a protection control. Stock failure and all rejected/incomplete trials remain in the denominator.
+
+Improve made32 trials, completed routing and rendered review/accept intent, then export refused: `export whole wall/full CPU budget exhausted`. Its export CLI took132.16s under the unchanged120s allocation, including safe refusal/cleanup overhead. Fresh Native steps ran, but no successful fresh export/check/delivery followed. The shorter internal route is not ranked as a delivered result. The shared report classifies it `unqualified_or_not_delivered_method`; this failure is preserved, not converted into a win. No limit, policy or source changed and no arm was retried.
+
+The fixed limits were420s routing,450s method wall/fullCPU,600s complete wall/fullCPU,120s fresh export and30s each for review/choice. Improve charges its tuned incumbent, trials and25s return reserve within420; B2 retains fixed via_default/low/high balanced restarts and its existing reserves. All six complete external exits total **836.36s wall /851.19s CPU**, including failed work, selection, validation and delivery. Nested process samples are included, not added. Baselines use sealed API delivery while C uses the actual product CLI; B0 has shared fidelity safeguards. These differing workloads support no generic speed claim.
+
+Additional events are separate: freeze1.99wall/1.95CPU, report2.08/1.84 and curation.23/.20. The intake's four phases total4.14/2.23, with its curation.17/.13 separate. Prior build/full-suite/Native/install/GUI costs retain their own packets. Authoring, AI review and other overhead are partly unmetered, unknown rather than zero.
+
+Reproduction uses the shared `scripts/freeze_current_comparison.py --population-version improve-v2`, `scripts/enclose_current_comparison.py` and `scripts/report_current_comparison.py`. The [retained population](../evidence/runtime057-eeprom-development-001-notes/frozen/population.json) pins one family/all six policies, SHA `f9c871ea5259cc4b977b6448ceb9439dffb6e8f5626bf2b437d90afd2a8cf99b`; [children](../evidence/runtime057-eeprom-development-001-notes/frozen/frozen-children.json) SHA `99101afda90de8fe7af40e8183ffb6d903be8f2b97cf24aa0ed3347bf51e17cc`. Each arm used `/usr/bin/time -lp .venv/bin/python -B scripts/enclose_current_comparison.py --protocol ABSOLUTE_PROTOCOL --protocol-sha256 PIN`, with its exact path/hash and separate outer logs retained. Reporting is enclosed by the [identity-only launcher](../evidence/runtime057-eeprom-development-001-notes/administration/run-runtime057-eeprom-report-001.py), with successful exit/cleanup/untruncated process witness. Its report SHA is `b0798ab15dbc8adde5deb4b27ac6adf426b9c208ba31168eb76085009b76ec82`.
+
+Completed namespaces are immutable evidence, not commands to overwrite. Replication needs fresh outputs and the pinned runtime/licensed local originals. No CAD, engine or full foreign findings are distributed here. Raw remains on this Mac/outside010; facts are not a raw backup. No human, physical, fullGUI, Windows, untouched-confirmation, broad superiority or formal release claim follows. Next: profile and repair repeated export readback while retaining all freshness/Native/constraint checks and the same budgets; preserve this failed first cohort.

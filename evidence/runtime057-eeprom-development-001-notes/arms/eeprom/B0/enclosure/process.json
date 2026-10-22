@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "exit_code": 0,
+  "wall_seconds": 15.420084916055202,
+  "cpu_seconds": 17.189737,
+  "max_rss_bytes": 291667968,
+  "supervisor_cpu_seconds": 0.056888999999999995,
+  "monitor_cpu_seconds": 0.0,
+  "sampled_peak_group_rss_bytes": 244760576,
+  "sampled_peak_workdir_bytes": 350,
+  "resource_guards": {
+    "max_group_rss_bytes": 4294967296,
+    "max_workdir_bytes": 2097152,
+    "poll_interval_seconds": 0.25,
+    "os_enforced": false,
+    "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+  },
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/runtime/.venv/bin/python",
+    "-B",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/runtime/.runs/qualify-current-method-002.py",
+    "--runtime",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-057/runtime",
+    "--protocol",
+    "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-development-001/eeprom/B0/protocol.json",
+    "--protocol-sha256",
+    "4a4ecd5492fa781d2ba945afdd0b58fb73c7d2f48713320315e78a2f3c63b4c2"
+  ],
+  "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-development-001/eeprom/B0/enclosure/command.log",
+  "log_bytes": 350,
+  "log_truncated": false,
+  "cleanup_complete": true,
+  "resource_accounting": {
+    "method": "wait4 child rusage",
+    "cpu_scope": "direct child plus descendants accounted for by child wait",
+    "rss_scope": "kernel peak, not simultaneous process-tree total",
+    "native_rss_unit": "bytes",
+    "memory_limit_enforced": false,
+    "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+  },
+  "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime057-eeprom-development-001/eeprom/B0/enclosure",
+  "signal_cancellation_enabled": true,
+  "pid": 34362
+}
