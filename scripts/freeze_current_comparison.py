@@ -66,6 +66,25 @@ CURRENT40_060_PINS = {
     '.runs/runtime060-native-controls-001/invalid/protocol.json': 'e533ee37df9a36cc3cf8bad61a71c8242c2b41b3798d68ced2741e6c842924bd',
     '.runs/runtime060-native-controls-001/invalid/enclosure/result.json': '5f2592c22367d0bb879b92739733bf9c70ba4d899982f10a29e96bd007b2ced6',
 }
+PARENT_CLASS_VERSION = 'improve-v4-parent-class062'
+PARENT_CLASS_POPULATION_KIND = 'frozen-current-improve-six-arm-exposed-development-v4-parent-class062'
+PARENT_CLASS_QUALIFICATION_KIND = 'runtime062-fresh-installed-thirteen-parent-class-CLI-only-v1'
+PARENT_CLASS_HEAD = 'a048279c066fa96e7837f2beb48d579ddf7faf2d'
+PARENT_CLASS_MANIFEST = '91ac790f38cd34c2842fb6d4208f13bf1a289fbcc15bc3b5b9048eaa5ef070d9'
+PARENT_CLASS_REPORTER_SHA = 'ff19663cf3c0c24a4544d5f2c84c6fa2eac511d11aa65fd7df92346b9aeb8011'
+PARENT_CLASS_062_PINS = {
+    '.runs/runtime062-installed-native-qualification-001/frozen.json': 'ab44878f32aecf40bdea693044ddfa3ecf58e0636abb5533256db87b527461a0',
+    '.runs/runtime062-installed-native-qualification-001/batch-result.json': '92e15267132b5f3c925723248edb481992014155a7ae800a663bc11824d2158b',
+    '.runs/runtime062-native-controls-001/invalid/protocol.json': '7a2b6a17e509cd149eb418856f41a0941fe6c2ab30cd8cf698aa2e2ecbbda3be',
+    '.runs/runtime062-native-controls-001/invalid/enclosure/result.json': 'c6a843368eaa32f44d8f4e40fe7ec3774c369ada7c3c0677de5a369c6aafd598',
+    '.runs/improve-parent-class-runtime062-native-qualification-001/protocol.json': '4ebd5b1797b09d32b4c0f57ddf831d0094022e9387f95fa752dc12f7502cba7e',
+    '.runs/improve-parent-class-runtime062-native-qualification-001/positive/execution.json': 'f313d4a73a1301d4047863e526895102aeffe77d21542a70e1826bae0e4873e3',
+    '.runs/runtime062 fresh install 001/.runs/native7-comparison-parent-class-qualification-001/result.json': 'e11ab2dfe068d76535e4bc7c50e5963d41745b55ce24ff6d74619acdfe0c207e',
+    '.runs/full-integration-218/execution.json': '65985f8f2478ed471466387854a85cbdbc3f36e57d8a1aba9cab61f67cd7f057',
+    '.runs/full-integration-218/protocol.json': '16c36084ac79793d96b54caf7c7274f25bab0e88e91cb3ebf20a3f0214bbb66c',
+    'evidence/runtime062-installed-native-milestone-001.json': '9f5aa457b09b7fc9edfe575a574e6704d4d365a419a30f174cb729c80710430c',
+    '.runs/improve-parent-class-runtime062-native-qualification-001/enclosure/result.json': '7aa33516bd7b64a0f511a8b3d82e6619c10c049b72a8bc0bf05ab3c347fa4fd7',
+}
 NATIVE_COHORT_QUALIFICATION_KIND = 'current-selected-native7-positive-cohort-CLI-only-v1'
 NATIVE_CASES = {'ordinary-npth2Cu': ('route', 1), 'improve-pour-only': ('improve', 1),
     'improve-fractional': ('improve', 1), 'improve-floor2Cu': ('improve', 1),
@@ -87,6 +106,8 @@ def contract(version):
         return POPULATION, ARM_ORDER, 'frozen-current-six-arm-exposed-development-v1', 'installed-native7-current-method-v1', 'qualify-current-method-001.py'
     if version == CURRENT40_VERSION:
         return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, CURRENT40_POPULATION_KIND, CURRENT40_METHOD_KIND, 'qualify-current-method-003.py'
+    if version == PARENT_CLASS_VERSION:
+        return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, PARENT_CLASS_POPULATION_KIND, CURRENT40_METHOD_KIND, 'qualify-current-method-003.py'
     require(version == 'improve-v2', 'unknown comparison population version')
     return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, IMPROVE_POPULATION_KIND, IMPROVE_METHOD_KIND, 'qualify-current-method-002.py'
 
@@ -95,6 +116,8 @@ def qualification_scope(qualified, runtime, manifest_pin, identity, manifest, ve
     """Keep historical gates separate from the exact installed060/current40 gate."""
     if version == CURRENT40_VERSION:
         return current40_installed_scope(qualified, runtime, manifest_pin, identity, manifest)
+    if version == PARENT_CLASS_VERSION:
+        return parent_class_installed_scope(qualified, runtime, manifest_pin, identity, manifest)
     if type(qualified.get('kind')) is str and re.fullmatch(
             r'runtime[0-9]{3}-(seven|eleven)-completed-native-workflows-v1', qualified['kind']):
         return native_cohort_scope(qualified, runtime, manifest_pin, identity, manifest, version)
@@ -429,45 +452,67 @@ def installed_root_binding(old, new, receipt, original, runtime, source_pin, des
         'exact nonauthoritative root-only installation binding required')
 
 
+def installed_scope_contract(version):
+    """Finite reviewed identities; callers cannot choose a cohort or reserve."""
+    if version == CURRENT40_VERSION:
+        return ('060','212',CURRENT40_HEAD,
+            '8f385b397ddb6379ce35bab92d62ceff55029c6a796f7d3269c5c5b34ed1ba30',
+            CURRENT40_060_PINS,CURRENT40_REPORTER_SHA,CURRENT40_QUALIFICATION_KIND)
+    require(version == PARENT_CLASS_VERSION, 'unknown installed cohort contract')
+    return ('062','218',PARENT_CLASS_HEAD,PARENT_CLASS_MANIFEST,
+        PARENT_CLASS_062_PINS,PARENT_CLASS_REPORTER_SHA,PARENT_CLASS_QUALIFICATION_KIND)
+
+
 def current40_installed_scope(qualified, runtime, manifest_pin, identity, manifest):
-    """Exact completed060 installed13 lineage and stored own proofs, never Native.
+    return installed_cohort_scope(qualified,runtime,manifest_pin,identity,manifest,CURRENT40_VERSION)
+
+
+def parent_class_installed_scope(qualified, runtime, manifest_pin, identity, manifest):
+    return installed_cohort_scope(qualified,runtime,manifest_pin,identity,manifest,PARENT_CLASS_VERSION)
+
+
+def installed_cohort_scope(qualified, runtime, manifest_pin, identity, manifest, version):
+    """Replay one exact versioned installed13 lineage, never Native.
 
     An additional runtime/cohort needs its own reviewed adapter. The old
     seven/eleven+IR and042/050 contracts are deliberately not broadened.
     """
     from scripts import report_current_comparison as report
     from autorouter import local_settings
-    base = ROOT/'.runs/runtime060-installed-native-qualification-001'
-    original = ROOT/'.runs/runtime-directory-060/runtime'
-    require(runtime == ROOT/'.runs/runtime060 fresh install 001'
-        and identity.get('git_head') == CURRENT40_HEAD and identity.get('native_version') == '10.0.7'
-        and manifest_pin == '8f385b397ddb6379ce35bab92d62ceff55029c6a796f7d3269c5c5b34ed1ba30',
-        'exact installed060 source/root/manifest required')
+    series,full_number,head,expected_manifest,fixed_pins,reporter_pin,qualification_kind = installed_scope_contract(version)
+    class_mode = version == PARENT_CLASS_VERSION
+    base = ROOT/('.runs/runtime'+series+'-installed-native-qualification-001')
+    original = ROOT/('.runs/runtime-directory-'+series+'/runtime')
+    invalid_prefix = '.runs/runtime'+series+'-native-controls-001/invalid'
+    full_base = ROOT/('.runs/full-integration-'+full_number)
+    require(runtime == ROOT/('.runs/runtime'+series+' fresh install 001')
+        and identity.get('git_head') == head and identity.get('native_version') == '10.0.7'
+        and manifest_pin == expected_manifest, 'exact installed'+series+' source/root/manifest required')
     dependencies = {}
     def bound(path, pin):
         path = pv.canonical(Path(path)); value = pinned_json(path,pin)[1]
         dependencies[str(path)] = pin
         return value
-    fixed = {name:bound(ROOT/name,pin) for name,pin in CURRENT40_060_PINS.items()}
+    fixed = {name:bound(ROOT/name,pin) for name,pin in fixed_pins.items()}
     frozen = fixed[str((base/'frozen.json').relative_to(ROOT))]
     batch = fixed[str((base/'batch-result.json').relative_to(ROOT))]
-    invalid_plan = fixed['.runs/runtime060-native-controls-001/invalid/protocol.json']
-    invalid = fixed['.runs/runtime060-native-controls-001/invalid/enclosure/result.json']
+    invalid_plan = fixed[invalid_prefix+'/protocol.json']
+    invalid = fixed[invalid_prefix+'/enclosure/result.json']
     require(qualified == frozen and frozen.get('runtime') == str(runtime)
         and frozen.get('source_head') == identity['git_head'] and frozen.get('runtime_manifest_sha256') == manifest_pin
         and frozen.get('source_runtime') == str(original) and frozen.get('installation_record_is_authoritative') is False
         and batch.get('passed') is True and batch.get('completed_cases') == 13 and batch.get('unstarted_cases') == 0
-        and batch.get('frozen_sha256') == CURRENT40_060_PINS[str((base/'frozen.json').relative_to(ROOT))]
+        and batch.get('frozen_sha256') == fixed_pins[str((base/'frozen.json').relative_to(ROOT))]
         and batch.get('full_CPU_complete') is True
         and all(type(batch.get(key)) in (int,float) and 0 <= batch[key] <= 900
                 for key in ('wall_seconds','full_CPU_seconds')), 'exact completed installed13 cohort required')
     report_source = ROOT/'scripts/report_current_comparison.py'
     require(Path(report.__file__).resolve() == report_source
-        and pv.file_digest(report_source)[0] == CURRENT40_REPORTER_SHA,
+        and pv.file_digest(report_source)[0] == reporter_pin,
         'exact reviewed current40 stored-evidence helper required')
     pins = frozen['prerequisite_sha256']
     for path,pin in {
-        ROOT/'.runs/freeze-runtime060-installed-native-draft-001.py':frozen['controller_sha256'],
+        ROOT/('.runs/freeze-runtime'+series+'-installed-native-draft-001.py'):frozen['controller_sha256'],
         ROOT/'.runs/enclose-runtime044-workflow-001.py':frozen['enclosure_sha256'],
         ROOT/'scripts/qualify_runtime_workflow.py':frozen['driver_sha256'],
         Path(invalid_plan['controller']):invalid_plan['controller_sha256']}.items():
@@ -488,7 +533,7 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
         and receipt['destination_manifest_sha256'] == manifest_pin
         and pins[str(runtime/'.runs/install-existing-runtime-001.json')] == frozen['installation_receipt_sha256'],
         'installation/cohort pins differ')
-    returned = prior(ROOT/'.runs/runtime060-install-existing-copy-001.log')
+    returned = prior(ROOT/('.runs/runtime'+series+'-install-existing-copy-001.log'))
     require(returned.get('root') == str(runtime) and returned.get('source_provenance') == identity
         and returned.get('installation_receipt_sha256') == frozen['installation_receipt_sha256']
         and returned.get('local_engine_copied') is True and returned.get('standalone') is False,
@@ -496,14 +541,14 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
     def success(value):
         return (value.get('status') == 'success' and type(value.get('exit_code')) is int
             and value['exit_code'] == 0 and value.get('cleanup_complete') is True and value.get('log_truncated') is False)
-    full = prior(ROOT/'.runs/full-integration-212/execution.json')
-    full_plan = prior(ROOT/'.runs/full-integration-212/protocol.json')
-    require(prepared.get('full212_execution_sha256') == pins[str(ROOT/'.runs/full-integration-212/execution.json')]
+    full = prior(full_base/'execution.json')
+    full_plan = prior(full_base/'protocol.json')
+    require(prepared.get('full'+full_number+'_execution_sha256') == pins[str(full_base/'execution.json')]
         and full.get('passed') is True and full.get('sources_unchanged') is True and success(full['process'])
         and full_plan['tools']['git_head'] == identity['git_head']
         and all(full_plan['source_sha256'].get(name) == pin for name,pin in implementation.items()),
-        'current full212 source/process binding differs')
-    venv = prior(ROOT/'.runs/runtime060-install-existing-venv-process-001.json')
+        'current full'+full_number+' source/process binding differs')
+    venv = prior(ROOT/('.runs/runtime'+series+'-install-existing-venv-process-001.json'))
     require(success(venv) and venv.get('cwd') == str(runtime)
         and venv.get('argv') == [*f.SANDBOX,prepared['base_python']['path'],'-B','-m','venv',
                                  '--copies','--without-pip',str(runtime/'.venv')]
@@ -532,12 +577,58 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
         and {row['case'] for row in frozen['protocols']} == {row['case'] for row in batch['rows']} == set(expected),
         'complete unique thirteen-case population required')
     packets = []; proof_facts = []; plot_pairs = []
-    for item,row in zip(frozen['protocols'],batch['rows']):
-        label = item['case']; method,protected = expected[label]
+    workflows = [(item,row,base/item['case']/'protocol.json',False) for item,row in zip(frozen['protocols'],batch['rows'])]
+    if class_mode:
+        class_base = ROOT/'.runs/improve-parent-class-runtime062-native-qualification-001'
+        master = fixed['.runs/runtime062 fresh install 001/.runs/native7-comparison-parent-class-qualification-001/result.json']
+        class_plan = fixed[str((class_base/'protocol.json').relative_to(ROOT))]
+        class_execution = fixed[str((class_base/'positive/execution.json').relative_to(ROOT))]
+        public = fixed['evidence/runtime062-installed-native-milestone-001.json']
+        class_outer = fixed[str((class_base/'enclosure/result.json').relative_to(ROOT))]
+        control_root = runtime/'.runs/native7-comparison-parent-class-qualification-001'
+        require(class_outer.get('passed') is True and class_outer.get('status') == 'completed'
+            and success(class_outer['process'])
+            and all(type(class_outer.get(key)) in (int,float) and 0 <= class_outer[key] <= 450
+                for key in ('complete_wall_seconds','complete_full_CPU_seconds'))
+            and class_outer['protocol_sha256'] == master['protocol_sha256']
+            and class_plan['output'] == str(control_root) and class_outer['child_receipt'] == str(control_root/'result.json')
+            and class_outer['child_sha256'] == fixed_pins[str((control_root/'result.json').relative_to(ROOT))]
+            and report.inventory(control_root) == class_outer['completed_evidence'], 'class enclosure/raw proof seal differs')
+        require(public.get('source_head') == head and public.get('installed_manifest_sha256') == manifest_pin
+            and public.get('qualification',{}).get('passed') is True
+            and public['qualification'].get('actual_GUI_qualified') is False
+            and public.get('parent_class_control',{}).get('master_sha256') == fixed_pins['.runs/runtime062 fresh install 001/.runs/native7-comparison-parent-class-qualification-001/result.json'],
+            'pinned062 public facts differ; summary alone is never qualification')
+        require(master.get('control_passed') is True and master.get('status') == 'completed'
+            and master.get('accepted') is False and master.get('production_admitted') is False
+            and type(master.get('completed_trial_count')) is int and master['completed_trial_count'] == 1
+            and master.get('whole_wall_full_cpu_seconds') == 450 and master.get('own_wall_full_cpu_seconds') == 420
+            and all(type(master.get(key)) in (int,float) and 0 <= master[key] <= 420
+                for key in ('sampled_wall_seconds','sampled_full_cpu_seconds'))
+            and master.get('unstarted') == [] and type(master.get('protected_count')) is int and master['protected_count'] == 1
+            and master.get('protocol_sha256') == fixed_pins[str((class_base/'protocol.json').relative_to(ROOT))]
+            and class_plan.get('runtime') == str(runtime) and class_plan.get('runtime_manifest_sha256') == manifest_pin
+            and class_plan.get('source_head') == head and class_plan.get('tools') == tools
+            and class_plan.get('source') == master.get('source') and class_plan.get('source_hashes') == master.get('source_hashes')
+            and master.get('tools') == tools
+            and success(master['positive_process']) and success(class_execution['process']), 'exact owned class control lineage required')
+        positive_path = class_base/'positive/protocol.json'
+        cp = bound(positive_path,class_plan['positive_protocol_sha256'])
+        require(class_plan['positive_protocol'] == str(positive_path)
+            and cp['settings'] == class_plan['settings'] == dict(pref.DEFAULTS,seconds=90,profile='tuned')
+            and cp['method'] == 'improve' and cp['source'] == class_plan['source'] and cp['source_hashes'] == class_plan['source_hashes']
+            and class_execution.get('controls_passed') is True and class_execution.get('workflow_delivered') is True,
+            'class positive source/settings or delivery differs')
+        item = dict(case='parent-class-positive',protocol_sha256=class_plan['positive_protocol_sha256'])
+        row = dict(case=item['case'],passed=True,status='passed',execution_sha256=fixed_pins[str((class_base/'positive/execution.json').relative_to(ROOT))],
+            Native_counts=class_execution['Native_counts'],ignored_check_count=2)
+        workflows.append((item,row,positive_path,True))
+    for item,row,path,is_class in workflows:
+        label = item['case']; method,protected = ('improve',1) if is_class else expected[label]
         require(row['case'] == label and row.get('passed') is True and row.get('status') == 'passed', 'cohort row changed')
-        path = base/label/'protocol.json'; plan = bound(path,item['protocol_sha256'])
+        plan = bound(path,item['protocol_sha256'])
         execution = bound(path.parent/'execution.json',row['execution_sha256'])
-        process = bound(path.parent/'batch-process.json',row['process_sha256'])
+        process = execution['process'] if is_class else bound(path.parent/'batch-process.json',row['process_sha256'])
         require(plan.get('runtime') == str(runtime) and plan.get('runtime_manifest_sha256') == manifest_pin
             and plan.get('source_head') == identity['git_head'] and plan.get('tools') == tools and plan.get('method') == method
             and execution.get('controls_passed') is True and execution.get('workflow_delivered') is True
@@ -557,6 +648,10 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
             and child.get('source_hashes') == plan['source_hashes'] and child.get('tools') == tools,
             'actual installed child identity/settings differ')
         parent = bound(route_path,child['route_receipt_sha256']); exported = report.read(export_path)
+        if is_class:
+            require(str(workspace) == master['positive_workspace']
+                and child['route_receipt_sha256'] == master['route_receipt_sha256']
+                and report.digest(export_path) == master['export_receipt_sha256'], 'class master own-final bridge differs')
         require(parent.get('accepted') is True and exported.get('export_accepted') is True
             and exported['inputs']['receipt'] == str(route_path)
             and exported['inputs']['receipt_sha256'] == child['route_receipt_sha256']
@@ -591,8 +686,13 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
             # basis/worker/trial-selection lineage, not hashes first computed
             # during this admission. The frozen parent pins its incumbent.
             replay_plan = dict(plan,kind=CURRENT40_METHOD_KIND,improve_finalization_reserve_seconds=40)
+            if is_class: replay_plan['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
             facts = report.improve_facts(route_path,replay_plan,allowed,qualified_parent=True,
                 public_sanitize=True,prerequisite_seconds=plan['settings']['seconds'])
+            if is_class:
+                require(len(facts['trials']) == master['completed_trial_count']
+                    and all(row['Native_completion_qualified'] for row in facts['trials']), 'class completed trial proof differs')
+                proof_facts.append(report.improve_auxiliary(export_path.parent/'validation',exported,replay_plan,export=True))
             proof_facts.append(facts)
             incumbent_path = route_path.parent/'incumbent/result.json'
             packets.append((incumbent_path.parent,report.read(incumbent_path)))
@@ -601,7 +701,7 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
                     trial_path = Path(fact['receipt']); packets.append((trial_path.parent,report.read(trial_path)))
     require(invalid.get('passed') is True and invalid.get('status') == 'completed' and success(invalid['process'])
         and invalid_plan.get('runtime') == str(runtime) and invalid_plan.get('runtime_manifest_sha256') == manifest_pin
-        and invalid.get('protocol_sha256') == CURRENT40_060_PINS['.runs/runtime060-native-controls-001/invalid/protocol.json'],
+        and invalid.get('protocol_sha256') == fixed_pins[invalid_prefix+'/protocol.json'],
         'current installed invalid controls differ')
     negative = bound(Path(invalid['child_receipt']),invalid['child_sha256'])
     require(negative.get('control_passed') is True and negative.get('status') == 'completed'
@@ -611,11 +711,24 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
     invalid_output = Path(invalid_plan['output'])
     require(report.inventory(invalid_output) == invalid.get('completed_evidence'),
             'stored invalid-control material changed')
+    if class_mode:
+        require([row.get('case') for row in master['controls']] == ['width-target','class-source-PRO']
+            and all(row.get('passed') is True for row in master['controls']), 'two exact class negatives required')
+        for row in master['controls']:
+            require(io.inventory(Path(row['candidate']).parent) == row['candidate_hashes']
+                and io.inventory(Path(row['diagnostic_source']).parent) == row['diagnostic_hashes']
+                and all(step.get('cleanup_complete') is True and step.get('log_truncated') is False
+                    and step.get('name') != 'engine' for step in row['steps'])
+                and report.native_application_policy(row['diagnostic_native'],cp)['accepted'] is True,
+                'class invalid source/process/Native material changed')
+            packets.append((Path(row['candidate']).parent.parent,row))
+    if class_mode:
+        require(report.inventory(control_root) == class_outer['completed_evidence'], 'class raw proof changed during replay')
     # Large proof closure is replayed by this adapter before/after the query;
     # only its fixed top bindings enter the bounded32 child prerequisite map.
     closure = hashlib.sha256(f.canonical(dict(dependencies=dependencies,own_finals=proof_facts)).encode()).hexdigest()
-    top = {str(ROOT/name):pin for name,pin in CURRENT40_060_PINS.items()}
-    top[str(report_source)] = CURRENT40_REPORTER_SHA
+    top = {str(ROOT/name):pin for name,pin in fixed_pins.items()}
+    top[str(report_source)] = reporter_pin
     cli = [Path(name) for name in tools['files'] if Path(name).name == 'kicad-cli']
     require(len(cli) == 1, 'unique actual pinned Native CLI required')
     local_settings.check_final_events(packets,cli[0],pairs=plot_pairs)
@@ -623,11 +736,14 @@ def current40_installed_scope(qualified, runtime, manifest_pin, identity, manife
         if name.endswith('.kicad_prl'):
             require(local_settings.check_current_metadata(invalid_output/name) is True,
                     'invalid-control PRL metadata changed')
-    return dict(kind=CURRENT40_QUALIFICATION_KIND,Native_cohort_only=True,
+    result = dict(kind=qualification_kind,Native_cohort_only=True,
         runtime=str(runtime),source_head=identity['git_head'],runtime_manifest_sha256=manifest_pin,
         actual_GUI_qualified=False,full_GUI_claim=False,tools_files_sha256=tools['files'],
         finalization_reserve_seconds=40,cohort_cases=13,stored_proof_closure_sha256=closure,
-        scope='Exact installed060/current40 Native CLI prerequisite only; no GUI/electrical/holdout qualification.'),top
+        scope=('Exact installed060/current40 Native CLI prerequisite only; no GUI/electrical/holdout qualification.'
+            if not class_mode else 'Exact installed062 parent-class Native CLI follow-up only; no GUI/electrical/holdout qualification.'))
+    if class_mode: result.update(parent_class_completed_trials=1,parent_class_invalid_controls=2)
+    return result,top
 
 
 def pinned_json(path, digest):
@@ -643,8 +759,9 @@ def pinned_json(path, digest):
 def qualification_dependency(path, pin, version):
     """The current40 closure also pins one Python reporter, not JSON."""
     path = Path(path)
-    if version == CURRENT40_VERSION and path == ROOT/'scripts/report_current_comparison.py':
-        require(pin == CURRENT40_REPORTER_SHA and pv.file_digest(path,4*1024**2)[0] == pin,
+    if version in (CURRENT40_VERSION,PARENT_CLASS_VERSION) and path == ROOT/'scripts/report_current_comparison.py':
+        expected = PARENT_CLASS_REPORTER_SHA if version == PARENT_CLASS_VERSION else CURRENT40_REPORTER_SHA
+        require(pin == expected and pv.file_digest(path,4*1024**2)[0] == pin,
                 'current40 reporter dependency changed')
         return
     pinned_json(path,pin)
@@ -778,6 +895,10 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     require(type(tools.get('files')) is dict and 1 <= len(tools['files']) <= 8, 'bounded actual tool pins required')
     if qualification_record.get('Native_cohort_only') is True:
         require(qualification_record['tools_files_sha256'] == tools['files'], 'Native cohort tools differ from current runtime query')
+    if population_version == PARENT_CLASS_VERSION:
+        from scripts import report_current_comparison as report
+        for entry in families.values():
+            report.parent_class_source(dict(source=entry['source'],source_hashes=entry['source_hashes'],tools=tools))
     def fresh():
         require(h.owned_destination(owner) == output and administration(expected_administration_head) == tracked, 'administration changed')
         require(pinned_json(sources_path, sources_sha256)[0] == raw_sources and pinned_json(qualification, qualification_sha256)[0] == raw_qualification
@@ -809,13 +930,15 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         policy='B1 corrected standard remains default. Fixed one tuned attempt plus ordered via_default/via_low/via_high balanced portfolio;30inside each trial and15root reserve, no extra budget or board tuning.',
         caveats='All exposed families/failures/warnings retained; rights are declarations, not legal clearance/holdout/independent pedigree. B0 shares fidelity safeguards, not untouched vanilla. API baselines versus actual default/recoverCLI startup differ. Recover420 is whole-method allocation. Every actual outer wall/fullCPU cost includes all startup/conversion/selection/Native/delivery/readback; setup separate. All raw local, publication hashes_only; no publication function or aggregate future-job quota.',
         Native_executed=False,actual_GUI=False,project_complete=False)
-    if population_version in ('improve-v2', CURRENT40_VERSION):
+    if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION):
         population.update(improve_settings=copy.deepcopy(improve_settings),
-            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and'+str(40 if population_version == CURRENT40_VERSION else 25)+' finalization reserve. Baselines and portfolio policy unchanged.',
+            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION) else 25)+' finalization reserve. Baselines and portfolio policy unchanged.',
             caveats=population['caveats'].replace('Recover420 is whole-method allocation.',
-                'Improve420 is whole-method allocation including its incumbent and'+str(40 if population_version == CURRENT40_VERSION else 25)+'-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
-    if population_version == CURRENT40_VERSION:
+                'Improve420 is whole-method allocation including its incumbent and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION) else 25)+'-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
+    if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION):
         population['improve_finalization_reserve_seconds'] = current40_reserve(runtime,implementation)
+    if population_version == PARENT_CLASS_VERSION:
+        population['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
     population_pin = save_new(output/'population.json', population)
     prerequisite_paths = [Path(sources_path), Path(qualification), runtime/pv.MANIFEST, output/'sources.json', output/'qualification.json',
         output/'population.json', output/'tools-defaults.json', output/'tools-defaults-process.json', child, *[ROOT/name for name in tracked]]
@@ -845,8 +968,10 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
                     source_inventory_sha256=hashlib.sha256((f.canonical(entry['source_hashes'])+'\n').encode()).hexdigest(),
                     source_rights_sha256=hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(),
                     prerequisite_sha256=prerequisites,default_settings=copy.deepcopy(defaults),limits=dict(LIMITS))
-                if population_version in ('improve-v2', CURRENT40_VERSION): plan['improve_settings'] = copy.deepcopy(improve_settings)
-                if population_version == CURRENT40_VERSION: plan['improve_finalization_reserve_seconds'] = 40
+                if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION): plan['improve_settings'] = copy.deepcopy(improve_settings)
+                if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION): plan['improve_finalization_reserve_seconds'] = 40
+            if population_version == PARENT_CLASS_VERSION and arm != 'B2_portfolio':
+                plan['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
             path = folder/'protocol.json'; children[slug][arm] = dict(path=str(path),sha256=save_new(path,plan))
     fresh(); require(child.stat().st_uid == os.getuid() and pv.read_bytes(child) == payload, 'copied controller changed or unowned at final freeze')
     for rows in children.values():
@@ -864,7 +989,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2',CURRENT40_VERSION), default='legacy-v1')
+    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2',CURRENT40_VERSION,PARENT_CLASS_VERSION), default='legacy-v1')
     for name in ('runtime','sources','qualification','output','enclosure'): parser.add_argument('--'+name,type=Path,required=True)
     for name in ('expected-manifest-sha256','sources-sha256','qualification-sha256','expected-administration-head','enclosure-sha256'):
         parser.add_argument('--'+name,required=True)

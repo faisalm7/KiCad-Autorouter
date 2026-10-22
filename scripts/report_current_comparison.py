@@ -26,6 +26,7 @@ from scripts import freeze_current_comparison as frozen
 KEYS = ('opens', 'blocking', 'warnings', 'exclusions')
 KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequisite recorded by freezer; no new GUI claim',
          frozen.CURRENT40_POPULATION_KIND: 'Exact installed060/current40 Native CLI prerequisites; no new GUI qualification',
+         frozen.PARENT_CLASS_POPULATION_KIND: 'Exact installed062 parent-class Native CLI follow-up; no GUI qualification',
          frozen.IMPROVE_POPULATION_KIND: 'Pinned installed Native/CLI prerequisites; GUI qualification NOT supplied',
          'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
          'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied',
@@ -244,6 +245,8 @@ def own_final(receipt, *, export, plan, allowed, accepted, public_sanitize=False
     process_path = folder / 'final-drc-process.json'; process = read(process_path)
     require(all(key in step and process.get(key) == step[key] for key in
                 ('argv', 'cwd', 'status', 'exit_code', 'cleanup_complete', 'log_truncated', 'pid')), 'own final process receipt differs')
+    if accepted and export and parent_class_plan(plan):
+        improve_auxiliary(folder,data,plan,export=True)
     return dict(receipt=str(receipt), receipt_sha256=digest(receipt), candidate_sha256=data['candidate_sha256'],
         native_report_sha256=data['native_report_sha256'], process_sha256=digest(process_path), binding_sha256=digest(folder / 'final-drc-binding.json'),
         Native_counts=native, Native_application_policy=policy, finding_types=finding_types(data['native']),
@@ -274,15 +277,136 @@ def classify(outer, data, timing, arm, summary=None):
         method_sample=dict(wall_seconds=method[0], full_CPU_seconds=method[1]))
 
 
-def improve_auxiliary(folder, data, plan):
+def parent_class_plan(plan):
+    value = plan.get('improve_parent_class_policy')
+    if 'improve_parent_class_policy' not in plan: return False
+    require(plan.get('kind') == frozen.CURRENT40_METHOD_KIND
+        and value == 'native-parent-dimensions-v1', 'explicit parent-class reporting contract required')
+    return True
+
+
+def parent_class_toolchain(plan):
+    """Select pinned7 for pure auditors; never mutate config or launch tools."""
+    from autorouter.pipeline import ExperimentalNativeToolchain
+    require(plan['tools'].get('kicad') == '10.0.7', 'parent-class selected Native7 required')
+    files = plan['tools']['files']; roles = {}
+    for role,name in (('cli','kicad-cli'),('python','python3.9'),('pcbnew','_pcbnew.so')):
+        matches = [path for path in files if Path(path).name == name]
+        require(len(matches) == 1, 'unique pinned parent-class tool role required')
+        roles[role] = dict(path=matches[0],sha256=files[matches[0]])
+    return ExperimentalNativeToolchain.from_record(dict(schema=1,
+        mode='experimental-native-qualification',expected_version='10.0.7',tools=roles))
+
+
+def parent_class_source(plan):
+    """Pure, source-pinned parser/audit composition; never a worker or reader."""
+    from autorouter import pipeline as application, netclass, sexpr
+    from autorouter.layer_policy import _two_copper_table
+    pins = plan['tools']['implementation_sha256']
+    required = {'autorouter/'+name+'.py' for name in ('pipeline','netclass','netclass_native','sexpr','adapter','layer_policy')}
+    require(type(pins) is dict and required <= set(pins) and all(name.startswith('autorouter/')
+        and digest(ROOT/name) == pin for name,pin in pins.items()), 'parent-class audit implementation changed')
+    source = Path(plan['source'])
+    require(io.inventory(source.parent) == plan['source_hashes'], 'parent-class original source changed')
+    tree = application.preflight(source,task_scope=('whole_board_unlocked_routing','native','source_all'))
+    _two_copper_table(tree)
+    policy = application.netclass_policy(source)
+    require(type(policy) is dict and policy.get('mode') == netclass.PARENT_POLICY
+        and len(policy.get('source_class_names',[])) > 1
+        and application.check_schematic_class_support(source) is None,
+        'parent-class follow-up requires multiple original classes in unflagged flat canonical2Cu')
+    return application,netclass,sexpr,policy,[row for row in application.routes(tree) if application.locked(row)]
+
+
+def parent_class_audit(folder, data, plan, *, export=False):
+    application,_,sexpr,policy,protected = parent_class_source(plan)
+    candidate = folder/'candidate'/Path(plan['source']).name
+    require(digest(candidate.with_suffix('.kicad_pro')) == plan['source_hashes'][candidate.with_suffix('.kicad_pro').name]
+        and application.immutable(sexpr.read(candidate)) == application.immutable(sexpr.read(Path(plan['source'])))
+        and all(row in application.routes(sexpr.read(candidate)) for row in protected),
+        'parent-class candidate/original/protected geometry differs')
+    mapping = folder/'final-netclasses.json'
+    native = read(mapping)
+    require('source_all_copper_layers' not in native, 'parent-class alias-marker maps are outside this scope')
+    audit = application.audit_candidate_netclasses(candidate,protected,native,
+        native_toolchain=parent_class_toolchain(plan),default_target_policy=False)
+    audit['native_map_file_sha256'] = digest(mapping)
+    require(read(folder/'final-netclass-audit.json') == audit and 'default_targets' not in audit
+        and audit['native']['policy'] == policy, 'own original parent-class/dimension audit differs')
+    python = [name for name in plan['tools']['files'] if Path(name).name == 'python3.9']
+    require(len(python) == 1, 'unique recorded Native Python required')
+    require(type(export) is bool and (not export or data.get('kind') == 'review-export-v1'
+        and data.get('export_accepted') is True and folder.name == 'validation'), 'explicit class export role differs')
+    prefix = f.SANDBOX if export else []
+    f.process_check(folder,data,'final-netclasses',[*prefix,python[0],str(Path(plan['runtime'])/'autorouter/native.py'),
+        'netclasses',str(candidate),str(mapping)])
+    parent_class_source(plan)
+    return policy,audit
+
+
+def parent_class_basis(folder, parent, incumbent, context, plan):
+    application,netclass,_,policy,_ = parent_class_source(plan)
+    basis = application.parent_dsn_basis(folder); base = folder/'incumbent'
+    require(parent.get('netclass_parent_dsn_basis') == basis and 'native7_default_target_basis' not in parent
+        and parent.get('netclass_policy') == incumbent.get('netclass_policy') == context.get('netclass_policy') == policy
+        and context.get('policy') == 'selected-native7-single-parent-class-child-v1'
+        and incumbent.get('baseline') == 'B2_tuned' and incumbent.get('engine_profile') == 'tuned'
+        and incumbent.get('scope') == 'whole_board_unlocked_routing'
+        and incumbent.get('source') == plan['source'] and incumbent.get('source_hashes') == plan['source_hashes']
+        and incumbent.get('task_sha256') == parent.get('task_sha256')
+        and not any(key in incumbent for key in ('default_target_transport','netclass_parent_dsn_basis',
+            'native7_improve_parent','strategy','comparison_route','incumbent_scoring_variant','incumbent_scoring_contract'))
+        and not any(os.path.lexists(base/name) for name in ('default-targets.json','default-targets.dsn')),
+        'parent-class incumbent/source/basis differs')
+    allocation = context['allocation']; assigned = context['assigned_seconds']; seconds = context['method_seconds']
+    require(set(allocation) == {'elapsed_wall_seconds','elapsed_cpu_seconds'}
+        and all(type(v) in (int,float) and math.isfinite(v) and v >= 0 for v in (*allocation.values(),assigned))
+        and 5 <= assigned <= seconds-40
+        and assigned == min(seconds-allocation['elapsed_wall_seconds'],seconds-allocation['elapsed_cpu_seconds'])-40
+        and incumbent['budget_seconds'] == incumbent['cpu_budget_seconds'] == assigned,
+        'parent-class charged incumbent allocation differs')
+    material = context['inputs']
+    require(material['snapshot'] == plan['source_hashes'] == io.inventory(folder/'snapshot')
+        and material['code'] == {Path(name).name:pin for name,pin in plan['tools']['implementation_sha256'].items()}
+        and material['code'] == io.inventory(folder/'code') == io.inventory(base/'code')
+        and material['netclass_policy'] == policy
+        and material['preferences_sha256'] == digest(folder/'pruning-preferences.json')
+        and material['effective'] == dict(frozen.pref.DEFAULTS,seconds=seconds,profile='tuned'),
+        'parent-class original Context material differs')
+    identity = context['directory_identity']; current = folder.stat()
+    require(type(identity) is list and len(identity) == 2 and all(type(v) is int for v in identity)
+        and current.st_uid == os.getuid() and identity == [current.st_dev,current.st_ino], 'parent-class original parent identity differs')
+    mapping = read(base/'export-netclasses.json'); project = read(Path(plan['source']).with_suffix('.kicad_pro'))
+    require(mapping.get('source') == str(base/'candidate'/Path(plan['source']).name)
+        and mapping.get('board_sha256') == incumbent['task_sha256']
+        and mapping.get('project_sha256') == plan['source_hashes'][Path(plan['source']).with_suffix('.kicad_pro').name]
+        and mapping.get('board_saved') is False, 'parent-class Native export/source binding differs')
+    require('source_all_copper_layers' not in mapping, 'parent-class alias-marker maps are outside this scope')
+    toolchain = parent_class_toolchain(plan)
+    for name,key in (('native.dsn','netclass_export_audit'),('task.dsn','netclass_task_audit')):
+        require(incumbent[key] == netclass.audit_dsn(base/name,mapping,project,parent_policy=True,native_toolchain=toolchain),
+            'parent-class checked Native/DSN dimensions differ')
+    python = [name for name in plan['tools']['files'] if Path(name).name == 'python3.9']
+    require(len(python) == 1, 'unique recorded Native Python required')
+    f.process_check(base,incumbent,'export',[python[0],str(Path(plan['runtime'])/'autorouter/native.py'),
+        'export',str(base/'candidate'/Path(plan['source']).name),str(base/'task.dsn'),
+        str(base/'export-netclasses.json'),'--task-copper-fixed'])
+    require(application.parent_dsn_basis(folder) == basis, 'parent-class basis changed during readback')
+    parent_class_source(plan)
+    return basis
+
+
+def improve_auxiliary(folder, data, plan, *, export=False):
     """Stored Default/field/PRL bridges, shared by parent, child and trials."""
     from autorouter import schematic_field_evidence as fields
     audit = read(folder/'final-netclass-audit.json'); mapping = folder/'final-netclasses.json'
+    class_mode = parent_class_plan(plan)
+    if class_mode: parent_class_audit(folder,data,plan,export=export)
     require(audit['candidate_sha256'] == data['candidate_sha256']
         and audit['project_sha256'] == plan['source_hashes'][Path(plan['source']).with_suffix('.kicad_pro').name]
         and audit['native_map_file_sha256'] == digest(mapping) and audit['native']['passed'] is True
         and audit['route_dimensions']['passed'] is True
-        and audit['default_targets']['policy'] == 'single-default-global-floor-targets-v2', 'own Improve Default audit differs')
+        and (class_mode or audit['default_targets']['policy'] == 'single-default-global-floor-targets-v2'), 'own Improve Default audit differs')
     names = ('final-netclass-audit.json','final-netclasses.json','final-netclasses-process.json',
         'refill-drc.json','refill-drc-binding.json','refill-drc-process.json')
     report = folder/'final-drc.json'; raw = read(report)
@@ -300,7 +424,7 @@ def improve_auxiliary(folder, data, plan):
         return dict(files_sha256={name:digest(folder/name) for name in names},
             field_qualification=dict(status='not_applicable',qualified=None,
                 native_report_sha256=data['native_report_sha256']),
-            Default_targets_policy=audit['default_targets']['policy'],
+            Default_targets_policy=(None if class_mode else audit['default_targets']['policy']),
             protected_count=audit['route_dimensions']['checked']['protected'])
     proof = read(fields.paths(folder,'final-drc')[2]); binding = read(folder/'final-drc-binding.json')
     require(data['native']['field_parity'] == proof, 'own field proof differs from Native record')
@@ -327,7 +451,7 @@ def improve_auxiliary(folder, data, plan):
     return dict(files_sha256={name:digest(folder/name) for name in names},
         field_qualification=dict(qualified=proof['qualification']['qualified'],
             detail=field_fact(proof['qualification'],folder/'final-drc-fields-proof.json','qualification',True)),
-        Default_targets_policy=audit['default_targets']['policy'],
+        Default_targets_policy=(None if class_mode else audit['default_targets']['policy']),
         protected_count=audit['route_dimensions']['checked']['protected'])
 
 
@@ -431,6 +555,9 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
         seconds = prerequisite_seconds
     receipt = pv.canonical(Path(receipt)); parent = read(receipt); folder = receipt.parent
     reserve = improve_reserve(plan)
+    class_mode = parent_class_plan(plan)
+    parent_policy = ('selected-native7-single-parent-class-parent-v1' if class_mode else 'selected-native7-single-improve-parent-v1')
+    child_policy = ('selected-native7-single-parent-class-child-v1' if class_mode else 'selected-native7-single-improve-child-v1')
     require(type(qualified_parent) is bool, 'typed parent qualification required')
     require(any(root in receipt.parents for root in allowed), 'Improve parent escaped frozen arm')
     rows = parent.get('trials', [])
@@ -452,7 +579,11 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
             'shipped single Improve parent contract differs')
         marker = parent['native7_improve_parent']; sidecar = folder/'native7-improve-parent.json'
         context = read(sidecar)['context']
-        require(marker == dict(policy='selected-native7-single-improve-parent-v1',file=sidecar.name,sha256=digest(sidecar))
+        if class_mode:
+            side = read(sidecar)
+            require(type(side.get('schema')) is int and side == dict(schema=1,policy=parent_policy,context=context),
+                'parent-class sidecar schema/policy differs')
+        require(marker == dict(policy=parent_policy,file=sidecar.name,sha256=digest(sidecar))
             and context['parent'] == str(folder) and context['output'] == str(folder/'incumbent')
             and context['source'] == plan['source'] and context['source_hashes'] == plan['source_hashes']
             and context['runtime'] == plan['runtime'] and context['method_seconds'] == seconds
@@ -473,16 +604,19 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
             reasons=reasons(inc,incumbent_path,public_sanitize),summary_matches=summary_matches)
         if qualified_parent:
             child_context = incumbent_path.parent/'improve-child-context.json'
-            require(inc['native_improve_child'] == dict(policy='selected-native7-single-improve-child-v1',
+            require(inc['native_improve_child'] == dict(policy=child_policy,
                 file=child_context.name,sha256=digest(child_context)) and read(child_context) == context,
                 'incumbent context differs from its exact parent')
             result['incumbent']['own_final'] = own_final(incumbent_path,export=False,plan=plan,allowed=allowed,accepted=True,public_sanitize=public_sanitize)
             result['incumbent']['auxiliary'] = improve_auxiliary(incumbent_path.parent,inc,plan)
-            basis = parent['native7_default_target_basis']; guide = incumbent_path.parent/'default-targets.json'
-            require(basis == dict(policy='single-default-global-floor-targets-v2',receipt='incumbent/result.json',
-                receipt_sha256=digest(incumbent_path),file='incumbent/default-targets.json',sha256=digest(guide))
-                and inc['default_target_transport'] == dict(policy=basis['policy'],file=guide.name,sha256=basis['sha256']),
-                'mandatory inherited Default basis differs')
+            if class_mode:
+                result['parent_class_basis'] = parent_class_basis(folder,parent,inc,context,plan)
+            else:
+                basis = parent['native7_default_target_basis']; guide = incumbent_path.parent/'default-targets.json'
+                require(basis == dict(policy='single-default-global-floor-targets-v2',receipt='incumbent/result.json',
+                    receipt_sha256=digest(incumbent_path),file='incumbent/default-targets.json',sha256=digest(guide))
+                    and inc['default_target_transport'] == dict(policy=basis['policy'],file=guide.name,sha256=basis['sha256']),
+                    'mandatory inherited Default basis differs')
             if plan.get('kind') == frozen.CURRENT40_METHOD_KIND:
                 require([dict(step,phase='incumbent') for step in inc['steps']]
                     == [step for step in parent['steps'] if step.get('phase') == 'incumbent'],
@@ -551,7 +685,8 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
 
 def population_shape(population, children):
     require(type(population.get('schema')) is int and population['schema'] == 1 and population.get('kind') in KINDS, 'unsupported frozen population schema')
-    version = (frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
+    version = (frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
+        frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
         'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1')
     names, order, _, _, _ = frozen.contract(version)
     require(population['population'] == list(names) and population['planned_arm_order'] == list(order)
@@ -575,6 +710,21 @@ def population_shape(population, children):
                 and q['runtime_manifest_sha256'] == population['runtime_manifest_sha256'], 'Native-only prerequisite identity differs')
         require(q['kind'] == native_only[population['kind']]
                 and q['actual_GUI_qualified'] is False and q['full_GUI_claim'] is False, 'Native-only qualification promoted or malformed')
+    elif version == frozen.PARENT_CLASS_VERSION:
+        q = population['qualification']
+        require(q.get('kind') == frozen.PARENT_CLASS_QUALIFICATION_KIND and q.get('Native_cohort_only') is True
+            and q.get('source_head') == population['source_head'] == frozen.PARENT_CLASS_HEAD
+            and q.get('runtime') == population['runtime'] == str(ROOT/'.runs/runtime062 fresh install 001')
+            and q.get('runtime_manifest_sha256') == population['runtime_manifest_sha256'] == frozen.PARENT_CLASS_MANIFEST
+            and q.get('cohort_cases') == 13 and type(q.get('cohort_cases')) is int
+            and type(q.get('parent_class_completed_trials')) is int and q['parent_class_completed_trials'] == 1
+            and type(q.get('parent_class_invalid_controls')) is int and q['parent_class_invalid_controls'] == 2
+            and type(q.get('finalization_reserve_seconds')) is int
+            and q.get('finalization_reserve_seconds') == population.get('improve_finalization_reserve_seconds') == 40
+            and type(population.get('improve_finalization_reserve_seconds')) is int
+            and q.get('actual_GUI_qualified') is False and q.get('full_GUI_claim') is False
+            and population.get('improve_parent_class_policy') == 'native-parent-dimensions-v1',
+            'installed062 parent-class Native-only qualification differs')
     elif version == frozen.CURRENT40_VERSION:
         q = population['qualification']
         require(q.get('kind') == frozen.CURRENT40_QUALIFICATION_KIND and q.get('Native_cohort_only') is True
@@ -623,7 +773,8 @@ def administration(population):
 
 
 def plan_binding(plan, family, arm, entry, population, population_path, population_pin):
-    version = (frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
+    version = (frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
+        frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
         'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1')
     names, _, _, method_kind, child_name = frozen.contract(version)
     runtime = Path(population['runtime']); output = pv.canonical(Path(population['outputs'][family][arm]))
@@ -662,10 +813,15 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['qualifier_sha256'] == pins['scripts/qualify_installed_workflow.py']
             and plan['source_inventory_sha256'] == hashlib.sha256((f.canonical(entry['source_hashes']) + '\n').encode()).hexdigest()
             and plan['source_rights_sha256'] == hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(), 'method contract differs')
-        if version in ('improve-v2',frozen.CURRENT40_VERSION):
+        if version in ('improve-v2',frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION):
             require(plan['improve_settings'] == population['improve_settings'], 'Improve settings changed')
-            require(improve_reserve(plan) == (40 if version == frozen.CURRENT40_VERSION else 25),
+            require(improve_reserve(plan) == (40 if version in (frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION) else 25),
                     'method reserve differs from frozen version')
+        if version == frozen.PARENT_CLASS_VERSION:
+            require(plan.get('improve_parent_class_policy') == population['improve_parent_class_policy'],
+                'frozen062 parent-class reporting policy differs')
+        else:
+            require('improve_parent_class_policy' not in plan, 'historical Default reporting cannot adopt parent-class policy')
         prerequisites = plan['prerequisite_sha256']
         require(type(prerequisites) is dict and 1 <= len(prerequisites) <= 32, 'bounded frozen prerequisite map required')
         for path, pin in prerequisites.items(): require(digest(Path(path), MAX_JSON) == pin, 'prerequisite changed')
@@ -679,7 +835,8 @@ def unsupported_improve_preview(plan, data, out):
     Every other failure keeps the existing unqualified classification. This is
     observed CLI evidence, not a source eligibility bypass or Native result.
     """
-    if plan.get('kind') != frozen.CURRENT40_METHOD_KIND or plan.get('arm') != 'Cimprove':
+    if ('improve_parent_class_policy' in plan or plan.get('kind') != frozen.CURRENT40_METHOD_KIND
+            or plan.get('arm') != 'Cimprove'):
         return None
     reason = 'unsupported: selected7 Improve requires sole explicit/implicit Default'
     processes = data.get('processes',[])
