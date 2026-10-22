@@ -37,6 +37,20 @@ class GuiSummaryTests(unittest.TestCase):
                          'protected: 3', 'to reroute: 7', 'Native routing validation has not run'):
             self.assertIn(expected, text)
 
+    def test_improve_displays_its_checked_protection_count(self):
+        for count in (0, 1, 4):
+            record = self.record(); record.pop('protected_route_import')
+            record.update(strategy='native_validated_zone_net_pruning', protected_routes=count)
+            self.assertIn('Protected route items retained: ' + str(count),
+                          gui.human_summary('route', record, method='improve'))
+        for count in (True, -1, 1.0, None):
+            record['protected_routes'] = count
+            self.assertNotIn('Protected route items retained:',
+                             gui.human_summary('route', record, method='improve'))
+        record.update(protected_routes=1, invariants_unchanged=False)
+        self.assertNotIn('Protected route items retained:',
+                         gui.human_summary('route', record, method='improve'))
+
     def test_large_findings_explicitly_report_omissions_and_full_path(self):
         record = self.record(); record['native']['findings'] *= 100
         with patch.object(gui, 'SUMMARY_LIMIT', 1000):

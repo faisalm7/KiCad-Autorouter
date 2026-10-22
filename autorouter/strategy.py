@@ -35,6 +35,7 @@ MAX_FEEDBACK_ADDED_ROUTES = 8
 PRUNING_PREFERENCES_POLICY = "native-pruning-preferences-v1"
 SINGLE_SELECTION_POLICY = "selected-native7-single-pruning-lineage-v1"
 NATIVE7_PARENT_POLICY = "selected-native7-single-improve-parent-v1"
+NATIVE7_PARENT_CLASS_POLICY = "selected-native7-single-parent-class-parent-v1"
 NATIVE7_PARENT_FILE = "native7-improve-parent.json"
 ADAPTIVE_POLICY = "charged-first-single-sequence-v1"
 STRONG_INCUMBENT_POLICY = "free-angle-clearance20-v1"
@@ -317,8 +318,13 @@ def _adaptive_trial_native(directory, data, record, *, guard_key="adaptive_trial
     if guard_key=='single_trial_guard':
         original=sx.read(Path(directory)/'snapshot'/candidate.name)
         protected=[route for route in p.routes(original) if p.locked(route)]
-        p.check_final_netclass_evidence(folder,record,candidate,protected,default_target_policy=True,
-            default_target_basis=native7_default_target_basis(directory,data))
+        basis = native7_default_target_basis(directory,data)
+        marker = data.get('native7_improve_parent')
+        parent_classes = (type(marker) is dict and marker.get('policy') == NATIVE7_PARENT_CLASS_POLICY)
+        # Only the explicitly admitted new parent contract disables the old
+        # Default audit. A missing basis alone never grants that permission.
+        p.check_final_netclass_evidence(folder,record,candidate,protected,default_target_policy=not parent_classes,
+            default_target_basis=basis)
     if record['status'] != 'drc_rejected':
         if f.read_json(folder / 'metrics.json') != record.get('metrics'):
             raise p.Rejected('adaptive metric receipt differs')
@@ -751,13 +757,21 @@ def native7_single_scope(source, effective, *, proposal_policy="single", incumbe
         project=json.loads(pv.read_bytes(source.with_suffix('.kicad_pro')),object_pairs_hook=pv._strict_object)
         settings=project.get('net_settings',{}) if type(project) is dict else None
         classes=settings.get('classes') if type(settings) is dict else None
+        parent_classes = False
         if (type(settings) is not dict or 'classes' in settings and (type(classes) is not list
                 or len(classes)!=1 or type(classes[0]) is not dict or classes[0].get('name')!='Default')):
-            raise p.Rejected('unsupported: selected7 Improve requires sole explicit/implicit Default')
+            if type(settings) is not dict or type(classes) is not list or not 2 <= len(classes) <= 16:
+                raise p.Rejected('unsupported: selected7 Improve requires sole explicit/implicit Default or canonical Native parent classes')
+            from .netclass import PARENT_POLICY
+            policy = p.netclass_policy(source)
+            if policy is None or policy.get('mode') != PARENT_POLICY:
+                raise p.Rejected('unsupported: selected7 Improve requires sole explicit/implicit Default or canonical Native parent classes')
+            parent_classes = True
         tree = p.preflight(source, task_scope=('whole_board_unlocked_routing','native','source_all'))
         _two_copper_table(tree)
-        if p.netclass_policy(source) is not None or p.check_schematic_class_support(source) is not None:
-            raise p.Rejected('unsupported: selected7 Improve requires unflagged Default flat schematic')
+        if ((p.netclass_policy(source) is not None and not parent_classes)
+                or p.check_schematic_class_support(source) is not None):
+            raise p.Rejected('unsupported: selected7 Improve requires unflagged flat2Cu Default or Native parent classes')
     except (ValueError, OSError) as exc:
         raise p.Rejected('unsupported: selected7 Improve source scope: '+str(exc)) from exc
     return effective
@@ -768,12 +782,14 @@ def _bind_native7_parent(directory, data, context):
     from . import _improve_context as child, floor_route as f
     child.require(context)
     if Path(directory) != context.parent:raise p.Rejected('Improve parent path differs')
+    policy = NATIVE7_PARENT_POLICY if context.netclass_policy is None else NATIVE7_PARENT_CLASS_POLICY
     target = Path(directory) / NATIVE7_PARENT_FILE
-    raw = (f.canonical(dict(schema=1,policy=NATIVE7_PARENT_POLICY,context=context.record()))+'\n').encode()
+    raw = (f.canonical(dict(schema=1,policy=policy,context=context.record()))+'\n').encode()
     with target.open('xb') as stream:stream.write(raw)
     data.update(single_selection_policy=SINGLE_SELECTION_POLICY,
-        native7_improve_parent=dict(policy=NATIVE7_PARENT_POLICY,file=NATIVE7_PARENT_FILE,sha256=hashlib.sha256(raw).hexdigest()),
+        native7_improve_parent=dict(policy=policy,file=NATIVE7_PARENT_FILE,sha256=hashlib.sha256(raw).hexdigest()),
         incumbent_assigned_seconds=context.assigned_seconds,incumbent_allocation=dict(context.allocation))
+    if context.netclass_policy is not None:data['netclass_policy'] = copy.deepcopy(context.netclass_policy)
 
 
 def native7_marked(directory,data):
@@ -781,6 +797,14 @@ def native7_marked(directory,data):
     return (any(key in data for key in ('native7_improve_parent','single_selection_policy','native7_default_target_basis'))
         or path.exists() or path.is_symlink()
         or c.NATIVE_VERSION=='10.0.7' and data.get('strategy')=='native_validated_zone_net_pruning')
+
+
+def _native7_parent_policy(data):
+    marker = data.get('native7_improve_parent')
+    policy = marker.get('policy') if type(marker) is dict else None
+    if policy not in (NATIVE7_PARENT_POLICY, NATIVE7_PARENT_CLASS_POLICY):
+        raise p.Rejected('exact versioned Improve parent policy required')
+    return policy
 
 
 def _native7_parent_shape(directory, data):
@@ -805,17 +829,21 @@ def _native7_parent_binding(directory, data, actual):
     from . import floor_route as f, provenance as pv
     from .local_settings import policy_declaration
     directory=Path(directory);path=directory/NATIVE7_PARENT_FILE
+    policy = _native7_parent_policy(data)
     if data.get('tools') != actual:raise p.Rejected('Improve parent selected tools changed')
     raw_code = pv.read_bytes(directory/'code/strategy.py')
     if (hashlib.sha256(raw_code).hexdigest() != actual['implementation_sha256'].get('autorouter/strategy.py')
             or policy_declaration(raw_code,name='NATIVE7_PARENT_POLICY',expected=NATIVE7_PARENT_POLICY) != NATIVE7_PARENT_POLICY
             or policy_declaration(raw_code,name='SINGLE_SELECTION_POLICY',expected=SINGLE_SELECTION_POLICY) != SINGLE_SELECTION_POLICY):
         raise p.Rejected('Improve captured parent policy changed')
+    if policy == NATIVE7_PARENT_CLASS_POLICY and policy_declaration(raw_code,
+            name='NATIVE7_PARENT_CLASS_POLICY', expected=NATIVE7_PARENT_CLASS_POLICY) != NATIVE7_PARENT_CLASS_POLICY:
+        raise p.Rejected('Improve captured parent-class policy changed')
     raw = pv.read_bytes(path,512*1024); contract = f.read_json(path)
-    expected = dict(policy=NATIVE7_PARENT_POLICY,file=NATIVE7_PARENT_FILE,sha256=hashlib.sha256(raw).hexdigest())
+    expected = dict(policy=policy,file=NATIVE7_PARENT_FILE,sha256=hashlib.sha256(raw).hexdigest())
     if (data.get('native7_improve_parent') != expected or type(contract) is not dict
             or set(contract) != {'schema','policy','context'} or type(contract['schema']) is not int
-            or contract['schema'] != 1 or contract['policy'] != NATIVE7_PARENT_POLICY):
+            or contract['schema'] != 1 or contract['policy'] != policy):
         raise p.Rejected('Improve parent definition changed or missing')
     return contract['context']
 
@@ -830,16 +858,29 @@ def native7_parent(directory, data):
     directory=pv.canonical(Path(directory))
     if not native7_marked(directory,data):return None
     effective=_native7_parent_shape(directory,data)
-    native7_single_scope(Path(data['source']),effective,proposal_policy=data['proposal_policy'])
+    source = Path(data['source'])
+    native7_single_scope(source,effective,proposal_policy=data['proposal_policy'])
+    from .netclass import PARENT_POLICY
+    from .floor_route import canonical
+    policy = p.netclass_policy(source)
+    if _native7_parent_policy(data) == NATIVE7_PARENT_CLASS_POLICY:
+        if (policy is None or policy.get('mode') != PARENT_POLICY
+                or canonical(data.get('netclass_policy')) != canonical(policy)):
+            raise p.Rejected('Improve parent-class source policy changed')
+    elif policy is not None:
+        raise p.Rejected('class-bearing Improve cannot downgrade to the Default parent contract')
     return _native7_parent_binding(directory,data,p.tool_manifest())
 
 
 def _native7_context_request(directory,data):
     """Exact caller inputs; a retained sidecar alone cannot bind these."""
     from .floor_route import canonical
-    return canonical(dict(parent=str(directory),source=data['source'],source_hashes=data['source_hashes'],
+    request = dict(parent=str(directory),source=data['source'],source_hashes=data['source_hashes'],
         tools=data['tools'],method_seconds=data['budget_seconds'],cpu_seconds=data['cpu_budget_seconds'],
-        assigned_seconds=data['incumbent_assigned_seconds'],allocation=data['incumbent_allocation']))
+        assigned_seconds=data['incumbent_assigned_seconds'],allocation=data['incumbent_allocation'])
+    if _native7_parent_policy(data) == NATIVE7_PARENT_CLASS_POLICY:
+        request['netclass_policy'] = data.get('netclass_policy')
+    return canonical(request)
 
 
 def _native7_context_identity(state):
@@ -849,7 +890,7 @@ def _native7_context_identity(state):
     # Include all Context constructor/check/record bodies and property access.
     methods=SimpleNamespace(__name__='selected7-readback-Context-methods',
         **{name:getattr(_Context,name) for name in ('__init__','__post_init__','_material','record','check')},
-        output_get=_Context.output.fget)
+        output_get=_Context.output.fget, policy_get=_Context.policy.fget)
     return p._readback_live_identity((*state['modules'],methods))
 
 
@@ -913,7 +954,8 @@ def _native7_incumbent_context_uncached(directory, data):
     directory = Path(directory); owner = {}; h.capture_destination(owner,directory)
     context = child._Context(source=Path(data['source']),parent=directory,parent_owner=owner,
         method_seconds=data['budget_seconds'],assigned_seconds=data['incumbent_assigned_seconds'],
-        allocation=data['incumbent_allocation'],tools=p.tool_manifest(),source_hashes=data['source_hashes'])
+        allocation=data['incumbent_allocation'],tools=p.tool_manifest(),source_hashes=data['source_hashes'],
+        netclass_policy=(data.get('netclass_policy') if _native7_parent_policy(data)==NATIVE7_PARENT_CLASS_POLICY else None))
     if (data.get('cpu_budget_seconds') != context.method_seconds
             or f.canonical(retained) != context._seal):
         raise p.Rejected('Improve retained definition differs from reconstructed source contract')
@@ -954,7 +996,32 @@ def native7_default_target_basis(directory,data):
     fresh export readers still validate their own Native class-map evidence.
     """
     if native7_parent(directory,data) is None:return None
+    if _native7_parent_policy(data) == NATIVE7_PARENT_CLASS_POLICY:
+        _checked_native7_parent_class_basis(directory,data)
+        return None
     return _checked_native7_default_basis(directory,data)
+
+
+def _checked_native7_parent_class_basis(directory,data,context=None):
+    """Bind class/DSN material to the exact live child; not child acceptance.
+
+    The caller still owes the full child reader and central parent selection.
+    No Context is serialized into standalone child authority or result cache.
+    """
+    from . import _improve_context as child, floor_route as f
+    context = native7_incumbent_context(directory,data) if context is None else context
+    child.require(context)
+    if (context.parent != Path(directory) or context.netclass_policy is None
+            or _native7_parent_policy(data) != NATIVE7_PARENT_CLASS_POLICY
+            or f.canonical(data.get('netclass_policy')) != f.canonical(context.netclass_policy)
+            or 'native7_default_target_basis' in data
+            or data.get('netclass_parent_dsn_basis') != p.parent_dsn_basis(directory)):
+        raise p.Rejected('Improve parent-class checked incumbent basis changed')
+    incumbent = f.read_json(context.output/'result.json')
+    child.check_record(context.output,incumbent,context)
+    if f.canonical(incumbent.get('netclass_policy')) != f.canonical(context.netclass_policy):
+        raise p.Rejected('Improve parent-class incumbent source policy differs')
+    return context
 
 
 def _checked_native7_default_basis(directory,data):
@@ -1012,8 +1079,13 @@ def check_native7_final(directory,data,*,material=None,additional=(),pairs=()):
     child.check_record(context.output,f.read_json(context.output/'result.json'),context)
     original=sx.read(directory/'snapshot'/context.source.name)
     protected=[route for route in p.routes(original) if p.locked(route)]
-    p.check_final_netclass_evidence(directory,data,candidate,protected,default_target_policy=True,
-        default_target_basis=_checked_native7_default_basis(directory,data))
+    if context.netclass_policy is None:
+        basis = _checked_native7_default_basis(directory,data)
+    else:
+        _checked_native7_parent_class_basis(directory,data,context)
+        basis = None
+    p.check_final_netclass_evidence(directory,data,candidate,protected,default_target_policy=basis is not None,
+        default_target_basis=basis)
     owned=_checked_native7_packets(directory,data);additional=tuple(additional)
     packets=[*owned,*additional]
     # The pinned parent policy censuses every nested trial worker and binds
@@ -1227,7 +1299,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             from . import _improve_context as child
             child_context = child._Context(source=source,parent=output,parent_owner=dict(owner),
                 method_seconds=seconds,assigned_seconds=incumbent_seconds,allocation=allocation,
-                tools=report["tools"],source_hashes=source_hashes)
+                tools=report["tools"],source_hashes=source_hashes,netclass_policy=p.netclass_policy(source))
             live_budget = child._Budget(child_context,final_job,operation_children)
             live_budget.attach(final_job)
             _bind_native7_parent(output,report,child_context)
@@ -1258,12 +1330,13 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             report["status"] = "incumbent_rejected"
             raise p.Rejected("B2 incumbent rejected: " + str(incumbent.get("reason", incumbent["status"])))
         p.check_result(output / "incumbent/result.json",**({"_improve_context":child_context} if native7 else {}))
-        if native7:
+        if native7 and child_context.netclass_policy is None:
             _,report['native7_default_target_basis']=_native7_default_basis_material(output)
         from .netclass import PARENT_POLICY
         source_policy=p.netclass_policy(source)
         if source_policy is not None and source_policy['mode']==PARENT_POLICY:
             report['netclass_parent_dsn_basis']=p.parent_dsn_basis(output)
+            if native7:_checked_native7_parent_class_basis(output,report,child_context)
         original_fresh(source, snapshot, source_hashes)
         best = Path(incumbent["candidate"])
         best_metrics, best_native = incumbent["metrics"], incumbent["native"]
@@ -1315,7 +1388,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                     preparation_exhausted = True
                     raise p.Rejected("insufficient trial budget after preparation")
                 digest, native = p.validate_candidate(trial_job, original, candidate, source_hashes, protected,
-                    **({'default_target_policy':True} if native7 else {}))
+                    **({'default_target_policy':True} if native7 and child_context.netclass_policy is None else {}))
                 original_fresh(source, snapshot, source_hashes)
                 record.update(candidate_sha256=digest, native=native,
                               native_report_sha256=p.sha(trial_job.out / "final-drc.json"))
@@ -1564,7 +1637,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         candidate = output / "candidate" / source.name
         shutil.copytree(best.parent, candidate.parent)
         final_hash, native = p.validate_candidate(final_job, original, candidate, source_hashes, protected,
-            **({'default_target_policy':True} if native7 else {}))
+            **({'default_target_policy':True} if native7 and child_context.netclass_policy is None else {}))
         report['schematic_parity']=p.parity_declaration(source,source_hashes)
         final_job.native("metrics", "metrics", candidate, output / "metrics.json")
         metrics = json.loads((output / "metrics.json").read_text())

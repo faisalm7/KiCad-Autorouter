@@ -32,7 +32,8 @@ THERMAL_HELP = ('Experimental thermal recovery has a validated completion result
 IMPROVE_HELP = ('Experimental Improve uses a tuned incumbent, bounded pruning trials and final Native validation. '
     f'The whole Improve-method budget includes its {IMPROVE_RETURN_RESERVE_SECONDS:g}-second internal return reserve; it is not an added '
     'allowance or a completion guarantee. Fresh export has a separate budget. Selected KiCad 10.0.7 '
-    'requires qualified canonical two-layer, flat, single-Default sources and engine-default via cost; '
+    'requires canonical two-layer flat sources with single Default or supported original netclasses, '
+    'no schematic class flags/hierarchy, and engine-default via cost; '
     'unsupported inputs refuse. No live-board application or electrical approval is implied.')
 FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
@@ -138,6 +139,9 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         lines += ['Original-design checks passed; source geometry and protected routing retained.']
     matches = record.get('protected_route_import', {}).get('matches')
     if isinstance(matches, list): lines += ['Protected route items retained: ' + str(len(matches))]
+    elif (improve and record.get('invariants_unchanged') is True
+            and type(record.get('protected_routes')) is int and record['protected_routes'] >= 0):
+        lines += ['Protected route items retained: ' + str(record['protected_routes'])]
     if record.get('schematic_parity'): lines += ['Schematic: ' + str(record['schematic_parity'])]
     metrics = record.get('metrics') or record.get('saved_metrics')
     if isinstance(metrics, dict):
@@ -839,7 +843,9 @@ def main(argv=None):
                 indices = {name: next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]) for name in self.choices}
                 for name, control in self.choices.items(): control.SetSelection(indices[name])
                 self.seconds.SetValue(str(int(config['seconds']))); self.nets.SetValue('\n'.join(config.get('nets', [])))
-                self.flow = None; self.inspected.SetValue(False); self.refresh()
+                self.flow = None; self.inspected.SetValue(False)
+                self.log.SetValue('Settings loaded. Preview the saved project to start a new job.')
+                self.refresh()
             self.choose_path(wx.FileDialog(self, 'Load explicit settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST), loaded)
 
         def config(self):

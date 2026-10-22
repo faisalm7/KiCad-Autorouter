@@ -35,6 +35,7 @@ NORMAL_NATIVE_EXPORT_ALIAS_POLICY='source-bound-padless-export-v1'
 NORMAL_ENGINE_PROVENANCE_POLICY='mandatory-normal-engine-journal-v1'
 COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v2'
 NATIVE7_IMPROVE_CHILD_POLICY='selected-native7-single-improve-child-v1'
+NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY='selected-native7-single-parent-class-child-v1'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
@@ -1378,11 +1379,12 @@ def parent_dsn_basis(directory):
             'files_sha256':{name:sha(base/name) for name in
                 ('result.json','native.dsn','task.dsn','export-netclasses.json')}}
 
-def check_parent_dsn_basis(directory,data):
+def check_parent_dsn_basis(directory,data,*,_improve_context=None):
     """A C label never removes the native/DSN contract in the new class scope."""
     from .floor_route import read_json
     from .netclass import PARENT_POLICY
     directory=Path(directory);base=directory/'incumbent/result.json'
+    captured_basis = parent_dsn_basis(directory) if _improve_context is not None else None
     if (data.get('strategy')!='native_validated_zone_net_pruning'
             or data.get('netclass_parent_dsn_basis')!=parent_dsn_basis(directory)):
         raise Rejected('parent-class strategy requires its exact native/DSN incumbent basis')
@@ -1394,7 +1396,19 @@ def check_parent_dsn_basis(directory,data):
         raise Rejected('parent-class incumbent task/source lineage differs')
     inherited=[{key:value for key,value in step.items() if key!='phase'} for step in data['steps'] if step.get('phase')=='incumbent']
     if inherited!=incumbent.get('steps'):raise Rejected('parent-class incumbent process/cost lineage differs')
-    check_result(base)
+    if _improve_context is None:
+        check_result(base)
+    else:
+        from . import _improve_context as child, floor_route as f
+        context = child.require(_improve_context)
+        if (context.parent != directory or context.netclass_policy is None
+                or f.canonical(data.get('netclass_policy')) != f.canonical(context.netclass_policy)):
+            raise Rejected('parent-class DSN basis requires its exact live Improve context')
+        child.check_record(base.parent,incumbent,context)
+        check_result(base,_improve_context=context)
+        child.require(context)
+        if f.canonical(data.get('netclass_parent_dsn_basis')) != f.canonical(captured_basis):
+            raise Rejected('parent-class captured DSN basis changed during private child readback')
     if data['netclass_parent_dsn_basis']!=parent_dsn_basis(directory):raise Rejected('parent-class incumbent basis changed during readback')
 
 def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,correction=True,sandboxed=None,_known_named_edge=False):
@@ -3068,7 +3082,12 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         check_final_netclass_evidence(path.parent,data,candidate,protected,native_toolchain=native_toolchain,
             default_target_policy=default_target_contract is not None)
         if data.get('baseline')=='C-prototype' and parent_classes:
-            check_parent_dsn_basis(path.parent,data)
+            if is_improve_parent:
+                context = pruning.native7_incumbent_context(path.parent,data)
+                pruning._checked_native7_parent_class_basis(path.parent,data,context)
+                check_parent_dsn_basis(path.parent,data,_improve_context=context)
+            else:
+                check_parent_dsn_basis(path.parent,data)
         if data.get('baseline')!='C-prototype' and default_target_contract is None:
             # Reconstruct the exact native export input from the frozen source,
             # never from the already-routed candidate or receipt assertions.

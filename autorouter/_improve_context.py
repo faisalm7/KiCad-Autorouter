@@ -15,6 +15,7 @@ import time
 from . import config as c, provenance as pv
 
 POLICY = 'selected-native7-single-improve-child-v1'
+PARENT_CLASS_POLICY = 'selected-native7-single-parent-class-child-v1'
 SIDECAR = 'improve-child-context.json'
 RESERVE_SECONDS = 40
 
@@ -73,6 +74,7 @@ class _Context:
     allocation: dict
     tools: dict
     source_hashes: dict
+    netclass_policy: dict | None = None
     _inputs: dict = dataclasses.field(init=False, repr=False)
     _owner: dict = dataclasses.field(init=False, repr=False)
     _seal: str = dataclasses.field(init=False, repr=False)
@@ -117,6 +119,10 @@ class _Context:
     def output(self):
         return self.parent / 'incumbent'
 
+    @property
+    def policy(self):
+        return POLICY if self.netclass_policy is None else PARENT_CLASS_POLICY
+
     def _material(self):
         from . import pipeline as p, preferences as pref
         from .layer_policy import _two_copper_table
@@ -124,12 +130,20 @@ class _Context:
         _owned(self.parent, directory=True)
         if _inventory(self.source.parent) != self.source_hashes or _inventory(self.parent / 'snapshot') != self.source_hashes:
             raise p.Rejected('Improve source/parent snapshot changed')
-        # This slice deliberately excludes class-bearing, hierarchy, alias and
-        # four-layer inputs. No existing ordinary capability guard is widened.
+        # The original Default contract stays separate. The new version permits
+        # only the existing Native-resolved parent-class policy, still flat2Cu.
         tree = p.preflight(self.source, task_scope=('whole_board_unlocked_routing', 'native', 'source_all'))
         _two_copper_table(tree)
-        if p.netclass_policy(self.source) is not None or p.check_schematic_class_support(self.source) is not None:
-            raise p.Rejected('Improve child requires the unflagged single Default scope')
+        if self.netclass_policy is None:
+            if p.netclass_policy(self.source) is not None or p.check_schematic_class_support(self.source) is not None:
+                raise p.Rejected('Improve child requires the unflagged single Default scope')
+        else:
+            from .netclass import PARENT_POLICY
+            actual = p.netclass_policy(self.source)
+            if (type(self.netclass_policy) is not dict or self.netclass_policy.get('mode') != PARENT_POLICY
+                    or _encode(actual) != _encode(self.netclass_policy)
+                    or p.check_schematic_class_support(self.source) is not None):
+                raise p.Rejected('Improve child requires exact unflagged flat2Cu Native parent classes')
         expected = {**pref.DEFAULTS, 'seconds': self.method_seconds, 'profile': 'tuned'}
         preferences = self.parent / 'pruning-preferences.json'
         _owned(preferences)
@@ -147,12 +161,20 @@ class _Context:
         for name, declaration in (('pipeline.py', 'NATIVE7_IMPROVE_CHILD_POLICY'), ('_improve_context.py', 'POLICY')):
             if policy_declaration(pv.read_bytes(self.parent / 'code' / name), name=declaration, expected=POLICY) != POLICY:
                 raise p.Rejected('Improve child source policy differs')
+        if self.netclass_policy is not None:
+            for name, declaration in (('pipeline.py', 'NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY'),
+                                      ('_improve_context.py', 'PARENT_CLASS_POLICY')):
+                if policy_declaration(pv.read_bytes(self.parent / 'code' / name), name=declaration,
+                        expected=PARENT_CLASS_POLICY) != PARENT_CLASS_POLICY:
+                    raise p.Rejected('Improve parent-class child source policy differs')
         if 'strategy.py' not in expected_code:raise p.Rejected('Improve parent source pin missing')
-        return dict(snapshot=self.source_hashes, code=expected_code,
-                    preferences_sha256=hashlib.sha256(raw).hexdigest(), effective=expected)
+        result = dict(snapshot=self.source_hashes, code=expected_code,
+                      preferences_sha256=hashlib.sha256(raw).hexdigest(), effective=expected)
+        if self.netclass_policy is not None:result['netclass_policy'] = self.netclass_policy
+        return result
 
     def record(self):
-        return dict(schema=1, policy=POLICY, runtime=str(c.ROOT), source=str(self.source),
+        result = dict(schema=1, policy=self.policy, runtime=str(c.ROOT), source=str(self.source),
             parent=str(self.parent), output=str(self.output), role='incumbent', proposal_policy='single',
             input_policy='native', scope='whole_board_unlocked_routing', profile='tuned', adapter='both',
             layers='source_all', scoring_variant=None, method_seconds=self.method_seconds,
@@ -160,6 +182,8 @@ class _Context:
             finalization_reserve_seconds=RESERVE_SECONDS, source_hashes=self.source_hashes,
             tools_sha256=hashlib.sha256(_encode(self.tools).encode()).hexdigest(),
             inputs=self._inputs, directory_identity=self._owner['directory_identity'])
+        if self.netclass_policy is not None:result['netclass_policy'] = self.netclass_policy
+        return result
 
     def check(self):
         from . import handoff as h, pipeline as p
@@ -305,7 +329,7 @@ def bind(directory, data, context):
     raw = (_encode(context.record()) + '\n').encode()
     target = Path(directory) / SIDECAR
     with target.open('xb') as stream:stream.write(raw)
-    data['native_improve_child'] = dict(policy=POLICY, file=SIDECAR, sha256=hashlib.sha256(raw).hexdigest())
+    data['native_improve_child'] = dict(policy=context.policy, file=SIDECAR, sha256=hashlib.sha256(raw).hexdigest())
 
 
 def check_record(directory, data, context):
@@ -317,7 +341,7 @@ def check_record(directory, data, context):
         return False
     require(context)
     raw = pv.read_bytes(directory / SIDECAR, 512 * 1024)
-    marker = dict(policy=POLICY, file=SIDECAR, sha256=hashlib.sha256(raw).hexdigest())
+    marker = dict(policy=context.policy, file=SIDECAR, sha256=hashlib.sha256(raw).hexdigest())
     forbidden = ('strategy', 'input_policy', 'guidance_policy', 'routing_preferences', 'pruning_preferences',
         'native7_improve_parent', 'single_selection_policy', 'native7_default_target_basis',
         'pruning_preferences_policy', 'incumbent_scoring_variant', 'incumbent_scoring_contract',
@@ -335,4 +359,9 @@ def check_record(directory, data, context):
             or data.get('cpu_budget_seconds') != context.assigned_seconds
             or _inventory(directory / 'code') != context._inputs['code']):
         raise p.Rejected('Improve child receipt differs from live caller contract')
+    if context.netclass_policy is not None:
+        if (_encode(data.get('netclass_policy')) != _encode(context.netclass_policy)
+                or 'default_target_transport' in data or 'netclass_parent_dsn_basis' in data
+                or any(os.path.lexists(directory / name) for name in ('default-targets.json', 'default-targets.dsn'))):
+            raise p.Rejected('Improve parent-class child cannot replace original class targets')
     return True
