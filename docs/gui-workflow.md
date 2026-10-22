@@ -1,5 +1,7 @@
 # Route and review with runtime058
 
+**Safety hold:** current058 has a demonstrated archived-receipt readback bypass and failed Improve return control. Exposure through the GUI's normal fixed path has not been demonstrated; do not use archived provisional positives as review sources. The [source fix](../evidence/routing-receipt-identity-repair-001.json) is not yet a newly qualified runtime. [Current gates](../STATUS.md).
+
 Current immutable058 source is `8f5e96b88dd22cd25919bb71ce47711612994efa`, original manifest `4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74`. [Native058](../evidence/runtime058-native-milestone-001.json), [ordinary GUI092 own-final proof](../evidence/gui-runtime058-092-ordinary-001.json), [closed core-role observations](../evidence/gui-runtime058-092-observations-001.json) and [one installed GUI093 slice](../evidence/gui-runtime058-install093-observations-002.json) retain distinct scopes. Sessions closed normally; fullGUI/release, exact queued timing and independent-user qualification remain open.
 
 1. Save work and close conflicting KiCad sessions. Launch the existing fresh-root session with a child-only Edge override:

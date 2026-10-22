@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "kind": "canonical-routing-receipt-identity-repair-working-source-v1",
+  "accepted": false,
+  "production_admitted": false,
+  "project_complete": false,
+  "actual_GUI": false,
+  "human_review": false,
+  "Native_qualification": false,
+  "new_runtime_built": false,
+  "source_base_checkpoint": "8b40f8dc859880724bd3e0fde87c61d78616a566",
+  "source_sha256": {
+    "autorouter/pipeline.py": "19ba08bd707189359cb709a7f67a7eedf5f82b0666ed8234c06c1fb67dc8550b",
+    "tests/test_result.py": "f5d900e80e25197f569b1c8f1cc4f46073ac5880648388ea021ae36650fcf39a",
+    "tests/test_validation_readback.py": "b4f31cd93cccdcdcf0aa003e8cd0b7500755096489caa984828e3c847a639b3c"
+  },
+  "defect": "evidence/runtime058-archived-receipt-defect-001.json",
+  "change": "One canonical result.json path guard before public dispatch/cache and direct uncached reader; aliases and arbitrary alternate filenames refuse before resolution can erase their identity. Public failures clear operation reuse. Archives remain immutable evidence, not current authority.",
+  "targeted_regressions": [
+    {
+      "scope": "result",
+      "tests": 32,
+      "passed": true,
+      "Native": false,
+      "complete_cost": {
+        "wall_seconds": 2.41,
+        "CPU_seconds": 2.17,
+        "user_seconds": 1.3,
+        "system_seconds": 0.87,
+        "time_log_sha256": "24e3ca6457b54b2b7309b50d4ae411ade64c43f372ec0c82f7323079d2aee722",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/receipt-identity-targeted-result-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "scope": "readback",
+      "tests": 25,
+      "passed": true,
+      "Native": false,
+      "complete_cost": {
+        "wall_seconds": 23.78,
+        "CPU_seconds": 23.14,
+        "user_seconds": 15.17,
+        "system_seconds": 7.97,
+        "time_log_sha256": "742c9df5e5dbaadffc5b4a0cbf7c525ad4085159f34fe3440791f25082787cca",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/receipt-identity-targeted-readback-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    },
+    {
+      "scope": "handoff",
+      "tests": 29,
+      "passed": true,
+      "Native": false,
+      "complete_cost": {
+        "wall_seconds": 1.19,
+        "CPU_seconds": 1.12,
+        "user_seconds": 0.74,
+        "system_seconds": 0.38,
+        "time_log_sha256": "1f390810155a567888f2b13b6b5308a8208ef48a6078b8ddf56389f329e6751a",
+        "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/receipt-identity-targeted-handoff-001-time.log",
+        "scope": "Complete external exit; nested method/Native samples are included, not added again."
+      }
+    }
+  ],
+  "actual_modified_main_CLI": {
+    "passed": true,
+    "exit_code": 2,
+    "reason": "routing receipt requires canonical result.json",
+    "cleanup_complete": true,
+    "source_and_original_receipts_unchanged": true,
+    "Native": false,
+    "complete_cost": {
+      "wall_seconds": 0.19,
+      "CPU_seconds": 0.17,
+      "user_seconds": 0.14,
+      "system_seconds": 0.03,
+      "time_log_sha256": "0759cc329563ac9c6397bde83330072abe0cfa09a93c3349c5b3b71024e9d13f",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/receipt-identity-CLI-postfix-002-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    }
+  },
+  "administrative_CLI_bootstrap_failure": {
+    "cost": {
+      "wall_seconds": 0.03,
+      "CPU_seconds": 0.03,
+      "user_seconds": 0.02,
+      "system_seconds": 0.01,
+      "time_log_sha256": "a784c8427115d592c70d6eef83c5df4ce4a3bc46692137dffb5bf7c809dda116",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/receipt-identity-CLI-postfix-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "reason": "Missing local module bootstrap; before any CLI/Native execution.002 adds project-only sys.path bootstrap; original001 preserved."
+  },
+  "mutation_control": {
+    "expected_behavior_detected": true,
+    "assertion_failures": 3,
+    "diagnostic_exit": 1,
+    "cost": {
+      "wall_seconds": 0.91,
+      "CPU_seconds": 0.86,
+      "user_seconds": 0.72,
+      "system_seconds": 0.14,
+      "time_log_sha256": "3d8dba21fd0c36fbb644f3eb26fb9dda81fe67252820e45ca0233f1f5a4cf7e7",
+      "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/receipt-identity-mutation-control-001-time.log",
+      "scope": "Complete external exit; nested method/Native samples are included, not added again."
+    },
+    "explanation": "Replacing only the new guard with the former permissive resolve policy caused expected assertion failures in public/private/read-review paths. Diagnostic driver mistakenly expected exactly1 rather than3 subtest/main failures and itself exited1. No rerun or product failure is hidden."
+  },
+  "limits": "Authored filesystem unit fixtures are not Native routing proof. Actual CLI refuses the preserved Native058 archive before tool validation; this does not requalify that old job under changed code. Fresh canonical positives/full integration/Native/install/actualGUI remain required for a new candidate. Return-budget defect is separate and remains open.",
+  "accounting": "Complete external test/control exits counted separately; no Native, routing or GUI work. Existing comparison/failed90 costs remain in their own packets. Curation/source review/authoring additional.",
+  "files_index": {
+    "path": "evidence/routing-receipt-identity-repair-001-notes/files.json",
+    "sha256": "9631ab61687d232c3eb5f6c0a7ceaf020192c4b9d063cc69fb7c8713b3bdbb51"
+  }
+}

@@ -1,6 +1,6 @@
 # KiCad-Autorouter
 
-Current **runtime058** has retained Native, installation and scoped graphical evidence. Full GUI/release qualification and exact queued-callback timing remain open.
+Current **runtime058** has retained Native, installation and scoped graphical evidence. **Safety hold:** its checker can accept an archived provisional receipt, and a 90-second Improve job failed to return within budget. The [source identity fix](evidence/routing-receipt-identity-repair-001.json) passes targeted controls; a new candidate still needs Native/install/GUI qualification and the return-cost repair. [Current gates](STATUS.md).
 
 An experimental open-source autorouter that runs locally without an AI account. It preserves original design constraints and protected copper, validates separate candidates with native KiCad, and offers saved settings, preview, progress, cancellation, rendered review and explicit accept/reject intent.
 

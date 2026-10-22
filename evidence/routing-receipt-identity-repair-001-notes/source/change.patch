@@ -1,0 +1,95 @@
+diff --git a/autorouter/pipeline.py b/autorouter/pipeline.py
+index 27a13120..5253b714 100644
+--- a/autorouter/pipeline.py
++++ b/autorouter/pipeline.py
+@@ -2706,10 +2706,18 @@ def _readback_witness(path,data,state):
+     return (evidence,original,tuple(sorted(local_metadata)),runtime,live)
+ 
+ 
++def _current_result_path(path):
++    """Archived provisional positives never authorize current routing evidence."""
++    target=Path(path).absolute()
++    if target.name!='result.json' or target!=target.resolve(strict=True):
++        raise Rejected('routing receipt requires canonical result.json')
++    return target
++
++
+ def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None, _improve_context=None):
+     """Clear operation reuse on failures, including uncached private readers."""
+     try:
+-        return _check_result_scoped(path,native_toolchain=native_toolchain,
++        return _check_result_scoped(_current_result_path(path),native_toolchain=native_toolchain,
+             experimental_schematic_parity=experimental_schematic_parity,
+             comparison_context=comparison_context,_improve_context=_improve_context)
+     except BaseException:
+@@ -2882,7 +2890,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
+             or not _rejected_attempt or _rejected_profile!='standard' or comparison_context is not None
+             or _improve_context is not None or native_toolchain is not None or c.NATIVE_VERSION!='10.0.7'):
+         raise Rejected('ordinary diagnostic score requires selected7 standard completed-negative mode')
+-    path=Path(path).resolve(strict=True)
++    path=_current_result_path(path)
+     from .floor_route import receipt_policy, read_json
+     from .placement_clearance import read_bytes as bounded_bytes
+     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()
+diff --git a/tests/test_result.py b/tests/test_result.py
+index dcd6ddb9..f2c14a32 100644
+--- a/tests/test_result.py
++++ b/tests/test_result.py
+@@ -118,6 +118,35 @@ class ResultFreshnessTests(unittest.TestCase):
+         self.assertIs(result["applied"], False)
+         self.assertEqual(p.tree_hash(self.root), before)
+ 
++    def test_archived_positive_cannot_override_canonical_timeout_or_enter_review(self):
++        self.assertTrue(p.check_result(self.receipt)['current'])
++        archived=self.run/'invalidated-result-provisional.json'
++        archived.write_bytes(self.receipt.read_bytes())
++        self.data.update(accepted=False,status='timeout',reason='final publication exceeded budget')
++        self.save_receipt()
++        for reader in (p.check_result,p._check_result_uncached):
++            with self.subTest(reader=reader.__name__),self.assertRaisesRegex(p.Rejected,'canonical result.json'):
++                reader(archived)
++        with self.assertRaises(p.Rejected):p.check_result(self.receipt)
++        from autorouter.handoff import review_copy
++        review=self.root/'archive-review'
++        with self.assertRaisesRegex(p.Rejected,'canonical result.json'):
++            review_copy(archived,review)
++        if (review/'review.json').exists():
++            self.assertNotEqual(json.loads((review/'review.json').read_text()).get('status'),'ready_for_manual_review')
++        self.assertFalse(json.loads(self.receipt.read_text())['accepted'])
++        self.assertTrue(json.loads(archived.read_text())['accepted'])
++
++    def test_positive_receipt_rejects_other_names_and_symlink_aliases(self):
++        self.assertTrue(p.check_result(self.receipt)['current'])
++        other=self.run/'previous.json';other.write_bytes(self.receipt.read_bytes())
++        directory_alias=self.root/'run-alias';directory_alias.symlink_to(self.run,target_is_directory=True)
++        file_alias=self.root/'result.json';file_alias.symlink_to(self.receipt)
++        for path in (other,directory_alias/'result.json',file_alias):
++            for reader in (p.check_result,p._check_result_uncached):
++                with self.subTest(path=path,reader=reader.__name__),self.assertRaisesRegex(p.Rejected,'canonical result.json'):
++                    reader(path)
++
+     def test_retained_raw_and_adapted_exports_reject_missing_or_changed_bytes(self):
+         for name, field in [("native.dsn", "native_dsn_sha256"), ("task.dsn", "task_dsn_sha256")]:
+             # Use the already authored complete zero-alias export. Junk DSN
+diff --git a/tests/test_validation_readback.py b/tests/test_validation_readback.py
+index 0d1aa4e1..aace46a0 100644
+--- a/tests/test_validation_readback.py
++++ b/tests/test_validation_readback.py
+@@ -20,6 +20,17 @@ class ReadbackSession(unittest.TestCase):
+                 self.assertTrue(second['current']);self.assertEqual(check.call_count,1)
+             p.check_result(self.receipt);self.assertEqual(check.call_count,2)
+ 
++    def test_noncanonical_receipt_failure_clears_populated_session(self):
++        archived=self.out/'invalidated-result-provisional.json'
++        archived.write_bytes(self.receipt.read_bytes())
++        with p.validation_readback_session():
++            self.assertTrue(p.check_result(self.receipt)['current'])
++            self.assertTrue(p._readback_session.get()['entries'])
++            with self.assertRaisesRegex(p.Rejected,'canonical result.json'):
++                p.check_result(archived)
++            self.assertFalse(p._readback_session.get()['entries'])
++            self.assertTrue(p.check_result(self.receipt)['current'])
++
+     def test_original_rules_reports_receipt_and_retained_code_mutations_reject(self):
+         for path in (self.source,self.source.with_suffix('.kicad_pro'),self.out/'final-drc.json',
+                      self.receipt,self.out/'code/placement_strategy.py'):

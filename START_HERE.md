@@ -1,5 +1,7 @@
 # Use runtime058 on this Mac
 
+**Experimental safety hold:** runtime058 accepts some archived provisional receipts and can fail Improve's reserved return. Use only the named canonical job receipts; do not promote archives or rely on a timeout fallback. The [source fix](evidence/routing-receipt-identity-repair-001.json) is tested narrowly but is not a newly qualified runtime. [Status and next repair](STATUS.md).
+
 Current source `8f5e96b88dd22cd25919bb71ce47711612994efa`, original manifest `4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74`. [Native058](evidence/runtime058-native-milestone-001.json), [ordinary GUI092](evidence/gui-runtime058-092-ordinary-001.json), [closed core-role observations](evidence/gui-runtime058-092-observations-001.json), [fresh-root CLI](evidence/runtime058-install-existing-001.json) and [installed GUI093](evidence/gui-runtime058-install093-observations-002.json) establish their recorded scopes. FullGUI, exact queued timing, independent installation, broad quality and human/electrical qualification remain incomplete.
 
 1. **Start the existing isolated launcher.** Save work and close conflicting KiCad managers/editors. Use a child-only Edge override:

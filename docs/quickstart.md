@@ -1,5 +1,7 @@
 # Run the current local CLI
 
+**Safety hold:** immutable058 can report an archived provisional receipt as current; use only the named canonical `result.json`. A separate 90-second Improve control timed out during final proof/publication. The [source identity fix](../evidence/routing-receipt-identity-repair-001.json) has targeted tests and an actual CLI refusal, but new Native/install/GUI qualification and return-cost repair remain pending. [Current gates](../STATUS.md).
+
 Use immutable **runtime058**, source `8f5e96b88dd22cd25919bb71ce47711612994efa`, original manifest `4f923e053577eb7b7f0425dee6a90be34075641495b4ac2a359ccb1a759f2c74`. [Eleven Native workflows](../evidence/runtime058-native-milestone-001.json), [IR Improve](../evidence/runtime058-ir-delivery-001.json) and [EEPROM Improve](../evidence/runtime058-eeprom-improve-regression-001.json) pass within recorded scopes. [GUI092 ordinary](../evidence/gui-runtime058-092-ordinary-001.json)/[observations](../evidence/gui-runtime058-092-observations-001.json) and [installed GUI093](../evidence/gui-runtime058-install093-observations-002.json) are actual functional evidence, not fullGUI or release qualification.
 
 **Enter the runtime directory before every `-m autorouter` session.** An absolute interpreter while staying in the checkout can import the wrong source/tool profile. Keep other Native/engine jobs idle. This owned original-root example uses its preserved alias source/partial90 preset and fresh output names:

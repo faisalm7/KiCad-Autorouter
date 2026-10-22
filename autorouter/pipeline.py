@@ -2706,10 +2706,18 @@ def _readback_witness(path,data,state):
     return (evidence,original,tuple(sorted(local_metadata)),runtime,live)
 
 
+def _current_result_path(path):
+    """Archived provisional positives never authorize current routing evidence."""
+    target=Path(path).absolute()
+    if target.name!='result.json' or target!=target.resolve(strict=True):
+        raise Rejected('routing receipt requires canonical result.json')
+    return target
+
+
 def check_result(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None, _improve_context=None):
     """Clear operation reuse on failures, including uncached private readers."""
     try:
-        return _check_result_scoped(path,native_toolchain=native_toolchain,
+        return _check_result_scoped(_current_result_path(path),native_toolchain=native_toolchain,
             experimental_schematic_parity=experimental_schematic_parity,
             comparison_context=comparison_context,_improve_context=_improve_context)
     except BaseException:
@@ -2882,7 +2890,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
             or not _rejected_attempt or _rejected_profile!='standard' or comparison_context is not None
             or _improve_context is not None or native_toolchain is not None or c.NATIVE_VERSION!='10.0.7'):
         raise Rejected('ordinary diagnostic score requires selected7 standard completed-negative mode')
-    path=Path(path).resolve(strict=True)
+    path=_current_result_path(path)
     from .floor_route import receipt_policy, read_json
     from .placement_clearance import read_bytes as bounded_bytes
     receipt_digest=hashlib.sha256(bounded_bytes(path)).hexdigest()

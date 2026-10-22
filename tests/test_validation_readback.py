@@ -20,6 +20,17 @@ class ReadbackSession(unittest.TestCase):
                 self.assertTrue(second['current']);self.assertEqual(check.call_count,1)
             p.check_result(self.receipt);self.assertEqual(check.call_count,2)
 
+    def test_noncanonical_receipt_failure_clears_populated_session(self):
+        archived=self.out/'invalidated-result-provisional.json'
+        archived.write_bytes(self.receipt.read_bytes())
+        with p.validation_readback_session():
+            self.assertTrue(p.check_result(self.receipt)['current'])
+            self.assertTrue(p._readback_session.get()['entries'])
+            with self.assertRaisesRegex(p.Rejected,'canonical result.json'):
+                p.check_result(archived)
+            self.assertFalse(p._readback_session.get()['entries'])
+            self.assertTrue(p.check_result(self.receipt)['current'])
+
     def test_original_rules_reports_receipt_and_retained_code_mutations_reject(self):
         for path in (self.source,self.source.with_suffix('.kicad_pro'),self.out/'final-drc.json',
                      self.receipt,self.out/'code/placement_strategy.py'):

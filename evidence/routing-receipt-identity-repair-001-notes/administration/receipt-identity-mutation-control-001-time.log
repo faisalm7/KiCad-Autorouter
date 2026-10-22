@@ -1,0 +1,56 @@
+test_archived_positive_cannot_override_canonical_timeout_or_enter_review (test_result.ResultFreshnessTests.test_archived_positive_cannot_override_canonical_timeout_or_enter_review) ... 
+  test_archived_positive_cannot_override_canonical_timeout_or_enter_review (test_result.ResultFreshnessTests.test_archived_positive_cannot_override_canonical_timeout_or_enter_review) (reader='check_result') ... FAIL
+  test_archived_positive_cannot_override_canonical_timeout_or_enter_review (test_result.ResultFreshnessTests.test_archived_positive_cannot_override_canonical_timeout_or_enter_review) (reader='_check_result_uncached') ... FAIL
+test_archived_positive_cannot_override_canonical_timeout_or_enter_review (test_result.ResultFreshnessTests.test_archived_positive_cannot_override_canonical_timeout_or_enter_review) ... FAIL
+
+======================================================================
+FAIL: test_archived_positive_cannot_override_canonical_timeout_or_enter_review (test_result.ResultFreshnessTests.test_archived_positive_cannot_override_canonical_timeout_or_enter_review) (reader='check_result')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_result.py", line 128, in test_archived_positive_cannot_override_canonical_timeout_or_enter_review
+    with self.subTest(reader=reader.__name__),self.assertRaisesRegex(p.Rejected,'canonical result.json'):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_archived_positive_cannot_override_canonical_timeout_or_enter_review (test_result.ResultFreshnessTests.test_archived_positive_cannot_override_canonical_timeout_or_enter_review) (reader='_check_result_uncached')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_result.py", line 128, in test_archived_positive_cannot_override_canonical_timeout_or_enter_review
+    with self.subTest(reader=reader.__name__),self.assertRaisesRegex(p.Rejected,'canonical result.json'):
+AssertionError: Rejected not raised
+
+======================================================================
+FAIL: test_archived_positive_cannot_override_canonical_timeout_or_enter_review (test_result.ResultFreshnessTests.test_archived_positive_cannot_override_canonical_timeout_or_enter_review)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/faisal/Projects/KiCad-Autorouter-local/tests/test_result.py", line 133, in test_archived_positive_cannot_override_canonical_timeout_or_enter_review
+    with self.assertRaisesRegex(p.Rejected,'canonical result.json'):
+AssertionError: Rejected not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.788s
+
+FAILED (failures=3)
+Traceback (most recent call last):
+  File "<stdin>", line 10, in <module>
+AssertionError: archive regression must detect the former permissive identity policy
+real 0.91
+user 0.72
+sys 0.14
+            61276160  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                5605  page reclaims
+                  74  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 214  voluntary context switches
+                 424  involuntary context switches
+         10777694823  instructions retired
+          3216752946  cycles elapsed
+            51036712  peak memory footprint

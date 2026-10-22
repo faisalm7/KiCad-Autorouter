@@ -118,6 +118,35 @@ class ResultFreshnessTests(unittest.TestCase):
         self.assertIs(result["applied"], False)
         self.assertEqual(p.tree_hash(self.root), before)
 
+    def test_archived_positive_cannot_override_canonical_timeout_or_enter_review(self):
+        self.assertTrue(p.check_result(self.receipt)['current'])
+        archived=self.run/'invalidated-result-provisional.json'
+        archived.write_bytes(self.receipt.read_bytes())
+        self.data.update(accepted=False,status='timeout',reason='final publication exceeded budget')
+        self.save_receipt()
+        for reader in (p.check_result,p._check_result_uncached):
+            with self.subTest(reader=reader.__name__),self.assertRaisesRegex(p.Rejected,'canonical result.json'):
+                reader(archived)
+        with self.assertRaises(p.Rejected):p.check_result(self.receipt)
+        from autorouter.handoff import review_copy
+        review=self.root/'archive-review'
+        with self.assertRaisesRegex(p.Rejected,'canonical result.json'):
+            review_copy(archived,review)
+        if (review/'review.json').exists():
+            self.assertNotEqual(json.loads((review/'review.json').read_text()).get('status'),'ready_for_manual_review')
+        self.assertFalse(json.loads(self.receipt.read_text())['accepted'])
+        self.assertTrue(json.loads(archived.read_text())['accepted'])
+
+    def test_positive_receipt_rejects_other_names_and_symlink_aliases(self):
+        self.assertTrue(p.check_result(self.receipt)['current'])
+        other=self.run/'previous.json';other.write_bytes(self.receipt.read_bytes())
+        directory_alias=self.root/'run-alias';directory_alias.symlink_to(self.run,target_is_directory=True)
+        file_alias=self.root/'result.json';file_alias.symlink_to(self.receipt)
+        for path in (other,directory_alias/'result.json',file_alias):
+            for reader in (p.check_result,p._check_result_uncached):
+                with self.subTest(path=path,reader=reader.__name__),self.assertRaisesRegex(p.Rejected,'canonical result.json'):
+                    reader(path)
+
     def test_retained_raw_and_adapted_exports_reject_missing_or_changed_bytes(self):
         for name, field in [("native.dsn", "native_dsn_sha256"), ("task.dsn", "task_dsn_sha256")]:
             # Use the already authored complete zero-alias export. Junk DSN
