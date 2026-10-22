@@ -1,0 +1,174 @@
+{
+  "accepted": false,
+  "changed_copied_sidecars": {
+    "UBMP430.kicad_prl": {
+      "original_sha256": "ce3650140893cd961690397577482d96ce562cf7d55036b614099b25abf4774e",
+      "saved_sha256": "08569cffc1ea173bdd8a2c3880f65d9ad055329b915041ed0a27a3bc4cdaed2b"
+    },
+    "UBMP430.kicad_pro": {
+      "original_sha256": "5418cd8eb8b92174c43d18922e10ff6e77e997eb6dacf6e76b31a1b4a6e19317",
+      "saved_sha256": "1c47f672757b8bc7b7463352d13255678b8865c150fc11cd5b594e51a217f4e1"
+    }
+  },
+  "completed_stages": [
+    {
+      "binding_sha256": "b8e3414d6485130003eedb03abee03533493b5b78c03802bf3c257c4deee4bd6",
+      "counts": [
+        1,
+        58,
+        154,
+        0
+      ],
+      "ignored_checks": [
+        {
+          "description": "Courtyards overlap",
+          "key": "courtyards_overlap"
+        },
+        {
+          "description": "Footprint has no courtyard defined",
+          "key": "missing_courtyard"
+        },
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        },
+        {
+          "description": "Footprint doesn't match symbol's footprint filters",
+          "key": "footprint_filters_mismatch"
+        },
+        {
+          "description": "Silkscreen clearance",
+          "key": "silk_overlap"
+        },
+        {
+          "description": "Silkscreen clipped by solder mask",
+          "key": "silk_over_copper"
+        },
+        {
+          "description": "PTH inside courtyard",
+          "key": "pth_inside_courtyard"
+        },
+        {
+          "description": "NPTH inside courtyard",
+          "key": "npth_inside_courtyard"
+        }
+      ],
+      "name": "original-drc",
+      "report_sha256": "ac99b30f8afaf76d9e1988542d68de74c51da407f2be328ed040316a1935c66b"
+    },
+    {
+      "name": "roundtrip",
+      "output_sha256": "e2a782b4ffc841e1c72f59a0069bdad2e78565677c6cb0a01684bb54d7afa002",
+      "process_sha256": "ec9c09e31a07a1ca5306fcd63aad4d0f2319e80ac974b798bc61c77a2fdee1b9"
+    }
+  ],
+  "conversion_equivalence": false,
+  "decision": "DEFER. No saved-refill/final/engine/routing/admission performed. Original source remains unchanged. Legacy semantic equivalence, track/via-prohibiting region, explicit USB requirements and source-design conflicts require separate support; do not weaken guards or loop serialization variants. Expected source opens alone are not invalidity.",
+  "diagnostic_completed": false,
+  "evidence": [
+    {
+      "bytes": 17954,
+      "path": ".runs/ubmp430-native-format-001/protocol.json",
+      "sha256": "c18204c1ca85fb805a7b842ffe7d5ef35b96be125d38daf6380b27e54ec8b4a8"
+    },
+    {
+      "bytes": 39726,
+      "path": ".runs/ubmp430-native-format-001/result.json",
+      "sha256": "129c202360a16528d8ae89a2901056d81b177ce80cd66029d7af2a8b4b4207d7"
+    },
+    {
+      "bytes": 17001,
+      "path": ".runs/ubmp430-native-format-draft-001.py",
+      "sha256": "5cbd06f0e8862ea80e465ec63e508f907d45deef12b68e35c96fd1475a491476"
+    },
+    {
+      "bytes": 240,
+      "path": ".runs/ubmp430-native-format-001.log",
+      "sha256": "46bec9e3e0724404d574364e52f7fc02efce7ab41f2f80f6a3734d4efdafc8f9"
+    },
+    {
+      "bytes": 753,
+      "path": ".runs/ubmp430-native-format-001-time.log",
+      "sha256": "65e4914f1d4fdfeff0e6fcfac92a3081f9c4712cf75770452a2b3c8865e534a8"
+    }
+  ],
+  "external_cost": {
+    "CPU_seconds": 3.53,
+    "wall_seconds": 4.26
+  },
+  "first_failure": {
+    "message": "roundtrip altered original sidecars",
+    "type": "Rejected"
+  },
+  "kind": "ubmp430-original-saved-format-diagnostic-v1",
+  "limits": {
+    "output_bytes": 20971520,
+    "per_worker_seconds": 30,
+    "wall_full_CPU_seconds": 90
+  },
+  "nested_sample": {
+    "CPU_seconds": 3.1604560000000004,
+    "overlaps_external": true,
+    "wall_seconds": 3.8517853330122307
+  },
+  "original_fullSCH_counts": [
+    1,
+    58,
+    154,
+    0
+  ],
+  "original_ignored_checks": [
+    {
+      "description": "Courtyards overlap",
+      "key": "courtyards_overlap"
+    },
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "Silkscreen clearance",
+      "key": "silk_overlap"
+    },
+    {
+      "description": "Silkscreen clipped by solder mask",
+      "key": "silk_over_copper"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    }
+  ],
+  "production_admitted": false,
+  "recorded_utc": "2026-10-22T15:57:54.317897+00:00",
+  "routing_executed": false,
+  "runtime_manifest_sha256": "8f385b397ddb6379ce35bab92d62ceff55029c6a796f7d3269c5c5b34ed1ba30",
+  "schema": 1,
+  "scope": "Owned facts/hashes only, no CAD/artwork redistribution. Diagnostic, not conversion/electrical/production qualification. Full preserved raw output is selected for later increment, not yet a backup.",
+  "source_bytes": 948121,
+  "source_files": 13,
+  "source_head": "972b395878b734ccf47c7691d66435c42c032634",
+  "source_revision": "mirobotech/UBMP430@ff506209 (exact full revision/rights in local acquisition protocol)",
+  "source_unchanged": true,
+  "status": "failed"
+}
