@@ -128,6 +128,29 @@ class NormalPolicyReceiptControls(unittest.TestCase):
         self.data['steps'].append(dict(process,phase='authored-failed-trial'))
         return folder,binding,process,failure_path
 
+    def test_related_prl_literals_use_one_batch_and_wrong_pin_stops_before_it(self):
+        expected={'FIELD_LOCAL_SETTINGS_POLICY':p.FIELD_LOCAL_SETTINGS_POLICY,
+                  'NORMAL_DRC_LOCAL_SETTINGS_POLICY':ls.JOB_POLICY}
+        raw=(self.run/'code/pipeline.py').read_bytes()
+        with patch.object(ls,'policy_declarations',wraps=ls.policy_declarations) as declarations:
+            ls.check_normal_policy(self.run,self.data)
+        self.assertEqual(declarations.call_args_list[0].args,(raw,expected))
+        self.data['tools']['implementation_sha256']['autorouter/pipeline.py']='0'*64
+        with patch.object(ls,'policy_declarations') as declarations:
+            with self.assertRaisesRegex(p.Rejected,'source pin'):ls.check_normal_policy(self.run,self.data)
+        declarations.assert_not_called()
+
+    def test_paired_field_policy_still_requires_secondary_worker_marker(self):
+        path=self.run/'final-drc-process.json';process=f.read_json(path)
+        process['argv'].insert(-1,'--schematic-parity')
+        p.save_json(path,process)
+        for step in self.data['steps']:
+            if step.get('name')=='final-drc' and step.get('cwd')==str(self.run):step['argv']=list(process['argv'])
+        binding_path=self.run/'final-drc-binding.json';binding=f.read_json(binding_path)
+        binding.pop('field_local_settings_policy',None);p.save_json(binding_path,binding)
+        with self.assertRaisesRegex(p.Rejected,'parity field local-settings policy'):
+            ls.check_normal_policy(self.run,self.data)
+
     def test_current_source_and_tools_policy_must_agree(self):
         original=copy.deepcopy(self.data['tools'])
         for value in (None,'other',True):

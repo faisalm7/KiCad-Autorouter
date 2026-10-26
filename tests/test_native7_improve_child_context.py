@@ -78,6 +78,16 @@ class ImproveChildContextControls(unittest.TestCase):
         child.bind(output,data,self.context)
         return data
 
+    def test_default_material_does_not_request_parent_class_literals(self):
+        for name,declaration in (('pipeline.py','NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY'),
+                                 ('_improve_context.py','PARENT_CLASS_POLICY')):
+            path=self.parent/'code'/name
+            path.write_bytes(path.read_bytes()+('\n'+declaration+'=choose()\n').encode())
+            self.tools['implementation_sha256']['autorouter/'+name]=p.sha(path)
+        context=self.make()
+        self.assertEqual(context.policy,child.POLICY)
+        self.assertNotIn('netclass_policy',context.record())
+
     def test_exact_child_request_and_reserved_assignment(self):
         self.authorize()
         for changes in ({'method_seconds':True}, {'assigned_seconds':True}, {'assigned_seconds':49},

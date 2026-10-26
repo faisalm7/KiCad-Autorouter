@@ -59,6 +59,34 @@ class Native7ParentControls(unittest.TestCase):
             self.source.with_suffix('.kicad_pro').write_text(__import__('json').dumps({'net_settings':{'classes':classes}}))
             with self.subTest(classes=classes),self.assertRaises(p.Rejected):s.native7_single_scope(self.source,effective)
 
+    def test_parent_literals_share_one_parse_and_default_does_not_request_class(self):
+        import ast
+        from autorouter import local_settings as local
+        data=self.parent_data();path=self.parent/'code/strategy.py'
+        # Unrequested class declarations stay outside the Default namespace.
+        path.write_bytes(path.read_bytes()+b"\nNATIVE7_PARENT_CLASS_POLICY=choose()\n")
+        data['tools']['implementation_sha256']['autorouter/strategy.py']=p.sha(path)
+        local._cached_policy_declarations.cache_clear();self.addCleanup(local._cached_policy_declarations.cache_clear)
+        with patch('ast.parse',wraps=ast.parse) as parsed:
+            self.assertEqual(f.canonical(s._native7_parent_binding(self.parent,data,data['tools'])),
+                             f.canonical(self.context.record()))
+        parsed.assert_called_once_with(path.read_bytes())
+        data['tools']['implementation_sha256']['autorouter/strategy.py']='0'*64
+        with patch.object(local,'policy_declarations') as declarations:
+            with self.assertRaisesRegex(p.Rejected,'captured parent policy'):
+                s._native7_parent_binding(self.parent,data,data['tools'])
+        declarations.assert_not_called()
+
+    def test_paired_parent_secondary_literal_missing_nested_or_dynamic_duplicate_refuses(self):
+        data=self.parent_data();path=self.parent/'code/strategy.py';raw=path.read_bytes()
+        missing=b''.join(line for line in raw.splitlines(keepends=True) if not line.startswith(b'SINGLE_SELECTION_POLICY ='))
+        for changed in (missing,raw+b"\nSINGLE_SELECTION_POLICY=choose()\n",
+                        raw+b"\nif True:\n SINGLE_SELECTION_POLICY='nested'\n"):
+            with self.subTest(changed=changed[-100:]):
+                path.write_bytes(changed)
+                data['tools']['implementation_sha256']['autorouter/strategy.py']=p.sha(path)
+                with self.assertRaises(p.Rejected):s._native7_parent_binding(self.parent,data,data['tools'])
+
     def test_parent_reconstructs_definition_not_execution_budget(self):
         data=self.parent_data();ctx=s.native7_incumbent_context(self.parent,data)
         self.assertIs(type(ctx),child._Context)

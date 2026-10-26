@@ -261,8 +261,10 @@ def _check_normal_policy(directory,data,*,max_bytes=None,max_files=None,native_t
     root=canonical(Path(directory));implementation=data.get('tools',{}).get('implementation_sha256',{})
     pipeline=root/'code/pipeline.py';raw=read_bytes(pipeline,1024**2)
     if p.sha(pipeline)!=implementation.get('autorouter/pipeline.py'):raise p.Rejected('normal DRC producer source pin differs')
-    field_policy=policy_declaration(raw,name='FIELD_LOCAL_SETTINGS_POLICY',expected='job-owned-field-prl-immutable-v1')
-    policy=policy_declaration(raw)
+    declarations=policy_declarations(raw,{'FIELD_LOCAL_SETTINGS_POLICY':'job-owned-field-prl-immutable-v1',
+        'NORMAL_DRC_LOCAL_SETTINGS_POLICY':JOB_POLICY})
+    field_policy=declarations['FIELD_LOCAL_SETTINGS_POLICY']
+    policy=declarations['NORMAL_DRC_LOCAL_SETTINGS_POLICY']
     # Native export policy is independent of PRL presence and its declaration.
     # Check it before the legacy PRL return, using the same bounded census.
     if max_bytes is None or max_files is None:

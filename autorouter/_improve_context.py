@@ -127,7 +127,7 @@ class _Context:
     def _material(self):
         from . import pipeline as p, preferences as pref
         from .layer_policy import _two_copper_table
-        from .local_settings import policy_declaration
+        from .local_settings import policy_declarations
         _owned(self.parent, directory=True)
         if _inventory(self.source.parent) != self.source_hashes or _inventory(self.parent / 'snapshot') != self.source_hashes:
             raise p.Rejected('Improve source/parent snapshot changed')
@@ -159,15 +159,16 @@ class _Context:
         expected_code = {Path(name).name: digest for name, digest in pins.items()}
         if _inventory(self.parent / 'code') != expected_code:
             raise p.Rejected('Improve parent code snapshot changed')
-        for name, declaration in (('pipeline.py', 'NATIVE7_IMPROVE_CHILD_POLICY'), ('_improve_context.py', 'POLICY')):
-            if policy_declaration(pv.read_bytes(self.parent / 'code' / name), name=declaration, expected=POLICY) != POLICY:
+        for name, declaration, class_declaration in (
+                ('pipeline.py', 'NATIVE7_IMPROVE_CHILD_POLICY', 'NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY'),
+                ('_improve_context.py', 'POLICY', 'PARENT_CLASS_POLICY')):
+            requested={declaration:POLICY}
+            if self.netclass_policy is not None:requested[class_declaration]=PARENT_CLASS_POLICY
+            declarations=policy_declarations(pv.read_bytes(self.parent / 'code' / name),requested)
+            if declarations[declaration] != POLICY:
                 raise p.Rejected('Improve child source policy differs')
-        if self.netclass_policy is not None:
-            for name, declaration in (('pipeline.py', 'NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY'),
-                                      ('_improve_context.py', 'PARENT_CLASS_POLICY')):
-                if policy_declaration(pv.read_bytes(self.parent / 'code' / name), name=declaration,
-                        expected=PARENT_CLASS_POLICY) != PARENT_CLASS_POLICY:
-                    raise p.Rejected('Improve parent-class child source policy differs')
+            if self.netclass_policy is not None and declarations[class_declaration] != PARENT_CLASS_POLICY:
+                raise p.Rejected('Improve parent-class child source policy differs')
         if 'strategy.py' not in expected_code:raise p.Rejected('Improve parent source pin missing')
         result = dict(snapshot=self.source_hashes, code=expected_code,
                       preferences_sha256=hashlib.sha256(raw).hexdigest(), effective=expected)

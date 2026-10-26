@@ -68,6 +68,45 @@ class ParentClassImproveControls(unittest.TestCase):
         result['native_version'] = c.NATIVE_VERSION
         return result
 
+    def test_parent_class_binding_parses_all_three_literals_once_and_refuses_wrong_class(self):
+        import ast
+        data=self.parent_data();path=self.parent/'code/strategy.py';raw=path.read_bytes()
+        local._cached_policy_declarations.cache_clear();self.addCleanup(local._cached_policy_declarations.cache_clear)
+        with patch('ast.parse',wraps=ast.parse) as parsed:
+            self.assertEqual(f.canonical(s._native7_parent_binding(self.parent,data,data['tools'])),
+                             f.canonical(self.context.record()))
+        parsed.assert_called_once_with(raw)
+        missing=b''.join(line for line in raw.splitlines(keepends=True) if not line.startswith(b'NATIVE7_PARENT_CLASS_POLICY ='))
+        for changed in (missing,missing+b"\nNATIVE7_PARENT_CLASS_POLICY='wrong'\n",
+                        raw+b"\nNATIVE7_PARENT_CLASS_POLICY=choose()\n"):
+            with self.subTest(changed=changed[-100:]):
+                path.write_bytes(changed);data['tools']['implementation_sha256']['autorouter/strategy.py']=p.sha(path)
+                with self.assertRaises(p.Rejected):s._native7_parent_binding(self.parent,data,data['tools'])
+
+    def test_class_material_parses_each_paired_source_once(self):
+        import ast
+        raw=[(self.parent/'code'/name).read_bytes() for name in ('pipeline.py','_improve_context.py')]
+        local._cached_policy_declarations.cache_clear();self.addCleanup(local._cached_policy_declarations.cache_clear)
+        with patch('ast.parse',wraps=ast.parse) as parsed:
+            self.assertEqual(self.context._material(),self.context._inputs)
+        self.assertEqual([call.args for call in parsed.call_args_list],[(value,) for value in raw])
+
+    def test_class_material_secondary_literals_missing_or_dynamic_duplicate_refuse(self):
+        for name,declaration in (('pipeline.py','NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY'),
+                                 ('_improve_context.py','PARENT_CLASS_POLICY')):
+            path=self.parent/'code'/name;raw=path.read_bytes();key='autorouter/'+name
+            original_pin=self.tools['implementation_sha256'][key]
+            missing=b''.join(line for line in raw.splitlines(keepends=True) if not line.startswith(declaration.encode()+b' ')
+                            and not line.startswith(declaration.encode()+b'='))
+            try:
+                for changed in (missing,raw+('\n'+declaration+'=choose()\n').encode()):
+                    with self.subTest(source=name,changed=changed[-100:]):
+                        path.write_bytes(changed);self.tools['implementation_sha256'][key]=p.sha(path)
+                        with self.assertRaisesRegex(p.Rejected,'source policy|captured normal DRC policy'):
+                            self.make(netclass_policy=copy.deepcopy(self.policy))
+            finally:
+                path.write_bytes(raw);self.tools['implementation_sha256'][key]=original_pin
+
     def test_versioned_scope_preserves_source_and_requires_explicit_live_context(self):
         before = p.tree_hash(self.source.parent)
         effective = dict(pref.DEFAULTS,profile='tuned',seconds=90)

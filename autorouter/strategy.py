@@ -837,17 +837,20 @@ def _native7_parent_shape(directory, data):
 def _native7_parent_binding(directory, data, actual):
     """Rebind exact captured policy/sidecar; never create reader authority."""
     from . import floor_route as f, provenance as pv
-    from .local_settings import policy_declaration
+    from .local_settings import policy_declarations
     directory=Path(directory);path=directory/NATIVE7_PARENT_FILE
     policy = _native7_parent_policy(data)
     if data.get('tools') != actual:raise p.Rejected('Improve parent selected tools changed')
     raw_code = pv.read_bytes(directory/'code/strategy.py')
-    if (hashlib.sha256(raw_code).hexdigest() != actual['implementation_sha256'].get('autorouter/strategy.py')
-            or policy_declaration(raw_code,name='NATIVE7_PARENT_POLICY',expected=NATIVE7_PARENT_POLICY) != NATIVE7_PARENT_POLICY
-            or policy_declaration(raw_code,name='SINGLE_SELECTION_POLICY',expected=SINGLE_SELECTION_POLICY) != SINGLE_SELECTION_POLICY):
+    if hashlib.sha256(raw_code).hexdigest() != actual['implementation_sha256'].get('autorouter/strategy.py'):
         raise p.Rejected('Improve captured parent policy changed')
-    if policy == NATIVE7_PARENT_CLASS_POLICY and policy_declaration(raw_code,
-            name='NATIVE7_PARENT_CLASS_POLICY', expected=NATIVE7_PARENT_CLASS_POLICY) != NATIVE7_PARENT_CLASS_POLICY:
+    requested={'NATIVE7_PARENT_POLICY':NATIVE7_PARENT_POLICY,'SINGLE_SELECTION_POLICY':SINGLE_SELECTION_POLICY}
+    if policy == NATIVE7_PARENT_CLASS_POLICY:requested['NATIVE7_PARENT_CLASS_POLICY']=NATIVE7_PARENT_CLASS_POLICY
+    declarations=policy_declarations(raw_code,requested)
+    if (declarations['NATIVE7_PARENT_POLICY'] != NATIVE7_PARENT_POLICY
+            or declarations['SINGLE_SELECTION_POLICY'] != SINGLE_SELECTION_POLICY):
+        raise p.Rejected('Improve captured parent policy changed')
+    if policy == NATIVE7_PARENT_CLASS_POLICY and declarations['NATIVE7_PARENT_CLASS_POLICY'] != NATIVE7_PARENT_CLASS_POLICY:
         raise p.Rejected('Improve captured parent-class policy changed')
     raw = pv.read_bytes(path,512*1024); contract = f.read_json(path)
     expected = dict(policy=policy,file=NATIVE7_PARENT_FILE,sha256=hashlib.sha256(raw).hexdigest())
