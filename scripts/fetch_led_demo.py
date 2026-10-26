@@ -1049,7 +1049,51 @@ SPECTRAL_PROFILE = dict(schema=1, profile_id='spectral-as7343', project_id='spec
         'No model/FreeCAD/STEP/image/Gerber/ZIP/firmware/upstream script is downloaded or executed.',
         'Prior notice/metadata research costs are unmetered, not zero; fresh GET costs are separately measured.'])
 
+
+# Metadata-only development intake. No Native registry or routing permission is added.
+AP3012K_COMMIT = '2150213414cbaf2031fed3081900049d023473f1'
+AP3012K_REPOSITORY = 'sparkfun/SparkFun_Qwiic_5V_Boost_AP3012K'
+AP3012K_RIGHTS = ('Pinned SparkFun hardware CC-BY-SA4 notice/attribution retained; code MIT is separate. '
+    'Per-file embedded, model/artwork/library rights and independent ancestry remain unqualified. '
+    'Switching-power/current/return-path and jumper intent must be retained and characterized; '
+    'acquisition grants no unrestricted rerouting or all-net scope and no electrical/physical approval.')
+AP3012K_PROFILE = dict(schema=1, profile_id='ap3012k-boost', project_id='ap3012k-boost',
+    repository=AP3012K_REPOSITORY, commit=AP3012K_COMMIT, rows=[
+        dict(source_path=name, bytes=size, git_blob_sha1=blob, mode='100644',
+             repository=AP3012K_REPOSITORY, commit=AP3012K_COMMIT, destination='ap3012k-boost/'+name,
+             raw_url='https://raw.githubusercontent.com/'+AP3012K_REPOSITORY+'/'+AP3012K_COMMIT+'/'+name,
+             blob_url='https://github.com/'+AP3012K_REPOSITORY+'/blob/'+AP3012K_COMMIT+'/'+name,
+             rights_basis=AP3012K_RIGHTS, **({'sha256':sha} if sha else {}))
+        for name,size,blob,sha in (
+            ('LICENSE.md', 2887, '779c526bbfbeabc5aafe9bf871f22b8189ab91ab', 'e6560063f9b94f2bc9230cd3079a50a077b4c5e04a1137299850e8aa0e73dc85'),
+            ('README.md', 4589, '0edd8b653f7b443b134b07673b33eca72291f956', 'ea60b51f648d88c4d7d191577fcd71893388def428eadb1efee9a04de18a94a8'),
+            ('Hardware/README.md', 292, '8ff294343ad0fc2d90cb9a0ea0097ce2fc69351f', '6add188e18eb48c055d25c6cb3c9e2865bcec753e4da3b3bc97602b7f613f683'),
+            ('Hardware/SparkFun_Qwiic_5V_Boost_AP3012K.kicad_pcb', 608612, '794c42a1686de8bc3b819958d1e6061450be7a28', None),
+            ('Hardware/SparkFun_Qwiic_5V_Boost_AP3012K.kicad_pro', 15148, '7d37205dd60cedffa64ef35092cc663fb0c86f31', None),
+            ('Hardware/SparkFun_Qwiic_5V_Boost_AP3012K.kicad_prl', 1335, 'ad898a3111f1c687417b94a741a81bd3a154dc67', None),
+            ('Hardware/SparkFun_Qwiic_5V_Boost_AP3012K.kicad_sch', 239948, '9aa8a40f67b4ec4553ceb955081e6b48b00ef2e7', None),
+            ('Hardware/fp-info-cache', 3642499, 'e6d2dd4bc0e52ef5c4bb4d20c45a213a0ce8e2d3', None),
+        )], directories=['Hardware'], board_path='Hardware/SparkFun_Qwiic_5V_Boost_AP3012K.kicad_pcb',
+    output_prefix='ap3012k-boost-demo-', default_output='.data/ap3012k-boost-demo-001',
+    file_count=8, bytes=4515310, max_requests=8, network_byte_cap=4515318,
+    max_single_response_bytes=3642500, output_byte_cap=shared.CAP,
+    wall_budget_seconds=300, cpu_budget_seconds=300, request_wall_seconds=30,
+    native_packet_notice_copies={'Hardware/_licenses/creator/LICENSE.md':'LICENSE.md',
+        'Hardware/_licenses/creator/README.md':'README.md'},
+    native_packet_files=10, native_packet_bytes=4522786, development_exposed=True,
+    independent_ancestry_established=False, native_validation_performed_by_fetch=False,
+    raw_assets_public=False, warnings=[
+        'Eight exact original files including PRL, fp-info-cache and stale Hardware README; Native/routing support remains unqualified.',
+        'Hardware CC-BY-SA4 and separate MIT code notice retained unchanged; no raw CAD/assets publication or model/library title claim.',
+        'Original plus notice packet needs 9038096 bytes before receipts; fixed output limit reuses existing shared 10MiB cap, with no global quota change.',
+        'Switching power/current/return-path and configurable-jumper intent must be audited before selecting protected ordinary partial scope; no automatic all-net permission.',
+        'Modern filenames do not establish layers, pad/rule/class/exclusion/severity support, original preservation, complete schematic or initial open count.',
+        'Distinct function does not prove unrelated ancestry; Qwiic/templates and related power/level-converter designs require deduplication.',
+        'No models/STEP/images/ZIPs/firmware/upstream scripts or external libraries fetched or executed; missing mandatory closure remains a blocker.',
+        'Prior metadata costs are separate and partly unmetered; fresh eight-response acquisition costs are recorded separately.'])
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='ap3012k-boost':return copy.deepcopy(AP3012K_PROFILE)
     if profile_id=='directional-pad':return copy.deepcopy(DIRECTIONAL_PROFILE)
     if profile_id=='spectral-as7343':return copy.deepcopy(SPECTRAL_PROFILE)
     if profile_id=='ds18b20':return copy.deepcopy(DS18B20_PROFILE)
@@ -1145,7 +1189,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     if type(reuse_navigation_notices) is not bool or reuse_navigation_notices and profile_id!='navigation-switch':raise ValueError('explicit Navigation-only notice reuse flag required')
     if type(reuse_audio_notices) is not bool or reuse_audio_notices and profile_id!='audio-player-my1690x':raise ValueError('explicit Audio-only notice reuse flag required')
     if type(reuse_flipper_notices) is not bool or reuse_flipper_notices and profile_id!='pico-flipper':raise ValueError('explicit Flipper-only notice reuse flag required')
-    direct=profile_id in ('navigation-switch','audio-player-my1690x','pico-flipper','directional-pad','spectral-as7343');direct_label=profile_id
+    direct=profile_id in ('navigation-switch','audio-player-my1690x','pico-flipper','directional-pad','spectral-as7343','ap3012k-boost');direct_label=profile_id
     direct_directories=['Hardware','Hardware/AS7343.pretty'] if profile_id=='spectral-as7343' else ['Hardware']
     if direct and (cfg['directories']!=direct_directories or any(shared.safe(r['source_path']).parent not in {Path('.'),*map(Path,direct_directories)} for r in rows)):
         raise ValueError('fixed '+direct_label+' direct response hierarchy differs')
@@ -1312,7 +1356,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20','directional-pad','spectral-as7343'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20','directional-pad','spectral-as7343','ap3012k-boost'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:

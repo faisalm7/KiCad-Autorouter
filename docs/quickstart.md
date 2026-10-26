@@ -1,6 +1,6 @@
 # Run runtime065 locally
 
-The [installed065 native milestone](../evidence/runtime065-installed-native-milestone-001.json) passes. Actual current GUI qualification remains pending. Use the installed directory before every `-m autorouter` session; an absolute interpreter from the checkout can import the wrong source/tool selection. Keep the routing lane idle and use fresh outputs.
+The [installed065 native milestone](../evidence/runtime065-installed-native-milestone-001.json) passes. [Finite actual GUI098 controls](../evidence/gui-runtime065-098-qualification-001.json) also pass; every phase and exact queued timing remain unqualified. Use the installed directory before every `-m autorouter` session; an absolute interpreter from the checkout can import the wrong source/tool selection. Keep the routing lane idle and use fresh outputs.
 
 The prepared owned example and90-second partial preset retain four protected routes:
 
