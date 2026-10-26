@@ -1,6 +1,6 @@
 # Graphical routing workflow
 
-**Finite actual runtime066 GUI099 controls have passed.** [Current facts](../evidence/gui-runtime066-099-qualification-001.json) retain toolbar/presets/refusals, protected ordinary/high routing, class Improve, Edge review, intent, export/opening, active Java cancellation and before-action stale-input controls. Every phase/exact queued timing are not implied. Older GUI evidence was not substituted. [Launch and use the current workflow](../START_HERE.md).
+**Runtime067 GUI100 is prepared and pending actual qualification.** Current headless Native/invalid/class controls pass, but the desktop tool reports a locked Mac; one unlock request is pending. [Historical066 GUI099](../evidence/gui-runtime066-099-qualification-001.json) demonstrated finite two/four-layer controls and does not qualify067. [Current steps](../START_HERE.md) · [Gates](../STATUS.md).
 
 The KiCad toolbar launches a separate graphical worker. It presents the exact saved source, separate output, scope/protection, supported layers, routing preference and budget. Save and close the source editors before acknowledging their paths. Unsaved buffers cannot be inspected. Expensive routing and validation run outside the editor.
 
@@ -12,11 +12,11 @@ Fresh export performs new original-rule Native validation into another separate 
 
 | Setting or method | Declared scope |
 |---|---|
-| Ordinary Route |Native CLI whole/partial2/4Cu; actual GUI099 finite2/4Cu roles. Standard/both/native/all source layers; engine-default or explicit via_high. |
+| Ordinary Route |Native CLI whole/partial2/4Cu; actual067 GUI100 pending; historical066 GUI099 finite2/4Cu roles. Standard/both/native/all source layers; engine-default or explicit via_high. |
 | Improve, experimental |Qualified canonical2Cu/flat/whole/tuned/default-score. Original Native-resolved classes remain bound; at least90s whole-method budget, including40s internal return reserve. Needs a valid incumbent; no every-failure or literal-expiry guarantee. |
 | Thermal Recover |Separate experimental method; current GUI role unqualified. |
 | Other scope/layer/score combinations |Unsupported or unqualified; refuse without weakening the original design. |
 
 Persistent JSON presets can be saved/loaded outside the source. Preview again after changes. Source/settings/export freshness must hold before delivery and opening. Cancellation never authorizes fallback or acceptance. Routing, rendered review and fresh export have distinct ceilings; complete comparative accounting includes intake, attempts, validation, selection and delivery.
 
-Current099 demonstrated those finite two/four-layer workflow controls with each final retaining its actual Native/original proof. Four-layer protected routing and all eight before/after layer images were observed. Exact queued callback timing, every cancellation phase, thermal recovery, independent-user usability and live undo remain separate gates. No old GUI observation substitutes for these tests. [CLI](quickstart.md) · [Preferences](routing-preferences.md) · [Platform evidence](supported-platforms.md).
+Current067 actual controls remain pending. Exact queued callback timing/every cancellation phase/thermal Recover/independent usability/live undo remain separate gates. No historical observation substitutes. [CLI](quickstart.md) · [Preferences](routing-preferences.md) · [Platforms](supported-platforms.md).

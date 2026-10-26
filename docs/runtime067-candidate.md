@@ -1,0 +1,18 @@
+# Runtime067 development candidate and gates
+
+Source `776cb8b0e50d2e8a202d30962ed674f7185b0ccd`; installed manifest `20bcf247eaa3cb2e69992c2f24768465a2a50ffe90f0f91199dc10a422144bb7`. [Actual headless proofs](../evidence/runtime067-installed-native-milestone-001.json) pass13 installed workflows, real short/hole/protected-width controls and matched three-class positive/wrong-width/source-PRO controls. Each final retains its own Native/refill/full schematic/original-rule/class/field/PRL/protection/hash proof and all warnings/ignored checks. This is not a qualified release.
+
+| Severity | Finite issue/gate | Disposition |
+|---|---|---|
+| P1 delivery |Large Improve route accepted but rendered review exceeded unchanged30s; no export. |248.69wall/222.44CPU failure retained. Three-caller batching did not resolve it; defer further performance experiments without whole-workflow evidence. No retry/cap raise/historical pass substitution. |
+| P1 routing contribution |No completion advantage beyond corrected/tuned/restart B1/B2; Improve needs a valid incumbent. |Unrelated licensed difficult/partial completion tasks, general repair and fair budgets required. Broad development population/credible alternative engine/untouched policy-frozen confirmation/engineer cleanup remain unmet. |
+| P1 Windows |015 isolation/object mutation/persistent cleanup incomplete; native slice absent. |Unsupported; no installer/CI loop or unsandboxed fallback. |
+| P1 durability |Full restoration capacity blocked; current067 raw needs its measured increment. |Older066/earlier cutoffs retained. About25.6GB before reserve/allowances required; no deletion/forced retry/cap raise. Mac-only/no disk-failure protection. |
+| P1 independent qualification |No cleanOS/user/relocated-dependency installation, human cleanup or physical/electrical observations. |Existing [review procedure](runtime058-engineer-review.md)/[physical plan](human-review-plan.md) are preparation. No human fields fabricated or third party contacted. |
+| P2 actual GUI |GUI100 prepared after current headless proofs; actual067 controls pending due observed Mac lock. |One unlock request pending; continue independent work. Old066 GUI099 does not qualify067. Exact queued interval/every phase/thermal Recover/live undo remain unqualified. |
+| P2 coverage |Advanced/custom geometry, some formats/constraints, selected nets/layer subsets and sensitive electrical requirements unsupported/unqualified. |Refuse and retain reasons; no weakened source constraints or inferred electrical suitability. |
+| P3 presentation |Second input event may remove workspace-path notice; method-switch stale summary predates066. |Artifacts and acceptance guards remain. Batch future fixes with substantive related work. |
+
+[Software evidence](../evidence/runtime067-policy-batch-software-001.json):104 targeted/full2262733(one skip) pass; two new test serialization expectations corrected with initial failures retained. One cold syntax-only sample reduces related AST derivations9→4 with equal answers. It proves neither complete-review timing nor routing quality. Original source, protected copper, warnings, cancellation and stale-result rejection remain mandatory.
+
+Use [current status](../STATUS.md) and [requirements](../REQUIREMENTS.md); versioned065/066 documents/evidence retain their own scope. Supported threat model is cooperative saved source/separate projects, not hostile same-user rewrites, detached descendants, power loss or every GUI schedule. AI review is not human review. Routing acceptance differs from whole-project/electrical approval. Formal release/tag/package/contact/sharing/spending still require separate approval.
