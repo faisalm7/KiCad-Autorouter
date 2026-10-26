@@ -1,5 +1,7 @@
 # Runtime065 candidate and remaining gates
 
+Historical065 artifact; current development state and known delivery failure are in [runtime066 candidate](runtime066-candidate.md). This page retains065-specific evidence.
+
 This is an experimental local candidate, not a qualified release. Source: `4ed438a14f89e684bfdf9211039b02ee35cc8853`; installed manifest: `e881abd82a06a30828999b55e6c9301ea845f1d6e8b252d36751efe6b21d38fa`. The54 immutable runtime files match their original artifact except for the declared root. [Start here](../START_HERE.md) · [CLI](quickstart.md) · [Installation](install-existing.md) · [Platforms](supported-platforms.md).
 
 The [current native packet](../evidence/runtime065-installed-native-milestone-001.json) records thirteen installed six-stage deliveries, three deliberately invalid controls and an owned three-class optimizer positive with protected copper plus wrong-width/source-PRO refusals. Each final keeps its own actual Native/refill/full schematic/original-rule/class/field/PRL/protected and final-hash evidence. The [separate fixed ArcDice delivery](../evidence/runtime065-single-delivery-001.json) closes a documented review-timeout defect under unchanged budgets. The earlier failures are retained. Neither result proves broader completion, electrical suitability or engineer cleanup.

@@ -1,10 +1,10 @@
 # Platform and version qualification
 
-Runtime065 is the current experimental candidate under qualification. Selected dependencies and actual project evidence are separate. [Current gates](../REQUIREMENTS.md).
+Runtime066 is the current experimental candidate under qualification. Selected dependencies and actual project evidence are separate. [Current gates](../REQUIREMENTS.md).
 
 | Platform | Selected dependency | Actual evidence and limit |
 |---|---|---|
-| macOS27.0.1, Apple silicon arm64 | Isolated official KiCad10.0.7, Freerouting2.5.0 |065 installed doctor and selected Python3.9 imports pass. Its [fixed ArcDice delivery](../evidence/runtime065-single-delivery-001.json) passes all six CLI stages with own final Native/refill/full schematic/original-rule/class/PRL evidence. The [separate native13/invalid/class milestone](../evidence/runtime065-installed-native-milestone-001.json) also passes. [Finite actual GUI098](../evidence/gui-runtime065-098-qualification-001.json) passes its two-layer controls. No fullGUI/release/cleanOS/account/standalone claim. |
+| macOS27.0.1, Apple silicon arm64 | Isolated official KiCad10.0.7, Freerouting2.5.0 |066 fresh-root install/doctor, [native13/invalid/class](../evidence/runtime066-installed-native-milestone-001.json) and [finite actual GUI099](../evidence/gui-runtime066-099-qualification-001.json) two/four-layer controls pass. Separate large Improve rendered delivery failed30s; no export. No fullGUI/release/cleanOS/account/standalone claim. |
 | Other macOS versions or Intel | No qualified combination | No current project native/GUI qualification. |
 | Standard GitHub Windows2022 x64 runner | Isolation controls only |[Sole015](../evidence/windows015-lowbox-mutation-actual001.json) compiled/loaded, then failed because contained WFP entry was denied and object setters could not run. Exit68; owned Jobs/server/controller reaped, persistent policy/DACL/profile cleanup unverified. No Native/JVM/installer or product admission.014's earlier passing canary is historical. |
 | Windows10/11 or arm64 | No qualified product combination |Equivalent safeguards and real export/routing/import/refill/validation/cancellation/export remain required. No unsandboxed fallback or installer retry. |
@@ -14,6 +14,6 @@ Global KiCad10.0.0 remains unchanged; the tested10.0.7 app is inside this checko
 
 Ordinary Route supports qualified whole/partial2/4Cu, standard/both/native/all source layers, engine-default or explicit via_high. Whole routing preserves locked copper; partial routing preserves all existing copper. Optional Improve remains narrower: canonical2Cu/flat/whole/tuned/default-score, with original native-resolved classes in its qualified scope and40 seconds reserved inside its whole budget. Unsupported settings and source requirements refuse; selected-net/layer-subset/electrical claims do not follow. [Settings contract](routing-preferences.md).
 
-Graphical delivery uses a separate project and explicit acceptance intent. Saved source editors must be closed. Actual065 GUI098 is current bounded evidence; older062 GUI097 remains historical. Actual four-layer GUI is not yet observed. Exact queued-open timing, every cancellation phase, thermal Recover, live application and undo remain unqualified.
+Graphical delivery uses a separate project and explicit acceptance intent. Saved source editors must be closed. Actual066 GUI099 is current bounded two/four-layer evidence; older062 GUI097 remains historical. Exact queued-open timing, every cancellation phase, thermal Recover, live application and undo remain unqualified.
 
 [Historical062 Native milestone](../evidence/runtime062-installed-native-milestone-001.json) and [partial GUI097](../evidence/gui-runtime062-097-progress-001.json) retain their original scope. Vendor metadata was last checked on October20,2026; this page claims the selected tested version, not newest-release status. Broad completion/confirmation, engineer cleanup, physical/electrical review, independent installation and full restoration remain open. Backup scopes and current access limits are in [STATUS](../STATUS.md).
