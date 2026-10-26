@@ -753,7 +753,13 @@ def main(argv=None):
 
         def changed(self, event):
             self.input_generation = getattr(self, 'input_generation', 0) + 1
-            if not self.busy: self.flow = None; self.inspected.SetValue(False)
+            if not self.busy:
+                previous_workspace = self.flow.workspace if self.flow is not None else None
+                self.flow = None; self.inspected.SetValue(False)
+                self.status.SetLabel('Inputs changed. Preview the saved project to start a new job.')
+                self.log.SetValue('Inputs changed. Preview the saved project to start a new job.\n'
+                    'Previous findings are no longer current for these inputs. Retained workspaces were not deleted.'
+                    + ('\nPrevious workspace: ' + str(previous_workspace) if previous_workspace is not None else ''))
             self.refresh(); event.Skip()
 
         def choose_path(self, dialog, on_path):
@@ -844,6 +850,7 @@ def main(argv=None):
                 for name, control in self.choices.items(): control.SetSelection(indices[name])
                 self.seconds.SetValue(str(int(config['seconds']))); self.nets.SetValue('\n'.join(config.get('nets', [])))
                 self.flow = None; self.inspected.SetValue(False)
+                self.status.SetLabel('Settings loaded. Preview the saved project to start a new job.')
                 self.log.SetValue('Settings loaded. Preview the saved project to start a new job.')
                 self.refresh()
             self.choose_path(wx.FileDialog(self, 'Load explicit settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST), loaded)
@@ -896,6 +903,8 @@ def main(argv=None):
                 if action.startswith('open_'):
                     kind = action.removeprefix('open_'); flow = self.flow
                     self.busy = True; self.job = CliJob(); self.refresh()
+                    label = {'preview': 'preview', 'review': 'review project', 'export': 'export'}[kind]
+                    self.status.SetLabel('Checking retained ' + label + ' before opening. Cancel remains available.')
                     job = self.job
                     def inspect():
                         try:
@@ -965,6 +974,8 @@ def main(argv=None):
                     # completed findings if its last tick showed an old log.
                     stage = 'export' if kind == 'export' else 'review'
                     self.log.SetValue(_completed_summary(self.flow, stage, self.flow.records[stage]))
+                    label = {'preview': 'Preview', 'review': 'Review project', 'export': 'Checked export'}[kind]
+                    self.status.SetLabel(label + ' open requested. Separate workspace: ' + str(self.flow.workspace))
                 except Exception as exc: self.refused('Could not open retained project: ' + str(exc))
             else: self.refused(error or 'Inspection was cancelled. No project was opened.')
             self.refresh()

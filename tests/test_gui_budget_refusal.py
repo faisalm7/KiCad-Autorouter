@@ -122,7 +122,7 @@ class GuiBudgetTests(unittest.TestCase):
                 wx.FileDialog.return_value=dialog
                 window=SimpleNamespace(busy=False, method=Mock(), choices={'profile':Mock()},
                     values={'profile':[('Tuned','tuned')]}, seconds=Mock(), nets=Mock(), flow=object(),
-                    inspected=Mock(), log=Mock(), refresh=Mock(), refused=Mock())
+                    inspected=Mock(), status=Mock(), log=Mock(), refresh=Mock(), refused=Mock())
                 window.method.GetSelection.return_value=1
                 def choose(dialog, loaded_callback):
                     try: loaded_callback('/owned/settings.json')

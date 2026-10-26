@@ -68,12 +68,16 @@ class ImprovePresetTests(unittest.TestCase):
         window.refused.assert_called_once()
         wx.MessageBox.assert_not_called()
 
-    def test_load_valid_settings_clears_previous_result_and_requires_new_preview(self):
+    def test_load_valid_settings_after_refusal_updates_status_and_requires_new_preview(self):
         callback = window_method('load_preset')
         wx = callback.__globals__['wx']; wx.FD_OPEN = 1; wx.FD_FILE_MUST_EXIST = 2
         config = dict(pref.DEFAULTS, profile='tuned', seconds=90)
         window = self.window(config)
         window.seconds = Mock(); window.nets = Mock(); window.log = Mock()
+        window.flow = SimpleNamespace(ready={'route'}, records={'route': {'accepted': True}}, choice='accept')
+        window_method('refused')(window, 'Enter a whole-number routing budget from 5 to 900 seconds.')
+        self.assertIn('Action refused', window.status.SetLabel.call_args.args[0])
+        for control in (window.status, window.inspected, window.log, window.refresh): control.reset_mock()
         window.choose_path = lambda dialog, loaded: loaded('/owned/preset.json')
         with patch.object(gui.pref, 'load', return_value=object()), \
                 patch.object(gui.pref, 'resolve', return_value=config):
@@ -81,6 +85,8 @@ class ImprovePresetTests(unittest.TestCase):
         self.assertIsNone(window.flow)
         window.inspected.SetValue.assert_called_once_with(False)
         window.log.SetValue.assert_called_once_with(
+            'Settings loaded. Preview the saved project to start a new job.')
+        window.status.SetLabel.assert_called_once_with(
             'Settings loaded. Preview the saved project to start a new job.')
         window.refresh.assert_called_once()
         window.refused.assert_not_called()

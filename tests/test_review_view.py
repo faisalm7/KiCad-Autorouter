@@ -180,6 +180,30 @@ class PlotCopyControls(unittest.TestCase):
             self.assertEqual(details['findings'],[finding])
             self.assertEqual(details['saved_native_findings']['warnings'],1)
             self.assertEqual(details['ignored_checks'],native['ignored_checks'])
+            self.assertIn('<dt>Warnings</dt><dd>1</dd>', page)
+            self.assertIn('<dt>Ignored checks</dt><dd>1</dd>', page)
+            self.assertIn('<dt>Candidate track length</dt><dd>Not recorded</dd>', page)
+            self.assertNotIn('<details open', page)
+            self.assertLess(page.index('Saved routing-check summary'), page.index('<img '))
+            self.assertLess(page.rindex('<img '), page.index('<details id="saved-details">'))
+            self.assertIn('not electrical or manufacturing approval', page)
+            self.assertIn('plotting does not refill zones or perform DRC', page)
+
+    def test_browser_summary_uses_recorded_metrics_and_keeps_missing_counts_explicit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source,candidate,out,tool=self.projects(Path(tmp).resolve());calls=[]
+            report={'final_drc':{'opens':0,'blocking':0,'warnings':2,'exclusions':1,
+                                'findings':[]},
+                    'metrics':{'track_length_mm':43.242640687119284,'vias':3}}
+            self.render(out,source,candidate,tool,
+                self.plot_worker(source,candidate,lambda *args:None,calls),report)
+            page=(out/'preview.html').read_text()
+            for text in ('<dt>Open connections</dt><dd>0</dd>', '<dt>Warnings</dt><dd>2</dd>',
+                         '<dt>Exclusions</dt><dd>1</dd>', '<dt>Ignored checks</dt><dd>Not recorded</dd>',
+                         '<dt>Candidate track length</dt><dd>43.242641 mm</dd>',
+                         '<dt>Candidate vias</dt><dd>3</dd>'):
+                self.assertIn(text,page)
+            self.assertIn('See original receipt',page)
 
     def test_selected7_plot_pin_is_used_and_mixed_path_or_size_refuses(self):
         for mismatch in (None,'old_default_path','bytes'):

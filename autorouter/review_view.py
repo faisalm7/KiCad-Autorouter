@@ -228,6 +228,16 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
     native = report.get('final_drc', report.get('native', {}))
     metrics = report.get('metrics', {})
     summary = {key: native.get(key) for key in ('opens', 'blocking', 'warnings', 'exclusions')}
+    ignored = native.get('ignored_checks')
+    length = metrics.get('track_length_mm')
+    summary_rows = [('Open connections', summary['opens']), ('Blocking findings', summary['blocking']),
+                    ('Warnings', summary['warnings']), ('Exclusions', summary['exclusions']),
+                    ('Ignored checks', len(ignored) if isinstance(ignored, list) else None),
+                    ('Candidate track length', format(length, '.6f') + ' mm' if type(length) in (int, float) else None),
+                    ('Candidate vias', metrics.get('vias'))]
+    saved_summary = '<section><h2>Saved routing-check summary</h2><dl class="saved-summary">' + ''.join(
+        '<dt>' + escape(label) + '</dt><dd>' + escape(str(value) if value is not None else 'Not recorded') + '</dd>'
+        for label, value in summary_rows) + '</dl></section>'
     # The receipt schema is checked centrally by handoff; keep absent fields
     # explicit rather than inventing zero findings for another policy.
     details = escape(json.dumps({'saved_native_findings': summary,
@@ -240,6 +250,8 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
             '<style>body{font:16px system-ui;margin:2rem;max-width:1400px;color:#17212b;background:#f7f8fa}'
             '.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem}figure{margin:0;padding:1rem;background:white;border:1px solid #ccd2db}'
             'img{width:100%;height:auto}figcaption{font-weight:600;margin-bottom:1rem}pre{white-space:pre-wrap}'
+            '.saved-summary{display:grid;grid-template-columns:max-content 1fr;gap:.25rem 1rem}'
+            '.saved-summary dt{font-weight:600}.saved-summary dd{margin:0}summary{cursor:pointer}'
             '@media(max-width:700px){.pair{grid-template-columns:1fr}}</style>'
             '<h1>Routing review</h1><p>' + escape(candidate.name) + '</p>'
             '<p>These are KiCad plots of the exact original and candidate copper. Saved zone fills are shown; plotting does not refill zones or perform DRC. '
@@ -247,8 +259,11 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
             '<p>The candidate passed its recorded routing checks. All warnings still require review; this is not electrical or manufacturing approval. '
             'Open the candidate .kicad_pro in KiCad project manager, then Tools → PCB Editor. Run DRC with zone refill and every severity visible. '
             'To reject, close the disposable project and retain the original. To accept for further design work, keep this separate project; never overwrite an open source board. '
-            'Any edit requires new validation.</p><details open><summary>Saved validation and candidate metrics</summary><pre>' + details +
-            '</pre></details>' + ''.join(rows) + '</html>')
+            'Any edit requires new validation.</p>' + saved_summary +
+            '<p>Routing-check acceptance is separate from whole-project DRC cleanliness. '
+            '<a href="#saved-details">Review all saved findings, warnings, exclusions and ignored checks</a> below the copper plots.</p>' +
+            ''.join(rows) + '<details id="saved-details"><summary>All saved findings, ignored checks and candidate metrics (structured details)</summary><pre>' + details +
+            '</pre></details></html>')
     frozen['preview.html'] = write_bound(destination / 'preview.html', html.encode())
     stable()
     if p.sha(plotter) != pin['sha256']:

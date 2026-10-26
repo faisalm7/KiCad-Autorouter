@@ -1,6 +1,7 @@
 """Portable presentation controls; not GUI or Native qualification."""
 import unittest
 import tempfile
+import json
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
@@ -96,6 +97,79 @@ class GuiSummaryTests(unittest.TestCase):
         self.assertIn('original source rules and settings; review-only changes are not adopted', text)
         self.assertNotIn("['history']", text)
 
+    def test_idle_budget_or_source_edit_replaces_completed_export_summary(self):
+        for edited in ('budget', 'source'):
+            with self.subTest(edited=edited):
+                workspace = Path('/separate/previous90')
+                exported = dict(self.record(), status='export_validated')
+                flow = SimpleNamespace(workspace=workspace, method='improve',
+                    settings_bytes=json.dumps(dict(gui.pref.DEFAULTS, profile='tuned', seconds=90)),
+                    records={'route': self.record(), 'export': exported},
+                    ready={'preview', 'route', 'review', 'choice', 'export', 'verify_export'}, choice='accept')
+                names = ('preview','route','review','cancel','open_preview','open_review',
+                         'accept','reject','export','open_export')
+                job = gui.CliJob()
+                window = SimpleNamespace(flow=flow, job=job, busy=True, input_generation=7,
+                    status=Mock(), log=Mock(), inspected=Mock(), closing=False,
+                    board=Mock(), seconds=Mock(), output=Mock(), ack=Mock(), edit_controls=[],
+                    buttons={name: Mock() for name in names})
+                window.refresh = lambda: window_method('refresh')(window)
+                window_method('finished')(window, job, flow, 'export', exported, None)
+                self.assertIn('export completed', window.status.SetLabel.call_args.args[0])
+                self.assertIn('budget 90 s', window.log.SetValue.call_args.args[0])
+                for name in ('open_preview', 'open_review', 'open_export'):
+                    window.buttons[name].Enable.assert_called_with(True)
+                if edited == 'budget': window.seconds.GetValue.return_value = '91'
+                else: window.board.GetValue.return_value = '/different/board.kicad_pcb'
+                event = Mock()
+                window_method('changed')(window, event)
+                self.assertIsNone(window.flow); self.assertIsNone(window.job)
+                self.assertEqual(window.input_generation, 8)
+                window.inspected.SetValue.assert_called_with(False)
+                self.assertEqual(window.status.SetLabel.call_args.args[0],
+                    'Inputs changed. Preview the saved project to start a new job.')
+                shown = window.log.SetValue.call_args.args[0]
+                self.assertIn('Previous findings are no longer current', shown)
+                self.assertIn('Retained workspaces were not deleted', shown)
+                self.assertIn('Previous workspace: ' + str(workspace), shown)
+                self.assertNotIn('budget 90 s', shown); self.assertNotIn('First warning', shown)
+                for name in ('open_preview', 'open_review', 'open_export'):
+                    window.buttons[name].Enable.assert_called_with(False)
+                window.buttons['preview'].Enable.assert_called_with(True)
+                self.assertIs(flow.records['export'], exported)
+                self.assertEqual(flow.choice, 'accept'); self.assertIn('verify_export', flow.ready)
+                event.Skip.assert_called_once_with()
+
+    def test_input_event_while_busy_keeps_active_flow_and_output(self):
+        flow = object(); job = object()
+        window = SimpleNamespace(flow=flow, job=job, busy=True, input_generation=11,
+            status=Mock(), log=Mock(), inspected=Mock(), refresh=Mock())
+        event = Mock()
+        window_method('changed')(window, event)
+        self.assertIs(window.flow, flow); self.assertIs(window.job, job)
+        self.assertTrue(window.busy); self.assertEqual(window.input_generation, 12)
+        window.status.SetLabel.assert_not_called(); window.log.SetValue.assert_not_called()
+        window.inspected.SetValue.assert_not_called()
+        window.refresh.assert_called_once_with(); event.Skip.assert_called_once_with()
+
+    def test_open_dispatch_displays_checking_before_the_worker_starts(self):
+        for kind, label in (('preview', 'preview'), ('review', 'review project'), ('export', 'export')):
+            with self.subTest(kind=kind):
+                flow = SimpleNamespace(inspect_path=Mock())
+                window = SimpleNamespace(flow=flow, job=None, busy=False, status=Mock(),
+                    refresh=Mock(), refused=Mock())
+                def starting():
+                    self.assertTrue(window.busy)
+                    self.assertIsInstance(window.job, gui.CliJob)
+                    self.assertEqual(window.status.SetLabel.call_args.args[0],
+                        'Checking retained ' + label + ' before opening. Cancel remains available.')
+                with patch.object(gui.threading, 'Thread') as worker:
+                    worker.return_value.start.side_effect = starting
+                    window_method('act')(window, 'open_' + kind)
+                worker.return_value.start.assert_called_once_with()
+                flow.inspect_path.assert_not_called()
+                window.refused.assert_not_called()
+
     def test_successful_open_restores_findings_after_inspection_progress_tick(self):
         with tempfile.TemporaryDirectory() as tmp:
             workspace = Path(tmp).resolve()
@@ -123,6 +197,9 @@ class GuiSummaryTests(unittest.TestCase):
                     self.assertEqual(window.log.SetValue.call_args.args[0], completed)
                     self.assertIn('Last warning', completed); self.assertIn('Ignored check description', completed)
                     self.assertFalse(window.busy); self.assertIsNone(window.job)
+                    label = {'preview': 'Preview', 'review': 'Review project', 'export': 'Checked export'}[kind]
+                    self.assertEqual(window.status.SetLabel.call_args.args[0],
+                        label + ' open requested. Separate workspace: ' + str(workspace))
                     window.refused.assert_not_called()
                     count = window.log.SetValue.call_count
                     window_method('tick')(window, None)
