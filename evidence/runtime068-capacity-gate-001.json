@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "kind": "runtime068-actual-disk-reserve-gate-v1",
+  "recorded_utc": "2026-10-31T03:35:06.157196+00:00",
+  "observed_free_bytes": 2821988352,
+  "unchanged_reserve_bytes": 3221225472,
+  "unchanged_allowance_bytes": 33554432,
+  "below_reserve_alone": true,
+  "Native_original": {
+    "prepared": true,
+    "executed": false,
+    "protocol": ".runs/development-stm32-control068-native-original-draft-002/protocol.json",
+    "protocol_sha256": "5ef3e6a43b0a42803e9307268966fb4432755312ff8bf8080fff059b566c33a0",
+    "output_max_bytes": 52428800,
+    "required_free_bytes": 3307208704
+  },
+  "backup": {
+    "new068_capture_executed": false,
+    "new068_archive_created": false,
+    "new068_raw_covered_by_prior_backup": false,
+    "prior_verified": "evidence/backups/selected-runtime067-gui100-001.json",
+    "unchanged_selected_logical_byte_cap": 257949696,
+    "worst_case_selected_capture_free_requirement": 4286578688,
+    "actual_new_payload_not_yet_frozen_or_measured": true,
+    "reason": "Reserve alone does not fit; do not duplicate inventory/capture/restoration attempts or lower guards.",
+    "full_restoration_verified": false,
+    "prior_full_restoration_capacity_estimate": "About25.6GB before reserve/allowances; roughly30GiBfree practical owner target.",
+    "off_device": false
+  },
+  "owner_action": {
+    "asked_once": true,
+    "request": "Make at least5GiB free for boundedNative/currentincrement; full restoration still needs roughly30GiB. Retain project evidence.",
+    "global_or_unrelated_files_modified": false
+  },
+  "continue_independent": [
+    "Closed factual evidence and auditedGitHubcheckpoint",
+    "Bounded whole-workflow failure diagnosis",
+    "Prospective sourcecorrection/targetedsoftwarechecks subjectto actualresourcebounds; no Nativeclaim"
+  ],
+  "scope": "Existing reserve/caps unchanged. No archive deletion, repeated failed restore, paid storage, external destination or new backup design."
+}

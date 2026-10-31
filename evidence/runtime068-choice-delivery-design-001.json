@@ -1,0 +1,197 @@
+{
+  "schema": 1,
+  "kind": "runtime068-whole-delivery-choice-budget-source-review-v1",
+  "created_utc": "2026-10-31T03:32:30.912988+00:00",
+  "scope": "Source/stored-profile and completed process-cost inspection only; no new Native/JVM/CLI/profile/test/build/source edits or failed artifact alteration.",
+  "decision": "PROSPECTIVE_GENERAL_REVIEW60_CHOICE60_POLICY_JUSTIFIED_WITH_UNCHANGED600_TOTAL_NOT_YET_IMPLEMENTED_OR_QUALIFIED",
+  "qualification": false,
+  "project_complete": false,
+  "actual068": {
+    "status": "FAILED_UNQUALIFIED_NO_DELIVERY",
+    "protocol_sha256": "73ced63ca40dcd592ef0393f7b712dfbca0492b0485c79408152b682ce7794d0",
+    "enclosure_sha256": "0264afa810a334b9c55fd00418bd1032e2294fe1f361cac0c9f753c3b3138380",
+    "child_sha256": "b051effd6cd1fa795e42bb1dab8f99c8232093082c76fb255f83821e5b237731",
+    "route_accepted": true,
+    "route_trial_count": 29,
+    "review_ready": true,
+    "choice_recorded": false,
+    "export_executed": false,
+    "external_complete_wall_seconds": 299.0,
+    "external_complete_full_CPU_seconds": 276.46,
+    "completed_stages": [
+      {
+        "stage": "preview",
+        "exit_code": 0,
+        "completed_CLI": {
+          "schema": 1,
+          "kind": "installed-method-cli-cost-v1",
+          "scope": "completed_cli_exit",
+          "joined": true,
+          "wall_seconds": 0.4559714999923017,
+          "full_CPU_seconds": 0.44911699999999977
+        },
+        "post_CLI_adoption_and_freshness": {
+          "schema": 1,
+          "kind": "installed-method-cli-cost-v1",
+          "scope": "post_cli_adoption_and_freshness",
+          "joined": true,
+          "wall_seconds": 0.1442139160062652,
+          "full_CPU_seconds": 0.14371900000000015
+        }
+      },
+      {
+        "stage": "route",
+        "exit_code": 0,
+        "completed_CLI": {
+          "schema": 1,
+          "kind": "installed-method-cli-cost-v1",
+          "scope": "completed_cli_exit",
+          "joined": true,
+          "wall_seconds": 195.10039279199555,
+          "full_CPU_seconds": 174.74422800000002
+        },
+        "post_CLI_adoption_and_freshness": {
+          "schema": 1,
+          "kind": "installed-method-cli-cost-v1",
+          "scope": "post_cli_adoption_and_freshness",
+          "joined": true,
+          "wall_seconds": 0.1484194170043338,
+          "full_CPU_seconds": 0.1422319999999786
+        }
+      },
+      {
+        "stage": "review",
+        "exit_code": 0,
+        "completed_CLI": {
+          "schema": 1,
+          "kind": "installed-method-cli-cost-v1",
+          "scope": "completed_cli_exit",
+          "joined": true,
+          "wall_seconds": 35.41493708398775,
+          "full_CPU_seconds": 34.05334399999998
+        },
+        "post_CLI_adoption_and_freshness": {
+          "schema": 1,
+          "kind": "installed-method-cli-cost-v1",
+          "scope": "post_cli_adoption_and_freshness",
+          "joined": true,
+          "wall_seconds": 0.14734466600930318,
+          "full_CPU_seconds": 0.14087699999998904
+        }
+      },
+      {
+        "stage": "choice",
+        "exit_code": 2,
+        "completed_CLI": {
+          "schema": 1,
+          "kind": "installed-method-cli-cost-v1",
+          "scope": "completed_cli_exit",
+          "joined": true,
+          "wall_seconds": 30.76361383301264,
+          "full_CPU_seconds": 29.86889599999995
+        },
+        "post_CLI_adoption_and_freshness": null
+      }
+    ],
+    "review_stored_prepublication": {
+      "status": "ready_for_manual_review",
+      "wall_seconds": 32.95912145799957,
+      "total_cpu_seconds": 31.759931,
+      "within_budget": true
+    },
+    "choice_stored_corrective": {
+      "status": "rejected",
+      "wall_seconds": 30.58967762500106,
+      "total_cpu_seconds": 29.728710000000003,
+      "within_budget": false,
+      "error": "Rejected: review choice exceeded 30-second wall or full CPU ceiling",
+      "choice_recorded": false
+    },
+    "invalidated_provisional_choice": {
+      "wall_seconds": 28.90750770800514,
+      "full_CPU_seconds": 28.068927,
+      "not_authoritative": true
+    },
+    "disjoint_measured_CLI_sums": {
+      "wall_seconds": 261.73491520898824,
+      "full_CPU_seconds": 239.11558499999995
+    },
+    "successful_adoption_freshness_sums": {
+      "wall_seconds": 0.4399779990199022,
+      "full_CPU_seconds": 0.4268279999999678
+    },
+    "child_sample_minus_these_disjoint_intervals": {
+      "wall_seconds": 35.01688733398623,
+      "full_CPU_seconds": 34.17953900000007,
+      "attribution": "Includes imports/intake, explicit parent p.check_result after RouteCLI, other fresh/readback/control/publication work. No fine-grained current timing establishes each component; do not call the whole residual central-reader time."
+    },
+    "measurement_caveat": "Failed method final accounting intentionally overwrites method sample with complete failed-operation progress;297.19 is not the isolated pre-delivery method endpoint. Complete external299/276.46 contains all nested intervals; never add them again."
+  },
+  "causal_findings": [
+    {
+      "severity": "P1",
+      "finding": "Choice30 is not a small constant-time intent operation for Improve. It freshly verifies the same full bounded parent/incumbent/29trial lineage, rendered preview, source/runtime bytes and final PRL events. Current failure follows a provisional28.91s receipt, then mandatory late material/publication guards push it over30.",
+      "evidence": "handoff._review_choice central_check, initial_native7/native7_choice branches; retained invalidated provisional and corrective choice receipts."
+    },
+    {
+      "finding": "Adoption is not the bottleneck in current068. Three successful adoption+freshness intervals are about.14s each; failed choice is never adopted.",
+      "evidence": "v4 completedCLI cost intervals are disjoint from post-return adoption intervals."
+    },
+    {
+      "finding": "Render review met the intended<=45s complete wall/fullCPU target (35.41494/34.05334). Choice30 remained underallocated; this moves the observed failure rather than completing delivery.",
+      "evidence": "Current completeCLI rows, not stored prepublication samples."
+    },
+    {
+      "finding": "No safe large duplicate elimination is demonstrated by source/current complete costs. Native7 choice already uses one initial full reader; later full preview/material/PRL fences bracket writes and cleanup. Skipping them or trusting a persisted acceptance cache changes the threat/correctness contract.",
+      "evidence": "Current handoff.py native7_choice branches and validation_readback_session cleanup."
+    }
+  ],
+  "prior_profile_limits": {
+    "054_whole_review": "30.109instrumented; full central18.216/material8.573/inventory6.993/tool5.749 cumulative overlap. Predates065/067 changes; not current cost attribution.",
+    "064_central": "57.710instrumented,29trials25.188/parser26.398/deepcopy11.154 cumulative overlap. Parser/context reuse changes already landed.",
+    "064_inventory": "One old1465file/851dir witness.38953instrumented; demonstrates repeated metadata cost, not a source-proven >=10s safe current choice optimization.",
+    "066_final_guard": "Cold isolated4.23622wall/4.15673CPU metadata sample justified already-landed policy batching; not whole-choice evidence.",
+    "065_prior_delivery": "ReviewCLI29.15641/choiceCLI25.93571/exportCLI86.00826/checkCLI51.65820wall. Full perCLI CPU unmeasured then. Choice had only4.06429s headroom even in success; do not replay065 or extrapolate successful068 exports."
+  },
+  "prospective_policy": {
+    "revision": "bounded-review60-choice60-v3",
+    "review_wall_full_CPU_seconds": 60,
+    "choice_wall_full_CPU_seconds": 60,
+    "routing_seconds_unchanged": 420,
+    "method_wall_full_CPU_cap_unchanged": 450,
+    "whole_delivery_wall_full_CPU_cap_unchanged": 600,
+    "fresh_export_validation_seconds_unchanged": 120,
+    "rationale": "Correct the disproven assumption that choice was cheap while review was variable. Both require a fresh lineage-bound validation, so both receive the same general cap under the same600 total. This is a prospective scheduler/contract revision, not relaxing Native/design acceptance or granting more comparative total compute.",
+    "headroom_gate": "Fresh delivered complete reviewCLI AND choiceCLI each<=45wall AND fullCPU; both at least15s/25percent headroom. Every preview/route/adoption/readback/export/verify/publication and complete exit remains inside600. Missing/failing stage is never assigned zero cost.",
+    "fairness": "Newv5 method/population namespace; same caps for every arm; exact new typed policy required by producers/consumers/reporters. Oldv4/v2 artifacts retain historical contracts and068 stays failed. No stitched rerun counted as an unattended first attempt.",
+    "remaining_total": "Before each step require its exact stage allocation inside remaining600. Worst-case450method+60review+60choice+120export already exceeds600, just as old maxima did; maxima are not additive promises. Never weaken remaining-total/cleanup/final fences, extend external cap or hide additional verification costs.",
+    "not_guaranteed": "No current evidence proves successful choice/export/final readback under revised policy; no hardware pressure bound or all-worst-case guarantee. If complete600 or<=45stage headroom fails, keep P1 open and use new whole-workflow breakdown, no favorable same-build retry."
+  },
+  "bounded_next_work": [
+    "One focused source patch/test delta for genericv3policy, strict historical/new namespace separation and both-stage completeCLI headroom consumption; no guard removal.",
+    "Fold only two narrow GUI wording/Savepreset status defects into same candidate if isolated.",
+    "After resource gate clears and one coherent artifact is installed/qualified, freeze one new full delivered trial with same original source/constraints/420/450/600/export120 and all6 processcost intervals; retain every result. No new isolated profiler or corpus expansion for this delivery defect."
+  ],
+  "resource_gate": "Lead reports~2.8GiBfree; no Native/build/artifact backup by this reviewer. Owner space question is already pending; no repeated permission loop.",
+  "evidence_sha256": {
+    ".runs/runtime068-arcdice-review-regression-001/enclosure/result.json": "0264afa810a334b9c55fd00418bd1032e2294fe1f361cac0c9f753c3b3138380",
+    ".runs/runtime068-arcdice-review-regression-001/protocol.json": "73ced63ca40dcd592ef0393f7b712dfbca0492b0485c79408152b682ce7794d0",
+    ".runs/runtime068 fresh install 001/.runs/native7-method-runtime068-arcdice-review-regression-001-Cimprove/result.json": "b051effd6cd1fa795e42bb1dab8f99c8232093082c76fb255f83821e5b237731",
+    ".runs/runtime068 fresh install 001/.runs/native7-method-runtime068-arcdice-review-regression-001-Cimprove/autorouter-gui-1eca38fae5d74da8a53c85879f8f921d/route/result.json": "c09e8099bf04c0ee158dd71e1382bd8cd569a94079a7f907975ba59d1a1d81ba",
+    ".runs/runtime068 fresh install 001/.runs/native7-method-runtime068-arcdice-review-regression-001-Cimprove/autorouter-gui-1eca38fae5d74da8a53c85879f8f921d/review/review.json": "88609c931247c0e3811e52ae29ad5247917b1bfe16a9fd2d24b94ec57e2e45a7",
+    ".runs/runtime068 fresh install 001/.runs/native7-method-runtime068-arcdice-review-regression-001-Cimprove/autorouter-gui-1eca38fae5d74da8a53c85879f8f921d/choice/choice.json": "ee40676517e2bc6d3c81ac9859663a85f5dc06ebfb3f6d42abe989fbb00a99b8",
+    ".runs/runtime068 fresh install 001/.runs/native7-method-runtime068-arcdice-review-regression-001-Cimprove/autorouter-gui-1eca38fae5d74da8a53c85879f8f921d/choice/invalidated-choice-e1a1c4a1356343d3ae129d395cd83184-choice.json": "f31e31b20c708a9188b4f6a58b26ca0f637152519f5412e43359ddc5c96c2729",
+    ".runs/runtime067-review-delivery-design-001.json": "e6d8c7a2794b00c185195be727817574608f7537284cef76a8a189e018afa08f",
+    ".runs/runtime054-improve-review-profile-001/facts.json": "cf0995a525235e15d138dc234d621dc5219dcfaa7fbf9e077229e9d599994334",
+    ".runs/profile-runtime064-central-reader-001/central-profile.txt": "13a2b45978acc851c9d123e1ed745ce8466b7883025df2800f1ff3024d687d28",
+    ".runs/profile-runtime064-inventory-001/inventory-profile.txt": "01ac0354babd6711846a479a0cccc94a86f2489b6bb93b7e323c3f77f1ddd76d",
+    "evidence/runtime066-review-cost-profile-001.json": "370f57bd6cb1a8c07689dae1bfc675508fcf48024b74e622eeec2b7afabb97a1",
+    "autorouter/handoff.py": "814fbedf834f4d4cf980bf74658f5bfad93b10ba866b5160b8bac37c9eedd53a",
+    "autorouter/strategy.py": "4031117f61778e8152898df6554a93dd1a1f6b5c518d6910cfa5fdc31332a15d",
+    "autorouter/gui.py": "4b64b16783de35ac5e96ff9e6d5b929df0e16411e8dd2cdcf2e49c304d41e462",
+    "autorouter/__main__.py": "1d755ffc31f3fac903315ea5068e133df01a373fa6ff9123fb5d5d629fbd8058",
+    "autorouter/review_export.py": "f40cdd131e478e6acec44e579c3438ea8028dc2d4b5658d0044a7dabd44957d3",
+    "scripts/qualify_current_method.py": "01c32ab9ae6349acc0dfe32c8662ff6f4078645e64cc2e3330c8a7b0fd7066e2",
+    "scripts/report_current_comparison.py": "f41b9edc1fb3b89e94bae3c9210d183bffa86b48f58f2db41219129bb65e906d"
+  }
+}
