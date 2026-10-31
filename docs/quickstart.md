@@ -1,6 +1,6 @@
 # Run runtime067 locally
 
-The [installed067 native milestone](../evidence/runtime067-installed-native-milestone-001.json) passes. Actual067 GUI100 is prepared and pending; historical066 GUI099 is not current qualification. Every phase and exact queued timing remain unqualified. Use the installed directory before every `-m autorouter` session; an absolute interpreter from the checkout can import the wrong source/tool selection. Keep the routing lane idle and use fresh outputs.
+The [installed067 native milestone](../evidence/runtime067-installed-native-milestone-001.json) passes. [Actual067 GUI100 finite controls pass](../evidence/gui-runtime067-100-qualification-001.json); historical066 evidence stays version-specific. Every phase and exact queued timing remain unqualified. Use the installed directory before every `-m autorouter` session; an absolute interpreter from the checkout can import the wrong source/tool selection. Keep the routing lane idle and use fresh outputs.
 
 The prepared owned example and90-second partial preset retain four protected routes:
 

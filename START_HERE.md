@@ -1,12 +1,12 @@
 # Use experimental runtime067 on this Mac
 
-**The current067 CLI/native milestone passes; actual GUI100 is prepared and pending.** The desktop tool reports the Mac locked and one unlock request is pending. The instructions below describe the workflow to qualify/use; they are not a claim it was observed on067. Historical066 GUI099 remains separate. Large Improve rendered delivery still fails30s; this is not a qualified release. [Evidence](evidence/runtime067-installed-native-milestone-001.json) · [Gates](STATUS.md).
+**The current067 CLI/native and [actual GUI100 finite milestone](evidence/gui-runtime067-100-qualification-001.json) pass.** The workflow below was observed on067 in the declared two/four-layer and class-Improve scope. Historical066 evidence remains separate. Large Improve rendered delivery still fails30s; this is not a qualified release. [Evidence](evidence/runtime067-installed-native-milestone-001.json) · [Gates](STATUS.md).
 
 The installed folder is `'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001'`. Source: `776cb8b0e50d2e8a202d30962ed674f7185b0ccd`; installed manifest: `20bcf247eaa3cb2e69992c2f24768465a2a50ffe90f0f91199dc10a422144bb7`. It uses isolated KiCad10.0.7 and existing local dependencies. Same Mac/account testing is not independent installation.
 
 For the tested command-line workflow, follow [CLI instructions](docs/quickstart.md). Normal routing needs no AI account or network. Use fresh output folders and enter the installed directory before running commands.
 
-The [historical066 GUI099 workflow](evidence/gui-runtime066-099-qualification-001.json) exercised finite two/four-layer controls.067 requires its own actual observations. Keep the routing lane idle, use fresh outputs and preserve completed evidence:
+The [actual067 GUI100 workflow](evidence/gui-runtime067-100-qualification-001.json) exercised finite two/four-layer and class-Improve controls. Keep the routing lane idle, use fresh outputs and preserve completed evidence:
 
 1. Save work and close the old owned autorouter/KiCad test windows normally. Launch the new isolated manager with its child-only Edge setting:
 
@@ -20,6 +20,6 @@ The [historical066 GUI099 workflow](evidence/gui-runtime066-099-qualification-00
 4. Create review. Inspect front/back and all relevant layers, findings, warnings and ignored checks in **Microsoft Edge**. Close any review project editors before acknowledging review. Accept records intent; Reject disables export. Neither is electrical certification.
 5. Fresh export performs new original-rule native checks into a separate project. Open checked export checks freshness before opening it. Editor metadata can stale proof even when PCB bytes stay unchanged. Originals are never overwritten; live application/undo is unavailable.
 
-These steps are pending on067/GUI100; do not substitute historical066 observations. The frozen completed job folders are evidence; do not overwrite or rerun them. Separate four-layer/high-via and class-Improve source roles remain available for fresh jobs; do not mix their settings or use prior candidates as source. Preview is static support information, not Native acceptance. The routing budget, review and fresh-export costs are distinct; end-to-end comparisons charge them all. [Preferences](docs/routing-preferences.md) · [Installation](docs/install-existing.md).
+These finite steps were observed on067/GUI100; exact queued callback timing, every cancellation phase, thermal recovery and live undo remain unqualified. The frozen completed job folders are evidence; do not overwrite or rerun them. Separate four-layer/high-via and class-Improve source roles remain available for fresh jobs; do not mix their settings or use prior candidates as source. Preview is static support information, not Native acceptance. The routing budget, review and fresh-export costs are distinct; end-to-end comparisons charge them all. [Preferences](docs/routing-preferences.md) · [Installation](docs/install-existing.md).
 
 Broader completion beyond corrected/tuned Freerouting, Windows native support, full restoration, independent installation, human cleanup and physical/electrical validation remain open. Backups stay on this Mac and provide no disk-failure protection. No formal release has been published.

@@ -1,6 +1,6 @@
 # Install the runtime067 artifact into a fresh same-Mac folder
 
-The existing installation at `'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001'` has manifest `20bcf247eaa3cb2e69992c2f24768465a2a50ffe90f0f91199dc10a422144bb7`, source `776cb8b0e50d2e8a202d30962ed674f7185b0ccd`. Its [native13/invalid/class milestone](../evidence/runtime067-installed-native-milestone-001.json) passes; its separate large rendered delivery failed (see that packet). Actual067 GUI100 is prepared and pending; historical066 GUI099 does not qualify this installation. Every-phase/exact queued timing remain unqualified.
+The existing installation at `'/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001'` has manifest `20bcf247eaa3cb2e69992c2f24768465a2a50ffe90f0f91199dc10a422144bb7`, source `776cb8b0e50d2e8a202d30962ed674f7185b0ccd`. Its [native13/invalid/class milestone](../evidence/runtime067-installed-native-milestone-001.json) passes; its separate large rendered delivery failed (see that packet). [Actual067 GUI100 finite controls pass](../evidence/gui-runtime067-100-qualification-001.json); historical066 evidence remains separate. Every-phase/exact queued timing remain unqualified.
 
 The installer copies an existing verified artifact, preserving54 immutable files, build/version/lock identities and engine, changing only the declared root. Old jobs, settings, venvs and launchers are excluded. It downloads or relocates no dependency and makes no global installation change.
 

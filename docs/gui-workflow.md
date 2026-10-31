@@ -1,6 +1,6 @@
 # Graphical routing workflow
 
-**Runtime067 GUI100 is prepared and pending actual qualification.** Current headless Native/invalid/class controls pass, but the desktop tool reports a locked Mac; one unlock request is pending. [Historical066 GUI099](../evidence/gui-runtime066-099-qualification-001.json) demonstrated finite two/four-layer controls and does not qualify067. [Current steps](../START_HERE.md) · [Gates](../STATUS.md).
+**[Runtime067 GUI100 finite actual controls pass](../evidence/gui-runtime067-100-qualification-001.json).** Toolbar/presets, protected two/four-layer and class-Improve routing, Edge review, explicit intent, active cancellation, fresh Native export/checked opening and stale refusal were observed. Large Improve delivery still fails; exact queued gap/every phase/thermal/live undo remain unqualified. [Current steps](../START_HERE.md) · [Gates](../STATUS.md).
 
 The KiCad toolbar launches a separate graphical worker. It presents the exact saved source, separate output, scope/protection, supported layers, routing preference and budget. Save and close the source editors before acknowledging their paths. Unsaved buffers cannot be inspected. Expensive routing and validation run outside the editor.
 
@@ -12,7 +12,7 @@ Fresh export performs new original-rule Native validation into another separate 
 
 | Setting or method | Declared scope |
 |---|---|
-| Ordinary Route |Native CLI whole/partial2/4Cu; actual067 GUI100 pending; historical066 GUI099 finite2/4Cu roles. Standard/both/native/all source layers; engine-default or explicit via_high. |
+| Ordinary Route |Native CLI whole/partial2/4Cu; actual067 GUI100 finite2/4Cu roles pass. Standard/both/native/all source layers; engine-default or explicit via_high. |
 | Improve, experimental |Qualified canonical2Cu/flat/whole/tuned/default-score. Original Native-resolved classes remain bound; at least90s whole-method budget, including40s internal return reserve. Needs a valid incumbent; no every-failure or literal-expiry guarantee. |
 | Thermal Recover |Separate experimental method; current GUI role unqualified. |
 | Other scope/layer/score combinations |Unsupported or unqualified; refuse without weakening the original design. |

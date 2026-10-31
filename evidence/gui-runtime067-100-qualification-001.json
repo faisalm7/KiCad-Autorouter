@@ -1,0 +1,825 @@
+{
+  "schema": 1,
+  "kind": "runtime067-GUI100-finite-actual-workflow-public-facts-v1",
+  "recorded_utc": "2026-10-31T02:10:26.641828+00:00",
+  "overall": "FINITE_ACTUAL_GUI100_SCOPE_PASSED_NO_FULL_GUI_OR_RELEASE",
+  "finite_prepared_scope_satisfied": true,
+  "full_GUI_qualified": false,
+  "project_complete": false,
+  "release_qualified": false,
+  "runtime": {
+    "root": ".runs/runtime067 fresh install 001",
+    "source_head": "776cb8b0e50d2e8a202d30962ed674f7185b0ccd",
+    "manifest_sha256": "20bcf247eaa3cb2e69992c2f24768465a2a50ffe90f0f91199dc10a422144bb7",
+    "immutable54_exact": true,
+    "prepared3_original_roles_and_settings_exact": true,
+    "KiCad": "10.0.7 arm64",
+    "GUI_Python": "Selected bundled3.9.13",
+    "browser": "Microsoft Edge only"
+  },
+  "completed_roles": {
+    "four-copper": {
+      "job_id": "autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138",
+      "route": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/route/result.json",
+        "receipt_sha256": "485d31823defc759e54bdb1af71db5bc89f891f2cfc70d8d331366d90c7a28b9",
+        "candidate_sha256": "d7f637f93302590b80e17cc57f19f30fcac7cfcddc52f7d5855e31b192bc0656",
+        "native_report_sha256": "84f1c9e31444ff7b6c7f29bfe73d9b72f79ced7b7ca75fc58328903f70952bf2",
+        "process_sha256": "e66d457e67e12e30228725985a28242f3d6b95d064d609d4454c1f58960a03e8",
+        "binding_sha256": "e8bafac7246479d315b8476c180698c85af73869ae3eaf739a6bd8954ba449ef",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "Native_application_policy": {
+          "accepted": true,
+          "rejection_reasons": [],
+          "implementation_sha256": {
+            "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+            "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+            "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+            "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+          }
+        },
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_checks": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/route/final-drc.json",
+          "field": "ignored_checks",
+          "sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e",
+          "bytes": 178,
+          "text_not_retained": "explicit public sanitize",
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2
+        },
+        "ignored_check_count": 2,
+        "protected_count": 10,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification."
+      },
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 3,
+        "vias": 2,
+        "track_length_mm": 152.26367124472972,
+        "copper_layers": 4
+      },
+      "layers": [
+        "F.Cu",
+        "In1.Cu",
+        "In2.Cu",
+        "B.Cu"
+      ],
+      "protected_exact_count": 10,
+      "candidate_companions_original_semantic_invariants_and_refill_transplant_equal": true,
+      "final_class_audit": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/route/final-netclass-audit.json",
+        "sha256": "db30b72a9e8dc30827e1a6738555a307ebcaa49fb86c8b11b7b30f71dee88e8d"
+      },
+      "field_and_PRL": {
+        "qualified": true,
+        "proof": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/route/final-drc-fields-proof.json",
+          "sha256": "81f25e8aa721c9a4ff9f58267a4f26af30186259093442d5dbf8ec146990f687"
+        }
+      },
+      "native_processes_sha256": {
+        "source-drc-process.json": "64d962d7cf090d75cda83d4d05c11b59dea3dc3d0945fccae0f728a19f5b1f2a",
+        "export-process.json": "f3665aced24552df0e8fc76a903dfadfc47f6deb6fea9883205cdd6662557bc9",
+        "task-classes-netlist-process.json": "305fed111afe7982735a2f6a80ea2f508c35529a2693fc7b6189168a0c0d54e5",
+        "obstacles-process.json": "33497e83d8874c5f5b43eecb6bb5091d4da607b9b045d2a4cd1b32abd944c096",
+        "engine-process.json": "4358cc160c1f96577ac294ede2f6489f2207de1f08e271239dd850f753cf81f6",
+        "import-process.json": "a9e3e44f6225bb1aae3a109c1df5d649648a507f2df3a6b4d7090d2db00d3b25",
+        "refill-drc-process.json": "19fd1dccaa8d2f641bb7631ef6eb1293d661d9af6729e3c7bf9462c588cb3ff7",
+        "pour-keepout-audit-process.json": "ea53414e2876a29f7f51177b19e7fc2440920e47cb15d7564cdcd1e4dabf61ef",
+        "final-netclasses-process.json": "d1b12c64823bee2aa0b933dc1f4542e58af6bd982c507da76bc51ec7ca370477",
+        "final-drc-process.json": "e66d457e67e12e30228725985a28242f3d6b95d064d609d4454c1f58960a03e8",
+        "final-drc-fields-netlist-process.json": "744e2ea0923d51bffb451c1e96dc0e88b29fb288a5e834b68e1d5758bcc559af",
+        "final-drc-fields-audit-process.json": "09cfe9450890692d08bcb2e36abf6460d11996fa6df66ca03b6cb990ae89e1a8",
+        "final-classes-netlist-process.json": "1c0e73a48922020584c76e4c9cf6db249c58b7a79c286ccf6a83f94663aa55ac",
+        "metrics-process.json": "178822c0b4ce360f486fc8793d771fb9b1d77532bee7eb30b4aa77ff913ba0fd"
+      },
+      "review": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/review/review.json",
+        "sha256": "2a7f9c2cbe7a2a29ee84872fa00ca55a4d9aeac4401bd96bb408d1e9bce1975f"
+      },
+      "preview_html": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/review/preview.html",
+        "sha256": "c2149fd194aaa191d137d0f37e6e0ded8cff92093d8211ebd7b8ecc9220e6029"
+      },
+      "stored_plot_material_checked": true,
+      "stored_plot_processes": 8,
+      "details_present_escaped_by_renderer_and_default_closed": true,
+      "choice": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/choice/choice.json",
+        "sha256": "2e68411b675e6ef44a0a5dab0b67b233b7282fec04617f3f8a896f3fb33ca06e",
+        "choice": "accept",
+        "applied": false
+      },
+      "command_processes": {
+        "choice.command.process.json": {
+          "sha256": "f8d43958fd892ae7abaf654d9f5eadacd4ab03653c7edecd8b4c3c4056b9d8ad",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 4.169638541999987
+        },
+        "export.command.process.json": {
+          "sha256": "9bd5501bea66da8a30ca46762efddeb76ee9ef6c6c82a4a51eed3623925b9d9d",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 9.408121957999981
+        },
+        "inspect-export-28e51296d53d439284c724f9df2d7cf3.command.process.json": {
+          "sha256": "e2be465bd5c6965d9d49e6130bad9271dfe5134f1ab1d6f5fc01a471e84aed30",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 2.05298454199999
+        },
+        "inspect-export-ac84e92acb874bf587fe84f9a0860759.command.process.json": {
+          "sha256": "deb7016f799f64ecba9d2300f92cec3363b750917ef69361a2fbfbcbb92b259f",
+          "exit_code": 2,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 1.5337109160000182
+        },
+        "preview.command.process.json": {
+          "sha256": "19a2f0cc799dce6c4c31abf80389256f570fbf8d5117fb53d321fe61ea87d9b3",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 0.2747914169999959
+        },
+        "review.command.process.json": {
+          "sha256": "f130c57ae392f6b7b9c30d938e00bea4e7198117ea802bc6038b72b0259671de",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 5.026846750000004
+        },
+        "route.command.process.json": {
+          "sha256": "9a0a839c7fdbf590163cb94bf3ea8e7bdf95460105e3607343c75e715946c831",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 10.532754667000006
+        },
+        "verify_export.command.process.json": {
+          "sha256": "cab8c2d7a09d9de8b090c2e5a51242cc3589cc862c5d442df70c2bedcfcf6918",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 2.0034247499999935
+        }
+      },
+      "export_historical_only": {
+        "receipt": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/export/export.json",
+          "sha256": "a40670270e9ee2fe084c11368696db165672079f73a285923ab5bb40770a4839"
+        },
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "ignored_checks": 2,
+        "candidate_sha256": "d7f637f93302590b80e17cc57f19f30fcac7cfcddc52f7d5855e31b192bc0656",
+        "candidate_board_still_exact": true,
+        "changed_candidate_companions": {
+          "owned-four-copper-forced-inner.kicad_prl": {
+            "recorded": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+            "current": "58a6c20bbe747551e1013194373a687c52fa1592324cc6c2890230436e38e885"
+          },
+          "owned-four-copper-forced-inner.kicad_pro": {
+            "recorded": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+            "current": "91364655ec66d1dd49439d3ae3084c4af07e954d1fce3e099b99e7218e7e1d2b"
+          }
+        },
+        "final_binding": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/export/validation/final-drc-binding.json",
+          "sha256": "5cdce6e53cf3c4267f83a99d00c9c3497ab9f28a77e47952902523114393f269"
+        },
+        "native_report": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/export/validation/final-drc.json",
+          "sha256": "a9abef2c5f74a8c812b8a055835dda7c59c398d7a7cb4655257c10f1174a8a1e"
+        },
+        "class_audit": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/export/validation/final-netclass-audit.json",
+          "sha256": "492be385d5deaa04c7fb02414557fa57155a0ea42c0deb83d22cca4246b735b6"
+        },
+        "field_proof": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/export/validation/final-drc-fields-proof.json",
+          "sha256": "ff142b37b614d3aa3b8e636bebfaea323e4fab001b5067fc904decd6e3caa0ec"
+        },
+        "native_processes_sha256": {
+          "refill-drc-process.json": "2248e8bb3b810552217f4925ab8f2870fb3611b29ff96d337bb9b867ca3f1d94",
+          "pour-keepout-audit-process.json": "e3cc4075ac45d4e78587430942213bb05138766d3ea2ef872e2289d786c41d4e",
+          "final-netclasses-process.json": "9189c0aaf2fe78adff30d5ba1377aab2d90612b0d3201731566439064b1bee28",
+          "final-drc-process.json": "311aa92e82cafab033ddd59d09534194b97f5a19cdfda840a9b4ad061d161e88",
+          "final-drc-fields-netlist-process.json": "ae96f4c5aaaddac0c2fc0276aef14436cdec245f69472b8e4f4d47a082d67874",
+          "final-drc-fields-audit-process.json": "083e46aa861a6bd0e94310a02361919267aaec3e8bce2572e50db09215b477a5",
+          "final-classes-netlist-process.json": "d5f2e37a26618bfeeb6a2a93739bb1b989113c8118d11df87f826ad241886112",
+          "metrics-process.json": "1b96d9cd2c4b97c3630c111401b80bf8633672bbe8b0bd7de87216a17de0db73"
+        },
+        "current_authority_renewed": false,
+        "own_final_export_helper_not_called_on_stale_candidate": true,
+        "class_live_guard_not_called_or_waived_on_stale_companions": true,
+        "retained_historical_class_proof": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-94f3d9c9fe9c4b7895cfc2367cef6138/export/validation/final-classes-proof.json",
+          "sha256": "1dbbf7bac34ddd03d2d01d5189dc129e987efbc02cbdaeaf2959f55a6a2b540c"
+        },
+        "auxiliary": {
+          "path": ".runs/gui100-stored-proof-review-draft-001/four-copper-export-historical-001.json",
+          "sha256": "386a481cccb8b1cef7f447139d6c093a6e6fe4c9c8aba2e0a50f990577e78082"
+        },
+        "meaning": "Fresh export and positive checked open precede normal KiCad PRO/PRL changes. Reopening refused. Retained final Native input/report/refill/field/PRL proofs remain historical; export candidate is now stale."
+      }
+    },
+    "ordinary": {
+      "job_id": "autorouter-gui-2d8748d2ddcb4676b2de26217e5fac85",
+      "route": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-2d8748d2ddcb4676b2de26217e5fac85/route/result.json",
+        "receipt_sha256": "5f99c096bcda03c1bad95f0a973f27860b4c0e4bbfd946fa2a8886a6bb59f5bb",
+        "candidate_sha256": "6d772fd0b5b19b7dd264e9d554a282c77ba86a0d339f21091889a1e6b1fe64d1",
+        "native_report_sha256": "fd66dc2c17784adb16ec359980a3b6632a02b0c0e2b020ab119a7223a119e7c3",
+        "process_sha256": "c9130cb46a49fd23c527d609dc74b6d3ad1ff5f36c6ab5eacf35075268291e3b",
+        "binding_sha256": "1b89d00129ca3476dd0de3bb46390fead20f8d2e20bf409c1cf197250d0b3c2a",
+        "Native_counts": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "Native_application_policy": {
+          "accepted": true,
+          "rejection_reasons": [],
+          "implementation_sha256": {
+            "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+            "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+            "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+            "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+          }
+        },
+        "finding_types": {},
+        "ignored_checks": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-2d8748d2ddcb4676b2de26217e5fac85/route/final-drc.json",
+          "field": "ignored_checks",
+          "sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e",
+          "bytes": 178,
+          "text_not_retained": "explicit public sanitize",
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2
+        },
+        "ignored_check_count": 2,
+        "protected_count": 4,
+        "whole_project_drc_clean": true,
+        "full_schematic_flag": true,
+        "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification."
+      },
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 8,
+        "zones": 1,
+        "vias": 1,
+        "track_length_mm": 49.0,
+        "copper_layers": 2
+      },
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "protected_exact_count": 4,
+      "candidate_companions_original_semantic_invariants_and_refill_transplant_equal": true,
+      "final_class_audit": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-2d8748d2ddcb4676b2de26217e5fac85/route/final-netclass-audit.json",
+        "sha256": "9e9b9131d0abe44d013e6ec7f29dc70c9980cdfbd0f2da4ab77289148269e410"
+      },
+      "field_and_PRL": {
+        "qualified": true,
+        "proof": null
+      },
+      "native_processes_sha256": {
+        "source-drc-process.json": "43feeb68f5250906dbae00c46460d3026dfe1dd96ef9a12c6913fc5245c5af7c",
+        "export-process.json": "62637b568bd4a4ca6c636242396519f0860719e3f8598d64c8bccf7141e689eb",
+        "obstacles-process.json": "b2e8e19b23a82050c59f2d2ed2d3d8343bc94f4d67832f55c47ae64a9be4acdf",
+        "engine-process.json": "d37783de192280c6abefc6e473b62be3876e619d4bdb585dfe8c038c459eea12",
+        "import-process.json": "a7787deeb3c9dcf4e717c93bb579b591d27912602c0335b67ee5edadd83715fc",
+        "refill-drc-process.json": "edea13f0a2fceeb895497b48e1890fc75e29fd96ec2b7ab8ec3cafda3214c38d",
+        "final-netclasses-process.json": "c8b2023414bb883c09e9ef1cea85be02abdb056974e78643ee9760d417176ed4",
+        "final-drc-process.json": "c9130cb46a49fd23c527d609dc74b6d3ad1ff5f36c6ab5eacf35075268291e3b",
+        "metrics-process.json": "45e204fcde4bb1868c131f07ba9200080920806af62be843b005bcd0daf8d30e"
+      },
+      "review": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-2d8748d2ddcb4676b2de26217e5fac85/review/review.json",
+        "sha256": "8fd19364494d49f4b9e95bade1bb565b3d8ba2a453cd5c870630ed753b9870c7"
+      },
+      "preview_html": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-2d8748d2ddcb4676b2de26217e5fac85/review/preview.html",
+        "sha256": "82f0bc12f1ffc992371e1cc0c6b32a4cd9ed3cd5875cc7a498315af241a13f74"
+      },
+      "stored_plot_material_checked": true,
+      "stored_plot_processes": 4,
+      "details_present_escaped_by_renderer_and_default_closed": true,
+      "choice": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-2d8748d2ddcb4676b2de26217e5fac85/choice/choice.json",
+        "sha256": "d97e9c6f156e602286f636dc9dc7cc4f359d3027958e0721e1020adfaa54c546",
+        "choice": "reject",
+        "applied": false
+      },
+      "command_processes": {
+        "choice.command.process.json": {
+          "sha256": "ea1c8eba2d3cf0a9042ef8f412c77dd1e3c821fa430238df0e1c01596e28336e",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 2.252016958000013
+        },
+        "preview.command.process.json": {
+          "sha256": "c778ad0ba500028251d44dfcc0f734cfe721e5394da07ab715e30d8940657189",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 0.1538010829999905
+        },
+        "review.command.process.json": {
+          "sha256": "3c317f448d6a4d61652ad1ed63c07c462335bdcc13219f5595a7a5929503b5fa",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 4.518171875000007
+        },
+        "route.command.process.json": {
+          "sha256": "d186ee4e1f0012fb09bb19ffe6cfeda008b8c3fdfec37b7e612519cb69bc2565",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 8.904013333999984
+        }
+      },
+      "export_absent_after_reject": true
+    },
+    "parent-class": {
+      "job_id": "autorouter-gui-6385883781f645649edbafd1cbdacfe9",
+      "route": {
+        "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/result.json",
+        "receipt_sha256": "5bfecc2a400792a8d005f8c27d25825ab144c174572b8e8f77c9b713e6d011d2",
+        "candidate_sha256": "31302d40b92047592bee6febcd84a88e4d67c32701fcd055bae66fe68ed8bc8b",
+        "native_report_sha256": "dd206f55040edce905004a6877e00a4fee97a1f5b9b31368f682a59190acee32",
+        "process_sha256": "25b8fb29bb659dfb4a6e44daed101280a664a689398a571e3b14cac1a2537145",
+        "binding_sha256": "240e3cd143c68c9c22ac6f7cb8363bd5bce23e90a0edf4e9af78c2e2041248fc",
+        "Native_counts": [
+          0,
+          0,
+          6,
+          0
+        ],
+        "Native_application_policy": {
+          "accepted": true,
+          "rejection_reasons": [],
+          "implementation_sha256": {
+            "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+            "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+            "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+            "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+          }
+        },
+        "finding_types": {
+          "warning:footprint_symbol_field_mismatch": 6
+        },
+        "ignored_checks": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/final-drc.json",
+          "field": "ignored_checks",
+          "sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e",
+          "bytes": 178,
+          "text_not_retained": "explicit public sanitize",
+          "keys": [
+            "track_not_centered_on_via",
+            "tuning_profile_track_geometries"
+          ],
+          "count": 2
+        },
+        "ignored_check_count": 2,
+        "protected_count": null,
+        "whole_project_drc_clean": false,
+        "full_schematic_flag": true,
+        "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification."
+      },
+      "metrics": {
+        "version": "10.0.7",
+        "pads": 6,
+        "footprints": 6,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 28.0,
+        "copper_layers": 2
+      },
+      "layers": [
+        "F.Cu",
+        "B.Cu"
+      ],
+      "protected_exact_count": 1,
+      "candidate_companions_original_semantic_invariants_and_refill_transplant_equal": true,
+      "final_class_audit": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/final-netclass-audit.json",
+        "sha256": "e40be388290da291aa23613b4e0176d778f406f3689eb41ca152a00825b3109a"
+      },
+      "field_and_PRL": {
+        "qualified": true,
+        "proof": {
+          "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/final-drc-fields-proof.json",
+          "sha256": "506f4a847874320e1df6f3b1521b17f2242958d92950e9caac74605f294096eb"
+        }
+      },
+      "native_processes_sha256": {
+        "refill-drc-process.json": "dfd6a7ccf2de86d203022728a4df8afcf55ae38daadcd28f65ced9d724734530",
+        "final-netclasses-process.json": "28d65c33597f28a68f65c8fa1271b1d6e5504033dae63ec213438f347738362f",
+        "final-drc-process.json": "25b8fb29bb659dfb4a6e44daed101280a664a689398a571e3b14cac1a2537145",
+        "final-drc-fields-netlist-process.json": "ca1c23d4a411ee08d3840b25c09b5cede898d63252b030ab4effb54cd17f10e9",
+        "final-drc-fields-audit-process.json": "39239ffcdba3c5202eaf782ff21336fb47e410853a4c647c1ff3e0f52dd25e1e",
+        "metrics-process.json": "c64fdcf5bee8df9dc521bb799dc142c0524aa05b41ba1b922b37c920ebcc0064"
+      },
+      "review": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/review/review.json",
+        "sha256": "2f073aa60d7cc302306a7f58a7b7d56b260a80c7b9ed64a3b0c933b1f239d905"
+      },
+      "preview_html": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/review/preview.html",
+        "sha256": "75d1843a8cf7dff3975772154479b5e8915bfc46cf3e30a566665f37a52356a9"
+      },
+      "stored_plot_material_checked": true,
+      "stored_plot_processes": 4,
+      "details_present_escaped_by_renderer_and_default_closed": true,
+      "choice": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/choice/choice.json",
+        "sha256": "ce483ef8cefc0ec6084105d5e662f87f109e5296d7cdfe293a1e96dc30507e08",
+        "choice": "accept",
+        "applied": false
+      },
+      "command_processes": {
+        "choice.command.process.json": {
+          "sha256": "ba7e6b3cb96454a5f6c57acbc51769d881df3f26f07ae9fe6c85161f6af9fa13",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 9.153792958000054
+        },
+        "export.command.process.json": {
+          "sha256": "e88230c61519b5f310d42c9207b16bc898e1edde50a2862bf8de9af2b6d0bf78",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 32.058788249999964
+        },
+        "inspect-export-a8dd6d38c2b14319b5659584ee528529.command.process.json": {
+          "sha256": "7cb8101f2415d27644df406474ab3d0cbd9b4e30ae1e9624f29ef8e643c1bb3d",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 16.17638712500002
+        },
+        "preview.command.process.json": {
+          "sha256": "ea3851e447229d3ff5903edea86a517f38ea520d2a34e711ca876cbbb11288f1",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 0.17917437500000233
+        },
+        "review.command.process.json": {
+          "sha256": "c02992009faae7418a8e0448cd6afe015b615123315fa3df7aa12c87244bb398",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 10.667327457999988
+        },
+        "route.command.process.json": {
+          "sha256": "bc199d205a49940708ec3edeeb0f4d6c18ef19c0b23c3b7ca7d5cb4caf5014f9",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 33.327133249999974
+        },
+        "verify_export.command.process.json": {
+          "sha256": "4eb2b5238760e14f91a3eb48991f11a3f80c787bc01bff740c5464dc0c72d05c",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false,
+          "wall_seconds": 16.19331041700002
+        }
+      },
+      "Improve": {
+        "actual_trial_count": 1,
+        "incumbent_own_final": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/incumbent/result.json",
+          "receipt_sha256": "922ae896eb53b768416eb7d189cf1826b138df5152727879ee8133d2f3b1be38",
+          "candidate_sha256": "80dd2b50d5c699d520f10ec1f5c0a5ae92f736e1c543a6edab2a161fde4d39ed",
+          "native_report_sha256": "25cea25eca3fa04afbfa93109e655874b72a5e6edfa952e8aec50b6a594eba66",
+          "process_sha256": "e1a9a6b27fc9985de0409a80f32321a72b7910d871302ec0bec31d3ed0a51e67",
+          "binding_sha256": "ea923f1bf127c1c9b5a462992dd1cfcd32c2e2f0add50ce6cb94e5e1f34efc97",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "Native_application_policy": {
+            "accepted": true,
+            "rejection_reasons": [],
+            "implementation_sha256": {
+              "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+              "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+              "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+              "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+            }
+          },
+          "finding_types": {
+            "warning:footprint_symbol_field_mismatch": 6
+          },
+          "ignored_checks": {
+            "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/incumbent/final-drc.json",
+            "field": "ignored_checks",
+            "sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e",
+            "bytes": 178,
+            "text_not_retained": "explicit public sanitize",
+            "keys": [
+              "track_not_centered_on_via",
+              "tuning_profile_track_geometries"
+            ],
+            "count": 2
+          },
+          "ignored_check_count": 2,
+          "protected_count": 1,
+          "whole_project_drc_clean": false,
+          "full_schematic_flag": true,
+          "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification."
+        },
+        "trial_own_final": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/trials/trial-0000/result.json",
+          "receipt_sha256": "922ac5ee9e90fbf52dc788b18669c11eddc08cedae81a395cbe389b45b13e096",
+          "candidate_sha256": "31302d40b92047592bee6febcd84a88e4d67c32701fcd055bae66fe68ed8bc8b",
+          "native_report_sha256": "7c6ce9454ae4702462280a94357e3b80acb11f1d4f43df1474906d591da1a27e",
+          "process_sha256": "14d75544b524fd1594cbc3ce58ded27fb9336adc604bdf5ae4df261c96cb4546",
+          "binding_sha256": "c7f4ba3173a6050ade0bef24b6adf14594f99e195d9054e934843fd47aa894a5",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "Native_application_policy": {
+            "accepted": true,
+            "rejection_reasons": [],
+            "implementation_sha256": {
+              "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+              "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+              "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+              "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+            }
+          },
+          "finding_types": {
+            "warning:footprint_symbol_field_mismatch": 6
+          },
+          "ignored_checks": {
+            "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/route/trials/trial-0000/final-drc.json",
+            "field": "ignored_checks",
+            "sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e",
+            "bytes": 178,
+            "text_not_retained": "explicit public sanitize",
+            "keys": [
+              "track_not_centered_on_via",
+              "tuning_profile_track_geometries"
+            ],
+            "count": 2
+          },
+          "ignored_check_count": 2,
+          "protected_count": null,
+          "whole_project_drc_clean": null,
+          "full_schematic_flag": true,
+          "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification."
+        },
+        "class_DSN_incumbent_ancestry_and_steps_checked": true,
+        "incumbent_metrics": {
+          "version": "10.0.7",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "vias": 0,
+          "track_length_mm": 42.0,
+          "copper_layers": 2
+        },
+        "finite_diagnostic_only_no_completion_quality_gain_claim": true
+      },
+      "export": {
+        "before_deliberate_settings_fault": {
+          "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/export/export.json",
+          "receipt_sha256": "1fc9ae038531801e5c286cbce02e2bf9c9fa7b04aa8c5f41a593d99fabc3f50c",
+          "candidate_sha256": "31302d40b92047592bee6febcd84a88e4d67c32701fcd055bae66fe68ed8bc8b",
+          "native_report_sha256": "a631451cbd0b6c51f8a090a45cb57e19377475910b3ca245eda2f802c197632e",
+          "process_sha256": "c88192f3d38e662fb39608b169c57578cc7ce7f54a8c2fc5ae765b95ad6a7eb2",
+          "binding_sha256": "b3bb6e81e8f506f804e41546992473be7302ec1c38e0bea3f51187670b912bd6",
+          "Native_counts": [
+            0,
+            0,
+            6,
+            0
+          ],
+          "Native_application_policy": {
+            "accepted": true,
+            "rejection_reasons": [],
+            "implementation_sha256": {
+              "autorouter/pipeline.py": "68b0c01e03202e5262ae805c1393f565e706a11060406f9ee54981024e9cce21",
+              "autorouter/schematic_field_evidence.py": "d46180e82a6f6a8b8337d064ac1c5f44df995a5da347c4809579077f8c54675a",
+              "autorouter/schematic_fields.py": "0d7b057b840d28846f90e928f7c3272d6c5ed30ea5c667e1ad18966cf0385b1f",
+              "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98"
+            }
+          },
+          "finding_types": {
+            "warning:footprint_symbol_field_mismatch": 6
+          },
+          "ignored_checks": {
+            "receipt": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/export/validation/final-drc.json",
+            "field": "ignored_checks",
+            "sha256": "e8fe95daef82f06c93876c4a2169c0bcec9726e60904eacf51cbe9587a5ccd3e",
+            "bytes": 178,
+            "text_not_retained": "explicit public sanitize",
+            "keys": [
+              "track_not_centered_on_via",
+              "tuning_profile_track_geometries"
+            ],
+            "count": 2
+          },
+          "ignored_check_count": 2,
+          "protected_count": null,
+          "whole_project_drc_clean": false,
+          "full_schematic_flag": true,
+          "interpretation": "Stored own-final bytes only; no new Native, central readback, human or electrical qualification.",
+          "recorded_utc": "2026-10-31T02:04:36.730249+00:00",
+          "before_deliberate_settings_fault": true,
+          "settings_sha256": "5b82b6a50dcb6e10ba34705b04d4e210825e6c39ef21c971d4bc12eb233e6a87",
+          "validation_candidate_tree": {
+            "owned1007-transport.kicad_pcb": "31302d40b92047592bee6febcd84a88e4d67c32701fcd055bae66fe68ed8bc8b",
+            "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+            "owned1007-transport.kicad_pro": "e84df6b57ef37c1113073e5d403360d0d13ceae67ea2394fa66171b1287826ed",
+            "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+          },
+          "export_verify_process_sha256": "4eb2b5238760e14f91a3eb48991f11a3f80c787bc01bff740c5464dc0c72d05c"
+        },
+        "auxiliary": {
+          "receipt": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/export/export.json",
+          "receipt_sha256": "1fc9ae038531801e5c286cbce02e2bf9c9fa7b04aa8c5f41a593d99fabc3f50c",
+          "mode": "export",
+          "source_original_exact": true,
+          "immutable_original_and_zone_intent_exact": true,
+          "protected_exact_count": 1,
+          "candidate_companion_changes": {},
+          "refill_exact_reconstruction_checked": true,
+          "refill_binding_checked": true,
+          "class_audit_rederived_from_original_PRO": true,
+          "class_audit_sha256": "1583891dcb0d4f83fb9a11a68a744cd815cc9684c8be2af92e263b46d616b3f7",
+          "field_proof_sha256": "500e67a5ce2c1481f5f1c7ddbb29c492016c373c5c24bd62bfce82f5363f15ff",
+          "field_and_PRL_qualified": true,
+          "class_proof_sha256": null,
+          "class_proof_rederived": false,
+          "native_processes_sha256": {
+            "refill-drc-process.json": "7bc24f004fb781948749793ce053e13dd35df12693d9b57be3415bc47f3a6dd0",
+            "final-netclasses-process.json": "adae12909ac0ccdaecc2db004e664ce1c8658ad5b7881f4f262f9c15378b5649",
+            "final-drc-process.json": "c88192f3d38e662fb39608b169c57578cc7ce7f54a8c2fc5ae765b95ad6a7eb2",
+            "final-drc-fields-netlist-process.json": "dbd3a9d2a871349ec2559f86ab814da7a2e7e61cbd7aa4a48881c58da441ac57",
+            "final-drc-fields-audit-process.json": "3a60352cc70188d90e9d085c1584decb8fa1a0a0e972a146fef9cd961bcf4c75",
+            "metrics-process.json": "b6e7a7a82a72b2f9862860b3ba594dceb998f228a74b9c77dec55f2d75f08971"
+          },
+          "authority": "Stored pure proof inspection only; no Native/central reader/new acceptance authority. Changed export companions remain stale."
+        },
+        "current_workflow_authority": false,
+        "meaning": "Own actual fresh Native export/verify passed and was inspected before intentional captured settings90to91 mutation. No current delivery/open authority is renewed."
+      }
+    }
+  },
+  "active_cancel": {
+    "CLI": {
+      "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-7366ad1eed7845aba224eecf0b245608/route.command.process.json",
+      "sha256": "579f4925205731b3bb2125bfa1349d0ffb19014cf24efcc3e04cf5138a85a2cb"
+    },
+    "CLI_exit": 2,
+    "CLI_cancel_requested": true,
+    "engine": {
+      "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-7366ad1eed7845aba224eecf0b245608/route/engine-process.json",
+      "sha256": "b8bc3be3425402a28e582f906f96d51942770fc7554f076771c06fcdfb56460f"
+    },
+    "engine_exit": -9,
+    "engine_status": "cancelled",
+    "cleanup_complete": true,
+    "engine_log_bytes": 75,
+    "engine_log_sha256": "eef3366e146789ef80fc1c031da027d26a373abf62c3d809559871b6ee58ceb0",
+    "route": {
+      "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-7366ad1eed7845aba224eecf0b245608/route/result.json",
+      "sha256": "632c0c0db14af5463f6e956dac4fb737e2c282f8dba0712c72910aa0b7bf6b58"
+    },
+    "no_final_DRC_review_choice_export": true,
+    "original_and_copy_unchanged": true,
+    "lead_Cua_reads": 66,
+    "lead_Cua_observation_wall_seconds": 3.626,
+    "limits": "Lead observed nonempty live engine log then Cancel. Engine cleanup receipt and later scoped census retained; not every phase, permanent absence or hostile detached process/power-loss proof."
+  },
+  "negative_controls": {
+    "preview_settings": {
+      "record": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/preview-settings-fault-001.json",
+        "sha256": "c54e28906effb395728aedd6b06a4b729d99e85f489ee490dbcfb41d2b7d39c7"
+      },
+      "job_id": "autorouter-gui-b01231657b874c3fa0b1616400287dcf",
+      "before_sha256": "2258e809e1efc6a1020ef0f55f2f63eecb5ebc126f6ae3d554658e94a5753880",
+      "after_sha256": "4dcbc81d166007e4ff06fa3f0b62b30dedba2a3d1267f89afc8f7cd30d777def",
+      "route_worker_absent": true
+    },
+    "scratch_source": {
+      "record": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/scratch-source-fault-001.json",
+        "sha256": "e1c7b27a1132278aa442276db9315656a2a9b13c0ba6aa6ae7a62e02a9598643"
+      },
+      "job_id": "autorouter-gui-78c3e026bf3d49e5924edd8e58561c64",
+      "before_sha256": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+      "after_sha256": "95bbda034a57d475955d85d61cc6941ab852ab8a4975848f6a40daf6a86cb523",
+      "route_worker_absent": true
+    },
+    "active_inspection_settings": {
+      "record": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/class-captured-settings-fault-001.json",
+        "sha256": "69d223c608b56522559b481b854b4b1e2a1f358bcd8e41063bcd0e01c77ce292"
+      },
+      "job_id": "autorouter-gui-6385883781f645649edbafd1cbdacfe9",
+      "before_sha256": "5b82b6a50dcb6e10ba34705b04d4e210825e6c39ef21c971d4bc12eb233e6a87",
+      "after_sha256": "c7df9460d5ac6971c2c905b3e57d96f2f9c61ba6a5e750f1919797c32d1c5ff3",
+      "route_worker_absent": false,
+      "CLI_exit": 0,
+      "post_worker_GUI_refused": true,
+      "opened_project": false,
+      "process": {
+        "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/jobs/autorouter-gui-6385883781f645649edbafd1cbdacfe9/inspect-export-a8dd6d38c2b14319b5659584ee528529.command.process.json",
+        "sha256": "7cb8101f2415d27644df406474ab3d0cbd9b4e30ae1e9624f29ef8e643c1bb3d"
+      },
+      "process_journal_mtime_after_fault_record_seconds": 9.295095389,
+      "interpretation": "Mutation during active checker, then callback settings freshness refused despite CLI0. Exact after-worker-before-callback interval NOT established."
+    }
+  },
+  "pristine_original_roles_exact": true,
+  "scratch_source_deliberately_left_changed": true,
+  "all6_jobs_retained": true,
+  "manager_complete_exit": {
+    "wall_seconds": 671.31,
+    "CPU_seconds": 173.83,
+    "user_seconds": 129.19,
+    "system_seconds": 44.64,
+    "time_log_sha256": "c9a8ac3e9c78710d465bce955fca3d10873a1a5129abf77ba4cb57ba4ff53c3a",
+    "source": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime-directory-067/gui100-launch-001-time.log",
+    "scope": "Complete external exit; nested method/Native samples are included, not added again."
+  },
+  "costs": "Original prepared manager671.31wall/173.83measured descendantCPU includes nestedCLI/Native/pauses; do not add stage samples. Unintended Cua app rebind/cleanup outside this lifecycle; Edge/Cua/authoring/AI whole-sessionCPU unknown additional. Not equal-budget benchmark/speed claim.",
+  "known_limits": [
+    "Current fourCu export stale after editorPRO/PRL changes; current class workflow stale after intentional capturedsettings change. Historical positive proofs preserved; no authority renewed.",
+    "Exact queued callback gap/every cancellationphase/thermalRecover/liveundo/hostile same-user race/power-loss/humanphysical validation unqualified.",
+    "No broader completion advantage beyond corrected/tuned/restartB1/B2. Large067 Improve rendered-review timeout remains unresolvedP1.",
+    "Same Mac/account/basePython/external dependencies only; Windows015/isolation, independentcleanOS/user/dependencyrelocation/fullrestoration, licensedbreadth/untouchedconfirmation/engineercleanup gates remain open.",
+    "All new actualGUI100/raw/helperreview data remain outside selected-runtime067-current-001 prepared0jobs archive cutoff until lead separately captures an increment. Mac-only backups/no offdevice protection."
+  ],
+  "observations": {
+    "author": "Lead actual Cua observations, separately checked by source/stored-proof AI review; no human PCB review.",
+    "toolbar": "Prepared launcher100 and actual KiCad green toolbar launched current067 bundled3.9 worker. Private setup chose no libraries; no downloads/global changes or owner action.",
+    "presets": "Native Load/Save; invalid90.5 and missing closed-source acknowledgement refused. FourCu120/via_high, ordinary90/partial/default and class90/whole/tuned/Improve roles stayed paired.",
+    "review": "Actual Edge screenshots showed every F/In1/In2/B before/after layer on fourCu and F/B on both two-layer roles. Compact findings and expandable complete structured details retained every warning/ignored check.",
+    "intent": "Missing review acknowledgement refused. FourCu and class explicitAccept/freshNativeexport/verify succeeded; ordinary explicitReject left export disabled and absent.",
+    "opening": "FourCu Checked export open requested reached exact separate candidate project and PCB Editor16segments/2vias/0unrouted. Normal close changed exportedPRO/PRL; checked reopening then refused. Success is historical, never renewed.",
+    "cancellation": "Fresh ordinary Route,66AX observations/3.626s to live nonemptyFreerouting2.5.0 log, then activeCancel. Actual engine-9/cleanup complete/CLI2cancel/no finalDRC/review/choice/export; originals exact.",
+    "freshness": "Class capturedsettings90-to91 during active export inspection: inspectCLI0 followed by GUIcallbackrefusal and no opener. Mutation preceded workerterminal by9.295s, so exact callback-gap timing is not established. BeforeRoute settings/source faults also refused without a worker. Visible input edit cleared old findings/ack/actions.",
+    "closing": "Original prepared manager joined0. A post-exit Cua AX call unexpectedly launched an extra owned official manager; failed CmdQ/AXtimeout and fresh exact ownership/path-checked normalSIGTERM cleanup are retained separately, outside original lifecycle cost."
+  },
+  "review": {
+    "path": ".runs/gui100-proof-review-001.json",
+    "sha256": "053d0cdace4cecbd3ff0cc733ff14064165522c1b5f158cb17e836c5f8b72136",
+    "material_contradictions": false,
+    "kind": "Skeptical source/stored-proof AI review, not human/electrical validation.",
+    "helper_errors_retained": "Failed inspect.py name shadowed stdlib inspect before proof work; v1 strict-via caller keyword inappropriate for ordinary policy; v2 export schema lacked top-level source; v3 export process grammar omitted mandatory sandbox prefix. All failed logs/helper versions preserved. Corrected pure helper results used; no product guard changed or Native retried."
+  },
+  "rebound_manager_cleanup": {
+    "path": ".runs/runtime067 fresh install 001/.runs/gui-session100/rebound-manager-cleanup-001.json",
+    "sha256": "309331b7fe8674c854b16ed0a1e1c56c8e98c3c05e53a02379892a5de8780b73"
+  },
+  "large_Improve": "Unchanged067 large rendered-review30s failure remains unresolvedP1; no GUI pass substitutes for it or demonstrates broader completion beyondB1/B2.",
+  "backup": "ActualGUI100/newraw is outside older selected-runtime067-current-001 prepared0jobs cutoff until a separate incremental capture is verified. Mac-only, no disk-failure protection.",
+  "publication": "Project-owned/sanitized facts and hashes only; no foreign rawCAD/models/engines/private boards or secrets. No formal release/tag/package/contact/spending approval."
+}
