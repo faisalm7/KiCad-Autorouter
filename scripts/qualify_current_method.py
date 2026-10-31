@@ -49,6 +49,9 @@ CURRENT40_KIND = 'installed-native7-current-method-v3-current40'
 REVIEW60_KIND = 'installed-native7-current-method-v4-review60'
 REVIEW60_POLICY = 'bounded-review60-choice30-v2'
 REVIEW60_STAGES = dict(review=60,choice=30)
+CHOICE60_KIND = 'installed-native7-current-method-v5-review60-choice60'
+CHOICE60_POLICY = 'bounded-review60-choice60-v3'
+CHOICE60_STAGES = dict(review=60,choice=60)
 IMPROVE_POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cimprove')
 ARMS = tuple(name for name in POPULATION if name != 'B2_portfolio')
 COMPARISON = ('B0', 'B1', 'B2single_tuned')
@@ -61,6 +64,7 @@ def method_contract(kind):
     if kind == IMPROVE_KIND: return IMPROVE_POPULATION, 'qualify-current-method-002.py'
     if kind == CURRENT40_KIND: return IMPROVE_POPULATION, 'qualify-current-method-003.py'
     if kind == REVIEW60_KIND: return IMPROVE_POPULATION, 'qualify-current-method-004.py'
+    if kind == CHOICE60_KIND: return IMPROVE_POPULATION, 'qualify-current-method-005.py'
     raise ValueError('unknown comparison method contract')
 
 
@@ -68,7 +72,7 @@ def method_reserve(plan):
     if plan.get('kind') == IMPROVE_KIND:
         if 'improve_finalization_reserve_seconds' in plan: raise ValueError('legacy25 contract has no current40 override')
         return 25
-    if plan.get('kind') in (CURRENT40_KIND,REVIEW60_KIND):
+    if plan.get('kind') in (CURRENT40_KIND,REVIEW60_KIND,CHOICE60_KIND):
         value = plan.get('improve_finalization_reserve_seconds')
         if type(value) is not int or value != 40: raise ValueError('current40 reserve binding differs')
         return value
@@ -77,7 +81,7 @@ def method_reserve(plan):
 
 def captured_method_settings(plan, defaults, improve_preset):
     if plan['kind'] == KIND: return defaults
-    if plan['kind'] not in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND): raise ValueError('unknown comparison method contract')
+    if plan['kind'] not in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND,CHOICE60_KIND): raise ValueError('unknown comparison method contract')
     method_reserve(plan)
     improved = improve_preset(defaults)
     if plan.get('improve_settings') != improved: raise ValueError('frozen shipped single Improve settings differ')
@@ -87,6 +91,16 @@ def captured_method_settings(plan, defaults, improve_preset):
 
 def delivery_stage_contract(plan, handoff):
     """Freeze prospective review60 separately; historical protocols stay historical."""
+    if plan.get('kind') == CHOICE60_KIND:
+        if (plan.get('handoff_stage_policy') != CHOICE60_POLICY
+                or type(plan.get('delivery_stage_seconds')) is not dict
+                or plan['delivery_stage_seconds'] != CHOICE60_STAGES
+                or any(type(value) is not int for value in plan['delivery_stage_seconds'].values())
+                or handoff.STAGE_POLICY != CHOICE60_POLICY
+                or type(handoff.REVIEW_SECONDS) is not int or handoff.REVIEW_SECONDS != 60
+                or type(handoff.CHOICE_SECONDS) is not int or handoff.CHOICE_SECONDS != 60):
+            raise ValueError('exact prospective review60/choice60 stage contract required')
+        return dict(CHOICE60_STAGES)
     if plan.get('kind') == REVIEW60_KIND:
         if (plan.get('handoff_stage_policy') != REVIEW60_POLICY
                 or plan.get('delivery_stage_seconds') != REVIEW60_STAGES
@@ -174,7 +188,7 @@ def main():
         'frozen actual corrected-standard420 defaults required')
     default_settings = settings
     settings = captured_method_settings(plan, default_settings, gui.improve_preset)
-    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND):
+    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND,CHOICE60_KIND):
         require(type(pruning.NATIVE_FINAL_RESERVE_SECONDS) is int
             and pruning.NATIVE_FINAL_RESERVE_SECONDS == method_reserve(plan),
             'installed Improve runtime reserve differs from versioned comparison')
@@ -223,7 +237,7 @@ def main():
         external_complete_exit_required=True, fair_full_matrix=False,
         scope='One frozen single-method result. B2single_tuned is one tuned attempt; portfolio is separate. Cdefault exercises the shipped workflow and aliases corrected-standard B1. Cthermal is experimental recover, not Improve. API comparison delivery is not ordinary product admission. No holdout, superiority, graphical interaction, human or physical claim.',
         stock_caveat='B0 disables project adapter corrections and must retain identical native/task DSN bytes. Common fixed-placement, alias, protected-copper, netclass and original-rule Native validation safeguards remain; this is not proof of an untouched official vanilla workflow.')
-    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND):
+    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND,CHOICE60_KIND):
         record.update(method_settings=settings,
             scope='Frozen versioned installed comparison. Cimprove is shipped single Improve with a charged tuned incumbent and'
                 +str(method_reserve(plan))+'-second finalization reserve inside420. Cdefault/B1 unchanged; no GUI/human/electrical/superiority claim.')
@@ -262,7 +276,7 @@ def main():
         allowance = min(left(), method_left() if method else left(), cap)
         require(allowance >= minimum_seconds, 'complete CLI stage/final-publication allocation unavailable')
         job = gui.CliJob(); log = out/(stage+'.log'); process = None
-        measured = plan['kind'] == REVIEW60_KIND
+        measured = plan['kind'] in (REVIEW60_KIND,CHOICE60_KIND)
         if measured: call_wall,call_cpu = time.monotonic(),cpu()
         try:
             process = job.run(argv, log, timeout=allowance)

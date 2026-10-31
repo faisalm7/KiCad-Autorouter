@@ -133,7 +133,7 @@ class ThermalMethodTests(unittest.TestCase):
     def test_explicit_reject_still_blocks_export(self):
         flow=self.flow();flow.ready.update(('preview','route','review'))
         with patch.object(gui, 'read_record', return_value=dict(choice_recorded=True,choice='reject',
-                handoff_stage_policy='bounded-review60-choice30-v2',budget_seconds=30,cpu_budget_seconds=30,
+                handoff_stage_policy='bounded-review60-choice60-v3',budget_seconds=60,cpu_budget_seconds=60,
                 within_budget=True,wall_seconds=0.,total_cpu_seconds=0.)):
             flow.adopt('choice',dict(cancel_requested=False,exit_code=0,log_truncated=False),
                        flow.workspace/'choice.command.log',choice='reject')

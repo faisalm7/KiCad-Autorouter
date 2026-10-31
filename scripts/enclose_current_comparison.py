@@ -21,7 +21,10 @@ def ordinary_method_contract(plan, child, external):
           and plan.get('arm') in ('Cdefault','Cimprove') and child.name=='qualify-current-method-003.py')
      or (plan.get('kind')=='installed-native7-current-method-v4-review60'
           and plan.get('arm') in ('Cdefault','Cimprove') and child.name=='qualify-current-method-004.py'
-          and review60_contract(plan,child,external)))
+          and review60_contract(plan,child,external))
+     or (plan.get('kind')=='installed-native7-current-method-v5-review60-choice60'
+          and plan.get('arm') in ('Cdefault','Cimprove') and child.name=='qualify-current-method-005.py'
+          and choice60_contract(plan,child,external)))
 
 
 
@@ -44,6 +47,25 @@ def review60_contract(plan, child, external):
           or (portfolio and external and child.name=='qualify_comparison_portfolio.py')))
 
 
+def choice60_contract(plan, child, external):
+ """Exact new namespace/policy only; does not admit any old-kind cap change."""
+ method=plan.get('kind')=='installed-native7-current-method-v5-review60-choice60'
+ portfolio=plan.get('kind')=='installed-native7-comparison-portfolio-functional-v3-review60-choice60'
+ if not method and not portfolio:
+  return 'handoff_stage_policy' not in plan and 'delivery_stage_seconds' not in plan
+ expected=dict(review=60,choice=60);stages=plan.get('delivery_stage_seconds')
+ limits=dict(routing_seconds=420,method_wall_cpu_cap_seconds=450,delivery_wall_cpu_cap_seconds=600,export_validation_seconds=120)
+ actual=plan if portfolio else plan.get('limits')
+ return (plan.get('handoff_stage_policy')=='bounded-review60-choice60-v3'
+     and type(stages) is dict and stages==expected and all(type(value) is int for value in stages.values())
+     and type(actual) is dict and all(type(actual.get(key)) is int and actual[key]==value for key,value in limits.items())
+     and type(plan.get('whole_wall_full_cpu_seconds')) is int and plan['whole_wall_full_cpu_seconds']==600
+     and plan.get('pass_key')=='controls_passed'
+     and ((method and not external and child.name=='qualify-current-method-005.py'
+           and plan.get('arm') in ('B0','B1','B2single_tuned','Cdefault','Cimprove'))
+          or (portfolio and external and child.name=='qualify_comparison_portfolio.py')))
+
+
 ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--protocol-sha256',required=True);a=ap.parse_args()
 plan=f.read_json(a.protocol);pin=p.sha(a.protocol);assert pin==a.protocol_sha256
 runtime=Path(plan['runtime']);child=Path(plan['controller']);manifest=runtime/'runtime-distribution.json'
@@ -54,7 +76,7 @@ args=plan.get('controller_args',[]);assert args in ([],['--runtime',str(runtime)
 budget=plan['whole_wall_full_cpu_seconds'];assert type(budget) is int and 30<=budget<=600
 delivery=Path(plan['output'])
 ordinary_method=ordinary_method_contract(plan,child,external)
-assert review60_contract(plan,child,external)
+assert (choice60_contract(plan,child,external) if plan.get('kind') in ('installed-native7-current-method-v5-review60-choice60','installed-native7-comparison-portfolio-functional-v3-review60-choice60') else review60_contract(plan,child,external))
 assert delivery.parent==runtime/'.runs' and (delivery.name.startswith('native7-comparison-') or (ordinary_method and delivery.name.startswith('native7-method-'))) and not delivery.exists()
 material_roots=[]
 if external:

@@ -640,7 +640,7 @@ def pruning_scope(effective):
     required = {'scope': 'whole_board_unlocked_routing', 'adapter': 'both',
                 'profile': 'tuned', 'guidance': 'native', 'layers': 'source_all'}
     if any(effective[name] != value for name, value in required.items()):
-        raise p.Rejected('native pruning presets require whole-board/native/tuned/both/source_all; use route for other scopes')
+        raise p.Rejected('Improve requires whole-board routing, the tuned profile, both corrections and all original layers. Use Route for other supported scopes.')
     if not 30 <= effective['seconds'] <= 900:
         raise p.Rejected('pruning budget must be 30–900 seconds')
     return effective

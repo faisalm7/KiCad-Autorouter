@@ -32,6 +32,7 @@ import json
 
 KIND = 'installed-native7-comparison-portfolio-functional-v1'
 REVIEW60_KIND = 'installed-native7-comparison-portfolio-functional-v2-review60'
+CHOICE60_KIND = 'installed-native7-comparison-portfolio-functional-v3-review60-choice60'
 VARIANTS = ('via_default', 'via_low', 'via_high')
 LIMITS = dict(routing_seconds=420, method_wall_cpu_cap_seconds=450,
     delivery_wall_cpu_cap_seconds=600, export_validation_seconds=120,
@@ -54,6 +55,15 @@ def require_completed_portfolio(result):
 def delivery_stage_contract(plan, handoff):
     """Freeze review60/choice30 inside the same600s complete portfolio cap."""
     stages=plan.get('delivery_stage_seconds')
+    if plan.get('kind') == CHOICE60_KIND:
+        if (plan.get('handoff_stage_policy') != 'bounded-review60-choice60-v3'
+                or type(stages) is not dict or stages != dict(review=60,choice=60)
+                or any(type(value) is not int for value in stages.values())
+                or getattr(handoff,'STAGE_POLICY',None) != 'bounded-review60-choice60-v3'
+                or type(getattr(handoff,'REVIEW_SECONDS',None)) is not int or handoff.REVIEW_SECONDS != 60
+                or type(getattr(handoff,'CHOICE_SECONDS',None)) is not int or handoff.CHOICE_SECONDS != 60):
+            raise ValueError('exact prospective portfolio review60/choice60 stage contract required')
+        return dict(stages)
     if plan.get('kind') == REVIEW60_KIND:
         if (plan.get('handoff_stage_policy') != 'bounded-review60-choice30-v2'
                 or type(stages) is not dict or stages != dict(review=60,choice=30)
@@ -101,7 +111,7 @@ def main():
     require(pv.file_digest(protocol)[0] == args.protocol_sha256, 'frozen protocol hash differs')
     plan = f.read_json(protocol)
     require(type(plan) is dict and type(plan.get('schema')) is int and plan['schema'] == 1
-        and plan.get('kind') in (KIND,REVIEW60_KIND) and plan.get('runtime') == str(runtime)
+        and plan.get('kind') in (KIND,REVIEW60_KIND,CHOICE60_KIND) and plan.get('runtime') == str(runtime)
         and plan.get('controller') == str(self_path) and plan.get('administration_root') == str(administration)
         and all(plan.get(name) == value for name, value in LIMITS.items())
         and portfolio.VARIANTS == VARIANTS and plan.get('variants') == list(VARIANTS)

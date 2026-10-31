@@ -13,15 +13,15 @@ from tests import test_review_export as export_fixture
 
 
 def budget(stage):
-    seconds = 60 if stage == 'review' else 30
-    return dict(handoff_stage_policy='bounded-review60-choice30-v2', budget_seconds=seconds,
+    seconds = 60
+    return dict(handoff_stage_policy='bounded-review60-choice60-v3', budget_seconds=seconds,
         cpu_budget_seconds=seconds, within_budget=True, wall_seconds=0., total_cpu_seconds=0.)
 
 
 class FixedStageReceiptControls(unittest.TestCase):
     def test_independent_exact_constants_and_stage_policy(self):
-        self.assertEqual((h.REVIEW_SECONDS,h.CHOICE_SECONDS,h.SECONDS),(60,30,30))
-        self.assertEqual(h.STAGE_POLICY,'bounded-review60-choice30-v2')
+        self.assertEqual((h.REVIEW_SECONDS,h.CHOICE_SECONDS,h.SECONDS),(60,60,60))
+        self.assertEqual(h.STAGE_POLICY,'bounded-review60-choice60-v3')
         for stage in ('review','choice'):
             self.assertIsNone(h.check_stage_budget(budget(stage),stage))
         for stage in ('export',None,True):
@@ -30,7 +30,7 @@ class FixedStageReceiptControls(unittest.TestCase):
     def test_old_policy_receipt_caps_and_nonfinite_samples_never_authorize_new_stage(self):
         for stage in ('review','choice'):
             original=budget(stage)
-            changes=[dict(handoff_stage_policy=None),dict(handoff_stage_policy='old-review30-v1'),
+            changes=[dict(handoff_stage_policy=None),dict(handoff_stage_policy='old-review30-v1'),dict(handoff_stage_policy='bounded-review60-choice30-v2'),
                 dict(budget_seconds=999),dict(cpu_budget_seconds=999),dict(budget_seconds=True),
                 dict(cpu_budget_seconds=float(original['cpu_budget_seconds'])),dict(within_budget=1)]
             if stage=='review':changes.append(dict(budget_seconds=30,cpu_budget_seconds=30))
@@ -42,7 +42,7 @@ class FixedStageReceiptControls(unittest.TestCase):
             self.assertEqual(original,budget(stage))
 
     def test_cleanup_uses_stage_identity_and_counts_its_own_work_not_forged_receipt_cap(self):
-        for stage,elapsed,accepted in (('review',45,True),('choice',45,False),('review',61,False)):
+        for stage,elapsed,accepted in (('review',45,True),('choice',45,True),('choice',61,False),('review',61,False)):
             with self.subTest(stage=stage,elapsed=elapsed),tempfile.TemporaryDirectory() as folder:
                 out=Path(folder).resolve();name=stage+'.json'
                 record=dict(status='ready_for_manual_review' if stage=='review' else 'disposition_recorded',
@@ -122,6 +122,36 @@ class ReviewStageBudgetControls(unittest.TestCase):
                     h.review_choice(path,self.root/'choice','accept')
                 self.assertFalse((self.root/'choice').exists());self.check.assert_not_called()
 
+    def test_choice_crossing_old30_keeps_source_and_cancel_guards(self):
+        for fault in (None,'cancel','source'):
+            with self.subTest(fault=fault):
+                target=self.root/('review-'+str(fault));h.review_copy(self.receipt,target)
+                now=[0.];save=h.save_json;output=self.root/('choice-'+str(fault))
+                def writer(path,record):
+                    save(path,record)
+                    if record.get('status')=='disposition_recorded':
+                        now[0]=45.
+                        if fault=='source':(self.source/'board.kicad_pro').write_text('late changed source')
+                        if fault=='cancel':raise KeyboardInterrupt
+                with patch.object(h,'cpu_seconds',side_effect=lambda:now[0]),patch.object(h,'save_json',writer):
+                    if fault is None:
+                        result=h.review_choice(target/'review.json',output,'accept');h.check_stage_budget(result,'choice')
+                    else:
+                        with self.assertRaises(h.Rejected):h.review_choice(target/'review.json',output,'accept')
+                        current=h.f.read_json(output/'choice.json');self.assertFalse(current['choice_recorded'])
+
+    def test_choice_session_cleanup_at61_invalidates_provisional_intent(self):
+        target=self.root/'review-choice-cleanup';h.review_copy(self.receipt,target)
+        output=self.root/'choice-cleanup';real=h.validation_readback_session;now=[0.]
+        @contextmanager
+        def session():
+            with real():yield
+            now[0]=61.
+        with patch.object(h,'validation_readback_session',session),patch.object(h,'cpu_seconds',side_effect=lambda:now[0]):
+            with self.assertRaisesRegex(h.Rejected,'cleanup exceeded'):h.review_choice(target/'review.json',output,'accept')
+        self.assertFalse(h.f.read_json(output/'choice.json')['choice_recorded'])
+        self.assertTrue(list(output.glob('invalidated-session-*-choice.json')))
+
 
 class ExportStageBudgetControls(unittest.TestCase):
     setUp=export_fixture.ExportControls.setUp
@@ -131,7 +161,7 @@ class ExportStageBudgetControls(unittest.TestCase):
         review=self.root/'review/review.json';before=h.f.read_json(review);choice=h.f.read_json(self.choice)
         for changed_stage,change in (('review',dict(handoff_stage_policy=None)),
                 ('review',dict(budget_seconds=30,cpu_budget_seconds=30)),
-                ('choice',dict(handoff_stage_policy=None)),('choice',dict(budget_seconds=60,cpu_budget_seconds=60))):
+                ('choice',dict(handoff_stage_policy=None)),('choice',dict(budget_seconds=30,cpu_budget_seconds=30))):
             with self.subTest(stage=changed_stage,change=change):
                 h.save_json(review,dict(before,**change) if changed_stage=='review' else before)
                 updated=dict(choice,review_sha256=h.digest(review.read_bytes()))

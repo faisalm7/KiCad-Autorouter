@@ -99,6 +99,18 @@ REVIEW60_HEAD = None
 REVIEW60_MANIFEST = None
 REVIEW60_INSTALLED_ROOT = None
 REVIEW60_REPORTER_SHA = 'f41b9edc1fb3b89e94bae3c9210d183bffa86b48f58f2db41219129bb65e906d'
+CHOICE60_VERSION = 'improve-v6-review60-choice60'
+CHOICE60_POPULATION_KIND = 'frozen-current-improve-six-arm-exposed-development-v6-review60-choice60'
+CHOICE60_METHOD_KIND = 'installed-native7-current-method-v5-review60-choice60'
+CHOICE60_PORTFOLIO_KIND = 'installed-native7-comparison-portfolio-functional-v3-review60-choice60'
+CHOICE60_QUALIFICATION_KIND = 'runtime069-fresh-installed-review60-choice60-native-CLI-only-v1'
+CHOICE60_STAGE_POLICY = 'bounded-review60-choice60-v3'
+CHOICE60_STAGE_SECONDS = dict(review=60,choice=60)
+CHOICE60_ENCLOSURE_SHA = '77c50a3a1b152207619ba26642fba116b577c2d5313aa5168c6b2c4f5c588bfe'
+CHOICE60_REPORTER_SHA = '8e927b0ed08752a36aa1c8368d038136bc821a2f816f9e1da86b8bc388793365'
+CHOICE60_HEAD = None
+CHOICE60_MANIFEST = None
+CHOICE60_INSTALLED_ROOT = None
 NATIVE_COHORT_QUALIFICATION_KIND = 'current-selected-native7-positive-cohort-CLI-only-v1'
 NATIVE_CASES = {'ordinary-npth2Cu': ('route', 1), 'improve-pour-only': ('improve', 1),
     'improve-fractional': ('improve', 1), 'improve-floor2Cu': ('improve', 1),
@@ -116,6 +128,8 @@ def require(ok, message):
 
 
 def contract(version):
+    if version == CHOICE60_VERSION:
+        return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, CHOICE60_POPULATION_KIND, CHOICE60_METHOD_KIND, 'qualify-current-method-005.py'
     if version == REVIEW60_VERSION:
         return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, REVIEW60_POPULATION_KIND, REVIEW60_METHOD_KIND, 'qualify-current-method-004.py'
     if version == 'legacy-v1':
@@ -130,6 +144,8 @@ def contract(version):
 
 def qualification_scope(qualified, runtime, manifest_pin, identity, manifest, version):
     """Keep historical gates separate from the exact installed060/current40 gate."""
+    if version == CHOICE60_VERSION:
+        return choice60_installed_scope(qualified,runtime,manifest_pin,identity,manifest)
     if version == REVIEW60_VERSION:
         return review60_installed_scope(qualified,runtime,manifest_pin,identity,manifest)
     if version == CURRENT40_VERSION:
@@ -214,6 +230,45 @@ def review60_qualification_summary(q,source_head,runtime,manifest_pin):
         and q.get('source_head') == source_head == REVIEW60_HEAD
         and q.get('runtime') == str(runtime) == REVIEW60_INSTALLED_ROOT
         and q.get('runtime_manifest_sha256') == manifest_pin == REVIEW60_MANIFEST
+        and type(q.get('cohort_cases')) is int and q['cohort_cases'] == 13
+        and type(q.get('parent_class_completed_trials')) is int and q['parent_class_completed_trials'] == 1
+        and type(q.get('parent_class_invalid_controls')) is int and q['parent_class_invalid_controls'] == 2
+        and type(q.get('finalization_reserve_seconds')) is int and q['finalization_reserve_seconds'] == 40
+        and q.get('actual_GUI_qualified') is False and q.get('full_GUI_claim') is False,
+        'exact prospective installed Native-only summary required')
+
+
+def choice60_stage_fields(record):
+    """Typed fixed policy fields shared by freezer and stored-facts reporting."""
+    stages=record.get('delivery_stage_seconds')
+    require(record.get('handoff_stage_policy') == CHOICE60_STAGE_POLICY
+        and type(stages) is dict and stages == CHOICE60_STAGE_SECONDS
+        and all(type(value) is int for value in stages.values()),
+        'exact prospective choice60/choice60 stage fields required')
+    return dict(stages)
+
+
+def choice60_installed_scope(qualified,runtime,manifest_pin,identity,manifest):
+    """Deliberately closed pending real069 proof; never substitute old062/067.
+
+    Port installed_cohort_scope's actual full/source/install/doctor/13Native/
+    invalid3/class-positive-and2negative/PRL proof replay with exact069 pins.
+    No owner declaration or summary booleans can open this qualification gate.
+    """
+    raise ValueError('choice60 qualification gate: actual runtime069 Native/install/full-proof adapter is not yet qualified')
+
+
+def choice60_qualification_summary(q,source_head,runtime,manifest_pin):
+    """Stored summary identity only; cannot create or replace Native admission."""
+    require(type(CHOICE60_HEAD) is str and pv._HEAD.fullmatch(CHOICE60_HEAD)
+        and type(CHOICE60_MANIFEST) is str and pv._DIGEST.fullmatch(CHOICE60_MANIFEST)
+        and type(CHOICE60_INSTALLED_ROOT) is str,
+        'choice60 qualification bindings remain pending the real milestone')
+    choice60_stage_fields(q)
+    require(q.get('kind') == CHOICE60_QUALIFICATION_KIND and q.get('Native_cohort_only') is True
+        and q.get('source_head') == source_head == CHOICE60_HEAD
+        and q.get('runtime') == str(runtime) == CHOICE60_INSTALLED_ROOT
+        and q.get('runtime_manifest_sha256') == manifest_pin == CHOICE60_MANIFEST
         and type(q.get('cohort_cases')) is int and q['cohort_cases'] == 13
         and type(q.get('parent_class_completed_trials')) is int and q['parent_class_completed_trials'] == 1
         and type(q.get('parent_class_invalid_controls')) is int and q['parent_class_invalid_controls'] == 2
@@ -817,8 +872,9 @@ def pinned_json(path, digest):
 def qualification_dependency(path, pin, version):
     """The current40 closure also pins one Python reporter, not JSON."""
     path = Path(path)
-    if version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION) and path == ROOT/'scripts/report_current_comparison.py':
-        expected = (REVIEW60_REPORTER_SHA if version == REVIEW60_VERSION else
+    if version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) and path == ROOT/'scripts/report_current_comparison.py':
+        expected = (CHOICE60_REPORTER_SHA if version == CHOICE60_VERSION else
+            REVIEW60_REPORTER_SHA if version == REVIEW60_VERSION else
             PARENT_CLASS_REPORTER_SHA if version == PARENT_CLASS_VERSION else CURRENT40_REPORTER_SHA)
         require(pin == expected and pv.file_digest(path,4*1024**2)[0] == pin,
                 'current40 reporter dependency changed')
@@ -922,7 +978,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     require(output.parent == ROOT/'.runs' and output.parent.stat().st_uid == os.getuid()
         and re.fullmatch('[a-z][a-z0-9-]{0,63}', output.name) and not os.path.lexists(output)
         and runtime != output and runtime not in output.parents and output not in runtime.parents, 'fresh canonical administration namespace required')
-    expected_enclosure = REVIEW60_ENCLOSURE_SHA if population_version == REVIEW60_VERSION else ENCLOSURE_SHA
+    expected_enclosure = CHOICE60_ENCLOSURE_SHA if population_version == CHOICE60_VERSION else REVIEW60_ENCLOSURE_SHA if population_version == REVIEW60_VERSION else ENCLOSURE_SHA
     require(enclosure == ROOT/'scripts/enclose_current_comparison.py' and enclosure_sha256 == expected_enclosure
         and pv.file_digest(enclosure)[0] == enclosure_sha256, 'exact public reviewed enclosure required')
     require(pv._directory(runtime/'.runs').stat().st_uid == os.getuid(), 'owned runtime work directory required')
@@ -956,7 +1012,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     require(type(tools.get('files')) is dict and 1 <= len(tools['files']) <= 8, 'bounded actual tool pins required')
     if qualification_record.get('Native_cohort_only') is True:
         require(qualification_record['tools_files_sha256'] == tools['files'], 'Native cohort tools differ from current runtime query')
-    if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION):
+    if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
         from scripts import report_current_comparison as report
         for entry in families.values():
             report.parent_class_source(dict(source=entry['source'],source_hashes=entry['source_hashes'],tools=tools))
@@ -991,18 +1047,19 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         policy='B1 corrected standard remains default. Fixed one tuned attempt plus ordered via_default/via_low/via_high balanced portfolio;30inside each trial and15root reserve, no extra budget or board tuning.',
         caveats='All exposed families/failures/warnings retained; rights are declarations, not legal clearance/holdout/independent pedigree. B0 shares fidelity safeguards, not untouched vanilla. API baselines versus actual default/recoverCLI startup differ. Recover420 is whole-method allocation. Every actual outer wall/fullCPU cost includes all startup/conversion/selection/Native/delivery/readback; setup separate. All raw local, publication hashes_only; no publication function or aggregate future-job quota.',
         Native_executed=False,actual_GUI=False,project_complete=False)
-    if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION):
+    if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION, CHOICE60_VERSION):
         population.update(improve_settings=copy.deepcopy(improve_settings),
-            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION) else 25)+' finalization reserve. Baselines and portfolio policy unchanged.',
+            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) else 25)+' finalization reserve. Baselines and portfolio policy unchanged.',
             caveats=population['caveats'].replace('Recover420 is whole-method allocation.',
-                'Improve420 is whole-method allocation including its incumbent and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION) else 25)+'-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
-    if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION):
+                'Improve420 is whole-method allocation including its incumbent and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) else 25)+'-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
+    if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
         population['improve_finalization_reserve_seconds'] = current40_reserve(runtime,implementation)
-    if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION):
+    if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
         population['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
-    if population_version == REVIEW60_VERSION:
-        review60_stage_fields(query)
-        population.update(handoff_stage_policy=REVIEW60_STAGE_POLICY,delivery_stage_seconds=dict(REVIEW60_STAGE_SECONDS))
+    if population_version in (REVIEW60_VERSION,CHOICE60_VERSION):
+        fields=choice60_stage_fields if population_version == CHOICE60_VERSION else review60_stage_fields
+        fields(query)
+        population.update(handoff_stage_policy=query['handoff_stage_policy'],delivery_stage_seconds=dict(query['delivery_stage_seconds']))
     population_pin = save_new(output/'population.json', population)
     prerequisite_paths = [Path(sources_path), Path(qualification), runtime/pv.MANIFEST, output/'sources.json', output/'qualification.json',
         output/'population.json', output/'tools-defaults.json', output/'tools-defaults-process.json', child, *[ROOT/name for name in tracked]]
@@ -1020,10 +1077,10 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
                 controller_args=['--runtime',str(runtime)],enclosure_sha256=enclosure_sha256,
                 population_protocol_path=str(output/'population.json'),population_protocol_sha256=population_pin,
                 scope='Predeclared exposed '+slug+'/'+arm+':420allocation/450method/600completewall+fullCPU/export120; every failure/warning/cost retained, no superiority/GUI/human/electrical claim.')
-            if population_version == REVIEW60_VERSION:
-                common.update(handoff_stage_policy=REVIEW60_STAGE_POLICY,delivery_stage_seconds=dict(REVIEW60_STAGE_SECONDS))
+            if population_version in (REVIEW60_VERSION,CHOICE60_VERSION):
+                common.update(handoff_stage_policy=population['handoff_stage_policy'],delivery_stage_seconds=dict(population['delivery_stage_seconds']))
             if arm == 'B2_portfolio':
-                plan = dict(common,kind=REVIEW60_PORTFOLIO_KIND if population_version == REVIEW60_VERSION else 'installed-native7-comparison-portfolio-functional-v1',**LIMITS,variants=list(VARIANTS),allocation='balanced',
+                plan = dict(common,kind=CHOICE60_PORTFOLIO_KIND if population_version == CHOICE60_VERSION else REVIEW60_PORTFOLIO_KIND if population_version == REVIEW60_VERSION else 'installed-native7-comparison-portfolio-functional-v1',**LIMITS,variants=list(VARIANTS),allocation='balanced',
                     trial_readback_reserve_seconds=30,root_finalization_reserve_seconds=15,installed_trial_accounting_policy='installed-route-readback-reserve-v1',
                     comparison_api_policy='installed-native7-scored-portfolio-api-v2',administration_head=expected_administration_head,administration_files_sha256=admin,
                     family=entry['source_rights']['family'],controller=str(ROOT/ADMIN_FILES[0]),controller_sha256=admin[ADMIN_FILES[0]],
@@ -1034,9 +1091,9 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
                     source_inventory_sha256=hashlib.sha256((f.canonical(entry['source_hashes'])+'\n').encode()).hexdigest(),
                     source_rights_sha256=hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(),
                     prerequisite_sha256=prerequisites,default_settings=copy.deepcopy(defaults),limits=dict(LIMITS))
-                if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION): plan['improve_settings'] = copy.deepcopy(improve_settings)
-                if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION): plan['improve_finalization_reserve_seconds'] = 40
-            if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION) and arm != 'B2_portfolio':
+                if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION, CHOICE60_VERSION): plan['improve_settings'] = copy.deepcopy(improve_settings)
+                if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION): plan['improve_finalization_reserve_seconds'] = 40
+            if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) and arm != 'B2_portfolio':
                 plan['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
             path = folder/'protocol.json'; children[slug][arm] = dict(path=str(path),sha256=save_new(path,plan))
     fresh(); require(child.stat().st_uid == os.getuid() and pv.read_bytes(child) == payload, 'copied controller changed or unowned at final freeze')
@@ -1055,7 +1112,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2',CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION), default='legacy-v1')
+    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2',CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION), default='legacy-v1')
     for name in ('runtime','sources','qualification','output','enclosure'): parser.add_argument('--'+name,type=Path,required=True)
     for name in ('expected-manifest-sha256','sources-sha256','qualification-sha256','expected-administration-head','enclosure-sha256'):
         parser.add_argument('--'+name,required=True)

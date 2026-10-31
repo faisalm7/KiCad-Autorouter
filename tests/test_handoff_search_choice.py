@@ -132,7 +132,7 @@ class Controls(unittest.TestCase):
         self.review();now=[0.0];save=h.save_json
         def late(path,record):
             save(path,record)
-            if record['status']=='disposition_recorded':now[0]=31.0
+            if record['status']=='disposition_recorded':now[0]=61.0
         with patch.object(h,'cpu_seconds',side_effect=lambda:now[0]),patch.object(h,'save_json',late),self.assertRaisesRegex(Rejected,'ceiling'):self.choose()
         self.assertFalse(json.loads((self.root/'choice/choice.json').read_text())['choice_recorded'])
     def test_scope_exit_errors_invalidate_both_publications_and_restore_handlers(self):

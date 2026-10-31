@@ -56,9 +56,11 @@ class FileChooserTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp).resolve();source=root/'project';source.mkdir();board=source/'board.kicad_pcb';board.write_text('immutable source')
             callback=window_method('save_preset');wx=callback.__globals__['wx'];wx.FD_SAVE=1
-            window=SimpleNamespace(busy=False,chooser=None,config=lambda:dict(pref.DEFAULTS),board=Mock(),refused=Mock())
+            window=SimpleNamespace(busy=False,chooser=None,config=lambda:dict(pref.DEFAULTS),board=Mock(),refused=Mock(),status=Mock())
             window.board.GetValue.return_value=str(board);callbacks=[];window.choose_path=lambda dialog,save:callbacks.append(save)
             callback(window,None);save=callbacks.pop();target=root/'settings.json';save(str(target));self.assertEqual(json.loads(target.read_text()),pref.DEFAULTS)
+            window.status.SetLabel.assert_called_once();self.assertIn(str(target),window.status.SetLabel.call_args.args[0])
+            self.assertIn('Settings saved',window.status.SetLabel.call_args.args[0])
             before=target.read_bytes()
             with self.assertRaises((ValueError,FileExistsError)):save(str(target))
             self.assertEqual(target.read_bytes(),before)

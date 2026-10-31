@@ -710,7 +710,7 @@ def main(argv=None):
             self.method_note = wx.StaticText(panel, label='')
             self.method_note.Wrap(780)
             layout.Add(self.method_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            export_note = wx.StaticText(panel, label='Rendered review is bounded to 60 seconds; accept/reject checks to 30 seconds. '
+            export_note = wx.StaticText(panel, label='Rendered review is bounded to 60 seconds; accept/reject checks to 60 seconds. '
                 'These are separate from the routing budget. Fresh export adds Native validation after acceptance: '
                 '30–120 seconds, derived from the captured routing or whole-method budget. That budget is unchanged.')
             export_note.Wrap(780)
@@ -884,6 +884,7 @@ def main(argv=None):
                         if target.parent == source.parent or source.parent in target.parents: raise ValueError('Save settings outside the original project.')
                     with os.fdopen(os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), 'w') as stream:
                         json.dump(config, stream, indent=2); stream.write('\n')
+                    self.status.SetLabel('Settings saved: ' + str(target) + '. Preview uses the current displayed settings.')
                 self.choose_path(wx.FileDialog(self, 'Save NEW settings JSON', defaultFile='routing-settings.json', wildcard='JSON (*.json)|*.json', style=wx.FD_SAVE), saved)
             except Exception as exc: self.refused(str(exc))
 

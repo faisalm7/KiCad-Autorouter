@@ -88,4 +88,4 @@ class Review60AdministrativeContracts(unittest.TestCase):
             review.update(budget_seconds=30,cpu_budget_seconds=30,wall_seconds=1.,total_cpu_seconds=1.)
             review_pin=write(review_path,review);choice['review_sha256']=review_pin;choice_pin=write(choice_path,choice)
             exported['inputs'].update(review_sha256=review_pin,choice_sha256=choice_pin);write(export_path,exported)
-            with self.assertRaises(frozen.h.Rejected):report.delivery_stage_facts(fields(),data,[root])
+            with self.assertRaisesRegex(ValueError,'historical review60/choice30 fixed stage budget/policy'):report.delivery_stage_facts(fields(),data,[root])

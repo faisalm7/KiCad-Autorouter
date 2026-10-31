@@ -120,7 +120,7 @@ def main():
     view.add_argument('--purpose',choices=['route','improve'],default='route',help='Preview Route or the narrower Improve capability scope')
     review=sub.add_parser('review-copy',help='Create a fresh disposable review within fixed 60-second wall/full-CPU caps');review.add_argument('receipt');review.add_argument('--output',required=True)
     review.add_argument('--render',action='store_true',help='Add native before/after copper plots and a local HTML review')
-    choice=sub.add_parser('review-choice',help='Record accept/reject intent within fixed 30-second wall/full-CPU caps; no PCB approval or application')
+    choice=sub.add_parser('review-choice',help='Record accept/reject intent within fixed 60-second wall/full-CPU caps; no PCB approval or application')
     choice.add_argument('review');choice.add_argument('--choice',required=True,choices=['accept','reject']);choice.add_argument('--output',required=True)
     export_cmd=sub.add_parser('review-export',help='Fresh native validation into a new separate project after accept intent; no live apply')
     export_cmd.add_argument('choice');export_cmd.add_argument('--output',required=True);export_cmd.add_argument('--seconds',type=float,default=120)

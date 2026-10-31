@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "kind": "runtime069-generic-review60-choice60-software-integration-v1",
+  "recorded_utc": "2026-10-31T03:49:47.056424+00:00",
+  "state": "INTEGRATED_TARGETED_PASSED_NATIVE_INSTALL_GUI_DELIVERY_UNQUALIFIED",
+  "project_complete": false,
+  "release_qualified": false,
+  "installed_current_candidate": "runtime068 remains unchanged atb47afc manifest; it passed finiteNative/GUI101 but failed largechoice30.",
+  "new_policy": "bounded-review60-choice60-v3",
+  "scope": "Fixedgeneric60review/60choice in unchanged420routing/450method/600complete/export120/40return contracts; newv5method005/v6population/portfoliofunctionalv3 distinct from historicalv4/v2 evidence-only60/30.",
+  "headroom": "Bothcompleted reviewANDchoiceCLI<=45wall ANDfullCPU; boundreceipt lowerbounds/stdout/hash/actualjoinedintervals and external600 checks mandatory. FullnewNativeexport/readback required. No timing/body margin may stand in for deliveredheadroom.",
+  "qualifications": {
+    "targeted": true,
+    "full_suite": false,
+    "build": false,
+    "install": false,
+    "actual_Native": false,
+    "actual_GUI": false,
+    "whole_large_delivery": false,
+    "unrelated_family_admission": false,
+    "ROOT_new_admission": false
+  },
+  "targeted": {
+    "first": {
+      "tests": 319,
+      "failures": 16,
+      "errors": 6,
+      "passed": false,
+      "process": {
+        "status": "nonzero_exit",
+        "exit_code": 1,
+        "wall_seconds": 26.648281207992113,
+        "cpu_seconds": 24.965048,
+        "max_rss_bytes": 66961408,
+        "supervisor_cpu_seconds": 0.088531,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 69779456,
+        "sampled_peak_workdir_bytes": 116495,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 2097152,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "-c",
+          "import sys,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');suite=unittest.defaultTestLoader.loadTestsFromNames(['tests.test_handoff_stage_budget', 'tests.test_handoff', 'tests.test_handoff_search_choice', 'tests.test_native7_review_boundary', 'tests.test_native7_review_validation_guard', 'tests.test_review_view', 'tests.test_review_export', 'tests.test_comparison_delivery', 'tests.test_experimental_delivery', 'tests.test_gui', 'tests.test_gui_thermal_method', 'tests.test_gui_improve_parity', 'tests.test_gui_thermal_budget_display', 'tests.test_comparison_review60', 'tests.test_comparison_current40', 'tests.test_admin_review60', 'tests.test_comparison_freezer', 'tests.test_current_comparison_report', 'tests.test_comparison_improve', 'tests.test_comparison_parent_class062', 'tests.test_completed_cli_cost', 'tests.test_choice60_policy']);result=unittest.TextTestRunner(verbosity=2).run(suite);sys.exit(0 if result.wasSuccessful() else 1)"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime069-choice-budget-targeted-001/tests.log",
+        "log_bytes": 81566,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime069-choice-budget-targeted-001",
+        "signal_cancellation_enabled": true,
+        "pid": 80107
+      },
+      "fence_unchanged": true
+    },
+    "second": {
+      "tests": 326,
+      "passed": true,
+      "process": {
+        "status": "success",
+        "exit_code": 0,
+        "wall_seconds": 38.02741362499364,
+        "cpu_seconds": 33.989151,
+        "max_rss_bytes": 67584000,
+        "supervisor_cpu_seconds": 0.13539299999999999,
+        "monitor_cpu_seconds": 0.0,
+        "sampled_peak_group_rss_bytes": 66519040,
+        "sampled_peak_workdir_bytes": 94460,
+        "resource_guards": {
+          "max_group_rss_bytes": 2147483648,
+          "max_workdir_bytes": 2097152,
+          "poll_interval_seconds": 0.25,
+          "os_enforced": false,
+          "limitations": "Polling can overshoot; group RSS can double-count shared pages and miss peaks; workdir logical sizes exclude symlinks and stop counting after the bound is crossed."
+        },
+        "argv": [
+          "/Users/faisal/Projects/KiCad-Autorouter-local/.venv/bin/python",
+          "-B",
+          "-c",
+          "import sys,unittest;sys.path.insert(0,'/Users/faisal/Projects/KiCad-Autorouter-local');suite=unittest.defaultTestLoader.loadTestsFromNames(['tests.test_handoff_stage_budget', 'tests.test_handoff', 'tests.test_handoff_search_choice', 'tests.test_native7_review_boundary', 'tests.test_native7_review_validation_guard', 'tests.test_review_view', 'tests.test_review_export', 'tests.test_comparison_delivery', 'tests.test_experimental_delivery', 'tests.test_gui', 'tests.test_gui_thermal_method', 'tests.test_gui_improve_parity', 'tests.test_gui_thermal_budget_display', 'tests.test_comparison_review60', 'tests.test_comparison_current40', 'tests.test_admin_review60', 'tests.test_comparison_freezer', 'tests.test_current_comparison_report', 'tests.test_comparison_improve', 'tests.test_comparison_parent_class062', 'tests.test_completed_cli_cost', 'tests.test_choice60_policy', 'tests.test_gui_file_chooser']);result=unittest.TextTestRunner(verbosity=2).run(suite);sys.exit(0 if result.wasSuccessful() else 1)"
+        ],
+        "log": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime069-choice-budget-targeted-002/tests.log",
+        "log_bytes": 59531,
+        "log_truncated": false,
+        "cleanup_complete": true,
+        "resource_accounting": {
+          "method": "wait4 child rusage",
+          "cpu_scope": "direct child plus descendants accounted for by child wait",
+          "rss_scope": "kernel peak, not simultaneous process-tree total",
+          "native_rss_unit": "bytes",
+          "memory_limit_enforced": false,
+          "monitor_cpu_scope": "macOS libproc is included in parent CPU; other-platform ps helper CPU is monitor_cpu_seconds"
+        },
+        "cwd": "/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime069-choice-budget-targeted-002",
+        "signal_cancellation_enabled": true,
+        "pid": 82232
+      },
+      "fence_unchanged": true,
+      "modules": 23
+    },
+    "corrections": "Four test-only fixes: currentenclosurefixturepin77c50 whileoldproduction2c0a/17a1 unchanged; injectedfinalCPU61 crossesnew60; fixedcurrentcaps60; exactValueErrorhistoricalv2reboundrefusal. ExtraGUIfilechooser module included becauseSavefeedbackchanged. No productguard removed or falsepositiveexpectationsweakened."
+  },
+  "UI": {
+    "save": "Successstatus shows exactsavedpath/currentdisplayedsettings; no acceptance state change.",
+    "scope": "Improve scope refusal now owner-facing; lead corrected draft advice that impliedunsupportedselectednets to other supportedscopes. Originalreviewmiss explicitlycorrected in independentaddendum."
+  },
+  "skeptical_review": {
+    "initial": ".runs/runtime069-stage-budget-independent-001.json",
+    "addendum": ".runs/runtime069-stage-budget-independent-addendum-001.json",
+    "scope": "Source-onlyAI, not Native/humanreview;37criticalguards ASTunchanged, no materialnewfindingafterwordingcorrection."
+  },
+  "source_sha256": {
+    "autorouter/__main__.py": "0cc6040431fc2d5bff3234f3deb63506e6374f06b28dc45a426b307087725205",
+    "autorouter/gui.py": "466a6a170e9d407cca04eec4f84103dbdeff74fec24598784b6b4d5797436f78",
+    "autorouter/handoff.py": "da3c3ee7960d3e141a1c5f6b4cad614a8c9ba856e92216976ad3aee2484c3651",
+    "autorouter/strategy.py": "b28281abd1b4644b65a893d1732714fa5a1a29a6ce97538ba7eeb37853b1c110",
+    "docs/review-stage-budget.md": "052af144c7c5a80c93bb53ee7dfd8fc3c1adc7ff99263a349775c8da6751238c",
+    "scripts/enclose_current_comparison.py": "77c50a3a1b152207619ba26642fba116b577c2d5313aa5168c6b2c4f5c588bfe",
+    "scripts/freeze_current_comparison.py": "6b36b08837c848d9fef4cd55a96fa2cecb53609c656390733c428a58e908219c",
+    "scripts/qualify_comparison_portfolio.py": "24c8079a74839378c83bf28732e7d2c6e242f327650896eeaff160690eccdf55",
+    "scripts/qualify_current_method.py": "d3846798faef63724464a71ae24fc9835d7b727495b4f68f7e6f3858ebbb771b",
+    "scripts/report_current_comparison.py": "8e927b0ed08752a36aa1c8368d038136bc821a2f816f9e1da86b8bc388793365",
+    "tests/test_choice60_policy.py": "0210931a874a5718d9ff627c42e3ec743d207bdd4f09c9933eb57cebf0f5744f",
+    "tests/test_completed_cli_cost.py": "03fd57e30db2f6c37a636b23b68154b2e3a45ece1745c19bc5afdac5311c8ea4",
+    "tests/test_gui_file_chooser.py": "99950d810da657b611aa70890e5059cb99a70a89738a1459cf462660e4fe36f0",
+    "tests/test_gui_improve_parity.py": "2bab39e57870451c6123786a2b4b7111072c862bd1bbe904e86729343b0f7738",
+    "tests/test_gui_thermal_budget_display.py": "9a8553a14c11d208eb2d3a980b9ff8a34a6a4a93a6886a5485afc3be1764f18d",
+    "tests/test_gui_thermal_method.py": "3a7df6d707db79b236c75b86e17480dbb0518265b391bb80988d5a91164f108e",
+    "tests/test_handoff_stage_budget.py": "4bd936376c6f8ee24bd3163b36cf8b8ba834d05d1fe3df358599ca4fc56b06a3",
+    "tests/test_comparison_freezer.py": "0c0ed216c55d480ea7052c915c67668c127c2c27bc4514b4f41aede1cb5e7dab",
+    "tests/test_handoff_search_choice.py": "08529d89d1790f65b5e0efebfbabe65ceabe021fe83acc89586cf3e64550d2cb",
+    "tests/test_native7_review_boundary.py": "43a42264d804750bb879602c739893e57320f38dd6f61266b326941539146fd7",
+    "tests/test_admin_review60.py": "116ee431e134baeb14c2edd52750aab9abdde09d976f6e6c171f167460d87fa8"
+  },
+  "supporting_sha256": {
+    ".runs/runtime069-stage-budget-draft-001/implementation.patch": "da30515563b3172b49f97e142ea88ebbff442473648ad4fe8b8408f6bdbc8915",
+    ".runs/runtime069-stage-budget-draft-001/review.json": "60fa452fb06d8fb2f4019da88925932c7ea32e427f5485227def4f5d044e597b",
+    ".runs/runtime069-stage-budget-independent-001.json": "2c7bd12dc1c392104e3f0f9fb013c4f158df94febaccfc7eb32886936fd4b2f6",
+    ".runs/runtime069-stage-budget-independent-addendum-001.json": "2982f12347b4abe766fcf10e2dcf7da1eb5a4f006fa42f04d18d8a8f22592974",
+    ".runs/runtime069-targeted-fixture-correction-001/fixtures.patch": "884e35aa3464ab977ec2b8fa4ff848ed32b29044a68730209b7305b83f95748b",
+    ".runs/runtime069-targeted-fixture-correction-001/review.json": "244c1f90b5430b35f150acd990ee6ccdfc568062e743ac325ceee480dcebd681",
+    ".runs/run-choice-budget-targeted.py": "08ad2409325d382593ec6c9cb68821eb1455509dc6d66f89b7d4788952273a24",
+    ".runs/run-choice-budget-targeted-002.py": "4cb7b2842093f2d7912aaf4b83801eadfa605cec1fca1433d691d4107cd55234",
+    ".runs/runtime069-choice-budget-targeted-001/protocol.json": "b47b9a0611f3f4cba3b85d97dd176718f198f06a4be3d710ef2c38431dca881d",
+    ".runs/runtime069-choice-budget-targeted-001/execution.json": "2ca7a05bcfa7943b05dafc5ccf6ecc88c57c3a9d0deb84ff45570123a4e52a86",
+    ".runs/runtime069-choice-budget-targeted-001/tests.log": "a86bf9f717666da03529061d7e85af08e4ecaef3b3ce4377f9767652ddcef9b9",
+    ".runs/runtime069-choice-budget-targeted-001-time.log": "4dc5b3c7f3882579154ba4b8b76c92329544cd2ac2da70a08c0c03e29382a37e",
+    ".runs/runtime069-choice-budget-targeted-001.log": "b6ee277b0c3968dc59876a833a6d89a4058a73b1b711daf1372c233c9627c207",
+    ".runs/runtime069-choice-budget-targeted-002/protocol.json": "a2385fa37f31466db0bcf5a145abb2a6d5deb58a6d8af3bd7662be11c482a87d",
+    ".runs/runtime069-choice-budget-targeted-002/execution.json": "2d3999e2b6ca411342b2f3457f95184fb2aa40555e671b9f200fa5c487ef0d09",
+    ".runs/runtime069-choice-budget-targeted-002/tests.log": "65bf76e302c885fbde6c328aca07b3bddb22b5a71e42617d585bbe1636b11363",
+    ".runs/runtime069-choice-budget-targeted-002-time.log": "23ac892faf75364b2b0eef1d8213141f0237d5b4ac7b15da63f82b4627129f5a",
+    ".runs/runtime069-choice-budget-targeted-002.log": "be18e223abcecfb3b9b52dc40d12ce681bcf801c2ad9671719eba65c8fde86f5"
+  },
+  "capacity": "Native/build/install/newGUI/whole-delivery andrawcaptureunqualified. Actual3GiBdiskreserve gate holdsNative/capture; oneowner5GiBfreequestionpending. No old068failedchoice relabeling/retry.",
+  "accounting": "Actualexternal target001/002 logs retained; processsamples nested, not added. Additionalauthoring/AI/source-onlyreviews unknownadditional. Softwaretests do not establish routing quality or broadercompletiongain."
+}

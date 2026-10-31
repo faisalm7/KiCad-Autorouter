@@ -22,7 +22,7 @@ class RecoveryBudgetDisplayTests(unittest.TestCase):
                           cpu_budget_seconds=420, engine_profile='standard', adapter='both',
                           native=dict(opens=0, blocking=0, warnings=22, exclusions=0))
         self.review = dict(status='ready_for_manual_review', budget_seconds=60, cpu_budget_seconds=60)
-        self.choice = dict(choice_recorded=True, choice='accept', budget_seconds=30)
+        self.choice = dict(choice_recorded=True, choice='accept', budget_seconds=60)
         self.export = dict(status='export_validated', export_accepted=True,
                            budget_seconds=120, cpu_budget_seconds=120)
         self.records = dict(route=self.route, review=self.review, choice=self.choice, export=self.export)

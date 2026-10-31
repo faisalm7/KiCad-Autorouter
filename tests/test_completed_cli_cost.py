@@ -19,7 +19,7 @@ def write(path,value):
 
 class ActualMethodCliTimingSeam(unittest.TestCase):
     def test_actual_cli_body_separates_joined_call_from_adoption_and_freshness(self):
-        for kind in (method.REVIEW60_KIND,method.CURRENT40_KIND):
+        for kind in (method.REVIEW60_KIND,method.CHOICE60_KIND,method.CURRENT40_KIND):
             with self.subTest(kind=kind),tempfile.TemporaryDirectory() as folder:
                 out=Path(folder).resolve();events=[];record=dict(processes=[])
                 process=dict(argv=['owned','inert-command'],exit_code=0,cancel_requested=False,log_truncated=False,
@@ -34,7 +34,7 @@ class ActualMethodCliTimingSeam(unittest.TestCase):
                 def require(value,message):
                     if not value:raise ValueError(message)
                 def fresh():events.append('fresh')
-                scope=dict(plan=dict(kind=kind),REVIEW60_KIND=method.REVIEW60_KIND,record=record,
+                scope=dict(plan=dict(kind=kind),REVIEW60_KIND=method.REVIEW60_KIND,CHOICE60_KIND=method.CHOICE60_KIND,record=record,
                     fresh=fresh,left=lambda:600.,method_left=lambda:450.,gui=SimpleNamespace(CliJob=Job),out=out,
                     pv=frozen.pv,f=frozen.f,p=SimpleNamespace(Rejected=ValueError,sha=report.digest),require=require,
                     time=SimpleNamespace(monotonic=wall),cpu=cpu,cli_cost_sample=method.cli_cost_sample)
@@ -43,7 +43,7 @@ class ActualMethodCliTimingSeam(unittest.TestCase):
                 self.assertIs(scope['cli']('review',process['argv'],workflow=workflow),process)
                 self.assertEqual(events,['fresh','run','adopt','fresh'])
                 item=record['processes'][0]
-                if kind==method.REVIEW60_KIND:
+                if kind in (method.REVIEW60_KIND,method.CHOICE60_KIND):
                     self.assertEqual(item['completed_cli_exit']['wall_seconds'],25.)
                     self.assertEqual(item['completed_cli_exit']['full_CPU_seconds'],20.)
                     self.assertEqual(item['post_cli_adoption_and_freshness']['wall_seconds'],5.)

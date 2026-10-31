@@ -52,7 +52,7 @@ class Native7ReviewBoundaryTests(unittest.TestCase):
         self.assertEqual(self.check.call_count,1)
         self.assertGreaterEqual(events.count('published'),1)
         self.assertEqual(events[-1],'published')
-        self.assertEqual(h.SECONDS,30)
+        self.assertEqual((h.REVIEW_SECONDS,h.CHOICE_SECONDS,h.SECONDS),(60,60,60))
 
     def test_failed_first_full_read_never_reaches_source_recognition(self):
         self.check.return_value['current']=False

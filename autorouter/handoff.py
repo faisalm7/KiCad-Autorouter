@@ -14,9 +14,9 @@ from . import comparison as cmp
 
 # Prospective fixed stage policy. A larger review allocation never changes the
 # routing budget or any enclosing complete-workflow wall/full-CPU ceiling.
-STAGE_POLICY = 'bounded-review60-choice30-v2'
+STAGE_POLICY = 'bounded-review60-choice60-v3'
 REVIEW_SECONDS = 60
-CHOICE_SECONDS = 30
+CHOICE_SECONDS = 60
 SECONDS = CHOICE_SECONDS  # Historical administration alias; never review authority.
 PROJECT_BYTES = 32 * 1024 * 1024
 EVIDENCE_BYTES = 100 * 1024 * 1024
@@ -530,7 +530,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
     if lifecycle is not None:lifecycle.update(record=record,name='choice.json')
     def cap():
         if time.monotonic() - start > CHOICE_SECONDS or cpu_seconds() - cpu_start > CHOICE_SECONDS:
-            raise Rejected('review choice exceeded 30-second wall or full CPU ceiling')
+            raise Rejected('review choice exceeded 60-second wall or full CPU ceiling')
     def inventory(path, *, evidence=False):
         cap(); value = evidence_witness(path) if evidence else pc.inventory(path, max_bytes=EVIDENCE_BYTES if evidence else PROJECT_BYTES,
                 max_files=4000 if evidence else 2000, max_entries=8000 if evidence else 4000)
