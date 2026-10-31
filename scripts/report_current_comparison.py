@@ -27,6 +27,7 @@ KEYS = ('opens', 'blocking', 'warnings', 'exclusions')
 KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequisite recorded by freezer; no new GUI claim',
          frozen.CURRENT40_POPULATION_KIND: 'Exact installed060/current40 Native CLI prerequisites; no new GUI qualification',
          frozen.PARENT_CLASS_POPULATION_KIND: 'Exact installed062 parent-class Native CLI follow-up; no GUI qualification',
+         frozen.REVIEW60_POPULATION_KIND: 'Prospective exact installed review60 Native CLI prerequisites; no GUI qualification',
          frozen.IMPROVE_POPULATION_KIND: 'Pinned installed Native/CLI prerequisites; GUI qualification NOT supplied',
          'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
          'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied',
@@ -280,7 +281,7 @@ def classify(outer, data, timing, arm, summary=None):
 def parent_class_plan(plan):
     value = plan.get('improve_parent_class_policy')
     if 'improve_parent_class_policy' not in plan: return False
-    require(plan.get('kind') == frozen.CURRENT40_METHOD_KIND
+    require(plan.get('kind') in (frozen.CURRENT40_METHOD_KIND,frozen.REVIEW60_METHOD_KIND)
         and value == 'native-parent-dimensions-v1', 'explicit parent-class reporting contract required')
     return True
 
@@ -472,6 +473,134 @@ def preview_material(root, preview):
         require(root in path.parents and io.inventory(path) == hashes, 'recorded preview input changed')
 
 
+
+
+def completed_cli_facts(plan,data,timing):
+    """Consume actual completed CLI intervals; API delivery remains unmeasured."""
+    if plan.get('arm') not in ('Cdefault','Cimprove'):
+        return dict(complete_review_cli_headroom_qualified=False,
+            scope='No completed CLI CPU measurement for this API baseline/portfolio; stored receipt samples are not a substitute.')
+    require(plan.get('kind') == frozen.REVIEW60_METHOD_KIND and data.get('kind') == frozen.REVIEW60_METHOD_KIND,
+            'completed CLI timing requires the exact prospective method kind')
+    frozen.review60_stage_fields(plan);frozen.review60_stage_fields(data)
+    require(data.get('status') == 'completed' and data.get('controls_passed') is True
+        and data.get('attempt_qualified') is True and data.get('workflow_delivered') is True
+        and data.get('outcome') == 'validated_delivery', 'only a complete delivered method can qualify CLI headroom')
+    def finite(value):return type(value) in (int,float) and math.isfinite(value) and value >= 0
+    require(type(timing) is dict and all(finite(timing.get(key)) and timing[key] <= 600
+        for key in ('wall_seconds','CPU_seconds')), 'actual complete external600s timing required')
+    out=pv.canonical(Path(plan['output']));workspace=pv.canonical(Path(data['workspace']))
+    require(workspace.parent == out and re.fullmatch(r'autorouter-gui-[0-9a-f]{32}',workspace.name),
+            'completed CLI timing workspace escaped exact method output')
+    prefix=[str(Path(plan['runtime'])/'.venv/bin/python'),'-B','-m','autorouter']
+    settings=str(workspace/'settings.json');route=workspace/'route/result.json';review=workspace/'review/review.json'
+    choice=workspace/'choice/choice.json';export=workspace/'export/export.json'
+    commands={
+        'preview':['preview',plan['source'],'--settings',settings] + (['--purpose','improve'] if plan['arm']=='Cimprove' else []),
+        'route':['improve' if plan['arm']=='Cimprove' else 'route',plan['source'],'--settings',settings,'--output',str(route.parent)],
+        'review':['review-copy',str(route),'--render','--output',str(review.parent)],
+        'choice':['review-choice',str(review),'--choice','accept','--output',str(choice.parent)],
+        'export':['review-export',str(choice),'--seconds','120','--output',str(export.parent)],
+        'verify_export':['review-export-check',str(export)]}
+    require(data.get('selected_route_receipt') == str(route) and data.get('export_receipt') == str(export),
+            'completed CLI costs differ from exact delivered receipt paths')
+    bound_records=bound_delivery_stage_records(plan,data,[out])
+    rows=data.get('processes')
+    require(type(rows) is list and [row.get('stage') for row in rows] == list(commands),
+            'all six ordered completed CLI intervals required')
+    costs={};total_wall=0.;total_cpu=0.
+    for item in rows:
+        stage=item['stage'];journal=out/(stage+'.process.json');log=out/(stage+'.log')
+        require(item.get('journal') == str(journal) and item.get('log') == str(log)
+            and digest(journal) == item.get('journal_sha256') and digest(log) == item.get('log_sha256'),
+            'complete CLI measurement journal/log custody differs')
+        process=read(journal)
+        require(process == item.get('process') and process.get('argv') == item.get('argv') == prefix+commands[stage]
+            and type(process.get('exit_code')) is int and process['exit_code'] == 0
+            and process.get('cancel_requested') is False and process.get('log_truncated') is False
+            and process.get('log_bytes') == log.stat().st_size and finite(process.get('wall_seconds')),
+            'complete CLI measurement lacks its actual joined successful command')
+        stages={}
+        for scope in ('completed_cli_exit','post_cli_adoption_and_freshness'):
+            value=item.get(scope)
+            require(type(value) is dict and set(value) == {'schema','kind','scope','joined','wall_seconds','full_CPU_seconds'}
+                and type(value.get('schema')) is int and value['schema'] == 1
+                and value.get('kind') == 'installed-method-cli-cost-v1' and value.get('scope') == scope
+                and value.get('joined') is True and finite(value.get('wall_seconds')) and finite(value.get('full_CPU_seconds')),
+                'complete CLI cost sample missing/nonfinite/misbound')
+            stages[scope]=value
+            total_wall+=value['wall_seconds'];total_cpu+=value['full_CPU_seconds']
+        require(stages['completed_cli_exit']['wall_seconds']+1e-6 >= process['wall_seconds'],
+                'completed CLI sample omits joined process time')
+        if stage in bound_records:
+            bound=bound_records[stage];logged=read(log)
+            if stage in ('review','choice'):
+                expected_log=bound
+            else:
+                keys=({'status','accepted','reason','candidate','wall_seconds','total_cpu_seconds','metrics'}
+                    if stage=='route' else {'status','export_accepted','project_file','candidate_sha256',
+                        'native_report_sha256','wall_seconds','total_cpu_seconds'})
+                expected_log={key:value for key,value in bound.items() if key in keys}
+            require(f.canonical(logged) == f.canonical(expected_log),
+                    'completed CLI log differs from bound '+stage+' receipt')
+            require(all(finite(bound.get(key)) for key in ('wall_seconds','total_cpu_seconds')),
+                    'bound '+stage+' receipt compute samples are missing/nonfinite')
+            require(stages['completed_cli_exit']['wall_seconds']+1e-6 >= bound['wall_seconds']
+                and stages['completed_cli_exit']['full_CPU_seconds']+1e-6 >= bound['total_cpu_seconds'],
+                'completed CLI sample omits bound '+stage+' receipt compute')
+        costs[stage]=stages
+    require(total_wall <= timing['wall_seconds']+1e-6 and total_cpu <= timing['CPU_seconds']+1e-6,
+            'disjoint CLI/adoption costs exceed complete external measured exit')
+    review_cost=costs['review']['completed_cli_exit']
+    headroom=max(review_cost['wall_seconds'],review_cost['full_CPU_seconds']) <= 45
+    return dict(complete_review_cli_headroom_qualified=headroom,review_cli_target_seconds=45,
+        review_stage_budget_seconds=60,complete_review_cli=review_cost,
+        review_stage_headroom_seconds=dict(wall=60-review_cost['wall_seconds'],CPU=60-review_cost['full_CPU_seconds']),
+        disjoint_measured_CLI_and_adoption_totals=dict(wall_seconds=total_wall,CPU_seconds=total_cpu),stages=costs,
+        scope='Complete actual CLI entry through joined return includes startup and final publication/cleanup. Later journal custody/adoption/freshness is separate. Both remain inside600s external totals; other enclosing work remains additional within those totals.')
+
+
+def bound_delivery_stage_records(plan,data,allowed):
+    """Shared exact current receipt/hash custody; never Native acceptance."""
+    frozen.review60_stage_fields(plan)
+    route=pv.canonical(Path(data['selected_route_receipt']));root=route.parent.parent
+    export_path=pv.canonical(Path(data['export_receipt']))
+    require(any(route == value or value in route.parents for value in allowed)
+        and any(export_path == value or value in export_path.parents for value in allowed),
+        'prospective stage material escaped frozen arm')
+    require(route.name == 'result.json' and route.parent.name == 'route'
+        and export_path == root/'export/export.json', 'prospective stage roots differ')
+    exported=read(export_path);review_path=root/'review/review.json';choice_path=root/'choice/choice.json'
+    binding=exported['inputs'];review=read(review_path);choice=read(choice_path)
+    require(review.get('status') == 'ready_for_manual_review' and choice.get('status') == 'disposition_recorded'
+        and choice.get('choice') == 'accept' and choice.get('choice_recorded') is True
+        and binding['receipt'] == str(route) and binding['receipt_sha256'] == digest(route)
+        and binding['review'] == str(review_path) and binding['review_sha256'] == digest(review_path)
+        and binding['choice'] == str(choice_path) and binding['choice_sha256'] == digest(choice_path)
+        and review['receipt'] == choice['receipt'] == str(route)
+        and review['receipt_sha256'] == choice['receipt_sha256'] == digest(route)
+        and choice['review'] == str(review_path) and choice['review_sha256'] == digest(review_path),
+        'prospective delivery stage receipt binding differs')
+    for name,record in (('review',review),('choice',choice)):
+        frozen.h.check_stage_budget(record,name)
+    return dict(route=read(route),review=review,choice=choice,export=exported)
+
+
+def delivery_stage_facts(plan,data,allowed,complete_timing=None):
+    """Exact current stage identity and sample facts, never a Native acceptance."""
+    records=bound_delivery_stage_records(plan,data,allowed)
+    review,choice=records['review'],records['choice']
+    # Stored samples precede final publication checks. Do not turn their margin
+    # into measured complete-stage CPU headroom or a closed reliability claim.
+    cli_facts=completed_cli_facts(plan,data,complete_timing)
+    return dict(handoff_stage_policy=plan['handoff_stage_policy'],delivery_stage_seconds=plan['delivery_stage_seconds'],
+        stored_prepublication_samples={name:{key:record[key] for key in ('wall_seconds','total_cpu_seconds')}
+            for name,record in (('review',review),('choice',choice))},
+        complete_stage_headroom_qualified=cli_facts['complete_review_cli_headroom_qualified'],completed_cli=cli_facts,
+        receipt_samples_establish_complete_headroom=False,headroom_scope='Completed review CLI only; other stages complete inside600, without an every-stage margin guarantee.',
+        scope='Receipt samples remain prepublication. Only separate completed_cli evidence can qualify actual complete review CLI headroom; the two scopes are never substituted.')
+
+
 def installed_delivery(child, plan, out, workspace):
     """Replay the retained six-stage CLI/material bridges, without running tools.
 
@@ -504,6 +633,9 @@ def installed_delivery(child, plan, out, workspace):
             'installed CLI log/argv/process custody differs')
         logs[stage] = read(path)
     r,ch,x = read(review),read(choice),read(export)
+    if plan.get('handoff_stage_policy') == frozen.REVIEW60_STAGE_POLICY:
+        frozen.review60_stage_fields(plan)
+        frozen.h.check_stage_budget(r,'review');frozen.h.check_stage_budget(ch,'choice')
     parent = read(route)
     require(logs['review'] == r and logs['choice'] == ch
         and all(logs['route'].get(key) == parent.get(key) for key in logs['route'])
@@ -549,7 +681,7 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
     # supplies its independently frozen90s cohort budget; receipts cannot pick it.
     seconds = 420
     if prerequisite_seconds is not None:
-        require(plan.get('kind') == frozen.CURRENT40_METHOD_KIND
+        require(plan.get('kind') in (frozen.CURRENT40_METHOD_KIND,frozen.REVIEW60_METHOD_KIND)
             and type(prerequisite_seconds) is int and prerequisite_seconds == 90,
             'only the current40 completed90s prerequisite contract is allowed')
         seconds = prerequisite_seconds
@@ -617,7 +749,7 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
                     receipt_sha256=digest(incumbent_path),file='incumbent/default-targets.json',sha256=digest(guide))
                     and inc['default_target_transport'] == dict(policy=basis['policy'],file=guide.name,sha256=basis['sha256']),
                     'mandatory inherited Default basis differs')
-            if plan.get('kind') == frozen.CURRENT40_METHOD_KIND:
+            if plan.get('kind') in (frozen.CURRENT40_METHOD_KIND,frozen.REVIEW60_METHOD_KIND):
                 require([dict(step,phase='incumbent') for step in inc['steps']]
                     == [step for step in parent['steps'] if step.get('phase') == 'incumbent'],
                     'parent incumbent worker lineage differs')
@@ -657,7 +789,7 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
         if qualified_parent:
             require(trial.get('base_candidate_sha256') == best, 'trial base differs from previous checked best')
             require(trial['accepted'] is (trial.get('status') == 'improvement_validated'), 'trial selection/status differs')
-            if plan.get('kind') == frozen.CURRENT40_METHOD_KIND:
+            if plan.get('kind') in (frozen.CURRENT40_METHOD_KIND,frozen.REVIEW60_METHOD_KIND):
                 require([dict(step,phase=directory.name) for step in trial['steps']]
                     == [step for step in parent['steps'] if step.get('phase') == directory.name],
                     'parent trial worker lineage differs')
@@ -685,7 +817,8 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
 
 def population_shape(population, children):
     require(type(population.get('schema')) is int and population['schema'] == 1 and population.get('kind') in KINDS, 'unsupported frozen population schema')
-    version = (frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
+    version = (frozen.REVIEW60_VERSION if population['kind'] == frozen.REVIEW60_POPULATION_KIND else
+        frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
         frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
         'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1')
     names, order, _, _, _ = frozen.contract(version)
@@ -710,6 +843,14 @@ def population_shape(population, children):
                 and q['runtime_manifest_sha256'] == population['runtime_manifest_sha256'], 'Native-only prerequisite identity differs')
         require(q['kind'] == native_only[population['kind']]
                 and q['actual_GUI_qualified'] is False and q['full_GUI_claim'] is False, 'Native-only qualification promoted or malformed')
+    elif version == frozen.REVIEW60_VERSION:
+        frozen.review60_stage_fields(population)
+        frozen.review60_qualification_summary(population['qualification'],population['source_head'],
+            population['runtime'],population['runtime_manifest_sha256'])
+        require(type(population.get('improve_finalization_reserve_seconds')) is int
+            and population['improve_finalization_reserve_seconds'] == 40
+            and population.get('improve_parent_class_policy') == 'native-parent-dimensions-v1',
+            'prospective Improve reserve/class contract differs')
     elif version == frozen.PARENT_CLASS_VERSION:
         q = population['qualification']
         require(q.get('kind') == frozen.PARENT_CLASS_QUALIFICATION_KIND and q.get('Native_cohort_only') is True
@@ -773,7 +914,8 @@ def administration(population):
 
 
 def plan_binding(plan, family, arm, entry, population, population_path, population_pin):
-    version = (frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
+    version = (frozen.REVIEW60_VERSION if population['kind'] == frozen.REVIEW60_POPULATION_KIND else
+        frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
         frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
         'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1')
     names, _, _, method_kind, child_name = frozen.contract(version)
@@ -784,17 +926,25 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['source_hashes'] == entry['source_hashes'] and plan['source_rights'] == entry['source_rights']
             and plan['population_protocol_path'] == str(population_path) and plan['population_protocol_sha256'] == population_pin
             and plan['enclosure_sha256'] == population['enclosure_sha256']
-            and plan['enclosure_sha256'] in ((frozen.ENCLOSURE_SHA,) if version == frozen.CURRENT40_VERSION
+            and plan['enclosure_sha256'] in ((frozen.REVIEW60_ENCLOSURE_SHA,) if version == frozen.REVIEW60_VERSION
+                else (frozen.ENCLOSURE_SHA,) if version == frozen.CURRENT40_VERSION
                 else (frozen.LEGACY_ENCLOSURE_SHA,frozen.ENCLOSURE_SHA))
             and plan['whole_wall_full_cpu_seconds'] == 600 and plan['pass_key'] == 'controls_passed'
             and plan['administration_root'] == str(ROOT), 'frozen source/runtime/protocol binding differs')
+    if version == frozen.REVIEW60_VERSION:
+        frozen.review60_stage_fields(plan)
+        require(plan['delivery_stage_seconds'] == population['delivery_stage_seconds']
+            and plan['handoff_stage_policy'] == population['handoff_stage_policy'], 'child delivery stage policy differs')
+    else:
+        require('handoff_stage_policy' not in plan and 'delivery_stage_seconds' not in plan,
+            'historical plan cannot adopt prospective stage fields')
     tools = plan['tools']; provenance = tools['source_provenance']
     require(tools['git_head'] == provenance['git_head'] == population['source_head'] and tools['kicad'] == '10.0.7'
             and provenance['manifest_sha256'] == population['runtime_manifest_sha256']
             and tools['comparison_route_policy'] == 'selected-native7-fixed-comparison-v2', 'frozen selected7 tools differ')
     pins = population['tracked_administration_files_sha256']
     if arm == 'B2_portfolio':
-        require(plan['kind'] == 'installed-native7-comparison-portfolio-functional-v1'
+        require(plan['kind'] == (frozen.REVIEW60_PORTFOLIO_KIND if version == frozen.REVIEW60_VERSION else 'installed-native7-comparison-portfolio-functional-v1')
             and all(plan[key] == value for key, value in frozen.LIMITS.items())
             and plan['variants'] == list(frozen.VARIANTS) and plan['allocation'] == 'balanced'
             and plan['trial_readback_reserve_seconds'] == 30 and plan['root_finalization_reserve_seconds'] == 15
@@ -813,11 +963,11 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['qualifier_sha256'] == pins['scripts/qualify_installed_workflow.py']
             and plan['source_inventory_sha256'] == hashlib.sha256((f.canonical(entry['source_hashes']) + '\n').encode()).hexdigest()
             and plan['source_rights_sha256'] == hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(), 'method contract differs')
-        if version in ('improve-v2',frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION):
+        if version in ('improve-v2',frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION):
             require(plan['improve_settings'] == population['improve_settings'], 'Improve settings changed')
-            require(improve_reserve(plan) == (40 if version in (frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION) else 25),
+            require(improve_reserve(plan) == (40 if version in (frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION) else 25),
                     'method reserve differs from frozen version')
-        if version == frozen.PARENT_CLASS_VERSION:
+        if version in (frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION):
             require(plan.get('improve_parent_class_policy') == population['improve_parent_class_policy'],
                 'frozen062 parent-class reporting policy differs')
         else:
@@ -906,6 +1056,10 @@ def report(*, population, population_sha256, children, children_sha256, output, 
             extra = custody(out, plan, outer, arm); allowed = [out, *extra]
             child = out / 'result.json'; data = read(child) if child.is_file() else {}
             if data:
+                if pop['kind'] == frozen.REVIEW60_POPULATION_KIND:
+                    frozen.review60_stage_fields(data)
+                    require(data['handoff_stage_policy'] == plan['handoff_stage_policy']
+                        and data['delivery_stage_seconds'] == plan['delivery_stage_seconds'], 'terminal child stage policy differs')
                 require(data['protocol_sha256'] == item['sha256'] and data['controller_sha256'] == plan['controller_sha256']
                         and data['runtime'] == str(runtime) and data['source'] == plan['source']
                         and data['source_hashes'] == entry['source_hashes'] and data['tools'] == plan['tools'], 'terminal child identity differs')
@@ -963,6 +1117,8 @@ def report(*, population, population_sha256, children, children_sha256, output, 
                 row['route_own_final'] = own_final(selected, export=False, plan=plan, allowed=allowed,
                     accepted=state['workflow_delivered'], public_sanitize=public_sanitize)
             if state['workflow_delivered']:
+                if pop['kind'] == frozen.REVIEW60_POPULATION_KIND:
+                    row['delivery_stages'] = delivery_stage_facts(plan,data,allowed,complete_timing=timing)
                 proofs = {}
                 for label, path_key, hash_key, is_export in (('route', 'selected_route_receipt', 'selected_route_sha256', False), ('export', 'export_receipt', 'export_sha256', True)):
                     receipt = Path(data[path_key]); require(digest(receipt) == data[hash_key], 'delivery receipt hash differs')

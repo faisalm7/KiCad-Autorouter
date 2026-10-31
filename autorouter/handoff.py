@@ -1,6 +1,7 @@
 """Bounded disposable review copies; no GUI, native worker or live application."""
 from pathlib import Path
 import hashlib
+import math
 import os
 import resource
 import signal
@@ -11,9 +12,29 @@ from . import config as c, floor_route as f, placement_clearance as pc, pipeline
 from .pipeline import Rejected, check_result, save_json, validation_readback_session
 from . import comparison as cmp
 
-SECONDS = 30
+# Prospective fixed stage policy. A larger review allocation never changes the
+# routing budget or any enclosing complete-workflow wall/full-CPU ceiling.
+STAGE_POLICY = 'bounded-review60-choice30-v2'
+REVIEW_SECONDS = 60
+CHOICE_SECONDS = 30
+SECONDS = CHOICE_SECONDS  # Historical administration alias; never review authority.
 PROJECT_BYTES = 32 * 1024 * 1024
 EVIDENCE_BYTES = 100 * 1024 * 1024
+
+
+
+def check_stage_budget(record, stage):
+    """Require this runtime's exact fixed stage policy, never a receipt-selected cap."""
+    if type(stage) is not str or stage not in {'review', 'choice'}:
+        raise Rejected('explicit review or choice budget stage required')
+    seconds = REVIEW_SECONDS if stage == 'review' else CHOICE_SECONDS
+    if (type(record) is not dict or record.get('handoff_stage_policy') != STAGE_POLICY
+            or any(type(record.get(key)) is not int or record[key] != seconds
+                   for key in ('budget_seconds', 'cpu_budget_seconds'))
+            or record.get('within_budget') is not True
+            or any(type(record.get(key)) not in (int, float) or not math.isfinite(record[key])
+                   or not 0 <= record[key] <= seconds for key in ('wall_seconds', 'total_cpu_seconds'))):
+        raise Rejected('current ' + stage + ' fixed stage budget/policy required')
 
 
 def digest(raw):
@@ -207,7 +228,9 @@ def finish_session(record, output, start, cpu_start, name, lifecycle=None):
     """Include memo cleanup in delivery caps; retain any over-cap publication."""
     destination=owned_destination(lifecycle) if lifecycle is not None else real_path(output)
     wall, cpu = time.monotonic() - start, cpu_seconds() - cpu_start
-    if wall <= SECONDS and cpu <= SECONDS:return record
+    seconds = {'review.json': REVIEW_SECONDS, 'choice.json': CHOICE_SECONDS}.get(name)
+    if seconds is None:raise Rejected('explicit review or choice cleanup stage required')
+    if wall <= seconds and cpu <= seconds:return record
     for filename in (name, 'preview.html' if name == 'review.json' else None):
         if filename is not None and (destination / filename).exists():
             (destination / filename).rename(destination / ('invalidated-session-' + uuid.uuid4().hex + '-' + filename))
@@ -245,14 +268,15 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
     validation_guard=None
     entry_owner=None;entry_check=None
     record = {'schema': 1, 'status': 'rejected', 'native_validation_performed': False,
-              'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS,
+              'handoff_stage_policy': STAGE_POLICY,
+              'budget_seconds': REVIEW_SECONDS, 'cpu_budget_seconds': REVIEW_SECONDS,
               'accounting_point': 'Stored totals precede final publication checks; final wall and parent-plus-waited-child CPU caps include them. These are observed acceptance ceilings, not OS quotas.'}
     record.update(delivery_record(native_toolchain, experimental_schematic_parity, comparison_context=comparison_context))
     if lifecycle is not None:lifecycle.update(record=record,name='review.json')
 
     def cap():
-        if time.monotonic() - start > SECONDS or cpu_seconds() - cpu_start > SECONDS:
-            raise Rejected('review copy exceeded 30-second wall or full CPU ceiling')
+        if time.monotonic() - start > REVIEW_SECONDS or cpu_seconds() - cpu_start > REVIEW_SECONDS:
+            raise Rejected('review copy exceeded 60-second wall or full CPU ceiling')
 
     def inventory(path, *, contents=False, evidence=False):
         cap()
@@ -264,7 +288,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
     def account():
         record.update(wall_seconds=time.monotonic() - start,
                       total_cpu_seconds=cpu_seconds() - cpu_start)
-        record['within_budget'] = record['wall_seconds'] <= SECONDS and record['total_cpu_seconds'] <= SECONDS
+        record['within_budget'] = record['wall_seconds'] <= REVIEW_SECONDS and record['total_cpu_seconds'] <= REVIEW_SECONDS
 
     def invalidate():
         # Only metadata in this invocation's new directory is moved. Keep the
@@ -400,7 +424,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
             before_created = True; del original_capture
             copy_material()
             from .review_view import render as render_view
-            remaining = lambda: max(0, min(SECONDS - (time.monotonic() - start), SECONDS - (cpu_seconds() - cpu_start)))
+            remaining = lambda: max(0, min(REVIEW_SECONDS - (time.monotonic() - start), REVIEW_SECONDS - (cpu_seconds() - cpu_start)))
             # Plot workers already preserve/check their own input and completed
             # output bytes. Keep every captured byte witness between plots;
             # replay the full parent/tool/worker/PRL fence immediately after.
@@ -500,11 +524,12 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
               'routing_accepted': False, 'applied': False,
               'native_validation_performed': False, 'human_pcb_approval_observed': False,
               'fresh_native_validation_required': True,
-              'budget_seconds': SECONDS, 'cpu_budget_seconds': SECONDS}
+              'handoff_stage_policy': STAGE_POLICY,
+              'budget_seconds': CHOICE_SECONDS, 'cpu_budget_seconds': CHOICE_SECONDS}
     record.update(delivery_record(native_toolchain, experimental_schematic_parity, comparison_context=comparison_context))
     if lifecycle is not None:lifecycle.update(record=record,name='choice.json')
     def cap():
-        if time.monotonic() - start > SECONDS or cpu_seconds() - cpu_start > SECONDS:
+        if time.monotonic() - start > CHOICE_SECONDS or cpu_seconds() - cpu_start > CHOICE_SECONDS:
             raise Rejected('review choice exceeded 30-second wall or full CPU ceiling')
     def inventory(path, *, evidence=False):
         cap(); value = evidence_witness(path) if evidence else pc.inventory(path, max_bytes=EVIDENCE_BYTES if evidence else PROJECT_BYTES,
@@ -513,7 +538,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
     def account():
         record.update(wall_seconds=time.monotonic() - start,
                       total_cpu_seconds=cpu_seconds() - cpu_start)
-        record['within_budget'] = record['wall_seconds'] <= SECONDS and record['total_cpu_seconds'] <= SECONDS
+        record['within_budget'] = record['wall_seconds'] <= CHOICE_SECONDS and record['total_cpu_seconds'] <= CHOICE_SECONDS
     def invalidate():
         for name in ('choice.json', 'choice.json.partial'):
             path = destination / name
@@ -529,6 +554,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         if (type(review.get('schema')) is not int or review['schema'] != 1
                 or review.get('status') != 'ready_for_manual_review'):
             raise Rejected('current ready review record required')
+        check_stage_budget(review, 'review')
         receipt = real_path(review['receipt']); receipt_hash = digest(pc.read_bytes(receipt, PROJECT_BYTES))
         if receipt_hash != review['receipt_sha256']:
             raise Rejected('reviewed routing receipt changed')

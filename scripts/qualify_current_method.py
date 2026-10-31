@@ -37,6 +37,7 @@ from pathlib import Path
 import argparse
 import hashlib
 import inspect
+import math
 import json
 import signal
 import sys
@@ -45,6 +46,9 @@ KIND = 'installed-native7-current-method-v1'
 POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cthermal')
 IMPROVE_KIND = 'installed-native7-current-method-v2'
 CURRENT40_KIND = 'installed-native7-current-method-v3-current40'
+REVIEW60_KIND = 'installed-native7-current-method-v4-review60'
+REVIEW60_POLICY = 'bounded-review60-choice30-v2'
+REVIEW60_STAGES = dict(review=60,choice=30)
 IMPROVE_POPULATION = ('B0', 'B1', 'B2single_tuned', 'B2_portfolio', 'Cdefault', 'Cimprove')
 ARMS = tuple(name for name in POPULATION if name != 'B2_portfolio')
 COMPARISON = ('B0', 'B1', 'B2single_tuned')
@@ -56,6 +60,7 @@ def method_contract(kind):
     if kind == KIND: return POPULATION, 'qualify-current-method-001.py'
     if kind == IMPROVE_KIND: return IMPROVE_POPULATION, 'qualify-current-method-002.py'
     if kind == CURRENT40_KIND: return IMPROVE_POPULATION, 'qualify-current-method-003.py'
+    if kind == REVIEW60_KIND: return IMPROVE_POPULATION, 'qualify-current-method-004.py'
     raise ValueError('unknown comparison method contract')
 
 
@@ -63,7 +68,7 @@ def method_reserve(plan):
     if plan.get('kind') == IMPROVE_KIND:
         if 'improve_finalization_reserve_seconds' in plan: raise ValueError('legacy25 contract has no current40 override')
         return 25
-    if plan.get('kind') == CURRENT40_KIND:
+    if plan.get('kind') in (CURRENT40_KIND,REVIEW60_KIND):
         value = plan.get('improve_finalization_reserve_seconds')
         if type(value) is not int or value != 40: raise ValueError('current40 reserve binding differs')
         return value
@@ -72,11 +77,43 @@ def method_reserve(plan):
 
 def captured_method_settings(plan, defaults, improve_preset):
     if plan['kind'] == KIND: return defaults
-    if plan['kind'] not in (IMPROVE_KIND,CURRENT40_KIND): raise ValueError('unknown comparison method contract')
+    if plan['kind'] not in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND): raise ValueError('unknown comparison method contract')
     method_reserve(plan)
     improved = improve_preset(defaults)
     if plan.get('improve_settings') != improved: raise ValueError('frozen shipped single Improve settings differ')
     return improved if plan['arm'] == 'Cimprove' else defaults
+
+
+
+def delivery_stage_contract(plan, handoff):
+    """Freeze prospective review60 separately; historical protocols stay historical."""
+    if plan.get('kind') == REVIEW60_KIND:
+        if (plan.get('handoff_stage_policy') != REVIEW60_POLICY
+                or plan.get('delivery_stage_seconds') != REVIEW60_STAGES
+                or type(plan.get('delivery_stage_seconds')) is not dict
+                or any(type(value) is not int for value in plan['delivery_stage_seconds'].values())
+                or handoff.STAGE_POLICY != REVIEW60_POLICY
+                or type(handoff.REVIEW_SECONDS) is not int or handoff.REVIEW_SECONDS != 60
+                or type(handoff.CHOICE_SECONDS) is not int or handoff.CHOICE_SECONDS != 30):
+            raise ValueError('exact prospective review60/choice30 stage contract required')
+        return dict(REVIEW60_STAGES)
+    if (plan.get('kind') not in (KIND,IMPROVE_KIND,CURRENT40_KIND)
+            or 'handoff_stage_policy' in plan or 'delivery_stage_seconds' in plan
+            or getattr(handoff,'STAGE_POLICY',None) is not None or handoff.SECONDS != 30):
+        raise ValueError('historical review30 protocol cannot run a revised stage policy')
+    return dict(review=30,choice=30)
+
+
+
+def cli_cost_sample(start_wall,start_cpu,end_wall,end_cpu,*,scope,joined):
+    """Charge a disjoint completed CLI call or its later adoption/readback work."""
+    if (scope not in ('completed_cli_exit','post_cli_adoption_and_freshness') or type(joined) is not bool
+            or any(type(value) not in (int,float) or not math.isfinite(value) or value < 0
+                   for value in (start_wall,start_cpu,end_wall,end_cpu))
+            or end_wall < start_wall or end_cpu < start_cpu):
+        raise ValueError('finite monotone complete CLI cost sample required')
+    return dict(schema=1,kind='installed-method-cli-cost-v1',scope=scope,joined=joined,
+        wall_seconds=end_wall-start_wall,full_CPU_seconds=end_cpu-start_cpu)
 
 
 def main():
@@ -109,6 +146,7 @@ def main():
         and plan.get('limits') == LIMITS and plan.get('runtime') == str(runtime)
         and plan.get('whole_wall_full_cpu_seconds') == 600 and plan.get('pass_key') == 'controls_passed',
         'exact five-method member of the frozen six-arm420/450/600/export120 population required')
+    stage_seconds = delivery_stage_contract(plan,h)
     self_path = h.real_path(__file__); self_pin = p.sha(self_path)
     require(self_path.parent == runtime/'.runs' and plan['controller'] == str(self_path)
         and self_path.name == child_name and plan['controller_sha256'] == self_pin, 'exact frozen copied child required')
@@ -136,7 +174,7 @@ def main():
         'frozen actual corrected-standard420 defaults required')
     default_settings = settings
     settings = captured_method_settings(plan, default_settings, gui.improve_preset)
-    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND):
+    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND):
         require(type(pruning.NATIVE_FINAL_RESERVE_SECONDS) is int
             and pruning.NATIVE_FINAL_RESERVE_SECONDS == method_reserve(plan),
             'installed Improve runtime reserve differs from versioned comparison')
@@ -175,6 +213,7 @@ def main():
         production_admitted=False, project_complete=False, actual_GUI=False, human_review=False,
         controls_passed=False, attempt_qualified=False, workflow_delivered=False, status='failed', outcome='not_started',
         protocol_sha256=args.protocol_sha256, controller_sha256=self_pin, limits=LIMITS,
+        delivery_stage_seconds=stage_seconds, handoff_stage_policy=getattr(h,'STAGE_POLICY',None),
         runtime=str(runtime), runtime_manifest_sha256=plan['runtime_manifest_sha256'], source_head=plan['source_head'],
         source=str(source), source_hashes=hashes, source_rights=rights, tools=tools,
         protected_route_items=sum(p.locked(row) for row in p.routes(sx.read(source))),
@@ -184,7 +223,7 @@ def main():
         external_complete_exit_required=True, fair_full_matrix=False,
         scope='One frozen single-method result. B2single_tuned is one tuned attempt; portfolio is separate. Cdefault exercises the shipped workflow and aliases corrected-standard B1. Cthermal is experimental recover, not Improve. API comparison delivery is not ordinary product admission. No holdout, superiority, graphical interaction, human or physical claim.',
         stock_caveat='B0 disables project adapter corrections and must retain identical native/task DSN bytes. Common fixed-placement, alias, protected-copper, netclass and original-rule Native validation safeguards remain; this is not proof of an untouched official vanilla workflow.')
-    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND):
+    if plan['kind'] in (IMPROVE_KIND,CURRENT40_KIND,REVIEW60_KIND):
         record.update(method_settings=settings,
             scope='Frozen versioned installed comparison. Cimprove is shipped single Improve with a charged tuned incumbent and'
                 +str(method_reserve(plan))+'-second finalization reserve inside420. Cdefault/B1 unchanged; no GUI/human/electrical/superiority claim.')
@@ -223,11 +262,21 @@ def main():
         allowance = min(left(), method_left() if method else left(), cap)
         require(allowance >= minimum_seconds, 'complete CLI stage/final-publication allocation unavailable')
         job = gui.CliJob(); log = out/(stage+'.log'); process = None
+        measured = plan['kind'] == REVIEW60_KIND
+        if measured: call_wall,call_cpu = time.monotonic(),cpu()
         try:
             process = job.run(argv, log, timeout=allowance)
         finally:
+            # First observation after run returns/raises: no adoption or fresh
+            # guard is inside the completed CLI interval. Whole600 still
+            # charges these samples, all following work and publication.
+            if measured:
+                returned_wall,returned_cpu = time.monotonic(),cpu()
+                exit_cost = cli_cost_sample(call_wall,call_cpu,returned_wall,returned_cpu,
+                    scope='completed_cli_exit',joined=(type(process) is dict and type(process.get('exit_code')) is int))
             if log.is_file():
                 item = dict(stage=stage,argv=list(argv),log=str(log),log_sha256=pv.file_digest(log)[0])
+                if measured:item['completed_cli_exit'] = exit_cost
                 journal = log.with_suffix('.process.json')
                 if journal.is_file():
                     item.update(journal=str(journal),journal_sha256=p.sha(journal),process=f.read_json(journal))
@@ -239,6 +288,9 @@ def main():
         if workflow is not None and process['exit_code']==0:
             job.adopt(workflow,stage,process,log,choice=choice)
         fresh()
+        if measured:
+            record['processes'][-1]['post_cli_adoption_and_freshness'] = cli_cost_sample(
+                returned_wall,returned_cpu,time.monotonic(),cpu(),scope='post_cli_adoption_and_freshness',joined=True)
         return process
 
     def negative():
@@ -364,14 +416,14 @@ def main():
             record.update(status='completed', outcome='validated_completed_negative', controls_passed=True, attempt_qualified=True)
         else:
             if authority is not None:
-                fresh(); require(left() >= h.SECONDS, 'review allocation unavailable')
+                fresh(); require(left() >= stage_seconds['review'], 'review allocation unavailable')
                 review = h.review_copy(route, delivery_root/'review', render=True, **ctx)
-                fresh(); require(left() >= h.SECONDS, 'choice allocation unavailable')
+                fresh(); require(left() >= stage_seconds['choice'], 'choice allocation unavailable')
                 choice = h.review_choice(delivery_root/'review/review.json', delivery_root/'choice', 'accept', **ctx)
                 fresh(); require(left() >= 120, 'complete120s export allocation unavailable')
                 exported = ex.export(delivery_root/'choice/choice.json', delivery_root/'export', seconds=120, **ctx)
             elif flow is not None:
-                for stage,seconds in (('review',h.SECONDS),('choice',h.SECONDS),('export',120),('verify_export',1)):
+                for stage,seconds in (('review',stage_seconds['review']),('choice',stage_seconds['choice']),('export',120),('verify_export',1)):
                     fresh();require(left() >= seconds, 'complete next product workflow stage allocation unavailable')
                     intent = 'accept' if stage=='choice' else None
                     cli(stage,flow.command(stage,choice=intent),workflow=flow,choice=intent,minimum_seconds=seconds)
@@ -380,8 +432,8 @@ def main():
                 review,choice,exported = (flow.records[name] for name in ('review','choice','export'))
             else:
                 python = [str(runtime/'.venv/bin/python'),'-B','-m','autorouter']
-                commands = [('review',h.SECONDS,['review-copy',str(route),'--render','--output',str(delivery_root/'review')]),
-                    ('choice',h.SECONDS,['review-choice',str(delivery_root/'review/review.json'),'--choice','accept','--output',str(delivery_root/'choice')]),
+                commands = [('review',stage_seconds['review'],['review-copy',str(route),'--render','--output',str(delivery_root/'review')]),
+                    ('choice',stage_seconds['choice'],['review-choice',str(delivery_root/'review/review.json'),'--choice','accept','--output',str(delivery_root/'choice')]),
                     ('export',120,preset.timed_cli_arguments('review-export',delivery_root/'choice/choice.json',delivery_root/'export')),
                     ('verify_export',1,['review-export-check',str(exported_path)])]
                 for stage,seconds,arguments in commands:

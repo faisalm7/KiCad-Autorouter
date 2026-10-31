@@ -213,7 +213,7 @@ class ReviewCopyTests(unittest.TestCase):
         now=[0.0];real=h.save_json
         def save(path,record):
             real(path,record)
-            if record['status']=='ready_for_manual_review':now[0]=31.0
+            if record['status']=='ready_for_manual_review':now[0]=float(h.REVIEW_SECONDS+1)
         with patch.object(h,'cpu_seconds',side_effect=lambda:now[0]),patch.object(h,'save_json',save):
             with self.assertRaisesRegex(Rejected,'CPU ceiling'):review_copy(self.receipt,self.root/'review')
         self.not_ready(self.root/'review')
@@ -226,7 +226,7 @@ class ReviewCopyTests(unittest.TestCase):
         now=[0.0];real=h.save_json
         def save(path,record):
             real(path,record)
-            if record['status']=='ready_for_manual_review':now[0]=31.0
+            if record['status']=='ready_for_manual_review':now[0]=float(h.REVIEW_SECONDS+1)
         with patch.object(h.time,'monotonic',side_effect=lambda:now[0]),patch.object(h,'save_json',save):
             with self.assertRaisesRegex(Rejected,'wall or full CPU'):review_copy(self.receipt,self.root/'review')
         self.not_ready(self.root/'review')

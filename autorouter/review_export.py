@@ -72,23 +72,25 @@ def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=Fa
     choice_path=h.real_path(choice_path);choice=f.read_json(choice_path)
     cmp.delivery_path(choice_path.parent,comparison_context,'choice')
     h.check_delivery_context(choice,**ctx)
+    h.check_stage_budget(choice, 'choice')
     if (choice_path.name!='choice.json' or type(choice.get('schema')) is not int or choice['schema']!=1
         or choice.get('status')!='disposition_recorded' or choice.get('choice_recorded') is not True or choice.get('choice')!='accept'
         or any(choice.get(k) is not False for k in ('routing_accepted','applied','native_validation_performed','human_pcb_approval_observed'))
         or choice.get('candidate_board_unchanged') is not True or choice.get('fresh_native_validation_required') is not True
-        or choice.get('budget_seconds')!=h.SECONDS or choice.get('cpu_budget_seconds')!=h.SECONDS
-        or choice.get('within_budget') is not True or any(not finite(choice.get(k)) or choice[k]>h.SECONDS for k in ('wall_seconds','total_cpu_seconds'))):
+        or choice.get('budget_seconds')!=h.CHOICE_SECONDS or choice.get('cpu_budget_seconds')!=h.CHOICE_SECONDS
+        or choice.get('within_budget') is not True or any(not finite(choice.get(k)) or choice[k]>h.CHOICE_SECONDS for k in ('wall_seconds','total_cpu_seconds'))):
         raise p.Rejected('current bounded accept-intent record required; no approval inferred')
     review_path=h.real_path(choice['review']);review=f.read_json(review_path)
     cmp.delivery_path(review_path.parent,comparison_context,'review')
     h.check_delivery_context(review,**ctx)
+    h.check_stage_budget(review, 'review')
     receipt=h.real_path(choice['receipt']);report=f.read_json(receipt);policy=h.review_policy(report,receipt.parent,**ctx)
     source=h.real_path(report['source']);candidate=h.real_path(report['candidate']);project=h.real_path(review['project'])
     if (review_path.name!='review.json' or review.get('schema')!=1 or type(review['schema']) is not int
         or review.get('status')!='ready_for_manual_review' or review.get('receipt')!=str(receipt)
         or review.get('within_budget') is not True or review.get('native_validation_performed') is not False
-        or review.get('budget_seconds')!=h.SECONDS or review.get('cpu_budget_seconds')!=h.SECONDS
-        or any(not finite(review.get(k)) or review[k]>h.SECONDS for k in ('wall_seconds','total_cpu_seconds'))
+        or review.get('budget_seconds')!=h.REVIEW_SECONDS or review.get('cpu_budget_seconds')!=h.REVIEW_SECONDS
+        or any(not finite(review.get(k)) or review[k]>h.REVIEW_SECONDS for k in ('wall_seconds','total_cpu_seconds'))
         or report.get('scope') not in {'whole_board_unlocked_routing','partial_completion','selected_nets'}
         or choice.get('saved_native_findings')!=report['native'] or choice.get('saved_metrics')!=report['metrics']
         or choice['review_sha256']!=p.sha(review_path) or choice['receipt_sha256']!=p.sha(receipt)

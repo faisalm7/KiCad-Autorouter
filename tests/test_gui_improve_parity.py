@@ -72,7 +72,7 @@ class ImproveSummaryParityTests(unittest.TestCase):
             scope='whole_board_unlocked_routing',budget_seconds=420,cpu_budget_seconds=420,
             engine_profile='tuned',adapter='both',pruning_preferences=dict(effective=settings),
             native=dict(opens=0,blocking=0,warnings=6,exclusions=0))
-        self.review=dict(status='ready_for_manual_review',budget_seconds=30,cpu_budget_seconds=30)
+        self.review=dict(status='ready_for_manual_review',budget_seconds=60,cpu_budget_seconds=60)
         self.choice=dict(choice_recorded=True,choice='accept',budget_seconds=30)
         self.export=dict(status='export_validated',export_accepted=True,budget_seconds=120,cpu_budget_seconds=120)
         self.records=dict(route=self.route,review=self.review,choice=self.choice,export=self.export)
@@ -103,7 +103,7 @@ class ImproveSummaryParityTests(unittest.TestCase):
                 self.assertIn('Additional Native export-validation budget: 120 s',text)
                 self.assertIn('preserve locked routing',text)
                 self.assertIn('6 warnings',text)
-        self.assertEqual(self.review['budget_seconds'],30)
+        self.assertEqual(self.review['budget_seconds'],60)
         self.assertEqual(self.export['budget_seconds'],120)
 
     def test_route_and_recovery_summary_meanings_stay_separate(self):

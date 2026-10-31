@@ -31,6 +31,7 @@ import sys
 import json
 
 KIND = 'installed-native7-comparison-portfolio-functional-v1'
+REVIEW60_KIND = 'installed-native7-comparison-portfolio-functional-v2-review60'
 VARIANTS = ('via_default', 'via_low', 'via_high')
 LIMITS = dict(routing_seconds=420, method_wall_cpu_cap_seconds=450,
     delivery_wall_cpu_cap_seconds=600, export_validation_seconds=120,
@@ -47,6 +48,25 @@ def require_completed_portfolio(result):
             + 's CPU=' + str(result.get('total_cpu_seconds')) + 's; caps wall='
             + str(result.get('wall_budget_seconds')) + 's CPU=' + str(result.get('cpu_budget_seconds'))
             + 's; reason=' + str(result.get('reason')))
+
+
+
+def delivery_stage_contract(plan, handoff):
+    """Freeze review60/choice30 inside the same600s complete portfolio cap."""
+    stages=plan.get('delivery_stage_seconds')
+    if plan.get('kind') == REVIEW60_KIND:
+        if (plan.get('handoff_stage_policy') != 'bounded-review60-choice30-v2'
+                or type(stages) is not dict or stages != dict(review=60,choice=30)
+                or any(type(value) is not int for value in stages.values())
+                or getattr(handoff,'STAGE_POLICY',None) != 'bounded-review60-choice30-v2'
+                or type(getattr(handoff,'REVIEW_SECONDS',None)) is not int or handoff.REVIEW_SECONDS != 60
+                or type(getattr(handoff,'CHOICE_SECONDS',None)) is not int or handoff.CHOICE_SECONDS != 30):
+            raise ValueError('exact prospective portfolio review60/choice30 stage contract required')
+        return dict(stages)
+    if (plan.get('kind') != KIND or 'handoff_stage_policy' in plan or 'delivery_stage_seconds' in plan
+            or getattr(handoff,'STAGE_POLICY',None) is not None or handoff.SECONDS != 30):
+        raise ValueError('historical portfolio cannot run a revised delivery stage policy')
+    return dict(review=30,choice=30)
 
 
 def main():
@@ -81,7 +101,7 @@ def main():
     require(pv.file_digest(protocol)[0] == args.protocol_sha256, 'frozen protocol hash differs')
     plan = f.read_json(protocol)
     require(type(plan) is dict and type(plan.get('schema')) is int and plan['schema'] == 1
-        and plan.get('kind') == KIND and plan.get('runtime') == str(runtime)
+        and plan.get('kind') in (KIND,REVIEW60_KIND) and plan.get('runtime') == str(runtime)
         and plan.get('controller') == str(self_path) and plan.get('administration_root') == str(administration)
         and all(plan.get(name) == value for name, value in LIMITS.items())
         and portfolio.VARIANTS == VARIANTS and plan.get('variants') == list(VARIANTS)
@@ -90,6 +110,7 @@ def main():
         and plan.get('comparison_api_policy') == portfolio.COMPARISON_API_POLICY
         and plan.get('whole_wall_full_cpu_seconds') == 600 and plan.get('pass_key') == 'controls_passed',
         'exact frozen v2 three-score420/450/600/export120 control required')
+    stage_seconds = delivery_stage_contract(plan,h)
     admin_files = plan['administration_files_sha256']
     require(set(admin_files) == {'scripts/qualify_comparison_portfolio.py',
         'scripts/experiment_portfolio.py', 'scripts/experiment_quality.py'}
@@ -115,7 +136,8 @@ def main():
     require(not any(path.exists() for path in (out, portfolio_out, *trial_roots)), 'fresh owned outputs required')
     out.mkdir(mode=0o700); owner = {}; h.capture_destination(owner, out)
     registry = {}; live = {}; result = None; winner = None; exported = None; material = None
-    record = dict(schema=1, kind=KIND, accepted=False, production_admitted=False,
+    record = dict(schema=1, kind=plan['kind'], accepted=False, production_admitted=False,
+        handoff_stage_policy=getattr(h,'STAGE_POLICY',None),delivery_stage_seconds=stage_seconds,
         project_complete=False, actual_GUI=False, human_review=False, controls_passed=False,
         workflow_delivered=False, status='failed', protocol_sha256=args.protocol_sha256,
         controller_sha256=plan['controller_sha256'], runtime=str(runtime), source=str(board),
@@ -222,8 +244,8 @@ def main():
             require(max(record['method_wall_seconds'], record['method_full_CPU_seconds']) <= 450, 'whole method cap exceeded')
             if result['selected'] is not None:
                 winner = live[result['selected']['id']]; receipt = winner.output/'result.json'
-                for seconds, operation in ((h.SECONDS, lambda: h.review_copy(receipt, winner.output.parent/'review', render=True, comparison_context=winner)),
-                    (h.SECONDS, lambda: h.review_choice(winner.output.parent/'review/review.json', winner.output.parent/'choice', 'accept', comparison_context=winner)),
+                for seconds, operation in ((stage_seconds['review'], lambda: h.review_copy(receipt, winner.output.parent/'review', render=True, comparison_context=winner)),
+                    (stage_seconds['choice'], lambda: h.review_choice(winner.output.parent/'review/review.json', winner.output.parent/'choice', 'accept', comparison_context=winner)),
                     (120, lambda: ex.export(winner.output.parent/'choice/choice.json', winner.output.parent/'export', seconds=120, comparison_context=winner))):
                     fresh(); require(left() >= seconds, 'complete next delivery stage plus reserve does not fit'); operation()
                 exported = winner.output.parent/'export/export.json'

@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "kind": "runtime068-prospective-general-review60-choice30-software-controls-v1",
+  "recorded_utc": "2026-10-31T02:27:06.960139+00:00",
+  "software_targeted_passed": true,
+  "full_integration_passed": false,
+  "Native": false,
+  "installed": false,
+  "actual_GUI": false,
+  "delivered_defect_trial": false,
+  "project_complete": false,
+  "release_qualified": false,
+  "policy": "bounded-review60-choice30-v2",
+  "stage_seconds": {
+    "review": 60,
+    "choice": 30
+  },
+  "unchanged_comparison_limits": {
+    "routing_seconds": 420,
+    "method_wall_cpu_cap_seconds": 450,
+    "delivery_wall_cpu_cap_seconds": 600,
+    "export_validation_seconds": 120
+  },
+  "mechanism": "Prospective stage scheduling for bounded variable lineage validation, preserving every original/source/Context/Native/PRL/cancel/publication/session guard. Prior whole-workflow profiles show plotting small and old30s review too little headroom. No oldfailure relabeling or extra total budget.",
+  "source_sha256": {
+    "autorouter/__main__.py": "1d755ffc31f3fac903315ea5068e133df01a373fa6ff9123fb5d5d629fbd8058",
+    "autorouter/gui.py": "4b64b16783de35ac5e96ff9e6d5b929df0e16411e8dd2cdcf2e49c304d41e462",
+    "autorouter/handoff.py": "814fbedf834f4d4cf980bf74658f5bfad93b10ba866b5160b8bac37c9eedd53a",
+    "autorouter/review_export.py": "f40cdd131e478e6acec44e579c3438ea8028dc2d4b5658d0044a7dabd44957d3",
+    "scripts/enclose_current_comparison.py": "17a17b0c0e92a30377a0cbff8693791d878c5abbc51dbaf8ce36a7bfef580629",
+    "scripts/freeze_current_comparison.py": "f3c532fdd1f1b759a5c80d193f4a9a77088a754dc6696e7942ad9ae41dc445ea",
+    "scripts/qualify_comparison_portfolio.py": "c3c5fb125d2ddc6e08265822a618a68dca33630334871927030b2c09162dba18",
+    "scripts/qualify_current_method.py": "01c32ab9ae6349acc0dfe32c8662ff6f4078645e64cc2e3330c8a7b0fd7066e2",
+    "scripts/report_current_comparison.py": "f41b9edc1fb3b89e94bae3c9210d183bffa86b48f58f2db41219129bb65e906d"
+  },
+  "targeted": {
+    "001": {
+      "passed": false,
+      "sources_unchanged": true,
+      "process_status": "nonzero_exit",
+      "exit_code": 1,
+      "cleanup_complete": true,
+      "log_truncated": false,
+      "protocol_sha256": "3a96d0a03bdefcb414ec7c4b0e201373fe12379bbc16d8c62d72c774996c7be4",
+      "execution_sha256": "af6ece5dfb787f1ded8807a1c7636177f09c98986efd2dd468fda67d832b4097",
+      "log_sha256": "9fecb7a02a32c9450c337825c4f137eb5f7abdc6f0a4bd04a14e2afaca4180ca",
+      "tests": 307,
+      "failures": 16,
+      "errors": 9,
+      "complete_wall_seconds": 24.46,
+      "complete_CPU_seconds": 23.16
+    },
+    "002": {
+      "passed": true,
+      "sources_unchanged": true,
+      "process_status": "success",
+      "exit_code": 0,
+      "cleanup_complete": true,
+      "log_truncated": false,
+      "protocol_sha256": "c1237ca8867e46880eb2d382b7cdad9d0245cb9f172604c9e107aa43566d2de1",
+      "execution_sha256": "107fa52c3558d10879227202520e4ceba37145863feea763d19704db78fc5176",
+      "log_sha256": "c2c9b2fded5bdc16b34597e6401eaa206e9caf9a02eec54f4abfed0af3ae4c0b",
+      "tests": 311,
+      "failures": 0,
+      "errors": 0,
+      "complete_wall_seconds": 30.72,
+      "complete_CPU_seconds": 29.52
+    }
+  },
+  "independent_reviews": [
+    {
+      "path": ".runs/runtime068-review-independent-001.json",
+      "sha256": "1f780eb90a7a40e56319a99457318ae302265daeb1d426ca807e940d905a68c1"
+    },
+    {
+      "path": ".runs/runtime068-review-independent-002.json",
+      "sha256": "2498a49a08c444d45f7e4b2c293c0f188835d857f45b225b6ef4c06cf79c79ea"
+    }
+  ],
+  "actual_counterexample": {
+    "finding": "Impossible55s boundreview versus2s completedCLI could incorrectly qualify headroom. Actualnewregression failed beforefix, passed aftersharedreceipt/hash/stdout/lowerboundcorrection.",
+    "red_time_log_sha256": "41a37806681cc5eab73554da913cff86c33ce631f326ce7e2c6988c46b5f481c",
+    "green_time_log_sha256": "3416f8ecbba3643a0b387dd0094572cc382d11eefde3844b7ec92d5c08a9f243",
+    "red_complete_wall_seconds": 0.21,
+    "red_complete_CPU_seconds": 0.17,
+    "green_complete_wall_seconds": 0.2,
+    "green_complete_CPU_seconds": 0.15
+  },
+  "other_corrections": "NewMac test paths resolved; missingmockp.sha fixed. Inert historical-contract freezer fixtures bind copiedcurrentreviewedenclosure17a1 locally; production historical2c0a/reportpins unchanged.",
+  "claim_limits": [
+    "No current068 Native/install/GUI/fullworkflow or performance pass follows from software tests.",
+    "Prospectivev5comparisonadmission remains narrow canonical2Cu originalmulticlass (ArcDice defect trial). GeneralunrelatedDefault/4Cu comparisonadmission remainsopen, notnewbreadth.",
+    "Stored prepublication samples never substitute for completedCLI wall/fullCPU; all6 successful boundcommands and external600 required for positiveheadroom. API stageCPU remainsunmeasured.",
+    "Old067large30s failure/065success/history untouched. No completion advantage beyondB1/B2."
+  ],
+  "next": "Fullintegration thenonechangedstableartifact/native/install/actualGUI and freshcompleteboundeddefecttrial; require actualreviewCLI<=45wall/fullCPU inside60 and deliveredtotal<=600. KeepP1 ifmarginalorfailed. Thenunrelatedlicensedpartial/difficultcompletionandstrongbaselines.",
+  "backup": "ClosedGUI100 raw nowarchived/audited/exactsubsetrestored, separatefromnew068code/drafts/tests. New068raw notcoveredbythatcutoff; sourcecheckpointandlaterincrementrequired.",
+  "costs": "Targeted outer exits andred/green aredisjoint. Nestedprocesssamples overlap. Preparation, review/AI/authoring andwholeworkflow researchcosts additional,partlyunknown. NoNativeexperimentperformedbythissoftwarebatch."
+}

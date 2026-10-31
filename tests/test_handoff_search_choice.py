@@ -207,7 +207,7 @@ class CleanupBudget(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=h.c.ROOT/'tests') as folder:
             output=Path(folder);record={'status':'ready_for_manual_review','within_budget':True}
             h.save_json(output/'review.json',record);(output/'preview.html').write_text('owned test preview')
-            with patch.object(h.time,'monotonic',return_value=31),patch.object(h,'cpu_seconds',return_value=0):
+            with patch.object(h.time,'monotonic',return_value=h.REVIEW_SECONDS+1),patch.object(h,'cpu_seconds',return_value=0):
                 with self.assertRaisesRegex(h.Rejected,'cleanup exceeded'):h.finish_session(record,output,0,0,'review.json')
             self.assertFalse((output/'preview.html').exists())
             self.assertEqual(h.f.read_json(output/'review.json')['status'],'rejected')

@@ -109,11 +109,16 @@ class ComparisonFreezerTests(unittest.TestCase):
         self.arguments = dict(runtime=self.runtime, expected_manifest_sha256=manifest_pin,
             sources_path=self.sources_path, sources_sha256=sources_pin, qualification=self.qualification_path,
             qualification_sha256=qualification_pin, expected_administration_head=self.head, output=self.output,
-            enclosure=self.admin / 'scripts/enclose_current_comparison.py', enclosure_sha256=q.ENCLOSURE_SHA)
+            enclosure=self.admin / 'scripts/enclose_current_comparison.py', enclosure_sha256=q.REVIEW60_ENCLOSURE_SHA)
         self.calls = []
         self.query_callback = None
         self.process_changes = {}
-        for patch in (mock.patch.object(q, 'ROOT', self.admin),
+        # These inert historical-contract fixtures copy the current reviewed
+        # enclosure, so bind its exact new bytes locally. Production keeps the
+        # historical2c0a pin for old report readback and the new17a1 pin separate.
+        # No real runtime or historical protocol is admitted by this fixture.
+        for patch in (mock.patch.object(q, 'ENCLOSURE_SHA', q.REVIEW60_ENCLOSURE_SHA),
+                      mock.patch.object(q, 'ROOT', self.admin),
                       mock.patch.object(q, '__file__', str(self.admin / 'scripts/freeze_current_comparison.py')),
                       mock.patch.object(q.sys, 'platform', 'darwin'),
                       mock.patch.object(q.shutil, 'disk_usage', return_value=shutil._ntuple_diskusage(16*1024**3, 8*1024**3, 8*1024**3)),

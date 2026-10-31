@@ -401,11 +401,15 @@ class Workflow:
                         or record.get('metrics', {}).get('copper_layers') != 2):
                     raise ValueError('Thermal recovery did not bind the captured whole-method contract.')
         elif stage == 'review':
+            from .handoff import check_stage_budget
             record = read_record(self.workspace / 'review/review.json')
+            check_stage_budget(record, 'review')
             if record.get('status') != 'ready_for_manual_review':
                 raise ValueError('Shared review validation did not complete.')
         elif stage == 'choice':
+            from .handoff import check_stage_budget
             record = read_record(self.workspace / 'choice/choice.json')
+            check_stage_budget(record, 'choice')
             if record.get('choice_recorded') is not True or record.get('choice') != choice:
                 raise ValueError('Shared review-choice checks did not complete.')
             self.choice = choice
@@ -706,7 +710,8 @@ def main(argv=None):
             self.method_note = wx.StaticText(panel, label='')
             self.method_note.Wrap(780)
             layout.Add(self.method_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            export_note = wx.StaticText(panel, label='Fresh export adds separate Native validation after acceptance: '
+            export_note = wx.StaticText(panel, label='Rendered review is bounded to 60 seconds; accept/reject checks to 30 seconds. '
+                'These are separate from the routing budget. Fresh export adds Native validation after acceptance: '
                 '30–120 seconds, derived from the captured routing or whole-method budget. That budget is unchanged.')
             export_note.Wrap(780)
             layout.Add(export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)

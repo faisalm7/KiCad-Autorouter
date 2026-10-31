@@ -21,7 +21,7 @@ class RecoveryBudgetDisplayTests(unittest.TestCase):
                           scope='whole_board_unlocked_routing', budget_seconds=420,
                           cpu_budget_seconds=420, engine_profile='standard', adapter='both',
                           native=dict(opens=0, blocking=0, warnings=22, exclusions=0))
-        self.review = dict(status='ready_for_manual_review', budget_seconds=30, cpu_budget_seconds=30)
+        self.review = dict(status='ready_for_manual_review', budget_seconds=60, cpu_budget_seconds=60)
         self.choice = dict(choice_recorded=True, choice='accept', budget_seconds=30)
         self.export = dict(status='export_validated', export_accepted=True,
                            budget_seconds=120, cpu_budget_seconds=120)
@@ -63,7 +63,7 @@ class RecoveryBudgetDisplayTests(unittest.TestCase):
                 self.assertIn('Additional Native export-validation budget: 120 s', text)
                 self.assertNotRegex(text, r'(?i)whole recovery-method budget[: ]+(?:30|120) s')
                 self.assertIn('22 warnings', text)
-        self.assertEqual(self.review['budget_seconds'], 30)
+        self.assertEqual(self.review['budget_seconds'], 60)
         self.assertEqual(self.export['budget_seconds'], 120)
 
     def test_ordinary_route_display_keeps_its_existing_settings_meaning(self):

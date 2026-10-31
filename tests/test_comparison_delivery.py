@@ -124,7 +124,7 @@ class ComparisonDeliveryControls(unittest.TestCase):
             self.assertEqual(record['comparison_delivery_context'],cmp.delivery_record(self.context)['comparison_delivery_context'])
         self.assertEqual(len(self.plot_calls),4);self.assertEqual(len(self.calls),3)
         self.assertTrue(result['export_accepted']);self.assertTrue(checked['current'])
-        self.assertEqual(review['budget_seconds'],30);self.assertEqual(result['budget_seconds'],120)
+        self.assertEqual(review['budget_seconds'],h.REVIEW_SECONDS);self.assertEqual(result['budget_seconds'],120)
         self.assertIn(self.protected,p.routes(sx.read(Path(result['candidate']))))
         self.assertEqual(p.tree_hash(self.source),self.before)
         self.assertTrue(all('--experimental-native' not in argv for argv,_ in self.calls))
