@@ -38,7 +38,7 @@ class BackupTests(unittest.TestCase):
         backup.git(self.root, "branch", "other")
         backup.git(self.root, "tag", "fixture-tag")
         receipt = backup.create(self.root)
-        verification = backup.verify(receipt, self.root)
+        verification = backup.verify(receipt, self.root, pinned_reason='small fixture requires retained inspection')
         data = json.loads(verification.read_text())
         self.assertTrue(data["verified"])
         self.assertTrue(data["all_refs_restored"])
@@ -47,7 +47,7 @@ class BackupTests(unittest.TestCase):
         self.assertEqual(backup.inventory(restored / "non-git"), backup.inventory(self.root))
         self.assertFalse((restored / "non-git" / ".tools").exists())
         self.assertIn("disk-failure", data["limitation"])
-        again = backup.verify(receipt, self.root)
+        again = backup.verify(receipt, self.root, pinned_reason='small fixture requires retained inspection')
         self.assertNotEqual(verification, again)
         self.assertTrue(restored.exists())
 
@@ -102,7 +102,7 @@ class BackupTests(unittest.TestCase):
         with (receipt.parent / "non-git.tar.gz").open("ab") as stream:
             stream.write(b"corrupt")
         with self.assertRaisesRegex(backup.BackupError, "hash mismatch"):
-            backup.verify(receipt, self.root)
+            backup.verify(receipt, self.root, pinned_reason='small fixture requires retained inspection')
 
     def test_backup_directory_symlink_refused(self):
         (self.root / ".local-backups").symlink_to(self.root / ".tools", target_is_directory=True)
@@ -160,7 +160,7 @@ class BackupTests(unittest.TestCase):
         backup.git(self.root, "add", "detached-source.txt")
         backup.git(self.root, "commit", "--quiet", "-m", "detached change")
         receipt = backup.create(self.root)
-        verification = backup.verify(receipt, self.root)
+        verification = backup.verify(receipt, self.root, pinned_reason='small fixture requires retained inspection')
         restored = Path(json.loads(verification.read_text())["restore_directory"])
         self.assertEqual((restored / "checkout" / "detached-source.txt").read_text(), "only detached HEAD")
 

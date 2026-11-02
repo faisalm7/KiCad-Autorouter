@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('backup_floor_fixture',ROOT/'scripts/backup.py')
 backup=importlib.util.module_from_spec(spec);spec.loader.exec_module(backup)
 REL='.runs/board-floor-production-draft-001/tests/test_backup.py'
-DIGEST='39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a'
+DIGEST='868a83286a3795d0735b91e23d229d6ac4321b2b96fed83c641ff411879fb05b'
 
 class ExactBackupFixture(unittest.TestCase):
     def check_inventory(self,relative,suffix=b''):

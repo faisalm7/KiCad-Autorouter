@@ -303,7 +303,7 @@ def mock_install_case(m, base, name):
    mutation['after_sha256']=digest(target)
   return value
  with mock.patch.object(m,'read_json',side_effect=read_hook),mock.patch.object(m.c,'ROOT',source),mock.patch.object(m.c,'JAR',jar),mock.patch.object(m.c,'JAR_SHA256',digest(jar)),mock.patch.object(m.p,'check_storage',return_value=0),mock.patch.object(m,'run',side_effect=run),mock.patch.object(m.platform,'system',return_value='Darwin'),mock.patch.object(m.sys,'version_info',(3,11)),mock.patch.object(m.sys,'executable',str(source_python)):
-  code=m.install_test(out,'placement-clearance-v1')
+  code=m.install_test(out,'placement-clearance-v1',source_mode='full')
  result=m.read_json(out/'result.json');return {'case':name,'exit_code':code,'canonical_passed':result['passed'],'status':result['status'],'reason':result.get('reason'),'mutation':mutation,'mock_command_count':len(calls),'expected_pass':name=='unchanged','expectation_satisfied':result['passed']==(name=='unchanged')}
 
 class WholeInstallationFlowTests(unittest.TestCase):
@@ -411,7 +411,7 @@ class CuratedDistributionTests(unittest.TestCase):
                 mock.patch.object(m.p,'save_json',side_effect=write),mock.patch.object(m.platform,'system',return_value='Darwin'),
                 mock.patch.object(m.sys,'version_info',(3,11)),contextlib.redirect_stdout(io.StringIO())):
                 stack.enter_context(item)
-            code=m.install_test(out,source_mode='distribution',native_version=version)
+            code=m.install_test(out,native_version=version)
             m.p.check_storage.assert_called_once_with(active_root=out)
         return code,m.read_json(out/'result.json'),calls,git_calls,runtime
 
@@ -502,5 +502,27 @@ class BoundedProvenanceGitTests(unittest.TestCase):
                 with self.subTest(fault=fault),mock.patch.object(m,'run',side_effect=run):
                     with self.assertRaises(Exception),m.bounded_provenance_git(out,m.time.monotonic(),{}):m.pv._git(ROOT,'status',limit=1)
                     self.assertIs(m.pv._git,original)
+
+class InstallationHeadroom(unittest.TestCase):
+    def test_curated_and_full_peak_plans_include_transient_space(self):
+        from scripts import backup
+        free = 10 * 1024**3
+        with mock.patch.object(backup.shutil, 'disk_usage', return_value=type('Usage', (), {'free': free})()):
+            curated = m.installation_space_plan(ROOT, 'distribution')
+            full = m.installation_space_plan(ROOT, 'full')
+        self.assertEqual(curated['peak_temporary_bytes'], 2 * m.MAX_BYTES + m.pv.MAX_OWNED_BYTES)
+        self.assertEqual(full['peak_temporary_bytes'], 2 * m.MAX_BYTES + m.SOURCE_MAX_BYTES)
+        self.assertEqual(full['reserve_bytes'], backup.SPACE_RESERVE)
+        self.assertGreater(full['required_free_bytes'], curated['required_free_bytes'])
+
+    def test_insufficient_peak_space_refuses_before_creating_output(self):
+        from scripts import backup
+        with tempfile.TemporaryDirectory(dir=ROOT / '.runs') as directory:
+            out = Path(directory) / 'no-copy-created'
+            with mock.patch.object(backup.shutil, 'disk_usage', return_value=type('Usage', (), {'free': backup.SPACE_RESERVE})()):
+                with self.assertRaisesRegex(backup.BackupError, 'Insufficient headroom'):
+                    m.install_test(out)
+            self.assertFalse(out.exists())
+
 
 if __name__ == '__main__': unittest.main()

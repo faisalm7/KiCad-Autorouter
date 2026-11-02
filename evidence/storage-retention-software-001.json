@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "kind": "storage-retention-authoring-software-controls",
+  "status": "targeted_controls_passed_full_size_recovery_not_run",
+  "platform": "macOS27.0.1 arm64; source authoring tools only",
+  "implementation": {
+    "single_new_owned_verification_slot": true,
+    "proofs_outside_scratch": true,
+    "successful_independent_coverage_before_disposal": true,
+    "unchanged_inactive_nonrequired_exact_contents_only": true,
+    "historical_copies_never_automatically_collected": true,
+    "failed_or_unknown_copy_blocks_next_job_before_archive_reads": true,
+    "self_contained_bundle_recovery_without_original_git_small_control_passed": true,
+    "two_phase_peak_space_preflight": true,
+    "fixed_reserve_bytes": 3221225472,
+    "implicit_repeated_full_capture_refused": true,
+    "curated_installation_default": true,
+    "installation_scope_exclusions_introduced": false,
+    "preserved_original_capture_constants": [
+      "SCOPES",
+      "LIMIT",
+      "MAX_FILES",
+      "MAX_CHAIN",
+      "MAX_RECEIPT_BYTES",
+      "MAX_CHAIN_RECEIPT_BYTES",
+      "SECRET_NAMES",
+      "SECRET_SUFFIXES"
+    ]
+  },
+  "controls": [
+    {
+      "scope": "backup_and_capture_policy",
+      "passed": true,
+      "tests": 78,
+      "raw_log_sha256": "61c10b1eab944dc44479daaf8fc356105c05cafa18a293907d39b534dc1fc543",
+      "raw_visibility": "private local; not included in Git"
+    },
+    {
+      "scope": "installation_policy",
+      "passed": true,
+      "tests": 34,
+      "raw_log_sha256": "3c4447e680db5f1ce2b699fc90f643141526016132374d1c103d7af19b81bae2",
+      "raw_visibility": "private local; not included in Git"
+    }
+  ],
+  "skeptical_review": {
+    "kind": "AI source review plus real small filesystem/Git/tar counterexamples; not human review",
+    "reproduced_and_fixed": [
+      "unknown canonical reverse index before metadata baseline",
+      "symlink recovery dependency alias",
+      "descendant directory replacement",
+      "original Git loss recovery regression"
+    ],
+    "late_success_record_mutation_refused": true,
+    "actual_Mac_open_file_use_refused": true
+  },
+  "recorded_source_sha256_after_tests": {
+    "scripts/backup.py": "abdc05b5ddc962fda99fc4b884069b4b520a3ba8dd77f0981a9b34ed6c8a0633",
+    "scripts/verification_scratch.py": "197fafa6da133798401ecd901ce004c621ed320aa2c4457fee48781a6b60bb82",
+    "scripts/install_smoke.py": "1f8bd2b5812bbe38f49aa713a94333e46d8f96ac32fa820058d554aa9595626e",
+    "tests/test_backup_retention.py": "77dd4bf658e8c0fa177052dad65fa7cc8ae785739791fd2d0a399a88f7dafbad",
+    "tests/test_backup_capture_policy.py": "1f34e99a29bb103763db2a10c464d28f5eee3ffbd98f00703d4cb6986d9aa904",
+    "tests/test_install_smoke.py": "c44c7ae1cc17687aa9ebbb640e71301ba0cfd309e4f09930ad5140e7464c69ad"
+  },
+  "limits": [
+    "No full-size restoration after backup changes; deferred by owner.",
+    "No new installed runtime, Native routing, GUI or Windows qualification.",
+    "Installation copies with unique nested evidence remain in scope until exact recovery coverage is established.",
+    "Private audit and deletion path lists stay local; no external upload in this maintenance phase.",
+    "Routing completion superiority, release and independent physical/human gates remain unmet."
+  ]
+}

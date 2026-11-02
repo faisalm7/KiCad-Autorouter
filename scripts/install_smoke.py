@@ -31,6 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from autorouter import config as c, pipeline as p, placement_clearance as pc, provenance as pv
 from autorouter.runner import run
 from scripts.prepare_runtime import prepare as prepare_runtime
+from scripts.backup import require_headroom
 
 
 MAX_BYTES = 512 * 1024**2
@@ -401,17 +402,28 @@ def distribution_test(out, selected, report, command, started, cpu_started, nati
     return finish_install(out, report, started, cpu_started, stable)
 
 
-def install_test(out, guidance="native", source_mode="full", native_version=None):
+def installation_space_plan(root, source_mode):
+    """Bound both the final copy and transient clone/build material up front."""
+    if source_mode not in ('full', 'distribution'):
+        raise RuntimeError('unknown source installation mode')
+    source_bytes = SOURCE_MAX_BYTES if source_mode == 'full' else pv.MAX_OWNED_BYTES
+    return require_headroom(root, 2 * MAX_BYTES + source_bytes,
+                            'full-source installation' if source_mode == 'full' else 'curated installation')
+
+
+def install_test(out, guidance="native", source_mode="distribution", native_version=None):
     if source_mode not in ('full','distribution'):raise RuntimeError('unknown source installation mode')
     if native_version is not None and (source_mode != 'distribution' or type(native_version) is not str or native_version not in ('10.0.0','10.0.7')):
         raise RuntimeError('known native profile is supported only for distribution mode')
     if source_mode == 'distribution' and guidance != 'native':raise RuntimeError('curated distribution supports native smoke only; placement requires full source')
     selected = qualification(guidance)
+    space_plan = installation_space_plan(c.ROOT, source_mode)
     out.mkdir(parents=True, exist_ok=False)
     started = time.monotonic()
     cpu_started = total_cpu()
     stable = lambda: None
     report = {"schema": 2, "selected_qualification": selected, "status": "incomplete", "passed": False,
+              "space_plan": space_plan,
               "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "source_checkout": str(c.ROOT), "output": str(out), "commands": [], "actions": [],
               "limits": {"wall_seconds": TOTAL_SECONDS, "scratch_bytes": MAX_BYTES, "source_bytes": SOURCE_MAX_BYTES, "source_files": SOURCE_MAX_FILES, "log_bytes_per_command": 2_000_000,
@@ -613,7 +625,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default=".runs/installation-001", help="new directory under this checkout's .runs")
     parser.add_argument("--guidance", choices=GUIDANCE, default="native", help="select exactly one native fixture qualification")
-    parser.add_argument('--source-mode',choices=('full','distribution'),default='full',help='distribution prepares a curated native product runtime; full retains source-backed tests/placement')
+    parser.add_argument('--source-mode',choices=('full','distribution'),default='distribution',help='default: curated product runtime; full is an explicit source/test qualification, with historical evidence copied')
     parser.add_argument('--native-version', choices=('10.0.0','10.0.7'), help='Explicit known profile for curated distribution only')
     args = parser.parse_args()
     raw = Path(args.output).absolute()
@@ -633,6 +645,9 @@ def main():
             except BlockingIOError:
                 raise RuntimeError("another project experiment holds the shared lock")
             return install_test(out, args.guidance,args.source_mode,args.native_version)
+    except (RuntimeError, OSError) as exc:
+        print(json.dumps({'status': 'refused', 'passed': False, 'reason': str(exc)}), file=sys.stderr)
+        return 2
     finally:
         for sig, handler in previous.items():
             signal.signal(sig, handler)

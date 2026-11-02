@@ -19,7 +19,7 @@ class IncrementalTests(unittest.TestCase):
     setUp=fixture.BackupTests.setUp
 
     def base(self):
-        receipt=backup.create(self.root);backup.verify(receipt,self.root);return receipt
+        receipt=backup.create(self.root);backup.verify(receipt,self.root, pinned_reason='small fixture requires retained inspection');return receipt
 
     def write(self,path,value):
         path.write_text(json.dumps(value,sort_keys=True)+'\n')
@@ -32,7 +32,7 @@ class IncrementalTests(unittest.TestCase):
         first=backup.create(self.root,parent=full);one=json.loads(first.read_text())
         self.assertEqual([r['path']for r in one['delta']['inventory']['files']],['.data/board.bin','.runs/new/raw'])
         self.assertEqual(one['delta']['deleted_files'],['.runs/literal ; $(ignored).json'])
-        integrity=json.loads(backup.checkpoint(first,self.root).read_text())
+        integrity=json.loads(backup.checkpoint(first,self.root, pinned_reason='small fixture requires retained inspection').read_text())
         self.assertTrue(integrity['integrity_checked']);self.assertFalse(integrity['full_restoration_tested'])
         (self.root/'.data/board.bin').unlink();(self.root/'.data/board.bin').mkdir();(self.root/'.data/board.bin/inside').write_text('file became directory')
         (self.root/'.runs/new/raw').unlink();(self.root/'.runs/new').rmdir();(self.root/'.runs/new').write_text('directory became file')
@@ -42,7 +42,7 @@ class IncrementalTests(unittest.TestCase):
         backup.git(self.root,'add','new-source');backup.git(self.root,'commit','--quiet','-m','next source');backup.git(self.root,'tag','next-tag')
         second=backup.create(self.root,parent=first);two=json.loads(second.read_text())
         self.assertIn('.local-reference',two['delta']['deleted_directories'])
-        result=json.loads(backup.verify(second,self.root).read_text());restored=Path(result['restore_directory'])
+        result=json.loads(backup.verify(second,self.root, pinned_reason='small fixture requires retained inspection').read_text());restored=Path(result['restore_directory'])
         self.assertTrue(result['full_restoration_tested']);self.assertEqual(result['chain_length'],3)
         self.assertEqual(backup.inventory(restored/'non-git'),backup.inventory(self.root))
         self.assertEqual(backup.git(restored/'checkout','show-ref'),backup.git(self.root,'show-ref'))
@@ -53,16 +53,16 @@ class IncrementalTests(unittest.TestCase):
     def test_unchanged_delta_has_no_file_payload_and_old_full_still_restores(self):
         full=self.base();delta=backup.create(self.root,parent=full);value=json.loads(delta.read_text())
         self.assertEqual(value['delta']['inventory']['files'],[]);self.assertEqual(value['delta']['deleted_files'],[])
-        self.assertTrue(json.loads(backup.verify(delta,self.root).read_text())['verified'])
-        self.assertTrue(json.loads(backup.verify(full,self.root).read_text())['verified'])
+        self.assertTrue(json.loads(backup.verify(delta,self.root, pinned_reason='small fixture requires retained inspection').read_text())['verified'])
+        self.assertTrue(json.loads(backup.verify(full,self.root, pinned_reason='small fixture requires retained inspection').read_text())['verified'])
 
     def test_unverified_full_and_different_source_parent_refused(self):
         full=backup.create(self.root)
         with self.assertRaisesRegex(backup.BackupError,'restore-verified'):backup.create(self.root,parent=full)
-        backup.verify(full,self.root)
+        backup.verify(full,self.root, pinned_reason='small fixture requires retained inspection')
         value=json.loads(full.read_text());value['source_root']='/different/original';self.write(full,value)
         # A matching restoration record cannot grant access to a different source checkout.
-        backup.verify(full,self.root)
+        backup.verify(full,self.root, pinned_reason='small fixture requires retained inspection')
         with self.assertRaisesRegex(backup.BackupError,'different original'):backup.create(self.root,parent=full)
 
     def test_missing_parent_changed_parent_and_cycle_refused(self):
@@ -93,10 +93,10 @@ class IncrementalTests(unittest.TestCase):
         with self.assertRaisesRegex(backup.BackupError,'restoration evidence'):backup.load_chain(delta,self.root)
         proof.write_bytes(saved)
         archive=delta.parent/'non-git.tar.gz';saved=archive.read_bytes();archive.write_bytes(saved+b'bad')
-        with self.assertRaisesRegex(backup.BackupError,'artifact size/hash'):backup.verify(delta,self.root)
+        with self.assertRaisesRegex(backup.BackupError,'artifact size/hash'):backup.verify(delta,self.root, pinned_reason='small fixture requires retained inspection')
         archive.write_bytes(saved)
         parent_archive=full.parent/'non-git.tar.gz';parent_archive.write_bytes(parent_archive.read_bytes()+b'bad')
-        with self.assertRaisesRegex(backup.BackupError,'artifact size/hash'):backup.checkpoint(delta,self.root)
+        with self.assertRaisesRegex(backup.BackupError,'artifact size/hash'):backup.checkpoint(delta,self.root, pinned_reason='small fixture requires retained inspection')
 
     def test_reference_escape_symlink_duplicate_json_and_chain_ceiling(self):
         full=self.base();delta=backup.create(self.root,parent=full);original=json.loads(delta.read_text())
@@ -120,7 +120,7 @@ class IncrementalTests(unittest.TestCase):
                 saved=target.read_bytes();real=backup.restore_archive
                 def restore(*args,**kwargs):
                     real(*args,**kwargs);target.write_bytes(saved+b' ')
-                with patch.object(backup,'restore_archive',side_effect=restore),self.assertRaises(backup.BackupError):backup.checkpoint(delta,self.root)
+                with patch.object(backup,'restore_archive',side_effect=restore),self.assertRaises(backup.BackupError):backup.checkpoint(delta,self.root, pinned_reason='small fixture requires retained inspection')
                 self.assertEqual(list(delta.parent.glob('integrity-*.json')),[]);target.write_bytes(saved)
 
     def test_rehashed_bad_delta_payload_still_fails_its_complete_inventory(self):

@@ -18,6 +18,12 @@ Before heavy work, commit safe starter files, push, and verify the remote SHA an
 
 Repeat verified checkpoints at milestones and before risky setup changes. Preserve necessary non-Git artifacts separately and test restoration. A path is not an export; a manifest is not a backup; a bundle does not include untracked files. Report on-Mac-only artifacts honestly. Never force-push, reset unrelated work, or delete the original/recovered source.
 
+Preserve authoritative inputs, unique successful/failed evidence, unfinished work, archives, bundles, chain dependencies and compact verification records. This does **not** require keeping every expanded verification or installation copy forever. Historical folders require an exact owner-approved deletion list and fresh content, readable recovery-source, dependency and active-use checks; uncertainty means retain. Never infer disposability from names or timestamps.
+
+For future verification, use the existing backup tool's single explicitly owned workspace. Only the creating process may automatically remove its newly created copy after successful independent reconstruction/coverage checks, exact unchanged contents, no active users and no recovery dependency. Keep proof and removal records outside scratch. Failure retains the workspace and blocks another nonessential verification; required pinned bases need an explicit reason. This permission never applies retroactively to old folders. Do not back up generated restoration targets. Do not exclude installation subtrees until exact reconstruction and all nested unique evidence are covered; preserve or refuse rather than silently omit them. Prefer curated product installation; full-source installation is an explicit separate qualification.
+
+Before large jobs, check measured free space against peak temporary allocation plus the fixed reserve. Stop on insufficient space; do not raise limits silently. Use small fixtures for retention changes. Full restoration checks belong at major milestones, after backup changes when resources/owner steering permit, and before release—not after every minor edit. Private disk audits and cleanup path lists stay local and out of Git. Routing/native validation standards are unchanged.
+
 ## Validity and evidence
 
 Keep source projects immutable. Preserve nets, terminal mapping, footprints, pad geometry, board edges/cutouts, stackup, rules, DRC severities/exclusions, keepouts, net ties, zones, and protected routing. Never relax the problem to make it pass.

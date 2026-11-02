@@ -89,7 +89,7 @@ class CompactDeltaChainTests(unittest.TestCase):
         (self.root / '.runs/unchanged/deep/f').write_text('retained')
         (self.root / '.runs/old-empty').mkdir()
         full = backup.create(self.root)
-        backup.verify(full, self.root)
+        backup.verify(full, self.root, pinned_reason='small fixture requires retained inspection')
         return full
 
     def write(self, path, value):
@@ -130,9 +130,9 @@ class CompactDeltaChainTests(unittest.TestCase):
         self.assertIn('.runs/new-empty/deep', data['delta']['inventory']['directories'])
         self.assertEqual(data['delta']['deleted_files'], ['.data/board.bin', '.local-reference/history.md'])
         self.assertEqual(data['delta']['deleted_directories'], ['.local-reference'])
-        checkpoint = json.loads(backup.checkpoint(latest, self.root).read_text())
+        checkpoint = json.loads(backup.checkpoint(latest, self.root, pinned_reason='small fixture requires retained inspection').read_text())
         self.assertTrue(checkpoint['integrity_checked'])
-        result = json.loads(backup.verify(latest, self.root).read_text())
+        result = json.loads(backup.verify(latest, self.root, pinned_reason='small fixture requires retained inspection').read_text())
         restored = Path(result['restore_directory']) / 'non-git'
         self.assertTrue(result['verified'])
         self.assertEqual(result['chain_length'], 3)
@@ -141,7 +141,7 @@ class CompactDeltaChainTests(unittest.TestCase):
         self.assertTrue((restored / '.runs/new-empty/deep').is_dir())
         self.assertEqual((restored / '.runs/unchanged/deep/f').read_text(), 'changed')
         for name, raw in original.items(): self.assertEqual((full.parent / name).read_bytes(), raw)
-        self.assertTrue(json.loads(backup.verify(legacy, self.root).read_text())['verified'])
+        self.assertTrue(json.loads(backup.verify(legacy, self.root, pinned_reason='small fixture requires retained inspection').read_text())['verified'])
 
     def test_actual_compact_receipt_fits_scaled_bound_that_legacy_repetition_exceeds(self):
         # A small real analogue of full006's demonstrated metadata-only failure.

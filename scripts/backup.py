@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import shutil
 import signal
 import stat
 import subprocess
@@ -14,6 +15,11 @@ import sys
 import tarfile
 import uuid
 from datetime import datetime, timezone
+
+try:
+    from scripts import verification_scratch as scratch
+except ModuleNotFoundError:  # Direct `python scripts/backup.py` entry point.
+    import verification_scratch as scratch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -97,6 +103,9 @@ SECRET_SUFFIXES = {".pem", ".key", ".p12", ".pfx", ".keychain", ".keychain-db"}
 # to exercise this guard. Fresh-install copies are archived byte-for-byte.
 # Any content change or different path still fails. Reviewed at dd2cce9.
 NONSECRET_TEST_SOURCE = "6d010b7d95db21e6921d9c2af9647e29a33725bdc835d03136928648e69d63ee"
+# Reviewed public test-only revision: four explicit small-fixture workspace pins.
+# The synthetic PEM-header negative control is unchanged. Older pins stay valid.
+RETENTION_TEST_SOURCE = '868a83286a3795d0735b91e23d229d6ac4321b2b96fed83c641ff411879fb05b'
 AUDITED_DRAFT_TEST_SOURCES = {
     # Actual installation021 uses a descriptive suffix, outside the legacy
     # numeric-install regex. Byte-identical to public tests/test_backup.py;
@@ -115,13 +124,94 @@ AUDITED_DRAFT_TEST_SOURCES = {
 
 def audited_nonsecret_test_source(relative, sha256):
     return ((re.fullmatch(r"[.]runs/installation-[0-9]+/checkout/tests/test_backup[.]py", relative) is not None
-            and sha256 in {NONSECRET_TEST_SOURCE, "39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a"})
+            and sha256 in {NONSECRET_TEST_SOURCE, RETENTION_TEST_SOURCE, "39fffc805691665b89433577a633ddc6929b5d0aba13f75c1a66db8ca03cd97a"})
+            or (relative == '.runs/board-floor-production-draft-001/tests/test_backup.py'
+                and sha256 == RETENTION_TEST_SOURCE)
             or (relative in AUDITED_DRAFT_TEST_SOURCES
                 and AUDITED_DRAFT_TEST_SOURCES[relative] == sha256))
 
 
 class BackupError(RuntimeError):
     pass
+
+
+SPACE_RESERVE = 3 * 1024 ** 3
+
+
+def require_headroom(root, peak_bytes, operation):
+    """A prospective temporary-allocation forecast, never an increased quota."""
+    if type(peak_bytes) is not int or peak_bytes < 0:
+        raise BackupError('Invalid peak temporary-space forecast')
+    free = shutil.disk_usage(root).free
+    required = peak_bytes + SPACE_RESERVE
+    plan = {'operation': operation, 'available_bytes': free,
+            'peak_temporary_bytes': peak_bytes, 'reserve_bytes': SPACE_RESERVE,
+            'required_free_bytes': required, 'guarantee': 'forecast, not filesystem reservation'}
+    if free < required:
+        raise BackupError('Insufficient headroom for ' + operation + ': ' + json.dumps(plan, sort_keys=True))
+    return plan
+
+
+def manifest_allocation(manifest):
+    files, dirs = check_manifest(manifest)
+    # Allow one minimum block per file and per directory in addition to bytes;
+    # clones/compression are deliberately not assumed for a peak forecast.
+    return manifest['total_file_bytes'] + 4096 * (len(files) + len(dirs))
+
+
+def bundle_import_space_plan(root, bundle):
+    """Bounded PACK-header forecast before importing into an empty repository.
+
+    This phase never needs the original checkout's objects. The complete Git
+    tree is measured from the recovered store before materializing any files.
+    """
+    fd = os.open(bundle, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(fd, 'rb') as stream:
+        info = os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > LIMIT:
+            raise BackupError('Bounded regular Git bundle required')
+        count = 0
+        while True:
+            line = stream.readline(4097); count += len(line)
+            if not line or len(line) > 4096 or count > 4 * 1024 ** 2:
+                raise BackupError('Malformed bounded bundle header')
+            if line == b'\n': break
+        packed = stream.read(12)
+        if (len(packed) != 12 or packed[:4] != b'PACK'
+                or int.from_bytes(packed[4:8], 'big') not in (2, 3)):
+            raise BackupError('Missing or unsupported Git PACK header')
+        objects = int.from_bytes(packed[8:12], 'big')
+    index_bound = objects * 64 + 1024 ** 2
+    plan = require_headroom(root, 2 * info.st_size + 2 * index_bound, 'Git bundle import')
+    return {**plan, 'bundle_bytes': info.st_size, 'pack_objects': objects,
+            'index_copy_upper_forecast_bytes': index_bound}
+
+
+def restore_space_plan(root, chain, *, integrity=False, git_source=None):
+    node = chain[-1]
+    if integrity:
+        peak = manifest_allocation(node['receipt']['delta']['inventory'])
+    else:
+        target = max(manifest_allocation(n['receipt']['inventory']) for n in chain)
+        deltas = [n['receipt']['delta']['inventory'] for n in chain[1:]]
+        stages = max([m['total_file_bytes'] + 4096 * len(m['files']) for m in deltas] + [0])
+        stages += sum(4096 * len(m['directories']) for m in deltas)
+        # Routine verification passes the just-recovered packed Git store. No
+        # original repository is needed for legacy/self-contained recovery.
+        tree = git(git_source if git_source is not None else root,
+                   'ls-tree', '-rlz', node['receipt']['git_head'])
+        tree_bytes = 0; tree_files = 0; tree_dirs = set()
+        for entry in tree.split('\0'):
+            if not entry: continue
+            fields = entry.split('\t', 1)[0].split()
+            if len(fields) != 4 or not fields[-1].isdigit():
+                raise BackupError('Cannot bound restored Git tree allocation')
+            tree_bytes += int(fields[-1]); tree_files += 1
+            parent = PurePosixPath(entry.split('\t', 1)[1]).parent
+            while str(parent) != '.': tree_dirs.add(str(parent)); parent = parent.parent
+        bundle_bytes = node['receipt']['bundle']['size']
+        peak = target + stages + tree_bytes + 4096 * (tree_files + len(tree_dirs)) + 2 * bundle_bytes
+    return require_headroom(root, peak, 'integrity verification' if integrity else 'full restoration')
 
 
 def digest(path):
@@ -137,7 +227,7 @@ def git(root, *args):
     # not alter it; this prevents global hooks/filters from running in restores.
     env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
     env.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_SYSTEM=os.devnull,
-               GIT_CONFIG_NOSYSTEM="1", GIT_TERMINAL_PROMPT="0", LC_ALL="C")
+               GIT_CONFIG_NOSYSTEM="1", GIT_TERMINAL_PROMPT="0", GIT_OPTIONAL_LOCKS="0", LC_ALL="C")
     result = subprocess.run(["git", "-c", "core.hooksPath=" + os.devnull,
                              "-c", "core.autocrlf=false", *args], cwd=root,
                             env=env, capture_output=True, text=True, timeout=120)
@@ -449,6 +539,10 @@ def create(root=ROOT, parent=None):
     manifest = inventory(root)
     delta = delta_inventory(chain[-1]["receipt"]["inventory"], manifest,
                             directory_policy=DELTA_DIRECTORIES_COMPACT) if chain else None
+    counts = dict(line.split(': ', 1) for line in git(root, 'count-objects', '-v').splitlines())
+    packed = 1024 * (int(counts.get('size', 0)) + int(counts.get('size-pack', 0)))
+    space_plan = require_headroom(root, manifest_allocation(delta['inventory'] if delta else manifest)
+                                  + packed + MAX_RECEIPT_BYTES, 'backup capture')
     base = backups_directory(root)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     backup = base / ("checkpoint-" + stamp + "-" + uuid.uuid4().hex)
@@ -465,6 +559,7 @@ def create(root=ROOT, parent=None):
         raise BackupError("Source changed during snapshot; partial backup retained but not certified")
     receipt = {"schema": 1, "created_utc": stamp, "source_root": str(root), "git_head": head,
                "git_refs": refs.splitlines(), "inventory": manifest, "limitation": LIMITATION,
+               "space_plan": space_plan,
                "excluded": [".tools", "credentials", "other ignored directories"],
                "bundle": {"name": bundle.name, "sha256": digest(bundle), "size": bundle.stat().st_size},
                "archive": {"name": archive.name, "sha256": digest(archive), "size": archive.stat().st_size}}
@@ -646,43 +741,218 @@ def publish_check(path, result, stable):
         signal.signal(signal.SIGTERM, previous_term)
 
 
-def checkpoint(receipt_path, root=ROOT):
+def _pinned_reason(reason):
+    if reason is not None and (type(reason) is not str or not reason.strip() or len(reason) > 512):
+        raise BackupError('An explicit bounded required-workspace pin reason is required')
+    return reason
+
+
+def _archive_expected(expected, prefix, manifest, *, files=True):
+    check_manifest(manifest)
+    if prefix: expected['directories'].append(prefix)
+    for name in manifest['directories']:
+        expected['directories'].append(prefix + '/' + name if prefix else name)
+    if files:
+        for row in manifest['files']:
+            name = prefix + '/' + row['path'] if prefix else row['path']
+            expected['files'][name] = {'size': row['size'], 'sha256': row['sha256']}
+
+
+def _checkout_expected(checkout, receipt, initial_config, generated_metadata):
+    """Cover working files by immutable Git blobs, not a blind scratch snapshot.
+
+    Only internally generated Git metadata with no extra/dangling objects and
+    a restricted fresh-init layout is disposable. No ignored file is excused.
+    """
+    metadata, _ = scratch.manifest(checkout / '.git', max_files=MAX_FILES)
+    if metadata != generated_metadata:
+        raise BackupError('Git metadata changed after internally generated checkout; retained')
+    if metadata['files'].get('config', {}).get('sha256') != initial_config:
+        raise BackupError('Restored Git config changed from this job\'s empty-template initialization')
+    if (git(checkout, 'rev-parse', 'HEAD') != receipt['git_head']
+            or git(checkout, 'show-ref').splitlines() != receipt['git_refs']
+            or git(checkout, 'status', '--porcelain=v1', '--untracked-files=all', '--ignored')):
+        raise BackupError('Unique or modified restored Git work must be retained')
+    git(checkout, 'fsck', '--full', '--no-reflogs')
+    objects = set(git(checkout, 'cat-file', '--batch-all-objects', '--batch-check=%(objectname)').splitlines())
+    reachable = {line.split(' ', 1)[0] for line in git(checkout, 'rev-list', '--objects', '--all', 'HEAD').splitlines()}
+    if objects != reachable:
+        raise BackupError('Unreachable/unique Git objects must be retained')
+    actual, _ = scratch.manifest(checkout, max_files=MAX_FILES)
+    expected = {'files': {}, 'directories': []}
+    algorithm = git(checkout, 'rev-parse', '--show-object-format')
+    if algorithm not in ('sha1', 'sha256'): raise BackupError('Unsupported restored Git object hash')
+    for entry in git(checkout, 'ls-tree', '-rlz', 'HEAD').split('\0'):
+        if not entry: continue
+        fields, name = entry.split('\t', 1); mode, kind, oid, size = fields.split()
+        if mode not in ('100644', '100755') or kind != 'blob' or not size.isdigit():
+            raise BackupError('Nonregular Git tree entry cannot be automatically removed')
+        row = actual['files'].get(name)
+        if row is None or row['size'] != int(size): raise BackupError('Restored Git tree file mismatch')
+        h = hashlib.new(algorithm); h.update(('blob ' + size + '\0').encode())
+        fd = os.open(scratch._path(checkout / name), os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        with os.fdopen(fd, 'rb') as stream:
+            before = os.fstat(stream.fileno())
+            if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size != int(size):
+                raise BackupError('Nonregular or changed restored Git blob')
+            for chunk in iter(lambda: stream.read(1024 * 1024), b''): h.update(chunk)
+            after = os.fstat(stream.fileno())
+            if (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns):
+                raise BackupError('Restored Git blob changed while read')
+        if h.hexdigest() != oid: raise BackupError('Restored Git working bytes differ from retained bundle tree')
+        expected['files'][name] = row
+    refs = {line.split(' ', 1)[1] for line in receipt['git_refs']}
+    git_dirs = {'.git', '.git/objects', '.git/objects/info', '.git/objects/pack',
+                '.git/refs', '.git/refs/heads', '.git/refs/tags'}
+    for ref in refs:
+        parent = PurePosixPath('.git/' + ref).parent
+        while str(parent) != '.':
+            git_dirs.add(str(parent)); parent = parent.parent
+    for name, row in actual['files'].items():
+        if not name.startswith('.git/'):
+            if name not in expected['files']: raise BackupError('Uncovered restored working file')
+            continue
+        allowed = (name in {'.git/HEAD', '.git/config', '.git/index', '.git/packed-refs'}
+                   or name[5:] in refs
+                   or re.fullmatch(r'[.]git/objects/pack/pack-[0-9a-f]{40,64}[.](pack|idx)', name))
+        if not allowed: raise BackupError('Unique/unknown Git metadata must be retained')
+        expected['files'][name] = row
+    expected_dirs = set()
+    for name in expected['files']:
+        parent = PurePosixPath(name).parent
+        while str(parent) != '.': expected_dirs.add(str(parent)); parent = parent.parent
+    # git-init creates a few empty structural directories; allow only these.
+    if any(name.startswith('.git/') and name not in git_dirs for name in actual['directories']):
+        raise BackupError('Unknown Git metadata directory must be retained')
+    if set(actual['directories']) - expected_dirs - git_dirs:
+        raise BackupError('Uncovered restored working directory')
+    expected['directories'] = sorted(set(actual['directories']))
+    return expected
+
+
+def _generated_git_metadata(checkout):
+    """Capture only metadata produced by this job, before any CLI smoke runs.
+
+    Pack/index checks establish valid Git structure and filename/trailer hashes;
+    later metadata must still be exactly this internally generated population.
+    """
+    metadata, _ = scratch.manifest(checkout / '.git', max_files=MAX_FILES)
+    algorithm = git(checkout, 'rev-parse', '--show-object-format')
+    if algorithm not in ('sha1', 'sha256'): raise BackupError('Unsupported restored Git object hash')
+    trailer_size = 20 if algorithm == 'sha1' else 32
+    for name in metadata['files']:
+        if name.endswith('.rev'):
+            raise BackupError('Optional/unknown reverse-index metadata must be retained')
+        if name.endswith('.idx') and name[:-4] + '.pack' not in metadata['files']:
+            raise BackupError('Orphan Git pack index must be retained')
+        if not name.endswith('.pack'): continue
+        if not re.fullmatch(r'objects/pack/pack-[0-9a-f]{' + str(2 * trailer_size) + r'}[.]pack', name):
+            raise BackupError('Noncanonical generated pack path')
+        path = checkout / '.git' / name
+        index = path.with_suffix('.idx')
+        if index.relative_to(checkout / '.git').as_posix() not in metadata['files']:
+            raise BackupError('Generated Git pack lacks its exact index')
+        git(checkout, 'verify-pack', str(index))
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        with os.fdopen(fd, 'rb') as stream:
+            before = os.fstat(stream.fileno())
+            remaining = before.st_size - trailer_size
+            if remaining < 12: raise BackupError('Truncated generated Git pack')
+            hashed = hashlib.new(algorithm)
+            while remaining:
+                chunk = stream.read(min(1024 * 1024, remaining))
+                if not chunk: raise BackupError('Truncated generated Git pack')
+                hashed.update(chunk); remaining -= len(chunk)
+            trailer = stream.read(trailer_size)
+            after = os.fstat(stream.fileno())
+        if (hashed.digest() != trailer or path.stem != 'pack-' + trailer.hex()
+                or (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns) != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)):
+            raise BackupError('Generated Git pack filename/trailer/content mismatch')
+    return metadata
+
+
+def _dispose_verification(lease, expected, proof, chain, stable):
+    expected['directories'] = sorted(set(expected['directories']))
+    dependencies = [node['path'] for node in chain]
+    dependencies += [path for node in chain for path in node['artifacts'].values()]
+    try:
+        return scratch.dispose(lease, expected, success_record=proof,
+            reconstruction={'receipt_sha256': chain[-1]['sha256'], 'chain_length': len(chain),
+                            'verified_archive_payloads': True, 'git_bundle_anchor': chain[-1]['receipt']['bundle']['sha256']},
+            required_paths=dependencies, stable=stable)
+    except (scratch.ScratchError, OSError) as exc:
+        exclusive_json(lease.records / (lease.token + '-cleanup-refused.json'),
+                       {'schema': 1, 'removed': False, 'workspace': str(lease.path),
+                        'proof': str(proof), 'reason': str(exc)})
+        raise BackupError('Verification passed but automatic cleanup refused; slot retained: ' + str(exc)) from exc
+
+
+def _require_empty_verification_slot(root, reason):
+    """Refuse retained work before re-reading any archive or running Git."""
+    slot = backups_directory(Path(root).resolve()) / 'verification-workspace'
+    if reason is None and (slot.exists() or slot.is_symlink()):
+        raise scratch.ScratchError('Existing verification slot retained; inspect/pin it before another job')
+
+
+def checkpoint(receipt_path, root=ROOT, *, pinned_reason=None):
     """Integrity checkpoint only; deliberately does not claim a full restoration."""
+    reason = _pinned_reason(pinned_reason)
+    _require_empty_verification_slot(root, reason)
     chain = load_chain(receipt_path, root); node = chain[-1]
     if node["receipt"]["schema"] != 2: raise BackupError("Incremental checkpoint requires a delta receipt")
-    # Validate the new payload using the same whitelist/hash restoration guard,
-    # without copying the unchanged full population. Scratch is retained.
-    base = backups_directory(Path(root).resolve()); scratch = base / ("delta-check-" + uuid.uuid4().hex)
-    restore_archive(node["artifacts"]["archive"], scratch, node["receipt"]["delta"]["inventory"])
+    # Old workspaces are never collected. An explicit pin is reserved for a
+    # required recovery base/test inspection; routine future calls use one slot.
+    base = backups_directory(Path(root).resolve())
+    space_plan = restore_space_plan(root, chain, integrity=True)
+    lease = None if reason else scratch.claim(root, 'incremental integrity verification')
+    work = base / ('delta-check-' + uuid.uuid4().hex) if reason else lease.path / 'payload'
+    restore_archive(node["artifacts"]["archive"], work, node["receipt"]["delta"]["inventory"])
     result = {"schema": 2, "integrity_checked": True, "full_restoration_tested": False,
               "receipt": str(node["path"]), "receipt_sha256": node["sha256"], "chain_length": len(chain),
               "delta_files_verified": len(node["receipt"]["delta"]["inventory"]["files"]),
-              "scratch_directory": str(scratch), "limitation": LIMITATION}
+              "scratch_directory": str(work), "limitation": LIMITATION,
+              'space_plan': space_plan, 'workspace_policy': 'pinned-required' if reason else 'new-owned-disposable',
+              'pinned_reason': reason, 'workspace_owner_token': lease.token if lease else None,
+              'workspace_removal_receipt': str(lease.records / (lease.token + '-removed.json')) if lease else None}
     path = node["path"].parent / ("integrity-" + uuid.uuid4().hex + ".json")
     publish_check(path, result, lambda: check_chain_unchanged(chain))
+    if lease:
+        expected = {'files': {}, 'directories': []}
+        _archive_expected(expected, 'payload', node['receipt']['delta']['inventory'])
+        _dispose_verification(lease, expected, path, chain, lambda: check_chain_unchanged(chain))
     return path
 
 
-def verify(receipt_path, root=ROOT):
+def verify(receipt_path, root=ROOT, *, pinned_reason=None):
     root = Path(root).resolve(); base = backups_directory(root)
+    reason = _pinned_reason(pinned_reason)
+    _require_empty_verification_slot(root, reason)
     chain = load_chain(receipt_path, root); node = chain[-1]
     original, receipt, artifacts = node["path"], node["receipt"], node["artifacts"]
-    restore = base / ("restore-" + uuid.uuid4().hex)
-    restore.mkdir(mode=0o700)
+    import_plan = bundle_import_space_plan(root, artifacts['bundle'])
+    lease = None if reason else scratch.claim(root, 'full restoration verification')
+    restore = base / ("restore-" + uuid.uuid4().hex) if reason else lease.path
+    if reason: restore.mkdir(mode=0o700)
     checkout = restore / "checkout"
     checkout.mkdir(mode=0o700)
-    git(checkout, "init", "--quiet")
+    git(checkout, "init", "--quiet", '--template=')
+    git(checkout, 'config', 'core.logallrefupdates', 'false')
+    initial_config = digest(checkout / '.git/config')
     git(checkout, "symbolic-ref", "HEAD", "refs/heads/__backup_restore_unborn__")
     git(checkout, "bundle", "verify", str(artifacts["bundle"]))
-    git(checkout, "fetch", "--quiet", "--no-write-fetch-head", str(artifacts["bundle"]), "refs/*:refs/*")
+    fetch = ('-c', 'fetch.unpackLimit=0', '-c', 'transfer.unpackLimit=0', '-c', 'pack.writeReverseIndex=false',
+             '-c', 'gc.auto=0', '-c', 'maintenance.auto=false', 'fetch')
+    git(checkout, *fetch, "--quiet", "--no-write-fetch-head", str(artifacts["bundle"]), "refs/*:refs/*")
     # --all bundles also carry HEAD; a detached HEAD may not be reachable from
     # any named ref, so explicitly transfer its objects without adding a ref.
-    git(checkout, "fetch", "--quiet", "--no-write-fetch-head", str(artifacts["bundle"]), "HEAD")
+    git(checkout, *fetch, "--quiet", "--no-write-fetch-head", str(artifacts["bundle"]), "HEAD")
     if git(checkout, "show-ref").splitlines() != receipt["git_refs"]:
         raise BackupError("Restored Git refs mismatch")
+    space_plan = restore_space_plan(root, chain, git_source=checkout)
     git(checkout, "checkout", "--quiet", "--detach", receipt["git_head"])
     if git(checkout, "rev-parse", "HEAD") != receipt["git_head"]:
         raise BackupError("Restored Git HEAD mismatch")
+    generated_metadata = _generated_git_metadata(checkout)
     restore_archive(chain[0]["artifacts"]["archive"], restore / "non-git", chain[0]["receipt"]["inventory"])
     for index in range(1, len(chain)):
         apply_delta(chain[index], chain[index-1]["receipt"]["inventory"], restore / "non-git", restore / ("delta-" + str(index)))
@@ -704,26 +974,54 @@ def verify(receipt_path, root=ROOT):
               "restore_directory": str(restore), "git_bundle_verified_in_empty_repository": True,
               "all_refs_restored": True, "non_git_files_verified": len(receipt["inventory"]["files"]),
               "chain_length": len(chain), "full_restoration_tested": True,
+              'space_plan': space_plan, 'git_import_space_plan': import_plan,
+              'workspace_policy': 'pinned-required' if reason else 'new-owned-disposable',
+              'pinned_reason': reason, 'workspace_owner_token': lease.token if lease else None,
+              'workspace_removal_receipt': str(lease.records / (lease.token + '-removed.json')) if lease else None,
               "cli_smoke": {"command": [sys.executable, "-B", "-m", "autorouter", "--help"], "exit": smoke.returncode,
                             "output": smoke.stdout[:16000]}, "limitation": LIMITATION}
     verification = original.parent / ("verification-" + uuid.uuid4().hex + ".json")
     publish_check(verification, result, restored_stable)
+    if lease:
+        expected = {'files': {}, 'directories': []}
+        _archive_expected(expected, 'non-git', receipt['inventory'])
+        checkout_expected = _checkout_expected(checkout, receipt, initial_config, generated_metadata)
+        expected['directories'].append('checkout')
+        expected['directories'] += ['checkout/' + name for name in checkout_expected['directories']]
+        expected['files'].update({'checkout/' + name: row for name, row in checkout_expected['files'].items()})
+        for index in range(1, len(chain)):
+            _archive_expected(expected, 'delta-' + str(index), chain[index]['receipt']['delta']['inventory'], files=False)
+        _dispose_verification(lease, expected, verification, chain, restored_stable)
     return verification
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--verify", metavar="RECEIPT", help="Restore a complete existing full/incremental chain")
+    mode.add_argument("--verify", metavar="RECEIPT", help="Verify a complete existing chain in new-owned temporary scratch")
     mode.add_argument("--incremental", metavar="PARENT_RECEIPT", help="Changed/new artifact checkpoint from a verified full-base chain; no full restoration")
+    mode.add_argument('--full', metavar='MILESTONE_REASON', help='Explicit new full capture; unchanged installation material is normally covered by an incremental parent')
     args = parser.parse_args()
     try:
+        if args.full is not None and (not args.full.strip() or len(args.full) > 512):
+            raise BackupError('A bounded reason is required for a new full milestone capture')
+        if not any((args.verify, args.incremental, args.full)):
+            base = backups_directory(ROOT)
+            with os.scandir(base) as entries:
+                for count, entry in enumerate(entries):
+                    if count >= 2048:
+                        raise BackupError('Checkpoint selection bound; specify the retained parent receipt explicitly')
+                    if (entry.name.startswith('checkpoint-') and entry.is_dir(follow_symlinks=False)
+                            and (Path(entry.path) / 'receipt.json').is_file()):
+                        raise BackupError('Existing checkpoints retained: use --incremental PARENT_RECEIPT; '
+                                          'a repeated full capture needs explicit --full MILESTONE_REASON. '
+                                          'Do not recopy complete installation trees or silently exclude unique evidence.')
         receipt = Path(args.verify) if args.verify else create(parent=args.incremental)
         verified = checkpoint(receipt) if args.incremental else verify(receipt)
         print(json.dumps({"receipt": str(receipt), "integrity_check" if args.incremental else "verification": str(verified),
                           "full_restoration_tested": not bool(args.incremental), "limitation": LIMITATION}, indent=2))
         return 0
-    except (BackupError, OSError, ValueError, KeyError, TypeError, tarfile.TarError, subprocess.SubprocessError) as exc:
+    except (BackupError, scratch.ScratchError, OSError, ValueError, KeyError, TypeError, tarfile.TarError, subprocess.SubprocessError) as exc:
         print(json.dumps({"verified": False, "error": str(exc), "limitation": LIMITATION}), file=sys.stderr)
         return 2
 
