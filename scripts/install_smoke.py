@@ -54,7 +54,8 @@ class Cancelled(Exception):
 GUIDANCE = ("native", "placement-clearance-v1")
 PLACEMENT_FIXTURE = "evidence/placement-area-native-001/allowed_placement/candidate/fixture.kicad_pcb"
 SMOKE_FILES = tuple('fixtures/smoke/smoke' + suffix for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_prl'))
-INSTALL_CONTROL_FILES = ('scripts/install_smoke.py', 'scripts/prepare_runtime.py')
+INSTALL_CONTROL_FILES = ('scripts/install_smoke.py', 'scripts/prepare_runtime.py',
+                         'scripts/backup.py', 'scripts/verification_scratch.py')
 
 
 def qualification(guidance):

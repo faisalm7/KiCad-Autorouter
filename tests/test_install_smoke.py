@@ -367,6 +367,8 @@ class CuratedDistributionTests(unittest.TestCase):
         implementation=lambda:{name:digest(runtime/name) for name in product if name.startswith('autorouter/')}
         def change():
             targets={'source':source/'LICENSE','runtime':runtime/'LICENSE','controller':source/m.INSTALL_CONTROL_FILES[0],
+                     'headroom_controller':source/'scripts/backup.py',
+                     'retention_controller':source/'scripts/verification_scratch.py',
                      'fixture':out/'source-fixture/smoke.kicad_pcb','tool':native_tool,
                      'venv':runtime/'.venv/bin/python','native':runtime/'.runs/install-native-smoke/candidate.board'}
             target=targets[mutation];target.write_bytes(target.read_bytes()+b'changed');changed.append(target)
@@ -442,7 +444,7 @@ class CuratedDistributionTests(unittest.TestCase):
 
     def test_real_file_mutations_invalidate_new_distribution(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'.runs') as directory:
-            for name in ('source','runtime','controller','fixture','tool','venv','native','publication'):
+            for name in ('source','runtime','controller','headroom_controller','retention_controller','fixture','tool','venv','native','publication'):
                 with self.subTest(mutation=name):
                     base=Path(directory)/name;base.mkdir();code,record,_,_,_=self.case(base,mutation=name)
                     self.assertEqual(code,2,record);self.assertFalse(record['passed']);self.assertTrue(record.get('reason'))
