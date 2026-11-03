@@ -1,4 +1,4 @@
-# Persistent routing settings in runtime060
+# Persistent routing settings
 
 Save/load presets in the graphical window, or pass an explicit JSON file with `--settings`. Keep presets outside the saved source project. Jobs capture exact bytes; changing source or captured settings invalidates the job. There is no implicit personal/global configuration search, and routing does not rewrite presets or original KiCad rules.
 
@@ -13,10 +13,10 @@ A value accepted by the JSON schema is not automatically supported by selected K
 | Allowed new layers | `source_all`, preserving original stackup, on supported2/4Cu sources. | Explicit subsets/single-layer choices remain refused. |
 | Via preference | `scoring_preference: null` default, or explicit `"via_high"`. | Higher search cost does not guarantee fewer vias or electrical suitability. Other scores refuse; Improve/recovery require `null`. |
 
-Use the installed runtime CWD before invoking its module:
+Use the installed runtime directory printed by installation before invoking its module. Replace the example path below with that directory:
 
 ```sh
-cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime060 fresh install 001'
+cd '/absolute/path/to/installed-runtime'
 .venv/bin/python -B -m autorouter settings-init --output .runs/my-settings-001.json
 ```
 
@@ -37,6 +37,6 @@ A partial90 ordinary preset is:
 
 For higher via cost, change only the final value to `"via_high"` in a fresh preset. Load it and verify displayed choices before Preview, or pass `--settings /absolute/preset.json`. Explicit CLI options override only that run; they do not edit the file. Keep critical copper locked or use Finish gaps. Current, impedance, timing and return-path requirements need their own checks/review; DRC alone cannot establish them.
 
-Improve is a separate experimental canonical2Cu/flat/single-Default whole/native/tuned/both/source_all/default-score method. Its whole budget includes tuned incumbent, pruning trials, final checks and40s internal return reserve; the reserve does not enlarge wall/fullCPU caps or guarantee completion. Runtime060 help reflects40s. [GUI095](../evidence/gui-runtime060-095-observations-001.json) observed incumbent progress and a trial log in a separate cancellation control. Cancellation, staleness or invalid constraints never authorize fallback. Thermal Recover is distinct and not current GUI-qualified. [Method requirements](gui-workflow.md).
+Improve is a separate experimental canonical2Cu/flat/single-Default whole/native/tuned/both/source_all/default-score method. Its whole budget includes tuned incumbent, pruning trials, final checks and40s internal return reserve; the reserve does not enlarge wall/fullCPU caps or guarantee completion. The reserve is part of the routing budget. [GUI103](../evidence/gui-runtime070-103-qualification-001.json) retains actual Improve and direct-engine cancellation outcomes, including the between-stage reporting defect later fixed in source. Cancellation, staleness or invalid constraints never authorize fallback. Thermal Recover is distinct and not current GUI-qualified. [Method requirements](gui-workflow.md).
 
-[Thirteen installed060 Native workflows/three invalid controls](../evidence/runtime060-installed-native-milestone-001.json) and GUI095 ordinary/high/Improve roles retain exact source/protection/warning/check scope. They do not qualify every preset, fullGUI, exact queued timing or electrical/broad quality. Historical [059 Native](../evidence/runtime059-native-milestone-001.json)/[GUI094](../evidence/gui-runtime059-094-observations-001.json), [058 comparison](benchmark-runtime058-installed.md) and [previous guide](history/2026-10-20-pre-runtime050-user-guides/routing-preferences.md) remain version-specific. [CLI](quickstart.md) · [Current gates](experimental-rc.md).
+[072 headless Native/invalid/class evidence](../evidence/runtime072-installed-native-milestone-001.json) and [finite GUI103](../evidence/gui-runtime070-103-qualification-001.json) retain exact source/protection/warning/check scopes. They cannot qualify a changed build or every preset. [STATUS](../STATUS.md) identifies the current artifact and fresh qualification; [release gates](experimental-rc.md) and [CLI](quickstart.md) remain separate. Historical versioned packets keep their original outcomes.
