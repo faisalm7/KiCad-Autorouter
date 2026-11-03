@@ -577,3 +577,7 @@ The [one prepared original diagnostic](evidence/development-stm32-control068-nat
 ## Git original-object identity (checked November 3, 2026)
 
 Primary [Git option documentation](https://git-scm.com/docs/git#Documentation/git.txt---no-replace-objects) states that `--no-replace-objects` disables replacement references. A tiny actual-Git counterexample reproduced inherited redirection in both prior source providers; an equal-size control accepts before the patch and refuses afterward. The current repository has no replacement refs. The narrow source fix and96 focused controls are recorded in [the evidence](evidence/source-git-replacement-ref-fix-001.json). Installed069 is unchanged; this is build-source identity protection, not routing quality, a whole hostile-Git security proof or new artifact qualification.
+
+## Stable version check (November 3, 2026)
+
+Newly checked primary [KiCad10.0.8 release notice](https://www.kicad.org/blog/2026/10/KiCad-10.0.8-Release/) identifies the stable patch published October30. Current actual local Native/GUI evidence is pinned to isolated10.0.7, so10.0.8 is unqualified; no download, upgrade or global installation change was initiated. The primary [Freerouting2.5.0 release page](https://github.com/freerouting/freerouting/releases/tag/v2.5.0) still labels2.5.0 latest, released October5. Our existing engine remains pinned. Publisher performance/API claims on that page are not our Native reproduction, fair comparison or support proof.
