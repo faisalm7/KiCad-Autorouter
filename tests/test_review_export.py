@@ -12,6 +12,12 @@ from autorouter import handoff as h,pipeline as p,floor_route as f,sexpr as sx,p
 
 class ExportControls(unittest.TestCase):
     def test_export_producer_reconciles_wait4_roundoff_without_relaxing_reader(self):
+        self.check_waited_cpu_roundoff(0.)
+
+    def test_export_roundoff_with_preexisting_waited_child_cpu(self):
+        self.check_waited_cpu_roundoff(240.)
+
+    def check_waited_cpu_roundoff(self, prior_child_cpu):
         seam=self.native_run
         def measured(*args,**kwargs):
             result=seam(*args,**kwargs)
@@ -19,7 +25,11 @@ class ExportControls(unittest.TestCase):
             return result
         # Synthetic process seams reproduce the actual058 subtraction defect.
         # The shared transaction, accounting, publication and reader are real.
-        with patch.object(e,'run',side_effect=measured),patch.object(f,'child_cpu',side_effect=lambda:[0.,.1,.3,.6][len(self.calls)]):
+        # Both production clocks observe the same cumulative child counter.
+        # Keep this synthetic process seam independent of earlier suite workers.
+        with patch.object(e,'run',side_effect=measured), \
+                patch.object(f,'child_cpu',side_effect=lambda:prior_child_cpu+[0.,.1,.3,.6][len(self.calls)]), \
+                patch.object(h,'cpu_seconds',side_effect=lambda:e.time.process_time()+f.child_cpu()):
             result=self.export()
         self.assertEqual(result['control_child_cpu_seconds'],0.)
         self.assertGreaterEqual(result['total_cpu_seconds'],result['parent_cpu_seconds']+.6)

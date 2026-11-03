@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "scope": "Regression fixture diagnosis only. No new runtime artifact, PCB validation, GUI, routing gain or release qualification.",
+  "full_runs": [
+    {
+      "run": 229,
+      "passed": false,
+      "source_head": "87826ba4fd4369c7501fcd44c0b01b3612e07175",
+      "source_fence": true,
+      "execution_sha256": "50b1a807f51c6848d77a812aa7540f3801db4ff40007be80df328b7b5115d70c",
+      "log_sha256": "6f5d9b4f12b7167e9efac842a4d0053b60eea1b51cdef3867ce71723f694b8b3",
+      "protocol_sha256": "0489b2926792af785ea1e79c339107f250539e58d69c0563b7687c81c0d79e88",
+      "controller_sha256": "3d487ff562bc9a660f017f6f857eca11efdaf9daa43cf1085cfcd7b8cd32228b",
+      "external_wall_seconds": 480.85,
+      "external_cpu_seconds": 269.73,
+      "process_status": "timeout",
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    {
+      "run": 230,
+      "passed": false,
+      "source_head": "87826ba4fd4369c7501fcd44c0b01b3612e07175",
+      "source_fence": true,
+      "execution_sha256": "fe0b90afa93bd7492fbae10729f61730be05fca7659bb8d1b5760ed0dec524b9",
+      "log_sha256": "6f8fe067b18a34fae2698980769bbb9b4902600d51e384ae137d6ebe7e2839d8",
+      "protocol_sha256": "81bf49e4d4e89d73d0841a8b81546b0fbd2622a171df1fb37e582e14e0ff8e4e",
+      "controller_sha256": "e2602e674e69e5cbfdb1340bdcfa1c1516f156f35f2ef182f65e8bfb5b77e9ec",
+      "external_wall_seconds": 884.6,
+      "external_cpu_seconds": 636.7,
+      "process_status": "nonzero_exit",
+      "cleanup_complete": true,
+      "log_truncated": false
+    }
+  ],
+  "full230": {
+    "discovered": 2821,
+    "run": 2821,
+    "failures": 0,
+    "errors": 1,
+    "skipped": 1,
+    "timings_sha256": "a326233e1482a42e154812713ebac4fccb94e2afda50fe73e3c22f776a41d739",
+    "decision": "Failed: synthetic child CPU counter disagreed with the actual cumulative counter used by the early export cap; native/bind work had not started."
+  },
+  "correction": {
+    "file": "tests/test_review_export.py",
+    "sha256": "75a714daa3af25c24819b11e39f13afa47dc93ed4ea1c5965c03b6af8c14a887",
+    "change": "Use one synthetic cumulative child clock in both export clocks; test fresh outputs with zero and 240 seconds prior child CPU. All component/reader/original-preservation assertions remain.",
+    "deterministic_before_control_sha256": "71890b06d31c8ff356ef9f6f00cee968926133538eee33adc0290b5d6569844d",
+    "before_control": "Original fixture fails with an independently injected 240-second historical-child offset.",
+    "targeted_command": ".venv/bin/python -B -m unittest tests.test_review_export tests.test_native7_choice_boundary tests.test_handoff_stage_budget",
+    "targeted_tests": 49,
+    "targeted_pass": true,
+    "seconds": 35.26,
+    "external_wall_seconds": 36.25,
+    "external_cpu_seconds": 21.98,
+    "log_sha256": "aebbdb805bc9055f30516b6c3818d042f97322909f7a0a7f2119a28537b64b11",
+    "independent_AI_review": "Source/trace diagnosis confirmed. Not human or physical review."
+  },
+  "limits": {
+    "regression_timing_policy": "One prospectively declared1200-second wall/fullCPU test-only operational cap after the480-second timeout; no historical outcome relabel. Same1200 ceiling for changed-fixture full regression.",
+    "routing": 420,
+    "method": 450,
+    "whole_delivery": 600,
+    "export": 120,
+    "review": 60,
+    "choice": 60,
+    "required_complete_review_choice_headroom": 45,
+    "production_code_changed": false
+  },
+  "next": "Fresh complete regression for corrected test source, then one069 build/install/native/GUI/large-delivery qualification. Runtime068 evidence unchanged. No known routing completion gain beyond B1/B2."
+}
