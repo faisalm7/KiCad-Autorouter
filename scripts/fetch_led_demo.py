@@ -1092,7 +1092,56 @@ AP3012K_PROFILE = dict(schema=1, profile_id='ap3012k-boost', project_id='ap3012k
         'No models/STEP/images/ZIPs/firmware/upstream scripts or external libraries fetched or executed; missing mandatory closure remains a blocker.',
         'Prior metadata costs are separate and partly unmetered; fresh eight-response acquisition costs are recorded separately.'])
 
+# Finite development source intake only; no Native or routing admission.
+PAW3222_COMMIT = '9eb332d49a13066c1ca065eb9a0478423576f2fc'
+PAW3222_REPOSITORY = 'badjeff/paw3222-pcb'
+PAW3222_RIGHTS = (
+    'Pinned creator README explicitly makes this hardware available under CERN-OHL-P v2; '
+    'retain the exact LICENSE, README, attribution and modification notices. '
+    'Local sensor/laser footprint and symbol provenance, external assets/models, independent '
+    'ancestry and electrical/laser/physical adequacy remain unqualified. '
+    'Acquisition supplies no unrestricted routing permission or CAD/assets publication.')
+PAW3222_PROFILE = dict(schema=1, profile_id='paw3222', project_id='paw3222',
+    repository=PAW3222_REPOSITORY, commit=PAW3222_COMMIT,
+    rows=[dict(source_path=name, bytes=size, git_blob_sha1=blob, mode='100644',
+        repository=PAW3222_REPOSITORY, commit=PAW3222_COMMIT, destination='paw3222/'+name,
+        raw_url='https://raw.githubusercontent.com/'+PAW3222_REPOSITORY+'/'+PAW3222_COMMIT+'/'+name,
+        blob_url='https://github.com/'+PAW3222_REPOSITORY+'/blob/'+PAW3222_COMMIT+'/'+name,
+        rights_basis=PAW3222_RIGHTS, **({'sha256':pin} if pin else {}))
+        for name,size,blob,pin in (
+            ('LICENSE', 8852, '4fe041e077a8179e50d8d068fb5803cf1f80abba', '6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded'),
+            ('README.md', 1327, '70b5f5391e9eed766e6494e5dd9be6011c10435e', '580bbfadd54bd0c3dfc3c2116a203658cfec75fbd98a937f69fe144df6fea61f'),
+            ('PAW3222.kicad_pcb', 47454, '5952ecae90863ab4a8a90e5d2fd2557c2a2c6a1a', None),
+            ('PAW3222.kicad_prl', 1275, 'f3ab7d4c400a1ff37af9ac42fe1f80ab75f9dfbb', None),
+            ('PAW3222.kicad_pro', 14357, '885df86a0f839061c50e25e175c6a69e9f4dc7bc', None),
+            ('PAW3222.kicad_sch', 40730, 'd55f9d3a593cd985eb32145c8cb4163556181c1f', None),
+            ('fabrication-toolkit-options.json', 190, 'e966d2d7168530600f7a36b7cd571fed18c66958', None),
+            ('fp-lib-table', 125, '40f02cdae5c1c84d06fe375c02d8330a216d242d', None),
+            ('paw3222.kicad_sym', 2873, '707232b9d4b1dd7a0f8d5dc593266602de82d35a', None),
+            ('paw3222.pretty/LTE-C216-P-W.kicad_mod', 2519, 'e1f9410714bc22bdcd2ec0f4c1b47215cf0381f3', None),
+            ('paw3222.pretty/PAW3222LU.kicad_mod', 4386, '2b7dc88c2ebe037f250d7e611597afcb9263ce95', None),
+            ('sym-lib-table', 129, '5196ad5f1291beac073870e7d76802dccaadcb49', None),
+        )], directories=['paw3222.pretty'], board_path='PAW3222.kicad_pcb',
+    output_prefix='paw3222-demo-', default_output='.data/paw3222-demo-001',
+    file_count=12, bytes=124217, max_requests=12, network_byte_cap=124229,
+    max_single_response_bytes=47455, output_byte_cap=2*1024**2,
+    wall_budget_seconds=300, cpu_budget_seconds=300, request_wall_seconds=30,
+    native_packet_notice_copies={'_licenses/creator/LICENSE':'LICENSE',
+        '_licenses/creator/README.md':'README.md'},
+    native_packet_files=14, native_packet_bytes=134396, development_exposed=True,
+    independent_ancestry_established=False, native_validation_performed_by_fetch=False,
+    raw_assets_public=False, warnings=[
+        'Twelve exact originals include PRL, ancillary fabrication preferences, both library tables, sensor symbol and both local footprints; no source bytes or hierarchy are normalized.',
+        'CERN-OHL-P v2 hardware grant and exact README remain beside the native project; embedded asset/library/model title is not independently cleared.',
+        'README states 3.3V ONLY, two copper layers and 7.75x12.53mm; these publisher statements are not Native or electrical validation.',
+        'Laser drive/optical/current/return-path requirements, intended protection and physical function remain unqualified; names and DRC cannot establish suitability.',
+        'Small fixed-placement control or dense-escape prospect only; actual placement, routing demand, format/rules/parity/support and difficulty remain unverified.',
+        'Same publisher/function as previously exposed PAW3395; group conservatively as related development, never a new independent family or untouched confirmation.',
+        'No photos, renders, fabrication scripts, models, firmware or unrelated libraries are downloaded or executed.',
+        'Prior metadata/notice research costs are additional and partly unmetered; all twelve fresh transfers are recorded without silent cache reuse.'])
+
 def fixed_profile(profile_id='led'):
+    if profile_id=='paw3222':return copy.deepcopy(PAW3222_PROFILE)
     if profile_id=='ap3012k-boost':return copy.deepcopy(AP3012K_PROFILE)
     if profile_id=='directional-pad':return copy.deepcopy(DIRECTIONAL_PROFILE)
     if profile_id=='spectral-as7343':return copy.deepcopy(SPECTRAL_PROFILE)
@@ -1356,7 +1405,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20','directional-pad','spectral-as7343','ap3012k-boost'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20','directional-pad','spectral-as7343','ap3012k-boost','paw3222'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:
