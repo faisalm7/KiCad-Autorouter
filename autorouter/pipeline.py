@@ -39,6 +39,7 @@ NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY='selected-native7-single-parent-class-
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
+NATIVE7_SELECTED_DEFAULT_POLICY='native7-selected-sole-default-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -119,6 +120,10 @@ def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing
                 and adapter=='both' and scoring is None):
             return  # Parent/Preview independently require the exact source/child policy.
         raise Rejected('unsupported: selected Native Improve requires whole/native/tuned/both/all-source/default-score single pruning')
+    if (c.NATIVE_VERSION=='10.0.7' and purpose=='route' and scope=='selected_nets'
+            and guidance=='native' and layers=='source_all' and profile=='completion-only'
+            and adapter=='both' and scoring is None):
+        return  # Source eligibility and mandatory Default/selected proofs are checked separately.
     scopes={'whole_board_unlocked_routing','partial_completion'} if purpose=='route' else {'whole_board_unlocked_routing'} if purpose=='thermal-recovery' else set()
     score_supported=(scoring is None or (purpose=='route' and type(scoring) is str and scoring=='via_high'))
     if (c.NATIVE_VERSION != '10.0.7' or scope not in scopes
@@ -1285,6 +1290,32 @@ def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain
     return result
 
 
+def check_native7_selected_source(board,names):
+    """Static initial selected slice; never Native or routing acceptance."""
+    from . import default_targets as targets
+    from .placement_clearance import read_bytes
+    from .layer_policy import _two_copper_table
+    board=Path(board);original=sx.parse(read_bytes(board).decode('utf-8'))
+    try:
+        if c.NATIVE_VERSION!='10.0.7' or sx.one(original,'version')!=['version','20260206']:
+            raise ValueError('selected Native7 requires qualified modern two-copper source')
+        _two_copper_table(original)
+        project=targets._json(read_bytes(board.with_suffix('.kicad_pro')))
+        if type(project) is not dict:raise ValueError('selected Native7 project object required')
+        settings=project.get('net_settings',{})
+        if type(settings) is not dict:raise ValueError('selected Native7 net_settings object required')
+        classes=settings.get('classes',[{'name':'Default'}])
+        if (type(classes) is not list or len(classes)!=1
+                or type(classes[0]) is not dict or classes[0].get('name')!='Default'
+                or settings.get('netclass_assignments') not in (None,{})
+                or settings.get('netclass_patterns') not in (None,[]) or netclass_policy(board) is not None):
+            raise ValueError('selected Native7 requires sole Default without assignments or patterns')
+        selected_proposal_protection(original,names)  # No new selected-lock fallback admission.
+        read_bytes(board.with_suffix('.kicad_sch'))  # Actual fullSCH validation is still mandatory.
+    except (OSError,ValueError,TypeError,KeyError,Rejected) as exc:
+        raise Rejected('unsupported: Native7 selected source: '+str(exc)) from exc
+
+
 def normal_default_target_scope(board,adapter,*,native_toolchain=None):
     """Corrected ordinary selected7 uses one source-derived Default policy."""
     return (native_toolchain is None and c.NATIVE_VERSION=='10.0.7' and adapter=='both'
@@ -1301,33 +1332,49 @@ def check_default_target_transport(directory,data,original,candidate,*,input_pol
     from .placement_clearance import read_bytes
     from .local_settings import policy_declaration
     directory=Path(directory);candidate=Path(candidate)
+    selected=(native_toolchain is None and c.NATIVE_VERSION=='10.0.7' and data.get('scope')=='selected_nets')
+    scopes={'whole_board_unlocked_routing','partial_completion'}|({'selected_nets'} if selected else set())
     names=('default-targets.json','default-targets.dsn')
     marked=('default_target_transport' in data or any((directory/name).exists()
         or (directory/name).is_symlink() for name in names))
-    if not marked and (native_toolchain is not None or c.NATIVE_VERSION!='10.0.7'
+    if not selected and not marked and (native_toolchain is not None or c.NATIVE_VERSION!='10.0.7'
             or input_policy!='native' or data.get('adapter')!='both' or data.get('strategy') is not None
-            or data.get('scope') not in {'whole_board_unlocked_routing','partial_completion'}):
+            or data.get('scope') not in scopes):
         return None
     producer=directory/'code/pipeline.py'
     if not producer.exists() and not producer.is_symlink():
-        if marked:raise Rejected('Default target transport has no captured producer')
+        if marked or selected:raise Rejected('Default target transport has no captured producer')
         return None
     raw_code=read_bytes(producer,1024**2)
     if hashlib.sha256(raw_code).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
         raise Rejected('Default target captured producer differs')
     declared=policy_declaration(raw_code,name='DEFAULT_TARGET_ADMISSION_POLICY',expected=DEFAULT_TARGET_ADMISSION_POLICY)
+    if selected:
+        capability=policy_declaration(raw_code,name='NATIVE7_SELECTED_DEFAULT_POLICY',expected=NATIVE7_SELECTED_DEFAULT_POLICY)
+        if capability!=NATIVE7_SELECTED_DEFAULT_POLICY:
+            raise Rejected('Native7 selected requires its captured producer capability')
+        if declared is None:raise Rejected('Native7 selected requires declared Default target transport')
     required=(declared is not None and input_policy=='native' and data.get('strategy') is None
-        and data.get('scope') in {'whole_board_unlocked_routing','partial_completion'}
+        and data.get('scope') in scopes
         and normal_default_target_scope(candidate,data.get('adapter'),native_toolchain=native_toolchain))
     if not required:
-        if marked:raise Rejected('Default target transport outside declared producer scope')
+        if marked or selected:raise Rejected('Default target transport outside declared producer scope')
         return None
-    if targets.POLICY!=declared or selected_scope_markers(directory,data) or layer_markers(directory,data):
+    if targets.POLICY!=declared or (selected_scope_markers(directory,data) and not selected) or layer_markers(directory,data):
         raise Rejected('Default target transport requires ordinary source-all scope')
     snapshot=directory/'snapshot'/candidate.name
     if tree_hash(snapshot.parent)!=data['source_hashes']:
         raise Rejected('Default target original snapshot changed')
-    task_raw=(sx.dump(routing_task(original,data['scope']))+'\n').encode()
+    selected_names=None
+    if selected:
+        try:selected_names=selected_scope_names(data)
+        except (ValueError,TypeError,KeyError) as exc:
+            raise Rejected('Native7 selected captured choice required') from exc
+        effective=data['routing_preferences']['effective']
+        require_native_scope(scope='selected_nets',guidance=input_policy,layers=effective['layers'],
+            profile=data['engine_profile'],adapter=data['adapter'],scoring=data.get('scoring_variant'))
+        check_native7_selected_source(snapshot,selected_names)
+    task_raw=(sx.dump(routing_task(original,data['scope'],selected_names))+'\n').encode()
     if hashlib.sha256(task_raw).hexdigest()!=data.get('task_sha256'):
         raise Rejected('Default target original task differs')
     mapping=f.read_json(directory/'export-netclasses.json')
@@ -2391,6 +2438,9 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     canonical(Path(source).absolute());canonical(Path(output).absolute())
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
     if source.parent==output or source.parent in output.parents: raise Rejected('output must be outside source project')
+    if (native_toolchain is None and c.NATIVE_VERSION=='10.0.7' and _preferences is not None
+            and _preferences['effective']['scope']=='selected_nets'):
+        check_native7_selected_source(source,_preferences['effective']['nets'])
     if _fanout_enabled is False:
         preflight(source,task_scope=('whole_board_unlocked_routing','native','source_all'))
         if _engine_global_width_policy is not None:global_width_source_guard(source)
