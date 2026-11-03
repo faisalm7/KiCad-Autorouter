@@ -1,6 +1,6 @@
 # Graphical routing workflow
 
-**[Runtime067 GUI100 finite actual controls pass](../evidence/gui-runtime067-100-qualification-001.json).** Toolbar/presets, protected two/four-layer and class-Improve routing, Edge review, explicit intent, active cancellation, fresh Native export/checked opening and stale refusal were observed. Large Improve delivery still fails; exact queued gap/every phase/thermal/live undo remain unqualified. [Current steps](../START_HERE.md) · [Gates](../STATUS.md).
+**Actual runtime073/GUI104 qualification is pending.** Its prepared sources and presets are ready. Earlier [070 GUI103 observations](../evidence/gui-runtime070-103-qualification-001.json) retain their finite scope and do not qualify073. [Current steps](../START_HERE.md) · [Gates](../STATUS.md).
 
 The KiCad toolbar launches a separate graphical worker. It presents the exact saved source, separate output, scope/protection, supported layers, routing preference and budget. Save and close the source editors before acknowledging their paths. Unsaved buffers cannot be inspected. Expensive routing and validation run outside the editor.
 
@@ -12,11 +12,11 @@ Fresh export performs new original-rule Native validation into another separate 
 
 | Setting or method | Declared scope |
 |---|---|
-| Ordinary Route |Native CLI whole/partial2/4Cu; actual067 GUI100 finite2/4Cu roles pass. Standard/both/native/all source layers; engine-default or explicit via_high. |
-| Improve, experimental |Qualified canonical2Cu/flat/whole/tuned/default-score. Original Native-resolved classes remain bound; at least90s whole-method budget, including40s internal return reserve. Needs a valid incumbent; no every-failure or literal-expiry guarantee. |
+| Ordinary Route |Native CLI whole/partial2/4Cu; 073 headless checks pass; actual GUI104 roles remain pending. Standard/both/native/all source layers; engine-default or explicit via_high. |
+| Improve, experimental |Qualified canonical2Cu/flat/whole/tuned/default-score. Original Native-resolved classes remain bound; at least 90s whole-method budget, including 40s internal return reserve. Needs a valid incumbent; no every-failure or literal-expiry guarantee. |
 | Thermal Recover |Separate experimental method; current GUI role unqualified. |
 | Other scope/layer/score combinations |Unsupported or unqualified; refuse without weakening the original design. |
 
 Persistent JSON presets can be saved/loaded outside the source. Preview again after changes. Source/settings/export freshness must hold before delivery and opening. Cancellation never authorizes fallback or acceptance. Routing, rendered review and fresh export have distinct ceilings; complete comparative accounting includes intake, attempts, validation, selection and delivery.
 
-Current067 actual controls remain pending. Exact queued callback timing/every cancellation phase/thermal Recover/independent usability/live undo remain separate gates. No historical observation substitutes. [CLI](quickstart.md) · [Preferences](routing-preferences.md) · [Platforms](supported-platforms.md).
+Current073 actual controls remain pending. Exact queued callback timing/every cancellation phase/thermal Recover/independent usability/live undo remain separate gates. No historical observation substitutes. [CLI](quickstart.md) · [Preferences](routing-preferences.md) · [Platforms](supported-platforms.md).

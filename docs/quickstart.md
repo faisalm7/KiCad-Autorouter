@@ -1,18 +1,18 @@
-# Run runtime067 locally
+# Run runtime073 locally
 
-The [installed067 native milestone](../evidence/runtime067-installed-native-milestone-001.json) passes. [Actual067 GUI100 finite controls pass](../evidence/gui-runtime067-100-qualification-001.json); historical066 evidence stays version-specific. Every phase and exact queued timing remain unqualified. Use the installed directory before every `-m autorouter` session; an absolute interpreter from the checkout can import the wrong source/tool selection. Keep the routing lane idle and use fresh outputs.
+The [installed073 headless milestone](../evidence/runtime073-installed-native-milestone-001.json) passes; actual GUI104 remains unqualified. Enter the installed directory before every `-m autorouter` session: an absolute interpreter alone can import the wrong checkout. Keep the routing lane idle and use fresh outputs.
 
-The prepared owned example and90-second partial preset retain four protected routes:
+The prepared owned example and 90-second partial preset retain four protected routes:
 
 ```sh
-cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install 001'
+cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime073 fresh install 001'
 .venv/bin/python -B -m autorouter doctor
 .venv/bin/python -B -m autorouter preview \
-  .runs/gui-session100/ordinary-project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session100/ordinary-settings.json
+  .runs/gui-session104/ordinary-project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session104/ordinary-settings.json
 .venv/bin/python -B -m autorouter route \
-  .runs/gui-session100/ordinary-project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session100/ordinary-settings.json --output .runs/my-route-001
+  .runs/gui-session104/ordinary-project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session104/ordinary-settings.json --output .runs/my-route-001
 .venv/bin/python -B -m autorouter check-result .runs/my-route-001/result.json
 .venv/bin/python -B -m autorouter review-copy .runs/my-route-001/result.json \
   --render --output .runs/my-review-001
@@ -20,7 +20,7 @@ cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime067 fresh install
 
 Run each command only after its predecessor succeeds. Do not repeat completed qualification jobs to read evidence. For your own project, supply its absolute saved PCB and unchanged paired PRO/SCH/rule files; save and close source editors first. Preview checks static support. Only canonical `result.json` can supply acceptance; archived provisional reports cannot.
 
-Open `review/preview.html` in **Microsoft Edge**, inspect all layers/findings/warnings/ignored checks, and close any separately opened review project before choosing:
+Open `.runs/my-review-001/preview.html` in **Microsoft Edge**, inspect all layers/findings/warnings/ignored checks, and close any separately opened review project before choosing:
 
 ```sh
 .venv/bin/python -B -m autorouter review-choice .runs/my-review-001/review.json \
@@ -34,6 +34,6 @@ Use `--choice reject` with a fresh output to refuse delivery. Accept records sof
 
 `settings-init --output .runs/my-settings-001.json` creates a persistent preset. Ordinary Route supports qualified whole/partial2/4Cu, standard/both/native/all source layers, default or explicit via_high. Whole routing preserves locked copper; partial routing protects all existing routes. Unsupported settings refuse. [Preference schema and structured interface](routing-preferences.md).
 
-Optional Improve uses `settings-init --purpose improve`, `preview --purpose improve`, then `improve` with that preset. Its narrower qualified2Cu/flat/whole/tuned/default-score path retains original native-resolved classes;40 seconds remain reserved inside its routing budget. It needs a valid incumbent and cannot establish completion gains by itself. No fallback follows stale/invalid/cancelled work. Native13 and owned three-class controls retain their own scopes; the separate067 large rendered delivery failed its30s ceiling. Prior065 success is historical; no every-failure/literal-expiry guarantee follows.
+Optional Improve uses `settings-init --purpose improve`, `preview --purpose improve`, then `improve` with that preset. Its narrower qualified2Cu/flat/whole/tuned/default-score path retains original native-resolved classes;40 seconds remain reserved inside its routing budget. It needs a valid incumbent and cannot establish completion gains by itself. No fallback follows stale/invalid/cancelled work. Native13 and owned three-class controls retain their own scopes; the separate070 large delivery passed its prospective60/60 stage ceilings, with all earlier failures retained. Large073 delivery has not run; no every-failure/literal-expiry guarantee follows.
 
 Routing, review and export ceilings are distinct observed operation limits, not an OS aggregate quota. CLI intake/readback and delivery costs also count in the reported end-to-end comparisons. Normal operation needs no AI, Git, network or research archive. [Current status](../STATUS.md) · [Start here](../START_HERE.md) · [Installation](install-existing.md).
