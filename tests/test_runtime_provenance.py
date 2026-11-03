@@ -48,6 +48,64 @@ class RuntimeProvenanceTests(unittest.TestCase):
         return build.prepare(self.source, self.output if output is None else output,
                              copy_local_engine=engine)
 
+    def test_committed_batch_keeps_duplicate_binary_blobs_and_fixed_call_timeout(self):
+        payload=b'\x00owned\nbinary blob\n'
+        for name in ('autorouter/__init__.py','autorouter/worker.py'):
+            (self.source/name).write_bytes(payload)
+        self.git('add','--','autorouter')
+        self.git('-c','user.name=Owned test fixture','-c','user.email=fixture@example.invalid',
+                 'commit','-qm','Owned duplicate binary blobs')
+        calls=[];run=pv.subprocess.run
+        def observed(*args,**kwargs):
+            calls.append((args,kwargs));return run(*args,**kwargs)
+        with mock.patch.object(pv.subprocess,'run',side_effect=observed):
+            head,snapshot=pv.committed_snapshot(self.source)
+        self.assertEqual(head,pv.git_head(self.source))
+        self.assertEqual(snapshot,pv.owned_snapshot(self.source))
+        self.assertEqual(snapshot['autorouter/worker.py'],payload)
+        batches=[(args,kw) for args,kw in calls if '--batch' in args[0]]
+        self.assertEqual(len(batches),1)
+        self.assertTrue(all(kw['timeout']==5 for _,kw in calls))
+        self.assertNotIn('--batch-all-objects',batches[0][0][0])
+        self.assertNotIn('--filters',batches[0][0][0])
+
+    def test_committed_batch_rejects_wrong_headers_payload_and_surplus(self):
+        original=pv._git
+        def changed(mutation,stage):
+            def call(root,*args,**kwargs):
+                raw=original(root,*args,**kwargs)
+                return mutation(raw) if args==('cat-file',stage) else raw
+            return call
+        def payload(raw):
+            pos=raw.index(b'\n')+1
+            return raw[:pos]+bytes([raw[pos]^1])+raw[pos+1:]
+        mutations=(lambda raw:raw[:10],lambda raw:raw.replace(b' blob ',b' tree ',1),
+                   lambda raw:b'0'*40+raw[40:],lambda raw:raw.replace(b' blob ',b' blob 0',1),
+                   payload,lambda raw:raw[:-1],lambda raw:raw+b'extra\n')
+        for stage in ('--batch-check','--batch'):
+            for mutation in mutations:
+                with self.subTest(stage=stage,mutation=mutation), \
+                        mock.patch.object(pv,'_git',side_effect=changed(mutation,stage)):
+                    self.refused(lambda:pv.committed_snapshot(self.source))
+        self.assertEqual(pv.committed_snapshot(self.source)[1],pv.owned_snapshot(self.source))
+
+    def test_hidden_oversized_head_blob_is_refused_before_data_batch(self):
+        name='autorouter/worker.py'
+        (self.source/name).write_bytes(b'x'*(pv.MAX_FILE_BYTES+1))
+        self.git('add','--',name)
+        self.git('-c','user.name=Owned test fixture','-c','user.email=fixture@example.invalid',
+                 'commit','-qm','Owned oversized committed blob')
+        self.git('update-index','--assume-unchanged','--',name)
+        (self.source/name).write_bytes(b'tiny')
+        real=pv._git;calls=[]
+        def observed(root,*args,**kwargs):
+            calls.append(args)
+            if args==('cat-file','--batch'):self.fail('oversized blob content must never be requested')
+            return real(root,*args,**kwargs)
+        with mock.patch.object(pv,'_git',side_effect=observed):
+            self.refused(lambda:pv.committed_snapshot(self.source))
+        self.assertIn(('cat-file','--batch-check'),calls)
+
     def identity(self):
         return pv.source_identity(self.output, self.implementation())
 

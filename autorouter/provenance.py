@@ -121,13 +121,16 @@ def owned_snapshot(root):
     return result
 
 
-def _git(root, *arguments, limit=256 * 1024):
+def _git(root, *arguments, limit=256 * 1024, input_bytes=None):
+    if input_bytes is not None and (type(input_bytes) is not bytes
+                                   or len(input_bytes) > MAX_FILES * 65):
+        raise ValueError('Git source identity input ceiling exceeded')
     # Inherited GIT_DIR/WORK_TREE/config redirection must not supply identity.
     env = {key: value for key, value in os.environ.items() if not key.startswith('GIT_')}
     env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull)
     try:
         result = subprocess.run(['git', '--no-optional-locks', '-C', str(root), *arguments],
-            capture_output=True, check=True, timeout=5, env=env)
+            input=input_bytes, capture_output=True, check=True, timeout=5, env=env)
     except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
         raise ValueError('exact local Git source identity unavailable') from exc
     if len(result.stdout) > limit or len(result.stderr) > 64 * 1024:
@@ -173,16 +176,38 @@ def committed_snapshot(root):
                 raise ValueError('noncanonical committed runtime module name')
         if mode not in (b'100644', b'100755') or kind != b'blob':
             raise ValueError('selected source must be an ordinary committed blob')
-        blobs[relative] = object_id.decode('ascii')
+        oid = object_id.decode('ascii')
+        if _HEAD.fullmatch(oid) is None or relative in blobs:
+            raise ValueError('invalid or duplicate committed source blob identity')
+        blobs[relative] = oid
     if set(blobs) != set(snapshot):
         raise ValueError('complete selected runtime population must exist at source HEAD')
-    for relative, raw in snapshot.items():
-        object_id = blobs[relative]
-        size = _git(root, 'cat-file', '-s', object_id, limit=64).decode().strip()
-        if not size.isdigit() or int(size) != len(raw):
-            raise ValueError('selected source size differs from HEAD blob')
-        if _git(root, 'cat-file', 'blob', object_id, limit=MAX_FILE_BYTES) != raw:
+    # Check every declared size before requesting any content: assume-unchanged
+    # index entries must not hide an oversized HEAD blob behind a tiny worktree
+    # file. Then read the same immutable OIDs in one ordered raw-object batch.
+    # Never request filters, text conversion, links or the whole object store.
+    requested = b''.join(blobs[name].encode('ascii') + b'\n' for name in paths)
+    expected_headers = [blobs[name].encode('ascii') + b' blob '
+                        + str(len(snapshot[name])).encode('ascii') for name in paths]
+    checked = _git(root, 'cat-file', '--batch-check', input_bytes=requested,
+                   limit=128 * len(paths))
+    if checked != b''.join(header + b'\n' for header in expected_headers):
+        raise ValueError('selected source identity/type/size differs from HEAD blob')
+    packed = _git(root, 'cat-file', '--batch', input_bytes=requested,
+                  limit=sum(len(raw) for raw in snapshot.values()) + 128 * len(paths))
+    cursor = 0
+    for relative, expected in zip(paths, expected_headers):
+        raw = snapshot[relative]
+        end = packed.find(b'\n', cursor)
+        if end < 0 or packed[cursor:end] != expected:
+            raise ValueError('selected source identity/type/size differs from HEAD blob')
+        cursor = end + 1
+        end = cursor + len(raw)
+        if packed[cursor:end] != raw or packed[end:end + 1] != b'\n':
             raise ValueError('selected source bytes differ from HEAD blob')
+        cursor = end + 1
+    if cursor != len(packed):
+        raise ValueError('extra Git source identity output')
     if git_head(root) != head or owned_snapshot(root) != snapshot:
         raise ValueError('selected source changed during runtime preparation')
     return head, snapshot

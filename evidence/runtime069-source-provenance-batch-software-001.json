@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "kind": "bounded-source-provenance-batch-software-v1",
+  "actual_git": "2.54.0 AppleGit-157",
+  "failure": {
+    "full232_passed": false,
+    "tests": 2822,
+    "failures": 1,
+    "errors": 1,
+    "skipped": 1,
+    "external_wall_seconds": 1089.23,
+    "external_cpu_seconds": 700.37,
+    "log_sha256": "222cb07a3581bf36374585ddd414952db603d83f6fdb4edde5a1fa692b93c7cd",
+    "causes": [
+      "Exact float assertion saw19.000000000000014 instead of19; test now uses1e-9 delta, strict rebasing/negative-budget checks retained.",
+      "One five-second Git rev-parse timeout caused safe source identity refusal; no new runtime built."
+    ]
+  },
+  "source_sha256": {
+    "autorouter/provenance.py": "3ae3dcdf74a9c305c062c319ee9aad2ca570232952ec48ccc2b59aabb1b637d0",
+    "tests/test_runtime_provenance.py": "ff653000430434b7d5cca046964dd666925940e2d9c5e0b390cf61894346fe4b",
+    "tests/test_native7_improve_child_context.py": "f4f753e2cd8be3dc990778c3772f9a660d0d910a29cd80383a73786fb0e74f81"
+  },
+  "mechanism": "Replace two per-file Git processes with ordered size/type/OID precheck and raw-blob batches. Only selected immutable OIDs requested. Keep exact HEAD/population/index/worktree/byte/size/isolation guards and five-second percall ceiling.",
+  "probe": {
+    "population": 53,
+    "before": [
+      {
+        "wall_seconds": 6.731362291990081,
+        "parent_cpu_seconds": 0.417405,
+        "calls": 112,
+        "identical": true
+      },
+      {
+        "wall_seconds": 5.059018583007855,
+        "parent_cpu_seconds": 0.379993,
+        "calls": 112,
+        "identical": true
+      },
+      {
+        "wall_seconds": 6.296153375005815,
+        "parent_cpu_seconds": 0.4269470000000001,
+        "calls": 112,
+        "identical": true
+      }
+    ],
+    "after": [
+      {
+        "wall_seconds": 0.15299833298195153,
+        "calls": 8,
+        "identical": true
+      },
+      {
+        "wall_seconds": 0.13173791699227877,
+        "calls": 8,
+        "identical": true
+      },
+      {
+        "wall_seconds": 0.1547405000019353,
+        "calls": 8,
+        "identical": true
+      }
+    ],
+    "identical_bytes_all": true,
+    "interpretation": "Source-builder efficiency only. Sequential samples under changing host load; timing is descriptive, not a general speedup or routing claim."
+  },
+  "adversarial": {
+    "draft_size_first_regression_reproduced": true,
+    "guard_control_log_sha256": "0b5b55211802b358668753b5cf3bb8102403c2583c1a78de73de22c90c0136e5",
+    "resolution": "Metadata batch must exactly match expected sizes/types/OIDs before content request; hidden oversized HEAD blob is rejected without reading its body.",
+    "controls": [
+      "Duplicate binary/newline-containing blobs",
+      "Wrong object identity/type/size",
+      "Changed/truncated payload and surplus data",
+      "Oversized committed blob hidden by assume-unchanged",
+      "Original missing/extra/changed/symlink/special/index/worktree/HEAD refusals"
+    ]
+  },
+  "targeted": {
+    "command": ".venv/bin/python -B -m unittest tests.test_runtime_provenance tests.test_native7_improve_child_context",
+    "tests": 40,
+    "passed": true,
+    "seconds": 17.259,
+    "external_wall_seconds": 17.98,
+    "external_cpu_seconds": 13.69,
+    "log_sha256": "ef8d147d1e346274e03b39c2f1ebd91ebf0dfbd802a605fbbd897f38f2157c7b"
+  },
+  "primary_reference": "https://git-scm.com/docs/git-cat-file#_batch_output",
+  "decision": "Integrate bounded source/build efficiency change; do not claim it eliminates host resource failures. Fresh full suite and one fresh runtime069 build/install/Native/GUI/large600qualification required. No routing gain/B1B2 superiority.",
+  "independent_AI_review": false,
+  "human_or_physical_review": false
+}

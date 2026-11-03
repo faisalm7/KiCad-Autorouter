@@ -260,7 +260,7 @@ class ImproveChildContextControls(unittest.TestCase):
             with self.assertRaises(p.Rejected):child._Budget(self.context,job,original+70)
             retained=child._Budget(self.context,job,original)
             self.assertLess(retained.remaining(),0)
-            self.assertEqual(retained.remaining(work=False),19)
+            self.assertAlmostEqual(retained.remaining(work=False),19,delta=1e-9)
 
     def test_central_reader_final_context_then_metadata_and_no_early_acceptance(self):
         # Extract the actual final block, stubbing only the large Native replay
