@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "kind": "readonly-working-copy-and-cancelled-incumbent-fix-v1",
+  "source_base": "f20e7093bc36fc0b666909f9a459bc7381e6a558",
+  "demonstrated_defects": [
+    "runtime070 STM32 read-only candidate-write refusal before Native/engine",
+    "GUI103 Improve explicit cancelled child misclassified as incumbent_rejected"
+  ],
+  "correction": "Reuse bounded inventory/canonical helpers to create fresh detached mutable data copies; source snapshots retain modes and original bytes. Propagate explicit child cancellation before ordinary rejection.",
+  "metadata_scope": "New data working directories only. No source/existing-file chmod, security-attribute stripping or archival metadata-restoration claim.",
+  "failure_model": "Ordinary cooperating owned macOS project workspace; hostile same-user/root races and general archival replay not qualified.",
+  "targeted": {
+    "path": ".runs/runtime071-targeted-002",
+    "cases": 150,
+    "failures": 0,
+    "errors": 0,
+    "complete_external_wall_seconds": 5.6,
+    "complete_external_full_CPU_seconds": 5.35,
+    "execution_sha256": "0ed85ef5590fe4d6c603a824c607f8ea4430a535947868bffe71c3c3426c6b15",
+    "log_sha256": "394242d5db725fbb49a79d6808b983609f76db0ddc262cbcbbb22dc02103b612",
+    "protocol_sha256": "731be2c9bb4fd492652453ae56cb7df0cc1837b87128b745d063c6e1ee2957ef",
+    "source_unchanged": true
+  },
+  "review": "Narrow independent AI static review: alias/umask revisions and focused cancellation regression; no blocking counterexample in stated scope. Not human PCB review or Native execution.",
+  "Native_qualified": false,
+  "changed_artifact_built": false,
+  "runtime070_unchanged": true,
+  "routing_improvement_claim": false,
+  "files_sha256": {
+    "autorouter/placement_clearance.py": "a7db676f53421bff359ec6c33b1a00d35e5fd07d81e89c8d5562ec44233bf837",
+    "autorouter/pipeline.py": "eb58d97bdbee7cd9acad08b963ffdbe8ad150dec32cb9c204615f7a7879a187f",
+    "autorouter/review_view.py": "6ad108a41d5d9545671d48b0d98ff35f663b98ade73a1e43629bde15679d2b4a",
+    "autorouter/schematic_class_evidence.py": "5dc416d787a30b06f1deadbe8d935966e78caafbf67b2e57ad07f6220d9daafe",
+    "autorouter/strategy.py": "47571d95c4ee05096c54651c49c5f0a3fbd1a92cee64cb4dde8f7874168afe25",
+    "tests/test_project_working_copy.py": "1bc1c66253bb9258180fda90be70d31f3bb8f17f2f9f2137f60091f55b19fcf7",
+    "tests/test_strategy.py": "4a7327fcf6bbfffd2684f1b1f0b354377a52c7ea96381ccbc6395be85b342442"
+  },
+  "earlier_targeted_run": {
+    "path": ".runs/runtime071-targeted-001",
+    "cases": 149,
+    "complete_external_wall_seconds": 5.66,
+    "complete_external_full_CPU_seconds": 5.33,
+    "not_final_source_fence": true
+  }
+}

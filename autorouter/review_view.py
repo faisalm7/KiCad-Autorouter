@@ -196,7 +196,7 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
             name = label + '-' + layer
             work = job.out / (name + '-input')
             before = pc.inventory(board.parent)
-            shutil.copytree(board.parent, work)
+            pc.copy_project(board.parent, work)
             if pc.inventory(work) != before:
                 raise p.Rejected('native plot input copy differs')
             target = native_plots / (name + '.svg')

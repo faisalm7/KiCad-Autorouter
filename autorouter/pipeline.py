@@ -1137,7 +1137,8 @@ class Job:
                     canonical(work)
                     if self.out not in work.parents:raise Rejected('PRL validation copy outside Job root')
                 board=work/board.name
-                shutil.copytree(original_input.parent,work)
+                from .placement_clearance import copy_project
+                copy_project(original_input.parent,work)
             phase='input_snapshot'; validation_before=tree_hash(board.parent)
             if validation_before!=before: raise Rejected('native DRC validation copy differs before native')
             report=self.out/(name+'.json')
@@ -1580,13 +1581,13 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
         before_refill=job.out/'pour-before-refill.kicad_pcb'
         with before_refill.open('xb') as stream:stream.write(candidate.read_bytes())
     # Preserve the Native save preimage for exact later worker/fill replay.
-    from .placement_clearance import read_bytes
+    from .placement_clearance import read_bytes, copy_project
     preimage=job.out/'pre-refill.kicad_pcb';raw=read_bytes(candidate)
     if preimage.exists() or preimage.is_symlink():
         if read_bytes(preimage)!=raw:raise Rejected('retained pre-refill input differs')
     else:
         with preimage.open('xb') as stream:stream.write(raw)
-    shutil.copytree(candidate.parent,job.out/'refill')
+    copy_project(candidate.parent,job.out/'refill')
     refill=job.out/'refill'/candidate.name
     job.drc('refill-drc',refill,save=True)
     sx.write(candidate,transplant_fill(sx.read(candidate),sx.read(refill)))
@@ -2446,7 +2447,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             from .layer_policy import _source_layers, _route_map
             _source_layers(original)
             _route_map(original)
-        shutil.copytree(source.parent,output/'snapshot'); shutil.copytree(source.parent,output/'candidate')
+        from .placement_clearance import copy_project
+        shutil.copytree(source.parent,output/'snapshot'); copy_project(source.parent,output/'candidate')
         snapshot=output/'snapshot'/source.name; candidate=output/'candidate'/source.name
         if tree_hash(output/'snapshot')!=before: raise Rejected('source changed during snapshot')
         task=routing_task(original,report['scope'],selected)

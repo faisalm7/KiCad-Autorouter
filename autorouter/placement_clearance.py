@@ -59,6 +59,60 @@ def inventory(directory,*,contents=False,max_bytes=32*1024*1024,max_files=2000,m
     return (files,tuple(sorted(directories))) if with_directories else files
 
 
+def copy_project(source, destination, *, max_bytes=100*1024*1024, max_files=2000, max_entries=4000):
+    """Copy project bytes into a fresh private mutable working directory.
+
+    Immutable source snapshots keep their original metadata. Native/candidate
+    working copies instead need owner-write access, even for read-only inputs.
+    Never chmod or replace a source/existing destination. This is a data working
+    copy, not an archival metadata restore; failed partial output is retained.
+    """
+    from .provenance import canonical
+    try:source=canonical(source);destination=canonical(destination)
+    except ValueError as exc:raise p.Rejected('project copy requires canonical paths without symlinks') from exc
+    if (source==destination or source in destination.parents or destination in source.parents
+            or os.path.lexists(destination)):
+        raise p.Rejected('fresh nonoverlapping project copy required')
+    if any(x.is_symlink() for x in (destination,*destination.parents)):
+        raise p.Rejected('project copy destination symlink unsupported')
+    source_info=source.lstat();source_id=(source_info.st_dev,source_info.st_ino)
+    for ancestor in destination.parents:
+        try:info=ancestor.lstat()
+        except FileNotFoundError:continue
+        if stat.S_ISLNK(info.st_mode) or (info.st_dev,info.st_ino)==source_id:
+            raise p.Rejected('project copy overlaps source or linked ancestor')
+    captured,directories=inventory(source,contents=True,max_bytes=max_bytes,max_files=max_files,
+                                   max_entries=max_entries,with_directories=True)
+    expected={name:g.sha(raw) for name,raw in captured.items()}
+    execute={name:os.lstat(source/name).st_mode & 0o111 for name in captured}
+    def fresh_directory(path):
+        path.mkdir(mode=0o700)
+        before=path.lstat()
+        if not stat.S_ISDIR(before.st_mode) or before.st_uid!=os.getuid():
+            raise p.Rejected('new project directory identity differs')
+        os.chmod(path,0o700,follow_symlinks=False)
+        after=path.lstat()
+        if ((after.st_dev,after.st_ino,after.st_uid)!=(before.st_dev,before.st_ino,before.st_uid)
+                or stat.S_IMODE(after.st_mode)!=0o700):
+            raise p.Rejected('new project directory permissions or identity differ')
+    fresh_directory(destination)
+    for name in sorted((name for name in directories if name!='.'),key=lambda name:(len(Path(name).parts),name)):
+        fresh_directory(destination/name)
+    for name,raw in captured.items():
+        target=destination/name
+        fd=os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600|execute[name])
+        with os.fdopen(fd,'wb') as stream:
+            info=os.fstat(stream.fileno())
+            if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_uid!=os.getuid():
+                raise p.Rejected('new project file identity differs')
+            os.fchmod(stream.fileno(),0o600|execute[name])
+            stream.write(raw)
+    if (inventory(destination,max_bytes=max_bytes,max_files=max_files,max_entries=max_entries,with_directories=True)!=(expected,directories)
+            or inventory(source,max_bytes=max_bytes,max_files=max_files,max_entries=max_entries,with_directories=True)!=(expected,directories)):
+        raise p.Rejected('project changed during working copy')
+    return expected
+
+
 def files(directory):
     result=inventory(directory,contents=True)
     placement.inventory(result)

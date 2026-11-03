@@ -1416,7 +1416,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                                "metrics": incumbent.get("metrics"), "wall_seconds": incumbent["wall_seconds"]}
         report["source_drc"] = incumbent.get("source_drc")
         report["task_sha256"] = incumbent.get("task_sha256")
-        if _cancelled(incumbent.get("steps", [])):
+        if incumbent.get("status") == "cancelled" or _cancelled(incumbent.get("steps", [])):
             raise Cancelled("incumbent cancelled")
         if not incumbent["accepted"]:
             report["status"] = "incumbent_rejected"

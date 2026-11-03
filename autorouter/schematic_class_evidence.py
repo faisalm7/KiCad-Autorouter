@@ -406,7 +406,7 @@ def collect(job, stage, board, native_map):
                       board_raw, project_raw, preferences._parse(project_raw, q.MAX_BYTES), known)
     if any(path.exists() or path.is_symlink() for path in files.values()):
         _fail('fresh class observation paths required')
-    shutil.copytree(board.parent, files['input'])
+    pc.copy_project(board.parent, files['input'])
     if _inventory(files['input']) != captured or _inventory(board.parent) != captured:
         _fail('source changed during class observation copy')
     input_board = files['input']/board.name

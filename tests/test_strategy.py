@@ -111,6 +111,7 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.budgets = []
         self.baseline_advance = 10
         self.reject_incumbent = False
+        self.cancel_incumbent = False
         self.modify_source = False
         self.slow_final_emission = False
         self.baseline_child_cpu = 3.0
@@ -176,8 +177,8 @@ class StrategyControlFlowTests(unittest.TestCase):
             sx.write(candidate, tree)
             native_path = output / "final-drc.json"
             native_path.write_text(json.dumps(native_report(source.name)))
-            receipt = {"schema": 1, "status": "drc_rejected" if owner.reject_incumbent else "routing_accepted",
-                       "accepted": not owner.reject_incumbent, "source": str(source), "source_hashes": p.tree_hash(source.parent),
+            receipt = {"schema": 1, "status": "cancelled" if owner.cancel_incumbent else "drc_rejected" if owner.reject_incumbent else "routing_accepted",
+                       "accepted": not (owner.cancel_incumbent or owner.reject_incumbent), "source": str(source), "source_hashes": p.tree_hash(source.parent),
                        "candidate": str(candidate), "candidate_sha256": p.sha(candidate),
                        "native_report_sha256": p.sha(native_path), "native": p.parse_report(native_path, source.name),
                        "metrics": metrics(sx.read(candidate)), "wall_seconds": owner.baseline_advance,
@@ -308,6 +309,17 @@ class StrategyControlFlowTests(unittest.TestCase):
         self.assertEqual(result["status"], "incumbent_rejected")
         self.assertFalse((self.output / "candidate").exists())
         self.assertEqual(result["child_cpu_seconds"], 3)
+
+    def test_between_stage_cancelled_incumbent_is_not_reclassified_as_rejection(self):
+        # Actual GUI103 found a cancelled child whose completed steps all
+        # succeeded. This control checks classification, not Native quality.
+        self.cancel_incumbent = True
+        result = self.exercise()
+        self.assertFalse(result["accepted"])
+        self.assertEqual(result["status"], "cancelled")
+        self.assertEqual(result["trials"], [])
+        self.assertFalse((self.output / "candidate").exists())
+        self.assertTrue(all(step["status"] == "success" for step in result["steps"]))
 
     def test_global_deadline_overrides_any_incumbent_success(self):
         self.baseline_advance = 121
