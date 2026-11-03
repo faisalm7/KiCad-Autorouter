@@ -9,7 +9,7 @@ from tests.test_default_targets import fixtures, inputs, SOURCE
 
 
 class ImageKeepoutTests(unittest.TestCase):
-    def make(self, *, four=False, fixed=False):
+    def make(self, *, four=False, fixed=False, origin=False):
         raw, native, project, task = fixtures(four=four, fixed=fixed)
         tree = _parse_dsn(raw.decode())
         image = sx.children(sx.one(tree, 'library'), 'image')[0]
@@ -18,11 +18,12 @@ class ImageKeepoutTests(unittest.TestCase):
         # Their exported keepouts include the hole clearance and stay untouched.
         footprint = sx.children(task, 'footprint')[0]
         for x in ('-2000', '2000'):
+            local_origin=origin and x=='-2000'
             footprint.append(['pad', '""', 'np_thru_hole', 'circle',
-                              ['at', str(int(x) / 1000), '-1.5'], ['size', '.75', '.75'],
+                              ['at', '0' if local_origin else str(int(x) / 1000), '0' if local_origin else '-1.5'], ['size', '.75', '.75'],
                               ['drill', '.75'], ['layers', '"*.Cu"', '"*.Mask"']])
             for layer in layers:
-                image.append(['keepout', '""', ['circle', layer, '1250', x, '1500']])
+                image.append(['keepout', '""', ['circle', layer, '1250', *([] if local_origin else [x, '1500'])]])
         return tree, native, project, task
 
     def args(self, parts):
@@ -49,6 +50,62 @@ class ImageKeepoutTests(unittest.TestCase):
                                                   *self.args(parts)[1:], source=SOURCE), receipt)
                     self.assertFalse(receipt['native_execution_proven'])
                     self.assertFalse(receipt['production_support_qualified'])
+
+    def test_origin_circle_short_form_preserved_for_two_and_four_layers(self):
+        for four in (False, True):
+            for fixed in (False, True):
+                with self.subTest(four=four, fixed=fixed):
+                    parts=self.make(four=four,fixed=fixed,origin=True)
+                    original=copy.deepcopy(parts)
+                    guided,receipt=self.transform(parts)
+                    observed=_parse_dsn(guided.decode())
+                    self.assertEqual(sx.children(sx.one(observed,'library'),'image'),sx.children(sx.one(parts[0],'library'),'image'))
+                    self.assertEqual(sx.one(observed,'wiring'),sx.one(parts[0],'wiring'))
+                    self.assertEqual(parts,original)
+                    self.assertEqual(targets.check(self.args(parts)[0],guided,receipt,*self.args(parts)[1:],source=SOURCE),receipt)
+                    self.assertFalse(receipt['native_execution_proven'])
+                    self.assertFalse(receipt['production_support_qualified'])
+
+    def test_origin_circle_still_refuses_incomplete_center_and_bad_diameter(self):
+        for fault in ('one_coordinate','extra_coordinate','nested','zero','negative','nan','fractional','oversize'):
+            with self.subTest(fault=fault):
+                parts=self.make(origin=True);circle=self.keepout(parts[0])[2]
+                if fault=='one_coordinate':circle.append('0')
+                elif fault=='extra_coordinate':circle.extend(['0','0','0'])
+                elif fault=='nested':circle.append(['rule',['clearance','1']])
+                else:circle[2]={'zero':'0','negative':'-1','nan':'NaN','fractional':'.0001','oversize':'2147483.648'}[fault]
+                with self.assertRaises(ValueError):self.transform(parts)
+
+    def test_origin_form_keeps_scope_name_layer_and_shape_guards(self):
+        for fault in ('name','shape','missing_diameter','layer','scope'):
+            with self.subTest(fault=fault):
+                parts=self.make(origin=True);tree=parts[0];keepout=self.keepout(tree)
+                if fault=='name':keepout[1]='named'
+                elif fault=='shape':keepout[2][0]='polygon'
+                elif fault=='missing_diameter':keepout[2].pop()
+                elif fault=='layer':keepout[2][1]='foreign'
+                else:
+                    sx.children(sx.one(tree,'library'),'image')[0].remove(keepout)
+                    sx.one(tree,'structure').append(keepout)
+                with self.assertRaises(ValueError):self.transform(parts)
+
+    def test_rehashed_output_cannot_rewrite_even_equivalent_origin_circle(self):
+        parts=self.make(origin=True);raw,native,project,task=self.args(parts)
+        guided,receipt=self.transform(parts)
+        for fault in ('explicit_center','removed','omit_all','diameter','layer','add','receipt'):
+            with self.subTest(fault=fault):
+                tree=_parse_dsn(guided.decode());circle=self.keepout(tree);rec=copy.deepcopy(receipt)
+                if fault=='explicit_center':circle[2].extend(['0','0'])
+                elif fault=='removed':sx.children(sx.one(tree,'library'),'image')[0].remove(circle)
+                elif fault=='omit_all':
+                    image=sx.children(sx.one(tree,'library'),'image')[0]
+                    image[:]=[n for n in image if not isinstance(n,list) or not n or n[0]!='keepout']
+                elif fault=='diameter':circle[2][2]='1'
+                elif fault=='add':sx.children(sx.one(tree,'library'),'image')[0].append(copy.deepcopy(circle))
+                elif fault=='receipt':rec['input_sha256']='0'*64
+                else:circle[2][1]='B.Cu'
+                encoded=_dump_dsn(tree).encode();rec['output_sha256']=hashlib.sha256(encoded).hexdigest()
+                with self.assertRaises(ValueError):targets.check(raw,encoded,rec,native,project,task,source=SOURCE)
 
     def test_image_keepout_shape_name_population_and_layer_faults_refuse(self):
         changes = [lambda k: k.__setitem__(1, 'named'),

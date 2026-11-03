@@ -142,9 +142,11 @@ def _grammar(tree):
                 if head == 'image' and path == ('pcb', 'library') and child and child[0] == 'keepout':
                     # Native represents an NPTH hole, including clearance, as
                     # an unnamed footprint-local circle on each copper layer.
-                    # Retain that constraint verbatim; it is never a target edit.
+                    # Native omits the coordinate pair for a circle at the image
+                    # origin. One coordinate alone remains invalid. Retain either
+                    # complete spelling verbatim; it is never a target edit.
                     if (len(child) != 3 or child[1] != '""' or type(child[2]) is not list
-                            or len(child[2]) != 5 or child[2][0] != 'circle'
+                            or len(child[2]) not in (3, 5) or child[2][0] != 'circle'
                             or type(child[2][1]) is not str or child[2][1] not in layers):
                         raise ValueError('qualified image-local circular keepout required')
                     for index, atom in enumerate(child[2][2:]):

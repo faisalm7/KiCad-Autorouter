@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "Native-origin-circle-preserving-grammar-fix-v1",
+  "mechanism": "Accept exact unnamed image-local circles with diameter and either no coordinates or a complete coordinate pair. KiCad abbreviates the zero centre. Preserve full keepout nodes verbatim; malformed/unknown shapes, half-pairs, names, layers, invalid dimensions and other scopes stay refused.",
+  "actual071_export_sha256": "f60ff945878b3311d0c89981d9dbb27c4555f876daff8c22b4ace57534d3807e",
+  "prior_refusal_reproduced": true,
+  "actual_export_pure_transform_recomputed": true,
+  "exact_image_keepouts_and_protected_wiring_preserved": true,
+  "pure_counterexample_sha256": "9504d9ad3220e66c098da169ebadbc98d6622c100bdc74080532b03be35c917a",
+  "primary_sources": [
+    {
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/specctra_import_export/specctra.cpp",
+      "sha256": "88a2f30bd73b5880f079561f0d8c8a1b8afd128c9004e8ae8b113d432fc54b54",
+      "bytes": 95672
+    },
+    {
+      "url": "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/specctra_import_export/specctra.h",
+      "sha256": "fac533aab3c4ee5921bb568ef5f1cd6a7dd1d2239263d0ecf9a026ea9561954b",
+      "bytes": 99221
+    }
+  ],
+  "source_sha256": "e5ef725fe67513400208ad1b7d887ea72ba84151367396a782a13ff05e1a43a5",
+  "test_sha256": "d377e0bd718f8124f3dc97fb1c5afdc92a3bad79bc370f5e160422b178770262",
+  "targeted": {
+    "passed": true,
+    "cases": 200,
+    "complete_external_wall_seconds": 6.09,
+    "complete_external_CPU_seconds": 5.69,
+    "execution_sha256": "25488aabf49f4e5943d69439df28c4e114d95276511b181fcf869cea6cf10728",
+    "log_sha256": "44f2348f51cb8be8336767322da0e5e630ed88b98fd0c47bdbad8b44be0eddcb"
+  },
+  "retained_test_authoring_failure": {
+    "path": ".runs/runtime072-targeted-001",
+    "cases": 199,
+    "failures": 4,
+    "wall_seconds": 5.87,
+    "CPU_seconds": 5.56,
+    "reason": "New assertion wrongly included via padstacks that the existing lawful target transform deliberately edits. Corrected to exact library images plus existing full recomputation; no production guard changed."
+  },
+  "independent_AI_review": "Supports only arity3 or5 with all existing guards; actual Native DSN/source and pinned primary parser/formatter corroborate. Not human or Native routing validation.",
+  "fresh_Native_required": true,
+  "Native_or_routing_success_claim": false,
+  "not_algorithmic_gain": true
+}
