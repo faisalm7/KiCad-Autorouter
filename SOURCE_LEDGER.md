@@ -573,3 +573,7 @@ Newly checked primary [Git cat-file batch-output documentation](https://git-scm.
 ## 2026-11-03: STM32 original Native follow-up
 
 The [one prepared original diagnostic](evidence/development-stm32-control068-native-disposition-001.json) is now closed: all4source files and292 route items preserved, original/refilled/final native evidence retained,0opens/0blocking/72final warnings/5ignored checks. Four board reference aliases retain the schematic UUID paths and values;8 association warnings remain. No reference rewrite, pad-net/electrical equivalence, DSN/SES/routing task/family admission or redistribution clearance follows. Already connected means this is not a completion gain. The earlier static/disposition record remains historical.
+
+## Git original-object identity (checked November 3, 2026)
+
+Primary [Git option documentation](https://git-scm.com/docs/git#Documentation/git.txt---no-replace-objects) states that `--no-replace-objects` disables replacement references. A tiny actual-Git counterexample reproduced inherited redirection in both prior source providers; an equal-size control accepts before the patch and refuses afterward. The current repository has no replacement refs. The narrow source fix and96 focused controls are recorded in [the evidence](evidence/source-git-replacement-ref-fix-001.json). Installed069 is unchanged; this is build-source identity protection, not routing quality, a whole hostile-Git security proof or new artifact qualification.

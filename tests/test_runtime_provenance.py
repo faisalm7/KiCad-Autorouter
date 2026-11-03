@@ -29,7 +29,7 @@ class RuntimeProvenanceTests(unittest.TestCase):
         lock = {'tools': {'freerouting': {'path': pv.ENGINE_PATH,
             'sha256': hashlib.sha256(self.engine).hexdigest(), 'bytes': len(self.engine)}}}
         (self.source / 'toolchain.lock.json').write_text(json.dumps(lock))
-        self.git('init', '-q')
+        self.git('init', '-q', '--template=')
         self.git('add', '--', *sorted(pv.owned_snapshot(self.source)))
         self.git('-c', 'user.name=Owned test fixture', '-c', 'user.email=fixture@example.invalid',
                  'commit', '-qm', 'Owned runtime fixture')
@@ -37,8 +37,13 @@ class RuntimeProvenanceTests(unittest.TestCase):
         self.output = self.base / 'new runtime'
 
     def git(self, *arguments):
-        return subprocess.run(['git', '-C', str(self.source), *arguments], check=True,
-                              capture_output=True, timeout=5).stdout
+        # Synthetic repositories never inherit owner hooks or Git configuration.
+        env = {key: value for key, value in os.environ.items() if not key.startswith('GIT_')}
+        env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull,
+                   GIT_CONFIG_SYSTEM=os.devnull)
+        return subprocess.run(['git', '-c', 'core.hooksPath=' + os.devnull,
+                               '-C', str(self.source), *arguments], check=True,
+                              capture_output=True, timeout=5, env=env).stdout
 
     def implementation(self, root=None):
         root = self.output if root is None else root
@@ -105,6 +110,31 @@ class RuntimeProvenanceTests(unittest.TestCase):
         with mock.patch.object(pv,'_git',side_effect=observed):
             self.refused(lambda:pv.committed_snapshot(self.source))
         self.assertIn(('cat-file','--batch-check'),calls)
+
+    def test_local_blob_replacement_cannot_conceal_assume_unchanged_source(self):
+        name = 'autorouter/worker.py'; path = self.source / name
+        original = path.read_bytes()
+        original_oid = self.git('rev-parse', 'HEAD:' + name).decode().strip()
+        # Equal sizes force the payload check, rather than only the size guard.
+        replacement = (b'X' if original[:1] != b'X' else b'Y') + original[1:]
+        self.assertEqual(len(replacement), len(original))
+        payload = self.base / 'public replacement blob'; payload.write_bytes(replacement)
+        replacement_oid = self.git('hash-object', '-w', str(payload)).decode().strip()
+        self.git('replace', original_oid, replacement_oid)
+        self.git('update-index', '--assume-unchanged', '--', name)
+        path.write_bytes(replacement)
+        self.assertEqual(self.git('status', '--porcelain=v1', '--untracked-files=all'), b'')
+        # Establish the actual Git redirect, not a mocked malformed batch.
+        self.assertEqual(self.git('cat-file', 'blob', original_oid), replacement)
+        self.assertEqual(self.git('--no-replace-objects', 'cat-file', 'blob', original_oid), original)
+        self.refused(lambda: pv.committed_snapshot(self.source))
+        self.refused(self.prepare); self.assertFalse(self.output.exists())
+        self.assertEqual(pv.git_head(self.source), self.head)
+        # Genuine HEAD bytes still work; identity reads never remove user refs.
+        path.write_bytes(original)
+        head, snapshot = pv.committed_snapshot(self.source)
+        self.assertEqual((head, snapshot[name]), (self.head, original))
+        self.assertEqual(self.git('replace', '-l').decode().splitlines(), [original_oid])
 
     def identity(self):
         return pv.source_identity(self.output, self.implementation())

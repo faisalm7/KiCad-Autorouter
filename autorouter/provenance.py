@@ -125,11 +125,12 @@ def _git(root, *arguments, limit=256 * 1024, input_bytes=None):
     if input_bytes is not None and (type(input_bytes) is not bytes
                                    or len(input_bytes) > MAX_FILES * 65):
         raise ValueError('Git source identity input ceiling exceeded')
-    # Inherited GIT_DIR/WORK_TREE/config redirection must not supply identity.
+    # Inherited redirection and local replacement refs must not supply identity.
     env = {key: value for key, value in os.environ.items() if not key.startswith('GIT_')}
     env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull)
     try:
-        result = subprocess.run(['git', '--no-optional-locks', '-C', str(root), *arguments],
+        result = subprocess.run(['git', '--no-optional-locks', '--no-replace-objects',
+                                 '-C', str(root), *arguments],
             input=input_bytes, capture_output=True, check=True, timeout=5, env=env)
     except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
         raise ValueError('exact local Git source identity unavailable') from exc

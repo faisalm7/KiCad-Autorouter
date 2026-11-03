@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "source-Git-original-object-identity-fix-v1",
+  "created_utc": "2026-11-03T17:41:01.246627+00:00",
+  "pre_fix_head": "20276070cfbaf05eae95b4cbe87bd7d8a19f3b4f",
+  "finding": "Both historicaltwo-calls andbatchedproviders acceptedlocalreplacementbytes asoriginalHEADblob whenassume-unchangedhidworktreeedit. Inheritedbyboth, notbatchingregression.",
+  "change": "Add--no-replace-objectstoeachownedidentityGitcall, includingtree/size/data; no refmutation, largerlimit or guardremoval.",
+  "equal_size_control": {
+    "same_size": true,
+    "original_bytes": 37,
+    "old_accepted_replacement": true,
+    "new_refused": true,
+    "new_error": "selected source bytes differ from HEAD blob",
+    "genuine_original_with_replacement_ref_still_succeeds": true,
+    "fixture_refs_preserved": true,
+    "wall_seconds": 0.4752610420109704,
+    "full_cpu_seconds": 0.4146819999999999
+  },
+  "targeted": {
+    "runtime_provenance": {
+      "tests": 26,
+      "passed": true,
+      "wall_seconds": 7.324275958002545,
+      "waited_CPU_seconds": 6.329131
+    },
+    "installation_and_comparison_helpers": {
+      "tests": 70,
+      "passed": true,
+      "wall_seconds": 16.33927854101057,
+      "waited_CPU_seconds": 14.694233
+    }
+  },
+  "prior_harness_failures": [
+    "001runnerrefusedbeforechildbecausecwdROOTcrossedboundedworkdircap; no testexecuted, no capraised.",
+    "002unittestdiscoverytop-levelrequiredpackageinitbeforetests; retainedfailure; correctedwithsame-modulecommand/child-onlyrootsearchpath/smallcwd."
+  ],
+  "source_sha256": {
+    "autorouter/provenance.py": "eea7ffe53457c06729818e5db454d091b71d7b54e7ee5a9cda98b8d3b74f732f",
+    "tests/test_runtime_provenance.py": "b504d718cd42726c6227b57fadfbea17ca5239a1426ff145f4975495df85ed62"
+  },
+  "evidence_sha256": {
+    ".runs/provenance-batch-independent-review-001/result.json": "d0c2cc53e57ecc14f148d088f9fd1aecda7c92231aaf9e540ba2d08daef28d18",
+    ".runs/provenance-replacement-fix-001/process.json": "0db9abd2e9dd59de25e386f1cb211716a5c2845d0d2b0b1fbef42068f3cff3e2",
+    ".runs/provenance-replacement-fix-002/process.json": "c6601bed3a6f71be27ca178aa2568b903cd85781396afcb713f9e492a04e2a19",
+    ".runs/provenance-replacement-fix-003/process.json": "5bc7179ed38b3c463d43af95d2c88eccfbebd2011bbd127464c9d3ff040e2574",
+    ".runs/provenance-replacement-fix-003/tests.log": "8fe1cd3632ec393360e40653758f7ffcc5333cf82d03c92a392471d558242398",
+    ".runs/provenance-replacement-fix-003/equal-size-before-after.json": "c2d59120bbcc43bd4ff32ca9d09d6735a285881fd0fe3dad1077ac496aec46d5",
+    ".runs/provenance-replacement-fix-004/process.json": "4f69d986431a7ab70b5ef0a75873236f98885239bf03aac4d662e87ade68c847",
+    ".runs/provenance-replacement-fix-004/tests.log": "53e87ef52ef2bf5d134448fd3b89cb1c24f549ad0faa920c7fa8aff67f191ec1"
+  },
+  "owner_repo_replace_refs_empty": true,
+  "independent_AI_review": "Concretecounterexampleandnarrowfixreview; nothumanPCB/completehostileGitsecurityproof.",
+  "official_reference": "https://git-scm.com/docs/git#Documentation/git.txt---no-replace-objects",
+  "limits": "Installed069unchanged; no currentartifactimpactestablishedbecauseownerrefs/replaceempty. No newbuild/full/native/GUI/comparisonqualificationforthepatchedsource. No routercompletion/qualitygain or newsecuritysandboxclaim. All previousfailedruns/costsretained; authoring/reviewadditional."
+}
