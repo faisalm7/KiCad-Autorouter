@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "kind": "full235-stale-DRC-fault-injection-control-disposition-v1",
+  "full235": {
+    "passed": false,
+    "tests": 2838,
+    "failures": 1,
+    "skipped": 1,
+    "complete_external_wall_seconds": 246.39,
+    "complete_external_full_CPU_seconds": 226.9,
+    "source_unchanged": true,
+    "cleanup_complete": true,
+    "execution_sha256": "df79c08d8327a85abfc6804194dad9db724e46a263de7d9096d26a4b6a6f58c4",
+    "log_sha256": "0855806a82e472f6e95aa22e8b6c9503b388eeff7621c8a8e3e8b72b35b2e6b2"
+  },
+  "failure": "test_drc_failure_binding.test_changed_copy_cannot_be_restored_by_native_to_hide_bad_input patched shutil.copytree after Job.drc moved to copy_project; no bad input was injected.",
+  "correction": "Inject changed copied PRO through current copy_project seam; assert exact source/destination injection and zero Native calls. Existing refusal phase, source integrity and retained failure evidence expectations remain unchanged.",
+  "production_code_changed": false,
+  "test_sha256": "069d411a0ab2d7e7ebec3a8a6f9f7164549fdfaa8cb5c62348da912651704b8c",
+  "independent_AI_static_review": "Confirms stale injection seam and no weakening; not Native or human review.",
+  "targeted": {
+    "cases": 165,
+    "passed": true,
+    "complete_external_wall_seconds": 5.79,
+    "complete_external_full_CPU_seconds": 5.43,
+    "execution_sha256": "b6762eb2eb211f6b72bcc1d96a40ae0425a8ac1d37dfcb24a1a4a9971a55c00b",
+    "log_sha256": "d3ef0a2c7aff7e9064c31b070d13c8fab19d3aad56e5a88392b014b4819a0b40"
+  },
+  "full_rerun_pending": true,
+  "Native071_started": false,
+  "earlier_failure_retained": true
+}

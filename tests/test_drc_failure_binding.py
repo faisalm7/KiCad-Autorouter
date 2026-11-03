@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from autorouter import pipeline as p
+from autorouter import pipeline as p, placement_clearance as pc
 
 
 class DrcFailureBinding(unittest.TestCase):
@@ -86,9 +86,10 @@ class DrcFailureBinding(unittest.TestCase):
         self.assertEqual(p.tree_hash(self.source),self.before)
 
     def test_changed_copy_cannot_be_restored_by_native_to_hide_bad_input(self):
-        copytree=p.shutil.copytree; native=self.job.step; calls=[]
+        copy_project=pc.copy_project; native=self.job.step; calls=[]; injections=[]
         def changed_copy(source,target):
-            value=copytree(source,target)
+            value=copy_project(source,target)
+            injections.append((Path(source),Path(target)))
             (Path(target)/'board.kicad_pro').write_text('wrong rules before native')
             return value
         def restore_during_native(name,argv,allowed):
@@ -96,8 +97,9 @@ class DrcFailureBinding(unittest.TestCase):
             Path(argv[-1]).with_suffix('.kicad_pro').write_bytes(self.board.with_suffix('.kicad_pro').read_bytes())
             return native(name,argv,allowed)
         self.job.step=restore_during_native
-        with patch.object(p.shutil,'copytree',side_effect=changed_copy):
+        with patch.object(pc,'copy_project',side_effect=changed_copy):
             with self.assertRaisesRegex(p.Rejected,'validation copy differs before native'):self.job.drc('drc',self.board)
+        self.assertEqual(injections,[(self.source,self.job.out/'drc-input')])
         self.assertEqual(calls,[])
         record=json.loads((self.job.out/'drc-failure.json').read_text())
         self.assertFalse(record['passed']);self.assertEqual(record['phase'],'input_snapshot')
