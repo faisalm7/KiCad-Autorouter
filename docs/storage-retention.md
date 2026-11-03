@@ -11,6 +11,15 @@ Their removal requires an exact owner-approved list and fresh content, readable
 recovery-source, dependency and active-use checks. Keep private storage audits and
 deletion lists outside Git.
 
+Approved derived data retirement uses actual descendant metadata, not a blanket
+extended-attribute refusal. The macOS helper records permissions, executable bits,
+ownership/link information, ACLs and readable xattr bytes, including resource forks,
+in a private, hash-verified gzip supplement outside the disposable copy. When the
+owner accepts it for the relevant scope, `com.apple.provenance` is recorded with its
+location but not replayed. Other unreadable or oversized attributes identify the
+exact affected path and retain that candidate. Metadata records do not excuse
+extra or changed file contents lacking independently verified recovery coverage.
+
 Future `verify()` and `checkpoint()` calls default to one exclusively created
 `.local-backups/verification-workspace` slot. After success, independently checked
 archive/Git contents are compared with the exact workspace. Only the creating
@@ -24,6 +33,22 @@ Failure or uncertain cleanup retains scratch and blocks the next nonessential
 verification. Do not remove a blocked slot by name alone. The low-level Python API
 accepts `pinned_reason` for an explicitly required recovery base or inspection;
 routine jobs must not use it to accumulate copies.
+
+Disposal preflights directory owner write/execute permissions across the workspace
+and its parent before any unlink, then rechecks after metadata/activity inspection.
+It never changes permissions to force removal. Read-only files can be removed
+when their containing directory permits it. ACL denials, filesystem errors or
+concurrent changes can still stop a deletion partway; retain the remainder and
+its complete pre-deletion recovery proofs. This is not an atomic tree deletion.
+
+On macOS, successful owned-slot disposal also retains its metadata supplement in
+the external verification records and binds its path/SHA to the removal receipt.
+Actual small fixtures check ACL, executable and resource-fork recovery after
+disposal, late changes and activity refusal. Supplements are bounded to 32 MiB
+compressed (384 MiB decoded), with 1 MiB per xattr and 16 MiB aggregate xattr data;
+the Mac verification space forecast includes the compressed bound. These are
+metadata-retirement controls, not qualification of historical virtual environments,
+an independent OS or a full-size recovery. Capture/chain limits remain unchanged.
 
 Existing commands remain:
 

@@ -1,5 +1,6 @@
 """Small actual Git/tar reconstruction and new-owned scratch retention guards."""
 import importlib.util
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -143,6 +144,12 @@ class ManagedBackup(unittest.TestCase):
         plan = backup.restore_space_plan(self.root, chain)
         self.assertGreaterEqual(plan['peak_temporary_bytes'], backup.manifest_allocation(chain[-1]['receipt']['inventory']))
         self.assertEqual(plan['required_free_bytes'], plan['peak_temporary_bytes'] + backup.SPACE_RESERVE)
+        if sys.platform == 'darwin':
+            from scripts import retirement_metadata as metadata
+            with patch.object(backup.sys, 'platform', 'linux'):
+                without_metadata = backup.restore_space_plan(self.root, chain)
+            self.assertEqual(plan['peak_temporary_bytes'] - without_metadata['peak_temporary_bytes'],
+                             metadata.MAX_COMPRESSED_RECORD_BYTES)
         usage = backup.shutil.disk_usage(self.root)
         with patch.object(backup.shutil, 'disk_usage', return_value=usage._replace(free=backup.SPACE_RESERVE + 100)):
             self.assertEqual(backup.require_headroom(self.root, 100, 'small')['required_free_bytes'], backup.SPACE_RESERVE + 100)
@@ -203,6 +210,73 @@ class ScratchControls(unittest.TestCase):
         with patch.object(scratch, 'active_users', return_value=[]): removed = self.dispose(lease, expected, proof)
         self.assertTrue(removed.is_file()); self.assertTrue(proof.is_file()); self.assertFalse(lease.path.exists())
         self.assertEqual(json.loads(removed.read_text())['logical_bytes'], 28)
+
+    @unittest.skipUnless(sys.platform in ('darwin', 'linux'), 'actual POSIX directory permissions')
+    def test_owner_readonly_or_nonsearchable_directory_refuses_before_any_unlink(self):
+        payloads = {'00-first': b'first independent fixture',
+                    'zz-readonly/README': b'read-only independent fixture'}
+        for location in ('nested', 'workspace', 'parent'):
+            for mode in (0o500, 0o600):
+                with self.subTest(location=location, mode=oct(mode)):
+                    root = self.root / (location + '-' + str(mode)); root.mkdir()
+                    lease = scratch.claim(root, 'tiny permission preflight fixture')
+                    nested = lease.path / 'zz-readonly'; nested.mkdir()
+                    for name, raw in payloads.items(): (lease.path / name).write_bytes(raw)
+                    (nested / 'README').chmod(0o400)
+                    expected = {'files': {name: {'size': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+                                          for name, raw in payloads.items()}, 'directories': ['zz-readonly']}
+                    proof = lease.records / 'proof.json'; proof.write_text('{"verified":true}')
+                    restricted = {'nested': nested, 'workspace': lease.path, 'parent': lease.path.parent}[location]
+                    restricted.chmod(mode)
+                    try:
+                        with self.assertRaisesRegex(scratch.ScratchError, 'owner write/execute') as error:
+                            self.dispose(lease, expected, proof)
+                        self.assertIn(str(restricted), str(error.exception))
+                        self.assertEqual(restricted.lstat().st_mode & 0o777, mode)
+                    finally:
+                        # Only this newly created synthetic fixture is changed
+                        # for inspection/cleanup. Production disposal never chmods.
+                        restricted.chmod(0o700)
+                    for name, raw in payloads.items():
+                        self.assertEqual((lease.path / name).read_bytes(), raw)
+                    self.assertEqual((nested / 'README').stat().st_mode & 0o777, 0o400)
+                    self.assertFalse((lease.records / (lease.token + '-covered.json')).exists())
+                    self.assertFalse((lease.records / (lease.token + '-removed.json')).exists())
+
+    @unittest.skipUnless(sys.platform in ('darwin', 'linux'), 'actual POSIX directory permissions')
+    def test_readonly_file_in_owner_writable_directory_can_be_removed(self):
+        lease, expected, proof = self.prepare()
+        (lease.path / 'payload').chmod(0o400)
+        with patch.object(scratch, 'active_users', return_value=[]):
+            removed = self.dispose(lease, expected, proof)
+        self.assertTrue(removed.is_file()); self.assertFalse(lease.path.exists())
+        if sys.platform == 'darwin':
+            from scripts import retirement_metadata as metadata
+            saved = json.loads(removed.read_text())['metadata_supplement']
+            record = metadata.read_record(saved['path'], saved['sha256'])
+            self.assertEqual(record['members']['payload']['identity']['mode'] & 0o777, 0o400)
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'post-metadata Mac permission control')
+    def test_directory_permission_change_after_metadata_refuses_before_covered_receipt(self):
+        lease, expected, proof = self.prepare()
+        nested = lease.path / 'empty'; nested.mkdir()
+        expected['directories'] = ['empty']
+        calls = []
+        def activity(_path):
+            calls.append(True)
+            if len(calls) == 2: nested.chmod(0o500)
+            return []
+        try:
+            with patch.object(scratch, 'active_users', side_effect=activity):
+                with self.assertRaisesRegex(scratch.ScratchError, 'owner write/execute'):
+                    self.dispose(lease, expected, proof)
+            self.assertEqual(len(calls), 2)
+            self.assertEqual(nested.stat().st_mode & 0o777, 0o500)
+            self.assertEqual((lease.path / 'payload').read_bytes(), b'independently retained bytes')
+            self.assertFalse((lease.records / (lease.token + '-covered.json')).exists())
+            self.assertFalse((lease.records / (lease.token + '-removed.json')).exists())
+        finally:
+            nested.chmod(0o700)  # This test's own synthetic directory only.
 
     def test_unknown_and_modified_files_are_not_deleted(self):
         for kind in ('extra', 'modified'):
@@ -292,6 +366,102 @@ class ScratchControls(unittest.TestCase):
                 self.dispose(lease, expected, proof)
         finally:
             child.terminate(); child.communicate(timeout=5)
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'actual macOS retirement metadata')
+    def test_disposed_mac_slot_metadata_reconstructs_actual_owned_fixture(self):
+        import base64
+        import ctypes
+        import hashlib
+        import pwd
+        from scripts import retirement_metadata as metadata
+        original = self.root / 'independent-payload'
+        raw = b'#!/bin/sh\nexit 0\n'
+        original.write_bytes(raw)
+        lease = scratch.claim(self.root, 'small native metadata reconstruction')
+        payload = lease.path / 'payload'; payload.write_bytes(original.read_bytes()); payload.chmod(0o751)
+        user = pwd.getpwuid(os.getuid()).pw_name
+        subprocess.run(['/bin/chmod', '+a', f'user:{user} allow read,write', str(payload)], check=True)
+        fork = b'actual native resource fork\x00\xff'
+        with payload.open('rb') as stream:
+            value = ctypes.create_string_buffer(fork)
+            metadata._checked(metadata._native().fsetxattr(
+                stream.fileno(), b'com.apple.ResourceFork', value, len(fork), 0, 0),
+                payload, 'com.apple.ResourceFork')
+            before = metadata._xattrs(stream.fileno(), payload)
+        expected = {'files': {'payload': {'size': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}},
+                    'directories': []}
+        proof = lease.records / (lease.token + '-proof.json'); proof.write_text('{"verified":true}')
+        # Real process inspection, not a mocked inactive result.
+        removed = scratch.dispose(lease, expected, success_record=proof,
+            reconstruction={'source': str(original)}, required_paths=[original])
+        self.assertFalse(lease.path.exists())
+        receipt = json.loads(removed.read_text())
+        saved = receipt['metadata_supplement']; supplement = Path(saved['path'])
+        self.assertTrue(supplement.is_file())
+        self.assertNotIn(lease.path, supplement.parents)
+        record = metadata.read_record(supplement, saved['sha256'])
+        captured = record['members']['payload']
+        self.assertEqual(captured['xattrs_base64'].get(metadata.PROVENANCE), before.get(metadata.PROVENANCE))
+        self.assertEqual(base64.b64decode(captured['xattrs_base64']['com.apple.ResourceFork']), fork)
+        self.assertIn('allow:read,write', captured['acl'])
+        recovered = self.root / 'recovered-owned-fixture'
+        result = metadata.recover_small(supplement, saved['sha256'], recovered,
+                                       {'payload': original.read_bytes()})
+        self.assertTrue(result['verified']); self.assertFalse(result['provenance_replayed'])
+        self.assertEqual(subprocess.run([str(recovered / 'payload')], check=False).returncode, 0)
+        self.assertEqual((recovered / 'payload').read_bytes(), original.read_bytes())
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS metadata fault control')
+    def test_metadata_capture_failure_retains_owned_slot(self):
+        from scripts import retirement_metadata as metadata
+        lease, expected, proof = self.prepare()
+        failure = metadata.MetadataError(str(lease.path / 'payload') + ': com.apple.ResourceFork: unreadable')
+        with patch.object(metadata, 'capture', side_effect=failure), patch.object(scratch, 'active_users', return_value=[]):
+            with self.assertRaisesRegex(scratch.ScratchError, 'com.apple.ResourceFork: unreadable'):
+                self.dispose(lease, expected, proof)
+        self.assertEqual((lease.path / 'payload').read_bytes(), b'independently retained bytes')
+        self.assertFalse((lease.records / (lease.token + '-removed.json')).exists())
+        with self.assertRaisesRegex(scratch.ScratchError, 'slot retained'):
+            scratch.claim(self.root, 'failed metadata must block another verification')
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS post-metadata activity control')
+    def test_activity_after_metadata_capture_retains_slot_and_supplement(self):
+        lease, expected, proof = self.prepare()
+        with patch.object(scratch, 'active_users', side_effect=[[], ['123']]):
+            with self.assertRaisesRegex(scratch.ScratchError, 'after metadata preservation'):
+                self.dispose(lease, expected, proof)
+        self.assertTrue((lease.path / 'payload').is_file())
+        self.assertTrue((lease.records / (lease.token + '-metadata.json.gz')).is_file())
+        self.assertFalse((lease.records / (lease.token + '-removed.json')).exists())
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'macOS late-metadata fault control')
+    def test_late_callback_metadata_change_retains_owned_slot(self):
+        import ctypes
+        from scripts import retirement_metadata as metadata
+        lease, expected, proof = self.prepare()
+        calls = []
+        def stable():
+            calls.append(True)
+            if len(calls) == 2:
+                raw = b'new resource-fork bytes'
+                with (lease.path / 'payload').open('rb') as stream:
+                    value = ctypes.create_string_buffer(raw)
+                    metadata._checked(metadata._native().fsetxattr(
+                        stream.fileno(), b'com.apple.ResourceFork', value, len(raw), 0, 0),
+                        lease.path / 'payload', 'com.apple.ResourceFork')
+        with patch.object(scratch, 'active_users', return_value=[]):
+            with self.assertRaisesRegex(scratch.ScratchError, 'metadata preservation refused'):
+                self.dispose(lease, expected, proof, stable=stable)
+        self.assertEqual(len(calls), 2)
+        self.assertTrue((lease.path / 'payload').is_file())
+        self.assertFalse((lease.records / (lease.token + '-removed.json')).exists())
+
+    def test_non_macos_disposal_does_not_invoke_mac_metadata_capture(self):
+        lease, expected, proof = self.prepare()
+        with patch.object(scratch.sys, 'platform', 'linux'), patch.object(scratch, 'active_users', return_value=[]):
+            with patch.object(scratch, '_preserve_macos_metadata', side_effect=AssertionError('Mac-only call')):
+                removed = self.dispose(lease, expected, proof)
+        self.assertNotIn('metadata_supplement', json.loads(removed.read_text()))
 
 
 if __name__ == '__main__': unittest.main()

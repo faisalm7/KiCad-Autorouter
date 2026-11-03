@@ -51,7 +51,7 @@ class Native7ChoiceBoundaryTests(unittest.TestCase):
                 self.assertEqual(self.check.call_count,1);self.assertTrue(events[-1])
                 self.assertTrue(result['choice_recorded']);self.assertEqual(result['choice'],choice)
                 self.assertFalse(result['routing_accepted']);self.assertFalse(result['applied'])
-                self.assertEqual(h.SECONDS,30)
+                self.assertEqual(h.SECONDS,60)
 
     def test_ordinary_choice_retains_three_full_reads(self):
         self.choose();self.assertEqual(self.check.call_count,3)

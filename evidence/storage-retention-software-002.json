@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "scope": "Software controls only; no PCB/native/GUI/full-recovery qualification and no publication of private retirement material.",
+  "sources_sha256": {
+    "scripts/retirement_metadata.py": "3af66d5fd76cf278ff8a50c9641153d4a699deac6315508761769fc6ee4333b3",
+    "scripts/verification_scratch.py": "2e72082f949c03bde5c5d2ba7891211a6bd0e9ce2dc2e1313b6c037ecd6bef59",
+    "scripts/backup.py": "3ac96a302103319f97204bbfc46574b6e0734dfd50ad6fbdc3e5d5c53101651f",
+    "tests/test_retirement_metadata.py": "07edfc153c44edc31e89e94382d5da9091629bb4276ef75a485624657f30fa76",
+    "tests/test_backup_retention.py": "e998ede86561c494a8f8cdbb840718d9d6ea38b87472a0de89da4e0e22ef9e9b",
+    "tests/test_native7_choice_boundary.py": "6ff075d7442f731a850c75b823d853fd229bee18fb220afb4c84c45d608a7a09",
+    "autorouter/handoff.py": "da3c3ee7960d3e141a1c5f6b4cad614a8c9ba856e92216976ad3aee2484c3651"
+  },
+  "retention": {
+    "command": ".venv/bin/python -B -m unittest -v tests.test_backup_retention tests.test_retirement_metadata",
+    "tests": 43,
+    "passed": true,
+    "actual_platform": "macOS 27.0.1 arm64 / Python 3.11.9",
+    "log_sha256": "fd253a2e222f75097cae986527891aa12f9f8d48a1f483264f33c8c35b553dce",
+    "seconds": 8.12,
+    "native_controls": [
+      "ACL and executable mode replay",
+      "binary data attributes including resource fork",
+      "provenance recorded without replay",
+      "hardlinks and hidden flags",
+      "exact unchanged contents and independent recovery coverage",
+      "unique/modified/active/dependency/out-of-scope refusal",
+      "readonly directory refusal before unlink; readonly files with writable parent permitted"
+    ],
+    "limits": [
+      "Only newly owned future scratch may be automatically retired",
+      "No historical installation recovery qualification",
+      "Directory preflight is not atomic deletion or race immunity",
+      "No full-size or independent-machine restoration"
+    ]
+  },
+  "choice": {
+    "command": ".venv/bin/python -B -m unittest tests.test_native7_choice_boundary tests.test_handoff_stage_budget",
+    "tests": 24,
+    "passed": true,
+    "seconds": 2.957,
+    "log_sha256": "05088c984a52e0a64f1bd6d68636c7b1c6e97a3b36a63123f9363ede8705aca8",
+    "change": "One stale assertion now expects the already implemented 60-second choice policy. All read, freshness and postwrite guards retained.",
+    "prior_failure_log_sha256": "32ac4103a928a28403d0bb6283ce901237ebe464e056481753ee289432428ca7",
+    "remaining": "Fresh full suite, runtime069 build/install/native/GUI/large delivered-headroom qualification remain open."
+  },
+  "skeptical_review": "Separate AI source/publication review found no new critical blocker; not human PCB review."
+}

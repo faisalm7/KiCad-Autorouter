@@ -211,6 +211,13 @@ def restore_space_plan(root, chain, *, integrity=False, git_source=None):
             while str(parent) != '.': tree_dirs.add(str(parent)); parent = parent.parent
         bundle_bytes = node['receipt']['bundle']['size']
         peak = target + stages + tree_bytes + 4096 * (tree_files + len(tree_dirs)) + 2 * bundle_bytes
+    if sys.platform == 'darwin':
+        try:
+            from scripts import retirement_metadata as metadata
+        except ModuleNotFoundError:
+            import retirement_metadata as metadata
+        # Disposal retains one bounded metadata supplement outside scratch.
+        peak += metadata.MAX_COMPRESSED_RECORD_BYTES
     return require_headroom(root, peak, 'integrity verification' if integrity else 'full restoration')
 
 

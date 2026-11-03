@@ -162,6 +162,38 @@ def active_users(path):
     raise ScratchError('Automatic verification cleanup is not qualified on this platform')
 
 
+def _preserve_macos_metadata(lease, expected, identities, stable=None):
+    """Supplement only this owned slot; independent content coverage is prior."""
+    try:
+        from scripts import retirement_metadata as metadata
+    except ModuleNotFoundError:  # Direct scripts/backup.py entry point.
+        import retirement_metadata as metadata
+    files, directories = {}, {}
+    for name, row in expected['files'].items():
+        target = _path(lease.path / name)
+        observed = target.lstat()
+        identity = (observed.st_dev, observed.st_ino, observed.st_size,
+                    observed.st_mtime_ns, observed.st_ctime_ns)
+        if (not stat.S_ISREG(observed.st_mode) or observed.st_nlink != 1
+                or identity != identities[name]):
+            raise ScratchError('Scratch changed before metadata preservation: ' + name)
+        files[name] = {'sha256': row['sha256'], 'stat': metadata._stamp(observed)}
+    for name in ['.', *expected['directories']]:
+        observed = _path(lease.path / name).lstat()
+        if (not stat.S_ISDIR(observed.st_mode)
+                or (observed.st_dev, observed.st_ino) != identities['dir:' + name]):
+            raise ScratchError('Scratch directory changed before metadata preservation: ' + name)
+        directories[name] = metadata._stamp(observed)
+    output = _path(lease.records / (lease.token + '-metadata.json.gz'))
+    try:
+        saved = metadata.capture(lease.path, files, directories, output)
+        if stable is not None: stable()
+        metadata.verify_current(lease.path, output, saved['sha256'])
+    except metadata.MetadataError as exc:
+        raise ScratchError('Scratch metadata preservation refused: ' + str(exc)) from exc
+    return saved
+
+
 def dispose(lease, expected, *, success_record, reconstruction, required_paths=(), stable=None):
     """Delete only this process's new slot after independent caller coverage.
 
@@ -171,12 +203,26 @@ def dispose(lease, expected, *, success_record, reconstruction, required_paths=(
     if (not isinstance(lease, Lease) or lease.owner_pid != os.getpid()
             or _LIVE_LEASES.get(lease.token) is not lease):
         raise ScratchError('Only the live creating process may dispose its new slot')
+    def require_owner_access(observed, directory):
+        required = stat.S_IWUSR | stat.S_IXUSR
+        if observed.st_uid != os.getuid() or observed.st_mode & required != required:
+            raise ScratchError('Directory owner write/execute permissions required before disposal: ' + str(directory))
+
+    # Check the entry's parent before traversing into a possibly non-searchable
+    # workspace. Refusal must precede proof reads, coverage and unlinking.
+    parent = _path(lease.path.parent)
+    fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        require_owner_access(os.fstat(fd), parent)
+    finally:
+        os.close(fd)
     path = _path(lease.path)
     if path.name != 'verification-workspace' or path.parent.name != '.local-backups':
         raise ScratchError('Out-of-scope disposal path')
     st = path.lstat()
     if (st.st_dev, st.st_ino) != (lease.device, lease.inode) or not stat.S_ISDIR(st.st_mode):
         raise ScratchError('Owned scratch directory identity changed')
+    require_owner_access(st, path)
     proof = _path(success_record)
     if proof == path or path in proof.parents or not proof.is_file() or not reconstruction:
         raise ScratchError('Durable successful proof and reconstruction coverage required outside scratch')
@@ -212,7 +258,50 @@ def dispose(lease, expected, *, success_record, reconstruction, required_paths=(
             observed = parent.lstat()
             if (observed.st_dev, observed.st_ino) == required_identity:
                 raise ScratchError('Scratch ancestor is a required recovery dependency')
+    # Reuse the same no-follow descriptor traversal for an early permission
+    # preflight and the actual unlink operations. Owner bits are a conservative
+    # prerequisite, not proof against ACL denies, filesystem errors or races.
+    identities = None
+    def parent_fd(name, *, directory=False):
+        fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            root_now = os.fstat(fd)
+            if (root_now.st_dev, root_now.st_ino) != (lease.device, lease.inode):
+                raise ScratchError('Owned root changed during disposal')
+            require_owner_access(root_now, path)
+            relative = []
+            components = PurePosixPath(name).parts
+            for component in components if directory else components[:-1]:
+                next_fd = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                relative.append(component)
+                try:
+                    observed = os.fstat(next_fd)
+                    if (observed.st_dev != lease.device or identities is not None
+                            and (observed.st_dev, observed.st_ino) != identities['dir:' + '/'.join(relative)]):
+                        raise ScratchError('Scratch ancestor directory identity changed')
+                    require_owner_access(observed, path.joinpath(*relative))
+                except BaseException:
+                    os.close(next_fd)
+                    raise
+                os.close(fd); fd = next_fd
+            return fd
+        except BaseException:
+            os.close(fd)
+            raise
+
+    def preflight_directories():
+        # The workspace entry itself is removed from its owned parent last.
+        fd = os.open(_path(path.parent), os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            require_owner_access(os.fstat(fd), path.parent)
+        finally:
+            os.close(fd)
+        for name in ['.', *expected['directories']]:
+            fd = parent_fd(name, directory=True)
+            os.close(fd)
+
     for name in list(expected['files']) + list(expected['directories']): _name(name)
+    preflight_directories()
     current, identities = manifest(path)
     if current != expected:
         raise ScratchError('Unique/modified/unexpected scratch contents; retained')
@@ -226,6 +315,17 @@ def dispose(lease, expected, *, success_record, reconstruction, required_paths=(
     proof_data, current_proof_identity = _regular_bytes(proof)
     if proof_data != proof_expected or current_proof_identity != proof_identity:
         raise ScratchError('Successful verification record changed before disposal')
+    metadata_supplement = None
+    if sys.platform == 'darwin':
+        metadata_supplement = _preserve_macos_metadata(lease, expected, identities, stable=stable)
+        # Native metadata inspection can take time; activity must be checked
+        # again after it, with every descriptor closed. Failure keeps the slot
+        # and its already durable supplement for inspection.
+        if active_users(path):
+            raise ScratchError('Active process uses verification workspace after metadata preservation; retained')
+        proof_data, current_proof_identity = _regular_bytes(proof)
+        if proof_data != proof_expected or current_proof_identity != proof_identity:
+            raise ScratchError('Successful verification record changed after metadata preservation')
     receipt = {'schema': 1, 'token': lease.token, 'path': str(path),
                'success_record': str(proof), 'success_record_sha256': proof_data['sha256'],
                'reconstruction': reconstruction, 'files': len(expected['files']),
@@ -233,29 +333,14 @@ def dispose(lease, expected, *, success_record, reconstruction, required_paths=(
                'tree_manifest_sha256': hashlib.sha256(json.dumps(expected, sort_keys=True).encode()).hexdigest(),
                'scope': 'new creating-process slot only; no historical deletion',
                'threat_model': 'cooperative processes and ordinary edits; no hostile administrator/kernel guarantee'}
+    if metadata_supplement is not None:
+        receipt['metadata_supplement'] = metadata_supplement
+    # Check all directories again after callbacks/metadata/activity inspection,
+    # before a covered receipt or the first unlink. Never chmod to force removal.
+    preflight_directories()
     _json(lease.records / (lease.token + '-covered.json'), receipt)
     # Exact member deletion, with no wildcard, no symlink traversal, and only
     # the previously validated regular files. Failures preserve unknown work.
-    def parent_fd(name):
-        fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
-        root_now = os.fstat(fd)
-        if (root_now.st_dev, root_now.st_ino) != (lease.device, lease.inode):
-            os.close(fd)
-            raise ScratchError('Owned root changed during disposal')
-        try:
-            relative = []
-            for component in PurePosixPath(name).parts[:-1]:
-                next_fd = os.open(component, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
-                relative.append(component)
-                observed = os.fstat(next_fd)
-                if (observed.st_dev, observed.st_ino) != identities['dir:' + '/'.join(relative)]:
-                    os.close(next_fd)
-                    raise ScratchError('Scratch ancestor directory identity changed')
-                os.close(fd); fd = next_fd
-            return fd
-        except BaseException:
-            os.close(fd)
-            raise
     for name in sorted(expected['files']):
         fd = parent_fd(name)
         try:
