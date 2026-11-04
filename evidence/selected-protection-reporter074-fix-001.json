@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "kind": "selected-protected-count-reporter-fix-v1",
+  "source_sha256": {
+    "scripts/report_current_comparison.py": "54c16f454d2789b4af34d1e2efd3d8a3f9ad00ecd61cad8ccc26f9c1e9c5b18b",
+    "tests/test_current_comparison_report.py": "a7813abf0909c8060db9cf7c4329c7083652a2b150a096710437217f502eaab1"
+  },
+  "defect": "Existing reporting reader assumed ordinary protected_route_import.matches; actual selected scope stores protected_source_records and selected_net_audit. Real retained selected Native receipt raised KeyError after existing checks.",
+  "change": "Typed reporting selector reuses actual selected audit and matching record projection, preserves ordinary list length/exportNone, refuses malformed evidence. Existing Native/source/process/acceptance guards unchanged.",
+  "runtime074_product_changed": false,
+  "Native_or_GUI_repeated_for_fix": false,
+  "targeted": {
+    "passed": true,
+    "tests": 26,
+    "runner_seconds": 0.224,
+    "tool_wall_seconds": 0.3489685,
+    "complete_external_CPU_unmeasured": true
+  },
+  "real_stored_selected_receipt_recheck": {
+    "passed": true,
+    "protected_count": 274,
+    "new_Native_run": false
+  },
+  "skeptical_source_review_sha256": "d6fcdc96b06754559839c1addabf104c3c5c09927f31303f1a78f4b3c458b8a0",
+  "scope": "Reporting correction only; no new routing or electrical claim."
+}

@@ -72,6 +72,72 @@ class ComparisonReportTests(unittest.TestCase):
         self.assertEqual(result['protected_count'], 1)
         self.assertTrue(result['full_schematic_flag'])
 
+    def selected_protection(self, count):
+        records = [dict(uuid=str(index), kind='segment', net_name='+3V3', locked=False,
+                        record_sha256='a' * 64) for index in range(count)]
+        self.data.update(scope='selected_nets',
+            selected_net_audit=dict(schema=1, policy='selected-nets-v1', scope_passed=True,
+                routing_accepted=False, native_validation_performed=False,
+                protected_count=count, protected_routes=records),
+            protected_route_import=dict(policy='selected-proposals-exact-source-v1',
+                protected_source_records=[{key: row[key] for key in ('kind', 'uuid', 'record_sha256')}
+                    for row in records]))
+
+    def test_selected_own_final_uses_actual_protected_scope_contract(self):
+        for count in (2, 0):
+            with self.subTest(count=count):
+                self.selected_protection(count)
+                self.assertNotIn('matches', self.data['protected_route_import'])
+                write(self.receipt, self.data)
+                self.assertEqual(self.own()['protected_count'], count)
+
+    def test_selected_protected_count_refuses_malformed_or_inconsistent_proof(self):
+        self.selected_protection(2)
+        original = copy.deepcopy(self.data)
+        mutations = [
+            ('count-' + repr(value), lambda data, value=value: data['selected_net_audit'].update(protected_count=value))
+            for value in (True, False, 2.0, '2', None, -1, 1)]
+        mutations += [
+            ('bool-schema', lambda data: data['selected_net_audit'].update(schema=True)),
+            ('unknown-policy', lambda data: data['selected_net_audit'].update(policy='unknown')),
+            ('unpassed', lambda data: data['selected_net_audit'].update(scope_passed=False)),
+            ('missing-audit', lambda data: data.pop('selected_net_audit')),
+            ('records-not-list', lambda data: data['selected_net_audit'].update(protected_routes={})),
+            ('records-not-objects', lambda data: data['selected_net_audit'].update(protected_routes=['a', 'b'])),
+            ('malformed-record', lambda data: data['selected_net_audit']['protected_routes'][0].update(uuid=None)),
+            ('changed-import', lambda data: data['protected_route_import']['protected_source_records'][0].update(uuid='changed')),
+            ('import-not-list', lambda data: data['protected_route_import'].update(protected_source_records={})),
+            ('unknown-import', lambda data: data['protected_route_import'].update(policy='unknown')),
+            ('missing-import', lambda data: data.pop('protected_route_import')),
+            ('selected-import-in-ordinary-scope', lambda data: data.update(scope='partial_completion'))]
+        for name, mutate in mutations:
+            with self.subTest(mutation=name):
+                self.data = copy.deepcopy(original)
+                # A misleading ordinary-style field cannot rescue bad selected evidence.
+                self.data['protected_route_import']['matches'] = [{'synthetic': 'fallback forbidden'}]
+                mutate(self.data)
+                write(self.receipt, self.data)
+                with self.assertRaises(ValueError): self.own()
+
+    def test_ordinary_protected_count_retains_zero_absent_and_typed_matches(self):
+        original = copy.deepcopy(self.data)
+        self.data['protected_route_import']['matches'] = []
+        write(self.receipt, self.data)
+        self.assertEqual(self.own()['protected_count'], 0)
+        self.data.pop('protected_route_import')
+        write(self.receipt, self.data)
+        self.assertIsNone(self.own()['protected_count'])
+        for value in (None, {}, 'two', 2, True):
+            with self.subTest(matches=value):
+                self.data = copy.deepcopy(original)
+                self.data['protected_route_import']['matches'] = value
+                write(self.receipt, self.data)
+                with self.assertRaises(ValueError): self.own()
+
+    def test_export_does_not_claim_a_route_protected_count(self):
+        self.selected_protection(2)
+        self.assertIsNone(q.protected_count_fact(self.data, export=True))
+
     def test_candidate_or_report_tamper_refuses(self):
         for path in (Path(self.data['candidate']), self.folder / 'final-drc.json'):
             with self.subTest(path=path.name):

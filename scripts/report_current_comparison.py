@@ -179,6 +179,35 @@ def native_application_policy(native, plan):
     return dict(accepted=accepted,rejection_reasons=rejected,implementation_sha256=files)
 
 
+def protected_count_fact(data, *, export):
+    """Present an existing typed scope proof, never infer PCB acceptance."""
+    if export:
+        return None
+    imported = data.get('protected_route_import')
+    if data.get('scope') == 'selected_nets':
+        audit = data.get('selected_net_audit')
+        require(type(audit) is dict and type(audit.get('schema')) is int and audit['schema'] == 1
+            and audit.get('policy') == 'selected-nets-v1' and audit.get('scope_passed') is True,
+            'typed selected scope audit required for protected count')
+        count = audit.get('protected_count'); records = audit.get('protected_routes')
+        keys = ('kind', 'uuid', 'record_sha256')
+        require(type(count) is int and count >= 0 and type(records) is list
+            and len(records) == count and all(type(row) is dict
+                and all(type(row.get(key)) is str for key in keys) for row in records),
+            'selected protected count or records differ')
+        require(type(imported) is dict and imported.get('policy') == 'selected-proposals-exact-source-v1'
+            and type(imported.get('protected_source_records')) is list
+            and imported['protected_source_records'] == [{key: row[key] for key in keys} for row in records],
+            'selected protected import differs from scope audit')
+        return count
+    if 'protected_route_import' not in data:
+        return None
+    require(type(imported) is dict and imported.get('policy') != 'selected-proposals-exact-source-v1'
+            and type(imported.get('matches')) is list,
+            'ordinary protected import matches list required')
+    return len(imported['matches'])
+
+
 def own_final(receipt, *, export, plan, allowed, accepted, public_sanitize=False, trial_parent=None):
     """The proven final-output/cwd selector, independent of phaseNone/trial order.
 
@@ -253,7 +282,7 @@ def own_final(receipt, *, export, plan, allowed, accepted, public_sanitize=False
         native_report_sha256=data['native_report_sha256'], process_sha256=digest(process_path), binding_sha256=digest(folder / 'final-drc-binding.json'),
         Native_counts=native, Native_application_policy=policy, finding_types=finding_types(data['native']),
         ignored_checks=ignored_check_facts(raw['ignored_checks'], report, 'ignored_checks', public_sanitize),
-        ignored_check_count=len(raw['ignored_checks']), protected_count=None if export or 'protected_route_import' not in data else len(data['protected_route_import']['matches']),
+        ignored_check_count=len(raw['ignored_checks']), protected_count=protected_count_fact(data,export=export),
         whole_project_drc_clean=None if trial else data['whole_project_drc_clean'], full_schematic_flag=True,
         interpretation='Stored own-final bytes only; no new Native, central readback, human or electrical qualification.')
 
