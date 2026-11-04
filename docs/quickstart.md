@@ -1,18 +1,18 @@
-# Run runtime073 locally
+# Run runtime074 locally
 
-The [installed073 headless milestone](../evidence/runtime073-installed-native-milestone-001.json) passes; actual GUI104 remains unqualified. Enter the installed directory before every `-m autorouter` session: an absolute interpreter alone can import the wrong checkout. Keep the routing lane idle and use fresh outputs.
+The [installed074 headless milestone](../evidence/runtime074-installed-native-milestone-001.json) passes; actual GUI105 remains unqualified. Enter the installed directory before every `-m autorouter` session: an absolute interpreter alone can import the wrong checkout. Keep the routing lane idle and use fresh outputs.
 
-The prepared owned example and 90-second partial preset retain four protected routes:
+From this checkout, the prepared owned example and 90-second partial preset retain four protected routes:
 
 ```sh
-cd '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime073 fresh install 001'
+cd './.runs/runtime074 fresh install 001'
 .venv/bin/python -B -m autorouter doctor
 .venv/bin/python -B -m autorouter preview \
-  .runs/gui-session104/ordinary-project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session104/ordinary-settings.json
+  .runs/gui-session105/ordinary-project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session105/ordinary-settings.json
 .venv/bin/python -B -m autorouter route \
-  .runs/gui-session104/ordinary-project/owned1007-transport.kicad_pcb \
-  --settings .runs/gui-session104/ordinary-settings.json --output .runs/my-route-001
+  .runs/gui-session105/ordinary-project/owned1007-transport.kicad_pcb \
+  --settings .runs/gui-session105/ordinary-settings.json --output .runs/my-route-001
 .venv/bin/python -B -m autorouter check-result .runs/my-route-001/result.json
 .venv/bin/python -B -m autorouter review-copy .runs/my-route-001/result.json \
   --render --output .runs/my-review-001
@@ -34,6 +34,6 @@ Use `--choice reject` with a fresh output to refuse delivery. Accept records sof
 
 `settings-init --output .runs/my-settings-001.json` creates a persistent preset. Ordinary Route supports qualified whole/partial2/4Cu, standard/both/native/all source layers, default or explicit via_high. Whole routing preserves locked copper; partial routing protects all existing routes. Unsupported settings refuse. [Preference schema and structured interface](routing-preferences.md).
 
-Optional Improve uses `settings-init --purpose improve`, `preview --purpose improve`, then `improve` with that preset. Its narrower qualified2Cu/flat/whole/tuned/default-score path retains original native-resolved classes;40 seconds remain reserved inside its routing budget. It needs a valid incumbent and cannot establish completion gains by itself. No fallback follows stale/invalid/cancelled work. Native13 and owned three-class controls retain their own scopes; the separate070 large delivery passed its prospective60/60 stage ceilings, with all earlier failures retained. Large073 delivery has not run; no every-failure/literal-expiry guarantee follows.
+Optional Improve uses `settings-init --purpose improve`, `preview --purpose improve`, then `improve` with that preset. Its narrower qualified2Cu/flat/whole/tuned/default-score path retains original native-resolved classes;40 seconds remain reserved inside its routing budget. It needs a valid incumbent and cannot establish completion gains by itself. No fallback follows stale/invalid/cancelled work. Native13 and owned three-class controls retain their own scopes; the separate070 large delivery passed its prospective60/60 stage ceilings, with all earlier failures retained. Large074 delivery has not run; no every-failure/literal-expiry guarantee follows.
 
 Routing, review and export ceilings are distinct observed operation limits, not an OS aggregate quota. CLI intake/readback and delivery costs also count in the reported end-to-end comparisons. Normal operation needs no AI, Git, network or research archive. [Current status](../STATUS.md) · [Start here](../START_HERE.md) · [Installation](install-existing.md).
