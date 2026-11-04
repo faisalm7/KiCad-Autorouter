@@ -260,4 +260,3 @@ class WarningWireControls(unittest.TestCase):
                 self.assertEqual(result['exit_code'], 0 if answer=='accept_updated_findings' else 2)
                 self.assertTrue(job.process.stdin.closed); self.assertTrue(job.process.stdout.closed)
                 with self.assertRaises(ValueError): job.reply_warning_review(event, answer)
-
