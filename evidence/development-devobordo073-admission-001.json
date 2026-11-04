@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "kind": "development-devobordo073-original-source-characterization-v1",
+  "source": "Travis8795/devobordo@5823d7a0d7fc3d1d520dd00f87bc5a42e413d04b",
+  "installed_build": "346b241e38e172d7a1478f7eeb535288e496d999",
+  "runtime_manifest_sha256": "d12be29349b01dcd9693f4fbb8e6f00faaa285e15bb5a8f0bed84857350aa6b5",
+  "protocol_sha256": "589f2e88dba0c4ddcc4eef1eebb1b884f45f552901920c73d0e8f40b31389850",
+  "result_sha256": "88f08a089534a333eabff426233f4ae613a4fa61b61fdaa487afca39d223dfbd",
+  "original_native_report_sha256": "d98ee630f1a4a91b1e1eea3a87d18a9e767e8a137a0b88d1ff16359a3ab55370",
+  "original_source_hashes": {
+    "devboard.kicad_pcb": "4219b40718dc6d39406a4769a96fc0b52af5eaff917ce8c00b2733d82fa6514f",
+    "devboard.kicad_pro": "ca3e5ad43d5cd2360d237fb8017abe18f2c9e07efc800271daf488c07d6206c6",
+    "devboard.kicad_sch": "faef18f8c19a1e0c929512deed7fe8c193d961fa177e6f9c75f6fd43a7b26913"
+  },
+  "original_source_unchanged": true,
+  "installed54_unchanged": true,
+  "static_preview_passed": true,
+  "static_existing_routes": 619,
+  "static_protected_routes": 0,
+  "Native_original_full_schematic_checked": true,
+  "Native_counts": {
+    "opens": 0,
+    "blocking": 1,
+    "warnings": 74,
+    "exclusions": 0
+  },
+  "ignored_checks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Solder mask aperture bridges items with different nets",
+      "key": "solder_mask_bridge"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "Silkscreen clipped by solder mask",
+      "key": "silk_over_copper"
+    },
+    {
+      "description": "Silkscreen clipped by board edge",
+      "key": "silk_edge_clearance"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    },
+    {
+      "description": "Footprint component type doesn't match footprint pads",
+      "key": "footprint_type_mismatch"
+    }
+  ],
+  "blocking_findings": [
+    {
+      "description": "Thermal relief connection to zone incomplete (layer F.Cu; zone min spoke count 2; actual 1)",
+      "items": [
+        {
+          "description": "Zone [GND] on F.Cu and B.Cu, priority 0",
+          "pos": {
+            "x": 35.0,
+            "y": 44.1
+          },
+          "uuid": "56318b7a-6662-4b7b-a969-87c738eae8c2"
+        },
+        {
+          "description": "PTH pad S1 [GND] of J1",
+          "pos": {
+            "x": 43.38,
+            "y": 52.73
+          },
+          "uuid": "0066e363-aea5-4faf-b540-29dacdacf00e"
+        }
+      ],
+      "severity": "error",
+      "type": "starved_thermal"
+    }
+  ],
+  "complete_external_wall_seconds": 3.82,
+  "complete_external_CPU_seconds": 2.84,
+  "new_engine_or_routing_execution": false,
+  "routing_task_admitted": false,
+  "whole_board_electrical_scope_admitted": false,
+  "publisher_stated_intent": [
+    "wide low-impedance power backbone",
+    "USB differential routing",
+    "QSPI/clock/decoupling"
+  ],
+  "decision": "Require a prospective protected task respecting the declared sensitive copper and original rules; original thermal conflict remains visible and cannot be waived/subtracted. No new engine retry. Expected unrouted task demand is not invalid source design.",
+  "rights": "Creator MIT witness retained; embedded-asset title and raw redistribution not independently qualified. CAD remains local.",
+  "claims": {
+    "completion_gain": false,
+    "new_independent_family": false,
+    "holdout": false,
+    "electrical_validation": false
+  }
+}
