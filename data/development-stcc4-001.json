@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "kind": "bounded-STCC4-development-registration-v1",
+  "stage": "PROFILE_REGISTERED_NOT_ACQUIRED_OR_NATIVE_QUALIFIED",
+  "profile_id": "co2-stcc4",
+  "repository": "sparkfun/SparkFun_CO2_Sensor_STCC4_SHT40_Qwiic",
+  "commit": "836b63c8f684d57779cf0e699144ac056e0808ba",
+  "source_rows": [
+    {
+      "source_path": "LICENSE.md",
+      "bytes": 2887,
+      "git_blob_sha1": "376246815f80747d16439159abde523668ee6490",
+      "mode": "100644"
+    },
+    {
+      "source_path": "README.md",
+      "bytes": 2252,
+      "git_blob_sha1": "c9fcf5292724f481d496909d063a79827f36d2e5",
+      "mode": "100644"
+    },
+    {
+      "source_path": "Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4.kicad_pcb",
+      "bytes": 472335,
+      "git_blob_sha1": "b47b4d518af3bd3053839bb9434369b048763cf3",
+      "mode": "100644"
+    },
+    {
+      "source_path": "Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4.kicad_pro",
+      "bytes": 18259,
+      "git_blob_sha1": "b1cd493716b4f02e8474f62e1c2417063d155f83",
+      "mode": "100644"
+    },
+    {
+      "source_path": "Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4.kicad_sch",
+      "bytes": 208492,
+      "git_blob_sha1": "705b0b313f926308b92ba03230d6bcae80217937",
+      "mode": "100644"
+    }
+  ],
+  "raw_file_count": 5,
+  "raw_bytes": 704225,
+  "native_packet_file_count": 7,
+  "native_packet_bytes": 709364,
+  "raw_plus_native_bytes": 1413589,
+  "notice_copies": {
+    "Hardware/_licenses/creator/LICENSE.md": "LICENSE.md",
+    "Hardware/_licenses/creator/README.md": "README.md"
+  },
+  "limits": {
+    "max_requests": 5,
+    "network_byte_cap": 704230,
+    "max_single_response_bytes": 472336,
+    "output_byte_cap": 2097152,
+    "wall_budget_seconds": 300,
+    "cpu_budget_seconds": 300,
+    "request_wall_seconds": 30
+  },
+  "default_output": ".data/co2-stcc4-demo-001",
+  "plan_command": [
+    ".venv/bin/python",
+    "-B",
+    "scripts/fetch_led_demo.py",
+    "--project",
+    "co2-stcc4"
+  ],
+  "prospective_acquisition_command": [
+    ".venv/bin/python",
+    "-B",
+    "scripts/fetch_led_demo.py",
+    "--project",
+    "co2-stcc4",
+    "--fetch"
+  ],
+  "rights_basis": "Pinned SparkFun LICENSE.md explicitly assigns hardware CC-BY-SA4, with separate MIT code terms; retain exact attribution, license notice and README. External SparkFun libraries, embedded artwork/model title, independent ancestry and electrical/physical adequacy remain unqualified. Acquisition is not routing admission or clearance to publish raw CAD/assets.",
+  "rights_notice_sha256": {
+    "LICENSE.md": "60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6",
+    "README.md": "f1dd97631293667d4b803b949bc8399bc6e197dac87977da2e3a17a57c0dae12"
+  },
+  "frozen_tree_metadata": {
+    "path": ".runs/corpus-next-001/metadata/sparkfun__SparkFun_CO2_Sensor_STCC4_SHT40_Qwiic/tree.json",
+    "sha256": "6609a82ed91f31efd92ed99d750026efdad3a79e9d9079a78352e716f1af5637",
+    "truncated": false,
+    "selected_regular_modes_verified": true
+  },
+  "original_PRL_tables_present": false,
+  "external_SparkFun_libraries_unresolved": true,
+  "excluded_fabrication_output": {
+    "path": "Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4_v01.zip",
+    "bytes": 98897,
+    "git_blob_sha1": "bb7be67abd841c1e32796a8a3407bfbb5d853332",
+    "acquired": false,
+    "extracted": false,
+    "role": "Manufacturing output excluded from the original native-source packet; no dependency/archive substitution."
+  },
+  "development_exposed": true,
+  "independent_ancestry_established": false,
+  "holdout": false,
+  "Native_executed": false,
+  "routing_executed": false,
+  "raw_CAD_publication_cleared": false,
+  "completion_gain": false,
+  "source_constraints_modified": false,
+  "runtime074_immutable_changed": false,
+  "warnings": [
+    "Exactly five original files plus two byte-identical notice copies; no native/routing admission.",
+    "Pinned Hardware tree has no PRL or library tables; external SparkFun library/model/embedded-asset closure remains unresolved.",
+    "Publisher 3V3/I2C sensor description does not establish actual rules, layers, pads, original open count, scope or electrical adequacy.",
+    "Circuit difficulty and independent ancestry are unproved; shared SparkFun templates and sensor relatives require grouping.",
+    "Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4_v01.zip is excluded fabrication output, not an acquired runtime/source dependency; no ZIP extraction.",
+    "No models, photos, panels, firmware, scripts or external libraries downloaded or executed; raw CAD publication remains uncleared.",
+    "Prior metadata/notice research costs are additional and partly unmetered; five fresh transfer costs are recorded without silent cache reuse."
+  ],
+  "continuation": "Lead owns one actual bounded five-file acquisition and static stop on the unchanged originals. Unsupported gates, missing dependencies, initial opens and genuine completion difficulty remain outcomes to measure; no engine or source normalization follows automatically.",
+  "costs": "Existing primary metadata/notices were read locally and verified; research/authoring/review are partly unmetered additional costs. No fresh GET, real CAD acquisition, Native or routing result is claimed by registration.",
+  "focused_software_checks": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tests.test_stcc4_demo_fetch",
+      "-v"
+    ],
+    "passed": true,
+    "tests": 3,
+    "unittest_seconds": 0.202,
+    "external_wall_seconds": 0.8,
+    "external_CPU_seconds": 0.38,
+    "HTTP_requests": 0,
+    "Native_jobs": 0,
+    "scope": "Authored payload fixtures only, reuse shared transport/capture/verification/publication. Not actual source acquisition, Native eligibility, difficulty or completion evidence."
+  },
+  "offline_CLI_plan": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "scripts/fetch_led_demo.py",
+      "--project",
+      "co2-stcc4"
+    ],
+    "exit_code": 0,
+    "result": {
+      "action": "plan_only",
+      "planned_files": 5,
+      "planned_bytes": 704225,
+      "destination_relative_to_checkout": ".data/co2-stcc4-demo-001"
+    },
+    "created_output": false,
+    "network_requests": 0,
+    "summary_path_normalized_for_registration": true
+  },
+  "shared_implementation_AST_check": "After removing only four new profile constants, fixed_profile dispatch and co2-stcc4 direct/CLI-choice tuple entries, complete helper AST equals HEAD. Existing transport, guards, cache handling, capture and publication unchanged."
+}

@@ -1050,6 +1050,45 @@ SPECTRAL_PROFILE = dict(schema=1, profile_id='spectral-as7343', project_id='spec
         'Prior notice/metadata research costs are unmetered, not zero; fresh GET costs are separately measured.'])
 
 
+# One finite original-source intake; no Native registry or routing admission.
+STCC4_COMMIT = '836b63c8f684d57779cf0e699144ac056e0808ba'
+STCC4_REPOSITORY = 'sparkfun/SparkFun_CO2_Sensor_STCC4_SHT40_Qwiic'
+STCC4_RIGHTS = ('Pinned SparkFun LICENSE.md explicitly assigns hardware CC-BY-SA4, with separate MIT code terms; '
+    'retain exact attribution, license notice and README. External SparkFun libraries, embedded artwork/model title, '
+    'independent ancestry and electrical/physical adequacy remain unqualified. Acquisition is not routing admission '
+    'or clearance to publish raw CAD/assets.')
+STCC4_PROFILE = dict(schema=1, profile_id='co2-stcc4', project_id='co2-stcc4',
+    repository=STCC4_REPOSITORY, commit=STCC4_COMMIT, rows=[
+        dict(source_path=name, bytes=size, git_blob_sha1=blob, mode='100644',
+             repository=STCC4_REPOSITORY, commit=STCC4_COMMIT, destination='co2-stcc4/'+name,
+             raw_url='https://raw.githubusercontent.com/'+STCC4_REPOSITORY+'/'+STCC4_COMMIT+'/'+name,
+             blob_url='https://github.com/'+STCC4_REPOSITORY+'/blob/'+STCC4_COMMIT+'/'+name,
+             rights_basis=STCC4_RIGHTS, **({'sha256':pin} if pin else {}))
+        for name,size,blob,pin in (
+            ('LICENSE.md', 2887, '376246815f80747d16439159abde523668ee6490', '60ff0c64f197db99b0f4fe6fbcd2de308117cdd791d99a86edfcaa5c10a82bc6'),
+            ('README.md', 2252, 'c9fcf5292724f481d496909d063a79827f36d2e5', 'f1dd97631293667d4b803b949bc8399bc6e197dac87977da2e3a17a57c0dae12'),
+            ('Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4.kicad_pcb', 472335, 'b47b4d518af3bd3053839bb9434369b048763cf3', None),
+            ('Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4.kicad_pro', 18259, 'b1cd493716b4f02e8474f62e1c2417063d155f83', None),
+            ('Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4.kicad_sch', 208492, '705b0b313f926308b92ba03230d6bcae80217937', None),
+        )], directories=['Hardware'], board_path='Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4.kicad_pcb',
+    output_prefix='co2-stcc4-demo-', default_output='.data/co2-stcc4-demo-001',
+    file_count=5, bytes=704225, max_requests=5, network_byte_cap=704230,
+    max_single_response_bytes=472336, output_byte_cap=2*1024**2,
+    wall_budget_seconds=300, cpu_budget_seconds=300, request_wall_seconds=30,
+    native_packet_notice_copies={'Hardware/_licenses/creator/LICENSE.md':'LICENSE.md',
+        'Hardware/_licenses/creator/README.md':'README.md'},
+    native_packet_files=7, native_packet_bytes=709364, development_exposed=True,
+    independent_ancestry_established=False, native_validation_performed_by_fetch=False,
+    raw_assets_public=False, warnings=[
+        'Exactly five original files plus two byte-identical notice copies; no native/routing admission.',
+        'Pinned Hardware tree has no PRL or library tables; external SparkFun library/model/embedded-asset closure remains unresolved.',
+        'Publisher 3V3/I2C sensor description does not establish actual rules, layers, pads, original open count, scope or electrical adequacy.',
+        'Circuit difficulty and independent ancestry are unproved; shared SparkFun templates and sensor relatives require grouping.',
+        'Hardware/SparkFun_Qwiic_CO2_Sensor_STCC4_v01.zip is excluded fabrication output, not an acquired runtime/source dependency; no ZIP extraction.',
+        'No models, photos, panels, firmware, scripts or external libraries downloaded or executed; raw CAD publication remains uncleared.',
+        'Prior metadata/notice research costs are additional and partly unmetered; five fresh transfer costs are recorded without silent cache reuse.'])
+
+
 # Metadata-only development intake. No Native registry or routing permission is added.
 AP3012K_COMMIT = '2150213414cbaf2031fed3081900049d023473f1'
 AP3012K_REPOSITORY = 'sparkfun/SparkFun_Qwiic_5V_Boost_AP3012K'
@@ -1308,6 +1347,7 @@ SOFLE_PROFILE = {'schema': 1,
               'difficulty remain unqualified.']}
 
 def fixed_profile(profile_id='led'):
+    if profile_id=='co2-stcc4':return copy.deepcopy(STCC4_PROFILE)
     if profile_id=='sofle-v2-soldered':return copy.deepcopy(SOFLE_PROFILE)
     if profile_id=='paw3222':return copy.deepcopy(PAW3222_PROFILE)
     if profile_id=='ap3012k-boost':return copy.deepcopy(AP3012K_PROFILE)
@@ -1406,7 +1446,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
     if type(reuse_navigation_notices) is not bool or reuse_navigation_notices and profile_id!='navigation-switch':raise ValueError('explicit Navigation-only notice reuse flag required')
     if type(reuse_audio_notices) is not bool or reuse_audio_notices and profile_id!='audio-player-my1690x':raise ValueError('explicit Audio-only notice reuse flag required')
     if type(reuse_flipper_notices) is not bool or reuse_flipper_notices and profile_id!='pico-flipper':raise ValueError('explicit Flipper-only notice reuse flag required')
-    direct=profile_id in ('navigation-switch','audio-player-my1690x','pico-flipper','directional-pad','spectral-as7343','ap3012k-boost');direct_label=profile_id
+    direct=profile_id in ('navigation-switch','audio-player-my1690x','pico-flipper','directional-pad','spectral-as7343','ap3012k-boost','co2-stcc4');direct_label=profile_id
     direct_directories=['Hardware','Hardware/AS7343.pretty'] if profile_id=='spectral-as7343' else ['Hardware']
     if direct and (cfg['directories']!=direct_directories or any(shared.safe(r['source_path']).parent not in {Path('.'),*map(Path,direct_directories)} for r in rows)):
         raise ValueError('fixed '+direct_label+' direct response hierarchy differs')
@@ -1573,7 +1613,7 @@ def fetch_demo(name,*,profile_id='led',fetch=False,root=ROOT,transport=shared.fe
         raise
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('sofle-v2-soldered','led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20','directional-pad','spectral-as7343','ap3012k-boost','paw3222'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--fetch',action='store_true');parser.add_argument('--project',choices=('co2-stcc4','sofle-v2-soldered','led','arcdice','analog-filter','cellscan','uv-dosimeter','navigation-switch','audio-player-my1690x','pico-flipper','sunx-v21','ir-obstacle','universal-shift-interface','ds18b20','directional-pad','spectral-as7343','ap3012k-boost','paw3222'),default='led');parser.add_argument('--output');parser.add_argument('--reuse-uv-licenses',action='store_true',help='Explicitly reuse only the three pinned prior UV licence bodies; no fallback');parser.add_argument('--reuse-navigation-notices',action='store_true',help='Explicitly reuse only two pinned prior Navigation notices; old timing unmeasured, no fallback');parser.add_argument('--reuse-audio-notices',action='store_true',help='Explicit fixed Audio root notices and stale Hardware README reuse; no fallback, prior untimed cost retained');parser.add_argument('--reuse-flipper-notices',action='store_true',help='Explicitly reuse two pinned prior Flipper notices; prior metadata cost unmeasured, no fallback');args=parser.parse_args();args.output=args.output or fixed_profile(args.project)['default_output']
     try:
         with shared.cancellation(),shared.alarm(SECONDS):record=fetch_demo(args.output,profile_id=args.project,fetch=args.fetch,started=START,cpu_started=CPU_START,reuse_uv_licenses=args.reuse_uv_licenses,reuse_navigation_notices=args.reuse_navigation_notices,reuse_audio_notices=args.reuse_audio_notices,reuse_flipper_notices=args.reuse_flipper_notices)
     except (Exception,KeyboardInterrupt) as exc:
