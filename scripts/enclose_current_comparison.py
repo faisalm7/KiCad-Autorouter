@@ -66,8 +66,15 @@ def choice60_contract(plan, child, external):
           or (portfolio and external and child.name=='qualify_comparison_portfolio.py')))
 
 
+def protocol_input(path, expected_pin):
+ """Freeze the caller's real input path before the child changes directory."""
+ protocol=h.real_path(path)
+ plan=f.read_json(protocol);pin=p.sha(protocol);assert pin==expected_pin
+ return protocol,plan,pin
+
+
 ap=argparse.ArgumentParser();ap.add_argument('--protocol',type=Path,required=True);ap.add_argument('--protocol-sha256',required=True);a=ap.parse_args()
-plan=f.read_json(a.protocol);pin=p.sha(a.protocol);assert pin==a.protocol_sha256
+a.protocol,plan,pin=protocol_input(a.protocol,a.protocol_sha256)
 runtime=Path(plan['runtime']);child=Path(plan['controller']);manifest=runtime/'runtime-distribution.json'
 external = child == Path(plan.get('administration_root', '/unassigned'))/'scripts/qualify_comparison_portfolio.py'
 assert (child.parent==runtime/'.runs' or external) and not child.is_symlink() and p.sha(child)==plan['controller_sha256'] and p.sha(manifest)==plan['runtime_manifest_sha256']

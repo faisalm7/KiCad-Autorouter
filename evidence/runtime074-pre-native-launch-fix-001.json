@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "kind": "runtime074-pre-Native-launch-failure-and-relative-path-fix-v1",
+  "utc": "2026-11-04T23:06:16.993125+00:00",
+  "source_build": "6fbbbf22dfb8250f1578fb4d7a45ff0e161b3194",
+  "runtime_manifest_sha256": "584ee929eaf3d277dc535556e42c71ac5196a74f1c5e3fd53a2cce5a67853d61",
+  "source_sha256": {
+    "scripts/enclose_current_comparison.py": "4a36765c7936acf2e1d354599147c4289559ee787e66a054d7bb89c0ce9471f7",
+    "tests/test_choice60_policy.py": "369fecc228fe964ee170b44cf5934b0f06ea67fca6cc52a70c05da5ca60ee1a7"
+  },
+  "runtime_product_changed": false,
+  "original_launch": {
+    "status": "failed",
+    "Native_or_engine_started": false,
+    "child_receipt_absent": true,
+    "all_six_reserved_outputs_absent": true,
+    "enclosure_result_sha256": "16de2a4f1182db6d6a067b8f9314bc866e5817ee91435610d86debd0b8dec720",
+    "protocol_sha256": "adbe9a5579ef51ac9b9b053925266417cf57e3d2ab6aa9811bd0ffb080d5ee4f",
+    "complete_enclosure_wall_CPU": [
+      0.34645875002024695,
+      0.294831
+    ],
+    "complete_external_wall_CPU": [
+      0.39,
+      0.32
+    ],
+    "failure": "Relative protocol forwarded after changing child cwd; child refused missing enclosure/.runs path before board execution.",
+    "preserved": true
+  },
+  "fix": "protocol_input first uses existing h.real_path, then unchanged bounded f.read_json/p.sha/exact expected hash check; assigns canonical absolute path back to a.protocol, used unchanged for child argv, output location and final freshness checks.",
+  "targeted": {
+    "passed": true,
+    "tests": 9,
+    "complete_wall_CPU": [
+      0.26,
+      0.21
+    ],
+    "log_sha256": "53470c38254e89507674f2dff74f0c5eec1b5342edf9215aad241b5adcca1862",
+    "Native_run": false
+  },
+  "skeptical_review_sha256": "d35ad4d9cfd5842f8f61bbc8c5850451a8772fd8c97bbf0ceb0b2a342d2abb74",
+  "prospective_continuation": {
+    "Native_not_started": true,
+    "new_protocol_and_output_namespace_required": true,
+    "same_inputs_settings_constraints_and_420_450_600_export120_review60_choice60_reserve40": true,
+    "required_completed_review_and_choice_wall_full_CPU_each": 45,
+    "additional_outer_wall_watchdog_seconds": 599,
+    "conservative_prior_wall_full_CPU_debit": [
+      0.4,
+      0.33
+    ],
+    "aggregate_post_exit_wall_full_CPU_cap": 600,
+    "old_failure_never_promoted": true
+  },
+  "research_authoring_review_cost_additional_partly_unmeasured": true,
+  "formal_release": false
+}

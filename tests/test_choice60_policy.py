@@ -1,9 +1,9 @@
 """Prospective generic60/60 contracts and whole-CLI headroom; no Native."""
-import ast,copy
+import ast,copy,hashlib,json,os,tempfile
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
-from autorouter import handoff as h,preferences,strategy
+from autorouter import handoff as h,preferences,strategy,floor_route as f,pipeline as p
 from scripts import qualify_current_method as method,qualify_comparison_portfolio as portfolio
 from scripts import freeze_current_comparison as frozen,report_current_comparison as report
 from tests import test_completed_cli_cost as fixture
@@ -47,6 +47,55 @@ class Choice60Contracts(unittest.TestCase):
         with self.assertRaisesRegex(h.Rejected,'Improve requires whole-board.*Use Route'):
             strategy.pruning_scope(settings)
         self.assertEqual(settings,before)
+
+
+class EnclosureProtocolInput(unittest.TestCase):
+    def setUp(self):
+        # Importing the enclosure would run its CLI. Reuse the existing AST-only
+        # contract pattern, with the real path/JSON/hash helpers underneath.
+        tree=ast.parse((frozen.ROOT/'scripts/enclose_current_comparison.py').read_text())
+        nodes=[node for node in tree.body if isinstance(node,ast.FunctionDef) and node.name=='protocol_input']
+        self.assertEqual(len(nodes),1)
+        calls=[node for node in tree.body if isinstance(node,ast.Assign)
+            and isinstance(node.value,ast.Call) and isinstance(node.value.func,ast.Name)
+            and node.value.func.id=='protocol_input']
+        self.assertEqual(len(calls),1)
+        self.assertEqual(ast.unparse(calls[0].targets[0]),'(a.protocol, plan, pin)')
+        scope=dict(h=h,f=f,p=p)
+        exec(compile(ast.Module(body=nodes,type_ignores=[]),'enclosure-input-only','exec'),scope)
+        self.input=scope['protocol_input']
+        temporary=tempfile.TemporaryDirectory();self.addCleanup(temporary.cleanup)
+        self.root=Path(temporary.name).resolve()
+        self.source=self.root/'protocol.json'
+        self.original=dict(scope='inert path forwarding control',runtime='/owned/runtime')
+        self.source.write_text(json.dumps(self.original)+'\n')
+        self.pin=hashlib.sha256(self.source.read_bytes()).hexdigest()
+
+    def test_relative_protocol_remains_bound_after_child_cwd_changes(self):
+        enclosure=self.root/'enclosure';enclosure.mkdir()
+        previous=Path.cwd()
+        try:
+            os.chdir(self.root)
+            protocol,plan,pin=self.input(Path('protocol.json'),self.pin)
+            self.assertEqual(protocol,self.source)
+            self.assertTrue(protocol.is_absolute())
+            os.chdir(enclosure)
+            self.assertEqual(h.real_path(protocol),self.source)
+            self.assertEqual(f.read_json(protocol),plan)
+            self.assertEqual(plan,self.original)
+            self.assertEqual(p.sha(protocol),pin)
+        finally:os.chdir(previous)
+
+    def test_wrong_pin_or_missing_protocol_refuses(self):
+        with self.assertRaises(AssertionError):self.input(self.source,'0'*64)
+        with self.assertRaises(FileNotFoundError):self.input(self.root/'missing.json',self.pin)
+
+    def test_protocol_file_and_parent_symlinks_refuse(self):
+        link=self.root/'linked.json';link.symlink_to(self.source)
+        directory=self.root/'linked-parent';directory.symlink_to(self.root,target_is_directory=True)
+        for path in (link,directory/'protocol.json'):
+            with self.subTest(path=path),self.assertRaises(h.Rejected):self.input(path,self.pin)
+
 
 class BothCompletedCliHeadroom(unittest.TestCase):
     refresh_bound_records=fixture.CompletedCliReportingControls.refresh_bound_records
