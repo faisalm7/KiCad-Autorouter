@@ -138,7 +138,14 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     if record.get('invariants_unchanged') is True:
         lines += ['Original-design checks passed; source geometry and protected routing retained.']
     matches = record.get('protected_route_import', {}).get('matches')
-    if isinstance(matches, list): lines += ['Protected route items retained: ' + str(len(matches))]
+    audit = record.get('selected_net_audit')
+    if record.get('scope') == 'selected_nets':
+        if (record.get('invariants_unchanged') is True and type(audit) is dict
+                and type(audit.get('schema')) is int and audit['schema'] == 1
+                and audit.get('policy') == 'selected-nets-v1' and audit.get('scope_passed') is True
+                and type(audit.get('protected_count')) is int and audit['protected_count'] >= 0):
+            lines += ['Protected route items retained: ' + str(audit['protected_count'])]
+    elif isinstance(matches, list): lines += ['Protected route items retained: ' + str(len(matches))]
     elif (improve and record.get('invariants_unchanged') is True
             and type(record.get('protected_routes')) is int and record['protected_routes'] >= 0):
         lines += ['Protected route items retained: ' + str(record['protected_routes'])]
@@ -369,7 +376,8 @@ class Workflow:
 
     def adopt(self, stage, process, log_path, *, choice=None):
         self.fresh()
-        if (process['cancel_requested'] or process['log_truncated']
+        if (type(process['exit_code']) is not int
+                or process['cancel_requested'] or process['log_truncated']
                 or process['exit_code'] in (130, 143)
                 or type(process['exit_code']) is int and process['exit_code'] < 0):
             raise ValueError('Action failed or was cancelled. Evidence was retained; no positive state adopted.')
@@ -377,6 +385,8 @@ class Workflow:
             detail = failed_route_detail(self.workspace / 'route/result.json') if stage == 'route' else None
             if stage == 'preview' and type(process['exit_code']) is int and process['exit_code'] == 2:
                 detail = failed_preview_detail(log_path)
+            if stage == 'export' and type(process['exit_code']) is int and process['exit_code'] == 2:
+                detail = failed_export_detail(log_path)
             if stage == 'verify_export' and process['exit_code'] == 2:
                 detail = failed_export_check_detail(log_path)
             raise ValueError(detail or 'Action failed or was cancelled. Evidence was retained; no positive state adopted.')
@@ -506,8 +516,8 @@ def short_failure_reason(reason):
     return text
 
 
-def failed_preview_detail(path):
-    """Explain the CLI's rejected preview shape without adopting any state."""
+def failed_command_detail(path, label, next_action):
+    """Read the bounded rejected-command shape as diagnostic text only."""
     try:
         record = read_record(path)
         if (type(record) is not dict or set(record) != {'status', 'reason'}
@@ -515,11 +525,20 @@ def failed_preview_detail(path):
             return None
         text = short_failure_reason(record.get('reason'))
         if text is None: return None
-        return ('Saved-project preview refused: ' + text +
-                '\nStart a fresh preview using the intended saved project and settings. No preview or candidate was accepted.' +
+        return (label + ' refused: ' + text + '\n' + next_action +
                 '\nFull failure log: ' + str(path))
     except Exception:
         return None
+
+
+def failed_preview_detail(path):
+    return failed_command_detail(path, 'Saved-project preview',
+        'Start a fresh preview using the intended saved project and settings. No preview or candidate was accepted.')
+
+
+def failed_export_detail(path):
+    return failed_command_detail(path, 'Fresh export',
+        'No exported project was accepted. Inspect the retained findings and failure log.')
 
 
 def failed_export_check_detail(path):

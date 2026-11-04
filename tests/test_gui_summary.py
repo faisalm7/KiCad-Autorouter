@@ -52,6 +52,36 @@ class GuiSummaryTests(unittest.TestCase):
         self.assertNotIn('Protected route items retained:',
                          gui.human_summary('route', record, method='improve'))
 
+    def test_selected_proposal_shape_displays_checked_audit_count_without_matches(self):
+        record=self.record();record.update(scope='selected_nets',
+            protected_route_import=dict(policy='selected-proposals-exact-source-v1',
+                protected_source_records=[{}]*274,selected_proposals=[{}]*13),
+            selected_net_audit=dict(schema=1,policy='selected-nets-v1',scope_passed=True,
+                native_validation_performed=False,routing_accepted=False,
+                requested_names=['SCL','SDA'],protected_count=274,protected_routes=[{}]*274,
+                selected_route_count=13,selected_routes=[{}]*13))
+        text=gui.human_summary('route',record)
+        self.assertIn('Protected route items retained: 274',text)
+        record['protected_route_import']['matches']=[{}]
+        text=gui.human_summary('route',record)
+        self.assertIn('Protected route items retained: 274',text)
+        self.assertNotIn('Protected route items retained: 1\n',text)
+
+    def test_selected_protection_requires_valid_audit_and_never_falls_back_to_matches(self):
+        record=self.record();record.update(scope='selected_nets')
+        valid=dict(schema=1,policy='selected-nets-v1',scope_passed=True,protected_count=274)
+        for change in ({'schema':True},{'policy':'other'},{'scope_passed':1},
+                       {'protected_count':True},{'protected_count':-1},{'protected_count':1.0}):
+            record['selected_net_audit']={**valid,**change}
+            with self.subTest(change=change):
+                self.assertNotIn('Protected route items retained:',gui.human_summary('route',record))
+        for audit in (None,[],valid):
+            record['selected_net_audit']=audit;record['invariants_unchanged']=False
+            self.assertNotIn('Protected route items retained:',gui.human_summary('route',record))
+        record.update(scope='whole_board_unlocked_routing',invariants_unchanged=True,selected_net_audit=valid)
+        self.assertIn('Protected route items retained: 1',gui.human_summary('route',record))
+        self.assertNotIn('Protected route items retained: 274',gui.human_summary('route',record))
+
     def test_large_findings_explicitly_report_omissions_and_full_path(self):
         record = self.record(); record['native']['findings'] *= 100
         with patch.object(gui, 'SUMMARY_LIMIT', 1000):

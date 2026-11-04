@@ -57,11 +57,18 @@ class PreviewRefusalTests(unittest.TestCase):
                     self.assertRaisesRegex(ValueError, 'failed or was cancelled'):
                 flow.adopt('preview', dict(cancel_requested=False, log_truncated=False, exit_code=code), log)
             detail.assert_not_called()
-        for stage in ('route', 'review', 'choice', 'export', 'verify_export', 'unknown'):
+        for stage in ('route', 'review', 'choice', 'verify_export', 'unknown'):
             with self.subTest(stage=stage), patch.object(gui, 'failed_preview_detail') as detail, \
                     self.assertRaisesRegex(ValueError, 'failed or was cancelled'):
                 flow.adopt(stage, dict(cancel_requested=False, log_truncated=False, exit_code=2), log)
             detail.assert_not_called()
+        with patch.object(gui, 'failed_preview_detail') as preview_detail, \
+                patch.object(gui, 'failed_export_detail', return_value='Fresh export refused') as export_detail, \
+                self.assertRaisesRegex(ValueError, 'Fresh export refused'):
+            flow.adopt('export', dict(cancel_requested=False, log_truncated=False, exit_code=2), log)
+        preview_detail.assert_not_called()
+        export_detail.assert_called_once_with(log)
+        self.assertFalse(flow.ready); self.assertFalse(flow.records)
 
     def test_unknown_positive_conflicting_or_malformed_shape_stays_generic(self):
         flow = self.flow(); log = self.rejection_log(flow)

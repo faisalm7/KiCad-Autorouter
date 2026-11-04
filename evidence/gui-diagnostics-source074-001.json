@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "kind": "gui-diagnostics-source-correction-v1",
+  "status": "targeted_source_checks_passed_only",
+  "build_or_runtime074_created": false,
+  "installed_GUI_qualification": false,
+  "native_or_engine_execution_for_this_correction": false,
+  "changes": [
+    "Show bounded Fresh-export refusal reason and retained-log path for an exact integer exit2; diagnostic text never authorizes acceptance.",
+    "Show selected protection count from schema1 selected-nets-v1 passing structural audit plus preserved invariants; no guessed matches fallback.",
+    "Refuse noninteger process exit codes before outcome/diagnostic reads; False cannot alias successful zero."
+  ],
+  "acceptance_warning_policy_changed": false,
+  "current073_export_refusal_repaired": false,
+  "source_sha256": {
+    "autorouter/gui.py": "34e23d7623947312bc29d0f702e3d209f17a987e75fe93aeff60bdaeba11029e",
+    "tests/test_gui_export_refusal.py": "9ca0a2a499efaf0d61207f66c8f7d7d26b88bc71b822730e8a17cf6a446190cf",
+    "tests/test_gui_preview_refusal.py": "6b52e81bd5550ba301cb689c31cdbf2508515281c815a181d60eb53e44d3f756",
+    "tests/test_gui_summary.py": "c12e41b2893e7daf8c4ed3340bd1242e3226e7360f8de33328be5aa2bd21fecc"
+  },
+  "targeted": {
+    "command": ".venv/bin/python -B -m unittest discover -s tests -p 'test_gui*.py'",
+    "modules": 17,
+    "tests": 125,
+    "passed": true,
+    "unittest_wall_seconds": 3.884,
+    "complete_external_wall_seconds": 4.22,
+    "complete_external_CPU_seconds": 3.65,
+    "time_log_sha256": "2a9e44e1fe60266feb5da40c5d147861bed846b926ba2e81ad7e19898c70b6b4"
+  },
+  "retained_failure": {
+    "initial_tests": 53,
+    "passed": false,
+    "complete_external_wall_seconds": 2.73,
+    "complete_external_CPU_seconds": 2.15,
+    "reason": "One old preview-only test expected a generic failure for export. The new presentation-only export handler intentionally explains that refusal. The export subcase now checks preview handler is not used, export handler is used and no state is adopted; it was not dropped.",
+    "time_log_sha256": "b6591c722e2267905d44ba6b447ba2de6c85e66763cda56f5a06a22bb307b0dc"
+  },
+  "skeptical_review": {
+    "original_sha256": "cad56ef0d4685f40e38b65a0827a75faa9ee2633aad8ffe41685c17e8d8c38f8",
+    "followup_sha256": "6024bfa7c23ddf0a13f40b9d8760b4a73eebc337bafd83878c9c6ea268ae9141",
+    "original_counterexample": "False process exit aliased zero and could adopt a retained successful export receipt; real Popen normally returns integer.",
+    "counterexample_closed": true,
+    "human_review": false,
+    "additional_unmetered_review_authoring": true
+  },
+  "installed073_scope": "346b241e38e172d7a1478f7eeb535288e496d999 remains the tested installed build; this source correction requires its own later integration/install/GUI qualification. No073 test or failed Native export is relabelled."
+}

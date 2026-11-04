@@ -1,0 +1,377 @@
+{
+  "schema": 1,
+  "kind": "actual073-GUI104-partial-observations-v1",
+  "utc": "2026-11-04T00:05:10.831142+00:00",
+  "closed": false,
+  "qualified": false,
+  "source_build": "346b241e38e172d7a1478f7eeb535288e496d999",
+  "runtime_manifest_sha256": "d12be29349b01dcd9693f4fbb8e6f00faaa285e15bb5a8f0bed84857350aa6b5",
+  "actual_toolbar": true,
+  "actual_Edge_only": true,
+  "preset_load_and_save_observed": true,
+  "missing_source_ack_and_invalid_budget_refused": true,
+  "ordinary_explicit_reject_disables_export": true,
+  "four_review_open_accept_refusal_preserves_work": true,
+  "four_accept_fresh_export_checked_PCB_open_observed": true,
+  "four_post_editor_stale_export_refused": true,
+  "active_engine_GUI_Cancel": {
+    "observed": true,
+    "engine_exit": -9,
+    "engine_status": "cancelled",
+    "cleanup_complete": true,
+    "no_downstream": true,
+    "observation_sha256": "c3ccfab763b812d7943196ee824436fae360d870444641ad366b1c6a2a4171e3",
+    "closure_sha256": "f268555041da7ae8b27bb754dd705bc7b26f4f21eb417b3b995483dfe4bbd32b"
+  },
+  "selected_outcome": "FAILED_FRESH_EXPORT_WARNING_IDENTITY",
+  "selected_disposition_sha256": "d1e45def3f19a19e547b59a9504ba34b2d26b3be67ea22f45233988b6bc5903c",
+  "selected_pristine_Route_and_failed_export_audits": {
+    "scope_passed": true,
+    "protected_count": 274,
+    "selected_route_count": 13,
+    "shared_readback_sha256": "689eef89465bdd49c0bf3738b5b792606f501fe97dedc72f7104641b5f09eccb"
+  },
+  "cases": {
+    "ordinary": {
+      "workspace": ".runs/runtime073 fresh install 001/.runs/gui-session104/jobs/autorouter-gui-4f3cf37ef426498ca5b1d4707ad01718",
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "f10ca9b2f460471d0c331c16d4bc0c525500987ee04130ebdd04a77f91627591",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 3.568631625000023
+        },
+        "preview.command.process.json": {
+          "sha256": "b0bd2266d334172c1e6699572fc0baa2a13e77f45ec7e73da53ccd964bcc364b",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 0.3512375840000175
+        },
+        "review.command.process.json": {
+          "sha256": "708632866de7d0390311582471b06f4f45ee00c861c33e1298f9711755cb77c7",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 4.824540917000007
+        },
+        "route.command.process.json": {
+          "sha256": "68e1f5abe2cd778e62f84966099fe788d0f10fea17926637b3e50c74dfdf62f6",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 10.718757457999999
+        }
+      },
+      "route/result.json": {
+        "sha256": "34cd7539f1fe4426f07dbd379c4b18a21cbf435caa40e58dffc94469fec80ec9",
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "2c3b70c1aeda2c5c487b85e0ee066645f43e54bf79da34170659c1133f4b6b4b",
+        "wall_seconds": 9.07878879198688,
+        "total_cpu_seconds": 6.484033,
+        "Native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0
+        },
+        "ignored_checks": 2
+      },
+      "review/review.json": {
+        "sha256": "760916f21776d2f781bd5ff85175da869ccf37c56b70e3558145dabbcd9c922a",
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "2c3b70c1aeda2c5c487b85e0ee066645f43e54bf79da34170659c1133f4b6b4b",
+        "wall_seconds": 4.148365125001874,
+        "total_cpu_seconds": 3.7676480000000003
+      },
+      "choice/choice.json": {
+        "sha256": "53e7751b96204cb68e63fda31b13d7496052dfa88c7deb1bc0260b5bd3b829fd",
+        "status": "disposition_recorded",
+        "choice": "reject",
+        "wall_seconds": 2.6664004159974866,
+        "total_cpu_seconds": 2.0446039999999996
+      }
+    },
+    "four-copper": {
+      "workspace": ".runs/runtime073 fresh install 001/.runs/gui-session104/jobs/autorouter-gui-bb8cde37f1ca437d822049ecbbd10b3d",
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "6ac2f2b8b20fc4efd376e37c19df2e72a4f81f49d6887eaa4be86c6880d2b6d8",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 2.378158166999924
+        },
+        "export.command.process.json": {
+          "sha256": "58ffa2970dc74814a3c6c80c36252c754e2c1680ae8e665ff64daa2ccf4d4b01",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 9.24111162500003
+        },
+        "inspect-export-94e2005bcd81446ca7b2be0f710d0ade.command.process.json": {
+          "sha256": "382f88c461c80b0652c59d3b5d65eb52398714a2eaae9f13a56e7ef2c2167903",
+          "exit_code": 2,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 1.6913758340000413
+        },
+        "inspect-export-c162cbff4bf4435089652c48992b3dd6.command.process.json": {
+          "sha256": "a3ecb4403e4d6a00c2fbea1aa1c6d78c08a0f555ee769a30cf7757bbc5a0f424",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 2.2915308329999107
+        },
+        "preview.command.process.json": {
+          "sha256": "bc5d83dab1f0a65d42a1cf0136ee0298771f3e9bcde892db06ccbe701c9082ba",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 0.49447879199999534
+        },
+        "review.command.process.json": {
+          "sha256": "06f894f59eae056bdd1c5a9e3b0cdcc17900fd5786ef69ef18b2cfd39470b13c",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 6.657495999999924
+        },
+        "route.command.process.json": {
+          "sha256": "895315743c71003466c6ded630629dfa89ca0456255e418df1495b2ed5d3714c",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 13.749764042000038
+        },
+        "verify_export.command.process.json": {
+          "sha256": "1662e3ab6ca968fe25096eab39fab983be70740f7265baa7415b1c27df5c6a8c",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 2.494332833000044
+        }
+      },
+      "route/result.json": {
+        "sha256": "b89dda5b3fd12bb6cf47438ab2f8d7735a776930bdd7a30ede303239e71b8c73",
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "d7c609b8eb11dbb3205f0d59f776ab079b325a0248591b234f3d3e9333aebe67",
+        "wall_seconds": 12.345656249992317,
+        "total_cpu_seconds": 8.817174999999999,
+        "Native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0
+        },
+        "ignored_checks": 2
+      },
+      "review/review.json": {
+        "sha256": "000559aa9290c1212039a4dda9b4b4bb778cd93f0a061f90a34bb187e55e5164",
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "d7c609b8eb11dbb3205f0d59f776ab079b325a0248591b234f3d3e9333aebe67",
+        "wall_seconds": 6.030698041984579,
+        "total_cpu_seconds": 5.1254170000000006
+      },
+      "choice/choice.json": {
+        "sha256": "3668855fc6f0460471f17dad914c2b433bd3ef9bcc76d0b1e96ec8b14c473b37",
+        "status": "disposition_recorded",
+        "choice": "accept",
+        "wall_seconds": 1.7642245000170078,
+        "total_cpu_seconds": 1.571224
+      },
+      "export/export.json": {
+        "sha256": "63afca48a5adcf023994797ebb26c942bf2e1578aacc32812c61b1a15c5995c4",
+        "status": "export_validated",
+        "export_accepted": true,
+        "candidate_sha256": "d7c609b8eb11dbb3205f0d59f776ab079b325a0248591b234f3d3e9333aebe67",
+        "wall_seconds": 7.392523457994685,
+        "total_cpu_seconds": 6.098125,
+        "Native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0
+        },
+        "ignored_checks": 2
+      }
+    },
+    "parent-class": {
+      "workspace": ".runs/runtime073 fresh install 001/.runs/gui-session104/jobs/autorouter-gui-9d1e85c193ea46b881b0efb2f610c1ac",
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "05eab52a213b16d9a97f37e86466d11209506aa28a38acf0186d6bcd220b1cff",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 9.634747625000045
+        },
+        "preview.command.process.json": {
+          "sha256": "9e4e312de3cee9362a8c04cb0e54643407ead40246c446e613be253209dd7c90",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 0.2943034580000585
+        },
+        "review.command.process.json": {
+          "sha256": "df7c94fa0e13bda549ea78b879532af24a10bca11622b76395db2989e466c819",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 12.193336999999929
+        },
+        "route.command.process.json": {
+          "sha256": "3b4df3702e004e9909bd0a0b995a5e13025743d7461a323e7517eb5ca8bd2218",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 37.703060625000035
+        }
+      },
+      "route/result.json": {
+        "sha256": "fac4726cf2afa48d753610c84584be712ad805b19e6be0aabb3a2e38986b16e6",
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "20f24817dbdec01abca87f171e790d6dc327c34851e784cb8745ccc0be5004e2",
+        "wall_seconds": 23.017296708974754,
+        "total_cpu_seconds": 18.939636999999998,
+        "Native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0
+        },
+        "ignored_checks": 2
+      },
+      "review/review.json": {
+        "sha256": "34caca3cbcc57dacc4693819194172ff95ce360c7588c0004596ac4b2491d717",
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "20f24817dbdec01abca87f171e790d6dc327c34851e784cb8745ccc0be5004e2",
+        "wall_seconds": 10.91015441698255,
+        "total_cpu_seconds": 10.129970000000002
+      },
+      "choice/choice.json": {
+        "sha256": "ab8410fc02af16dd4882996036e4a8f3d90fe5767f68f3f137b52f4ad24065a4",
+        "status": "disposition_recorded",
+        "choice": "accept",
+        "wall_seconds": 8.463366790994769,
+        "total_cpu_seconds": 8.143555
+      }
+    },
+    "selected": {
+      "workspace": ".runs/runtime073 fresh install 001/.runs/gui-session104-selected-addendum-001/jobs/autorouter-gui-6d83fe80bc3944f88a441e46942f61a9",
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "bcce51a6742dd21b91458c1aa493ec7704537cb0eafcdad9a9c952581ebcdf30",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 3.970197042000109
+        },
+        "export.command.process.json": {
+          "sha256": "c2a9067bf162e62814e56398013a957301b4db82619b39d1b1bb9356c215bbc4",
+          "exit_code": 2,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 10.746020916000134
+        },
+        "preview.command.process.json": {
+          "sha256": "baef8a5e3869eba2a02367a848a689b80f53be9a032a7981747eaa0317e4bca8",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 0.3793202909998854
+        },
+        "review.command.process.json": {
+          "sha256": "a714d6024d297d6143fb371e579b5dba8f7d42939ba399f5403551e64b068cb1",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 6.50641004199997
+        },
+        "route.command.process.json": {
+          "sha256": "3313045c3e0818181e4dc136d0b8b54c5e39ea6c35a6652b132b48713cdc6f74",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 17.77208487500002
+        }
+      },
+      "route/result.json": {
+        "sha256": "3218d4843cc2a270321cb216c85e01e604556044eaf53c748bf9804978f6ac66",
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "3915a9c56e7ad50557fbaf1a0373b2d9d639f99b51c2da3d4b50df7e9ee640d5",
+        "wall_seconds": 14.765800833003595,
+        "total_cpu_seconds": 12.976773999999999,
+        "Native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 72,
+          "exclusions": 0
+        },
+        "ignored_checks": 5
+      },
+      "review/review.json": {
+        "sha256": "ad1d1fb16a481ff9ab72a8fa1501b3762e119b941064705fb069ee45f97ea3ef",
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "3915a9c56e7ad50557fbaf1a0373b2d9d639f99b51c2da3d4b50df7e9ee640d5",
+        "wall_seconds": 5.834939000022132,
+        "total_cpu_seconds": 4.9099509999999995
+      },
+      "choice/choice.json": {
+        "sha256": "1bde4082a7d278d9129b6385e3f9b8d7fe298af52d725938f11df9aa8526672e",
+        "status": "disposition_recorded",
+        "choice": "accept",
+        "wall_seconds": 3.377252917009173,
+        "total_cpu_seconds": 2.896388
+      },
+      "export/export.json": {
+        "sha256": "422b0c99abc19335c9cd5fcf5d3590eb7d79cecd8714d055a361e1c1b90f2032",
+        "status": "rejected",
+        "export_accepted": false,
+        "candidate_sha256": "3915a9c56e7ad50557fbaf1a0373b2d9d639f99b51c2da3d4b50df7e9ee640d5",
+        "wall_seconds": 10.457282916991971,
+        "total_cpu_seconds": 8.657199,
+        "error": "Rejected: fresh export native acceptance/metrics/warnings/original ignore settings differ",
+        "Native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 72,
+          "exclusions": 0
+        },
+        "ignored_checks": 5
+      }
+    },
+    "cancel-unsupported-preset": {
+      "workspace": ".runs/runtime073 fresh install 001/.runs/gui-session104/jobs/autorouter-gui-641c30b771f24fa58ca55318c3482a05",
+      "closed_CLI_processes": {
+        "preview.command.process.json": {
+          "sha256": "c3b618e6cd6850453bacd82d6fd04d99047aca033b99e0236b37d71632045364",
+          "exit_code": 2,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 0.27412216699997316
+        }
+      }
+    },
+    "cancel-active-engine": {
+      "workspace": ".runs/runtime073 fresh install 001/.runs/gui-session104/jobs/autorouter-gui-5eea4ae91c63431c8b470a773219737b",
+      "closed_CLI_processes": {
+        "preview.command.process.json": {
+          "sha256": "2d4a6920669b7cc2df2b6f2ab78ab8651769361dfef823373c392e22b0dbe9a7",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "complete_CLI_wall_seconds": 0.25221125000007305
+        },
+        "route.command.process.json": {
+          "sha256": "85c624a5af92f2719e2ffb710c2192e18986e0cd4f14d671618c7f8236c8f8e9",
+          "exit_code": 2,
+          "cancel_requested": true,
+          "complete_CLI_wall_seconds": 13.25658554100005
+        }
+      },
+      "route/result.json": {
+        "sha256": "e05c3317abc5358fd51951133955ebffb8f2e371045b802a786338f4e6654cac",
+        "status": "cancelled",
+        "accepted": false,
+        "wall_seconds": 13.023032666998915,
+        "total_cpu_seconds": 17.390161
+      }
+    }
+  },
+  "pending": [
+    "class-aware Fresh export has NOT started after observed Mac lock; preserve Route/review/choice",
+    "source and captured-settings GUI freshness controls",
+    "exact after-worker/queued-open interval",
+    "final completeGUI review/checkpoint/current-artifact capture"
+  ],
+  "limits": [
+    "No completeGUI073 qualification or every-phase/undo/Windows/electrical/human claim.",
+    "Selected Route passes; GUI delivery does not. Same PCB/metrics/counts do not establish warning equivalence. No retry or acceptance waiver.",
+    "Complete user-visibleGUI/Cua/Edge/authoring/review CPU and wall cost is unavailable, not zero. Stored per-CLI walls and inner receipt CPU clocks do not form a complete fair benchmark.",
+    "Source-only074 diagnostics/protection-count/typed-exit corrections are not installed in073 and do not repair this export failure.",
+    "Private CAD/images/AX/logs remain local; this packet records sanitized facts/hashes only."
+  ]
+}
