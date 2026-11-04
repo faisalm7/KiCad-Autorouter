@@ -120,6 +120,81 @@ def process_metadata(*, parent_pid=None, pgid=None):
     return rows
 
 
+def _canonical_executable_path(value):
+    """Lexical canonical path only; caller separately pins executable bytes."""
+    return (type(value) is str and value != '/' and value.startswith('/')
+            and '\0' not in value and len(value.encode('utf-8')) < 4095
+            and str(Path(value)) == value and '..' not in Path(value).parts)
+
+
+def pinned_owned_executable(record, *, pid, parent_pid, pgid, expected_path):
+    """Pure gate: a live owned image observation must match the pinned path.
+
+    expected_path must already be filesystem-canonical and tool-hash pinned by
+    the caller. This does not read binary contents or establish Native work.
+    """
+    if (not _canonical_executable_path(expected_path)
+            or any(type(x) is not int or not 0 < x < 2**31
+                   for x in (pid, parent_pid, pgid))):
+        raise ValueError('canonical pinned executable and exact positive pid_t identities required')
+    return (type(record) is dict
+            and set(record) == {'pid', 'ppid', 'pgid', 'executable'}
+            and all(type(record.get(k)) is int for k in ('pid', 'ppid', 'pgid'))
+            and (record['pid'], record['ppid'], record['pgid']) == (pid, parent_pid, pgid)
+            and _canonical_executable_path(record.get('executable'))
+            and record['executable'] != '/usr/bin/sandbox-exec'
+            and record['executable'] == expected_path)
+
+
+def owned_executable_metadata(pid, *, parent_pid, pgid):
+    """Darwin executable PATH metadata for one exact caller-owned child only.
+
+    The caller must retain its unreaped Popen child. Existing lineage snapshots
+    bracket proc_pidpath; exit races return None, while permission, malformed
+    paths, changed lineage and incomplete API results refuse. No commands,
+    environments, global process census, signals or security settings are read.
+    This is an immediate observation, not an exec/PID-reuse-proof lease.
+    Apple xnu libproc.c:proc_pidpath returns strlen (excluding NUL), zero on
+    error; proc_info.h permits 4*MAXPATHLEN (4096 here). Fail closed at the bound.
+    """
+    if (any(type(x) is not int or not 0 < x < 2**31
+            for x in (pid, parent_pid, pgid)) or parent_pid != os.getpid()):
+        raise ValueError('exact caller-owned child PID/parent/PGID required')
+    if sys.platform != 'darwin':
+        raise RuntimeError('owned executable metadata requires Darwin libproc')
+
+    def selected():
+        rows = [r for r in owned_process_metadata(parent_pid=parent_pid) if r['pid'] == pid]
+        if not rows: return None
+        if len(rows) != 1 or rows[0] != {'pid': pid, 'ppid': parent_pid, 'pgid': pgid}:
+            raise RuntimeError('owned executable lineage changed')
+        return rows[0]
+
+    before = selected()
+    if before is None: return None
+    library = ctypes.CDLL('/usr/lib/libproc.dylib', use_errno=True)
+    library.proc_pidpath.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32]
+    library.proc_pidpath.restype = ctypes.c_int
+    buffer = ctypes.create_string_buffer(4096)
+    ctypes.set_errno(0)
+    length = library.proc_pidpath(pid, buffer, ctypes.sizeof(buffer))
+    error = ctypes.get_errno()
+    if length == 0 and error == errno.ESRCH: return None
+    if length <= 0 or error:
+        raise OSError(error or errno.EIO, 'libproc could not read owned executable path')
+    if length >= len(buffer) - 1 or buffer.raw.find(b'\0') != length:
+        raise RuntimeError('incomplete or truncated owned executable path')
+    try: executable = buffer.raw[:length].decode('utf-8')
+    except UnicodeDecodeError as exc:
+        raise RuntimeError('unreadable owned executable path') from exc
+    if not _canonical_executable_path(executable):
+        raise RuntimeError('noncanonical owned executable path')
+    after = selected()
+    if after is None: return None
+    if after != before: raise RuntimeError('owned executable lineage changed')
+    return {**before, 'executable': executable}
+
+
 def output_bytes(root):
     total = 0
     for parent, directories, files in os.walk(root, followlinks=False):
