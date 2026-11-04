@@ -6,6 +6,7 @@ CLI in a separate project interpreter/process. UI outcomes are not PCB approval.
 from __future__ import annotations
 
 import argparse
+import copy
 from dataclasses import dataclass
 import json
 import math
@@ -519,7 +520,15 @@ def short_failure_reason(reason):
 def failed_command_detail(path, label, next_action):
     """Read the bounded rejected-command shape as diagnostic text only."""
     try:
-        record = read_record(path)
+        try: record = read_record(path)
+        except ValueError:
+            # A live review emits one bounded event before its final result.
+            # This is diagnostic parsing only, never acceptance authority.
+            raw = Path(path).read_bytes()
+            if len(raw) > SUMMARY_LIMIT: return None
+            first, separator, rest = raw.partition(b'\n')
+            if not separator or json.loads(first).get('kind') != 'autorouter.warning-review-required.v1': return None
+            record = json.loads(rest)
         if (type(record) is not dict or set(record) != {'status', 'reason'}
                 or record.get('status') != 'rejected'):
             return None
@@ -534,6 +543,40 @@ def failed_command_detail(path, label, next_action):
 def failed_preview_detail(path):
     return failed_command_detail(path, 'Saved-project preview',
         'Start a fresh preview using the intended saved project and settings. No preview or candidate was accepted.')
+
+
+def warning_review_text(event, expected_path):
+    """Bound displayed findings to this challenge; the CLI still owns acceptance."""
+    from . import pipeline as p, review_export as ex
+    path = Path(event['pending'])
+    if path != expected_path or path.is_symlink() or path.stat().st_size > 2*1024*1024:
+        raise ValueError('Updated-warning review path or size is unsupported.')
+    if p.sha(path) != event['pending_sha256']: raise ValueError('Updated-warning review changed before display.')
+    pending = read_record(path); review = pending.get('warning_review')
+    if (pending.get('export_accepted') is not False or pending.get('resumable_after_exit') is not False
+            or pending.get('nonce') != event['nonce'] or type(review) is not dict
+            or ex._warning_digest(review) != event['delta_sha256']
+            or {key: review.get(key) for key in event['warning_review']} != event['warning_review']
+            or p.sha(path) != event['pending_sha256']):
+        raise ValueError('Displayed updated-warning findings do not match the live challenge.')
+    lines = ['Fresh validation reports different warning members on the same PCB.',
+        'Review the changed items below. Both complete finding lists follow.',
+        'This accepts the updated report for export; it is not electrical approval.',
+        'The original export deadline includes this review. Expiry accepts no export.', '', 'Changed finding:']
+    def describe(finding):
+        rows = ['['+str(finding.get('severity', '?'))+'] '+str(finding.get('type', 'Finding'))+': '+str(finding.get('description', ''))]
+        rows += ['  '+str(item.get('description', ''))+'  '+str(item.get('pos', ''))+'  UUID '+str(item.get('uuid', ''))
+                 for item in finding.get('items', [])]
+        return rows
+    for title, key in [('Previously reported', 'previous'), ('Freshly reported', 'fresh')]:
+        lines.append(title+':'); lines.extend(describe(review['delta'][key])); lines.append('')
+    for title, key in [('Complete previous findings', 'previous_findings'), ('Complete fresh findings', 'fresh_findings')]:
+        lines.append(title+':')
+        for finding in review[key]: lines.extend(describe(finding)); lines.append('')
+    value = '\n'.join(lines)
+    if len(value.encode('utf-8')) > SUMMARY_LIMIT:
+        raise ValueError('Updated findings exceed this dialog’s supported display size; no export accepted.')
+    return value
 
 
 def failed_export_detail(path):
@@ -594,6 +637,27 @@ class CliJob:
         self.process = None
         self.cancel_requested = False
         self._lock = threading.Lock()
+        self._warning_pending = None
+        self._warning_decision = None
+
+    def reply_warning_review(self, event, decision):
+        """Reply once to this live child's exact challenge; never adopt a result."""
+        if decision not in ('accept_updated_findings', 'reject'):
+            raise ValueError('Choose an explicit updated-findings decision.')
+        with self._lock:
+            self._check_warning_locked(event)
+            value = dict(kind='autorouter.warning-review-response.v1', decision=decision,
+                nonce=event['nonce'], pending_sha256=event['pending_sha256'], delta_sha256=event['delta_sha256'])
+            self.process.stdin.write((json.dumps(value)+'\n').encode('utf-8'))
+            self.process.stdin.flush(); self._warning_pending = None; self._warning_decision = decision
+
+    def _check_warning_locked(self, event):
+        if (self.cancel_requested or self.process is None or self.process.poll() is not None
+                or self._warning_pending is None or event != self._warning_pending):
+            raise ValueError('Warning review expired, changed or was cancelled; no acknowledgement sent.')
+
+    def check_warning_review(self, event):
+        with self._lock: self._check_warning_locked(event)
 
     def cancel(self):
         with self._lock:
@@ -619,14 +683,20 @@ class CliJob:
             raise
         return record
 
-    def run(self, argv, log_path, *, timeout=165.0):
+    def run(self, argv, log_path, *, timeout=165.0, on_warning_review=None):
         if type(timeout) not in (int, float) or not math.isfinite(timeout) or not 0 < timeout <= 1000:
             raise ValueError('Finite GUI action watchdog required.')
         started = time.monotonic(); size = 0; truncated = False
+        live_review = on_warning_review is not None
+        if live_review and (not callable(on_warning_review) or '--warning-review-stdio' not in argv):
+            raise ValueError('Explicit live warning-review command and handler required.')
+        lines = b''; warning_seen = False
         with log_path.open('xb') as log:
             with self._lock:
                 if self.cancel_requested: raise ValueError('Cancelled before process startup.')
-                self.process = subprocess.Popen(argv, cwd=c.ROOT, stdin=subprocess.DEVNULL,
+                self._warning_pending = None
+                self._warning_decision = None
+                self.process = subprocess.Popen(argv, cwd=c.ROOT, stdin=subprocess.PIPE if live_review else subprocess.DEVNULL,
                     stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=child_environment())
             deadline = threading.Timer(timeout, self.cancel)
             deadline.daemon = True; deadline.start()
@@ -638,7 +708,34 @@ class CliJob:
                     log.write(retained); log.flush(); size += len(retained)
                     if len(retained) != len(chunk):
                         truncated = True; self.cancel()
+                    if live_review and not truncated:
+                        lines += chunk
+                        while b'\n' in lines:
+                            line, _, lines = lines.partition(b'\n')
+                            if len(line) > 64*1024: raise ValueError('Warning-review message exceeds64KiB.')
+                            try: event = json.loads(line)
+                            except ValueError: continue
+                            if type(event) is not dict or event.get('kind') != 'autorouter.warning-review-required.v1': continue
+                            expected = log_path.parent/'export/warning-review.json'
+                            from . import review_export as ex
+                            if (warning_seen or Path(event.get('pending', '')) != expected
+                                    or type(event.get('warning_review')) is not dict
+                                    or type(event.get('nonce')) is not str or len(event['nonce']) != 32
+                                    or any(x not in '0123456789abcdef' for x in event['nonce'])
+                                    or any(type(event.get(k)) is not str or len(event[k]) != 64
+                                           or any(x not in '0123456789abcdef' for x in event[k])
+                                           for k in ('pending_sha256', 'delta_sha256'))
+                                    or not ex.finite(event.get('remaining_seconds'))
+                                    or not 0 < event['remaining_seconds'] <= ex.SECONDS):
+                                raise ValueError('Invalid or repeated live warning-review challenge.')
+                            with self._lock:
+                                if self.cancel_requested: raise ValueError('Warning review was cancelled.')
+                                self._warning_pending = copy.deepcopy(event)
+                            warning_seen = True; on_warning_review(copy.deepcopy(event))
+                        if len(lines) > 64*1024: raise ValueError('Warning-review message exceeds64KiB.')
                 code = self.process.wait()
+                if warning_seen and code == 0 and self._warning_decision != 'accept_updated_findings':
+                    raise ValueError('Live export exited without explicit updated-findings acknowledgement.')
             except BaseException:
                 self.cancel()
                 self.process.stdout.close()
@@ -647,6 +744,8 @@ class CliJob:
             finally:
                 deadline.cancel(); deadline.join()
                 self.process.stdout.close()
+                if live_review: self.process.stdin.close()
+                self._warning_pending = None
         result = dict(argv=argv, exit_code=code, cancel_requested=self.cancel_requested,
                       log_truncated=truncated, log_bytes=size,
                       wall_seconds=time.monotonic()-started,
@@ -692,6 +791,7 @@ def main(argv=None):
         def __init__(self):
             super().__init__(None, title='KiCad Autorouter — separate project', size=(820, 780))
             self.flow = None; self.job = None; self.busy = False; self.closing = False
+            self.warning_dialog = None
             self.chooser = None; self.input_generation = 0
             self.edit_controls = []
             panel = wx.Panel(self); layout = wx.BoxSizer(wx.VERTICAL)
@@ -968,7 +1068,11 @@ def main(argv=None):
                         flow.check_request(request)
                         argv = flow.command(stage, choice=choice)
                         log_path = flow.workspace / (stage + '.command.log')
-                        process = job.run(argv, log_path, timeout=flow.timeout(stage))
+                        options = {}
+                        if stage == 'export':
+                            argv += ['--warning-review-stdio']
+                            options['on_warning_review'] = lambda event: wx.CallAfter(self.review_updated_warnings, job, flow, event)
+                        process = job.run(argv, log_path, timeout=flow.timeout(stage), **options)
                         record = job.adopt(flow, stage, process, log_path, choice=choice)
                         if stage == 'export':
                             stage2 = 'verify_export'; argv = flow.command(stage2)
@@ -981,6 +1085,65 @@ def main(argv=None):
                         wx.CallAfter(self.finished, job, None, stage, None, str(exc) + retained)
                 threading.Thread(target=work, daemon=False).start()
             except Exception as exc: self.refused(str(exc))
+
+        def review_updated_warnings(self, job, flow, event):
+            if self.job is not job or self.closing: return
+            dialog = None
+            try:
+                job.check_warning_review(event); flow.fresh()
+                text = warning_review_text(event, flow.workspace/'export/warning-review.json')
+                dialog = wx.Dialog(self, title='Review updated warnings', size=(740, 540), style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
+                box = wx.BoxSizer(wx.VERTICAL)
+                box.Add(wx.TextCtrl(dialog, value=text, style=wx.TE_MULTILINE|wx.TE_READONLY), 1, wx.EXPAND|wx.ALL, 12)
+                buttons = wx.BoxSizer(wx.HORIZONTAL)
+                reject = wx.Button(dialog, wx.ID_CANCEL, 'Reject export')
+                accept = wx.Button(dialog, wx.ID_OK, 'Accept updated findings')
+                buttons.Add(reject, 0, wx.RIGHT, 8); buttons.Add(accept)
+                box.Add(buttons, 0, wx.ALIGN_RIGHT|wx.LEFT|wx.RIGHT|wx.BOTTOM, 12)
+                dialog.SetSizer(box); reject.SetDefault(); reject.SetFocus(); dialog.CentreOnParent()
+                self.queue_warning_dialog(dialog, job, flow, event); dialog = None
+            except Exception as exc:
+                job.cancel(); self.log.SetValue(str(exc)+'\nNo updated-warning acknowledgement or export was adopted.')
+            finally:
+                if dialog: dialog.Destroy()
+
+        def queue_warning_dialog(self, dialog, job, flow, challenge):
+            """Use the existing deferred Cocoa sheet pattern; no nested modal loop."""
+            if self.warning_dialog is not None:
+                dialog.Destroy(); job.cancel(); return
+            lease = (dialog, job, flow, challenge, self.input_generation)
+            self.warning_dialog = lease
+            self.status.SetLabel('Fresh validation needs an explicit warning review. Original export deadline remains active.')
+
+            def dispose():
+                dialog.Unbind(wx.EVT_WINDOW_MODAL_DIALOG_CLOSED, handler=completed)
+                dialog.Destroy()
+                if self.closing and not self.busy: self.timer.Stop(); self.Destroy()
+
+            def completed(event):
+                if self.warning_dialog is not lease or event.GetDialog() is not dialog: return
+                self.warning_dialog = None
+                try:
+                    if self.job is job and not self.closing:
+                        job.check_warning_review(challenge); flow.fresh()
+                        if self.input_generation != lease[4]: raise ValueError('Inputs changed while reviewing warnings.')
+                        warning_review_text(challenge, flow.workspace/'export/warning-review.json')
+                        job.reply_warning_review(challenge, 'accept_updated_findings' if event.GetReturnCode() == wx.ID_OK else 'reject')
+                except Exception as exc:
+                    job.cancel(); self.log.SetValue(str(exc)+'\nNo updated-warning acknowledgement or export was adopted.')
+                finally: dispose()
+
+            def show():
+                if self.warning_dialog is not lease: return
+                try:
+                    if self.job is not job or self.closing: raise ValueError('Warning review closed before display.')
+                    job.check_warning_review(challenge); dialog.ShowWindowModal()
+                except Exception as exc:
+                    self.warning_dialog = None; job.cancel()
+                    self.log.SetValue(str(exc)+'\nNo updated-warning acknowledgement or export was adopted.'); dispose()
+
+            dialog.Bind(wx.EVT_WINDOW_MODAL_DIALOG_CLOSED, completed)
+            wx.CallAfter(show)
 
         def opened(self, kind, target, error):
             cancelled = self.job.cancel_requested
@@ -1008,6 +1171,8 @@ def main(argv=None):
 
         def finished(self, job, flow, stage, record, error):
             if self.job is not job: return
+            if getattr(self, 'warning_dialog', None) is not None:
+                self.warning_dialog[0].EndModal(wx.ID_CANCEL)
             try: job.check_live()
             except ValueError as exc: error = str(exc)
             self.busy = False; self.job = None
@@ -1020,10 +1185,11 @@ def main(argv=None):
                 self.log.SetValue(_completed_summary(flow, stage, record))
                 self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()
-            if self.closing: self.timer.Stop(); self.Destroy()
+            if self.closing and getattr(self, 'warning_dialog', None) is None: self.timer.Stop(); self.Destroy()
 
         def tick(self, _):
             if not self.busy or not self.flow: return
+            if getattr(self, 'warning_dialog', None) is not None: return
             root = self.flow.workspace / 'route'
             names = ('final-drc', 'refill-drc', 'engine', 'export', 'source-drc', 'thermal-geometry')
             paths = [root / (name + '.log') for name in names]

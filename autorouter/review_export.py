@@ -4,7 +4,8 @@ No live editor, source overwrite, solver, human/electrical approval or GUI actio
 The original route receipt and this export proof remain distinct records.
 """
 from pathlib import Path
-import copy,hashlib,math,signal,time,uuid
+import copy,hashlib,json,math,os,re,select,signal,sys,time,uuid
+from collections import Counter
 from . import config as c,pipeline as p,floor_route as f,placement_clearance as pc
 from . import placement_strategy as ps,sexpr as sx,handoff as h
 from .runner import run
@@ -30,6 +31,239 @@ def validate_seconds(seconds):
     if not finite(seconds) or not MIN_SECONDS<=seconds<=SECONDS:
         raise p.Rejected(f'export budget must be {MIN_SECONDS}–{SECONDS} seconds')
     return seconds
+
+WARNING_REVIEW_POLICY='explicit-live-connection-width-review-v1'
+WARNING_REVIEW_TEXT=('Fresh Native validation reports different connection-width warning items on the same PCB. '
+    'No warning equivalence or electrical suitability is inferred. Inspect both complete finding lists and '
+    'the exact delta before explicitly accepting updated findings. The original export deadline includes '
+    'this review; rejection, cancellation or expiry keeps the export unaccepted.')
+
+def warning_review_delta(previous,fresh):
+    """Describe one narrow item-detail change; never authorize a Native result."""
+    if type(previous) is not dict or type(fresh) is not dict:
+        raise p.Rejected('complete prior/fresh Native findings required')
+    for key in ('opens','blocking','warnings','exclusions'):
+        if type(previous.get(key)) is not int or previous[key]<0 or type(fresh.get(key)) is not int or fresh[key]!=previous[key]:
+            raise p.Rejected('warning review requires unchanged Native counts')
+    if not p.native_accepted(previous) or not p.native_accepted(fresh) or previous.get('ignored_checks')!=fresh.get('ignored_checks'):
+        raise p.Rejected('warning review cannot repair Native acceptance or ignored rules')
+    before=previous.get('findings');after=fresh.get('findings')
+    if type(before) is not list or type(after) is not list or len(before)!=len(after):
+        raise p.Rejected('complete equal-size Native finding lists required')
+    # Pair exact raw records only to locate a delta. No findings are normalized,
+    # merged, discarded or declared electrically/geometrically equivalent.
+    try:
+        left=Counter(f.canonical(x) for x in before);right=Counter(f.canonical(x) for x in after)
+        removed=list((left-right).elements());added=list((right-left).elements())
+    except (TypeError,ValueError) as exc:raise p.Rejected('malformed warning findings') from exc
+    if len(removed)!=1 or len(added)!=1:
+        raise p.Rejected('exactly one connection-width warning detail delta required')
+    old=next(x for x in before if f.canonical(x)==removed[0]);new=next(x for x in after if f.canonical(x)==added[0])
+    if (type(old) is not dict or type(new) is not dict or old.get('type')!='connection_width'
+        or old.get('severity')!='warning' or old.get('excluded',False) is not False
+        or {k:v for k,v in old.items() if k!='items'}!={k:v for k,v in new.items() if k!='items'}):
+        raise p.Rejected('only connection-width warning item details may differ')
+    def items(row):
+        values=row.get('items')
+        if type(values) is not list or len(values)!=2:raise p.Rejected('two-item anchored connection warning required')
+        for item in values:
+            if type(item) is not dict or set(item)!={'uuid','description','pos'}:
+                raise p.Rejected('closed Native warning item shape required')
+            name=item['uuid'];description=item['description'];pos=item['pos']
+            try:canonical_uuid=type(name) is str and str(uuid.UUID(name))==name
+            except (ValueError,AttributeError,TypeError):canonical_uuid=False
+            if (not canonical_uuid
+                or type(description) is not str or not 0<len(description)<=4096
+                or any(ord(c)<32 for c in description)
+                or type(pos) is not dict or set(pos)!={'x','y'}
+                or any(type(v) not in (int,float) or not math.isfinite(v) for v in pos.values())):
+                raise p.Rejected('bounded Native warning item identity required')
+        if values[0]['uuid']==values[1]['uuid']:raise p.Rejected('distinct warning items required')
+        return values
+    a=items(old);b=items(new);shared=[x for x in a if x in b]
+    if len(shared)!=1:raise p.Rejected('one exact unchanged copper anchor required')
+    copper=r'(?:Track \[.+\] on (?:F\.Cu|B\.Cu|In[0-9]+\.Cu), length .+|Via \[.+\] on .+)'
+    if any(re.fullmatch(copper,item['description']) is None for item in a+b):
+        raise p.Rejected('only native track/via warning members qualified')
+    old_member=next(x for x in a if x!=shared[0]);new_member=next(x for x in b if x!=shared[0])
+    if old_member['uuid']==new_member['uuid']:raise p.Rejected('distinct reported copper members required')
+    diagnostic_nets={re.match(r'(?:Track|Via) \[(.+)\] on ',item['description']).group(1) for item in a+b}
+    track_layers={re.fullmatch(r'Track \[.+\] on (F\.Cu|B\.Cu|In[0-9]+\.Cu), length .+',item['description']).group(1) for item in a+b if item['description'].startswith('Track [')}
+    if len(diagnostic_nets)!=1 or len(track_layers)!=1:raise p.Rejected('same reported net/layer required for warning review')
+    return dict(policy=WARNING_REVIEW_POLICY,previous_findings=copy.deepcopy(before),fresh_findings=copy.deepcopy(after),
+        delta=dict(previous=copy.deepcopy(old),fresh=copy.deepcopy(new),unchanged_copper_anchor=copy.deepcopy(shared[0])),
+        findings_equivalent=False,review_text=WARNING_REVIEW_TEXT)
+
+
+def _warning_digest(value):
+    return h.digest(f.canonical(value).encode('utf-8'))
+
+
+def _warning_response(response, pending, pending_sha256):
+    expected=dict(kind='autorouter.warning-review-response.v1',decision='accept_updated_findings',
+        nonce=pending['nonce'],pending_sha256=pending_sha256,delta_sha256=_warning_digest(pending['warning_review']))
+    if type(response) is not dict or response!=expected:
+        raise p.Rejected('updated warning findings were not explicitly accepted for this live challenge')
+
+
+def stdio_warning_review(event,remaining,guard):
+    """One bounded live JSON exchange; no detached/resumed acknowledgement."""
+    message=f.canonical(event)
+    if len(message.encode('utf-8'))>64*1024:raise p.Rejected('warning-review event exceeds64KiB')
+    # A stopped reader must not block this live job past its original deadline.
+    fd=sys.stdout.fileno();blocking=os.get_blocking(fd);message=(message+'\n').encode('utf-8')
+    try:
+        os.set_blocking(fd,False)
+        while message:
+            guard();available=remaining()
+            if available<=0:raise p.Rejected('export budget exhausted writing warning review')
+            _,ready,_=select.select([],[fd],[],min(.05,available))
+            if not ready:continue
+            try:written=os.write(fd,message)
+            except BlockingIOError:continue
+            if written<=0:raise p.Rejected('warning review output closed')
+            message=message[written:]
+    finally:os.set_blocking(fd,blocking)
+    received=b''
+    while True:
+        guard();available=remaining()
+        if available<=0:raise p.Rejected('export whole wall/full CPU budget exhausted during warning review')
+        ready,_,_=select.select([sys.stdin.fileno()],[],[],min(.05,available))
+        if not ready:continue
+        chunk=os.read(sys.stdin.fileno(),4097-len(received))
+        if not chunk:raise p.Rejected('warning review input closed without explicit acknowledgement')
+        received+=chunk
+        if len(received)>4096:raise p.Rejected('warning review response exceeds4096bytes')
+        if b'\n' in received:
+            line,_,extra=received.partition(b'\n')
+            if extra.strip():raise p.Rejected('one warning review response required')
+            try:response=json.loads(line.decode('utf-8'),object_pairs_hook=_warning_unique_pairs)
+            except (ValueError,UnicodeError) as exc:raise p.Rejected('invalid warning review response') from exc
+            guard();return response
+
+
+def _warning_unique_pairs(items):
+    value={}
+    for key,item in items:
+        if key in value:raise ValueError('duplicate warning response key')
+        value[key]=item
+    return value
+
+
+def _warning_copper_witness(candidate,delta):
+    """Resolve actual unchanged PCB identities; descriptions alone are not proof."""
+    from .routing_scope import _net_mapping,_net_name
+    tree=sx.read(candidate);mapping=_net_mapping(tree);wanted={item['uuid'] for side in ('previous','fresh') for item in delta['delta'][side]['items']}
+    found={};layers=set();nets=set()
+    for kind in ('segment','via'):
+        for row in sx.children(tree,kind):
+            identity=sx.one(row,'uuid')
+            if identity is None or len(identity)!=2:continue
+            name=sx.unquote(identity[1])
+            if name not in wanted:continue
+            net=_net_name(row,mapping)
+            if name in found or net is None:
+                raise p.Rejected('warning member copper identity/net is not unique')
+            nets.add(net)
+            if kind=='segment':
+                layer=sx.one(row,'layer')
+                if layer is None or len(layer)!=2:raise p.Rejected('warning track layer unavailable')
+                layers.add(sx.unquote(layer[1]))
+            elif sx.one(row,'layers')!=['layers','"F.Cu"','"B.Cu"']:
+                raise p.Rejected('warning review supports full through-vias only')
+            found[name]=dict(kind=kind,net_name=net,geometry=copy.deepcopy(row))
+    if set(found)!=wanted or len(nets)!=1 or len(layers)!=1 or not layers<={'F.Cu','B.Cu'}:
+        raise p.Rejected('warning members require existing same-net single-layer tracks/through-vias')
+    for side in ('previous','fresh'):
+        for item in delta['delta'][side]['items']:
+            row=found[item['uuid']];prefix=('Track' if row['kind']=='segment' else 'Via')+' ['+row['net_name']+'] on '
+            if not item['description'].startswith(prefix):raise p.Rejected('warning description differs from actual copper identity')
+            if row['kind']=='segment' and not item['description'].startswith(prefix+next(iter(layers))+', length '):
+                raise p.Rejected('warning description differs from actual track layer')
+    return dict(items=found,net_name=next(iter(nets)),track_layer=next(iter(layers)),
+        electrical_equivalence_claimed=False)
+
+
+def _warning_eligibility(data,binding,report,basis,contract,layers,ctx):
+    if (ctx.get('native_toolchain') is not None or ctx.get('comparison_context') is not None
+        or ctx.get('experimental_schematic_parity',False) is not False
+        or binding['input_policy']!='native' or any(x is not None for x in (basis,contract,layers))):
+        raise p.Rejected('live warning review requires ordinary native delivery')
+    if data['candidate_sha256']!=binding['validated_candidate_sha256'] or data['candidate_sha256']!=report['candidate_sha256']:
+        raise p.Rejected('warning review requires the exact same candidate bytes')
+    delta=warning_review_delta(report['native'],data['native'])
+    delta['copper_witness']=_warning_copper_witness(Path(data['candidate']),delta)
+    return delta
+
+
+def _check_warning_acknowledgement(out,data,binding,report,basis,contract,layers,ctx):
+    ref=data.get('warning_review_acknowledgement')
+    if type(ref) is not dict or set(ref)!={'policy','pending_sha256','acknowledgement_sha256'} or ref['policy']!=WARNING_REVIEW_POLICY:
+        raise p.Rejected('explicit updated-warning acknowledgement lineage required')
+    pending_path=out/'warning-review.json';ack_path=out/'warning-acknowledgement.json'
+    if p.sha(h.real_path(pending_path))!=ref['pending_sha256'] or p.sha(h.real_path(ack_path))!=ref['acknowledgement_sha256']:
+        raise p.Rejected('updated-warning pending or acknowledgement bytes changed')
+    pending=f.read_json(pending_path);ack=f.read_json(ack_path)
+    if (set(pending)!={'schema','kind','policy','export_accepted','resumable_after_exit','nonce','binding_sha256',
+        'candidate_sha256','native_report_sha256','runtime_source_sha256','metrics','budget_seconds','sent_wall_seconds',
+        'sent_cpu_seconds','validation_evidence','warning_review'}
+        or type(pending.get('schema')) is not int or pending['schema']!=1
+        or pending.get('kind')!='live-warning-review-pending-v1' or pending.get('policy')!=WARNING_REVIEW_POLICY
+        or pending.get('export_accepted') is not False or pending.get('resumable_after_exit') is not False
+        or type(pending.get('nonce')) is not str or re.fullmatch(r'[0-9a-f]{32}',pending['nonce']) is None
+        or pending['binding_sha256']!=_warning_digest(binding)
+        or pending['candidate_sha256']!=data['candidate_sha256']
+        or pending['native_report_sha256']!=data['native_report_sha256']
+        or pending['runtime_source_sha256']!=data['runtime_source_sha256']
+        or pending['metrics']!=data['metrics'] or pending['budget_seconds']!=data['budget_seconds']
+        or pending['warning_review']!=_warning_eligibility(data,binding,report,basis,contract,layers,ctx)):
+        raise p.Rejected('updated-warning pending proof differs from current validation')
+    if (type(ack) is not dict or set(ack)!={'schema','policy','response','elapsed_wall_seconds','elapsed_cpu_seconds'}
+        or type(ack.get('schema')) is not int or ack['schema']!=1 or ack.get('policy')!=WARNING_REVIEW_POLICY):
+        raise p.Rejected('updated-warning acknowledgement shape changed')
+    _warning_response(ack['response'],pending,ref['pending_sha256'])
+    for sent,elapsed,total in [('sent_wall_seconds','elapsed_wall_seconds','wall_seconds'),('sent_cpu_seconds','elapsed_cpu_seconds','total_cpu_seconds')]:
+        if (not finite(pending[sent]) or not finite(ack[elapsed])
+            or not pending[sent]<=ack[elapsed]<=data[total]<=data['budget_seconds']):
+            raise p.Rejected('updated-warning acknowledgement exceeds original export budget')
+    material=evidence(out)
+    for name in ('warning-review.json','warning-acknowledgement.json'):material['files'].pop(name,None)
+    if material!=pending['validation_evidence']:
+        raise p.Rejected('pre-review validation evidence changed while reviewing warnings')
+
+
+def _live_warning_review(out,record,binding,report,basis,contract,layers,ctx,callback,remaining,stable,account,start,cpu_start):
+    # Seal the completed proof BEFORE yielding control. Never baseline mutable
+    # evidence after a human callback. Both raw finding lists remain in pending.
+    delta=_warning_eligibility(record,binding,report,basis,contract,layers,ctx)
+    _check_stage_proof(out/'validation',record,binding,report,basis,contract,layers,**ctx)
+    stable();account();stable()
+    pending=dict(schema=1,kind='live-warning-review-pending-v1',policy=WARNING_REVIEW_POLICY,
+        export_accepted=False,resumable_after_exit=False,nonce=uuid.uuid4().hex,
+        binding_sha256=_warning_digest(binding),candidate_sha256=record['candidate_sha256'],
+        native_report_sha256=record['native_report_sha256'],runtime_source_sha256=record['runtime_source_sha256'],
+        metrics=copy.deepcopy(record['metrics']),budget_seconds=record['budget_seconds'],
+        sent_wall_seconds=record['wall_seconds'],sent_cpu_seconds=record['total_cpu_seconds'],
+        validation_evidence=evidence(out),warning_review=delta)
+    pending_path=out/'warning-review.json';p.save_json(pending_path,pending);pin=p.sha(pending_path)
+    sealed=evidence(out)
+    event=dict(kind='autorouter.warning-review-required.v1',pending=str(pending_path),pending_sha256=pin,
+        delta_sha256=_warning_digest(delta),nonce=pending['nonce'],remaining_seconds=remaining(),
+        warning_review={key:delta[key] for key in ('policy','delta','findings_equivalent','review_text','copper_witness')})
+    def wait_budget():
+        if remaining()<=0:raise p.Rejected('export whole wall/full CPU budget exhausted during warning review')
+    response=callback(copy.deepcopy(event),remaining,wait_budget)
+    stable()
+    if evidence(out)!=sealed or p.sha(pending_path)!=pin:
+        raise p.Rejected('pre-review validation or pending evidence changed during warning review')
+    _warning_response(response,pending,pin)
+    account();stable()
+    ack=dict(schema=1,policy=WARNING_REVIEW_POLICY,response=copy.deepcopy(response),
+        elapsed_wall_seconds=time.monotonic()-start,elapsed_cpu_seconds=h.cpu_seconds()-cpu_start)
+    ack_path=out/'warning-acknowledgement.json';p.save_json(ack_path,ack)
+    record['warning_review_acknowledgement']=dict(policy=WARNING_REVIEW_POLICY,pending_sha256=pin,acknowledgement_sha256=p.sha(ack_path))
+    account();stable()
+
 
 def bound_material(binding):
     """Repeat existing byte witnesses without invoking tools or another consumer."""
@@ -215,7 +449,7 @@ def default_target_basis(binding,report):
     return native7_default_target_basis(root,report)
 
 
-def check_stage(folder,data,binding,report,basis,contract,layers, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
+def _check_stage_proof(folder,data,binding,report,basis,contract,layers, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Reuse original-rule refill/final/process/native-context validators."""
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
     worker=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
@@ -270,7 +504,7 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
     metrics=f.read_json(folder/'metrics.json')
     if (p.sha(folder/'final-drc.json')!=data['native_report_sha256'] or metrics!=data['metrics'] or metrics.get('version')!=p.experimental_native_version(native_toolchain)
         or metrics!=report['metrics'] or not p.native_accepted(data['native'])
-        or data['native']['ignored_checks']!=report['native']['ignored_checks'] or not ps.warnings(data['native'])<=ps.warnings(report['native'])):
+        or data['native']['ignored_checks']!=report['native']['ignored_checks']):
         raise p.Rejected('fresh export native acceptance/metrics/warnings/original ignore settings differ')
     from .pour_rule_area import qualify
     from . import schematic_field_evidence as fields
@@ -292,6 +526,15 @@ def check_stage(folder,data,binding,report,basis,contract,layers, *, native_tool
         or data.get('output_ceiling_bytes')!=OUTPUT_BYTES or data.get('output_file_ceiling')!=OUTPUT_FILES):
         raise p.Rejected('export delivery fields differ from validated project')
     return candidate
+
+def check_stage(folder,data,binding,report,basis,contract,layers,**ctx):
+    candidate=_check_stage_proof(folder,data,binding,report,basis,contract,layers,**ctx)
+    if not ps.warnings(data['native'])<=ps.warnings(report['native']):
+        _check_warning_acknowledgement(folder.parent,data,binding,report,basis,contract,layers,ctx)
+    elif 'warning_review_acknowledgement' in data:
+        raise p.Rejected('unexpected updated-warning acknowledgement on strict export')
+    return candidate
+
 
 def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Stored proof consistency only; reruns original checker, never native or solver."""
@@ -378,7 +621,7 @@ def invalidate(lifecycle,exc):
         try:archive()
         except BaseException as ownership:exc.add_note('No archival correction: '+str(ownership))
 
-def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
+def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None,warning_review=None):
     """Validate the original bound candidate into a new project; never copy GUI rules."""
     start=time.monotonic();parent_cpu_start=time.process_time();child_cpu_start=f.child_cpu();cpu_start=parent_cpu_start+child_cpu_start
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
@@ -403,6 +646,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
     lifecycle.update(record=record,account=account)
     try:
         validate_seconds(seconds)
+        if warning_review is not None and not callable(warning_review):raise p.Rejected('explicit live warning-review callback required')
         # Early native cancellation/failure must retain the declared accounting
         # bounds too; acceptance remains false until all checks finish.
         record.update(budget_seconds=seconds,cpu_budget_seconds=seconds,
@@ -491,6 +735,8 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
                 acceptance_meaning='Fresh native original-rule validation of the same route/design into a separate project after recorded intent; no GUI rules adopted, source overwritten, live editor applied or human PCB/electrical approval inferred.',
                 accounting_point='Prepublication stored sample; entire function and scoped-cache cleanup are measured against wall/full parent-plus-waited-child CPU ceilings. Native process caps poll and can overshoot; no OS aggregate quota or hostile-writer/power-loss authentication.')
             if layers is not None:record['layer_audit']=layers['audit']
+            if warning_review is not None and not ps.warnings(native)<=ps.warnings(report['native']):
+                _live_warning_review(out,record,binding,report,basis,contract,layers,ctx,warning_review,remaining,stable,account,start,cpu_start)
             check_stage(job.out,record,binding,report,basis,contract,layers,**ctx);stable();account();cap()
             record.update(status='export_validated',export_accepted=True);lifecycle['evidence']=evidence(out);record['export_evidence']=lifecycle['evidence']
             expected=f.canonical(record);h.owned_destination(lifecycle);p.save_json(out/'export.json',record)

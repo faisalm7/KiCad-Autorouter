@@ -126,6 +126,7 @@ def main():
     choice.add_argument('review');choice.add_argument('--choice',required=True,choices=['accept','reject']);choice.add_argument('--output',required=True)
     export_cmd=sub.add_parser('review-export',help='Fresh native validation into a new separate project after accept intent; no live apply')
     export_cmd.add_argument('choice');export_cmd.add_argument('--output',required=True);export_cmd.add_argument('--seconds',type=float,default=120)
+    export_cmd.add_argument('--warning-review-stdio',action='store_true',help='Allow one explicit JSON acknowledgement of narrowly changed warning details in this live job; original export deadline includes review; default remains strict')
     export_check=sub.add_parser('review-export-check',help='Check stored export/source/report consistency; does not run fresh DRC')
     export_check.add_argument('receipt')
     improve=sub.add_parser('improve');improve.add_argument('board');improve.add_argument('--output',required=True);improve.add_argument('--seconds',type=float,default=None);improve.add_argument('--proposal-policy',choices=['single','feedback'],default=None)
@@ -170,9 +171,9 @@ def main():
         try: print(json.dumps(check_result(a.receipt),indent=2));return 0
         except Exception as exc: print(json.dumps({'current':False,'reason':str(exc)}));return 2
     if a.command=='review-export':
-        from .review_export import export
+        from .review_export import export,stdio_warning_review
         try:
-            result=export(a.choice,a.output,a.seconds)
+            result=export(a.choice,a.output,a.seconds,**({'warning_review':stdio_warning_review} if a.warning_review_stdio else {}))
             print(json.dumps({key:result.get(key) for key in ('status','export_accepted','project_file','candidate_sha256','native_report_sha256','wall_seconds','total_cpu_seconds')},indent=2))
             return 0 if result['export_accepted'] else 2
         except Exception as exc:print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
