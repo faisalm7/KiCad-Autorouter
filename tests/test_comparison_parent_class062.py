@@ -287,4 +287,136 @@ class ParentClassPureAudit(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'implementation changed'):report.parent_class_source(self.plan)
 
 
+class FamilyClassV7Policies(unittest.TestCase):
+    """Constructed source-policy controls; no installed/Native admission."""
+    def setUp(self):
+        self.fixtures=[]
+        self.families={}
+        for slug in ('default','parent'):
+            fixture=class_fixture.ParentPipelineControls();fixture.setUp()
+            self.addCleanup(fixture.doCleanups);self.fixtures.append(fixture)
+            if slug == 'default':
+                project=fixture.project
+                project['net_settings']['classes']=[project['net_settings']['classes'][0]]
+                project['net_settings']['netclass_patterns']=[]
+                fixture.board.with_suffix('.kicad_pro').write_text(json.dumps(project))
+            self.families[slug]=dict(source=str(fixture.board),source_hashes=report.io.inventory(fixture.root))
+        self.tools=dict(kicad='10.0.7',implementation_sha256={
+            'autorouter/'+file.name:report.digest(file) for file in (report.ROOT/'autorouter').glob('*.py')})
+        self.policies,self.seal=frozen.family_class_policies(self.families,self.tools)
+        self.population=dict(kind=frozen.FAMILY_CLASS_POPULATION_KIND,families=self.families,
+            family_class_policy=frozen.FAMILY_CLASS_POLICY,family_class_policies=self.policies,
+            family_class_policies_sha256=self.seal)
+
+    def plan(self,slug,arm='Cimprove'):
+        return dict(tools=copy.deepcopy(self.tools),**frozen.family_class_child_fields(self.policies,self.seal,slug,arm))
+
+    def bind(self,slug,plan=None,arm='Cimprove',population=None):
+        return report.family_class_binding(self.plan(slug,arm) if plan is None else plan,slug,arm,
+            self.families[slug],self.population if population is None else population)
+
+    def test_explicit_new_schema_reuses005_and_budgets_without_opening_native_gate(self):
+        old=frozen.contract(frozen.CHOICE60_VERSION)
+        new=frozen.contract(frozen.FAMILY_CLASS_VERSION)
+        self.assertEqual(new,(*old[:2],frozen.FAMILY_CLASS_POPULATION_KIND,*old[3:]))
+        self.assertEqual(new[-1],'qualify-current-method-005.py')
+        self.assertEqual(frozen.LIMITS,dict(routing_seconds=420,method_wall_cpu_cap_seconds=450,
+            delivery_wall_cpu_cap_seconds=600,export_validation_seconds=120))
+        self.assertEqual(frozen.CHOICE60_STAGE_SECONDS,dict(review=60,choice=60))
+        for version in (frozen.CHOICE60_VERSION,frozen.FAMILY_CLASS_VERSION):
+            with self.subTest(version=version),patch.object(frozen,'FAMILY_CLASS_QUALIFIER_SHA','0'*64),self.assertRaisesRegex(ValueError,'qualification gate'):
+                frozen.qualification_scope(dict(passed=True,actual_GUI_qualified=True),Path('/owned/runtime'),'a'*64,{}, {},version)
+        with patch.object(frozen,'FAMILY_CLASS_QUALIFIER_SHA','0'*64),self.assertRaisesRegex(ValueError,'Native-only family qualification summary'):
+            frozen.family_class_qualification_summary(dict(passed=True),'a'*40,'/owned/runtime','b'*64)
+
+    def test_v7_adds_reader_without_changing_historical_administration(self):
+        historical = frozen.administration_files(frozen.CHOICE60_VERSION)
+        self.assertEqual(historical,frozen.ADMIN_FILES)
+        self.assertNotIn('scripts/qualification_runtime074.py',historical)
+        self.assertEqual(frozen.administration_files(frozen.FAMILY_CLASS_VERSION),
+            (*historical,'scripts/qualification_runtime074.py'))
+
+    def test_default_schematic_class_uncertainty_is_not_classified_as_supported(self):
+        entry = self.families['default']
+        with patch.object(pipeline,'check_schematic_class_support',return_value={'pending':True}),self.assertRaises(ValueError):
+            report.family_class_source(dict(entry,tools=self.tools))
+
+    def test_actual_default_and_parent_sources_dispatch_all_fixed_arms(self):
+        self.assertEqual(self.policies['default']['policy'],'single-default-global-floor-targets-v2')
+        self.assertEqual(self.policies['default']['netclass_policy'],dict(mode='single_default',literal_assignments={}))
+        self.assertEqual(self.policies['parent']['policy'],'native-parent-dimensions-v1')
+        old=dict(self.families['default'],tools=self.tools)
+        with self.assertRaisesRegex(ValueError,'multiple original classes'):report.parent_class_source(old)
+        for slug in self.families:
+            for arm in frozen.IMPROVE_POPULATION:
+                with self.subTest(slug=slug,arm=arm):
+                    plan=self.plan(slug,arm)
+                    self.assertEqual(self.bind(slug,plan,arm),self.policies[slug])
+                    self.assertEqual('improve_parent_class_policy' in plan,slug=='parent' and arm!='B2_portfolio')
+                    self.assertEqual(plan['family_class_policies_sha256'],self.seal)
+
+    def test_map_census_policy_types_seal_and_population_marker_refuse_tampering(self):
+        mutations=[]
+        bad=copy.deepcopy(self.population);del bad['family_class_policies']['parent'];mutations.append(bad)
+        for key,value in (('policy','unknown'),('schema',True),('source','/changed/source.kicad_pcb'),
+                          ('netclass_policy',dict(mode='native-parent-dimensions-v1'))):
+            bad=copy.deepcopy(self.population);bad['family_class_policies']['default'][key]=value;mutations.append(bad)
+        for key,value in (('family_class_policies_sha256','0'*64),('family_class_policy','unknown'),
+                          ('improve_parent_class_policy','native-parent-dimensions-v1'),
+                          ('kind',frozen.CHOICE60_POPULATION_KIND)):
+            bad=copy.deepcopy(self.population);bad[key]=value;mutations.append(bad)
+        for bad in mutations:
+            with self.subTest(bad=bad),self.assertRaises(ValueError):report.family_class_population_binding(bad)
+
+    def test_child_policy_flag_and_map_seal_must_match_actual_original(self):
+        for slug in self.families:
+            for change in (dict(family_class_policies_sha256='0'*64),dict(source_class_policy=self.policies['parent' if slug=='default' else 'default'])):
+                plan=self.plan(slug);plan.update(copy.deepcopy(change))
+                with self.subTest(slug=slug,change=change),self.assertRaises(ValueError):self.bind(slug,plan)
+        plan=self.plan('parent');del plan['improve_parent_class_policy']
+        with self.assertRaisesRegex(ValueError,'flag differs'):self.bind('parent',plan)
+        plan=self.plan('default');plan['improve_parent_class_policy']='native-parent-dimensions-v1'
+        with self.assertRaisesRegex(ValueError,'flag differs'):self.bind('default',plan)
+        plan=self.plan('parent','B2_portfolio');plan['improve_parent_class_policy']='native-parent-dimensions-v1'
+        with self.assertRaisesRegex(ValueError,'flag differs'):self.bind('parent',plan,'B2_portfolio')
+        plan=self.plan('default');del plan['source_class_policy']
+        with self.assertRaises(ValueError):self.bind('default',plan)
+
+    def test_coherently_resealed_wrong_source_policy_still_refuses(self):
+        pop=copy.deepcopy(self.population);fact=pop['family_class_policies']['default']
+        fact.update(policy='native-parent-dimensions-v1',netclass_policy=copy.deepcopy(self.policies['parent']['netclass_policy']))
+        pop['family_class_policies_sha256']=frozen.family_class_map_seal(pop['family_class_policies'],self.families)
+        plan=dict(tools=self.tools,**frozen.family_class_child_fields(pop['family_class_policies'],pop['family_class_policies_sha256'],'default','Cimprove'))
+        with self.assertRaisesRegex(ValueError,'source-derived'):self.bind('default',plan,population=pop)
+
+    def test_changed_source_and_changed_implementation_never_reuse_sealed_policy(self):
+        plan=self.plan('parent');plan['tools']['implementation_sha256']['autorouter/netclass.py']='0'*64
+        with self.assertRaisesRegex(ValueError,'implementation changed'):self.bind('parent',plan)
+        project=self.fixtures[0].board.with_suffix('.kicad_pro')
+        project.write_bytes(project.read_bytes()+b'\n')
+        with self.assertRaisesRegex(ValueError,'original source changed'):self.bind('default')
+        self.families['default']['source_hashes']=report.io.inventory(project.parent)
+        with self.assertRaises(ValueError):self.bind('default')
+
+    def test_unknown_missing_or_incomplete_single_class_and_parent_assignment_refuse(self):
+        fixture=self.fixtures[0];original=copy.deepcopy(fixture.project)
+        cases=[]
+        for mutate in ('unknown','missing','dimension','pattern'):
+            project=copy.deepcopy(original);settings=project['net_settings']
+            if mutate=='unknown':settings['classes'][0]['name']='OTHER'
+            elif mutate=='missing':settings.pop('classes')
+            elif mutate=='dimension':settings['classes'][0].pop('via_drill')
+            else:settings['netclass_patterns']=[dict(netclass='UNKNOWN',pattern='*')]
+            cases.append((mutate,project))
+        for label,project in cases:
+            fixture.board.with_suffix('.kicad_pro').write_text(json.dumps(project))
+            plan=dict(source=str(fixture.board),source_hashes=report.io.inventory(fixture.root),tools=self.tools)
+            with self.subTest(case=label),self.assertRaises((ValueError,pipeline.Rejected)):report.family_class_source(plan)
+        parent=self.fixtures[1];project=copy.deepcopy(parent.project)
+        project['net_settings']['classes'][1]['name']='POWER,Default'
+        parent.board.with_suffix('.kicad_pro').write_text(json.dumps(project))
+        with self.assertRaises((ValueError,pipeline.Rejected)):report.family_class_source(dict(source=str(parent.board),
+            source_hashes=report.io.inventory(parent.root),tools=self.tools))
+
+
 if __name__=='__main__':unittest.main()

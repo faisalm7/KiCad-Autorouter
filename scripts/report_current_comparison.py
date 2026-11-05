@@ -29,6 +29,7 @@ KINDS = {'frozen-current-six-arm-exposed-development-v1': 'GUI-qualified prerequ
          frozen.PARENT_CLASS_POPULATION_KIND: 'Exact installed062 parent-class Native CLI follow-up; no GUI qualification',
          frozen.REVIEW60_POPULATION_KIND: 'Prospective exact installed review60 Native CLI prerequisites; no GUI qualification',
          frozen.CHOICE60_POPULATION_KIND: 'Prospective exact installed review60/choice60 Native CLI prerequisites; no GUI qualification',
+         frozen.FAMILY_CLASS_POPULATION_KIND: 'Versioned runtime074 Native CLI prerequisites; per-family class policy, no full GUI qualification',
          frozen.IMPROVE_POPULATION_KIND: 'Pinned installed Native/CLI prerequisites; GUI qualification NOT supplied',
          'frozen-runtime043-labelled-IR-native-support-followup-v1': 'labelled Native-only support follow-up; GUI qualification NOT supplied',
          'frozen-runtime049-labelled-Devobordo-native-CLI-development-followup-v1': 'labelled Devobordo Native/CLI-only development follow-up; GUI qualification NOT supplied',
@@ -347,6 +348,66 @@ def parent_class_source(plan):
         and application.check_schematic_class_support(source) is None,
         'parent-class follow-up requires multiple original classes in unflagged flat canonical2Cu')
     return application,netclass,sexpr,policy,[row for row in application.routes(tree) if application.locked(row)]
+
+
+def family_class_source(plan):
+    """Source-derived v7 eligibility metadata; never Native or class resolution."""
+    from autorouter import pipeline as application, netclass
+    from autorouter.layer_policy import _two_copper_table
+    pins = plan['tools'].get('implementation_sha256')
+    required = {'autorouter/'+name+'.py' for name in ('pipeline','netclass','netclass_native','sexpr','adapter','layer_policy')}
+    require(plan['tools'].get('kicad') == '10.0.7' and type(pins) is dict and required <= set(pins)
+        and all(type(name) is str and name.startswith('autorouter/') and type(pin) is str
+            and pv._DIGEST.fullmatch(pin) and digest(ROOT/name) == pin for name,pin in pins.items()),
+        'family class source implementation changed')
+    source = pv.canonical(Path(plan['source']))
+    require(source.suffix == '.kicad_pcb' and io.inventory(source.parent) == plan['source_hashes'],
+        'family class original source changed')
+    project = read(source.with_suffix('.kicad_pro')); settings = project.get('net_settings')
+    classes = settings.get('classes') if type(settings) is dict else None
+    require(type(classes) is list and 1 <= len(classes) <= 64, 'explicit bounded original classes required')
+    if len(classes) == 1:
+        tree = application.preflight(source,task_scope=('whole_board_unlocked_routing','native','source_all'))
+        _two_copper_table(tree)
+        policy = netclass.qualify_project(project)
+        require(policy == dict(mode='single_default',literal_assignments={})
+            and application.check_schematic_class_support(source) is None,
+            'fully specified sole Default in unflagged flat canonical2Cu required')
+        selected = 'single-default-global-floor-targets-v2'
+    else:
+        _,_,_,policy,_ = parent_class_source(plan)
+        selected = 'native-parent-dimensions-v1'
+    require(io.inventory(source.parent) == plan['source_hashes'], 'family class source changed during checks')
+    return dict(schema=1,policy=selected,source=str(source),source_hashes=plan['source_hashes'],
+        netclass_policy=policy,implementation_sha256=dict(pins))
+
+
+def family_class_population_binding(population):
+    """Validate only the new v7 map; this does not open its Native gate."""
+    require(population.get('kind') == frozen.FAMILY_CLASS_POPULATION_KIND
+        and population.get('family_class_policy') == frozen.FAMILY_CLASS_POLICY
+        and 'improve_parent_class_policy' not in population,
+        'exact per-family class population required')
+    policies = population.get('family_class_policies')
+    seal = frozen.family_class_map_seal(policies,population['families'])
+    require(type(population.get('family_class_policies_sha256')) is str
+        and seal == population['family_class_policies_sha256'], 'family class policy seal differs')
+    return policies,seal
+
+
+def family_class_binding(plan, family, arm, entry, population):
+    """Recheck exact source policy and child flag; no conditional audit bypass."""
+    policies,seal = family_class_population_binding(population)
+    require(family in policies and arm in frozen.IMPROVE_POPULATION
+        and entry == population['families'][family]
+        and plan.get('family_class_policies_sha256') == seal
+        and plan.get('source_class_policy') == policies[family], 'child family class policy differs')
+    actual = family_class_source(dict(source=entry['source'],source_hashes=entry['source_hashes'],tools=plan['tools']))
+    require(actual == policies[family], 'source-derived family class policy differs')
+    parent = actual['policy'] == 'native-parent-dimensions-v1' and arm != 'B2_portfolio'
+    require(plan.get('improve_parent_class_policy') == 'native-parent-dimensions-v1' if parent
+        else 'improve_parent_class_policy' not in plan, 'child parent-class flag differs from original source')
+    return actual
 
 
 def parent_class_audit(folder, data, plan, *, export=False):
@@ -873,7 +934,8 @@ def improve_facts(receipt, plan, allowed, *, qualified_parent, public_sanitize=F
 
 def population_shape(population, children):
     require(type(population.get('schema')) is int and population['schema'] == 1 and population.get('kind') in KINDS, 'unsupported frozen population schema')
-    version = (frozen.CHOICE60_VERSION if population['kind'] == frozen.CHOICE60_POPULATION_KIND else
+    version = (frozen.FAMILY_CLASS_VERSION if population['kind'] == frozen.FAMILY_CLASS_POPULATION_KIND else
+        frozen.CHOICE60_VERSION if population['kind'] == frozen.CHOICE60_POPULATION_KIND else
         frozen.REVIEW60_VERSION if population['kind'] == frozen.REVIEW60_POPULATION_KIND else
         frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
         frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
@@ -900,6 +962,14 @@ def population_shape(population, children):
                 and q['runtime_manifest_sha256'] == population['runtime_manifest_sha256'], 'Native-only prerequisite identity differs')
         require(q['kind'] == native_only[population['kind']]
                 and q['actual_GUI_qualified'] is False and q['full_GUI_claim'] is False, 'Native-only qualification promoted or malformed')
+    elif version == frozen.FAMILY_CLASS_VERSION:
+        frozen.choice60_stage_fields(population)
+        family_class_population_binding(population)
+        require(type(population.get('improve_finalization_reserve_seconds')) is int
+            and population['improve_finalization_reserve_seconds'] == 40,
+            'per-family Improve reserve differs')
+        frozen.family_class_qualification_summary(population['qualification'],population['source_head'],
+            population['runtime'],population['runtime_manifest_sha256'])
     elif version in (frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION):
         fields=frozen.choice60_stage_fields if version == frozen.CHOICE60_VERSION else frozen.review60_stage_fields
         summary=frozen.choice60_qualification_summary if version == frozen.CHOICE60_VERSION else frozen.review60_qualification_summary
@@ -955,9 +1025,10 @@ def population_shape(population, children):
 
 
 def administration(population):
-    """Frozen seven-file commit, not the reporter's later/current Git HEAD."""
+    """Versioned frozen commit, not the reporter's later/current Git HEAD."""
     pins = population['tracked_administration_files_sha256']; head = population['administration_head']
-    require(type(pins) is dict and set(pins) == set(frozen.ADMIN_FILES) and pv._HEAD.fullmatch(head), 'frozen administration population differs')
+    version = frozen.FAMILY_CLASS_VERSION if population.get('kind') == frozen.FAMILY_CLASS_POPULATION_KIND else None
+    require(type(pins) is dict and set(pins) == set(frozen.administration_files(version)) and pv._HEAD.fullmatch(head), 'frozen administration population differs')
     opts = ('-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', '--literal-pathspecs')
     rows = pv._git(ROOT, *opts, 'ls-tree', '-r', '-l', '-z', head, '--', *sorted(pins)).split(b'\0')
     blobs = {}
@@ -973,12 +1044,17 @@ def administration(population):
 
 
 def plan_binding(plan, family, arm, entry, population, population_path, population_pin):
-    version = (frozen.CHOICE60_VERSION if population['kind'] == frozen.CHOICE60_POPULATION_KIND else
+    version = (frozen.FAMILY_CLASS_VERSION if population['kind'] == frozen.FAMILY_CLASS_POPULATION_KIND else
+        frozen.CHOICE60_VERSION if population['kind'] == frozen.CHOICE60_POPULATION_KIND else
         frozen.REVIEW60_VERSION if population['kind'] == frozen.REVIEW60_POPULATION_KIND else
         frozen.PARENT_CLASS_VERSION if population['kind'] == frozen.PARENT_CLASS_POPULATION_KIND else
         frozen.CURRENT40_VERSION if population['kind'] == frozen.CURRENT40_POPULATION_KIND else
         'improve-v2' if population['kind'] == frozen.IMPROVE_POPULATION_KIND else 'legacy-v1')
     names, _, _, method_kind, child_name = frozen.contract(version)
+    if version == frozen.FAMILY_CLASS_VERSION:
+        require(type(frozen.FAMILY_CLASS_ENCLOSURE_SHA) is str
+            and pv._DIGEST.fullmatch(frozen.FAMILY_CLASS_ENCLOSURE_SHA),
+            'per-family enclosure binding remains pending')
     runtime = Path(population['runtime']); output = pv.canonical(Path(population['outputs'][family][arm]))
     require(output.parent == runtime / '.runs' and plan['output'] == str(output), 'frozen method output differs')
     require(plan['runtime'] == str(runtime) and plan['runtime_manifest_sha256'] == population['runtime_manifest_sha256']
@@ -986,14 +1062,15 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['source_hashes'] == entry['source_hashes'] and plan['source_rights'] == entry['source_rights']
             and plan['population_protocol_path'] == str(population_path) and plan['population_protocol_sha256'] == population_pin
             and plan['enclosure_sha256'] == population['enclosure_sha256']
-            and plan['enclosure_sha256'] in ((frozen.CHOICE60_ENCLOSURE_SHA,) if version == frozen.CHOICE60_VERSION
+            and plan['enclosure_sha256'] in ((frozen.FAMILY_CLASS_ENCLOSURE_SHA,) if version == frozen.FAMILY_CLASS_VERSION
+                else (frozen.CHOICE60_ENCLOSURE_SHA,) if version == frozen.CHOICE60_VERSION
                 else (frozen.REVIEW60_ENCLOSURE_SHA,) if version == frozen.REVIEW60_VERSION
                 else (frozen.ENCLOSURE_SHA,) if version == frozen.CURRENT40_VERSION
                 else (frozen.LEGACY_ENCLOSURE_SHA,frozen.ENCLOSURE_SHA))
             and plan['whole_wall_full_cpu_seconds'] == 600 and plan['pass_key'] == 'controls_passed'
             and plan['administration_root'] == str(ROOT), 'frozen source/runtime/protocol binding differs')
-    if version in (frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION):
-        fields=frozen.choice60_stage_fields if version == frozen.CHOICE60_VERSION else frozen.review60_stage_fields
+    if version in (frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION,frozen.FAMILY_CLASS_VERSION):
+        fields=frozen.choice60_stage_fields if version in (frozen.CHOICE60_VERSION,frozen.FAMILY_CLASS_VERSION) else frozen.review60_stage_fields
         fields(plan)
         require(plan['delivery_stage_seconds'] == population['delivery_stage_seconds']
             and plan['handoff_stage_policy'] == population['handoff_stage_policy'], 'child delivery stage policy differs')
@@ -1006,7 +1083,7 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and tools['comparison_route_policy'] == 'selected-native7-fixed-comparison-v2', 'frozen selected7 tools differ')
     pins = population['tracked_administration_files_sha256']
     if arm == 'B2_portfolio':
-        require(plan['kind'] == (frozen.CHOICE60_PORTFOLIO_KIND if version == frozen.CHOICE60_VERSION else frozen.REVIEW60_PORTFOLIO_KIND if version == frozen.REVIEW60_VERSION else 'installed-native7-comparison-portfolio-functional-v1')
+        require(plan['kind'] == (frozen.CHOICE60_PORTFOLIO_KIND if version in (frozen.CHOICE60_VERSION,frozen.FAMILY_CLASS_VERSION) else frozen.REVIEW60_PORTFOLIO_KIND if version == frozen.REVIEW60_VERSION else 'installed-native7-comparison-portfolio-functional-v1')
             and all(plan[key] == value for key, value in frozen.LIMITS.items())
             and plan['variants'] == list(frozen.VARIANTS) and plan['allocation'] == 'balanced'
             and plan['trial_readback_reserve_seconds'] == 30 and plan['root_finalization_reserve_seconds'] == 15
@@ -1025,18 +1102,23 @@ def plan_binding(plan, family, arm, entry, population, population_path, populati
             and plan['qualifier_sha256'] == pins['scripts/qualify_installed_workflow.py']
             and plan['source_inventory_sha256'] == hashlib.sha256((f.canonical(entry['source_hashes']) + '\n').encode()).hexdigest()
             and plan['source_rights_sha256'] == hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(), 'method contract differs')
-        if version in ('improve-v2',frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION):
+        if version in ('improve-v2',frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION,frozen.FAMILY_CLASS_VERSION):
             require(plan['improve_settings'] == population['improve_settings'], 'Improve settings changed')
-            require(improve_reserve(plan) == (40 if version in (frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION) else 25),
+            require(improve_reserve(plan) == (40 if version in (frozen.CURRENT40_VERSION,frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION,frozen.FAMILY_CLASS_VERSION) else 25),
                     'method reserve differs from frozen version')
         if version in (frozen.PARENT_CLASS_VERSION,frozen.REVIEW60_VERSION,frozen.CHOICE60_VERSION):
             require(plan.get('improve_parent_class_policy') == population['improve_parent_class_policy'],
                 'frozen062 parent-class reporting policy differs')
-        else:
+        elif version != frozen.FAMILY_CLASS_VERSION:
             require('improve_parent_class_policy' not in plan, 'historical Default reporting cannot adopt parent-class policy')
         prerequisites = plan['prerequisite_sha256']
         require(type(prerequisites) is dict and 1 <= len(prerequisites) <= 32, 'bounded frozen prerequisite map required')
         for path, pin in prerequisites.items(): require(digest(Path(path), MAX_JSON) == pin, 'prerequisite changed')
+    if version == frozen.FAMILY_CLASS_VERSION:
+        family_class_binding(plan,family,arm,entry,population)
+    else:
+        require(not any(key in plan for key in ('source_class_policy','family_class_policies_sha256')),
+            'historical plan cannot adopt per-family class fields')
     require(digest(Path(plan['controller'])) == plan['controller_sha256'], 'copied/external controller changed')
     return output
 
@@ -1118,8 +1200,8 @@ def report(*, population, population_sha256, children, children_sha256, output, 
             extra = custody(out, plan, outer, arm); allowed = [out, *extra]
             child = out / 'result.json'; data = read(child) if child.is_file() else {}
             if data:
-                if pop['kind'] in (frozen.REVIEW60_POPULATION_KIND,frozen.CHOICE60_POPULATION_KIND):
-                    fields=frozen.choice60_stage_fields if pop['kind'] == frozen.CHOICE60_POPULATION_KIND else frozen.review60_stage_fields
+                if pop['kind'] in (frozen.REVIEW60_POPULATION_KIND,frozen.CHOICE60_POPULATION_KIND,frozen.FAMILY_CLASS_POPULATION_KIND):
+                    fields=frozen.choice60_stage_fields if pop['kind'] in (frozen.CHOICE60_POPULATION_KIND,frozen.FAMILY_CLASS_POPULATION_KIND) else frozen.review60_stage_fields
                     fields(data)
                     require(data['handoff_stage_policy'] == plan['handoff_stage_policy']
                         and data['delivery_stage_seconds'] == plan['delivery_stage_seconds'], 'terminal child stage policy differs')
@@ -1180,7 +1262,7 @@ def report(*, population, population_sha256, children, children_sha256, output, 
                 row['route_own_final'] = own_final(selected, export=False, plan=plan, allowed=allowed,
                     accepted=state['workflow_delivered'], public_sanitize=public_sanitize)
             if state['workflow_delivered']:
-                if pop['kind'] in (frozen.REVIEW60_POPULATION_KIND,frozen.CHOICE60_POPULATION_KIND):
+                if pop['kind'] in (frozen.REVIEW60_POPULATION_KIND,frozen.CHOICE60_POPULATION_KIND,frozen.FAMILY_CLASS_POPULATION_KIND):
                     row['delivery_stages'] = delivery_stage_facts(plan,data,allowed,complete_timing=timing)
                 proofs = {}
                 for label, path_key, hash_key, is_export in (('route', 'selected_route_receipt', 'selected_route_sha256', False), ('export', 'export_receipt', 'export_sha256', True)):

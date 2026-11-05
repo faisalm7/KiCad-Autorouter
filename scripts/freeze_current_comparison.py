@@ -108,6 +108,17 @@ CHOICE60_STAGE_POLICY = 'bounded-review60-choice60-v3'
 CHOICE60_STAGE_SECONDS = dict(review=60,choice=60)
 CHOICE60_ENCLOSURE_SHA = '77c50a3a1b152207619ba26642fba116b577c2d5313aa5168c6b2c4f5c588bfe'
 CHOICE60_REPORTER_SHA = '8e927b0ed08752a36aa1c8368d038136bc821a2f816f9e1da86b8bc388793365'
+FAMILY_CLASS_VERSION = 'improve-v7-family-classes'
+FAMILY_CLASS_POPULATION_KIND = 'frozen-current-improve-six-arm-exposed-development-v7-family-classes'
+FAMILY_CLASS_POLICY = 'source-derived-family-class-policy-v1'
+# v7 uses separately reviewed current074 stored-proof replay. Historical
+# population versions retain their original pins and closed gates.
+FAMILY_CLASS_ENCLOSURE_SHA = '4a36765c7936acf2e1d354599147c4289559ee787e66a054d7bb89c0ce9471f7'
+FAMILY_CLASS_REPORTER_SHA = '04ba7973534ecd57c7ed5ab79517c3bdf322cbc43a426dd7b990a5131744ff17'
+FAMILY_CLASS_QUALIFIER_SHA = '3fc90c5ed3254ae723bb4d56401ece5bfadbe6626722134d52c16bd7cfca9a73'
+FAMILY_CLASS_HEAD = '6fbbbf22dfb8250f1578fb4d7a45ff0e161b3194'
+FAMILY_CLASS_MANIFEST = '584ee929eaf3d277dc535556e42c71ac5196a74f1c5e3fd53a2cce5a67853d61'
+FAMILY_CLASS_QUALIFICATION_KIND = 'runtime074-fresh-installed-review60-choice60-native-CLI-only-v1'
 CHOICE60_HEAD = None
 CHOICE60_MANIFEST = None
 CHOICE60_INSTALLED_ROOT = None
@@ -128,6 +139,8 @@ def require(ok, message):
 
 
 def contract(version):
+    if version == FAMILY_CLASS_VERSION:
+        return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, FAMILY_CLASS_POPULATION_KIND, CHOICE60_METHOD_KIND, 'qualify-current-method-005.py'
     if version == CHOICE60_VERSION:
         return IMPROVE_POPULATION, IMPROVE_ARM_ORDER, CHOICE60_POPULATION_KIND, CHOICE60_METHOD_KIND, 'qualify-current-method-005.py'
     if version == REVIEW60_VERSION:
@@ -144,6 +157,8 @@ def contract(version):
 
 def qualification_scope(qualified, runtime, manifest_pin, identity, manifest, version):
     """Keep historical gates separate from the exact installed060/current40 gate."""
+    if version == FAMILY_CLASS_VERSION:
+        return family_class_installed_scope(qualified,runtime,manifest_pin,identity,manifest)
     if version == CHOICE60_VERSION:
         return choice60_installed_scope(qualified,runtime,manifest_pin,identity,manifest)
     if version == REVIEW60_VERSION:
@@ -246,6 +261,49 @@ def choice60_stage_fields(record):
         and all(type(value) is int for value in stages.values()),
         'exact prospective choice60/choice60 stage fields required')
     return dict(stages)
+
+
+def family_class_installed_scope(qualified,runtime,manifest_pin,identity,manifest):
+    """Replay exact completed074 material; this never launches Native."""
+    path = ROOT/'scripts/qualification_runtime074.py'
+    require(type(FAMILY_CLASS_QUALIFIER_SHA) is str and pv._DIGEST.fullmatch(FAMILY_CLASS_QUALIFIER_SHA)
+        and pv.file_digest(path)[0] == FAMILY_CLASS_QUALIFIER_SHA,
+        'family-class qualification gate: reader binding remains pending or changed')
+    from scripts import qualification_runtime074 as actual
+    require(Path(actual.__file__).resolve() == path and actual.HEAD == FAMILY_CLASS_HEAD
+        and actual.MANIFEST == FAMILY_CLASS_MANIFEST and actual.FAMILY_CLASS_VERSION == FAMILY_CLASS_VERSION,
+        'exact reviewed runtime074 reader required')
+    return actual.installed074_cohort_scope(qualified,runtime,manifest_pin,identity,manifest,FAMILY_CLASS_VERSION)
+
+
+def family_class_qualification_summary(q,source_head,runtime,manifest_pin):
+    """Stored summary identity only; actual admission uses the raw proof reader."""
+    require(type(FAMILY_CLASS_QUALIFIER_SHA) is str and pv._DIGEST.fullmatch(FAMILY_CLASS_QUALIFIER_SHA),
+        'family-class reader binding remains pending')
+    require(type(q) is dict and q.get('kind') == FAMILY_CLASS_QUALIFICATION_KIND
+        and q.get('Native_cohort_only') is True and source_head == FAMILY_CLASS_HEAD
+        and q.get('source_head') == source_head and manifest_pin == FAMILY_CLASS_MANIFEST
+        and q.get('runtime_manifest_sha256') == manifest_pin
+        and q.get('runtime') == str(runtime) == str(ROOT/'.runs/runtime074 fresh install 001')
+        and q.get('actual_GUI_qualified') is False and q.get('full_GUI_claim') is False
+        and type(q.get('cohort_cases')) is int and q['cohort_cases'] == 13
+        and type(q.get('parent_class_completed_trials')) is int and q['parent_class_completed_trials'] == 1
+        and type(q.get('parent_class_invalid_controls')) is int and q['parent_class_invalid_controls'] == 2
+        and type(q.get('finalization_reserve_seconds')) is int and q['finalization_reserve_seconds'] == 40
+        and type(q.get('stored_proof_closure_sha256')) is str
+        and pv._DIGEST.fullmatch(q['stored_proof_closure_sha256']),
+        'exact runtime074 Native-only family qualification summary required')
+    choice60_stage_fields(q)
+    gui = q.get('required_actual_GUI_closure'); live = q.get('required_actual_live_controls')
+    require(type(gui) is dict and gui.get('finite_core_controls_passed') is True
+        and gui.get('actual_GUI_observed') is True and gui.get('full_GUI_qualified') is False
+        and type(gui.get('job_count')) is int and gui['job_count'] == 8
+        and gui.get('sha256') == 'aa6a1b8fdb861123cb0fb7036e7239b46a32f7701df75e43efbae08347f38638'
+        and type(gui.get('unexercised')) is list and len(gui['unexercised']) == 2
+        and type(live) is dict and live.get('roles') == ['accept','reject','expire','cancel','stale-export','wrong-nonce']
+        and live.get('headless_only') is True and live.get('GUI_qualified') is False
+        and live.get('original_failure_retained') is True,
+        'finite GUI/live-warning limits differ')
 
 
 def choice60_installed_scope(qualified,runtime,manifest_pin,identity,manifest):
@@ -872,6 +930,18 @@ def pinned_json(path, digest):
 def qualification_dependency(path, pin, version):
     """The current40 closure also pins one Python reporter, not JSON."""
     path = Path(path)
+    if version == FAMILY_CLASS_VERSION and path in (ROOT/'scripts/freeze_current_comparison.py',
+            ROOT/'scripts/qualification_runtime074.py'):
+        require(type(pin) is str and pv._DIGEST.fullmatch(pin)
+            and pv.file_digest(path,4*1024**2)[0] == pin
+            and (path.name != 'qualification_runtime074.py' or pin == FAMILY_CLASS_QUALIFIER_SHA),
+            'exact reviewed family qualification/helper source required')
+        return
+    if version == FAMILY_CLASS_VERSION and path == ROOT/'scripts/report_current_comparison.py':
+        require(type(FAMILY_CLASS_REPORTER_SHA) is str and pv._DIGEST.fullmatch(FAMILY_CLASS_REPORTER_SHA)
+            and pin == FAMILY_CLASS_REPORTER_SHA and pv.file_digest(path,4*1024**2)[0] == pin,
+            'family-class reporter binding pending or changed')
+        return
     if version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) and path == ROOT/'scripts/report_current_comparison.py':
         expected = (CHOICE60_REPORTER_SHA if version == CHOICE60_VERSION else
             REVIEW60_REPORTER_SHA if version == REVIEW60_VERSION else
@@ -882,11 +952,17 @@ def qualification_dependency(path, pin, version):
     pinned_json(path,pin)
 
 
-def administration(head):
+def administration_files(population_version=None):
+    # Historical commits keep their exact seven-file census.
+    return ADMIN_FILES + (('scripts/qualification_runtime074.py',)
+        if population_version == FAMILY_CLASS_VERSION else ())
+
+
+def administration(head, *, population_version=None):
     require(type(head) is str and pv._HEAD.fullmatch(head), 'exact administration HEAD required')
     require(pv.git_head(ROOT) == head, 'administration HEAD changed')
     options = ('-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', '--literal-pathspecs')
-    names = sorted(ADMIN_FILES)
+    names = sorted(administration_files(population_version))
     require(not pv._git(ROOT, *options, 'status', '--porcelain=v1', '--untracked-files=all', '--', *names),
             'commit exact administration files before freezing')
     rows = pv._git(ROOT, *options, 'ls-tree', '-r', '-l', '-z', head, '--', *names).split(b'\0')
@@ -939,6 +1015,46 @@ def sources(spec, runtime):
     return copy.deepcopy(dict(sorted(spec['families'].items())))
 
 
+def family_class_map_seal(policies, families):
+    """Exact v7 source-policy metadata only; never Native qualification."""
+    require(type(policies) is dict and set(policies) == set(families), 'family class policy census differs')
+    for slug, entry in families.items():
+        fact = policies[slug]
+        require(type(fact) is dict and set(fact) == {'schema','policy','source','source_hashes',
+            'netclass_policy','implementation_sha256'} and type(fact.get('schema')) is int and fact['schema'] == 1
+            and fact.get('source') == entry['source'] and fact.get('source_hashes') == entry['source_hashes']
+            and fact.get('policy') in ('single-default-global-floor-targets-v2','native-parent-dimensions-v1')
+            and type(fact.get('netclass_policy')) is dict
+            and fact['netclass_policy'].get('mode') == ('single_default' if fact['policy'] == 'single-default-global-floor-targets-v2'
+                else 'native-parent-dimensions-v1')
+            and type(fact.get('implementation_sha256')) is dict and fact['implementation_sha256']
+            and all(type(name) is str and name.startswith('autorouter/') and type(pin) is str
+                and pv._DIGEST.fullmatch(pin) for name,pin in fact['implementation_sha256'].items()),
+            'typed source-bound family class policy required')
+    return hashlib.sha256(f.canonical(policies).encode()).hexdigest()
+
+
+def family_class_policies(families, tools):
+    from scripts import report_current_comparison as report
+    policies = {slug: report.family_class_source(dict(source=entry['source'],
+        source_hashes=entry['source_hashes'],tools=tools)) for slug,entry in families.items()}
+    return policies, family_class_map_seal(policies,families)
+
+
+def family_class_child_fields(policies, seal, family, arm):
+    require(type(seal) is str and pv._DIGEST.fullmatch(seal) and arm in IMPROVE_POPULATION,
+            'sealed family policy and fixed arm required')
+    require(type(policies) is dict and family in policies and seal == hashlib.sha256(f.canonical(policies).encode()).hexdigest(),
+        'family policy seal differs')
+    fact = policies[family]
+    require(type(fact) is dict and fact.get('policy') in ('single-default-global-floor-targets-v2','native-parent-dimensions-v1'),
+        'known family class policy required')
+    fields = dict(source_class_policy=copy.deepcopy(fact),family_class_policies_sha256=seal)
+    if fact['policy'] == 'native-parent-dimensions-v1' and arm != 'B2_portfolio':
+        fields['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
+    return fields
+
+
 def save_new(path, value):
     raw = (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + '\n').encode()
     require(len(raw) <= 4 * 1024**2, 'frozen metadata file ceiling')
@@ -978,7 +1094,11 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     require(output.parent == ROOT/'.runs' and output.parent.stat().st_uid == os.getuid()
         and re.fullmatch('[a-z][a-z0-9-]{0,63}', output.name) and not os.path.lexists(output)
         and runtime != output and runtime not in output.parents and output not in runtime.parents, 'fresh canonical administration namespace required')
-    expected_enclosure = CHOICE60_ENCLOSURE_SHA if population_version == CHOICE60_VERSION else REVIEW60_ENCLOSURE_SHA if population_version == REVIEW60_VERSION else ENCLOSURE_SHA
+    expected_enclosure = (FAMILY_CLASS_ENCLOSURE_SHA if population_version == FAMILY_CLASS_VERSION
+        else CHOICE60_ENCLOSURE_SHA if population_version == CHOICE60_VERSION else REVIEW60_ENCLOSURE_SHA if population_version == REVIEW60_VERSION else ENCLOSURE_SHA)
+    if population_version == FAMILY_CLASS_VERSION:
+        require(type(expected_enclosure) is str and pv._DIGEST.fullmatch(expected_enclosure),
+            'family-class reviewed enclosure binding remains pending')
     require(enclosure == ROOT/'scripts/enclose_current_comparison.py' and enclosure_sha256 == expected_enclosure
         and pv.file_digest(enclosure)[0] == enclosure_sha256, 'exact public reviewed enclosure required')
     require(pv._directory(runtime/'.runs').stat().st_uid == os.getuid(), 'owned runtime work directory required')
@@ -989,7 +1109,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     identity = pv._runtime_identity(runtime, implementation); source_head = identity['git_head']
     qualification_record, qualification_dependencies = qualification_scope(
         qualified, runtime, expected_manifest_sha256, identity, manifest, population_version)
-    families = sources(spec, runtime); tracked = administration(expected_administration_head)
+    families = sources(spec, runtime); tracked = administration(expected_administration_head,population_version=population_version)
     require(shutil.disk_usage(ROOT).free >= 4*1024**3, 'at least4GiB startup headroom required; future jobs have no aggregate quota')
     outputs = {slug: {arm: str(runtime/'.runs'/(
         ('native7-comparison-' if arm.startswith('B') else 'native7-method-') + output.name + '-' + slug + '-' + arm))
@@ -1012,12 +1132,15 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
     require(type(tools.get('files')) is dict and 1 <= len(tools['files']) <= 8, 'bounded actual tool pins required')
     if qualification_record.get('Native_cohort_only') is True:
         require(qualification_record['tools_files_sha256'] == tools['files'], 'Native cohort tools differ from current runtime query')
-    if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
+    class_policies = class_seal = None
+    if population_version == FAMILY_CLASS_VERSION:
+        class_policies,class_seal = family_class_policies(families,tools)
+    elif population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
         from scripts import report_current_comparison as report
         for entry in families.values():
             report.parent_class_source(dict(source=entry['source'],source_hashes=entry['source_hashes'],tools=tools))
     def fresh():
-        require(h.owned_destination(owner) == output and administration(expected_administration_head) == tracked, 'administration changed')
+        require(h.owned_destination(owner) == output and administration(expected_administration_head,population_version=population_version) == tracked, 'administration changed')
         require(pinned_json(sources_path, sources_sha256)[0] == raw_sources and pinned_json(qualification, qualification_sha256)[0] == raw_qualification
             and pv.read_bytes(runtime/pv.MANIFEST, pv.MAX_MANIFEST_BYTES) == manifest_raw
             and pv._runtime_identity(runtime, implementation) == identity and sources(spec, runtime) == families, 'source/qualification/runtime changed')
@@ -1028,6 +1151,9 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         if qualification_record.get('Native_cohort_only') is True:
             require(qualification_scope(qualified, runtime, expected_manifest_sha256, identity, manifest, population_version)
                     == (qualification_record, qualification_dependencies), 'Native cohort dependencies changed')
+        if population_version == FAMILY_CLASS_VERSION:
+            require(family_class_policies(families,tools) == (class_policies,class_seal),
+                'family class source policy changed during freeze')
         require(not any(os.path.lexists(path) for path in roots), 'Native outputs appeared before population frozen')
     fresh()
     if not os.path.lexists(child):
@@ -1047,22 +1173,33 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
         policy='B1 corrected standard remains default. Fixed one tuned attempt plus ordered via_default/via_low/via_high balanced portfolio;30inside each trial and15root reserve, no extra budget or board tuning.',
         caveats='All exposed families/failures/warnings retained; rights are declarations, not legal clearance/holdout/independent pedigree. B0 shares fidelity safeguards, not untouched vanilla. API baselines versus actual default/recoverCLI startup differ. Recover420 is whole-method allocation. Every actual outer wall/fullCPU cost includes all startup/conversion/selection/Native/delivery/readback; setup separate. All raw local, publication hashes_only; no publication function or aggregate future-job quota.',
         Native_executed=False,actual_GUI=False,project_complete=False)
-    if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION, CHOICE60_VERSION):
+    if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION, CHOICE60_VERSION, FAMILY_CLASS_VERSION):
         population.update(improve_settings=copy.deepcopy(improve_settings),
-            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) else 25)+' finalization reserve. Baselines and portfolio policy unchanged.',
+            policy='B1 corrected standard remains default. Cimprove uses the shipped single tuned Improve preset;420 includes incumbent/trials and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION,FAMILY_CLASS_VERSION) else 25)+' finalization reserve. Baselines and portfolio policy unchanged.',
             caveats=population['caveats'].replace('Recover420 is whole-method allocation.',
-                'Improve420 is whole-method allocation including its incumbent and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) else 25)+'-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
-    if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
+                'Improve420 is whole-method allocation including its incumbent and'+str(40 if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION,FAMILY_CLASS_VERSION) else 25)+'-second return reserve; no extra incumbent budget. CLI-installed qualification has no current GUI outcome.'))
+    if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION,FAMILY_CLASS_VERSION):
         population['improve_finalization_reserve_seconds'] = current40_reserve(runtime,implementation)
-    if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
+    if population_version == FAMILY_CLASS_VERSION:
+        population.update(family_class_policy=FAMILY_CLASS_POLICY,family_class_policies=copy.deepcopy(class_policies),
+            family_class_policies_sha256=class_seal)
+    elif population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION):
         population['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
-    if population_version in (REVIEW60_VERSION,CHOICE60_VERSION):
-        fields=choice60_stage_fields if population_version == CHOICE60_VERSION else review60_stage_fields
+    if population_version in (REVIEW60_VERSION,CHOICE60_VERSION,FAMILY_CLASS_VERSION):
+        fields=choice60_stage_fields if population_version in (CHOICE60_VERSION,FAMILY_CLASS_VERSION) else review60_stage_fields
         fields(query)
         population.update(handoff_stage_policy=query['handoff_stage_policy'],delivery_stage_seconds=dict(query['delivery_stage_seconds']))
     population_pin = save_new(output/'population.json', population)
     prerequisite_paths = [Path(sources_path), Path(qualification), runtime/pv.MANIFEST, output/'sources.json', output/'qualification.json',
         output/'population.json', output/'tools-defaults.json', output/'tools-defaults-process.json', child, *[ROOT/name for name in tracked]]
+    if population_version == FAMILY_CLASS_VERSION:
+        # The five method arms explicitly hash these exact paths at entry,
+        # every fresh() and guarded publication. Portfolio imports neither;
+        # its own three administration files remain directly pinned. Keep
+        # both in the audited administration map and explicit plan fields.
+        # This removes duplicate witnesses, not dependencies or the32 cap.
+        dedicated = {ROOT/'scripts/qualify_current_method.py',ROOT/'scripts/qualify_installed_workflow.py'}
+        prerequisite_paths = [path for path in prerequisite_paths if path not in dedicated]
     prerequisites = {str(path): pv.file_digest(path,4*1024**2)[0] for path in prerequisite_paths}
     prerequisites.update(qualification_dependencies)
     require(0 < len(prerequisites) <= 32, 'current prerequisite ceiling exceeded')
@@ -1077,10 +1214,10 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
                 controller_args=['--runtime',str(runtime)],enclosure_sha256=enclosure_sha256,
                 population_protocol_path=str(output/'population.json'),population_protocol_sha256=population_pin,
                 scope='Predeclared exposed '+slug+'/'+arm+':420allocation/450method/600completewall+fullCPU/export120; every failure/warning/cost retained, no superiority/GUI/human/electrical claim.')
-            if population_version in (REVIEW60_VERSION,CHOICE60_VERSION):
+            if population_version in (REVIEW60_VERSION,CHOICE60_VERSION,FAMILY_CLASS_VERSION):
                 common.update(handoff_stage_policy=population['handoff_stage_policy'],delivery_stage_seconds=dict(population['delivery_stage_seconds']))
             if arm == 'B2_portfolio':
-                plan = dict(common,kind=CHOICE60_PORTFOLIO_KIND if population_version == CHOICE60_VERSION else REVIEW60_PORTFOLIO_KIND if population_version == REVIEW60_VERSION else 'installed-native7-comparison-portfolio-functional-v1',**LIMITS,variants=list(VARIANTS),allocation='balanced',
+                plan = dict(common,kind=CHOICE60_PORTFOLIO_KIND if population_version in (CHOICE60_VERSION,FAMILY_CLASS_VERSION) else REVIEW60_PORTFOLIO_KIND if population_version == REVIEW60_VERSION else 'installed-native7-comparison-portfolio-functional-v1',**LIMITS,variants=list(VARIANTS),allocation='balanced',
                     trial_readback_reserve_seconds=30,root_finalization_reserve_seconds=15,installed_trial_accounting_policy='installed-route-readback-reserve-v1',
                     comparison_api_policy='installed-native7-scored-portfolio-api-v2',administration_head=expected_administration_head,administration_files_sha256=admin,
                     family=entry['source_rights']['family'],controller=str(ROOT/ADMIN_FILES[0]),controller_sha256=admin[ADMIN_FILES[0]],
@@ -1091,9 +1228,11 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
                     source_inventory_sha256=hashlib.sha256((f.canonical(entry['source_hashes'])+'\n').encode()).hexdigest(),
                     source_rights_sha256=hashlib.sha256(f.canonical(entry['source_rights']).encode()).hexdigest(),
                     prerequisite_sha256=prerequisites,default_settings=copy.deepcopy(defaults),limits=dict(LIMITS))
-                if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION, CHOICE60_VERSION): plan['improve_settings'] = copy.deepcopy(improve_settings)
-                if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION): plan['improve_finalization_reserve_seconds'] = 40
-            if population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) and arm != 'B2_portfolio':
+                if population_version in ('improve-v2', CURRENT40_VERSION, PARENT_CLASS_VERSION, REVIEW60_VERSION, CHOICE60_VERSION, FAMILY_CLASS_VERSION): plan['improve_settings'] = copy.deepcopy(improve_settings)
+                if population_version in (CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION,FAMILY_CLASS_VERSION): plan['improve_finalization_reserve_seconds'] = 40
+            if population_version == FAMILY_CLASS_VERSION:
+                plan.update(family_class_child_fields(class_policies,class_seal,slug,arm))
+            elif population_version in (PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION) and arm != 'B2_portfolio':
                 plan['improve_parent_class_policy'] = 'native-parent-dimensions-v1'
             path = folder/'protocol.json'; children[slug][arm] = dict(path=str(path),sha256=save_new(path,plan))
     fresh(); require(child.stat().st_uid == os.getuid() and pv.read_bytes(child) == payload, 'copied controller changed or unowned at final freeze')
@@ -1112,7 +1251,7 @@ def freeze(*, runtime, expected_manifest_sha256, sources_path, sources_sha256, q
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2',CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION), default='legacy-v1')
+    parser.add_argument('--population-version', choices=('legacy-v1','improve-v2',CURRENT40_VERSION,PARENT_CLASS_VERSION,REVIEW60_VERSION,CHOICE60_VERSION,FAMILY_CLASS_VERSION), default='legacy-v1')
     for name in ('runtime','sources','qualification','output','enclosure'): parser.add_argument('--'+name,type=Path,required=True)
     for name in ('expected-manifest-sha256','sources-sha256','qualification-sha256','expected-administration-head','enclosure-sha256'):
         parser.add_argument('--'+name,required=True)
