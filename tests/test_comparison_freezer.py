@@ -109,15 +109,17 @@ class ComparisonFreezerTests(unittest.TestCase):
         self.arguments = dict(runtime=self.runtime, expected_manifest_sha256=manifest_pin,
             sources_path=self.sources_path, sources_sha256=sources_pin, qualification=self.qualification_path,
             qualification_sha256=qualification_pin, expected_administration_head=self.head, output=self.output,
-            enclosure=self.admin / 'scripts/enclose_current_comparison.py', enclosure_sha256=q.CHOICE60_ENCLOSURE_SHA)
+            enclosure=self.admin / 'scripts/enclose_current_comparison.py', enclosure_sha256=q.FAMILY_CLASS_ENCLOSURE_SHA)
         self.calls = []
         self.query_callback = None
         self.process_changes = {}
         # These inert historical-contract fixtures copy the current reviewed
-        # enclosure, so bind its exact new bytes locally. Production keeps the
-        # historical2c0a/17a1 pins for old reports; current77c50 bytes are fixture-only.
+        # enclosure, so bind its exact reviewed bytes locally. Production keeps
+        # the historical2c0a/17a1/77c50 pins; current4a36765 bytes are fixture-only
+        # for these older-contract tests after the relative-protocol fix.
         # No real runtime or historical protocol is admitted by this fixture.
-        for patch in (mock.patch.object(q, 'ENCLOSURE_SHA', q.CHOICE60_ENCLOSURE_SHA),
+        self.assertEqual(sha(self.arguments['enclosure'].read_bytes()), q.FAMILY_CLASS_ENCLOSURE_SHA)
+        for patch in (mock.patch.object(q, 'ENCLOSURE_SHA', q.FAMILY_CLASS_ENCLOSURE_SHA),
                       mock.patch.object(q, 'ROOT', self.admin),
                       mock.patch.object(q, '__file__', str(self.admin / 'scripts/freeze_current_comparison.py')),
                       mock.patch.object(q.sys, 'platform', 'darwin'),
@@ -370,6 +372,8 @@ class ComparisonFreezerTests(unittest.TestCase):
 
     def test_unreviewed_enclosure_and_headroom_refuse_without_query(self):
         self.refused(enclosure=self.admin / 'scripts/qualify_current_method.py')
+        with self.assertRaisesRegex(ValueError, 'exact public reviewed enclosure required'):
+            self.freeze(enclosure_sha256=q.CHOICE60_ENCLOSURE_SHA)
         with mock.patch.object(q.shutil, 'disk_usage', return_value=shutil._ntuple_diskusage(8*1024**3,7*1024**3,1024**3)):
             self.refused()
         self.assertFalse(self.calls)
