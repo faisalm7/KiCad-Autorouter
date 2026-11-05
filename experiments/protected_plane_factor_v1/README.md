@@ -1,6 +1,8 @@
-# Protected-copper plane factor (unexecuted research)
+# Protected-copper plane factor (first attempt closed, unqualified)
 
-This leaf isolates the demonstrated fixed-placement STM32 completion loss:
+The first EEPROM attempt is now closed and unqualified; STM32 did not run. [Observed failure](../../evidence/protected-plane-factor074-negative-001.json): one open, two blocking thermal findings,36warnings and a mandatory same-job export/import provenance refusal. The intended cross-job bridge is insufficient for `padless_alias.check_exports`. Do not run the remaining family or use this worker as a product route; a future revision needs its own paired export and prospective qualification. The failed run remains failed.
+
+The original question was the demonstrated fixed-placement STM32 completion loss:
 the corrected Default path left one open while stock and a competent portfolio
 completed. It also runs once on the EEPROM development task.
 Neither electrical suitability nor independent ancestry is inferred.
