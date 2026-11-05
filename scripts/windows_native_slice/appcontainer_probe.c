@@ -184,6 +184,33 @@ static int mutation_probe(wchar_t **targets) {
     return ok && error == ERROR_SUCCESS;
 }
 
+/* Bind literal ctypes host values to the actual compiled Windows SDK. */
+typedef char host_rpc_WINNT_value_must_match[(RPC_C_AUTHN_WINNT == 10) ? 1 : -1];
+typedef char host_TokenIsAppContainer_value_must_match[(TokenIsAppContainer == 29) ? 1 : -1];
+
+/* Separate016 direct entry only: no state targets and no object setters. */
+static int entry_denial016(void) {
+    HANDLE token = NULL, engine = NULL;
+    BOOL thread = OpenThreadToken(GetCurrentThread(), TOKEN_QUERY, TRUE, &token);
+    DWORD token_error = thread ? ERROR_SUCCESS : GetLastError();
+    DWORD error, close_error = ERROR_SUCCESS;
+    int present, close_called = 0;
+    if (thread) { CloseHandle(token); return 0; }
+    if (token_error != ERROR_NO_TOKEN) return 0;
+    error = FwpmEngineOpen0(NULL, RPC_C_AUTHN_WINNT, NULL, NULL, &engine);
+    present = engine != NULL;
+    if (present) { close_called = 1; close_error = FwpmEngineClose0(engine); }
+    printf("{\"kind\":\"wfp_entry_denial016\",\"role\":%d,\"pid\":%lu,"
+           "\"server_null\":true,\"authn_WINNT\":true,\"identity_null\":true,\"session_null\":true,"
+           "\"no_thread_token\":true,\"thread_token_error\":%lu,\"winerror\":%lu,"
+           "\"handle_present\":%s,\"close_called\":%s,\"close_error\":%lu,\"setter_calls\":0}\n",
+           PROBE_ROLE, (unsigned long)GetCurrentProcessId(), (unsigned long)token_error,
+           (unsigned long)error, present ? "true" : "false", close_called ? "true" : "false",
+           (unsigned long)close_error);
+    fflush(stdout);
+    return error == ERROR_ACCESS_DENIED && !present && !close_called;
+}
+
 int wmain(int argc, wchar_t **argv) {
     TOKEN_FACTS self, child;
     WSADATA winsock;
@@ -195,7 +222,8 @@ int wmain(int argc, wchar_t **argv) {
     DWORD child_exit = 0;
     int created = 0, failed = 1, mutation_ok = 1;
     volatile int role = PROBE_ROLE;
-    if (argc != 5 && argc != 9) return 64;
+    if (argc != 5 && argc != 6 && argc != 9) return 64;
+    if (argc == 6 && wcscmp(argv[5], L"--wfp-entry-denial016") != 0) return 64;
     errno = 0; port = wcstoul(argv[2], &end, 10);
     if (errno || !*argv[2] || *end || port == 0 || port > 65535) return 64;
     errno = 0; hold = wcstoul(argv[4], &end, 10);
@@ -209,11 +237,15 @@ int wmain(int argc, wchar_t **argv) {
     if (!tcp_probe("127.0.0.1", (unsigned short)port, "owned_loopback") ||
         !tcp_probe(address, 443, "public_ipv4")) goto done;
     if (argc == 9) mutation_ok = mutation_probe(argv + 5);
+    if (argc == 6) mutation_ok = entry_denial016();
     if (role == 1) {
         if (wcschr(argv[3], L'"') || wcscmp(argv[3], L"-") == 0) goto done;
         if (argc == 9) {
             if (swprintf_s(command, 32768, L"\"%ls\" %ls %lu - %lu \"%ls\" \"%ls\" %ls %ls",
                 argv[3], argv[1], port, hold, argv[5], argv[6], argv[7], argv[8]) < 0) goto done;
+        } else if (argc == 6) {
+            if (swprintf_s(command, 32768, L"\"%ls\" %ls %lu - %lu --wfp-entry-denial016",
+                argv[3], argv[1], port, hold) < 0) goto done;
         } else if (swprintf_s(command, 32768, L"\"%ls\" %ls %lu - %lu", argv[3], argv[1], port, hold) < 0) goto done;
         ZeroMemory(&startup, sizeof(startup)); startup.cb = sizeof(startup);
         startup.dwFlags = STARTF_USESTDHANDLES;

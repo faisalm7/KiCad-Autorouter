@@ -179,7 +179,81 @@ def check_mutations(rows):
             'scope': 'Two own state paths rights requests and sublayer/filter1 same-DACL setters only.'}
 
 
-def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutation=False):
+def check_entry016(rows):
+    """Separate exact entry barrier, never an object-setter proof."""
+    tokens = [r for r in rows if r.get('kind') == 'self_token']
+    if (len(tokens) != 2 or any(type(r.get('role')) is not int or type(r.get('pid')) is not int or
+            r['pid'] <= 0 or type(r.get('is_appcontainer')) is not int or r['is_appcontainer'] != 1 or
+            type(r.get('capabilities')) is not int or r['capabilities'] != 0 for r in tokens) or
+            {r['role'] for r in tokens} != {1, 2}):
+        raise RuntimeError('Two typed actual capability0 entry-role identities required')
+    pids = {r['role']: r['pid'] for r in tokens}
+    actual = [r for r in rows if r.get('kind') == 'wfp_entry_denial016']
+    if (len(set(pids.values())) != 2 or len(actual) != 2 or
+            any(type(r.get('role')) is not int for r in actual) or
+            {r['role'] for r in actual} != {1, 2}):
+        raise RuntimeError('Exactly one distinct entry row per actual role required')
+    flags = dict(server_null=True, authn_WINNT=True, identity_null=True, session_null=True,
+                 no_thread_token=True, handle_present=False, close_called=False)
+    values = dict(thread_token_error=1008, winerror=5, close_error=0, setter_calls=0)
+    for r in actual:
+        if (type(r.get('pid')) is not int or r['pid'] != pids[r['role']] or
+                any(type(r.get(k)) is not bool or r[k] is not v for k, v in flags.items()) or
+                any(type(r.get(k)) is not int or r[k] != v for k, v in values.items())):
+            raise RuntimeError('Only exact nonimpersonated entry5/NULL/no setters qualifies016')
+    if any(r.get('kind') in {'state_mutation', 'policy_mutation', 'mutation_engine_open',
+                            'mutation_engine_close'} for r in rows):
+        raise RuntimeError('Entry-only016 must not run015 object probes')
+    return dict(passed=True, actual_roles=2, entry_denials=2, object_setters_reached=0,
+                inherited_handle_or_broker_equivalence=False)
+
+
+def host_entry016():
+    """Same literal API in original live controller; own session closes here."""
+    import ctypes as C
+    from ctypes import wintypes as W
+    k = C.WinDLL('kernel32', use_last_error=True)
+    a = C.WinDLL('advapi32', use_last_error=True)
+    w = C.WinDLL('fwpuclnt')
+    signatures = [
+        (k, 'GetCurrentThread', [], W.HANDLE), (k, 'GetCurrentProcess', [], W.HANDLE),
+        (k, 'CloseHandle', [W.HANDLE], W.BOOL),
+        (a, 'OpenThreadToken', [W.HANDLE, W.DWORD, W.BOOL, C.POINTER(W.HANDLE)], W.BOOL),
+        (a, 'OpenProcessToken', [W.HANDLE, W.DWORD, C.POINTER(W.HANDLE)], W.BOOL),
+        (a, 'GetTokenInformation', [W.HANDLE, C.c_int, C.c_void_p, W.DWORD, C.POINTER(W.DWORD)], W.BOOL),
+        (w, 'FwpmEngineOpen0', [W.LPCWSTR, W.DWORD, C.c_void_p, C.c_void_p, C.POINTER(W.HANDLE)], W.DWORD),
+        (w, 'FwpmEngineClose0', [W.HANDLE], W.DWORD)]
+    for lib, name, args, result in signatures:
+        fn = getattr(lib, name); fn.argtypes, fn.restype = args, result
+    thread, token, engine = W.HANDLE(), W.HANDLE(), W.HANDLE()
+    if a.OpenThreadToken(k.GetCurrentThread(), 8, True, C.byref(thread)):
+        k.CloseHandle(thread)
+        raise RuntimeError('Host thread impersonation present')
+    if C.get_last_error() != 1008:
+        raise RuntimeError('Host no-thread-token observation unavailable')
+    if not a.OpenProcessToken(k.GetCurrentProcess(), 8, C.byref(token)):
+        raise C.WinError(C.get_last_error())
+    try:
+        container, used = W.DWORD(), W.DWORD()
+        if not a.GetTokenInformation(token, 29, C.byref(container), C.sizeof(container), C.byref(used)):
+            raise C.WinError(C.get_last_error())
+        if used.value != C.sizeof(container) or container.value != 0:
+            raise RuntimeError('Host positive requires non-AppContainer process')
+    finally:
+        if not k.CloseHandle(token): raise C.WinError(C.get_last_error())
+    error = int(w.FwpmEngineOpen0(None, 10, None, None, C.byref(engine)))
+    present = bool(engine.value)
+    close = int(w.FwpmEngineClose0(engine)) if present else None
+    row = dict(kind='host_wfp_entry_positive016', pid=os.getpid(), server_null=True,
+               authn_WINNT=True, identity_null=True, session_null=True, is_appcontainer=0,
+               no_thread_token=True, winerror=error, handle_present=present,
+               close_error=close, session_retained=False)
+    if error != 0 or not present or close != 0:
+        raise RuntimeError('Matching host direct entry open/close0 unavailable: ' + json.dumps(row))
+    return row
+
+
+def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutation=False, entry016=False):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--scope', type=Path, required=True)
     parser.add_argument('--report', type=Path, required=True)
@@ -188,6 +262,8 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutati
         raise RuntimeError('This compiler canary is x64 only')
     if type(lowbox_mutation) is not bool or (lowbox_mutation and persistent_guard is None):
         raise RuntimeError('Mutation control requires exact live persistent owner')
+    if (type(entry016) is not bool or (entry016 and (persistent_guard is None or lowbox_mutation))):
+        raise RuntimeError('Separate016 entry-only live-owner mode required')
     scope = args.scope.absolute()
     report = args.report.absolute()
     setup = scope.with_name(scope.name + '-setup')
@@ -293,6 +369,14 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutati
                                    'own sublayer/filter1 same protected-DACL setters from both zero-capability '
                                    'tokens; existing IPv4/normal/cancel. No content/delete/owner-setter, other '
                                    'filters, crash/reuse, IPv6/UDP/inbound, Native or Windows product claim.')
+            if entry016:
+                guard.before_launch(parent, guard.scratch, guard.scratch / 'denial.log', guard.scope, 15)
+                result['kind'] = 'non-admitting-Windows-direct-WFP-entry-owned-lifecycle016'
+                result['scope'] = ('Literal NULL/WINNT/NULL/NULL entry denial in actual capability0 roles; '
+                                   'matching host positives and original live-owned cleanup only. '
+                                   'No object-setter/session/handle/broker or Native/product proof.')
+                result['host_entry_positive_before'] = host_entry016()
+                guard.check_contract()
             for label, hold, cap, cancel in [('denial', 0, 15, None), ('descendant_cancel', 15, 10, 2)]:
                 log = guard.scratch / (label + '.log')
                 process = None
@@ -301,6 +385,8 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutati
                     probe_argv = [parent, address, str(port), child, str(hold)]
                     if lowbox_mutation and cancel is None:
                         probe_argv += mutation_targets
+                    if entry016 and cancel is None:
+                        probe_argv.append('--wfp-entry-denial016')
                     process = run(probe_argv, cwd=guard.scratch,
                                   log=log, root=guard.scope, firewall_check=None, appcontainer=guard,
                                   seconds=cap, cancel_after=cancel)
@@ -309,6 +395,9 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutati
                     check_tokens(rows, guard.profile_sid, cancelled=cancel is not None)
                     if lowbox_mutation and cancel is None:
                         result['mutation_control'] = check_mutations(rows)
+                        guard.check_contract()
+                    if entry016 and cancel is None:
+                        result['entry_denial_control'] = check_entry016(rows)
                         guard.check_contract()
                     expected = 'success' if cancel is None else 'cancelled'
                     if process['status'] != expected or process['cleanup_complete'] is not True or process['process_count'] < 2:
@@ -322,6 +411,11 @@ def main(argv=None, *, persistent_guard=None, prepared_setup=None, lowbox_mutati
                         result.setdefault('probe_log_material', []).append(material)
                         if material['complete'] is not True and probe_error is None:
                             raise RuntimeError('Actual probe log retention is incomplete; no canary pass')
+            if entry016:
+                # Both existing jobs are reaped while original authority is live.
+                guard.check_contract()
+                result['host_entry_positive_after'] = host_entry016()
+                guard.check_contract()
             result['guard_evidence'] = guard.evidence
         result['cleanup'] = guard.cleanup_receipt
         if result['cleanup'].get('cleanup_complete') is not True:

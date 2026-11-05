@@ -231,6 +231,13 @@ def main():
                 plan['source_base_head'] == BASE_HEAD, 'exact frozen protocol kind/base required')
         mutation = plan.get('lowbox_mutation_control', False)
         require(type(mutation) is bool and (not mutation or canary), 'explicit SID-only mutation mode required')
+        entry016 = plan.get('direct_wfp_entry_denial_control', False)
+        require(type(entry016) is bool and (not entry016 or (canary and not mutation and
+                plan.get('experiment') == 'Windows016-direct-WFP-entry-lifecycle-once')),
+                'separate explicit016 entry-only mode required')
+        require((plan.get('experiment') == 'Windows016-direct-WFP-entry-lifecycle-once') is entry016,
+                '016 experiment and explicit entry-only mode must agree')
+        result['direct_wfp_entry_denial_control_requested'] = entry016
         result['lowbox_mutation_control_requested'] = mutation
         pins = plan['source_files_sha256']
         require(type(pins) is dict and set(pins) == set(source_names), 'exact stage-specific frozen source paths required')
@@ -291,7 +298,7 @@ def main():
                     result['actual_profile_operations'] = None
                     result['socket_tests_performed'] = None
                     code = run_canary(['--scope', str(scope), '--report', str(canary_report)],
-                                      persistent_guard=state, prepared_setup=setup, lowbox_mutation=mutation)
+                                      persistent_guard=state, prepared_setup=setup, lowbox_mutation=mutation, entry016=entry016)
                     child = read_json(canary_report, 192 * 1024)
                     result['canary'] = child
                     require(code == 0 and child['passed'] is True and child['cleanup']['cleanup_complete'] is True,
@@ -299,6 +306,14 @@ def main():
                     result['actual_policy_operations'] = True
                     result['actual_profile_operations'] = True
                     result['socket_tests_performed'] = True
+                    if entry016:
+                        require(child.get('kind') == 'non-admitting-Windows-direct-WFP-entry-owned-lifecycle016' and
+                                child.get('entry_denial_control', {}).get('passed') is True and
+                                child.get('host_entry_positive_before', {}).get('close_error') == 0 and
+                                child.get('host_entry_positive_after', {}).get('close_error') == 0,
+                                'direct-entry016 and complete owned lifecycle required')
+                        result['actual_direct_WFP_entry_control'] = child['entry_denial_control']
+                        result['scope'] = child['scope']
                     if mutation:
                         require(child.get('mutation_control', {}).get('passed') is True, 'owned LowBox mutation controls incomplete')
                         result['actual_lowbox_mutation_control'] = child['mutation_control']
