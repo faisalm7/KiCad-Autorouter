@@ -61,12 +61,13 @@ class ProtectedGapControls(unittest.TestCase):
         original=fixture()
         for row in p.routes(original):row.append(['locked','yes'])
         with self.assertRaisesRegex(ValueError,'no eligible'):g.derive(original)
-        for change in ('zero','duplicate','lock','conflicting-lock','arc'):
+        for change in ('zero','duplicate','lock','conflicting-lock','bare-duplicates','arc'):
             original=fixture();row=p.routes(original)[0]
             if change=='zero':sx.one(row,'net')[1]='0'
             elif change=='duplicate':row.append(['net','2'])
             elif change=='lock':row.append(['locked','no'])
             elif change=='conflicting-lock':row.extend([['locked','yes'],['locked','no']])
+            elif change=='bare-duplicates':row.extend(['locked','locked'])
             else:row[0]='arc'
             with self.subTest(change=change),self.assertRaises(ValueError):g.derive(original)
 

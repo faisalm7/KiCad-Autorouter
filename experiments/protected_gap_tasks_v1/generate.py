@@ -41,7 +41,7 @@ def derive(original):
         if not name:
             raise ValueError('nonzero original route net required')
         lock_nodes = sx.children(route, 'locked')
-        if (len(lock_nodes) > 1 or ('locked' in route and lock_nodes)
+        if (len(lock_nodes) > 1 or route.count('locked') > 1 or ('locked' in route and lock_nodes)
                 or any(node not in (['locked'], ['locked', 'yes']) for node in lock_nodes)):
             raise ValueError('unqualified original lock marker')
         groups.setdefault(name, []).append(route)
