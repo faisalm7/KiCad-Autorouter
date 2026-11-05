@@ -1,7 +1,8 @@
 """Prospective deterministic geometric development tasks; no Native authority.
 
-The fixed mask is chosen before outcomes. Original routing is not an algorithm
-input: the fresh project contains only the derived PCB and byte-exact sidecars.
+The fixed mask is chosen before outcomes. Retained protected routing and zone
+intent are algorithm inputs; removed routing and the full reference-solution PCB
+stay outside the fresh derived project and its byte-exact sidecars.
 This does not establish electrical suitability, difficulty or family independence.
 """
 from __future__ import annotations
@@ -82,7 +83,9 @@ def derive(original):
         immutable_ast_sha256=_sha(p.immutable(original)), original_route_ast_sha256=_sha(p.routes(original)),
         derived_route_ast_sha256=_sha(expected), Native_demand_qualified=False,
         initial_opens=None, difficulty_established=False, family_independence_established=False,
-        electrical_suitability_established=False, reference_route_geometry_in_algorithm_inputs=False)
+        electrical_suitability_established=False, removed_route_geometry_in_algorithm_inputs=False,
+        full_reference_solution_PCB_in_algorithm_inputs=False,
+        retained_protected_reference_geometry_is_input=True)
     return task, facts
 
 

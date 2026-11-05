@@ -90,7 +90,9 @@ class ProtectedGapControls(unittest.TestCase):
         self.assertEqual(json.loads((self.output/'provenance.json').read_text()),facts)
         self.assertFalse((self.output/'project'/'provenance.json').exists())
         self.assertFalse(facts['ready_for_comparison']);self.assertFalse(facts['Native_executed'])
-        self.assertFalse(facts['reference_route_geometry_in_algorithm_inputs'])
+        self.assertFalse(facts['removed_route_geometry_in_algorithm_inputs'])
+        self.assertFalse(facts['full_reference_solution_PCB_in_algorithm_inputs'])
+        self.assertTrue(facts['retained_protected_reference_geometry_is_input'])
 
     def test_existing_symlink_overlapping_and_wrong_inventory_outputs_refuse(self):
         self.output.mkdir();(self.output/'retain').write_bytes(b'unfinished owned work')

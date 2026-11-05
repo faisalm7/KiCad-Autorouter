@@ -5,11 +5,11 @@
   "engine_jobs": 0,
   "fixture_regressions": {
     "complete_external_wall_CPU": [
-      0.56,
-      0.21
+      0.33,
+      0.22
     ],
     "passed": true,
-    "stderr_sha256": "c8c79ac00a2396561b5ff113cc843c7bdc636ff6bd64144bea50c991a1a2061a",
+    "stderr_sha256": "cacfffeaa89c8767a6cd851400d7c8eab86763f887d9ad4a5ed962e675c43e9f",
     "tests": 8
   },
   "hardness_established": false,
@@ -17,14 +17,14 @@
   "kind": "prospective-protected-gap-task-generator-source-v1",
   "old_sources_unchanged": true,
   "policy": "protected-gap-netgroup-half-v1",
-  "preservation": "Complete sidecars and encoded design invariants; fresh owned nonoverlapping copy; no original or removedreference PCB in algorithm inputs. Native/admission/rights review still required.",
+  "preservation": "Complete sidecars and encoded invariants; fresh owned copy. Retained protected reference routing and zone intent ARE inputs; removed routing and the full reference-solution PCB are excluded. Native/admission/rights review remains required.",
   "qualification": false,
   "real_board_generation": false,
   "schema": 1,
   "seed": "protected-gap-v1-20261105",
   "source_sha256": {
-    "experiments/protected_gap_tasks_v1/generate.py": "3208ca1584257d2729327b90322dd6910013acb00e778dbe877f935878aba58e",
-    "experiments/protected_gap_tasks_v1/test_generate.py": "f1155549d5dd7d80bbdccc5e3969e85239ccfa965135dd42cce2a77615747552"
+    "experiments/protected_gap_tasks_v1/generate.py": "aeb846a6b1f330e49da73b04515eeeed97bebd44e49f06e013df3e3f819f89ed",
+    "experiments/protected_gap_tasks_v1/test_generate.py": "738999643b89142b031c398ca4a5d69642e1cbfe89071e407a7ebdbb8f61d31f"
   },
   "task_policy": "Deterministic SHA256 UTF8seed/NUL/netname rank; removeceilhalf eligiblegroups, exclude complete originallylocked groups; preserve allremaining records except addinglockyes and clearing only existing derivedfill. Refuse if no protectedrouting remains.",
   "prior_source_cutoff": {
@@ -43,5 +43,23 @@
     },
     "reason": "Before new duplicate bare-lock regression; preserved Git history and rawrun003, no real task generation."
   },
-  "source_revision_note": "Skeptical review found malformed duplicate bare locked atoms were treated as locked; now reject before task derivation. Contradictory nested/bare cases retain regressions; no Native/task was generated under earlier helper."
+  "source_revision_note": "Skeptical review found malformed duplicate bare locked atoms were treated as locked; now reject before task derivation. Contradictory nested/bare cases retain regressions; no Native/task was generated under earlier helper.",
+  "source_revisions": [
+    {
+      "source_sha256": {
+        "experiments/protected_gap_tasks_v1/generate.py": "3208ca1584257d2729327b90322dd6910013acb00e778dbe877f935878aba58e",
+        "experiments/protected_gap_tasks_v1/test_generate.py": "f1155549d5dd7d80bbdccc5e3969e85239ccfa965135dd42cce2a77615747552"
+      },
+      "fixture_regressions": {
+        "complete_external_wall_CPU": [
+          0.56,
+          0.21
+        ],
+        "passed": true,
+        "stderr_sha256": "c8c79ac00a2396561b5ff113cc843c7bdc636ff6bd64144bea50c991a1a2061a",
+        "tests": 8
+      },
+      "reason": "Before wording correction distinguishing deliberately supplied protected reference geometry from withheld removed routing. No real tasks generated."
+    }
+  ]
 }
