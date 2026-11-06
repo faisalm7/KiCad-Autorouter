@@ -6,6 +6,7 @@ import uuid
 from pathlib import Path
 import tempfile
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from experiments.placement_native_proposal_v1 import contract as c
 
@@ -48,6 +49,67 @@ class NativeProposalPureContract(unittest.TestCase):
     def setUp(self):
         self.source = fixture()
         self.observation = c.inspect_board(self.source)
+
+    def test_application_policy_defaults_to_native_and_requires_explicit_source_choice(self):
+        from . import driver
+        self.assertEqual(c.application_policy(), 'native-save-v1')
+        self.assertEqual(c.application_policy('source-translation-v1'), 'source-translation-v1')
+        for invalid in (None, True, 'native', 'source-translation', ''):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                c.application_policy(invalid)
+        argv=['--runtime','unused-runtime','--protocol','unused-protocol']
+        with patch.object(driver,'prepare') as prepare:
+            self.assertEqual(driver.main(argv),0)
+            self.assertEqual(prepare.call_args.args[-1],'native-save-v1')
+            self.assertEqual(driver.main(argv+['--application-policy','source-translation-v1']),0)
+            self.assertEqual(prepare.call_args.args[-1],'source-translation-v1')
+
+    def refill_fixture(self):
+        preimage=raw(c.translated_tree(self.source,moves()))
+        refilled=c.read_board(preimage)
+        c.sx.one(refilled,'version')[1]='20260206'
+        c.sx.one(refilled,'generator')[1]='"synthetic-normalized-copy"'
+        refilled[:]=[n for n in refilled if not (type(n) is list and n and n[0]=='net')]
+        for fp in c.sx.children(refilled,'footprint'):
+            c.sx.one(c.sx.one(fp,'pad'),'net')[:]=['net','"signal"']
+        zone=c.sx.one(refilled,'zone');c.sx.one(zone,'net')[:]=['net','"signal"']
+        zone.append(['filled_polygon',['layer','"B.Cu"'],['pts',['xy','7','23'],['xy','8','23'],['xy','8','24']]])
+        return preimage,raw(refilled)
+
+    def test_separate_refill_transfers_only_fill_and_does_not_relax_strict_policy(self):
+        preimage,refilled=self.refill_fixture();before=(preimage[:],refilled[:])
+        with self.assertRaisesRegex(ValueError,'beyond selected'):
+            c.check_translation(self.source,refilled,moves())
+        candidate=c.transplant_refill(preimage,refilled)
+        self.assertEqual((preimage,refilled),before)
+        self.assertEqual(c.p._without_derived_fill(c.read_board(candidate)),c.read_board(preimage))
+        self.assertEqual(c.sx.one(c.read_board(candidate),'version'),['version','20241229'])
+        self.assertEqual(len(c.sx.children(c.sx.one(c.read_board(candidate),'zone'),'filled_polygon')),1)
+        self.assertTrue(c.check_translation(self.source,candidate,moves())['exact_immutable_AST'])
+        audit=c.check_refill_reconstruction(preimage,refilled,candidate)
+        self.assertEqual(audit['native_output_sha256'],hashlib.sha256(refilled).hexdigest())
+        self.assertTrue(audit['exact_reconstruction'])
+
+    def test_refill_reconstruction_rejects_stale_preimage_native_fill_or_candidate(self):
+        preimage,refilled=self.refill_fixture();candidate=c.transplant_refill(preimage,refilled)
+        stale=c.read_board(preimage);c.sx.one(stale,'generator')[1]='"changed"'
+        changed=c.read_board(refilled);c.sx.one(c.sx.one(c.sx.one(changed,'zone'),'filled_polygon'),'pts')[1][1]='7.1'
+        for a,b,d in ((raw(stale),refilled,candidate),(preimage,raw(changed),candidate),
+                      (preimage,refilled,candidate+b' ')):
+            with self.subTest(a=a[:30],b=b[:30]),self.assertRaisesRegex(ValueError,'exact retained refill'):
+                c.check_refill_reconstruction(a,b,d)
+
+    def test_refill_zone_identity_loss_duplication_or_extra_zone_is_refused(self):
+        preimage,refilled=self.refill_fixture()
+        for mode in ('missing','duplicate','extra'):
+            tree=c.read_board(refilled);zone=c.sx.one(tree,'zone')
+            if mode=='missing':tree.remove(zone)
+            else:
+                extra=copy.deepcopy(zone)
+                if mode=='extra':c.sx.one(extra,'uuid')[1]='"'+identity('extra-zone')+'"'
+                tree.append(extra)
+            with self.subTest(mode=mode),self.assertRaisesRegex(ValueError,'zone identities'):
+                c.transplant_refill(preimage,raw(tree))
 
     def test_route_derivation_only_strips_routes_and_preserves_source(self):
         tree = c.read_board(self.source)

@@ -1,11 +1,10 @@
 # Placement Native feasibility probe v1
 
-**Probe001 failed safely during Native capture; no candidate was saved.**
-A bounded read-only diagnosis found that Native10.0.7 calls layer31
-`F.Courtyard`, while the saved file uses `F.CrtYd`. Probe002 prospectively
-uses the stable native enum, preserving exact population/geometry checks.
-[The retained failure](../../evidence/placement075-native-probe-001.json) is
-not a successful placement or a routing result. This experiment
+**Probe003 passed Native capture and in-memory translation, then failed the
+strict SaveBoard comparison. Probe004 is prepared only.** Native serialization
+changed the version, net representation and other source fields. The raw003
+candidate and failed receipt remain preserved. Earlier001/002 capture failures
+also remain preserved. This experiment
 tests whether the existing constrained search can produce one faithfully saved
 KiCad placement proposal. It does not route, accept a routing result, modify the
 original project, apply changes to an editor, or confer human approval.
@@ -36,14 +35,35 @@ footprint, pad/net, courtyard and zone geometry before calling the constrained
 prototype. That prototype reuses the unmodified MIT upstream search pinned in
 `../constrained_placement_v1/upstream.json`; it supplies no KiCad writer.
 
-Only the isolated pinned SWIG worker may translate the owned candidate copy.
 Every proposal is independently constrained before and after quantization to
-one nanometre. The entire saved PCB AST must equal the original task with only
-the two selected XY coordinates changed, except for derived top-level zone fill.
-No serializer normalization, UUID creation, rule change, net remapping, field
-rewrite, unselected movement or zone-intent change is exempted. Such changes
-retain the raw candidate and a failure. In particular, API coordinate semantics
-and Native SaveBoard preservation remain unqualified until this actual probe.
+one nanometre. The entire candidate PCB AST must equal the original task with
+only the two selected XY coordinates changed, except for derived top-level zone
+fill. No version change, net remapping, field rewrite, UUID creation, rule change,
+unselected movement or zone-intent change is exempted.
+
+`native-save-v1` remains the default application policy. It uses the pinned
+SWIG `SaveBoard` method and applies the original strict comparison. Its003
+failure is unchanged. `source-translation-v1` is a separate prospective policy
+bound explicitly in the command, protocol, worker request and receipts. It first
+checks actual Native geometry and `SetPosition` in memory, then writes only the
+translated source AST into the owned candidate and reloads that copy with Native.
+It never writes the Native serialized board over the candidate.
+
+For the new policy, `refill-preimage` retains the exact candidate project before
+refill. Native full-SCH refill with `--save-board` runs on a separate
+`refill-native` project. The shared `pipeline.transplant_fill` transfers only
+derived top-level zone fill into the preserved candidate. The raw Native output
+is retained even when it changes serialization. Final full-SCH Native checks,
+actual geometry/flags/net-code readback and the strict source AST comparison
+still apply to the exact candidate. Final freshness replays the shared saved
+refill stage and reconstructs the candidate byte for byte from the retained
+preimage and Native output. Every Native warning remains recorded.
+
+`native_save_board_called` refers specifically to the SWIG application worker's
+`SaveBoard` call. The separate Native CLI refill write is recorded as
+`refill_save_board_requested` and `refill_saved_copy`; a false SWIG flag does not
+mean that the separate refill copy was never saved. A crashed worker can leave
+the SWIG flag unknown rather than falsely reporting that no call occurred.
 
 A successful probe requires actual full-SCH Native checks on the derived task
 and final saved candidate, actual refill, unchanged non-open Native findings,
@@ -66,9 +86,10 @@ after lead review and a pinned checkpoint** from the selected checkout:
 '.runs/runtime075 fresh install 001/.venv/bin/python' -B \
   experiments/placement_native_proposal_v1/driver.py \
   --runtime '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime075 fresh install 001' \
-  --protocol '/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_native_proposal_v1/protocol-003.json' \
-  --protocol-sha256 0de5ab51c86676e53555e18c898bfcbf6b453905b2a9f3d62ee1af35586e0393 \
-  --output '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-native-proposal-v1-003' \
+  --protocol '/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_native_proposal_v1/protocol-004.json' \
+  --protocol-sha256 8baade73f872119156fac76b9134de73ca92ac4da5b0561ba15085abbc6d7a8e \
+  --output '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-native-proposal-v1-004' \
+  --application-policy source-translation-v1 \
   --execute-native
 ```
 
@@ -86,6 +107,11 @@ Small pure checks, with the installed runtime first and no Native module import:
 
 `preparation-evidence.json` records the ten passing pure controls and the actual
 static seed census. These checks are not evidence of Native or GUI correctness.
+The current source-translation preparation passes17 pure controls in0.063s using
+installed075 imports first. The new controls cover explicit policy selection,
+strict rejection of normalized Native output, fill-only reconstruction, changed
+preimages/fill/candidate bytes, and missing/duplicate/extra zone identities. These
+are synthetic pure controls; no004 Native execution has occurred.
 
 Independent review found a missing post-worker runtime/tool freshness check. The
 outer gate now rechecks the manifest, SWIG wrapper and actual tool pins, and

@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "source_commit": "06d652d08fb0dfa489f6f43d12b40fb544d690b5",
+  "application_policy": "native-save-v1",
+  "status": "failed_native_serialization",
+  "placement_qualified": false,
+  "accepted": false,
+  "candidate_saved": true,
+  "routing_performed": false,
+  "source_unchanged": true,
+  "failure": "ValueError: Native serialization changed fields beyond selected translations/derived fill",
+  "source_drc": {
+    "opens": 2,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0
+  },
+  "Native_capture": {
+    "actual": true,
+    "footprints": 8,
+    "pads": 6,
+    "zones": 1,
+    "source_and_candidate_in_memory_geometry_compared": true,
+    "selected": 2,
+    "unchanged": 6
+  },
+  "search": {
+    "upstream_commit": "12bb5556fc5c1db287285425aea49a1d79dc8ffa",
+    "counts": {
+      "attempted_moves": 160,
+      "constraint_rejected_moves": 48,
+      "attempted_alternatives": 1
+    },
+    "sampled_wall_seconds": 0.055263791990000755,
+    "sampled_cpu_seconds": 0.05526400000000009
+  },
+  "proxy_cost_only": {
+    "before": 42.0,
+    "after": 31.040573447568285,
+    "route_quality_claim": false
+  },
+  "moves_nm": {
+    "953eb9d9-83f3-5938-a1a1-ab40cf790dcb": [
+      20181228,
+      9531719
+    ],
+    "f4913284-f8a5-5128-b764-06e77958c4a1": [
+      17287869,
+      9678933
+    ]
+  },
+  "native_saved_candidate_sha256": "9929e2e95c72976b8efb76921d967f8a114b70737617647d3aed73b7e639fa14",
+  "total_limit_seconds": 120,
+  "wall_seconds": 3.871054958028253,
+  "cpu_seconds": 3.181776,
+  "controller_exit_not_measured": true,
+  "execution_sha256": "247ad25cf1b4e73ddfe6949a193243bcede123c29343378ecfdca42969900f5c",
+  "raw_root": ".runs/placement-native-proposal-v1-003",
+  "observed_serializer_changes": [
+    "PCB version20241229 to20260206",
+    "global numbered net declarations replaced by named-net serialization",
+    "layer and setup representations changed",
+    "root item order changed"
+  ],
+  "decision": "Do not admit whole-board NativeSaveBoard output under strict source contract. Prepare explicit source-translation policy preserving entire source AST except approved XY, with independent Native observation, separate real refill, existing derived-fill transplant and final full-SCH validation.",
+  "later_validation_run": false,
+  "installed_product_unchanged": true
+}

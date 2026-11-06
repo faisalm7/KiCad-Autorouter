@@ -96,9 +96,10 @@ def main(argv=None):
          and Path(sys.executable).resolve() == c.PYTHON.resolve(), 'Pinned installed 10.0.7 interpreter required')
     request, output = h.real_path(args.request), h.real_path(args.output, existing=False)
     spec = f.read_json(request)
-    need(set(spec) == {'schema','mode','board','source_hashes','candidate','moves_nm','job','job_identity',
+    need(set(spec) == {'schema','mode','board','source_hashes','candidate','moves_nm','job','job_identity','application_policy',
                        'runtime_manifest_sha256','wrapper_sha256','code_sha256'}, 'Exact worker request required')
     need(type(spec['schema']) is int and spec['schema'] == 1 and spec['mode'] in ('capture', 'translate'), 'Worker mode/schema differs')
+    policy = contract.application_policy(spec['application_policy'])
     job = h.real_path(spec['job']); owner = dict(destination=job, directory_identity=tuple(spec['job_identity']))
     need(h.owned_destination(owner) == job and request.parent == output.parent == job, 'Owned worker paths differ')
     board = h.real_path(spec['board']); need(job in board.parents and request.parent != board.parent, 'Owned isolated source required')
@@ -121,7 +122,10 @@ def main(argv=None):
 
     record = dict(schema=1, status='failed', accepted=False, routing_accepted=False,
                   native_version='10.0.7', source=str(board), source_hashes=spec['source_hashes'],
-                  request_sha256=p.sha(request), board_saved=False, actual_native_observation=False)
+                  request_sha256=p.sha(request), board_saved=False, actual_native_observation=False,
+                  application_policy=policy, native_save_board_called=False,
+                  candidate=str(candidate) if candidate is not None else None,
+                  candidate_hashes_before=pc.inventory(candidate.parent) if candidate is not None else None)
     try:
         fresh()
         import pcbnew, _pcbnew
@@ -142,12 +146,23 @@ def main(argv=None):
                 footprints[identity].SetPosition(pcbnew.VECTOR2I(*target))
             _, after_details = capture(native, pcbnew, expected_raw, contract, fc)
             need(after_details == details, 'Native translation changed zone flags or pad net codes')
-            pcbnew.SaveBoard(str(candidate), native); record['board_saved'] = True
+            fresh(); h.owned_destination(owner)
+            need(pc.inventory(candidate.parent) == spec['source_hashes'], 'Translation copy changed before write')
+            if policy == 'native-save-v1':
+                record['native_save_board_called'] = True
+                pcbnew.SaveBoard(str(candidate), native)
+            else:
+                # The prospective policy writes exactly the original source
+                # AST with selected XY edits. It never accepts Native metadata
+                # normalization or transfers any Native writer authority.
+                candidate.write_bytes(expected_raw)
+            record['board_saved'] = True
             written = pc.read_bytes(candidate, contract.MAX_BYTES)
+            record['candidate_hashes_after'] = pc.inventory(candidate.parent)
             record['saved_candidate_sha256'] = hashlib.sha256(written).hexdigest()
             record['immutable_check'] = contract.check_translation(raw, written, spec['moves_nm'])
             _, saved_details = capture(pcbnew.LoadBoard(str(candidate)), pcbnew, written, contract, fc)
-            need(saved_details == details, 'Native serialization changed zone flags or pad net codes')
+            need(saved_details == details, 'Candidate reload changed zone flags or pad net codes')
             need({k:v for k,v in pc.inventory(candidate.parent).items() if k != board.name}
                  == {k:v for k,v in spec['source_hashes'].items() if k != board.name}, 'Native save changed sidecars')
         else:

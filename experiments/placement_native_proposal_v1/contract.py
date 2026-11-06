@@ -17,6 +17,12 @@ from experiments.constrained_placement_v1 import constraints as constraints
 SELECTED = ('953eb9d9-83f3-5938-a1a1-ab40cf790dcb', 'f4913284-f8a5-5128-b764-06e77958c4a1')
 REGION_NM = (7_000_000, 7_000_000, 31_000_000, 13_000_000)
 MAX_BYTES = 1024 * 1024
+APPLICATION_POLICIES = ('native-save-v1', 'source-translation-v1')
+
+
+def application_policy(value='native-save-v1'):
+    need(type(value) is str and value in APPLICATION_POLICIES, 'Explicit supported application policy required')
+    return value
 
 
 def need(test, message):
@@ -228,4 +234,26 @@ def check_translation(source_raw, candidate_raw, moves):
     actual = p._without_derived_fill(read_board(candidate_raw))
     need(actual == expected, 'Native serialization changed fields beyond selected translations/derived fill')
     return dict(exact_immutable_AST=True, allowed_changes=['selected footprint XY', 'derived top-level zone fill'],
+                candidate_sha256=hashlib.sha256(candidate_raw).hexdigest())
+
+
+def transplant_refill(preimage_raw, native_refill_raw):
+    """Copy only shared derived-fill fields from a retained separate Native copy."""
+    preimage, refilled = read_board(preimage_raw), read_board(native_refill_raw)
+    before_ids = [uid(zone) for zone in sx.children(preimage, 'zone')]
+    after_ids = [uid(zone) for zone in sx.children(refilled, 'zone')]
+    need(len(set(before_ids)) == len(before_ids) and len(set(after_ids)) == len(after_ids)
+         and set(before_ids) == set(after_ids), 'Refill zone identities differ')
+    rebuilt = p.transplant_fill(preimage, refilled)
+    need(p._without_derived_fill(rebuilt) == p._without_derived_fill(preimage),
+         'Refill transplant changed source fields')
+    return (sx.dump(rebuilt) + '\n').encode()
+
+
+def check_refill_reconstruction(preimage_raw, native_refill_raw, candidate_raw):
+    need(candidate_raw == transplant_refill(preimage_raw, native_refill_raw),
+         'Candidate differs from exact retained refill reconstruction')
+    return dict(policy='derived-zone-fill-only', exact_reconstruction=True,
+                preimage_sha256=hashlib.sha256(preimage_raw).hexdigest(),
+                native_output_sha256=hashlib.sha256(native_refill_raw).hexdigest(),
                 candidate_sha256=hashlib.sha256(candidate_raw).hexdigest())

@@ -44,10 +44,11 @@ def context(runtime):
     return c, p, f, gui, h, pc
 
 
-def prepare(runtime, protocol, output=None):
+def prepare(runtime, protocol, output=None, application_policy='native-save-v1'):
     c, p, f, gui, h, pc = context(runtime)
     from experiments.placement_native_proposal_v1 import contract
     from scripts.backup import require_headroom
+    policy = contract.application_policy(application_policy)
     source = h.real_path(ROOT / SEED)
     saved = f.read_json(ROOT / SEED_MANIFEST)['roles']['ordinary']
     assert saved['source'] == str(source) and gui.source_inventory(source) == saved['source_hashes']
@@ -58,6 +59,7 @@ def prepare(runtime, protocol, output=None):
     assert len(derivation['removed_routes']) == 4
     record = dict(schema=1, kind='placement-native-proposal-feasibility-v1',
         readiness='prepared_for_lead_review_unexecuted', Native_executed=False, accepted=False,
+        application_policy=policy,
         runtime=str(runtime.relative_to(ROOT)), runtime_manifest_sha256=p.sha(runtime / 'runtime-distribution.json'),
         seed=SEED, seed_manifest=SEED_MANIFEST, seed_manifest_sha256=p.sha(ROOT / SEED_MANIFEST),
         source_hashes=saved['source_hashes'], derivation=derivation,
@@ -73,7 +75,8 @@ def prepare(runtime, protocol, output=None):
         space_plan=require_headroom(ROOT,512 * 1024**2,'one Native placement feasibility probe'),
         limitations=['Translation only; front, zero rotation, symmetric rectangular courtyard, centred circular PTH pads.',
             'One rectangular outline, no cutouts/keepouts; preserved zones must be outside selected movement region.',
-            'Strict Native save comparison permits only selected XY and derived fill. Serializer normalization is a retained failure.',
+            'Strict candidate comparison permits only selected XY and derived fill; the native-save-v1 policy remains the default.',
+            'source-translation-v1 explicitly writes source XY edits and imports only derived fill from a separately retained Native copy.',
             'No routing, application, Native release, GUI or human review claim; actual Native APIs remain unqualified until lead execution.'])
     assert protocol.parent == HERE and not protocol.exists() and not protocol.is_symlink()
     target = h.real_path(output if output else ROOT / '.runs/placement-native-proposal-v1-001', existing=False)
@@ -81,7 +84,7 @@ def prepare(runtime, protocol, output=None):
     p.save_json(protocol, record)
     command = [str(runtime / '.venv/bin/python'), '-B', str(HERE / 'driver.py'), '--runtime', str(runtime),
                '--protocol', str(protocol), '--protocol-sha256', p.sha(protocol),
-               '--output', str(target), '--execute-native']
+               '--output', str(target), '--application-policy', policy, '--execute-native']
     print(json.dumps(dict(readiness=record['readiness'], protocol_sha256=p.sha(protocol),
                          execute_command=shlex.join(command), Native_executed=False)))
 
@@ -90,6 +93,8 @@ def read_protocol(args, runtime, p, f, gui):
     protocol = Path(args.protocol).resolve()
     assert p.sha(protocol) == args.protocol_sha256
     spec = f.read_json(protocol)
+    from experiments.placement_native_proposal_v1 import contract
+    assert contract.application_policy(spec['application_policy']) == args.application_policy
     assert spec['schema'] == 1 and spec['kind'] == 'placement-native-proposal-feasibility-v1'
     assert spec['runtime'] == str(runtime.relative_to(ROOT)) and spec['seed'] == SEED
     assert spec['source_hashes'] == gui.source_inventory(ROOT / SEED)
@@ -143,8 +148,14 @@ def worker(args, runtime):
                   budget_seconds=110, cpu_budget_seconds=110, protocol_sha256=args.protocol_sha256,
                   steps=job.steps, external_exit_required=True, original_mutated=False,
                   whole_project_drc_clean=False, routing_performed=False)
+    record.update(application_policy=spec['application_policy'],native_save_board_called=False,
+                  refill_save_board_requested=False)
     snapshot = job.out / 'snapshot' / source.name; task = job.out / 'task' / source.name
     candidate = job.out / 'candidate' / source.name
+    refill_preimage = job.out / 'refill-preimage' / source.name
+    refill_copy = job.out / 'refill-native' / source.name
+    refill_board = candidate if spec['application_policy']=='native-save-v1' else refill_copy
+    refill_before = None
     final_drc_before = None
     def fresh():
         h.owned_destination(job._local_settings_owner)
@@ -158,7 +169,21 @@ def worker(args, runtime):
             assert gui.source_inventory(task) == record['task_hashes']
             assert gui.source_inventory(candidate) == record['candidate_hashes']
             assert p.sha(job.out/'proposal.json') == record['proposal_sha256']
+            proposal=f.read_json(job.out/'proposal.json')
+            assert p.sha(job.out/'capture-observation.json')==proposal['source_observation_sha256']
+            assert p.sha(job.out/'translate-observation.json')==record['translation_observation_sha256']
             assert p.sha(job.out/'final-capture-observation.json') == record['observed_candidate_sha256']
+            refill_replay=f.check_drc_stage(job.out,record,'refill-drc',refill_board,
+                refill_board,True,refill_before,schematic_parity=True)
+            assert f.canonical(refill_replay) == f.canonical(record['refill_native'])
+            if spec['application_policy']=='source-translation-v1':
+                assert gui.source_inventory(refill_preimage)==record['refill_preimage_hashes']
+                assert gui.source_inventory(refill_copy)==record['refill_native_hashes']
+                preimage_raw=pc.read_bytes(refill_preimage,contract.MAX_BYTES)
+                contract.check_translation(pc.read_bytes(task,contract.MAX_BYTES),preimage_raw,moves)
+                audit=contract.check_refill_reconstruction(preimage_raw,
+                    pc.read_bytes(refill_copy,contract.MAX_BYTES),pc.read_bytes(candidate,contract.MAX_BYTES))
+                assert audit==record['refill_transplant']
             # Replay the retained full-SCH/PRL/process evidence after later SWIG
             # reads and during publication; no cached cleanliness Boolean.
             replay=f.check_drc_stage(job.out,record,'final-drc',candidate,
@@ -167,6 +192,7 @@ def worker(args, runtime):
     def native_request(name, board, moves=None):
         fresh()
         request = dict(schema=1, mode='capture' if moves is None else 'translate', board=str(board),
+            application_policy=spec['application_policy'],
             source_hashes=gui.source_inventory(board), candidate=None if moves is None else str(candidate),
             moves_nm={} if moves is None else moves, job=str(job.out),
             job_identity=list(job._local_settings_owner['directory_identity']),
@@ -174,11 +200,22 @@ def worker(args, runtime):
         path=job.out/(name+'-request.json'); output=job.out/(name+'-observation.json')
         p.save_json(path,request)
         argv=[str(c.PYTHON),str(HERE/'worker.py'),'--runtime',str(runtime),'--request',str(path),'--output',str(output)]
-        job.step(name,argv)
+        if moves is not None:record['native_save_board_called']=None  # Unknown if the worker crashes before reporting.
+        try:
+            job.step(name,argv)
+        finally:
+            if moves is not None and output.is_file():
+                retained=f.read_json(output)
+                assert retained['request_sha256']==p.sha(path) and retained['application_policy']==spec['application_policy']
+                assert type(retained['native_save_board_called']) is bool
+                record.update(native_save_board_called=retained['native_save_board_called'],
+                    translation_observation_sha256=p.sha(output),translation_candidate_hashes=retained.get('candidate_hashes_after'))
         f.process_check(job.out,record,name,[*f.SANDBOX,*argv])
         value=f.read_json(output)
         assert value['actual_native_observation'] is True and value['source_hashes']==request['source_hashes']
         assert value['request_sha256']==p.sha(path) and value['accepted'] is False
+        assert value['application_policy']==spec['application_policy']
+        assert value['native_save_board_called'] is (moves is not None and spec['application_policy']=='native-save-v1')
         fresh();return value
     def drc(name, board, saved=False):
         fresh(); before=gui.source_inventory(board)
@@ -211,6 +248,7 @@ def worker(args, runtime):
         selected,moves=contract.quantized_translation(facts,search['alternatives'][0]['candidate'])
         assert selected!=constraints.original_alternative(facts)
         p.save_json(job.out/'proposal.json',dict(schema=1,source=str(task),source_hashes=record['task_hashes'],
+            application_policy=spec['application_policy'],
             source_observation_sha256=p.sha(job.out/'capture-observation.json'),candidate=selected,moves_nm=moves,
             quantization='nearest 1 nm; independently revalidated',accepted=False,routing_accepted=False,
             execution_authorized=False,human_approval=False))
@@ -218,11 +256,30 @@ def worker(args, runtime):
         translated=native_request('translate',task,moves)
         assert translated['status']=='translated_copy'
         contract.check_translation(derived,pc.read_bytes(candidate),moves)
-        refill=drc('refill-drc',candidate,True)
+        if spec['application_policy']=='source-translation-v1':
+            pc.copy_project(candidate.parent,refill_preimage.parent)
+            pc.copy_project(refill_preimage.parent,refill_copy.parent)
+            assert gui.source_inventory(refill_preimage)==gui.source_inventory(refill_copy)==gui.source_inventory(candidate)
+            record['refill_preimage_hashes']=gui.source_inventory(refill_preimage)
+            record['refill_preimage']=str(refill_preimage)
+        refill_before=gui.source_inventory(refill_board)
+        record.update(refill_save_board_requested=True,refill_saved_copy=str(refill_board))
+        refill=drc('refill-drc',refill_board,True)
         record['refill_native']=refill
+        if spec['application_policy']=='source-translation-v1':
+            assert placement_findings(refill,p)==source_findings and refill['ignored_checks']==source_native['ignored_checks']
+            preimage_raw=pc.read_bytes(refill_preimage,contract.MAX_BYTES)
+            native_refill_raw=pc.read_bytes(refill_copy,contract.MAX_BYTES)
+            record['refill_native_hashes']=gui.source_inventory(refill_copy)
+            assert gui.source_inventory(candidate)==record['refill_preimage_hashes']
+            h.owned_destination(job._local_settings_owner)
+            candidate.write_bytes(contract.transplant_refill(preimage_raw,native_refill_raw))
+            record['refill_transplant']=contract.check_refill_reconstruction(preimage_raw,native_refill_raw,
+                pc.read_bytes(candidate,contract.MAX_BYTES))
         record['immutable_check']=contract.check_translation(derived,pc.read_bytes(candidate),moves)
         final_drc_before=gui.source_inventory(candidate)
         final=drc('final-drc',candidate)
+        record['final_native']=final
         assert placement_findings(final,p)==source_findings and final['ignored_checks']==source_native['ignored_checks']
         final_observed=native_request('final-capture',candidate)
         assert final_observed['details']==observed['details'], 'Final zone flags or pad net codes changed'
@@ -250,11 +307,12 @@ def main(argv=None):
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--runtime',required=True);ap.add_argument('--protocol',required=True)
     ap.add_argument('--protocol-sha256');ap.add_argument('--output')
+    ap.add_argument('--application-policy',choices=('native-save-v1','source-translation-v1'),default='native-save-v1')
     ap.add_argument('--execute-native',action='store_true');ap.add_argument('--worker',action='store_true')
     args=ap.parse_args(argv);runtime=Path(args.runtime).resolve();protocol=Path(args.protocol).resolve()
     if not args.execute_native:
         assert not args.worker
-        prepare(runtime,protocol,args.output);return 0
+        prepare(runtime,protocol,args.output,args.application_policy);return 0
     c,p,f,gui,h,pc=context(runtime)
     assert Path(sys.prefix).resolve()==runtime/'.venv' and args.output and args.protocol_sha256
     if args.worker:
@@ -272,7 +330,8 @@ def main(argv=None):
         space=require_headroom(ROOT,512*1024**2,'one Native placement feasibility probe')
         out.mkdir(mode=0o700);owner={};h.capture_destination(owner,out)
         command=[str(runtime/'.venv/bin/python'),'-B',str(HERE/'driver.py'),'--runtime',str(runtime),
-            '--protocol',str(protocol),'--protocol-sha256',args.protocol_sha256,'--output',str(out),'--execute-native','--worker']
+            '--protocol',str(protocol),'--protocol-sha256',args.protocol_sha256,'--output',str(out),
+            '--application-policy',args.application_policy,'--execute-native','--worker']
         process=run(command,cwd=out,env=gui.child_environment(),log=out/'command.log',timeout=max(.001,115-(time.monotonic()-ENTRY)),
             max_log_bytes=512*1024,max_group_rss_bytes=spec['process_group_rss_bytes'],max_workdir_bytes=512*1024**2)
         p.save_json(out/'process.json',process)
@@ -281,6 +340,8 @@ def main(argv=None):
         if value and value.get('placement_proposal_validated'):
             p.check_resource_accounting(value)
             stable=bool(stable and value['status']=='placement_proposal_validated'
+                and value['application_policy']==spec['application_policy']
+                and value['native_save_board_called'] is (spec['application_policy']=='native-save-v1')
                 and value['accepted'] is False and value['routing_accepted'] is False
                 and gui.source_inventory(Path(value['candidate']))==value['candidate_hashes']
                 and runtime_unchanged(runtime,c.PCBNEW.with_name('pcbnew.py'),spec,value['tools'],p))
@@ -290,6 +351,7 @@ def main(argv=None):
             and process['status']=='success' and process['exit_code']==0 and process['cleanup_complete'] is True
             and process['log_truncated'] is False and max(wall,total_cpu)+1<=120)
         record=dict(schema=1,placement_proposal_qualified=qualified,accepted=False,routing_accepted=False,
+            application_policy=spec['application_policy'],native_save_board_called=value.get('native_save_board_called') if value else None,
             process=process,complete_worker_exit_wall_seconds=wall,parent_plus_waited_child_cpu_seconds=total_cpu,
             publication_allowance_seconds=1,total_limit_seconds=120,controller_exit_not_measured=True,
             child_receipt_sha256=child_sha,source_unchanged=stable,space_plan=space,
