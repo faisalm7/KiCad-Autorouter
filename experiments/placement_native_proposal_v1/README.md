@@ -22,8 +22,7 @@ ordinary GND zone. Two fixed-seed alternatives are requested; the first returned
 proposal is selected prospectively for Native qualification, without comparing
 later routing outcomes. Other alternatives are geometric proposals only. This
 is an exposed development fixture, not an unrelated or untouched family.
-New source work is **not yet Native-qualified**; completed004 evidence applies
-to its narrower historical scope. The installed075 runtime remains unchanged.
+[Native006](../../evidence/placement075-native-proposal-006.json) passed this scope: two selected translations, four fixed components, eight pads and one exact retained locked KEEP segment. Source/refill/final full-SCH checks each retain two opens, zero blocking findings, warnings or exclusions. [Failed005](../../evidence/placement075-native-probe-005.json) remains refused for six authored Datasheet mismatches; source002 fixes only those fields prospectively. The installed075 runtime remains unchanged; installed placement/GUI support and routing of006 are not established by this placement check.
 
 The pinned seed is GUI105's project-owned ordinary transport fixture. Its PCB,
 project, complete schematic and local settings are copied into a new owned task.

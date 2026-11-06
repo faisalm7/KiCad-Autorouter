@@ -1,0 +1,282 @@
+{
+  "schema": 1,
+  "status": "placement_proposal_qualified",
+  "source_commit": "c7d4e3ddd1ada8125092abcd4ba29b9355477228",
+  "installed_build": "b91520b90cdfeb86aba1dd1e9458e941f2c810a7",
+  "scope": "multipad-preserve-v1",
+  "candidate_sha256": "360440cd05cc817a2d696c27e84f5d3b2ad524513ae98d2e2fb03b7f6ee89c4a",
+  "source_hashes": {
+    "owned-placement-multipad.kicad_pcb": "4f72ef42dd51db8bd5fb265e28159cb02f8d71d51f70c969085f186d711ff7e1",
+    "owned-placement-multipad.kicad_prl": "7254c14a8e07658cd87adbefcf2e90f50768c8371990dcb5870062dee25a4e10",
+    "owned-placement-multipad.kicad_pro": "c74502eedb3af50bee84422ea4a33b1523443d777c3ec89f3b11cd261c9d2670",
+    "owned-placement-multipad.kicad_sch": "e6fed6902827b0dce27b655ffd83fcd89e4eaff9b81a4cc6279b4064b384ab61"
+  },
+  "selected": [
+    "1c5bff0f-f073-5fbd-9651-02acb2c5aeb8",
+    "dbf56e59-9122-5c8e-93a9-030706254508"
+  ],
+  "moves_nm": {
+    "1c5bff0f-f073-5fbd-9651-02acb2c5aeb8": [
+      26290743,
+      9945117
+    ],
+    "dbf56e59-9122-5c8e-93a9-030706254508": [
+      20234657,
+      9846186
+    ]
+  },
+  "footprints": 6,
+  "pads": 8,
+  "preserved_routes": [
+    {
+      "uuid": "93fd72ff-efb1-5209-8281-6a5cb36ae8f4",
+      "kind": "segment",
+      "net": "KEEP",
+      "start_nm": [
+        12000000,
+        16000000
+      ],
+      "end_nm": [
+        26000000,
+        16000000
+      ],
+      "width_nm": 300000,
+      "layer": "F.Cu",
+      "locked": true
+    }
+  ],
+  "removed_routes": [],
+  "native": {
+    "source_native": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 1 [ROUTE_A] of J1",
+              "pos": {
+                "x": 10.73,
+                "y": 10.0
+              },
+              "uuid": "56264a91-92bc-58e8-b8d2-915d836f6f11"
+            },
+            {
+              "description": "PTH pad 1 [ROUTE_A] of J2",
+              "pos": {
+                "x": 24.73,
+                "y": 10.0
+              },
+              "uuid": "d907d9a7-9e3a-5c67-9757-428ba23e0efd"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 2 [ROUTE_B] of J1",
+              "pos": {
+                "x": 13.27,
+                "y": 10.0
+              },
+              "uuid": "35fa7b38-6841-5702-88d3-9d8db3be89c1"
+            },
+            {
+              "description": "PTH pad 2 [ROUTE_B] of J2",
+              "pos": {
+                "x": 27.27,
+                "y": 10.0
+              },
+              "uuid": "d6310570-5442-50d4-bdae-cb0f8f9bb82e"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ]
+    },
+    "refill_native": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 1 [ROUTE_A] of J2",
+              "pos": {
+                "x": 18.964657,
+                "y": 9.846186
+              },
+              "uuid": "d907d9a7-9e3a-5c67-9757-428ba23e0efd"
+            },
+            {
+              "description": "PTH pad 1 [ROUTE_A] of J1",
+              "pos": {
+                "x": 25.020743,
+                "y": 9.945117
+              },
+              "uuid": "56264a91-92bc-58e8-b8d2-915d836f6f11"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 2 [ROUTE_B] of J2",
+              "pos": {
+                "x": 21.504657,
+                "y": 9.846186
+              },
+              "uuid": "d6310570-5442-50d4-bdae-cb0f8f9bb82e"
+            },
+            {
+              "description": "PTH pad 2 [ROUTE_B] of J1",
+              "pos": {
+                "x": 27.560743,
+                "y": 9.945117
+              },
+              "uuid": "35fa7b38-6841-5702-88d3-9d8db3be89c1"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ]
+    },
+    "final_native": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 1 [ROUTE_A] of J2",
+              "pos": {
+                "x": 18.964657,
+                "y": 9.846186
+              },
+              "uuid": "d907d9a7-9e3a-5c67-9757-428ba23e0efd"
+            },
+            {
+              "description": "PTH pad 1 [ROUTE_A] of J1",
+              "pos": {
+                "x": 25.020743,
+                "y": 9.945117
+              },
+              "uuid": "56264a91-92bc-58e8-b8d2-915d836f6f11"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        },
+        {
+          "description": "Missing connection between items",
+          "items": [
+            {
+              "description": "PTH pad 2 [ROUTE_B] of J2",
+              "pos": {
+                "x": 21.504657,
+                "y": 9.846186
+              },
+              "uuid": "d6310570-5442-50d4-bdae-cb0f8f9bb82e"
+            },
+            {
+              "description": "PTH pad 2 [ROUTE_B] of J1",
+              "pos": {
+                "x": 27.560743,
+                "y": 9.945117
+              },
+              "uuid": "35fa7b38-6841-5702-88d3-9d8db3be89c1"
+            }
+          ],
+          "severity": "error",
+          "type": "unconnected_items"
+        }
+      ]
+    }
+  },
+  "source_unchanged": true,
+  "exact_immutable_AST": true,
+  "original_mutated": false,
+  "search_bounds": {
+    "seed": 7,
+    "steps_per_alternative": 160,
+    "alternatives": 2,
+    "wall_and_cpu_seconds": 2
+  },
+  "returned_alternatives": 2,
+  "selection": "First returned seed7 proposal fixed prospectively; other alternative only geometry-checked, no routing-based winner selection.",
+  "placement_wall_seconds": 7.691000249993522,
+  "placement_cpu_seconds": 6.111782000000001,
+  "controller_exit_not_measured": true,
+  "total_wall_and_cpu_limit_seconds": 120,
+  "accepted": false,
+  "routing_performed": false,
+  "actual_GUI": false,
+  "human_approval": false,
+  "model_calls": 0,
+  "prior_failed_source_control": "placement075-native-probe-005.json",
+  "prior_failed_source_control_cost": {
+    "wall_seconds": 3.4369711669860408,
+    "cpu_seconds": 2.303537
+  },
+  "additional_costs": "Authoring/review/preparation and controller exit not fully measured; not zero. No comparative performance claim.",
+  "independent_software_review_sha256": "62671c460f27064b9318facfe6d3049c7b4fb22e26bd7b75181ed1c88342f515",
+  "raw_root": ".runs/placement-native-proposal-v1-006",
+  "pins": {
+    "execution.json": "c955b81972905866a59654249d4e748e3d67bd5b98081846d6229c67430a9dd7",
+    "work/result.json": "961999c08f82e2c5db13bb3c8ef900c11bae7f448a9afc9ef15e4d0538f883f2",
+    "work/proposal.json": "1978d4421253648a1936dafd0a56bd9ecad614272549b871f97bb2283a9cc18b"
+  },
+  "limitations": [
+    "One owned exposed development fixture with rectangular board/courtyards, circular PTH pads, no rotations/flips/groups/keepouts.",
+    "Retains unrelated straight copper and fixes all components on routed nets; does not move already routed components.",
+    "Two expected opens remain. Placement qualification is not routing completion or approval.",
+    "No installed placement UI, live application, human usefulness, broad electrical or routing superiority claim."
+  ]
+}
