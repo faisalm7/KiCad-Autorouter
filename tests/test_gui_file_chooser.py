@@ -31,6 +31,33 @@ class FileChooserTests(unittest.TestCase):
         window,dialog,adopt,queued,closed,event=self.chooser();queued.pop()();event.GetReturnCode.return_value=5101;closed(event)
         adopt.assert_not_called();dialog.Destroy.assert_called_once();window.refused.assert_not_called()
 
+    def test_path_browse_adoption_clears_ack_but_cancellation_preserves_it(self):
+        for accepted in (False, True):
+            with self.subTest(accepted=accepted):
+                window,dialog,adopt,queued,closed,event=self.chooser()
+                window.ack=Mock();window.ack.GetValue.return_value=True
+                window.ack.SetValue.side_effect=lambda value:setattr(window.ack.GetValue,'return_value',value)
+                window.flow=SimpleNamespace(workspace=Path('/owned/previous'))
+                window.inspected=Mock();window.log=Mock()
+                window.changed=lambda event:window_method('changed')(window,event)
+                path=Mock();path.GetValue.return_value='/owned/original.kicad_pcb'
+                # wx.TextCtrl.SetValue emits EVT_TEXT, the path callback tested
+                # against the real constructor binding in test_gui.py.
+                def set_value(value):
+                    path.GetValue.return_value=value
+                    window_method('path_changed')(window,Mock())
+                path.SetValue.side_effect=set_value
+                adopt.side_effect=path.SetValue
+                queued.pop()();event.GetReturnCode.return_value=5100 if accepted else 5101;closed(event)
+                self.assertEqual(window.ack.GetValue(),not accepted)
+                self.assertEqual(path.GetValue(),dialog.GetPath() if accepted else '/owned/original.kicad_pcb')
+                if accepted:
+                    path.SetValue.assert_called_once_with(dialog.GetPath())
+                    self.assertIsNone(window.flow);window.inspected.SetValue.assert_called_once_with(False)
+                else:
+                    path.SetValue.assert_not_called();window.ack.SetValue.assert_not_called()
+                    self.assertIsNotNone(window.flow);window.inspected.SetValue.assert_not_called()
+
     def test_wrong_dialog_and_stale_input_cannot_adopt(self):
         window,dialog,adopt,queued,closed,event=self.chooser();queued.pop()();event.GetDialog.return_value=Mock();closed(event)
         adopt.assert_not_called();dialog.Destroy.assert_not_called()

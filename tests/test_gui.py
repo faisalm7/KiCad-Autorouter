@@ -190,6 +190,56 @@ class CliJobTests(unittest.TestCase):
                 callback(window, action)
                 inspected.SetValue.assert_called_once_with(False)
 
+    def test_path_edits_clear_source_ack_and_gate_preview_inspect_until_rechecked(self):
+        tree = ast.parse(Path(gui.__file__).read_text())
+        main = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'main')
+        window_class = next(node for node in main.body if isinstance(node, ast.ClassDef) and node.name == 'Window')
+        init = next(node for node in window_class.body if isinstance(node, ast.FunctionDef) and node.name == '__init__')
+        # Exercise the actual constructor binding, not just an unbound callback.
+        binding = next(node for node in init.body if isinstance(node, ast.For)
+                       and isinstance(node.iter, ast.Tuple)
+                       and [getattr(item, 'attr', None) for item in node.iter.elts] == ['board', 'output'])
+        for edited in ('board', 'output'):
+            for action in ('preview', 'inspect'):
+                with self.subTest(edited=edited, action=action):
+                    ack = Mock(); ack.GetValue.return_value = True
+                    ack.SetValue.side_effect = lambda value: setattr(ack.GetValue, 'return_value', value)
+                    window = SimpleNamespace(busy=False, chooser=None, input_generation=0, pending_proposal=object(),
+                        flow=SimpleNamespace(workspace=Path('/owned/previous')), ack=ack, inspected=Mock(),
+                        board=Mock(), output=Mock(), method=Mock(), status=Mock(), log=Mock(),
+                        refresh=Mock(), refused=Mock(), config=lambda: dict(pref.DEFAULTS))
+                    window.board.GetValue.return_value = '/owned/new-source/board.kicad_pcb'
+                    window.output.GetValue.return_value = '/owned/new-output'
+                    window.method.GetSelection.return_value = 0
+                    window.changed = lambda event: window_method('changed')(window, event)
+                    window.path_changed = lambda event: window_method('path_changed')(window, event)
+                    wx = Mock()
+                    exec(compile(ast.Module(body=[binding], type_ignores=[]), gui.__file__, 'exec'),
+                         {'self': window, 'wx': wx})
+                    callback = getattr(window, edited).Bind.call_args.args[1]
+                    callback(Mock())
+                    self.assertFalse(ack.GetValue()); self.assertIsNone(window.flow)
+                    self.assertIsNone(window.pending_proposal)
+                    window.inspected.SetValue.assert_called_once_with(False)
+                    job = Mock(); threads = Mock()
+                    act = window_method('act', CliJob=job, threading=threads)
+                    act(window, action)
+                    self.assertIn('acknowledge the exact paths', window.refused.call_args.args[0])
+                    job.assert_not_called(); threads.Thread.assert_not_called()
+                    self.assertFalse(window.busy)
+                    ack.SetValue(True); window.refused.reset_mock()
+                    act(window, action)
+                    window.refused.assert_not_called(); job.assert_called_once_with()
+                    threads.Thread.return_value.start.assert_called_once_with()
+
+    def test_routing_only_settings_keep_source_acknowledgement(self):
+        ack = Mock(); ack.GetValue.return_value = True
+        window = SimpleNamespace(busy=False, input_generation=0, flow=None, ack=ack,
+            inspected=Mock(), status=Mock(), log=Mock(), refresh=Mock())
+        window_method('changed')(window, Mock())
+        ack.SetValue.assert_not_called(); self.assertTrue(ack.GetValue())
+        window.inspected.SetValue.assert_called_once_with(False)
+
     def test_cancel_once_and_before_start_never_launches(self):
         job = gui.CliJob(); job.process = Mock(); job.process.poll.return_value = None
         job.cancel(); job.cancel()

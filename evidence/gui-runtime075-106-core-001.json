@@ -1,0 +1,981 @@
+{
+  "schema": 1,
+  "kind": "actual075-GUI106-finite-core-observations-v1",
+  "utc": "2026-11-06T07:39:54.603214+00:00",
+  "source_build": "b91520b90cdfeb86aba1dd1e9458e941f2c810a7",
+  "runtime_manifest_sha256": "f0b304061ab1f5e30f2514b4bcbd5ab5b31636e5872bb4927928acb7e29cc810",
+  "finite_core_closed": true,
+  "actual_GUI_observed": true,
+  "full_GUI_qualified": false,
+  "software_test_intent_not_human_PCB_approval": true,
+  "actual_toolbar": true,
+  "browser_observed": "Microsoft Edge via isolated test wrapper; product browser remains configurable",
+  "native_version": "10.0.7",
+  "prepared_state_sha256": "a64afc05b3e370688fb4cebbec2e27b8d170d4db589672eaf224bd8fce6ad491",
+  "launcher_install_sha256": "95ad3fe022fbc36cb9616b7c051be2c880eb7d44c2a2714891499b2d19c57b82",
+  "original_four_role_sources_and_presets_unchanged": true,
+  "runtime57_unchanged": true,
+  "job_count": 9,
+  "cases": [
+    {
+      "role": "ordinary-inspection",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-a5fea150c5684201ae8b3267da98fac6",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "partial_completion",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "closed_CLI_processes": {
+        "inspect.command.process.json": {
+          "sha256": "36d228459444dc901f5f4f9d58d635c0eb62f83ccb0121a57f8ed5ff4deff544",
+          "log_sha256": "d87b2ebda60a5a6a8086f9bbce3be63e615983d6c6dab9ae6f7fd658508f8d01",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 1.815347709000008
+        }
+      },
+      "inspection": {
+        "status": "inspection_ready",
+        "accepted": false,
+        "budget_seconds": 60.0,
+        "wall_seconds": 1.5925767910084687,
+        "total_cpu_seconds": 0.890405,
+        "sha256": "d87b2ebda60a5a6a8086f9bbce3be63e615983d6c6dab9ae6f7fd658508f8d01",
+        "native_counts": {
+          "opens": 2,
+          "blocking": 0,
+          "warnings": 1,
+          "exclusions": 0
+        },
+        "ignored_checks": 2,
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/ordinary-project/owned1007-transport.kicad_pcb",
+        "source_hashes": {
+          "owned1007-transport.kicad_pcb": "72ea130a31ae15ecad765bb08fa00ebf0b20a399f6fe733f72fedc68c0b2a77a",
+          "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+          "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+          "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+        }
+      },
+      "retained_CLI_wall_seconds_sum": 1.815347709000008,
+      "outcome": "read-only Native inspection ready; accepted false; does not authorize routing",
+      "readback_sha256": "73f12e9f74142685c478e241046211dd1dda11e5ea266d1dcb4aea7f3d4c382e"
+    },
+    {
+      "role": "ordinary-reject",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-6190663f533249939a5e01685cee2b2e",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "partial_completion",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "d2ee3a8e6a90f60b00816f9a6edce81b10e4cc0e98a6333b18f6ac7e414d4061",
+          "log_sha256": "4bafc79e831d6eb26aeb72168cfd8e58dbd1b77c2f5e8742b824c970cbebe331",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 2.4884705000000054
+        },
+        "preview.command.process.json": {
+          "sha256": "c649b43a1240d87434642b4543b3f185627273e5e5bfbcaaad6380684d218343",
+          "log_sha256": "2bde8f471dc357e3be9ff01add3c7cd2270c8ae680bf61d21d22a0f664b7a762",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.20738683299998684
+        },
+        "review.command.process.json": {
+          "sha256": "71a1a7906f55273444fb8bffaf228c663c27451eb27de8f148a82383d8382978",
+          "log_sha256": "eb19969fdd1f154cc9f1b312c0c140b79d2418f708d808134b13ff20bab6e7b4",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 5.0360410000000115
+        },
+        "route.command.process.json": {
+          "sha256": "2c0cf64a5ed0e2b21ef2deff8763f23c319a7d9e8a93df3481b16cf55498da9b",
+          "log_sha256": "5c0e727f78bc9b70afaf5ad3af56102e5eb47e2f0639fc79f021421dbc0439b6",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 9.653538916999992
+        }
+      },
+      "protected_count": 4,
+      "route": {
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "ebd9185082db3e9a8c73c7042c982277fad76997651b20b18940b5a75568ca60",
+        "budget_seconds": 90,
+        "wall_seconds": 8.22710229200311,
+        "total_cpu_seconds": 5.682047000000001,
+        "sha256": "e454dcd89f3359bc261c96e88333367a13e1cddf003e1f07fd1112b2149d418f",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0
+        },
+        "ignored_checks": 2,
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/ordinary-project/owned1007-transport.kicad_pcb",
+        "source_hashes": {
+          "owned1007-transport.kicad_pcb": "72ea130a31ae15ecad765bb08fa00ebf0b20a399f6fe733f72fedc68c0b2a77a",
+          "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+          "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+          "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+        },
+        "source_drc_counts": {
+          "opens": 2,
+          "blocking": 0,
+          "warnings": 1,
+          "exclusions": 0
+        }
+      },
+      "review": {
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "ebd9185082db3e9a8c73c7042c982277fad76997651b20b18940b5a75568ca60",
+        "budget_seconds": 60,
+        "wall_seconds": 4.4223209579940885,
+        "total_cpu_seconds": 3.740853,
+        "sha256": "eb19969fdd1f154cc9f1b312c0c140b79d2418f708d808134b13ff20bab6e7b4",
+        "plot_layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "native_plot_proofs": 4
+      },
+      "choice": {
+        "status": "disposition_recorded",
+        "choice": "reject",
+        "budget_seconds": 60,
+        "wall_seconds": 1.9239008339936845,
+        "total_cpu_seconds": 1.808664,
+        "sha256": "4bafc79e831d6eb26aeb72168cfd8e58dbd1b77c2f5e8742b824c970cbebe331"
+      },
+      "retained_CLI_wall_seconds_sum": 17.385437249999995,
+      "outcome": "route/review passed; explicit reject intent; no export",
+      "readback_sha256": "04653845d6471c5f1b3685454a6bd57e443eb9fa62c891fc96d71b3b203896e1"
+    },
+    {
+      "role": "selected",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-06d593b8d8ca434d9a64bd17f813a9ba",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "nets": [
+          "/I2C2-SCL",
+          "/I2C2-SDA"
+        ],
+        "profile": "completion-only",
+        "schema": 1,
+        "scope": "selected_nets",
+        "scoring_preference": null,
+        "seconds": 120
+      },
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "2cc97970395f21c796b11ed886c599a94f26f965e7261fc1a409b919a88c355e",
+          "log_sha256": "bdfe9b88acbbc9d5e71cd4822814801b4563fb944d3fc7f00c4f43e0b90684a1",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 3.7806765830000586
+        },
+        "export.command.process.json": {
+          "sha256": "898984a1334b55537a9989ecb335e2ec371aff3a4b5e2f6c5c5693abf025e669",
+          "log_sha256": "1ace53ad53c339292503de6a7baa582165344646848a30e27233ffc55b6b7bc6",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 14.762575334000076
+        },
+        "inspect-export-e82fa4dccb344366a4bf728d83720901.command.process.json": {
+          "sha256": "567075b7d978714eb01411704712d05eb36290b8d75e9ca47666f8c3da37d15b",
+          "log_sha256": "d147d9e647ae479d83edb5e8126948cbfe34b663cf46a9147b45da7dc9fcb718",
+          "exit_code": 2,
+          "cancel_requested": false,
+          "wall_seconds": 2.990046125000049
+        },
+        "inspect-export-fbafe887a8374eebbdb59023947d30f6.command.process.json": {
+          "sha256": "7d85436bb7a455e1299108b36f6b88a257251984eaef12f248a46e46f5981d7e",
+          "log_sha256": "2e70e9dd3d413260e488823fcfd2810df10162c017d4406730fcd3c1a9a10717",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 5.141085750000002
+        },
+        "preview.command.process.json": {
+          "sha256": "4b1303c8bfd538b370af372824738f05c465199a37edc3c85b8ec82e58d7a5eb",
+          "log_sha256": "ec51ee4786487a43cfe1906c2d23454045d5e5869dc0f024561ddeb75c81fa6d",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.3201909169999908
+        },
+        "review.command.process.json": {
+          "sha256": "881b6d550b97e586b482155fe98850c762d8810503714ec269a58c2edd59c1fb",
+          "log_sha256": "63678eb965fde5b0ebf7cd66ebe5f9d4d5ae8cc3e8cf9c9eb73013a35b74f996",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 5.818268792000026
+        },
+        "route.command.process.json": {
+          "sha256": "57b69de5b09ac8826ce1a2ef1b1a2310a82202d86b75365c94cf5af750c16b15",
+          "log_sha256": "8b5ba12ed4fd63b0676179345e0cc7e552e60190020c7d37e0a8f7d0190c427c",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 17.510113958000034
+        },
+        "verify_export.command.process.json": {
+          "sha256": "1528286161781a62e0021a4c11ca2c30622edb3fb2240c814419ac15d5203a9e",
+          "log_sha256": "2e70e9dd3d413260e488823fcfd2810df10162c017d4406730fcd3c1a9a10717",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 9.228233125000088
+        }
+      },
+      "protected_count": 274,
+      "route": {
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "b77fcd59856eec40c10325bb2914b89fdc5fa60330c6c988f6fa0f8bb75a45ca",
+        "budget_seconds": 120,
+        "wall_seconds": 14.701171624998096,
+        "total_cpu_seconds": 12.366022000000001,
+        "sha256": "c0e2a9408c3d94b2162da074dd2f7af2ad49738afbfa5341b2a80d686a1068d2",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 72,
+          "exclusions": 0
+        },
+        "ignored_checks": 5,
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/selected-project/Stm32.kicad_pcb",
+        "source_hashes": {
+          "Stm32.kicad_pcb": "95d8124e763c4ce9d4fcd275f0561e60d3e046c25be0a02ac03a06762cbb8739",
+          "Stm32.kicad_prl": "e5a97df2110e5f67ef2aa66e010bd22c957c6bd78f388c9a9efd36e26daf6f55",
+          "Stm32.kicad_pro": "9f9392e106a34441bb70ffba2f0a3c6bc1e188c5db9a065f325b1b0af10b7bd0",
+          "Stm32.kicad_sch": "382f545a1e2c1a772f8d4a4e3300bc07e42a56a402f842a43115e6b15c26d894"
+        },
+        "source_drc_counts": {
+          "opens": 4,
+          "blocking": 0,
+          "warnings": 64,
+          "exclusions": 0
+        }
+      },
+      "review": {
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "b77fcd59856eec40c10325bb2914b89fdc5fa60330c6c988f6fa0f8bb75a45ca",
+        "budget_seconds": 60,
+        "wall_seconds": 5.203097041987348,
+        "total_cpu_seconds": 4.658916,
+        "sha256": "63678eb965fde5b0ebf7cd66ebe5f9d4d5ae8cc3e8cf9c9eb73013a35b74f996",
+        "plot_layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "native_plot_proofs": 4
+      },
+      "choice": {
+        "status": "disposition_recorded",
+        "choice": "accept",
+        "budget_seconds": 60,
+        "wall_seconds": 3.092913874948863,
+        "total_cpu_seconds": 2.84626,
+        "sha256": "bdfe9b88acbbc9d5e71cd4822814801b4563fb944d3fc7f00c4f43e0b90684a1"
+      },
+      "export": {
+        "status": "export_validated",
+        "export_accepted": true,
+        "candidate_sha256": "b77fcd59856eec40c10325bb2914b89fdc5fa60330c6c988f6fa0f8bb75a45ca",
+        "budget_seconds": 120.0,
+        "wall_seconds": 10.32956620794721,
+        "total_cpu_seconds": 8.569151999999999,
+        "sha256": "cde4d1051ab0efb48faaacf0e145fa5bcc752b40df9f171d651ed12f07ca1a1c",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 72,
+          "exclusions": 0
+        },
+        "ignored_checks": 5
+      },
+      "retained_CLI_wall_seconds_sum": 59.551190584000324,
+      "outcome": "pristine export/verify passed, then actual checked project/PCB opening; editor changed PRO and added backup; later checked-open refused stale",
+      "pristine_readback_sha256": "a57c0152cb4d05480e93f67dbebf8a6dad52e20340b34cc2007f384938619d1d",
+      "post_editor_readback_sha256": "fa7ace15acf8b8304dccfbfd62b0c7cf8d3c1b5ea77e0e44bcffdd15d4e5409c",
+      "current_export_fresh": false
+    },
+    {
+      "role": "four-copper",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-46e657394b9b46d99088962cdc2623a6",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "partial_completion",
+        "scoring_preference": "via_high",
+        "seconds": 120
+      },
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "1f3417fb84b97ab8412a6d39b639a834eaf876e2d489fe9ba49d33c33798cf72",
+          "log_sha256": "0ea321e6a4ec4fa3212454e29a91bf3dc9d3202a378e96441dd96dcebce09954",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 3.8867415000001984
+        },
+        "export.command.process.json": {
+          "sha256": "7f95134388e188425a854fb8ff9e34d094ca3dc8d93aeac307554972e21a4e0c",
+          "log_sha256": "3841a7f1ce1110e92628435dc4fe3179f4765b91579a013d5ad5bc15adce10c0",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 17.04679787500004
+        },
+        "preview.command.process.json": {
+          "sha256": "952c0e652117889897096a712a6335bf4508144a0f91d6006fcfa2f99ea2da38",
+          "log_sha256": "b67918ad949276bc7b8edc21db8dee94d9d7ab4f96ccb348918440ff8702baa2",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.30328241699999126
+        },
+        "review.command.process.json": {
+          "sha256": "905bd8f3927f97ca93cfbd27f5d0b737aa95e9d6e1a66c6c09926086ae0c2b4d",
+          "log_sha256": "1653861e097cf60b44137f16864b3102cfb6ec8483e70c188260b1c059284a41",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 5.353646084000047
+        },
+        "route.command.process.json": {
+          "sha256": "f26061fead521137e1fa5efc9b4d7b4adc734a884ade74047683aa412c62a7c1",
+          "log_sha256": "017bd686c2c090fcfbc1957a60d576526e9a1a6ec2b1de25e8d88cb31459fc1c",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 12.467738791000102
+        },
+        "verify_export.command.process.json": {
+          "sha256": "7a1c226a70b3434720abc7ec9db43e0969f890f4fa39375b8ac1c741431a7ee9",
+          "log_sha256": "01d2a9bb5bdbc1d89f8d6120a31ce2cc010e9c94ed8fabf3bccaa75c3d5b97ff",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 1.9867973749999237
+        }
+      },
+      "protected_count": 10,
+      "route": {
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "292740c3803d9475972d0ad08c3171ff1f5026c0e0d0507b2e87474659087cb9",
+        "budget_seconds": 120,
+        "wall_seconds": 10.834078624960966,
+        "total_cpu_seconds": 8.125025,
+        "sha256": "853eb9d7de54782cd26d9daf537b6b6aed013e98f5382f692fff05e96b05ecf2",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0
+        },
+        "ignored_checks": 2,
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/four-copper-project/owned-four-copper-forced-inner.kicad_pcb",
+        "source_hashes": {
+          "owned-four-copper-forced-inner.kicad_pcb": "1fe544f2ace54e74bb48e88633ae6688a48ba32dee33d1737c93a2fe9dca883e",
+          "owned-four-copper-forced-inner.kicad_prl": "6b8e0b15c334cac2c5eff382c0403a1fabcd658619c8cd4ca841abbe95982e5a",
+          "owned-four-copper-forced-inner.kicad_pro": "9ba36e9a938167eb8751cd58a979118038a17041aae16018323dacfd1fb103fe",
+          "owned-four-copper-forced-inner.kicad_sch": "eb29ea47e899abc89e1a2aab980d806c99c569b52a3e39affe107245453cdb13"
+        },
+        "source_drc_counts": {
+          "opens": 1,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0
+        }
+      },
+      "review": {
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "292740c3803d9475972d0ad08c3171ff1f5026c0e0d0507b2e87474659087cb9",
+        "budget_seconds": 60,
+        "wall_seconds": 4.776944707962684,
+        "total_cpu_seconds": 4.564188,
+        "sha256": "1653861e097cf60b44137f16864b3102cfb6ec8483e70c188260b1c059284a41",
+        "plot_layers": [
+          "F.Cu",
+          "In1.Cu",
+          "In2.Cu",
+          "B.Cu"
+        ],
+        "native_plot_proofs": 8
+      },
+      "choice": {
+        "status": "disposition_recorded",
+        "choice": "accept",
+        "budget_seconds": 60,
+        "wall_seconds": 2.3760170830064453,
+        "total_cpu_seconds": 1.732839,
+        "sha256": "0ea321e6a4ec4fa3212454e29a91bf3dc9d3202a378e96441dd96dcebce09954"
+      },
+      "export": {
+        "status": "export_validated",
+        "export_accepted": true,
+        "candidate_sha256": "292740c3803d9475972d0ad08c3171ff1f5026c0e0d0507b2e87474659087cb9",
+        "budget_seconds": 120.0,
+        "wall_seconds": 15.001679916982539,
+        "total_cpu_seconds": 8.965462,
+        "sha256": "869a269ca65bff58bdf954fac52c32d09b9432e18afa420b4feeaf721980400a",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0
+        },
+        "ignored_checks": 2
+      },
+      "retained_CLI_wall_seconds_sum": 41.0450040420003,
+      "outcome": "fresh export and verify passed; all four copper layers observed; export not opened",
+      "readback_sha256": "7a66cc913ad345d4639bb2bd59a19e0e4fdad12b653eb567a17de4451d0c91ed"
+    },
+    {
+      "role": "parent-class-Improve",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-f47e5e1d4783451fae6ed2cf66a1220b",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "tuned",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "closed_CLI_processes": {
+        "choice.command.process.json": {
+          "sha256": "eeb4de3f0bf73fbc1c54371e2206889ebe80300bd36267ecafa43d1ebb52989a",
+          "log_sha256": "6193fa2cd2bcb4d6b9671112fcec87b3ba54145a5fd174e34726a2ff022f914f",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 9.802920333999964
+        },
+        "export.command.process.json": {
+          "sha256": "60684ad38f7ba18f9bb6710535c9752984eff580a56291a1a9f229e02ce2efd3",
+          "log_sha256": "a2cee3b4b04eaefc31590e6245bd4885a9f3465aa7017e15616aeb56deb70db3",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 32.13425149999989
+        },
+        "preview.command.process.json": {
+          "sha256": "fe4a783087acfa50e647fa4f94fdce43a48f07ac57c37e6607ea83a883656470",
+          "log_sha256": "fa017e0683be5b923e249e25ed212d1dc25b7d968bd44e5c4825ee228d34e662",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.26384937500006345
+        },
+        "review.command.process.json": {
+          "sha256": "89ddd34cae42b1034d53b64146b49ccc739f2de357e0d750a2a0a33acca8ec5f",
+          "log_sha256": "a9b27a8a2dfb1d4e304cb6080132fcaa6da2e4f848fd0cc421acbf1f2fda4b17",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 11.245539792000045
+        },
+        "route.command.process.json": {
+          "sha256": "ae927bdafa085cb8c4e97498a61471a0e84d01034a094ea6c72a61ec20a50248",
+          "log_sha256": "d7efb90ed8bc7d75240843fd331f83aea3d17430a80ca9bd6970c6ad524d0bf3",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 35.61309245899997
+        },
+        "verify_export.command.process.json": {
+          "sha256": "a7786e5b39598a7a02b603977015e4e545e7f07af9d6c428a0cd314fe9f0949f",
+          "log_sha256": "3f4086cfbfa5c3a26e5c8ac2b52bc1bf91e7558de35ea902c3fb90a141a43447",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 15.722875124999973
+        }
+      },
+      "protected_count": 1,
+      "route": {
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "699d11bfc8dee3facb5df8c4fc151c6b154acbc53247187ed9f540f305a80eef",
+        "budget_seconds": 90,
+        "wall_seconds": 22.09282074996736,
+        "total_cpu_seconds": 17.925564,
+        "sha256": "9a2d33670e6d0ac87b00e4db4f144b1eb81e6a93d376cbddb3c576c898212b23",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0
+        },
+        "ignored_checks": 2,
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/parent-class-project/owned1007-transport.kicad_pcb",
+        "source_hashes": {
+          "owned1007-transport.kicad_pcb": "f5178bda1843eb873311f075727d73dec3cfeaa054ee92c77119f1cd4a641e25",
+          "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+          "owned1007-transport.kicad_pro": "e84df6b57ef37c1113073e5d403360d0d13ceae67ea2394fa66171b1287826ed",
+          "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+        },
+        "source_drc_counts": {
+          "opens": 1,
+          "blocking": 0,
+          "warnings": 0,
+          "exclusions": 0
+        }
+      },
+      "review": {
+        "status": "ready_for_manual_review",
+        "candidate_sha256": "699d11bfc8dee3facb5df8c4fc151c6b154acbc53247187ed9f540f305a80eef",
+        "budget_seconds": 60,
+        "wall_seconds": 10.158930415986106,
+        "total_cpu_seconds": 9.523337000000001,
+        "sha256": "a9b27a8a2dfb1d4e304cb6080132fcaa6da2e4f848fd0cc421acbf1f2fda4b17",
+        "plot_layers": [
+          "F.Cu",
+          "B.Cu"
+        ],
+        "native_plot_proofs": 4
+      },
+      "choice": {
+        "status": "disposition_recorded",
+        "choice": "accept",
+        "budget_seconds": 60,
+        "wall_seconds": 8.606163709016982,
+        "total_cpu_seconds": 7.936637,
+        "sha256": "6193fa2cd2bcb4d6b9671112fcec87b3ba54145a5fd174e34726a2ff022f914f"
+      },
+      "export": {
+        "status": "export_validated",
+        "export_accepted": true,
+        "candidate_sha256": "699d11bfc8dee3facb5df8c4fc151c6b154acbc53247187ed9f540f305a80eef",
+        "budget_seconds": 90.0,
+        "wall_seconds": 15.949784833996091,
+        "total_cpu_seconds": 14.597139,
+        "sha256": "4781972286a3e8af252429214e33315d48e805dff55de4e27e8bf400fb85e0c0",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 6,
+          "exclusions": 0
+        },
+        "ignored_checks": 2
+      },
+      "retained_CLI_wall_seconds_sum": 104.78252858499991,
+      "outcome": "Improve chain/class proof, fresh export and verify passed; export not opened",
+      "readback_sha256": "fef7c98b25f6df2f0e2453abf05646806df55c4f9b8ad290016117f5ac93e180"
+    },
+    {
+      "role": "cancel-observer-missed",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-ee260d3baf4e49539e452e2a9792dfdf",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "closed_CLI_processes": {
+        "preview.command.process.json": {
+          "sha256": "da0ec4160f54108f89b4576df2d4772e559cd8922c1573fc364a744f0ce6cb4f",
+          "log_sha256": "f1073f46432287b8db0040f07760b02afd30e9eca70b19d4898e3ca390fa1230",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.26246962499999427
+        },
+        "route.command.process.json": {
+          "sha256": "2f2fa8fa4f3a89914d641ec573b06c8bbd80b94bd3b7e204cf37be200f702dae",
+          "log_sha256": "e8b1c5f3d823d1b773e313cb7aed44ca743f0d4978610ee18b8d4dc15629ca1b",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 24.44218283300006
+        }
+      },
+      "protected_count": 0,
+      "route": {
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "7d6c8e23b2cea5603c2235d43f55d58ec54b10701c3f3a255d2406a972c035fc",
+        "budget_seconds": 90,
+        "wall_seconds": 22.86101754201809,
+        "total_cpu_seconds": 31.998291,
+        "sha256": "48f39a15f3fadb62c09e191a0d810635f03cea71570ec7fb7abfdad5ca67eb21",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 36,
+          "exclusions": 0
+        },
+        "ignored_checks": 7,
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/cancel-project/EEPROM_Board.kicad_pcb",
+        "source_hashes": {
+          "EEPROM_Board.kicad_pcb": "669ddc8b96718f36db3f2281025f4cbc717041ed5e9ed8547922fab9d27096f6",
+          "EEPROM_Board.kicad_pro": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+          "EEPROM_Board.kicad_sch": "a47e4f38a2670abd7d61bedbe868f93c33788d5dc9b5b3145f4b977e5ebcb3a3"
+        },
+        "source_drc_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 20,
+          "exclusions": 0
+        }
+      },
+      "retained_CLI_wall_seconds_sum": 24.704652458000055,
+      "outcome": "route finished before cancellation; observer administration failed; not a cancellation success",
+      "cancellation_qualified": false
+    },
+    {
+      "role": "cancel-observer-exit-race",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-b2a6fec2d9534012a5cc97a6b674f3ba",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "closed_CLI_processes": {
+        "preview.command.process.json": {
+          "sha256": "cc37c8a09d1406c29966d117aa58f78f0d800d60e05c5ee8021ef8234a329ec7",
+          "log_sha256": "f1073f46432287b8db0040f07760b02afd30e9eca70b19d4898e3ca390fa1230",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.23704083399979936
+        },
+        "route.command.process.json": {
+          "sha256": "f9cb370938b4706e64f5beec6206e5b66781d076bb96f48e414b273fb59f71eb",
+          "log_sha256": "bc661343598f2af5ccd29a3ae24edd2c7e2b8f727ff7e7c710f9dafb4210b5e2",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 18.75924299999997
+        }
+      },
+      "protected_count": 0,
+      "route": {
+        "status": "routing_accepted",
+        "accepted": true,
+        "candidate_sha256": "3eab9b4ce2c9e5c89df0ad8de0649799c4e672a8689678c7439b59e5de57a493",
+        "budget_seconds": 90,
+        "wall_seconds": 17.163444208039436,
+        "total_cpu_seconds": 23.1016,
+        "sha256": "2de5b2ff21edab632a82955a9ac38ea9d8e013bb4ee578747f6ddb0fcff0d953",
+        "native_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 36,
+          "exclusions": 0
+        },
+        "ignored_checks": 7,
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/cancel-project/EEPROM_Board.kicad_pcb",
+        "source_hashes": {
+          "EEPROM_Board.kicad_pcb": "669ddc8b96718f36db3f2281025f4cbc717041ed5e9ed8547922fab9d27096f6",
+          "EEPROM_Board.kicad_pro": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+          "EEPROM_Board.kicad_sch": "a47e4f38a2670abd7d61bedbe868f93c33788d5dc9b5b3145f4b977e5ebcb3a3"
+        },
+        "source_drc_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 20,
+          "exclusions": 0
+        }
+      },
+      "retained_CLI_wall_seconds_sum": 18.99628383399977,
+      "outcome": "route finished before cancellation; observer administration failed; not a cancellation success",
+      "cancellation_qualified": false
+    },
+    {
+      "role": "active-cancel",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-413bf457a73a49ff8c1cac6f696430a6",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "whole_board_unlocked_routing",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "closed_CLI_processes": {
+        "preview.command.process.json": {
+          "sha256": "3bd4f68544aeb21fd510193ccb63644f043ec36aeadd70d8cb620e563ea659c6",
+          "log_sha256": "f1073f46432287b8db0040f07760b02afd30e9eca70b19d4898e3ca390fa1230",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.2182039999997869
+        },
+        "route.command.process.json": {
+          "sha256": "e67f8b59c4e419944aa83edcf26fcc3c4dd00ef6496b31a8eb74f09f23833b8a",
+          "log_sha256": "1fd265f1a12b9fd3602047d4441fa67c3a93dd7f029984f73d032d5684f43dd7",
+          "exit_code": 2,
+          "cancel_requested": true,
+          "wall_seconds": 11.011860665999848
+        }
+      },
+      "protected_count": null,
+      "route": {
+        "status": "cancelled",
+        "accepted": false,
+        "budget_seconds": 90,
+        "wall_seconds": 10.877280957996845,
+        "total_cpu_seconds": 15.489716000000001,
+        "sha256": "78c37acd04a349853a2860e88528ccdacf4dccfd9e09e85a01f97b5dd70e8d1e",
+        "source": ".runs/runtime075 fresh install 001/.runs/gui-session106/cancel-project/EEPROM_Board.kicad_pcb",
+        "source_hashes": {
+          "EEPROM_Board.kicad_pcb": "669ddc8b96718f36db3f2281025f4cbc717041ed5e9ed8547922fab9d27096f6",
+          "EEPROM_Board.kicad_pro": "5e3970fef43fb42c04529b801cd74c85d3fe1e3a536646c9877486be6420f0fa",
+          "EEPROM_Board.kicad_sch": "a47e4f38a2670abd7d61bedbe868f93c33788d5dc9b5b3145f4b977e5ebcb3a3"
+        },
+        "source_drc_counts": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 20,
+          "exclusions": 0
+        }
+      },
+      "retained_CLI_wall_seconds_sum": 11.230064665999635,
+      "outcome": "live Java observed, GUI Cancel, cancelled/unaccepted route, cleanup complete, no downstream",
+      "cancellation_qualified": true,
+      "readback_sha256": "5c5db8ce689d64a25149f6ef12dc648f250b7828a50f10a7b5e236a1f1821b4d"
+    },
+    {
+      "role": "stale-source-preview",
+      "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-cde4bab39ca54fa78c9901f40a5affce",
+      "settings": {
+        "adapter": "both",
+        "guidance": "native",
+        "layers": "source_all",
+        "profile": "standard",
+        "schema": 1,
+        "scope": "partial_completion",
+        "scoring_preference": null,
+        "seconds": 90
+      },
+      "closed_CLI_processes": {
+        "preview.command.process.json": {
+          "sha256": "dbf3c223a766756eade2e0b459f46becee2545a7e5337cc06fe3e13fc11b6ddf",
+          "log_sha256": "c773cf4bed713f58bd8357bc543e4366ca70661cdf42d0484da8504e66784285",
+          "exit_code": 0,
+          "cancel_requested": false,
+          "wall_seconds": 0.19696754199958377
+        }
+      },
+      "retained_CLI_wall_seconds_sum": 0.19696754199958377,
+      "outcome": "Preview passed before owned trailing-newline fault; Route refused before CLI",
+      "route_directory_exists": false,
+      "route_CLI_receipt_exists": false
+    }
+  ],
+  "controls": {
+    "isolated_toolbar_launch": true,
+    "native_inspect_with_readable_findings": true,
+    "missing_source_ack_refusal": true,
+    "invalid_budget_refusal": true,
+    "advanced_expand_collapse": true,
+    "optional_assistant_visible": true,
+    "unconfigured_model_refused": true,
+    "model_calls": 0,
+    "ordinary_reject_no_export": true,
+    "selected274_four10_class1_protected": true,
+    "missing_review_ack_refusal": true,
+    "open_review_project_refusal_preserves_flow": true,
+    "explicit_software_test_accept_intent": true,
+    "fresh_original_rule_export_and_shared_readback": true,
+    "actual_checked_selected_project_and_PCB_opened": true,
+    "post_editor_checked_export_stale_refusal": true,
+    "settings_changes_revoke_prior_authority": true,
+    "saved_selected_preset_reloaded": true,
+    "completion_search_selected_scope_refused_without_broadening": true,
+    "completion_search_after_explicit_partial_scope_settings_only": true,
+    "active_Java_cancel_cleanup_no_downstream": true,
+    "changed_disposable_source_refused_before_route_CLI": true
+  },
+  "warnings": {
+    "selected_groups": {
+      "connection_width": 1,
+      "extra_footprint": 4,
+      "lib_footprint_issues": 34,
+      "missing_footprint": 4,
+      "silk_over_copper": 19,
+      "silk_overlap": 9,
+      "via_dangling": 1
+    },
+    "four_and_class": "Each final route/export has six Datasheet warnings: PCB~ versus empty schematic. Original bytes preserved; existing Native-bound effective-empty proof compares6 components/18 fields. Source DRC counts are reported separately.",
+    "ignored_checks_retained": true,
+    "no_genuine_changed_warning_challenge": true,
+    "selected_connection_detail": "Existing GND connection_width warning:0.079mm against0.15mm minimum on B.Cu; one dangling GND via. All72 warnings retained and shown; no physical approval."
+  },
+  "Improve": {
+    "whole_budget_seconds": 90,
+    "finalization_wall_and_CPU_reserve_seconds": 40,
+    "export_budget_seconds": 90,
+    "incumbent_metrics": {
+      "version": "10.0.7",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 42.0,
+      "copper_layers": 2
+    },
+    "final_metrics": {
+      "version": "10.0.7",
+      "pads": 6,
+      "footprints": 6,
+      "zones": 1,
+      "vias": 0,
+      "track_length_mm": 28.0,
+      "copper_layers": 2
+    },
+    "retained_trials": [
+      {
+        "id": "trial-0000",
+        "receipt_sha256": "08eba4b0a0b3ac232f32b9799270ed522a9e3a27c3d348aa57b2eafc90e63db7",
+        "status": "improvement_validated",
+        "accepted": true,
+        "proposal": {
+          "kind": "whole_zone_net",
+          "net": "\"GND\"",
+          "route_ids": [
+            "969276b5e10eca373eee22b3fc891950fa8b3aff116aafec314cdb5b7bcbf069"
+          ]
+        },
+        "metrics": {
+          "version": "10.0.7",
+          "pads": 6,
+          "footprints": 6,
+          "zones": 1,
+          "vias": 0,
+          "track_length_mm": 28.0,
+          "copper_layers": 2
+        },
+        "started_elapsed_seconds": 12.448508834000677,
+        "finished_elapsed_seconds": 15.172446709009819,
+        "finished_observed_CPU_seconds": 11.820394
+      }
+    ],
+    "checkpoint_receipt_sha256": [
+      "d9d2a225cea3bc6bdba4cf87fcef0e1fb882d5ce0a974bb31e2af426b2a5b8ec",
+      "5ecb4526de669b8852d0dc95cdba764e9dcb6cd3154a676592cff49a61da9ac0",
+      "8d023c58292e696d09b9a355e3d711a765b1b3643f7c1eb94dcd1246718b9b70"
+    ],
+    "all_trials_retained": true,
+    "novel_routing_algorithm_claim": false,
+    "generalized_superiority_claim": false
+  },
+  "selected_post_editor": {
+    "PCB_unchanged": true,
+    "PCB_sha256": "b77fcd59856eec40c10325bb2914b89fdc5fa60330c6c988f6fa0f8bb75a45ca",
+    "changed": [
+      {
+        "path": "Stm32.kicad_pro",
+        "before_sha256": "9f9392e106a34441bb70ffba2f0a3c6bc1e188c5db9a065f325b1b0af10b7bd0",
+        "after_sha256": "06a93eabeb4aba0a7fdd62ec4ee686741f7ad5a45578fa0f75ae6eab1bb44f04",
+        "bytes": 17198
+      }
+    ],
+    "added": [
+      {
+        "path": "Stm32-backups/Stm32-2026-11-05_231111.zip",
+        "sha256": "dd09993d8ccaebf59ad02be0505fac7dc3a5804b3b65308c3cc5ef2a55e05f2d",
+        "bytes": 90983
+      }
+    ],
+    "removed": [],
+    "PRL_unchanged": true,
+    "further_checked_open_refused": true
+  },
+  "stale_source_control": {
+    "workspace": ".runs/runtime075 fresh install 001/.runs/gui-session106/jobs/autorouter-gui-cde4bab39ca54fa78c9901f40a5affce",
+    "disposable_source": ".runs/runtime075 fresh install 001/.runs/gui-session106/stale-source-project/owned1007-transport.kicad_pcb",
+    "before_sha256": "72ea130a31ae15ecad765bb08fa00ebf0b20a399f6fe733f72fedc68c0b2a77a",
+    "after_sha256": "6be21f6c5aca201ff52d2c6bf07e479ee76cee1729ab5fd83ac45a4e46a0c310",
+    "change": "one trailing newline after Preview",
+    "original_ordinary_unchanged": true,
+    "route_output_or_CLI_created": false,
+    "observation_sha256": "f4ee5a02c620588550d21abe795bc389424f0e348e79644740044a931117c326"
+  },
+  "cancellation": {
+    "successful_job": "413bf457a73a49ff8c1cac6f696430a6",
+    "live_engine_observed": true,
+    "cancel_signal": "SIGINT",
+    "engine_exit": -9,
+    "cleanup_complete": true,
+    "scoped_engine_group_absent": true,
+    "no_positive_UI_or_downstream": true,
+    "earlier_attempts_count": 2,
+    "earlier_attempts": "Observer missed interval, then ps child-exit race. Both routes completed before cancellation, retained as administrative failures.",
+    "all_three_attempt_costs": {
+      "route_wall_seconds_sum": 50.90174270805437,
+      "route_CPU_seconds_sum": 70.589607,
+      "CLI_wall_seconds_sum": 54.21328649899988,
+      "note": "Includes both administrative failures. Observer wall overlaps routing; observer CPU and user interaction gaps are not in route totals."
+    }
+  },
+  "known_installed_defect": {
+    "severity": "P2",
+    "description": "Changing Saved PCB/output path can preserve an earlier saved-and-closed checkbox; fresh acknowledgement is not bound to the new source.",
+    "pure_callback_reproduced": true,
+    "Native_validation_bypass_demonstrated": false,
+    "source_overwrite_demonstrated": false,
+    "actual_fixture_sources_closed_by_lead": true,
+    "runtime075_contains_fix": false,
+    "source_correction_qualification": "Any separate source-only correction is not installed075 or GUI106 qualification.",
+    "review_sha256": "9f319a06397db75f757f20265bd753b9f5d4076f9e1f914200923ba5e440f055"
+  },
+  "unexercised": [
+    "live model inference and positive proposal adoption",
+    "genuine changed-warning GUI challenge",
+    "exact worker-return to queued-open callback fault interval",
+    "path-specific source-ack correction in a freshly built installed runtime"
+  ],
+  "timing": {
+    "retained_CLI_operation_count": 32,
+    "retained_CLI_wall_seconds_sum": 279.70747666999955,
+    "top_level_stage_recorded_wall_seconds_sum": 190.1908123748144,
+    "top_level_stage_recorded_CPU_seconds_sum": 184.522117,
+    "semantics": "These are sums of retained operation receipts, not end-to-end session duration. Route includes its child trials; child costs are not added again. CLI wall and top-level stage wall overlap and must not be added together. Observer wall overlaps routing; observer/reviewer/GUI/browser/user-interaction/research CPU and gaps are not fully measured. Earlier overwritten/refused UI action costs may be absent."
+  },
+  "observed_close": {
+    "router_closed_via_GUI": true,
+    "router_PID_absent": true,
+    "manager_still_running": true,
+    "manager_no_project_loaded_lead_observed": true,
+    "scoped_snapshot_only": true
+  },
+  "proof_pins": {
+    "inspection": "73f12e9f74142685c478e241046211dd1dda11e5ea266d1dcb4aea7f3d4c382e",
+    "ordinary": "04653845d6471c5f1b3685454a6bd57e443eb9fa62c891fc96d71b3b203896e1",
+    "selected_pristine": "a57c0152cb4d05480e93f67dbebf8a6dad52e20340b34cc2007f384938619d1d",
+    "selected_post_editor": "fa7ace15acf8b8304dccfbfd62b0c7cf8d3c1b5ea77e0e44bcffdd15d4e5409c",
+    "four_copper": "7a66cc913ad345d4639bb2bd59a19e0e4fdad12b653eb567a17de4451d0c91ed",
+    "parent_class": "fef7c98b25f6df2f0e2453abf05646806df55c4f9b8ad290016117f5ac93e180",
+    "cancel": "5c5db8ce689d64a25149f6ef12dc648f250b7828a50f10a7b5e236a1f1821b4d"
+  },
+  "observation_pins": {
+    "lead_partial_sha256": "0b973f4128e58db86ac577cf87f9e42c256783aaa663282e02b033a161a2a639",
+    "stale_fault_sha256": "dd80be4e41c2c87245f023dcb798d1cfc118eb9be83fa01728a84f9458f6cbb7",
+    "saved_preset_sha256": "445d0a6d9427c60d1bb4710581b041e38fe5611f9a7139111afb4a1a1a170dc6",
+    "saved_preset_reloaded_sha256": "6de55c554aed5da525f38a3e2fe6df2c89c41007bffbf0bb6567cdc987fdc62d",
+    "completion_scope_refusal_sha256": "f0f887c25fb9ebc76ba62d74b8dacfb42d84741da4c2e5f05fe1325b4241b1a0",
+    "completion_settings_adoption_sha256": "b01d4dbf2c4f486e3910ec6f56b5ad5f3902bcd7d74e8c2ed879571d8f652ffe",
+    "selected_stale_refusal_sha256": "149ac8246daa0feb0cb89d823de833406d794d2b9e51db36403646f09e4b17b2"
+  },
+  "limits": [
+    "Actual finite desktop software exercise and retained Native evidence; not complete GUI coverage, live-board application/undo, or human PCB/electrical/manufacturing approval.",
+    "Read-only audits reused current installed proof readers; no auditor Native/model execution.",
+    "Original source/runtime integrity holds; intentionally faulted stale-control copy and editor-mutated selected export remain preserved exceptions.",
+    "Partial lead observation file contains historical pending markers; completed per-job receipts and final attributed observations supersede those markers.",
+    "Raw local receipts are retained on this Mac; this compact public record is not a full artifact backup."
+  ]
+}

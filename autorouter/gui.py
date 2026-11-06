@@ -92,12 +92,17 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         lines += [THERMAL_HELP]
     elif improve:
         lines += [IMPROVE_HELP]
-    if receipt_path is not None: lines += ['Full workflow receipt: ' + str(receipt_path)]
-    if findings_receipt_path is not None: lines += ['Full findings receipt: ' + str(findings_receipt_path)]
-    if record.get('source'): lines += ['Original saved PCB: ' + str(record['source'])]
+    # Findings and protection belong above long filesystem details. Keep exact
+    # paths below, including both receipts when review inherits route findings.
+    locations = []
+    if receipt_path is not None: locations += ['Full workflow receipt: ' + str(receipt_path)]
+    if findings_receipt_path is not None: locations += ['Full findings receipt: ' + str(findings_receipt_path)]
+    if record.get('source'):
+        lines += ['Board: ' + Path(record['source']).name]
+        locations += ['Original saved PCB: ' + str(record['source'])]
     project = record.get('project_file') or record.get('review_project')
-    if project: lines += ['Separate project: ' + str(project)]
-    if record.get('candidate'): lines += ['Candidate PCB: ' + str(record['candidate'])]
+    if project: locations += ['Separate project: ' + str(project)]
+    if record.get('candidate'): locations += ['Candidate PCB: ' + str(record['candidate'])]
     pruning = record.get('pruning_preferences', {})
     # Review/export have their own budgets. Display the actual parent capture
     # rather than the merged stage budget or mutable current widgets.
@@ -217,6 +222,8 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         if omitted:
             lines += ['', str(omitted) + ' further finding/ignored-check entries are not displayed because of the UI text bound.',
                       'ALL entries remain in the full findings receipt. Open it before completing review: ' + str(findings_receipt_path or receipt_path or 'retained workflow receipt')]
+    if locations:
+        lines += ['', 'Files and full reports', *locations]
     return '\n'.join(lines)
 
 def _completed_summary(flow, stage, record):
@@ -920,7 +927,7 @@ def main(argv=None):
             self.log = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 150))
             layout.Add(self.log, 1, wx.EXPAND | wx.ALL, 6)
             panel.SetSizer(layout)
-            for control in (self.board, self.output): control.Bind(wx.EVT_TEXT, self.changed)
+            for control in (self.board, self.output): control.Bind(wx.EVT_TEXT, self.path_changed)
             self.Bind(wx.EVT_CLOSE, self.close)
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(500)
             self.refresh()
@@ -938,6 +945,12 @@ def main(argv=None):
             button.Bind(wx.EVT_BUTTON, browse); self.edit_controls.append(button)
             row.Add(button, 0, wx.ALL, 6); layout.Add(row, 0, wx.EXPAND)
             return control
+
+        def path_changed(self, event):
+            # The acknowledgement names these exact paths. Typing and Browse
+            # both emit EVT_TEXT; routing-only settings keep this source intent.
+            self.ack.SetValue(False)
+            self.changed(event)
 
         def changed(self, event):
             self.input_generation = getattr(self, 'input_generation', 0) + 1

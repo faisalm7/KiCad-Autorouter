@@ -115,7 +115,17 @@ class GuiSummaryTests(unittest.TestCase):
         self.assertIn('Full workflow receipt: /separate/review/review.json', text)
         self.assertIn('Full findings receipt: /separate/route/result.json', text)
         self.assertIn('200 retained', text)
-        self.assertTrue(text.endswith('Open it before completing review: /separate/route/result.json'))
+        self.assertIn('Open it before completing review: /separate/route/result.json', text)
+
+    def test_findings_precede_complete_paths_without_hiding_details(self):
+        record = self.record()
+        text = gui.human_summary('route', record, receipt_path='/separate/result.json',
+                                findings_receipt_path='/separate/findings.json')
+        self.assertIn('Board: owned.kicad_pcb', text)
+        for path in ('/source/owned.kicad_pcb', '/separate/candidate.kicad_pcb',
+                     '/separate/result.json', '/separate/findings.json'):
+            self.assertGreater(text.index(path), text.index('Last warning'))
+        self.assertLess(text.index('0 opens; 0 blocking'), text.index('Files and full reports'))
 
     def test_choice_discloses_unchanged_board_and_review_metadata_changes(self):
         record = dict(status='disposition_recorded', choice='accept',
