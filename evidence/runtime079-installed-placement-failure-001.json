@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "source_head": "5e56ced056eb8064a83745a039295de4babc02f6",
+  "scope": "Fresh installed079 affected-copper placement on an owned previously completed source; not acquired-board usefulness or completion gain. No old Native proofs reused.",
+  "full_regression": {
+    "passed": true,
+    "wall_seconds": 1156.274816541998,
+    "full_cpu_seconds": 757.7976150000001,
+    "sources_unchanged": true
+  },
+  "full_tests": {
+    "run": 3294,
+    "failures": 0,
+    "errors": 0,
+    "skips": 2,
+    "skips_detail": [
+      "Cold installed bootstrap needs an explicit runtime; separately passed after installation.",
+      "PowerShell unavailable on this Mac."
+    ]
+  },
+  "installation": {
+    "prepared": true,
+    "qualified": false,
+    "source_head": "5e56ced056eb8064a83745a039295de4babc02f6",
+    "manifest_sha256": "d6c5ddaefb6f626f69c432c86938c5edfed5dfc5a4caeb184d5ff822cc288128",
+    "immutable_files": 82,
+    "wall_seconds": 13.283915500000148,
+    "full_cpu_seconds": 7.819261000000001
+  },
+  "native_delivery": {
+    "passed": false,
+    "status": "invalidated",
+    "accepted": false,
+    "reason": "Rejected: missing, mixed or downgraded placement policy",
+    "native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0,
+      "ignored_checks": [
+        {
+          "description": "Track endpoint not centered on via",
+          "key": "track_not_centered_on_via"
+        },
+        {
+          "description": "Tuning profile track geometries",
+          "key": "tuning_profile_track_geometries"
+        }
+      ],
+      "findings": [
+        {
+          "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+          "items": [
+            {
+              "description": "PCB text 'Owned ordinary geometry task' on F.Silkscreen",
+              "pos": {
+                "x": 20.0,
+                "y": 3.0
+              },
+              "uuid": "3bd0eb3b-4351-52b9-9d2c-c24a9ed26e78"
+            }
+          ],
+          "severity": "warning",
+          "type": "text_height"
+        }
+      ]
+    },
+    "source_originals_unchanged": true,
+    "isolated_original_copy_unchanged": true,
+    "outer_worker_wall_seconds": 140.795741832997,
+    "outer_worker_CPU_seconds": 74.591305,
+    "outer_supervisor_CPU_seconds": 4.243647,
+    "controller_wall_seconds": 140.46261187500204,
+    "controller_full_CPU_seconds": 74.44883999999999,
+    "cleanup_complete": true,
+    "budget_seconds": 420,
+    "operations": [
+      {
+        "stage": "original_inspection",
+        "wall_seconds": 7.634958082999219,
+        "full_cpu_seconds": 3.078836,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "placement",
+        "wall_seconds": 39.688853750001726,
+        "full_cpu_seconds": 25.299132,
+        "limit_seconds": 120,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "preview",
+        "wall_seconds": 28.57089462500153,
+        "full_cpu_seconds": 12.051063999999997,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "route",
+        "wall_seconds": 57.78248879199964,
+        "full_cpu_seconds": 28.380019000000004,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      }
+    ],
+    "unattempted": [
+      "review",
+      "choice",
+      "export",
+      "verify",
+      "actual GUI"
+    ],
+    "model_calls": 0,
+    "human_PCB_approval": false
+  },
+  "diagnosis": "The exact new placement-origin marker/field collided with the older experimental placement-prefix policy. Native placement and routed geometry checks passed; final publication refused. Historical failure is unchanged.",
+  "prospective_correction": "Separate only the exact typed native-origin pair; preserve mixed/unknown legacy refusal and mandatory full original-to-final lineage checks. Next080 is initially unqualified: fresh Native functionality before final full regression/GUI. No cap or acceptance relaxation.",
+  "raw_receipts_sha256": {
+    ".runs/full-integration-251/execution.json": "1279053794cd27420b9fab1c73db21b9cfcb9076035962f36f41e4cbd4a7b838",
+    ".runs/runtime-directory-079/installed-setup.json": "b29e4ad74fc83cadfc5234b5bc0decde56f8a84bfba671a6bd4e9cc4e2fc38c5",
+    ".runs/runtime-directory-079/cold-bootstrap-process.json": "eaec62123ae2b3dbf389ef0a46b39faca061315325261987e96cd0dfbda678ca",
+    ".runs/runtime079 fresh install 001/.runs/placement-product079-001/execution.json": "5e0bd29c3fe8d82bb0696e756b6fa94ba8e20adeac7f0d41966d07b5ff483d56",
+    ".runs/placement079-installed-qualification-draft-001/outer-process.json": "a1692d57900f96f9447ff8394ccbc136eed4f24f33e4704bbc0c22e98a2a2079",
+    ".runs/runtime079 fresh install 001/.runs/placement-product079-001/autorouter-gui-1180b4f2ab114dcc9899eb3c82cfb1b5/route/result.json": "21eba20952f9914fb28813f3143e0b6555a86ae3512ac9b6c2f6cd1607f64845"
+  },
+  "limits": [
+    "Same Mac/account/existing pinned dependencies; no independent or clean-OS installation.",
+    "All actual warning/ignored findings retained; no electrical approval.",
+    "Raw078/079 evidence remains on this Mac outside the077 archived cutoff.",
+    "Full250 timeout and all failed attempts remain failures."
+  ]
+}

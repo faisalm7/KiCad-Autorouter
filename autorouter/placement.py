@@ -467,17 +467,14 @@ def bind_routing(qualification, source, effective, method='route'):
     return descriptor
 
 
-def check_routing_record(folder, report, candidate=None):
-    """Inherited mandatory lineage. No marker/field means ordinary routing only.
-
-    This consumes retained actual Native proofs; it never launches Native work.
-    Mutable local evidence is consistency checked, not authenticated.
-    """
+def _routing_origin_descriptor(folder, report):
+    """Recognize the exact paired native-origin record; grant no result authority."""
     folder = h.real_path(folder); marker = folder/ORIGIN_FILE
     present = marker.exists() or marker.is_symlink()
     if not present and 'placement_origin' not in report:
         return None
     need(present and 'placement_origin' in report, 'placement origin field/marker is missing')
+    need(marker.is_file() and not marker.is_symlink(), 'regular placement origin marker required')
     need(type(report.get('schema')) is int and report['schema'] == 1
          and report.get('input_policy', 'native') == 'native' and report.get('strategy') is None
          and not any(key in report for key in ('experimental_route_policy', 'experimental_native_toolchain',
@@ -491,7 +488,27 @@ def check_routing_record(folder, report, candidate=None):
         'exact placement origin descriptor required')
     need(type(descriptor['schema']) is int and descriptor['schema'] == 1 and descriptor['kind'] == ORIGIN_KIND,
          'placement origin schema differs')
+    qualification = descriptor['qualification']
+    need(type(qualification) is str and Path(qualification).is_absolute()
+         and str(h.real_path(qualification)) == qualification and Path(qualification).is_dir(),
+         'canonical absolute placement qualification path required')
+    need(all(type(descriptor[key]) is str and provenance._DIGEST.fullmatch(descriptor[key]) is not None
+             for key in ('result_sha256', 'binding_sha256', 'evidence_sha256')),
+         'placement origin digest types differ')
     need(f.canonical(f.read_json(marker)) == f.canonical(descriptor), 'placement origin marker differs')
+    return descriptor
+
+
+def check_routing_record(folder, report, candidate=None):
+    """Inherited mandatory lineage. No marker/field means ordinary routing only.
+
+    This consumes retained actual Native proofs; it never launches Native work.
+    Mutable local evidence is consistency checked, not authenticated.
+    """
+    folder = h.real_path(folder); marker = folder/ORIGIN_FILE
+    descriptor = _routing_origin_descriptor(folder, report)
+    if descriptor is None:
+        return None
     output = h.real_path(descriptor['qualification']); witness = check(output)
     need(f.canonical(_origin(output, witness)) == f.canonical(descriptor), 'placement qualification origin changed')
     need(h.real_path(report['source']) == h.real_path(witness['candidate']), 'routing source differs from placement origin')

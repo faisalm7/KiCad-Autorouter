@@ -33,6 +33,72 @@ def value_without_schema(value):
     return {key: item for key, item in value.items() if key != 'schema'}
 
 
+class PlacementOriginPolicy(unittest.TestCase):
+    """Native-policy recognition is distinct from full placement qualification."""
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix='placement-origin-policy-')
+        self.addCleanup(temporary.cleanup); self.root = Path(temporary.name).resolve()
+        self.folder = self.root / 'route'; self.folder.mkdir()
+        self.qualification = self.root / 'unverified'; self.qualification.mkdir()
+        self.marker = self.folder / placement.ORIGIN_FILE
+        self.descriptor = dict(schema=1, kind=placement.ORIGIN_KIND, qualification=str(self.qualification),
+            result_sha256='1'*64, binding_sha256='2'*64, evidence_sha256='3'*64)
+        self.report = dict(schema=1, scope='selected_nets', placement_origin=self.descriptor)
+        self.write()
+
+    def write(self):
+        self.marker.write_text(json.dumps(self.descriptor))
+
+    def test_exact_origin_uses_native_policy_but_still_needs_full_qualification(self):
+        with patch.object(placement, 'check', side_effect=ValueError('unverified Native qualification')) as check:
+            self.assertEqual(f.receipt_policy(self.report, self.folder), 'native')
+            self.assertEqual(f.evidence_markers(self.folder), {'reviewed-placement-origin'})
+            self.assertEqual(f.evidence_inventory(self.folder), p.tree_hash(self.folder))
+            check.assert_not_called()
+            with self.assertRaisesRegex(ValueError, 'unverified Native qualification'):
+                placement.check_routing_record(self.folder, self.report)
+            check.assert_called_once_with(self.qualification)
+        self.assertNotIn('accepted', self.report)
+
+    def test_missing_pair_and_nonregular_marker_refuse(self):
+        with self.assertRaises(ValueError): f.receipt_policy({'schema': 1}, self.folder)
+        self.marker.unlink()
+        with self.assertRaises(ValueError): f.receipt_policy(self.report, self.folder)
+        self.marker.mkdir()
+        with self.assertRaises((ValueError, p.Rejected)): f.receipt_policy(self.report, self.folder)
+        self.marker.rmdir(); self.marker.symlink_to(self.root/'absent')
+        with self.assertRaises((ValueError, p.Rejected)): f.receipt_policy(self.report, self.folder)
+
+    def test_descriptor_types_json_and_bound_marker_cannot_downgrade(self):
+        for key, value in (('schema', True), ('kind', 'legacy'), ('qualification', None),
+                           ('qualification', 'relative'), ('result_sha256', 1),
+                           ('binding_sha256', 'A'*64), ('evidence_sha256', 'short')):
+            old = self.descriptor[key]; self.descriptor[key] = value; self.write()
+            with self.subTest(key=key, value=value), self.assertRaises((ValueError, p.Rejected)):
+                f.receipt_policy(self.report, self.folder)
+            self.descriptor[key] = old
+        self.write(); raw = self.marker.read_text()
+        for changed in (raw[:-1]+',"schema":1}', raw[:-1]+',"extra":NaN}', '{}'):
+            self.marker.write_text(changed)
+            with self.subTest(changed=changed), self.assertRaises((ValueError, p.Rejected)):
+                f.receipt_policy(self.report, self.folder)
+
+    def test_all_other_legacy_markers_and_claims_still_refuse(self):
+        for name in ('placement-policy.json', 'placement-search.json', 'placement-unknown',
+                     'planning-unknown', 'floor-policy.json'):
+            path = self.folder/name; path.write_text('{}')
+            with self.subTest(name=name), self.assertRaises(p.Rejected):
+                f.receipt_policy(self.report, self.folder)
+            path.unlink()
+        for key in ('placement_policy', 'placement_unknown', 'planning_parameters',
+                    'floor_policy', 'guidance_policy'):
+            with self.subTest(key=key), self.assertRaises(p.Rejected):
+                f.receipt_policy(dict(self.report, **{key: None}), self.folder)
+        for value in (True, 3, 4, 5):
+            with self.subTest(schema=value), self.assertRaises(ValueError):
+                f.receipt_policy(dict(self.report, schema=value), self.folder)
+
+
 class PlacementRouteDispatch(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix='placement-route-lineage-')

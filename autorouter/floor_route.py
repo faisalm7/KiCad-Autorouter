@@ -53,7 +53,8 @@ def evidence_markers(directory):
     with os.scandir(directory) as entries:
         for count,entry in enumerate(entries,1):
             if count>4000:raise p.Rejected('bounded evidence entry ceiling')
-            if entry.name.startswith(('placement-','planning-')):markers.add('placement')
+            if entry.name == 'placement-origin.json':markers.add('reviewed-placement-origin')
+            elif entry.name.startswith(('placement-','planning-')):markers.add('placement')
             if entry.name.startswith('placement-search'):markers.add('search')
             if entry.name.startswith('floor-'):markers.add('floor')
     return markers
@@ -62,6 +63,15 @@ def evidence_markers(directory):
 def receipt_policy(data,directory):
     """Refuse single-field downgrade while preserving old native/C receipts."""
     markers=evidence_markers(directory)
+    if 'reviewed-placement-origin' in markers or 'placement_origin' in data:
+        # This is a native route's reviewed origin, not legacy DSN placement
+        # guidance. Recognition alone never replaces the full lineage reader.
+        from .placement import _routing_origin_descriptor
+        _routing_origin_descriptor(directory,data)
+        if (markers != {'reviewed-placement-origin'} or 'guidance_policy' in data
+                or any(key != 'placement_origin' and key.startswith(('placement_','planning_','floor_')) for key in data)):
+            raise p.Rejected('reviewed placement origin cannot mix legacy placement/floor policy')
+        return 'native'
     if data.get('schema')==4 or data.get('input_policy')==SEARCH_POLICY or 'placement_search' in data or 'search' in markers:
         from .placement_clearance import parameters
         if (type(data.get('schema')) is not int or data['schema']!=4 or data.get('input_policy')!=SEARCH_POLICY

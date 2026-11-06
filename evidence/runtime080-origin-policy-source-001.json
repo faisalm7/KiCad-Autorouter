@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "status": "source-and-targeted-review-only",
+  "files_sha256": {
+    "autorouter/floor_route.py": "47c7f7d9c29dea4de51d14388ed6b47437b6df7ed6d642c54f60efd3f2d542af",
+    "autorouter/placement.py": "b9c224e82d9fe0824c2fc3c405e4f02c93401b14f1b5661e13156833778c0593",
+    "tests/test_placement_route_lineage.py": "d025a2fed7096971cf4fba104d1df02f878f5fc7164ab41c67d0f632ad66e0dd"
+  },
+  "historical079_result_unchanged": true,
+  "change": "Recognize the exact paired typed reviewed native placement origin separately from legacy DSN placement guidance; still require full lineage proof before publication.",
+  "targeted_runs": [
+    {
+      "label": "targeted001",
+      "status": "nonzero_exit",
+      "worker_wall_seconds": 16.720829916001094,
+      "worker_cpu_seconds": 13.35446,
+      "supervisor_cpu_seconds": 0.1031,
+      "cleanup_complete": true,
+      "process_sha256": "7a8c6d9947e5245c604b1d8d8913e6fa7931d85f21de9e5d30e6a3388fa3ee4f",
+      "log_sha256": "5e6304e131119c8261c5c1b0b47fa94240168910c459fe01553284889fbcdfdc"
+    },
+    {
+      "label": "targeted002",
+      "status": "success",
+      "worker_wall_seconds": 160.72985570799938,
+      "worker_cpu_seconds": 93.51979,
+      "supervisor_cpu_seconds": 1.00834,
+      "cleanup_complete": true,
+      "process_sha256": "80173c97cc5e5b7735097742609b8021004396034a15f28565ac8f1fc26b9e94",
+      "log_sha256": "07ecbe69e5a350d42e04e3eb32d321083b58f44b18e8a2be191698ab2c7d3884"
+    }
+  ],
+  "targeted002_tests": 73,
+  "targeted001_failure_scope": "35 discovered including two loader errors; one directory-marker exception lacked semantic refusal. Explicit regular-marker check fixed it; loader invocation corrected. Failed logs retained.",
+  "skeptical_review_sha256": "d38ab232e0da7b4c3c833a9e43bc3a6e6ae2d1a1fee5e449506e125f9b69ed1c",
+  "pending": [
+    "Fresh unqualified installed080 Native420 delivery",
+    "Full regression on final source",
+    "Actual coherent-build GUI controls"
+  ],
+  "qualified": false,
+  "acceptance_checks_weakened": false
+}
