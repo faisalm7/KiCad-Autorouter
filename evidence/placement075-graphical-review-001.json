@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "kind": "source-run-selected-placement-review-001",
+  "actual_GUI": true,
+  "installed_placement": false,
+  "Native_executed_in_this_review": false,
+  "PCB_written": false,
+  "routing_started": false,
+  "model_requests": 0,
+  "model_cost_usd": 0,
+  "human_PCB_approval": false,
+  "project_complete": false,
+  "reused": {
+    "MIT_search": "experiments/constrained_placement_v1",
+    "Native_capture_and_qualified_first_pose": "evidence/placement075-native-proposal-006.json",
+    "fresh_readback": "experiments/placement_native_evidence.py",
+    "retained_witness_sha256": "1192ff0b5bb37cc35cbcc312ae73d88281f88db038eb9f00821a3ce118d02c65"
+  },
+  "implementation": {
+    "experiments/placement_review.py": "4061d5e4f4a9798139710b24ee05d465cb4de7af16c5c8e6c195a115fe8f4813",
+    "autorouter/placement_view.py": "d182dbfb1f0f7e0e4f42471fb8f74d094dd3d94ecbaca4942ff62df8462997ae"
+  },
+  "observed": [
+    "Native wx window displayed actual retained alternatives with unchanged fixed copper and zones.",
+    "Component labels, legend, original/proposed coordinates and geometry rendered after the recorded NanoSVG correction.",
+    "An invalid coordinate was refused without adopting its pose in first review001.",
+    "Pending coordinate text cleared acknowledgement and disabled saving in corrected review003.",
+    "Applying J1 X=26.2 mm passed the independent geometric constraints and visibly revoked Native qualification.",
+    "Explicit software-test acknowledgement saved an edited draft only; it did not start routing, waive warnings or confer execution authority.",
+    "Switching to alternative2 cleared intent; explicit rejection was recorded."
+  ],
+  "intents": [
+    {
+      "path": ".runs/placement-review075-003/intent-68bdd6afa14644f89f0960ab1d0745d9.json",
+      "sha256": "a5328074d46d4dd32939806941e58018b447f6eca1de67352d7ce257b2ac2771",
+      "choice": "reject",
+      "moves_nm": {
+        "1c5bff0f-f073-5fbd-9651-02acb2c5aeb8": [
+          21034794,
+          10856765
+        ],
+        "dbf56e59-9122-5c8e-93a9-030706254508": [
+          27410877,
+          10817295
+        ]
+      },
+      "pose_sha256": "df677b81bb767e4e4b950787271c5ccaf7e042b452724171316a6571c62914c4",
+      "changed_pose_not_Native_qualified": true
+    },
+    {
+      "path": ".runs/placement-review075-003/intent-6f43cdd3f68f4eb2845100e3b547e314.json",
+      "sha256": "7647e3268457f80e1ea4211bea948ee43ae5b2fee06b44de48a2c01372cbb85e",
+      "choice": "reviewed_draft",
+      "moves_nm": {
+        "1c5bff0f-f073-5fbd-9651-02acb2c5aeb8": [
+          26200000,
+          9945117
+        ],
+        "dbf56e59-9122-5c8e-93a9-030706254508": [
+          20234657,
+          9846186
+        ]
+      },
+      "pose_sha256": "7c4cb75c328140a69c03f40a0469f083d4ed35b306702279e31feb2c6ab0e197",
+      "changed_pose_not_Native_qualified": true
+    }
+  ],
+  "readback": {
+    "passed": true,
+    "source_runtime_and_retained006_unchanged": true,
+    "sha256": "bfad7a77fb2235918eb4bcceb62d85899f3d21c4e4d9257f6a4145fc264c3291",
+    "wall_seconds": 0.7288512919913046,
+    "reader_CPU_seconds": 0.36458199999999996
+  },
+  "retained_failures": [
+    {
+      "id": "placement-review075-001",
+      "failure": "Native NanoSVG preview omitted SVG text; source fixed with wx font overlay. Draft interaction initially lacked late material recheck and pending-edit acknowledgement invalidation; skeptical controls fixed both."
+    },
+    {
+      "id": "placement-review075-002",
+      "failure": "Startup failed because bundled wx.FontInfo lacks PixelSize; corrected with documented wx.Font.SetPixelSize. Log and partial opened receipt retained."
+    }
+  ],
+  "limitations": [
+    "Source-run experimental adapter over one previously exposed owned family; no installed toolbar placement or general project capture.",
+    "No fresh Native qualification of the edited or second alternative yet.",
+    "Groups, SMD/ordinary library geometries, rotations/flips, keepouts, polygon edges and routed-component relocation remain outside the existing strict capture contract.",
+    "Actual queued material-fault and close-during-check controls are pure callback tests, not observed GUI race tests.",
+    "GUI latency/authoring/review costs were not fully measured; readback timing is separate and not an end-to-end benchmark."
+  ]
+}
