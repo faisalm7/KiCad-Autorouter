@@ -27,9 +27,10 @@ An explicit local settings file can contain:
 
 Use an existing compatible server and its actual model name; this example does not install one. If authentication is necessary, `credential_env` may name an environment variable containing a user-supplied credential. The value is sent only in the Authorization header and is not written to the job log or settings. Do not put a secret directly in JSON or Git.
 
-The same deterministic interface works without a model:
+The same deterministic interface works without a model. From this checkout, enter the installed runtime first so the commands use its pinned KiCad profile:
 
 ```sh
+cd "./.runs/runtime075 fresh install 001"
 .venv/bin/python -B -m autorouter inspect-project /absolute/project/board.kicad_pcb --output /absolute/new-inspection --seconds 60
 .venv/bin/python -B -m autorouter propose-route /absolute/project/board.kicad_pcb --inspection /absolute/new-inspection/inspection.json --intent /absolute/request.json
 ```

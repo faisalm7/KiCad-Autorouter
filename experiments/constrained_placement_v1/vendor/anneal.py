@@ -1,0 +1,345 @@
+"""Simulated-annealing detailed placement (M4).
+
+Refines the force-directed seed with a full multi-objective cost and moves that
+escape local minima (nudge + swap). Cost is evaluated *incrementally* -- only the
+nets and pairs touching the moved component(s) are recomputed -- so thousands of
+moves run in a fraction of a second even on the 131-part system board.
+
+Two distinct costs, deliberately:
+  * SEARCH cost (guides which moves are accepted) =
+        HPWL(signal) + overlap-area(hard) + routing-channel + connector-edge
+        + block-cohesion.
+  * SELECTION cost (decides which visited layout we keep, ``_quality``) =
+        HPWL(signal) + overlap-area(hard) only.
+The soft terms (channel / cohesion / edge) shape the search but must NOT pick the
+returned layout: ranking by the full cost made the engine discard the low-HPWL
+layouts it found and return overlap/cohesion-optimal but wirelength-bad ones.
+
+Moves: nudge (translate), rotate (0/90/180/270) and swap. Overlap is a hard
+barrier in the cost, and the final legalize step guarantees an overlap-free board.
+"""
+from __future__ import annotations
+
+import math
+
+from . import electrical, geom
+from .blocks import block_centroids
+from .edge import pin_to_edge
+from .metrics import _is_power, channel_width, TALL_HALO_MM, TALL_MM
+from .model import Board
+
+
+class _Weights:
+    HPWL = 1.0
+    OVERLAP = 60.0        # per mm^2 of courtyard overlap -- effectively a barrier
+    EDGE = 0.6            # connector distance to nearest edge
+    COHESION = 0.35       # component distance to its block centroid
+    CHANNEL = 4.0         # soft penalty for gaps narrower than a routing channel
+    CONG_K = 3.0          # per-unit-pressure multiplier on the channel term
+    DECAP = 3.0           # pull a decoupling cap toward its IC power pin (search bias).
+    # 3.0 chosen by a weight sweep gated on FreeRouting: it roughly halves mean decap
+    # proximity vs 1.5 on the decap-bearing boards (system 22->15mm, current_sense
+    # 15->7mm) and is the peak for the system integration board -- above 3.0 the global
+    # layout distorts and system proximity worsens again. Search bias only; never _quality.
+
+
+# Target gap (mm) a decoupling cap should sit within of its IC power pin (loop
+# inductance is dominated beyond a few mm). The decap term pays only beyond this.
+DECAP_TARGET_MM = 3.0
+
+# Extra cross-block gutter beyond the single-track channel = one more routing
+# track (track + clearance), scaled by channel_scale so dense boards relax it.
+# The base channel and the gutter are both derived per-board from the fab
+# profile in Annealer.__init__ (channel = track + 2*clearance).
+
+
+class Annealer:
+    def __init__(self, board: Board, *, margin: float = 0.8, seed: int = 0,
+                 channel_scale: float = 1.0, cohesion_scale: float = 1.0,
+                 track: float = 1.0, congestion=None, cross_weight: float = 0.0):
+        import random
+        self.board = board
+        self.margin = margin
+        # Charge in _quality per crossing between the net trees. 0.0 keeps the
+        # historical selection metric exactly, so every previously measured
+        # placement is reproducible until a caller opts in.
+        self.cross_weight = cross_weight
+        self.channel = _Weights.CHANNEL * channel_scale
+        self.cohesion = _Weights.COHESION * cohesion_scale
+        self.channel_scale = channel_scale
+        self.channel_mm = channel_width(self.margin, track)   # base 1-track channel
+        self.gutter = track + self.margin                     # one extra cross-block track
+        # per-component channel multiplier from the previous routing's congestion
+        # (sampled once at the component's start position; fixed for this pass)
+        self.cpress = {}
+        if congestion is not None and not getattr(congestion, "empty", False):
+            self.cpress = {c.ref: congestion.pressure_at(c.x, c.y)
+                           for c in board.components.values()}
+        self.rng = random.Random(seed)
+        self.comps = list(board.components.values())
+        self.free = [c for c in self.comps if not c.locked]
+        # parts the rotate/swap moves may touch (edge connectors are excluded:
+        # they keep their assigned orientation and only slide along their edge)
+        self.movable = [c for c in self.free if not c.edge]
+        # net -> list of (comp, pad) for signal nets only
+        self.comp_nets: dict[str, set[str]] = {c.ref: set() for c in self.comps}
+        self.net_members: dict[str, list[tuple]] = {}
+        for net, members in board.nets().items():
+            if _is_power(net):
+                continue
+            self.net_members[net] = [(board.components[r], pi) for r, pi in members]
+            for r, _ in members:
+                self.comp_nets[r].add(net)
+        self.centroids = block_centroids(board)
+        # decoupling cap -> (cap_rail_pad_idx, ic_ref, ic_rail_pad_idx); computed once
+        # on the seed positions so the pairing is stable across the anneal.
+        self.decap = electrical.decoupling_pairs(board)
+
+    # ---- cost pieces -----------------------------------------------------
+    def _net_hpwl(self, net: str) -> float:
+        pts = [c.pad_world(c.pads[pi]) for c, pi in self.net_members[net]]
+        if len(pts) < 2:
+            return 0.0
+        xs = [p[0] for p in pts]
+        ys = [p[1] for p in pts]
+        return (max(xs) - min(xs)) + (max(ys) - min(ys))
+
+    def _pair_penalty(self, a, b, margin) -> float:
+        """Hard overlap area (barrier) + soft channel penalty for tight gaps."""
+        # gap between courtyards along each axis (negative => overlapping)
+        gx = abs(a.x - b.x) - (a.eff_w + b.eff_w) / 2
+        gy = abs(a.y - b.y) - (a.eff_h + b.eff_h) / 2
+        ox = margin - gx
+        oy = margin - gy
+        cost = 0.0
+        if ox > 0 and oy > 0:                          # boxes overlap
+            cost += _Weights.OVERLAP * ox * oy
+        # channel: penalise when the nearer-axis gap is below the channel target
+        # and the boxes shadow each other on the other axis (a real routing pinch).
+        # Parts in different blocks target a wider gutter (scaled by channel_scale,
+        # so a dense board where channel_scale -> 0 keeps the plain channel).
+        gap = max(gx, gy)
+        shadow = min(gx, gy) < margin
+        target = self.channel_mm
+        if a.block and b.block and a.block != b.block:
+            target += self.gutter * self.channel_scale
+        if max(a.height, b.height) >= TALL_MM:           # tall part needs rework clearance
+            target += TALL_HALO_MM * self.channel_scale
+        if self.channel and shadow and 0 <= gap < target:
+            press = self.cpress.get(a.ref, 0.0) + self.cpress.get(b.ref, 0.0)
+            local = self.channel * (1.0 + _Weights.CONG_K * press / 2.0)
+            cost += local * (target - gap)
+        return cost
+
+    def _edge_dist(self, c) -> float:
+        b = self.board
+        return min(c.x - b.x0, b.x1 - c.x, c.y - b.y0, b.y1 - c.y)
+
+    def _cohesion(self, c) -> float:
+        cx, cy = self.centroids.get(c.block, (c.x, c.y))
+        return math.hypot(c.x - cx, c.y - cy)
+
+    def _decap_penalty(self, c) -> float:
+        """Hinge: how far a decoupling cap's rail pad is beyond DECAP_TARGET_MM from
+        its paired IC power pin. 0 for non-decaps and within-target caps."""
+        t = self.decap.get(c.ref)
+        if t is None:
+            return 0.0
+        cap_idx, ic_ref, ic_idx = t
+        ic = self.board.components.get(ic_ref)
+        if ic is None:                      # paired IC vanished (defensive; can't happen in-anneal)
+            return 0.0
+        cx, cy = c.pad_world(c.pads[cap_idx])
+        ix, iy = ic.pad_world(ic.pads[ic_idx])
+        return max(0.0, math.hypot(ix - cx, iy - cy) - DECAP_TARGET_MM)
+
+    def _quality(self) -> float:
+        """Selection metric: wirelength + the hard overlap barrier only.
+
+        The soft terms (channel / cohesion / connector-edge) shape the *search* --
+        they bias which moves the annealer accepts -- but they must NOT decide which
+        of the visited layouts we keep. Including them (as the old full-cost ``best``
+        tracking did) pulls the retained layout away from the low-wirelength ones the
+        anneal actually finds: cohesion alone could trade ~2000 mm of HPWL for parts
+        sitting tighter on their block centroids, so the engine routinely *returned a
+        worse layout than it had already visited*. Ranking kept layouts by placement
+        quality fixes that.
+        """
+        q = sum(self._net_hpwl(n) for n in self.net_members)
+        m = self.margin
+        comps = self.comps
+        for i in range(len(comps)):
+            a = comps[i]
+            for j in range(i + 1, len(comps)):
+                b = comps[j]
+                ox = m - (abs(a.x - b.x) - (a.eff_w + b.eff_w) / 2)
+                oy = m - (abs(a.y - b.y) - (a.eff_h + b.eff_h) / 2)
+                if ox > 0 and oy > 0:
+                    q += _Weights.OVERLAP * ox * oy
+        if self.cross_weight:
+            # Crossings belong in the SELECTION metric, unlike the soft search
+            # terms: they are not a matter of taste, they are the count of
+            # places a single-sided board needs a wire bridge. Measured over 76
+            # routed placements on 4 boards, crossings is the best single
+            # predictor of the bridges a placement actually forces (Spearman
+            # 0.61, ahead of HPWL's 0.57) -- so a layout with fewer of them is
+            # genuinely better, not merely tidier. Without this a topologically
+            # seeded, crossing-free layout is traded away for a few millimetres
+            # of wire before the anneal ever returns it.
+            from . import globalroute
+            q += self.cross_weight * len(
+                globalroute.conflicts(globalroute.net_segments(self.board)))
+        return q
+
+    def local_cost(self, subset) -> float:
+        """Cost attributable to a set of components (for move deltas)."""
+        W = _Weights
+        cost = 0.0
+        nets = set()
+        for c in subset:
+            nets |= self.comp_nets[c.ref]
+        # sorted: float summation order must not follow str-set iteration order,
+        # which varies with hash randomization -- a last-ulp difference here can
+        # flip one SA accept and cascade into a different final layout per process.
+        for net in sorted(nets):
+            cost += W.HPWL * self._net_hpwl(net)
+        seen = set()
+        for c in subset:
+            for other in self.comps:
+                if other is c:
+                    continue
+                key = (c.ref, other.ref) if c.ref < other.ref else (other.ref, c.ref)
+                if key in seen:
+                    continue
+                seen.add(key)
+                cost += self._pair_penalty(c, other, self.margin)
+        for c in subset:
+            if c.is_connector:
+                cost += W.EDGE * self._edge_dist(c)
+            cost += self.cohesion * self._cohesion(c)
+            cost += W.DECAP * self._decap_penalty(c)
+        return cost
+
+    def _clamp(self, c):
+        geom.clamp_center(c, self.board, self.margin)
+
+    # ---- main loop -------------------------------------------------------
+    def run(self, *, steps: int = 6000, t0: float = 8.0, t_end: float = 0.05,
+            progress=None):
+        if len(self.free) < 2:
+            return
+        cooling = (t_end / t0) ** (1.0 / steps)
+        T = t0
+        best = self._snapshot()
+        best_q = self._quality()              # keep the best layout by QUALITY
+        resync_every = max(200, steps // 20)
+        # Sample the quality metric ~300x over the run (O(n^2), so not every step)
+        # and snapshot whenever the layout improves. The seed is the initial best,
+        # so the anneal can never return a layout worse than where it started.
+        sample_every = max(1, steps // 300)
+
+        for it in range(steps):
+            roll = self.rng.random()
+            if roll < 0.55:
+                self._try_nudge(T)
+            elif roll < 0.80:
+                self._try_rotate(T)
+            else:
+                self._try_swap()
+            T *= cooling
+            if (it + 1) % sample_every == 0:
+                q = self._quality()
+                if q < best_q - 1e-9:
+                    best_q = q
+                    best = self._snapshot()
+            if (it + 1) % resync_every == 0:
+                self.centroids = block_centroids(self.board)   # cohesion target moved
+                if progress is not None:
+                    progress((it + 1) / steps)
+
+        q = self._quality()                   # don't miss the final state
+        if q < best_q - 1e-9:
+            best = self._snapshot()
+        self._restore(best)
+
+    def _try_nudge(self, T):
+        c = self.rng.choice(self.free)
+        ox, oy = c.x, c.y
+        before = self.local_cost((c,))
+        amp = max(1.0, T)
+        if c.edge:
+            d = (self.rng.random() - 0.5) * 2 * amp
+            if c.edge in ("L", "R"):
+                c.y += d
+            else:
+                c.x += d
+            pin_to_edge(c, self.board, self.margin)
+        else:
+            c.x += (self.rng.random() - 0.5) * 2 * amp
+            c.y += (self.rng.random() - 0.5) * 2 * amp
+        self._clamp(c)
+        after = self.local_cost((c,))
+        return self._accept(after - before, T, lambda: self._revert1(c, ox, oy))
+
+    def _try_rotate(self, T):
+        if not self.movable:
+            return None
+        c = self.rng.choice(self.movable)
+        old_rot = c.rot
+        before = self.local_cost((c,))
+        c.rot = self.rng.choice([r for r in (0, 90, 180, 270) if r != old_rot])
+        self._clamp(c)                       # eff dims changed -> re-clamp
+        after = self.local_cost((c,))
+        return self._accept(after - before, T,
+                            lambda: self._revert_rot(c, old_rot))
+
+    @staticmethod
+    def _revert_rot(c, old_rot):
+        c.rot = old_rot
+
+    def _try_swap(self):
+        if len(self.movable) < 2:
+            return None
+        a, b = self.rng.sample(self.movable, 2)
+        before = self.local_cost((a, b))
+        a.x, b.x = b.x, a.x
+        a.y, b.y = b.y, a.y
+        self._clamp(a)
+        self._clamp(b)
+        after = self.local_cost((a, b))
+        # swaps are accepted greedily (T applied to nudges, the finer moves)
+        return self._accept(after - before, 0.0,
+                            lambda: self._revert2(a, b))
+
+    def _accept(self, delta, T, revert):
+        if delta <= 0 or (T > 1e-9 and self.rng.random() < math.exp(-delta / T)):
+            return delta
+        revert()
+        return None
+
+    @staticmethod
+    def _revert1(c, ox, oy):
+        c.x, c.y = ox, oy
+
+    @staticmethod
+    def _revert2(a, b):
+        a.x, b.x = b.x, a.x
+        a.y, b.y = b.y, a.y
+
+    def _snapshot(self):
+        return {c.ref: (c.x, c.y, c.rot) for c in self.free}
+
+    def _restore(self, snap):
+        for ref, (x, y, rot) in snap.items():
+            c = self.board.components[ref]
+            c.x, c.y, c.rot = x, y, rot
+
+
+def anneal(board: Board, *, seed: int = 0, steps: int = 6000, margin: float = 0.8,
+           channel_scale: float = 1.0, cohesion_scale: float = 1.0,
+           track: float = 1.0, congestion=None, progress=None,
+           cross_weight: float = 0.0):
+    Annealer(board, margin=margin, seed=seed, channel_scale=channel_scale,
+             cohesion_scale=cohesion_scale, track=track, congestion=congestion,
+             cross_weight=cross_weight).run(steps=steps, progress=progress)
+    return board

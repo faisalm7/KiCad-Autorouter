@@ -1,0 +1,189 @@
+{
+  "commit": "12bb5556fc5c1db287285425aea49a1d79dc8ffa",
+  "copyright": "Copyright (c) 2026 DTU and EKB Contributors",
+  "exact_upstream_blob_matches_verified": true,
+  "expected_git_blob_sha1": {
+    "LICENSE": "28005f2928bb619c916ea74d44cbacba3ff26963",
+    "plugin/plugins/autoplace/anneal.py": "e4e1be6d42ff53b21f6fc05a9cf70a2b2421ab55",
+    "plugin/plugins/autoplace/blocks.py": "c9abc4bfd81d566674bf3d9ba290e01fe5a090d1",
+    "plugin/plugins/autoplace/edge.py": "e5afe87779c3dedcc781fbacf8e75047e692c392",
+    "plugin/plugins/autoplace/electrical.py": "f544b8a3a97e08c16688e835ab39311e21a469fb",
+    "plugin/plugins/autoplace/geom.py": "817a3542d800e518c9c3a8e5290f5da7387f4a6d",
+    "plugin/plugins/autoplace/metrics.py": "0d69ac1cc8c08f8efeb4c85b9ef38221b4cdaa90",
+    "plugin/plugins/autoplace/model.py": "cffbf5f231e8dfb1f192a47826557864359cf296",
+    "plugin/plugins/autoplace/nets.py": "931dacedf0bcbc3cc810ca8e6bd32952253c3dfa"
+  },
+  "files": [
+    {
+      "bytes": 15623,
+      "git_blob_sha1": "e4e1be6d42ff53b21f6fc05a9cf70a2b2421ab55",
+      "imports": [
+        ".:electrical,geom",
+        ".:globalroute",
+        ".blocks:block_centroids",
+        ".edge:pin_to_edge",
+        ".metrics:_is_power,channel_width,TALL_HALO_MM,TALL_MM",
+        ".model:Board",
+        "__future__:annotations",
+        "math",
+        "random"
+      ],
+      "local_path": "vendor/anneal.py",
+      "sha256": "e37bad3c46b6f8a3d46e7dcd64d9189632ff5c295540f70c4b0b0b302349ec85",
+      "upstream_path": "plugin/plugins/autoplace/anneal.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/anneal.py"
+    },
+    {
+      "bytes": 1081,
+      "git_blob_sha1": "28005f2928bb619c916ea74d44cbacba3ff26963",
+      "imports": [],
+      "local_path": "vendor/LICENSE",
+      "sha256": "d3cdaf0cd82fec1bddb26bd6c40cd700f37e0e9545cd6d51c56e2fdc81189ad8",
+      "upstream_path": "LICENSE",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/LICENSE"
+    },
+    {
+      "bytes": 4425,
+      "git_blob_sha1": "cffbf5f231e8dfb1f192a47826557864359cf296",
+      "imports": [
+        "__future__:annotations",
+        "dataclasses:dataclass,field"
+      ],
+      "local_path": "vendor/model.py",
+      "sha256": "cadb8c18f8f1176f3ce7b8fcf7b02410543b5751ea8e74c01ca533a098e24823",
+      "upstream_path": "plugin/plugins/autoplace/model.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/model.py"
+    },
+    {
+      "bytes": 688,
+      "git_blob_sha1": "817a3542d800e518c9c3a8e5290f5da7387f4a6d",
+      "imports": [
+        ".model:Board,Component",
+        "__future__:annotations"
+      ],
+      "local_path": "vendor/geom.py",
+      "sha256": "8b0692cf97514369ea68dcf2a2327d304f1dfdbcb3c3433fc353307682c38be8",
+      "upstream_path": "plugin/plugins/autoplace/geom.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/geom.py"
+    },
+    {
+      "bytes": 12908,
+      "git_blob_sha1": "0d69ac1cc8c08f8efeb4c85b9ef38221b4cdaa90",
+      "imports": [
+        ".:electrical",
+        ".aesthetic:ALIGN_TOL_MM,_clusters",
+        ".model:Board",
+        "__future__:annotations",
+        "math"
+      ],
+      "local_path": "vendor/metrics.py",
+      "sha256": "aca6ba9ec31191ff85225e4c81abd2c000f41cfa5e88da5b95c0c295cd1f8fa1",
+      "upstream_path": "plugin/plugins/autoplace/metrics.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/metrics.py"
+    },
+    {
+      "bytes": 2319,
+      "git_blob_sha1": "f544b8a3a97e08c16688e835ab39311e21a469fb",
+      "imports": [
+        ".:nets",
+        "__future__:annotations",
+        "math"
+      ],
+      "local_path": "vendor/electrical.py",
+      "sha256": "539345b5d0bcfa468baab3627f2460f9e5d81a65b465d21906191afd65fa0054",
+      "upstream_path": "plugin/plugins/autoplace/electrical.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/electrical.py"
+    },
+    {
+      "bytes": 4258,
+      "git_blob_sha1": "c9abc4bfd81d566674bf3d9ba290e01fe5a090d1",
+      "imports": [
+        ".metrics:_is_power",
+        ".model:Board",
+        "__future__:annotations",
+        "collections:defaultdict"
+      ],
+      "local_path": "vendor/blocks.py",
+      "sha256": "0db1d8e9dc16ad997394ab0e9a8e394645f2c89490250f34aad85bda487e96b1",
+      "upstream_path": "plugin/plugins/autoplace/blocks.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/blocks.py"
+    },
+    {
+      "bytes": 5192,
+      "git_blob_sha1": "e5afe87779c3dedcc781fbacf8e75047e692c392",
+      "imports": [
+        ".metrics:_is_power",
+        ".model:Board,Component",
+        "__future__:annotations"
+      ],
+      "local_path": "vendor/edge.py",
+      "sha256": "5ba285df55dc63e2f3c44ed740ade8fb1ddf212fd166a468d848aa878e60a4ea",
+      "upstream_path": "plugin/plugins/autoplace/edge.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/edge.py"
+    },
+    {
+      "bytes": 2795,
+      "git_blob_sha1": "931dacedf0bcbc3cc810ca8e6bd32952253c3dfa",
+      "imports": [
+        "__future__:annotations",
+        "re"
+      ],
+      "local_path": "vendor/nets.py",
+      "sha256": "9113b854ef521ecb9dc3b10b6b902efe06d912cb77f569c898bbf42ba51ff07a",
+      "upstream_path": "plugin/plugins/autoplace/nets.py",
+      "upstream_url": "https://github.com/DTU-EKB/KiCad-Autoplace/blob/12bb5556fc5c1db287285425aea49a1d79dc8ffa/plugin/plugins/autoplace/nets.py"
+    }
+  ],
+  "host_changes": "Vendored upstream files are exact/unmodified. Host subclasses only add cooperative checks, independent constraint rejection and complete-pose rollback; it does not replace the search loop, moves, random generator, cooling or objective.",
+  "license": "MIT",
+  "license_file": "vendor/LICENSE",
+  "license_scope": "Complete upstream MIT notice retained in vendor/LICENSE. No external dependencies or example boards copied.",
+  "method": "Unmodified exact text-source subset fetched from official repository at fixed commit; no package/installer/hooks/KiCad writer/serializer imported.",
+  "records_pending_local_hash_verification": false,
+  "repository": "DTU-EKB/KiCad-Autoplace",
+  "runtime_import_review": {
+    "copied_module_closure": [
+      "anneal",
+      "model",
+      "geom",
+      "metrics",
+      "electrical",
+      "blocks",
+      "edge",
+      "nets"
+    ],
+    "heuristic_handling": "Every non-null source net gets a stable opaque nNNNNN token; connector/electrical annotations are empty, channel/cohesion/crossing weights zero. No role is inferred from names, and every net is included in HPWL. Source names, pad IDs and connectivity remain in the immutable host facts.",
+    "optional_imports_not_in_subset": {
+      "anneal._quality -> globalroute": "Unreachable: host fixes cross_weight=0 and does not expose engine configuration.",
+      "metrics.alignment_score -> aesthetic": "Unused metric, never called by the proposer."
+    },
+    "stdlib_only": [
+      "__future__",
+      "collections",
+      "dataclasses",
+      "math",
+      "random",
+      "re"
+    ],
+    "unused_paths_not_authority": [
+      "engine.place",
+      "kicad_io",
+      "serialize",
+      "CLI",
+      "legalize",
+      "fabrication",
+      "multiseed",
+      "routing",
+      "ActionPlugin"
+    ],
+    "upstream_entrypoints_used": [
+      "model.Board",
+      "model.Component",
+      "model.Pad",
+      "anneal.Annealer.__init__",
+      "anneal.Annealer.run",
+      "anneal.Annealer move/cost/snapshot methods"
+    ]
+  },
+  "schema": 1
+}
