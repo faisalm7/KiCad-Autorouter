@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "status": "demonstration_delivered",
+  "source_commit": "c3620e92b3bd3e5fa4547f03335536c39cd6fd77",
+  "installed_build": "b91520b90cdfeb86aba1dd1e9458e941f2c810a7",
+  "runtime_manifest_sha256": "f0b304061ab1f5e30f2514b4bcbd5ab5b31636e5872bb4927928acb7e29cc810",
+  "placement_proof": "placement075-native-proposal-004.json",
+  "placement_candidate_sha256": "22b226c15be75ca3b3083fc2d7bf4ce48658c19c7380c46bb60c4340272383c5",
+  "route_and_export_candidate_sha256": "3de720ab2b60392cb389b2f2400f00bc92b08b14f82339c3771c3adf3597be64",
+  "source_hashes": {
+    "owned1007-transport.kicad_pcb": "22b226c15be75ca3b3083fc2d7bf4ce48658c19c7380c46bb60c4340272383c5",
+    "owned1007-transport.kicad_prl": "6d62252c8959cb599b504ee494956be2211f59f8de7dfa1de755a8bd22930b8b",
+    "owned1007-transport.kicad_pro": "cc5f4d214313a484099ab937eb260dbe218323ef56013c85ee769e5454006c6f",
+    "owned1007-transport.kicad_sch": "61f4271c4f29157dd44b27e8cf813097d933cb9b71e756ef4378381d73473948"
+  },
+  "settings": {
+    "schema": 1,
+    "scope": "partial_completion",
+    "seconds": 90,
+    "adapter": "both",
+    "profile": "standard",
+    "guidance": "native",
+    "layers": "source_all",
+    "scoring_preference": null
+  },
+  "route_accepted": true,
+  "fresh_export_accepted": true,
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": []
+  },
+  "schematic_parity": "checked by final native DRC",
+  "metrics": {
+    "version": "10.0.7",
+    "pads": 6,
+    "footprints": 8,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 30.95427223638132,
+    "copper_layers": 2
+  },
+  "protected_route_count": 0,
+  "software_test_selection_and_acceptance": true,
+  "actual_GUI": false,
+  "actual_application_opening": false,
+  "human_approval": false,
+  "model_calls": 0,
+  "limits": {
+    "placement_wall_and_cpu": 120,
+    "routing_workflow_wall_and_cpu": 240,
+    "route": 90,
+    "fresh_export": 90
+  },
+  "measured_components": {
+    "placement_wall_seconds": 6.815503292018548,
+    "placement_cpu_seconds": 5.906248,
+    "routing_workflow_wall_seconds": 27.42832050001016,
+    "routing_workflow_cpu_seconds": 24.397017,
+    "controller_exit_not_measured": true
+  },
+  "prior_research_costs_retained": [
+    {
+      "attempt": "001",
+      "disposition": "retained failed placement research",
+      "pins": {
+        ".runs/placement-native-proposal-v1-001/execution.json": "04447f16a70019e71864ef56b0e31e87721011f2a933d08f3c019da6bc8a3fec",
+        ".runs/placement-native-proposal-v1-001/work/result.json": "6a847953165682c497166c90d3d05891a5c7b59ac7dd751163c35e2df44e2fb3"
+      },
+      "complete_worker_exit_wall_seconds": 3.263851457973942,
+      "parent_plus_waited_child_cpu_seconds": 2.30968,
+      "controller_exit_not_measured": true,
+      "reason": "Rejected: capture: nonzero_exit exit=2"
+    },
+    {
+      "attempt": "002",
+      "disposition": "retained failed placement research",
+      "pins": {
+        ".runs/placement-native-proposal-v1-002/execution.json": "ed15e263931e727825fee95797c08285fcae1da41b8542e5f493b562769eb487",
+        ".runs/placement-native-proposal-v1-002/work/result.json": "beaa4ecc3e0b814c461aeec2c08a23587cf5abc6566c7352cfc47e310752b432"
+      },
+      "complete_worker_exit_wall_seconds": 3.1935630830121227,
+      "parent_plus_waited_child_cpu_seconds": 2.331894,
+      "controller_exit_not_measured": true,
+      "reason": "Rejected: capture: nonzero_exit exit=2"
+    },
+    {
+      "attempt": "003",
+      "disposition": "retained failed placement research",
+      "pins": {
+        ".runs/placement-native-proposal-v1-003/execution.json": "247ad25cf1b4e73ddfe6949a193243bcede123c29343378ecfdca42969900f5c",
+        ".runs/placement-native-proposal-v1-003/work/result.json": "155d83bc9a88cb1251e7b777445a71fcf51cc31eba3ae82a02efbaf757ef3c50"
+      },
+      "complete_worker_exit_wall_seconds": 3.871054958028253,
+      "parent_plus_waited_child_cpu_seconds": 3.181776,
+      "controller_exit_not_measured": true,
+      "reason": "Rejected: translate: nonzero_exit exit=2"
+    },
+    {
+      "attempt": "read-only-census-001",
+      "disposition": "retained Native interface diagnosis",
+      "pins": {
+        ".runs/placement075-native-census-001/output/receipt.json": "016750a41acb50702803adc8c202e38577961f78c15eaa1d28af6d86015435d0"
+      },
+      "reported_wall_seconds": 1.2261353330104612,
+      "reported_total_cpu_seconds": 0.7375160000000001,
+      "scope": "diagnostic inner receipt; not an enclosing controller measurement"
+    }
+  ],
+  "additional_cost_limits": "Preparation, authoring, review and final controller exits are not fully measured; no comparative runtime claim.",
+  "comparison_claim": false,
+  "source_rights_and_derivation": "Project-owned complete-schematic fixture; exact qualified004 candidate from explicit new unrouted task. Four original route objects including one locked were removed only in that derived task; original source unchanged.",
+  "scope": "One software-test place-to-route CLI demonstration using unchanged six-stage workflow and exact qualified004 source. Not human approval, protected-copper relocation qualification, a fixed-placement comparison, or routability/quality gain; no GUI/live application claim. All Native findings remain visible and exclusions must remain0; positive placement proposal alone does not authorize routing acceptance/export.",
+  "raw_roots": [
+    ".runs/placement075-routing-preparation-001",
+    ".runs/runtime075 fresh install 001/.runs/placement-routing075-001"
+  ],
+  "handoff_sha256": "76ed64f488de7886aa8ef04eb2e5d31b1937e6b984a5834a528e382e4fed3aed",
+  "execution_sha256": "352904d25a389a911ece5f2dec171956607bb3ce1a14b1273df6c8a3cef9c8b6",
+  "workflow_sha256": "03a44d4f89e8e023bd9aef5a07dc904348669188483d3fc0b45528aa43344e55",
+  "plan_sha256": "d3e707e920182a43fed8427f94081133e04dd90484d2365270c97e6d5063df0b",
+  "checked_project": ".runs/runtime075 fresh install 001/.runs/placement-routing075-001/autorouter-gui-985f1909256a49b7819fa61626ebdc7f/export/validation/candidate/owned1007-transport.kicad_pro"
+}
