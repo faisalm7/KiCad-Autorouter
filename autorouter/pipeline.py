@@ -2435,7 +2435,7 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None):
     """Keep cancellation active between workers and through final publication."""
     def interrupted(*_):raise KeyboardInterrupt
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
@@ -2446,15 +2446,22 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             preference_overrides=preference_overrides,_preferences=_preferences,native_toolchain=native_toolchain,
             experimental_schematic_parity=experimental_schematic_parity,_fanout_enabled=_fanout_enabled,
             _optimizer_enabled=_optimizer_enabled,_engine_clearance_margin_nm=_engine_clearance_margin_nm,
-            _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context,_improve_context=_improve_context,_improve_budget=_improve_budget)
+            _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context,_improve_context=_improve_context,_improve_budget=_improve_budget,
+            **({'placement_origin':placement_origin} if placement_origin is not None else {}))
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
 
 
-def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None):
+def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None):
     entry_started,entry_parent=time.monotonic(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
+    if placement_origin is not None:
+        if (any(value is not None for value in (native_toolchain,comparison_context,_improve_context,
+                _improve_budget,_fanout_enabled,_optimizer_enabled,_engine_clearance_margin_nm,_engine_global_width_policy))
+                or experimental_schematic_parity is not False or guidance_policy!='native'
+                or settings_path is None and preference_overrides is None and _preferences is None):
+            raise Rejected('placement origin requires ordinary captured native routing preferences; mixed policies are unsupported')
     from . import comparison, _improve_context as improve_child
     if _improve_context is not None:
         improve_child.require_budget(_improve_budget,_improve_context)
@@ -2506,7 +2513,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         handlers={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
         try:
             for sig in handlers:signal.signal(sig,interrupted)
-            return route(source,output,**pref.route_arguments(effective),_preferences=request)
+            return route(source,output,**pref.route_arguments(effective),_preferences=request,
+                         **({'placement_origin':placement_origin} if placement_origin is not None else {}))
         finally:
             for sig,handler in handlers.items():signal.signal(sig,handler)
     if engine_profile=='tuned-free-angle' and (keep_existing is not False or adapter!='both'
@@ -2547,6 +2555,13 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         elif netclass_policy(source) is not None or minimum_width_guard(source,adapter) is not None:
             raise Rejected('unsupported: fanout override requires derived non-strict class/width targets')
     if not math.isfinite(seconds) or seconds<5 or seconds>900: raise Rejected('budget must be 5–900 seconds')
+    origin_record=None
+    if placement_origin is not None:
+        from .placement import bind_routing
+        origin_record=bind_routing(placement_origin,source,_preferences['effective'],method='route')
+        if (time.monotonic()-operation_started>=seconds
+                or time.process_time()-operation_cpu+child_cpu()-_preferences['child_cpu']>=seconds):
+            raise Rejected('routing budget exhausted while checking placement origin')
     if sha(c.JAR)!=c.JAR_SHA256: raise Rejected('engine hash mismatch')
     check_storage(active_root=output)
     job=Job(output,seconds,protect_local_settings=True,**({'native_toolchain':native_toolchain,
@@ -2569,6 +2584,10 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     if comparison_context is not None:comparison.bind(output,report,comparison_context)
     try:
         capture_preferences(report,output,_preferences)
+        if origin_record is not None:
+            with (output/'placement-origin.json').open('xb') as stream:
+                stream.write((json.dumps(origin_record,sort_keys=True,indent=2)+'\n').encode())
+            report['placement_origin']=copy.deepcopy(origin_record)
         before=tree_hash(source.parent); report['source_hashes']=before
         if _improve_context is not None:improve_child.bind(output,report,_improve_context)
         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
@@ -2729,6 +2748,9 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         report['invariants_unchanged']=True
         report['native_rejection_reasons']=native_rejection_reasons(native)
         valid=native_accepted(native)
+        if valid:
+            from .placement import check_routing_record
+            check_routing_record(output,report,candidate)
         report['status']='routing_accepted' if valid else 'drc_rejected'
         report['accepted']=valid
         report['whole_project_drc_clean']=valid and report['native']['warnings']==0
@@ -2784,6 +2806,12 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             check_normal_policy(output,report)
         if report['accepted'] and class_requirement is not None:
             check_route_class_evidence(output,report,original,candidate,class_context=class_context)
+        if report['accepted'] and origin_record is not None:
+            from .placement import routing_origin_material
+            routing_origin_material(output,report)
+            if evidence_inventory(output)!=completed or tree_hash(source.parent)!=before:
+                raise Rejected('routing source/evidence changed during placement origin check')
+            check_experimental_local_settings(output,report,None)
         if report['accepted'] and _improve_context is not None:
             # Last after all source/tool/context callbacks: replay live PRL flags.
             check_experimental_local_settings(output,report,None)
@@ -2938,6 +2966,11 @@ def _check_result_scoped(path, *, native_toolchain=None, experimental_schematic_
         target=Path(path).absolute()
         raw=read_bytes(target)  # Reject symlink aliases before resolving them.
         data=read_json(target)
+        origin_marker=target.parent/'placement-origin.json'
+        if 'placement_origin' in data or origin_marker.exists() or origin_marker.is_symlink():
+            # The existing cache witness does not cover a placement origin.
+            # Reuse the complete ordinary reader, never a stale composed result.
+            return _check_result_uncached(path)
         if (target.name!='result.json' or target!=target.resolve(strict=True)
                 or type(data.get('schema')) is not int or data['schema'] not in (1,3,4,5)
                 or data.get('accepted') is not True or data.get('status')!='routing_accepted'
@@ -3371,6 +3404,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('protected import receipt changed during readback')
+    from .placement import check_routing_record
+    check_routing_record(path.parent,data,candidate)
     imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
@@ -3447,6 +3482,17 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
                     or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest):
                 raise Rejected('Improve source/parent evidence changed after final readers')
         pruning.check_native7_final(path.parent,data,material=improve_parent_material)
+    origin_marker=path.parent/'placement-origin.json'
+    if 'placement_origin' in data or origin_marker.exists() or origin_marker.is_symlink():
+        from .placement import routing_origin_material
+        routing_origin_material(path.parent,data)
+        if (not preferences_guarded or bounded_inventory(source.parent,max_bytes=100*1024*1024)!=data['source_hashes']
+                or bounded_evidence(path.parent)!=readback_material
+                or hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest):
+            raise Rejected('routing source/evidence changed during final placement origin check')
+        # The composed-origin callback reads different source/evidence trees.
+        # Replay this route's full worker/field metadata after it, not before it.
+        check_experimental_local_settings(path.parent,data,None)
     if _rejected_attempt:
         # Return only after the late evidence/source/process freshness guards.
         return {**({'comparison_route_policy':COMPARISON_ROUTE_POLICY,'production_admitted':False} if is_comparison else {}),'current':False,'validated_rejection':True,'routing_accepted':False,

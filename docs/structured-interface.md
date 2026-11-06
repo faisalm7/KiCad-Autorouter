@@ -46,3 +46,16 @@ The new placement controls call `autorouter.placement_intent` for saved-project 
 The explicit execution flag starts a120-second total wall/full-CPU qualification, including a105-second worker envelope and reserved delivery checks. It requires a saved and closed complete project, a fresh owned output, current installed tool hashes and measured space for512MiB temporary work plus3GiB reserve. Native source/candidate observations, separate refill and full schematic/board checks bind the actual result. Exit0 is insufficient; readback must confirm `placement_qualified: true`, `current: true`, and all approval/acceptance fields remain false. Expected unrouted connections are not blocking source defects.
 
 Qualification yields a pending placement project. Routing settings, route review, explicit acceptance and fresh validated separate export remain necessary. The graphical handoff carries a continuous original-project and exact-review guard; editing, rejection, cancellation, closure or changed source/evidence revokes it. No model receives an execution, editing or approval tool. Current geometry and workflow limits are described in [placement review](placement-review.md).
+
+## Affected-copper placement (prospective079 source)
+
+This option is implemented in source and still requires installed qualification. Placement settings v1/v2 preserve all existing copper. Explicit v3 uses `copper_policy: rebuild-affected-unlocked-v1`, `preserve_existing: false`, and exact `protected_names`/`protected_route_ids` lists. It binds the complete affected-net plan to the saved source and reviewed draft; locked or user-protected incident copper refuses. It cannot authorize unrelated removal, new dimensions, changed rules or electrical suitability.
+
+After the ordinary placement qualification, pass its exact directory to both initial preview and route:
+
+```sh
+.venv/bin/python -B -m autorouter preview POSED_PCB --settings SETTINGS --placement-origin QUALIFICATION
+.venv/bin/python -B -m autorouter route POSED_PCB --settings SETTINGS --placement-origin QUALIFICATION --output NEW
+```
+
+The v3 handoff requires `selected_nets` containing every reviewed incident net in its captured order, `completion-only`, `native`, `both`, `source_all` and engine-default via cost (`null`). The budget remains explicit. The route receipt and its `placement-origin.json` retain the exact qualification binding; normal result/review/choice/export readers inherit it and check the original-to-final composition. A missing, changed or stale binding refuses. Final export still runs actual Native checks and requires explicit review intent. Merely routing a manually copied posed PCB without this binding is ordinary routing, not qualified composed placement delivery. No model can supply the internal GUI callback or approve a result.

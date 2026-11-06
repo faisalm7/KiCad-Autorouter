@@ -29,7 +29,8 @@ def window_method(name, **overrides):
 
 def review():
     return SimpleNamespace(revision=1, pose={'x': 3}, settings={'selected': ['one', 'two']},
-                           inspection={'source': '/owned/source.kicad_pcb'}, intent=None)
+                           inspection={'source': '/owned/source.kicad_pcb'}, intent=None,
+                           copper_plan=None, observation={})
 
 
 class PlacementGuiTests(unittest.TestCase):
@@ -44,7 +45,11 @@ class PlacementGuiTests(unittest.TestCase):
             cancel_event=threading.Event(), inspection=gate.review.inspection,
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
+            copper_policy=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
+            current_review_settings=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
+        window.copper_policy.GetSelection.return_value = 0
+        window.rebuild_copper = MethodType(window_method('rebuild_copper'), window)
         window.revoke = MethodType(window_method('revoke'), window)
         window.edit_component = MethodType(window_method('edit_component'), window)
         window.finish_close = MethodType(window_method('finish_close'), window)
@@ -57,7 +62,8 @@ class PlacementGuiTests(unittest.TestCase):
             with self.subTest(ack=ack), self.assertRaises(ValueError): gate.check(ticket)
         gate.acknowledged = True
         for field, mutation in (('revision', 2), ('pose', {'x': 4}), ('settings', {'selected': []}),
-                                ('inspection', {'source': '/other.kicad_pcb'})):
+                                ('inspection', {'source': '/other.kicad_pcb'}),
+                                ('copper_plan', {'changed': True}), ('observation', {'changed': True})):
             original = getattr(gate.review, field); setattr(gate.review, field, mutation)
             with self.subTest(field=field), self.assertRaises(ValueError): gate.check(ticket)
             setattr(gate.review, field, original)
@@ -93,7 +99,8 @@ class PlacementGuiTests(unittest.TestCase):
         window.layout_panel = MethodType(window_method('layout_panel'), window)
         item = dict(uuid='one', reference='J1', fixed_reasons=[])
         window.gate.review = SimpleNamespace(inspection=dict(components=[item], observation={}, source='/owned/source'),
-            settings=dict(selected=['one'], region_nm=[0, 0, 10, 10]), moves={'one': [1, 1]}, alternatives=[{}])
+            settings=dict(selected=['one'], region_nm=[0, 0, 10, 10]), moves={'one': [1, 1]}, alternatives=[{}],
+            copper_plan=None, observation={})
         window.coordinates = Mock(); bitmap = Mock(); bitmap.GetSize.return_value = (850, 486)
         window.alternative.GetSelection.return_value = 0
         window.present = MethodType(window_method('present', bitmap_with_labels=Mock(return_value=bitmap)), window)
@@ -261,7 +268,8 @@ class PlacementGuiTests(unittest.TestCase):
         draft = SimpleNamespace(revision=1, pose={'one': [1000000, 2000000], 'two': [3000000, 4000000]},
             moves={'one': [1000000, 2000000], 'two': [3000000, 4000000]}, alternatives=[{}, {}],
             inspection=dict(components=[item, second], observation={}, source='/owned/source.kicad_pcb'),
-            settings=dict(selected=['one', 'two'], region_nm=[0, 0, 10000000, 10000000]), intent=None)
+            settings=dict(selected=['one', 'two'], region_nm=[0, 0, 10000000, 10000000]), intent=None,
+            copper_plan=None, observation={})
         window.gate.attach(draft); window.gate.acknowledged = True; window.inspection = draft.inspection
         window.alternative.GetSelection.return_value = 1; window.part.GetSelection.return_value = 1
         window.editing_component = 'two'

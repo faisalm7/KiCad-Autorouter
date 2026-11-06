@@ -37,7 +37,7 @@ def explicit_preferences(args):
     return result
 
 
-def preview(board,settings=None,overrides=None,*,purpose='route'):
+def preview(board,settings=None,overrides=None,*,purpose='route',placement_origin=None):
     """Read the same static guards as routing; no engine, native validation or writes."""
     from . import preferences as pref, pipeline as p, sexpr as sx, placement_clearance as pc
     from .handoff import real_path
@@ -46,6 +46,10 @@ def preview(board,settings=None,overrides=None,*,purpose='route'):
     p.require_native_scope(purpose=purpose,scope=effective['scope'],guidance=effective['guidance'],
         layers=effective['layers'],profile=effective['profile'],adapter=effective['adapter'],scoring=effective['scoring_preference'])
     source=real_path(board);before=pc.inventory(source.parent)
+    origin=None
+    if placement_origin is not None:
+        from . import placement
+        origin=placement.bind_routing(placement_origin,source,effective,method=purpose)
     if purpose not in {'route','improve'}:raise p.Rejected('unknown preview purpose')
     tuned_low=purpose=='route' and p.native7_tuned_low_request(effective['profile'],effective['scoring_preference'])
     if tuned_low:p.native7_tuned_low_source_record(source,effective['scope'])
@@ -77,6 +81,8 @@ def preview(board,settings=None,overrides=None,*,purpose='route'):
             'protected_items_outside_allowed_layers':sum(not set(lp._route_layers(item))<=set(effective['layers']) for item in protected),
             'description':'Exact original protected copper is preserved, including layers outside the requested new-route list. New through vias require both copper layers.'}
     pref.check_fresh(captured)
+    if origin is not None and placement.bind_routing(placement_origin,source,effective,method=purpose)!=origin:
+        raise p.Rejected('placement origin changed during preview')
     if pc.inventory(source.parent)!=before:raise p.Rejected('source changed during preview')
     return {'status':'preview','static_preflight_passed':True,'native_validation_performed':False,
             'source':str(source),'source_sha256':before[source.name],'effective_preferences':effective,
@@ -134,6 +140,7 @@ def main():
     view=sub.add_parser('preview',help='Preview settings, protected routing and static support without changing the board')
     view.add_argument('board');preference_arguments(view)
     view.add_argument('--purpose',choices=['route','improve'],default='route',help='Preview Route or the narrower Improve capability scope')
+    view.add_argument('--placement-origin',help='Exact reviewed placement qualification; inherits its protected-copper requirements')
     review=sub.add_parser('review-copy',help='Create a fresh disposable review within fixed 60-second wall/full-CPU caps');review.add_argument('receipt');review.add_argument('--output',required=True)
     review.add_argument('--render',action='store_true',help='Add native before/after copper plots and a local HTML review')
     choice=sub.add_parser('review-choice',help='Record accept/reject intent within fixed 60-second wall/full-CPU caps; no PCB approval or application')
@@ -151,6 +158,7 @@ def main():
     recover=sub.add_parser('recover',help='Experimental whole-board routing with bounded thermal repair');recover.add_argument('board');recover.add_argument('--output',required=True);recover.add_argument('--seconds',type=float,default=120)
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
     r=sub.add_parser('route');r.add_argument('board');r.add_argument('--output',required=True);preference_arguments(r)
+    r.add_argument('--placement-origin',help='Exact reviewed placement qualification; retained through review and delivery')
     a=p.parse_args()
     if a.command in {'inspect-project','inspect-project-check','propose-route','design-tool-schema'}:
         try:
@@ -188,7 +196,7 @@ def main():
         result=doctor();print(json.dumps(result,indent=2));return 0 if result['ready'] else 2
     if a.command in {'settings-init','preview'}:
         try:
-            if a.command=='preview':result=preview(a.board,a.settings,explicit_preferences(a),purpose=a.purpose)
+            if a.command=='preview':result=preview(a.board,a.settings,explicit_preferences(a),purpose=a.purpose,placement_origin=a.placement_origin)
             else:
                 from . import preferences as pref
                 from .handoff import real_path
@@ -239,7 +247,7 @@ def main():
         elif a.command=='recover':
             from .recovery import recover
             result=recover(a.board,a.output,a.seconds)
-        else: result=route(a.board,a.output,settings_path=a.settings,preference_overrides=explicit_preferences(a))
+        else: result=route(a.board,a.output,settings_path=a.settings,preference_overrides=explicit_preferences(a),placement_origin=a.placement_origin)
     except Exception as exc:
         print(json.dumps({'accepted':False,'error':str(exc)}));return 2
     print(json.dumps({k:v for k,v in result.items() if k in ('status','accepted','reason','candidate','wall_seconds','total_cpu_seconds','metrics')},indent=2))

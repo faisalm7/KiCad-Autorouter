@@ -18,6 +18,12 @@ GUI108 now shows “Placement validated — routing pending” in both the diagr
 
 The [structured interface](structured-interface.md) uses the same deterministic intake, independent geometry checks, Native qualification and continuously bound source guard. Curated installation contains only necessary pinned MIT search/contract dependencies, not the historical research archive. Product browser choice is configurable; GUI107 used Microsoft Edge.
 
+## Prospective079 controls
+
+The new source batch is awaiting full installed/Native/GUI qualification. It adds **Preserve all existing copper** as the default and an explicit **Rebuild affected unlocked nets** option. Advanced protection lists exact net names or route UUIDs; locked and otherwise unsupported parts stay fixed. The review names every affected net and shows removed/retained route counts. It never infers that a net is electrically safe to reroute.
+
+Numeric edits can be kept for several selected components and applied together with **Update all edits**. The final combined pose is checked once; failed edits retain the previous pose and revoke approval. Placement validation checks original, prepared and moved projects; its routing window visibly prefills the exact affected nets and a90-second budget. The same mandatory origin checks apply through the structured CLI and final export. Changing source, settings, plan, pose, protected copper or evidence revokes the result. This option does not yet qualify unrelated acquired boards or broaden rotation/side/group/keepout support.
+
 ## Historical source-run lineage
 
 The following developer commands describe the earlier075 source-run review/qualification experiment. Its then-pending statements are historical, superseded by the076 installed workflow above; the original evidence and failures remain unchanged.

@@ -195,5 +195,72 @@ class SourceGuardTests(unittest.TestCase):
         self.assertEqual(flow.ready,{'preview'});self.assertEqual(flow.records['preview'],record)
         self.assertIsNone(flow.choice)
 
+    def test_composed_task_rejects_settings_before_job_and_passes_origin_to_cli(self):
+        def task(settings, method, candidate):
+            if settings['seconds'] != self.settings['seconds'] or method != 'route':
+                raise ValueError('task settings changed')
+        guard=gui.SourceGuard(self.board,lambda:None,task,placement_origin=self.root)
+        flow=self.request(guard).prepare()
+        self.assertEqual(flow.command('preview')[-2:],['--placement-origin',str(self.root)])
+        flow.ready.add('preview')
+        self.assertEqual(flow.command('route')[-2:],['--placement-origin',str(self.root)])
+        wrong=dict(self.settings,seconds=self.settings['seconds']+1)
+        with self.assertRaisesRegex(ValueError,'task settings changed'):
+            gui.Request(str(self.board),str(self.output),json.dumps(wrong),True,source_guard=guard).prepare()
+
+    def test_task_callback_has_no_authority_or_settings_mutation_path(self):
+        def mutates(settings, method, candidate): settings.clear()
+        guard=gui.SourceGuard(self.board,lambda:None,mutates)
+        value=dict(self.settings);guard.check_task(value,'route');self.assertEqual(value,self.settings)
+        guard=gui.SourceGuard(self.board,lambda:None,lambda *_: {'accepted':True})
+        with self.assertRaisesRegex(ValueError,'no approval'):guard.check_task(self.settings,'route')
+        with self.assertRaisesRegex(ValueError,'composed task verifier'):
+            gui.SourceGuard(self.board,lambda:None,placement_origin=self.root)
+
+    def test_final_candidate_is_rechecked_on_subsequent_actions(self):
+        calls=[]
+        def task(settings, method, candidate):
+            calls.append(candidate)
+            if candidate is not None and candidate.read_bytes()!=b'candidate':raise ValueError('protected route changed')
+        guard=gui.SourceGuard(self.board,lambda:None,task);flow=self.request(guard).prepare()
+        candidate=flow.workspace/'candidate.kicad_pcb';candidate.write_bytes(b'candidate')
+        flow.records['route']={'candidate':str(candidate)}
+        flow.fresh();self.assertIn(candidate,calls)
+        candidate.write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError,'protected route changed'):flow.command('review')
+
+    def test_task_batch_checks_each_candidate_and_one_final_origin_fence(self):
+        origin=Mock(return_value=None);calls=[]
+        guard=gui.SourceGuard(self.board,origin,lambda settings,method,candidate:calls.append(candidate))
+        origin.reset_mock()
+        paths=[]
+        for name in ('routed','exported'):
+            path=self.root/(name+'.kicad_pcb');path.write_bytes(b'candidate');paths.append(path)
+        guard.check_task_candidates(self.settings,'route',paths)
+        self.assertEqual(calls,paths);self.assertEqual(origin.call_count,2)
+        with self.assertRaisesRegex(ValueError,'At most'):guard.check_task_candidates(self.settings,'route',paths*2)
+        origin.side_effect=[None,ValueError('late origin change')]
+        with self.assertRaisesRegex(ValueError,'late origin change'):
+            guard.check_task_candidates(self.settings,'route',paths)
+
+    def test_final_origin_callback_cannot_mutate_a_checked_delivery(self):
+        folder=self.root/'delivery';folder.mkdir();candidate=folder/self.board.name
+        candidate.write_bytes(b'candidate');sidecar=candidate.with_suffix('.kicad_pro');sidecar.write_bytes(b'original rules')
+        state=SimpleNamespace(checked=False)
+        def origin():
+            if state.checked:sidecar.write_bytes(b'changed after candidate audit')
+        def task(*_):state.checked=True
+        guard=gui.SourceGuard(self.board,origin,task)
+        with self.assertRaisesRegex(ValueError,'candidate changed during the final origin'):
+            guard.check_task(self.settings,'route',candidate)
+
+    def test_task_batch_checks_delivery_metadata_after_origin_callback(self):
+        folder=self.root/'delivery';folder.mkdir();candidate=folder/self.board.name;candidate.write_bytes(b'candidate')
+        guard=gui.SourceGuard(self.board,lambda:None,lambda *_:None)
+        with patch('autorouter.local_settings.check_current_metadata',side_effect=ValueError('changed PRL protection')) as metadata:
+            with self.assertRaisesRegex(ValueError,'changed PRL protection'):
+                guard.check_task(self.settings,'route',candidate)
+            metadata.assert_called_once_with(candidate.with_suffix('.kicad_prl'))
+
 
 if __name__=='__main__':unittest.main()

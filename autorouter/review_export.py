@@ -533,6 +533,8 @@ def check_stage(folder,data,binding,report,basis,contract,layers,**ctx):
         _check_warning_acknowledgement(folder.parent,data,binding,report,basis,contract,layers,ctx)
     elif 'warning_review_acknowledgement' in data:
         raise p.Rejected('unexpected updated-warning acknowledgement on strict export')
+    from .placement import check_routing_record
+    check_routing_record(Path(binding['receipt']).parent,report,candidate)
     return candidate
 
 
@@ -577,6 +579,13 @@ def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_p
                     or h.runtime_inventory()!=data['runtime_source_sha256']):
                 raise p.Rejected('export changed after final tool checks')
         h.delivery_guards(binding['receipt'],report,native_toolchain,f.read_json(binding['review']).get('preview'),Path(binding['review']).parent,additional=((path.parent/'validation',data),),material=material,comparison_context=comparison_context)
+    from .placement import routing_origin_material
+    routing_origin_material(Path(binding['receipt']).parent,report)
+    origin_marker=Path(binding['receipt']).parent/'placement-origin.json'
+    if 'placement_origin' in report or origin_marker.exists() or origin_marker.is_symlink():
+        if p.sha(path)!=before_hash or evidence(path.parent)!=data['export_evidence']:
+            raise p.Rejected('export changed during final placement origin check')
+        check_normal_policy(path.parent/'validation',data,max_bytes=OUTPUT_BYTES,max_files=OUTPUT_FILES)
     guard()
     return {**returned_context,'current':True,'export_accepted':True,'candidate':str(candidate),'candidate_sha256':data['candidate_sha256'],
         'original_routing_receipt':binding['receipt'],'applied':False,'fresh_native_run_performed_by_check':False,
@@ -698,6 +707,17 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
                     # final identity/seal fence reads no source or tool after
                     # delivery_guards' last PRL metadata check.
                     if validation_guard is not None:validation_guard(material=False)
+                from .placement import routing_origin_material
+                routing_origin_material(Path(binding['receipt']).parent,report)
+                origin_marker=Path(binding['receipt']).parent/'placement-origin.json'
+                if record.get('candidate') is not None and ('placement_origin' in report
+                        or origin_marker.exists() or origin_marker.is_symlink()):
+                    if lifecycle.get('evidence') is not None:
+                        if evidence(out)!=lifecycle['evidence']:raise p.Rejected('export changed during placement origin check')
+                    else:
+                        pc.verify_candidate(Path(record['candidate']),binding['source_hashes'],record['candidate_sha256'])
+                    from .local_settings import check_normal_policy
+                    check_normal_policy(job.out,record,max_bytes=OUTPUT_BYTES,max_files=OUTPUT_FILES)
                 cap()
             stable();out.mkdir(parents=True,exist_ok=False);h.capture_destination(lifecycle,out)
             job=ExportJob(out/'validation',seconds,remaining,protect_local_settings=True,**worker)

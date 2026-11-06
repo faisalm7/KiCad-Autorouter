@@ -279,10 +279,17 @@ class SourceGuard:
     """
     board: Path
     verify_origin: Callable[[], None]
+    verify_task: Callable[[dict, str, Path | None], None] | None = None
+    placement_origin: Path | None = None
     _files_json: str = field(init=False, repr=False)
 
     def __post_init__(self):
         if not callable(self.verify_origin): raise ValueError('A trusted source verifier is required.')
+        if self.verify_task is not None and not callable(self.verify_task):
+            raise ValueError('A trusted task verifier is required.')
+        if self.placement_origin is not None:
+            if self.verify_task is None: raise ValueError('Placement origin requires its composed task verifier.')
+            object.__setattr__(self, 'placement_origin', canonical(self.placement_origin))
         board = canonical(self.board)
         if board.suffix != '.kicad_pcb' or not board.is_file(): raise ValueError('Bind the exact saved PCB.')
         object.__setattr__(self, 'board', board)
@@ -298,6 +305,29 @@ class SourceGuard:
             raise ValueError('Source verifier must return no approval or result authority.')
         if source_inventory(self.board) != json.loads(self._files_json):
             raise ValueError('Bound source project changed during origin verification.')
+
+    def check_task(self, settings, method, candidate=None):
+        """Composed-task constraints; no model or preset may supply a callback."""
+        self.check_task_candidates(settings, method, () if candidate is None else (candidate,))
+
+    def check_task_candidates(self, settings, method, candidates):
+        """Fence one bounded read-only batch, rather than rereading origin per file."""
+        if type(candidates) not in (tuple, list) or len(candidates) > 2:
+            raise ValueError('At most the routed and exported candidate may be checked together.')
+        if self.verify_task is not None:
+            from .local_settings import check_current_metadata
+            self.check(self.board)
+            paths = [canonical(candidate) for candidate in candidates]
+            witnesses = [source_inventory(path) for path in paths]
+            for path in paths or (None,):
+                if self.verify_task(copy.deepcopy(settings), method, path) is not None:
+                    raise ValueError('Task verifier must return no approval or result authority.')
+            self.check(self.board)
+            for path, before in zip(paths, witnesses):
+                if source_inventory(path) != before:
+                    raise ValueError('Composed candidate changed during the final origin check.')
+            for path in paths:
+                check_current_metadata(path.with_suffix('.kicad_prl'))
 
 
 def _check_source_guard(guard, board):
@@ -355,6 +385,8 @@ class Request:
             raise ValueError('Select an existing output folder outside the source project.')
         settings = pref.validate(json.loads(self.settings_json))
         if self.method not in METHODS: raise ValueError('Unknown routing method.')
+        if self.source_guard is not None:
+            self.source_guard.check_task(settings, self.method)
         if self.method == 'improve': check_improve_settings(settings)
         if self.method == 'recover':
             check_thermal_settings(settings)
@@ -405,6 +437,11 @@ class Workflow:
         if runtime_inventory()!=self.runtime_hashes:
             raise ValueError('Routing runtime changed. Start a new session with the intended tool profile.')
         _check_source_guard(self.source_guard, self.board)
+        if self.source_guard is not None:
+            settings = json.loads(self.settings_bytes)
+            candidates = [self.records[stage]['candidate'] for stage in ('route', 'export')
+                          if stage in self.records] if self.source_guard.verify_task is not None else []
+            self.source_guard.check_task_candidates(settings, self.method, candidates)
 
     def command(self, stage, *, choice=None):
         self.fresh()
@@ -428,6 +465,8 @@ class Workflow:
                 argv += [self.method if stage == 'route' else stage, str(self.board), '--settings', settings]
             if stage == 'preview' and self.method == 'improve': argv += ['--purpose', 'improve']
             if stage == 'route': argv += ['--output', str(self.workspace / 'route')]
+            if self.source_guard is not None and self.source_guard.placement_origin is not None:
+                argv += ['--placement-origin', str(self.source_guard.placement_origin)]
         elif stage == 'review':
             argv += ['review-copy', str(self.workspace / 'route/result.json'), '--render',
                      '--output', str(self.workspace / 'review')]
@@ -531,6 +570,8 @@ class Workflow:
         else:
             raise ValueError('Unknown outcome.')
         self.fresh()
+        if self.source_guard is not None and stage in ('route', 'export', 'verify_export'):
+            self.source_guard.check_task(json.loads(self.settings_bytes), self.method, record['candidate'])
         self.records[stage] = record
         self.ready.add(stage)
         return record

@@ -26,6 +26,7 @@ if __package__ in (None, ''):
 
 from . import config as c, floor_route as f, gui, handoff as h, pipeline as p
 from . import local_settings, placement_clearance as pc, placement_intent as intent, provenance
+from . import placement_copper as copper
 from experiments.placement_native_proposal_v1 import contract
 from experiments import placement_native_evidence as retained
 
@@ -34,6 +35,8 @@ TOTAL_SECONDS, WORKER_SECONDS = 120, 105
 DISK_BYTES, RSS_BYTES = 512 * 1024**2, 2 * 1024**3
 AUTHORITY = ('accepted', 'routing_accepted', 'execution_authorized', 'approval_granted',
              'warning_acknowledged', 'human_PCB_approval', 'original_mutated')
+ORIGIN_FILE = 'placement-origin.json'
+ORIGIN_KIND = 'autorouter.reviewed-placement-origin.v1'
 
 
 def need(value, reason):
@@ -85,12 +88,47 @@ def _binding(draft_path, digest):
 
 def _paths(output, binding):
     work = output / 'work'; name = Path(binding['inspection']['source']).name
-    return work, {role: work / role / name for role in ('snapshot', 'candidate', 'refill-preimage', 'refill-native')}
+    roles = ['snapshot', 'candidate', 'refill-preimage', 'refill-native']
+    if binding.get('intent', {}).get('settings', {}).get('schema') == 3:
+        roles.append('prepared')
+    return work, {role: work / role / name for role in roles}
 
 
 def _options(binding):
     value = intent.validate_settings(binding['intent']['settings'])
     return contract.scope_options(scope=intent.settings_scope(value), selected=value['selected'], region_nm=value['region_nm'])
+
+
+def _prepared_source(binding, raw):
+    """Recompute the reviewed partition; never trust a removal list alone."""
+    settings = intent.validate_settings(binding['intent']['settings'])
+    if settings['schema'] != 3:
+        need('copper_plan' not in binding['intent'], 'unexpected copper-removal authority')
+        return None, raw
+    plan = intent.copper_plan(binding['inspection'], settings)
+    need(f.canonical(binding['intent'].get('copper_plan')) == f.canonical(plan), 'reviewed copper plan differs')
+    return plan, copper.prepare(raw, plan)
+
+
+def _retained_native_details(details, plan):
+    """Only approved route UUIDs disappear; pad/net/zone witnesses stay exact."""
+    need(type(details) is dict and set(details) == {
+        'native_pad_netcodes', 'native_route_netcodes', 'actual_native_areas'}, 'complete Native identity witnesses required')
+    need(type(details['actual_native_areas']) is dict, 'Native area witness differs')
+    for key in ('native_pad_netcodes', 'native_route_netcodes'):
+        need(type(details[key]) is dict and all(type(identity) is str and type(code) is int and code > 0
+             for identity, code in details[key].items()), 'Native net-code witness differs')
+    need(bool(details['native_pad_netcodes']), 'Native pad identity witness absent')
+    expected = copy.deepcopy(details)
+    if plan is not None:
+        routes = expected.get('native_route_netcodes')
+        removed = [row['uuid'] for row in plan['removed_routes']]
+        need(type(routes) is dict and len(routes) == plan['original_route_count']
+             and len(set(removed)) == len(removed) and set(removed) <= set(routes),
+             'Native original/removed route census differs')
+        for identity in removed: del routes[identity]
+        need(set(routes) == {row['uuid'] for row in plan['protected_routes']}, 'Native retained route census differs')
+    return expected
 
 
 def _request(binding, work, name, board, candidate, hashes):
@@ -140,11 +178,17 @@ def proof(output, binding, data, *, replay=False):
     need(gui.source_inventory(snapshot) == hashes, 'snapshot differs')
     before, after = pc.read_bytes(snapshot, contract.MAX_BYTES), pc.read_bytes(candidate, contract.MAX_BYTES)
     moves = binding['intent']['moves_nm']; options = _options(binding)
-    immutable = contract.check_translation(before, after, moves, **options)
+    plan, prepared_raw = _prepared_source(binding, before)
+    prepared = paths.get('prepared', snapshot)
+    prepared_hashes = dict(hashes); prepared_hashes[source.name] = hashlib.sha256(prepared_raw).hexdigest()
+    need(pc.read_bytes(prepared, contract.MAX_BYTES) == prepared_raw
+         and gui.source_inventory(prepared) == prepared_hashes, 'prepared source/sidecars differ')
+    immutable = (contract.check_translation(before, after, moves, **options) if plan is None else
+        copper.audit_translation(before, after, plan, moves, scope=options['scope'], region_nm=options['region_nm']))
     need(immutable == data['immutable_check'], 'immutable design differs')
     preimage, refill = paths['refill-preimage'], paths['refill-native']
     pre_raw = pc.read_bytes(preimage, contract.MAX_BYTES)
-    expected_raw = (contract.sx.dump(contract.translated_tree(before, moves, **options)) + '\n').encode()
+    expected_raw = (contract.sx.dump(contract.translated_tree(prepared_raw, moves, **options)) + '\n').encode()
     need(pre_raw == expected_raw, 'translated source bytes differ')
     expected = dict(hashes); expected[source.name] = hashlib.sha256(after).hexdigest()
     pre_hashes = dict(hashes); pre_hashes[source.name] = hashlib.sha256(pre_raw).hexdigest()
@@ -154,7 +198,7 @@ def proof(output, binding, data, *, replay=False):
          == data['refill_transplant'], 'derived-fill reconstruction differs')
     history = None; details = None
     for name, board, captured, observed_raw in (('capture', snapshot, hashes, before),
-            ('translate', snapshot, hashes, before), ('final-capture', candidate, expected, after)):
+            ('translate', prepared, prepared_hashes, prepared_raw), ('final-capture', candidate, expected, after)):
         request = f.read_json(work / (name + '-request.json'))
         expected_request = _request(binding, work, name, board, candidate, captured)
         if replay:
@@ -176,12 +220,15 @@ def proof(output, binding, data, *, replay=False):
              and observed['candidate'] == (str(candidate) if translating else None)
              and observed['observation'] == contract.inspect_board(observed_raw, scope=options['scope']),
              'Native observation differs: ' + name)
-        if details is None: details = observed['details']
-        need(observed['details'] == details, 'Native connectivity/area identity changed')
+        if details is None:
+            details = _retained_native_details(observed['details'], plan)
+        else:
+            need(f.canonical(observed['details']) == f.canonical(details),
+                 'Native connectivity/area identity changed beyond reviewed route removal')
         if translating:
-            need(observed['candidate_hashes_before'] == hashes and observed['candidate_hashes_after'] == pre_hashes
+            need(observed['candidate_hashes_before'] == prepared_hashes and observed['candidate_hashes_after'] == pre_hashes
                  and observed['saved_candidate_sha256'] == pre_hashes[source.name]
-                 and observed['immutable_check'] == contract.check_translation(before, pre_raw, moves, **options), 'translation differs')
+                 and observed['immutable_check'] == contract.check_translation(prepared_raw, pre_raw, moves, **options), 'translation differs')
     natives = {}; drc_inputs = []
     for name, board, saved, captured in (('source-drc', snapshot, False, hashes),
             ('refill-drc', refill, True, pre_hashes), ('final-drc', candidate, False, expected)):
@@ -237,8 +284,14 @@ def _worker(output, binding_sha):
         stable(); pc.copy_project(source.parent, paths['snapshot'].parent)
         drc('source-drc', paths['snapshot']); _findings(record['source_drc'])
         native('capture', paths['snapshot'])
-        pc.copy_project(paths['snapshot'].parent, paths['candidate'].parent)
-        native('translate', paths['snapshot'])
+        original_raw = pc.read_bytes(paths['snapshot'], contract.MAX_BYTES)
+        plan, prepared_raw = _prepared_source(binding, original_raw)
+        prepared = paths.get('prepared', paths['snapshot'])
+        if plan is not None:
+            pc.copy_project(paths['snapshot'].parent, prepared.parent)
+            prepared.write_bytes(prepared_raw)
+        pc.copy_project(prepared.parent, paths['candidate'].parent)
+        native('translate', prepared)
         pc.copy_project(paths['candidate'].parent, paths['refill-preimage'].parent)
         pc.copy_project(paths['refill-preimage'].parent, paths['refill-native'].parent)
         drc('refill-drc', paths['refill-native'], True)
@@ -250,8 +303,9 @@ def _worker(output, binding_sha):
         paths['candidate'].write_bytes(contract.transplant_refill(before, filled))
         after = pc.read_bytes(paths['candidate'], contract.MAX_BYTES)
         record['refill_transplant'] = contract.check_refill_reconstruction(before, filled, after)
-        record['immutable_check'] = contract.check_translation(pc.read_bytes(paths['snapshot'], contract.MAX_BYTES),
-            after, binding['intent']['moves_nm'], **_options(binding))
+        options = _options(binding); moves = binding['intent']['moves_nm']
+        record['immutable_check'] = (contract.check_translation(original_raw, after, moves, **options) if plan is None else
+            copper.audit_translation(original_raw, after, plan, moves, scope=options['scope'], region_nm=options['region_nm']))
         drc('final-drc', paths['candidate']); native('final-capture', paths['candidate'])
         record.update(status='pending_candidate', placement_qualified=True, candidate=str(paths['candidate']),
                       candidate_hashes=gui.source_inventory(paths['candidate']))
@@ -359,6 +413,127 @@ def check(output):
                 evidence=str(output), evidence_hashes=artifacts, binding=binding)
 
 
+def routing_settings(witness, seconds=90):
+    """Visible constrained starter, not execution or acceptance authority."""
+    plan = witness['binding']['intent'].get('copper_plan')
+    need(plan is not None, 'affected-copper routing requires its reviewed plan')
+    return intent.preferences.validate(dict(intent.preferences.DEFAULTS, scope='selected_nets',
+        profile='completion-only', adapter='both', guidance='native', layers='source_all',
+        scoring_preference=None, seconds=seconds, nets=copy.deepcopy(plan['incident_names'])))
+
+
+def _routing_task(witness, settings, method, candidate=None):
+    """One original-to-final checker shared by controls and ordinary readers."""
+    binding = witness['binding']; value = intent.preferences.validate(settings)
+    need(binding['intent']['settings']['schema'] == 3, 'explicit affected-copper placement required')
+    need(method == 'route', 'affected-copper placement supports ordinary Route only')
+    expected = routing_settings(witness, value['seconds'])
+    need(f.canonical(value) == f.canonical(expected),
+         'route every reviewed affected net with both corrections, native completion-only, source layers and engine-default via cost')
+    source = Path(binding['inspection']['source'])
+    raw = pc.read_bytes(source, contract.MAX_BYTES)
+    plan, _ = _prepared_source(binding, raw)
+    if candidate is not None:
+        candidate = h.real_path(candidate)
+        need(candidate.name == source.name, 'composed candidate PCB identity differs')
+        before = gui.source_inventory(candidate)
+        expected_files = dict(binding['inspection']['source_hashes'])
+        expected_files[source.name] = p.sha(candidate)
+        need(before == expected_files, 'composed candidate sidecars or file set differ from original')
+        local_settings.check_current_metadata(candidate.with_suffix('.kicad_prl'))
+        audit = copper.audit_routed(raw, pc.read_bytes(candidate, contract.MAX_BYTES), plan,
+            binding['intent']['moves_nm'], scope=intent.settings_scope(binding['intent']['settings']),
+            region_nm=binding['intent']['settings']['region_nm'])
+        need(gui.source_inventory(candidate) == before, 'composed candidate changed during audit')
+        local_settings.check_current_metadata(candidate.with_suffix('.kicad_prl'))
+        return audit
+    return None
+
+
+def _origin(output, witness):
+    return dict(schema=1, kind=ORIGIN_KIND, qualification=str(output),
+        result_sha256=p.sha(output/'result.json'), binding_sha256=p.sha(output/'binding.json'),
+        evidence_sha256=hashlib.sha256(f.canonical(witness['evidence_hashes']).encode()).hexdigest())
+
+
+def bind_routing(qualification, source, effective, method='route'):
+    """Explicit initial CLI/structured binding to a freshly checked qualification."""
+    output = h.real_path(qualification); witness = check(output)
+    need(h.real_path(source) == h.real_path(witness['candidate']), 'routing source differs from qualified placement')
+    _routing_task(witness, effective, method)
+    descriptor = _origin(output, witness)
+    # Finish after all captured bytes with the same origin metadata/lifecycle fence.
+    source_guard(output, witness).check(source)
+    return descriptor
+
+
+def check_routing_record(folder, report, candidate=None):
+    """Inherited mandatory lineage. No marker/field means ordinary routing only.
+
+    This consumes retained actual Native proofs; it never launches Native work.
+    Mutable local evidence is consistency checked, not authenticated.
+    """
+    folder = h.real_path(folder); marker = folder/ORIGIN_FILE
+    present = marker.exists() or marker.is_symlink()
+    if not present and 'placement_origin' not in report:
+        return None
+    need(present and 'placement_origin' in report, 'placement origin field/marker is missing')
+    need(type(report.get('schema')) is int and report['schema'] == 1
+         and report.get('input_policy', 'native') == 'native' and report.get('strategy') is None
+         and not any(key in report for key in ('experimental_route_policy', 'experimental_native_toolchain',
+             'production_admitted', 'comparison_route', 'native_improve_child', 'native7_improve_parent',
+             'single_selection_policy', 'native7_default_target_basis', 'engine_fanout_override',
+             'engine_optimizer_override', 'engine_angle_binding')),
+         'placement origin cannot mix experimental, comparison, Improve or transformed routing')
+    descriptor = report['placement_origin']
+    need(type(descriptor) is dict and set(descriptor) == {
+        'schema', 'kind', 'qualification', 'result_sha256', 'binding_sha256', 'evidence_sha256'},
+        'exact placement origin descriptor required')
+    need(type(descriptor['schema']) is int and descriptor['schema'] == 1 and descriptor['kind'] == ORIGIN_KIND,
+         'placement origin schema differs')
+    need(f.canonical(f.read_json(marker)) == f.canonical(descriptor), 'placement origin marker differs')
+    output = h.real_path(descriptor['qualification']); witness = check(output)
+    need(f.canonical(_origin(output, witness)) == f.canonical(descriptor), 'placement qualification origin changed')
+    need(h.real_path(report['source']) == h.real_path(witness['candidate']), 'routing source differs from placement origin')
+    effective = report['routing_preferences']['effective']
+    audit = _routing_task(witness, effective, 'route', candidate)
+    source_guard(output, witness).check(report['source'])
+    need(f.canonical(f.read_json(marker)) == f.canonical(descriptor), 'placement marker changed during origin audit')
+    return audit
+
+
+def routing_origin_material(folder, report):
+    """Final original-source/evidence fence after an operation's full readback.
+
+    Recheck the pinned descriptor and exact retained bytes, without replaying
+    Native proof readers. This alone never establishes a valid placement.
+    """
+    folder = Path(folder); marker = folder/ORIGIN_FILE
+    if not marker.exists() and not marker.is_symlink() and 'placement_origin' not in report:
+        return None
+    descriptor = copy.deepcopy(report.get('placement_origin'))
+    need(type(descriptor) is dict and set(descriptor) == {
+        'schema', 'kind', 'qualification', 'result_sha256', 'binding_sha256', 'evidence_sha256'}
+        and type(descriptor['schema']) is int and descriptor['schema'] == 1 and descriptor['kind'] == ORIGIN_KIND,
+        'exact placement origin material required')
+    need(f.canonical(f.read_json(marker)) == f.canonical(descriptor), 'placement origin marker changed')
+    output = h.real_path(descriptor['qualification'])
+    need(output.parent == c.ROOT/'.runs', 'placement origin outside this runtime')
+    binding = f.read_json(output/'binding.json')
+    def bytes_current():
+        witness = dict(evidence_hashes=h.evidence_witness(output))
+        need(f.canonical(_origin(output,witness)) == f.canonical(descriptor), 'placement origin material changed')
+        need(f.canonical(report.get('placement_origin')) == f.canonical(descriptor)
+             and f.canonical(f.read_json(marker)) == f.canonical(descriptor), 'placement origin descriptor changed')
+    bytes_current()
+    material(binding)
+    need(h.real_path(report['source']) == _paths(output,binding)[1]['candidate'], 'placement source path changed')
+    bytes_current()
+    source = Path(binding['inspection']['source']); work, boards = _paths(output,binding)
+    _metadata([*boards.values(), *(work/(name+'-input')/source.name for name in ('source-drc','final-drc'))],source)
+    intent.current(binding['inspection'])
+
+
 def source_guard(output, witness, *, verify_review=None):
     """Internal handoff after off-thread check(); never a model/preset input.
 
@@ -383,6 +558,10 @@ def source_guard(output, witness, *, verify_review=None):
         need(h.evidence_witness(output) == expected['evidence_hashes'], 'placement evidence changed during origin check')
         if verify_review is not None:
             need(verify_review() is None, 'review lifecycle changed')
+    if expected['binding']['intent']['settings']['schema'] == 3:
+        def task(settings, method, candidate):
+            _routing_task(expected, settings, method, candidate)
+        return gui.SourceGuard(Path(expected['candidate']), fresh, task, placement_origin=output)
     return gui.SourceGuard(Path(expected['candidate']), fresh)
 
 
