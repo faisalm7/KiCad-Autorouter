@@ -37,8 +37,10 @@ product files are checked afresh. Only .runs and .venv are reserved mutable
 directories: their contents are not pinned by this manifest or copied from the
 source checkout. Do not add research archives, datasets, .git or other files.
 Use -B / PYTHONDONTWRITEBYTECODE=1; generated __pycache__ is outside the curated
-population and will refuse. Placement-guidance modes require source checkout
-proof and remain unsupported here. A changed product requires a new directory.
+population and will refuse. Legacy placement-guidance research modes require source-checkout proof and
+remain separate. The selected-placement interface uses the curated contract,
+Native observer and attributed MIT search; support is limited to its exact
+qualified geometry. A changed product requires a new directory.
 
 This local artifact is not publication authorization. A copied Freerouting JAR
 remains an external local cache artifact; binary redistribution and release

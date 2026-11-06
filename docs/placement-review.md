@@ -1,6 +1,6 @@
-# Selected-placement review prototype
+# Selected-placement review
 
-This source-run experimental window displays actual retained Native006 placement alternatives. It is not installed placement support or a finished placer. It never writes a PCB, starts routing, accepts a routing result or waives warnings. Ordinary routing remains available through the installed GUI.
+The historical source-run experimental window below displays actual retained Native006 placement alternatives. It is not installed placement support or a finished placer. It never writes a PCB, starts routing, accepts a routing result or waives warnings. Ordinary routing remains available through the installed GUI.
 
 The diagram shows original and proposed selected components, pad offsets, fixed components, preserved copper, zones and the allowed movement rectangle. Choose an alternative, select a component and edit X/Y. **Update draft** checks the existing independent geometric constraints. Pending edits clear acknowledgement and disable saving. Out-of-region, overlapping, fixed/locked/tracked-net moves and invalid numbers refuse.
 
@@ -43,4 +43,8 @@ The corrected-checker [same-pose GUI delivery](../evidence/placement075-reviewed
 
 ## Current product integration work
 
-Runtime076 source work replaces fixture-specific intake with `autorouter.placement_intent`: inspect a saved complete project, explicitly select movable UUIDs and a movement rectangle, preserve all existing copper, generate bounded alternatives, edit coordinates and save review intent. Settings are strict JSON; extra permissions, changed source and unsupported geometry refuse. The curated package selects only the reused contract/observer, pure search, its exact MIT dependencies and bounded retained-identity helpers; historical drivers, protocols, tests and research runs are excluded. Source and packaging controls pass; the new Native qualifier and graphical integration still require qualification in one installed candidate. Runtime075 and its historical results are unchanged.
+The pending runtime076 candidate replaces fixture-specific intake with `autorouter.placement_intent`: inspect a saved complete project, explicitly select movable UUIDs and a movement rectangle, preserve all existing copper, generate bounded alternatives, edit coordinates and save review intent. Settings are strict JSON; extra permissions, changed source and unsupported geometry refuse. The curated package selects only the reused contract/observer, pure search, its exact MIT dependencies and bounded retained-identity helpers; historical drivers, protocols, tests and research runs are excluded. Source and packaging controls pass; the new Native qualifier and graphical integration still require qualification in one installed candidate. Runtime075 and its historical results are unchanged.
+
+The new **Place components…** entry composes placement and routing inside one application. Inspect a saved project, select movable parts, enter an allowed rectangle, and choose or edit an alternative. Fixed-component reasons and unsupported geometry remain visible. Explicit review enables **Validate placement**; a successful fresh Native proof enables **Open routing settings**. This does not accept or export a board. The original placement review must remain current throughout routing and delivery. Rejection, edits, cancellation or closing it revoke its handoff.
+
+An actual source-window check found a clipped diagram and failed parent-window return. Both failures are retained; the layout and explicit close-notification corrections have regression coverage. Actual corrected-window and installed076 qualification remain pending. This is a narrowly scoped workflow milestone, not evidence of broad automatic-placement quality.

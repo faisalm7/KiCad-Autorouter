@@ -2,7 +2,7 @@
 
 The graphical controller calls the same offline CLI as Terminal users. It passes argument arrays, exact saved project paths and an explicit captured JSON preset; it does not invoke a shell or send a board to a service. The CLI prints JSON and writes durable receipts in a fresh output directory. See [saved settings](routing-preferences.md) for the versioned input contract.
 
-Runtime075 adds [saved-project inspection and routing proposals](design-workflow.md): `inspect-project`, `inspect-project-check`, `propose-route` and `design-tool-schema`. These reuse the existing Native/process/snapshot/preview checks. Proposals grant no execution or approval authority. The optional explicit local model client can request only `propose_route`; it has no route, accept, warning-acknowledgement, shell or file-write tool. Runtime074 does not contain these commands. Runtime075 has installed Native/CLI subset evidence; its actual GUI and live model qualification remain pending.
+Runtime075 adds [saved-project inspection and routing proposals](design-workflow.md): `inspect-project`, `inspect-project-check`, `propose-route` and `design-tool-schema`. These reuse the existing Native/process/snapshot/preview checks. Proposals grant no execution or approval authority. The optional explicit local model client can request only `propose_route`; it has no route, accept, warning-acknowledgement, shell or file-write tool. Runtime074 does not contain these commands. Runtime075 has installed Native/CLI subset evidence; its GUI106 finite core is recorded; live model qualification remains pending.
 
 | Action | CLI | Result / authority |
 |---|---|---|
@@ -31,3 +31,18 @@ With `--warning-review-stdio`, a narrowly eligible reporting change emits one ne
 A client must show both reports and obtain an explicit decision. The only accepting response is one JSON line with exactly `kind: "autorouter.warning-review-response.v1"`, `decision: "accept_updated_findings"`, and the current event's exact `nonce`, `pending_sha256` and `delta_sha256`. Never generate acceptance automatically. The response is bounded to4,096bytes; unknown/duplicate keys, wrong bindings, closed input, rejection, cancellation or expiry cannot authorize export. The original30–120second export wall/full-CPU budget includes this wait and final checks; no continuation or second allocation is granted. The process must finish successfully and the ordinary final export reader must pass before a client adopts an export. Pending records cannot be resumed after exit.
 
 The queued opener rechecks source/settings/export witnesses before delivery; this is not atomic live application. Current actual queued-interval qualification is pending. Historical050 active-engine cancellation and stale-input refusals retain their scope. Unit callback tests, instrumented barriers and actual natural GUI timing must remain separately labelled. [Current gates](../STATUS.md) · [CLI](quickstart.md) · [Graphical workflow](gui-workflow.md). Earlier interface details remain in immutable evidence and Git history.
+
+## Selected placement (runtime076 source candidate)
+
+The new placement controls call `autorouter.placement_intent` for saved-project inspection, strict settings, bounded alternatives and reviewed pose intent. They call the same `autorouter.placement` command for Native qualification. Installation and actual076 Native/GUI qualification are pending;075 does not contain this interface.
+
+```sh
+.venv/bin/python -B -m autorouter.placement \
+  --draft /absolute/reviewed-draft.json --draft-sha256 EXACT_SHA256 \
+  --output /absolute/runtime/.runs/NEW_JOB --qualify
+.venv/bin/python -B -m autorouter.placement --check /absolute/runtime/.runs/NEW_JOB
+```
+
+The explicit execution flag starts a120-second total wall/full-CPU qualification, including a105-second worker envelope and reserved delivery checks. It requires a saved and closed complete project, a fresh owned output, current installed tool hashes and measured space for512MiB temporary work plus3GiB reserve. Native source/candidate observations, separate refill and full schematic/board checks bind the actual result. Exit0 is insufficient; readback must confirm `placement_qualified: true`, `current: true`, and all approval/acceptance fields remain false. Expected unrouted connections are not blocking source defects.
+
+Qualification yields a pending placement project. Routing settings, route review, explicit acceptance and fresh validated separate export remain necessary. The graphical handoff carries a continuous original-project and exact-review guard; editing, rejection, cancellation, closure or changed source/evidence revokes it. No model receives an execution, editing or approval tool. Current geometry and workflow limits are described in [placement review](placement-review.md).

@@ -872,12 +872,30 @@ def register_kicad_action():
     return plugin
 
 
-def create_window(board='', *, source_guard=None):
+def _finish_window_close(window):
+    """Notify a composing parent once, after all owned cleanup scopes end."""
+    if (not window.closing or window.busy
+            or any(getattr(window, name, None) is not None
+                   for name in ('chooser', 'warning_dialog', 'placement_window'))
+            or getattr(window, '_close_finalized', False)):
+        return False
+    window._close_finalized = True
+    window.timer.Stop(); window.Destroy()
+    callback = getattr(window, '_on_closed', None)
+    if callback is not None:
+        import wx
+        wx.CallAfter(callback)
+    return True
+
+
+def create_window(board='', *, source_guard=None, on_closed=None):
     """Create one unshown routing frame in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
     launch routing, adopt approval, replace signal handlers or nest a wx.App.
     """
+    if on_closed is not None and not callable(on_closed):
+        raise ValueError('The parent close notification must be a callable.')
     try: import wx
     except ImportError as exc:
         raise SystemExit('wx is unavailable. Launch with the pinned KiCad bundled Python; no packages were installed.') from exc
@@ -891,17 +909,24 @@ def create_window(board='', *, source_guard=None):
     _check_source_guard(source_guard, board)
     class Window(wx.Frame):
         def __init__(self):
-            super().__init__(None, title='KiCad Autorouter — separate project', size=(820, 780))
+            super().__init__(None, title='KiCad design assistant — routing', size=(820, 780))
             self.flow = None; self.job = None; self.busy = False; self.closing = False
+            self._on_closed = on_closed; self._close_finalized = False
             self.source_guard = source_guard
             self.warning_dialog = None
             self.chooser = None; self.input_generation = 0
+            self.placement_window = None
             self.edit_controls = []
             panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
             layout = wx.BoxSizer(wx.VERTICAL)
             heading = wx.StaticText(panel, label='Route a saved project')
             heading.SetFont(heading.GetFont().Bold())
-            layout.Add(heading, 0, wx.LEFT | wx.RIGHT | wx.TOP, 12)
+            task_row = wx.BoxSizer(wx.HORIZONTAL)
+            task_row.Add(heading, 1, wx.ALIGN_CENTER_VERTICAL)
+            self.placement_button = wx.Button(panel, label='Place components…')
+            self.placement_button.Bind(wx.EVT_BUTTON, self.open_placement)
+            task_row.Add(self.placement_button, 0)
+            layout.Add(task_row, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 12)
             layout.Add(wx.StaticText(panel, label='Inspect your board, choose what to preserve, then review a separate candidate.'),
                        0, wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM, 12)
             self.board = self.path_row(panel, layout, 'Saved PCB', board, False)
@@ -1000,6 +1025,27 @@ def create_window(board='', *, source_guard=None):
             self.Bind(wx.EVT_CLOSE, self.close)
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(500)
             self.refresh()
+
+        def open_placement(self, _):
+            """One task window at a time; routing and placement share this app."""
+            if self.busy or self.closing or getattr(self, 'chooser', None) is not None: return
+            if self.source_guard is not None:
+                self.status.SetLabel('Finish or reject this bound placement candidate before starting another placement task.')
+                return
+            if self.placement_window is not None:
+                self.placement_window.Raise(); return
+            try:
+                from . import placement_gui
+                def finished():
+                    self.placement_window = None
+                    if self.closing: self.Close()
+                    else: self.Show(); self.Raise()
+                frame = placement_gui.create_window(self.board.GetValue(), on_closed=finished)
+                self.placement_window = frame
+                frame.Show(); self.Hide()
+            except Exception as exc:
+                self.status.SetLabel('Placement controls could not open: ' + str(exc))
+                self.Show()
 
         def path_row(self, panel, layout, label, value, directory, *, wildcard=None):
             row = wx.BoxSizer(wx.HORIZONTAL); row.Add(wx.StaticText(panel, label=label), 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 6)
@@ -1115,7 +1161,7 @@ def create_window(board='', *, source_guard=None):
                 self.pending_proposal = None; self.log.SetValue(str(exc))
                 self.status.SetLabel('No proposal adopted. Ordinary routing controls remain available.')
             self.busy = False; self.job = None; self.refresh()
-            if self.closing: self.timer.Stop(); self.Destroy()
+            if self.closing: _finish_window_close(self)
 
         def apply_proposal(self, _):
             if self.busy or self.chooser is not None or self.pending_proposal is None: return
@@ -1157,7 +1203,7 @@ def create_window(board='', *, source_guard=None):
             def dispose():
                 dialog.Unbind(wx.EVT_WINDOW_MODAL_DIALOG_CLOSED, handler=completed)
                 dialog.Destroy()
-                if self.closing: self.timer.Stop(); self.Destroy()
+                if self.closing: _finish_window_close(self)
                 else: self.refresh()
 
             def completed(event):
@@ -1293,6 +1339,8 @@ def create_window(board='', *, source_guard=None):
 
         def refresh(self):
             choosing = getattr(self, 'chooser', None) is not None
+            if hasattr(self, 'placement_button'):
+                self.placement_button.Enable(not self.busy and not choosing and self.source_guard is None)
             ready = self.flow.ready if self.flow else set()
             allowed = {'inspect': True, 'preview': True, 'route': 'preview' in ready and 'route' not in ready,
                 'review': 'route' in ready and 'review' not in ready,
@@ -1404,7 +1452,7 @@ def create_window(board='', *, source_guard=None):
             def dispose():
                 dialog.Unbind(wx.EVT_WINDOW_MODAL_DIALOG_CLOSED, handler=completed)
                 dialog.Destroy()
-                if self.closing and not self.busy: self.timer.Stop(); self.Destroy()
+                if self.closing: _finish_window_close(self)
 
             def completed(event):
                 if self.warning_dialog is not lease or event.GetDialog() is not dialog: return
@@ -1459,7 +1507,7 @@ def create_window(board='', *, source_guard=None):
                 except Exception as exc: self.refused('Could not open retained project: ' + str(exc))
             else: self.refused(error or 'Inspection was cancelled. No project was opened.')
             self.refresh()
-            if self.closing: self.timer.Stop(); self.Destroy()
+            if self.closing: _finish_window_close(self)
 
         def finished(self, job, flow, stage, record, error):
             if self.job is not job: return
@@ -1483,7 +1531,7 @@ def create_window(board='', *, source_guard=None):
                 self.log.SetValue(_completed_summary(flow, stage, record))
                 self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()
-            if self.closing and getattr(self, 'warning_dialog', None) is None: self.timer.Stop(); self.Destroy()
+            if self.closing: _finish_window_close(self)
 
         def tick(self, _):
             if not self.busy or not self.flow: return
@@ -1520,15 +1568,20 @@ def create_window(board='', *, source_guard=None):
                     break
 
         def close(self, event):
+            self.closing = True
+            if getattr(self, 'placement_window', None) is not None:
+                self.placement_window.Close()
+                if event.CanVeto(): event.Veto()
+                return
             if getattr(self, 'chooser', None) is not None:
-                self.closing = True
                 self.status.SetLabel('Close the file chooser with Cancel; then this window will close. No routing job was started.')
-                event.Veto(); return
+                if event.CanVeto(): event.Veto()
+                return
             if self.busy:
-                self.closing = True; self.job.cancel()
+                self.job.cancel()
                 self.status.SetLabel('Closing after cancellation and CLI cleanup; retained outputs will remain.')
-                event.Veto()
-            else: self.timer.Stop(); self.Destroy()
+                if event.CanVeto(): event.Veto()
+            elif not _finish_window_close(self) and event.CanVeto(): event.Veto()
     return Window()
 
 
