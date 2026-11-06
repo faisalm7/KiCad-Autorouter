@@ -81,7 +81,7 @@ def check_thermal_source(board):
 
 def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=None, method=None):
     """Presentation only; existing CLI validation and original receipts remain authoritative."""
-    title = {'preview': 'Saved-project preview', 'route': 'Routing result',
+    title = {'inspect': 'Saved-project Native findings', 'preview': 'Saved-project preview', 'route': 'Routing result',
              'review': 'Disposable review project', 'choice': 'Review intent',
              'export': 'Fresh separate-project export', 'verify_export': 'Export readback'}.get(stage, stage)
     status = str(record.get('status', 'current' if record.get('current') is True else 'not reported')).replace('_', ' ')
@@ -136,6 +136,10 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                   + '; to reroute: ' + str(record.get('rerouted_route_items', 'not reported'))]
         if record.get('schematic_class_check') is not None:
             lines += ['KiCad must verify schematic/PCB class bindings before routing starts.']
+    if stage == 'inspect':
+        lines += ['Actual Native refill and complete-schematic checks ran on a separate copy.',
+                  'Unrouted connections are routing demand; they do not by themselves make the source invalid.',
+                  'This inspection does not approve a route or waive any finding.']
     if record.get('invariants_unchanged') is True:
         lines += ['Original-design checks passed; source geometry and protected routing retained.']
     matches = record.get('protected_route_import', {}).get('matches')
@@ -221,7 +225,7 @@ def _completed_summary(flow, stage, record):
     if stage == 'export': display.update(flow.records['export'])
     if getattr(flow, 'method', 'route') in ('recover', 'improve'):
         display['effective_preferences'] = json.loads(flow.settings_bytes)
-    receipt_name = {'preview': 'preview.command.log', 'route': 'route/result.json',
+    receipt_name = {'inspect': 'inspection/inspection.json', 'preview': 'preview.command.log', 'route': 'route/result.json',
         'review': 'review/review.json', 'choice': 'choice/choice.json', 'export': 'export/export.json'}[stage]
     receipt_path = flow.workspace / receipt_name
     findings_path = flow.workspace / 'route/result.json' if stage == 'review' else receipt_path
@@ -336,7 +340,10 @@ class Workflow:
         argv = [str(python), '-B', '-m', 'autorouter']
         settings = str(self.workspace / 'settings.json')
         if self.method == 'recover': check_thermal_settings(json.loads(self.settings_bytes))
-        if stage in ('preview', 'route'):
+        if stage == 'inspect':
+            argv += ['inspect-project', str(self.board), '--seconds', '60',
+                     '--output', str(self.workspace / 'inspection')]
+        elif stage in ('preview', 'route'):
             if self.method == 'recover' and stage == 'route':
                 argv += ['recover', str(self.board), '--seconds', str(json.loads(self.settings_bytes)['seconds'])]
             else:
@@ -391,7 +398,12 @@ class Workflow:
             if stage == 'verify_export' and process['exit_code'] == 2:
                 detail = failed_export_check_detail(log_path)
             raise ValueError(detail or 'Action failed or was cancelled. Evidence was retained; no positive state adopted.')
-        if stage == 'preview':
+        if stage == 'inspect':
+            from .project_inspection import check
+            record = check(self.workspace / 'inspection/inspection.json')
+            if record['source'] != str(self.board) or record['source_hashes'] != json.loads(self.files_json):
+                raise ValueError('Inspection did not bind this exact saved project.')
+        elif stage == 'preview':
             record = json.loads(log_path.read_bytes())
             if (record.get('status') != 'preview' or record.get('static_preflight_passed') is not True
                     or record.get('source') != str(self.board)
@@ -498,6 +510,21 @@ def check_improve_settings(config):
     if effective['seconds'] < GUI_IMPROVE_MIN_SECONDS:
         raise ValueError('Graphical Improve needs at least 90 seconds for incumbent and final checks. This is an operational minimum, not a completion guarantee; the budget was not changed.')
     return effective
+
+
+def completion_search_preset(config):
+    """Explicit search preference; preserve the requested problem and budget.
+
+    Source eligibility and Native validity still belong to Preview and the
+    ordinary producer/readers. This helper grants no routing admission.
+    """
+    effective = pref.validate(config)
+    if (effective['scope'] not in {'whole_board_unlocked_routing', 'partial_completion'}
+            or effective['guidance'] != 'native' or effective['adapter'] != 'both'
+            or effective['layers'] != 'source_all'):
+        raise ValueError('Completion search requires whole-board or gap completion, both corrections '
+                         'and all source layers. Set those options explicitly, then preview support.')
+    return pref.validate(dict(effective, profile='tuned', scoring_preference='via_low'))
 
 
 def review_close_hint(workspace):
@@ -794,27 +821,37 @@ def main(argv=None):
             self.warning_dialog = None
             self.chooser = None; self.input_generation = 0
             self.edit_controls = []
-            panel = wx.Panel(self); layout = wx.BoxSizer(wx.VERTICAL)
+            panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
+            layout = wx.BoxSizer(wx.VERTICAL)
+            heading = wx.StaticText(panel, label='Route a saved project')
+            heading.SetFont(heading.GetFont().Bold())
+            layout.Add(heading, 0, wx.LEFT | wx.RIGHT | wx.TOP, 12)
+            layout.Add(wx.StaticText(panel, label='Inspect your board, choose what to preserve, then review a separate candidate.'),
+                       0, wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM, 12)
             self.board = self.path_row(panel, layout, 'Saved PCB', args.board, False)
             self.output = self.path_row(panel, layout, 'Output folder', str(c.ROOT / '.runs'), True)
             self.values = {
                 'scope': [('Reroute unlocked; keep locked copper', 'whole_board_unlocked_routing'), ('Finish gaps; keep all existing copper', 'partial_completion'), ('Selected nets; keep other copper', 'selected_nets')],
-                'profile': [('Standard', 'standard'), ('Tuned', 'tuned'), ('Completion only', 'completion-only')],
+                'profile': [('Standard', 'standard'), ('More search', 'tuned'), ('Completion only', 'completion-only')],
                 'adapter': [('Both corrections', 'both'), ('Stock interchange', 'none'), ('Graphics correction', 'graphics'), ('Plane correction', 'planes')],
                 'layers': [('All source copper', 'source_all'), ('Front only', ['F.Cu']), ('Back only', ['B.Cu']), ('Front and back', ['F.Cu', 'B.Cu'])],
                 'scoring_preference': [('Engine default', None), ('Default via cost', 'via_default'), ('Lower via cost', 'via_low'), ('Higher via cost', 'via_high')]}
-            grid = wx.FlexGridSizer(cols=2, vgap=4, hgap=8); grid.AddGrowableCol(1)
-            grid.Add(wx.StaticText(panel, label='Method'), 0, wx.ALIGN_CENTER_VERTICAL)
-            self.method = wx.Choice(panel, choices=['Route', 'Improve (experimental; tuned whole-board preset)',
+            grid = wx.FlexGridSizer(cols=2, vgap=6, hgap=10); grid.AddGrowableCol(1)
+            self.advanced = wx.CollapsiblePane(panel, label='Advanced routing and experiments')
+            advanced = self.advanced.GetPane(); advanced_layout = wx.BoxSizer(wx.VERTICAL)
+            advanced_grid = wx.FlexGridSizer(cols=2, vgap=6, hgap=10); advanced_grid.AddGrowableCol(1)
+            advanced_grid.Add(wx.StaticText(advanced, label='Method'), 0, wx.ALIGN_CENTER_VERTICAL)
+            self.method = wx.Choice(advanced, choices=['Route', 'Improve (experimental; tuned whole-board preset)',
                 'Thermal recovery (experimental; fixed whole-board method)'])
             self.method.SetSelection(0); self.method.Bind(wx.EVT_CHOICE, self.method_changed)
-            self.edit_controls.append(self.method); grid.Add(self.method, 1, wx.EXPAND)
+            self.edit_controls.append(self.method); advanced_grid.Add(self.method, 1, wx.EXPAND)
             self.choices = {}
             for name, label in [('scope', 'Routing and protection'), ('profile', 'Routing profile'), ('adapter', 'Interchange corrections'), ('layers', 'Allowed new copper'), ('scoring_preference', 'Via preference')]:
-                grid.Add(wx.StaticText(panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
-                control = wx.Choice(panel, choices=[label for label, _ in self.values[name]])
+                host, target_grid = (panel, grid) if name == 'scope' else (advanced, advanced_grid)
+                target_grid.Add(wx.StaticText(host, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
+                control = wx.Choice(host, choices=[label for label, _ in self.values[name]])
                 control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name])); control.Bind(wx.EVT_CHOICE, self.changed)
-                self.choices[name] = control; self.edit_controls.append(control); grid.Add(control, 1, wx.EXPAND)
+                self.choices[name] = control; self.edit_controls.append(control); target_grid.Add(control, 1, wx.EXPAND)
             self.budget_label = wx.StaticText(panel, label='Routing budget (seconds)')
             grid.Add(self.budget_label, 0, wx.ALIGN_CENTER_VERTICAL)
             # Cocoa SpinCtrl clamps invalid text on focus loss before Preview
@@ -826,25 +863,50 @@ def main(argv=None):
             self.nets = wx.TextCtrl(panel, style=wx.TE_MULTILINE, size=(-1, 55))
             self.nets.Bind(wx.EVT_TEXT, self.changed); self.edit_controls.append(self.nets); grid.Add(self.nets, 1, wx.EXPAND)
             layout.Add(grid, 0, wx.EXPAND | wx.ALL, 8)
-            self.method_note = wx.StaticText(panel, label='')
+            advanced_layout.Add(advanced_grid, 0, wx.EXPAND | wx.ALL, 8)
+            self.method_note = wx.StaticText(advanced, label='')
             self.method_note.Wrap(780)
-            layout.Add(self.method_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            export_note = wx.StaticText(panel, label='Rendered review is bounded to 60 seconds; accept/reject checks to 60 seconds. '
+            advanced_layout.Add(self.method_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            export_note = wx.StaticText(advanced, label='Rendered review is bounded to 60 seconds; accept/reject checks to 60 seconds. '
                 'These are separate from the routing budget. Fresh export adds Native validation after acceptance: '
                 '30–120 seconds, derived from the captured routing or whole-method budget. That budget is unchanged.')
             export_note.Wrap(780)
-            layout.Add(export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            advanced_layout.Add(export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            advanced.SetSizer(advanced_layout); layout.Add(self.advanced, 0, wx.EXPAND | wx.ALL, 8)
             presets = wx.BoxSizer(wx.HORIZONTAL)
-            for label, callback in [('Load settings…', self.load_preset), ('Save settings as…', self.save_preset)]:
+            for label, callback in [('Load settings…', self.load_preset), ('Save settings as…', self.save_preset),
+                                    ('Completion search (may add vias)', self.completion_preset)]:
                 button = wx.Button(panel, label=label); button.Bind(wx.EVT_BUTTON, callback)
                 presets.Add(button, 0, wx.ALL, 4); self.edit_controls.append(button)
             layout.Add(presets)
+            self.assistant = wx.CollapsiblePane(panel, label='Optional local assistant')
+            assistant_panel = self.assistant.GetPane(); assistant_layout = wx.BoxSizer(wx.VERTICAL)
+            assistant_layout.Add(wx.StaticText(assistant_panel, label='Inspect first. Describe a routing request, then review the proposed settings. No automatic approval.'),
+                                 0, wx.ALL, 6)
+            self.intent_text = wx.TextCtrl(assistant_panel, style=wx.TE_MULTILINE, size=(-1, 55))
+            assistant_layout.Add(self.intent_text, 0, wx.EXPAND | wx.ALL, 6)
+            self.model_config = self.path_row(assistant_panel, assistant_layout, 'Local model settings JSON', '', False,
+                                              wildcard='JSON settings (*.json)|*.json')
+            self.model_config.SetHint('Path to an explicit local model settings .json file')
+            assistant_buttons = wx.BoxSizer(wx.HORIZONTAL)
+            self.suggest_button = wx.Button(assistant_panel, label='Suggest settings')
+            self.suggest_button.Bind(wx.EVT_BUTTON, self.suggest_settings)
+            self.apply_proposal_button = wx.Button(assistant_panel, label='Use proposed settings')
+            self.apply_proposal_button.Bind(wx.EVT_BUTTON, self.apply_proposal)
+            for button in (self.suggest_button, self.apply_proposal_button): assistant_buttons.Add(button, 0, wx.ALL, 4)
+            assistant_layout.Add(assistant_buttons)
+            assistant_panel.SetSizer(assistant_layout); layout.Add(self.assistant, 0, wx.EXPAND | wx.ALL, 8)
+            self.pending_proposal = None; self.inspection_path = None
+            self.edit_controls.extend((self.intent_text, self.model_config, self.suggest_button))
+            for control in (self.intent_text, self.model_config): control.Bind(wx.EVT_TEXT, self.proposal_inputs_changed)
+            for pane in (self.advanced, self.assistant):
+                pane.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: (panel.Layout(), panel.FitInside(), event.Skip()))
             self.ack = wx.CheckBox(panel, label='I saved and CLOSED the source PCB and schematic editors. The exact paths above are correct.')
             layout.Add(self.ack, 0, wx.ALL, 6)
             self.inspected = wx.CheckBox(panel, label='I inspected all findings and CLOSED the review editors/project. My choice is intent, not PCB certification.')
             layout.Add(self.inspected, 0, wx.ALL, 6)
             self.buttons = {}
-            for names in ((('Preview', 'preview'), ('Route', 'route'), ('Create review', 'review'), ('Cancel', 'cancel')),
+            for names in ((('Inspect project', 'inspect'), ('Preview', 'preview'), ('Route', 'route'), ('Create review', 'review'), ('Cancel', 'cancel')),
                           (('Open preview', 'open_preview'), ('Open review project', 'open_review')),
                           (('Accept intent', 'accept'), ('Reject intent', 'reject'), ('Fresh export', 'export'), ('Open checked export', 'open_export'))):
                 row = wx.BoxSizer(wx.HORIZONTAL)
@@ -863,13 +925,15 @@ def main(argv=None):
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(500)
             self.refresh()
 
-        def path_row(self, panel, layout, label, value, directory):
+        def path_row(self, panel, layout, label, value, directory, *, wildcard=None):
             row = wx.BoxSizer(wx.HORIZONTAL); row.Add(wx.StaticText(panel, label=label), 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 6)
             control = wx.TextCtrl(panel, value=value); row.Add(control, 1, wx.ALL, 6)
             button = wx.Button(panel, label='Browse…')
             def browse(_):
                 if self.busy or self.chooser is not None: return
-                dialog = wx.DirDialog(self, 'Choose output folder') if directory else wx.FileDialog(self, 'Choose saved PCB', wildcard='KiCad PCB (*.kicad_pcb)|*.kicad_pcb', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+                dialog = wx.DirDialog(self, 'Choose output folder') if directory else wx.FileDialog(self,
+                    'Choose ' + label if wildcard else 'Choose saved PCB',
+                    wildcard=wildcard or 'KiCad PCB (*.kicad_pcb)|*.kicad_pcb', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
                 self.choose_path(dialog, control.SetValue)
             button.Bind(wx.EVT_BUTTON, browse); self.edit_controls.append(button)
             row.Add(button, 0, wx.ALL, 6); layout.Add(row, 0, wx.EXPAND)
@@ -877,6 +941,7 @@ def main(argv=None):
 
         def changed(self, event):
             self.input_generation = getattr(self, 'input_generation', 0) + 1
+            self.pending_proposal = None
             if not self.busy:
                 previous_workspace = self.flow.workspace if self.flow is not None else None
                 self.flow = None; self.inspected.SetValue(False)
@@ -885,6 +950,113 @@ def main(argv=None):
                     'Previous findings are no longer current for these inputs. Retained workspaces were not deleted.'
                     + ('\nPrevious workspace: ' + str(previous_workspace) if previous_workspace is not None else ''))
             self.refresh(); event.Skip()
+
+        def proposal_inputs_changed(self, event):
+            self.pending_proposal = None
+            self.refresh(); event.Skip()
+
+        def suggest_settings(self, _):
+            if self.busy or self.chooser is not None: return
+            try:
+                if not self.inspection_path:
+                    raise ValueError('Use Inspect project first to get actual saved-project findings.')
+                if not self.model_config.GetValue().strip():
+                    raise ValueError('No application model is configured. Use the ordinary routing controls, or choose explicit local model settings.')
+                if method_for_index(self.method.GetSelection()) != 'route':
+                    raise ValueError('The assistant proposes Route settings. Select Route first.')
+                request_text = self.intent_text.GetValue()
+                config_path = self.model_config.GetValue()
+                inspection_path = self.inspection_path
+                request = Request(self.board.GetValue(), self.output.GetValue(), json.dumps(self.config()), self.ack.GetValue())
+                if request.saved_closed is not True:
+                    raise ValueError('Save and close source editors, then acknowledge the exact source.')
+                self.pending_proposal = None
+                self.busy = True; self.job = CliJob(); job = self.job; self.refresh()
+                job.proposal_generation = self.input_generation
+                self.status.SetLabel('Preparing one local model request. No route or approval can be performed by the model.')
+                def work():
+                    flow = None
+                    try:
+                        from . import project_inspection, model_intent
+                        from .placement_clearance import read_bytes
+                        inspected = project_inspection.check(inspection_path)
+                        if inspected['source'] != str(canonical(request.board)):
+                            raise ValueError('Inspection belongs to another project. Inspect the selected source.')
+                        config = pref._parse(read_bytes(canonical(config_path), 16384), 16384)
+                        model_intent._config(config)
+                        flow = request.prepare(); flow.fresh()
+                        text_path = flow.workspace / 'request.txt'
+                        if not 0 < len(request_text.encode('utf-8')) <= model_intent.MAX_REQUEST_TEXT:
+                            raise ValueError('Enter a routing request within 4096 UTF-8 bytes.')
+                        with text_path.open('x') as stream: stream.write(request_text)
+                        config_copy = flow.workspace / 'model-settings.json'
+                        with config_copy.open('x') as stream: json.dump(config, stream)
+                        argv = [str(c.ROOT / '.venv/bin/python'), '-B', '-m', 'autorouter',
+                            'propose-route', str(flow.board), '--inspection', str(inspection_path),
+                            '--request-file', str(text_path), '--model-config', str(config_copy)]
+                        log = flow.workspace / 'proposal.command.log'
+                        process = job.run(argv, log, timeout=45)
+                        job.check_live(); flow.fresh()
+                        if process['exit_code'] != 0 or process['cancel_requested'] or process['log_truncated']:
+                            raise ValueError('Proposal was refused or cancelled. Read the retained proposal log; ordinary controls remain available.')
+                        result = read_record(log)
+                        from .design_intent import validate_route_proposal
+                        checked = validate_route_proposal(inspected['static'], result['proposal']['intent'])
+                        if checked != result['proposal']:
+                            raise ValueError('Returned proposal differs from shared validation.')
+                        wx.CallAfter(self.proposal_finished, job, flow, inspected['static'], result, None)
+                    except Exception as exc:
+                        retained = ' Retained workspace: ' + str(flow.workspace) if flow else ''
+                        wx.CallAfter(self.proposal_finished, job, flow, None, None, str(exc) + retained)
+                threading.Thread(target=work, daemon=False).start()
+            except Exception as exc: self.refused(str(exc))
+
+        def proposal_finished(self, job, flow, inspection, result, error):
+            if self.job is not job: return
+            try:
+                job.check_live()
+                if error: raise ValueError(error)
+                if job.proposal_generation != self.input_generation:
+                    raise ValueError('Settings changed while preparing the proposal; request it again.')
+                flow.fresh()
+                from .design_intent import validate_route_proposal
+                proposal = validate_route_proposal(inspection, result['proposal']['intent'])
+                if proposal != result['proposal']: raise ValueError('Proposal changed before display.')
+                self.pending_proposal = (inspection, proposal, self.input_generation)
+                self.log.SetValue('PROPOSED SETTINGS — no route or approval has run.\n\n'
+                    + human_summary('preview', proposal['preview'])
+                    + '\n\nModel request metrics: ' + json.dumps(result['metrics'], sort_keys=True))
+                self.status.SetLabel('Review the proposal. Use proposed settings only if they match your intent; Preview and Route remain separate actions.')
+            except Exception as exc:
+                self.pending_proposal = None; self.log.SetValue(str(exc))
+                self.status.SetLabel('No proposal adopted. Ordinary routing controls remain available.')
+            self.busy = False; self.job = None; self.refresh()
+            if self.closing: self.timer.Stop(); self.Destroy()
+
+        def apply_proposal(self, _):
+            if self.busy or self.chooser is not None or self.pending_proposal is None: return
+            try:
+                from .design_intent import validate_route_proposal
+                inspection, proposal, generation = self.pending_proposal
+                if generation != self.input_generation or method_for_index(self.method.GetSelection()) != 'route':
+                    raise ValueError('Settings or method changed; request a new proposal.')
+                if canonical(self.board.GetValue()) != Path(proposal['source']):
+                    raise ValueError('Selected source changed; inspect and request a new proposal.')
+                checked = validate_route_proposal(inspection, proposal['intent'])
+                if checked != proposal: raise ValueError('Proposal changed before applying settings.')
+                settings = checked['effective_preferences']
+                indices = {name: next(i for i, (_, value) in enumerate(self.values[name]) if value == settings[name])
+                           for name in self.choices}
+                self.method.SetSelection(0)
+                for name, index in indices.items(): self.choices[name].SetSelection(index)
+                self.seconds.SetValue(str(settings['seconds']))
+                self.nets.SetValue('\n'.join(settings.get('nets', [])))
+                self.input_generation += 1; self.flow = None; self.inspected.SetValue(False)
+                self.pending_proposal = None
+                self.status.SetLabel('Proposed settings applied. Review the visible choices, then Preview and Route. No run or candidate was approved.')
+                self.log.SetValue(human_summary('preview', checked['preview']))
+                self.refresh()
+            except Exception as exc: self.refused(str(exc))
 
         def choose_path(self, dialog, on_path):
             """Retain an asynchronous native sheet until its completion event.
@@ -925,6 +1097,7 @@ def main(argv=None):
             wx.CallAfter(show)
 
         def refused(self, error):
+            self.pending_proposal = None
             if self.flow is not None:
                 self.flow.ready.clear(); self.flow.records.clear(); self.flow.choice = None
             self.flow = None; self.inspected.SetValue(False)
@@ -934,6 +1107,7 @@ def main(argv=None):
 
         def method_changed(self, event):
             self.input_generation = getattr(self, 'input_generation', 0) + 1
+            self.pending_proposal = None
             if getattr(self, 'chooser', None) is not None: event.Skip(); return
             if self.busy: event.Skip(); return
             self.flow = None; self.inspected.SetValue(False)
@@ -961,8 +1135,33 @@ def main(argv=None):
                 wx.CallAfter(self.method.SetSelection, 0)
             self.refresh(); event.Skip()
 
+        def completion_preset(self, _):
+            if self.busy or getattr(self, 'chooser', None) is not None: return
+            self.pending_proposal = None
+            try:
+                if method_for_index(self.method.GetSelection()) != 'route':
+                    raise ValueError('Completion search is a Route preset. Select Route first.')
+                config = completion_search_preset(self.config())
+                for name in ('profile', 'scoring_preference'):
+                    self.choices[name].SetSelection(next(i for i, (_, value) in enumerate(self.values[name])
+                                                        if value == config[name]))
+                self.input_generation += 1
+                self.flow = None; self.inspected.SetValue(False)
+                self.status.SetLabel('Completion search selected: more search that may use more vias. '
+                    'Scope, copper protection, layers and budget are preserved. Preview the saved project.')
+                self.log.SetValue('Settings changed. Earlier findings are no longer current. '
+                    'Preview the saved project before routing; retained workspaces were not deleted.')
+                self.method_note.SetLabel('Completion search initially supports canonical two-layer boards '
+                    'with one Default netclass and a complete flat schematic. It is a routing preference, '
+                    'not a completion guarantee or electrical approval. Save settings to reuse it.')
+                self.method_note.Wrap(780); self.method_note.GetParent().Layout()
+                self.refresh()
+            except Exception as exc:
+                self.refused(str(exc))
+
         def load_preset(self, _):
             if self.busy or getattr(self, 'chooser', None) is not None: return
+            self.pending_proposal = None
             def loaded(path):
                 config = pref.resolve(pref.load(path))
                 if config['guidance'] != 'native': raise ValueError('This graphical workflow supports Native guidance; retain other presets for their documented CLI.')
@@ -1010,7 +1209,7 @@ def main(argv=None):
         def refresh(self):
             choosing = getattr(self, 'chooser', None) is not None
             ready = self.flow.ready if self.flow else set()
-            allowed = {'preview': True, 'route': 'preview' in ready and 'route' not in ready,
+            allowed = {'inspect': True, 'preview': True, 'route': 'preview' in ready and 'route' not in ready,
                 'review': 'route' in ready and 'review' not in ready,
                 'open_preview': 'review' in ready, 'open_review': 'review' in ready,
                 'accept': 'review' in ready and 'choice' not in ready,
@@ -1019,6 +1218,8 @@ def main(argv=None):
                 'open_export': 'verify_export' in ready}
             for name, button in self.buttons.items(): button.Enable(not choosing and (self.busy if name == 'cancel' else not self.busy and allowed.get(name, False)))
             for control in (self.board, self.output, self.ack, self.inspected, *self.edit_controls): control.Enable(not self.busy and not choosing)
+            if hasattr(self, 'apply_proposal_button'):
+                self.apply_proposal_button.Enable(not self.busy and not choosing and self.pending_proposal is not None)
 
         def act(self, action):
             try:
@@ -1064,7 +1265,7 @@ def main(argv=None):
                 def work():
                     flow = None
                     try:
-                        flow = request.prepare() if stage == 'preview' else self.flow
+                        flow = request.prepare() if stage in ('preview', 'inspect') else self.flow
                         flow.check_request(request)
                         argv = flow.command(stage, choice=choice)
                         log_path = flow.workspace / (stage + '.command.log')
@@ -1182,6 +1383,7 @@ def main(argv=None):
                 self.refused(error)
             else:
                 self.flow = flow
+                if stage == 'inspect': self.inspection_path = flow.workspace / 'inspection/inspection.json'
                 self.log.SetValue(_completed_summary(flow, stage, record))
                 self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()

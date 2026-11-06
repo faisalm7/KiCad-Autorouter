@@ -2,6 +2,8 @@
 
 The graphical controller calls the same offline CLI as Terminal users. It passes argument arrays, exact saved project paths and an explicit captured JSON preset; it does not invoke a shell or send a board to a service. The CLI prints JSON and writes durable receipts in a fresh output directory. See [saved settings](routing-preferences.md) for the versioned input contract.
 
+The next source candidate adds [saved-project inspection and routing proposals](design-workflow.md): `inspect-project`, `inspect-project-check`, `propose-route` and `design-tool-schema`. These reuse the existing Native/process/snapshot/preview checks. Proposals grant no execution or approval authority. The optional explicit local model client can request only `propose_route`; it has no route, accept, warning-acknowledgement, shell or file-write tool. Runtime074 does not contain these new commands; new-build qualification is separate.
+
 | Action | CLI | Result / authority |
 |---|---|---|
 | Check environment | `doctor` | Actual pinned tool/version/hash readiness, successful KiCad/Python/Java probes and recognizable Java version output; no board validation. |

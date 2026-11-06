@@ -47,7 +47,9 @@ def preview(board,settings=None,overrides=None,*,purpose='route'):
         layers=effective['layers'],profile=effective['profile'],adapter=effective['adapter'],scoring=effective['scoring_preference'])
     source=real_path(board);before=pc.inventory(source.parent)
     if purpose not in {'route','improve'}:raise p.Rejected('unknown preview purpose')
-    class_context=('native-route-flat-classes-v1' if purpose=='route' and effective['guidance']=='native'
+    tuned_low=purpose=='route' and p.native7_tuned_low_request(effective['profile'],effective['scoring_preference'])
+    if tuned_low:p.native7_tuned_low_source_record(source,effective['scope'])
+    class_context=('native-route-flat-classes-v1' if not tuned_low and purpose=='route' and effective['guidance']=='native'
         and effective['scope'] in {'whole_board_unlocked_routing','partial_completion'} and effective['layers']=='source_all' else None)
     original=p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']),class_context=class_context)
     pending_classes=p.check_schematic_class_support(source,class_context=class_context)
@@ -112,6 +114,18 @@ def main():
     p=argparse.ArgumentParser(prog='python -m autorouter')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('doctor')
+    inspect_cmd=sub.add_parser('inspect-project',help='Inspect a saved project with actual Native refill/DRC on a copy; never routing acceptance')
+    inspect_cmd.add_argument('board');inspect_cmd.add_argument('--output',required=True)
+    inspect_cmd.add_argument('--seconds',type=float,default=60)
+    inspect_check=sub.add_parser('inspect-project-check',help='Recheck retained inspection/source evidence')
+    inspect_check.add_argument('receipt')
+    proposal=sub.add_parser('propose-route',help='Validate visible routing intent; never execute or approve it')
+    proposal.add_argument('board');proposal.add_argument('--inspection',help='Optional current Native inspection receipt')
+    intent=proposal.add_mutually_exclusive_group(required=True)
+    intent.add_argument('--intent',help='Explicit bounded JSON routing request')
+    intent.add_argument('--request-file',help='Plain text request for an explicitly configured local model')
+    proposal.add_argument('--model-config',help='Explicit local-compatible model configuration; no implicit credentials or remote service')
+    sub.add_parser('design-tool-schema',help='Print the narrow proposal schema; no execution or approval tool')
     graphical=sub.add_parser('gui',help='Open the separate-project graphical workflow with KiCad bundled Python')
     graphical.add_argument('--board',default='',help='Exact saved source hint; editors must be closed before routing')
     settings=sub.add_parser('settings-init',help='Create an explicit editable JSON preset without overwriting a file')
@@ -138,6 +152,33 @@ def main():
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
     r=sub.add_parser('route');r.add_argument('board');r.add_argument('--output',required=True);preference_arguments(r)
     a=p.parse_args()
+    if a.command in {'inspect-project','inspect-project-check','propose-route','design-tool-schema'}:
+        try:
+            from . import design_intent as design, project_inspection as inspection
+            from . import preferences as pref, placement_clearance as io
+            from .handoff import real_path
+            if a.command=='design-tool-schema':result=design.tool_schema()
+            elif a.command=='inspect-project':
+                result=inspection.inspect(a.board,a.output,a.seconds)
+                print(json.dumps(result,indent=2));return 0 if result['status']=='inspection_ready' else 2
+            elif a.command=='inspect-project-check':result=inspection.check(a.receipt)
+            else:
+                context=inspection.check(a.inspection) if a.inspection else design.inspect_project(a.board)
+                if context['source']!=str(real_path(a.board)):raise ValueError('Inspection belongs to another saved project.')
+                if a.intent:
+                    if a.model_config:raise ValueError('Explicit structured intent does not use a model.')
+                    request=pref._parse(io.read_bytes(real_path(a.intent),16384),16384)
+                    result={'proposal':design.validate_route_proposal(context.get('static',context),request),
+                            'metrics':{'model_requests':0,'model_cost_usd':0,'origin':'explicit structured controls'}}
+                else:
+                    if not a.model_config:raise ValueError('No application model endpoint is configured. Ordinary controls remain available.')
+                    from .model_intent import propose
+                    config=pref._parse(io.read_bytes(real_path(a.model_config),16384),16384)
+                    text=io.read_bytes(real_path(a.request_file),8192).decode('utf-8')
+                    result=propose(context,text,config)
+            print(json.dumps(result,indent=2));return 0
+        except (Exception,KeyboardInterrupt) as exc:
+            print(json.dumps({'status':'rejected','reason':str(exc),'accepted':False}));return 2
     if a.command=='gui':
         from .gui import launch_gui
         child=launch_gui(a.board)

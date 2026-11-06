@@ -40,6 +40,7 @@ NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
 NATIVE7_SELECTED_DEFAULT_POLICY='native7-selected-sole-default-v1'
+NATIVE7_TUNED_LOW_POLICY='native7-tuned-low-sole-default-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -106,7 +107,8 @@ def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing
                          adapter='both', scoring=None):
     """Keep a selected tool version from silently admitting unqualified modes.
 
-    The 1007 ordinary Route/Preview remains corrected standard whole/partial.
+    The 1007 ordinary Route/Preview defaults to corrected standard whole/partial.
+    Explicit tuned/low additionally requires its source-derived producer proof.
     The explicit via_high Route preference changes only search costs; None
     remains the corrected-standard default. Recovery/Improve keep default cost.
     The separate fixed thermal method reuses standard whole-board Route.
@@ -124,6 +126,10 @@ def require_native_scope(*, purpose='route', scope='whole_board_unlocked_routing
             and guidance=='native' and layers=='source_all' and profile=='completion-only'
             and adapter=='both' and scoring is None):
         return  # Source eligibility and mandatory Default/selected proofs are checked separately.
+    if (purpose=='route' and native7_tuned_low_request(profile,scoring)
+            and scope in {'whole_board_unlocked_routing','partial_completion'}
+            and guidance=='native' and layers=='source_all' and adapter=='both'):
+        return  # Source eligibility and captured producer proof remain mandatory.
     scopes={'whole_board_unlocked_routing','partial_completion'} if purpose=='route' else {'whole_board_unlocked_routing'} if purpose=='thermal-recovery' else set()
     score_supported=(scoring is None or (purpose=='route' and type(scoring) is str and scoring=='via_high'))
     if (c.NATIVE_VERSION != '10.0.7' or scope not in scopes
@@ -1316,6 +1322,92 @@ def check_native7_selected_source(board,names):
         raise Rejected('unsupported: Native7 selected source: '+str(exc)) from exc
 
 
+def native7_tuned_low_request(profile,scoring):
+    return (c.NATIVE_VERSION=='10.0.7' and type(profile) is str and profile=='tuned'
+        and type(scoring) is str and scoring=='via_low')
+
+
+def native7_tuned_low_source_record(board,scope):
+    """Static source qualification only; no routing or Native acceptance."""
+    from . import default_targets as targets
+    from .handoff import real_path
+    from .layer_policy import _two_copper_table
+    from .placement_clearance import inventory,read_bytes
+    try:
+        if (c.NATIVE_VERSION!='10.0.7' or type(scope) is not str
+                or scope not in {'whole_board_unlocked_routing','partial_completion'}):
+            raise ValueError('ordinary Native7 whole/partial scope required')
+        board=real_path(board);before=inventory(board.parent)
+        original=sx.parse(read_bytes(board).decode('utf-8'))
+        version=sx.one(original,'version')
+        if (not original or original[0]!='kicad_pcb'
+                or version not in (['version','20241229'],['version','20260206'])):
+            raise ValueError('qualified20241229/20260206 board format required')
+        _two_copper_table(original)
+        project=targets._json(read_bytes(board.with_suffix('.kicad_pro')))
+        settings=project.get('net_settings') if type(project) is dict else None
+        classes=settings.get('classes') if type(settings) is dict else None
+        if (type(classes) is not list or len(classes)!=1 or type(classes[0]) is not dict
+                or classes[0].get('name')!='Default'
+                or settings.get('netclass_assignments') not in (None,{})
+                or settings.get('netclass_patterns') not in (None,[])
+                or netclass_policy(board) is not None):
+            raise ValueError('sole Default without assignments or patterns required')
+        read_bytes(board.with_suffix('.kicad_sch'))
+        if check_schematic_class_support(board,class_context=None) is not None:
+            raise ValueError('flat complete schematic without class directives required')
+        task=routing_task(original,scope)
+        record=dict(schema=1,policy=NATIVE7_TUNED_LOW_POLICY,native_version='10.0.7',
+            source=str(board),source_hashes=before,scope=scope,profile='tuned',
+            scoring_variant='via_low',adapter='both',guidance='native',layers='source_all',
+            board_format=version[1],task_sha256=hashlib.sha256((sx.dump(task)+'\n').encode()).hexdigest(),
+            protected_count=len(routes(task)))
+        if inventory(board.parent)!=before:raise ValueError('source changed during qualification')
+        return record
+    except (OSError,ValueError,TypeError,KeyError,IndexError,Rejected) as exc:
+        raise Rejected('unsupported: Native7 tuned/low source: '+str(exc)) from exc
+
+
+def check_native7_tuned_low_evidence(directory,data,*,ordinary=True,input_policy='native',native_toolchain=None):
+    """A missing marker or an old producer cannot admit tuned/low evidence."""
+    from .floor_route import read_json,canonical
+    from .placement_clearance import read_bytes
+    from .local_settings import policy_declaration
+    if type(data) is not dict or type(ordinary) is not bool:
+        raise Rejected('typed ordinary tuned/low receipt context required')
+    directory=Path(directory);proof=directory/'native7-tuned-low-source.json'
+    marked='native7_tuned_low_source' in data or os.path.lexists(proof)
+    requested=native7_tuned_low_request(data.get('engine_profile'),data.get('scoring_variant'))
+    if not ordinary or native_toolchain is not None or not requested:
+        if marked:raise Rejected('Native7 tuned/low proof outside ordinary source scope')
+        return None
+    preferences=data.get('routing_preferences',{})
+    effective=preferences.get('effective',{}) if type(preferences) is dict else None
+    if type(effective) is not dict:raise Rejected('Native7 tuned/low preferences malformed')
+    require_native_scope(scope=data.get('scope'),profile=data.get('engine_profile'),
+        scoring=data.get('scoring_variant'),adapter=data.get('adapter'),
+        guidance=effective.get('guidance','native'),layers=effective.get('layers','source_all'))
+    if (type(data.get('schema')) is not int or data['schema']!=1 or input_policy!='native'
+            or data.get('strategy') is not None or any(key in data for key in
+                ('comparison_route','native_improve_child','production_admitted',
+                 'engine_fanout_override','engine_optimizer_override','engine_angle_binding',
+                 'engine_planning_clearance_margin_nm','engine_global_width_policy'))):
+        raise Rejected('Native7 tuned/low requires ordinary unmodified Route context')
+    raw=read_bytes(directory/'code/pipeline.py',1024**2)
+    if hashlib.sha256(raw).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
+        raise Rejected('Native7 tuned/low captured producer differs')
+    if policy_declaration(raw,name='NATIVE7_TUNED_LOW_POLICY',expected=NATIVE7_TUNED_LOW_POLICY)!=NATIVE7_TUNED_LOW_POLICY:
+        raise Rejected('Native7 tuned/low requires its captured producer policy')
+    expected=native7_tuned_low_source_record(Path(data['source']),data['scope'])
+    if expected['source_hashes']!=data.get('source_hashes') or expected['task_sha256']!=data.get('task_sha256'):
+        raise Rejected('Native7 tuned/low source/task binding differs')
+    binding=dict(policy=NATIVE7_TUNED_LOW_POLICY,file=proof.name,
+        sha256=hashlib.sha256(read_bytes(proof,1024**2)).hexdigest())
+    if canonical(data.get('native7_tuned_low_source'))!=canonical(binding) or canonical(read_json(proof))!=canonical(expected):
+        raise Rejected('Native7 tuned/low mandatory source proof differs')
+    return expected
+
+
 def normal_default_target_scope(board,adapter,*,native_toolchain=None):
     """Corrected ordinary selected7 uses one source-derived Default policy."""
     return (native_toolchain is None and c.NATIVE_VERSION=='10.0.7' and adapter=='both'
@@ -2441,6 +2533,14 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     if (native_toolchain is None and c.NATIVE_VERSION=='10.0.7' and _preferences is not None
             and _preferences['effective']['scope']=='selected_nets'):
         check_native7_selected_source(source,_preferences['effective']['nets'])
+    tuned_low=(native_toolchain is None and comparison_context is None and _improve_context is None
+        and native7_tuned_low_request(engine_profile,scoring_variant))
+    if tuned_low:
+        if any(value is not None for value in (_fanout_enabled,_optimizer_enabled,
+                _engine_clearance_margin_nm,_engine_global_width_policy)):
+            raise Rejected('Native7 tuned/low requires ordinary unmodified Route settings')
+        native7_tuned_low_source_record(source,(_preferences['effective']['scope'] if _preferences else
+            'partial_completion' if keep_existing else 'whole_board_unlocked_routing'))
     if _fanout_enabled is False:
         preflight(source,task_scope=('whole_board_unlocked_routing','native','source_all'))
         if _engine_global_width_policy is not None:global_width_source_guard(source)
@@ -2474,7 +2574,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         selected=_preferences['effective'].get('nets') if _preferences and _preferences['effective']['scope']=='selected_nets' else None
         scope=_preferences['effective']['scope'] if _preferences else report['scope']
         layers=_preferences['effective']['layers'] if _preferences else 'source_all'
-        class_context=('native-route-flat-classes-v1' if native_toolchain is None and comparison_context is None
+        class_context=('native-route-flat-classes-v1' if not tuned_low and native_toolchain is None and comparison_context is None
             and engine_profile in {'standard','tuned','completion-only'} and _fanout_enabled is None
             and _optimizer_enabled is None and scope in {'whole_board_unlocked_routing','partial_completion'}
             and guidance_policy=='native' and layers=='source_all' else None)
@@ -2505,6 +2605,12 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         protected=copy.deepcopy(routes(task))
         sx.write(candidate,task)
         report['task_sha256']=sha(candidate)
+        if tuned_low:
+            record=native7_tuned_low_source_record(source,scope)
+            if record['source_hashes']!=before or record['task_sha256']!=report['task_sha256']:
+                raise Rejected('Native7 tuned/low source changed during task capture')
+            proof=output/'native7-tuned-low-source.json';save_json(proof,record)
+            report['native7_tuned_low_source']=dict(policy=NATIVE7_TUNED_LOW_POLICY,file=proof.name,sha256=sha(proof))
         report['source_drc']=job.drc('source-drc',snapshot)
         policy=netclass_policy(candidate)
         from .netclass import PARENT_POLICY
@@ -3062,13 +3168,16 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
                 or selected_scope_markers(path.parent,data) or layer_markers(path.parent,data)
                 or any(marker.exists() or marker.is_symlink() for marker in (scoring_marker,pruning_marker))):
             raise Rejected('unsupported completed-negative routing contract')
+    tuned_low_contract=check_native7_tuned_low_evidence(path.parent,data,
+        ordinary=not (is_comparison or is_improve_child or is_improve_parent),
+        input_policy=input_policy,native_toolchain=native_toolchain)
     if input_policy=='native' and data.get('strategy') is None:
         check_normal_engine_provenance(path.parent,data)
     # Captured-choice runs use the shared bounded reader for a complete witness,
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=(is_improve_child or is_comparison or _rejected_attempt or 'native_edge_admission_policy' in data
+    preferences_guarded=(tuned_low_contract is not None or is_improve_child or is_comparison or _rejected_attempt or 'native_edge_admission_policy' in data
         or 'schematic_class_task' in data or 'schematic_class_final' in data
         or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
@@ -3097,7 +3206,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         from .placement_clearance import verify_candidate as bounded_candidate
         bounded_candidate(candidate,data['source_hashes'],data['candidate_sha256'])
     else:verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
-    class_context=class_context_for_record(data,path.parent,input_policy=input_policy,native_toolchain=native_toolchain)
+    class_context=(None if tuned_low_contract is not None else
+        class_context_for_record(data,path.parent,input_policy=input_policy,native_toolchain=native_toolchain))
     original=preflight(source,task_scope=task_scope_for_record(data,path.parent,input_policy=input_policy),class_context=class_context)
     current=sx.read(candidate)
     check_hole_machining_support(current)
@@ -3306,6 +3416,10 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         # Final callbacks above may inspect the complete captured import/native
         # lineage. Keep the existing bounded witness after every such reader,
         # including plain API jobs with no captured preferences or class flags.
+        if tuned_low_contract is not None:
+            from .floor_route import canonical
+            if canonical(check_native7_tuned_low_evidence(path.parent,data,input_policy=input_policy))!=canonical(tuned_low_contract):
+                raise Rejected('Native7 tuned/low source proof changed during readback')
         if bounded_inventory(source.parent,max_bytes=100*1024*1024)!=data['source_hashes']:
             raise Rejected('source project changed during preference readback')
         if bounded_evidence(path.parent)!=readback_material:
