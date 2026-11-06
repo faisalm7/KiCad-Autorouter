@@ -18,25 +18,42 @@ from experiments.constrained_placement_v1 import constraints, prototype
 
 KIND = 'autorouter.selected-placement-intent.v1'
 SETTINGS_KIND = 'autorouter.selected-placement-settings.v1'
+ORDINARY_SETTINGS_KIND = 'autorouter.selected-placement-settings.v2'
 LIMITS = (
     'Experimental translation only: unrotated front footprints, circular through-hole pads, rectangular courtyards and board.',
     'Unselected, locked and existing-routed-net components stay fixed. Every existing copper item is preserved.',
     'The movement rectangle must avoid preserved copper and zone envelopes. Groups, flips, rotation, cutouts and keepouts are not supported yet.',
     'Geometry proposals do not establish Native, electrical or manufacturing suitability. Qualification and separate routing review are required.',
 )
+ORDINARY_LIMITS = (
+    'Experimental front-side translation at fixed cardinal orientations; only eligible two-pad SMD parts may move.',
+    'Unselected, locked, ineligible and existing-routed-net components stay fixed. Every existing copper item is preserved.',
+    'Courtyard envelopes are conservative search obstacles. Groups, flips, rotation changes, cutouts and keepouts are not supported yet.',
+    'The movement rectangle must avoid preserved copper and zone envelopes. Native validation and separate routing review remain required.',
+    'No electrical, thermal, timing or manufacturing suitability is inferred from connectivity or shorter connections.',
+)
 
 
-def settings(selected, region_nm):
-    options = contract.scope_options(scope=contract.MULTIPAD_SCOPE, selected=selected, region_nm=region_nm)
-    return dict(schema=1, kind=SETTINGS_KIND, selected=options['selected'], region_nm=options['region_nm'],
+def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE):
+    options = contract.scope_options(scope=scope, selected=selected, region_nm=region_nm)
+    if scope not in (contract.MULTIPAD_SCOPE, contract.ORDINARY_SCOPE):
+        raise ValueError('Unsupported product placement scope.')
+    value = dict(schema=1, kind=SETTINGS_KIND, selected=options['selected'], region_nm=options['region_nm'],
                 preserve_existing=True, orientation='preserve', side='preserve',
                 search=dict(seed=7, steps=160, alternatives=2, seconds=2))
+    if scope == contract.ORDINARY_SCOPE:
+        value.update(schema=2, kind=ORDINARY_SETTINGS_KIND, scope=scope)
+    return value
+
+
+def settings_scope(value):
+    return value.get('scope') if value.get('schema') == 2 else contract.MULTIPAD_SCOPE
 
 
 def validate_settings(value):
     if type(value) is not dict or type(value.get('schema')) is not int:
         raise ValueError('Explicit selected-placement settings are required.')
-    expected = settings(value.get('selected'), value.get('region_nm'))
+    expected = settings(value.get('selected'), value.get('region_nm'), scope=settings_scope(value))
     # Canonical comparison refuses Boolean/integer substitutions and extra tools.
     if constraints.encoded(value) != constraints.encoded(expected):
         raise ValueError('Unsupported placement settings; constraints were not changed.')
@@ -52,14 +69,17 @@ def inspect_saved(board):
     static = design_intent.inspect_project(board)
     source = Path(static['source'])
     raw = pc.read_bytes(source, contract.MAX_BYTES)
-    observation = contract.inspect_board(raw, scope=contract.MULTIPAD_SCOPE)
+    try:
+        observation = contract.inspect_board(raw, scope=contract.MULTIPAD_SCOPE)
+    except ValueError:
+        observation = contract.inspect_board(raw, scope=contract.ORDINARY_SCOPE)
     local_settings.check_current_metadata(source.with_suffix('.kicad_prl'))
     if gui.source_inventory(source) != static['source_hashes']:
         raise ValueError('Saved project changed during placement inspection.')
     routed_nets = {row['net'] for row in observation['routes']}
     components = []
     for fp in observation['footprints']:
-        reasons = []
+        reasons = list(fp.get('fixed_reasons', []))
         if fp['locked']: reasons.append('Locked in KiCad')
         if any(pad['net'] in routed_nets for pad in fp['pads']):
             reasons.append('Shares a net with existing copper')
@@ -68,7 +88,7 @@ def inspect_saved(board):
     return dict(schema=1, kind='autorouter.saved-placement-inspection.v1', source=str(source),
         source_hashes=static['source_hashes'], observation=observation, components=components,
         native_validation_performed=False, execution_authorized=False, approval_granted=False,
-        limitations=list(LIMITS))
+        limitations=list(ORDINARY_LIMITS if observation['scope'] == contract.ORDINARY_SCOPE else LIMITS))
 
 
 def current(inspection):
@@ -81,7 +101,13 @@ def current(inspection):
 
 def facts(inspection, value):
     value = validate_settings(value)
-    result = contract.facts_from_observation(inspection['observation'], scope=contract.MULTIPAD_SCOPE,
+    if settings_scope(value) != inspection['observation']['scope']:
+        raise ValueError('Placement settings geometry scope differs; inspect and choose settings for this project.')
+    # Give the actionable protection reason before geometric search can fail.
+    fixed = {row['uuid'] for row in inspection['components'] if row['fixed_reasons']}
+    if set(value['selected']) & fixed:
+        raise ValueError('Selected components include fixed, locked or routed-net components; deselect those components.')
+    result = contract.facts_from_observation(inspection['observation'], scope=settings_scope(value),
         selected=value['selected'], region_nm=value['region_nm'])
     if set(value['selected']) & constraints.immovable(result):
         raise ValueError('Selected components include locked or routed-net components; deselect those components.')
@@ -102,7 +128,7 @@ def propose(inspection, value, *, cancel_event=None):
         result['status'] = 'cancelled'; result['alternatives'] = []
     # Quantization is part of the draft contract, not deferred to the writer.
     for row in result['alternatives']:
-        row['candidate'], row['moves_nm'] = contract.quantized_translation(original, row['candidate'])
+        row['candidate'], row['moves_nm'] = contract.quantized_translation(original, row['candidate'], observation=inspection['observation'])
     return dict(schema=1, kind='autorouter.placement-proposals.v1', inspection=copy.deepcopy(inspection),
         settings=value, search=result, native_validation_performed=False,
         execution_authorized=False, approval_granted=False)
@@ -121,14 +147,14 @@ class Review:
         rows = self.proposal['search']['alternatives']
         if type(rows) is not list or not 1 <= len(rows) <= 2:
             raise ValueError('One or two bounded alternatives are required.')
-        self.alternatives = [contract.quantized_translation(self.facts, r['candidate'])[0] for r in rows]
+        self.alternatives = [contract.quantized_translation(self.facts, r['candidate'], observation=self.inspection['observation'])[0] for r in rows]
         self.revision = 0; self.intent = None
         self.choose(0)
 
     def _adopt(self, candidate):
         if self.revision >= 256:
             raise ValueError('Review edit limit reached; start a new review.')
-        pose, moves = contract.quantized_translation(self.facts, candidate)
+        pose, moves = contract.quantized_translation(self.facts, candidate, observation=self.inspection['observation'])
         self.pose, self.moves = pose, moves
         self.revision += 1; self.intent = None
 
@@ -155,7 +181,7 @@ class Review:
                 raise ValueError('Enter decimal coordinates in millimetres.') from exc
         moves = copy.deepcopy(self.moves); moves[component] = target
         pose = contract.validate_moves(self.inspection['observation'], moves,
-            scope=contract.MULTIPAD_SCOPE, selected=self.settings['selected'], region_nm=self.settings['region_nm'])
+            scope=settings_scope(self.settings), selected=self.settings['selected'], region_nm=self.settings['region_nm'])
         self._adopt(pose)
 
     def decision(self, *, acknowledged, accepted):
@@ -182,7 +208,7 @@ def validate_draft(inspection, value):
         raise ValueError('A bounded explicit draft revision is required.')
     selected = validate_settings(value.get('settings')); original = facts(inspection, selected)
     pose = contract.validate_moves(inspection['observation'], value.get('moves_nm'),
-        scope=contract.MULTIPAD_SCOPE, selected=selected['selected'], region_nm=selected['region_nm'])
+        scope=settings_scope(selected), selected=selected['selected'], region_nm=selected['region_nm'])
     expected = dict(schema=1, kind=KIND, choice='reviewed_draft', revision=value['revision'],
         source=inspection['source'], source_hashes=inspection['source_hashes'],
         inspection_sha256=constraints.digest(inspection), settings=selected,

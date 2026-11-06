@@ -27,6 +27,9 @@ def request_scope(spec, contract):
 
 
 def capture(native, pcbnew, raw, contract, fc, *, scope='single-pad-unrouted-v1'):
+    if scope == contract.ORDINARY_SCOPE:
+        from experiments.placement_native_proposal_v1 import ordinary_native
+        return ordinary_native.capture(native, pcbnew, raw, contract, fc)
     expected = contract.inspect_board(raw,scope=scope)
     need = contract.need
     need(native.GetCopperLayerCount() == 2, 'Native two-copper census differs')

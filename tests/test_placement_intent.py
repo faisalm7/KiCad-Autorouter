@@ -93,12 +93,23 @@ class PlacementIntentTests(unittest.TestCase):
 
     def test_unsupported_geometry_is_not_normalized_or_removed(self):
         pristine = self.board.read_bytes()
-        for change in (lambda tree: sx.one(sx.children(tree, 'footprint')[0], 'at').append('90'),
+        for change in (lambda tree: sx.one(sx.children(tree, 'footprint')[0], 'at').append('45'),
                        lambda tree: tree.append(['group', '"unsupported"', ['uuid', json.dumps(str(uuid.uuid4()))]]),
                        lambda tree: sx.children(sx.children(tree, 'footprint')[0], 'pad')[0].__setitem__(2, 'smd')):
             self.board.write_bytes(pristine); self.rewrite(change); before = self.board.read_bytes()
             with self.subTest(change=change), self.assertRaises(ValueError): intent.inspect_saved(self.board)
             self.assertEqual(self.board.read_bytes(), before)
+
+    def test_cardinal_pth_intake_is_visible_but_fixed_in_ordinary_scope(self):
+        self.rewrite(lambda tree: sx.one(sx.children(tree, 'footprint')[0], 'at').append('90'))
+        before = self.board.read_bytes()
+        inspected = intent.inspect_saved(self.board)
+        self.assertEqual(inspected['observation']['scope'], contract.ORDINARY_SCOPE)
+        row = next(row for row in inspected['components'] if row['uuid'] == self.selected[0])
+        self.assertTrue(row['fixed_reasons'])
+        with self.assertRaises(ValueError):
+            intent.facts(inspected, intent.settings(self.selected, self.region, scope=contract.ORDINARY_SCOPE))
+        self.assertEqual(self.board.read_bytes(), before)
 
     def test_missing_project_or_linked_saved_input_refuses(self):
         project = self.board.with_suffix('.kicad_pro'); raw = project.read_bytes(); project.unlink()

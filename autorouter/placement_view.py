@@ -89,8 +89,9 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
     for original in _array(observation['footprints'], 16, 1):
         row = _row(original); identity = _identifier(row['uuid'], seen)
         position = _point(row['position_nm']); court = _rect(_row(row['courtyard'])['bounds_nm'])
-        _need(type(row.get('angle')) is int and row['angle'] == 0 and row.get('side') == 'front' and type(row.get('locked')) is bool,
-              'front, unrotated footprint display required')
+        _need(type(row.get('angle')) is int and row['angle'] in (0, 90, 180, 270)
+              and row.get('side') == 'front' and type(row.get('locked')) is bool,
+              'front, fixed cardinal footprint display required')
         target = moves.get(identity, position)
         delta = (target[0] - position[0], target[1] - position[1])
         proposed = tuple(court[i] + delta[i % 2] for i in range(4))
@@ -100,12 +101,30 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
             pad = _row(original_pad); pid = _identifier(pad['uuid'], pad_seen)
             _need(len(pad_seen) <= 32, 'pad population exceeded')
             centre = _point(pad['position_nm']); size = _point(pad['size_nm']); drill = _point(pad['drill_nm'])
-            _need(0 < drill[0] == drill[1] < size[0] == size[1], 'circular PTH pad display required')
+            kind, shape, angle = pad.get('kind', 'thru_hole'), pad.get('shape', 'circle'), pad.get('angle', 0)
+            _need(type(angle) is int and angle in (0, 90, 180, 270), 'cardinal pad angle required')
+            _need(min(size) > 0, 'positive pad size required')
+            if kind == 'thru_hole':
+                _need(shape in ('circle', 'rect') and 0 < drill[0] == drill[1] < min(size),
+                      'circular-drill PTH pad required')
+            else:
+                _need(kind == 'smd' and shape in ('rect', 'roundrect') and drill == (0, 0),
+                      'ordinary rectangular SMD pad required')
+            if shape == 'circle': _need(size[0] == size[1], 'circular pad size required')
+            ratio = pad.get('roundrect_rratio', None if shape == 'roundrect' else 0)
+            if ratio is None and shape != 'roundrect': ratio = 0
+            _need(type(ratio) in (int, float) and math.isfinite(ratio) and 0 <= ratio <= .5,
+                  'bounded roundrect ratio required')
+            _need(shape != 'roundrect' or ratio > 0, 'positive roundrect ratio required')
+            _need(shape == 'roundrect' or ratio == 0, 'unexpected rounded corners')
             moved = _point([centre[i] + delta[i] for i in range(2)])
-            pads.append(dict(id=pid, centre=centre, moved=moved, diameter=size[0], drill=drill[0],
+            pads.append(dict(id=pid, centre=centre, moved=moved, size=size, drill=drill[0],
+                             shape=shape, angle=angle, radius=min(size)*ratio,
                              number=_label(pad['number']), net=_label(pad['net'])))
+            display_size = size[::-1] if angle in (90, 270) else size
             for x, y in (centre, moved):
-                extents.append((x - size[0] / 2, y - size[0] / 2, x + size[0] / 2, y + size[0] / 2))
+                extents.append((x - display_size[0] / 2, y - display_size[1] / 2,
+                                x + display_size[0] / 2, y + display_size[1] / 2))
         footprints.append(dict(id=identity, reference=_label(row['reference']), position=position,
             target=target, court=court, proposed=proposed, locked=row['locked'], pads=sorted(pads, key=lambda p:p['id'])))
         extents.extend((court, proposed))
@@ -189,10 +208,18 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
         box(bounds, role, **attrs)
         for pad in fp['pads']:
             centre = pad['centre'] if ghost else pad['moved']
-            element('circle', dict(cx=_fmt(x(centre[0])), cy=_fmt(y(centre[1])), r=_fmt(pad['diameter']*scale/2),
-                fill='none' if ghost else '#d6b96b', stroke=color, stroke_width=1,
-                data_role=role+'-pad', data_pad=pad['id'], data_centre_nm=','.join(map(str,centre))))
-            if not ghost:
+            attrs = dict(fill='none' if ghost else '#d6b96b', stroke=color, stroke_width=1,
+                data_role=role+'-pad', data_pad=pad['id'], data_centre_nm=','.join(map(str,centre)),
+                data_shape=pad['shape'], data_angle=pad['angle'])
+            if pad['shape'] == 'circle':
+                element('circle', dict(attrs, cx=_fmt(x(centre[0])), cy=_fmt(y(centre[1])),
+                    r=_fmt(pad['size'][0]*scale/2)))
+            else:
+                element('rect', dict(attrs, x=_fmt(x(centre[0])-pad['size'][0]*scale/2),
+                    y=_fmt(y(centre[1])-pad['size'][1]*scale/2), width=_fmt(pad['size'][0]*scale),
+                    height=_fmt(pad['size'][1]*scale), rx=_fmt(pad['radius']*scale),
+                    transform='rotate('+str(-pad['angle'])+' '+_fmt(x(centre[0]))+' '+_fmt(y(centre[1]))+')'))
+            if not ghost and pad['drill']:
                 element('circle', dict(cx=_fmt(x(centre[0])), cy=_fmt(y(centre[1])), r=_fmt(pad['drill']*scale/2),
                     fill='#ffffff', stroke=color, stroke_width='.6', data_role=role+'-drill', data_pad=pad['id']))
         if not ghost:

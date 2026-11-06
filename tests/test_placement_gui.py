@@ -40,10 +40,10 @@ class PlacementGuiTests(unittest.TestCase):
     def window(self):
         gate = self.gate()
         window = SimpleNamespace(gate=gate, job=gui.CliJob(), busy=False, routing=None, finalized=False,
-            qualified=None, cancel_event=threading.Event(), inspection=gate.review.inspection,
+            qualified=None, validation_revoked=False, cancel_event=threading.Event(), inspection=gate.review.inspection,
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
-            refresh=Mock(), message=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
+            refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
         window.revoke = MethodType(window_method('revoke'), window)
         window.finish_close = MethodType(window_method('finish_close'), window)
         return window
@@ -93,6 +93,8 @@ class PlacementGuiTests(unittest.TestCase):
         window.gate.review = SimpleNamespace(inspection=dict(components=[item], observation={}, source='/owned/source'),
             settings=dict(selected=['one'], region_nm=[0, 0, 10, 10]), moves={'one': [1, 1]}, alternatives=[{}])
         window.coordinates = Mock(); bitmap = Mock(); bitmap.GetSize.return_value = (850, 486)
+        window.alternative.GetSelection.return_value = 0
+        window.present = MethodType(window_method('present', bitmap_with_labels=Mock(return_value=bitmap)), window)
         with patch.object(pg.placement_view, 'render', return_value='<svg/>'):
             window_method('render', bitmap_with_labels=Mock(return_value=bitmap))(window, 0)
         window.picture.SetBitmap.assert_called_once_with(bitmap)
@@ -189,7 +191,8 @@ class PlacementGuiTests(unittest.TestCase):
         self.assertIsInstance(render.args.defaults[-1], ast.Constant)
         self.assertIsNone(render.args.defaults[-1].value)
         self.assertIn('wx.NOT_FOUND', ast.unparse(render))
-        self.assertIn('Edited draft.', ast.unparse(render))
+        present = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == 'present')
+        self.assertIn('Edited draft.', ast.unparse(present))
 
     def test_late_cancel_during_guard_prevents_even_routing_frame_construction(self):
         window = self.window(); guard = Mock(); guard.check.side_effect = lambda _: window.job.cancel()
@@ -247,6 +250,220 @@ class PlacementGuiTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             adopt(dict(guard=guard, witness={'candidate': '/owned/candidate.kicad_pcb'}))
         self.assertIsNone(window.qualified); window.findings.SetValue.assert_not_called()
+
+    def presentation_window(self):
+        """Small presentation model; no claim of actual Native qualification."""
+        window = self.window()
+        item = dict(uuid='one', reference='J1', fixed_reasons=[])
+        second = dict(uuid='two', reference='J2', fixed_reasons=[])
+        draft = SimpleNamespace(revision=1, pose={'one': [1000000, 2000000], 'two': [3000000, 4000000]},
+            moves={'one': [1000000, 2000000], 'two': [3000000, 4000000]}, alternatives=[{}, {}],
+            inspection=dict(components=[item, second], observation={}, source='/owned/source.kicad_pcb'),
+            settings=dict(selected=['one', 'two'], region_nm=[0, 0, 10000000, 10000000]), intent=None)
+        window.gate.attach(draft); window.gate.acknowledged = True; window.inspection = draft.inspection
+        window.alternative.GetSelection.return_value = 1; window.part.GetSelection.return_value = 1
+        window.x.GetValue.return_value = '3'; window.y.GetValue.return_value = '4'
+        window.updating = False
+        bitmap = Mock(); bitmap.GetSize.return_value = (850, 486)
+        window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1),
+            bitmap_with_labels=Mock(return_value=bitmap)), window)
+        witness = dict(candidate='/owned/separate/candidate.kicad_pcb', findings=dict(opens=2,
+            blocking=0, warnings=1, exclusions=0, ignored_checks=[dict(key='retained_check', description='Retained ignored check')],
+            findings=[dict(severity='warning', type='library_mismatch', description='Retained source warning')]))
+        result = dict(ticket=window.gate.ticket(), witness=witness, guard=Mock())
+        return window, result
+
+    def test_native_adoption_presents_actual_findings_and_pending_routing_without_resetting_controls(self):
+        window, result = self.presentation_window(); window.start = Mock()
+        original = copy.deepcopy(window.gate.review.moves)
+        window_method('qualify_draft')(window, None); adopt = window.start.call_args.args[2]
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+            adopt(result)
+        self.assertIs(window.qualified, result)
+        self.assertEqual(render.call_args.kwargs['state'], 'Placement validated — routing pending')
+        self.assertEqual(render.call_args.kwargs['title'], 'Placement review')
+        text = window.findings.SetValue.call_args.args[0]
+        self.assertIn('Status: placement validated; routing pending', text)
+        self.assertNotIn('not reported', text)
+        self.assertIn('2 opens; 0 blocking; 1 warnings; 0 exclusions', text)
+        self.assertIn('Retained source warning', text); self.assertIn('Retained ignored check', text)
+        self.assertIn('No electrical or manufacturing approval', text)
+        self.assertEqual(window.gate.review.moves, original)
+        window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
+        window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
+
+    def test_draft_and_edited_labels_use_current_selection_without_changing_it(self):
+        window, _ = self.presentation_window()
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+            window.present()
+            self.assertEqual(render.call_args.kwargs['state'], 'Geometry draft — Native validation required')
+            self.assertIn('Alternative 2.', window.findings.SetValue.call_args.args[0])
+            window.alternative.GetSelection.return_value = -1; window.present()
+        self.assertIn('Edited draft.', window.findings.SetValue.call_args.args[0])
+        self.assertNotIn('Alternative 1.', window.findings.SetValue.call_args.args[0])
+        window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
+
+    def test_options_preserve_explicit_inspected_scope(self):
+        window, _ = self.presentation_window()
+        window.inspection['observation']['scope'] = 'explicit-observed-scope'
+        window.parts.IsChecked.side_effect = [True, True]
+        window.region = [Mock() for _ in range(4)]
+        for field, value in zip(window.region, ('0', '0', '10', '10')):
+            field.GetValue.return_value = value
+        expected = {'guarded': 'settings'}
+        with patch.object(pg.intent, 'settings', return_value=expected) as settings, patch.object(pg.intent, 'facts') as facts:
+            self.assertIs(window_method('options')(window), expected)
+        settings.assert_called_once_with(['one', 'two'], [0, 0, 10000000, 10000000], scope='explicit-observed-scope')
+        facts.assert_called_once_with(window.inspection, expected)
+
+    def test_findings_use_inspected_scope_limits_without_inheriting_old_pth_claim(self):
+        window, result = self.presentation_window()
+        window.gate.review.inspection['limitations'] = ['Explicit scope: fixed-angle SMD translation only.']
+        # Changing the inspected limitations also changes the bound ticket.
+        result['ticket'] = window.gate.ticket(); window.qualified = result
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>'):
+            window.present()
+        text = window.findings.SetValue.call_args.args[0]
+        self.assertIn('fixed-angle SMD translation only', text)
+        self.assertNotIn('circular through-hole pads', text)
+        self.assertIn('Placement validated', text)
+
+    def test_pending_coordinate_text_replaces_success_without_altering_text_pose_or_selection(self):
+        window, result = self.presentation_window(); window.qualified = result
+        original = copy.deepcopy(window.gate.review.moves)
+        window.x.GetValue.return_value = '26.'
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+            window_method('pending_edit')(window, Mock())
+        self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
+        with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+        self.assertEqual(render.call_args.kwargs['state'], 'Pending edits — displayed pose has not been updated')
+        text = window.findings.SetValue.call_args.args[0]
+        self.assertNotIn('Placement validated', text); self.assertNotIn('Native findings:', text)
+        self.assertIn('No current Native placement validation', text)
+        self.assertEqual(window.gate.review.moves, original)
+        window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
+        window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
+
+    def test_cancel_and_acknowledgement_change_remove_success_and_revoke_routing(self):
+        for action in ('cancel_work', 'acknowledge'):
+            window, result = self.presentation_window(); window.qualified = result
+            window.ack.GetValue.return_value = False
+            with self.subTest(action=action), patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+                window_method(action)(window, None)
+            self.assertIsNone(window.qualified)
+            with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+            self.assertEqual(render.call_args.kwargs['state'], 'Validation revoked — review and validate again')
+            self.assertNotIn('Placement validated', window.findings.SetValue.call_args.args[0])
+
+    def test_source_settings_and_rejection_clear_success_findings_and_diagram(self):
+        for action in ('source_changed', 'settings_changed', 'reject_draft'):
+            window, result = self.presentation_window(); window.qualified = result
+            window.owned_workspace = Mock(side_effect=ValueError('receipt write deliberately unavailable'))
+            with self.subTest(action=action): window_method(action)(window, Mock())
+            self.assertIsNone(window.qualified); self.assertIsNone(window.gate.review)
+            window.picture.SetBitmap.assert_called_once_with('empty-bitmap')
+            text = window.findings.SetValue.call_args.args[0]
+            self.assertIn('No current placement draft or validation', text)
+            self.assertNotIn('Placement validated', text)
+            with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+
+    def test_failed_edit_retains_pose_and_pending_text_but_not_qualification(self):
+        window, result = self.presentation_window(); window.qualified = result
+        original = copy.deepcopy(window.gate.review.moves)
+        window.gate.review.edit = Mock(side_effect=ValueError('outside allowed rectangle'))
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+            window_method('edit')(window, None)
+        self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
+        self.assertIn('Pending edits', render.call_args.kwargs['state'])
+        self.assertEqual(window.gate.review.moves, original)
+        window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
+        window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
+        self.assertIn('previous pose retained', window.message.call_args.args[0])
+
+    def test_stale_origin_at_routing_open_removes_success_and_handoff_authority(self):
+        window, result = self.presentation_window(); window.qualified = result
+        result['guard'].check.side_effect = ValueError('source changed on disk')
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render, patch.object(gui, 'create_window') as factory:
+            window_method('open_routing')(window, None)
+        factory.assert_not_called(); self.assertIsNone(window.qualified)
+        self.assertIn('Validation revoked', render.call_args.kwargs['state'])
+        self.assertNotIn('Placement validated', window.findings.SetValue.call_args.args[0])
+        self.assertIn('source changed on disk', window.message.call_args.args[0])
+
+    def test_presentation_cannot_keep_success_after_review_ticket_changes(self):
+        window, result = self.presentation_window(); window.qualified = result
+        window.gate.review.revision += 1
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+            window.present()
+        self.assertIsNone(window.qualified)
+        self.assertIn('Validation revoked', render.call_args.kwargs['state'])
+        self.assertNotIn('Placement validated', window.findings.SetValue.call_args.args[0])
+
+    def test_refusal_or_cancellation_keeps_unapplied_coordinate_text_dirty(self):
+        for action in ('present', 'cancel_work', 'open_routing', 'finish'):
+            window, result = self.presentation_window(); window.qualified = result
+            window.gate.invalidate(dirty=True); window.x.GetValue.return_value = '26.'
+            with self.subTest(action=action), patch.object(pg.placement_view, 'render', return_value='<svg/>'):
+                if action == 'present': window.present()
+                elif action == 'finish':
+                    window_method('finish')(window, window.job, window.gate.generation,
+                                            None, 'validation refused', Mock())
+                else: window_method(action)(window, None)
+            self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
+            window.gate.acknowledged = True
+            with self.assertRaises(ValueError): window.gate.ticket()
+            window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
+            self.assertIn('Pending edits', window.findings.SetValue.call_args.args[0])
+
+    def test_render_and_bitmap_failure_cannot_prevent_cancel_or_leave_success(self):
+        for failure in ('render', 'bitmap'):
+            window, result = self.presentation_window(); window.qualified = result
+            window.busy = True
+            original = copy.deepcopy(window.gate.review.moves)
+            def fail(*args, **kwargs):
+                self.assertTrue(window.cancel_event.is_set())
+                self.assertTrue(window.job.cancel_requested)
+                raise RuntimeError('deliberate ' + failure + ' failure')
+            if failure == 'bitmap':
+                window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1),
+                    bitmap_with_labels=fail), window)
+            with self.subTest(failure=failure), patch.object(pg.placement_view, 'render',
+                    side_effect=fail if failure == 'render' else None, return_value='<svg/>'):
+                window_method('cancel_work')(window, None)
+            self.assertIsNone(window.qualified)
+            with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+            window.picture.SetBitmap.assert_called_once_with('empty-bitmap')
+            text = window.findings.SetValue.call_args.args[0]
+            self.assertIn('Placement preview refused: deliberate ' + failure + ' failure', text)
+            self.assertIn('No current placement validation', text)
+            self.assertNotIn('Placement validated', text)
+            self.assertEqual(window.gate.review.moves, original)
+            window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
+            window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
+
+    def test_stale_presentation_failure_keeps_revocation_and_pending_edits_visible(self):
+        for failure in ('render', 'bitmap'):
+            window, result = self.presentation_window(); window.qualified = result
+            window.gate.invalidate(dirty=True); window.x.GetValue.return_value = '26.'
+            original = copy.deepcopy(window.gate.review.moves)
+            bitmap = Mock(side_effect=RuntimeError('deliberate bitmap failure'))
+            window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1),
+                bitmap_with_labels=bitmap), window)
+            with self.subTest(failure=failure), patch.object(pg.placement_view, 'render',
+                    side_effect=RuntimeError('deliberate render failure') if failure == 'render' else None,
+                    return_value='<svg/>') as render:
+                window.present()
+            self.assertEqual(render.call_count, 1)  # Stale-ticket re-entry is bounded.
+            self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
+            with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+            window.picture.SetBitmap.assert_called_once_with('empty-bitmap')
+            text = window.findings.SetValue.call_args.args[0]
+            self.assertIn('Placement preview refused: deliberate ' + failure + ' failure', text)
+            self.assertIn('pending coordinate text are retained', text)
+            self.assertNotIn('Placement validated', text)
+            self.assertEqual(window.gate.review.moves, original)
+            window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
+            window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
 
     def test_actual_callback_rejects_and_records_without_inventing_acknowledgement(self):
         window = self.window(); window.gate.acknowledged = False

@@ -90,7 +90,7 @@ def _paths(output, binding):
 
 def _options(binding):
     value = intent.validate_settings(binding['intent']['settings'])
-    return contract.scope_options(scope=contract.MULTIPAD_SCOPE, selected=value['selected'], region_nm=value['region_nm'])
+    return contract.scope_options(scope=intent.settings_scope(value), selected=value['selected'], region_nm=value['region_nm'])
 
 
 def _request(binding, work, name, board, candidate, hashes):
@@ -174,7 +174,7 @@ def proof(output, binding, data, *, replay=False):
              and observed['placement_scope'] == options['scope'] and observed['selected_footprints'] == options['selected']
              and observed['allowed_region_nm'] == options['region_nm']
              and observed['candidate'] == (str(candidate) if translating else None)
-             and observed['observation'] == contract.inspect_board(observed_raw, scope=contract.MULTIPAD_SCOPE),
+             and observed['observation'] == contract.inspect_board(observed_raw, scope=options['scope']),
              'Native observation differs: ' + name)
         if details is None: details = observed['details']
         need(observed['details'] == details, 'Native connectivity/area identity changed')

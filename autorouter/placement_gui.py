@@ -151,7 +151,8 @@ def create_window(board='', *, on_closed=None):
             self.gate = ReviewGate(); self.inspection = None; self.busy = False
             self.finalized = False
             self.job = None; self.cancel_event = None; self.routing = None
-            self.qualified = None; self.updating = False; self.workspace = None; self.owner = {}
+            self.qualified = None; self.validation_revoked = False
+            self.updating = False; self.workspace = None; self.owner = {}
             panel = self.panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
             root = wx.BoxSizer(wx.VERTICAL)
             title = wx.StaticText(panel, label='Place selected components')
@@ -179,7 +180,7 @@ def create_window(board='', *, on_closed=None):
             presetrow.Add(self.load, 0, wx.RIGHT, 6); presetrow.Add(self.save)
             left.Add(presetrow, 0, wx.TOP | wx.BOTTOM, 10)
             self.find = wx.Button(panel, label='Find placement alternatives'); left.Add(self.find, 0, wx.EXPAND)
-            limits = wx.StaticText(panel, label='Experimental: 2–16 selected movable parts; front, unrotated circular through-hole pads and rectangular courtyards/board. No groups, flips, keepouts or cutouts. Movement space must avoid existing copper and zones. Two alternatives; 2-second cooperative search budget.')
+            limits = wx.StaticText(panel, label='Experimental selected translation: 2–16 movable parts. Source orientation and side stay fixed. Inspect the project for supported geometry and fixed-component reasons. Movement space must avoid existing copper and zones. Two alternatives; 2-second cooperative search budget.')
             limits.Wrap(310); left.Add(limits, 0, wx.TOP, 12)
             self.picture = wx.StaticBitmap(panel); self.picture.SetMinSize((850, 500))
             right.Add(self.picture, 0, wx.ALIGN_CENTER_HORIZONTAL)
@@ -246,14 +247,32 @@ def create_window(board='', *, on_closed=None):
             self.cancel.Enable(self.busy)
 
         def revoke(self, *, dirty=False, discard=False):
+            self.validation_revoked = self.qualified is not None or self.validation_revoked
             self.gate.invalidate(dirty=dirty); self.ack.SetValue(False); self.qualified = None
+            # Revocation is authoritative even when the passive preview cannot
+            # be redrawn. Never leave an earlier success visible during failure.
+            self.refresh()
+            self.findings.SetValue('No current placement validation. Review the draft and validate it before routing.')
+            self.picture.SetBitmap(wx.NullBitmap); self.picture.SetMinSize((850, 500))
             if self.routing is not None: self.routing.Close()
+            redraw_error = None
             if discard:
                 self.gate.review = None
-                self.picture.SetBitmap(wx.NullBitmap); self.picture.SetMinSize((850, 500))
                 self.alternative.Set([]); self.part.Set([])
                 self.x.ChangeValue(''); self.y.ChangeValue('')
+                self.findings.SetValue('No current placement draft or validation. Inspect the saved project and choose components to begin again.')
                 self.layout_panel()
+            else:
+                try: self.present()
+                except Exception as exc:
+                    redraw_error = 'Placement preview refused: ' + str(exc)
+                    self.findings.SetValue(redraw_error + '\nNo current placement validation. '
+                        'The previous pose and any pending coordinate text are retained; review acknowledgement is cleared.')
+                    self.layout_panel()
+            if redraw_error is not None:
+                self.message(redraw_error)
+            elif self.validation_revoked:
+                self.message('Placement validation revoked. Review and validate the current draft before routing.')
             self.refresh()
 
         def source_changed(self, event):
@@ -279,7 +298,8 @@ def create_window(board='', *, on_closed=None):
         def options(self):
             if self.inspection is None: raise ValueError('Inspect the saved project first.')
             selected = [row['uuid'] for i, row in enumerate(self.inspection['components']) if self.parts.IsChecked(i)]
-            value = intent.settings(selected, [millimetres(field.GetValue()) for field in self.region])
+            value = intent.settings(selected, [millimetres(field.GetValue()) for field in self.region],
+                scope=self.inspection['observation']['scope'])
             intent.facts(self.inspection, value)
             return value
 
@@ -306,7 +326,7 @@ def create_window(board='', *, on_closed=None):
                 if error: raise ValueError(error)
                 adopt(result)
             except Exception as exc:
-                self.revoke()
+                self.revoke(dirty=self.gate.dirty)
                 self.message('Action refused: ' + str(exc))
             self.refresh()
 
@@ -363,14 +383,44 @@ def create_window(board='', *, on_closed=None):
             self.alternative.SetSelection(wx.NOT_FOUND if alternative_index is None else alternative_index)
             self.part.Set([references[key] for key in review.settings['selected']]); self.part.SetSelection(0)
             self.coordinates()
-            svg = placement_view.render(review.inspection['observation'], review.moves, review.settings['selected'], review.settings['region_nm'])
+            self.validation_revoked = False
+            self.present()
+
+        def present(self):
+            """Refresh findings and diagram state without changing the reviewed pose or controls."""
+            review = self.gate.review
+            if review is None: return
+            if self.qualified is not None:
+                try: self.gate.check(self.qualified['ticket'])
+                except ValueError:
+                    self.revoke(dirty=self.gate.dirty); return
+            if self.gate.dirty:
+                state = 'Pending edits — displayed pose has not been updated'
+            elif self.qualified is not None:
+                state = 'Placement validated — routing pending'
+            elif self.validation_revoked:
+                state = 'Validation revoked — review and validate again'
+            else:
+                state = 'Geometry draft — Native validation required'
+            svg = placement_view.render(review.inspection['observation'], review.moves,
+                review.settings['selected'], review.settings['region_nm'],
+                title='Placement review' if self.qualified is not None else 'Placement draft', state=state)
             bitmap = bitmap_with_labels(wx, svg)
             self.picture.SetBitmap(bitmap); self.picture.SetMinSize(bitmap.GetSize())
-            self.findings.SetValue('Geometry draft only. Original copper and unselected/fixed components are preserved.\n'
-                + ('Edited draft.\n' if alternative_index is None else 'Alternative ' + str(alternative_index + 1) + '.\n')
-                + 'Source: ' + review.inspection['source'] + '\n'
-                + 'No Native, electrical or manufacturing qualification yet. A reviewed draft is not route acceptance.\n\n'
-                + '\n'.join(intent.LIMITS) + '\n\nComponents\n' + component_findings(review.inspection))
+            if self.qualified is not None:
+                witness = self.qualified['witness']
+                findings = state + '\n' + gui.human_summary('inspect', dict(
+                    status='placement validated; routing pending', native=witness['findings'],
+                    candidate=witness['candidate'], source=review.inspection['source']))
+            else:
+                index = self.alternative.GetSelection()
+                findings = (state + '\nOriginal copper and unselected/fixed components are preserved.\n'
+                    + ('Edited draft.\n' if index == wx.NOT_FOUND else 'Alternative ' + str(index + 1) + '.\n')
+                    + 'Source: ' + review.inspection['source'] + '\n'
+                    + 'No current Native placement validation. A reviewed draft is not route acceptance.')
+            self.findings.SetValue(findings + '\nNo electrical or manufacturing approval is granted.\n\n'
+                + '\n'.join(review.inspection.get('limitations', intent.LIMITS))
+                + '\n\nComponents\n' + component_findings(review.inspection))
             self.refresh(); self.layout_panel()
 
         def coordinates(self):
@@ -451,7 +501,7 @@ def create_window(board='', *, on_closed=None):
                     self.gate.check(ticket); result['guard'].check(result['witness']['candidate'])
                     self.job.check_live(); self.gate.check(ticket)
                     self.qualified = result
-                    self.findings.SetValue(gui.human_summary('inspect', dict(native=result['witness']['findings'], candidate=result['witness']['candidate'], source=review.inspection['source'])))
+                    self.validation_revoked = False; self.present()
                     self.message('Placement validated on a separate project. Read every finding, then open routing settings. Routing and acceptance remain separate actions.')
                 self.start('Validating the reviewed placement on a separate copy · 120-second total qualification budget…', work, adopt)
             except Exception as exc: self.message('Qualification refused: ' + str(exc))
@@ -481,12 +531,14 @@ def create_window(board='', *, on_closed=None):
                 self.routing = frame
                 frame.Show()
                 self.message('Routing settings opened. Keep this placement review open; editing, rejecting or closing it revokes the handoff.')
-            except Exception as exc: self.message('Routing handoff refused: ' + str(exc))
+            except Exception as exc:
+                self.revoke(dirty=self.gate.dirty); self.message('Routing handoff refused: ' + str(exc))
 
         def cancel_work(self, _=None):
-            self.revoke()
+            # Signal the worker before any fallible rendering or widget update.
             if self.cancel_event is not None: self.cancel_event.set()
             if self.job is not None: self.job.cancel()
+            self.revoke(dirty=self.gate.dirty)
             self.message('Cancellation requested. Waiting for the owned worker to finish cleanup; no queued result will be adopted.')
 
         def tick(self, _):

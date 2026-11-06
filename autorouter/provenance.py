@@ -25,6 +25,8 @@ PLACEMENT_FILES = frozenset((
     'experiments/placement_native_evidence.py',  # bounded retained-identity helpers only
     'experiments/placement_native_proposal_v1/__init__.py',
     'experiments/placement_native_proposal_v1/contract.py',
+    'experiments/placement_native_proposal_v1/ordinary.py',
+    'experiments/placement_native_proposal_v1/ordinary_native.py',
     'experiments/placement_native_proposal_v1/worker.py',
     'experiments/constrained_placement_v1/__init__.py',
     'experiments/constrained_placement_v1/constraints.py',

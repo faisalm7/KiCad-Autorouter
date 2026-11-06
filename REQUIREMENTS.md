@@ -6,8 +6,8 @@ The [master specification](MASTER_PROMPT.md) and later owner steering govern. **
 
 | Current remaining requirement | Classification / next evidence |
 |---|---|
-| Useful placement breadth and constraints | Product capability gap: ordinary SMD/library geometry, grouping/orientation/side/keepouts and unrelated tasks remain unsupported/unqualified. Preserve fixed positions/connectivity/copper and explicit intent. |
-| Placement findings/diagram labels | Minor product presentation defects: successful proof still shows “Status: not reported” and geometry diagram “Native required”. Batch correction with next feature candidate. Native wx diagnostics remain visible. |
+| Useful placement breadth and constraints |077 source adds explicit ordinary front two-pad SMD scope, fixed cardinal angles and conservative surrounding courtyards; actual source geometry/owned translation probe passed. Full Native/installed/GUI qualification is pending. Both inspected acquired sources remain immovable under protected-copper policy. Groups, orientation/side changes, keepouts and useful unrelated tasks remain open. |
+| Placement findings/diagram labels |076 minor presentation defects are corrected in077 source. Skeptical fault injection also found and fixed cancellation blocked by a redraw exception; focused controls pass, changed-build actual GUI remains pending. Native wx/font diagnostics remain visible. |
 | GUI safety branches | Finite076 core closed; changed-warning branch, exact queued interval and actual source-byte-tamper in this GUI remain unexercised. Source-path, bound-origin, settings and export changes were refused; second active cancellation passed, first missed attempt retained. |
 | Live copilot | Access/validation gap: no application model endpoint, no paid call or live-response claim. Typed deterministic controls remain usable without AI. |
 | Cross-platform installation/recovery | Independent Mac install, actual Windows Native workflow and full current recovery remain open; subset restoration/lifecycle tests do not satisfy them. |
