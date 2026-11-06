@@ -26,8 +26,8 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 SEED = '.runs/runtime074 fresh install 001/.runs/gui-session105/ordinary-project/owned1007-transport.kicad_pcb'
 SEED_MANIFEST = '.runs/runtime074 fresh install 001/.runs/gui-session105/prepared-state.json'
-MULTIPAD_SEED = '.runs/placement075-multipad-source-001/owned-placement-multipad.kicad_pcb'
-MULTIPAD_MANIFEST = '.runs/placement075-multipad-preparation-001/source.json'
+MULTIPAD_SEED = '.runs/placement075-multipad-source-002/owned-placement-multipad.kicad_pcb'
+MULTIPAD_MANIFEST = '.runs/placement075-multipad-preparation-002/source.json'
 
 
 def scope_settings(scope):

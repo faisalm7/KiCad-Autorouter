@@ -58,6 +58,10 @@ def field(node, name, value):
 def board():
     tree = remap(sx.parse(base.board().decode()))
     for fp in sx.children(tree, 'footprint'):
+        # Author the same empty Datasheet as the complete schematic. The older
+        # transport factory deliberately used '~', which Native parity reports
+        # as different; never suppress that finding or normalize an input board.
+        field(fp, 'Datasheet', '')
         ref = reference(fp)
         if ref not in ('J1', 'J2'):
             continue

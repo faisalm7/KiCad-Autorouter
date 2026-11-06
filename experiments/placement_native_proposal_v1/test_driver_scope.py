@@ -10,6 +10,18 @@ from . import driver, multipad_fixture as fixture
 
 
 class SourceScope(unittest.TestCase):
+    def test_authored_project_fields_match_complete_schematic(self):
+        from autorouter import sexpr as sx
+        def fields(node):
+            return {sx.unquote(row[1]):sx.unquote(row[2]) for row in sx.children(node,'property')}
+        footprints={fixture.reference(fp):fields(fp) for fp in sx.children(fixture.board(),'footprint')}
+        symbols={fixture.reference(row):fields(row) for row in sx.children(fixture.schematic(),'symbol')}
+        self.assertEqual(set(footprints),set(symbols))
+        for ref,values in footprints.items():
+            for key,value in values.items():
+                with self.subTest(reference=ref,field=key):
+                    self.assertEqual(value,symbols[ref][key])
+
     def test_named_multipad_task_preserves_all_source_bytes_and_locked_copper(self):
         raw = fixture.files()[fixture.STEM+'.kicad_pcb']
         task, record = driver.task_bytes(raw,'multipad-preserve-v1')
