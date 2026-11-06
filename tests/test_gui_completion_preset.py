@@ -42,6 +42,7 @@ class CompletionPresetTests(unittest.TestCase):
         method = next(n for n in window.body if isinstance(n, ast.FunctionDef) and n.name == name)
         namespace = dict(__name__='autorouter.gui', __package__='autorouter',
                          method_for_index=gui.method_for_index,
+                         _check_source_guard=gui._check_source_guard,
                          completion_search_preset=gui.completion_search_preset)
         exec(compile(ast.Module(body=[method], type_ignores=[]), str(gui.__file__), 'exec'), namespace)
         return namespace[name]
@@ -50,6 +51,7 @@ class CompletionPresetTests(unittest.TestCase):
         state = SimpleNamespace(busy=False, chooser=None, input_generation=7, flow=object(),
                                 messages=[], refreshes=0, inspected_value=True)
         state.method = SimpleNamespace(GetSelection=lambda: method)
+        state.board = SimpleNamespace(GetValue=lambda: '/owned/board.kicad_pcb')
         state.values = dict(profile=[('Standard','standard'),('More search','tuned')],
                             scoring_preference=[('Default',None),('Low','via_low')])
         state.selected = {}; state.choices = {

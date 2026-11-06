@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "kind": "graphically-reviewed-placement-native-qualification",
+  "source_commit": "ff3ebc73bc6beded8b655b193fbd8809ecd3967a",
+  "installed_build": "b91520b90cdfeb86aba1dd1e9458e941f2c810a7",
+  "runtime_manifest_sha256": "f0b304061ab1f5e30f2514b4bcbd5ab5b31636e5872bb4927928acb7e29cc810",
+  "status": "pending_candidate",
+  "placement_qualified": true,
+  "accepted": false,
+  "routing_performed": false,
+  "human_PCB_approval": false,
+  "model_calls": 0,
+  "project_complete": false,
+  "purpose": "Freshly validate the exact user-editable pose saved during actual source-run graphical review003 before routing. This is a narrow experimental bridge, not installed automatic placement.",
+  "draft": {
+    "path": ".runs/placement-review075-003/intent-6f43cdd3f68f4eb2845100e3b547e314.json",
+    "sha256": "7647e3268457f80e1ea4211bea948ee43ae5b2fee06b44de48a2c01372cbb85e",
+    "pose_sha256": "7c4cb75c328140a69c03f40a0469f083d4ed35b306702279e31feb2c6ab0e197",
+    "moves_nm": {
+      "1c5bff0f-f073-5fbd-9651-02acb2c5aeb8": [
+        26200000,
+        9945117
+      ],
+      "dbf56e59-9122-5c8e-93a9-030706254508": [
+        20234657,
+        9846186
+      ]
+    },
+    "software_test_review_intent": true,
+    "actual_graphical_review": "evidence/placement075-graphical-review-001.json"
+  },
+  "result": {
+    "candidate_sha256": "e31ef1d53e81007d1b00ccb56ce7f1c0910821198d380b620301ed62f4f6c094",
+    "native_counts": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "scope": {
+      "scope": "multipad-preserve-v1",
+      "selected": [
+        "1c5bff0f-f073-5fbd-9651-02acb2c5aeb8",
+        "dbf56e59-9122-5c8e-93a9-030706254508"
+      ],
+      "region_nm": [
+        7000000,
+        7000000,
+        31000000,
+        13000000
+      ]
+    },
+    "footprints": 6,
+    "pads": 8,
+    "selected": 2,
+    "fixed": 4,
+    "preserved_locked_copper": 1,
+    "immutable_check": {
+      "exact_immutable_AST": true,
+      "allowed_changes": [
+        "selected footprint XY",
+        "derived top-level zone fill"
+      ],
+      "candidate_sha256": "e31ef1d53e81007d1b00ccb56ce7f1c0910821198d380b620301ed62f4f6c094"
+    },
+    "original_mutated": false,
+    "unchanged_sidecars": true,
+    "source_and_initial_native_evidence_reused": true,
+    "reused_evidence": ".runs/placement-native-proposal-v1-006",
+    "new_native_stages": [
+      "translate",
+      "refill-drc",
+      "final-drc",
+      "final-capture"
+    ],
+    "new_DRC_exit_codes": {
+      "refill": 5,
+      "final": 5
+    },
+    "exit_code_explanation": "KiCad exit5 is retained for the two expected unconnected items. The bridge does not label this board completed or clean."
+  },
+  "budget": {
+    "wall_and_CPU_seconds": 120,
+    "inner_seconds": 110,
+    "output_bytes": 536870912,
+    "polled_group_RSS_bytes": 2147483648,
+    "reserve_bytes": 3221225472
+  },
+  "measured": {
+    "full_controller_exit_wall_seconds": 8.525462375022471,
+    "full_waited_process_CPU_seconds": 7.114218,
+    "external_monitor_CPU_seconds": 0.0,
+    "complete_cleanup": true,
+    "outer_prepublication_wall_seconds": 8.068485541967675,
+    "outer_prepublication_CPU_seconds": 6.674867,
+    "measurements_overlap_do_not_add": true,
+    "subsequent_lead_readback_wall_seconds": 0.9605038749868982,
+    "subsequent_lead_readback_CPU_seconds": 0.870413,
+    "review_cost_record": ".runs/placement-choice075-preparation-001/native-readback-review.json",
+    "authoring_research_GUI_and_earlier_attempt_costs_additional": true,
+    "complete_session_cost_known": false
+  },
+  "regressions": {
+    "final_targeted_tests": 81,
+    "final_targeted_record": ".runs/placement-choice075-preparation-001/targeted-final.json",
+    "initial_wrong_module_names_retained": true,
+    "cold_runtime_import_defect_fixed": true,
+    "late_PRL_metadata_defect_fixed": true,
+    "review": "Two concrete P2 findings corrected and independently rechecked; no human review."
+  },
+  "evidence": {
+    ".runs/placement-choice075-preparation-001/plan.json": "ed3bc370802dba76da1407f4319d79be02586bcbf54fdfda5413ccea3207d941",
+    ".runs/placement-choice075-preparation-001/complete-process.json": "32eebc52253003372c731293fa951e22a949873208418605b3451aa86fb29101",
+    ".runs/placement-choice075-preparation-001/readback.json": "4f234b759cd9f2b4f80011b64069e1e968dbb4be934b02e2ca9ff473a57cbba6",
+    ".runs/placement-choice075-preparation-001/review.json": "ebb45e8c7164e64ff32872839900e65ac8ae39fcf5c72f458f19022c73bf4cb0",
+    ".runs/placement-choice075-preparation-001/native-readback-review.json": "ca0fd4ef0dab8880f527fde2100305868c497675645c7bdc20cd1f69d966e1f5",
+    ".runs/placement-choice075-preparation-001/targeted-final.json": "62066d1ad13e6055b78470b34a7771c62d979fba98d0258ff9ec94f8063deff3",
+    ".runs/placement-choice075-001/binding.json": "e510acd3c2a475559c19cbd3d45eec4f4e33cd96243cc84cb26f25b4bb8ec547",
+    ".runs/placement-choice075-001/process.json": "66b1ce53b0c655c7df720c79e773e131d8bbffa354ffaf259472084c15796f1c",
+    ".runs/placement-choice075-001/result.json": "dde56f41f427962d504fed48d2cb225e72b6bc6176f9462b66e86a497e379486",
+    ".runs/placement-choice075-001/work/result.json": "4144c82b62db82a3ccea704e2accb964136ea54bc93d0da0a0c6c2a28e60b5d6"
+  },
+  "next": "Prepared exact-candidate installed075 graphical routing handoff; it has not launched. GUI tool subsequently reported Mac locked; one owner action requested. Continue this prepared job, not old006 or new search.",
+  "limitations": [
+    "One exposed owned multipad fixture, not unrelated-family placement breadth or engineering-quality comparison.",
+    "No placement toolbar integration, general project capture, live copilot, Windows Native or human PCB approval.",
+    "The routing launcher checks placement lineage at entry; production continuous lineage guard remains a separate source integration gate.",
+    "Current source-run review/bridge are outside the immutable installed075 product.",
+    "Native counts and original constraints do not establish electrical suitability."
+  ]
+}

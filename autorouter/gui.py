@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import argparse
 import copy
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
 import math
 import os
@@ -17,6 +17,7 @@ import subprocess
 import threading
 import time
 import uuid
+from typing import Callable
 
 from . import config as c, preferences as pref
 from ._improve_context import RESERVE_SECONDS as IMPROVE_RETURN_RESERVE_SECONDS
@@ -267,6 +268,54 @@ def child_environment():
     return env
 
 
+
+@dataclass(frozen=True)
+class SourceGuard:
+    """Internal exact-source binding; never selected by model/preset/CLI JSON.
+
+    The trusted, bounded read-only verifier must raise on stale origin and return
+    None. It grants no approval. It also runs at queued UI adoption, so callers
+    should use a material/metadata fence there, not launch a Native process.
+    """
+    board: Path
+    verify_origin: Callable[[], None]
+    _files_json: str = field(init=False, repr=False)
+
+    def __post_init__(self):
+        if not callable(self.verify_origin): raise ValueError('A trusted source verifier is required.')
+        board = canonical(self.board)
+        if board.suffix != '.kicad_pcb' or not board.is_file(): raise ValueError('Bind the exact saved PCB.')
+        object.__setattr__(self, 'board', board)
+        object.__setattr__(self, '_files_json', json.dumps(source_inventory(board), sort_keys=True))
+        self.check(board)
+
+    def check(self, board):
+        if canonical(board) != self.board:
+            raise ValueError('Displayed PCB differs from the bound source origin. Open an ordinary session for another board.')
+        if source_inventory(self.board) != json.loads(self._files_json):
+            raise ValueError('Bound source project changed; obtain a fresh checked source.')
+        if self.verify_origin() is not None:
+            raise ValueError('Source verifier must return no approval or result authority.')
+        if source_inventory(self.board) != json.loads(self._files_json):
+            raise ValueError('Bound source project changed during origin verification.')
+
+
+def _check_source_guard(guard, board):
+    if guard is not None:
+        if type(guard) is not SourceGuard: raise ValueError('Internal trusted SourceGuard required.')
+        guard.check(board)
+
+
+def _window_source_guard(window, flow):
+    """A displayed request cannot silently detach or replace its injected guard."""
+    guard = getattr(window, 'source_guard', None)
+    attached = getattr(flow, 'source_guard', None)
+    if guard is not None or attached is not None:
+        if attached is not guard or canonical(window.board.GetValue()) != guard.board:
+            raise ValueError('Displayed source guard differs from this checked session.')
+    return guard
+
+
 @dataclass(frozen=True)
 class Request:
     board: str
@@ -274,12 +323,14 @@ class Request:
     settings_json: str
     saved_closed: bool
     method: str = 'route'
+    source_guard: SourceGuard | None = None
 
     def prepare(self):
         """Called off the UI thread; capture exact saved project identity."""
         if self.saved_closed is not True:
             raise ValueError('Save and close the source PCB and schematic editors, then acknowledge it.')
         board = canonical(self.board)
+        _check_source_guard(self.source_guard, board)
         if board.suffix != '.kicad_pcb' or not board.is_file():
             raise ValueError('Select the exact saved .kicad_pcb file.')
         for suffix in ('.kicad_pro', '.kicad_sch'):
@@ -300,6 +351,7 @@ class Request:
                 raise ValueError('Saved source changed during thermal support checks; preview again.')
         else:
             files = source_inventory(board)
+        _check_source_guard(self.source_guard, board)
         workspace = parent / ('autorouter-gui-' + uuid.uuid4().hex)
         workspace.mkdir(mode=0o700)
         from .handoff import capture_destination
@@ -308,20 +360,25 @@ class Request:
         target = workspace / 'settings.json'
         with target.open('xb') as stream:
             stream.write(settings_bytes)
-        return Workflow(board, workspace, owner, json.dumps(files, sort_keys=True), settings_bytes, self.method)
+        return Workflow(board, workspace, owner, json.dumps(files, sort_keys=True), settings_bytes, self.method,
+                        source_guard=self.source_guard)
 
 
 class Workflow:
     """UI state only. Existing CLI readers authorize every review/export."""
-    def __init__(self, board, workspace, owner, files_json, settings_bytes, method='route'):
+    def __init__(self, board, workspace, owner, files_json, settings_bytes, method='route', *, source_guard=None):
         from .handoff import runtime_inventory
         self.board, self.workspace, self.owner = board, workspace, owner
         self.files_json, self.settings_bytes = files_json, settings_bytes
         self.method = method
+        self._source_guard = source_guard
         self.ready = set()
         self.choice = None
         self.records = {}
         self.runtime_hashes = runtime_inventory()
+
+    @property
+    def source_guard(self): return self._source_guard
 
     def fresh(self):
         from .handoff import owned_destination, runtime_inventory
@@ -334,6 +391,7 @@ class Workflow:
             raise ValueError('Captured settings changed. Start a new session.')
         if runtime_inventory()!=self.runtime_hashes:
             raise ValueError('Routing runtime changed. Start a new session with the intended tool profile.')
+        _check_source_guard(self.source_guard, self.board)
 
     def command(self, stage, *, choice=None):
         self.fresh()
@@ -381,7 +439,7 @@ class Workflow:
         if (request.saved_closed is not True or canonical(request.board) != self.board
                 or canonical(request.output_parent) != self.workspace.parent
                 or pref.validate(json.loads(request.settings_json)) != json.loads(self.settings_bytes)
-                or request.method != self.method):
+                or request.method != self.method or request.source_guard is not self.source_guard):
             raise ValueError('Displayed source or settings differ from this session; preview again.')
 
     def timeout(self, stage):
@@ -814,10 +872,11 @@ def register_kicad_action():
     return plugin
 
 
-def main(argv=None):
+def main(argv=None, *, source_guard=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--board', default='', help='Exact saved board hint; never an editor snapshot')
     args = parser.parse_args(argv)
+    _check_source_guard(source_guard, args.board)
     try: import wx
     except ImportError as exc:
         raise SystemExit('wx is unavailable. Launch with the pinned KiCad bundled Python; no packages were installed.') from exc
@@ -825,6 +884,7 @@ def main(argv=None):
         def __init__(self):
             super().__init__(None, title='KiCad Autorouter — separate project', size=(820, 780))
             self.flow = None; self.job = None; self.busy = False; self.closing = False
+            self.source_guard = source_guard
             self.warning_dialog = None
             self.chooser = None; self.input_generation = 0
             self.edit_controls = []
@@ -980,7 +1040,8 @@ def main(argv=None):
                 request_text = self.intent_text.GetValue()
                 config_path = self.model_config.GetValue()
                 inspection_path = self.inspection_path
-                request = Request(self.board.GetValue(), self.output.GetValue(), json.dumps(self.config()), self.ack.GetValue())
+                request = Request(self.board.GetValue(), self.output.GetValue(), json.dumps(self.config()), self.ack.GetValue(),
+                                  source_guard=getattr(self, 'source_guard', None))
                 if request.saved_closed is not True:
                     raise ValueError('Save and close source editors, then acknowledge the exact source.')
                 self.pending_proposal = None
@@ -1031,6 +1092,7 @@ def main(argv=None):
                 if error: raise ValueError(error)
                 if job.proposal_generation != self.input_generation:
                     raise ValueError('Settings changed while preparing the proposal; request it again.')
+                _window_source_guard(self, flow)
                 flow.fresh()
                 from .design_intent import validate_route_proposal
                 proposal = validate_route_proposal(inspection, result['proposal']['intent'])
@@ -1049,6 +1111,7 @@ def main(argv=None):
         def apply_proposal(self, _):
             if self.busy or self.chooser is not None or self.pending_proposal is None: return
             try:
+                _check_source_guard(getattr(self, 'source_guard', None), self.board.GetValue())
                 from .design_intent import validate_route_proposal
                 inspection, proposal, generation = self.pending_proposal
                 if generation != self.input_generation or method_for_index(self.method.GetSelection()) != 'route':
@@ -1271,7 +1334,7 @@ def main(argv=None):
                 stage = 'choice' if choice else action
                 if stage in ('preview', 'review'): self.inspected.SetValue(False)
                 request = Request(self.board.GetValue(), self.output.GetValue(), json.dumps(self.config()), self.ack.GetValue(),
-                                  method_for_index(self.method.GetSelection()))
+                                  method_for_index(self.method.GetSelection()), source_guard=getattr(self, 'source_guard', None))
                 if self.ack.GetValue() is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
                 self.busy = True; self.job = CliJob(); job = self.job; self.refresh()
                 self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
@@ -1360,14 +1423,20 @@ def main(argv=None):
             wx.CallAfter(show)
 
         def opened(self, kind, target, error):
-            cancelled = self.job.cancel_requested
+            job = self.job
+            cancelled = job.cancel_requested
             self.busy = False; self.job = None
             if not error and not cancelled and not self.closing:
                 try:
                     # The inspection worker can finish before this queued UI
                     # callback runs. Recheck saved inputs at the open boundary.
+                    guard = _window_source_guard(self, self.flow)
                     self.flow.fresh()
                     if kind == 'export': self.flow.check_open_export_material()
+                    if guard is not None:
+                        guard.check(self.flow.board)
+                        job.check_live()
+                        if self.closing: raise ValueError('Window closed; no project was opened.')
                     if kind == 'preview':
                         import webbrowser
                         webbrowser.open(target.as_uri())
@@ -1387,8 +1456,13 @@ def main(argv=None):
             if self.job is not job: return
             if getattr(self, 'warning_dialog', None) is not None:
                 self.warning_dialog[0].EndModal(wx.ID_CANCEL)
-            try: job.check_live()
-            except ValueError as exc: error = str(exc)
+            try:
+                job.check_live()
+                if self.closing: raise ValueError('Window closed; no positive state adopted.')
+                if not error and _window_source_guard(self, flow) is not None: flow.fresh()
+                job.check_live()
+                if self.closing: raise ValueError('Window closed; no positive state adopted.')
+            except Exception as exc: error = str(exc)
             self.busy = False; self.job = None
             if error:
                 if flow is not None:

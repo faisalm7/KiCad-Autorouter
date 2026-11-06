@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "status": "source_only_controls_passed",
+  "installed": false,
+  "actual_GUI_executed": false,
+  "Native_executed": false,
+  "model_calls": 0,
+  "approval_authority_added": false,
+  "purpose": "Keep an exact placed candidate and its original evidence bound to routing controls after launch, including queued result adoption and opening.",
+  "implementation": "autorouter/gui.py SourceGuard / Request / Workflow / main",
+  "source_sha256": {
+    "autorouter/gui.py": "c38a6fc3cd069143b1e84a2b44d0d2666b4ec57ef15a058b6baf55e922df352f",
+    "tests/test_gui_source_guard.py": "e28e67161c808de8742654cfaed52e9708e7b8ca8404e69e0850b44bc74e7b62",
+    "tests/test_gui_completion_preset.py": "c909df254d2a87a9f1619963e32665a5cdfeb3fd61036cef5983c083f8420a20"
+  },
+  "tests": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_gui*.py"
+    ],
+    "passed": 156,
+    "wall_seconds": 5.765355459006969,
+    "waited_child_CPU_seconds": 5.065074,
+    "new_focused_controls": 14,
+    "initial_failure_retained": true,
+    "initial_failure_reason": "Retained targeted.json/log: extracted callback lacked real _check_source_guard and normal board control. Fixture supplied both; old stale-generation refusal assertion unchanged."
+  },
+  "independent_review": {
+    "status": "bounded_read_only_review_passed_no_concrete_blocker",
+    "findings": [],
+    "extra_controls": [
+      "Real temporary candidate .kicad_pro mutation during origin callback refused by trailing inventory.",
+      "Both None and approval-shaped source_guard additions refused by preferences validator."
+    ],
+    "human_review": false
+  },
+  "evidence": {
+    ".runs/gui-source-origin-guard075-001/targeted.json": "0b5e4efd44723068dab7361aea781c4be8e3376e793d900adf0821e520cd4b9c",
+    ".runs/gui-source-origin-guard075-001/targeted.log": "6f31dcc6c1551614a78d5d50b929e129ce9a1891b96b2c71f6451a6763d30a9e",
+    ".runs/gui-source-origin-guard075-001/targeted-final.json": "2cc52a0fb29654af0e6a0e8e71c44f964f9795b95e38b9101fb25083f2c64b58",
+    ".runs/gui-source-origin-guard075-001/targeted-final.log": "8ccaf7376da923ccd0060b67a95ca74d649f28884197f7249f1807b9d3b7be36",
+    ".runs/gui-source-origin-guard075-001/review.json": "a893b8ce0bcfbc52fb8e12b2ec937cf7b924de683795ad27cabb27f8ddf73055"
+  },
+  "guards": [
+    "Exact canonical candidate/project snapshot and one attached trusted origin verifier",
+    "No guard injection through model/preset JSON; verifier cannot return approval authority",
+    "Refuse stale origin before workspace/action and after validation readback",
+    "Queued finish/open recheck origin and cancellation/closing; preserve explicit accept/reject and warning requirements",
+    "Path/settings changes cannot silently detach the original guard"
+  ],
+  "limitations": [
+    "Trusted bounded read-only callback contract, not an arbitrary-code sandbox",
+    "Current installed075 and its proof files unchanged; this source seam is not current installed placement",
+    "Next coherent placement GUI batch must connect exact Native proof material and test actual qualify/continue/cancel workflow",
+    "Original current research and external installation/Windows/human-review gaps remain"
+  ]
+}
