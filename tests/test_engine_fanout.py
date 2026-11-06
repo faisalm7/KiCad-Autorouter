@@ -158,6 +158,7 @@ class EngineFanoutControls(unittest.TestCase):
         env.update(report=case.data,output=case.run,source=case.source,before=hash_tree(case.source_dir),
                    completed=f.evidence_inventory(case.run),native_toolchain=None,comparison_context=None,
                    _improve_context=None,_improve_budget=None,_preferences=None,class_requirement=None,
+                   origin_record=None,  # Exact ordinary-route closure context; no placement origin.
                    _fanout_enabled=case.data.get('engine_fanout_override'),engine_profile=case.data['engine_profile'],
                    tool_manifest=lambda **kw:case.data['tools'],evidence_inventory=f.evidence_inventory,tree_hash=current_hash)
         exec(compile(ast.fix_missing_locations(ast.Module(body=closures,type_ignores=[])),str(source),'exec'),env)

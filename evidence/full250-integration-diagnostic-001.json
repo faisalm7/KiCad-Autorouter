@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "kind": "runtime079-source-integration-diagnosis",
+  "source_checkpoint": "5b98ceecd230f368be43a0d0bef1a8943aba1e94",
+  "full250": {
+    "passed": false,
+    "reason": "Fixed wall limit reached; complete suite and final per-test timing report did not finish",
+    "discovered": 3293,
+    "completed_count": null,
+    "worker": {
+      "status": "timeout",
+      "exit_code": -15,
+      "wall_seconds": 1198.8085435409994,
+      "cpu_seconds": 716.183327,
+      "cleanup_complete": true
+    },
+    "controller_wall_seconds": 1210.5791621250028,
+    "controller_full_cpu_seconds": 726.028905,
+    "sources_unchanged": true,
+    "limit_seconds": 1200,
+    "post_worker_check_and_publication_overhead_included_in_total": true
+  },
+  "failure_reproduction": {
+    "tests": 8,
+    "subtest_failures": 4,
+    "errors": 6,
+    "process": {
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "wall_seconds": 5.655274250002549,
+      "cpu_seconds": 2.585267,
+      "cleanup_complete": true
+    },
+    "scope": "Missing no-origin variables in exact production-AST fixtures, and missing schema in synthetic legacy placement witness; no Native false-acceptance claim"
+  },
+  "corrected_modules": {
+    "tests": 61,
+    "passed": true,
+    "process": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 9.600693749998754,
+      "cpu_seconds": 6.500478,
+      "cleanup_complete": true
+    },
+    "production_changes": false,
+    "assertions_removed": false
+  },
+  "fixture_optimization": {
+    "mechanism": "Precompute ordered UUID replacement pairs once per remap invocation; retain sequential replacement and per-call constants, no global cache",
+    "all_eight_generated_files_exactly_equal": true,
+    "generated_files": {
+      "owned-placement-multipad.kicad_pcb": {
+        "bytes": 10120,
+        "sha256": "4f72ef42dd51db8bd5fb265e28159cb02f8d71d51f70c969085f186d711ff7e1"
+      },
+      "owned-placement-multipad.kicad_sch": {
+        "bytes": 9821,
+        "sha256": "e6fed6902827b0dce27b655ffd83fcd89e4eaff9b81a4cc6279b4064b384ab61"
+      },
+      "owned-placement-multipad.kicad_pro": {
+        "bytes": 2093,
+        "sha256": "c74502eedb3af50bee84422ea4a33b1523443d777c3ec89f3b11cd261c9d2670"
+      },
+      "owned-placement-multipad.kicad_prl": {
+        "bytes": 183,
+        "sha256": "7254c14a8e07658cd87adbefcf2e90f50768c8371990dcb5870062dee25a4e10"
+      },
+      "owned-placement-ordinary.kicad_pcb": {
+        "bytes": 12033,
+        "sha256": "4e981c7b6e8b80ac3caba0dcf6294c6bb0fb46b98a0912e74a0c19b5c5f17be9"
+      },
+      "owned-placement-ordinary.kicad_sch": {
+        "bytes": 9761,
+        "sha256": "79ed76c28d7969535966d52c89d22ab9786a2be5f97418b9f7aefda6a1e64c9c"
+      },
+      "owned-placement-ordinary.kicad_pro": {
+        "bytes": 2093,
+        "sha256": "c0db040c62561fcfd0d53e091966b4021a5387f0edecf9177fdbd4757898f647"
+      },
+      "owned-placement-ordinary.kicad_prl": {
+        "bytes": 183,
+        "sha256": "eb4ba044056b137dc4a066d472dc902f64040a59f2d10a0ceb0586ed8b825a68"
+      }
+    },
+    "before_wall_seconds": 27.56341954200252,
+    "before_parent_cpu_seconds": 5.298482,
+    "after_wall_seconds": 0.4300049159974151,
+    "after_parent_cpu_seconds": 0.09273199999999998,
+    "profile_before": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 28.726782249999815,
+      "cpu_seconds": 21.530614,
+      "cleanup_complete": true
+    },
+    "profile_after_plus_identity_regression": {
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 10.309457458999532,
+      "cpu_seconds": 7.421187,
+      "cleanup_complete": true
+    },
+    "profile_scope": "Before:2 software tests; after:same2 plus generated-project identity test. Profiling overhead and host contention apply; not product/Native speedup."
+  },
+  "evidence": {
+    ".runs/full-integration-250/execution.json": "8f28c35d8921a89bf6c272c64e42b59f30d9e2a61522a58cf1e75ce168880ddc",
+    ".runs/full-integration-250/protocol.json": "844f2482c78841299c65b04bf452fae621ccfc2863cba810d7ca3929b62c8743",
+    ".runs/full-integration-250/command.log": "04f21383b008e0a1c9f1ea2c914c81ed9c869f932a39eb75058b804f565d2a13",
+    ".runs/full250-failure-diagnosis-001/reproduction.log": "ef33d2aad4d8f956d98729cb4a45c639e2be56756812411c72b3b78a1e42dab2",
+    ".runs/full250-failure-diagnosis-001/corrected.log": "688e97e12b9ab99961f74e4ed06c862232850b8710ee0f103f51b3f763d273c4",
+    ".runs/full250-failure-diagnosis-001/fixture-equivalence.json": "334eb7123a644811063be328294c8369c4b8d9a74f7b9bd4223e4153da2f5e24",
+    ".runs/full250-failure-diagnosis-001/placement-profile001-process.json": "1e724a0c59fd69ac4a87dd15f524ac4e42f0ebd1bff3d17d676cdf95c0b31eef",
+    ".runs/full250-failure-diagnosis-001/placement-profile002-process.json": "b063106e0e996cff8765e3f4ee1197ab6a4dc7a6757f0eff1cc8131dceaa3abd",
+    ".runs/full250-fixture-review-001/review.json": "2cb437b3cb587d82f4336500458148f3b1ea591686b6d463ebffa6b50172252b",
+    ".runs/full250-fixture-review-001/optimization-review.json": "422417e6228a4e561d5ab34818ff7a05a6af3bdee02a794cf17e96bdf280415b"
+  },
+  "pending": [
+    "Fresh complete same-cap full regression",
+    "One coherent installed079 Native and graphical qualification",
+    "Broader placement/usefulness/platform/recovery gates remain open"
+  ],
+  "claim": "Testing efficiency and fixture correctness only; no new installed placement/routing support or release qualification."
+}

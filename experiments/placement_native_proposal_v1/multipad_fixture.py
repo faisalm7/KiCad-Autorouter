@@ -29,20 +29,28 @@ def quote(value):
 
 
 def remap(value):
-    if isinstance(value, list):
-        return [remap(v) for v in value]
-    text = sx.unquote(value)
-    # Also remap hierarchical paths, keeping PCB/schematic identity aligned.
+    # Generate the ordered identity pairs once per tree, not once per token.
+    # Keep this per-call so current fixture constants/functions still apply.
+    replacements = []
     for ref in ('J1', 'J2', 'J3', 'J4', 'J5', 'J6'):
         for suffix in ('footprint', 'courtyard', 'pad', 'symbol', 'label', 'schematic-pin'):
-            text = text.replace(base.uid(ref + '-' + suffix), uid(ref + '-' + suffix))
+            key = ref + '-' + suffix
+            replacements.append((base.uid(key), uid(key)))
         for name in ('Reference', 'Value', 'Datasheet', 'Description', base.FIELD):
             key = ref + '-property-' + name
-            text = text.replace(base.uid(key), uid(key))
+            replacements.append((base.uid(key), uid(key)))
     for key in ('schematic-root', 'edge', 'gnd-zone', 'protected-keep-track'):
-        text = text.replace(base.uid(key), uid(key))
-    text = text.replace(base.SOURCE_ID, SOURCE_ID).replace(base.STEM, STEM)
-    return quote(text) if value.startswith('"') else text
+        replacements.append((base.uid(key), uid(key)))
+    def walk(node):
+        if isinstance(node, list):
+            return [walk(child) for child in node]
+        text = sx.unquote(node)
+        # Preserve sequential replacement, including hierarchical paths.
+        for before, after in replacements:
+            text = text.replace(before, after)
+        text = text.replace(base.SOURCE_ID, SOURCE_ID).replace(base.STEM, STEM)
+        return quote(text) if node.startswith('"') else text
+    return walk(value)
 
 
 def reference(node):

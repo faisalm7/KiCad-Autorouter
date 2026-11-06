@@ -241,7 +241,8 @@ class SourceGuardControls(unittest.TestCase):
         self.source = self.root / 'original' / 'owned.kicad_pcb'; self.source.parent.mkdir()
         self.source.write_text('original fixture')
         self.source.with_suffix('.kicad_prl').write_text('{}')
-        self.binding = {'inspection': {'source': str(self.source)}}
+        self.binding = {'inspection': {'source': str(self.source)},
+                        'intent': {'settings': {'schema': 1}}}  # Synthetic legacy preserve-all witness.
         work, boards = placement._paths(self.output, self.binding)
         for board in (*boards.values(), *(work / (name + '-input') / self.source.name
                                          for name in ('source-drc', 'final-drc'))):
