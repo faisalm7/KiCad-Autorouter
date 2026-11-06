@@ -44,7 +44,7 @@ def context(runtime):
     return c, p, f, gui, h, pc
 
 
-def prepare(runtime, protocol):
+def prepare(runtime, protocol, output=None):
     c, p, f, gui, h, pc = context(runtime)
     from experiments.placement_native_proposal_v1 import contract
     from scripts.backup import require_headroom
@@ -75,11 +75,13 @@ def prepare(runtime, protocol):
             'One rectangular outline, no cutouts/keepouts; preserved zones must be outside selected movement region.',
             'Strict Native save comparison permits only selected XY and derived fill. Serializer normalization is a retained failure.',
             'No routing, application, Native release, GUI or human review claim; actual Native APIs remain unqualified until lead execution.'])
-    assert protocol.parent == HERE and not protocol.is_symlink()
+    assert protocol.parent == HERE and not protocol.exists() and not protocol.is_symlink()
+    target = h.real_path(output if output else ROOT / '.runs/placement-native-proposal-v1-001', existing=False)
+    assert target.parent == ROOT / '.runs' and not target.exists()
     p.save_json(protocol, record)
     command = [str(runtime / '.venv/bin/python'), '-B', str(HERE / 'driver.py'), '--runtime', str(runtime),
                '--protocol', str(protocol), '--protocol-sha256', p.sha(protocol),
-               '--output', str(ROOT / '.runs/placement-native-proposal-v1-001'), '--execute-native']
+               '--output', str(target), '--execute-native']
     print(json.dumps(dict(readiness=record['readiness'], protocol_sha256=p.sha(protocol),
                          execute_command=shlex.join(command), Native_executed=False)))
 
@@ -251,7 +253,7 @@ def main(argv=None):
     args=ap.parse_args(argv);runtime=Path(args.runtime).resolve();protocol=Path(args.protocol).resolve()
     if not args.execute_native:
         assert not args.worker
-        prepare(runtime,protocol);return 0
+        prepare(runtime,protocol,args.output);return 0
     c,p,f,gui,h,pc=context(runtime)
     assert Path(sys.prefix).resolve()==runtime/'.venv' and args.output and args.protocol_sha256
     if args.worker:

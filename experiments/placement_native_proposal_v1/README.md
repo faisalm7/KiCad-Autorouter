@@ -1,6 +1,11 @@
 # Placement Native feasibility probe v1
 
-Prepared for lead review; **no Native execution has occurred**. This experiment
+**Probe001 failed safely during Native capture; no candidate was saved.**
+A bounded read-only diagnosis found that Native10.0.7 calls layer31
+`F.Courtyard`, while the saved file uses `F.CrtYd`. Probe002 prospectively
+uses the stable native enum, preserving exact population/geometry checks.
+[The retained failure](../../evidence/placement075-native-probe-001.json) is
+not a successful placement or a routing result. This experiment
 tests whether the existing constrained search can produce one faithfully saved
 KiCad placement proposal. It does not route, accept a routing result, modify the
 original project, apply changes to an editor, or confer human approval.
@@ -61,9 +66,9 @@ after lead review and a pinned checkpoint** from the selected checkout:
 '.runs/runtime075 fresh install 001/.venv/bin/python' -B \
   experiments/placement_native_proposal_v1/driver.py \
   --runtime '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime075 fresh install 001' \
-  --protocol '/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_native_proposal_v1/protocol.json' \
-  --protocol-sha256 23c9af074c304ed22f8232b0c58fcb5551ca7e4d0645c41209582358ec469ac9 \
-  --output '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-native-proposal-v1-001' \
+  --protocol '/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_native_proposal_v1/protocol-002.json' \
+  --protocol-sha256 286e7ea9643f2e064e6e80175112efc0e2341a6bbaa787caff65187a6cc18187 \
+  --output '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-native-proposal-v1-002' \
   --execute-native
 ```
 
@@ -88,3 +93,7 @@ samples its budget after that work. Eleven pure controls pass, including actual
 small-file mutation after worker exit and during the final tool read. The original
 preparation record and protocol remain preserved at commit840c91c61. No Native
 run preceded this correction.
+
+Probe002 retains the same120s total/110s inner limits. Twelve pure controls
+pass after the enum correction; the original protocol and all001 evidence stay
+unchanged. Preparation now refuses to overwrite a protocol or reuse an output.

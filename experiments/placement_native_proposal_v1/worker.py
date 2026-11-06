@@ -10,6 +10,12 @@ from pathlib import Path
 import sys
 
 
+def exact_native_layer(item, expected):
+    """Native layer identity is an enum, not its version-specific display name."""
+    actual = item.GetLayer()
+    return type(actual) is int and type(expected) is int and actual == expected
+
+
 def capture(native, pcbnew, raw, contract, fc):
     expected = contract.inspect_board(raw)
     need = contract.need
@@ -33,7 +39,7 @@ def capture(native, pcbnew, raw, contract, fc):
         return dict(uuid=uid(item), bounds_nm=xy(item.GetStart()) + xy(item.GetEnd()), stroke_nm=integer(item.GetWidth()))
 
     drawings = list(native.GetDrawings())
-    need(len(drawings) == 1 and str(pcbnew.LayerName(drawings[0].GetLayer())) == 'Edge.Cuts', 'Native edge/cutout census differs')
+    need(len(drawings) == 1 and exact_native_layer(drawings[0], pcbnew.Edge_Cuts), 'Native edge/cutout census differs')
     edge = shape(drawings[0]); need(edge == expected['outline'], 'Native/source rectangle differs')
     pads_by_fp = {}; pad_ids = set(); netcodes = {}
     for pad in native.GetPads():
@@ -57,9 +63,9 @@ def capture(native, pcbnew, raw, contract, fc):
         identity = uid(fp)
         need(identity not in ids and len(ids) < 16, 'Native footprint UUID census differs'); ids.add(identity)
         need(fp.GetOrientationDegrees() == 0 and boolean(fp.IsFlipped()) is False
-             and str(pcbnew.LayerName(fp.GetLayer())) == 'F.Cu' and not list(fp.Zones()), 'Native front/unrotated footprint scope differs')
+             and exact_native_layer(fp, pcbnew.F_Cu) and not list(fp.Zones()), 'Native front/unrotated footprint scope differs')
         graphics = list(fp.GraphicalItems())
-        need(len(graphics) == 1 and str(pcbnew.LayerName(graphics[0].GetLayer())) == 'F.CrtYd', 'Native courtyard census differs')
+        need(len(graphics) == 1 and exact_native_layer(graphics[0], pcbnew.F_CrtYd), 'Native courtyard census differs')
         footprints.append(dict(uuid=identity, reference=str(fp.GetReference()), position_nm=xy(fp.GetPosition()),
             angle=0, side='front', locked=boolean(fp.IsLocked()), courtyard=shape(graphics[0]),
             pads=sorted(pads_by_fp.get(identity, []), key=lambda r: r['uuid'])))

@@ -157,6 +157,15 @@ class NativeProposalPureContract(unittest.TestCase):
 
 
 class CompletedWorkerFreshness(unittest.TestCase):
+    def test_native_layer_identity_does_not_depend_on_display_spelling(self):
+        from .worker import exact_native_layer
+        for display in ('F.CrtYd', 'F.Courtyard', 'custom display name'):
+            courtyard = SimpleNamespace(GetLayer=lambda:31, GetLayerName=lambda:display)
+            self.assertTrue(exact_native_layer(courtyard,31))
+            self.assertFalse(exact_native_layer(courtyard,29))
+        for invalid in (True,'31',31.0):
+            self.assertFalse(exact_native_layer(SimpleNamespace(GetLayer=lambda:invalid),31))
+
     def test_late_runtime_wrapper_or_tool_change_refuses_completed_worker(self):
         from .driver import runtime_unchanged
         with tempfile.TemporaryDirectory() as directory:
