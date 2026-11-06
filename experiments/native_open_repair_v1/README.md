@@ -1,3 +1,5 @@
+The single prepared pilot is now **closed negative**. Preview passed; the own paired selected Route retained1open/0blocking/71warnings/5ignored, added no copper and refused positive workflow adoption. Review/choice/export/original-shell validation did not run. Charged42.28wall/42.20CPU<=300 includes the oldseed. [Actual record](../../evidence/native-open-repair074-negative-001.json). No retry or product integration follows from source existence.
+
 # Unshipped Native-open repair pilot
 
 This is an unexecuted diagnostic on one exposed STM input. It composes the
