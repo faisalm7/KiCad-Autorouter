@@ -52,14 +52,17 @@ class GuiBudgetTests(unittest.TestCase):
         self.assertIn('cancelled', window.log.SetValue.call_args.args[0])
 
     def test_failed_opener_clears_positive_ui_and_shows_retained_reason(self):
-        flow = SimpleNamespace(ready={'route', 'export'}, records={'export':{}}, choice='accept', fresh=Mock(), check_open_export_material=Mock())
-        window = SimpleNamespace(job=SimpleNamespace(cancel_requested=False), flow=flow, busy=True,
+        flow = SimpleNamespace(ready={'route', 'export'}, records={'export':{}}, choice='accept', fresh=Mock(), check_open_export_material=Mock(),
+                               check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
+        request=self.request()
+        window = SimpleNamespace(**gt.displayed_inputs(request),job=gui.CliJob(), flow=flow, busy=True,
                                  inspected=Mock(), status=Mock(), log=Mock(), refresh=Mock(), closing=False)
         window.refused = lambda error: gt.window_method('refused')(window, error)
         with patch.object(gui.subprocess, 'Popen', side_effect=OSError('owned opener unavailable')):
             gt.window_method('opened')(window, 'export', Path('/owned/export.kicad_pro'), None)
         self.assertIsNone(window.flow); self.assertFalse(flow.ready); self.assertIsNone(flow.choice)
         self.assertIn('owned opener unavailable', window.log.SetValue.call_args.args[0])
+        flow.check_request.assert_called_once_with(request)
 
     def test_improve_60_refuses_before_workspace_and_90_preserves_exact_budget(self):
         for seconds in (60, 90):

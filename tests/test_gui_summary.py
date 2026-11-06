@@ -6,7 +6,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 from autorouter import gui
-from tests.test_gui import window_method
+from tests.test_gui import displayed_inputs, window_method
 
 
 class GuiSummaryTests(unittest.TestCase):
@@ -105,12 +105,15 @@ class GuiSummaryTests(unittest.TestCase):
         review = dict(status='ready_for_manual_review', project_file='/separate/review/project/owned.kicad_pro',
                       receipt='/separate/route/result.json')
         # Actual review records have no Native body; the callback inherits route findings.
-        flow = SimpleNamespace(workspace=Path('/separate'), records={'route': route, 'review': review})
+        flow = SimpleNamespace(workspace=Path('/separate'), records={'route': route, 'review': review}, fresh=Mock(),
+                               check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
         job = gui.CliJob()
-        window = SimpleNamespace(job=job, busy=True, flow=flow, inspected=Mock(),
+        request=gui.Request('/source/owned.kicad_pcb','/separate',json.dumps(dict(gui.pref.DEFAULTS)),True)
+        window = SimpleNamespace(**displayed_inputs(request),job=job, busy=True, flow=flow, inspected=Mock(),
             status=Mock(), log=Mock(), refresh=Mock(), closing=False)
         with patch.object(gui, 'SUMMARY_LIMIT', 1000):
             window_method('finished')(window, job, flow, 'review', review, None)
+        flow.check_request.assert_called_once_with(request)
         text = window.log.SetValue.call_args.args[0]
         self.assertIn('Full workflow receipt: /separate/review/review.json', text)
         self.assertIn('Full findings receipt: /separate/route/result.json', text)
@@ -145,16 +148,19 @@ class GuiSummaryTests(unittest.TestCase):
                 flow = SimpleNamespace(workspace=workspace, method='improve',
                     settings_bytes=json.dumps(dict(gui.pref.DEFAULTS, profile='tuned', seconds=90)),
                     records={'route': self.record(), 'export': exported},
-                    ready={'preview', 'route', 'review', 'choice', 'export', 'verify_export'}, choice='accept')
+                    ready={'preview', 'route', 'review', 'choice', 'export', 'verify_export'}, choice='accept', fresh=Mock(),
+                    check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
                 names = ('preview','route','review','cancel','open_preview','open_review',
                          'accept','reject','export','open_export')
                 job = gui.CliJob()
-                window = SimpleNamespace(flow=flow, job=job, busy=True, input_generation=7,
+                request=gui.Request('/source/owned.kicad_pcb',str(workspace.parent),flow.settings_bytes,True,'improve')
+                window = SimpleNamespace(**displayed_inputs(request),flow=flow, job=job, busy=True, input_generation=7,
                     status=Mock(), log=Mock(), inspected=Mock(), closing=False,
-                    board=Mock(), seconds=Mock(), output=Mock(), ack=Mock(), edit_controls=[],
+                    seconds=Mock(), edit_controls=[],
                     buttons={name: Mock() for name in names})
                 window.refresh = lambda: window_method('refresh')(window)
                 window_method('finished')(window, job, flow, 'export', exported, None)
+                flow.check_request.assert_called_once_with(request)
                 self.assertIn('export completed', window.status.SetLabel.call_args.args[0])
                 self.assertIn('budget 90 s', window.log.SetValue.call_args.args[0])
                 for name in ('open_preview', 'open_review', 'open_export'):
@@ -218,14 +224,16 @@ class GuiSummaryTests(unittest.TestCase):
             review = dict(status='ready_for_manual_review', project_file=str(workspace / 'review/project/owned.kicad_pro'))
             exported = dict(self.record(), status='export_validated', project_file=str(workspace / 'export/candidate/owned.kicad_pro'))
             flow = SimpleNamespace(workspace=workspace, records={'route': self.record(), 'review': review, 'export': exported},
-                fresh=Mock(), check_open_export_material=Mock())
+                fresh=Mock(), check_open_export_material=Mock(), check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
             for kind in ('preview', 'review', 'export'):
                 with self.subTest(kind=kind):
                     stage = 'export' if kind == 'export' else 'review'
                     job = gui.CliJob()
-                    window = SimpleNamespace(job=job, busy=True, flow=flow, inspected=Mock(),
+                    request=gui.Request('/source/owned.kicad_pcb',str(workspace.parent),json.dumps(dict(gui.pref.DEFAULTS)),True)
+                    window = SimpleNamespace(**displayed_inputs(request),job=job, busy=True, flow=flow, inspected=Mock(),
                         status=Mock(), log=Mock(), refresh=Mock(), closing=False, refused=Mock())
                     window_method('finished')(window, job, flow, stage, flow.records[stage], None)
+                    flow.check_request.assert_called_with(request)
                     completed = window.log.SetValue.call_args.args[0]
                     self.assertIn('First warning', completed)
                     window.busy = True; window.job = gui.CliJob()
@@ -234,6 +242,7 @@ class GuiSummaryTests(unittest.TestCase):
                     target = workspace / 'review/preview.html' if kind == 'preview' else Path(flow.records[stage]['project_file'])
                     with patch('webbrowser.open'), patch.object(gui.subprocess, 'Popen'):
                         window_method('opened')(window, kind, target, None)
+                    flow.check_request.assert_called_with(request)
                     self.assertEqual(window.log.SetValue.call_args.args[0], completed)
                     self.assertIn('Last warning', completed); self.assertIn('Ignored check description', completed)
                     self.assertFalse(window.busy); self.assertIsNone(window.job)

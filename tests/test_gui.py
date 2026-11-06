@@ -20,9 +20,35 @@ def window_method(name, **overrides):
     window = next(node for node in main.body if isinstance(node, ast.ClassDef) and node.name == 'Window')
     function = next(node for node in window.body if isinstance(node, ast.FunctionDef) and node.name == name)
     namespace = dict(vars(gui), wx=Mock(OK=1,ICON_ERROR=16), **overrides)
-    exec(compile(ast.fix_missing_locations(ast.Module(body=[function], type_ignores=[])),
+    request_helper = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == '_window_request')
+    # Keep the real shared helper in this test namespace too, so explicit
+    # Request constructor traps still prevent an action from launching work.
+    exec(compile(ast.fix_missing_locations(ast.Module(body=[request_helper, function], type_ignores=[])),
                  str(Path(gui.__file__)), 'exec'), namespace)
     return namespace[name]
+
+
+def displayed_inputs(request):
+    """Explicit current controls for callbacks; never bypass their real guard.
+
+    Tests can change a value without emitting EVT_TEXT/EVT_CHOICE, reproducing
+    native widgets whose visible value changed before a queued callback.
+    """
+    if type(request) is not gui.Request:
+        raise TypeError('An explicit GUI Request is required by the test fixture.')
+
+    def value_control(value):
+        control = Mock(spec=['GetValue', 'SetValue', 'Enable'])
+        control.GetValue.return_value = value
+        control.SetValue.side_effect = lambda new: setattr(control.GetValue, 'return_value', new)
+        return control
+
+    method = Mock(spec=['GetSelection', 'SetSelection', 'Enable'])
+    method.GetSelection.return_value = gui.METHODS.index(request.method)
+    method.SetSelection.side_effect = lambda new: setattr(method.GetSelection, 'return_value', new)
+    return dict(board=value_control(request.board), output=value_control(request.output_parent),
+                ack=value_control(request.saved_closed), method=method,
+                config=Mock(return_value=json.loads(request.settings_json)), source_guard=request.source_guard)
 
 
 class GuiWorkflowTests(unittest.TestCase):

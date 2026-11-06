@@ -16,9 +16,9 @@ class ExportInspectionTests(unittest.TestCase):
     request=gt.GuiWorkflowTests.request
     flow=gt.GuiWorkflowTests.flow
 
-    def prepared(self):
+    def prepared(self, *, source_guard=None):
         from autorouter import review_export as ex
-        flow=self.flow();candidate=flow.workspace/'export/validation/candidate'/self.board.name
+        flow=self.request(source_guard=source_guard).prepare();candidate=flow.workspace/'export/validation/candidate'/self.board.name
         candidate.parent.mkdir(parents=True);candidate.write_bytes(b'owned candidate')
         project=candidate.with_suffix('.kicad_pro');project.write_bytes(b'{}')
         flow.ready={'review','choice','export','verify_export'}
@@ -74,7 +74,8 @@ class ExportInspectionTests(unittest.TestCase):
                 self.board.write_bytes(before)
 
     def window(self, flow, job):
-        window=SimpleNamespace(job=job, flow=flow, busy=True, inspected=Mock(),
+        window=SimpleNamespace(**gt.displayed_inputs(self.request()),
+            job=job, flow=flow, busy=True, inspected=Mock(),
             status=Mock(), log=Mock(), refresh=Mock(), closing=False)
         window.refused=lambda error:gt.window_method('refused')(window,error)
         return window

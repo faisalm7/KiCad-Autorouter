@@ -316,6 +316,19 @@ def _window_source_guard(window, flow):
     return guard
 
 
+def _window_request(window):
+    """Read displayed values, including a native popup's committed selection.
+
+    Cocoa can commit a selection after its change event. Event generations
+    alone therefore cannot establish that a queued result matches the UI.
+    This captures intent only; the existing Workflow checks remain authoritative.
+    """
+    return Request(window.board.GetValue(), window.output.GetValue(),
+                   json.dumps(window.config()), window.ack.GetValue(),
+                   method_for_index(window.method.GetSelection()),
+                   source_guard=getattr(window, 'source_guard', None))
+
+
 @dataclass(frozen=True)
 class Request:
     board: str
@@ -1390,8 +1403,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                 choice = action if action in ('accept', 'reject') else None
                 stage = 'choice' if choice else action
                 if stage in ('preview', 'review'): self.inspected.SetValue(False)
-                request = Request(self.board.GetValue(), self.output.GetValue(), json.dumps(self.config()), self.ack.GetValue(),
-                                  method_for_index(self.method.GetSelection()), source_guard=getattr(self, 'source_guard', None))
+                request = _window_request(self)
                 if self.ack.GetValue() is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
                 self.busy = True; self.job = CliJob(); job = self.job; self.refresh()
                 self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
@@ -1462,6 +1474,8 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                         job.check_warning_review(challenge); flow.fresh()
                         if self.input_generation != lease[4]: raise ValueError('Inputs changed while reviewing warnings.')
                         warning_review_text(challenge, flow.workspace/'export/warning-review.json')
+                        _window_source_guard(self, flow)
+                        flow.check_request(_window_request(self))
                         job.reply_warning_review(challenge, 'accept_updated_findings' if event.GetReturnCode() == wx.ID_OK else 'reject')
                 except Exception as exc:
                     job.cancel(); self.log.SetValue(str(exc)+'\nNo updated-warning acknowledgement or export was adopted.')
@@ -1471,7 +1485,13 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                 if self.warning_dialog is not lease: return
                 try:
                     if self.job is not job or self.closing: raise ValueError('Warning review closed before display.')
-                    job.check_warning_review(challenge); dialog.ShowWindowModal()
+                    job.check_warning_review(challenge); flow.fresh()
+                    if self.input_generation != lease[4]: raise ValueError('Inputs changed before reviewing warnings.')
+                    _window_source_guard(self, flow)
+                    flow.check_request(_window_request(self))
+                    job.check_warning_review(challenge)
+                    if self.closing: raise ValueError('Warning review closed before display.')
+                    dialog.ShowWindowModal()
                 except Exception as exc:
                     self.warning_dialog = None; job.cancel()
                     self.log.SetValue(str(exc)+'\nNo updated-warning acknowledgement or export was adopted.'); dispose()
@@ -1492,8 +1512,11 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                     if kind == 'export': self.flow.check_open_export_material()
                     if guard is not None:
                         guard.check(self.flow.board)
-                        job.check_live()
-                        if self.closing: raise ValueError('Window closed; no project was opened.')
+                    # Last material/origin reads may precede a delayed native
+                    # control commit. Never open evidence for another UI request.
+                    self.flow.check_request(_window_request(self))
+                    job.check_live()
+                    if self.closing: raise ValueError('Window closed; no project was opened.')
                     if kind == 'preview':
                         import webbrowser
                         webbrowser.open(target.as_uri())
@@ -1516,7 +1539,10 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             try:
                 job.check_live()
                 if self.closing: raise ValueError('Window closed; no positive state adopted.')
-                if not error and _window_source_guard(self, flow) is not None: flow.fresh()
+                if not error:
+                    _window_source_guard(self, flow)
+                    flow.fresh()
+                    flow.check_request(_window_request(self))
                 job.check_live()
                 if self.closing: raise ValueError('Window closed; no positive state adopted.')
             except Exception as exc: error = str(exc)

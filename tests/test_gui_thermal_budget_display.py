@@ -7,8 +7,8 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock
 
-from autorouter import preferences as pref
-from tests.test_gui import window_method
+from autorouter import gui, preferences as pref
+from tests.test_gui import displayed_inputs, window_method
 
 
 class RecoveryBudgetDisplayTests(unittest.TestCase):
@@ -36,14 +36,16 @@ class RecoveryBudgetDisplayTests(unittest.TestCase):
 
     def findings(self, stage, record, *, method='recover'):
         flow = SimpleNamespace(records=self.records, settings_bytes=self.settings_bytes,
-                               workspace=self.workspace, method=method)
+                               workspace=self.workspace, method=method, fresh=Mock(), check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
         job = Mock()
-        window = SimpleNamespace(job=job, busy=True, flow=None, log=Mock(), status=Mock(),
+        request=gui.Request('/owned/board.kicad_pcb',str(self.workspace.parent),self.settings_bytes.decode(),True,method)
+        window = SimpleNamespace(**displayed_inputs(request),job=job, busy=True, flow=None, log=Mock(), status=Mock(),
                                  refresh=Mock(), closing=False, refused=Mock())
         before = copy.deepcopy(self.records)
         original_record = copy.deepcopy(record)
         window_method('finished')(window, job, flow, stage, record, None)
         window.refused.assert_not_called()
+        flow.check_request.assert_called_once_with(request)
         self.assertEqual(self.records, before)
         self.assertEqual(record, original_record)
         self.assertEqual(flow.settings_bytes, self.settings_bytes)

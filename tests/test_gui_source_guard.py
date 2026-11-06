@@ -35,8 +35,8 @@ class SourceGuardTests(unittest.TestCase):
         return record,path,process
 
     def window(self,flow,job,guard):
-        board=Mock();board.GetValue.return_value=str(self.board)
-        state=SimpleNamespace(job=job,flow=flow,source_guard=guard,board=board,busy=True,closing=False,
+        state=SimpleNamespace(**base.displayed_inputs(self.request(guard)),
+            job=job,flow=flow,busy=True,closing=False,
             inspected=Mock(),log=Mock(),status=Mock(),refresh=Mock(),timer=Mock(),Destroy=Mock())
         state.refused=lambda error:base.window_method('refused')(state,error)
         return state

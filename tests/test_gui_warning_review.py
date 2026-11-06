@@ -1,18 +1,27 @@
 """Deferred warning-sheet lifecycle; actual Cocoa interaction remains separate."""
+import json
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock
+from autorouter import gui
+from tests import test_gui as gt
 from tests.test_gui import window_method
 
 
 class WarningDialogControls(unittest.TestCase):
-    def prepared(self):
-        callback = window_method('queue_warning_dialog', warning_review_text=Mock(return_value='bound findings'))
+    def prepared(self, *, flow=None, request=None, warning_read=None):
+        read = warning_read if warning_read is not None else Mock(return_value='bound findings')
+        callback = window_method('queue_warning_dialog', warning_review_text=read)
         wx = callback.__globals__['wx']; wx.ID_OK = 5100
         queued = []; wx.CallAfter.side_effect = queued.append
-        job = Mock(); flow = SimpleNamespace(workspace=Path('/owned/job'), fresh=Mock())
-        window = SimpleNamespace(job=job, flow=flow, busy=True, closing=False, warning_dialog=None,
+        job = Mock()
+        if flow is None:
+            flow = SimpleNamespace(workspace=Path('/owned/job'), fresh=Mock(),
+                check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
+        if request is None:
+            request=gui.Request('/owned/source/board.kicad_pcb','/owned',json.dumps(dict(gui.pref.DEFAULTS)),True)
+        window = SimpleNamespace(**gt.displayed_inputs(request),job=job, flow=flow, busy=True, closing=False, warning_dialog=None,
             input_generation=0, status=Mock(), log=Mock(), timer=Mock(), Destroy=Mock(),
             inspected=Mock(), refresh=Mock(), refused=Mock())
         dialog=Mock(); challenge={'kind':'owned-challenge'}
@@ -61,3 +70,54 @@ class WarningDialogControls(unittest.TestCase):
         window_method('finished')(w,j,None,'export',None,'expired')
         d.EndModal.assert_called_once(); d.Destroy.assert_called_once(); j.reply_warning_review.assert_not_called()
         self.assertIsNone(w.job); self.assertFalse(w.busy); self.assertIsNone(w.warning_dialog)
+
+
+class WarningDialogCurrentRequestTests(unittest.TestCase):
+    """Real ordinary Workflow input fences; the challenge/dialog remain UI stubs."""
+    setUp = gt.GuiWorkflowTests.setUp
+    request = gt.GuiWorkflowTests.request
+    flow = gt.GuiWorkflowTests.flow
+    prepared = WarningDialogControls.prepared
+
+    def test_changed_popup_without_event_never_shows_old_warning_sheet(self):
+        flow=self.flow();w,d,j,f,c,q,closed,event=self.prepared(flow=flow,request=self.request())
+        w.config.return_value['scope']='partial_completion'
+        q.pop()()
+        self.assertEqual(w.input_generation,0)
+        d.ShowWindowModal.assert_not_called();d.Destroy.assert_called_once()
+        j.reply_warning_review.assert_not_called();j.cancel.assert_called_once()
+        self.assertIsNone(w.warning_dialog)
+        self.assertIn('Displayed source or settings differ',w.log.SetValue.call_args.args[0])
+
+    def test_changed_popup_without_event_never_acknowledges_old_warning_sheet(self):
+        flow=self.flow();w,d,j,f,c,q,closed,event=self.prepared(flow=flow,request=self.request())
+        q.pop()();d.ShowWindowModal.assert_called_once()
+        w.config.return_value['scope']='partial_completion'
+        closed(event)
+        self.assertEqual(w.input_generation,0)
+        j.reply_warning_review.assert_not_called();j.cancel.assert_called_once()
+        d.Destroy.assert_called_once();self.assertIsNone(w.warning_dialog)
+
+    def test_late_warning_record_read_cannot_acknowledge_changed_displayed_request(self):
+        flow=self.flow();read=Mock(return_value='bound findings')
+        w,d,j,f,c,q,closed,event=self.prepared(flow=flow,request=self.request(),warning_read=read)
+        q.pop()();d.ShowWindowModal.assert_called_once()
+        def last_read(*args):
+            w.config.return_value['scope']='partial_completion'
+            return 'bound findings'
+        read.side_effect=last_read
+        closed(event)
+        read.assert_called_once_with(c,flow.workspace/'export/warning-review.json')
+        self.assertEqual(w.input_generation,0)
+        j.reply_warning_review.assert_not_called();j.cancel.assert_called_once();d.Destroy.assert_called_once()
+
+    def test_matching_ordinary_request_checks_current_flow_before_show_and_reply(self):
+        flow=self.flow();w,d,j,f,c,q,closed,event=self.prepared(flow=flow,request=self.request())
+        from unittest.mock import patch
+        with patch.object(flow,'check_request',wraps=flow.check_request) as check:
+            q.pop()();closed(event)
+        self.assertEqual(check.call_count,2)
+        for call in check.call_args_list:self.assertEqual(call.args,(self.request(),))
+        d.ShowWindowModal.assert_called_once();d.Destroy.assert_called_once()
+        j.reply_warning_review.assert_called_once_with(c,'accept_updated_findings')
+        j.cancel.assert_not_called()

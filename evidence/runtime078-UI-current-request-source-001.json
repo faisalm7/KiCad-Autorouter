@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "kind": "runtime078-current-request-UI-source-correction",
+  "base_source_head": "f6005f69faf62d8c4733384a788b1a66e4909515",
+  "source_sha256": "883241a3ccaa6ebbba39dfb2b7e1309c2b9f83382d106f5b0cad55e2b0e1e731",
+  "product_change": [
+    "Read visible routing intent through the existing shared Request at action, queued completion and checked opening.",
+    "Recheck ordinary and placement-bound source/settings freshness before positive completion.",
+    "Recheck visible intent and attached origin before showing or replying to warning review; retain expiry/cancel/close/original constraints."
+  ],
+  "observed_defect": "077 actual GUI108 rapid popup/Preview displayed captured old scope; subsequent Route refused before Native execution. Retained original result unchanged.",
+  "review_findings": [
+    {
+      "demonstrated": "Ordinary source or captured-settings bytes changed between worker adoption and queued finished still showed completed; next Route refused.",
+      "id": "ordinary-material-late-change",
+      "introduced_by_new_patch": false,
+      "invalid_route_acceptance_demonstrated": false,
+      "severity": "P2",
+      "status": "Corrected and retested; successful finish now checks existing material freshness for all sessions."
+    },
+    {
+      "demonstrated": "Changed scope without a generation event could display a sheet and send explicit updated-warning intent for old displayed settings. Final new completion guard still refused UI adoption.",
+      "id": "warning-request-late-commit",
+      "introduced_by_new_patch": false,
+      "invalid_final_acceptance_demonstrated": false,
+      "severity": "P2",
+      "status": "Corrected and retested at queued show and immediately after warning-read before reply."
+    }
+  ],
+  "focused_tests": {
+    "passed": true,
+    "count": 192,
+    "wall_seconds": 7.678528082999037,
+    "full_cpu_seconds": 7.149195,
+    "python39_parse_passed": true,
+    "actual_native_or_wx": false
+  },
+  "focused_iterations": [
+    {
+      "receipt": "final-all-gui.json",
+      "exit_code": 0,
+      "wall_seconds": 7.678528082999037,
+      "full_cpu_seconds": 7.149195
+    },
+    {
+      "receipt": "final-gui.json",
+      "exit_code": 0,
+      "wall_seconds": 8.776613833000738,
+      "full_cpu_seconds": 7.554012
+    },
+    {
+      "receipt": "final-material-gui.json",
+      "exit_code": 0,
+      "wall_seconds": 7.463844124999014,
+      "full_cpu_seconds": 7.086504
+    },
+    {
+      "receipt": "initial-gui.json",
+      "exit_code": 1,
+      "wall_seconds": 5.646667208000508,
+      "full_cpu_seconds": 5.334284
+    },
+    {
+      "receipt": "new-controls-initial.json",
+      "exit_code": 0,
+      "wall_seconds": 1.8261680830000842,
+      "full_cpu_seconds": 1.6055450000000002
+    },
+    {
+      "receipt": "warning-controls.json",
+      "exit_code": 0,
+      "wall_seconds": 0.40098274999945716,
+      "full_cpu_seconds": 0.32589799999999997
+    }
+  ],
+  "focused_total_costs": {
+    "wall_seconds": 31.79280408199884,
+    "full_cpu_seconds": 29.055437999999995,
+    "authoring_review_tool_overhead_additional_unmeasured": true
+  },
+  "retained_failure": "Initial test-fixture migration failed; repaired explicit test controls, never added production fallback. One unintended short pure test thread failed after its fixture closed; no Native/engine launched.",
+  "independent_review": {
+    "path": ".runs/runtime078-ui-adoption-review-001/review.json",
+    "sha256": "4dbf9592c1203a8a74c32ae267bee47cd287831ba782e179b15c73604536b100",
+    "probe_costs": {
+      "CPU_seconds_sum": 0.45256399999999997,
+      "imports_tool_overhead_and_review_authoring_not_fully_measured": true,
+      "wall_seconds_sum": 0.4954484579999999
+    },
+    "scope": "Real Workflow/callback/Job in bounded deterministic tests; wx/dialog/child response stream simulated; no live GUI/Native-warning change claim."
+  },
+  "receipts_sha256": {
+    ".runs/runtime078-ui-adoption-001/final-all-gui.json": "04ab7ff0dcddf7f1b18e1174913cc29d074de1e723ff7f79f88a8cd4d1585c77",
+    ".runs/runtime078-ui-adoption-001/final-all-gui.log": "10c65dd5a2d931e0e9f4c0245fb22fb6e68d7dc19aee493aeea1cb8a48072ec1",
+    ".runs/runtime078-ui-adoption-review-001/review.json": "4dbf9592c1203a8a74c32ae267bee47cd287831ba782e179b15c73604536b100"
+  },
+  "test_files_sha256": {
+    "tests/test_gui.py": "b885ce1eb70fae4aa2a90c3894de375c61842ec678eb2bcec8b541324891451b",
+    "tests/test_gui_budget_refusal.py": "74e2e7b1f6b6bc3dd3f9a50985e6cfbd83058f8640905ba9d1f2dbc5318cecfb",
+    "tests/test_gui_export_inspection.py": "9bbade2d1d5360994b6992f05350d77bd5b57e85645f068d1ace86bb2d22d412",
+    "tests/test_gui_source_guard.py": "416b9e154e42c415f5cbde0119e745478fd2b7a97f2d291f6bee74d4ad497f28",
+    "tests/test_gui_summary.py": "77ab6fd51a5ba6b553e99d36ec2b8d6934f2ddcf6e28ad551eda83bbe358f13a",
+    "tests/test_gui_thermal_budget_display.py": "2914836d87c475276fb4acc483e835911405d381a509533cf22bd490077e9611",
+    "tests/test_gui_request_adoption.py": "89242657957e559ddadd5dcaa8ff54ed00459713a8b2ffe5de4bc51d103fe473",
+    "tests/test_gui_warning_review.py": "a2c744ab4d7944bc2789ce7731d9320203af02a806eaf041b05bd950bf6e5cbb"
+  },
+  "unchanged": "Routing/placement algorithms, Native validation, original design/protection policy and prior077 results.",
+  "remaining": [
+    "Coherent full249 and current installation/GUI109 with each fresh final retaining Native validation.",
+    "Genuine changed-warning GUI only if naturally occurring; deterministic response tests are not a live model/human approval.",
+    "Unrelated placement usefulness, remaining constraints, Windows Native, independent installation/current full recovery and human review remain open."
+  ],
+  "actual_GUI": false,
+  "project_complete": false
+}
