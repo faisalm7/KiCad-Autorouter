@@ -1,6 +1,6 @@
 # Requirements and release gates
 
-The [master specification](MASTER_PROMPT.md) and later owner steering govern. **The November5 staged product strategy governs; historical routing superiority remains unmet/deferred research, not a product prerequisite.** Current runtime074 build `6fbbbf22dfb8250f1578fb4d7a45ff0e161b3194`, installed manifest `584ee929eaf3d277dc535556e42c71ac5196a74f1c5e3fd53a2cce5a67853d61`. [Status](STATUS.md) · [Plan](PLANS.md) · [severity list](docs/experimental-rc.md). Historical versioned evidence/failures remain unchanged.
+The [master specification](MASTER_PROMPT.md) and later owner steering govern. **The November5 staged product strategy governs; historical routing superiority remains unmet/deferred research, not a product prerequisite.** Retained GUI-qualified runtime074 build `6fbbbf22dfb8250f1578fb4d7a45ff0e161b3194`, installed manifest `584ee929eaf3d277dc535556e42c71ac5196a74f1c5e3fd53a2cce5a67853d61`. New runtime075 build `b91520b90cdfeb86aba1dd1e9458e941f2c810a7` has an [installed CLI subset](evidence/runtime075-installed-product-subset-001.json), not full GUI/product qualification. [Status](STATUS.md) · [Plan](PLANS.md) · [severity list](docs/experimental-rc.md). Historical versioned evidence/failures remain unchanged.
 
 | Requirement | Current evidence | Remaining gate/classification |
 |---|---|---|
@@ -27,7 +27,7 @@ Preserve unique successes/failures and recovery sources, not every expanded copy
 
 | Gate | Evidence now | Next acceptance check |
 |---|---|---|
-| Shared project understanding and routing intent | Existing CLI/GUI preview, snapshots and delivery; new Native inspection and typed intent implementation pass source tests. New-build Native/GUI pending. | Actual saved-project facts, exact structured settings, explicit approval, fresh validated separate export; stale/cancel/invalid/refusal controls. |
+| Shared project understanding and routing intent | Existing CLI/GUI preview, snapshots and delivery; installed075 Native inspection and explicit intent complete one owned protected-copper delivery. GUI106 pending. | Actual saved-project facts, exact structured settings, explicit approval, fresh validated separate export; stale/cancel/invalid/refusal controls. |
 | Optional copilot | No authorized application model endpoint or live demonstration recorded. | Replaceable bounded provider, consent and cost controls; no shell/write/self-approval tool. Deterministic integration is distinct from live model evidence. |
 | Core constrained placement | Existing routing-guidance experiments are not component-placement support. Bounded reuse decision selects MIT Autoplace search only; upstream writer excluded. | Selected/group alternatives preserve fixed/region/orientation/side/edge/keepout/connectivity and explicit existing-track policy; inspect/modify/approve, then bounded routing. |
 | Excellent visual workflow |074 toolbar/external window and Edge previews observed; advanced forms need simplification. | Minimal task-first controls, readable changes/findings, responsive progress/cancel, advanced settings accessible, same workflow without chat. Actual new-build GUI required. |

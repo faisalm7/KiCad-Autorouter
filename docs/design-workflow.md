@@ -1,6 +1,6 @@
 # Saved-project design workflow
 
-This is the next source candidate, not an upgrade to the retained runtime074 installation. Native, installation and actual GUI results must name the new build before it is called qualified.
+Runtime075 is a separate experimental installation with a qualified CLI subset; retained runtime074 is unchanged. The new Inspect and assistant panels still require actual GUI106 qualification. See [current evidence](../evidence/runtime075-installed-product-subset-001.json); source tests and CLI success do not establish a live copilot or GUI support.
 
 The first workflow adds project understanding to the existing router:
 

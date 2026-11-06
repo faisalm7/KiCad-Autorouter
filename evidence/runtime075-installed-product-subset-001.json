@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "kind": "runtime075-installed-design-workflow-and-fixed-search-subset",
+  "source_head": "b91520b90cdfeb86aba1dd1e9458e941f2c810a7",
+  "manifest_sha256": "f0b304061ab1f5e30f2514b4bcbd5ab5b31636e5872bb4927928acb7e29cc810",
+  "immutable_files": 57,
+  "tool_versions": {
+    "kicad": "10.0.7 arm64",
+    "python": "3.11.9",
+    "freerouting": "2.5.0",
+    "macOS": "27.0.1"
+  },
+  "installation": {
+    "same_mac_account": true,
+    "doctor_passed": true,
+    "wall_seconds": 6.971631958032958,
+    "full_cpu_seconds": 5.963334000000001,
+    "standalone_or_clean_OS": false
+  },
+  "ordinary_workflow": {
+    "qualified": true,
+    "source_owned_synthetic": true,
+    "inspection_counts": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0
+    },
+    "delivered_counts": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0
+    },
+    "protected_items": 4,
+    "stages": [
+      "Native inspection",
+      "source-bound explicit intent",
+      "preview",
+      "route",
+      "rendered review",
+      "software-test acceptance",
+      "fresh Native export",
+      "export readback",
+      "checked-opening target resolution"
+    ],
+    "actual_application_open": false,
+    "model_calls": 0,
+    "model_cost_usd": 0,
+    "wall_seconds": 30.52597716700984,
+    "full_cpu_seconds": 27.208951999999996,
+    "prior_prelaunch_failed_debit_seconds": 0.6604349170229398,
+    "original_total_limit": 360,
+    "receipt_sha256": "27a9f4888f04d18bc21794a5ba462ceedc226ab5da97531018602148f3aeaf67",
+    "enclosure_sha256": "1d3a1851146effacd5c890bebb41fcaf1f52187d8cfae6d2299d26e944fcf230"
+  },
+  "completion_search": {
+    "policy": "fixed ordinary tuned/via_low; optional, unchanged default",
+    "scope": "Canonical2Cu sole-Default complete-flat sources; preservation unchanged",
+    "route_seconds": 120,
+    "export_seconds": 120,
+    "total_seconds": 240,
+    "cases": [
+      {
+        "case": "stm32",
+        "route_accepted": true,
+        "route_native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 71,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Footprint has no courtyard defined",
+              "key": "missing_courtyard"
+            },
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            },
+            {
+              "description": "Footprint doesn't match symbol's footprint filters",
+              "key": "footprint_filters_mismatch"
+            },
+            {
+              "description": "Footprint component type doesn't match footprint pads",
+              "key": "footprint_type_mismatch"
+            }
+          ]
+        },
+        "candidate_sha256": "0244330a14a9ed0517ecf0f09c816eebb19932f4e534f10d4b80df011b4bfa2b",
+        "metrics": {
+          "version": "10.0.7",
+          "pads": 136,
+          "footprints": 34,
+          "zones": 1,
+          "vias": 26,
+          "track_length_mm": 527.3589166632995,
+          "copper_layers": 2
+        },
+        "route_receipt_sha256": "db2fe7209c7bfc76f2cfecab65b622ecc628445453fd5d9b0602167642b4fbf8",
+        "export_receipt_sha256": "64361692180fc15c2ee74b7104e562425d76a954c89a31db92573bfe803540c8",
+        "delivered": false,
+        "failure": "Fresh strict export refused: explicit updated-warning acknowledgement lineage required. No fresh export accepted.",
+        "export_status": "rejected",
+        "protected_items": 230,
+        "wall_seconds": 58.980874709028285,
+        "full_cpu_seconds": 64.606202
+      },
+      {
+        "case": "eeprom",
+        "route_accepted": true,
+        "route_native": {
+          "opens": 0,
+          "blocking": 0,
+          "warnings": 36,
+          "exclusions": 0,
+          "ignored_checks": [
+            {
+              "description": "Footprint has no courtyard defined",
+              "key": "missing_courtyard"
+            },
+            {
+              "description": "Track endpoint not centered on via",
+              "key": "track_not_centered_on_via"
+            },
+            {
+              "description": "Tuning profile track geometries",
+              "key": "tuning_profile_track_geometries"
+            },
+            {
+              "description": "Footprint doesn't match symbol's footprint filters",
+              "key": "footprint_filters_mismatch"
+            },
+            {
+              "description": "PTH inside courtyard",
+              "key": "pth_inside_courtyard"
+            },
+            {
+              "description": "NPTH inside courtyard",
+              "key": "npth_inside_courtyard"
+            },
+            {
+              "description": "Footprint component type doesn't match footprint pads",
+              "key": "footprint_type_mismatch"
+            }
+          ]
+        },
+        "candidate_sha256": "00d1426de4172bc125ca33834b18eb7ae10a42e8be9351fb58a4d475972145be",
+        "metrics": {
+          "version": "10.0.7",
+          "pads": 63,
+          "footprints": 20,
+          "zones": 1,
+          "vias": 11,
+          "track_length_mm": 459.8057776068539,
+          "copper_layers": 2
+        },
+        "route_receipt_sha256": "058689445205f88fe581dc90e9ec85acc49835499a806fdc605353fc6c9287dd",
+        "export_receipt_sha256": "2daf17298269b2a17facfdb6b4db2fb7614b03086ff9abf4a303b3991efd72c7",
+        "delivered": true,
+        "failure": null,
+        "export_status": "export_validated",
+        "protected_items": 38,
+        "wall_seconds": 39.093657707970124,
+        "full_cpu_seconds": 42.633817
+      }
+    ],
+    "strict_deliveries": 1,
+    "validated_route_completions": 2,
+    "prior_prelaunch_failures": 2,
+    "prior_failures": "Case runner incorrectly targeted repository-root storage census; guards refused before children/Native. Corrected to exact case workspace without raising caps. Raw records retained; extra authoring/controller overhead unmeasured.",
+    "historical_same_budget_comparison": false,
+    "superiority_claim": false,
+    "source_split": "Both exposed protected-gap development tasks; not independent confirmation"
+  },
+  "actual_GUI": false,
+  "live_model_demonstrated": false,
+  "placement_supported": false,
+  "model_endpoint_configured": false,
+  "full_candidate_qualified": false,
+  "human_PCB_approval": false,
+  "runtime074_unchanged": true,
+  "limits": [
+    "Actual GUI106 pending, tool reports Mac locked; owner action requested once.",
+    "STM32 strict warning-change delivery refused; no implicit acknowledgement or favorable retry.",
+    "New fixed optional search checked on two exposed tasks only.",
+    "Independent Mac installation, Windows Native workflow and full current recovery remain open.",
+    "No human cleanup, electrical or physical validation."
+  ]
+}
