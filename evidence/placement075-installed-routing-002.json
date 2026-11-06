@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "status": "demonstration_delivered",
+  "source_commit": "daf87027c7285440604b4f5e821011c9273ac23f",
+  "placement_source_commit": "c7d4e3ddd1ada8125092abcd4ba29b9355477228",
+  "installed_build": "b91520b90cdfeb86aba1dd1e9458e941f2c810a7",
+  "runtime_manifest_sha256": "f0b304061ab1f5e30f2514b4bcbd5ab5b31636e5872bb4927928acb7e29cc810",
+  "placement_evidence": "placement075-native-proposal-006.json",
+  "placement_candidate_sha256": "360440cd05cc817a2d696c27e84f5d3b2ad524513ae98d2e2fb03b7f6ee89c4a",
+  "final_route_and_export_candidate_sha256": "7bf7707611067543d3a814a011008937db6b00fa09c45d17d802757548bae311",
+  "source_hashes": {
+    "owned-placement-multipad.kicad_pcb": "360440cd05cc817a2d696c27e84f5d3b2ad524513ae98d2e2fb03b7f6ee89c4a",
+    "owned-placement-multipad.kicad_prl": "7254c14a8e07658cd87adbefcf2e90f50768c8371990dcb5870062dee25a4e10",
+    "owned-placement-multipad.kicad_pro": "c74502eedb3af50bee84422ea4a33b1523443d777c3ec89f3b11cd261c9d2670",
+    "owned-placement-multipad.kicad_sch": "e6fed6902827b0dce27b655ffd83fcd89e4eaff9b81a4cc6279b4064b384ab61"
+  },
+  "settings": {
+    "schema": 1,
+    "scope": "partial_completion",
+    "seconds": 90,
+    "adapter": "both",
+    "profile": "standard",
+    "guidance": "native",
+    "layers": "source_all",
+    "scoring_preference": null
+  },
+  "route_accepted": true,
+  "fresh_export_accepted": true,
+  "workflow_delivered": true,
+  "stages": [
+    "preview",
+    "route",
+    "review",
+    "choice",
+    "export",
+    "verify_export"
+  ],
+  "native": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "findings": []
+  },
+  "schematic_parity": "checked by final native DRC",
+  "metrics": {
+    "version": "10.0.7",
+    "pads": 8,
+    "footprints": 6,
+    "zones": 1,
+    "vias": 0,
+    "track_length_mm": 42.3122196006134,
+    "copper_layers": 2
+  },
+  "protected_route_count": 1,
+  "source_unchanged": true,
+  "software_test_selection_and_acceptance": true,
+  "actual_GUI": false,
+  "actual_application_opening": false,
+  "human_approval": false,
+  "model_calls": 0,
+  "limits": {
+    "placement_wall_and_cpu": 120,
+    "routing_workflow_wall_and_cpu": 240,
+    "route": 90,
+    "fresh_export": 90
+  },
+  "measured_components": {
+    "placement_wall_seconds": 7.691000249993522,
+    "placement_cpu_seconds": 6.111782000000001,
+    "routing_workflow_wall_seconds": 24.949698999989778,
+    "routing_workflow_cpu_seconds": 21.292105,
+    "controller_exits_not_measured": true
+  },
+  "prior_failed_source_control": "placement075-native-probe-005.json",
+  "additional_costs": "Failed005 source admission3.436971wall/2.303537CPU retained separately; authoring/review/preparation/lastcontrollerexits not fully measured and not zero. No comparative runtime claim.",
+  "comparison_claim": false,
+  "rights": "Project-owned GPL-3.0-or-later generated full-schematic fixture; same exposed transport development family, not unrelated/untouched confirmation.",
+  "scope": "One multipad constrained placement followed by installed default routing/fresh validation and export. Exact original KEEP segment retained; no route removed to permit placement. No placement UI, moved-connected-component, human/electrical or routability-gain claim.",
+  "raw_roots": [
+    ".runs/placement075-multipad-routing-preparation-001",
+    ".runs/runtime075 fresh install 001/.runs/placement-routing075-002"
+  ],
+  "pins": {
+    "protocol.json": "c175f381b578cf27cd843f72f02baf23c7bd5e761fee1b3e67163dbd6cf484c6",
+    "handoff.json": "f4849d5042bd390639e171bc5c0f947f1018c42549f0c65db2139db7c12d9841",
+    "execution.json": "74947bf0c4d3d69265e1ede570b39d12731fe1dc0e398f77465b332aa8dd8fcc"
+  },
+  "workflow_sha256": "6e7483320fd2051bc762a8890cc58bae2e55c921becc70e80b31c69746c215cb",
+  "checked_project": ".runs/runtime075 fresh install 001/.runs/placement-routing075-002/autorouter-gui-d2c031c2b6444feeb0095616fd39405d/export/validation/candidate/owned-placement-multipad.kicad_pro",
+  "independent_software_review_sha256": "89cbcf26b57dd56879e20777e38ac411869e364828b87eb558e0509cd23dbdb2"
+}
