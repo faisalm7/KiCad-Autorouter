@@ -32,9 +32,9 @@ A client must show both reports and obtain an explicit decision. The only accept
 
 The queued opener rechecks source/settings/export witnesses before delivery; this is not atomic live application. Current actual queued-interval qualification is pending. Historical050 active-engine cancellation and stale-input refusals retain their scope. Unit callback tests, instrumented barriers and actual natural GUI timing must remain separately labelled. [Current gates](../STATUS.md) · [CLI](quickstart.md) · [Graphical workflow](gui-workflow.md). Earlier interface details remain in immutable evidence and Git history.
 
-## Selected placement (runtime076 source candidate)
+## Selected placement (runtime076 experimental workflow)
 
-The new placement controls call `autorouter.placement_intent` for saved-project inspection, strict settings, bounded alternatives and reviewed pose intent. They call the same `autorouter.placement` command for Native qualification. Installation and actual076 Native/GUI qualification are pending;075 does not contain this interface.
+The new placement controls call `autorouter.placement_intent` for saved-project inspection, strict settings, bounded alternatives and reviewed pose intent. They call the same `autorouter.placement` command for Native qualification. [Installed076 Native/GUI107 qualification](../evidence/runtime076-placement-product-milestone-001.json) passes the finite owned task, including protected delivery and cancellation/stale guards;075 does not contain this interface. Broader geometry and independent installation remain unqualified.
 
 ```sh
 .venv/bin/python -B -m autorouter.placement \
