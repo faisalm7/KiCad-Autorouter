@@ -62,7 +62,7 @@ after lead review and a pinned checkpoint** from the selected checkout:
   experiments/placement_native_proposal_v1/driver.py \
   --runtime '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime075 fresh install 001' \
   --protocol '/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_native_proposal_v1/protocol.json' \
-  --protocol-sha256 257dc89b11813a2b87ae366d5532eb14377584e3c4ef73074106c116ef88ac99 \
+  --protocol-sha256 23c9af074c304ed22f8232b0c58fcb5551ca7e4d0645c41209582358ec469ac9 \
   --output '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-native-proposal-v1-001' \
   --execute-native
 ```
@@ -81,3 +81,10 @@ Small pure checks, with the installed runtime first and no Native module import:
 
 `preparation-evidence.json` records the ten passing pure controls and the actual
 static seed census. These checks are not evidence of Native or GUI correctness.
+
+Independent review found a missing post-worker runtime/tool freshness check. The
+outer gate now rechecks the manifest, SWIG wrapper and actual tool pins, and
+samples its budget after that work. Eleven pure controls pass, including actual
+small-file mutation after worker exit and during the final tool read. The original
+preparation record and protocol remain preserved at commit840c91c61. No Native
+run preceded this correction.

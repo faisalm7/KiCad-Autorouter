@@ -114,6 +114,16 @@ def placement_findings(native, p):
                   for row in native['findings'] if row['type'] != 'unconnected_items')
 
 
+def runtime_unchanged(runtime, wrapper, spec, recorded_tools, p):
+    """Recheck actual runtime/tool material after the Native worker has exited."""
+    paths = (runtime / 'runtime-distribution.json', wrapper)
+    expected = (spec['runtime_manifest_sha256'], spec['wrapper_sha256'])
+    before = tuple(p.sha(path) for path in paths)
+    tools = p.tool_manifest()
+    after = tuple(p.sha(path) for path in paths)
+    return before == after == expected and tools == recorded_tools
+
+
 def worker(args, runtime):
     c, p, f, gui, h, pc = context(runtime)
     from autorouter import sexpr as sx
@@ -265,19 +275,21 @@ def main(argv=None):
         p.save_json(out/'process.json',process)
         child=out/'work/result.json';value=f.read_json(child) if child.is_file() else None
         stable=code_pins()==spec['code_sha256'] and p.sha(protocol)==args.protocol_sha256 and gui.source_inventory(ROOT/SEED)==spec['source_hashes']
-        wall,total_cpu=time.monotonic()-ENTRY,cpu()-CPU0
         if value and value.get('placement_proposal_validated'):
             p.check_resource_accounting(value)
             stable=bool(stable and value['status']=='placement_proposal_validated'
                 and value['accepted'] is False and value['routing_accepted'] is False
-                and gui.source_inventory(Path(value['candidate']))==value['candidate_hashes'])
+                and gui.source_inventory(Path(value['candidate']))==value['candidate_hashes']
+                and runtime_unchanged(runtime,c.PCBNEW.with_name('pcbnew.py'),spec,value['tools'],p))
+        child_sha=p.sha(child) if value else None
+        wall,total_cpu=time.monotonic()-ENTRY,cpu()-CPU0
         qualified=bool(stable and value and value['placement_proposal_validated'] and value['external_exit_required']
             and process['status']=='success' and process['exit_code']==0 and process['cleanup_complete'] is True
             and process['log_truncated'] is False and max(wall,total_cpu)+1<=120)
         record=dict(schema=1,placement_proposal_qualified=qualified,accepted=False,routing_accepted=False,
             process=process,complete_worker_exit_wall_seconds=wall,parent_plus_waited_child_cpu_seconds=total_cpu,
             publication_allowance_seconds=1,total_limit_seconds=120,controller_exit_not_measured=True,
-            child_receipt_sha256=p.sha(child) if value else None,source_unchanged=stable,space_plan=space,
+            child_receipt_sha256=child_sha,source_unchanged=stable,space_plan=space,
             protocol_sha256=args.protocol_sha256,actual_GUI=False,model_calls=0,live_application=False)
         h.owned_destination(owner);p.save_json(out/'execution.json',record)
         print(json.dumps({k:v for k,v in record.items() if k!='process'}))

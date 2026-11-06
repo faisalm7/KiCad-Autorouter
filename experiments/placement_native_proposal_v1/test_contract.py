@@ -3,6 +3,9 @@ import copy
 import hashlib
 import unittest
 import uuid
+from pathlib import Path
+import tempfile
+from types import SimpleNamespace
 
 from experiments.placement_native_proposal_v1 import contract as c
 
@@ -151,6 +154,32 @@ class NativeProposalPureContract(unittest.TestCase):
             tree = c.read_board(self.source); change(tree)
             with self.subTest(change=change.__name__), self.assertRaises(ValueError):
                 c.inspect_board(raw(tree))
+
+
+class CompletedWorkerFreshness(unittest.TestCase):
+    def test_late_runtime_wrapper_or_tool_change_refuses_completed_worker(self):
+        from .driver import runtime_unchanged
+        with tempfile.TemporaryDirectory() as directory:
+            runtime = Path(directory)
+            manifest = runtime / 'runtime-distribution.json'
+            wrapper = runtime / 'pcbnew.py'
+            manifest.write_bytes(b'original runtime'); wrapper.write_bytes(b'original wrapper')
+            sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+            spec = dict(runtime_manifest_sha256=sha(manifest), wrapper_sha256=sha(wrapper))
+            tools = {'native': 'pinned native digest'}
+            operations = SimpleNamespace(sha=sha, tool_manifest=lambda: dict(tools))
+            self.assertTrue(runtime_unchanged(runtime,wrapper,spec,tools,operations))
+            for target in (manifest,wrapper):
+                original = target.read_bytes(); target.write_bytes(b'changed after worker exit')
+                self.assertFalse(runtime_unchanged(runtime,wrapper,spec,tools,operations))
+                target.write_bytes(original)
+            operations.tool_manifest = lambda: {'native': 'changed after worker exit'}
+            self.assertFalse(runtime_unchanged(runtime,wrapper,spec,tools,operations))
+            def changed_during_read():
+                wrapper.write_bytes(b'changed during tool read')
+                return dict(tools)
+            operations.tool_manifest = changed_during_read
+            self.assertFalse(runtime_unchanged(runtime,wrapper,spec,tools,operations))
 
 
 if __name__ == '__main__':
