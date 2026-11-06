@@ -468,6 +468,9 @@ class ComparisonContextControls(unittest.TestCase):
                 _improve_context=None, _improve_budget=None,
                 comparison=cmp, comparison_context=self.context, _rejected_attempt=False,
                 preferences_guarded=True, bounded_inventory=pc.inventory, bounded_bytes=pc.read_bytes,
+                # The real reader initializes this before its final tail;
+                # comparison jobs do not use ordinary completion-search admission.
+                tuned_low_contract=None,
                 bounded_evidence=pc.evidence_inventory,
                 readback_material=pc.evidence_inventory(self.output),
                 comparison_material=p.tree_hash(self.output), receipt_digest=p.sha(self.receipt),
