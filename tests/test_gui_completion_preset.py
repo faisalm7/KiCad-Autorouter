@@ -37,7 +37,7 @@ class CompletionPresetTests(unittest.TestCase):
 
     def callback(self, name='completion_preset'):
         tree = ast.parse(Path(gui.__file__).read_text())
-        main = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'main')
+        main = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'create_window')
         window = next(n for n in main.body if isinstance(n, ast.ClassDef) and n.name == 'Window')
         method = next(n for n in window.body if isinstance(n, ast.FunctionDef) and n.name == name)
         namespace = dict(__name__='autorouter.gui', __package__='autorouter',

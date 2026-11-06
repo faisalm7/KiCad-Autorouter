@@ -16,7 +16,7 @@ from autorouter import gui, preferences as pref, pipeline as p
 def window_method(name, **overrides):
     """Execute the actual wx callback body without importing or launching wx."""
     tree = ast.parse(Path(gui.__file__).read_text())
-    main = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'main')
+    main = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'create_window')
     window = next(node for node in main.body if isinstance(node, ast.ClassDef) and node.name == 'Window')
     function = next(node for node in window.body if isinstance(node, ast.FunctionDef) and node.name == name)
     namespace = dict(vars(gui), wx=Mock(OK=1,ICON_ERROR=16), **overrides)
@@ -192,7 +192,7 @@ class CliJobTests(unittest.TestCase):
 
     def test_path_edits_clear_source_ack_and_gate_preview_inspect_until_rechecked(self):
         tree = ast.parse(Path(gui.__file__).read_text())
-        main = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'main')
+        main = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'create_window')
         window_class = next(node for node in main.body if isinstance(node, ast.ClassDef) and node.name == 'Window')
         init = next(node for node in window_class.body if isinstance(node, ast.FunctionDef) and node.name == '__init__')
         # Exercise the actual constructor binding, not just an unbound callback.

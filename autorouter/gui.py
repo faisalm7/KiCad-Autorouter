@@ -872,14 +872,23 @@ def register_kicad_action():
     return plugin
 
 
-def main(argv=None, *, source_guard=None):
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--board', default='', help='Exact saved board hint; never an editor snapshot')
-    args = parser.parse_args(argv)
-    _check_source_guard(source_guard, args.board)
+def create_window(board='', *, source_guard=None):
+    """Create one unshown routing frame in an existing wx application.
+
+    The caller owns showing the frame and the application loop. This does not
+    launch routing, adopt approval, replace signal handlers or nest a wx.App.
+    """
     try: import wx
     except ImportError as exc:
         raise SystemExit('wx is unavailable. Launch with the pinned KiCad bundled Python; no packages were installed.') from exc
+    if wx.GetApp() is None:
+        raise ValueError('Create the wx application before opening routing controls.')
+    if threading.current_thread() is not threading.main_thread():
+        raise ValueError('Open routing controls on the application main thread.')
+    if not isinstance(board, (str, Path)):
+        raise ValueError('Use an exact saved PCB path or an empty path hint.')
+    board = str(board)
+    _check_source_guard(source_guard, board)
     class Window(wx.Frame):
         def __init__(self):
             super().__init__(None, title='KiCad Autorouter — separate project', size=(820, 780))
@@ -895,7 +904,7 @@ def main(argv=None, *, source_guard=None):
             layout.Add(heading, 0, wx.LEFT | wx.RIGHT | wx.TOP, 12)
             layout.Add(wx.StaticText(panel, label='Inspect your board, choose what to preserve, then review a separate candidate.'),
                        0, wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM, 12)
-            self.board = self.path_row(panel, layout, 'Saved PCB', args.board, False)
+            self.board = self.path_row(panel, layout, 'Saved PCB', board, False)
             self.output = self.path_row(panel, layout, 'Output folder', str(c.ROOT / '.runs'), True)
             self.values = {
                 'scope': [('Reroute unlocked; keep locked copper', 'whole_board_unlocked_routing'), ('Finish gaps; keep all existing copper', 'partial_completion'), ('Selected nets; keep other copper', 'selected_nets')],
@@ -1520,7 +1529,20 @@ def main(argv=None, *, source_guard=None):
                 self.status.SetLabel('Closing after cancellation and CLI cleanup; retained outputs will remain.')
                 event.Veto()
             else: self.timer.Stop(); self.Destroy()
-    app = wx.App(False); window = Window(); window.Show()
+    return Window()
+
+
+def main(argv=None, *, source_guard=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--board', default='', help='Exact saved board hint; never an editor snapshot')
+    args = parser.parse_args(argv)
+    _check_source_guard(source_guard, args.board)
+    try: import wx
+    except ImportError as exc:
+        raise SystemExit('wx is unavailable. Launch with the pinned KiCad bundled Python; no packages were installed.') from exc
+    if wx.GetApp() is not None:
+        raise ValueError('A wx application already exists; use create_window instead of a second application loop.')
+    app = wx.App(False); window = create_window(args.board, source_guard=source_guard); window.Show()
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     def close_signal(*_): wx.CallAfter(window.Close)
     try:

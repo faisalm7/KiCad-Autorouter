@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "kind": "shared-routing-window-composition-v1",
+  "source_only": true,
+  "installed": false,
+  "Native_executed": false,
+  "model_calls": 0,
+  "implementation": "autorouter/gui.py:create_window",
+  "purpose": "Placement can open the existing guarded routing controls in one wx application; no second loop, editing path or automatic routing/approval.",
+  "changes": [
+    "Existing Window callback AST unchanged except saved-board closure.",
+    "Factory requires existing wx application and main thread; checks SourceGuard before returning one unshown frame.",
+    "CLI main retains app/show/loop/signal restoration and cancellation ownership."
+  ],
+  "tests": {
+    "passed": 165,
+    "wall_seconds": 5.339725875000113,
+    "cpu_seconds": 5.115746,
+    "initial_fixture_failure_retained": true
+  },
+  "actual_source_GUI": {
+    "existing_app_reused": true,
+    "frame_rendered": true,
+    "source_path_change_revoked_ack": true,
+    "unacknowledged_preview_refused": true,
+    "closed_cleanly": true,
+    "actual_routing_or_install_qualification": false
+  },
+  "independent_review_sha256": "89db1edc3db08ca8cb797d99dcf2a5f683f16f372918a910da38634984330939",
+  "source_sha256": {
+    "autorouter/gui.py": "8708e34fd6ff1bb003a660aaf3c1788b69f4c4584e08361c8ba7b62e687fc858",
+    "tests/test_gui_window_factory.py": "9ec8a1b934ee7c21ac999f62f2c8fead8481a2dd431c0983b0e3a6d0f1804b39",
+    "tests/test_gui.py": "b040efd8fcccf535d8df0c2ecac6991f6ed9e47423f274ad90a02d87f262ac5a",
+    "tests/test_gui_completion_preset.py": "c9a22351ea7a233e975e9535225e4ec06835d07af40cce8b89ec10d04d608055"
+  },
+  "raw": {
+    ".runs/gui-window-factory075-draft-001/implementation.json": "2501bccd5f1a4a9b521f47d2ebf90322d0771ae897029ff07e9accaee2052098",
+    ".runs/gui-window-factory075-draft-001/lead-all-gui.json": "f0e0f002677e15f23f1dce9a66b6df9563b2d27477061dcacd7453de9ea0f60c",
+    ".runs/gui-window-factory075-native-ui-001/constructed.json": "b8aef785a4c1bd6007bbbd1b8dd9131b8b42c6adfc6b5a95590aa13fcf5c79cd",
+    ".runs/gui-window-factory075-native-ui-001/source-ack-reset.txt": "31915f0399ab58ab02f553992fef8adc85087b90056973d9d2975ba2272839fe",
+    ".runs/gui-window-factory075-native-ui-001/unacknowledged-refusal.txt": "a7c8499afb301471100841acdede1d806fc2d3eccd3286642e7f2f68d173b5c0",
+    ".runs/gui-window-factory075-native-ui-001/closed.json": "8e0f78b22bfa11c1db2462764944453e99702980e3be2a5a6d1ab02db5078e46"
+  },
+  "limitations": [
+    "Source-run frame on pinned KiCad wx Python; not a new installed runtime.",
+    "Placement qualification/continue controls and packaged saved-project placement intake remain open.",
+    "No new Native, general placement, live model or electrical approval claim."
+  ]
+}
