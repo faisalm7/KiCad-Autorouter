@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from autorouter import placement_intent as intent
 from autorouter import gui, pipeline as pipeline, sexpr as sx
-from experiments.placement_native_proposal_v1 import contract, multipad_fixture
+from experiments.placement_native_proposal_v1 import contract, multipad_fixture, ordinary_fixture
 from experiments.constrained_placement_v1 import constraints
 
 
@@ -36,7 +36,15 @@ class PlacementIntentTests(unittest.TestCase):
         return proposal
 
     def review(self):
-        return intent.Review(self.proposal())
+        # Review-state tests use a deterministic real, constraint-validated pose.
+        # Dedicated search/cancellation tests above still execute the proposer;
+        # an unrelated wall-clock search deadline must not gate draft checks.
+        moves = dict(zip(self.selected, ([14_000_000, 10_000_000], [20_000_000, 10_000_000])))
+        candidate = contract.validate_moves(self.inspection['observation'], moves,
+            scope=contract.MULTIPAD_SCOPE, selected=self.selected, region_nm=self.region)
+        return intent.Review(dict(kind='autorouter.placement-proposals.v1',
+            inspection=copy.deepcopy(self.inspection), settings=copy.deepcopy(self.options),
+            search=dict(status='proposals_ready', alternatives=[dict(candidate=candidate)])))
 
     def test_actual_saved_facts_report_fixed_reasons_and_no_validation_authority(self):
         with patch('subprocess.Popen', side_effect=AssertionError('pure inspection must not execute')):
@@ -185,6 +193,101 @@ class PlacementIntentTests(unittest.TestCase):
             with self.subTest(field=field), self.assertRaisesRegex(ValueError, 'source changed'): intent.current(changed)
         self.board.with_suffix('.kicad_prl').write_bytes(self.board.with_suffix('.kicad_prl').read_bytes() + b'\n')
         with self.assertRaisesRegex(ValueError, 'source changed'): intent.propose(self.inspection, self.options)
+
+    def original_review(self, inspection=None, settings=None):
+        inspection = self.inspection if inspection is None else inspection
+        settings = self.options if settings is None else settings
+        facts = intent.facts(inspection, settings)
+        return intent.Review(dict(kind='autorouter.placement-proposals.v1',
+            inspection=copy.deepcopy(inspection), settings=copy.deepcopy(settings),
+            search=dict(status='proposals_ready', alternatives=[dict(candidate=constraints.original_alternative(facts))])))
+
+    def test_combined_swap_succeeds_when_both_individual_edits_collide(self):
+        ordinary_board = ordinary_fixture.write_project(self.root / 'ordinary project')
+        ordinary_inspection = intent.inspect_saved(ordinary_board)
+        ordinary_settings = intent.settings(ordinary_fixture.selected(), self.region, scope=contract.ORDINARY_SCOPE)
+        for inspection, settings in ((self.inspection, self.options), (ordinary_inspection, ordinary_settings)):
+            with self.subTest(scope=intent.settings_scope(settings)):
+                review = self.original_review(inspection, settings)
+                a, b = settings['selected']
+                before = copy.deepcopy(review.moves); pose = copy.deepcopy(review.pose); revision = review.revision
+                edits = {a: ['26', '10'], b: ['12', '10']}
+                for identity, xy in edits.items():
+                    review.decision(acknowledged=True, accepted=True)
+                    with self.assertRaises(ValueError):review.edit(identity, *xy)
+                    self.assertEqual(review.moves, before); self.assertEqual(review.pose, pose)
+                    self.assertEqual(review.revision, revision); self.assertIsNone(review.intent)
+                review.decision(acknowledged=True, accepted=True)
+                with patch.object(contract, 'validate_moves', wraps=contract.validate_moves) as validate, \
+                        patch.object(review, '_adopt', wraps=review._adopt) as adopt:
+                    review.edit_many(edits)
+                self.assertEqual(validate.call_count, 1); self.assertEqual(adopt.call_count, 1)
+                self.assertEqual(review.moves, {a: [26_000_000, 10_000_000], b: [12_000_000, 10_000_000]})
+                self.assertEqual(review.revision, revision + 1); self.assertIsNone(review.intent)
+                draft = review.decision(acknowledged=True, accepted=True)
+                self.assertEqual(intent.validate_draft(inspection, draft), draft)
+                for key in ('approval_granted', 'execution_authorized', 'native_validation_performed',
+                            'routing_accepted', 'warning_acknowledged', 'human_PCB_approval'):
+                    self.assertIs(draft[key], False)
+                edits[a][0] = '99'
+                self.assertEqual(review.moves[a][0], 26_000_000)
+                self.assertEqual(gui.source_inventory(Path(inspection['source'])), inspection['source_hashes'])
+
+    def test_edit_many_errors_revoke_intent_without_partial_pose_or_revision_change(self):
+        review = self.original_review(); a, b = self.selected
+        cases = [None, [], (), {}, {True: ['14', '10']},
+                 {str(uuid.uuid4()): ['14', '10']},
+                 {multipad_fixture.uid('J3-footprint'): ['14', '10']},
+                 {a: ['14', '10'], b: ['24', '10'], 'extra': ['1', '2']},
+                 {a: None}, {a: ('14', '10')}, {a: '14,10'}, {a: ['14']}, {a: ['14', '10', '0']},
+                 {a: [14, '10']}, {a: [True, '10']}, {a: ['', '10']}, {a: ['1' * 33, '10']},
+                 {a: ['not decimal', '10']}, {a: ['NaN', '10']}, {a: ['sNaN', '10']},
+                 {a: ['Infinity', '10']}, {a: ['1e999999', '10']}, {a: ['2001', '10']},
+                 {a: ['1', '1']}, {a: ['14', '10'], b: ['15', '10']},
+                 {a: ['14', '10'], b: ['24', 'NaN']}]
+        for edits in cases:
+            review.decision(acknowledged=True, accepted=True)
+            before = (copy.deepcopy(review.pose), copy.deepcopy(review.moves), review.revision)
+            with self.subTest(edits=edits), patch.object(review, '_adopt', wraps=review._adopt) as adopt:
+                with self.assertRaises(ValueError):review.edit_many(edits)
+                adopt.assert_not_called()
+            self.assertIsNone(review.intent)
+            self.assertEqual((review.pose, review.moves, review.revision), before)
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+
+    def test_edit_many_subset_keeps_unedited_pose_and_decimal_rules(self):
+        review = self.original_review(); a, b = self.selected
+        before = copy.deepcopy(review.moves); revision = review.revision
+        review.edit_many({a: [' 1.40000015e1 ', '+10']})
+        self.assertEqual(review.moves[a], [14_000_002, 10_000_000])
+        self.assertEqual(review.moves[b], before[b])
+        self.assertEqual(review.revision, revision + 1)
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+
+    def test_single_edit_delegates_and_preserves_refusal_messages(self):
+        review = self.original_review(); a = self.selected[0]
+        with patch.object(review, 'edit_many', wraps=review.edit_many) as many:
+            review.edit(a, '14', '10')
+        many.assert_called_once_with({a: ['14', '10']})
+        for component, x, y, message in (([], '14', '10', 'Only selected movable components'),
+                                         (a, 14, '10', 'Enter bounded decimal coordinates'),
+                                         (a, 'NaN', '10', 'Coordinates must be finite'),
+                                         (a, 'nope', '10', 'Enter decimal coordinates')):
+            review.decision(acknowledged=True, accepted=True)
+            before = (copy.deepcopy(review.pose), copy.deepcopy(review.moves), review.revision)
+            with self.subTest(component=component, x=x), self.assertRaisesRegex(ValueError, message):
+                review.edit(component, x, y)
+            self.assertIsNone(review.intent)
+            self.assertEqual((review.pose, review.moves, review.revision), before)
+
+    def test_edit_many_revision_limit_retains_prior_pose_after_refusal(self):
+        review = self.original_review(); review.revision = 256
+        review.decision(acknowledged=True, accepted=True)
+        before = (copy.deepcopy(review.pose), copy.deepcopy(review.moves), review.revision)
+        with self.assertRaisesRegex(ValueError, 'Review edit limit reached'):
+            review.edit_many({self.selected[0]: ['14', '10']})
+        self.assertIsNone(review.intent)
+        self.assertEqual((review.pose, review.moves, review.revision), before)
 
     def test_exact_edited_draft_validates_but_never_grants_execution(self):
         review = self.review()

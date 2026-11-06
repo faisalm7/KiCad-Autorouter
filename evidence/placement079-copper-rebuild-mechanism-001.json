@@ -1,0 +1,506 @@
+{
+  "actual_GUI": false,
+  "actual_validation": {
+    "applied_to_original": false,
+    "changed_warning_acknowledgement": "unexercised; no genuine warning change occurred",
+    "export_native_report_sha256": "8a78efec98486dd2ae6501c3f6aa0a42d09792430c71434487b4133128e84a3d",
+    "final_candidate_sha256": "2624990cddbc7529eebef8098f9a40dfded7f9b515de718844f1ad52d9f14a5e",
+    "final_metrics": {
+      "copper_layers": 2,
+      "footprints": 6,
+      "pads": 8,
+      "track_length_mm": 41.66700165982178,
+      "version": "10.0.7",
+      "vias": 0,
+      "zones": 1
+    },
+    "final_route_and_export_native": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 0,
+      "warnings": 1
+    },
+    "full_protected_route_records_unchanged": true,
+    "human_PCB_approval": false,
+    "ignored_checks": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "original_native": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 0,
+      "warnings": 1
+    },
+    "original_native_report_sha256": "05d772c4ce281157f28b3f594d848f0d009fa442df74ee5d397d421e471857e5",
+    "original_project_sidecars_rules_and_schematic_unchanged": true,
+    "original_to_plan_to_task_to_placed_to_final_verified": true,
+    "physical_electrical_validation": false,
+    "placed_candidate_sha256": "a5985e19280332f70c6bbd525cdaaedf6f3e29ea45324b0bdfc5b1d61868d8c6",
+    "placed_pre_routing_native": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 2,
+      "warnings": 1
+    },
+    "prepared_task_sha256": "350bed648de1407fd200172f46b84bc1248f9f9232c2ec13b8ce83e4030bb6de",
+    "review_choice": "explicit software-test intent only",
+    "route_native_report_sha256": "13c1561ccc20d035faa1b377f48576bc62dc221a3ce0fa994e96d90fb7b053cd",
+    "same_warning_record_preserved": true,
+    "source_pad_identities_local_geometry_nets_angles_and_fixed_parts_preserved": true,
+    "source_sha256": "5ed4be01d7563ef8aa6d05e3163564215cd582f20b33270b5fed75c1eb30325c",
+    "warning": "Unchanged text-height warning: effective 0.8 mm minimum versus authored 0.7 mm text.",
+    "whole_project_DRC_clean": false
+  },
+  "attempts": [
+    {
+      "completed_work_retained": "Original Native inspection, exact source-bound copper plan/prepared task and first proposal. No Native placement qualification or routing began.",
+      "failure": "Sequential single-component edits could not reach the valid combined pose because each intermediate pose overlapped the other component.",
+      "id": "placement-copper079-001",
+      "passed": false,
+      "subsequent_correction": "Atomic Review.edit_many validates and adopts the complete final pose; original failure remains failed."
+    },
+    {
+      "completed_work_retained": "Atomic reviewed draft and actual Native placement qualification passed. No routing workflow or engine trial began.",
+      "failure": "Selected-net routing refused the standard profile: native completion-only routing and source_all layers are required.",
+      "id": "placement-copper079-002",
+      "passed": false,
+      "subsequent_correction": "Use the existing supported completion-only profile prospectively. Placement evidence was reused, not rerun."
+    },
+    {
+      "Native_placement_repeated": false,
+      "id": "placement-copper079-003",
+      "original_inspection_repeated": false,
+      "passed": true,
+      "resumption": "Reused both earlier attempts\u2019 closed original inspection, prepared task, first proposal, reviewed draft and Native placement proof. Ran preview, selected-net routing, review, explicit software-test choice, fresh export and current export readback.",
+      "search_repeated": false
+    }
+  ],
+  "composition_and_reuse": {
+    "Freerouting_version": "2.5.0",
+    "KiCad_version": "10.0.7",
+    "existing_checks_reused": [
+      "project_inspection.check",
+      "placement.check",
+      "routing_scope.bind/task/audit",
+      "contract.validate_moves/check_translation",
+      "pipeline.check_result",
+      "review_export.check_export"
+    ],
+    "immutable_installed_files": 81,
+    "installed078_unchanged": true,
+    "installed_build_source_head": "36939da2cf615bd2f257b74bc5f1dd1ad73e6647",
+    "installed_manifest_sha256": "8bf26cee13f38f5dc10ea3b69935a3052c5441a5e37b9ea93890b4fb5d4396a2",
+    "installed_runtime": "runtime078",
+    "new_source_helper": {
+      "loaded_outside_installed_runtime": true,
+      "path": "autorouter/placement_copper.py",
+      "sha256": "bbe314c2d28538b4acd4cffaba03778b2e96ae404cc3401995379c1a0b174007"
+    },
+    "no_new_default_copper_policy": true,
+    "primary_routing_engine": "Pinned Freerouting, selected-net completion-only profile, both shared adapter corrections and source_all layers",
+    "pure_atomic_review_authoring": {
+      "draft_output_schema_unchanged": true,
+      "loaded_outside_installed_runtime": true,
+      "path": "autorouter/placement_intent.py",
+      "sha256": "9379bf9c3233f1b0e9fb99a51ae143838acdf8d6e70209547a7e711ba5be114d"
+    },
+    "runtime_shipped_with_new_helper_or_atomic_UI": false,
+    "source_work_state": {
+      "GUI_changes_outside_this_Native_qualification": true,
+      "GUI_source_sha256_at_recording": "feff5dc2625c4d5c03a7cae256bf7ee0a22dfd45ba4698b1eb55828d823fe3fc",
+      "atomic_review_and_placement_GUI_changes_uncommitted_at_recording": true,
+      "observed_checkout_HEAD": "588c61db7d724a91e9f65cb4611b519af7e81995"
+    }
+  },
+  "costs": {
+    "accounting_limits": [
+      "All three external attempt totals include their imports/exit; the two failed attempts remain charged. Aggregate88.49s wall/72.12s CPU is the sequential active execution total, not elapsed calendar time spanning source repairs.",
+      "Nested search, commands, stage/worker/controller costs are already included in outer attempts and must not be added twice.",
+      "Unit tests, source authoring, debugging, research and independent review are separate from product execution; unmeasured authoring/review time is not zero.",
+      "No comparative performance or human-cleanup claim."
+    ],
+    "aggregate_product_external_CPU_seconds": 72.11999999999999,
+    "aggregate_product_external_wall_seconds": 88.49,
+    "fresh_export_budget_seconds": 90,
+    "initial_search_nested": {
+      "full_cpu_seconds": 0.25564100000000023,
+      "included_in_controller_total": true,
+      "wall_seconds": 0.4224655410016567
+    },
+    "model_calls": 0,
+    "nested_native_stages": {
+      "choice": {
+        "budget_seconds": 60,
+        "total_cpu_seconds": 2.872092,
+        "wall_seconds": 5.499434999999721
+      },
+      "export": {
+        "budget_seconds": 90.0,
+        "total_cpu_seconds": 7.389712,
+        "wall_seconds": 9.043044750000263
+      },
+      "review": {
+        "budget_seconds": 60,
+        "total_cpu_seconds": 5.143346,
+        "wall_seconds": 5.254423582999152
+      },
+      "route": {
+        "budget_seconds": 90,
+        "total_cpu_seconds": 10.539862,
+        "wall_seconds": 12.133710874999451
+      }
+    },
+    "nested_placement_controller_and_worker": {
+      "budget_seconds": 120,
+      "cleanup_complete": true,
+      "full_CPU_seconds": 15.633000000000001,
+      "wall_seconds": 20.285037084000578,
+      "worker_CPU_seconds": 13.986874,
+      "worker_wall_seconds": 18.708555458000774
+    },
+    "placement_budget_seconds": 120,
+    "product_attempts": [
+      {
+        "attempt": 1,
+        "full_CPU_seconds": 3.54,
+        "passed": false,
+        "receipt": ".runs/placement079-copper-native-001/outer.stderr",
+        "sha256": "1109fcb9ad6544592c6341583d8d0b46adeda332406f895c49af28102dafe278",
+        "wall_seconds": 5.06
+      },
+      {
+        "attempt": 2,
+        "full_CPU_seconds": 20.45,
+        "passed": false,
+        "receipt": ".runs/placement079-copper-native-002/outer.stderr",
+        "sha256": "ae1cee053e3830d7332be75b39842aacd36fe3a975121c7f5a40848494dfa9bc",
+        "wall_seconds": 27.38
+      },
+      {
+        "attempt": 3,
+        "full_CPU_seconds": 48.129999999999995,
+        "passed": true,
+        "receipt": ".runs/placement079-copper-native-003/outer.stderr",
+        "sha256": "5f1240e68be5d75b4acb2ab775380dcd1471dad788db829119b02461fa4088ac",
+        "wall_seconds": 56.05
+      }
+    ],
+    "prospective_total_wall_and_CPU_budget_seconds": 420,
+    "resumed003_commands": [
+      {
+        "stage": "preview",
+        "wall_seconds": 0.27123000000028696
+      },
+      {
+        "stage": "route",
+        "wall_seconds": 14.059365666000303
+      },
+      {
+        "stage": "review",
+        "wall_seconds": 6.0318016660003195
+      },
+      {
+        "stage": "choice",
+        "wall_seconds": 6.997861916999682
+      },
+      {
+        "stage": "export",
+        "wall_seconds": 11.920357208000496
+      },
+      {
+        "stage": "verify_export",
+        "wall_seconds": 3.3577204999983223
+      }
+    ],
+    "return_reserve_seconds": 15,
+    "review_choice_stage_budget_seconds": 60,
+    "route_budget_seconds": 90,
+    "separate_atomic_UI_unit_checks": {
+      "all_recorded_UI_run_CPU_seconds": 53.44,
+      "all_recorded_UI_run_wall_seconds": 196.53,
+      "historical_shared64_before_final_redraw_fix": {
+        "outer_CPU_seconds": 46.88,
+        "outer_wall_seconds": 189.44,
+        "passed": true,
+        "unexplained_extra_delay_retained": true
+      },
+      "latest_CPU_seconds": 3.59,
+      "latest_GUI_callback_tests": 43,
+      "latest_wall_seconds": 3.81,
+      "passed": true,
+      "scope": "Source callback unit checks only. Final source UI corrections are not installed078 or actual GUI079 qualification. Intent22 tests are separately recorded; no Native rerun."
+    },
+    "separate_atomic_review_tests": {
+      "all_recorded_outer_CPU_seconds": 64.58,
+      "all_recorded_outer_wall_seconds": 104.0,
+      "failure_scope": "Two review-only test setups exhausted their unrelated search budget before edit logic. Those fixtures now use deterministic constraint-validated poses; dedicated real search/cancellation tests and product budgets remain unchanged.",
+      "final_tests": 22,
+      "initial_failures_retained": 2,
+      "passed": true
+    },
+    "separate_core_unit_qualification": {
+      "all_recorded_outer_CPU_seconds": 63.14,
+      "all_recorded_outer_wall_seconds": 310.83,
+      "final_new_tests": 18,
+      "passed": true,
+      "shared_regressions": 46,
+      "slow_timing_limitation": "Final new18-test run passed but recorded271.64s outer wall vs38.885s unittest wall and27.14s outerCPU. The outside-unittest delay is unexplained; retained unchanged, not retried for a better timing. No performance claim."
+    },
+    "separate_readback_attempts": [
+      {
+        "attempt": "readback",
+        "clock_precision_seconds": 0.01,
+        "outer_CPU_seconds": 4.54,
+        "outer_wall_seconds": 4.67,
+        "passed": false
+      },
+      {
+        "attempt": "readback-002",
+        "clock_precision_seconds": 0.01,
+        "outer_CPU_seconds": 4.53,
+        "outer_wall_seconds": 4.74,
+        "passed": true
+      }
+    ],
+    "separate_readback_total_outer_CPU_seconds": 9.07,
+    "separate_readback_total_outer_wall_seconds": 9.41,
+    "separate_skeptical_pure_review_probe": {
+      "measured_tool_process_wall_seconds": 2.597922875,
+      "probe_cpu_seconds": 2.321837,
+      "probe_wall_seconds": 2.4967725,
+      "scope": "Probe-loop timing includes pure checks but excludes initial imports and static authoring/review; no whole-review CPU claim"
+    },
+    "within_total_budget": true
+  },
+  "evidence": [
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/execution.json",
+      "sha256": "560122e09fcb4edb32522f0b3c703c65c1defc8fd5cd95c091a5821b3b56807b"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-002/execution.json",
+      "sha256": "0dbf5022c87a63c52c54ab02e141e460db6f299d6ff4df96e37d0f3ffd7dbdf6"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/execution.json",
+      "sha256": "f604e8ae665046ddb2410c1b1b5c8c9d2068f996d33f747fc38d1999004d24e6"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/protocol.json",
+      "sha256": "e61130dc061c0608a9f7d87ae0be30d69f2bf4cd265b7b7f034a291cb0ad3224"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-002/protocol.json",
+      "sha256": "ec72faf8a277d263f97b5088b32aa4f5b6c5e0ff9fca42894aa13cb140ac936e"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/protocol.json",
+      "sha256": "be021fd14fb7d6374944070ffb28bbb9f845fd2e11d9f97beb1c29d6be67717f"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/copper-plan.json",
+      "sha256": "afd243dc4409644f81bf6589b9a74bf7760ac7a55e577eadbc5439270e0a0fe2"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/plan-review.json",
+      "sha256": "e6569c1d0e1a267b92ac0cb5a915d76e24dbd69eb658d27d6f2e4a9e072dba04"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/original-native-inspection/inspection.json",
+      "sha256": "51c1502cdd82ef4c0ab332fb878bcd00f8db8e84503e0ab8c03d2d535ac2344c"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/original-native-inspection/source-drc.json",
+      "sha256": "05d772c4ce281157f28b3f594d848f0d009fa442df74ee5d397d421e471857e5"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/search-cost.json",
+      "sha256": "4e622a31f8ee1a020fa77130e5cd2865c01a8e08bd8cedb476cbc49ae97db14a"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-001/proposal.json",
+      "sha256": "5846ab9d7302727ffa7791e760216a20fd1ed7bda0ae1c4dadfec296b21a33ba"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-002/reviewed-draft.json",
+      "sha256": "2e938d2313dc34f0b39af73f9b4cfb4686fd9cd5b04e19516dba15715dc924b7"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-002/proposal-selection.json",
+      "sha256": "0d68d7393d65916bdbeb811dc55d023f70d54d59b87656472656b6e3ddc3a843"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-002/qualification-process.json",
+      "sha256": "9a58397a53e8d4038f5d6e46937a187bd77c4e01c1524905d8529e06c0b95fd7"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-qualified079-copper-002/binding.json",
+      "sha256": "2b7da5db67b37f17411bc6049cfeac33d50a739942d4df608ee68c30110f3d28"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-qualified079-copper-002/result.json",
+      "sha256": "6c59f909f1c38910a7163c3dd5eda8338ad5d74215b4dd611e96efe51a1d526d"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-qualified079-copper-002/process.json",
+      "sha256": "64429c57c8137b7b93ba1b67f291ce61eb91ce530b07a4fdff38b0e205e6a3bb"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/reused-evidence.json",
+      "sha256": "33effd3c6f0291b94a5599fad6ac374b64ca67804b9678b63a08ab00ee65d0fc"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/original-to-placement.json",
+      "sha256": "8cd47ac5beb540830dc785d56010d5bacfbaa0b99cdf2eaf8b06964e235c7ce8"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/original-to-final.json",
+      "sha256": "5d3f77a270d6dfd9e1d8891570a6bc83878892548cd633e69257469f285c3886"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/autorouter-gui-c4a64f58aa2f49d2a9de2398df536639/route/result.json",
+      "sha256": "5c3f1514ee6da82b3253ec9c65b64d094b38f1297ffe28d653db2e5542022caf"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/autorouter-gui-c4a64f58aa2f49d2a9de2398df536639/route/final-drc.json",
+      "sha256": "13c1561ccc20d035faa1b377f48576bc62dc221a3ce0fa994e96d90fb7b053cd"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/autorouter-gui-c4a64f58aa2f49d2a9de2398df536639/review/review.json",
+      "sha256": "7350607bd9d14883434e368b61237d8bc2ca55167eecb7eece8ee70c7740b13c"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/autorouter-gui-c4a64f58aa2f49d2a9de2398df536639/choice/choice.json",
+      "sha256": "74ea9490711e24c64250af1514add29149064f6a57c1532c3b339a45810a4aba"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/autorouter-gui-c4a64f58aa2f49d2a9de2398df536639/export/export.json",
+      "sha256": "23b750a40887d7e0c08e5851c58f1eecc966da031ef6373462e9cdb0a99d300f"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/autorouter-gui-c4a64f58aa2f49d2a9de2398df536639/export/validation/final-drc.json",
+      "sha256": "8a78efec98486dd2ae6501c3f6aa0a42d09792430c71434487b4133128e84a3d"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-copper079-003/autorouter-gui-c4a64f58aa2f49d2a9de2398df536639/verify_export.command.log",
+      "sha256": "d877157f61508fa6091f72acc51346f00ffbc57a02ae95a0e1c300c83c31d57a"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/runtime-distribution.json",
+      "sha256": "8bf26cee13f38f5dc10ea3b69935a3052c5441a5e37b9ea93890b4fb5d4396a2"
+    },
+    {
+      "path": ".runs/placement079-copper-core-001/receipt.json",
+      "sha256": "70dcc1254e288292da57778d953a4be076891899ebbe5a437170f1559859836d"
+    },
+    {
+      "path": ".runs/placement079-atomic-edit-001/receipt.json",
+      "sha256": "d58197a6a90b1f555aec20c7e93ca2ef583f728623e5f381cb1a3bf3a95e2370"
+    },
+    {
+      "path": ".runs/placement079-copper-skeptic-001/review.json",
+      "sha256": "7a42d413d6469c4bb2796ecf7c6df2c6e4b9680791ebe4b9deeafab7934e85b5"
+    },
+    {
+      "path": ".runs/placement079-copper-skeptic-001/intermediate-overlap-supplement.json",
+      "sha256": "4e7b1d9700f38f199c92869d5b6f9c6b60f4d30d2cfdbb63dc58295df869efa0"
+    },
+    {
+      "path": ".runs/placement079-copper-readback-001/readback.json",
+      "sha256": "44479143fb3398dda375cb12822fe56ee9cf83fbe75d8dd5b759f7cea2b110e6"
+    },
+    {
+      "path": ".runs/placement079-copper-readback-001/readback-002.json",
+      "sha256": "11bdcf54e84a02f42bf4a23915cab0c2e90ddf0b42383693e5ee3c0b8f8e4bbd"
+    },
+    {
+      "path": ".runs/placement079-copper-readback-001/closure.json",
+      "sha256": "84046fef1f609e99bfb2ded32a0ec39e019007c594bf4bd0e61409963fc76840"
+    },
+    {
+      "path": ".runs/placement079-copper-readback-001/readback.stderr",
+      "sha256": "648ea144802ae6aa7e4cc753e1e93b858dac1d6e0c5199a1a978c31c1fb5144b"
+    },
+    {
+      "path": ".runs/placement079-copper-readback-001/readback-002.stderr",
+      "sha256": "91eb812f64c694950774eb746a4711788b9e8bcb2b80e729a79b0e9312c68243"
+    },
+    {
+      "path": ".runs/placement079-copper-native-001/outer.stderr",
+      "sha256": "1109fcb9ad6544592c6341583d8d0b46adeda332406f895c49af28102dafe278"
+    },
+    {
+      "path": ".runs/placement079-copper-native-002/outer.stderr",
+      "sha256": "ae1cee053e3830d7332be75b39842aacd36fe3a975121c7f5a40848494dfa9bc"
+    },
+    {
+      "path": ".runs/placement079-copper-native-003/outer.stderr",
+      "sha256": "5f1240e68be5d75b4acb2ab775380dcd1471dad788db829119b02461fa4088ac"
+    },
+    {
+      "path": ".runs/placement079-atomic-UI-tests-001/receipt.json",
+      "sha256": "ff657a6aa740dc7d2afaa4475a596c04130a37678cf90143dcea42a2bd897b7e"
+    }
+  ],
+  "experiment_scope": {
+    "affected_native_net_names": [
+      "ROUTE_A",
+      "ROUTE_B"
+    ],
+    "copper_policy": "Opt-in whole incident-net reconstruction; any incident locked or explicitly protected net/route refuses. No protection requirement was weakened.",
+    "family": "Owned ordinary-format six-footprint/eight-pad synthetic development fixture, previously exposed; no acquired CAD or confirmation family",
+    "locked_KEEP_segment_retained": true,
+    "orientation": "Exact original front-side cardinal orientations preserved",
+    "original_routing_complete": true,
+    "original_segments": 9,
+    "original_source_modified": false,
+    "proposal_policy": "Reuse the first bounded search alternative, then the prospectively declared two-coordinate edit. No routing-based winner selection.",
+    "request_mm": {
+      "J1": [
+        16.2,
+        10.4
+      ],
+      "J2": [
+        20.8,
+        10.4
+      ]
+    },
+    "reviewed_incident_segments_removed": 7,
+    "unaffected_segments_retained": 2,
+    "unlocked_GND_segment_retained": true,
+    "unselected_fixed_footprints_preserved": 4,
+    "zones_preserved": 1
+  },
+  "finding": "A reviewed request to move selected parts on an already-complete owned board was completed by removing and rebuilding only its two incident nets. Locked and unrelated copper, fixed parts, source rules and schematic were preserved through actual Native placement, selected-net routing and fresh export validation. This establishes a narrow composition mechanism, not general placement support or increased routing completion rate.",
+  "installed079_support": false,
+  "kind": "placement079-affected-copper-rebuild-mechanism",
+  "privacy": "Sanitized mechanism facts and relative project receipt/hash references only. No CAD payload, absolute/private filesystem listings, personal audit material or screenshots are published.",
+  "project_complete": false,
+  "readback": {
+    "Native_or_rerouting_jobs": 0,
+    "Python_bytecode_disabled": true,
+    "blocked_process_events": 0,
+    "current_export": true,
+    "current_placement": true,
+    "current_routing": true,
+    "current_source_inspection": true,
+    "explicit_source_helper_hash_checked": true,
+    "initial_reader_administration_failure_retained": "Initial adaptation expected the partial-completion import key matches; selected-net evidence uses protected_source_records. Corrected reader compares exact original record IDs/hashes and the selected-net audit. No product evidence changed.",
+    "latest_receipt": ".runs/placement079-copper-readback-001/readback-002.json",
+    "passed": true,
+    "subprocess_execution_forbidden": true
+  },
+  "recorded_utc": "2026-11-06T20:38:49.862703+00:00",
+  "remaining_gates": [
+    "Integrate the opt-in copper plan and explicit review/approval into the shared installed product before advertising this workflow.",
+    "Finish source atomic-review/GUI work and coherent installation/Native/actual GUI qualification; current runtime078 and GUI109 remain separate.",
+    "Qualify useful constrained placement tasks on unrelated licensed sources without stripping reference routing; this owned completed-board task proves no breadth or routing completion gain.",
+    "Continue Native Windows, installation, current recovery and authorized independent human/physical validation requirements.",
+    "Keep unknown-net source copper, source vias/arcs, unsupported geometry, current/return-path/timing/impedance constraints and electrical suitability limitations visible.",
+    "No formal release/package publication, model endpoint, spending or third-party contact is authorized by this record."
+  ],
+  "schema": 1,
+  "status": "bounded_composed_Native_experiment_passed_after_two_preserved_failures",
+  "unattended_first_attempt": false
+}

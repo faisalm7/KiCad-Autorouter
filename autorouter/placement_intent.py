@@ -166,20 +166,33 @@ class Review:
 
     def edit(self, component, x, y):
         self.intent = None
-        if component not in self.settings['selected']:
+        if type(component) is not str or component not in self.settings['selected']:
             raise ValueError('Only selected movable components can be edited.')
-        target = []
-        for text in (x, y):
-            if type(text) is not str or not 0 < len(text) <= 32:
+        self.edit_many({component: [x, y]})
+
+    def edit_many(self, edits):
+        """Adopt one combined final pose; never expose intermediate moves."""
+        self.intent = None
+        if type(edits) is not dict or not 1 <= len(edits) <= len(self.settings['selected']):
+            raise ValueError('Provide a bounded set of selected component edits.')
+        if any(type(component) is not str or component not in self.settings['selected'] for component in edits):
+            raise ValueError('Only selected movable components can be edited.')
+        moves = copy.deepcopy(self.moves)
+        for component, coordinates in edits.items():
+            if type(coordinates) is not list or len(coordinates) != 2:
                 raise ValueError('Enter bounded decimal coordinates in millimetres.')
-            try:
-                value = Decimal(text)
-                if not value.is_finite() or abs(value) > 2000:
-                    raise ValueError('Coordinates must be finite and within ±2000 mm.')
-                target.append(int((value * 1000000).to_integral_value()))
-            except InvalidOperation as exc:
-                raise ValueError('Enter decimal coordinates in millimetres.') from exc
-        moves = copy.deepcopy(self.moves); moves[component] = target
+            target = []
+            for text in coordinates:
+                if type(text) is not str or not 0 < len(text) <= 32:
+                    raise ValueError('Enter bounded decimal coordinates in millimetres.')
+                try:
+                    value = Decimal(text)
+                    if not value.is_finite() or abs(value) > 2000:
+                        raise ValueError('Coordinates must be finite and within ±2000 mm.')
+                    target.append(int((value * 1000000).to_integral_value()))
+                except InvalidOperation as exc:
+                    raise ValueError('Enter decimal coordinates in millimetres.') from exc
+            moves[component] = target
         pose = contract.validate_moves(self.inspection['observation'], moves,
             scope=settings_scope(self.settings), selected=self.settings['selected'], region_nm=self.settings['region_nm'])
         self._adopt(pose)

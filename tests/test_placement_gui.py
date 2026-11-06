@@ -40,11 +40,13 @@ class PlacementGuiTests(unittest.TestCase):
     def window(self):
         gate = self.gate()
         window = SimpleNamespace(gate=gate, job=gui.CliJob(), busy=False, routing=None, finalized=False,
-            qualified=None, validation_revoked=False, cancel_event=threading.Event(), inspection=gate.review.inspection,
+            qualified=None, validation_revoked=False, pending_coordinates={}, editing_component=None,
+            cancel_event=threading.Event(), inspection=gate.review.inspection,
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
         window.revoke = MethodType(window_method('revoke'), window)
+        window.edit_component = MethodType(window_method('edit_component'), window)
         window.finish_close = MethodType(window_method('finish_close'), window)
         return window
 
@@ -262,6 +264,7 @@ class PlacementGuiTests(unittest.TestCase):
             settings=dict(selected=['one', 'two'], region_nm=[0, 0, 10000000, 10000000]), intent=None)
         window.gate.attach(draft); window.gate.acknowledged = True; window.inspection = draft.inspection
         window.alternative.GetSelection.return_value = 1; window.part.GetSelection.return_value = 1
+        window.editing_component = 'two'
         window.x.GetValue.return_value = '3'; window.y.GetValue.return_value = '4'
         window.updating = False
         bitmap = Mock(); bitmap.GetSize.return_value = (850, 486)
@@ -370,7 +373,7 @@ class PlacementGuiTests(unittest.TestCase):
     def test_failed_edit_retains_pose_and_pending_text_but_not_qualification(self):
         window, result = self.presentation_window(); window.qualified = result
         original = copy.deepcopy(window.gate.review.moves)
-        window.gate.review.edit = Mock(side_effect=ValueError('outside allowed rectangle'))
+        window.gate.review.edit_many = Mock(side_effect=ValueError('outside allowed rectangle'))
         with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
             window_method('edit')(window, None)
         self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
@@ -379,6 +382,128 @@ class PlacementGuiTests(unittest.TestCase):
         window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
         window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
         self.assertIn('previous pose retained', window.message.call_args.args[0])
+
+    def test_component_switch_preserves_pending_text_and_loads_committed_selection(self):
+        window, result = self.presentation_window(); window.present = Mock()
+        window.coordinates = MethodType(window_method('coordinates'), window)
+        window.x.GetValue.return_value = '20.'; window.y.GetValue.return_value = '10.4'
+        window_method('pending_edit')(window, Mock())
+        self.assertEqual(window.pending_coordinates, {'two': ['20.', '10.4']})
+        queued = []; wx = SimpleNamespace(CallAfter=lambda action: queued.append(action))
+        # Popup still reports the previous part during its event; commits later.
+        window_method('select_part', wx=wx)(window, None)
+        window.part.GetSelection.return_value = 0
+        queued.pop()()
+        self.assertEqual(window.editing_component, 'one')
+        window.x.ChangeValue.assert_called_with('1'); window.y.ChangeValue.assert_called_with('2')
+        self.assertTrue(window.gate.dirty)
+        with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+        window.part.GetSelection.return_value = 1
+        window_method('select_part', wx=wx)(window, None); queued.pop()()
+        window.x.ChangeValue.assert_called_with('20.'); window.y.ChangeValue.assert_called_with('10.4')
+        self.assertEqual(window.pending_coordinates, {'two': ['20.', '10.4']})
+
+    def test_queued_component_load_cannot_overwrite_a_newer_edit_or_review(self):
+        for action in ('edit', 'discard', 'close'):
+            window, _ = self.presentation_window(); window.present = Mock(); window.coordinates = Mock()
+            queued = []; wx = SimpleNamespace(CallAfter=lambda function: queued.append(function))
+            window_method('select_part', wx=wx)(window, None)
+            if action == 'close': window.gate.close()
+            elif action == 'discard': window.revoke(discard=True)
+            else: window_method('pending_edit')(window, Mock())
+            queued.pop()()
+            window.coordinates.assert_not_called()
+
+    def test_unloaded_component_text_cannot_be_assigned_to_another_part(self):
+        for action in ('pending_edit', 'edit'):
+            window, result = self.presentation_window(); window.present = Mock()
+            window.gate.review.edit_many = Mock(); window.part.GetSelection.return_value = 0
+            # Coordinates still belong to part two while popup now displays one.
+            window.pending_coordinates = {'two': ['20', '10.4']}
+            window_method(action)(window, Mock())
+            self.assertEqual(window.pending_coordinates, {'two': ['20', '10.4']})
+            window.gate.review.edit_many.assert_not_called(); self.assertTrue(window.gate.dirty)
+            self.assertIsNone(window.qualified)
+            with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+            self.assertIn('Choose the component again', window.message.call_args.args[0])
+
+    def test_update_submits_all_pending_components_once_and_keeps_refusal_atomic(self):
+        for rejected in (False, True):
+            window, _ = self.presentation_window(); window.present = Mock(); window.render = Mock()
+            window.pending_coordinates = {'one': ['16.2', '10.4']}
+            window.x.GetValue.return_value = '20.8'; window.y.GetValue.return_value = '10.4'
+            window.gate.review.edit_many = Mock(side_effect=ValueError('overlap') if rejected else None)
+            original = copy.deepcopy(window.gate.review.moves)
+            window_method('edit')(window, None)
+            window.gate.review.edit_many.assert_called_once_with({'one': ['16.2', '10.4'], 'two': ['20.8', '10.4']})
+            self.assertFalse(window.gate.acknowledged)
+            if rejected:
+                window.render.assert_not_called(); self.assertTrue(window.gate.dirty)
+                self.assertEqual(window.gate.review.moves, original)
+                self.assertEqual(len(window.pending_coordinates), 2)
+            else:
+                window.render.assert_called_once_with(); self.assertFalse(window.gate.dirty)
+
+    def test_explicit_render_or_discard_clears_pending_coordinates(self):
+        window, _ = self.presentation_window(); window.present = Mock(); window.coordinates = Mock()
+        window.pending_coordinates = {'two': ['20.', '10.4']}
+        window_method('render', wx=SimpleNamespace(NOT_FOUND=-1))(window)
+        self.assertEqual(window.pending_coordinates, {})
+        window.pending_coordinates = {'two': ['20.', '10.4']}
+        window.revoke(discard=True)
+        self.assertEqual(window.pending_coordinates, {}); self.assertIsNone(window.editing_component)
+
+    def test_invalid_alternative_cannot_clear_dirty_batch_or_reenable_approval(self):
+        window, _ = self.presentation_window(); window.present = Mock(); window.render = Mock()
+        window.pending_coordinates = {'two': ['20.', '10.4']}
+        window.gate.review.choose = Mock(side_effect=ValueError('Unavailable alternative'))
+        window_method('choose_alternative')(window, None)
+        self.assertTrue(window.gate.dirty); self.assertFalse(window.gate.acknowledged)
+        self.assertEqual(window.pending_coordinates, {'two': ['20.', '10.4']})
+        window.render.assert_not_called()
+
+    def test_invalid_alternative_cannot_approve_unbound_typed_coordinates(self):
+        window, _ = self.presentation_window(); window.present = Mock(); window.render = Mock()
+        window.part.GetSelection.return_value = 0  # Text still belongs to part two.
+        window_method('pending_edit')(window, Mock())
+        self.assertTrue(window.gate.dirty); self.assertEqual(window.pending_coordinates, {})
+        window.gate.review.choose = Mock(side_effect=ValueError('Unavailable alternative'))
+        window_method('choose_alternative')(window, None)
+        self.assertTrue(window.gate.dirty)
+        window.ack.GetValue.return_value = True
+        window_method('acknowledge')(window, None)
+        with self.assertRaises(ValueError): window.gate.ticket()
+        self.assertFalse(window.gate.acknowledged); window.render.assert_not_called()
+
+    def test_redraw_failure_rolls_back_real_atomic_edit_and_preserves_typed_batch(self):
+        from autorouter import placement_intent as intent
+        from experiments.placement_native_proposal_v1 import contract, multipad_fixture as fixture
+        with tempfile.TemporaryDirectory(prefix='placement-redraw-') as temporary:
+            board = fixture.write_project(Path(temporary).resolve() / 'source')
+            inspected = intent.inspect_saved(board)
+            selected = [fixture.uid(ref + '-footprint') for ref in ('J1', 'J2')]
+            settings = intent.settings(selected, [7000000, 7000000, 31000000, 13000000])
+            moves = dict(zip(selected, [[14000000, 10000000], [20000000, 10000000]]))
+            pose = contract.validate_moves(inspected['observation'], moves,
+                scope=contract.MULTIPAD_SCOPE, selected=selected, region_nm=settings['region_nm'])
+            review = intent.Review(dict(kind='autorouter.placement-proposals.v1', inspection=inspected,
+                settings=settings, search=dict(status='proposals_ready', alternatives=[dict(candidate=pose)])))
+            window, _ = self.presentation_window(); window.gate.attach(review)
+            window.editing_component = selected[1]; window.part.GetSelection.return_value = 1
+            window.pending_coordinates = {selected[0]: ['20', '10']}
+            window.x.GetValue.return_value = '14'; window.y.GetValue.return_value = '10'
+            window.coordinates = MethodType(window_method('coordinates'), window)
+            window.render = MethodType(window_method('render', wx=SimpleNamespace(NOT_FOUND=-1)), window)
+            window.present = Mock(side_effect=RuntimeError('deliberate bitmap failure'))
+            previous = copy.deepcopy((review.pose, review.moves, review.revision))
+            window_method('edit')(window, None)
+            self.assertEqual((review.pose, review.moves, review.revision), previous)
+            self.assertEqual(window.pending_coordinates, {selected[0]: ['20', '10'], selected[1]: ['14', '10']})
+            window.x.ChangeValue.assert_called_with('14'); window.y.ChangeValue.assert_called_with('10')
+            window.part.SetSelection.assert_called_with(1)
+            self.assertIsNone(review.intent); self.assertTrue(window.gate.dirty)
+            self.assertFalse(window.gate.acknowledged); self.assertIsNone(window.qualified)
+            self.assertIn('previous pose retained', window.message.call_args.args[0])
 
     def test_stale_origin_at_routing_open_removes_success_and_handoff_authority(self):
         window, result = self.presentation_window(); window.qualified = result

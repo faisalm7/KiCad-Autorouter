@@ -153,6 +153,8 @@ def create_window(board='', *, on_closed=None):
             self.job = None; self.cancel_event = None; self.routing = None
             self.qualified = None; self.validation_revoked = False
             self.updating = False; self.workspace = None; self.owner = {}
+            self.pending_coordinates = {}
+            self.editing_component = None
             panel = self.panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
             root = wx.BoxSizer(wx.VERTICAL)
             title = wx.StaticText(panel, label='Place selected components')
@@ -191,7 +193,7 @@ def create_window(board='', *, on_closed=None):
             for label, field in (('X mm', self.x), ('Y mm', self.y)):
                 editrow.Add(wx.StaticText(panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 4)
                 editrow.Add(field, 0, wx.RIGHT, 8)
-            self.apply = wx.Button(panel, label='Update draft'); editrow.Add(self.apply)
+            self.apply = wx.Button(panel, label='Update all edits'); editrow.Add(self.apply)
             right.Add(editrow, 0, wx.EXPAND)
             self.ack = wx.CheckBox(panel, label='I saved and CLOSED this exact source’s PCB and schematic editors.\n'
                 'I reviewed this draft and its limits; this is not PCB approval.')
@@ -257,6 +259,8 @@ def create_window(board='', *, on_closed=None):
             if self.routing is not None: self.routing.Close()
             redraw_error = None
             if discard:
+                self.pending_coordinates.clear()
+                self.editing_component = None
                 self.gate.review = None
                 self.alternative.Set([]); self.part.Set([])
                 self.x.ChangeValue(''); self.y.ChangeValue('')
@@ -378,6 +382,7 @@ def create_window(board='', *, on_closed=None):
 
         def render(self, alternative_index=None):
             review = self.gate.review
+            self.pending_coordinates.clear()
             references = {r['uuid']: r['reference'] for r in review.inspection['components']}
             self.alternative.Set(['Alternative ' + str(i + 1) for i in range(len(review.alternatives))])
             self.alternative.SetSelection(wx.NOT_FOUND if alternative_index is None else alternative_index)
@@ -425,32 +430,76 @@ def create_window(board='', *, on_closed=None):
 
         def coordinates(self):
             review = self.gate.review; index = self.part.GetSelection()
-            if review is not None and index >= 0:
-                xy = review.moves[review.settings['selected'][index]]
-                self.x.ChangeValue(mm(xy[0])); self.y.ChangeValue(mm(xy[1]))
+            self.editing_component = None
+            if review is not None and 0 <= index < len(review.settings['selected']):
+                identity = review.settings['selected'][index]
+                xy = self.pending_coordinates.get(identity)
+                if xy is None:
+                    xy = [mm(value) for value in review.moves[identity]]
+                self.x.ChangeValue(xy[0]); self.y.ChangeValue(xy[1])
+                self.editing_component = identity
+
+        def edit_component(self):
+            review = self.gate.review; index = self.part.GetSelection()
+            if (review is None or not 0 <= index < len(review.settings['selected'])
+                    or review.settings['selected'][index] != self.editing_component):
+                raise ValueError('Component selection changed before its coordinates loaded. Choose the component again.')
+            return self.editing_component
 
         def select_part(self, _):
-            if self.gate.dirty:
-                self.revoke(); self.message('Pending coordinate text discarded; review acknowledgement cleared.')
-            self.coordinates()
+            # A Cocoa popup may commit its selection after the choice event.
+            review, generation = self.gate.review, self.gate.generation
+            def loaded():
+                if self.gate.closed or self.busy or self.gate.review is not review or self.gate.generation != generation:
+                    return
+                self.coordinates()
+                if self.pending_coordinates:
+                    self.message('Edits kept for ' + str(len(self.pending_coordinates))
+                        + ' components. Update all edits to check their final positions together.')
+            wx.CallAfter(loaded)
 
         def choose_alternative(self, _):
             try:
-                index = self.alternative.GetSelection(); self.revoke()
-                self.gate.review.choose(index); self.render(index)
+                index = self.alternative.GetSelection(); self.revoke(dirty=self.gate.dirty or bool(self.pending_coordinates))
+                self.gate.review.choose(index); self.gate.dirty = False; self.render(index)
             except Exception as exc: self.message('Alternative refused: ' + str(exc))
 
         def pending_edit(self, event):
             if not self.updating:
-                self.revoke(dirty=True); self.message('Coordinates are pending. Update the draft, or choose an alternative to discard them.')
+                try:
+                    identity = self.edit_component()
+                except ValueError as exc:
+                    self.revoke(dirty=True); self.message(str(exc)); event.Skip(); return
+                self.pending_coordinates[identity] = [self.x.GetValue(), self.y.GetValue()]
+                self.revoke(dirty=True)
+                self.message('Edits are pending. You can edit another component, then Update all edits. Choosing an alternative discards pending edits.')
             event.Skip()
 
         def edit(self, _):
+            previous = None; rendering = False
             try:
                 self.revoke(dirty=True); review = self.gate.review
-                review.edit(review.settings['selected'][self.part.GetSelection()], self.x.GetValue(), self.y.GetValue())
-                self.gate.dirty = False; self.render(); self.message('Draft updated and geometry checked. Review it again before Native validation.')
-            except Exception as exc: self.message('Edit refused; previous pose retained: ' + str(exc))
+                identity = self.edit_component()
+                self.pending_coordinates[identity] = [self.x.GetValue(), self.y.GetValue()]
+                pending = copy.deepcopy(self.pending_coordinates)
+                selection = self.part.GetSelection(); alternative = self.alternative.GetSelection()
+                previous = (review.pose, review.moves, review.revision)
+                review.edit_many(copy.deepcopy(self.pending_coordinates))
+                rendering = True; self.gate.dirty = False; self.render()
+                self.message('Draft updated and geometry checked. Review it again before Native validation.')
+            except Exception as exc:
+                if previous is not None:
+                    review.pose, review.moves, review.revision = previous
+                    review.intent = None; self.gate.dirty = True
+                if rendering:
+                    # Rendering also resets selectors/text. Restore the whole
+                    # editing transaction, with approval still revoked.
+                    self.pending_coordinates = pending
+                    self.part.SetSelection(selection); self.alternative.SetSelection(alternative)
+                    self.editing_component = identity
+                    self.x.ChangeValue(pending[identity][0]); self.y.ChangeValue(pending[identity][1])
+                    self.revoke(dirty=True)
+                self.message('Edit refused; previous pose retained: ' + str(exc))
 
         def acknowledge(self, _):
             checked = self.ack.GetValue(); self.revoke(dirty=self.gate.dirty)
