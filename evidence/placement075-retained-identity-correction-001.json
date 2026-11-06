@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "kind": "placement-retained-mount-identity-correction-v1",
+  "status": "source_regressions_and_actual_readback_passed",
+  "failure": "Prepared GUI handoff refused before opening or Native execution: historical request st_dev16777231 differs from current16777234; retained work inode and bytes unchanged.",
+  "changes": [
+    "Read-only retained replay requires well-formed consistent historical identities and same inode; captures current complete bounded tree identity before and after proof.",
+    "Live worker/outer qualification device+inode and current code pins remain strict.",
+    "Changed checker does not reauthorize old reviewed intent; new explicit review and one prospective Native choice required."
+  ],
+  "source_sha256": {
+    "experiments/placement_choice.py": "acd6a305aca848092cc961180182d2ddcb60e3736746fdd3fe84ee13c792953d",
+    "experiments/placement_native_evidence.py": "022febec2d24bb6330a9177d27881f4f3b41a6b047019ad82dfdffd2f3ff8265",
+    "tests/test_placement_retained_identity.py": "430a8fb58830deed860d60384ec1f74c5d1fa8899d64204b07f403aecb85a0fb"
+  },
+  "targeted": {
+    "passed": 94,
+    "wall_seconds": 5.39167724999993,
+    "cpu_seconds": 5.114397,
+    "cold_installed_bootstrap": true
+  },
+  "actual_base006_readback": {
+    "passed": true,
+    "wall_seconds": 0.34206874999995307,
+    "cpu_seconds": 0.30831,
+    "Native_executed": false,
+    "findings": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0
+    }
+  },
+  "independent_review": {
+    "receipt_sha256": "309c2a6c2911df7f1c92355bffcb6744c90da9ee49858ddfee7ce847e0dc1f8d",
+    "no_blocking_defect": true,
+    "process_creation_forbidden_during_actual_readback": true,
+    "human_review": false
+  },
+  "original_choice001_retained": true,
+  "old_gui_launch_failed": true,
+  "new_GUI_and_Native_qualification": "pending",
+  "no_archive_or_install_rebuild": true,
+  "limitations": [
+    "Same-inode current-project-mount retained replay only; no relocation/restoration qualification.",
+    "Current filesystem identity is an ordinary failure/race guard, not a hostile-user filesystem sandbox.",
+    "No placement or routing quality claim from checker correction."
+  ],
+  "raw_receipts": {
+    ".runs/placement-choice075-resume-identity-001/failure.json": "a37ba358a4945a85a13dadc3cbf0fa7e927e653d3ba5c7e85739491992414877",
+    ".runs/placement-choice075-resume-identity-001/lead-targeted.json": "5c0d43b4bb9dfb0e09f08260693bd7205b75f95827d60f93df5ad2b40b5cc9c1",
+    ".runs/placement-choice075-resume-identity-001/base-readback.json": "d007d245fc35e4f6bf47b5d03c6d8be910bf62753c11c2d0c1bd446573141170",
+    ".runs/placement-choice075-resume-identity-001/legacy001-refusal.json": "1e47d5d67bb9bae73c3caae381b24b8fe17e4a7ab54d731bc573e4f56d32f3b9",
+    ".runs/placement-retained-replay-skeptic-001/review.json": "309c2a6c2911df7f1c92355bffcb6744c90da9ee49858ddfee7ce847e0dc1f8d"
+  }
+}

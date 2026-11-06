@@ -7,7 +7,9 @@ but do not become current merely because a prior audit called them valid.
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
+import stat
 
 
 def _need(condition, reason):
@@ -58,6 +60,67 @@ def _relative(root, name, h):
     return value
 
 
+def retained_tree_identity(directory, project_root):
+    """Fence a bounded read-only replay on this mount, without following links.
+
+    Device numbers are current-process filesystem identity, not durable evidence.
+    Capture them anew for a replay, then compare this complete map after its last
+    content/metadata check. This is not relocation support or a hostile-user
+    filesystem sandbox. No recorded request or retained byte is rewritten.
+    """
+    directory, project_root = Path(directory), Path(project_root)
+    _need(directory.is_absolute() and project_root.is_absolute()
+          and project_root in directory.parents, 'retained directory must be inside the project')
+    _need(not any(path.is_symlink() for path in (directory, *directory.parents)),
+          'retained path symlink unsupported')
+    device = project_root.lstat().st_dev
+    for path in (directory, *directory.parents):
+        value = path.lstat()
+        _need(stat.S_ISDIR(value.st_mode) and value.st_dev == device,
+              'retained ancestor is not a directory on the project mount: ' + str(path))
+        if path == project_root: break
+    def identify(value):
+        return (value.st_dev, value.st_ino, value.st_mode, value.st_uid, value.st_gid, getattr(value, 'st_flags', 0))
+    pending = [(directory, None)]; result = {}; entries = 0
+    while pending:
+        folder, expected = pending.pop()
+        fd = os.open(folder, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            info = os.fstat(fd)
+            identity = identify(info)
+            _need(info.st_dev == device and stat.S_ISDIR(info.st_mode)
+                  and (expected is None or identity == expected), 'retained directory changed or crossed a mount')
+            result[str(folder.relative_to(directory))] = identity
+            with os.scandir(fd) as iterator:
+                for entry in iterator:
+                    entries += 1
+                    _need(entries <= 4000, 'retained identity entry ceiling')
+                    value = entry.stat(follow_symlinks=False)
+                    _need(value.st_dev == device and (stat.S_ISDIR(value.st_mode) or stat.S_ISREG(value.st_mode)),
+                          'retained symlink, special file or unexpected mount: ' + str(folder / entry.name))
+                    identity = identify(value)
+                    child = folder / entry.name
+                    result[str(child.relative_to(directory))] = identity
+                    if stat.S_ISDIR(value.st_mode): pending.append((child, identity))
+        finally:
+            os.close(fd)
+    return result
+
+
+def retained_request_identity(recorded, current, previous=None):
+    """Keep historical request provenance; require the same retained inode.
+
+    The worker enforced the entire device/inode pair at execution time. A
+    read-only replay may observe a different mount device number after restart;
+    it never grants permission to execute that historical request again.
+    """
+    _need(type(recorded) is list and len(recorded) == 2
+          and all(type(value) is int and value > 0 for value in recorded), 'invalid retained request identity')
+    _need(recorded[1] == current[1], 'retained request directory inode differs')
+    _need(previous is None or recorded == previous, 'inconsistent retained request identities')
+    return list(recorded)
+
+
 def check(output, runtime, protocol, expected_scope):
     """Return a fresh, detached witness for one qualified placement proposal.
 
@@ -76,6 +139,7 @@ def check(output, runtime, protocol, expected_scope):
     _need(output.parent == driver.ROOT / '.runs' and protocol.parent == driver.HERE,
           'placement-v1 output/protocol location differs')
     work = h.real_path(output / 'work')
+    current_tree = retained_tree_identity(output, driver.ROOT)
     spec = f.read_json(protocol)
     options = _scope(spec, expected_scope, contract)
     scope = options['scope']; legacy = 'placement_scope' not in spec
@@ -179,17 +243,17 @@ def check(output, runtime, protocol, expected_scope):
     immutable = contract.check_translation(derived, candidate_raw, moves, **options)
     _need(immutable == data['immutable_check'], 'strict immutable comparison differs')
 
-    observations = []
+    observations = []; historical_identity = None
     for name, board, hashes, expected in (
         ('capture', task, task_hashes, observation), ('translate', task, task_hashes, observation),
         ('final-capture', candidate, candidate_hashes, contract.inspect_board(candidate_raw, scope=scope))):
         request_path = work / (name + '-request.json'); observed_path = work / (name + '-observation.json')
         request = f.read_json(request_path); observed = f.read_json(observed_path)
         translated = name == 'translate'
-        identity = work.stat()
+        historical_identity = retained_request_identity(request.get('job_identity'), current_tree['work'], historical_identity)
         expected_request = dict(schema=1, mode='translate' if translated else 'capture', board=str(board), source_hashes=hashes,
             candidate=str(candidate) if translated else None, moves_nm=moves if translated else {}, job=str(work),
-            job_identity=[identity.st_dev, identity.st_ino], application_policy=policy,
+            job_identity=historical_identity, application_policy=policy,
             runtime_manifest_sha256=spec['runtime_manifest_sha256'], wrapper_sha256=spec['wrapper_sha256'], code_sha256=spec['code_sha256'])
         if not legacy: expected_request.update(placement_scope=scope, selected_footprints=options['selected'], allowed_region_nm=options['region_nm'])
         _need(request == expected_request, 'Native request binding differs: ' + name)
@@ -253,6 +317,8 @@ def check(output, runtime, protocol, expected_scope):
     _need(gui.source_inventory(task) == task_hashes and gui.source_inventory(candidate) == candidate_hashes,
           'task/candidate changed during readback')
     _need(pc.inventory(output, max_bytes=spec['output_bytes']) == artifacts, 'retained artifacts changed during readback')
+    for board in [source, snapshot, task, candidate, *stage_inputs]:
+        local_settings.check_current_metadata(board.with_suffix('.kicad_prl'))
     result = dict(schema=1, current=True, placement_proposal_validated=True, accepted=False, routing_accepted=False,
         human_approval=False, execution_authorized=False, root=str(output), artifact_hashes=artifacts,
         reader_sha256=reader_hash, protocol_sha256=protocol_hash, execution_sha256=artifacts['execution.json'],
@@ -266,4 +332,5 @@ def check(output, runtime, protocol, expected_scope):
         counts=dict(footprints=len(observation['footprints']), pads=sum(len(fp['pads']) for fp in observation['footprints']),
                     preserved_routes=len(contract.p.routes(contract.read_board(derived))), zones=len(observation['zones'])),
         Native_findings=natives, immutable_check=immutable, warning_records_unchanged=True)
+    _need(retained_tree_identity(output, driver.ROOT) == current_tree, 'retained filesystem identity changed during readback')
     return json.loads(json.dumps(result, allow_nan=False))

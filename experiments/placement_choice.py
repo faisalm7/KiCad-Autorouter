@@ -174,13 +174,26 @@ def native_argv(c, runtime, work, name):
             '--request', str(work / (name + '-request.json')), '--output', str(work / (name + '-observation.json'))]
 
 
-def proof(output, binding, review, choice, data):
+def check_native_request(actual, expected, *, retained=False, previous=None):
+    """Live requests keep exact current identity; only closed replay permits remount."""
+    need(type(retained) is bool, 'explicit retained replay mode required')
+    historical = None
+    if retained:
+        from experiments import placement_native_evidence as old
+        historical = old.retained_request_identity(actual.get('job_identity'), expected['job_identity'], previous)
+        expected = dict(expected, job_identity=historical)
+    need(equal(actual, expected), 'Native request differs')
+    return historical
+
+
+def proof(output, binding, review, choice, data, *, retained=False):
     """Read actual new Native/PRL/process/immutable proofs, never a prior pass flag."""
     from experiments.placement_native_proposal_v1 import driver
     c, p, f, gui, h, pc = driver.context(Path(binding['runtime']))
     from experiments.placement_native_proposal_v1 import contract
     from experiments import placement_native_evidence as old
     from autorouter import local_settings
+    need(type(retained) is bool, 'explicit retained replay mode required')
     work = h.real_path(output / 'work'); source = Path(binding['source'])
     snapshot = work / 'snapshot' / source.name; candidate = work / 'candidate' / source.name
     preimage = work / 'refill-preimage' / source.name; refill = work / 'refill-native' / source.name
@@ -216,11 +229,13 @@ def proof(output, binding, review, choice, data):
                   capture_sha256=p.sha(base_work / 'capture-observation.json'), new_initial_native_checks=False)
     need(equal(data['reused_initial'], reused) and base_capture['observation'] == review.observation
          == contract.inspect_board(raw, scope=choice.options['scope']), 'reused source provenance differs')
+    historical_identity = None
     for name, board, hashes, expected in (
             ('translate', snapshot, binding['source_hashes'], review.observation),
             ('final-capture', candidate, candidate_hashes, contract.inspect_board(candidate_raw, scope=choice.options['scope']))):
         spec = request(binding, work, name, board, candidate, hashes, choice.moves)
-        need(f.read_json(work / (name + '-request.json')) == spec, 'Native request differs: ' + name)
+        actual = f.read_json(work / (name + '-request.json'))
+        historical_identity = check_native_request(actual, spec, retained=retained, previous=historical_identity)
         observed = f.read_json(work / (name + '-observation.json'))
         old._success(f.process_check(work, data, name, [*f.SANDBOX, *native_argv(c, Path(binding['runtime']), work, name)]))
         old._false(observed, 'accepted', 'routing_accepted', 'native_save_board_called')
@@ -365,7 +380,10 @@ def check(output, *, expected_runtime):
     to the completed child. Current proof bytes, rather than saved pass flags,
     are read independently. Call from the explicit installed runtime interpreter.
     """
-    output = Path(output)
+    output = Path(output).absolute()
+    from experiments import placement_native_evidence as old
+    need(output.parent == ROOT / '.runs', 'choice output must be an owned .runs child')
+    current_tree = old.retained_tree_identity(output, ROOT)
     binding, review, choice = loaded(output, expected_runtime)
     from experiments.placement_native_proposal_v1 import driver
     c, p, f, gui, h, pc = driver.context(Path(binding['runtime']))
@@ -378,10 +396,11 @@ def check(output, *, expected_runtime):
     stable_work(output, outer['worker_artifact_hashes'], pc)
     need(outer['binding_sha256'] == binding_sha and outer['child_receipt_sha256'] == p.sha(output / 'work/result.json')
          and process['argv'] == worker_argv(binding, output, binding_sha) and process['cwd'] == str(output), 'process/receipt binding differs')
-    candidate_hashes = proof(output, binding, review, choice, data)
+    candidate_hashes = proof(output, binding, review, choice, data, retained=True)
     material(binding, review)
     need(pc.inventory(output, max_bytes=DISK) == inventory, 'choice artifacts changed during readback')
     work_prl(output, binding)
+    need(old.retained_tree_identity(output, ROOT) == current_tree, 'choice filesystem identity changed during readback')
     return dict(schema=1, kind=KIND, current=True, placement_qualified=True, status='pending_candidate',
         **{key: False for key in AUTHORITY}, artifact_hashes=inventory, binding_sha256=binding_sha,
         draft_sha256=binding['draft_sha256'], original_source=binding['source'], original_source_hashes=binding['source_hashes'],
