@@ -16,11 +16,22 @@ def exact_native_layer(item, expected):
     return type(actual) is int and type(expected) is int and actual == expected
 
 
-def capture(native, pcbnew, raw, contract, fc):
-    expected = contract.inspect_board(raw)
+def request_scope(spec, contract):
+    keys = {'placement_scope','selected_footprints','allowed_region_nm'}
+    present = set(spec) & keys
+    contract.need(not present or present == keys, 'Complete explicit placement scope required')
+    if not present:return contract.scope_options()
+    contract.need(type(spec['selected_footprints']) is list and type(spec['allowed_region_nm']) is list,
+                  'JSON selected UUID list and region list required')
+    return contract.scope_options(scope=spec['placement_scope'],selected=spec['selected_footprints'],region_nm=spec['allowed_region_nm'])
+
+
+def capture(native, pcbnew, raw, contract, fc, *, scope='single-pad-unrouted-v1'):
+    expected = contract.inspect_board(raw,scope=scope)
     need = contract.need
     need(native.GetCopperLayerCount() == 2, 'Native two-copper census differs')
-    need(not list(native.GetTracks()), 'Native task unexpectedly contains tracks/vias')
+    native_routes = list(native.GetTracks())
+    need(scope == contract.MULTIPAD_SCOPE or not native_routes, 'Native task unexpectedly contains tracks/vias')
 
     def uid(item):return str(item.m_Uuid.AsString())
     def xy(point):
@@ -41,13 +52,29 @@ def capture(native, pcbnew, raw, contract, fc):
     drawings = list(native.GetDrawings())
     need(len(drawings) == 1 and exact_native_layer(drawings[0], pcbnew.Edge_Cuts), 'Native edge/cutout census differs')
     edge = shape(drawings[0]); need(edge == expected['outline'], 'Native/source rectangle differs')
+    routes = []; route_netcodes = {}
+    if scope == contract.MULTIPAD_SCOPE:
+        need(len(native_routes) <= 64, 'Native segment population exceeded')
+        for item in native_routes:
+            need(isinstance(item,pcbnew.PCB_TRACK) and not isinstance(item,(pcbnew.PCB_VIA,pcbnew.PCB_ARC)),
+                 'Native vias/arcs unsupported by multipad-preserve-v1')
+            need(item.GetLayer() in (pcbnew.F_Cu,pcbnew.B_Cu), 'Native segment copper layer differs')
+            identity = uid(item)
+            need(identity not in route_netcodes, 'Native segment UUID duplicated')
+            route_netcodes[identity] = integer(item.GetNetCode())
+            need(route_netcodes[identity] > 0, 'Native segment requires a named net')
+            routes.append(dict(uuid=identity,kind='segment',net=str(item.GetNetname()),
+                start_nm=xy(item.GetStart()),end_nm=xy(item.GetEnd()),width_nm=integer(fc.route_width(item,pcbnew)),
+                layer='F.Cu' if item.GetLayer()==pcbnew.F_Cu else 'B.Cu',locked=boolean(item.IsLocked())))
+        need(sorted(routes,key=lambda row:row['uuid'])==expected['routes'], 'Native/source preserved segment differs')
     pads_by_fp = {}; pad_ids = set(); netcodes = {}
     for pad in native.GetPads():
         pid = uid(pad); parent = pad.GetParentFootprint()
         need(pid not in pad_ids and len(pad_ids) < 32 and parent is not None, 'Native pad census differs')
         pad_ids.add(pid)
+        offset = xy(pad.GetFPRelativePosition())
         need(pad.GetAttribute() == pcbnew.PAD_ATTRIB_PTH and not pad.IsFlipped()
-             and pad.GetOrientationDegrees() == 0 and xy(pad.GetFPRelativePosition()) == [0, 0], 'Native centred unrotated PTH pad required')
+             and pad.GetOrientationDegrees() == 0 and (scope == contract.MULTIPAD_SCOPE or offset == [0, 0]), 'Native unrotated PTH pad required')
         sizes = []
         for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
             need(pad.IsOnLayer(layer) and pad.GetShape(layer) == pcbnew.PAD_SHAPE_CIRCLE
@@ -56,8 +83,10 @@ def capture(native, pcbnew, raw, contract, fc):
         need(sizes[0] == sizes[1], 'Layer-specific pad size differs')
         netcode = integer(pad.GetNetCode()); need(netcode > 0, 'Positive native net required')
         netcodes[pid] = netcode
-        pads_by_fp.setdefault(uid(parent), []).append(dict(uuid=pid, number=str(pad.GetNumber()), net=str(pad.GetNetname()),
-            position_nm=xy(pad.GetPosition()), size_nm=sizes[0], drill_nm=xy(pad.GetDrillSize())))
+        row = dict(uuid=pid, number=str(pad.GetNumber()), net=str(pad.GetNetname()),
+            position_nm=xy(pad.GetPosition()), size_nm=sizes[0], drill_nm=xy(pad.GetDrillSize()))
+        if scope == contract.MULTIPAD_SCOPE:row['offset_nm'] = offset
+        pads_by_fp.setdefault(uid(parent), []).append(row)
     footprints = []; ids = set()
     for fp in native.GetFootprints():
         identity = uid(fp)
@@ -78,7 +107,9 @@ def capture(native, pcbnew, raw, contract, fc):
     for row in expected['zones']:
         observed = by_id.get(row['uuid'])
         contract.check_ordinary_zone(row, observed)
-    return expected, dict(native_pad_netcodes=netcodes, actual_native_areas=areas)
+    details = dict(native_pad_netcodes=netcodes, actual_native_areas=areas)
+    if scope == contract.MULTIPAD_SCOPE:details['native_route_netcodes'] = route_netcodes
+    return expected, details
 
 
 def main(argv=None):
@@ -96,8 +127,10 @@ def main(argv=None):
          and Path(sys.executable).resolve() == c.PYTHON.resolve(), 'Pinned installed 10.0.7 interpreter required')
     request, output = h.real_path(args.request), h.real_path(args.output, existing=False)
     spec = f.read_json(request)
-    need(set(spec) == {'schema','mode','board','source_hashes','candidate','moves_nm','job','job_identity','application_policy',
-                       'runtime_manifest_sha256','wrapper_sha256','code_sha256'}, 'Exact worker request required')
+    fields = {'schema','mode','board','source_hashes','candidate','moves_nm','job','job_identity','application_policy',
+              'runtime_manifest_sha256','wrapper_sha256','code_sha256'}
+    need(set(spec) in (fields, fields|{'placement_scope','selected_footprints','allowed_region_nm'}), 'Exact worker request required')
+    options = request_scope(spec,contract); scope = options['scope']
     need(type(spec['schema']) is int and spec['schema'] == 1 and spec['mode'] in ('capture', 'translate'), 'Worker mode/schema differs')
     policy = contract.application_policy(spec['application_policy'])
     job = h.real_path(spec['job']); owner = dict(destination=job, directory_identity=tuple(spec['job_identity']))
@@ -124,6 +157,7 @@ def main(argv=None):
                   native_version='10.0.7', source=str(board), source_hashes=spec['source_hashes'],
                   request_sha256=p.sha(request), board_saved=False, actual_native_observation=False,
                   application_policy=policy, native_save_board_called=False,
+                  placement_scope=scope, selected_footprints=options['selected'],allowed_region_nm=options['region_nm'],
                   candidate=str(candidate) if candidate is not None else None,
                   candidate_hashes_before=pc.inventory(candidate.parent) if candidate is not None else None)
     try:
@@ -133,18 +167,18 @@ def main(argv=None):
              and Path(_pcbnew.__file__).resolve() == c.PCBNEW.resolve(), 'Loaded Native module identity differs')
         raw = pc.read_bytes(board, contract.MAX_BYTES); native = pcbnew.LoadBoard(str(board))
         need(native is not None, 'Native load failed')
-        observed, details = capture(native, pcbnew, raw, contract, fc)
+        observed, details = capture(native, pcbnew, raw, contract, fc,scope=scope)
         record.update(observation=observed, details=details, actual_native_observation=True)
         if candidate is not None:
-            contract.validate_moves(observed, spec['moves_nm'])
-            expected_tree = contract.translated_tree(raw, spec['moves_nm'])
+            contract.validate_moves(observed, spec['moves_nm'],**options)
+            expected_tree = contract.translated_tree(raw, spec['moves_nm'],**options)
             expected_raw = (contract.sx.dump(expected_tree) + '\n').encode()
             footprints = {str(fp.m_Uuid.AsString()): fp for fp in native.GetFootprints()}
-            need(set(spec['moves_nm']) == set(contract.SELECTED), 'Exact prospectively selected UUIDs required')
+            need(set(spec['moves_nm']) == set(options['selected']), 'Exact prospectively selected UUIDs required')
             for identity, target in spec['moves_nm'].items():
                 need(not footprints[identity].IsLocked(), 'Native locked footprint cannot move')
                 footprints[identity].SetPosition(pcbnew.VECTOR2I(*target))
-            _, after_details = capture(native, pcbnew, expected_raw, contract, fc)
+            _, after_details = capture(native, pcbnew, expected_raw, contract, fc,scope=scope)
             need(after_details == details, 'Native translation changed zone flags or pad net codes')
             fresh(); h.owned_destination(owner)
             need(pc.inventory(candidate.parent) == spec['source_hashes'], 'Translation copy changed before write')
@@ -160,8 +194,8 @@ def main(argv=None):
             written = pc.read_bytes(candidate, contract.MAX_BYTES)
             record['candidate_hashes_after'] = pc.inventory(candidate.parent)
             record['saved_candidate_sha256'] = hashlib.sha256(written).hexdigest()
-            record['immutable_check'] = contract.check_translation(raw, written, spec['moves_nm'])
-            _, saved_details = capture(pcbnew.LoadBoard(str(candidate)), pcbnew, written, contract, fc)
+            record['immutable_check'] = contract.check_translation(raw, written, spec['moves_nm'],**options)
+            _, saved_details = capture(pcbnew.LoadBoard(str(candidate)), pcbnew, written, contract, fc,scope=scope)
             need(saved_details == details, 'Candidate reload changed zone flags or pad net codes')
             need({k:v for k,v in pc.inventory(candidate.parent).items() if k != board.name}
                  == {k:v for k,v in spec['source_hashes'].items() if k != board.name}, 'Native save changed sidecars')

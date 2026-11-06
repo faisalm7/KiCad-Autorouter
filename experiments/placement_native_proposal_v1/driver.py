@@ -26,6 +26,33 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 SEED = '.runs/runtime074 fresh install 001/.runs/gui-session105/ordinary-project/owned1007-transport.kicad_pcb'
 SEED_MANIFEST = '.runs/runtime074 fresh install 001/.runs/gui-session105/prepared-state.json'
+MULTIPAD_SEED = '.runs/placement075-multipad-source-001/owned-placement-multipad.kicad_pcb'
+MULTIPAD_MANIFEST = '.runs/placement075-multipad-preparation-001/source.json'
+
+
+def scope_settings(scope):
+    from experiments.placement_native_proposal_v1 import contract
+    if scope == 'single-pad-unrouted-v1':
+        return dict(scope=scope, selected=contract.SELECTED, region_nm=contract.REGION_NM)
+    assert scope == 'multipad-preserve-v1'
+    from experiments.placement_native_proposal_v1 import multipad_fixture
+    return dict(scope=scope, selected=tuple(multipad_fixture.uid(ref+'-footprint') for ref in ('J1','J2')),
+                region_nm=contract.REGION_NM)
+
+
+def source_paths(scope):
+    scope_settings(scope)
+    return (SEED,SEED_MANIFEST) if scope=='single-pad-unrouted-v1' else (MULTIPAD_SEED,MULTIPAD_MANIFEST)
+
+
+def task_bytes(raw, scope):
+    from experiments.placement_native_proposal_v1 import contract
+    if scope=='single-pad-unrouted-v1':
+        return contract.derive_unrouted(raw)
+    contract.inspect_board(raw,scope=scope)
+    return raw,dict(kind='unaltered-explicit-multipad-placement-task',
+        original_board_sha256=hashlib.sha256(raw).hexdigest(),derived_board_sha256=hashlib.sha256(raw).hexdigest(),
+        removed_routes=[],all_other_AST_fields_identical=True,original_mutated=False)
 
 
 def code_pins():
@@ -44,27 +71,30 @@ def context(runtime):
     return c, p, f, gui, h, pc
 
 
-def prepare(runtime, protocol, output=None, application_policy='native-save-v1'):
+def prepare(runtime, protocol, output=None, application_policy='native-save-v1', placement_scope='single-pad-unrouted-v1'):
     c, p, f, gui, h, pc = context(runtime)
     from experiments.placement_native_proposal_v1 import contract
     from scripts.backup import require_headroom
     policy = contract.application_policy(application_policy)
-    source = h.real_path(ROOT / SEED)
-    saved = f.read_json(ROOT / SEED_MANIFEST)['roles']['ordinary']
+    settings=scope_settings(placement_scope)
+    seed,manifest=source_paths(placement_scope)
+    source = h.real_path(ROOT / seed)
+    saved = f.read_json(ROOT / manifest)
+    if placement_scope=='single-pad-unrouted-v1':saved=saved['roles']['ordinary']
     assert saved['source'] == str(source) and gui.source_inventory(source) == saved['source_hashes']
     raw = pc.read_bytes(source, contract.MAX_BYTES)
-    derived, derivation = contract.derive_unrouted(raw)
-    geometry = contract.inspect_board(derived)
-    contract.facts_from_observation(geometry)  # Static feasibility only, not Native facts.
-    assert len(derivation['removed_routes']) == 4
+    derived, derivation = task_bytes(raw,placement_scope)
+    geometry = contract.inspect_board(derived,scope=placement_scope)
+    contract.facts_from_observation(geometry,**settings)  # Static feasibility only, not Native facts.
+    assert len(derivation['removed_routes']) == (4 if placement_scope=='single-pad-unrouted-v1' else 0)
     record = dict(schema=1, kind='placement-native-proposal-feasibility-v1',
         readiness='prepared_for_lead_review_unexecuted', Native_executed=False, accepted=False,
-        application_policy=policy,
+        application_policy=policy,placement_scope=placement_scope,
         runtime=str(runtime.relative_to(ROOT)), runtime_manifest_sha256=p.sha(runtime / 'runtime-distribution.json'),
-        seed=SEED, seed_manifest=SEED_MANIFEST, seed_manifest_sha256=p.sha(ROOT / SEED_MANIFEST),
+        seed=seed, seed_manifest=manifest, seed_manifest_sha256=p.sha(ROOT / manifest),
         source_hashes=saved['source_hashes'], derivation=derivation,
-        selected_footprints=list(contract.SELECTED), allowed_region_nm=list(contract.REGION_NM),
-        search=dict(seed=7, steps=160, alternatives=1, seconds=2),
+        selected_footprints=list(settings['selected']), allowed_region_nm=list(settings['region_nm']),
+        search=dict(seed=7, steps=160, alternatives=1 if placement_scope=='single-pad-unrouted-v1' else 2, seconds=2),
         total_wall_and_cpu_seconds=120, worker_wall_and_cpu_seconds=110,
         peak_temporary_bytes=512 * 1024**2, output_bytes=512 * 1024**2,
         process_group_rss_bytes=2 * 1024**3, rss_enforcement='shared process-group polling, not an OS quota',
@@ -73,7 +103,8 @@ def prepare(runtime, protocol, output=None, application_policy='native-save-v1')
             pads=sum(len(r['pads']) for r in geometry['footprints']), zones=len(geometry['zones']),
             outline=geometry['outline'], Native_observation=False),
         space_plan=require_headroom(ROOT,512 * 1024**2,'one Native placement feasibility probe'),
-        limitations=['Translation only; front, zero rotation, symmetric rectangular courtyard, centred circular PTH pads.',
+        limitations=['Translation only; front, zero rotation, symmetric rectangular courtyard, circular PTH pads; selected scope explicitly bound.',
+            'multipad-preserve-v1 retains every straight segment, refuses arcs/vias, fixes every component sharing a routed net and separates the selected region from retained copper.',
             'One rectangular outline, no cutouts/keepouts; preserved zones must be outside selected movement region.',
             'Strict candidate comparison permits only selected XY and derived fill; the native-save-v1 policy remains the default.',
             'source-translation-v1 explicitly writes source XY edits and imports only derived fill from a separately retained Native copy.',
@@ -84,7 +115,7 @@ def prepare(runtime, protocol, output=None, application_policy='native-save-v1')
     p.save_json(protocol, record)
     command = [str(runtime / '.venv/bin/python'), '-B', str(HERE / 'driver.py'), '--runtime', str(runtime),
                '--protocol', str(protocol), '--protocol-sha256', p.sha(protocol),
-               '--output', str(target), '--application-policy', policy, '--execute-native']
+               '--output', str(target), '--application-policy', policy,'--placement-scope',placement_scope, '--execute-native']
     print(json.dumps(dict(readiness=record['readiness'], protocol_sha256=p.sha(protocol),
                          execute_command=shlex.join(command), Native_executed=False)))
 
@@ -94,17 +125,20 @@ def read_protocol(args, runtime, p, f, gui):
     assert p.sha(protocol) == args.protocol_sha256
     spec = f.read_json(protocol)
     from experiments.placement_native_proposal_v1 import contract
+    scope=spec.get('placement_scope','single-pad-unrouted-v1')
+    assert scope==args.placement_scope
+    seed,manifest=source_paths(scope)
     assert contract.application_policy(spec['application_policy']) == args.application_policy
     assert spec['schema'] == 1 and spec['kind'] == 'placement-native-proposal-feasibility-v1'
-    assert spec['runtime'] == str(runtime.relative_to(ROOT)) and spec['seed'] == SEED
-    assert spec['source_hashes'] == gui.source_inventory(ROOT / SEED)
+    assert spec['runtime'] == str(runtime.relative_to(ROOT)) and spec['seed'] == seed and spec['seed_manifest']==manifest
+    assert spec['source_hashes'] == gui.source_inventory(ROOT / seed)
     assert spec['code_sha256'] == code_pins()
     assert spec['runtime_manifest_sha256'] == p.sha(runtime / 'runtime-distribution.json')
-    assert spec['seed_manifest_sha256'] == p.sha(ROOT / SEED_MANIFEST)
+    assert spec['seed_manifest_sha256'] == p.sha(ROOT / manifest)
     assert spec['total_wall_and_cpu_seconds'] == 120 and spec['worker_wall_and_cpu_seconds'] == 110
     assert spec['output_bytes'] == spec['peak_temporary_bytes'] == 512 * 1024**2
     assert spec['process_group_rss_bytes'] == 2 * 1024**3
-    assert spec['search'] == dict(seed=7, steps=160, alternatives=1, seconds=2)
+    assert spec['search'] == dict(seed=7, steps=160, alternatives=1 if scope=='single-pad-unrouted-v1' else 2, seconds=2)
     return spec
 
 
@@ -131,14 +165,19 @@ def runtime_unchanged(runtime, wrapper, spec, recorded_tools, p):
     return before == after == expected and tools == recorded_tools
 
 
+def source_manifest_unchanged(spec, p):
+    return p.sha(ROOT/spec['seed_manifest']) == spec['seed_manifest_sha256']
+
+
 def worker(args, runtime):
     c, p, f, gui, h, pc = context(runtime)
     from autorouter import sexpr as sx
     from experiments.placement_native_proposal_v1 import contract
     from experiments.constrained_placement_v1 import prototype, constraints
     spec = read_protocol(args, runtime, p, f, gui)
-    assert spec['selected_footprints'] == list(contract.SELECTED) and spec['allowed_region_nm'] == list(contract.REGION_NM)
-    out = h.real_path(args.output); source = h.real_path(ROOT / SEED)
+    scope=spec.get('placement_scope','single-pad-unrouted-v1');settings=scope_settings(scope)
+    assert spec['selected_footprints'] == list(settings['selected']) and spec['allowed_region_nm'] == list(settings['region_nm'])
+    out = h.real_path(args.output); source = h.real_path(ROOT / spec['seed'])
     def remaining():return min(110 - (time.monotonic() - ENTRY), 110 - (cpu() - CPU0))
     job = f.FloorJob(out / 'work', 110, remaining, protect_local_settings=True)
     original_tools = p.tool_manifest(); code = spec['code_sha256']
@@ -148,7 +187,7 @@ def worker(args, runtime):
                   budget_seconds=110, cpu_budget_seconds=110, protocol_sha256=args.protocol_sha256,
                   steps=job.steps, external_exit_required=True, original_mutated=False,
                   whole_project_drc_clean=False, routing_performed=False)
-    record.update(application_policy=spec['application_policy'],native_save_board_called=False,
+    record.update(application_policy=spec['application_policy'],placement_scope=scope,native_save_board_called=False,
                   refill_save_board_requested=False)
     snapshot = job.out / 'snapshot' / source.name; task = job.out / 'task' / source.name
     candidate = job.out / 'candidate' / source.name
@@ -161,6 +200,7 @@ def worker(args, runtime):
         h.owned_destination(job._local_settings_owner)
         assert remaining() > 0 and code_pins() == code
         assert gui.source_inventory(source) == spec['source_hashes']
+        assert source_manifest_unchanged(spec,p), 'Source provenance manifest changed'
         assert p.tool_manifest() == original_tools and p.sha(runtime / 'runtime-distribution.json') == spec['runtime_manifest_sha256']
         assert p.sha(Path(args.protocol)) == args.protocol_sha256
         if record['placement_proposal_validated']:
@@ -180,7 +220,7 @@ def worker(args, runtime):
                 assert gui.source_inventory(refill_preimage)==record['refill_preimage_hashes']
                 assert gui.source_inventory(refill_copy)==record['refill_native_hashes']
                 preimage_raw=pc.read_bytes(refill_preimage,contract.MAX_BYTES)
-                contract.check_translation(pc.read_bytes(task,contract.MAX_BYTES),preimage_raw,moves)
+                contract.check_translation(pc.read_bytes(task,contract.MAX_BYTES),preimage_raw,moves,**settings)
                 audit=contract.check_refill_reconstruction(preimage_raw,
                     pc.read_bytes(refill_copy,contract.MAX_BYTES),pc.read_bytes(candidate,contract.MAX_BYTES))
                 assert audit==record['refill_transplant']
@@ -197,6 +237,7 @@ def worker(args, runtime):
             moves_nm={} if moves is None else moves, job=str(job.out),
             job_identity=list(job._local_settings_owner['directory_identity']),
             runtime_manifest_sha256=spec['runtime_manifest_sha256'], wrapper_sha256=spec['wrapper_sha256'], code_sha256=code)
+        request.update(placement_scope=scope,selected_footprints=spec['selected_footprints'],allowed_region_nm=spec['allowed_region_nm'])
         path=job.out/(name+'-request.json'); output=job.out/(name+'-observation.json')
         p.save_json(path,request)
         argv=[str(c.PYTHON),str(HERE/'worker.py'),'--runtime',str(runtime),'--request',str(path),'--output',str(output)]
@@ -235,27 +276,27 @@ def worker(args, runtime):
     try:
         fresh();pc.copy_project(source.parent,snapshot.parent);pc.copy_project(snapshot.parent,task.parent)
         assert gui.source_inventory(snapshot)==gui.source_inventory(task)==spec['source_hashes']
-        raw=pc.read_bytes(snapshot,contract.MAX_BYTES);derived,derivation=contract.derive_unrouted(raw)
+        raw=pc.read_bytes(snapshot,contract.MAX_BYTES);derived,derivation=task_bytes(raw,scope)
         assert derivation==spec['derivation'];task.write_bytes(derived)
         record['derivation']=derivation;record['task_hashes']=gui.source_inventory(task)
         source_native=drc('source-drc',task);source_findings=placement_findings(source_native,p)
         record['source_native']=source_native
         observed=native_request('capture',task)
-        assert observed['status']=='observed' and observed['observation']==contract.inspect_board(derived)
-        facts=contract.facts_from_observation(observed['observation'])
+        assert observed['status']=='observed' and observed['observation']==contract.inspect_board(derived,scope=scope)
+        facts=contract.facts_from_observation(observed['observation'],**settings)
         search=prototype.propose(facts,**spec['search']);record['search']=search
         assert search['status']=='proposals_ready' and search['alternatives']
         selected,moves=contract.quantized_translation(facts,search['alternatives'][0]['candidate'])
         assert selected!=constraints.original_alternative(facts)
         p.save_json(job.out/'proposal.json',dict(schema=1,source=str(task),source_hashes=record['task_hashes'],
-            application_policy=spec['application_policy'],
+            application_policy=spec['application_policy'],placement_scope=scope,selected_footprints=spec['selected_footprints'],allowed_region_nm=spec['allowed_region_nm'],
             source_observation_sha256=p.sha(job.out/'capture-observation.json'),candidate=selected,moves_nm=moves,
             quantization='nearest 1 nm; independently revalidated',accepted=False,routing_accepted=False,
             execution_authorized=False,human_approval=False))
         pc.copy_project(task.parent,candidate.parent)
         translated=native_request('translate',task,moves)
         assert translated['status']=='translated_copy'
-        contract.check_translation(derived,pc.read_bytes(candidate),moves)
+        contract.check_translation(derived,pc.read_bytes(candidate),moves,**settings)
         if spec['application_policy']=='source-translation-v1':
             pc.copy_project(candidate.parent,refill_preimage.parent)
             pc.copy_project(refill_preimage.parent,refill_copy.parent)
@@ -276,7 +317,7 @@ def worker(args, runtime):
             candidate.write_bytes(contract.transplant_refill(preimage_raw,native_refill_raw))
             record['refill_transplant']=contract.check_refill_reconstruction(preimage_raw,native_refill_raw,
                 pc.read_bytes(candidate,contract.MAX_BYTES))
-        record['immutable_check']=contract.check_translation(derived,pc.read_bytes(candidate),moves)
+        record['immutable_check']=contract.check_translation(derived,pc.read_bytes(candidate),moves,**settings)
         final_drc_before=gui.source_inventory(candidate)
         final=drc('final-drc',candidate)
         record['final_native']=final
@@ -284,8 +325,8 @@ def worker(args, runtime):
         final_observed=native_request('final-capture',candidate)
         assert final_observed['details']==observed['details'], 'Final zone flags or pad net codes changed'
         final_raw=pc.read_bytes(candidate,contract.MAX_BYTES)
-        assert final_observed['observation']==contract.inspect_board(final_raw)
-        contract.check_translation(derived,final_raw,moves)
+        assert final_observed['observation']==contract.inspect_board(final_raw,scope=scope)
+        contract.check_translation(derived,final_raw,moves,**settings)
         constraints.validate_alternative(facts,selected)
         expected=dict(record['task_hashes']);expected[source.name]=p.sha(candidate)
         assert gui.source_inventory(candidate)==expected and gui.source_inventory(task)==record['task_hashes']
@@ -308,11 +349,14 @@ def main(argv=None):
     ap.add_argument('--runtime',required=True);ap.add_argument('--protocol',required=True)
     ap.add_argument('--protocol-sha256');ap.add_argument('--output')
     ap.add_argument('--application-policy',choices=('native-save-v1','source-translation-v1'),default='native-save-v1')
+    ap.add_argument('--placement-scope',choices=('single-pad-unrouted-v1','multipad-preserve-v1'),default='single-pad-unrouted-v1')
     ap.add_argument('--execute-native',action='store_true');ap.add_argument('--worker',action='store_true')
     args=ap.parse_args(argv);runtime=Path(args.runtime).resolve();protocol=Path(args.protocol).resolve()
     if not args.execute_native:
         assert not args.worker
-        prepare(runtime,protocol,args.output,args.application_policy);return 0
+        if args.placement_scope=='single-pad-unrouted-v1':prepare(runtime,protocol,args.output,args.application_policy)
+        else:prepare(runtime,protocol,args.output,args.application_policy,args.placement_scope)
+        return 0
     c,p,f,gui,h,pc=context(runtime)
     assert Path(sys.prefix).resolve()==runtime/'.venv' and args.output and args.protocol_sha256
     if args.worker:
@@ -331,27 +375,29 @@ def main(argv=None):
         out.mkdir(mode=0o700);owner={};h.capture_destination(owner,out)
         command=[str(runtime/'.venv/bin/python'),'-B',str(HERE/'driver.py'),'--runtime',str(runtime),
             '--protocol',str(protocol),'--protocol-sha256',args.protocol_sha256,'--output',str(out),
-            '--application-policy',args.application_policy,'--execute-native','--worker']
+            '--application-policy',args.application_policy,'--placement-scope',args.placement_scope,'--execute-native','--worker']
         process=run(command,cwd=out,env=gui.child_environment(),log=out/'command.log',timeout=max(.001,115-(time.monotonic()-ENTRY)),
             max_log_bytes=512*1024,max_group_rss_bytes=spec['process_group_rss_bytes'],max_workdir_bytes=512*1024**2)
         p.save_json(out/'process.json',process)
         child=out/'work/result.json';value=f.read_json(child) if child.is_file() else None
-        stable=code_pins()==spec['code_sha256'] and p.sha(protocol)==args.protocol_sha256 and gui.source_inventory(ROOT/SEED)==spec['source_hashes']
+        stable=code_pins()==spec['code_sha256'] and p.sha(protocol)==args.protocol_sha256 and gui.source_inventory(ROOT/spec['seed'])==spec['source_hashes'] and source_manifest_unchanged(spec,p)
         if value and value.get('placement_proposal_validated'):
             p.check_resource_accounting(value)
             stable=bool(stable and value['status']=='placement_proposal_validated'
                 and value['application_policy']==spec['application_policy']
+                and value['placement_scope']==spec.get('placement_scope','single-pad-unrouted-v1')
                 and value['native_save_board_called'] is (spec['application_policy']=='native-save-v1')
                 and value['accepted'] is False and value['routing_accepted'] is False
                 and gui.source_inventory(Path(value['candidate']))==value['candidate_hashes']
-                and runtime_unchanged(runtime,c.PCBNEW.with_name('pcbnew.py'),spec,value['tools'],p))
+                and runtime_unchanged(runtime,c.PCBNEW.with_name('pcbnew.py'),spec,value['tools'],p)
+                and source_manifest_unchanged(spec,p))
         child_sha=p.sha(child) if value else None
         wall,total_cpu=time.monotonic()-ENTRY,cpu()-CPU0
         qualified=bool(stable and value and value['placement_proposal_validated'] and value['external_exit_required']
             and process['status']=='success' and process['exit_code']==0 and process['cleanup_complete'] is True
             and process['log_truncated'] is False and max(wall,total_cpu)+1<=120)
         record=dict(schema=1,placement_proposal_qualified=qualified,accepted=False,routing_accepted=False,
-            application_policy=spec['application_policy'],native_save_board_called=value.get('native_save_board_called') if value else None,
+            application_policy=spec['application_policy'],placement_scope=spec.get('placement_scope','single-pad-unrouted-v1'),native_save_board_called=value.get('native_save_board_called') if value else None,
             process=process,complete_worker_exit_wall_seconds=wall,parent_plus_waited_child_cpu_seconds=total_cpu,
             publication_allowance_seconds=1,total_limit_seconds=120,controller_exit_not_measured=True,
             child_receipt_sha256=child_sha,source_unchanged=stable,space_plan=space,

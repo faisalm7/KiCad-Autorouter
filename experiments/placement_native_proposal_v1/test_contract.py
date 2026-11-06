@@ -271,5 +271,86 @@ class CompletedWorkerFreshness(unittest.TestCase):
             self.assertFalse(runtime_unchanged(runtime,wrapper,spec,tools,operations))
 
 
+class MultipadPreservedContract(unittest.TestCase):
+    def setUp(self):
+        from . import multipad_fixture as fixture_module
+        self.fixture = fixture_module
+        self.source = raw(fixture_module.board())
+        self.options = dict(scope=c.MULTIPAD_SCOPE,
+            selected=[fixture_module.uid(ref+'-footprint') for ref in ('J1','J2')],
+            region_nm=list(c.REGION_NM))
+        self.observation = c.inspect_board(self.source,scope=c.MULTIPAD_SCOPE)
+        self.moves = dict(zip(self.options['selected'],([14_000_000,10_000_000],[24_000_000,10_000_000])))
+
+    def test_multiple_offsets_are_exact_sorted_and_copper_is_not_removed(self):
+        self.assertEqual(len(self.observation['footprints']),6)
+        self.assertEqual(sum(len(row['pads']) for row in self.observation['footprints']),8)
+        self.assertEqual(self.observation['route_count'],1)
+        self.assertEqual(self.observation['routes'][0]['uuid'],self.fixture.uid('protected-keep-track'))
+        self.assertIs(self.observation['routes'][0]['locked'],True)
+        for row in self.observation['footprints']:
+            self.assertEqual([p['uuid'] for p in row['pads']],sorted(p['uuid'] for p in row['pads']))
+            for pad in row['pads']:
+                self.assertEqual(pad['position_nm'],[row['position_nm'][i]+pad['offset_nm'][i] for i in range(2)])
+        facts=c.facts_from_observation(self.observation,**self.options)
+        selected=[row for row in facts['components'] if row['id'] in self.options['selected']]
+        self.assertEqual({tuple(p['offset_mm']) for row in selected for p in row['pads']},{(-1.27,0.0),(1.27,0.0)})
+        candidate=raw(c.translated_tree(self.source,self.moves,**self.options))
+        self.assertTrue(c.check_translation(self.source,candidate,self.moves,**self.options)['exact_immutable_AST'])
+        self.assertEqual(c.p.routes(c.read_board(candidate)),c.p.routes(c.read_board(self.source)))
+        with self.assertRaises(ValueError):c.inspect_board(self.source)  # Old scope is unchanged.
+
+    def test_new_scope_requires_complete_explicit_selection_and_region(self):
+        from .worker import request_scope
+        self.assertEqual(request_scope({},c)['scope'],c.DEFAULT_SCOPE)
+        request=dict(placement_scope=c.MULTIPAD_SCOPE,selected_footprints=self.options['selected'],allowed_region_nm=self.options['region_nm'])
+        self.assertEqual(request_scope(request,c),self.options)
+        for key in request:
+            changed=dict(request);del changed[key]
+            with self.subTest(missing=key),self.assertRaises(ValueError):request_scope(changed,c)
+        with self.assertRaises(ValueError):c.facts_from_observation(self.observation,scope=c.MULTIPAD_SCOPE)
+        for change in (dict(selected=[self.options['selected'][0]]*2),dict(selected=[identity('absent')]),
+                       dict(region_nm=[True,7_000_000,31_000_000,13_000_000]),dict(region_nm=[7,7,7,13])):
+            with self.subTest(change=change),self.assertRaises(ValueError):
+                c.facts_from_observation(self.observation,**{**self.options,**change})
+
+    def test_preserved_route_region_guard_counts_width_and_clearance(self):
+        # KEEP at y16mm, width0.3mm, plus the explicit0.3mm proxy gap.
+        options={**self.options,'region_nm':[7_000_000,7_000_000,31_000_000,15_550_000]}
+        with self.assertRaisesRegex(ValueError,'clearance-expanded'):
+            c.facts_from_observation(self.observation,**options)
+        options['region_nm'][-1]-=1
+        self.assertTrue(c.facts_from_observation(self.observation,**options)['tracks'])
+
+    def test_component_on_tracked_net_is_fixed_without_invented_endpoint_incidence(self):
+        tree=c.read_board(self.source)
+        fp=next(row for row in c.sx.children(tree,'footprint') if c.uid(row)==self.options['selected'][0])
+        c.sx.one(c.sx.children(fp,'pad')[0],'net')[1:] = ['"KEEP"']
+        observation=c.inspect_board(raw(tree),scope=c.MULTIPAD_SCOPE)
+        facts=c.facts_from_observation(observation,**self.options)
+        self.assertIn(self.options['selected'][0],c.constraints.immovable(facts))
+        with self.assertRaisesRegex(ValueError,'tracked component moved'):
+            c.validate_moves(observation,self.moves,**self.options)
+
+    def test_pad_extent_number_uuid_and_preserved_copper_tampering_refused(self):
+        for change in ('extent','duplicate-number','duplicate-uuid'):
+            tree=c.read_board(self.source);fp=next(row for row in c.sx.children(tree,'footprint') if c.uid(row)==self.options['selected'][0]);pads=c.sx.children(fp,'pad')
+            if change=='extent':c.sx.one(pads[0],'at')[1]='2.7'
+            elif change=='duplicate-number':pads[1][1]=pads[0][1]
+            else:c.sx.one(pads[1],'uuid')[1]=c.sx.one(pads[0],'uuid')[1]
+            with self.subTest(change=change),self.assertRaises(ValueError):c.inspect_board(raw(tree),scope=c.MULTIPAD_SCOPE)
+        candidate=c.translated_tree(self.source,self.moves,**self.options)
+        c.sx.one(c.sx.one(candidate,'segment'),'end')[1]='26.000001'
+        with self.assertRaisesRegex(ValueError,'beyond selected'):
+            c.check_translation(self.source,raw(candidate),self.moves,**self.options)
+
+    def test_vias_arcs_and_unwitnessed_segments_are_explicitly_unsupported(self):
+        for change in ('via','arc','orphan-net'):
+            tree=c.read_board(self.source);route=c.sx.one(tree,'segment')
+            if change=='orphan-net':c.sx.one(route,'net')[1:] = ['"ORPHAN"']
+            else:route[0]=change
+            with self.subTest(change=change),self.assertRaises(ValueError):c.inspect_board(raw(tree),scope=c.MULTIPAD_SCOPE)
+
+
 if __name__ == '__main__':
     unittest.main()

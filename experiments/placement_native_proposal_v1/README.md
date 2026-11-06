@@ -1,13 +1,29 @@
 # Placement Native feasibility probe v1
 
-**Probe003 passed Native capture and in-memory translation, then failed the
-strict SaveBoard comparison. Probe004 is prepared only.** Native serialization
+**Probe004 passed source-preserving placement qualification; its exact candidate
+then completed installed075 routing and fresh export.** [Placement evidence](../../evidence/placement075-native-proposal-004.json) and [routing evidence](../../evidence/placement075-installed-routing-001.json) retain the actual bounds and limitations. Probe003 passed Native capture and in-memory translation, then failed the strict SaveBoard comparison. Native serialization
 changed the version, net representation and other source fields. The raw003
 candidate and failed receipt remain preserved. Earlier001/002 capture failures
 also remain preserved. This experiment
 tests whether the existing constrained search can produce one faithfully saved
 KiCad placement proposal. It does not route, accept a routing result, modify the
 original project, apply changes to an editor, or confer human approval.
+
+The prospective `multipad-preserve-v1` scope extends the same worker to multiple
+offset circular PTH pads and straight retained segments. Selection and region
+are explicit, hash-bound inputs. Every component sharing any routed net remains
+fixed, and the movement region must avoid clearance-expanded retained segments
+and zone envelopes. Arcs, vias, side changes, rotation and overlapping movement
+regions remain outside this scope. No existing copper is removed.
+
+The new project-owned complete-schematic fixture has two selected two-pin
+connectors, four fixed terminals, eight pads, one locked KEEP segment and an
+ordinary GND zone. Two fixed-seed alternatives are requested; the first returned
+proposal is selected prospectively for Native qualification, without comparing
+later routing outcomes. Other alternatives are geometric proposals only. This
+is an exposed development fixture, not an unrelated or untouched family.
+New source work is **not yet Native-qualified**; completed004 evidence applies
+to its narrower historical scope. The installed075 runtime remains unchanged.
 
 The pinned seed is GUI105's project-owned ordinary transport fixture. Its PCB,
 project, complete schematic and local settings are copied into a new owned task.
@@ -79,8 +95,9 @@ The existing 2 GiB process-group RSS polling limit is retained; it is not an OS
 memory quota. The controller reads the completed worker result and exit status.
 Its final receipt reports that its own exit has not been measured.
 
-The reviewed command must retain the protocol digest below. Run it **once only
-after lead review and a pinned checkpoint** from the selected checkout:
+The completed004 reproduction command is retained below. **Do not rerun it merely
+to resume, and never reuse its output directory.** A deliberate reproduction needs
+a fresh protocol/output bound to the intended source revision:
 
 ```sh
 '.runs/runtime075 fresh install 001/.venv/bin/python' -B \
@@ -111,7 +128,8 @@ The current source-translation preparation passes17 pure controls in0.063s using
 installed075 imports first. The new controls cover explicit policy selection,
 strict rejection of normalized Native output, fill-only reconstruction, changed
 preimages/fill/candidate bytes, and missing/duplicate/extra zone identities. These
-are synthetic pure controls; no004 Native execution has occurred.
+are synthetic pure controls. The later004 Native and place-to-route receipts above
+supersede this preparation state; they do not qualify GUI placement or broader components.
 
 Independent review found a missing post-worker runtime/tool freshness check. The
 outer gate now rechecks the manifest, SWIG wrapper and actual tool pins, and

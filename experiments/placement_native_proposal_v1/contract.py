@@ -11,13 +11,16 @@ import hashlib
 import uuid
 
 from autorouter import sexpr as sx, pipeline as p, board_floor as g
-from autorouter import placement_transform as pt
+from autorouter import placement_transform as pt, routing_scope as rs
 from experiments.constrained_placement_v1 import constraints as constraints
 
 SELECTED = ('953eb9d9-83f3-5938-a1a1-ab40cf790dcb', 'f4913284-f8a5-5128-b764-06e77958c4a1')
 REGION_NM = (7_000_000, 7_000_000, 31_000_000, 13_000_000)
 MAX_BYTES = 1024 * 1024
 APPLICATION_POLICIES = ('native-save-v1', 'source-translation-v1')
+DEFAULT_SCOPE = 'single-pad-unrouted-v1'
+MULTIPAD_SCOPE = 'multipad-preserve-v1'
+ROUTE_GAP_NM = 300_000
 
 
 def application_policy(value='native-save-v1'):
@@ -28,6 +31,20 @@ def application_policy(value='native-save-v1'):
 def need(test, message):
     if not test:
         raise ValueError(message)
+
+
+def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
+    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE), 'Unsupported placement scope')
+    if scope == DEFAULT_SCOPE:
+        selected = SELECTED if selected is None else selected
+        region_nm = REGION_NM if region_nm is None else region_nm
+    need(type(selected) in (list, tuple) and 1 <= len(selected) <= 16, 'Explicit bounded selected UUIDs required')
+    need(all(type(value) is str and str(uuid.UUID(value)) == value for value in selected)
+         and len(set(selected)) == len(selected), 'Unique canonical selected UUIDs required')
+    need(type(region_nm) in (list, tuple) and len(region_nm) == 4
+         and all(type(value) is int and abs(value) <= 2_000_000_000 for value in region_nm)
+         and region_nm[0] < region_nm[2] and region_nm[1] < region_nm[3], 'Explicit integer-nm rectangle required')
+    return dict(scope=scope, selected=list(selected), region_nm=list(region_nm))
 
 
 def atom(node, name):
@@ -61,7 +78,8 @@ def read_board(raw):
     return tree
 
 
-def inspect_board(raw, *, allow_routes=False):
+def inspect_board(raw, *, allow_routes=False, scope=DEFAULT_SCOPE):
+    need(scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE), 'Unsupported placement scope')
     tree = read_board(raw)
     layers = [sx.unquote(n[1]) for n in sx.one(tree, 'layers')[1:]
               if type(n) is list and sx.unquote(n[1]).endswith('.Cu')]
@@ -76,7 +94,7 @@ def inspect_board(raw, *, allow_routes=False):
                     stroke_nm=pt.nm(atom(sx.one(edge, 'stroke'), 'width'), 1000000))
     drawings = [n for n in tree if type(n) is list and str(n[0]).startswith('gr_')]
     need(drawings == edges, 'Additional board drawings are outside this fixture scope')
-    need(allow_routes or not p.routes(tree), 'Derived placement task must have no route items')
+    need(scope == MULTIPAD_SCOPE or allow_routes or not p.routes(tree), 'Derived placement task must have no route items')
     rows, ids, pad_ids = [], set(), set()
     for fp in sx.children(tree, 'footprint'):
         identity = uid(fp); need(identity not in ids, 'Duplicate footprint UUID'); ids.add(identity)
@@ -97,31 +115,55 @@ def inspect_board(raw, *, allow_routes=False):
         world = [local[i] + at[i % 2] for i in range(4)]
         pads = []
         for pad in sx.children(fp, 'pad'):
-            need(not pads and pad[2:4] == ['thru_hole', 'circle'], 'Zero/one circular PTH pad per footprint only')
+            need((scope == MULTIPAD_SCOPE and len(pads) < 8 or not pads)
+                 and pad[2:4] == ['thru_hole', 'circle'], 'Bounded circular PTH pads required')
             pad_fields = {'at', 'size', 'drill', 'layers', 'net', 'pinfunction', 'pintype', 'uuid'}
             need(all(type(n) is list and n and n[0] in pad_fields for n in pad[4:]),
                  'Unsupported pad geometry/field')
             pid = uid(pad); need(pid not in pad_ids and pid not in ids, 'Duplicate pad UUID'); pad_ids.add(pid)
-            need(point(pad, 'at') == [0, 0], 'Centred unrotated pads only')
+            offset = point(pad, 'at')
+            need(scope == MULTIPAD_SCOPE or offset == [0, 0], 'Centred unrotated pads only')
             size = point(pad, 'size'); need(size[0] == size[1] and size[0] > 0, 'Positive circular pad required')
             drill = pt.nm(atom(pad, 'drill'), 1000000)
             need(0 < drill < size[0], 'Positive circular drill smaller than pad required')
             need(sx.one(pad, 'layers') == ['layers', '"*.Cu"', '"*.Mask"'], 'Through-hole outer copper/mask layers required')
             net = resolve(sx.one(pad, 'net'))
             need(type(net) is str and net in names, 'Exact source net identity required')
-            need(size[0] <= min(local[2] - local[0], local[3] - local[1]), 'Pad must fit courtyard')
-            pads.append(dict(uuid=pid, number=sx.unquote(pad[1]), net=net,
-                             position_nm=at[:], size_nm=size, drill_nm=[drill, drill]))
+            need(2 * abs(offset[0]) + size[0] <= local[2] - local[0]
+                 and 2 * abs(offset[1]) + size[1] <= local[3] - local[1], 'Entire pad must fit courtyard')
+            number = sx.unquote(pad[1])
+            need(scope == DEFAULT_SCOPE or number and all(row['number'] != number for row in pads), 'Unique nonempty pad numbers required')
+            row = dict(uuid=pid, number=number, net=net,
+                       position_nm=[at[i] + offset[i] for i in range(2)], size_nm=size, drill_nm=[drill, drill])
+            if scope == MULTIPAD_SCOPE:row['offset_nm'] = offset
+            pads.append(row)
         rows.append(dict(uuid=identity, reference=sx.unquote(refs[0][2]), position_nm=at,
                          angle=0, side='front', locked=p.locked(fp),
-                         courtyard=dict(uuid=uid(court), bounds_nm=world, stroke_nm=width), pads=pads))
+                         courtyard=dict(uuid=uid(court), bounds_nm=world, stroke_nm=width), pads=sorted(pads,key=lambda row:row['uuid'])))
     need(3 <= len(rows) <= 16 and not ids.intersection(pad_ids), 'Bounded unique footprint/pad identities required')
+    need(len(pad_ids) <= 32, 'Native pad population exceeded')
     zones = pt.source_zones(tree)
     for zone in zones:
         need(zone['is_rule_area'] is False, 'Keepouts/rule areas unsupported by this first Native probe')
         need(zone['holes'] == [0] and zone['arc_count'] == 0, 'Single straight hole-free copper zone required')
-    return dict(schema=1, outline=edge_row, footprints=sorted(rows, key=lambda r: r['uuid']), zones=zones,
-                route_count=len(p.routes(tree)), source_board_sha256=hashlib.sha256(raw).hexdigest())
+    result = dict(schema=1, outline=edge_row, footprints=sorted(rows, key=lambda r: r['uuid']), zones=zones,
+                  route_count=len(p.routes(tree)), source_board_sha256=hashlib.sha256(raw).hexdigest())
+    if scope == MULTIPAD_SCOPE:
+        routes = []
+        need(len(p.routes(tree)) <= 64, 'Preserved segment population exceeded')
+        for route in rs._route_map(tree).values():
+            identity = uid(route)  # Keep source canonical UUID spelling; the shared map uses compact keys.
+            need(route[0] == 'segment', 'Vias and arcs unsupported by multipad-preserve-v1')
+            allowed = {'start','end','width','layer','net','uuid','locked'}
+            need(all(type(n) is list and n and n[0] in allowed for n in route[1:]), 'Unsupported segment field')
+            start, end = point(route,'start'), point(route,'end')
+            width = pt.nm(atom(route,'width'),1000000); layer = atom(route,'layer')
+            net = resolve(sx.one(route,'net'))
+            need(start != end and 0 < width <= 10_000_000 and layer in ('F.Cu','B.Cu'), 'Bounded straight copper segment required')
+            need(net and any(pad['net'] == net for row in rows for pad in row['pads']), 'Segment needs a named net with actual pad witnesses')
+            routes.append(dict(uuid=identity,kind='segment',net=net,start_nm=start,end_nm=end,width_nm=width,layer=layer,locked=p.locked(route)))
+        result.update(scope=scope,routes=sorted(routes,key=lambda row:row['uuid']))
+    return result
 
 
 def derive_unrouted(raw):
@@ -153,7 +195,10 @@ def check_ordinary_zone(expected, observed):
     return observed
 
 
-def facts_from_observation(observation, *, selected=SELECTED, region_nm=REGION_NM):
+def facts_from_observation(observation, *, selected=None, region_nm=None, scope=DEFAULT_SCOPE):
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+    selected, region_nm = options['selected'], options['region_nm']
+    need((observation.get('scope',DEFAULT_SCOPE)) == scope, 'Observation placement scope differs')
     need(set(selected) <= {r['uuid'] for r in observation['footprints']}, 'Selected stable UUID absent')
     components = []
     for row in observation['footprints']:
@@ -163,7 +208,7 @@ def facts_from_observation(observation, *, selected=SELECTED, region_nm=REGION_N
         region = region_nm if row['uuid'] in selected else observation['outline']['bounds_nm']
         components.append(dict(id=row['uuid'], position_mm=[n / 1e6 for n in row['position_nm']],
             size_mm=[box[2] - box[0], box[3] - box[1]], rotation_deg=0, side='front', locked=row['locked'],
-            pads=[dict(id=pad['uuid'], net=pad['net'], offset_mm=[0, 0]) for pad in row['pads']],
+            pads=[dict(id=pad['uuid'], net=pad['net'], offset_mm=[n/1e6 for n in pad.get('offset_nm',[0,0])]) for pad in row['pads']],
             allowed_region_mm=[n / 1e6 for n in region], allowed_rotations_deg=[0], allowed_sides=['front']))
     # Keep every original copper zone; the selected region is explicitly disjoint
     # from every zone outline, so this probe never assumes an absent copper pour.
@@ -171,10 +216,20 @@ def facts_from_observation(observation, *, selected=SELECTED, region_nm=REGION_N
         box = pt.bbox(zone['outlines_nm'][0])
         need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
              'Selected movement region intersects preserved zone envelope')
-    need(observation['route_count'] == 0, 'No existing route items in derived task')
+    tracks = []
+    if scope == DEFAULT_SCOPE:
+        need(observation['route_count'] == 0, 'No existing route items in derived task')
+    else:
+        need(observation['route_count'] == len(observation['routes']), 'Preserved route census differs')
+        for route in observation['routes']:
+            radius = (route['width_nm'] + 1) // 2 + ROUTE_GAP_NM
+            box = [min(route['start_nm'][i],route['end_nm'][i])-radius for i in range(2)] + [max(route['start_nm'][i],route['end_nm'][i])+radius for i in range(2)]
+            need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
+                 'Selected region intersects clearance-expanded preserved segment bounds')
+            tracks.append(dict(id=route['uuid'],net=route['net'],pad_ids=sorted(pad['uuid'] for row in observation['footprints'] for pad in row['pads'] if pad['net']==route['net'])))
     facts = dict(schema=1, board=dict(kind='rectangle', bounds_mm=[n / 1e6 for n in observation['outline']['bounds_nm']], cutouts=[]),
                  components=components, selected=list(selected), fixed_components=[r['uuid'] for r in observation['footprints'] if r['uuid'] not in selected],
-                 groups=[], tracks=[], keepouts=[], clearance_mm=0.3)
+                 groups=[], tracks=tracks, keepouts=[], clearance_mm=ROUTE_GAP_NM/1e6)
     facts = constraints.prepare(facts)
     constraints.validate_alternative(facts, constraints.original_alternative(facts))
     return facts
@@ -194,8 +249,9 @@ def quantized_translation(facts, candidate):
     return result, moves
 
 
-def translated_tree(raw, moves):
-    need(type(moves) is dict and set(moves) == set(SELECTED), 'Exact prospectively selected UUIDs required')
+def translated_tree(raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+    need(type(moves) is dict and set(moves) == set(options['selected']), 'Exact prospectively selected UUIDs required')
     tree = read_board(raw); known = set()
     for fp in sx.children(tree, 'footprint'):
         identity = uid(fp)
@@ -213,10 +269,11 @@ def translated_tree(raw, moves):
     return tree
 
 
-def validate_moves(observation, moves):
+def validate_moves(observation, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
     """Independently check integer translations against captured source facts."""
-    need(type(moves) is dict and set(moves) == set(SELECTED), 'Exact prospectively selected UUIDs required')
-    facts = facts_from_observation(observation)
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+    need(type(moves) is dict and set(moves) == set(options['selected']), 'Exact prospectively selected UUIDs required')
+    facts = facts_from_observation(observation,**options)
     alternative = constraints.original_alternative(facts)
     for row in alternative['transforms']:
         if row['component_id'] in moves:
@@ -228,9 +285,10 @@ def validate_moves(observation, moves):
     return alternative
 
 
-def check_translation(source_raw, candidate_raw, moves):
-    validate_moves(inspect_board(source_raw), moves)
-    expected = p._without_derived_fill(translated_tree(source_raw, moves))
+def check_translation(source_raw, candidate_raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+    validate_moves(inspect_board(source_raw,scope=scope), moves,**options)
+    expected = p._without_derived_fill(translated_tree(source_raw, moves,**options))
     actual = p._without_derived_fill(read_board(candidate_raw))
     need(actual == expected, 'Native serialization changed fields beyond selected translations/derived fill')
     return dict(exact_immutable_AST=True, allowed_changes=['selected footprint XY', 'derived top-level zone fill'],
