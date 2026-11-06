@@ -67,7 +67,7 @@ def _write_runtime(source, destination, payloads, record):
     destination.mkdir(mode=0o700)
     for relative, raw in sorted(payloads.items()):
         path = destination / relative
-        path.parent.mkdir(mode=0o700, exist_ok=True)
+        path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
         with path.open('xb') as stream:
             stream.write(raw)
         path.chmod(0o600)

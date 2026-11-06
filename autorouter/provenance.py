@@ -18,8 +18,25 @@ import subprocess
 MANIFEST = 'runtime-distribution.json'
 KIND = 'runtime-directory-v1'
 README = 'RUNTIME_README.txt'
+# Deliberate runtime reuse, not a recursive copy of experiments or their data.
+# Keep these qualified pure modules/native reader at their existing paths so
+# historical producers and their exact code pins remain unchanged.
+PLACEMENT_FILES = frozenset((
+    'experiments/placement_native_evidence.py',  # bounded retained-identity helpers only
+    'experiments/placement_native_proposal_v1/__init__.py',
+    'experiments/placement_native_proposal_v1/contract.py',
+    'experiments/placement_native_proposal_v1/worker.py',
+    'experiments/constrained_placement_v1/__init__.py',
+    'experiments/constrained_placement_v1/constraints.py',
+    'experiments/constrained_placement_v1/prototype.py',
+    'experiments/constrained_placement_v1/upstream.json',
+    'experiments/constrained_placement_v1/vendor/__init__.py',
+    'experiments/constrained_placement_v1/vendor/LICENSE',
+    *('experiments/constrained_placement_v1/vendor/' + name + '.py'
+      for name in ('anneal', 'blocks', 'edge', 'electrical', 'geom', 'metrics', 'model', 'nets')),
+))
 FIXED_FILES = frozenset(('LICENSE', 'toolchain.lock.json',
-    'scripts/install_gui.py', 'scripts/prepare_gui_plugin.py'))
+    'scripts/install_gui.py', 'scripts/prepare_gui_plugin.py')) | PLACEMENT_FILES
 MUTABLE_DIRECTORIES = ('.runs', '.venv')
 ENGINE_PATH = '.tools/freerouting-2.5.0.jar'
 MAX_FILE_BYTES = 2 * 1024**2
@@ -267,23 +284,30 @@ def _runtime_identity(root, implementation):
                 or _DIGEST.fullmatch(engine['sha256']) is None or type(engine['bytes']) is not int
                 or not 0 < engine['bytes'] <= MAX_ENGINE_BYTES or engine['publication_authorized'] is not False):
             raise ValueError('invalid local-only engine record')
-    allowed = {'autorouter', 'scripts', 'LICENSE', 'toolchain.lock.json', README, MANIFEST,
-               *MUTABLE_DIRECTORIES, *({'.tools'} if engine is not None else set())}
-    with os.scandir(root) as entries:
-        for index, item in enumerate(entries):
-            if index >= len(allowed) or item.name not in allowed or item.is_symlink():
-                raise ValueError('unexpected or linked runtime root entry')
-            if item.name in MUTABLE_DIRECTORIES:
-                _directory(Path(item.path))  # Contents are explicitly mutable/unattested.
-    for folder, names in [('autorouter', {Path(name).name for name in modules}),
-                          ('scripts', {'install_gui.py', 'prepare_gui_plugin.py'}),
-                          *([('.tools', {Path(ENGINE_PATH).name})] if engine is not None else [])]:
+    # Enumerate only the parents of the exact selected files. In particular,
+    # selected placement modules do not authorize a recursive experiment-tree
+    # copy or an unbounded history scan. Every intermediate directory has an
+    # exact child population; mutable roots alone may contain unattested state.
+    folders = {}
+    for name in (*expected, MANIFEST, *([ENGINE_PATH] if engine is not None else [])):
+        path = Path(name)
+        folders.setdefault(path.parent, set()).add(path.name)
+        for parent in path.parents:
+            if parent == Path('.'):
+                break
+            folders.setdefault(parent.parent, set()).add(parent.name)
+    for folder, names in sorted(folders.items()):
+        mutable = set(MUTABLE_DIRECTORIES) if folder == Path('.') else set()
+        allowed = names | mutable
         with os.scandir(_directory(root / folder)) as entries:
             actual = set()
             for index, item in enumerate(entries):
-                if index >= MAX_FILES or item.name not in names or item.is_symlink():
+                if index >= len(allowed) or item.name not in allowed or item.is_symlink():
                     raise ValueError('runtime directory file population differs')
-                actual.add(item.name)
+                if item.name in mutable:
+                    _directory(Path(item.path))  # Contents are explicitly mutable/unattested.
+                else:
+                    actual.add(item.name)
             if actual != names:
                 raise ValueError('runtime directory missing declared files')
     total = 0

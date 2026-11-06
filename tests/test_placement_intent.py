@@ -1,0 +1,231 @@
+"""Actual small owned saved projects and pure search; no Native or GUI claims."""
+import copy
+import json
+from pathlib import Path
+import tempfile
+import threading
+import unittest
+import uuid
+from unittest.mock import patch
+
+from autorouter import placement_intent as intent
+from autorouter import gui, pipeline as pipeline, sexpr as sx
+from experiments.placement_native_proposal_v1 import contract, multipad_fixture
+from experiments.constrained_placement_v1 import constraints
+
+
+class PlacementIntentTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(prefix='placement-intent-')
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name).resolve()
+        self.board = multipad_fixture.write_project(self.root / 'saved project')
+        self.selected = [multipad_fixture.uid(ref + '-footprint') for ref in ('J1', 'J2')]
+        self.region = [7_000_000, 7_000_000, 31_000_000, 13_000_000]
+        self.options = intent.settings(self.selected, self.region)
+        self.inspection = intent.inspect_saved(self.board)
+        self.original = gui.source_inventory(self.board)
+
+    def rewrite(self, change):
+        tree = sx.read(self.board); change(tree)
+        self.board.write_text(sx.dump(tree) + '\n')
+
+    def proposal(self):
+        proposal = intent.propose(self.inspection, self.options)
+        self.assertEqual(proposal['search']['status'], 'proposals_ready')
+        return proposal
+
+    def review(self):
+        return intent.Review(self.proposal())
+
+    def test_actual_saved_facts_report_fixed_reasons_and_no_validation_authority(self):
+        with patch('subprocess.Popen', side_effect=AssertionError('pure inspection must not execute')):
+            result = intent.inspect_saved(self.board)
+        self.assertEqual(result['source_hashes'], self.original)
+        by_ref = {row['reference']: row for row in result['components']}
+        self.assertEqual(len(by_ref), 6)
+        self.assertEqual(sum(row['pad_count'] for row in by_ref.values()), 8)
+        self.assertFalse(by_ref['J1']['fixed_reasons']); self.assertFalse(by_ref['J2']['fixed_reasons'])
+        self.assertIn('Shares a net with existing copper', by_ref['J3']['fixed_reasons'])
+        self.assertIn('Shares a net with existing copper', by_ref['J4']['fixed_reasons'])
+        self.assertEqual(result['observation']['route_count'], 1)
+        self.assertTrue(result['observation']['routes'][0]['locked'])
+        for field in ('native_validation_performed', 'execution_authorized', 'approval_granted'):
+            self.assertIs(result[field], False)
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+
+    def test_selected_ids_and_region_come_from_actual_request_not_fixture_defaults(self):
+        custom = [str(uuid.uuid4()), str(uuid.uuid4())]
+        def replace(tree):
+            for fp in sx.children(tree, 'footprint'):
+                identity = sx.unquote(sx.one(fp, 'uuid')[1])
+                if identity in self.selected:
+                    sx.one(fp, 'uuid')[1] = json.dumps(custom[self.selected.index(identity)])
+        self.rewrite(replace)
+        inspection = intent.inspect_saved(self.board)
+        chosen = intent.settings(custom, [8_000_000, 8_000_000, 30_000_000, 12_000_000])
+        facts = intent.facts(inspection, chosen)
+        self.assertEqual(facts['selected'], custom)
+        self.assertEqual([row['allowed_region_mm'] for row in facts['components'] if row['id'] in custom],
+                         [[8., 8., 30., 12.]] * 2)
+        with self.assertRaisesRegex(ValueError, 'Selected stable UUID absent'):
+            intent.facts(inspection, self.options)
+
+    def test_locked_and_routed_selection_refuse_without_changing_source(self):
+        def lock(tree): sx.children(tree, 'footprint')[0].append(['locked', 'yes'])
+        self.rewrite(lock); inspection = intent.inspect_saved(self.board)
+        locked = next(row for row in inspection['components'] if row['uuid'] == self.selected[0])
+        self.assertIn('Locked in KiCad', locked['fixed_reasons'])
+        before = gui.source_inventory(self.board)
+        with self.assertRaisesRegex(ValueError, 'locked or routed-net'):
+            intent.facts(inspection, self.options)
+        tracked = [multipad_fixture.uid(ref + '-footprint') for ref in ('J3', 'J4')]
+        with self.assertRaises(ValueError):
+            intent.facts(inspection, intent.settings(tracked, [7_000_000, 17_000_000, 31_000_000, 23_000_000]))
+        self.assertEqual(gui.source_inventory(self.board), before)
+
+    def test_missing_component_single_selection_and_copper_intersecting_region_refuse(self):
+        for selected, region in (([self.selected[0]], self.region),
+                                 ([self.selected[0], str(uuid.uuid4())], self.region),
+                                 (self.selected, [7_000_000, 7_000_000, 31_000_000, 29_000_000])):
+            with self.subTest(selected=selected, region=region), self.assertRaises(ValueError):
+                intent.facts(self.inspection, intent.settings(selected, region))
+
+    def test_unsupported_geometry_is_not_normalized_or_removed(self):
+        pristine = self.board.read_bytes()
+        for change in (lambda tree: sx.one(sx.children(tree, 'footprint')[0], 'at').append('90'),
+                       lambda tree: tree.append(['group', '"unsupported"', ['uuid', json.dumps(str(uuid.uuid4()))]]),
+                       lambda tree: sx.children(sx.children(tree, 'footprint')[0], 'pad')[0].__setitem__(2, 'smd')):
+            self.board.write_bytes(pristine); self.rewrite(change); before = self.board.read_bytes()
+            with self.subTest(change=change), self.assertRaises(ValueError): intent.inspect_saved(self.board)
+            self.assertEqual(self.board.read_bytes(), before)
+
+    def test_missing_project_or_linked_saved_input_refuses(self):
+        project = self.board.with_suffix('.kicad_pro'); raw = project.read_bytes(); project.unlink()
+        with self.assertRaises(ValueError): intent.inspect_saved(self.board)
+        project.write_bytes(raw)
+        link = self.root / 'linked.kicad_pcb'; link.symlink_to(self.board)
+        with self.assertRaises(ValueError): intent.inspect_saved(link)
+
+    def test_persisted_settings_are_exact_bounded_json_and_detached(self):
+        path = self.root / 'placement settings.json'; path.write_text(json.dumps(self.options))
+        loaded = intent.load_settings(path)
+        self.assertEqual(loaded, self.options)
+        loaded['selected'].clear(); self.assertEqual(len(self.options['selected']), 2)
+        for raw in (b'{"schema":1,"schema":1}', b'{"value":NaN}', b'{"value":1e999}', b'{', b' ' * (64 * 1024 + 1)):
+            path.write_bytes(raw)
+            with self.subTest(raw=raw[:40]), self.assertRaises((ValueError, pipeline.Rejected)): intent.load_settings(path)
+        path.write_text(json.dumps(self.options)); link = self.root / 'settings link'; link.symlink_to(path)
+        with self.assertRaises((ValueError, pipeline.Rejected)): intent.load_settings(link)
+
+    def test_settings_reject_authority_and_silent_policy_changes(self):
+        changes = [('schema', True), ('preserve_existing', False), ('orientation', 'any'), ('side', 'back'),
+                   ('selected', self.selected * 2), ('region_nm', [True, 7, 31, 13]),
+                   ('search', dict(self.options['search'], seconds=2.0)), ('command', 'shell'), ('approval_granted', True)]
+        for field, value in changes:
+            changed = copy.deepcopy(self.options); changed[field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError): intent.validate_settings(changed)
+        for key in self.options:
+            changed = copy.deepcopy(self.options); del changed[key]
+            with self.subTest(missing=key), self.assertRaises(ValueError): intent.validate_settings(changed)
+
+    def test_real_pure_search_preserves_source_and_only_proposes_valid_selected_moves(self):
+        before = copy.deepcopy(self.inspection)
+        with patch('subprocess.Popen', side_effect=AssertionError('search must not execute commands')):
+            proposal = self.proposal()
+        self.assertEqual(self.inspection, before)
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+        facts = intent.facts(self.inspection, self.options)
+        self.assertEqual(proposal['search']['upstream_commit'], intent.prototype.UPSTREAM_COMMIT)
+        self.assertLessEqual(len(proposal['search']['alternatives']), 2)
+        for row in proposal['search']['alternatives']:
+            constraints.validate_alternative(facts, row['candidate'])
+            self.assertEqual(set(row['moves_nm']), set(self.selected))
+            self.assertTrue(all(type(number) is int for xy in row['moves_nm'].values() for number in xy))
+        for field in ('native_validation_performed', 'execution_authorized', 'approval_granted'):
+            self.assertIs(proposal[field], False)
+
+    def test_already_cancelled_search_returns_no_alternative(self):
+        event = threading.Event(); event.set()
+        result = intent.propose(self.inspection, self.options, cancel_event=event)
+        self.assertEqual(result['search']['status'], 'cancelled')
+        self.assertEqual(result['search']['alternatives'], [])
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+        with self.assertRaises(ValueError): intent.Review(result)
+        with self.assertRaises(ValueError): intent.propose(self.inspection, self.options, cancel_event=object())
+
+    def test_late_cancellation_or_source_change_cannot_return_positive_proposal(self):
+        proposer = intent.prototype.propose; event = threading.Event()
+        def cancel(*args, **kwargs):
+            result = proposer(*args, **kwargs); event.set(); return result
+        with patch.object(intent.prototype, 'propose', side_effect=cancel):
+            result = intent.propose(self.inspection, self.options, cancel_event=event)
+        self.assertEqual(result['search']['status'], 'cancelled'); self.assertEqual(result['search']['alternatives'], [])
+        def mutate(*args, **kwargs):
+            result = proposer(*args, **kwargs)
+            self.board.with_suffix('.kicad_pro').write_bytes(self.board.with_suffix('.kicad_pro').read_bytes() + b'\n')
+            return result
+        with patch.object(intent.prototype, 'propose', side_effect=mutate), self.assertRaisesRegex(ValueError, 'source changed'):
+            intent.propose(self.inspection, self.options)
+
+    def test_forged_inspection_and_changed_sidecar_refuse(self):
+        for field, value in [('native_validation_performed', True), ('approval_granted', True), ('components', [])]:
+            changed = copy.deepcopy(self.inspection); changed[field] = value
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, 'source changed'): intent.current(changed)
+        self.board.with_suffix('.kicad_prl').write_bytes(self.board.with_suffix('.kicad_prl').read_bytes() + b'\n')
+        with self.assertRaisesRegex(ValueError, 'source changed'): intent.propose(self.inspection, self.options)
+
+    def test_exact_edited_draft_validates_but_never_grants_execution(self):
+        review = self.review()
+        review.edit(self.selected[0], '26.2', format(review.moves[self.selected[0]][1] / 1e6, '.6f'))
+        draft = review.decision(acknowledged=True, accepted=True)
+        checked = intent.validate_draft(self.inspection, draft)
+        self.assertEqual(checked, draft)
+        self.assertEqual(checked['moves_nm'][self.selected[0]][0], 26_200_000)
+        for field in ('native_validation_performed', 'execution_authorized', 'approval_granted', 'routing_accepted',
+                      'warning_acknowledged', 'human_PCB_approval'):
+            self.assertIs(checked[field], False)
+        checked['moves_nm'].clear(); self.assertTrue(review.moves)
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+
+    def test_review_changes_revoke_intent_and_rejection_never_qualifies(self):
+        review = self.review(); review.decision(acknowledged=True, accepted=True)
+        review.choose(0); self.assertIsNone(review.intent)
+        review.decision(acknowledged=True, accepted=True)
+        current = review.moves[self.selected[0]]
+        review.edit(self.selected[0], format(current[0] / 1e6, '.6f'), format(current[1] / 1e6, '.6f'))
+        self.assertIsNone(review.intent)
+        rejected = review.decision(acknowledged=True, accepted=False)
+        self.assertEqual(rejected['choice'], 'reject')
+        with self.assertRaises(ValueError): intent.validate_draft(self.inspection, rejected)
+        for acknowledged, accepted in ((False, True), (1, True), (True, 1)):
+            with self.assertRaises(ValueError): review.decision(acknowledged=acknowledged, accepted=accepted)
+            self.assertIsNone(review.intent)
+
+    def test_fixed_or_invalid_edit_refuses_without_changing_pose(self):
+        review = self.review(); old = copy.deepcopy(review.moves)
+        for part, x, y in ((multipad_fixture.uid('J3-footprint'), '20', '10'),
+                           (self.selected[0], '3000', '10'), (self.selected[0], 'nan', '10'),
+                           (self.selected[0], '1', '1'), (self.selected[0], '1e999999', '10')):
+            with self.subTest(part=part, x=x), self.assertRaises(ValueError): review.edit(part, x, y)
+            self.assertEqual(review.moves, old)
+
+    def test_stale_extra_authority_or_changed_draft_fields_refuse(self):
+        review = self.review(); draft = review.decision(acknowledged=True, accepted=True)
+        changes = [('choice', 'reject'), ('execution_authorized', True), ('approval_granted', True),
+                   ('routing_accepted', True), ('warning_acknowledged', True), ('human_PCB_approval', True),
+                   ('schema', True), ('revision', True), ('revision', 257), ('source', 'other'),
+                   ('pose_sha256', '0' * 64), ('inspection_sha256', '0' * 64), ('command', 'shell')]
+        for field, value in changes:
+            changed = copy.deepcopy(draft); changed[field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError): intent.validate_draft(self.inspection, changed)
+        for key in draft:
+            changed = copy.deepcopy(draft); del changed[key]
+            with self.subTest(missing=key), self.assertRaises(ValueError): intent.validate_draft(self.inspection, changed)
+        self.board.with_suffix('.kicad_sch').write_bytes(self.board.with_suffix('.kicad_sch').read_bytes() + b'\n')
+        with self.assertRaisesRegex(ValueError, 'source changed'): review.decision(acknowledged=True, accepted=True)
+        self.assertIsNone(review.intent)
+        with self.assertRaisesRegex(ValueError, 'source changed'): intent.validate_draft(self.inspection, draft)
+
+
+if __name__ == '__main__': unittest.main()

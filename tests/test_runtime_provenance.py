@@ -167,6 +167,87 @@ class RuntimeProvenanceTests(unittest.TestCase):
         self.assertFalse((self.output / '.venv').exists())
         self.assertFalse((self.output / '.git').exists())
 
+    def test_selected_placement_population_is_pinned_without_reading_research(self):
+        self.assertEqual(len(pv.PLACEMENT_FILES), 18)
+        self.assertIn('experiments/constrained_placement_v1/vendor/LICENSE', pv.PLACEMENT_FILES)
+        self.assertIn('experiments/constrained_placement_v1/upstream.json', pv.PLACEMENT_FILES)
+        excluded = self.source / 'experiments/historical/private-input'
+        excluded.parent.mkdir(); excluded.write_bytes(b'not a runtime dependency')
+        scandir = os.scandir
+        def selected_only(path):
+            self.assertNotIn(self.source / 'experiments', (Path(path), *Path(path).parents))
+            return scandir(path)
+        with mock.patch.object(pv.os, 'scandir', side_effect=selected_only):
+            self.prepare()
+        record = json.loads((self.output / pv.MANIFEST).read_bytes())
+        for name in pv.PLACEMENT_FILES:
+            self.assertEqual((self.output / name).read_bytes(), (self.source / name).read_bytes())
+            self.assertIn(name, record['build_source']['files_sha256'])
+            self.assertIn(name, record['immutable_files_sha256'])
+        self.assertFalse((self.output / 'experiments/historical').exists())
+        self.assertEqual(self.identity()['kind'], pv.KIND)
+
+    def test_each_selected_placement_dependency_is_required_and_fresh(self):
+        self.prepare()
+        for name in sorted(pv.PLACEMENT_FILES):
+            with self.subTest(dependency=name):
+                path = self.output / name; original = path.read_bytes()
+                path.write_bytes(original + b'changed dependency')
+                self.refused(self.identity)
+                path.unlink(); self.refused(self.identity); path.write_bytes(original)
+        self.assertEqual(self.identity()['kind'], pv.KIND)
+
+    def test_nested_selected_directories_refuse_extra_entries_and_links(self):
+        self.prepare()
+        parents = {Path(name).parent for name in pv.PLACEMENT_FILES}
+        for folder in sorted(parents):
+            with self.subTest(folder=str(folder)):
+                extra = self.output / folder / 'unselected.py'
+                extra.write_bytes(b'not in selected runtime population')
+                self.refused(self.identity); extra.unlink()
+                original = self.output / folder
+                moved = self.base / 'retained-selected-directory'
+                original.rename(moved)
+                original.symlink_to(moved, target_is_directory=True)
+                self.refused(self.identity)
+                original.unlink(); moved.rename(original)
+        target = self.output / 'experiments/constrained_placement_v1/vendor/anneal.py'
+        raw = target.read_bytes(); outside = self.base / 'dependency-copy'; outside.write_bytes(raw)
+        for kind in ('symlink', 'hardlink', 'fifo'):
+            with self.subTest(kind=kind):
+                target.unlink()
+                if kind == 'symlink': target.symlink_to(outside)
+                elif kind == 'hardlink': os.link(outside, target)
+                else: os.mkfifo(target)
+                self.refused(self.identity)
+                target.unlink(); target.write_bytes(raw)
+        self.assertEqual(self.identity()['kind'], pv.KIND)
+
+    def test_actual_selected_reuse_imports_without_other_experiments(self):
+        # A tiny source-only import fixture, not an installed/native qualification.
+        source = Path(pv.__file__).resolve().parents[1]
+        target = self.base / 'isolated import population'; target.mkdir()
+        selected = pv.FIXED_FILES | set(pv.module_paths(source))
+        for name in selected:
+            path = target / name; path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(pv.read_bytes(source / name))
+        script = '''import pathlib, sys
+root = pathlib.Path(sys.argv[1]); sys.path.insert(0, str(root))
+from autorouter import placement_intent
+from experiments.placement_native_proposal_v1 import worker
+from experiments import placement_native_evidence
+for name, module in tuple(sys.modules.items()):
+    if name.startswith(('autorouter.', 'experiments.')) and getattr(module, '__file__', None):
+        assert root in pathlib.Path(module.__file__).parents, (name, module.__file__)
+assert 'experiments.placement_native_proposal_v1.driver' not in sys.modules
+assert not (root / 'experiments/placement_native_proposal_v1/driver.py').exists()
+print('Selected runtime imports only; no Native execution.')
+'''
+        result = subprocess.run([sys.executable, '-I', '-B', '-c', script, str(target)],
+                                cwd=self.base, capture_output=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr.decode())
+        self.assertIn(b'Selected runtime imports only', result.stdout)
+
     def test_explicit_native_profile_is_closed_v2_and_copies_exact_source(self):
         from autorouter import config as c
         lock=json.loads((c.ROOT/'toolchain.lock.json').read_text())
@@ -206,10 +287,11 @@ class RuntimeProvenanceTests(unittest.TestCase):
         for extra in ('autorouter/new.py', 'autorouter/__pycache__/x', 'scripts/extra.py', 'evidence/x',
                       '.git/x', 'research/x', 'data/x', 'experiments/x', '.tools/extra'):
             with self.subTest(extra=extra):
-                path = self.output / extra; path.parent.mkdir(parents=True, exist_ok=True)
+                path = self.output / extra; parent_existed = path.parent.exists()
+                path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(b'not in immutable population'); self.refused(self.identity)
                 path.unlink()
-                if path.parent not in (self.output, self.output / 'autorouter', self.output / 'scripts'):
+                if not parent_existed:
                     path.parent.rmdir()
         self.refused(lambda: pv.source_identity(self.output, {}))
         self.assertEqual(self.identity()['git_head'], self.head)
