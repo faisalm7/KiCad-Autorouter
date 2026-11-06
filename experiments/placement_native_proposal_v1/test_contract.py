@@ -142,6 +142,24 @@ class NativeProposalPureContract(unittest.TestCase):
         with self.assertRaises(ValueError):
             c.check_translation(self.source, raw(tree), moves())
 
+    def test_ordinary_zone_keeps_inactive_native_defaults_without_admitting_rules(self):
+        expected = self.observation['zones'][0]
+        observed = dict(copy.deepcopy(expected), placement_enabled=False,
+            placement_source_type='SHEETNAME', placement_source='',
+            disallow=dict(tracks=True,vias=True,pads=True,copperpour=False,footprints=False))
+        before = copy.deepcopy(observed)
+        self.assertEqual(c.check_ordinary_zone(expected,observed),before)
+        self.assertEqual(observed,before)
+        for key,value in (('is_rule_area',True),('placement_enabled',True),
+                          ('is_rule_area',0),('outlines_nm',[[[0,0],[1,0],[1,1]]])):
+            changed=copy.deepcopy(observed);changed[key]=value
+            with self.subTest(key=key,value=value),self.assertRaises(ValueError):
+                c.check_ordinary_zone(expected,changed)
+        changed=copy.deepcopy(observed);changed['disallow']['tracks']=1
+        with self.assertRaises(ValueError):c.check_ordinary_zone(expected,changed)
+        changed=copy.deepcopy(observed);del changed['disallow']['tracks']
+        with self.assertRaises(ValueError):c.check_ordinary_zone(expected,changed)
+
     def test_unsupported_geometry_is_explicitly_refused(self):
         def extra_outline(tree):tree.append(copy.deepcopy(c.sx.one(tree, 'gr_rect')))
         def group(tree):tree.append(['group', '"unsupported"'])

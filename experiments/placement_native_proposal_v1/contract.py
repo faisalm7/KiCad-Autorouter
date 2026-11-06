@@ -131,6 +131,22 @@ def derive_unrouted(raw):
                      all_other_AST_fields_identical=True, original_mutated=False)
 
 
+def check_ordinary_zone(expected, observed):
+    """Keep inactive native defaults visible; never reinterpret an actual rule area."""
+    need(type(observed) is dict and set(observed) == pt.ROW_FIELDS, 'Complete native zone observation required')
+    need(observed['is_rule_area'] is False and observed['placement_enabled'] is False,
+         'Native keepout/placement rule unsupported')
+    flags = observed['disallow']
+    need(type(flags) is dict and set(flags) == set(pt.FLAGS)
+         and all(type(value) is bool for value in flags.values()), 'Exact native zone flags required')
+    need(all(observed.get(key) == value and type(observed.get(key)) is type(value)
+             for key, value in expected.items()), 'Native/source zone geometry differs')
+    # KiCad keeps these defaults even on ordinary pours. The source parser also
+    # treats them as rule constraints only when a keepout/placement exists.
+    # Native observations and the complete immutable AST are preserved separately.
+    return observed
+
+
 def facts_from_observation(observation, *, selected=SELECTED, region_nm=REGION_NM):
     need(set(selected) <= {r['uuid'] for r in observation['footprints']}, 'Selected stable UUID absent')
     components = []

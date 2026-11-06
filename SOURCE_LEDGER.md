@@ -2,6 +2,10 @@
 
 Prepared October 9, 2026. The master prompt's mechanisms, thresholds, and workflow choices are proposed engineering requirements, not findings established by these sources. Recheck mutable documentation, versions, permissions, and APIs when executing.
 
+## Native placement API check (November5,2026)
+
+The [KiCad10.0.7 zone serializer](https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2712) saves keepout and placement flags only for an actual rule area. The constructor in the same version's `pcbnew/zone.cpp` initializes ordinary zones as non-rule areas with placement disabled. Read these primary source sections to diagnose [probe002](evidence/placement075-native-probe-002.json), alongside retained actual Native observations showing inactive pads/tracks/vias flags on the same ordinary copper zone. No KiCad source was copied into the product. The correction preserves all observations and still rejects actual unsupported rule areas; it is not permission to remove keepouts or relax constraints.
+
 ## Current bounded source checks (November3,2026)
 
 Current073 [Devobordo original-source characterization](evidence/development-devobordo073-admission-001.json) ran installed static preview and Native full-schematic checks without routing. The original has one blocking thermal finding,74warnings and10ignored checks. Publisher README explicitly describes low-impedance power, USB differential, QSPI/clock and decoupling intent. No whole-board electrical task is admitted merely because static geometry supports it; preserve sensitive copper and original constraints in any prospective task.

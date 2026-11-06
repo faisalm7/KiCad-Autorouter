@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "source_commit": "16955ba802228153e4a020b66c541d087ab4d056",
+  "status": "failed_native_capture",
+  "placement_qualified": false,
+  "accepted": false,
+  "candidate_saved": false,
+  "routing_performed": false,
+  "source_unchanged": true,
+  "failure": "Native keepout/placement rule unsupported: erroneous requirement that inactive disallow defaults on an ordinary copper zone are all false",
+  "source_drc": {
+    "opens": 2,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "schematic_parity_issues": 0
+  },
+  "total_limit_seconds": 120,
+  "wall_seconds": 3.1935630830121227,
+  "cpu_seconds": 2.331894,
+  "controller_exit_not_measured": true,
+  "execution_sha256": "ed15e263931e727825fee95797c08285fcae1da41b8542e5f493b562769eb487",
+  "raw_root": ".runs/placement-native-proposal-v1-002",
+  "retained_native_observation": {
+    "path": ".runs/runtime075 fresh install 001/.runs/design-workflow075-002/delivery/autorouter-gui-7229184091ca45c8864f4adf78421aae/route/task.alias-export.json",
+    "sha256": "62de33c3de4f2e59481c38a7c718c63f9fe8875fc341d2740e425e4a60c6e8d6",
+    "is_rule_area": false,
+    "placement_enabled": false,
+    "disallow": {
+      "tracks": true,
+      "vias": true,
+      "pads": true,
+      "copperpour": false,
+      "footprints": false
+    }
+  },
+  "primary_source": "https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2712",
+  "decision": "Classify ordinary pour by actual is_rule_area/placement state; retain all flags and require before/after identity; refuse actual rule areas and preserve complete original AST. Existing shared source_zones semantics reused.",
+  "qualification": {
+    "pure_controls": 13,
+    "unittest_seconds": 0.069,
+    "native003_pending": true,
+    "installed_product_unchanged": true
+  }
+}

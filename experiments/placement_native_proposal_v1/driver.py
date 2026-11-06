@@ -225,6 +225,7 @@ def worker(args, runtime):
         final=drc('final-drc',candidate)
         assert placement_findings(final,p)==source_findings and final['ignored_checks']==source_native['ignored_checks']
         final_observed=native_request('final-capture',candidate)
+        assert final_observed['details']==observed['details'], 'Final zone flags or pad net codes changed'
         final_raw=pc.read_bytes(candidate,contract.MAX_BYTES)
         assert final_observed['observation']==contract.inspect_board(final_raw)
         contract.check_translation(derived,final_raw,moves)

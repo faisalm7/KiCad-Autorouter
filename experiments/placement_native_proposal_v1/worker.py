@@ -77,9 +77,7 @@ def capture(native, pcbnew, raw, contract, fc):
     need(len(by_id) == len(areas['zones']) == len(expected['zones']), 'Native zone population differs')
     for row in expected['zones']:
         observed = by_id.get(row['uuid'])
-        need(observed is not None and all(observed.get(k) == value for k, value in row.items()), 'Native/source zone geometry differs')
-        need(observed['is_rule_area'] is False and observed['placement_enabled'] is False
-             and all(value is False for value in observed['disallow'].values()), 'Native keepout/placement rule unsupported')
+        contract.check_ordinary_zone(row, observed)
     return expected, dict(native_pad_netcodes=netcodes, actual_native_areas=areas)
 
 
@@ -142,12 +140,14 @@ def main(argv=None):
             for identity, target in spec['moves_nm'].items():
                 need(not footprints[identity].IsLocked(), 'Native locked footprint cannot move')
                 footprints[identity].SetPosition(pcbnew.VECTOR2I(*target))
-            capture(native, pcbnew, expected_raw, contract, fc)
+            _, after_details = capture(native, pcbnew, expected_raw, contract, fc)
+            need(after_details == details, 'Native translation changed zone flags or pad net codes')
             pcbnew.SaveBoard(str(candidate), native); record['board_saved'] = True
             written = pc.read_bytes(candidate, contract.MAX_BYTES)
             record['saved_candidate_sha256'] = hashlib.sha256(written).hexdigest()
             record['immutable_check'] = contract.check_translation(raw, written, spec['moves_nm'])
-            capture(pcbnew.LoadBoard(str(candidate)), pcbnew, written, contract, fc)
+            _, saved_details = capture(pcbnew.LoadBoard(str(candidate)), pcbnew, written, contract, fc)
+            need(saved_details == details, 'Native serialization changed zone flags or pad net codes')
             need({k:v for k,v in pc.inventory(candidate.parent).items() if k != board.name}
                  == {k:v for k,v in spec['source_hashes'].items() if k != board.name}, 'Native save changed sidecars')
         else:

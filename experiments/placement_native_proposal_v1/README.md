@@ -66,9 +66,9 @@ after lead review and a pinned checkpoint** from the selected checkout:
 '.runs/runtime075 fresh install 001/.venv/bin/python' -B \
   experiments/placement_native_proposal_v1/driver.py \
   --runtime '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/runtime075 fresh install 001' \
-  --protocol '/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_native_proposal_v1/protocol-002.json' \
-  --protocol-sha256 286e7ea9643f2e064e6e80175112efc0e2341a6bbaa787caff65187a6cc18187 \
-  --output '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-native-proposal-v1-002' \
+  --protocol '/Users/faisal/Projects/KiCad-Autorouter-local/experiments/placement_native_proposal_v1/protocol-003.json' \
+  --protocol-sha256 0de5ab51c86676e53555e18c898bfcbf6b453905b2a9f3d62ee1af35586e0393 \
+  --output '/Users/faisal/Projects/KiCad-Autorouter-local/.runs/placement-native-proposal-v1-003' \
   --execute-native
 ```
 
@@ -97,3 +97,10 @@ run preceded this correction.
 Probe002 retains the same120s total/110s inner limits. Twelve pure controls
 pass after the enum correction; the original protocol and all001 evidence stay
 unchanged. Preparation now refuses to overwrite a protocol or reuse an output.
+
+Probe002 also stopped before search or saving: its extra all-false check mistook
+inactive ordinary-zone defaults for active keepouts. [Its failure is retained](../../evidence/placement075-native-probe-002.json).
+The existing shared source-zone parser and [KiCad10.0.7 serializer](https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2712)
+distinguish these from actual rule areas. Probe003 records all flags unchanged
+before/after translation/save/refill and still refuses actual keepout/placement
+areas. Thirteen pure controls pass; the same120/110s envelope remains.
