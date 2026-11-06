@@ -1,0 +1,418 @@
+{
+  "actual_GUI_complete": false,
+  "candidate_qualified": false,
+  "changed_implementation": {
+    "correction": "Read the displayed Request at successful callback adoption and export opening; require shared current request and source/material checks, plus cancellation/closing checks. Warning-review presentation and acknowledgement use the same current-request boundaries.",
+    "problem": "GUI108 could display current partial-completion controls while adopting a preview captured with older whole-board settings; subsequent routing was already refused, but the positive preview display was misleading.",
+    "tests": {
+      "claim_limit": "Regression counts do not establish routing quality or replace actual Native/GUI evidence.",
+      "full_suite_id": "full249",
+      "full_suite_passed": true,
+      "full_suite_skips": 2,
+      "full_suite_sources_unchanged": true,
+      "full_suite_tests": 3201,
+      "new_boundary_regressions": 14,
+      "python39_parse_passed": true,
+      "targeted_GUI_tests": 192,
+      "targeted_passed": true
+    }
+  },
+  "costs_seconds": {
+    "accounting_limits": [
+      "Nested worker/stage/controller timings are already inside enclosing commands; do not add them again.",
+      "Recorded command wall sum includes the discarded rapid preview and checked-open reader. It is not total user-visible GUI duration.",
+      "GUI launch, earlier proposal search/editing, interactions and idle time are not separately instrumented here. No end-to-end speed or human-cleanup claim.",
+      "Research, authoring, independent review, source checks and installation are separate from product command costs; unmeasured overhead is not represented as zero."
+    ],
+    "all_eight_preopen_commands_plus_checked_open_wall_sum": 36.861239543999915,
+    "all_six_recorded_targeted_development_runs": {
+      "full_CPU": 29.055438,
+      "includes_final_targeted_run": true,
+      "includes_initial_fixture_failures": true,
+      "wall": 31.792804082
+    },
+    "checked_open_CLI_wall": 2.083105584000009,
+    "full249": {
+      "cleanup_complete": true,
+      "controller_full_CPU": 279.245943,
+      "controller_wall": 303.7088084170009,
+      "test_process_CPU": 277.899073,
+      "test_process_wall": 302.9516005000005
+    },
+    "independent_pristine_readback_external": {
+      "CPU": 2.8,
+      "wall": 4.27
+    },
+    "install078": {
+      "controller_full_CPU": 2.806383,
+      "controller_wall": 4.231171415998688,
+      "doctor_child_CPU": 0.948745,
+      "doctor_child_wall": 2.156303249999837,
+      "external_CPU": 2.87,
+      "external_wall": 4.34
+    },
+    "nested_native_and_delivery_stages": {
+      "choice": {
+        "budget_seconds": 60,
+        "total_cpu_seconds": 1.3674000000000002,
+        "wall_seconds": 1.4520400839992362
+      },
+      "export": {
+        "budget_seconds": 90.0,
+        "total_cpu_seconds": 4.227568,
+        "wall_seconds": 5.534940167000968
+      },
+      "review": {
+        "budget_seconds": 60,
+        "total_cpu_seconds": 3.0844889999999996,
+        "wall_seconds": 3.235263250000571
+      },
+      "route": {
+        "budget_seconds": 90,
+        "total_cpu_seconds": 5.322053,
+        "wall_seconds": 7.8038154159985424
+      }
+    },
+    "nested_placement_controller": {
+      "cleanup_complete": true,
+      "full_CPU": 8.391708999999999,
+      "wall": 10.162625250000929,
+      "worker_CPU": 7.477816,
+      "worker_wall": 9.265253999999914
+    },
+    "placement_qualification_CLI_wall": 10.923689042000007,
+    "rapid_preview_GUI_refused_CLI_wall": 0.2160219579999989,
+    "settled_positive_six_CLI_commands": [
+      {
+        "stage": "choice",
+        "wall": 2.004356416999997
+      },
+      {
+        "stage": "export",
+        "wall": 7.187689624999962
+      },
+      {
+        "stage": "preview",
+        "wall": 0.1950427919999811
+      },
+      {
+        "stage": "review",
+        "wall": 3.81101991700001
+      },
+      {
+        "stage": "route",
+        "wall": 8.781989249999981
+      },
+      {
+        "stage": "verify_export",
+        "wall": 1.6583249589999696
+      }
+    ],
+    "targeted_final_GUI_tests": {
+      "full_CPU": 7.149195,
+      "wall": 7.678528082999037
+    }
+  },
+  "evidence_cutoff_utc": "2026-11-06T19:33:41.576429+00:00",
+  "kind": "runtime078-installed-GUI109-progress",
+  "limits_and_open_requirements": [
+    "This progress record is not complete GUI109 qualification or a formal release.",
+    "Owned constrained placement evidence does not establish useful movement on unrelated acquired boards, universal geometry support or general electrical suitability.",
+    "Native Windows route/validation/cancellation/export, broader installation qualification, live authorized model integration, human engineering/physical validation and current full recovery remain separate requirements.",
+    "Current raw runtime078 evidence has not yet been covered by the completed runtime077 selected backup.",
+    "No new model call, external upload, broad routing-superiority or industry-standard claim.",
+    "Prospective unrelated-board admission work is excluded from runtime078 qualification."
+  ],
+  "local_evidence": [
+    {
+      "path": ".runs/full-integration-249/execution.json",
+      "sha256": "99947d227d52f0bbf8b9e2c9ecf7440e6d3b74f464c104f43cc869f69edb8463"
+    },
+    {
+      "path": ".runs/full-integration-249/protocol.json",
+      "sha256": "e030dbfa39f04e1d2a1d51744a264be8a8ca08aa394128e12b9cb799d68d971d"
+    },
+    {
+      "path": ".runs/full-integration-249/command.log",
+      "sha256": "8453ad92e9d4d12542fa485166281af88b97dde04cc5611148cecf6b7629020c"
+    },
+    {
+      "path": ".runs/full249-outer.stdout",
+      "sha256": "a3b0944ae6ba37449e99b53a5473c5ce48b31c255ce4b19e1b31d7d99a94fa49"
+    },
+    {
+      "path": ".runs/runtime-directory-078/installed-setup.json",
+      "sha256": "a78de048101d0c52238522d77c6ac47b764dd5a3fc5b35c614b685b575b7fd46"
+    },
+    {
+      "path": ".runs/runtime-directory-078/doctor-process.json",
+      "sha256": "4f295733e31f4e5b445f45c1567ea78be22080b9f9dd080bbbf51130690b1714"
+    },
+    {
+      "path": ".runs/runtime-directory-078/doctor.log",
+      "sha256": "8ad76e354dfca7862a4e8e59e4dee40d1b4120f39417337b3ffb8bca03c6a4f9"
+    },
+    {
+      "path": ".runs/runtime-directory-078/outer.stderr",
+      "sha256": "f7c4fc4f2e7b59d7eb7079b3a55992bf2349dc30a7774797590f5b2f7bd26a3e"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/runtime-distribution.json",
+      "sha256": "8bf26cee13f38f5dc10ea3b69935a3052c5441a5e37b9ea93890b4fb5d4396a2"
+    },
+    {
+      "path": ".runs/runtime078-development-001/source-checkpoint.json",
+      "sha256": "a399d886e862f6d00da9f10cb4ae4b027d0d69144d1ea9ecaafccdc888a9d2a1"
+    },
+    {
+      "path": ".runs/runtime078-ui-adoption-001/final-all-gui.json",
+      "sha256": "04ab7ff0dcddf7f1b18e1174913cc29d074de1e723ff7f79f88a8cd4d1585c77"
+    },
+    {
+      "path": ".runs/runtime078-ui-adoption-001/final-all-gui.log",
+      "sha256": "10c65dd5a2d931e0e9f4c0245fb22fb6e68d7dc19aee493aeea1cb8a48072ec1"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-qualified-f8c7914b6d764161ad9c424d2d6262b4/binding.json",
+      "sha256": "eb26849089a06ebf67bf2b0cd6d7bc0a990d66e690dfbd5317635c0e371f706f"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-qualified-f8c7914b6d764161ad9c424d2d6262b4/result.json",
+      "sha256": "02c6085eb31bfe9c54f8d06356b84dea7aa1d2909c31c5e8fb90f258d87c6cc4"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/placement-qualified-f8c7914b6d764161ad9c424d2d6262b4/process.json",
+      "sha256": "4813c51a8747ac1fec589097df25562b5002163e964e25329e3b61abbaa298f5"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/jobs/autorouter-gui-a130e5d4316947888a7f3744e37a069f/route/result.json",
+      "sha256": "e102713fc7a67dd76541f1e61dcd2ef407178684ea70c5710f3bb32c5ae9f356"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/jobs/autorouter-gui-a130e5d4316947888a7f3744e37a069f/review/review.json",
+      "sha256": "451a44b30e3d08df51a15f6f4514335851eb1a5bc7c15adf579ccdfdb1289a0c"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/jobs/autorouter-gui-a130e5d4316947888a7f3744e37a069f/choice/choice.json",
+      "sha256": "15d68a584748283fe53cd0ff9c65f61409f49af6e7c0b09cb67ac6c303479a9d"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/jobs/autorouter-gui-a130e5d4316947888a7f3744e37a069f/export/export.json",
+      "sha256": "17cb1dae655caf018fe8ed1d149ea490c34be70364300fd01d4eb6f6450b250a"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/jobs/autorouter-gui-a130e5d4316947888a7f3744e37a069f/verify_export.command.log",
+      "sha256": "ffcb352ddc46443a2aba46771aa71eb195eee9cb904959c2b4087c267a5ce8fc"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/jobs/autorouter-gui-a130e5d4316947888a7f3744e37a069f/inspect-export-b17c8dfc70ab49e5b770199d884b6d62.command.process.json",
+      "sha256": "2885b1387ff086454f4dbb2d17e50aa193f7344bfbaccea4680b786234c3b95d"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/jobs/autorouter-gui-a130e5d4316947888a7f3744e37a069f/inspect-export-b17c8dfc70ab49e5b770199d884b6d62.command.log",
+      "sha256": "ffcb352ddc46443a2aba46771aa71eb195eee9cb904959c2b4087c267a5ce8fc"
+    },
+    {
+      "path": ".runs/placement078-gui109-readback-001/readback.json",
+      "sha256": "a24c181d19987ae37c701cbd3325e897025d705df497c0bf2f5412cd87b98111"
+    },
+    {
+      "path": ".runs/placement078-gui109-readback-001/pristine-export.json",
+      "sha256": "fd56313f1b7194af211e02a2d40bf8f2cee56ec6705cddcd95f227cc28b88151"
+    },
+    {
+      "path": ".runs/placement078-gui109-readback-001/closure.json",
+      "sha256": "c832f4f401d6207988de9f29e2a6245f8e75b92ff02b7740fc815fda0f953542"
+    },
+    {
+      "path": ".runs/placement078-gui109-readback-001/readback.stderr",
+      "sha256": "029074b19c7fd034924cb6706907a1bd0ea2721e8611531757a0c2546b476bd5"
+    },
+    {
+      "path": ".runs/gui109-observations-001/progress.json",
+      "sha256": "a0569f78fb9a526c4aa055863261b24ea619f583f8e1383e9dd2c160c643ebe2"
+    },
+    {
+      "path": ".runs/gui109-observations-001/locked-access.json",
+      "sha256": "74f665b42a791dc1ca8825c26841218965a8ecbf278a13a1fb6c2616fe8b1932"
+    },
+    {
+      "path": ".runs/gui109-observations-001/rapid-preview-readback.json",
+      "sha256": "196d742edf3929b76f1799f27e4a6a6b1eb9e800c9194644f8a3c1d8f9e73f20"
+    },
+    {
+      "path": ".runs/gui109-observations-001/02-toolbar-launched.ax.txt",
+      "sha256": "f4f5245a2a62ad381d43b07045184cb5b9145efe5b0ab6e772b5fc6b3415d699"
+    },
+    {
+      "path": ".runs/gui109-observations-001/03-invalid-placement.ax.txt",
+      "sha256": "e289e9b57e1190b3dd0441a6594d480fc3b86b005ca278aa754aa22c5d6ba02d"
+    },
+    {
+      "path": ".runs/gui109-observations-001/04-placement-result.ax.txt",
+      "sha256": "02814ba5c7493c39de8bce0b9f0840caac38d9888f11904a136bee3938111b1a"
+    },
+    {
+      "path": ".runs/gui109-observations-001/05-rapid-popup-preview.ax.txt",
+      "sha256": "ed32149de8f54a9166c849776124435ecbf7661653961c494d3980fee927ef86"
+    },
+    {
+      "path": ".runs/gui109-observations-001/07-Edge-front.png",
+      "sha256": "84b0450505bd923e6d2df02444793b6474547b8b7e6649b005a7e7dbeeb5b7f3"
+    },
+    {
+      "path": ".runs/gui109-observations-001/08-Edge-back.png",
+      "sha256": "509bd5fd8fb76c1d67139c92e63f22830bdf1d8756b16a3208b5af2a28c5b7e5"
+    },
+    {
+      "path": ".runs/gui109-observations-001/09-Edge-findings.ax.txt",
+      "sha256": "74bdd09a9bdfd3f22726728d5b8af388e6ca55d587892147fe54da16d7ef927b"
+    },
+    {
+      "path": ".runs/gui109-observations-001/11-explicit-review-required.ax.txt",
+      "sha256": "43f610151453da20ef06feb8b45c44f8b1532d48617573b2cde3fba148c534f4"
+    },
+    {
+      "path": ".runs/gui109-observations-001/12-fresh-export.ax.txt",
+      "sha256": "7d7fdef72bb1656ce676141c6e982e99e0666084687efae4f31cad2568965234"
+    },
+    {
+      "path": ".runs/runtime078 fresh install 001/.runs/gui-session109/routing-settings-gui109.json",
+      "sha256": "a73292826f5de5a992d4d04ec85ced90ecac269556f72b35180f610e79866a65"
+    }
+  ],
+  "native_and_preservation": {
+    "actual_native_checks_reused_from_this_GUI_job": true,
+    "final_candidate_sha256": "ef9ddcc26a82c3b924806e5f8e55311b722a88f6a0ad3ca304dd6b2899cc769d",
+    "footprints": 6,
+    "genuine_changed_warning_branch": "unexercised; no changed warning occurred and none was fabricated",
+    "human_PCB_approval": false,
+    "ignored_checks": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "independent_readback_reran_Native": false,
+    "original_rules_unchanged": true,
+    "pad_identity_geometry_and_connectivity_preserved": true,
+    "pads": 8,
+    "physical_electrical_validation": false,
+    "placement": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 2,
+      "warnings": 1
+    },
+    "protected_locked_segment_exact": true,
+    "routed_export": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 0,
+      "warnings": 1
+    },
+    "selected_changes_only_XY": true,
+    "selected_orientations_preserved_degrees": [
+      90,
+      270
+    ],
+    "source_immutable_at_pristine_readback": true,
+    "track_length_mm": 36.4757,
+    "unchanged_unselected_footprints": 4,
+    "vias": 0,
+    "warning": "One unchanged text_height finding: effective minimum 0.8 mm versus authored 0.7 mm text.",
+    "whole_project_DRC_clean": false,
+    "zones": 1
+  },
+  "observed_GUI_roles": [
+    {
+      "result": "Observed exact prepared isolated instance and installed design-assistant window.",
+      "role": "KiCad toolbar launch"
+    },
+    {
+      "result": "Saved selected-component constraints loaded; fixed components visible. Out-of-board 99 mm edit refused; reviewed 17.4 mm edit received actual Native placement qualification.",
+      "role": "Placement settings and fixed components"
+    },
+    {
+      "evidence_basis": "Actual accessibility observation plus separate stored preview receipts; not inferred solely from CLI.",
+      "old_workspace_id": "autorouter-gui-cc46eac34af14f3cb5867c73fa6b6f5d",
+      "result": "Actual popup showed partial completion while rapid preview captured prior whole-board scope. GUI refused positive adoption with explicit current-source/settings mismatch; retained old preview has no route. Settled fresh partial-completion preview then succeeded.",
+      "role": "Rapid popup/current-request refusal",
+      "settled_workspace_id": "autorouter-gui-a130e5d4316947888a7f3744e37a069f"
+    },
+    {
+      "result": "Actual Native partial-completion route delivered zero opens and blocking findings while retaining the existing locked segment.",
+      "role": "Protected routing"
+    },
+    {
+      "result": "Saved screenshots independently inspected: front-layer original/candidate routing and back-layer copper/zone images visibly rendered in Microsoft Edge; findings exposed the warning and ignored checks. Raw screenshots remain local.",
+      "role": "Rendered Edge review"
+    },
+    {
+      "excluded_as_decisive_evidence": "The earlier 06 missing-review-intent accessibility snapshot has ambiguous event ordering; it remains retained but is not used to establish this role.",
+      "result": "The later explicit-review-required GUI observation clearly refused missing acknowledgement. Fresh explicit software-test review intent then recorded acceptance. This is not human PCB approval.",
+      "role": "Explicit acceptance intent"
+    },
+    {
+      "result": "Fresh original-rule Native export and independent installed shared readback passed before editor opening. Original source and protected geometry were unchanged.",
+      "role": "Fresh validated export"
+    },
+    {
+      "result": "GUI saved the new routing preset; its parsed values exactly match prepared partial-completion settings. Reload remains pending.",
+      "role": "Preset save"
+    },
+    {
+      "result": "Fresh checked-open CLI succeeded and the exact exported candidate project manager was observed. Exported PCB visual opening was not observed: the subsequent Cmd+P/accessibility/screenshot tool call reported Mac locked and may have partially executed.",
+      "role": "Checked opening"
+    }
+  ],
+  "pending_finite_GUI_roles": [
+    "Observe the exact exported PCB in KiCad.",
+    "Exercise post-editor export stale refusal without overwriting pristine evidence.",
+    "Exercise current settings and source freshness refusal on disposable copies.",
+    "Reload the saved preset.",
+    "Complete a separate explicit rejection.",
+    "Complete active cancellation and verify no acceptance/delivery of cancelled work."
+  ],
+  "pristine_and_access_gate": {
+    "blocked_process_events": 0,
+    "do_not_repeat": "Do not rebuild runtime078, repeat full249, rerun completed positive Native delivery, or rerun cleanup merely to resume. Inspect current windows and jobs before further GUI actions.",
+    "export_PCB_visual_open_observed": false,
+    "independent_shared_readback_passed": true,
+    "minimum_owner_action": "Unlock the Mac; one request already sent. No security, sleep-setting or toolbar change requested.",
+    "new_project_lock_entries_recorded": 1,
+    "observed_blocker": "GUI tool reported The Mac is locked during Cmd+P/getAXState/getScreenshot after candidate project manager observation. No screenshot or accessibility result from that call was returned; possible partial action remains unknown.",
+    "post_access_failure_existing_export_hashes_equal_pristine": true,
+    "pristine_export_receipt": ".runs/placement078-gui109-readback-001/pristine-export.json",
+    "pristine_export_sha256": "fd56313f1b7194af211e02a2d40bf8f2cee56ec6705cddcd95f227cc28b88151",
+    "process_creation_veto_enabled": true,
+    "python_bytecode_disabled": true
+  },
+  "privacy": "Only sanitized product facts and relative project receipt references/hashes are included. Raw screenshots, personal browser tab titles, absolute source paths, filesystem listings, CAD and private audit material remain local.",
+  "project_complete": false,
+  "recorded_utc": "2026-11-06T19:37:44.550445+00:00",
+  "runtime": {
+    "build_source_head": "36939da2cf615bd2f257b74bc5f1dd1ad73e6647",
+    "doctor_ready": true,
+    "immutable_files": 81,
+    "installation_scope": "One curated runtime, same Mac/account and existing pinned dependencies; copied no-pip environment. No new download, clean-OS installation, Windows qualification or formal publication.",
+    "manifest_sha256": "8bf26cee13f38f5dc10ea3b69935a3052c5441a5e37b9ea93890b4fb5d4396a2",
+    "native_KiCad_version": "10.0.7",
+    "path": ".runs/runtime078 fresh install 001",
+    "platform": "macOS arm64",
+    "retained_rights_sha256": {
+      "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "experiments/constrained_placement_v1/upstream.json": "e20a2bd82fdd31b8077377a0b473bbd4549261b08b3986f9a71b599822fdb0bc",
+      "experiments/constrained_placement_v1/vendor/LICENSE": "d3cdaf0cd82fec1bddb26bd6c40cd700f37e0e9545cd6d51c56e2fdc81189ad8"
+    }
+  },
+  "schema": 1,
+  "scope": "One installed macOS ordinary-placement development workflow with an owned six-footprint board; actual KiCad toolbar, placement review, protected partial routing, Edge review, explicit software-test acceptance and fresh Native export. Remaining GUI roles are not qualified.",
+  "source_checkpoint": {
+    "audited_remote_file": "autorouter/gui.py",
+    "git_head": "36939da2cf615bd2f257b74bc5f1dd1ad73e6647",
+    "independent_GitHub_ref_and_file_readback": true,
+    "remote_and_local_blob": "72409dba08ef3cca0026d4ab0e98fca37200e479",
+    "remote_head": "36939da2cf615bd2f257b74bc5f1dd1ad73e6647",
+    "source_gui_sha256": "883241a3ccaa6ebbba39dfb2b7e1309c2b9f83382d106f5b0cad55e2b0e1e731"
+  },
+  "status": "partial_actual_GUI_qualification_access_blocked"
+}
