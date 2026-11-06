@@ -2,6 +2,17 @@
 
 The [master specification](MASTER_PROMPT.md) and later owner steering govern. **The November5 staged product strategy governs; historical routing superiority remains unmet/deferred research, not a product prerequisite.** Retained GUI-qualified runtime074 build `6fbbbf22dfb8250f1578fb4d7a45ff0e161b3194`, installed manifest `584ee929eaf3d277dc535556e42c71ac5196a74f1c5e3fd53a2cce5a67853d61`. New runtime075 build `b91520b90cdfeb86aba1dd1e9458e941f2c810a7` has an [installed CLI subset](evidence/runtime075-installed-product-subset-001.json), plus [GUI106 finite core](evidence/gui-runtime075-106-core-001.json); full product qualification remains open. [Status](STATUS.md) · [Plan](PLANS.md) · [severity list](docs/experimental-rc.md). Historical versioned evidence/failures remain unchanged.
 
+**Current076 addition:** [Installed placement milestone](evidence/runtime076-placement-product-milestone-001.json) closes one real saved-project selected-placement → protected-routing → review/accept-or-reject → fresh separate export → checked KiCad opening task. Full247, curated installation/doctor, Native invalid/cancel controls and actual GUI107 are recorded. Source acknowledgement reset and continuous origin guard are now installed and exercised. Scope remains narrow front/unrotated circular-PTH translations; this is not broad placement support or human PCB approval. Older rows below retain their version-specific evidence and are not a request to repeat them.
+
+| Current remaining requirement | Classification / next evidence |
+|---|---|
+| Useful placement breadth and constraints | Product capability gap: ordinary SMD/library geometry, grouping/orientation/side/keepouts and unrelated tasks remain unsupported/unqualified. Preserve fixed positions/connectivity/copper and explicit intent. |
+| Placement findings/diagram labels | Minor product presentation defects: successful proof still shows “Status: not reported” and geometry diagram “Native required”. Batch correction with next feature candidate. Native wx diagnostics remain visible. |
+| GUI safety branches | Finite076 core closed; changed-warning branch, exact queued interval and actual source-byte-tamper in this GUI remain unexercised. Source-path, bound-origin, settings and export changes were refused; second active cancellation passed, first missed attempt retained. |
+| Live copilot | Access/validation gap: no application model endpoint, no paid call or live-response claim. Typed deterministic controls remain usable without AI. |
+| Cross-platform installation/recovery | Independent Mac install, actual Windows Native workflow and full current recovery remain open; subset restoration/lifecycle tests do not satisfy them. |
+| Engineer usefulness and review | No broad placement/completion advantage or human cleanup/electrical/physical claim. Need finite unrelated task evaluation and separately authorized external review. |
+
 | Requirement | Current evidence | Remaining gate/classification |
 |---|---|---|
 | Local no-AI product | CLI/doctor/structured API, toolbar/external GUI; normal jobs need no AI/account/network/Git/history archive. | Independent OS/user/dependency relocation and standalone installation remain untested. Optional copilot shares guarded tools; local ordinary controls remain sufficient. |
