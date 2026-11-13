@@ -156,6 +156,9 @@ def _findings(native, *, qualified_fields=False):
         if row['type'] != 'unconnected_items':
             from . import schematic_field_evidence as fields
             field_proved = qualified_fields and row['type'] == fields.TYPE and fields.qualified(native)
+            if qualified_fields and row['type'] == fields.TYPE and not field_proved:
+                reason = native.get('field_parity', {}).get('qualification', {}).get('reason', 'missing or invalid complete field proof')
+                need(False, 'Complete schematic-field evidence refused: ' + str(reason)[:1000])
             need(row['severity'] != 'error' and (row['type'] not in p.CRITICAL_FINDINGS or field_proved),
                  'critical Native finding remains')
     return sorted(f.canonical(row) for row in native['findings'] if row['type'] != 'unconnected_items')
@@ -210,8 +213,14 @@ def finding_continuity(native, original, observation, moves, scope):
     # never be relabelled as a proof for the translated warning hashes. The
     # actual candidate separately needs its own freshly derived field proof.
     expected_findings = sorted(f.canonical(row) for row in expected['findings'] if row['type'] != 'unconnected_items')
-    need(_findings(native, qualified_fields=True) == expected_findings,
-         'finding changed beyond exact metadata anchor translation')
+    actual_findings = _findings(native, qualified_fields=True)
+    if actual_findings != expected_findings:
+        from collections import Counter
+        added = Counter(actual_findings) - Counter(expected_findings)
+        details = '; '.join(str(count) + '× ' + json.loads(row)['type'] + ': '
+                            + json.loads(row).get('description', '') for row, count in sorted(added.items()))
+        need(False, 'Finding changed beyond exact metadata anchor translation. '
+             + ('New/changed findings: ' + details[:2000] if details else 'Source findings disappeared or changed.'))
     need(native['ignored_checks'] == original['ignored_checks'], 'ignored check policy changed')
     return dict(policy='exact-footprint-anchor-translation-v1',
                 translated_metadata_anchors=changes, warning_acknowledged=False,
@@ -408,6 +417,25 @@ def _process_cost(process):
              'invalid complete process cost: ' + key)
 
 
+def _worker_refusal(output, binding_sha256):
+    """Bounded failure diagnostics only; never a replacement success proof."""
+    try:
+        path = output / 'work/result.json'
+        raw = pc.read_bytes(path, 2 * 1024**2)
+        value = intent.preferences._parse(raw, 2 * 1024**2)
+        need(type(value) is dict and type(value.get('schema')) is int and value['schema'] == 1
+             and value.get('kind') == KIND and value.get('status') in ('failed', 'cancelled', 'budget_exhausted', 'invalidated')
+             and value.get('placement_qualified') is False and all(value.get(key) is False for key in AUTHORITY)
+             and value.get('binding_sha256') == binding_sha256, 'unbound worker refusal')
+        reason = value.get('reason')
+        need(type(reason) is str and 0 < len(reason) <= 4096
+             and all(ord(c) >= 32 or c in '\n\t' for c in reason), 'bounded worker diagnostic required')
+        return dict(reason=reason, worker_record_sha256=hashlib.sha256(raw).hexdigest(),
+                    diagnostic_only=True, grants_approval=False)
+    except (OSError, ValueError, KeyError, TypeError, p.Rejected):
+        return None
+
+
 def qualify(draft, draft_sha256, output, *, confirmed=False):
     """Explicit execution only; ordinary controls and CLI share this operation."""
     from .runner import run
@@ -453,6 +481,10 @@ def qualify(draft, draft_sha256, output, *, confirmed=False):
     except (Exception, KeyboardInterrupt) as exc:
         record.update(status='cancelled' if isinstance(exc, KeyboardInterrupt) or process['status']=='cancelled' else 'failed',
                       reason=type(exc).__name__ + ': ' + str(exc))
+        refusal = _worker_refusal(output, digest)
+        if refusal is not None:
+            record.update(execution_error=record['reason'], worker_refusal=refusal,
+                          reason='Placement worker refused: ' + refusal['reason'])
     account()
     return f.publish(output, record, stable, account, remaining, owned=lambda: h.owned_destination(owner), final_check=stable)
 

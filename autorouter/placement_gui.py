@@ -79,6 +79,8 @@ def copper_findings(plan):
 
 def placement_limits(inspection, *, rebuild=False):
     limits = inspection.get('limitations', intent.LIMITS)
+    if inspection.get('observation', {}).get('scope') == intent.contract.CONTEXT_SCOPE:
+        return [*limits, *intent.COPPER_LIMITS[:4]] if rebuild else limits
     return [limits[0], *intent.COPPER_LIMITS] if rebuild else limits
 
 
@@ -660,7 +662,16 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     process = job.run(qualification_command(path, output), workspace / ('qualification-' + uuid.uuid4().hex + '.log'), timeout=150)
                     job.check_live(); self.gate.check(ticket)
                     if process['exit_code'] != 0 or process['log_truncated'] or process['cancel_requested']:
-                        raise ValueError('Native qualification did not complete. Its private job/log is retained: ' + str(output))
+                        reason = 'Native qualification did not complete.'
+                        try:
+                            record = gui.read_record(output / 'result.json')
+                            if (type(record) is dict and record.get('placement_qualified') is False
+                                    and record.get('status') in ('failed', 'cancelled', 'budget_exhausted', 'invalidated')
+                                    and type(record.get('reason')) is str and len(record['reason']) <= 8192):
+                                reason = record['reason']
+                        except (OSError, ValueError, TypeError, placement.p.Rejected):
+                            pass
+                        raise ValueError(reason + '\nNo candidate was validated. Private findings and logs: ' + str(output))
                     witness = placement.check(output); job.check_live(); self.gate.check(ticket)
                     guard = placement.source_guard(output, witness, verify_review=lambda: self.gate.check(ticket))
                     return dict(witness=witness, guard=guard, ticket=ticket)

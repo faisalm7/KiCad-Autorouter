@@ -81,6 +81,15 @@ def project_board_only_fields(board,raw_netlist,observation,report,*,native_vers
         ref,fp=source[row['uuid']]
         attrs=sx.one(fp,'attr',[])[1:]
         allowed={'layer','uuid','at','property','attr','fp_poly','fp_text','fp_text_box','fp_line','fp_arc','fp_circle','fp_rect','descr','tags','embedded_fonts'}
+        jumper='duplicate_pad_numbers_are_jumpers'
+        markers=sx.children(fp,jumper)
+        if markers:
+            # Pinned KiCad10.0.7 SaveBoard emits this explicit default even
+            # for padless artwork. It conveys no pad connectivity here; the
+            # unchanged census below still rejects every actual pad/unknown.
+            if native_version!='10.0.7' or markers!=[[jumper,'no']]:
+                raise ValueError('unsupported padless board-only jumper marker')
+            allowed.add(jumper)
         if ('board_only' not in attrs or len(attrs)!=len(set(attrs)) or set(attrs)-{'board_only','exclude_from_pos_files','exclude_from_bom'}
                 or any(not isinstance(n,list) or not n or n[0] not in allowed for n in fp[2:])):
             raise ValueError('unmatched footprint is outside padless board-only artwork scope')

@@ -64,6 +64,12 @@ class BoardOnlyFieldCensusControls(unittest.TestCase):
         for fp,row,ref in zip((first,second),c[2]['footprints'][1:],references):
             sx.children(fp,'property')[0][2]=json.dumps(ref);row['reference']=ref
         return c
+    def native_scene(self,*,duplicate=False,version='10.0.7'):
+        """Keep authored exporter, observer and DRC versions mutually bound."""
+        c=list(self.duplicate_scene() if duplicate else self.scene())
+        netlist=policy.sx.parse(c[1]);policy.sx.one(policy.sx.one(netlist,'design'),'tool')[1]=json.dumps('Eeschema '+version)
+        c[1]=policy.sx.dump(netlist);c[2]['native_version']=version;c[3]['kicad_version']=version
+        return tuple(c)
     def test_complete_artwork_census_and_hashes_preserve_raw_observations_and_warnings(self):
         c=self.scene();before=copy.deepcopy(c);projected,proof=self.project(c)
         self.assertEqual(c,before);self.assertEqual(len(c[2]['footprints']),2)
@@ -75,6 +81,51 @@ class BoardOnlyFieldCensusControls(unittest.TestCase):
         self.assertNotIn('duplicate_artwork_reference_groups',proof)
         q=policy.derive(c[1],projected,c[3]);self.assertTrue(policy.qualified(q,c[3]['schematic_parity']))
         self.assertNotEqual(q['observer_sha256'],proof['complete_observer_sha256'])
+    def test_pinned_native_padless_explicit_no_jumper_marker_preserves_complete_field_proof(self):
+        for duplicate in (False,True):
+            with self.subTest(duplicate=duplicate):
+                c=self.native_scene(duplicate=duplicate)
+                for fp in policy.sx.children(c[0],'footprint')[1:]:
+                    fp.append(['duplicate_pad_numbers_are_jumpers','no'])
+                before=copy.deepcopy(c)
+                projected,proof=evidence.project_board_only_fields(*c,native_version='10.0.7')
+                self.assertEqual(c,before)
+                self.assertEqual(projected['footprints'],[c[2]['footprints'][0]])
+                self.assertEqual(proof['complete_observer_sha256'],policy.digest(policy.canonical(c[2])))
+                for fp,artwork in zip(policy.sx.children(c[0],'footprint')[1:],proof['artwork']):
+                    self.assertEqual(artwork['pad_count'],0)
+                    self.assertEqual(artwork['footprint_ast_sha256'],policy.digest((policy.sx.dump(fp)+'\n').encode()))
+                q=policy.derive(c[1],projected,c[3],native_version='10.0.7')
+                self.assertTrue(policy.qualified(q,c[3]['schematic_parity']))
+    def test_jumper_marker_never_admits_true_unknown_malformed_duplicate_or_unpinned_normalization(self):
+        for marker in (['duplicate_pad_numbers_are_jumpers','yes'],['duplicate_pad_numbers_are_jumpers','false'],
+                       ['duplicate_pad_numbers_are_jumpers'],['duplicate_pad_numbers_are_jumpers','no','extra'],
+                       ['duplicate_pad_numbers_are_jumpers',['no']],['duplicate_pad_numbers_are_jumpers','"no"']):
+            c=self.native_scene();policy.sx.children(c[0],'footprint')[1].append(copy.deepcopy(marker));before=copy.deepcopy(c)
+            with self.subTest(marker=marker),self.assertRaisesRegex(ValueError,'jumper marker'):
+                evidence.project_board_only_fields(*c,native_version='10.0.7')
+            self.assertEqual(c,before)
+        for mode in ('duplicate','old_native'):
+            c=self.native_scene(version='10.0.0' if mode=='old_native' else '10.0.7')
+            fp=policy.sx.children(c[0],'footprint')[1];fp.append(['duplicate_pad_numbers_are_jumpers','no'])
+            if mode=='duplicate':fp.append(['duplicate_pad_numbers_are_jumpers','no'])
+            with self.subTest(mode=mode),self.assertRaisesRegex(ValueError,'jumper marker'):
+                evidence.project_board_only_fields(*c,native_version='10.0.0' if mode=='old_native' else '10.0.7')
+    def test_explicit_no_jumper_marker_cannot_hide_pads_non_artwork_or_changed_fields(self):
+        for mode in ('pad','non_board_only','unknown','field','ordinary_field'):
+            c=self.native_scene();fp=policy.sx.children(c[0],'footprint')[1];fp.append(['duplicate_pad_numbers_are_jumpers','no'])
+            projected,_=evidence.project_board_only_fields(*c,native_version='10.0.7')
+            self.assertTrue(policy.derive(c[1],projected,c[3],native_version='10.0.7')['qualified'])
+            if mode=='pad':fp.append(policy.sx.parse('(pad "1" smd rect (net 1 "GND"))'))
+            if mode=='non_board_only':policy.sx.one(fp,'attr').remove('board_only')
+            if mode=='unknown':fp.append(['duplicate_pad_numbers_are_jumpers_future','no'])
+            if mode=='field':c[2]['footprints'][1]['fields']['Description']='CHANGED'
+            if mode=='ordinary_field':c[2]['footprints'][0]['fields']['LCSC Part #']='CHANGED'
+            before=copy.deepcopy(c)
+            with self.subTest(mode=mode),self.assertRaises(ValueError):
+                projected,_=evidence.project_board_only_fields(*c,native_version='10.0.7')
+                policy.derive(c[1],projected,c[3],native_version='10.0.7')
+            self.assertEqual(c,before)
     def test_duplicate_artwork_reference_groups_keep_each_source_native_uuid(self):
         for references in (('G***','G***'),('G***','g***')):
             c=self.duplicate_scene(references);before=copy.deepcopy(c)
