@@ -148,14 +148,74 @@ def _argv(work, name):
             '--request', str(work / (name + '-request.json')), '--output', str(work / (name + '-observation.json'))]
 
 
-def _findings(native):
+def _findings(native, *, qualified_fields=False):
     need(native['blocking'] == native['exclusions'] == 0, 'blocking/excluded Native findings remain')
     for row in native['findings']:
         need(not row.get('excluded', False) and row['type'] in p.KNOWN_CHECKS | {'padstack_invalid'},
              'unknown or excluded Native finding')
         if row['type'] != 'unconnected_items':
-            need(row['severity'] != 'error' and row['type'] not in p.CRITICAL_FINDINGS, 'critical Native finding remains')
+            from . import schematic_field_evidence as fields
+            field_proved = qualified_fields and row['type'] == fields.TYPE and fields.qualified(native)
+            need(row['severity'] != 'error' and (row['type'] not in p.CRITICAL_FINDINGS or field_proved),
+                 'critical Native finding remains')
     return sorted(f.canonical(row) for row in native['findings'] if row['type'] != 'unconnected_items')
+
+
+def finding_continuity(native, original, observation, moves, scope):
+    """Only two metadata finding anchors may follow an exact selected translation.
+
+    Raw reports stay intact. This grants neither warning acknowledgement nor
+    candidate acceptance; physical warnings and every other finding field must
+    remain exact. The source/candidate Native and immutable checks are separate.
+    """
+    context = scope == contract.CONTEXT_SCOPE
+    before = _findings(original, qualified_fields=context)
+    if scope != contract.CONTEXT_SCOPE:
+        need(_findings(native) == before, 'warning/check policy changed')
+        return None
+    need(observation.get('scope') == scope, 'finding continuity scope differs')
+    need(type(moves) is dict and moves, 'explicit translated footprint targets required')
+    contract.scope_options(scope=scope, selected=list(moves),
+                           region_nm=observation['outline']['bounds_nm'])
+    # The caller's immutable/region checks establish movement authority. The
+    # continuity comparison below binds anchors to the exact captured footprint
+    # and exact target, never to arbitrary deltas supplied in a Native report.
+    footprints = {row['uuid']: row for row in observation['footprints']}
+    need(set(moves) <= set(footprints), 'unknown finding translation identity')
+    for identity, target in moves.items():
+        need(footprints[identity]['placement_eligible'] is True and not footprints[identity]['locked']
+             and type(target) is list and len(target) == 2
+             and all(type(n) is int and abs(n) <= 2_000_000_000 for n in target),
+             'exact eligible footprint translation required')
+    expected = copy.deepcopy(original)
+    changes = []
+    for finding in expected['findings']:
+        if (finding['type'] not in ('lib_footprint_issues', 'footprint_symbol_field_mismatch')
+                or finding['severity'] != 'warning' or len(finding['items']) != 1):
+            continue
+        item = finding['items'][0]; identity = item.get('uuid')
+        if identity not in moves:
+            continue
+        need(set(item) == {'uuid', 'description', 'pos'} and set(item['pos']) == {'x', 'y'},
+             'metadata finding anchor shape differs')
+        position = footprints[identity]['position_nm']
+        need([contract.pt.nm(str(item['pos'][k]), 1000000) for k in ('x', 'y')] == position,
+             'metadata finding anchor is not the captured footprint position')
+        target = moves[identity]
+        if target != position:
+            changes.append(dict(type=finding['type'], uuid=identity,
+                                original_position_nm=position, candidate_position_nm=target))
+        item['pos'] = dict(zip(('x', 'y'), (n / 1e6 for n in target)))
+    # The expected projection is a comparison only. Its old field proof must
+    # never be relabelled as a proof for the translated warning hashes. The
+    # actual candidate separately needs its own freshly derived field proof.
+    expected_findings = sorted(f.canonical(row) for row in expected['findings'] if row['type'] != 'unconnected_items')
+    need(_findings(native, qualified_fields=True) == expected_findings,
+         'finding changed beyond exact metadata anchor translation')
+    need(native['ignored_checks'] == original['ignored_checks'], 'ignored check policy changed')
+    return dict(policy='exact-footprint-anchor-translation-v1',
+                translated_metadata_anchors=changes, warning_acknowledged=False,
+                other_findings_unchanged=True, raw_reports_preserved=True)
 
 
 def _metadata(paths, source):
@@ -237,9 +297,18 @@ def proof(output, binding, data, *, replay=False):
         native = f.check_drc_stage(work, data, name, board, target, saved, captured, schematic_parity=True)
         need(native == data[name.replace('-', '_')], 'Native DRC readback differs')
         natives[name] = native; drc_inputs.append(target)
-    for native in natives.values():
-        need(_findings(native) == _findings(natives['source-drc'])
-             and native['ignored_checks'] == natives['source-drc']['ignored_checks'], 'warning/check policy changed')
+    observation = contract.inspect_board(prepared_raw, scope=options['scope'])
+    continuity = {}
+    for name, native in natives.items():
+        if name == 'source-drc':
+            _findings(native, qualified_fields=options['scope'] == contract.CONTEXT_SCOPE)
+            continue
+        checked = finding_continuity(native, natives['source-drc'], observation, moves, options['scope'])
+        need(native['ignored_checks'] == natives['source-drc']['ignored_checks'], 'warning/check policy changed')
+        if name != 'source-drc' and checked is not None:
+            continuity[name] = checked
+    if options['scope'] == contract.CONTEXT_SCOPE:
+        need(data.get('finding_continuity') == continuity, 'metadata finding continuity proof differs')
     material(binding); _metadata([*paths.values(), *drc_inputs], source)
     return dict(candidate=str(candidate), candidate_sha256=expected[source.name], source_hashes=expected,
                 original_source=str(source), original_source_hashes=hashes, findings=natives['final-drc'])
@@ -283,7 +352,8 @@ def _worker(output, binding_sha):
         need(value == checked, 'DRC stage differs'); record[name.replace('-', '_')] = value; stable()
     try:
         stable(); pc.copy_project(source.parent, paths['snapshot'].parent)
-        drc('source-drc', paths['snapshot']); _findings(record['source_drc'])
+        drc('source-drc', paths['snapshot'])
+        _findings(record['source_drc'], qualified_fields=_options(binding)['scope'] == contract.CONTEXT_SCOPE)
         native('capture', paths['snapshot'])
         original_raw = pc.read_bytes(paths['snapshot'], contract.MAX_BYTES)
         plan, prepared_raw = _prepared_source(binding, original_raw)
@@ -296,7 +366,11 @@ def _worker(output, binding_sha):
         pc.copy_project(paths['candidate'].parent, paths['refill-preimage'].parent)
         pc.copy_project(paths['refill-preimage'].parent, paths['refill-native'].parent)
         drc('refill-drc', paths['refill-native'], True)
-        need(_findings(record['refill_drc']) == _findings(record['source_drc']), 'refill warning change')
+        options = _options(binding); moves = binding['intent']['moves_nm']
+        observation = contract.inspect_board(prepared_raw, scope=options['scope'])
+        continuity = finding_continuity(record['refill_drc'], record['source_drc'], observation, moves, options['scope'])
+        if continuity is not None:
+            record['finding_continuity'] = {'refill-drc': continuity}
         stable()
         before = pc.read_bytes(paths['refill-preimage'], contract.MAX_BYTES)
         need(pc.read_bytes(paths['candidate'], contract.MAX_BYTES) == before, 'candidate changed before refill')
@@ -308,6 +382,9 @@ def _worker(output, binding_sha):
         record['immutable_check'] = (contract.check_translation(original_raw, after, moves, **options) if plan is None else
             copper.audit_translation(original_raw, after, plan, moves, scope=options['scope'], region_nm=options['region_nm']))
         drc('final-drc', paths['candidate']); native('final-capture', paths['candidate'])
+        if options['scope'] == contract.CONTEXT_SCOPE:
+            record['finding_continuity']['final-drc'] = finding_continuity(
+                record['final_drc'], record['source_drc'], observation, moves, options['scope'])
         record.update(status='pending_candidate', placement_qualified=True, candidate=str(paths['candidate']),
                       candidate_hashes=gui.source_inventory(paths['candidate']))
         account(); proof(output, binding, record); account()

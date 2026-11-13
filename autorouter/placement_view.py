@@ -84,10 +84,15 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
     _need(type(moves_nm) is dict and len(moves_nm) == len(selected) and set(moves_nm) == set(selected),
           'exact selected translation map required')
     moves = {key: _point(value) for key, value in moves_nm.items()}
-    footprints, seen, pad_seen = [], set(), set()
+    footprints, seen, pad_seen, artwork = [], set(), set(), []
     extents = [outline, region]
     for original in _array(observation['footprints'], 16, 1):
         row = _row(original); identity = _identifier(row['uuid'], seen)
+        if row.get('artwork_only') is True:
+            _need(identity not in selected and row['pads'] == [] and row['courtyard'] is None
+                  and row.get('placement_eligible') is False, 'immutable artwork cannot be moved')
+            artwork.append(_label(row['reference']))
+            continue  # Passive artwork is not a physical placement obstacle.
         position = _point(row['position_nm']); court = _rect(_row(row['courtyard'])['bounds_nm'])
         _need(type(row.get('angle')) is int and row['angle'] in (0, 90, 180, 270)
               and row.get('side') == 'front' and type(row.get('locked')) is bool,
@@ -184,6 +189,9 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
     label(30, 56, state[:110])
     label(30, 78, 'Blue: proposed selected   Gray dashed: original   Slate: fixed   Orange: preserved copper')
     label(30, 99, 'Green: zone outline   Blue dashed: allowed region   Coordinates: mm, X right / Y down')
+    if artwork:
+        label(30, 598, 'Immutable non-copper artwork retained, omitted from physical diagram: ' + ', '.join(artwork)[:60],
+              data_role='immutable-artwork-note')
     for zone in sorted(zones, key=lambda z:z['id']):
         element('polygon', dict(points=' '.join(_fmt(x(px))+','+_fmt(y(py)) for px,py in zone['points']),
             fill='#dcecdf', fill_opacity='.55', stroke='#5b8668', stroke_width=1,

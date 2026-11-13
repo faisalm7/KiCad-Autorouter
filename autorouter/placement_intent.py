@@ -42,18 +42,30 @@ COPPER_LIMITS = (
     'Mandatory original-project Native inspection, validated placement, protected selected-net routing and fresh original-to-final delivery checks remain required.',
     'Existing geometry limits and preserved copper/zone movement boundaries still apply. No electrical suitability is inferred from names, DRC or shorter routing.',
 )
+CONTEXT_LIMITS = (
+    'Experimental fixed-context translation: eligible front two-pad SMD parts only; other parts and passive artwork remain immutable.',
+    'The exact unchanged fixed baseline is retained, including inherited courtyard-proxy conflicts; every moving-part boundary, region and obstacle check stays mandatory.',
+    'Ordinary copper-zone definitions are preserved and refilled by KiCad; derived fill may change. Copper pours are not placement keepouts; actual rule areas remain unsupported.',
+    'Explicitly named protected nets with copper pours are refused: exact protected fill is not guaranteed. Route-UUID protection applies to those routes only.',
+    'Retained segments are conservative courtyard obstacles. No grouping, side/orientation changes, physical or electrical suitability is implied.',
+    'Native checks, original design, protected copper and exact finding continuity remain required before delivery.',
+)
 
 
 def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_policy=None,
              protected_names=None, protected_route_ids=None):
     options = contract.scope_options(scope=scope, selected=selected, region_nm=region_nm)
-    if scope not in (contract.MULTIPAD_SCOPE, contract.ORDINARY_SCOPE):
+    if scope not in (contract.MULTIPAD_SCOPE, contract.ORDINARY_SCOPE, contract.CONTEXT_SCOPE):
         raise ValueError('Unsupported product placement scope.')
     value = dict(schema=1, kind=SETTINGS_KIND, selected=options['selected'], region_nm=options['region_nm'],
                 preserve_existing=True, orientation='preserve', side='preserve',
                 search=dict(seed=7, steps=160, alternatives=2, seconds=2))
-    if scope == contract.ORDINARY_SCOPE:
+    if contract.ordinary_scope(scope):
         value.update(schema=2, kind=ORDINARY_SETTINGS_KIND, scope=scope)
+    if scope == contract.CONTEXT_SCOPE:
+        value.update(fixed_context_policy=constraints.FIXED_CONTEXT_POLICY,
+                     zone_policy='preserve-intent-native-refill-v1',
+                     metadata_finding_policy='exact-footprint-anchor-translation-v1')
     if copper_policy is None:
         if protected_names is not None or protected_route_ids is not None:
             raise ValueError('Explicit copper policy required for protected-net/route settings.')
@@ -100,7 +112,10 @@ def inspect_saved(board):
     try:
         observation = contract.inspect_board(raw, scope=contract.MULTIPAD_SCOPE)
     except ValueError:
-        observation = contract.inspect_board(raw, scope=contract.ORDINARY_SCOPE)
+        try:
+            observation = contract.inspect_board(raw, scope=contract.ORDINARY_SCOPE)
+        except ValueError:
+            observation = contract.inspect_board(raw, scope=contract.CONTEXT_SCOPE)
     local_settings.check_current_metadata(source.with_suffix('.kicad_prl'))
     if gui.source_inventory(source) != static['source_hashes']:
         raise ValueError('Saved project changed during placement inspection.')
@@ -116,7 +131,8 @@ def inspect_saved(board):
     return dict(schema=1, kind='autorouter.saved-placement-inspection.v1', source=str(source),
         source_hashes=static['source_hashes'], observation=observation, components=components,
         native_validation_performed=False, execution_authorized=False, approval_granted=False,
-        limitations=list(ORDINARY_LIMITS if observation['scope'] == contract.ORDINARY_SCOPE else LIMITS))
+        limitations=list(CONTEXT_LIMITS if observation['scope'] == contract.CONTEXT_SCOPE else
+                          ORDINARY_LIMITS if observation['scope'] == contract.ORDINARY_SCOPE else LIMITS))
 
 
 def current(inspection):

@@ -24,6 +24,18 @@ The new source batch is awaiting full installed/Native/GUI qualification. It add
 
 Numeric edits can be kept for several selected components and applied together with **Update all edits**. The final combined pose is checked once; failed edits retain the previous pose and revoke approval. Placement validation checks original, prepared and moved projects; its routing window visibly prefills the exact affected nets and a90-second budget. The same mandatory origin checks apply through the structured CLI and final export. Changing source, settings, plan, pose, protected copper or evidence revokes the result. This option does not yet qualify unrelated acquired boards or broaden rotation/side/group/keepout support.
 
+## Fixed-context placement: prospective082
+
+The explicit `ordinary-fixed-context-v1` scope extends source fidelity around selected front two-pad SMD parts. Rich passive circle/arc/polygon graphics and padless back artwork remain fixed; artwork is labelled as retained and omitted from the physical placement diagram. This is a source extension awaiting installed task/GUI qualification, not broad placement support.
+
+Current intake uses the older parsers first, so this policy is presently reached only by sources whose richer fixed geometry requires it. An otherwise legacy-readable board cannot opt into it through ordinary controls yet; that coverage/usability limit remains open.
+
+The settings bind `fixed_context_policy`, `zone_policy` and `metadata_finding_policy`. Unchanged fixed board-envelope/pair proxy conflicts can remain as source conditions. Every moving part still obeys board/region/obstacle checks. Different mandatory fixed regions and hard rectangular keepouts are checked. Preserved segment envelopes are checked against actual proposed poses rather than forbidding the whole search rectangle. Ordinary zone intent remains exact; Native refill can change derived copper. Explicitly named protected nets with a copper pour are refused because exact protected fill is not guaranteed. Route-UUID protection protects those routes only.
+
+Only library/qualified Datasheet-placeholder warning anchors may follow exact selected-footprint translations. Source and candidate each need their own complete Native field proof; every other finding field, physical warning and ignored check stays exact. Raw reports remain unchanged, and this comparison grants no warning acknowledgement or acceptance. Actual blocking findings, invalid/unknown constraints, stale inputs or cancellation still refuse.
+
+Bounds remain16footprints/32pads/64straight segments, two outer copper layers, rectangular board, fixed cardinal orientation and no actual rule areas/cutouts. Passive immutable artwork is bounded to256rich shapes/4096total polygon vertices/1024per polygon, checked in linear time against actual Native topology and exact point order; it never becomes movable geometry. No electrical/thermal/timing suitability is inferred. The unrelated IR development task is already routed at source; successful rearrangement would show task breadth, not a completion-rate or quality advantage.
+
 ## Historical source-run lineage
 
 The following developer commands describe the earlier075 source-run review/qualification experiment. Its then-pending statements are historical, superseded by the076 installed workflow above; the original evidence and failures remain unchanged.

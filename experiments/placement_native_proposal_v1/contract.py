@@ -21,7 +21,12 @@ APPLICATION_POLICIES = ('native-save-v1', 'source-translation-v1')
 DEFAULT_SCOPE = 'single-pad-unrouted-v1'
 MULTIPAD_SCOPE = 'multipad-preserve-v1'
 ORDINARY_SCOPE = 'ordinary-front-preserve-v1'
+CONTEXT_SCOPE = 'ordinary-fixed-context-v1'
 ROUTE_GAP_NM = 300_000
+
+
+def ordinary_scope(scope):
+    return scope in (ORDINARY_SCOPE, CONTEXT_SCOPE)
 
 
 def application_policy(value='native-save-v1'):
@@ -35,7 +40,7 @@ def need(test, message):
 
 
 def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
-    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE), 'Unsupported placement scope')
+    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE, CONTEXT_SCOPE), 'Unsupported placement scope')
     if scope == DEFAULT_SCOPE:
         selected = SELECTED if selected is None else selected
         region_nm = REGION_NM if region_nm is None else region_nm
@@ -80,9 +85,9 @@ def read_board(raw):
 
 
 def inspect_board(raw, *, allow_routes=False, scope=DEFAULT_SCOPE):
-    if scope == ORDINARY_SCOPE:
+    if ordinary_scope(scope):
         from . import ordinary
-        return ordinary.inspect(raw)
+        return ordinary.inspect(raw, scope=scope)
     need(scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE), 'Unsupported placement scope')
     tree = read_board(raw)
     layers = [sx.unquote(n[1]) for n in sx.one(tree, 'layers')[1:]
@@ -206,28 +211,38 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
     need(set(selected) <= {r['uuid'] for r in observation['footprints']}, 'Selected stable UUID absent')
     components = []
     for row in observation['footprints']:
+        if scope == CONTEXT_SCOPE and row.get('artwork_only') is True:
+            need(row['uuid'] not in selected and row['pads'] == [] and row['courtyard'] is None
+                 and row['placement_eligible'] is False, 'Immutable artwork cannot be selected')
+            continue
         court = row['courtyard']; x0, y0, x1, y1 = court['bounds_nm']; stroke = court['stroke_nm']
         box = [(x0 - stroke / 2) / 1e6, (y0 - stroke / 2) / 1e6,
                (x1 + stroke / 2) / 1e6, (y1 + stroke / 2) / 1e6]
         region = region_nm if row['uuid'] in selected else observation['outline']['bounds_nm']
         position = row['position_nm']
-        if scope == ORDINARY_SCOPE:
+        if ordinary_scope(scope):
             need(row['uuid'] not in selected or row['placement_eligible'] is True,
                  'Selected footprint is fixed in ordinary scope: ' + row['reference'])
             position = [(x0 + x1) / 2, (y0 + y1) / 2]
         components.append(dict(id=row['uuid'], position_mm=[n / 1e6 for n in position],
             size_mm=[box[2] - box[0], box[3] - box[1]], rotation_deg=0, side='front', locked=row['locked'],
             pads=[dict(id=pad['uuid'], net=pad['net'], offset_mm=[n/1e6 for n in
-                ([pad['position_nm'][i] - position[i] for i in range(2)] if scope == ORDINARY_SCOPE
+                ([pad['position_nm'][i] - position[i] for i in range(2)] if ordinary_scope(scope)
                  else pad.get('offset_nm',[0,0]))]) for pad in row['pads']],
             allowed_region_mm=[n / 1e6 for n in region], allowed_rotations_deg=[0], allowed_sides=['front']))
     # Keep every original copper zone; the selected region is explicitly disjoint
     # from every zone outline, so this probe never assumes an absent copper pour.
     for zone in observation['zones']:
+        if scope == CONTEXT_SCOPE:
+            # A preserved ordinary copper pour is not a placement keepout.
+            # Source parsing and independent Native area flags must agree;
+            # its intent is immutable and its actual fill/DRC are revalidated.
+            need(zone['is_rule_area'] is False, 'Rule areas remain unsupported')
+            continue
         box = pt.bbox(zone['outlines_nm'][0])
         need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
              'Selected movement region intersects preserved zone envelope')
-    tracks = []
+    tracks, obstacles = [], []
     if scope == DEFAULT_SCOPE:
         need(observation['route_count'] == 0, 'No existing route items in derived task')
     else:
@@ -235,12 +250,23 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
         for route in observation['routes']:
             radius = (route['width_nm'] + 1) // 2 + ROUTE_GAP_NM
             box = [min(route['start_nm'][i],route['end_nm'][i])-radius for i in range(2)] + [max(route['start_nm'][i],route['end_nm'][i])+radius for i in range(2)]
-            need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
-                 'Selected region intersects clearance-expanded preserved segment bounds')
+            if scope == CONTEXT_SCOPE:
+                # Check actual proposed courtyard envelopes, not every point in
+                # the user's search region. Segment AABBs remain conservative,
+                # including back-layer copper; Native checks are still required.
+                radius = (route['width_nm'] + 1) // 2
+                segment_box = [min(route['start_nm'][i],route['end_nm'][i])-radius for i in range(2)] + [max(route['start_nm'][i],route['end_nm'][i])+radius for i in range(2)]
+                obstacles.append(dict(id=route['uuid'], kind=constraints.PRESERVED_COPPER,
+                    bounds_mm=[n/1e6 for n in segment_box], sides=['front']))
+            else:
+                need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
+                     'Selected region intersects clearance-expanded preserved segment bounds')
             tracks.append(dict(id=route['uuid'],net=route['net'],pad_ids=sorted(pad['uuid'] for row in observation['footprints'] for pad in row['pads'] if pad['net']==route['net'])))
     facts = dict(schema=1, board=dict(kind='rectangle', bounds_mm=[n / 1e6 for n in observation['outline']['bounds_nm']], cutouts=[]),
-                 components=components, selected=list(selected), fixed_components=[r['uuid'] for r in observation['footprints'] if r['uuid'] not in selected],
-                 groups=[], tracks=tracks, keepouts=[], clearance_mm=ROUTE_GAP_NM/1e6)
+                 components=components, selected=list(selected), fixed_components=[r['id'] for r in components if r['id'] not in selected],
+                 groups=[], tracks=tracks, keepouts=obstacles, clearance_mm=ROUTE_GAP_NM/1e6)
+    if scope == CONTEXT_SCOPE:
+        facts.update(schema=2, fixed_context_policy=constraints.FIXED_CONTEXT_POLICY)
     facts = constraints.prepare(facts)
     constraints.validate_alternative(facts, constraints.original_alternative(facts))
     return facts
@@ -255,7 +281,7 @@ def _proxy_offset(observation, identity):
 def quantized_translation(facts, candidate, *, observation=None):
     constraints.validate_alternative(facts, candidate)
     result = copy.deepcopy(candidate)
-    ordinary = observation is not None and observation.get('scope') == ORDINARY_SCOPE
+    ordinary = observation is not None and ordinary_scope(observation.get('scope'))
     if ordinary:
         original = constraints.original_alternative(facts)
         for row in original['transforms']:
@@ -289,7 +315,7 @@ def translated_tree(raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm
         need(type(moves[identity]) is list and len(moves[identity]) == 2
              and all(type(n) is int and abs(n) <= 2_000_000_000 for n in moves[identity]), 'Integer nm translation required')
         at = sx.one(fp, 'at')
-        if scope == ORDINARY_SCOPE:
+        if ordinary_scope(scope):
             need(len(at) in (3, 4), 'Supported footprint pose required')
         else:
             need(len(at) == 3, 'Unrotated footprint required')
@@ -312,7 +338,7 @@ def validate_moves(observation, moves, *, scope=DEFAULT_SCOPE, selected=None, re
             target = moves[row['component_id']]
             need(type(target) is list and len(target) == 2
                  and all(type(n) is int and abs(n) <= 2_000_000_000 for n in target), 'Integer nm translation required')
-            offset = _proxy_offset(observation, row['component_id']) if scope == ORDINARY_SCOPE else [Decimal(0), Decimal(0)]
+            offset = _proxy_offset(observation, row['component_id']) if ordinary_scope(scope) else [Decimal(0), Decimal(0)]
             row['x_mm'], row['y_mm'] = (float((Decimal(n) + offset[i]) / 1000000) for i, n in enumerate(target))
     constraints.validate_alternative(facts, alternative)
     return alternative

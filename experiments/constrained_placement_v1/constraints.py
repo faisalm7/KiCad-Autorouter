@@ -11,6 +11,8 @@ import json
 import math
 
 MIN_EXTENT_MM = 0.000001  # One nanometre; smaller proxy rectangles are unsupported.
+FIXED_CONTEXT_POLICY = 'unchanged-fixed-context-v1'
+PRESERVED_COPPER = 'preserved-copper-envelope'
 
 
 class Refused(ValueError):
@@ -109,9 +111,13 @@ def prepare(value):
     """Validate a bounded explicit contract and detach it from caller objects."""
     encoded(value)
     facts = copy.deepcopy(value)
-    fields(facts, 'schema board components selected fixed_components groups tracks keepouts clearance_mm', 'facts')
-    if type(facts['schema']) is not int or facts['schema'] != 1:
+    context = type(facts.get('schema')) is int and facts['schema'] == 2
+    fields(facts, 'schema board components selected fixed_components groups tracks keepouts clearance_mm'
+           + (' fixed_context_policy' if context else ''), 'facts')
+    if type(facts['schema']) is not int or facts['schema'] not in (1, 2):
         raise Refused('Unsupported fact schema')
+    if context and facts['fixed_context_policy'] != FIXED_CONTEXT_POLICY:
+        raise Refused('Unsupported fixed context policy')
     fields(facts['board'], 'kind bounds_mm cutouts', 'board')
     if facts['board']['kind'] != 'rectangle' or facts['board']['cutouts'] != []:
         raise Refused('Polygon outlines and cutouts are unsupported')
@@ -183,10 +189,10 @@ def prepare(value):
         distinct(track['pad_ids'], 'track pad witnesses')
     distinct(track_ids, 'tracks')
     keepout_ids = []
-    for keepout in sequence(facts['keepouts'], 32, 'keepouts'):
+    for keepout in sequence(facts['keepouts'], 96 if context else 32, 'keepouts'):
         fields(keepout, 'id kind bounds_mm sides', 'keepout')
         keepout_ids.append(identifier(keepout['id'], 'keepout id'))
-        if keepout['kind'] != 'rectangle':
+        if keepout['kind'] != 'rectangle' and not (context and keepout['kind'] == PRESERVED_COPPER):
             raise Refused('Only rectangular keepouts are supported')
         rect(keepout['bounds_mm'], 'keepout rectangle')
         sides = sequence(keepout['sides'], 2, 'keepout sides', 1)
@@ -227,15 +233,23 @@ def validate_alternative(source, alternative):
         if cid in fixed and t != pose(c):
             raise Refused('Fixed/locked/unselected/tracked component moved: ' + cid)
         box = bounds(c, t); gap = facts['clearance_mm']
-        if not inside(box, facts['board']['bounds_mm'], gap):
+        # Schema2 preserves the exact fixed baseline. A fixed courtyard proxy
+        # outside the outline, or an inherited fixed/fixed proxy overlap, is not
+        # authority to alter a fixed part or admit a new moving conflict. Actual
+        # source/candidate Native checks and original AST protection are separate.
+        preserved_fixed = facts['schema'] == 2 and cid in fixed
+        if not preserved_fixed and not inside(box, facts['board']['bounds_mm'], gap):
             raise Refused('Component outside rectangular board: ' + cid)
-        if not inside(box, c['allowed_region_mm']):
+        baseline_board_region = preserved_fixed and c['allowed_region_mm'] == facts['board']['bounds_mm']
+        if not baseline_board_region and not inside(box, c['allowed_region_mm']):
             raise Refused('Component outside allowed region: ' + cid)
         for k in facts['keepouts']:
-            if t['side'] in k['sides'] and not separated(box, k['bounds_mm'], gap):
+            inherited_copper = preserved_fixed and k['kind'] == PRESERVED_COPPER
+            if not inherited_copper and t['side'] in k['sides'] and not separated(box, k['bounds_mm'], gap):
                 raise Refused('Component intersects rectangular keepout: ' + cid)
         for other, side, other_box in rectangles:
-            if side == t['side'] and not separated(box, other_box, gap):
+            inherited_pair = preserved_fixed and other in fixed
+            if not inherited_pair and side == t['side'] and not separated(box, other_box, gap):
                 raise Refused('Component rectangles overlap: ' + other + '/' + cid)
         rectangles.append((cid, t['side'], box))
     return copy.deepcopy(alternative)

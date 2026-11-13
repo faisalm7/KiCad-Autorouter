@@ -6,6 +6,7 @@ is a source contract, not evidence that a board passed Native qualification.
 """
 from decimal import Decimal, InvalidOperation
 import hashlib
+from math import isqrt
 
 from autorouter import sexpr as sx, pipeline as p, board_floor as g
 from autorouter import placement_transform as pt, routing_scope as rs
@@ -78,6 +79,67 @@ def primitive(node, anchor=(0, 0), rotation=0):
                 local_start_nm=a, local_end_nm=b, stroke_nm=stroke(node),
                 fill=({'none': 'none', 'no': 'none', 'solid': 'solid', 'yes': 'solid'}[c.atom(node, 'fill')]
                       if fill is not None else None), locked=locked(node))
+
+
+def context_primitive(node, anchor, rotation):
+    """Immutable passive shapes only; these never become movable geometry.
+
+    Modern KiCad source shapes are footprint-relative and are rotated/translated
+    on load, including saved back artwork. The file already contains its flipped
+    geometry; applying a second reflection would change the stored design.
+    """
+    kind = node[0]
+    keys = {'fp_circle': {'center', 'end'}, 'fp_arc': {'start', 'mid', 'end'},
+            'fp_poly': {'pts'}}
+    c.need(kind in keys, 'Unsupported fixed-context graphic kind')
+    fields(node, keys[kind] | {'stroke', 'fill', 'layer', 'uuid', 'locked'})
+    layer = c.atom(node, 'layer')
+    c.need(layer in PASSIVE_LAYERS, 'Fixed-context graphic on non-passive layer unsupported')
+    # PCB_SHAPE's unfilled arc has no serialized fill in ordinary KiCad files.
+    # Its independently observed Native fill must still be NO_FILL.
+    fill = 'none' if kind == 'fp_arc' and sx.one(node, 'fill') is None else c.atom(node, 'fill')
+    c.need(fill in ('none', 'no', 'solid', 'yes'), 'Explicit solid/none fixed-context fill required')
+    fill = 'solid' if fill in ('solid', 'yes') else 'none'
+    width = stroke(node)
+    c.need(fill == 'solid' or width > 0, 'Unfilled fixed-context shape needs positive stroke')
+    result = dict(uuid=c.uid(node), kind=kind, layer=layer, stroke_nm=width,
+                  stroke_type=c.atom(sx.one(node, 'stroke'), 'type'), fill=fill, locked=locked(node))
+    if kind == 'fp_poly':
+        points = sx.one(node, 'pts')
+        c.need(points is not None and 3 <= len(points) - 1 <= 1024
+               and all(type(row) is list and len(row) == 3 and row[0] == 'xy'
+                       for row in points[1:]), 'One bounded straight fixed-context polygon required')
+        # Passive immutable artwork is not a physical placement polygon. Exact
+        # source/Native vertex order and topology are witnessed independently;
+        # running the physical courtyard intersection solver on a logo adds no
+        # geometry protection and causes quadratic work on every freshness read.
+        local = [[pt.nm(value, 1000000) for value in row[1:]] for row in points[1:]]
+        c.need(len({tuple(point) for point in local}) >= 3
+               and sum(a[0]*b[1]-a[1]*b[0] for a,b in zip(local, local[1:]+local[:1])) != 0,
+               'Nondegenerate fixed-context polygon vertices required')
+        result.update(local_points_nm=local, points_nm=[world(point, anchor, rotation) for point in local])
+    else:
+        points = {key: c.point(node, key) for key in keys[kind]}
+        if kind == 'fp_circle':
+            c.need(points['center'] != points['end'], 'Nonzero fixed-context circle required')
+            squared = sum((points['end'][i] - points['center'][i]) ** 2 for i in range(2))
+            c.need(squared <= 1_000_000_000 ** 2, 'Fixed-context circle radius exceeds bounded Native geometry')
+            root = isqrt(squared)
+            result['radius_nm'] = root + int(squared - root ** 2 > root)
+        else:
+            a, b, d = points['start'], points['mid'], points['end']
+            cross = pt.orientation(a, b, d)
+            c.need(len({tuple(point) for point in points.values()}) == 3
+                   and cross != 0,
+                   'Three distinct noncollinear fixed-context arc points required')
+            lengths = [sum((x[i] - y[i]) ** 2 for i in range(2)) for x, y in ((a, b), (b, d), (a, d))]
+            c.need(lengths[0] * lengths[1] * lengths[2] <= 4 * cross ** 2 * 1_000_000_000 ** 2,
+                   'Fixed-context arc radius exceeds bounded Native geometry')
+            c.need(fill == 'none', 'Filled fixed-context arcs unsupported')
+        for key, point in points.items():
+            result['local_' + key + '_nm'] = point
+            result[key + '_nm'] = world(point, anchor, rotation)
+    return result
 
 
 def text(node, anchor=(0, 0), rotation=0):
@@ -212,7 +274,9 @@ def pad_row(pad, anchor, rotation, resolve, names):
                 size_nm=size, drill_nm=drill, layers=layers, **flags)
 
 
-def inspect(raw):
+def inspect(raw, *, scope=c.ORDINARY_SCOPE):
+    c.need(type(scope) is str and scope in (c.ORDINARY_SCOPE, c.CONTEXT_SCOPE), 'Unsupported ordinary placement scope')
+    context = scope == c.CONTEXT_SCOPE
     tree = c.read_board(raw)
     fields(tree, {'version', 'generator', 'generator_version', 'general', 'paper', 'title_block', 'layers',
                   'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'},
@@ -245,11 +309,13 @@ def inspect(raw):
     rows = []
     for fp in sx.children(tree, 'footprint'):
         c.need(len(rows) < 16, 'Footprint population exceeded')
+        extra = {'fp_circle', 'fp_arc', 'fp_poly'} if context else set()
         fields(fp, {'layer', 'uuid', 'at', 'property', 'path', 'attr', 'fp_rect', 'fp_line', 'fp_text',
-                    'pad', 'embedded_fonts', 'locked', 'descr', 'tags', 'sheetname', 'sheetfile', 'model'},
-               start=2, repeated={'property', 'fp_rect', 'fp_line', 'fp_text', 'pad', 'model'})
+                    'pad', 'embedded_fonts', 'locked', 'descr', 'tags', 'sheetname', 'sheetfile', 'model'} | extra,
+               start=2, repeated={'property', 'fp_rect', 'fp_line', 'fp_text', 'pad', 'model'} | extra)
         identity = c.uid(fp); claim(identity)
-        c.need(c.atom(fp, 'layer') == 'F.Cu', 'Front unflipped footprints only')
+        side = c.atom(fp, 'layer')
+        c.need(side == 'F.Cu' or context and side == 'B.Cu', 'Front unflipped footprints only')
         anchor, rotation = at(fp)
         attr = sx.one(fp, 'attr')
         c.need(attr is None or all(v in ('smd', 'through_hole', 'board_only', 'exclude_from_pos_files', 'exclude_from_bom') for v in attr[1:]), 'Unsupported footprint attribute')
@@ -257,17 +323,32 @@ def inspect(raw):
         c.need(len(refs) == 1, 'One reference property required')
         graphics, courts, metadata_properties = [], [], []
         for node in fp[2:]:
-            if node[0] not in ('fp_rect', 'fp_line', 'fp_text', 'property'): continue
+            if node[0] not in {'fp_rect', 'fp_line', 'fp_text', 'property'} | extra: continue
             if node[0] == 'property' and len(node) == 3:
                 c.need(all(type(v) is str for v in node[1:]), 'Scalar property declaration required')
                 metadata_properties.append(dict(name=sx.unquote(node[1]), value=sx.unquote(node[2])))
                 continue
-            row = text(node, anchor, rotation) if node[0] in ('property', 'fp_text') else primitive(node, anchor, rotation)
+            if node[0] in ('property', 'fp_text'):
+                row = text(node, anchor, rotation)
+                if context and side == 'B.Cu':
+                    effects = sx.one(node, 'effects')
+                    justify = sx.one(effects, 'justify') if effects is not None else None
+                    row['mirrored'] = justify is not None and 'mirror' in justify[1:]
+            elif node[0] in extra: row = context_primitive(node, anchor, rotation)
+            else:
+                row = primitive(node, anchor, rotation)
+                if context and side == 'B.Cu': row['stroke_type'] = c.atom(sx.one(node, 'stroke'), 'type')
             if row['uuid'] is not None: claim(row['uuid'])
             if row['layer'] == 'F.CrtYd': courts.append(row)
             else:
                 c.need(row['layer'] in PASSIVE_LAYERS, 'Footprint graphic on non-passive layer unsupported'); graphics.append(row)
-        court = courtyard(courts)
+        artwork = context and side == 'B.Cu'
+        c.need(not artwork or (attr is not None and 'board_only' in attr[1:]
+               and not {'smd', 'through_hole'}.intersection(attr[1:]) and not sx.children(fp, 'pad')
+               and not courts and not sx.children(fp, 'model')
+               and any(row['kind'] != 'property' for row in graphics)),
+               'Back artwork requires board-only, zero pads, no physical courtyard/model and passive graphics')
+        court = None if artwork else courtyard(courts)
         pads = [pad_row(n, anchor, rotation, resolve, names) for n in sx.children(fp, 'pad')]
         c.need(len(pads) <= 8 and len({row['number'] for row in pads}) == len(pads)
                and all(row['number'] for row in pads), 'Bounded unique nonempty pad numbers required')
@@ -281,11 +362,21 @@ def inspect(raw):
         reasons = []
         if locked(fp): reasons.append('locked footprint')
         if len(pads) != 2 or any(pad['kind'] != 'smd' for pad in pads): reasons.append('only two-pad SMD footprints are movable')
-        if not court['rectangular'] or not court['centered']: reasons.append('movement requires centred rectangular courtyard')
-        rows.append(dict(uuid=identity, reference=sx.unquote(refs[0][2]), position_nm=anchor, angle=rotation,
-                         side='front', locked=locked(fp), placement_eligible=not reasons, fixed_reasons=reasons,
-                         courtyard=court, graphics=graphics, metadata_properties=metadata_properties, models=models(fp), pads=sorted(pads, key=lambda row: row['uuid'])))
+        if court is not None and (not court['rectangular'] or not court['centered']): reasons.append('movement requires centred rectangular courtyard')
+        if artwork: reasons.append('immutable board-only back artwork')
+        if extra and any(row['kind'] in extra for row in graphics): reasons.append('richer passive geometry is fixed context only')
+        row = dict(uuid=identity, reference=sx.unquote(refs[0][2]), position_nm=anchor, angle=rotation,
+                   side='back' if artwork else 'front', locked=locked(fp), placement_eligible=not reasons, fixed_reasons=reasons,
+                   courtyard=court, graphics=graphics, metadata_properties=metadata_properties, models=models(fp), pads=sorted(pads, key=lambda row: row['uuid']))
+        if artwork: row['artwork_only'] = True
+        if artwork: row['attributes'] = sorted(attr[1:])
+        rows.append(row)
     c.need(1 <= len(rows) <= 16 and sum(len(row['pads']) for row in rows) <= 32, 'Bounded footprint/pad population required')
+    if context:
+        passive = [graphic for row in rows for graphic in row['graphics']
+                   if graphic['kind'] in ('fp_circle', 'fp_arc', 'fp_poly')]
+        c.need(len(passive) <= 256 and sum(len(row.get('points_nm', [])) for row in passive) <= 4096,
+               'Fixed-context passive geometry population exceeded')
     zones = pt.source_zones(tree)
     for zone in zones:
         claim(zone['uuid'])
@@ -301,6 +392,6 @@ def inspect(raw):
         c.need(a != b and 0 < width <= 10000000 and layer in ('F.Cu', 'B.Cu'), 'Bounded straight copper segment required')
         c.need(net and any(pad['net'] == net for row in rows for pad in row['pads']), 'Segment needs named net with actual pad witnesses')
         routes.append(dict(uuid=identity, kind='segment', net=net, start_nm=a, end_nm=b, width_nm=width, layer=layer, locked=locked(route)))
-    return dict(schema=1, scope=c.ORDINARY_SCOPE, outline=outline, footprints=sorted(rows, key=lambda row: row['uuid']),
+    return dict(schema=1, scope=scope, outline=outline, footprints=sorted(rows, key=lambda row: row['uuid']),
                 graphics=board_graphics, zones=zones, routes=sorted(routes, key=lambda row: row['uuid']),
                 route_count=len(routes), source_board_sha256=hashlib.sha256(raw).hexdigest())
