@@ -34,7 +34,8 @@ class LateRoutePublicationMetadata(unittest.TestCase):
             comparison_context=None,_improve_context=None,_improve_budget=None,placement_origin=None,output=self.run,
             settings_path=None,preference_overrides=None,_preferences=None,_fanout_enabled=None,_optimizer_enabled=None,_engine_clearance_margin_nm=None,_engine_global_width_policy=None,keep_existing=False,
             adapter='none',engine_profile='standard',scoring_variant=None,guidance_policy='native',
-            experimental_route_record=intake,time=SimpleNamespace(monotonic=lambda:clock['now'],process_time=lambda:clock['now']))
+            experimental_route_record=intake,elapsed_time=lambda:clock['now'],
+            time=SimpleNamespace(process_time=lambda:clock['now']))
         wrapper=ast.FunctionDef(name='_intake_control',args=ast.arguments(posonlyargs=[],args=[],kwonlyargs=[],kw_defaults=[],defaults=[]),
             body=route.body[:stop]+ast.parse('return operation_started,operation_cpu').body,decorator_list=[])
         module=ast.fix_missing_locations(ast.Module(body=[wrapper],type_ignores=[]))

@@ -206,7 +206,7 @@ class PublicationControls(unittest.TestCase):
         tree = ast.parse(Path(placement.__file__).read_text())
         qualify = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'qualify')
         account = next(node for node in qualify.body if isinstance(node, ast.FunctionDef) and node.name == 'account')
-        context = dict(record=record, time=SimpleNamespace(monotonic=lambda: 2.), started=0.,
+        context = dict(record=record, elapsed_time=lambda: 2., started=0.,
                        h=SimpleNamespace(cpu_seconds=lambda: 1.), cpu_start=0., remaining=remaining)
         exec(compile(ast.fix_missing_locations(ast.Module(body=[account], type_ignores=[])), placement.__file__, 'exec'), context)
         return context['account']

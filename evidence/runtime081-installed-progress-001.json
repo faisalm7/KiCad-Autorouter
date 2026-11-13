@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "status": "installed-Native-pass-full253-failed-fixtures-corrected-full254-and-GUI111-pending",
+  "qualified_product": false,
+  "source_head": "9ee16208b1a9b2556b7e96a8127fd35acc7e5339",
+  "runtime_manifest_sha256": "833d25d0e91050f98bb452e0298d0d8d8243b24a146dc31e91c46ecf3a0813c4",
+  "immutable_files": 82,
+  "source_payload_files": 81,
+  "setup": {
+    "prepared": true,
+    "same_Mac_account_existing_dependencies": true,
+    "wall_seconds": 3.4687326659914106,
+    "full_CPU_seconds": 2.6214809999999997
+  },
+  "native_delivery": {
+    "passed": true,
+    "wall_seconds": 81.18648579198634,
+    "full_CPU_seconds": 75.192707,
+    "total_cap_seconds": 420,
+    "actual_calendar_span_seconds": 81.18695068359375,
+    "source_originals_unchanged": true,
+    "operations": [
+      {
+        "stage": "original_inspection",
+        "wall_seconds": 1.9816739590023644,
+        "full_cpu_seconds": 1.2342270000000002,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "placement",
+        "wall_seconds": 11.185630167019553,
+        "full_cpu_seconds": 10.137087999999999,
+        "limit_seconds": 120,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "preview",
+        "wall_seconds": 4.470477082999423,
+        "full_cpu_seconds": 4.418066,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "route",
+        "wall_seconds": 15.766857583017554,
+        "full_cpu_seconds": 13.129311000000001,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "review",
+        "wall_seconds": 9.240753833029885,
+        "full_cpu_seconds": 8.916358999999996,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "choice",
+        "wall_seconds": 7.18236724997405,
+        "full_cpu_seconds": 7.134133000000006,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "export",
+        "wall_seconds": 20.419435416988563,
+        "full_cpu_seconds": 19.136912000000002,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "verify_export",
+        "wall_seconds": 7.878674042003695,
+        "full_cpu_seconds": 7.821948999999989,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      }
+    ],
+    "final": {
+      "final_candidate_sha256": "2844ca192de8a10a83e7c5ba0de1855aa6dd48514ed8a363e879bf5645d40bad",
+      "original_segments": 9,
+      "rebuilt_segments": 7,
+      "retained_segments": 2,
+      "retained_locked_segments": 1,
+      "preserved_zones": 1,
+      "final_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+              {
+                "description": "PCB text 'Owned ordinary geometry task' on F.Silkscreen",
+                "pos": {
+                  "x": 20.0,
+                  "y": 3.0
+                },
+                "uuid": "3bd0eb3b-4351-52b9-9d2c-c24a9ed26e78"
+              }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+          }
+        ]
+      },
+      "composed_audit_passed": true
+    }
+  },
+  "warning_cohort": {
+    "all_six_roles_processed_once": true,
+    "all_six_controls_passed": false,
+    "genuine_passed": [
+      "accept-updated-findings",
+      "cancel",
+      "stale-export"
+    ],
+    "genuine_expiry": "ActualNative export refused at original120second budget; GUIwatchdog interrupted CLIshutdown resulting-2. Old bareexit2 assertion remains a failed controller; exact Native refusal independently verified.",
+    "unexercised": [
+      "reject-no-fresh-warning-delta",
+      "wrong-nonce-no-fresh-warning-delta"
+    ],
+    "ordinary_no_delta_exports": "Each retained its own Native/original-design/protection proof and no warning acknowledgement. Not counted as negative control success.",
+    "native_outer_wall_seconds": 225.336384875,
+    "native_outer_full_CPU_seconds": 104.76686,
+    "original_total_cap_seconds": 450,
+    "conservative_continuation_wall_debits_seconds": 226.9870045,
+    "not_unattended_first_attempt": true,
+    "no_favorable_retries": true,
+    "no_report_injection": true,
+    "first_preNative_namespace_failure_retained": true,
+    "independent_readback_sha256": "c155ad19604616874a6f9f69d185cc42d139ef702e39d249545ba636ce1667ac"
+  },
+  "full253": {
+    "passed": false,
+    "run": 3339,
+    "failures": 17,
+    "errors": 19,
+    "skipped": 1,
+    "wall_seconds": 277.0347358749714,
+    "full_CPU_seconds": 249.43999699999998,
+    "sources_unchanged": true,
+    "classification": "All36subtest failure/error rows traced to stale fixture clock basis/injection/ASTglobals or unarmed synthetic GUI jobs;12files corrected,235focusedcontrols pass. All product source/assertions/budgets retained; full254 still mandatory."
+  },
+  "GUI111": {
+    "prepared": true,
+    "correct_isolated_inspection_project_open": true,
+    "toolbar_click": "Tool reportsnoWindowsAvailable while keyboard/menu controlswork; owneraskedonce toclickvisiblegreen traceicon. No assistantwindowobserved yet.",
+    "actual_new_build_delivery_tested": false,
+    "Edge_only": true
+  },
+  "remaining": [
+    "Finish and audit12fixture corrections; repeat completefullsuite onexactunchanged081runtimepayload",
+    "Actual081GUI111 controls, warningbranchconditional on realdelta",
+    "Unrelatedplacement:EEPROMscopegeometry/viaslimits;IRimmutablefootprintgraphics/back-artwork+warningcontinuityblockers; no additionalboardsurvey",
+    "WindowsNative, independentinstall/review/liveendpoint/fullcurrentrecovery remainopen"
+  ],
+  "model_calls": 0,
+  "human_PCB_approval": false,
+  "routing_gain_claimed": false,
+  "formal_release": false,
+  "raw_receipt_sha256": {
+    ".runs/runtime-directory-081/installed-setup.json": "4bbc247ec425716e8842186bcc6b481f38c8724ff44fa250b6ce35cf422fd8fc",
+    ".runs/placement081-installed-qualification-draft-001/outer-process.json": "e207473739283d93716189b6b7e2852dd909f0710f1245bae0ca2fa154d9f72e",
+    ".runs/runtime081-warning-native-controls-003/expiry-reconciliation.json": "0240eaf3c707362e5146017cac2708c7674eb98abb2fa1296e1bb71ce52e45ae",
+    ".runs/runtime081-warning-cohort-readback-001/review.json": "c155ad19604616874a6f9f69d185cc42d139ef702e39d249545ba636ce1667ac",
+    ".runs/full-integration-253/execution.json": "cf1d24eec118d2afcee79a6aaa94d307a6248d003a3873d213ce9c59339c10c2",
+    ".runs/full-integration-253/test-timings.json": "5178fa1bfc2aae3aad6c71d5034c6aa3066e9f33d5e8b3519c39ff8fddd60633"
+  }
+}

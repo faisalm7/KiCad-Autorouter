@@ -24,7 +24,7 @@ def effective(seconds=90):
 
 
 def captured(value):
-    return dict(started=time.monotonic(), parent_cpu=time.process_time(), child_cpu=f.child_cpu(),
+    return dict(started=p.elapsed_time(), parent_cpu=time.process_time(), child_cpu=f.child_cpu(),
                 started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
                 captured=None, effective=value, snapshot=pref.snapshot(None, value_without_schema(value)))
 
@@ -137,7 +137,7 @@ class PlacementRouteDispatch(unittest.TestCase):
         self.assertEqual(call['placement_origin'], self.origin)
         self.assertEqual(call['_preferences']['effective'], value)
         self.assertEqual(pref.readback(call['_preferences']['snapshot']), value)
-        self.assertLessEqual(call['_preferences']['started'], time.monotonic())
+        self.assertLessEqual(call['_preferences']['started'], p.elapsed_time())
         self.assertEqual(call['seconds'], 75); self.assertEqual(call['engine_profile'], 'completion-only')
 
     def intake(self, request, bind):
@@ -163,7 +163,7 @@ class PlacementRouteDispatch(unittest.TestCase):
         value = effective(5); request = captured(value); clock = [request['started']]
         def expensive(*_, **__): clock[0] += 6; return {'synthetic': 'origin'}
         _, job, storage = self.intake(request, expensive)
-        with patch.object(p.time, 'monotonic', side_effect=lambda: clock[0]), \
+        with patch.object(p, 'elapsed_time', side_effect=lambda: clock[0]), \
                 self.assertRaisesRegex(p.Rejected, 'budget exhausted while checking placement origin'):
             p._route(self.board, self.output, **pref.route_arguments(value), _preferences=request,
                      placement_origin=self.origin)

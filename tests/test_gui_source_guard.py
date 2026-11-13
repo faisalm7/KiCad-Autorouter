@@ -17,8 +17,9 @@ class SourceGuardTests(unittest.TestCase):
     def guard(self):
         origin=self.root/'origin-proof.json';origin.write_bytes(b'original lineage')
         expected=hashlib.sha256(origin.read_bytes()).hexdigest()
-        state=SimpleNamespace(after=None)
+        state=SimpleNamespace(after=None,calls=0)
         def verify():
+            state.calls+=1
             if hashlib.sha256(origin.read_bytes()).hexdigest()!=expected:
                 raise ValueError('Saved placement origin changed')
             if state.after:state.after()
@@ -27,11 +28,18 @@ class SourceGuardTests(unittest.TestCase):
     def request(self,guard=None,board=None):
         return gui.Request(str(board or self.board),str(self.output),json.dumps(self.settings),True,source_guard=guard)
 
-    def preview(self,flow):
+    def preview(self,flow,job=None):
         record={'status':'preview','static_preflight_passed':True,'source':str(self.board),
                 'source_sha256':hashlib.sha256(self.board.read_bytes()).hexdigest()}
-        path=flow.workspace/'preview.command.log';path.write_text(json.dumps(record))
+        path=flow.workspace/'preview.command.log'
         process={'exit_code':0,'cancel_requested':False,'log_truncated':False}
+        if job is not None:
+            process=base.run_cli_fixture(job,flow.command('preview'),path,record,
+                                         timeout=flow.timeout('preview'))
+            job.check_live(require_armed=True)
+            self.assertEqual(process['exit_code'],0)
+            self.assertFalse(process['cancel_requested'])
+        else:path.write_text(json.dumps(record))
         return record,path,process
 
     def window(self,flow,job,guard):
@@ -76,10 +84,13 @@ class SourceGuardTests(unittest.TestCase):
 
     def test_stale_origin_refuses_action_and_adoption(self):
         guard,origin,_=self.guard();flow=self.request(guard).prepare()
-        flow.command('preview');record,log,process=self.preview(flow)
+        job=gui.CliJob();record,log,process=self.preview(flow,job)
+        flow.fresh()
         origin.write_bytes(b'changed while child ran')
         with self.assertRaisesRegex(ValueError,'origin changed'):flow.command('preview')
-        with self.assertRaisesRegex(ValueError,'origin changed'):gui.CliJob().adopt(flow,'preview',process,log)
+        with patch.object(flow,'adopt',wraps=flow.adopt) as adopt:
+            with self.assertRaisesRegex(ValueError,'origin changed'):job.adopt(flow,'preview',process,log)
+            adopt.assert_called_once_with('preview',process,log,choice=None)
         self.assertFalse(flow.ready);self.assertFalse(flow.records);self.assertIsNone(flow.choice)
 
     def test_origin_mutation_during_result_read_refuses_final_adoption(self):
@@ -103,10 +114,12 @@ class SourceGuardTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'origin changed'):flow.fresh()
 
     def test_queued_finished_refuses_changed_origin_and_clears_ready_state(self):
-        guard,origin,_=self.guard();flow=self.request(guard).prepare();record,log,process=self.preview(flow)
-        job=gui.CliJob();job.adopt(flow,'preview',process,log)
+        guard,origin,verifier=self.guard();flow=self.request(guard).prepare();job=gui.CliJob()
+        record,log,process=self.preview(flow,job);job.adopt(flow,'preview',process,log)
+        self.assertEqual(flow.ready,{'preview'});calls=verifier.calls
         window=self.window(flow,job,guard);origin.write_bytes(b'changed after completed child')
         base.window_method('finished')(window,job,flow,'preview',record,None)
+        self.assertGreater(verifier.calls,calls)
         self.assertIsNone(window.flow);self.assertFalse(flow.ready);self.assertFalse(flow.records)
         self.assertIn('origin changed',window.log.SetValue.call_args.args[0])
         self.assertIs(window.source_guard,guard)
@@ -114,8 +127,9 @@ class SourceGuardTests(unittest.TestCase):
     def test_queued_finished_never_detaches_guard_on_displayed_path_or_guard_change(self):
         for mode in ('path','guard'):
             with self.subTest(mode=mode):
-                guard,_,_=self.guard();flow=self.request(guard).prepare();record,log,process=self.preview(flow)
-                job=gui.CliJob();job.adopt(flow,'preview',process,log);window=self.window(flow,job,guard)
+                guard,_,_=self.guard();flow=self.request(guard).prepare();job=gui.CliJob()
+                record,log,process=self.preview(flow,job);job.adopt(flow,'preview',process,log)
+                self.assertEqual(flow.ready,{'preview'});window=self.window(flow,job,guard)
                 if mode=='guard':window.source_guard=None
                 else:
                     other=self.root/'different.kicad_pcb';other.write_bytes(b'other')
@@ -127,12 +141,16 @@ class SourceGuardTests(unittest.TestCase):
     def test_finished_unchanged_works_and_late_cancel_or_close_never_adopts(self):
         for mode in ('unchanged','cancel','close','already_closed'):
             with self.subTest(mode=mode):
-                guard,_,verifier=self.guard();flow=self.request(guard).prepare();record,log,process=self.preview(flow)
-                job=gui.CliJob();job.adopt(flow,'preview',process,log);window=self.window(flow,job,guard)
+                guard,_,verifier=self.guard();flow=self.request(guard).prepare();job=gui.CliJob()
+                record,log,process=self.preview(flow,job);job.adopt(flow,'preview',process,log)
+                self.assertEqual(flow.ready,{'preview'});window=self.window(flow,job,guard)
+                calls=verifier.calls
                 if mode=='cancel':verifier.after=job.cancel
                 if mode=='close':verifier.after=lambda:setattr(window,'closing',True)
                 if mode=='already_closed':window.closing=True
                 base.window_method('finished')(window,job,flow,'preview',record,None)
+                if mode!='already_closed':self.assertGreater(verifier.calls,calls)
+                if mode=='cancel':self.assertTrue(job.cancel_requested)
                 if mode=='unchanged':
                     self.assertIs(window.flow,flow);self.assertIn('preview',flow.ready)
                 else:
@@ -143,6 +161,8 @@ class SourceGuardTests(unittest.TestCase):
         for mode in ('unchanged','origin','late_origin','cancel','close'):
             with self.subTest(mode=mode):
                 guard,origin,verifier=self.guard();flow=self.request(guard).prepare();job=gui.CliJob()
+                record,log,process=self.preview(flow,job);job.adopt(flow,'preview',process,log)
+                self.assertEqual(flow.ready,{'preview'})
                 project=flow.workspace/'owned-export.kicad_pro';project.write_bytes(b'{}')
                 flow.ready={'review','choice','export','verify_export'};flow.choice='accept'
                 flow.records={'export':{'status':'exported','project_file':str(project)}}
@@ -154,6 +174,10 @@ class SourceGuardTests(unittest.TestCase):
                 if mode=='close':window.closing=True
                 with patch.object(gui.subprocess,'Popen') as opener:
                     base.window_method('opened')(window,'export',project,None)
+                if mode in ('unchanged','late_origin','cancel'):
+                    flow.check_open_export_material.assert_called_once_with()
+                else:flow.check_open_export_material.assert_not_called()
+                if mode=='cancel':self.assertTrue(job.cancel_requested)
                 if mode=='unchanged':
                     opener.assert_called_once();self.assertIs(window.flow,flow)
                 else:

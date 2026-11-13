@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "status": "test-only-targeted-pass-full254-pending",
+  "source_build": "9ee16208b1a9b2556b7e96a8127fd35acc7e5339",
+  "runtime_manifest_sha256": "833d25d0e91050f98bb452e0298d0d8d8243b24a146dc31e91c46ecf3a0813c4",
+  "same_installed_product_payload_verified": true,
+  "payload_files": 81,
+  "changed_production_files": 0,
+  "full253": {
+    "passed": false,
+    "run": 3339,
+    "failures": 17,
+    "errors": 19,
+    "skipped": 1,
+    "raw_receipt_sha256": "cf1d24eec118d2afcee79a6aaa94d307a6248d003a3873d213ce9c59339c10c2"
+  },
+  "fixture_changes": [
+    "Retarget imported elapsed_time consumers using the original controlled fake times; cross-module inherited budgets share that same fake clock.",
+    "Bind newly imported elapsed_time in extracted actual-production-body tests.",
+    "Construct fake Job/preference starts on the same current boot-clock basis as their actual remaining/deadline consumers.",
+    "Run actual CliJob.run through the existing Popen seam before stale/origin/queued tests; assert valid positive state and intended fence/callback reachability."
+  ],
+  "assertions_removed": false,
+  "budget_caps_relaxed": false,
+  "Native_jobs_repeated": 0,
+  "installation_rebuilt": false,
+  "groups": [
+    {
+      "tests": 100,
+      "wall_seconds": 4.022785625013057,
+      "full_CPU_seconds": 3.641364
+    },
+    {
+      "tests": 115,
+      "wall_seconds": 2.8775040839682333,
+      "full_CPU_seconds": 2.751828
+    },
+    {
+      "tests": 20,
+      "wall_seconds": 0.9807597500039265,
+      "full_CPU_seconds": 0.9524859999999999,
+      "prior_failed_fixture_wall_seconds": 0.5625592499854974,
+      "prior_failed_fixture_full_CPU_seconds": 0.507649
+    }
+  ],
+  "tests_sha256": {
+    "tests/test_comparison_context.py": "edf3f630d2bc86c839b9c2cd53453f5c823882ebca4e9292bab600dfe3786064",
+    "tests/test_experimental_route_publication.py": "3da09bd6527b7aeb875cae4464f815aae2e9e573054869241843eacd8f46b20b",
+    "tests/test_gui_source_guard.py": "d14f8558c39cfbcf7e591b01bd19bf5238ed792cbcb9bc128d8a26413b3dda38",
+    "tests/test_handoff.py": "b9a4a640e8d0c2dda9e4585940bb21e848acc366ee41ceafd9fa7aaf57f06399",
+    "tests/test_handoff_stage_budget.py": "8a43b80c76a8c65773747807c6e60197f7561edbab966d770df7c37d3da68d79",
+    "tests/test_native7_improve_child_context.py": "fbbc55400399c027e885118f00a9ac5c44ad712579fe9ec184bfa18e013b3218",
+    "tests/test_native7_improve_parent.py": "8bb87a361d894dab8d7ff52d20586a20fa527b6141f9da820419b2a961d49589",
+    "tests/test_placement_allocation.py": "56df14a127a453a257788b4de2a09d08644cda267933fea4cfcaf92f808d7d6f",
+    "tests/test_placement_qualification.py": "afef8417c98bcdbfa487080082f01d88808fc86971ab3cb51385779ae5208b2a",
+    "tests/test_placement_route_lineage.py": "79f7b6bfdaae8dee8df86820da3e542759c39b8713057a3f9b81ad3140d19333",
+    "tests/test_recovery.py": "f83df1339365da82dcbe8338b2d02d06cb49d5bf635a720526e6a3e54e26e6ce",
+    "tests/test_strategy.py": "1152772e61d02e04fcc138f18dc64c15a18b3cca602d04b8268b6cf048562f00"
+  },
+  "required_next": "Full254 complete discovery under unchanged1200seconds and exact current product payload, then actual081GUI111. No test-count routing-quality claim."
+}

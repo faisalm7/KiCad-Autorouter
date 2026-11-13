@@ -390,7 +390,7 @@ class ComparisonContextControls(unittest.TestCase):
                 self.receipt.unlink(missing_ok=True)
                 report = copy.deepcopy(self.data)
                 report.update(accepted=False, status='validator_error')
-                started = time.monotonic()
+                started = p.elapsed_time()
                 job = SimpleNamespace(steps=[copy.deepcopy(process)], started=started,
                                       cpu_started=time.process_time(), deadline=started + 120, _inherited_budget=None)
                 job.remaining=lambda:p.Job.remaining(job)

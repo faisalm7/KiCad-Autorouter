@@ -211,7 +211,8 @@ class ImproveChildContextControls(unittest.TestCase):
 
     def test_live_parent_budget_charges_preparation_and_reaped_cpu_once(self):
         budget=self.budget();job=self.parent_job
-        with patch.object(child.time,'monotonic',return_value=job.started+4), \
+        with patch.object(child,'elapsed_time',return_value=job.started+4), \
+                patch.object(p,'elapsed_time',return_value=job.started+4), \
                 patch.object(child.time,'process_time',return_value=job.cpu_started+6), \
                 patch.object(f,'child_cpu',return_value=budget.children_start+7):
             self.assertEqual(budget.remaining(),37)
@@ -220,7 +221,8 @@ class ImproveChildContextControls(unittest.TestCase):
         worker=p.Job(self.context.output,48,protect_local_settings=True)
         budget.attach(worker)
         self.assertLessEqual(worker.deadline,job.deadline-40)
-        with patch.object(child.time,'monotonic',return_value=job.started+51), \
+        with patch.object(child,'elapsed_time',return_value=job.started+51), \
+                patch.object(p,'elapsed_time',return_value=job.started+51), \
                 patch.object(child.time,'process_time',return_value=job.cpu_started+1), \
                 patch.object(f,'child_cpu',return_value=budget.children_start), \
                 patch.object(p,'run') as run:
@@ -255,7 +257,8 @@ class ImproveChildContextControls(unittest.TestCase):
     def test_preconstruction_child_cpu_cannot_be_rebased_at_budget_creation(self):
         original=self.budget().children_start;job=self.parent_job
         with patch.object(f,'child_cpu',return_value=original+70), \
-                patch.object(child.time,'monotonic',return_value=job.started+10), \
+                patch.object(child,'elapsed_time',return_value=job.started+10), \
+                patch.object(p,'elapsed_time',return_value=job.started+10), \
                 patch.object(child.time,'process_time',return_value=job.cpu_started+1):
             with self.assertRaises(p.Rejected):child._Budget(self.context,job,original+70)
             retained=child._Budget(self.context,job,original)

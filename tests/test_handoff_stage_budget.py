@@ -49,7 +49,7 @@ class FixedStageReceiptControls(unittest.TestCase):
                     budget_seconds=10000,cpu_budget_seconds=10000,within_budget=True)
                 h.save_json(out/name,record)
                 if stage=='review':(out/'preview.html').write_text('owned preview')
-                with patch.object(h.time,'monotonic',return_value=elapsed),patch.object(h,'cpu_seconds',return_value=elapsed):
+                with patch.object(h,'elapsed_time',return_value=elapsed),patch.object(h,'cpu_seconds',return_value=elapsed):
                     if accepted:self.assertIs(h.finish_session(record,out,0,0,name),record)
                     else:
                         with self.assertRaisesRegex(h.Rejected,'cleanup exceeded'):h.finish_session(record,out,0,0,name)

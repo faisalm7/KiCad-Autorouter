@@ -185,7 +185,7 @@ class Native7ParentControls(unittest.TestCase):
         for name in ('code','snapshot'):shutil.copytree(self.parent/name,parent/name)
         shutil.copy2(self.parent/'pruning-preferences.json',parent/'pruning-preferences.json')
         ctx=self.make(parent=parent,parent_owner=dict(job._local_settings_owner))
-        with patch.object(child.time,'monotonic',return_value=103),patch.object(child.time,'process_time',return_value=3),patch.object(f,'child_cpu',return_value=4):
+        with patch.object(child,'elapsed_time',return_value=103),patch.object(p,'elapsed_time',return_value=103),patch.object(child.time,'process_time',return_value=3),patch.object(f,'child_cpu',return_value=4):
             budget=child._Budget(ctx,job,2);budget.attach(job)
             trial=p.Job(parent/'trials/trial-0000',120,protect_local_settings=True);budget.attach(trial)
             self.assertEqual(trial.deadline,150)
@@ -194,7 +194,7 @@ class Native7ParentControls(unittest.TestCase):
             # Full parent headroom differs from work headroom; JSON allocation
             # never resets the elapsed execution budget.
             self.assertEqual(budget.remaining(work=False)-budget.remaining(work=True),40)
-            with patch.object(child.time,'monotonic',return_value=151):
+            with patch.object(child,'elapsed_time',return_value=151),patch.object(p,'elapsed_time',return_value=151):
                 with self.assertRaises(p.Rejected):s._single_trial_guard(trial,100,90)
 
     def test_actual_finalization_body_allows_reserved_return_but_not_whole_shortfall(self):
@@ -218,8 +218,8 @@ class Native7ParentControls(unittest.TestCase):
         for wall_remaining,cpu_remaining,passes in ((40,40,True),(12,12,True),(11.99,40,False),(40,11.99,False)):
             now=190-wall_remaining;budget=SimpleNamespace(remaining=lambda *,work:0 if work else min(wall_remaining,cpu_remaining))
             env=dict(native7=True,live_budget=budget,report={},started=100,deadline=190,seconds=90,
-                cpu_used=lambda:90-cpu_remaining,output=self.parent,source=self.source,p=p,time=s.time,_remaining=s._remaining)
-            with self.subTest(wall=wall_remaining,cpu=cpu_remaining),patch.object(s.time,'monotonic',return_value=now):
+                cpu_used=lambda:90-cpu_remaining,output=self.parent,source=self.source,p=p,time=s.time,elapsed_time=lambda:now,_remaining=s._remaining)
+            with self.subTest(wall=wall_remaining,cpu=cpu_remaining),patch.object(s,'elapsed_time',return_value=now):
                 self.assertEqual(budget.remaining(work=True),0)
                 if passes:
                     exec(code,env)
