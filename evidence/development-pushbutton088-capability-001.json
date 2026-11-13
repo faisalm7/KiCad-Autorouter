@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "utc": "2026-11-13T12:57:14.861938+00:00",
+  "decision": "Defer product admission until a versioned generic THT/fixed-metadata/duplicate-terminal/annotation batch is qualified; keep088 unchanged and finishGUI114. No further probe/retry in this assessment.",
+  "source_family": "Existing MIT push-button-led development input; not reserved confirmation",
+  "PCB_sha256": "a85c5b499b7803d184ec34ef396746afcd16c0557166bd63d7675beb7b61f7a3",
+  "current088_refusal": "Unsupported footprint geometry/field",
+  "earlier_inference_corrected": "Through-hole pads alone do not prove refusal; existing narrow MULTIPAD support exists. Actual installed088 admission was tested and refused.",
+  "primary_source_conclusions": [
+    "units are engineering symbol-unit/pin maps, not dimensions.",
+    "duplicate-pad jumper semantics matter; this source explicitly has no, but fixed SW1 has duplicate physical numbered terminals.",
+    "point is an alignment/snap marker; direct PCB_POINT getters are not exposed in this pinned wrapper."
+  ],
+  "actual_Native_capabilities": {
+    "version": "10.0.7",
+    "footprints": 7,
+    "pads": 16,
+    "unit_getter_iterable_instances": 0,
+    "unit_getter_limitation": "GetUnitInfo exists in wrapper but returned opaque/uniterable objects in all7 actual calls; no direct unit-vector API qualification.",
+    "Native_formatter_units_and_no_jumper_preserved": true,
+    "fixed_point_formatter_AST_exact": true,
+    "point_direct_getter_claim": false,
+    "saved_probe_metadata_matches_source": true,
+    "reused_completed_SaveBoard": true,
+    "source_complete_inventory_unchanged": true,
+    "in_memory_negatives": {
+      "jumper_yes_distinguished_by_getter_and_formatter": true,
+      "oblong_distinguished_despite_same_XY_drill_dimensions": true,
+      "originals_not_saved": true
+    }
+  },
+  "first_attempt": {
+    "status": "failed reporting after completed isolated Native SaveBoard",
+    "error": "Private report normalizer omitted dict handling; AttributeError. No completed pass claimed. All diagnostic logs and saved PCB/PRO/PRL retained.",
+    "wall_seconds": 0.9839058340294287,
+    "full_CPU_seconds": 0.48538499999999996
+  },
+  "continuation": {
+    "status": "missing checks completed using saved001copy; no newSaveBoard",
+    "wall_seconds": 1.5912552920053713,
+    "full_CPU_seconds": 0.79162
+  },
+  "all_attempts_wall_seconds": 2.5751611260348,
+  "all_attempts_full_CPU_seconds": 1.277005,
+  "original_total_limit_seconds": 30,
+  "all_cleanup_complete": true,
+  "additional_authoring_static_research_cost": "Incompletely measured, notzero.",
+  "Native_routing_DRC_or_placement_performed": false,
+  "production_code_changed": false,
+  "admitted_board": false,
+  "usefulness_gain_claim": false,
+  "remaining_enforcement": [
+    "Versioned source semantics; preserve full unit/pin map and explicitlyno jumper, refuse unqualified yes.",
+    "Preserve individual physical duplicate-number pad terminals and verify Native/DSN identity before admission.",
+    "Fixed circular courtyard conservative geometry and PTH cardinal rotations/offsets/layer/drill shape; slots remain unsupported.",
+    "Backside PTH mask/silk coverage and final all-side Native DRC remain mandatory.",
+    "Full original AST/SCH/zone/protected copper/group and fresh export proofs unchanged."
+  ],
+  "evidence_sha256": {
+    "first_execution": "0917f76afeb49983efc633d4584afd23670a3130f294895236ed346c6c68683d",
+    "continuation_execution": "53d8be50797abd744588425c8650cf5014631900f58aa9e6e117dcb359c1371b",
+    "actual_result": "bd38cf20f94a4f087dc01418814838cb8fa92cc2b14ba1e3c0fe57fa2b4195a9",
+    "source_admission": "ba925ab07a1ad13d526bf71189173bb66f6dabafb4f03e6d0e883a670c678f05",
+    "primary_source_review": "82f4a38ac1a5c5022a36bcffc039b23d4fee91ae83f9b9fceef8f66fb1abc7a6"
+  },
+  "primary_sources": [
+    "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/footprint.h",
+    "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/footprint.cpp",
+    "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp",
+    "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr_parser.cpp",
+    "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/pcb_point.h",
+    "https://raw.githubusercontent.com/KiCad/kicad-source-mirror/10.0.7/pcbnew/pcb_point.cpp"
+  ]
+}

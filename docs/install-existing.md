@@ -1,6 +1,6 @@
 # Install the current artifact into another local folder
 
-The tested runtime087 root is `.runs/runtime087 fresh install 001`, source `aa6b10186776e786eb64b6f4314f0674aa13ef9c`, manifest `fca9d1180b5e32b5d89875009e9f5ae4e3a0db0c1adc9982fd73843b29e07462`. Its [GUI113/full259 record](../evidence/runtime087-installed-GUI-core-001.json) includes installation/doctor, actual finite GUI workflow and complete relevant regression. Finder-only startup is pending; command-based prepared startup was observed. Existing installation users should follow [Start here](../START_HERE.md), without making another copy.
+The tested runtime088 root is `.runs/runtime088 fresh install 001`, source `67672390912789234c87441992d4c5eea636ee7b`, manifest `b3b5b4ef9dd5a281c23ef6f6014bce263589de240478411b2ff1fd2f706d6f12`. Its [Native group/full260 record](../evidence/runtime088-installed-group-milestone-001.json) includes installation/doctor, actual headless group delivery and complete relevant regression. ActualGUI114/startup remains pending.087 is the last finite GUI-tested build; its command-based prepared startup was observed. Existing installation users should follow [Start here](../START_HERE.md), without making another copy.
 
 For a genuinely needed new installation, the existing installer copies83verified immutable files and records the new root. Old jobs, settings, environments and launchers are excluded. It downloads or relocates no external dependency. Choose one unused owned destination with an existing real parent and first check free space against peak temporary allocation plus the fixed3GiB reserve:
 
@@ -10,8 +10,8 @@ For a genuinely needed new installation, the existing installer copies83verified
   AUTOROUTER_PROJECT="$PWD"
   AUTOROUTER_INSTALL="$AUTOROUTER_PROJECT/.runs/Autorouter user install 001"
   .venv/bin/python -B scripts/prepare_runtime.py --install-existing \
-    --source "$AUTOROUTER_PROJECT/.runs/runtime087 fresh install 001" \
-    --expected-manifest-sha256 fca9d1180b5e32b5d89875009e9f5ae4e3a0db0c1adc9982fd73843b29e07462 \
+    --source "$AUTOROUTER_PROJECT/.runs/runtime088 fresh install 001" \
+    --expected-manifest-sha256 b3b5b4ef9dd5a281c23ef6f6014bce263589de240478411b2ff1fd2f706d6f12 \
     --output "$AUTOROUTER_INSTALL"
   .venv/bin/python -B -m venv --copies --without-pip "$AUTOROUTER_INSTALL/.venv"
   cd "$AUTOROUTER_INSTALL"
