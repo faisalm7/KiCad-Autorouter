@@ -77,11 +77,19 @@ def copper_findings(plan):
         + 'Unrelated and locked copper stays unchanged. This plan is not approval to execute or accept a board.')
 
 
-def placement_limits(inspection, *, rebuild=False):
+def placement_limits(inspection, *, rebuild=False, grouped=False):
     limits = inspection.get('limitations', intent.LIMITS)
+    if grouped:
+        limits = [row.replace('Groups, flips,', 'Flips,').replace('No grouping, side/', 'No side/')
+                  for row in limits]
     if inspection.get('observation', {}).get('scope') == intent.contract.CONTEXT_SCOPE:
-        return [*limits, *intent.COPPER_LIMITS[:4]] if rebuild else limits
-    return [limits[0], *intent.COPPER_LIMITS] if rebuild else limits
+        result = [*limits, *intent.COPPER_LIMITS[:4]] if rebuild else list(limits)
+    else:
+        result = [limits[0], *intent.COPPER_LIMITS] if rebuild else list(limits)
+    if grouped:
+        result.append('Rigid selected group: all selected parts share one exact translation; spacing, angles and sides stay fixed. '
+                      'Only the explicit affected-net rebuild workflow is supported; other grouping modes remain unsupported.')
+    return result
 
 
 def prefill_copper_routing(frame, plan):
@@ -223,6 +231,10 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             left.Add(wx.StaticText(panel, label='Existing copper'), 0, wx.BOTTOM, 6)
             self.copper_policy = wx.Choice(panel, choices=['Preserve all existing copper', 'Rebuild affected unlocked nets'])
             self.copper_policy.SetSelection(0); left.Add(self.copper_policy, 0, wx.EXPAND | wx.BOTTOM, 8)
+            self.rigid_group = wx.CheckBox(panel, label='Keep selected parts together')
+            left.Add(self.rigid_group, 0, wx.BOTTOM, 6)
+            group_hint = wx.StaticText(panel, label='One rigid group: keep spacing, angles and sides. Requires affected-net rebuild. Edit one member to move the group.')
+            group_hint.Wrap(310); left.Add(group_hint, 0, wx.BOTTOM, 8)
             self.protection = wx.CollapsiblePane(panel, label='Advanced copper protection')
             protection_panel = self.protection.GetPane(); protection_layout = wx.BoxSizer(wx.VERTICAL)
             hint = wx.StaticText(protection_panel, label='For rebuild mode. One exact net name or route UUID per line. '
@@ -247,6 +259,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             presetrow.Add(self.load, 0, wx.RIGHT, 6); presetrow.Add(self.save)
             left.Add(presetrow, 0, wx.TOP | wx.BOTTOM, 10)
             self.find = wx.Button(panel, label='Find placement alternatives'); left.Add(self.find, 0, wx.EXPAND)
+            self.original_group = wx.Button(panel, label='Review current group arrangement')
+            left.Add(self.original_group, 0, wx.EXPAND | wx.TOP, 6)
             limits = wx.StaticText(panel, label='Experimental selected translation: 2–16 movable parts. Source orientation and side stay fixed. Inspect the project for supported geometry and fixed-component reasons. Movement space must avoid retained copper and zones. Two alternatives; 2-second cooperative search budget.')
             limits.Wrap(310); left.Add(limits, 0, wx.TOP, 12)
             self.picture = wx.StaticBitmap(panel); self.picture.SetMinSize((850, 500))
@@ -279,18 +293,20 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             self.findings = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 150))
             root.Add(self.findings, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 14)
             panel.SetSizer(root)
-            self.input_controls = [self.board, self.browse, self.inspect, self.parts, self.copper_policy,
-                self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find]
+            self.input_controls = [self.board, self.browse, self.inspect, self.parts, self.copper_policy, self.rigid_group,
+                self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.ack, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
             self.parts.Bind(wx.EVT_CHECKLISTBOX, self.settings_changed)
             self.copper_policy.Bind(wx.EVT_CHOICE, self.policy_changed)
+            self.rigid_group.Bind(wx.EVT_CHECKBOX, self.settings_changed)
             self.protection.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
             for field in (self.protected_names, self.protected_route_ids): field.Bind(wx.EVT_TEXT, self.settings_changed)
             for field in self.region: field.Bind(wx.EVT_TEXT, self.settings_changed)
             self.load.Bind(wx.EVT_BUTTON, self.load_settings); self.save.Bind(wx.EVT_BUTTON, self.save_settings)
             self.find.Bind(wx.EVT_BUTTON, self.find_alternatives); self.alternative.Bind(wx.EVT_CHOICE, self.choose_alternative)
+            self.original_group.Bind(wx.EVT_BUTTON, self.review_original_group)
             self.part.Bind(wx.EVT_CHOICE, self.select_part)
             for field in (self.x, self.y): field.Bind(wx.EVT_TEXT, self.pending_edit)
             self.apply.Bind(wx.EVT_BUTTON, self.edit); self.ack.Bind(wx.EVT_CHECKBOX, self.acknowledge)
@@ -313,6 +329,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             for control in (self.protected_names, self.protected_route_ids):
                 control.Enable(not self.busy and self.copper_policy.GetSelection() == 1)
             self.find.Enable(not self.busy and self.inspection is not None)
+            self.original_group.Enable(not self.busy and self.inspection is not None and self.rigid_group.GetValue())
             self.save.Enable(not self.busy and self.inspection is not None)
             for control in self.pose_controls: control.Enable(not self.busy and self.gate.review is not None)
             self.qualify.Enable(not self.busy and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty)
@@ -402,6 +419,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 protection = dict(copper_policy=intent.COPPER_POLICY,
                     protected_names=[name for name in self.protected_names.GetValue().splitlines() if name],
                     protected_route_ids=[identity for identity in self.protected_route_ids.GetValue().splitlines() if identity])
+            if self.rigid_group.GetValue():
+                protection['group_policy'] = intent.GROUP_POLICY
             value = intent.settings(selected, [millimetres(field.GetValue()) for field in self.region],
                 scope=self.inspection['observation']['scope'], **protection)
             if validate_geometry:
@@ -486,15 +505,16 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 intent.facts(captured, value)
                 self.inspection = captured; self.revoke(discard=True); self.updating = True
                 try:
-                    self.copper_policy.SetSelection(1 if value['schema'] == 3 else 0)
+                    self.copper_policy.SetSelection(1 if intent.rebuilds_copper(value) else 0)
+                    self.rigid_group.SetValue(intent.grouped(value))
                     self.protected_names.ChangeValue('\n'.join(value.get('protected_names', [])))
                     self.protected_route_ids.ChangeValue('\n'.join(value.get('protected_route_ids', [])))
-                    self.parts.Set([component_label(row, rebuild=value['schema'] == 3) for row in self.inspection['components']])
+                    self.parts.Set([component_label(row, rebuild=intent.rebuilds_copper(value)) for row in self.inspection['components']])
                     for i, row in enumerate(self.inspection['components']): self.parts.Check(i, row['uuid'] in value['selected'])
                     for field, coordinate in zip(self.region, value['region_nm']): field.ChangeValue(mm(coordinate))
                 finally: self.updating = False
-                self.findings.SetValue('\n'.join(placement_limits(captured, rebuild=value['schema'] == 3))
-                    + '\n\nComponents\n' + component_findings(captured, rebuild=value['schema'] == 3))
+                self.findings.SetValue('\n'.join(placement_limits(captured, rebuild=intent.rebuilds_copper(value), grouped=intent.grouped(value)))
+                    + '\n\nComponents\n' + component_findings(captured, rebuild=intent.rebuilds_copper(value)))
                 self.refresh()
                 self.message('Placement settings loaded. Constraints and fixed components were checked; no operation started.'
                     + (' This preset’s original placement policy is preserved; review its shown limits.' if policy_changed else ''))
@@ -516,7 +536,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     if proposal['search']['status'] != 'proposals_ready':
                         message = {
                             'budget_exhausted': 'The placement search reached its time limit. No draft was kept; your project is unchanged.',
-                            'no_changed_alternative': 'No changed placement passed the current constraints. This does not prove that no solution exists; your project is unchanged.',
+                            'no_changed_alternative': 'No changed placement passed the current constraints. This does not prove that no solution exists. For a rigid group, Review current group arrangement allows explicit manual repositioning; your project is unchanged.',
                             'cancelled': 'Placement search cancelled. No draft was kept; your project is unchanged.',
                         }.get(proposal['search']['status'], 'Placement search returned an unsupported result; no draft was adopted.')
                         raise ValueError(message)
@@ -527,11 +547,24 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                            lambda job, event: intent.propose(inspection, value, cancel_event=event), adopt)
             except Exception as exc: self.message('Placement search refused: ' + str(exc))
 
+        def review_original_group(self, _):
+            try:
+                value = self.options(); inspection = copy.deepcopy(self.inspection); self.revoke(discard=True)
+                def adopt(proposal):
+                    review = intent.Review(proposal); self.current_review_settings(review)
+                    self.gate.attach(review); self.render(0)
+                    self.message('Original arrangement, not an optimized result. Edit one member to translate the group, then review and validate.')
+                self.start('Checking the current group arrangement; no optimization search…',
+                    lambda job, event: intent.original_proposal(inspection, value), adopt)
+            except Exception as exc: self.message('Original arrangement refused: ' + str(exc))
+
         def render(self, alternative_index=None):
             review = self.gate.review
             self.pending_coordinates.clear()
             references = {r['uuid']: r['reference'] for r in review.inspection['components']}
-            self.alternative.Set(['Alternative ' + str(i + 1) for i in range(len(review.alternatives))])
+            original = getattr(review, 'proposal', {}).get('search', {}).get('status') == 'original_for_review'
+            self.alternative.Set(['Original arrangement · edit to reposition'] if original else
+                                 ['Alternative ' + str(i + 1) for i in range(len(review.alternatives))])
             self.alternative.SetSelection(wx.NOT_FOUND if alternative_index is None else alternative_index)
             self.part.Set([references[key] for key in review.settings['selected']]); self.part.SetSelection(0)
             self.coordinates()
@@ -569,13 +602,15 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             else:
                 index = self.alternative.GetSelection()
                 findings = (state + '\n'
-                    + ('Edited draft.\n' if index == wx.NOT_FOUND else 'Alternative ' + str(index + 1) + '.\n')
+                    + ('Edited draft.\n' if index == wx.NOT_FOUND else
+                       'Original arrangement — not optimized.\n' if getattr(review, 'proposal', {}).get('search', {}).get('status') == 'original_for_review' else
+                       'Alternative ' + str(index + 1) + '.\n')
                     + 'Source: ' + review.inspection['source'] + '\n'
                     + 'No current Native placement validation. A reviewed draft is not route acceptance.')
             rebuild = review.copper_plan is not None
             self.findings.SetValue(findings + '\n' + copper_findings(review.copper_plan)
                 + '\nNo electrical or manufacturing approval is granted.\n\n'
-                + '\n'.join(placement_limits(review.inspection, rebuild=rebuild))
+                + '\n'.join(placement_limits(review.inspection, rebuild=rebuild, grouped=intent.grouped(review.settings)))
                 + '\n\nComponents\n' + component_findings(review.inspection, rebuild=rebuild))
             self.refresh(); self.layout_panel()
 
@@ -631,7 +666,9 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             try:
                 self.revoke(dirty=True); review = self.gate.review
                 identity = self.edit_component()
-                self.pending_coordinates[identity] = [self.x.GetValue(), self.y.GetValue()]
+                visible_coordinates = [self.x.GetValue(), self.y.GetValue()]
+                if not intent.grouped(review.settings) or not self.pending_coordinates:
+                    self.pending_coordinates[identity] = list(visible_coordinates)
                 pending = copy.deepcopy(self.pending_coordinates)
                 selection = self.part.GetSelection(); alternative = self.alternative.GetSelection()
                 previous = (review.pose, review.moves, review.revision)
@@ -648,7 +685,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     self.pending_coordinates = pending
                     self.part.SetSelection(selection); self.alternative.SetSelection(alternative)
                     self.editing_component = identity
-                    self.x.ChangeValue(pending[identity][0]); self.y.ChangeValue(pending[identity][1])
+                    self.x.ChangeValue(visible_coordinates[0]); self.y.ChangeValue(visible_coordinates[1])
                     self.revoke(dirty=True)
                 self.message('Edit refused; previous pose retained: ' + str(exc))
 

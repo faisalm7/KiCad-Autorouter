@@ -6,6 +6,7 @@ upstream move generation, random sequence, cooling and objective remain reused.
 No KiCad, shell, network, model, subprocess or filesystem operations occur here.
 """
 import dataclasses
+from decimal import Context, Decimal, localcontext
 import threading
 import time
 
@@ -74,6 +75,10 @@ class _ConstrainedAnnealer(Annealer):
         assert not self.decap
         assert set(self.net_members) == set(board.nets())
         assert all(not c.is_connector and not c.edge for c in self.comps)
+        self._rigid = tuple(board.components[name] for name in facts['groups'][0]['members']) if facts['groups'] else ()
+        rigid_ids = {c.ref for c in self._rigid}
+        self._rigid_origins = {row['id']: tuple(Decimal(str(n)) for n in row['position_mm'])
+                               for row in facts['components'] if row['id'] in rigid_ids}
         check()
 
     def _quality(self):
@@ -102,12 +107,53 @@ class _ConstrainedAnnealer(Annealer):
         return result
 
     def _try_nudge(self, temperature):
+        if self._rigid:
+            before = {ref: (c.x, c.y, c.rot) for ref, c in self.board.components.items()}
+            try:
+                return self._move(self._nudge_rigid_group, temperature)
+            except BaseException:
+                for ref, (x, y, rot) in before.items():
+                    c = self.board.components[ref]
+                    c.x, c.y, c.rot = x, y, rot
+                raise
         return self._move(super()._try_nudge, temperature)
 
+    def _nudge_rigid_group(self, temperature):
+        with localcontext(Context(prec=50)):
+            return self._nudge_rigid_group_context(temperature)
+
+    def _nudge_rigid_group_context(self, temperature):
+        """One shared integer-nm offset; reuse upstream cost and acceptance.
+
+        Individual clamping would shear the group. Existing whole-candidate
+        validation instead rejects and rolls back any infeasible translation.
+        """
+        members = self._rigid
+        before = [(c, c.x, c.y) for c in members]
+        before_cost = self.local_cost(members)
+        leader = members[0]; origin = self._rigid_origins[leader.ref]
+        amp = max(1.0, temperature)
+        delta_nm = [int(((Decimal(str(current))-origin[i]
+                         + Decimal(str((self.rng.random()-0.5)*2*amp)))*1000000).to_integral_value())
+                    for i, current in enumerate((leader.x, leader.y))]
+        for c in members:
+            x, y = self._rigid_origins[c.ref]
+            c.x = float(x + Decimal(delta_nm[0])/1000000)
+            c.y = float(y + Decimal(delta_nm[1])/1000000)
+        after_cost = self.local_cost(members)
+        def revert():
+            for c, x, y in before:
+                c.x, c.y = x, y
+        return self._accept(after_cost-before_cost, temperature, revert)
+
     def _try_rotate(self, temperature):
+        if self._rigid:
+            self._check(); return None
         return self._move(super()._try_rotate, temperature)
 
     def _try_swap(self):
+        if self._rigid:
+            self._check(); return None
         return self._move(super()._try_swap)
 
 
@@ -198,6 +244,7 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
                 limits=['Rectangular proxy geometry only; no pad-shape, copper or Native legality claim.',
                         'Every component on any tracked net is immovable; supplied track witnesses are not Native connectivity proof.',
                         'Track geometry is not modeled; any placement obstacle corridor must be supplied as a rectangular keepout.',
-                        'No side flips, polygons, cutouts, rigid groups or initially infeasible placement.',
+                        ('Only one rigid selected translation group; no group rotation, side flips, polygons, cutouts or initially infeasible placement.'
+                         if facts['groups'] else 'No side flips, polygons, cutouts, rigid groups or initially infeasible placement.'),
                         'The reused objective conservatively penalizes rectangle proximity across both sides.',
                         'No changed alternative is not a proof of infeasibility; no full-board or live application.'])

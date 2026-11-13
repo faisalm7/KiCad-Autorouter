@@ -92,7 +92,7 @@ def _binding(draft_path, digest):
 def _paths(output, binding):
     work = output / 'work'; name = Path(binding['inspection']['source']).name
     roles = ['snapshot', 'candidate', 'refill-preimage', 'refill-native']
-    if binding.get('intent', {}).get('settings', {}).get('schema') == 3:
+    if intent.rebuilds_copper(binding.get('intent', {}).get('settings', {})):
         roles.append('prepared')
     return work, {role: work / role / name for role in roles}
 
@@ -105,7 +105,7 @@ def _options(binding):
 def _prepared_source(binding, raw):
     """Recompute the reviewed partition; never trust a removal list alone."""
     settings = intent.validate_settings(binding['intent']['settings'])
-    if settings['schema'] != 3:
+    if not intent.rebuilds_copper(settings):
         need('copper_plan' not in binding['intent'], 'unexpected copper-removal authority')
         return None, raw
     plan = intent.copper_plan(binding['inspection'], settings)
@@ -259,6 +259,9 @@ def proof(output, binding, data, *, replay=False):
     immutable = (contract.check_translation(before, after, moves, **options) if plan is None else
         copper.audit_translation(before, after, plan, moves, scope=options['scope'], region_nm=options['region_nm']))
     need(immutable == data['immutable_check'], 'immutable design differs')
+    group_check = intent.group_candidate(before, after, binding['intent']['settings'], moves)
+    need((data.get('group_check') == group_check if group_check is not None else 'group_check' not in data),
+         'rigid-group source/candidate proof differs')
     preimage, refill = paths['refill-preimage'], paths['refill-native']
     pre_raw = pc.read_bytes(preimage, contract.MAX_BYTES)
     expected_raw = (contract.sx.dump(contract.translated_tree(prepared_raw, moves, **options)) + '\n').encode()
@@ -393,6 +396,9 @@ def _worker(output, binding_sha):
         options = _options(binding); moves = binding['intent']['moves_nm']
         record['immutable_check'] = (contract.check_translation(original_raw, after, moves, **options) if plan is None else
             copper.audit_translation(original_raw, after, plan, moves, scope=options['scope'], region_nm=options['region_nm']))
+        group_check = intent.group_candidate(original_raw, after, binding['intent']['settings'], moves)
+        if group_check is not None:
+            record['group_check'] = group_check
         drc('final-drc', paths['candidate']); native('final-capture', paths['candidate'])
         if options['scope'] == contract.CONTEXT_SCOPE:
             record['finding_continuity']['final-drc'] = finding_continuity(
@@ -539,7 +545,7 @@ def routing_settings(witness, seconds=90):
 def _routing_task(witness, settings, method, candidate=None):
     """One original-to-final checker shared by controls and ordinary readers."""
     binding = witness['binding']; value = intent.preferences.validate(settings)
-    need(binding['intent']['settings']['schema'] == 3, 'explicit affected-copper placement required')
+    need(intent.rebuilds_copper(binding['intent']['settings']), 'explicit affected-copper placement required')
     need(method == 'route', 'affected-copper placement supports ordinary Route only')
     expected = routing_settings(witness, value['seconds'])
     need(f.canonical(value) == f.canonical(expected),
@@ -555,6 +561,8 @@ def _routing_task(witness, settings, method, candidate=None):
         expected_files[source.name] = p.sha(candidate)
         need(before == expected_files, 'composed candidate sidecars or file set differ from original')
         local_settings.check_current_metadata(candidate.with_suffix('.kicad_prl'))
+        intent.group_candidate(raw, pc.read_bytes(candidate, contract.MAX_BYTES),
+            binding['intent']['settings'], binding['intent']['moves_nm'])
         audit = copper.audit_routed(raw, pc.read_bytes(candidate, contract.MAX_BYTES), plan,
             binding['intent']['moves_nm'], scope=intent.settings_scope(binding['intent']['settings']),
             region_nm=binding['intent']['settings']['region_nm'])
@@ -689,7 +697,7 @@ def source_guard(output, witness, *, verify_review=None):
         need(h.evidence_witness(output) == expected['evidence_hashes'], 'placement evidence changed during origin check')
         if verify_review is not None:
             need(verify_review() is None, 'review lifecycle changed')
-    if expected['binding']['intent']['settings']['schema'] == 3:
+    if intent.rebuilds_copper(expected['binding']['intent']['settings']):
         def task(settings, method, candidate):
             _routing_task(expected, settings, method, candidate)
         return gui.SourceGuard(Path(expected['candidate']), fresh, task, placement_origin=output)

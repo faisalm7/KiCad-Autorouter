@@ -6,7 +6,7 @@ The complete source AST remains authoritative outside selected XY coordinates
 and the existing explicitly derived top-level zone fill projection.
 """
 import copy
-from decimal import Decimal
+from decimal import Context, Decimal, localcontext
 import hashlib
 import uuid
 
@@ -279,6 +279,13 @@ def _proxy_offset(observation, identity):
 
 
 def quantized_translation(facts, candidate, *, observation=None):
+    if facts.get('groups'):
+        with localcontext(Context(prec=50)):
+            return _quantized_translation(facts, candidate, observation=observation)
+    return _quantized_translation(facts, candidate, observation=observation)
+
+
+def _quantized_translation(facts, candidate, *, observation=None):
     constraints.validate_alternative(facts, candidate)
     result = copy.deepcopy(candidate)
     ordinary = observation is not None and ordinary_scope(observation.get('scope'))
@@ -289,13 +296,29 @@ def quantized_translation(facts, candidate, *, observation=None):
             offset = _proxy_offset(observation, row['component_id'])
             need(all(abs(Decimal(str(row[key])) * 1000000 - Decimal(source['position_nm'][i]) - offset[i]) < Decimal('0.000001')
                      for i, key in enumerate(('x_mm', 'y_mm'))), 'Observation proxy/source facts differ')
+    # A rigid group has one displacement. Independent rounding of asymmetric
+    # courtyard proxy centres can otherwise shear actual footprint anchors by1nm.
+    group = facts['groups'][0]['members'] if facts['groups'] else []
+    source_centres = {row['id']: row['position_mm'] for row in facts['components']}
+    delta = None
+    if group:
+        anchor = next(row for row in result['transforms'] if row['component_id'] == group[0])
+        delta = [int(((Decimal(str(anchor[key])) - Decimal(str(source_centres[group[0]][i])))
+                      * 1000000).to_integral_value()) for i, key in enumerate(('x_mm', 'y_mm'))]
     moves = {}
     for row in result['transforms']:
         need(row['rotation_deg'] == 0 and row['side'] == 'front', 'Translation-only proposal required')
         offset = _proxy_offset(observation, row['component_id']) if ordinary else [Decimal(0), Decimal(0)]
         if ordinary and row['component_id'] not in facts['selected']:
             continue  # Fixed proxies may have exact half-nm centres; never snap them.
-        target = [int((Decimal(str(row[k])) * 1000000 - offset[i]).to_integral_value()) for i, k in enumerate(('x_mm', 'y_mm'))]
+        if row['component_id'] in group:
+            original_anchor = [Decimal(str(source_centres[row['component_id']][i])) * 1000000 - offset[i]
+                               for i in range(2)]
+            need(all(abs(n - n.to_integral_value()) < Decimal('0.000001') for n in original_anchor),
+                 'Rigid-group original integer anchors differ')
+            target = [int(original_anchor[i].to_integral_value()) + delta[i] for i in range(2)]
+        else:
+            target = [int((Decimal(str(row[k])) * 1000000 - offset[i]).to_integral_value()) for i, k in enumerate(('x_mm', 'y_mm'))]
         row['x_mm'], row['y_mm'] = (float((Decimal(v) + offset[i]) / 1000000) for i, v in enumerate(target))
         if row['component_id'] in facts['selected']:
             moves[row['component_id']] = target

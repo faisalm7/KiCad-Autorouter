@@ -45,10 +45,11 @@ class PlacementGuiTests(unittest.TestCase):
             cancel_event=threading.Event(), inspection=gate.review.inspection,
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
-            copper_policy=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
+            copper_policy=Mock(), rigid_group=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
             current_review_settings=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
         window.copper_policy.GetSelection.return_value = 0
+        window.rigid_group.GetValue.return_value = False
         window.rebuild_copper = MethodType(window_method('rebuild_copper'), window)
         window.revoke = MethodType(window_method('revoke'), window)
         window.edit_component = MethodType(window_method('edit_component'), window)

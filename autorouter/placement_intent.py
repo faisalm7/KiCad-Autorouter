@@ -7,7 +7,7 @@ here. Proposals are geometry drafts until a separate Native qualification.
 from __future__ import annotations
 
 import copy
-from decimal import Decimal, InvalidOperation
+from decimal import Context, Decimal, InvalidOperation, localcontext
 import hashlib
 from pathlib import Path
 import threading
@@ -21,6 +21,8 @@ KIND = 'autorouter.selected-placement-intent.v1'
 SETTINGS_KIND = 'autorouter.selected-placement-settings.v1'
 ORDINARY_SETTINGS_KIND = 'autorouter.selected-placement-settings.v2'
 COPPER_SETTINGS_KIND = 'autorouter.selected-placement-settings.v3'
+GROUP_SETTINGS_KIND = 'autorouter.selected-placement-settings.v4'
+GROUP_POLICY = constraints.RIGID_TRANSLATION_POLICY
 COPPER_POLICY = 'rebuild-affected-unlocked-v1'
 LIMITS = (
     'Experimental translation only: unrotated front footprints, circular through-hole pads, rectangular courtyards and board.',
@@ -54,7 +56,7 @@ CONTEXT_LIMITS = (
 
 
 def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_policy=None,
-             protected_names=None, protected_route_ids=None):
+             protected_names=None, protected_route_ids=None, group_policy=None):
     options = contract.scope_options(scope=scope, selected=selected, region_nm=region_nm)
     if scope not in (contract.MULTIPAD_SCOPE, contract.ORDINARY_SCOPE, contract.CONTEXT_SCOPE):
         raise ValueError('Unsupported product placement scope.')
@@ -82,19 +84,37 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
                             maximum=64, empty=True)
         value.update(schema=3, kind=COPPER_SETTINGS_KIND, scope=scope, preserve_existing=False,
                      copper_policy=copper_policy, protected_names=names, protected_route_ids=ids)
+    if group_policy is not None:
+        if type(group_policy) is not str or group_policy != GROUP_POLICY or len(options['selected']) < 2:
+            raise ValueError('A rigid group requires two or more explicitly selected eligible components.')
+        if copper_policy != COPPER_POLICY:
+            raise ValueError('Rigid-group delivery currently requires the explicit affected-net rebuild workflow; protected copper remains fixed.')
+        value.update(schema=4, kind=GROUP_SETTINGS_KIND, scope=scope, group_policy=group_policy)
     return value
 
 
 def settings_scope(value):
-    return value.get('scope') if value.get('schema') in (2, 3) else contract.MULTIPAD_SCOPE
+    return value.get('scope') if value.get('schema') in (2, 3, 4) else contract.MULTIPAD_SCOPE
+
+
+def rebuilds_copper(value):
+    """Semantic dispatch for already validated settings; schema is not policy."""
+    return value.get('copper_policy') == COPPER_POLICY and value.get('preserve_existing') is False
+
+
+def grouped(value):
+    return value.get('group_policy') == GROUP_POLICY
 
 
 def validate_settings(value):
     if type(value) is not dict or type(value.get('schema')) is not int:
         raise ValueError('Explicit selected-placement settings are required.')
     kwargs = {}
-    if value['schema'] == 3:
+    if value['schema'] == 3 or value['schema'] == 4 and any(
+            key in value for key in ('copper_policy', 'protected_names', 'protected_route_ids')):
         kwargs = {key: value.get(key) for key in ('copper_policy', 'protected_names', 'protected_route_ids')}
+    if value['schema'] == 4:
+        kwargs['group_policy'] = value.get('group_policy')
     expected = settings(value.get('selected'), value.get('region_nm'), scope=settings_scope(value), **kwargs)
     # Canonical comparison refuses Boolean/integer substitutions and extra tools.
     if constraints.encoded(value) != constraints.encoded(expected):
@@ -187,10 +207,17 @@ def current(inspection):
 
 
 def _effective_context(inspection, value):
+    if type(value) is dict and grouped(value):
+        with localcontext(Context(prec=50)):
+            return _effective_context_context(inspection, value)
+    return _effective_context_context(inspection, value)
+
+
+def _effective_context_context(inspection, value):
     """Capture one PCB image, then fence the original source before returning."""
     if settings_scope(value) != inspection['observation']['scope']:
         raise ValueError('Placement settings geometry scope differs; inspect and choose settings for this project.')
-    if value['schema'] != 3:
+    if not rebuilds_copper(value):
         return None, copy.deepcopy(inspection['observation'])
     current(inspection)
     source = Path(inspection['source'])
@@ -218,6 +245,13 @@ def effective_observation(inspection, value):
 
 
 def _facts(inspection, value, plan, observation):
+    if type(value) is dict and grouped(value):
+        with localcontext(Context(prec=50)):
+            return _facts_context(inspection, value, plan, observation)
+    return _facts_context(inspection, value, plan, observation)
+
+
+def _facts_context(inspection, value, plan, observation):
     if settings_scope(value) != inspection['observation']['scope']:
         raise ValueError('Placement settings geometry scope differs; inspect and choose settings for this project.')
     # Give the actionable protection reason before geometric search can fail.
@@ -236,6 +270,10 @@ def _facts(inspection, value, plan, observation):
         raise ValueError('Selected components include locked or routed-net components; deselect those components.')
     if len(value['selected']) < 2:
         raise ValueError('This search requires at least two movable components; nothing was moved.')
+    if grouped(value):
+        result['groups'] = [dict(policy=GROUP_POLICY, members=list(value['selected']))]
+        result = constraints.prepare(result)
+        constraints.validate_alternative(result, constraints.original_alternative(result))
     return result
 
 
@@ -245,12 +283,89 @@ def facts(inspection, value):
     return _facts(inspection, value, plan, observation)
 
 
+def _group_nm(atom):
+    """Exact bounded decimal-to-nm conversion, independent of Decimal context."""
+    if type(atom) is not str or not 0 < len(atom) <= 128:
+        raise ValueError('Bounded rigid-group coordinate required.')
+    try:
+        value = Decimal(atom)
+    except InvalidOperation as exc:
+        raise ValueError('Finite rigid-group coordinate required.') from exc
+    if not value.is_finite():
+        raise ValueError('Finite rigid-group coordinate required.')
+    sign, digits, exponent = value.as_tuple()
+    if not any(digits):
+        return 0
+    exponent += 6
+    if exponent < 0:
+        tail = -exponent
+        if tail >= len(digits) or any(digits[-tail:]):
+            raise ValueError('Exact integer-nm rigid-group coordinate required.')
+        digits = digits[:-tail]; exponent = 0
+    if len(digits) + exponent > 10:
+        raise ValueError('Rigid-group coordinate exceeds supported bounds.')
+    result = int(''.join(map(str, digits))) * 10**exponent
+    if result > 2_000_000_000:
+        raise ValueError('Rigid-group coordinate exceeds supported bounds.')
+    return -result if sign else result
+
+
+def group_moves(observation, value, moves):
+    """Exact integer-nm rigidity from original footprint anchors, not DRC."""
+    value = validate_settings(value)
+    if not grouped(value):
+        return None
+    selected = value['selected']
+    if type(moves) is not dict or set(moves) != set(selected):
+        raise ValueError('Rigid group requires the exact selected member moves.')
+    anchors = {row['uuid']: row['position_nm'] for row in observation['footprints']}
+    deltas = set()
+    for key in selected:
+        target = moves[key]
+        if (key not in anchors or type(target) is not list or len(target) != 2
+                or any(type(n) is not int or abs(n) > 2_000_000_000 for n in target)):
+            raise ValueError('Rigid group requires bounded exact integer-nm positions.')
+        deltas.add(tuple(target[i] - anchors[key][i] for i in range(2)))
+    if len(deltas) != 1:
+        raise ValueError('Rigid group members must retain exact relative positions; shear refused.')
+    return dict(policy=GROUP_POLICY, members=list(selected), delta_nm=list(next(iter(deltas))),
+                moves_sha256=constraints.digest(moves))
+
+
+def group_candidate(source_raw, candidate_raw, value, moves):
+    if not grouped(validate_settings(value)):
+        return None
+    with localcontext(Context(prec=50)):
+        return _group_candidate(source_raw, candidate_raw, value, moves)
+
+
+def _group_candidate(source_raw, candidate_raw, value, moves):
+    """Recheck actual candidate anchors and source-bound rigidity at delivery."""
+    value = validate_settings(value)
+    if not grouped(value):
+        return None
+    observation = contract.inspect_board(source_raw, scope=settings_scope(value))
+    audit = group_moves(observation, value, moves)
+    tree = contract.read_board(candidate_raw)
+    found = {}
+    for footprint in contract.sx.children(tree, 'footprint'):
+        key = contract.uid(footprint)
+        if key in moves:
+            at = contract.sx.one(footprint, 'at')
+            if key in found or at is None or len(at) not in (3, 4):
+                raise ValueError('Rigid-group candidate anchor identity differs.')
+            found[key] = [_group_nm(n) for n in at[1:3]]
+    if found != moves:
+        raise ValueError('Actual candidate anchors differ from reviewed rigid-group moves.')
+    return dict(audit, actual_candidate_anchors_verified=True)
+
+
 def propose(inspection, value, *, cancel_event=None):
     """Bounded deterministic search; all alternatives remain non-Native drafts."""
     if cancel_event is not None and type(cancel_event) is not threading.Event:
         raise ValueError('A threading.Event cancellation token is required.')
     value = validate_settings(value)
-    if value['schema'] != 3:
+    if not rebuilds_copper(value):
         current(inspection)
     plan, observation = _effective_context(inspection, value)
     original = _facts(inspection, value, plan, observation)
@@ -261,6 +376,7 @@ def propose(inspection, value, *, cancel_event=None):
     # Quantization is part of the draft contract, not deferred to the writer.
     for row in result['alternatives']:
         row['candidate'], row['moves_nm'] = contract.quantized_translation(original, row['candidate'], observation=observation)
+        group_moves(observation, value, row['moves_nm'])
     proposal = dict(schema=1, kind='autorouter.placement-proposals.v1', inspection=copy.deepcopy(inspection),
         settings=value, search=result, native_validation_performed=False,
         execution_authorized=False, approval_granted=False)
@@ -269,12 +385,31 @@ def propose(inspection, value, *, cancel_event=None):
     return proposal
 
 
+def original_proposal(inspection, value):
+    """Explicit original-group review; never describe it as a search success."""
+    value = validate_settings(value)
+    if not grouped(value):
+        raise ValueError('Original arrangement review currently requires explicit rigid-group settings.')
+    current(inspection)
+    plan, observation = _effective_context(inspection, value)
+    original = _facts(inspection, value, plan, observation)
+    candidate, moves = contract.quantized_translation(original,
+        constraints.original_alternative(original), observation=observation)
+    group_moves(observation, value, moves)
+    current(inspection)
+    return dict(schema=1, kind='autorouter.placement-proposals.v1', inspection=copy.deepcopy(inspection),
+        settings=value, copper_plan=plan, limitations=list(COPPER_LIMITS),
+        search=dict(status='original_for_review', alternatives=[dict(candidate=candidate,
+                    moves_nm=moves, origin='source-original')], search_performed=False),
+        native_validation_performed=False, execution_authorized=False, approval_granted=False)
+
+
 class Review:
     """Detached pose state; edits/rejection revoke any earlier review intent."""
     def __init__(self, proposal):
         self.proposal = copy.deepcopy(proposal)
         if (proposal.get('kind') != 'autorouter.placement-proposals.v1'
-                or proposal['search']['status'] != 'proposals_ready'):
+                or proposal['search']['status'] not in ('proposals_ready', 'original_for_review')):
             raise ValueError('Current placement alternatives are required.')
         self.inspection = self.proposal['inspection']
         self.settings = validate_settings(self.proposal['settings'])
@@ -288,6 +423,12 @@ class Review:
         rows = self.proposal['search']['alternatives']
         if type(rows) is not list or not 1 <= len(rows) <= 2:
             raise ValueError('One or two bounded alternatives are required.')
+        if self.proposal['search']['status'] == 'original_for_review':
+            if (not grouped(self.settings) or len(rows) != 1
+                    or self.proposal['search'].get('search_performed') is not False
+                    or rows[0].get('origin') != 'source-original'
+                    or constraints.encoded(rows[0]['candidate']) != constraints.encoded(constraints.original_alternative(self.facts))):
+                raise ValueError('Original arrangement must match the exact current source; no search success is implied.')
         self.alternatives = [contract.quantized_translation(self.facts, r['candidate'], observation=self.observation)[0] for r in rows]
         self.revision = 0; self.intent = None
         self.choose(0)
@@ -296,6 +437,7 @@ class Review:
         if self.revision >= 256:
             raise ValueError('Review edit limit reached; start a new review.')
         pose, moves = contract.quantized_translation(self.facts, candidate, observation=self.observation)
+        group_moves(self.observation, self.settings, moves)
         self.pose, self.moves = pose, moves
         self.revision += 1; self.intent = None
 
@@ -312,6 +454,12 @@ class Review:
         self.edit_many({component: [x, y]})
 
     def edit_many(self, edits):
+        if grouped(self.settings):
+            with localcontext(Context(prec=50)):
+                return self._edit_many(edits)
+        return self._edit_many(edits)
+
+    def _edit_many(self, edits):
         """Adopt one combined final pose; never expose intermediate moves."""
         self.intent = None
         if type(edits) is not dict or not 1 <= len(edits) <= len(self.settings['selected']):
@@ -330,10 +478,18 @@ class Review:
                     value = Decimal(text)
                     if not value.is_finite() or abs(value) > 2000:
                         raise ValueError('Coordinates must be finite and within ±2000 mm.')
-                    target.append(int((value * 1000000).to_integral_value()))
+                    target.append(_group_nm(text) if grouped(self.settings) else int((value * 1000000).to_integral_value()))
                 except InvalidOperation as exc:
                     raise ValueError('Enter decimal coordinates in millimetres.') from exc
             moves[component] = target
+        if grouped(self.settings):
+            anchors = {row['uuid']: row['position_nm'] for row in self.observation['footprints']}
+            deltas = {tuple(moves[key][i] - anchors[key][i] for i in range(2)) for key in edits}
+            if len(deltas) != 1:
+                raise ValueError('Rigid-group edits must give every edited member the same displacement.')
+            delta = next(iter(deltas))
+            moves = {key: [anchors[key][i] + delta[i] for i in range(2)] for key in self.settings['selected']}
+            group_moves(self.observation, self.settings, moves)
         pose = contract.validate_moves(self.observation, moves,
             scope=settings_scope(self.settings), selected=self.settings['selected'], region_nm=self.settings['region_nm'])
         pose['source_sha256'] = constraints.digest(self.facts)
@@ -343,7 +499,7 @@ class Review:
         self.intent = None
         if type(acknowledged) is not bool or not acknowledged or type(accepted) is not bool:
             raise ValueError('Explicit review of this exact draft is required.')
-        if self.copper_plan is not None or self.settings.get('schema') == 3:
+        if self.copper_plan is not None or rebuilds_copper(self.settings):
             selected = validate_settings(self.settings)
             plan, observation = _effective_context(self.inspection, selected)
             original = _facts(self.inspection, selected, plan, observation)
@@ -372,6 +528,13 @@ class Review:
 
 
 def validate_draft(inspection, value):
+    if type(value) is dict and type(value.get('settings', {})) is dict and grouped(value.get('settings', {})):
+        with localcontext(Context(prec=50)):
+            return validate_draft_context(inspection, value)
+    return validate_draft_context(inspection, value)
+
+
+def validate_draft_context(inspection, value):
     """Untrusted JSON may describe a draft, never grant execution/approval."""
     if type(value) is not dict or type(value.get('revision')) is not int or not 1 <= value['revision'] <= 256:
         raise ValueError('A bounded explicit draft revision is required.')
@@ -380,6 +543,7 @@ def validate_draft(inspection, value):
     original = _facts(inspection, selected, plan, observation)
     pose = contract.validate_moves(observation, value.get('moves_nm'),
         scope=settings_scope(selected), selected=selected['selected'], region_nm=selected['region_nm'])
+    group_moves(observation, selected, value.get('moves_nm'))
     pose['source_sha256'] = constraints.digest(original)
     constraints.validate_alternative(original, pose)
     expected = dict(schema=1, kind=KIND, choice='reviewed_draft', revision=value['revision'],

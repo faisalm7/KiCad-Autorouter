@@ -9,11 +9,14 @@ import copy
 import hashlib
 import json
 import math
-from decimal import Decimal
+from decimal import Context, Decimal, localcontext
 
 MIN_EXTENT_MM = 0.000001  # One nanometre; smaller proxy rectangles are unsupported.
 FIXED_CONTEXT_POLICY = 'unchanged-fixed-context-v1'
 PRESERVED_COPPER = 'preserved-copper-envelope'
+RIGID_TRANSLATION_POLICY = 'rigid-selected-translation-v1'
+# Proposer proxy arithmetic only. Final actual integer-nm checks are independent.
+RIGID_PROXY_TOLERANCE_NM = Decimal('0.000001')
 
 
 class Refused(ValueError):
@@ -127,8 +130,7 @@ def prepare(value):
     if facts['board']['kind'] != 'rectangle' or facts['board']['cutouts'] != []:
         raise Refused('Polygon outlines and cutouts are unsupported')
     rect(facts['board']['bounds_mm'], 'board bounds')
-    if facts['groups'] != []:
-        raise Refused('Group/rigid-relative-placement constraints are unsupported; select explicit components')
+    groups = sequence(facts['groups'], 1, 'rigid groups')
     gap = number(facts['clearance_mm'], 'clearance')
     if not 0 <= gap <= 10:
         raise Refused('Clearance must be between zero and ten millimetres')
@@ -205,6 +207,19 @@ def prepare(value):
             raise Refused('Unknown keepout side')
         distinct(sides, 'keepout sides')
     distinct(keepout_ids, 'keepouts')
+    if groups:
+        group = groups[0]
+        fields(group, 'policy members', 'rigid group')
+        if type(group['policy']) is not str or group['policy'] != RIGID_TRANSLATION_POLICY:
+            raise Refused('Unsupported rigid group policy')
+        members = sequence(group['members'], 16, 'rigid group members', 2)
+        for member in members:
+            identifier(member, 'rigid group member')
+        distinct(members, 'rigid group members')
+        if members != facts['selected']:
+            raise Refused('Rigid group must contain the exact ordered selected components')
+        if set(members) & immovable(facts):
+            raise Refused('Rigid group contains a fixed/locked/unselected/tracked component')
     if not immovable(facts):
         raise Refused('This selected-placement scope requires a fixed/unselected anchor')
     if annotations:
@@ -259,6 +274,8 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
         raise Refused('Alternative source binding differs')
     rows = sequence(alternative['transforms'], len(components), 'transforms', len(components))
     seen = set(); rectangles = []
+    grouped = set(facts['groups'][0]['members']) if facts['groups'] else set()
+    group_delta = None
     for t in rows:
         fields(t, 'component_id x_mm y_mm rotation_deg side', 'transform')
         cid = identifier(t['component_id'], 'transform component')
@@ -270,6 +287,16 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
             raise Refused('Disallowed orientation: ' + cid)
         if t['side'] != c['side'] or t['side'] not in c['allowed_sides']:
             raise Refused('Side flips are unsupported: ' + cid)
+        if cid in grouped:
+            if t['rotation_deg'] != c['rotation_deg']:
+                raise Refused('Rigid group orientation changed: ' + cid)
+            with localcontext(Context(prec=50)):
+                delta = [(Decimal(str(t[key]))-Decimal(str(c['position_mm'][i])))*1000000
+                         for i, key in enumerate(('x_mm', 'y_mm'))]
+                if group_delta is None:
+                    group_delta = delta
+                elif any((a-b).copy_abs() > RIGID_PROXY_TOLERANCE_NM for a, b in zip(delta, group_delta)):
+                    raise Refused('Rigid group relative position changed: ' + cid)
         if cid in fixed and t != pose(c):
             raise Refused('Fixed/locked/unselected/tracked component moved: ' + cid)
         box = bounds(c, t); gap = facts['clearance_mm']
