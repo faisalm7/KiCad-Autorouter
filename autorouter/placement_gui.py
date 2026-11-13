@@ -514,7 +514,12 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 value = self.options(); inspection = copy.deepcopy(self.inspection); self.revoke(discard=True)
                 def adopt(proposal):
                     if proposal['search']['status'] != 'proposals_ready':
-                        raise ValueError('No draft returned: ' + proposal['search']['status'] + '. This is not an infeasibility proof.')
+                        message = {
+                            'budget_exhausted': 'The placement search reached its time limit. No draft was kept; your project is unchanged.',
+                            'no_changed_alternative': 'No changed placement passed the current constraints. This does not prove that no solution exists; your project is unchanged.',
+                            'cancelled': 'Placement search cancelled. No draft was kept; your project is unchanged.',
+                        }.get(proposal['search']['status'], 'Placement search returned an unsupported result; no draft was adopted.')
+                        raise ValueError(message)
                     review = intent.Review(proposal); self.current_review_settings(review)
                     self.gate.attach(review); self.render(0)
                     self.message('Review the alternatives and their constraints. You may edit selected positions before validation.')

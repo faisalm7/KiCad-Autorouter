@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "utc": "2026-11-13T06:19:04.915456+00:00",
+  "status": "source_targeted_passed_review_pending",
+  "scope": "Source efficiency and no-draft presentation correction; not installed Native/GUI/product qualification",
+  "source_files_sha256": {
+    "autorouter/placement_gui.py": "fc231b21186f07f9645b12e332004c53837ba2fd5cd6eeb5a51b71b55ed2cb39",
+    "experiments/constrained_placement_v1/constraints.py": "46b2a57accd01c2aee72075d94cd57dc49c8c29b75f519e8f00a88ce55a3ab2d",
+    "experiments/constrained_placement_v1/prototype.py": "c77dc1825fec250f3f513dca1471de833481df93a917b0c540318acaa33a3fa0",
+    "tests/test_placement_gui.py": "c6fff03e53b0f1464634e0f95ffac36b82f992a33bae8c6271811f91869be51c",
+    "tests/test_placement_search_validator.py": "af0e2d7252f69b8de701a5b507c0d725fa73a15f39a5e3af6e1a91206885da97"
+  },
+  "general_mechanism": "One detached, validated fact snapshot/digest per bounded search; all per-move pose/geometry/annotation checks and independent fresh final validation retained. No global cache or cache across source checks.",
+  "search_policy_unchanged": {
+    "seed": 7,
+    "steps_per_alternative": 160,
+    "alternatives": 2,
+    "wall_and_CPU_seconds": 2,
+    "upstream_commit": "12bb5556fc5c1db287285425aea49a1d79dc8ffa",
+    "vendor_and_attribution_unchanged": true
+  },
+  "targeted": {
+    "tests": 226,
+    "passed": true,
+    "wall_seconds": 66.04527341597714,
+    "full_CPU_seconds": 36.950266000000006,
+    "source_pins_stable": true,
+    "Native_benchmark_jobs": 0
+  },
+  "fixed_facts_profile": {
+    "status": "proposals_ready",
+    "counts": {
+      "attempted_moves": 320,
+      "constraint_rejected_moves": 134,
+      "attempted_alternatives": 2
+    },
+    "sampled_wall_seconds": 1.1019962080172263,
+    "sampled_cpu_seconds": 0.8287869999999999,
+    "total_function_wall_seconds": 1.1051462499890476,
+    "total_function_CPU_seconds": 0.831498,
+    "source_sha256": "f093735db2fea7570759023d2d6c6cfe13516c2e1897ddd92d7e346dafdcf641",
+    "Native_jobs": 0,
+    "delivered_candidate": false
+  },
+  "profile_external_cost": {
+    "wall_seconds": 2.7329901669872925,
+    "full_CPU_seconds": 1.167265
+  },
+  "deterministic_readback": {
+    "schema": 1,
+    "scope": "Read-only deterministic output comparison, not another search/Native run or a precise speedup claim",
+    "same_source_facts_sha256": true,
+    "same_settings": true,
+    "same_counts": true,
+    "same_alternatives": true,
+    "retained_old_profile_sha256": "af18b5edc2eefcd015f5c86dba7c69c1bc3bb9be9abd6c6b0ce2e171735bd0bc",
+    "new_search_sha256": "be03e39d14ec661180b9851cd5483666395f1279284c7bb8468f0300b4aa0016",
+    "old_task002_failure_unchanged": true
+  },
+  "limits": [
+    "One exposed development-family mechanism profile; not acquired-board delivery, placement quality or human usefulness.",
+    "Retained earlier083 quiet-host profile also passed; host contention differs, so no exact speedup claim.",
+    "083 task remains failed, including unsaved transient proposal; separate diagnostic is not a reconstructed pass.",
+    "Research, authoring and independent AI review costs are additional and not fully measured; application model calls remain0."
+  ],
+  "administration_failures_retained": [
+    {
+      "path": ".runs/placement083-constraint-profile-001/failure.json",
+      "reason": "Source tool configuration correctly refused an installed proof before profile calls."
+    },
+    {
+      "path": ".runs/placement084-status-targeted-001/execution.json",
+      "reason": "Test driver omitted the checkout import root; no testbody ran. Corrected invocation retained separately."
+    }
+  ],
+  "raw_receipt_sha256": {
+    ".runs/placement084-prepared-validator-targeted-001/summary.json": "4bbd8878a7c1e9ffb1fd8a689c2fcbe5d22ceb5ea9bd2064ddead5bc015b88e2",
+    ".runs/placement084-integrated-targeted-001/execution.json": "fc0e1f514188a8d7fb393bde8c157a4f07923849d89b3c77b3e12b00fe18fcb8",
+    ".runs/placement084-fixed-facts-profile-001/execution.json": "43df87934e64a0854a001c66ea64c853ed332413d74d6dbf0f43f520591038dd",
+    ".runs/placement084-fixed-facts-profile-001/search.json": "be03e39d14ec661180b9851cd5483666395f1279284c7bb8468f0300b4aa0016",
+    ".runs/placement084-fixed-facts-profile-001/deterministic-output-readback.json": "d44792587201704734fcc17d9d33c381e4b36c7d77b7b94c6a32db76fb9dc0dd",
+    ".runs/placement084-status-targeted-002/execution.json": "bc70412a62463603027d5fec9cabb3aa7ed3f08775e071403281094221f15863"
+  },
+  "Native_qualified": false,
+  "actual_GUI_qualified": false,
+  "human_PCB_approval": false,
+  "model_calls": 0,
+  "formal_publication_authorized": false
+}

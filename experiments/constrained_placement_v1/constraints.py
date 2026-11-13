@@ -234,13 +234,31 @@ def original_alternative(facts):
 
 def validate_alternative(source, alternative):
     """Return detached transforms only after independently checking every constraint."""
+    return _alternative_validator(source)(alternative)
+
+
+def _alternative_validator(source):
+    """Prepare one private detached snapshot for a single bounded search.
+
+    This closure is never shared globally or across source checks. Every call
+    still checks all transforms, geometry and annotation moves. The public
+    validator deliberately constructs a fresh closure on every invocation.
+    """
     facts = prepare(source)
-    fields(alternative, 'schema source_sha256 transforms', 'alternative')
-    if type(alternative['schema']) is not int or alternative['schema'] != 1 or alternative['source_sha256'] != digest(facts):
-        raise Refused('Alternative source binding differs')
+    source_sha256 = digest(facts)
     components = {c['id']: c for c in facts['components']}
+    fixed = immovable(facts)
+    def validate(alternative):
+        return _validate_prepared_alternative(facts, source_sha256, components, fixed, alternative)
+    return validate
+
+
+def _validate_prepared_alternative(facts, source_sha256, components, fixed, alternative):
+    fields(alternative, 'schema source_sha256 transforms', 'alternative')
+    if type(alternative['schema']) is not int or alternative['schema'] != 1 or alternative['source_sha256'] != source_sha256:
+        raise Refused('Alternative source binding differs')
     rows = sequence(alternative['transforms'], len(components), 'transforms', len(components))
-    fixed = immovable(facts); seen = set(); rectangles = []
+    seen = set(); rectangles = []
     for t in rows:
         fields(t, 'component_id x_mm y_mm rotation_deg side', 'transform')
         cid = identifier(t['component_id'], 'transform component')

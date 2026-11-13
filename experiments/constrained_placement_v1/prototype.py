@@ -10,7 +10,7 @@ import threading
 import time
 
 from .constraints import (Refused, digest, encoded, immovable, original_alternative,
-                          prepare, validate_alternative)
+                          prepare, validate_alternative, _alternative_validator)
 from .vendor.anneal import Annealer
 from .vendor.model import Board, Component, Pad
 
@@ -54,17 +54,19 @@ def _engine_facts(board):
     return value
 
 
-def _candidate(facts, board):
-    return dict(schema=1, source_sha256=digest(facts), transforms=[
+def _candidate(facts, board, *, source_sha256=None):
+    return dict(schema=1, source_sha256=digest(facts) if source_sha256 is None else source_sha256, transforms=[
         dict(component_id=c['id'], x_mm=board.components[c['id']].x,
              y_mm=board.components[c['id']].y, rotation_deg=board.components[c['id']].rot,
              side=c['side']) for c in sorted(facts['components'], key=lambda c: c['id'])])
 
 
 class _ConstrainedAnnealer(Annealer):
-    def __init__(self, board, facts, seed, check, counts):
+    def __init__(self, board, facts, seed, check, counts, *, validator=None, source_sha256=None):
         self._facts, self._check, self._counts = facts, check, counts
         check()
+        self._validate = _alternative_validator(facts) if validator is None else validator
+        self._source_sha256 = digest(facts) if source_sha256 is None else source_sha256
         super().__init__(board, margin=facts['clearance_mm'], seed=seed,
                          channel_scale=0.0, cohesion_scale=0.0, cross_weight=0.0)
         # Identity-neutral tokens plus empty electrical annotations must not
@@ -87,7 +89,7 @@ class _ConstrainedAnnealer(Annealer):
         result = method(*args)
         self._check()
         try:
-            validate_alternative(self._facts, _candidate(self._facts, self.board))
+            self._validate(_candidate(self._facts, self.board, source_sha256=self._source_sha256))
         except Refused:
             # Restore complete poses, including position changes caused by the
             # upstream rotation/swap clamps; do not trust its partial reverts.
@@ -150,10 +152,16 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
     status = 'no_changed_alternative'
     try:
         check()
+        # Keep preparation private to this search; the independent public
+        # validator remains mandatory at each completed/final alternative.
+        validate_move = _alternative_validator(facts)
+        source_sha256 = digest(facts)
+        check()
         for index in range(alternatives):
             check(); counts['attempted_alternatives'] += 1
             board = _model(facts); static = _engine_facts(board)
-            engine = _ConstrainedAnnealer(board, facts, seed + index, check, counts)
+            engine = _ConstrainedAnnealer(board, facts, seed + index, check, counts,
+                                         validator=validate_move, source_sha256=source_sha256)
             before_quality = engine._quality()
             engine.run(steps=steps)
             check()

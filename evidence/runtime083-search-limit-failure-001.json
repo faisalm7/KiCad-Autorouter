@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "utc": "2026-11-13T06:09:00.751990+00:00",
+  "status": "failed_before_placement_qualification",
+  "source_build": "197562a5ff26c0d2026b4a810b715798aabbf0d0",
+  "manifest_sha256": "dbda5e9f4a7d125b113cd984b157dff69c8605b17b5c9197ed6441d8aea3a2b6",
+  "first_prebody_resource_failure": {
+    "wall_seconds": 18.293054957990535,
+    "full_CPU_seconds": 0.884552
+  },
+  "continued_whole_task": {
+    "wall_seconds": 17.62042350001866,
+    "full_CPU_seconds": 13.769041999999997,
+    "cleanup_complete": true,
+    "error": "ValueError: Current placement alternatives are required.",
+    "actual_original_Native_inspection_passed": true,
+    "placement_qualification_started": false,
+    "route_started": false,
+    "export_started": false
+  },
+  "combined_actual_wall_seconds": 35.913478458009195,
+  "combined_actual_full_CPU_seconds": 14.653593999999996,
+  "total_cap_seconds": 420,
+  "passed": false,
+  "source_originals_unchanged": true,
+  "original_transient_proposal_not_recorded": true,
+  "diagnostic_not_reconstruction_of_transient_result": {
+    "status": "budget_exhausted",
+    "search_wall_seconds": 2.0016172499745153,
+    "search_CPU_seconds": 1.4902460000000004,
+    "attempted_moves": 187,
+    "Native_jobs": 0,
+    "whole_task002_unchanged": true
+  },
+  "decision": "No retry of083 search or delivery for a favorable result. Prospectively optimize repeated immutable fact validation; retain per-move/final/Native constraints, seed/steps/deadline. Changed source needs coherent new qualification.",
+  "raw_receipt_sha256": {
+    ".runs/placement083-installed-ir-task-002/outer-process.json": "ee94c2083428f7b9c23e1e51fc117eb9351e26fc7cc53e405e0084eb13ac2b51",
+    ".runs/runtime083 fresh install 001/.runs/placement-product083-IR-002/execution.json": "d46e7aab15deacb74e8c88b44bed489ff297b2550e9221f1d0d3c56186763d19",
+    ".runs/placement083-pure-failure-diagnostic-001/diagnostic.json": "e01d0dd6a2415ddc83c6f09624b043bd67a997d1614dfdde2fc51d6bb3496e38",
+    ".runs/placement083-pure-failure-diagnostic-001/execution.json": "8d1acf8ee21542f739b952d02db7ba0a3a0ad9f735f3b344f7e0a4647b5b0715",
+    ".runs/placement083-constraint-profile-001/failure.json": "07f3faf36e7c0d5a74e3e05a38b68603cae5fd7f91411c999de48533fe36ea38",
+    ".runs/placement083-constraint-profile-002/profile.json": "49823c60e962ab509dda5d962f2f611c57f36771c25324a938bcc6482d583a7b"
+  },
+  "remaining_gates": [
+    "new source target regressions/review",
+    "new coherent installed qualification",
+    "full relevant suite",
+    "actual new GUI",
+    "unrelated placement usefulness/platform/recovery/human gates"
+  ],
+  "model_calls": 0,
+  "human_PCB_approval": false,
+  "private_reconciliation_sha256": "0cd7025bb45b715cc5d38a75a2f7314306f45a111297b84de41a04752f3cfc0b",
+  "source_native_summary": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 42,
+    "exclusions": 0
+  },
+  "source_native_ignored_checks": [
+    {
+      "description": "Footprint has no courtyard defined",
+      "key": "missing_courtyard"
+    },
+    {
+      "description": "Track endpoint not centered on via",
+      "key": "track_not_centered_on_via"
+    },
+    {
+      "description": "Tuning profile track geometries",
+      "key": "tuning_profile_track_geometries"
+    },
+    {
+      "description": "Footprint doesn't match symbol's footprint filters",
+      "key": "footprint_filters_mismatch"
+    },
+    {
+      "description": "PTH inside courtyard",
+      "key": "pth_inside_courtyard"
+    },
+    {
+      "description": "NPTH inside courtyard",
+      "key": "npth_inside_courtyard"
+    },
+    {
+      "description": "Footprint component type doesn't match footprint pads",
+      "key": "footprint_type_mismatch"
+    }
+  ],
+  "additional_pure_diagnostic_cost": {
+    "wall_seconds": 6.74278879101621,
+    "full_CPU_seconds": 5.359761000000001,
+    "included_in_combined_task_figure": false
+  },
+  "profile_scope": "Ten original-pose validations under cProfile attribute repeated prepare/deepcopy/annotation-schema/hash work. Profile instrumentation overhead and full externalCPU are not measured; no exact speedup claim. First profile setup refused mismatched source/installed tool pins before calls; retained.",
+  "new_policy": "Private per-search detached prepared-fact validator; all per-move checks and fresh final validation retained. No deadline/seed/steps/budget change. Prospective current-source and installed qualification required."
+}

@@ -163,6 +163,20 @@ class PlacementGuiTests(unittest.TestCase):
         adopt.assert_not_called(); self.assertIsNone(window.qualified)
         self.assertIn('Native output failed', window.message.call_args.args[0])
 
+    def test_search_timeout_cancel_or_no_change_never_adopts_a_draft(self):
+        window = self.window(); window.options = Mock(return_value={'search': {'seconds': 2}})
+        window.start = Mock(); window.render = Mock()
+        window_method('find_alternatives')(window, None)
+        adopt = window.start.call_args.args[2]
+        for status, message in (('budget_exhausted', 'time limit'),
+                                ('no_changed_alternative', 'current constraints'),
+                                ('cancelled', 'cancelled'), ('untrusted', 'unsupported result')):
+            with self.subTest(status=status), patch.object(pg.intent, 'Review') as review:
+                with self.assertRaisesRegex(ValueError, message):
+                    adopt({'search': {'status': status, 'alternatives': [{'untrusted': 'draft'}]}})
+                review.assert_not_called()
+                window.render.assert_not_called()
+
     def test_close_requests_existing_worker_and_child_cleanup_before_destroy(self):
         window = self.window(); window.busy = True; window.routing = Mock(); event = Mock()
         window_method('close')(window, event)
