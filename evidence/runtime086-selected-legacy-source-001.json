@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "utc": "2026-11-13T07:20:52.094417+00:00",
+  "status": "source_targeted_and_skeptical_review_passed",
+  "scope": "Prospective selected-net compatibility extension, not installed Native routing/GUI support",
+  "source_sha256": {
+    "autorouter/board_floor.py": "f593361909edc821702196f2755c2f1a47147985b613ded9154b013016bc43c7",
+    "autorouter/default_targets.py": "e5ef725fe67513400208ad1b7d887ea72ba84151367396a782a13ff05e1a43a5",
+    "autorouter/layer_policy.py": "3dafefc5a2566138a1ac9a128f848b1abbef56dd6e0d4071dcf8afc5ce43f8ba",
+    "autorouter/pipeline.py": "cfb9f6d73f1bb69aa57b570235d6edef595cbd25e7d62125ea71b12160c6d974",
+    "autorouter/routing_scope.py": "cfff548fdd5ea81e96db1680f1033ff377da6749fe4b23d06c817ef57fd4575e",
+    "tests/test_default_target_integration.py": "3ef5543520ce52ea804a2268c4cfe8e7c532dee352c83825318da25557d31b5b",
+    "tests/test_legacy_via_import.py": "ddd77f7d398058b2327e1091e1a0d5fedd046b6514278cd9465762173acf5233",
+    "tests/test_native7_selected_default.py": "4a16d8ed3f83de29df76b15d16b9c41862d9b00477cd7d5a072415e4389be7f6",
+    "tests/test_native7_selected_legacy.py": "bdc4182b514a386fd0c6930d9d3f18e55b113ee15de29fe1fc4ef439bc8b39c6",
+    "tests/test_selected_proposal_import.py": "ac784924bf59c93817fe5b831459d1feedbe9a57e2e51ed993fbe52e5264c387"
+  },
+  "new_population": "Pinned Native10.0.7, exact20241229 numeric legacy table, literal0F.Cu/2B.Cu with sole Default/noassignments orpatterns, requiredSCH and exactselected/protected identities. Not all KiCad9 boards.",
+  "new_policy": "NATIVE7_SELECTED_LEGACY_POLICY=native7-selected-legacy-table-v1; captured producer capability required from actual hash-verified snapshot version. Modern selected-v1 remains intact.",
+  "mechanism": "Reuse existing numeric/name identity resolver, selected DSN partition/import reconstruction, protected literal records, Native/source-minimum Default targets and mandatory original-rule validation. No source format rewrite, new importer, scope fallback or constraint change.",
+  "targeted": {
+    "tests": 349,
+    "passed": true,
+    "wall_seconds": 23.16930179198971,
+    "full_CPU_seconds": 22.405866,
+    "source_pins_stable": true,
+    "includes_agent61controls": true,
+    "overlap_not_additional_test_count": true,
+    "Native_jobs": 0
+  },
+  "skeptical_review": {
+    "status": "no_known_blocking_source_defect",
+    "sha256": "c1b3a12fd8cbcf5e5196b2fb3c155e3c4776b8c13defd3b3700a85b59367a5dd",
+    "blocking_findings": []
+  },
+  "checks": [
+    "Exact legacy source and transport rederivation leaves input bytes unchanged",
+    "All nets/pins and exact class rules survive selected partition",
+    "Selected task/proposal import preserves immutable source plus exact protected nonselected routing",
+    "Numeric import code permutation resolves exact native names; omitted-mode source via remains literal original",
+    "Mixed/tableless/malformed/duplicate/unknown pad/route/zone identities refuse; declared0 protected; undeclared0 refused",
+    "Zone code/name alias refuses, coherent zone names retained",
+    "Native/version/layers/sole Default/noassignment/no pattern/selected lock/SCH fences unchanged",
+    "Missing/unknown/dynamic/nested/duplicate/old capability declarations refuse after producer rehash; unhashed code changes and transport deletion refuse",
+    "Legacy capability derived from actual snapshot even supplied original claims modern",
+    "Old modern selected producer remains readable without the new legacy capability",
+    "Raw class width/floor/class-map tampering refused; existing strict-via/import readers pass"
+  ],
+  "unchanged_product_caps_seconds": [
+    105,
+    120,
+    420
+  ],
+  "raw_receipt_sha256": {
+    ".runs/runtime086-selected-legacy-source-review-001/review.json": "c1b3a12fd8cbcf5e5196b2fb3c155e3c4776b8c13defd3b3700a85b59367a5dd",
+    ".runs/runtime086-integrated-targeted-001/execution.json": "7597f74105440096f301bf86ea349e1180621b61957633bf4f9745643d767a52",
+    ".runs/runtime086-integrated-targeted-001/protocol.json": "6c3fb4607db305a00eadcfb44417db45884d3ef2d0e0b3e17af2387f50b3f759",
+    ".runs/native7-selected-legacy086-targeted-001/summary.json": "3bd01de2b8b8e0f0c7e92e7937c299b18611b4882023f8cae665ce0a3a356f19"
+  },
+  "limits": [
+    "085placement pass and Preview failure remain unchanged.",
+    "Actual coherent086 installation, Native routing/delivery, full relevant regression and GUI remain pending.",
+    "No broad version/platform/electrical/human usefulness or precise speedup claim.",
+    "All historical failures and additional research/authoring/AIreview costs remain; no unattendedfirstattempt claim."
+  ],
+  "model_calls": 0,
+  "human_PCB_approval": false,
+  "formal_release_authorized": false
+}

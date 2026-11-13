@@ -40,6 +40,7 @@ NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
 NATIVE7_SELECTED_DEFAULT_POLICY='native7-selected-sole-default-v1'
+NATIVE7_SELECTED_LEGACY_POLICY='native7-selected-legacy-table-v1'
 NATIVE7_TUNED_LOW_POLICY='native7-tuned-low-sole-default-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
@@ -1303,8 +1304,19 @@ def check_native7_selected_source(board,names):
     from .layer_policy import _two_copper_table
     board=Path(board);original=sx.parse(read_bytes(board).decode('utf-8'))
     try:
-        if c.NATIVE_VERSION!='10.0.7' or sx.one(original,'version')!=['version','20260206']:
-            raise ValueError('selected Native7 requires qualified modern two-copper source')
+        version=sx.one(original,'version')
+        if c.NATIVE_VERSION!='10.0.7' or version not in (['version','20260206'],['version','20241229']):
+            raise ValueError('selected Native7 requires qualified20241229/20260206 two-copper source')
+        if version==['version','20241229']:
+            from . import routing_scope as rs,board_floor as g
+            if rs._net_mapping(original)[0]!='legacy_table':
+                raise ValueError('selected20241229 requires its numeric legacy net table')
+            _,resolve=g.source_net_identity(original)  # Check every declared code/name reference.
+            for zone in sx.children(original,'zone'):
+                name=sx.one(zone,'net_name')
+                if name is not None and (len(name)!=2 or type(name[1]) is not str
+                        or sx.unquote(name[1])!=resolve(sx.one(zone,'net'))):
+                    raise ValueError('selected20241229 zone name differs from its legacy net code')
         _two_copper_table(original)
         project=targets._json(read_bytes(board.with_suffix('.kicad_pro')))
         if type(project) is not dict:raise ValueError('selected Native7 project object required')
@@ -1465,6 +1477,10 @@ def check_default_target_transport(directory,data,original,candidate,*,input_pol
         effective=data['routing_preferences']['effective']
         require_native_scope(scope='selected_nets',guidance=input_policy,layers=effective['layers'],
             profile=data['engine_profile'],adapter=data['adapter'],scoring=data.get('scoring_variant'))
+        if sx.one(sx.parse(read_bytes(snapshot).decode('utf-8')),'version')==['version','20241229']:
+            legacy=policy_declaration(raw_code,name='NATIVE7_SELECTED_LEGACY_POLICY',expected=NATIVE7_SELECTED_LEGACY_POLICY)
+            if legacy!=NATIVE7_SELECTED_LEGACY_POLICY:
+                raise Rejected('Native7 selected20241229 requires its captured legacy producer capability')
         check_native7_selected_source(snapshot,selected_names)
     task_raw=(sx.dump(routing_task(original,data['scope'],selected_names))+'\n').encode()
     if hashlib.sha256(task_raw).hexdigest()!=data.get('task_sha256'):
