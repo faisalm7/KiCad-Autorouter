@@ -1,19 +1,17 @@
-# Install the runtime074 artifact into a fresh same Mac folder
+# Install the current artifact into another local folder
 
-The current installation is `'.runs/runtime074 fresh install 001'`, manifest `584ee929eaf3d277dc535556e42c71ac5196a74f1c5e3fd53a2cce5a67853d61`, source `6fbbbf22dfb8250f1578fb4d7a45ff0e161b3194`. Its [fixed headless milestone](../evidence/runtime074-installed-native-milestone-001.json), [finite GUI105 core](../evidence/gui-runtime074-105-core-001.json) and [one large CLI delivery](../evidence/runtime074-large-delivery-qualified-001.json) pass their recorded gates. The genuine updated-warning dialog and exact queued-open interval remain unexercised; full GUI qualification is open. These results belong to this exact installed root.
+The tested runtime087 root is `.runs/runtime087 fresh install 001`, source `aa6b10186776e786eb64b6f4314f0674aa13ef9c`, manifest `fca9d1180b5e32b5d89875009e9f5ae4e3a0db0c1adc9982fd73843b29e07462`. Its [GUI113/full259 record](../evidence/runtime087-installed-GUI-core-001.json) includes installation/doctor, actual finite GUI workflow and complete relevant regression. Finder-only startup is pending; command-based prepared startup was observed. Existing installation users should follow [Start here](../START_HERE.md), without making another copy.
 
-The installer copies an existing verified artifact, preserving 54 immutable files, build/version/lock identities and engine, changing only the declared root. Old jobs, settings, venvs and launchers are excluded. It downloads or relocates no dependency and makes no global installation change.
-
-From this checkout, for another installation choose an unused owned destination with an existing real parent:
+For a genuinely needed new installation, the existing installer copies83verified immutable files and records the new root. Old jobs, settings, environments and launchers are excluded. It downloads or relocates no external dependency. Choose one unused owned destination with an existing real parent and first check free space against peak temporary allocation plus the fixed3GiB reserve:
 
 ```sh
 (
   set -eu
   AUTOROUTER_PROJECT="$PWD"
-  AUTOROUTER_INSTALL="$AUTOROUTER_PROJECT/.runs/Autorouter 074 user install 001"
+  AUTOROUTER_INSTALL="$AUTOROUTER_PROJECT/.runs/Autorouter user install 001"
   .venv/bin/python -B scripts/prepare_runtime.py --install-existing \
-    --source "$AUTOROUTER_PROJECT/.runs/runtime-directory-074/runtime" \
-    --expected-manifest-sha256 b4e77cc905dd4e068f9e57476e17211f319d068034fdef4ea77be952dd13d90f \
+    --source "$AUTOROUTER_PROJECT/.runs/runtime087 fresh install 001" \
+    --expected-manifest-sha256 fca9d1180b5e32b5d89875009e9f5ae4e3a0db0c1adc9982fd73843b29e07462 \
     --output "$AUTOROUTER_INSTALL"
   .venv/bin/python -B -m venv --copies --without-pip "$AUTOROUTER_INSTALL/.venv"
   cd "$AUTOROUTER_INSTALL"
@@ -22,13 +20,10 @@ From this checkout, for another installation choose an unused owned destination 
 )
 ```
 
-Run the installer from the checkout; it is not included in the curated runtime. Enter the new runtime before `-m autorouter`. Preserve its manifest and process records. Changed/missing/extra files, symlinks/hardlinks, stale pins, moved sources and destination collisions refuse. Failure preserves partial output; never reuse it. The installation receipt is descriptive and cannot authorize Native acceptance. Another root needs its own qualification.
+Run `prepare_runtime.py` from the checkout; that installer is not shipped in the curated runtime. Enter the new runtime before `-m autorouter`. Preserve its manifest/process records. Changed/missing/extra files, unsafe links, stale pins and destination collisions refuse. Failure preserves partial output; use a fresh destination rather than overwriting it. Another root needs its own qualification. This documented command does not claim an independent clean installation or authorize automatic retirement of historical copies.
 
-Current074 testing uses the same Mac/account, copied no-pip Python 3.11.9, private HOME/TMP and minimal PATH, with existing pinned external KiCad 10.0.7 and Java dependencies. GUI imports use the exact selected KiCad Python 3.9.13/wx. This is neither standalone packaging nor a cleanOS, relocated-dependency or independent-user test. The installer makes no explicit global KiCad or browser setting changes. Prior normal-profile startup writes were unmeasured.
+Current qualification uses the same Mac/account, copied no-pip Python3.11.9 and pinned external KiCad10.0.7/Java25.0.2/Freerouting2.5.0. GUI imports use that KiCad app's Python3.9.13/wx. Global KiCad10.0.0 is unchanged. No cleanOS, independent user, relocated dependencies, standalone package or Windows Native installation is qualified.
 
-For the tested current root, use the GUI105 Edge wrapper in [Start here](../START_HERE.md). It starts the unchanged bound launcher at `'.runs/runtime074 fresh install 001/.runs/gui-launcher105/Launch Autorouter.command'` with the Microsoft Edge setting confined to that process. Leave personal/default-browser settings unchanged. A new root requires its own launcher and qualification; the old GUI jobs and evidence do not transfer.
+New prepared launchers bind config/documents/cache and `KICAD10_3RD_PARTY` inside the owned session. They verify PCM directory identity and reject unsafe links. A replaced/restored launcher directory needs new preparation; old launchers are not silently upgraded. This cooperative launch boundary is not an operating-system sandbox. Personal plugins/settings are not disabled or changed.087's boundary and correctly sequenced command startup were observed together; the absent override alone was not isolated as the cause of the old GUI112 stall. Observe the prepared process before a GUI tool attaches, since app selection may itself launch a default process.
 
-Every candidate retains actual Native refill/full schematic/original-rule, immutable/protected, class/field and PRL proofs. Installation costs and Native costs are distinct in the milestone packet; nested stage/trial samples are not added again. The [latest 3,314-file evidence subset](../evidence/backups/selected-runtime074-gui105-delivery-001.json) restored exactly and its own temporary copy was retired; this is not full current restoration or environment recovery. Genuine updated-warning GUI interaction, every-phase/exact queued timing, Windows native, independent installation, broader completion/confirmation, human cleanup and physical/electrical gates remain open. [Platform matrix](supported-platforms.md) · [Requirements](../REQUIREMENTS.md).
-
-
-Current launcher correction: new prepared launchers explicitly bind `KICAD10_3RD_PARTY` inside their own documents tree as well as config/documents/cache. This prevents the observed GUI112 stall loading a personal PCM plugin outside the prepared session. It does not disable or edit personal plugins; use normal KiCad separately for those. New launchers verify the PCM directory identity, reject unsafe links and replace an inherited external PCM path. A restored or replaced launcher directory needs fresh preparation; old launchers are preserved and not silently upgraded. This is a cooperative launch boundary, not an operating-system sandbox. Runtime086 remains immutable; source087 installation/GUI evidence is pending. [Current status](../STATUS.md).
+Every final retains fresh Native refill/full-schematic/original-rule, immutable/protected, class/field and local-settings proofs. Warnings remain visible. Sources remain closed/saved, delivery is a separate project, and live apply/undo is unavailable. Genuine changed-warning GUI, exact queued timing, every cancellation phase, broader usefulness, independent installation/full recovery, Windows Native and human/physical review remain open. Raw080–087beyond the last compact archive cutoff is currently on this Mac only; old subset restoration does not prove current recovery. [Platform matrix](supported-platforms.md) · [Requirements](../REQUIREMENTS.md).
