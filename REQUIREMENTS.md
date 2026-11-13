@@ -2,6 +2,19 @@
 
 The [master specification](MASTER_PROMPT.md) and later owner steering govern. **The November5 staged product strategy governs; historical routing superiority remains unmet/deferred research, not a product prerequisite.** Retained GUI-qualified runtime074 build `6fbbbf22dfb8250f1578fb4d7a45ff0e161b3194`, installed manifest `584ee929eaf3d277dc535556e42c71ac5196a74f1c5e3fd53a2cce5a67853d61`. New runtime075 build `b91520b90cdfeb86aba1dd1e9458e941f2c810a7` has an [installed CLI subset](evidence/runtime075-installed-product-subset-001.json), plus [GUI106 finite core](evidence/gui-runtime075-106-core-001.json); full product qualification remains open. [Status](STATUS.md) · [Plan](PLANS.md) · [severity list](docs/experimental-rc.md). Historical versioned evidence/failures remain unchanged.
 
+**Current086 checklist:** [Installed outcomes and full258](evidence/runtime086-installed-functional-milestone-001.json) bind build`ffd111365`/manifest`bed5015bcbe2`. Earlier versioned rows below are retained records, not pending instructions.
+
+| Current gate | Classification and evidence |
+|---|---|
+| Installed ordinary workflow | Actual Native owned placement→protected routing→fresh delivery/readback passes139.87wall/133.43CPU<=420; source/zone intent and2protected records retained,0opens/0blocks/1unchanged warning. Known exposed control/numeric edits, not unrelated usefulness or human approval. |
+| Relevant source regression | Full258:3,430run/0failures/0errors/1PowerShell-unavailable skip;531.33wall/483.22CPU<=1200;82payload/83immutable files unchanged. Test counts do not measure routing quality. |
+| Current GUI | GUI112 prepared, exact isolated inspection project observed open. KiCad window-control timeout before PCB Editor launch; one minimum owner action requested. All current-build GUI roles remain pending.081/GUI111 stays qualified only within its stored finite scope. |
+| Actual useful unrelated task | IR placement qualifies; route rejects2opens/0blocks/42warnings with13protected records;140.77wall/111.80CPU, no export. Diagnose retained interchange/route evidence before a bounded general correction. Negative selected-route complete proof replay is not independently qualified. |
+| Unsupported product scope | Groups, orientation/side changes, advanced keepouts/geometry/engineering requirements, broad placement usefulness and completion advantage unproved. Warnings and unsupported inputs remain visible. |
+| External/platform/recovery | Native Windows, independent Mac install, live application model endpoint, human/physical/electrical review and full current/off-Mac recovery remain open. No formal publication authorized. |
+
+**Retained version-specific records:**
+
 **Current076 addition:** [Installed placement milestone](evidence/runtime076-placement-product-milestone-001.json) closes one real saved-project selected-placement → protected-routing → review/accept-or-reject → fresh separate export → checked KiCad opening task. Full247, curated installation/doctor, Native invalid/cancel controls and actual GUI107 are recorded. Source acknowledgement reset and continuous origin guard are now installed and exercised. Scope remains narrow front/unrotated circular-PTH translations; this is not broad placement support or human PCB approval. Older rows below retain their version-specific evidence and are not a request to repeat them.
 
 | Current remaining requirement | Classification / next evidence |
