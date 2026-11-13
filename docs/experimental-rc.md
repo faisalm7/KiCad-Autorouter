@@ -4,6 +4,8 @@ This is a development tool, not a qualified release. [STATUS](../STATUS.md) iden
 
 Current [086 installed outcomes/full258](../evidence/runtime086-installed-functional-milestone-001.json) bind source`ffd111365` and manifest`bed5015bcbe2`. The owned Native placement/protected-routing/fresh-delivery control and complete relevant regression pass; actualGUI112 remains pending after a window-control timeout opening PCB Editor.081/GUI111 is the last closed finite GUI core. The acquired IR task passes placement but safely rejects routing with2opens; it is not a delivered task. No new installation or Native rerun is required for these documentation changes.
 
+[087 launcher-only correction](../evidence/runtime087-launcher-isolation-source-001.json) addresses GUI112’s diagnosed personal PCM-plugin loading stall.84installation/provenance controls and source review pass; only the launcher runtime file changes. Actual corrected manager/plugin discovery and GUI qualification remain required. No personal plugin/global setting changes or old failure relabelling.
+
 The observed077 stale-popup defect and080 awake-clock defect have source corrections, regression coverage and081 finite GUI evidence. Preserve their original failures; they are not current unresolved code defects. Physical suspend, genuine changed-warning GUI and the exact queued callback interval remain unqualified. The edited-alternative popup can remain blank; findings correctly label the edited draft, and that minor presentation issue is deferred.
 
 

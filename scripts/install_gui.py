@@ -16,12 +16,17 @@ from scripts import prepare_gui_plugin as plugin
 
 LIMIT = 1024 * 1024
 PLUGIN = 'documents/KiCad/10.0/plugins/org.kicad.autorouter.local/'
+PCM_ROOT = 'documents/KiCad/10.0/3rdparty'
+PCM_ISOLATION_POLICY = 'kicad10-project-pcm-root-v1'
 IMMUTABLE_FILES = frozenset(('Launch Autorouter.command', 'README.txt', 'initial-kicad_common.json',
     'initial-kicad.json', *(PLUGIN + name for name in ('plugin.json', 'launch-autorouter', 'route24.png', 'route48.png'))))
 README = '''Local KiCad Autorouter launcher
 
 Double-click Launch Autorouter.command. This starts the existing KiCad manager
-with configuration, documents/plugins and cache in this folder, not globally.
+with configuration, documents/plugins, PCM content and cache in this folder.
+KICAD10_3RD_PARTY overrides inherited or saved PCM paths; personal PCM plugins,
+libraries and themes are not loaded through that search root. Bundled vendor
+plugins are unchanged. This is a cooperative launch boundary, not an OS sandbox.
 Open a saved project, open PCB Editor and click the green Autorouter toolbar
 icon. In the separate router window choose the exact saved PCB/output paths.
 Save and CLOSE source PCB/schematic editors and acknowledge before routing.
@@ -38,7 +43,10 @@ sandbox or protection against hostile same-user writers. Standard symbol,
 footprint or 3D library warnings may appear if libraries are not installed;
 no libraries are fetched and no source project is repaired automatically.
 Live config/documents/cache remain mutable, but linked/special files or folders
-refuse launch. Each home is bounded to 512 MiB, 10,000 files/20,000 entries.
+refuse launch. PCM content shares the documents limit: 512 MiB, 10,000 files/
+20,000 entries per home. The prepared PCM directory identity must remain intact;
+reconstructed/replaced directories require a fresh launcher. Earlier launchers
+without this isolation policy are never upgraded or silently accepted.
 Keep old launcher folders; prepare a fresh one if these limits are exceeded.
 
 The launcher refuses when it observes another KiCad manager/editor for this
@@ -74,6 +82,10 @@ def prepare(output):
     output.mkdir(mode=0o700)
     documents, config, cache = (output / name for name in ('documents', 'config', 'cache'))
     prepared = plugin.prepare(documents)
+    third_party = output / PCM_ROOT
+    third_party.mkdir(mode=0o700)
+    (third_party / 'plugins').mkdir(mode=0o700)
+    third_party_stat = third_party.stat()
     config_version = config / '10.0'; config_version.mkdir(parents=True, mode=0o700)
     cache.mkdir(mode=0o700)
     common = dict(meta=dict(filename='kicad_common', version=5), api=dict(enable_server=True),
@@ -99,12 +111,32 @@ def prepare(output):
     record = dict(schema=1, kind='local-gui-bootstrap-v1', root=str(output), checkout=str(c.ROOT),
                   manager=str(manager), manager_sha256=manager_sha256,
                   config_home=str(config), documents_home=str(documents), cache_home=str(cache),
+                  launch_isolation_policy=PCM_ISOLATION_POLICY, third_party_home=str(third_party),
+                  third_party_identity=dict(device=third_party_stat.st_dev, inode=third_party_stat.st_ino),
                   tools=tools, installer_sha256=scripts, immutable_files=immutable,
                   installed_globally=False, standalone=False,
                   qualification='Prepared only; actual double-click/IPC/GUI behavior requires qualification.')
     with (output / 'install.json').open('x') as stream:
         json.dump(record, stream, indent=2); stream.write('\n')
     return record
+
+
+def check_third_party_home(record, root):
+    """Bind the PCM search root; its descendants share the documents inventory."""
+    expected = root / PCM_ROOT
+    if (record.get('launch_isolation_policy') != PCM_ISOLATION_POLICY
+            or record.get('third_party_home') != str(expected)):
+        raise ValueError('Prepared PCM isolation policy or directory differs; prepare a fresh launcher.')
+    path = canonical(expected)
+    identity = record.get('third_party_identity')
+    if (not path.is_dir() or type(identity) is not dict or set(identity) != {'device', 'inode'}
+            or any(type(identity[key]) is not int for key in identity)
+            or identity['device'] < 0 or identity['inode'] <= 0):
+        raise ValueError('Prepared PCM directory identity missing or invalid.')
+    current = path.stat()
+    if identity != dict(device=current.st_dev, inode=current.st_ino):
+        raise ValueError('Prepared PCM directory replaced; prepare a fresh launcher.')
+    return str(path)
 
 
 
@@ -158,6 +190,7 @@ def launch(manifest):
         raise ValueError('Isolated KiCad homes escaped launcher directory.')
     for value in expected_homes.values():
         if not canonical(Path(value)).is_dir(): raise ValueError('Isolated KiCad home missing.')
+    third_party = check_third_party_home(record, root)
     check_live_homes(expected_homes)
     if record.get('tools') != p.tool_manifest() or record.get('installer_sha256') != installer_pins():
         raise ValueError('Checkout or pinned tools changed; prepare a fresh launcher.')
@@ -172,8 +205,10 @@ def launch(manifest):
     env = {key: value for key, value in os.environ.items()
            if key not in ('PYTHONPATH', 'PYTHONHOME', 'KICAD_API_SOCKET', 'KICAD_API_TOKEN')}
     env.update(KICAD_CONFIG_HOME=record['config_home'], KICAD_DOCUMENTS_HOME=record['documents_home'],
-               KICAD_CACHE_HOME=record['cache_home'], PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1')
+               KICAD_CACHE_HOME=record['cache_home'], KICAD10_3RD_PARTY=third_party,
+               PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1')
     require_closed_kicad()
+    check_third_party_home(record, root)
     os.chdir(c.ROOT)
     os.execve(manager, [str(manager)], env)
 

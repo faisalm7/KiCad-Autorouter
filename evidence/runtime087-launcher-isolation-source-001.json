@@ -1,0 +1,59 @@
+{
+  "author_targeted_tests": {
+    "full_CPU_seconds": 0.342093,
+    "review_sha256": "162acba3848cbc6794d39e6808d042f9e0dba6797630226eb550b8ac6ae7047d",
+    "run": 13,
+    "separate_run_overlaps_84_coverage": true,
+    "wall_seconds": 0.4236543749575503
+  },
+  "demonstrated_failure": "GUI112 stalled inside pinned KiCad legacy-plugin initialization reading a dataless personal PCM plugin outside the prepared launcher. Native sample/open-descriptor metadata diagnose the read; no personal plugin contents or paths are published.",
+  "fix": "New launcher policy kicad10-project-pcm-root-v1 binds KICAD10_3RD_PARTY to its own bounded documents subtree, overrides inherited/saved PCM paths, verifies exact canonical directory identity and refuses stale/escaped/linked/replaced roots. No global HOME/plugin/security changes or routing-core changes.",
+  "formal_publication": false,
+  "human_PCB_approval": false,
+  "kind": "runtime087-launcher-isolation-source-evidence",
+  "observation_correction": "KiCad10.0.7 loads the PCB editor in its manager process. Missing separate pcbnew PID was not proof initialization never started; no visible editor/plugin launch or completed GUI112 workflow was observed.",
+  "pending": [
+    "audited source checkpoint and independent remote readback",
+    "fresh curated087 launcher/installation",
+    "actual manager/PCB/plugin discovery and GUI113 workflow"
+  ],
+  "project_complete": false,
+  "reference": "https://docs.kicad.org/10.0/en/kicad/kicad.html#_paths_and_libraries_configuration",
+  "reuse": {
+    "full258_and_actual086_Native_results_retained": true,
+    "installed086_all83_unchanged": true,
+    "not_relabelled_as_new_build_qualification": true,
+    "source_payload_difference_only": "scripts/install_gui.py"
+  },
+  "schema": 1,
+  "skeptical_review": {
+    "blocking_findings": [],
+    "no_extra_Native_or_GUI_run": true,
+    "receipt_sha256": "ea957d915823297e131df281f763d8ed3544165803a7967c31e810a4a8a9298e",
+    "status": "no_known_blocking_source_defect"
+  },
+  "source_sha256": {
+    "scripts/install_gui.py": "dcc9323793af04a26e169f2df8aeefa4ec77cdc2be5ed94a45031d336b363a34",
+    "tests/test_gui_installer.py": "97cc43be6b94c204c7e11a04998e3f49c283a9500d28c86184fdc39c5c18ed3f"
+  },
+  "status": "source_tests_and_skeptical_review_passed_actual_GUI_pending",
+  "targeted_tests": {
+    "Native_jobs": 0,
+    "engine_jobs": 0,
+    "errors": 0,
+    "execution_sha256": "d83cbb5a35927b80c67f8128f8971577e4957ef1fab22a2a9ff55cdf202ec103",
+    "failures": 0,
+    "full_CPU_seconds": 8.799173,
+    "run": 84,
+    "source_unchanged": true,
+    "wall_seconds": 9.306943125033285
+  },
+  "threat_limits": [
+    "Cooperative pre-exec boundary, not OS sandbox or hostile same-user authentication.",
+    "Root replacement after final sampled check is not atomically prevented.",
+    "Stock vendor plugins and separately configured libraries remain outside PCM-root isolation claim.",
+    "Restored/replaced launcher folders require fresh preparation; old installations/launchers remain unchanged."
+  ],
+  "utc": "2026-11-13T10:40:55.846354+00:00",
+  "vendor_pinned_loader_sha256": "3ca298630a0c8776362e3deb7c0397334d01ec760f187d6b5ed19324ed69aeb7"
+}

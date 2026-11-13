@@ -56,6 +56,11 @@ class GuiInstallerTests(unittest.TestCase):
         manager = json.loads((self.output / 'config/10.0/kicad.json').read_text())
         self.assertFalse(manager['system']['check_for_kicad_updates']); self.assertFalse(manager['pcm']['check_for_updates'])
         self.assertTrue((self.output / g.PLUGIN / 'plugin.json').is_file())
+        pcm = self.output / g.PCM_ROOT
+        self.assertTrue((pcm / 'plugins').is_dir())
+        self.assertEqual(record['third_party_home'], str(pcm))
+        self.assertEqual(record['launch_isolation_policy'], g.PCM_ISOLATION_POLICY)
+        self.assertEqual(record['third_party_identity'], dict(device=pcm.stat().st_dev, inode=pcm.stat().st_ino))
 
     def test_existing_or_symlink_destination_never_overwrites(self):
         self.prepare(); initial = (self.output / 'install.json').read_bytes()
@@ -70,13 +75,15 @@ class GuiInstallerTests(unittest.TestCase):
         # Config is intentionally user-editable after first launch, not restored.
         (self.output / 'config/10.0/kicad.json').write_text('{"owned_user_change":true}')
         with patch.dict(os.environ, dict(KICAD_API_TOKEN='private', KICAD_API_SOCKET='private',
-                PYTHONPATH='bad', PYTHONHOME='bad')), patch.object(g.os, 'chdir') as cwd, patch.object(g.os, 'execve') as execute:
+                PYTHONPATH='bad', PYTHONHOME='bad', KICAD10_3RD_PARTY=str(self.root/'personal PCM'))), patch.object(g.os, 'chdir') as cwd, patch.object(g.os, 'execve') as execute:
             g.launch(self.output / 'install.json')
         cwd.assert_called_once_with(self.checkout)
         executable, argv, env = execute.call_args.args
         self.assertEqual(executable, self.manager); self.assertEqual(argv, [str(self.manager)])
         for key, folder in [('KICAD_CONFIG_HOME','config'), ('KICAD_DOCUMENTS_HOME','documents'), ('KICAD_CACHE_HOME','cache')]:
             self.assertEqual(env[key], str(self.output / folder))
+        self.assertEqual(env['KICAD10_3RD_PARTY'], str(self.output / g.PCM_ROOT))
+        self.assertEqual(env.get('HOME'), os.environ.get('HOME'))
         for key in ('KICAD_API_TOKEN', 'KICAD_API_SOCKET', 'PYTHONPATH', 'PYTHONHOME'): self.assertNotIn(key, env)
 
     def test_changed_manager_plugin_or_dropped_population_refuses_before_exec(self):
@@ -94,7 +101,7 @@ class GuiInstallerTests(unittest.TestCase):
 
     def test_source_or_home_escape_refuses_before_exec(self):
         self.prepare()
-        for key in ('checkout', 'config_home', 'documents_home', 'cache_home'):
+        for key in ('checkout', 'config_home', 'documents_home', 'cache_home', 'third_party_home'):
             with self.subTest(key=key), patch.object(g.os, 'execve') as execute:
                 path = self.output / 'install.json'; before = path.read_bytes()
                 self.rewrite(lambda record: record.update({key: str(self.root)}))
@@ -125,6 +132,73 @@ class GuiInstallerTests(unittest.TestCase):
                 execute.assert_not_called(); target.unlink()
         target.write_bytes(original)
         self.assertEqual(external.read_bytes(),b'owned outside fixture')
+
+    def test_PCM_policy_identity_and_old_launcher_metadata_refuse_without_migration(self):
+        self.prepare(); manifest = self.output/'install.json'; before = manifest.read_bytes()
+        faults = ({'launch_isolation_policy':'unknown'}, {'third_party_identity':None},
+                  {'third_party_identity':{'device':True,'inode':1}},
+                  {'third_party_identity':{'device':0,'inode':0}},
+                  {'third_party_identity':{'device':0,'inode':1,'extra':2}})
+        for fault in faults:
+            manifest.write_bytes(before); self.rewrite(lambda record: record.update(fault))
+            with self.subTest(fault=fault), patch.object(g.os,'execve') as execute:
+                with self.assertRaises(ValueError): g.launch(manifest)
+                execute.assert_not_called()
+        for field in ('launch_isolation_policy','third_party_home','third_party_identity'):
+            manifest.write_bytes(before); self.rewrite(lambda record: record.pop(field))
+            changed = manifest.read_bytes()
+            with self.subTest(missing=field), patch.object(g.os,'execve') as execute:
+                with self.assertRaises(ValueError): g.launch(manifest)
+                execute.assert_not_called(); self.assertEqual(manifest.read_bytes(),changed)
+
+    def test_PCM_root_symlink_and_same_path_replacement_refuse(self):
+        self.prepare(); pcm = self.output/g.PCM_ROOT; retained = pcm.with_name('retained-pcm')
+        pcm.rename(retained); external = self.root/'owned external PCM'; external.mkdir()
+        pcm.symlink_to(external, target_is_directory=True)
+        with patch.object(g.os,'execve') as execute:
+            with self.assertRaises(Exception): g.launch(self.output/'install.json')
+            execute.assert_not_called()
+        pcm.unlink(); pcm.mkdir(); (pcm/'plugins').mkdir()
+        with patch.object(g.os,'execve') as execute:
+            with self.assertRaisesRegex(ValueError,'directory replaced'): g.launch(self.output/'install.json')
+            execute.assert_not_called()
+        self.assertEqual(list(external.iterdir()),[])
+
+    def test_PCM_nested_aliases_are_checked_within_existing_documents_bound(self):
+        self.prepare(); plugins = self.output/g.PCM_ROOT/'plugins'
+        external = self.root/'owned-external.py'; external.write_bytes(b'untouched')
+        target = plugins/'owned-plugin.py'
+        for mode in ('symlink','hardlink'):
+            if mode == 'symlink': target.symlink_to(external)
+            else: os.link(external,target)
+            with self.subTest(mode=mode), patch.object(g.os,'execve') as execute:
+                with self.assertRaises(Exception): g.launch(self.output/'install.json')
+                execute.assert_not_called()
+            target.unlink()
+        self.assertEqual(external.read_bytes(),b'untouched')
+        with patch.object(g.pc,'inventory',wraps=g.pc.inventory) as inventory, patch.object(g.os,'chdir'), patch.object(g.os,'execve'):
+            g.launch(self.output/'install.json')
+        self.assertEqual([call.args[0] for call in inventory.call_args_list],
+                         [self.output/name for name in ('config','documents','cache')])
+        for call in inventory.call_args_list:
+            self.assertEqual(call.kwargs,dict(max_bytes=512*1024**2,max_files=10000,max_entries=20000))
+
+    def test_PCM_replacement_during_pre_exec_checks_refuses(self):
+        self.prepare(); pcm = self.output/g.PCM_ROOT
+        def replace():
+            pcm.rename(pcm.with_name('retained-pcm'))
+            pcm.mkdir(); (pcm/'plugins').mkdir()
+        with patch.object(g,'require_closed_kicad',side_effect=replace), patch.object(g.os,'execve') as execute:
+            with self.assertRaisesRegex(ValueError,'directory replaced'): g.launch(self.output/'install.json')
+            execute.assert_not_called()
+
+    def test_changed_installer_source_pin_refuses_without_rewriting_manifest(self):
+        self.prepare(); manifest = self.output/'install.json'; before = manifest.read_bytes()
+        (self.checkout/'scripts/install_gui.py').write_text('# intentional new source\n')
+        with patch.object(g.os,'execve') as execute:
+            with self.assertRaisesRegex(ValueError,'Checkout or pinned tools changed'): g.launch(manifest)
+            execute.assert_not_called()
+        self.assertEqual(manifest.read_bytes(),before)
 
 
 class InstancePreconditionTests(unittest.TestCase):
