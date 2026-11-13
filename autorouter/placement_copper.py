@@ -41,7 +41,7 @@ def _uuids(value, *, maximum, empty=False):
 def _observe(raw, scope=None):
     # Reuse the same deterministic source admission order as placement_intent.
     if scope is not None:
-        if type(scope) is not str or scope not in (c.MULTIPAD_SCOPE, c.ORDINARY_SCOPE, c.CONTEXT_SCOPE):
+        if type(scope) is not str or scope not in (c.MULTIPAD_SCOPE, c.ORDINARY_SCOPE, c.CONTEXT_SCOPE, c.THT_SCOPE):
             raise ValueError('Explicit supported copper-plan placement scope required')
         return c.inspect_board(raw, scope=scope)
     try:
@@ -50,7 +50,7 @@ def _observe(raw, scope=None):
         try:
             return c.inspect_board(raw, scope=c.ORDINARY_SCOPE)
         except ValueError:
-            return c.inspect_board(raw, scope=c.CONTEXT_SCOPE)
+            return c.inspect_fixed_context(raw)
 
 
 def _encoded(value):
@@ -111,7 +111,7 @@ def propose(source_bytes, selected, *, protected_names=None, protected_route_ids
     mapping = rs._net_mapping(tree)
     if not set(protected_names) <= mapping[2]:
         raise ValueError('Protected net name absent from source')
-    if observation['scope'] == c.CONTEXT_SCOPE:
+    if c.fixed_context_scope(observation['scope']):
         _, resolve = board_floor.source_net_identity(tree)
         protected_pours = {resolve(sx.one(zone, 'net')) for zone in sx.children(tree, 'zone')} & set(protected_names)
         if protected_pours:
@@ -177,7 +177,7 @@ def prepare(source_bytes, plan):
 
 def _pose(source_bytes, plan, moves, *, scope, region_nm):
     prepared, checked = _prepared(source_bytes, plan)
-    if c.CONTEXT_SCOPE in (scope, checked['source_scope']) and scope != checked['source_scope']:
+    if any(c.fixed_context_scope(value) for value in (scope, checked['source_scope'])) and scope != checked['source_scope']:
         raise ValueError('Placement scope differs from the exact reviewed copper plan')
     options = c.scope_options(scope=scope, selected=checked['selected'], region_nm=region_nm)
     c.validate_moves(c.inspect_board(prepared, scope=scope), moves, **options)
@@ -196,7 +196,7 @@ def audit_translation(source_bytes, candidate_bytes, plan, moves, *, scope, regi
     """Check only planned copper removal, selected XY and derived zone refill."""
     moves = copy.deepcopy(moves)
     prepared, captured = _prepared(source_bytes, plan)
-    if c.CONTEXT_SCOPE in (scope, captured['source_scope']) and scope != captured['source_scope']:
+    if any(c.fixed_context_scope(value) for value in (scope, captured['source_scope'])) and scope != captured['source_scope']:
         raise ValueError('Placement scope differs from the exact reviewed copper plan')
     options = c.scope_options(scope=scope, selected=captured['selected'], region_nm=region_nm)
     checked = c.check_translation(prepared, candidate_bytes, moves, **options)

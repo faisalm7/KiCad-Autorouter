@@ -82,7 +82,7 @@ def placement_limits(inspection, *, rebuild=False, grouped=False):
     if grouped:
         limits = [row.replace('Groups, flips,', 'Flips,').replace('No grouping, side/', 'No side/')
                   for row in limits]
-    if inspection.get('observation', {}).get('scope') == intent.contract.CONTEXT_SCOPE:
+    if intent.contract.fixed_context_scope(inspection.get('observation', {}).get('scope')):
         result = [*limits, *intent.COPPER_LIMITS[:4]] if rebuild else list(limits)
     else:
         result = [limits[0], *intent.COPPER_LIMITS] if rebuild else list(limits)
@@ -475,7 +475,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 self.message('Saved project inspected. Choose at least two movable components and an explicit movement rectangle.')
             def inspect(job, event):
                 value = intent.inspect_saved(source)
-                if (value['observation']['scope'] != intent.contract.CONTEXT_SCOPE
+                if (not intent.contract.fixed_context_scope(value['observation']['scope'])
                         and not (c.NATIVE_VERSION == '10.0.7'
                                  and value['observation']['scope'] == intent.contract.ORDINARY_SCOPE)):
                     return value

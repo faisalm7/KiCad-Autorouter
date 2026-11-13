@@ -1,7 +1,7 @@
 """Pure source/observation/translation checks for one narrow Native probe.
 
-Integer nanometres are authoritative. Only unrotated front footprints with one
-symmetric rectangular courtyard and zero/one centred circular PTH pad qualify.
+Integer nanometres are authoritative. Legacy fixture scopes and versioned
+ordinary SMD/THT scopes each keep their explicit geometry and motion limits.
 The complete source AST remains authoritative outside selected XY coordinates
 and the existing explicitly derived top-level zone fill projection.
 """
@@ -22,11 +22,24 @@ DEFAULT_SCOPE = 'single-pad-unrouted-v1'
 MULTIPAD_SCOPE = 'multipad-preserve-v1'
 ORDINARY_SCOPE = 'ordinary-front-preserve-v1'
 CONTEXT_SCOPE = 'ordinary-fixed-context-v1'
+THT_SCOPE = 'ordinary-tht-fixed-context-v1'
 ROUTE_GAP_NM = 300_000
 
 
 def ordinary_scope(scope):
-    return scope in (ORDINARY_SCOPE, CONTEXT_SCOPE)
+    return scope in (ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE)
+
+
+def fixed_context_scope(scope):
+    return scope in (CONTEXT_SCOPE, THT_SCOPE)
+
+
+def inspect_fixed_context(raw):
+    """Keep the old context contract first; new metadata requires its own scope."""
+    try:
+        return inspect_board(raw, scope=CONTEXT_SCOPE)
+    except ValueError:
+        return inspect_board(raw, scope=THT_SCOPE)
 
 
 def application_policy(value='native-save-v1'):
@@ -40,7 +53,7 @@ def need(test, message):
 
 
 def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
-    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE, CONTEXT_SCOPE), 'Unsupported placement scope')
+    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE), 'Unsupported placement scope')
     if scope == DEFAULT_SCOPE:
         selected = SELECTED if selected is None else selected
         region_nm = REGION_NM if region_nm is None else region_nm
@@ -196,8 +209,15 @@ def check_ordinary_zone(expected, observed):
     flags = observed['disallow']
     need(type(flags) is dict and set(flags) == set(pt.FLAGS)
          and all(type(value) is bool for value in flags.values()), 'Exact native zone flags required')
+    # Layer membership is a set in KiCad. The source reader sorts names,
+    # whereas the Native getter enumerates front before back. Preserve both
+    # actual records; only this membership comparison ignores enumeration order.
+    for layers in (expected.get('layers'), observed.get('layers')):
+        need(type(layers) is list and layers and all(type(value) is str for value in layers)
+             and len(layers) == len(set(layers)), 'Exact unique zone layers required')
+    need(set(expected['layers']) == set(observed['layers']), 'Native/source zone layers differ')
     need(all(observed.get(key) == value and type(observed.get(key)) is type(value)
-             for key, value in expected.items()), 'Native/source zone geometry differs')
+             for key, value in expected.items() if key != 'layers'), 'Native/source zone geometry differs')
     # KiCad keeps these defaults even on ordinary pours. The source parser also
     # treats them as rule constraints only when a keepout/placement exists.
     # Native observations and the complete immutable AST are preserved separately.
@@ -211,7 +231,7 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
     need(set(selected) <= {r['uuid'] for r in observation['footprints']}, 'Selected stable UUID absent')
     components = []
     for row in observation['footprints']:
-        if scope == CONTEXT_SCOPE and row.get('artwork_only') is True:
+        if fixed_context_scope(scope) and row.get('artwork_only') is True:
             need(row['uuid'] not in selected and row['pads'] == [] and row['courtyard'] is None
                  and row['placement_eligible'] is False, 'Immutable artwork cannot be selected')
             continue
@@ -233,7 +253,7 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
     # Keep every original copper zone; the selected region is explicitly disjoint
     # from every zone outline, so this probe never assumes an absent copper pour.
     for zone in observation['zones']:
-        if scope == CONTEXT_SCOPE:
+        if fixed_context_scope(scope):
             # A preserved ordinary copper pour is not a placement keepout.
             # Source parsing and independent Native area flags must agree;
             # its intent is immutable and its actual fill/DRC are revalidated.
@@ -250,7 +270,7 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
         for route in observation['routes']:
             radius = (route['width_nm'] + 1) // 2 + ROUTE_GAP_NM
             box = [min(route['start_nm'][i],route['end_nm'][i])-radius for i in range(2)] + [max(route['start_nm'][i],route['end_nm'][i])+radius for i in range(2)]
-            if scope == CONTEXT_SCOPE:
+            if fixed_context_scope(scope):
                 # Check actual proposed courtyard envelopes, not every point in
                 # the user's search region. Segment AABBs remain conservative,
                 # including back-layer copper; Native checks are still required.
@@ -265,7 +285,7 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
     facts = dict(schema=1, board=dict(kind='rectangle', bounds_mm=[n / 1e6 for n in observation['outline']['bounds_nm']], cutouts=[]),
                  components=components, selected=list(selected), fixed_components=[r['id'] for r in components if r['id'] not in selected],
                  groups=[], tracks=tracks, keepouts=obstacles, clearance_mm=ROUTE_GAP_NM/1e6)
-    if scope == CONTEXT_SCOPE:
+    if fixed_context_scope(scope):
         facts.update(schema=2, fixed_context_policy=constraints.FIXED_CONTEXT_POLICY)
     facts = constraints.prepare(facts)
     constraints.validate_alternative(facts, constraints.original_alternative(facts))

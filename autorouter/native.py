@@ -138,7 +138,10 @@ def main():
             raise RuntimeError('Placement annotation context requires pinned Native10.0.7')
         from autorouter import placement_annotations
         from autorouter.placement_clearance import read_bytes
-        context = placement_annotations.capture(board, pcbnew, read_bytes(Path(source), 1024**2))
+        from experiments.placement_native_proposal_v1 import contract as placement_contract
+        raw = read_bytes(Path(source), 1024**2)
+        scope = placement_contract.inspect_fixed_context(raw)['scope']
+        context = placement_annotations.capture(board, pcbnew, raw, scope=scope)
         if field_before != tuple(file_hash(Path(source).with_suffix(suffix)) for suffix in ('.kicad_pcb','.kicad_pro','.kicad_sch')):
             raise RuntimeError('Project changed during placement annotation capture')
         result = dict(schema=1, kind='autorouter.native-placement-context.v1',

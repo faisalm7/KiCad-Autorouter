@@ -58,14 +58,14 @@ CONTEXT_LIMITS = (
 def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_policy=None,
              protected_names=None, protected_route_ids=None, group_policy=None):
     options = contract.scope_options(scope=scope, selected=selected, region_nm=region_nm)
-    if scope not in (contract.MULTIPAD_SCOPE, contract.ORDINARY_SCOPE, contract.CONTEXT_SCOPE):
+    if scope not in (contract.MULTIPAD_SCOPE, contract.ORDINARY_SCOPE, contract.CONTEXT_SCOPE, contract.THT_SCOPE):
         raise ValueError('Unsupported product placement scope.')
     value = dict(schema=1, kind=SETTINGS_KIND, selected=options['selected'], region_nm=options['region_nm'],
                 preserve_existing=True, orientation='preserve', side='preserve',
                 search=dict(seed=7, steps=160, alternatives=2, seconds=2))
     if contract.ordinary_scope(scope):
         value.update(schema=2, kind=ORDINARY_SETTINGS_KIND, scope=scope)
-    if scope == contract.CONTEXT_SCOPE:
+    if contract.fixed_context_scope(scope):
         value.update(fixed_context_policy=constraints.FIXED_CONTEXT_POLICY,
                      zone_policy='preserve-intent-native-refill-v1',
                      metadata_finding_policy='exact-footprint-anchor-translation-v1',
@@ -132,7 +132,7 @@ def inspect_saved(board, *, native_context=None):
     source = Path(static['source'])
     raw = pc.read_bytes(source, contract.MAX_BYTES)
     if native_context is not None:
-        observation = contract.inspect_board(raw, scope=contract.CONTEXT_SCOPE)
+        observation = contract.inspect_fixed_context(raw)
     else:
         try:
             observation = contract.inspect_board(raw, scope=contract.MULTIPAD_SCOPE)
@@ -140,7 +140,7 @@ def inspect_saved(board, *, native_context=None):
             try:
                 observation = contract.inspect_board(raw, scope=contract.ORDINARY_SCOPE)
             except ValueError:
-                observation = contract.inspect_board(raw, scope=contract.CONTEXT_SCOPE)
+                observation = contract.inspect_fixed_context(raw)
     local_settings.check_current_metadata(source.with_suffix('.kicad_prl'))
     if gui.source_inventory(source) != static['source_hashes']:
         raise ValueError('Saved project changed during placement inspection.')
@@ -156,11 +156,17 @@ def inspect_saved(board, *, native_context=None):
     result = dict(schema=1, kind='autorouter.saved-placement-inspection.v1', source=str(source),
         source_hashes=static['source_hashes'], observation=observation, components=components,
         native_validation_performed=False, execution_authorized=False, approval_granted=False,
-        limitations=list(CONTEXT_LIMITS if observation['scope'] == contract.CONTEXT_SCOPE else
+        limitations=list(CONTEXT_LIMITS if contract.fixed_context_scope(observation['scope']) else
                           ORDINARY_LIMITS if observation['scope'] == contract.ORDINARY_SCOPE else LIMITS))
     if native_context is not None:
         descriptor, annotations = _native_context(source, static['source_hashes'], native_context)
+        if annotations['scope'] != observation['scope']:
+            raise ValueError('Native annotation geometry scope differs from this exact source inspection.')
         result.update(native_context=descriptor, annotation_context=annotations)
+    if observation['scope'] == contract.THT_SCOPE:
+        result['limitations'][0] = ('Experimental fixed-context translation: eligible front two-pad SMD/THT parts only; '
+            'point-bearing, duplicate-terminal and circular-courtyard parts stay fixed. '
+            'Only unchanged orientation/side and source-witnessed passive arc/circle translations are supported.')
     return result
 
 
@@ -260,10 +266,12 @@ def _facts_context(inspection, value, plan, observation):
         raise ValueError('Selected components include fixed, locked or routed-net components; deselect those components.')
     result = contract.facts_from_observation(observation, scope=settings_scope(value),
         selected=value['selected'], region_nm=value['region_nm'])
-    if settings_scope(value) == contract.CONTEXT_SCOPE:
+    if contract.fixed_context_scope(settings_scope(value)):
         if 'native_context' not in inspection or 'annotation_context' not in inspection:
             raise ValueError('Inspect Native placement geometry before proposing this fixed-context task.')
         result['annotation_context'] = copy.deepcopy(inspection['annotation_context'])
+        if result['annotation_context']['scope'] != settings_scope(value):
+            raise ValueError('Native annotations differ from the exact reviewed geometry scope.')
         result = constraints.prepare(result)
         constraints.validate_alternative(result, constraints.original_alternative(result))
     if set(value['selected']) & constraints.immovable(result):
@@ -285,29 +293,7 @@ def facts(inspection, value):
 
 def _group_nm(atom):
     """Exact bounded decimal-to-nm conversion, independent of Decimal context."""
-    if type(atom) is not str or not 0 < len(atom) <= 128:
-        raise ValueError('Bounded rigid-group coordinate required.')
-    try:
-        value = Decimal(atom)
-    except InvalidOperation as exc:
-        raise ValueError('Finite rigid-group coordinate required.') from exc
-    if not value.is_finite():
-        raise ValueError('Finite rigid-group coordinate required.')
-    sign, digits, exponent = value.as_tuple()
-    if not any(digits):
-        return 0
-    exponent += 6
-    if exponent < 0:
-        tail = -exponent
-        if tail >= len(digits) or any(digits[-tail:]):
-            raise ValueError('Exact integer-nm rigid-group coordinate required.')
-        digits = digits[:-tail]; exponent = 0
-    if len(digits) + exponent > 10:
-        raise ValueError('Rigid-group coordinate exceeds supported bounds.')
-    result = int(''.join(map(str, digits))) * 10**exponent
-    if result > 2_000_000_000:
-        raise ValueError('Rigid-group coordinate exceeds supported bounds.')
-    return -result if sign else result
+    return contract.pt.nm(atom, 1_000_000)
 
 
 def group_moves(observation, value, moves):

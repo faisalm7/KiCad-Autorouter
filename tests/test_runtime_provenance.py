@@ -168,9 +168,10 @@ class RuntimeProvenanceTests(unittest.TestCase):
         self.assertFalse((self.output / '.git').exists())
 
     def test_selected_placement_population_is_pinned_without_reading_research(self):
-        self.assertEqual(len(pv.PLACEMENT_FILES), 20)
+        self.assertEqual(len(pv.PLACEMENT_FILES), 21)
         self.assertIn('experiments/placement_native_proposal_v1/ordinary.py', pv.PLACEMENT_FILES)
         self.assertIn('experiments/placement_native_proposal_v1/ordinary_native.py', pv.PLACEMENT_FILES)
+        self.assertIn('experiments/placement_native_proposal_v1/engineering_metadata.py', pv.PLACEMENT_FILES)
         self.assertIn('experiments/constrained_placement_v1/vendor/LICENSE', pv.PLACEMENT_FILES)
         self.assertIn('experiments/constrained_placement_v1/upstream.json', pv.PLACEMENT_FILES)
         excluded = self.source / 'experiments/historical/private-input'

@@ -11,6 +11,7 @@ import uuid
 
 POLICY = 'placement-annotation-proxies-v1'
 SCOPE = 'ordinary-fixed-context-v1'
+THT_SCOPE = 'ordinary-tht-fixed-context-v1'
 MAX_NM = 2_000_000_000
 MAX_CLEARANCE_NM = 10_000_000
 MAX_OWNERS = 16  # Match the admitted fixed-context footprint scope.
@@ -50,7 +51,7 @@ def validate(context):
     keys = {'schema', 'policy', 'scope', 'source_board_sha256', 'outline_nm', 'silk_clearance_nm',
             'footprint_anchors_nm', 'movable_owners', 'rows'}
     _need(type(context) is dict and set(context) == keys and type(context['schema']) is int
-          and context['schema'] == 1 and context['policy'] == POLICY and context['scope'] == SCOPE,
+          and context['schema'] == 1 and context['policy'] == POLICY and context['scope'] in (SCOPE, THT_SCOPE),
           'Complete annotation context policy/schema required')
     _need(type(context['source_board_sha256']) is str
           and re.fullmatch('[0-9a-f]{64}', context['source_board_sha256']) is not None,
@@ -87,7 +88,7 @@ def validate(context):
     return context
 
 
-def capture(native, pcbnew, raw):
+def capture(native, pcbnew, raw, *, scope=SCOPE):
     """Read a job-owned Native snapshot through already qualified source seams.
 
     Getter names are pinned-wrapper interfaces; actual version-specific bbox
@@ -95,12 +96,13 @@ def capture(native, pcbnew, raw):
     """
     from experiments.placement_native_proposal_v1 import contract, ordinary_native
     from . import floor_context
-    observed, _ = ordinary_native.capture(native, pcbnew, raw, contract, floor_context, scope=contract.CONTEXT_SCOPE)
-    _need(observed['scope'] == SCOPE and observed['source_board_sha256'] == hashlib.sha256(raw).hexdigest(),
+    _need(contract.fixed_context_scope(scope), 'Explicit fixed-context annotation scope required')
+    observed, _ = ordinary_native.capture(native, pcbnew, raw, contract, floor_context, scope=scope)
+    _need(observed['scope'] == scope and observed['source_board_sha256'] == hashlib.sha256(raw).hexdigest(),
           'Annotation source witness differs')
     anchors = {row['uuid']: list(row['position_nm']) for row in observed['footprints']}
     movable = sorted(row['uuid'] for row in observed['footprints'] if row['placement_eligible'] is True)
-    context = dict(schema=1, policy=POLICY, scope=SCOPE, source_board_sha256=observed['source_board_sha256'],
+    context = dict(schema=1, policy=POLICY, scope=scope, source_board_sha256=observed['source_board_sha256'],
                    outline_nm=list(observed['outline']['bounds_nm']),
                    silk_clearance_nm=native.GetDesignSettings().m_SilkClearance,
                    footprint_anchors_nm=anchors, movable_owners=movable, rows=[])

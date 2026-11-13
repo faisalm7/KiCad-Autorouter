@@ -1,8 +1,9 @@
 """Bounded ordinary front-footprint observations; no Native or file mutation.
 
-Only two-pad SMD footprints with centred rectangular courtyards are movable.
-All other admitted footprints are fixed conservative courtyard obstacles. This
-is a source contract, not evidence that a board passed Native qualification.
+Legacy scopes move only two-pad SMD footprints with centred rectangular
+courtyards. The explicit THT scope adds exact two-pad THT translations with
+rectangular off-anchor proxies and independently witnessed passive curves.
+Other admitted geometry stays fixed. Source admission is not Native validation.
 """
 from decimal import Decimal, InvalidOperation
 import hashlib
@@ -24,11 +25,12 @@ def fields(node, allowed, *, start=1, repeated=()):
 
 
 def angle(value):
+    c.need(type(value) is str and 0 < len(value) <= 128, 'Bounded cardinal angle atom required')
     try:
         number = Decimal(value)
     except (InvalidOperation, TypeError):
         raise ValueError('Exact cardinal angle required')
-    c.need(number.is_finite() and abs(number) <= 360 and number % 90 == 0,
+    c.need(number.is_finite() and number in (-360, -270, -180, -90, 0, 90, 180, 270, 360),
            'Exact bounded cardinal angle required')
     return int(number) % 360
 
@@ -81,8 +83,8 @@ def primitive(node, anchor=(0, 0), rotation=0):
                       if fill is not None else None), locked=locked(node))
 
 
-def context_primitive(node, anchor, rotation):
-    """Immutable passive shapes only; these never become movable geometry.
+def context_primitive(node, anchor, rotation, *, fixed_courtyard=False):
+    """Passive shape observations; the versioned caller decides eligibility.
 
     Modern KiCad source shapes are footprint-relative and are rotated/translated
     on load, including saved back artwork. The file already contains its flipped
@@ -94,7 +96,9 @@ def context_primitive(node, anchor, rotation):
     c.need(kind in keys, 'Unsupported fixed-context graphic kind')
     fields(node, keys[kind] | {'stroke', 'fill', 'layer', 'uuid', 'locked'})
     layer = c.atom(node, 'layer')
-    c.need(layer in PASSIVE_LAYERS, 'Fixed-context graphic on non-passive layer unsupported')
+    c.need(layer in PASSIVE_LAYERS if not fixed_courtyard else
+           kind == 'fp_circle' and layer == 'F.CrtYd',
+           'Fixed-context graphic on unsupported layer')
     # PCB_SHAPE's unfilled arc has no serialized fill in ordinary KiCad files.
     # Its independently observed Native fill must still be NO_FILL.
     fill = 'none' if kind == 'fp_arc' and sx.one(node, 'fill') is None else c.atom(node, 'fill')
@@ -192,10 +196,24 @@ def models(fp):
     return result
 
 
-def courtyard(primitives):
+def courtyard(primitives, *, circular=False):
     c.need(1 <= len(primitives) <= 16, 'One bounded closed front courtyard required')
     c.need(all(row['layer'] == 'F.CrtYd' and row['stroke_nm'] <= 100000
                and row['fill'] in (None, 'none') for row in primitives), 'Bounded unfilled front courtyard required')
+    if circular and len(primitives) == 1 and primitives[0]['kind'] == 'fp_circle':
+        row = primitives[0]
+        a, b = row['local_center_nm'], row['local_end_nm']
+        squared = sum((b[i] - a[i]) ** 2 for i in range(2))
+        root = isqrt(squared)
+        radius = root + int(root * root != squared)
+        center = row['center_nm']
+        local_bounds = [a[0]-radius, a[1]-radius, a[0]+radius, a[1]+radius]
+        bounds = [center[0]-radius, center[1]-radius, center[0]+radius, center[1]+radius]
+        c.need(all(abs(n) <= 2_000_000_000 for n in local_bounds + bounds),
+               'Fixed circular courtyard envelope out of range')
+        return dict(bounds_nm=bounds, local_bounds_nm=local_bounds,
+                    stroke_nm=row['stroke_nm'], rectangular=False,
+                    centered=a == [0, 0], primitives=[row])
     if len(primitives) == 1 and primitives[0]['kind'] == 'fp_rect':
         a, b = primitives[0]['local_start_nm'], primitives[0]['local_end_nm']
         points = [a, [b[0], a[1]], b, [a[0], b[1]]]
@@ -219,6 +237,22 @@ def courtyard(primitives):
             c.need(list(following) not in points, 'Disconnected courtyard polygon')
             points.append(list(following)); previous, current = current, following
         c.need(len(points) == len(primitives), 'Disconnected courtyard polygon')
+        if circular:
+            # The versioned THT scope also permits a straight courtyard edge
+            # split into several segments. Only its proxy drops interior
+            # collinear vertices; every original primitive/UUID remains in the
+            # source observation, Native census and immutable candidate AST.
+            while len(points) > 3:
+                remove = None
+                for index, point in enumerate(points):
+                    previous, following = points[index-1], points[(index+1) % len(points)]
+                    if pt.orientation(previous, point, following) == 0:
+                        c.need(sum((point[i]-previous[i]) * (point[i]-following[i]) for i in range(2)) < 0,
+                               'Courtyard edge doubles back')
+                        remove = index
+                        break
+                if remove is None: break
+                points.pop(remove)
         pt.simple(points)
         rectangular = (len(points) == 4 and len({v[0] for v in points}) == 2
                        and len({v[1] for v in points}) == 2
@@ -232,8 +266,9 @@ def courtyard(primitives):
                 centered=centered, primitives=sorted(primitives, key=lambda row: row['uuid']))
 
 
-def pad_row(pad, anchor, rotation, resolve, names):
-    c.need(pad[2:4] in (['thru_hole', 'circle'], ['thru_hole', 'rect'], ['smd', 'rect'], ['smd', 'roundrect']),
+def pad_row(pad, anchor, rotation, resolve, names, *, tht=False):
+    c.need(pad[2:4] in (['thru_hole', 'circle'], ['thru_hole', 'rect'], ['smd', 'rect'], ['smd', 'roundrect'])
+           or tht and pad[2:4] == ['thru_hole', 'roundrect'],
            'Only declared circular/rectangular PTH or rectangular/roundrect SMD pads supported')
     fields(pad, {'at', 'size', 'drill', 'layers', 'net', 'pinfunction', 'pintype', 'uuid',
                  'roundrect_rratio', 'remove_unused_layers', 'keep_end_layers'}, start=4)
@@ -275,8 +310,9 @@ def pad_row(pad, anchor, rotation, resolve, names):
 
 
 def inspect(raw, *, scope=c.ORDINARY_SCOPE):
-    c.need(type(scope) is str and scope in (c.ORDINARY_SCOPE, c.CONTEXT_SCOPE), 'Unsupported ordinary placement scope')
-    context = scope == c.CONTEXT_SCOPE
+    c.need(type(scope) is str and c.ordinary_scope(scope), 'Unsupported ordinary placement scope')
+    context = c.fixed_context_scope(scope)
+    tht = scope == c.THT_SCOPE
     tree = c.read_board(raw)
     fields(tree, {'version', 'generator', 'generator_version', 'general', 'paper', 'title_block', 'layers',
                   'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'},
@@ -310,9 +346,10 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     for fp in sx.children(tree, 'footprint'):
         c.need(len(rows) < 16, 'Footprint population exceeded')
         extra = {'fp_circle', 'fp_arc', 'fp_poly'} if context else set()
+        engineering = {'units', 'duplicate_pad_numbers_are_jumpers', 'point'} if tht else set()
         fields(fp, {'layer', 'uuid', 'at', 'property', 'path', 'attr', 'fp_rect', 'fp_line', 'fp_text',
-                    'pad', 'embedded_fonts', 'locked', 'descr', 'tags', 'sheetname', 'sheetfile', 'model'} | extra,
-               start=2, repeated={'property', 'fp_rect', 'fp_line', 'fp_text', 'pad', 'model'} | extra)
+                    'pad', 'embedded_fonts', 'locked', 'descr', 'tags', 'sheetname', 'sheetfile', 'model'} | extra | engineering,
+               start=2, repeated={'property', 'fp_rect', 'fp_line', 'fp_text', 'pad', 'model'} | extra | ({'point'} if tht else set()))
         identity = c.uid(fp); claim(identity)
         side = c.atom(fp, 'layer')
         c.need(side == 'F.Cu' or context and side == 'B.Cu', 'Front unflipped footprints only')
@@ -334,7 +371,9 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
                     effects = sx.one(node, 'effects')
                     justify = sx.one(effects, 'justify') if effects is not None else None
                     row['mirrored'] = justify is not None and 'mirror' in justify[1:]
-            elif node[0] in extra: row = context_primitive(node, anchor, rotation)
+            elif node[0] in extra:
+                row = context_primitive(node, anchor, rotation,
+                    fixed_courtyard=tht and node[0] == 'fp_circle' and c.atom(node, 'layer') == 'F.CrtYd')
             else:
                 row = primitive(node, anchor, rotation)
                 if context and side == 'B.Cu': row['stroke_type'] = c.atom(sx.one(node, 'stroke'), 'type')
@@ -348,10 +387,20 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
                and not courts and not sx.children(fp, 'model')
                and any(row['kind'] != 'property' for row in graphics)),
                'Back artwork requires board-only, zero pads, no physical courtyard/model and passive graphics')
-        court = None if artwork else courtyard(courts)
-        pads = [pad_row(n, anchor, rotation, resolve, names) for n in sx.children(fp, 'pad')]
-        c.need(len(pads) <= 8 and len({row['number'] for row in pads}) == len(pads)
+        court = None if artwork else courtyard(courts, circular=tht)
+        pads = [pad_row(n, anchor, rotation, resolve, names, tht=tht) for n in sx.children(fp, 'pad')]
+        duplicate_numbers = len({row['number'] for row in pads}) != len(pads)
+        c.need(len(pads) <= 8 and (tht or not duplicate_numbers)
                and all(row['number'] for row in pads), 'Bounded unique nonempty pad numbers required')
+        if tht:
+            # A repeated number never merges physical terminals. Every UUID,
+            # position and net remains in the source and Native pad census.
+            for number in {row['number'] for row in pads}:
+                c.need(len({row['net'] for row in pads if row['number'] == number}) == 1,
+                       'Repeated physical pad number has differing nets')
+            from . import engineering_metadata
+            metadata = engineering_metadata.capture(fp)
+            for point in metadata['points']: claim(point['uuid'])
         for row in pads:
             claim(row['uuid'])
             x, y = row['position_nm']; width, height = row['size_nm']
@@ -361,15 +410,22 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
                    and 2 * box[1] <= 2 * y - height and 2 * y + height <= 2 * box[3], 'Entire pad must fit conservative courtyard envelope')
         reasons = []
         if locked(fp): reasons.append('locked footprint')
-        if len(pads) != 2 or any(pad['kind'] != 'smd' for pad in pads): reasons.append('only two-pad SMD footprints are movable')
-        if court is not None and (not court['rectangular'] or not court['centered']): reasons.append('movement requires centred rectangular courtyard')
+        if len(pads) != 2 or any(pad['kind'] not in (('smd', 'thru_hole') if tht else ('smd',)) for pad in pads):
+            reasons.append('only two-pad SMD/THT footprints are movable' if tht else 'only two-pad SMD footprints are movable')
+        if tht and duplicate_numbers: reasons.append('duplicate physical pad numbers remain fixed')
+        if tht and metadata['points']: reasons.append('point-bearing footprint remains fixed')
+        if court is not None and (not court['rectangular'] or not tht and not court['centered']):
+            reasons.append('movement requires rectangular courtyard' if tht
+                           else 'movement requires centred rectangular courtyard')
         if artwork: reasons.append('immutable board-only back artwork')
-        if extra and any(row['kind'] in extra for row in graphics): reasons.append('richer passive geometry is fixed context only')
+        fixed_shapes = {'fp_poly'} if tht else extra
+        if fixed_shapes and any(row['kind'] in fixed_shapes for row in graphics): reasons.append('richer passive geometry is fixed context only')
         row = dict(uuid=identity, reference=sx.unquote(refs[0][2]), position_nm=anchor, angle=rotation,
                    side='back' if artwork else 'front', locked=locked(fp), placement_eligible=not reasons, fixed_reasons=reasons,
                    courtyard=court, graphics=graphics, metadata_properties=metadata_properties, models=models(fp), pads=sorted(pads, key=lambda row: row['uuid']))
         if artwork: row['artwork_only'] = True
         if artwork: row['attributes'] = sorted(attr[1:])
+        if tht: row['engineering_metadata'] = metadata
         rows.append(row)
     c.need(1 <= len(rows) <= 16 and sum(len(row['pads']) for row in rows) <= 32, 'Bounded footprint/pad population required')
     if context:

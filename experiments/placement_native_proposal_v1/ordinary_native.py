@@ -9,6 +9,7 @@ from . import contract as c
 def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
     expected = contract.inspect_board(raw, scope=scope)
     need = contract.need
+    tht = scope == contract.THT_SCOPE
     need(native.GetCopperLayerCount() == 2, 'Native two-copper census differs')
 
     def uid(item): return str(item.m_Uuid.AsString())
@@ -67,7 +68,7 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
                 if 'stroke_type' in row:
                     stroke_style(item, row)
             elif row['kind'] in ('fp_circle', 'fp_arc', 'fp_poly'):
-                need(scope == contract.CONTEXT_SCOPE and isinstance(item, pcbnew.PCB_SHAPE),
+                need(contract.fixed_context_scope(scope) and isinstance(item, pcbnew.PCB_SHAPE),
                      'Native fixed-context shape outside explicit scope')
                 shape = {'fp_circle': pcbnew.SHAPE_T_CIRCLE, 'fp_arc': pcbnew.SHAPE_T_ARC,
                          'fp_poly': pcbnew.SHAPE_T_POLY}[row['kind']]
@@ -109,7 +110,7 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
     graphics(list(native.GetDrawings()), expected['outline']['primitives'] + expected['graphics'])
     native_fps = {uid(fp): fp for fp in native.GetFootprints()}
     need(len(native_fps) == len(list(native.GetFootprints())) == len(expected['footprints']), 'Native footprint census differs')
-    pad_ids, netcodes = set(), {}
+    pad_ids, netcodes, metadata_witnesses = set(), {}, {}
     for source in expected['footprints']:
         fp = native_fps.get(source['uuid'])
         artwork = source.get('artwork_only', False)
@@ -119,13 +120,38 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
              and boolean(fp.IsFlipped()) is artwork
              and boolean(fp.IsLocked()) == source['locked'] and not list(fp.Zones()),
              'Native footprint identity/pose/lock/area differs')
+        if tht:
+            from . import engineering_metadata
+            formatter = pcbnew.PCB_IO_KICAD_SEXPR()
+            formatter.Format(fp)
+            witness = engineering_metadata.compare(source.get('engineering_metadata'),
+                formatter.GetStringOutput(True), fp.GetDuplicatePadNumbersAreJumpers())
+            # The complete formatted footprint changes on a permitted translation.
+            # Retain only invariant metadata details here: the existing worker
+            # requires before/after pad/zone/metadata details to remain identical.
+            witness.pop('formatted_footprint_sha256')
+            try:
+                count = len(fp.Points())
+            except (AttributeError, TypeError) as exc:
+                # PCB_POINT has no Python class in this pinned wrapper. If the
+                # container is opaque too, the exact actual footprint formatter
+                # above still witnesses every point identity/geometry/owner.
+                witness['point_census_method'] = 'exact-footprint-formatter'
+                witness['direct_point_count_unavailable'] = type(exc).__name__
+            else:
+                need(count == len(source['engineering_metadata']['points']),
+                     'Native fixed point count differs')
+                witness['point_census_method'] = 'Points-length-and-exact-footprint-formatter'
+                witness['direct_point_count_unavailable'] = None
+            witness['point_count'] = len(source['engineering_metadata']['points'])
+            metadata_witnesses[source['uuid']] = witness
         if artwork:
             attributes = {'board_only': pcbnew.FP_BOARD_ONLY,
                           'exclude_from_pos_files': pcbnew.FP_EXCLUDE_FROM_POS_FILES,
                           'exclude_from_bom': pcbnew.FP_EXCLUDE_FROM_BOM}
             expected_attributes = 0
             for name in source['attributes']: expected_attributes |= attributes[name]
-            need(scope == contract.CONTEXT_SCOPE and source['side'] == 'back' and source['courtyard'] is None
+            need(contract.fixed_context_scope(scope) and source['side'] == 'back' and source['courtyard'] is None
                  and source['pads'] == [] and type(fp.GetAttributes()) is int
                  and fp.GetAttributes() == expected_attributes and not list(fp.Models()),
                  'Native back artwork physical content differs')
@@ -163,6 +189,10 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
             need(pad.GetAttribute() == (pcbnew.PAD_ATTRIB_SMD if smd else pcbnew.PAD_ATTRIB_PTH)
                  and boolean(pad.IsFlipped()) is False and set(pad.GetLayerSet().Seq()) == required_layers,
                  'Native pad type/side/layer set differs')
+            if tht and not smd:
+                drill_shape = pad.GetDrillShape()
+                need(type(drill_shape) is int and drill_shape == pcbnew.PAD_DRILL_SHAPE_CIRCLE,
+                     'Native circular PTH drill required')
             shape = {'circle': pcbnew.PAD_SHAPE_CIRCLE, 'rect': pcbnew.PAD_SHAPE_RECT,
                      'roundrect': pcbnew.PAD_SHAPE_ROUNDRECT}[row['shape']]
             for copper in ((pcbnew.F_Cu,) if smd else (pcbnew.F_Cu, pcbnew.B_Cu)):
@@ -194,4 +224,7 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
     by_id = {row['uuid']: row for row in areas['zones']}
     need(len(by_id) == len(areas['zones']) == len(expected['zones']), 'Native zone census differs')
     for row in expected['zones']: contract.check_ordinary_zone(row, by_id.get(row['uuid']))
-    return expected, dict(native_pad_netcodes=netcodes, native_route_netcodes=route_netcodes, actual_native_areas=areas)
+    details = dict(native_pad_netcodes=netcodes, native_route_netcodes=route_netcodes, actual_native_areas=areas)
+    if tht:
+        details['engineering_metadata'] = metadata_witnesses
+    return expected, details

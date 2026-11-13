@@ -113,15 +113,46 @@ def _prepared_source(binding, raw):
     return plan, copper.prepare(raw, plan)
 
 
-def _retained_native_details(details, plan):
+def _retained_native_details(details, plan, *, scope=None, observation=None):
     """Only approved route UUIDs disappear; pad/net/zone witnesses stay exact."""
-    need(type(details) is dict and set(details) == {
-        'native_pad_netcodes', 'native_route_netcodes', 'actual_native_areas'}, 'complete Native identity witnesses required')
+    keys = {'native_pad_netcodes', 'native_route_netcodes', 'actual_native_areas'}
+    if scope == contract.THT_SCOPE: keys.add('engineering_metadata')
+    need(type(details) is dict and set(details) == keys, 'complete Native identity witnesses required')
     need(type(details['actual_native_areas']) is dict, 'Native area witness differs')
     for key in ('native_pad_netcodes', 'native_route_netcodes'):
         need(type(details[key]) is dict and all(type(identity) is str and type(code) is int and code > 0
              for identity, code in details[key].items()), 'Native net-code witness differs')
     need(bool(details['native_pad_netcodes']), 'Native pad identity witness absent')
+    if scope == contract.THT_SCOPE:
+        from experiments.placement_native_proposal_v1 import engineering_metadata as metadata
+        need(type(observation) is dict and observation.get('scope') == scope
+             and type(observation.get('footprints')) is list, 'exact THT metadata source observation required')
+        sources = {row['uuid']: metadata.validate(row['engineering_metadata'])
+                   for row in observation['footprints']}
+        witnesses = details['engineering_metadata']
+        need(len(sources) == len(observation['footprints']) and type(witnesses) is dict
+             and set(witnesses) == set(sources), 'Native engineering metadata owner census differs')
+        for identity, source in sources.items():
+            need(source['owner_uuid'] == identity, 'Native metadata source owner differs')
+            row = witnesses[identity]
+            expected = dict(policy=metadata.POLICY, owner_uuid=identity,
+                immutable_metadata_equal=True, metadata_sha256=metadata.digest(source),
+                supplied_jumper_getter=False, points_fixed=True, native_execution_proven=False)
+            need(type(row) is dict and set(row) == set(expected) | {
+                'point_census_method','direct_point_count_unavailable','point_count'},
+                'complete Native engineering metadata witness required')
+            need(all(type(row[key]) is type(value) and row[key] == value for key,value in expected.items()),
+                 'Native immutable engineering metadata differs from exact source')
+            need(type(row['point_count']) is int and row['point_count'] == len(source['points']),
+                 'Native engineering point census differs')
+            need(type(row['point_census_method']) is str
+                 and (row['direct_point_count_unavailable'] is None
+                      or type(row['direct_point_count_unavailable']) is str)
+                 and ((row['point_census_method'] == 'Points-length-and-exact-footprint-formatter'
+                  and row['direct_point_count_unavailable'] is None)
+                 or (row['point_census_method'] == 'exact-footprint-formatter'
+                     and row['direct_point_count_unavailable'] in ('AttributeError','TypeError'))),
+                 'Native point census evidence method differs')
     expected = copy.deepcopy(details)
     if plan is not None:
         routes = expected.get('native_route_netcodes')
@@ -173,9 +204,9 @@ def finding_continuity(native, original, observation, moves, scope):
     candidate acceptance; physical warnings and every other finding field must
     remain exact. The source/candidate Native and immutable checks are separate.
     """
-    context = scope == contract.CONTEXT_SCOPE
+    context = contract.fixed_context_scope(scope)
     before = _findings(original, qualified_fields=context)
-    if scope != contract.CONTEXT_SCOPE:
+    if not contract.fixed_context_scope(scope):
         need(_findings(native) == before, 'warning/check policy changed')
         return None
     need(observation.get('scope') == scope, 'finding continuity scope differs')
@@ -297,7 +328,8 @@ def proof(output, binding, data, *, replay=False):
              and observed['observation'] == contract.inspect_board(observed_raw, scope=options['scope']),
              'Native observation differs: ' + name)
         if details is None:
-            details = _retained_native_details(observed['details'], plan)
+            details = _retained_native_details(observed['details'], plan,
+                scope=options['scope'], observation=observed['observation'])
         else:
             need(f.canonical(observed['details']) == f.canonical(details),
                  'Native connectivity/area identity changed beyond reviewed route removal')
@@ -316,13 +348,13 @@ def proof(output, binding, data, *, replay=False):
     continuity = {}
     for name, native in natives.items():
         if name == 'source-drc':
-            _findings(native, qualified_fields=options['scope'] == contract.CONTEXT_SCOPE)
+            _findings(native, qualified_fields=contract.fixed_context_scope(options['scope']))
             continue
         checked = finding_continuity(native, natives['source-drc'], observation, moves, options['scope'])
         need(native['ignored_checks'] == natives['source-drc']['ignored_checks'], 'warning/check policy changed')
         if name != 'source-drc' and checked is not None:
             continuity[name] = checked
-    if options['scope'] == contract.CONTEXT_SCOPE:
+    if contract.fixed_context_scope(options['scope']):
         need(data.get('finding_continuity') == continuity, 'metadata finding continuity proof differs')
     material(binding); _metadata([*paths.values(), *drc_inputs], source)
     return dict(candidate=str(candidate), candidate_sha256=expected[source.name], source_hashes=expected,
@@ -368,7 +400,7 @@ def _worker(output, binding_sha):
     try:
         stable(); pc.copy_project(source.parent, paths['snapshot'].parent)
         drc('source-drc', paths['snapshot'])
-        _findings(record['source_drc'], qualified_fields=_options(binding)['scope'] == contract.CONTEXT_SCOPE)
+        _findings(record['source_drc'], qualified_fields=contract.fixed_context_scope(_options(binding)['scope']))
         native('capture', paths['snapshot'])
         original_raw = pc.read_bytes(paths['snapshot'], contract.MAX_BYTES)
         plan, prepared_raw = _prepared_source(binding, original_raw)
@@ -400,7 +432,7 @@ def _worker(output, binding_sha):
         if group_check is not None:
             record['group_check'] = group_check
         drc('final-drc', paths['candidate']); native('final-capture', paths['candidate'])
-        if options['scope'] == contract.CONTEXT_SCOPE:
+        if contract.fixed_context_scope(options['scope']):
             record['finding_continuity']['final-drc'] = finding_continuity(
                 record['final_drc'], record['source_drc'], observation, moves, options['scope'])
         record.update(status='pending_candidate', placement_qualified=True, candidate=str(paths['candidate']),

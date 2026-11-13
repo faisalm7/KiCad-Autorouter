@@ -41,11 +41,27 @@ def inventory(files):
     return {key:sha(value) for key,value in sorted(files.items())}
 
 def nm(atom,scale):
-    if not isinstance(atom,str):fail('numeric atom required')
-    try:value=Decimal(atom)*scale
+    # Decimal multiplication obeys ambient precision and may round away a
+    # fractional nanometre or a real 1nm change before comparison. Parse the
+    # decimal tuple, then perform only bounded exact integer arithmetic.
+    if type(atom) is not str or not 0<len(atom)<=128:fail('bounded numeric atom required')
+    if type(scale) is not int or not 1<=scale<=1_000_000:fail('bounded integer coordinate scale required')
+    try:value=Decimal(atom)
     except InvalidOperation:fail('invalid coordinate')
-    if not value.is_finite() or value!=value.to_integral_value() or abs(value)>2_000_000_000:fail('inexact or out-of-range native coordinate')
-    return int(value)
+    if not value.is_finite():fail('inexact or out-of-range native coordinate')
+    sign,digits,exponent=value.as_tuple()
+    if not any(digits):return 0
+    coefficient=int(''.join(map(str,digits)))*scale
+    if exponent<0:
+        places=-exponent
+        if places>=len(str(coefficient)):fail('inexact or out-of-range native coordinate')
+        coefficient,remainder=divmod(coefficient,10**places)
+        if remainder:fail('inexact or out-of-range native coordinate')
+    else:
+        if len(str(coefficient))+exponent>10:fail('inexact or out-of-range native coordinate')
+        coefficient*=10**exponent
+    if coefficient>2_000_000_000:fail('inexact or out-of-range native coordinate')
+    return -coefficient if sign else coefficient
 
 def orientation(a,b,c):return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
 def between(a,b,p):return orientation(a,b,p)==0 and min(a[0],b[0])<=p[0]<=max(a[0],b[0]) and min(a[1],b[1])<=p[1]<=max(a[1],b[1])

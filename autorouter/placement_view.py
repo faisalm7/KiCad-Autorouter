@@ -110,7 +110,7 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
             _need(type(angle) is int and angle in (0, 90, 180, 270), 'cardinal pad angle required')
             _need(min(size) > 0, 'positive pad size required')
             if kind == 'thru_hole':
-                _need(shape in ('circle', 'rect') and 0 < drill[0] == drill[1] < min(size),
+                _need(shape in ('circle', 'rect', 'roundrect') and 0 < drill[0] == drill[1] < min(size),
                       'circular-drill PTH pad required')
             else:
                 _need(kind == 'smd' and shape in ('rect', 'roundrect') and drill == (0, 0),
