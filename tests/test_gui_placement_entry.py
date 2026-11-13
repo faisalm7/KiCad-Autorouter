@@ -28,10 +28,11 @@ def placement_factory(constructor):
 class PlacementEntry(unittest.TestCase):
     def setUp(self):
         self.window = SimpleNamespace(busy=False, closing=False, chooser=None, source_guard=None,
-            placement_window=None, board=Mock(), status=Mock(), Show=Mock(), Hide=Mock(), Raise=Mock(),
+            placement_window=None, board=Mock(), output=Mock(), status=Mock(), Show=Mock(), Hide=Mock(), Raise=Mock(),
             Close=Mock(), Destroy=Mock(), timer=Mock(), job=Mock())
         self.board = '/owned saved project/exact board.kicad_pcb'
         self.window.board.GetValue.return_value = self.board
+        self.window.output.GetValue.return_value = '/chosen/candidate jobs'
         self.child = Mock()
         self.factory_patch = patch.object(placement_gui, 'create_window', return_value=self.child)
         self.factory = self.factory_patch.start(); self.addCleanup(self.factory_patch.stop)
@@ -61,7 +62,8 @@ class PlacementEntry(unittest.TestCase):
         self.assertIs(self.window.placement_window, self.child)
         self.factory.assert_called_once()
         self.assertEqual(self.factory.call_args.args, (self.board,))
-        self.assertEqual(set(self.factory.call_args.kwargs), {'on_closed'})
+        self.assertEqual(set(self.factory.call_args.kwargs), {'on_closed', 'output_hint'})
+        self.assertEqual(self.factory.call_args.kwargs['output_hint'], '/chosen/candidate jobs')
         self.assertTrue(callable(self.factory.call_args.kwargs['on_closed']))
         self.assertEqual(calls, ['show child', 'hide parent'])
         self.open(self.window, None)

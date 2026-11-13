@@ -6,19 +6,20 @@ new-global-component claim. Coordinates are integer nanometres.
 """
 import math
 import time
+from .runner import elapsed_time
 
 class Unsupported(ValueError): pass
 
 class Guard:
     def __init__(self, seconds=8, operations=250000, remaining_seconds=None):
-        self.deadline=time.monotonic()+seconds; self.remaining=operations; self.used=0
+        self.deadline=elapsed_time()+seconds; self.remaining=operations; self.used=0
         self.remaining_seconds=remaining_seconds;self.next_external_check=0
     def charge(self,n=1):
         self.remaining-=n;self.used+=n
         external_exhausted=False
         if self.remaining_seconds is not None and self.used>=self.next_external_check:
             external_exhausted=self.remaining_seconds()<=0;self.next_external_check=self.used+2048
-        if self.remaining<0 or time.monotonic()>self.deadline or external_exhausted:
+        if self.remaining<0 or elapsed_time()>self.deadline or external_exhausted:
             raise Unsupported('bounded geometry deadline/operation cap')
 
 def orient(a,b,c): return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])

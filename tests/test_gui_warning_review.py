@@ -1,6 +1,9 @@
 """Deferred warning-sheet lifecycle; actual Cocoa interaction remains separate."""
 import json
 from pathlib import Path
+import sys
+import tempfile
+import threading
 from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock
@@ -15,16 +18,46 @@ class WarningDialogControls(unittest.TestCase):
         callback = window_method('queue_warning_dialog', warning_review_text=read)
         wx = callback.__globals__['wx']; wx.ID_OK = 5100
         queued = []; wx.CallAfter.side_effect = queued.append
-        job = Mock()
         if flow is None:
-            flow = SimpleNamespace(workspace=Path('/owned/job'), fresh=Mock(),
+            temporary = tempfile.TemporaryDirectory(prefix='warning-sheet-')
+            self.addCleanup(temporary.cleanup)
+            flow = SimpleNamespace(workspace=Path(temporary.name).resolve(), fresh=Mock(),
                 check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
         if request is None:
             request=gui.Request('/owned/source/board.kicad_pcb','/owned',json.dumps(dict(gui.pref.DEFAULTS)),True)
+        job = gui.CliJob()
+        challenge = gt.warning_challenge(flow.workspace)
+        ready = threading.Event(); failures = []
+        program = ('import json,sys; event=json.loads(sys.argv[1]); print(json.dumps(event),flush=True); '
+            'reply=json.loads(sys.stdin.readline()); assert reply["nonce"]==event["nonce"]; '
+            'sys.exit(0 if reply["decision"]=="accept_updated_findings" else 2)')
+        def observed(value):
+            self.assertEqual(value, challenge)
+            ready.set()
+        def run():
+            try:
+                job.run([sys.executable, '-B', '-c', program, json.dumps(challenge), '--warning-review-stdio'],
+                        flow.workspace/'export.command.log', timeout=35, on_warning_review=observed)
+            except Exception as exc: failures.append(exc)
+            finally: ready.set()
+        worker = threading.Thread(target=run, daemon=False)
+        def cleanup():
+            if worker.is_alive(): job.cancel()
+            worker.join(5)
+            self.assertFalse(worker.is_alive(), 'Owned warning fixture did not finish cleanup')
+            self.assertIsNotNone(job.process.poll())
+            self.assertTrue(job.process.stdout.closed); self.assertTrue(job.process.stdin.closed)
+        self.addCleanup(cleanup); worker.start()
+        self.assertTrue(ready.wait(5), 'Owned live warning fixture did not become ready')
+        self.assertFalse(failures)
+        job.check_warning_review(challenge)  # Prove the valid live baseline before each mutation.
+        job.check_warning_review = Mock(wraps=job.check_warning_review)
+        job.reply_warning_review = Mock(wraps=job.reply_warning_review)
+        job.cancel = Mock(wraps=job.cancel)
         window = SimpleNamespace(**gt.displayed_inputs(request),job=job, flow=flow, busy=True, closing=False, warning_dialog=None,
             input_generation=0, status=Mock(), log=Mock(), timer=Mock(), Destroy=Mock(),
             inspected=Mock(), refresh=Mock(), refused=Mock())
-        dialog=Mock(); challenge={'kind':'owned-challenge'}
+        dialog=Mock()
         callback(window, dialog, job, flow, challenge)
         closed=dialog.Bind.call_args.args[1]
         event=Mock(); event.GetDialog.return_value=dialog; event.GetReturnCode.return_value=5100

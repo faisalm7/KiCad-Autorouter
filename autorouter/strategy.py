@@ -19,6 +19,7 @@ import shutil
 import time
 
 from . import config as c, pipeline as p, sexpr as sx
+from .runner import elapsed_time
 
 
 # Historical placement contracts consume this legacy value; keep their
@@ -224,7 +225,7 @@ def _improves(metrics, incumbent_metrics, native, incumbent_native):
 
 
 def _remaining(deadline, reserve=0.0):
-    return max(0.0, deadline - time.monotonic() - reserve)
+    return max(0.0, deadline - elapsed_time() - reserve)
 
 
 def _steps(job, phase):
@@ -1252,12 +1253,12 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     """
     # Capture the whole intake before settings/source checks. Source/variant
     # support is checked before any output or worker is created.
-    entry_started, entry_cpu = time.monotonic(), time.process_time()
+    entry_started, entry_cpu = elapsed_time(), time.process_time()
     from .floor_route import child_cpu
     operation_children = child_cpu()
     p.require_native_scope(purpose='improve',profile='tuned',adapter='both')
     native7 = c.NATIVE_VERSION == '10.0.7'
-    started, cpu_started = (entry_started,entry_cpu) if native7 else (time.monotonic(),time.process_time())
+    started, cpu_started = (entry_started,entry_cpu) if native7 else (elapsed_time(),time.process_time())
     incumbent_options=_incumbent_route_options(_incumbent_policy,incumbent_scoring,settings_path,preference_overrides)
     p.engine_scoring_settings(incumbent_scoring)  # Preserve legacy typed rejection before output.
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 30 <= seconds <= 900:
@@ -1349,7 +1350,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
 
     def checkpoint(kind, best, metrics, extra=None):
         entry = {"index": len(report["checkpoints"]), "kind": kind,
-                 "elapsed_seconds": time.monotonic() - started,
+                 "elapsed_seconds": elapsed_time() - started,
                  "observed_cpu_seconds": cpu_used(final_job.steps),
                  "candidate": str(best), "candidate_sha256": p.sha(best),
                  "metrics": metrics, "improvements": report["improvements"]}
@@ -1382,7 +1383,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         snapshot = output / "snapshot"
         shutil.copytree(source.parent, snapshot)
         original_fresh(source, snapshot, source_hashes)
-        allocation = dict(elapsed_wall_seconds=time.monotonic()-started,elapsed_cpu_seconds=cpu_used()) if native7 else None
+        allocation = dict(elapsed_wall_seconds=elapsed_time()-started,elapsed_cpu_seconds=cpu_used()) if native7 else None
         incumbent_seconds = (min(seconds-allocation['elapsed_wall_seconds'],seconds-allocation['elapsed_cpu_seconds'])
             -NATIVE_FINAL_RESERVE_SECONDS) if native7 else remaining_work_budget()
         if incumbent_seconds < 5:
@@ -1467,7 +1468,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             if native7:live_budget.attach(trial_job)
             candidate = trial_job.out / "candidate" / source.name
             record = {"id": trial_id, "proposal": proposal, "status": "rejected", "accepted": False,
-                      "started_elapsed_seconds": time.monotonic() - started,
+                      "started_elapsed_seconds": elapsed_time() - started,
                       "base_candidate_sha256": p.sha(best)}
             if native7:record["single_trial_guard"] = _single_trial_guard(trial_job,started,seconds)
             if proposal_policy == "adaptive":
@@ -1476,7 +1477,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             try:
                 shutil.copytree(best.parent, candidate.parent)
                 sx.write(candidate, delete_routes(sx.read(candidate), proposal["route_ids"], nets, protected))
-                if min(remaining_work_budget(), trial_job.deadline - time.monotonic()) < MIN_TRIAL_SECONDS:
+                if min(remaining_work_budget(), trial_job.deadline - elapsed_time()) < MIN_TRIAL_SECONDS:
                     preparation_exhausted = True
                     raise p.Rejected("insufficient trial budget after preparation")
                 digest, native = p.validate_candidate(trial_job, original, candidate, source_hashes, protected,
@@ -1493,7 +1494,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
                     p.verify_candidate_files(candidate, source_hashes, digest)
                     original_fresh(source, snapshot, source_hashes)
                     record["metrics"] = metrics
-                    if time.monotonic() > trial_job.deadline:
+                    if elapsed_time() > trial_job.deadline:
                         record["status"] = "timeout"
                     elif cpu_used(trial_job.steps) > seconds - NATIVE_FINAL_RESERVE_SECONDS:
                         record["status"] = "cpu_reserve_exhausted"
@@ -1511,7 +1512,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
             finally:
                 record["steps"] = _steps(trial_job, trial_id)
                 all_steps.extend(record["steps"])
-                record["finished_elapsed_seconds"] = time.monotonic() - started
+                record["finished_elapsed_seconds"] = elapsed_time() - started
                 record["finished_observed_cpu_seconds"] = cpu_used()
                 if native7 and (live_budget.remaining(work=True) <= 0
                         or record["finished_elapsed_seconds"] > record["single_trial_guard"]["wall_deadline_elapsed_seconds"]
@@ -1718,7 +1719,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
         original_fresh(source, snapshot, source_hashes)
         report["best_observed_metrics"] = best_metrics
         report["best_observed_candidate"] = str(best)
-        report["finalization_started_elapsed_seconds"] = time.monotonic() - started
+        report["finalization_started_elapsed_seconds"] = elapsed_time() - started
         # Work expiry stops proposals; the verified incumbent may use the
         # reserved return window. Cancellation/stale inputs still reject, and
         # full parent wall/CPU/Native/publication caps remain mandatory.
@@ -1768,7 +1769,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
     parent_completed = evidence_inventory(output) if native7 else None
 
     def account():
-        report["wall_seconds"] = time.monotonic() - started
+        report["wall_seconds"] = elapsed_time() - started
         report["parent_cpu_seconds"] = time.process_time() - cpu_started
         report["total_cpu_seconds"] = report["parent_cpu_seconds"] + report["child_cpu_seconds"] + report["monitor_cpu_seconds"]
         if native7:
@@ -1806,7 +1807,7 @@ def prune(source, output, seconds=120, *, proposal_policy="single", incumbent_sc
 
     from .floor_route import publish
     publish(output, report, stable, account,
-            lambda: min(deadline-time.monotonic(), seconds-cpu_used()),
+            lambda: min(deadline-elapsed_time(), seconds-cpu_used()),
             owned=lambda: owned_destination(owner),
             readback_context=p.validation_readback_session if native7 else None)
     return report

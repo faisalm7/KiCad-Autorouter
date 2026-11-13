@@ -126,40 +126,80 @@ def claim(root, purpose):
     return lease
 
 
-def active_users(path):
-    """Owned-process path check; private0700 slot excludes other ordinary users.
+def active_users_many(paths):
+    """One fresh owned-process snapshot for a bounded batch at this boundary.
 
-    No process command lines or file contents are inspected or recorded.
-    Unsupported/inaccessible process inspection fails closed.
+    Keys are absolute no-symlink path strings; each value is the sorted matching
+    PID list. Exact paths and descendants match, never a similarly named sibling.
+    No snapshot survives this call; separate boundaries must query again. Like
+    active_users, this detects cooperative ordinary users, not hostile races.
+    No process command lines, unrelated paths or file contents are returned.
     """
-    path = str(_path(path))
+    if isinstance(paths, (str, bytes, os.PathLike)):
+        raise ScratchError('Activity batch requires an iterable of paths')
+    targets = {}
+    for count, path in enumerate(paths, 1):
+        if count > 4096:
+            raise ScratchError('Activity batch exceeds path bound')
+        path = str(_path(path))
+        if any(char in path for char in ('\n', '\r', '\0')):
+            raise ScratchError('Unsupported control character in activity path')
+        targets.setdefault(path, set())
+    if not targets:
+        raise ScratchError('Activity batch must not be empty')
+
+    prefixes = {path: path.rstrip('/') + '/' for path in targets}
+    def observe(name, pid):
+        for path in targets:
+            if name == path or name.startswith(prefixes[path]):
+                targets[path].add(pid)
+
     if sys.platform == 'darwin':
         exe = shutil.which('lsof') or '/usr/sbin/lsof'
-        result = subprocess.run([exe, '-nP', '-a', '-u', str(os.getuid()), '-Fpn'],
-                                capture_output=True, text=True, timeout=30)
+        try:
+            result = subprocess.run([exe, '-nP', '-a', '-u', str(os.getuid()), '-Fpn'],
+                                    capture_output=True, text=True, timeout=30)
+        except (OSError, subprocess.SubprocessError, UnicodeError) as exc:
+            raise ScratchError('Process-use inspection unavailable or incomplete') from exc
         if result.returncode != 0 or result.stderr or len(result.stdout) > 16 * 1024 ** 2:
             raise ScratchError('Process-use inspection unavailable or incomplete')
-        pid = None; found = []
+        pid = None
         for line in result.stdout.splitlines():
-            if line.startswith('p'): pid = line[1:]
-            if line.startswith('n') and (line[1:] == path or line[1:].startswith(path + '/')):
-                found.append(pid)
-        return sorted(set(found))
-    if sys.platform.startswith('linux'):
-        found = []
-        for process in Path('/proc').iterdir():
-            if not process.name.isdigit(): continue
-            try:
-                if process.stat().st_uid != os.getuid(): continue
-                targets = [process / 'cwd', *list((process / 'fd').iterdir())]
-                for target in targets:
-                    try: name = os.readlink(target)
-                    except FileNotFoundError: continue
-                    if name == path or name.startswith(path + '/'): found.append(process.name)
-            except FileNotFoundError: continue
-            except PermissionError as exc: raise ScratchError('Process-use inspection denied') from exc
-        return sorted(set(found))
-    raise ScratchError('Automatic verification cleanup is not qualified on this platform')
+            if line.startswith('p'):
+                pid = line[1:]
+                if not pid or not pid.isascii() or not pid.isdigit() or int(pid) <= 0:
+                    raise ScratchError('Process-use inspection malformed')
+            if line.startswith('n'):
+                if pid is None:
+                    raise ScratchError('Process-use inspection missing process identity')
+                observe(line[1:], pid)
+        if pid is None:
+            raise ScratchError('Process-use inspection missing process identity')
+    elif sys.platform.startswith('linux'):
+        try:
+            for process in Path('/proc').iterdir():
+                if not process.name.isdigit(): continue
+                try:
+                    if process.stat().st_uid != os.getuid(): continue
+                    links = [process / 'cwd', *list((process / 'fd').iterdir())]
+                    for target in links:
+                        try: name = os.readlink(target)
+                        except FileNotFoundError: continue
+                        observe(name, process.name)
+                except FileNotFoundError: continue
+        except PermissionError as exc:
+            raise ScratchError('Process-use inspection denied') from exc
+        except OSError as exc:
+            raise ScratchError('Process-use inspection unavailable or incomplete') from exc
+    else:
+        raise ScratchError('Automatic verification cleanup is not qualified on this platform')
+    return {path: sorted(found) for path, found in targets.items()}
+
+
+def active_users(path):
+    """Fresh one-path compatibility API; no shared snapshot or cached result."""
+    path = str(_path(path))
+    return active_users_many([path])[path]
 
 
 def _preserve_macos_metadata(lease, expected, identities, stable=None):

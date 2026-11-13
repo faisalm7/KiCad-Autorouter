@@ -15,6 +15,7 @@ import socket
 import threading
 import time
 from urllib.parse import urlsplit
+from .runner import elapsed_time
 
 
 MAX_REQUEST_BYTES = 64 * 1024
@@ -192,7 +193,7 @@ def _post(host, port, body, headers, timeout):
     A finite timer shuts down the socket at the overall deadline, including
     slow header/body delivery. It is cancelled and joined before returning.
     """
-    started = time.monotonic()
+    started = elapsed_time()
     connection = http.client.HTTPConnection(host, port, timeout=timeout)
     timer = None
     response = None
@@ -204,7 +205,7 @@ def _post(host, port, body, headers, timeout):
         # descriptor solely for deadline shutdown; never operate on that closed
         # original object during response reads.
         deadline_socket = connection.sock.dup()
-        remaining = timeout - (time.monotonic() - started)
+        remaining = timeout - (elapsed_time() - started)
         if remaining <= 0:
             raise TimeoutError
         def expire():
@@ -230,7 +231,7 @@ def _post(host, port, body, headers, timeout):
         chunks = []
         size = 0
         while True:
-            remaining = timeout - (time.monotonic() - started)
+            remaining = timeout - (elapsed_time() - started)
             if remaining <= 0:
                 raise TimeoutError
             chunk = response.read1(min(8192, MAX_RESPONSE_BYTES + 1 - size))
@@ -240,7 +241,7 @@ def _post(host, port, body, headers, timeout):
             size += len(chunk)
             if size > MAX_RESPONSE_BYTES:
                 raise ModelIntentError('Model response exceeds its byte limit.')
-        if time.monotonic() - started >= timeout:
+        if elapsed_time() - started >= timeout:
             raise TimeoutError
         if length is not None and size != int(length):
             raise ModelIntentError('Truncated model response.')
@@ -318,7 +319,7 @@ def propose(inspection, request_text, config=None):
     record. The model sees a small allowlisted summary, never project paths,
     file inventories, PCB source text or Native reports.
     """
-    started = time.monotonic()
+    started = elapsed_time()
     host, port, model, timeout, tokens, credential_env = _config(config)
     if (type(request_text) is not str or not request_text.strip()
             or len(request_text.encode('utf-8')) > MAX_REQUEST_TEXT):
@@ -348,7 +349,7 @@ def propose(inspection, request_text, config=None):
     proposal = _arguments(data)
     validated = design_intent.validate_route_proposal(static, proposal)
     return {'proposal': validated, 'metrics': {
-        'wall_seconds': time.monotonic() - started, 'request_count': 1,
+        'wall_seconds': elapsed_time() - started, 'request_count': 1,
         'usage': _usage(data), 'usage_source': 'provider_reported' if _usage(data) is not None else 'unavailable',
         'cost_usd': None, 'cost_status': 'unknown; no remote API request was made by this client',
         'endpoint_scope': 'literal_loopback', 'model_runtime_verified_offline': False}}

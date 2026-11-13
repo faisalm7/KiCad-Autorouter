@@ -2,6 +2,8 @@
 
 Save/load presets in the graphical window, or pass an explicit JSON file with `--settings`. Keep presets outside the saved source project. Jobs capture exact bytes; changing source or captured settings invalidates the job. There is no implicit personal/global configuration search, and routing does not rewrite presets or original KiCad rules.
 
+The prospective081 correction counts host sleep within operation and warning-review budgets. On waking after expiry, the job must refuse acceptance and stop its owned work; sleep does not grant extra routing time. Installed080 is unchanged and retains its documented timing limitation until081 installation/Native/GUI qualification closes.
+
 A value accepted by the JSON schema is not automatically supported by selected KiCad10.0.7:
 
 | Choice | Current ordinary Route | Limit |

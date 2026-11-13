@@ -8,7 +8,7 @@ import copy,hashlib,json,math,os,re,select,signal,sys,time,uuid
 from collections import Counter
 from . import config as c,pipeline as p,floor_route as f,placement_clearance as pc
 from . import placement_strategy as ps,sexpr as sx,handoff as h
-from .runner import run
+from .runner import run, elapsed_time, ELAPSED_CLOCK_POLICY
 from . import comparison as cmp
 KIND='review-export-v1'
 MIN_SECONDS=30
@@ -97,6 +97,25 @@ def warning_review_delta(previous,fresh):
 
 def _warning_digest(value):
     return h.digest(f.canonical(value).encode('utf-8'))
+
+
+def _warning_clock(packet, *, current=None):
+    """Bound one live challenge to the original suspend-inclusive deadline.
+
+    Completed-proof readers pass the recorded acknowledgement time, never the
+    current time. An old, timely completed acknowledgement does not expire.
+    """
+    if (type(packet) is not dict or packet.get('clock_policy') != ELAPSED_CLOCK_POLICY
+        or not finite(packet.get('sent_elapsed_time')) or not finite(packet.get('expires_elapsed_time'))
+        or not 0 < packet['expires_elapsed_time'] - packet['sent_elapsed_time'] <= SECONDS):
+        raise p.Rejected('warning review clock proof differs')
+    if 'budget_seconds' in packet and (not finite(packet['budget_seconds'])
+            or not finite(packet.get('sent_wall_seconds'))
+            or packet['expires_elapsed_time'] - packet['sent_elapsed_time'] > packet['budget_seconds'] - packet['sent_wall_seconds']):
+        raise p.Rejected('warning review deadline exceeds the original export budget')
+    if current is not None and (not finite(current)
+            or not packet['sent_elapsed_time'] <= current < packet['expires_elapsed_time']):
+        raise p.Rejected('warning review expired on its original elapsed deadline')
 
 
 def _warning_response(response, pending, pending_sha256):
@@ -206,7 +225,7 @@ def _check_warning_acknowledgement(out,data,binding,report,basis,contract,layers
     pending=f.read_json(pending_path);ack=f.read_json(ack_path)
     if (set(pending)!={'schema','kind','policy','export_accepted','resumable_after_exit','nonce','binding_sha256',
         'candidate_sha256','native_report_sha256','runtime_source_sha256','metrics','budget_seconds','sent_wall_seconds',
-        'sent_cpu_seconds','validation_evidence','warning_review'}
+        'sent_cpu_seconds','validation_evidence','warning_review','clock_policy','sent_elapsed_time','expires_elapsed_time'}
         or type(pending.get('schema')) is not int or pending['schema']!=1
         or pending.get('kind')!='live-warning-review-pending-v1' or pending.get('policy')!=WARNING_REVIEW_POLICY
         or pending.get('export_accepted') is not False or pending.get('resumable_after_exit') is not False
@@ -218,9 +237,13 @@ def _check_warning_acknowledgement(out,data,binding,report,basis,contract,layers
         or pending['metrics']!=data['metrics'] or pending['budget_seconds']!=data['budget_seconds']
         or pending['warning_review']!=_warning_eligibility(data,binding,report,basis,contract,layers,ctx)):
         raise p.Rejected('updated-warning pending proof differs from current validation')
-    if (type(ack) is not dict or set(ack)!={'schema','policy','response','elapsed_wall_seconds','elapsed_cpu_seconds'}
-        or type(ack.get('schema')) is not int or ack['schema']!=1 or ack.get('policy')!=WARNING_REVIEW_POLICY):
+    _warning_clock(pending)
+    if (type(ack) is not dict or set(ack)!={'schema','policy','response','elapsed_wall_seconds','elapsed_cpu_seconds',
+            'clock_policy','acknowledged_elapsed_time'}
+        or type(ack.get('schema')) is not int or ack['schema']!=1 or ack.get('policy')!=WARNING_REVIEW_POLICY
+        or ack.get('clock_policy')!=ELAPSED_CLOCK_POLICY or not finite(ack.get('acknowledged_elapsed_time'))):
         raise p.Rejected('updated-warning acknowledgement shape changed')
+    _warning_clock(pending,current=ack['acknowledged_elapsed_time'])
     _warning_response(ack['response'],pending,ref['pending_sha256'])
     for sent,elapsed,total in [('sent_wall_seconds','elapsed_wall_seconds','wall_seconds'),('sent_cpu_seconds','elapsed_cpu_seconds','total_cpu_seconds')]:
         if (not finite(pending[sent]) or not finite(ack[elapsed])
@@ -238,31 +261,47 @@ def _live_warning_review(out,record,binding,report,basis,contract,layers,ctx,cal
     delta=_warning_eligibility(record,binding,report,basis,contract,layers,ctx)
     _check_stage_proof(out/'validation',record,binding,report,basis,contract,layers,**ctx)
     stable();account();stable()
+    sent=elapsed_time();available=remaining()
+    if not finite(available) or not 0<available<=record['budget_seconds']:
+        raise p.Rejected('export whole wall/full CPU budget exhausted before warning review')
     pending=dict(schema=1,kind='live-warning-review-pending-v1',policy=WARNING_REVIEW_POLICY,
         export_accepted=False,resumable_after_exit=False,nonce=uuid.uuid4().hex,
         binding_sha256=_warning_digest(binding),candidate_sha256=record['candidate_sha256'],
         native_report_sha256=record['native_report_sha256'],runtime_source_sha256=record['runtime_source_sha256'],
         metrics=copy.deepcopy(record['metrics']),budget_seconds=record['budget_seconds'],
-        sent_wall_seconds=record['wall_seconds'],sent_cpu_seconds=record['total_cpu_seconds'],
+        sent_wall_seconds=sent-start,sent_cpu_seconds=h.cpu_seconds()-cpu_start,
+        clock_policy=ELAPSED_CLOCK_POLICY,sent_elapsed_time=sent,expires_elapsed_time=sent+available,
         validation_evidence=evidence(out),warning_review=delta)
+    _warning_clock(pending,current=sent)
     pending_path=out/'warning-review.json';p.save_json(pending_path,pending);pin=p.sha(pending_path)
     sealed=evidence(out)
     event=dict(kind='autorouter.warning-review-required.v1',pending=str(pending_path),pending_sha256=pin,
         delta_sha256=_warning_digest(delta),nonce=pending['nonce'],remaining_seconds=remaining(),
+        clock_policy=pending['clock_policy'],sent_elapsed_time=pending['sent_elapsed_time'],
+        expires_elapsed_time=pending['expires_elapsed_time'],candidate_sha256=pending['candidate_sha256'],
+        native_report_sha256=pending['native_report_sha256'],
         warning_review={key:delta[key] for key in ('policy','delta','findings_equivalent','review_text','copper_witness')})
     def wait_budget():
         if remaining()<=0:raise p.Rejected('export whole wall/full CPU budget exhausted during warning review')
+        _warning_clock(pending,current=elapsed_time())
+    wait_budget()
     response=callback(copy.deepcopy(event),remaining,wait_budget)
+    acknowledged=elapsed_time();acknowledged_cpu=h.cpu_seconds()-cpu_start
+    _warning_clock(pending,current=acknowledged)
+    if remaining()<=0:raise p.Rejected('export whole wall/full CPU budget exhausted during warning review')
     stable()
     if evidence(out)!=sealed or p.sha(pending_path)!=pin:
         raise p.Rejected('pre-review validation or pending evidence changed during warning review')
     _warning_response(response,pending,pin)
     account();stable()
+    if remaining()<=0:raise p.Rejected('export whole wall/full CPU budget exhausted after warning reply')
     ack=dict(schema=1,policy=WARNING_REVIEW_POLICY,response=copy.deepcopy(response),
-        elapsed_wall_seconds=time.monotonic()-start,elapsed_cpu_seconds=h.cpu_seconds()-cpu_start)
+        clock_policy=ELAPSED_CLOCK_POLICY,acknowledged_elapsed_time=acknowledged,
+        elapsed_wall_seconds=acknowledged-start,elapsed_cpu_seconds=acknowledged_cpu)
     ack_path=out/'warning-acknowledgement.json';p.save_json(ack_path,ack)
     record['warning_review_acknowledgement']=dict(policy=WARNING_REVIEW_POLICY,pending_sha256=pin,acknowledgement_sha256=p.sha(ack_path))
     account();stable()
+    if remaining()<=0:raise p.Rejected('export whole wall/full CPU budget exhausted after warning acknowledgement')
 
 
 def bound_material(binding):
@@ -594,10 +633,10 @@ def _check_export(path,guard, *, native_toolchain=None, experimental_schematic_p
 
 def check_export(path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Bounded read-only proof check; no fresh native run or solver is invoked."""
-    start=time.monotonic();cpu=h.cpu_seconds();previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
+    start=elapsed_time();cpu=h.cpu_seconds();previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
     def cap():
-        if time.monotonic()-start>SECONDS or h.cpu_seconds()-cpu>SECONDS:raise p.Rejected('export readback wall/full CPU ceiling exceeded')
+        if elapsed_time()-start>SECONDS or h.cpu_seconds()-cpu>SECONDS:raise p.Rejected('export readback wall/full CPU ceiling exceeded')
     try:
         ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
         for sig in previous:signal.signal(sig,interrupted)
@@ -632,7 +671,7 @@ def invalidate(lifecycle,exc):
 
 def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None,warning_review=None):
     """Validate the original bound candidate into a new project; never copy GUI rules."""
-    start=time.monotonic();parent_cpu_start=time.process_time();child_cpu_start=f.child_cpu();cpu_start=parent_cpu_start+child_cpu_start
+    start=elapsed_time();parent_cpu_start=time.process_time();child_cpu_start=f.child_cpu();cpu_start=parent_cpu_start+child_cpu_start
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
     worker=h.delivery_kwargs(native_toolchain,experimental_schematic_parity)
     cmp.delivery_path(Path(output).absolute(),comparison_context,'export')
@@ -642,7 +681,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
     record.update(h.delivery_record(**ctx))
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
     def interrupted(*_):raise KeyboardInterrupt
-    def remaining():return max(0,min(seconds-(time.monotonic()-start),seconds-(h.cpu_seconds()-cpu_start)))
+    def remaining():return max(0,min(seconds-(elapsed_time()-start),seconds-(h.cpu_seconds()-cpu_start)))
     def cap():
         if remaining()<=0:raise p.Rejected('export whole wall/full CPU budget exhausted')
     job=None
@@ -650,7 +689,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
         steps=job.steps if job else [];parent=time.process_time()-parent_cpu_start;child=f.child_cpu()-child_cpu_start
         compute=p.sequential_cpu_components(parent,child,steps)
         compute['child_step_cpu_seconds']=compute.pop('child_cpu_seconds')
-        record.update(compute,steps=steps,wall_seconds=time.monotonic()-start,native_validation_performed=bool(steps))
+        record.update(compute,steps=steps,wall_seconds=elapsed_time()-start,native_validation_performed=bool(steps))
         record['within_budget']=record['wall_seconds']<=seconds and record['total_cpu_seconds']<=seconds
     lifecycle.update(record=record,account=account)
     try:

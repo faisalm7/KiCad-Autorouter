@@ -10,6 +10,7 @@ import copy, datetime, hashlib, math, signal, shutil, time
 from pathlib import Path
 from . import config as c, pipeline as p, sexpr as sx, strategy as s
 from . import floor_route as f, placement_clearance as pc
+from .runner import elapsed_time
 
 POLICY='placement-pruning-v1'
 STRATEGY='placement-native-pruning-v1'
@@ -274,7 +275,7 @@ def prune(source,output,seconds=120,*,allocation=LEGACY_ALLOCATION):
         for sig,handler in previous.items():signal.signal(sig,handler)
 
 def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
-    start,parent_start,child_start=time.monotonic(),time.process_time(),f.child_cpu()
+    start,parent_start,child_start=elapsed_time(),time.process_time(),f.child_cpu()
     if isinstance(seconds,bool) or not isinstance(seconds,(int,float)) or not math.isfinite(seconds) or not 60<=seconds<=900:
         raise p.Rejected('placement pruning budget must be 60–900 seconds')
     settings=contract(allocation);order=settings.get('proposal_order','whole-first');time_reserve=settings['final_reserve_seconds']
@@ -284,7 +285,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
     if any(x.is_symlink() for x in (source,*source.parents,output,*output.parents)):raise p.Rejected('pruning symlink unsupported')
     source=source.resolve(strict=True);output=output.resolve()
     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside original project')
-    def remaining(reserve=0):return max(0,min(seconds-(time.monotonic()-start),seconds-(time.process_time()-parent_start+f.child_cpu()-child_start))-reserve)
+    def remaining(reserve=0):return max(0,min(seconds-(elapsed_time()-start),seconds-(time.process_time()-parent_start+f.child_cpu()-child_start))-reserve)
     job=f.FloorJob(output,seconds,remaining,protect_local_settings=True);(output/'trials').mkdir();p.save_json(output/'pruning-contract.json',settings)
     report={'schema':5,'input_policy':POLICY,'strategy':STRATEGY,'baseline':'C-prototype','adapter':'both','engine_profile':settings['incumbent_profile'],'scoring_variant':'via_default',
         'proposal_policy':'feedback','scope':'whole_board_unlocked_routing','source':str(source),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
@@ -301,7 +302,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
             if final_inventory is not None and evidence_inventory(output)!=final_inventory:raise p.Rejected('completed pruning evidence changed')
         if remaining()<=0:raise p.Rejected('pruning global budget exhausted')
     def account():
-        steps=[*all_steps,*job.steps];report.update(steps=steps,wall_seconds=time.monotonic()-start,parent_cpu_seconds=time.process_time()-parent_start,
+        steps=[*all_steps,*job.steps];report.update(steps=steps,wall_seconds=elapsed_time()-start,parent_cpu_seconds=time.process_time()-parent_start,
             child_cpu_seconds=sum(x.get('cpu_seconds') or 0 for x in steps),monitor_cpu_seconds=sum(x.get('monitor_cpu_seconds') or 0 for x in steps),
             peak_child_rss_bytes=max([x.get('max_rss_bytes') or 0 for x in steps]+[0]))
         report['control_child_cpu_seconds']=max(0,f.child_cpu()-child_start-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
@@ -319,7 +320,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
             if p.sha(dest)!=expected:raise p.Rejected('pruning code snapshot differs')
         frozen=True;stable()
         if allocation==STANDARD_ALLOCATION:
-            observed={'elapsed_wall_seconds':time.monotonic()-start,
+            observed={'elapsed_wall_seconds':elapsed_time()-start,
                       'elapsed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start}
             report['incumbent_assignment_observation']=observed
             assigned=incumbent_assignment(seconds,observed['elapsed_wall_seconds'],observed['elapsed_full_cpu_seconds'],allocation)
@@ -333,7 +334,7 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
         if inc['accepted'] is not True:raise p.Rejected('fresh placement incumbent rejected: '+str(inc.get('reason',inc['status'])))
         p.check_result(basis/'result.json');gc=f.read_json(basis/'floor-policy.json');nets=s.zone_net_ids(original)
         best=Path(inc['candidate']);best_metrics=inc['metrics'];best_native=inc['native'];report['incumbent_metrics']=copy.deepcopy(best_metrics)
-        report['incumbent_observation']={'status':'routing_accepted','completed':True,'accepted':True,'elapsed_seconds':time.monotonic()-start,
+        report['incumbent_observation']={'status':'routing_accepted','completed':True,'accepted':True,'elapsed_seconds':elapsed_time()-start,
             'observed_full_cpu_seconds':time.process_time()-parent_start+f.child_cpu()-child_start,'metrics':copy.deepcopy(best_metrics),'candidate_sha256':p.sha(best)}
         def attempt(proposal):
             nonlocal best,best_metrics,best_native
@@ -344,9 +345,9 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
             used=sum((output/name).stat().st_size for name in evidence_inventory(output))
             space_reserve=4*sum((best.parent/name).stat().st_size for name in hashes)+4*1024**2
             if used+space_reserve>LIMIT:report['stop_reason']='complete evidence capacity reserve';return None
-            index=len(report['trials']);folder=output/'trials'/f'{index:04d}';trial_start=time.monotonic();trial_cpu=time.process_time()+f.child_cpu()
+            index=len(report['trials']);folder=output/'trials'/f'{index:04d}';trial_start=elapsed_time();trial_cpu=time.process_time()+f.child_cpu()
             cap=min(s.MAX_TRIAL_SECONDS,remaining(time_reserve))
-            left=lambda:max(0,min(remaining(time_reserve),cap-(time.monotonic()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
+            left=lambda:max(0,min(remaining(time_reserve),cap-(elapsed_time()-trial_start),cap-(time.process_time()+f.child_cpu()-trial_cpu)))
             trial=f.FloorJob(folder,cap,left,protect_local_settings=True);candidate=folder/'candidate'/source.name
             row={'index':index,'proposal':proposal,'parent':str(best),'parent_sha256':p.sha(best),'accepted':False,'completed':False,'assigned_seconds':cap,'candidate':str(candidate),'status':'failed','schematic_parity':'not checked'}
             try:
@@ -362,8 +363,8 @@ def _prune(source,output,seconds,*,allocation=LEGACY_ALLOCATION):
             except (Exception,KeyboardInterrupt) as exc:
                 row.update(error=type(exc).__name__+': '+str(exc),status='cancelled' if isinstance(exc,KeyboardInterrupt) else 'failed')
             finally:
-                row.update(steps=trial.steps,wall_seconds=time.monotonic()-trial_start,total_cpu_seconds=time.process_time()+f.child_cpu()-trial_cpu,
-                    elapsed_seconds=time.monotonic()-start,observed_full_cpu_seconds=time.process_time()-parent_start+f.child_cpu()-child_start)
+                row.update(steps=trial.steps,wall_seconds=elapsed_time()-trial_start,total_cpu_seconds=time.process_time()+f.child_cpu()-trial_cpu,
+                    elapsed_seconds=elapsed_time()-start,observed_full_cpu_seconds=time.process_time()-parent_start+f.child_cpu()-child_start)
                 all_steps.extend(trial.steps);p.save_json(folder/'trial.json',row);report['trials'].append(row);completed[str(folder)]=pc.evidence_inventory(folder)
             if row['status']=='cancelled' or any(x.get('status')=='cancelled' for x in trial.steps):raise KeyboardInterrupt
             stable();p.save_json(output/'pruning-progress.json',{'trials':report['trials'],'selected':str(best)});return row

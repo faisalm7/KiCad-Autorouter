@@ -28,8 +28,10 @@ class DisplayedRequestAdoptionTests(unittest.TestCase):
         flow = self.flow(); job = gui.CliJob()
         record = dict(status='preview', static_preflight_passed=True, source=str(self.board),
             source_sha256=json.loads(flow.files_json)[self.board.name], effective_preferences=self.settings)
-        log = flow.workspace / 'preview.command.log'; log.write_text(json.dumps(record))
-        job.adopt(flow, 'preview', dict(exit_code=0, cancel_requested=False, log_truncated=False), log)
+        log = flow.workspace / 'preview.command.log'
+        process = gt.run_cli_fixture(job, ['owned-preview-controller-fixture'], log, record)
+        job.check_live(require_armed=True)
+        job.adopt(flow, 'preview', process, log)
         return flow, job, record, self.window(flow, job)
 
     def export_case(self, *, source_guard=None):

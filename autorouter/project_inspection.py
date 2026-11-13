@@ -12,6 +12,7 @@ import time
 
 from . import pipeline as p, floor_route as f, handoff as h
 from . import placement_clearance as pc
+from .runner import elapsed_time
 
 POLICY = 'saved-project-native-inspection-v1'
 MAX_SECONDS = 90
@@ -28,7 +29,7 @@ def inspect(board, output, seconds=60):
     from .design_intent import inspect_project
     from .gui import source_inventory
     seconds = _seconds(seconds)
-    started, parent_started, children_started = time.monotonic(), time.process_time(), f.child_cpu()
+    started, parent_started, children_started = elapsed_time(), time.process_time(), f.child_cpu()
     board = h.real_path(board); output = h.real_path(output, existing=False)
     if output == board.parent or board.parent in output.parents:
         raise ValueError('Inspection output must be outside the saved source project.')
@@ -66,7 +67,7 @@ def inspect(board, output, seconds=60):
             raise ValueError('Source changed during Native inspection.')
         if p.tool_manifest() != tools:
             raise ValueError('Inspection runtime changed.')
-        elapsed = time.monotonic() - started
+        elapsed = elapsed_time() - started
         costs = p.sequential_cpu_components(time.process_time() - parent_started,
                                             f.child_cpu() - children_started, job.steps)
         if elapsed > seconds or costs['total_cpu_seconds'] > seconds or job.remaining() <= 0:
@@ -79,7 +80,7 @@ def inspect(board, output, seconds=60):
     except (Exception, KeyboardInterrupt) as exc:
         record.update(status='inspection_cancelled' if isinstance(exc, KeyboardInterrupt) else 'inspection_failed',
                       reason=type(exc).__name__ + ': ' + str(exc), steps=job.steps,
-                      wall_seconds=time.monotonic() - started)
+                      wall_seconds=elapsed_time() - started)
         try:
             record.update(p.sequential_cpu_components(time.process_time() - parent_started,
                           f.child_cpu() - children_started, job.steps))

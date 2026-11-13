@@ -11,6 +11,7 @@ import time
 import unittest
 from unittest.mock import patch
 
+from autorouter import runner
 from autorouter.runner import run
 
 
@@ -83,6 +84,59 @@ class RunnerTests(unittest.TestCase):
     def test_startup_and_output_collection_count_against_timeout(self):
         result = self.run_python("pass", timeout=0.000001)
         self.assertEqual(result["status"], "timeout")
+
+    def test_suspend_like_elapsed_jump_stops_and_reaps_active_worker(self):
+        values = iter((1000.0, 1000.0, 1000.0))
+        def clock():
+            return next(values, 1040.0)
+        with patch.object(runner, '_elapsed_source', return_value=(clock, 1.0)):
+            result = self.run_python('import time; time.sleep(10)', timeout=1)
+        self.assertEqual(result['status'], 'timeout')
+        self.assertGreaterEqual(result['wall_seconds'], 40)
+        self.assertTrue(result['cleanup_complete'])
+        self.assert_dead(result['pid'])
+
+    def test_elapsed_clock_unavailable_does_not_start_an_unbounded_worker(self):
+        with patch.object(runner, '_elapsed_source', side_effect=RuntimeError('clock unavailable')), \
+                patch.object(runner.subprocess, 'Popen') as spawn:
+            result = self.run_python('pass')
+        spawn.assert_not_called()
+        self.assertNotEqual(result['status'], 'success')
+        self.assertIsNone(result['wall_seconds'])
+        self.assertIn('clock unavailable', result['error'])
+        self.assertFalse(self.log.exists())
+
+    def test_elapsed_clock_failure_after_spawn_still_cleans_owned_worker(self):
+        calls = 0
+        def clock():
+            nonlocal calls
+            calls += 1
+            if calls > 2:
+                raise OSError('clock read failed')
+            return 1000.0
+        with patch.object(runner, '_elapsed_source', return_value=(clock, 1.0)):
+            result = self.run_python('import time; time.sleep(10)')
+        self.assertEqual(result['status'], 'runner_error')
+        self.assertIsNone(result['wall_seconds'])
+        self.assertTrue(result['cleanup_complete'])
+        self.assert_dead(result['pid'])
+
+    def test_last_io_elapsed_jump_cannot_publish_zero_exit_as_success(self):
+        now = [1000.0]
+        stream = self.log.open('xb', buffering=0)
+        class FinalIO:
+            def __getattr__(self, name):
+                return getattr(stream, name)
+            def close(self):
+                stream.close()
+                now[0] = 1040.0
+        with patch.object(runner, '_elapsed_source', return_value=(lambda: now[0], 1.0)), \
+                patch.object(Path, 'open', return_value=FinalIO()):
+            result = self.run_python('pass', timeout=1)
+        self.assertEqual(result['exit_code'], 0)
+        self.assertEqual(result['status'], 'timeout')
+        self.assertEqual(result['wall_seconds'], 40)
+        self.assertTrue(result['cleanup_complete'])
 
     def test_log_overflow_fails_and_remains_capped(self):
         result = self.run_python("import os; os.write(1, b'x'*200000)", max_log_bytes=1024)

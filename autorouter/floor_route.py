@@ -17,6 +17,7 @@ import time
 import uuid
 from . import pipeline as p, config as c, sexpr as sx, board_floor as g
 from .floor_context import LIMITS
+from .runner import elapsed_time
 
 POLICY='board-floors-v1'
 PLACEMENT_POLICY='placement-clearance-v1'
@@ -335,7 +336,7 @@ class FloorJob(p.Job):
         available=self.remaining()
         cap=available-15 if name=='engine' else min(30,available)
         if cap<=0:raise p.Rejected('floor operation budget exhausted')
-        self.deadline=time.monotonic()+cap
+        self.deadline=elapsed_time()+cap
         return super().step(name,argv if already_sandboxed else [*SANDBOX,*argv],allowed)
 
 
@@ -410,7 +411,7 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
     if search and preferences is not None:raise p.Rejected('unsupported: placement search excludes preferences')
     new_policy=guidance_policy in PLACEMENT_POLICIES
     if new_policy:from . import placement_clearance as pc
-    started,parent_start,child_start=time.monotonic(),time.process_time(),child_cpu()
+    started,parent_start,child_start=elapsed_time(),time.process_time(),child_cpu()
     if preferences is not None:
         started,parent_start,child_start=preferences['started'],preferences['parent_cpu'],preferences['child_cpu']
     source,output=Path(source).absolute(),Path(output).absolute()
@@ -419,7 +420,7 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
     if any(path.is_symlink() for path in (source,*source.parents,output,*output.parents)):raise p.Rejected('floor paths must not use symlinks')
     source,output=source.resolve(strict=True),output.resolve()
     if source.parent==output or source.parent in output.parents:raise p.Rejected('output must be outside source project')
-    def remaining():return max(0,min(started+seconds-time.monotonic(),seconds-(time.process_time()-parent_start+child_cpu()-child_start)))
+    def remaining():return max(0,min(started+seconds-elapsed_time(),seconds-(time.process_time()-parent_start+child_cpu()-child_start)))
     job=FloorJob(output,seconds,remaining,protect_local_settings=True);job.started=started;job.cpu_started=parent_start
     report={'schema':4 if search else 3 if new_policy else 2,'input_policy':guidance_policy,'status':'rejected','accepted':False,'physical_electrical_validation':False,'schematic_parity':'not checked',
         'source':str(source),'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'budget_seconds':seconds,'cpu_budget_seconds':seconds,
@@ -438,7 +439,7 @@ def _route(source,output,seconds,profile,guidance_policy=POLICY,preferences=None
         p.preferences_fresh(output,preferences)
     def account():
         steps=job.steps
-        report.update(steps=steps,wall_seconds=time.monotonic()-started,parent_cpu_seconds=time.process_time()-parent_start,
+        report.update(steps=steps,wall_seconds=elapsed_time()-started,parent_cpu_seconds=time.process_time()-parent_start,
             child_cpu_seconds=sum(s.get('cpu_seconds') or 0 for s in steps),monitor_cpu_seconds=sum(s.get('monitor_cpu_seconds') or 0 for s in steps),
             peak_child_rss_bytes=max([s.get('max_rss_bytes') or 0 for s in steps]+[0]))
         report['control_child_cpu_seconds']=max(0,child_cpu()-child_start-report['child_cpu_seconds']-report['monitor_cpu_seconds'])

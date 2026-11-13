@@ -12,6 +12,7 @@ import math
 import os
 import ctypes
 import errno
+from functools import lru_cache
 from pathlib import Path
 import selectors
 import signal
@@ -26,6 +27,58 @@ from typing import Any
 
 RESOURCE_POLL_SECONDS = 0.25
 _RESOURCE_SCAN_SECONDS = 1.0
+ELAPSED_CLOCK_POLICY = 'suspend-inclusive-boot-seconds-v1'
+
+
+@lru_cache(maxsize=1)
+def _elapsed_source():
+    """Select one native, suspend-inclusive clock; never substitute an awake clock."""
+    try:
+        if sys.platform == 'darwin' or sys.platform.startswith('linux'):
+            # Darwin RAW includes sleep; Linux RAW does not, hence BOOTTIME.
+            name = 'CLOCK_MONOTONIC_RAW' if sys.platform == 'darwin' else 'CLOCK_BOOTTIME'
+            clock_id = getattr(time, name)
+            read = time.clock_gettime
+            if type(clock_id) is not int or not callable(read):
+                raise ValueError('native clock API differs')
+            return lambda: read(clock_id), 1.0
+        if sys.platform == 'win32':
+            read = ctypes.WinDLL('kernel32', use_last_error=True).GetTickCount64
+            read.argtypes = []
+            read.restype = ctypes.c_ulonglong
+            return read, 0.001
+    except (AttributeError, OSError, TypeError, ValueError) as exc:
+        raise RuntimeError('Suspend-inclusive elapsed clock is unavailable') from exc
+    raise RuntimeError('Suspend-inclusive elapsed clock is unsupported on this platform')
+
+
+def elapsed_time() -> float:
+    """Return native boot-based seconds that include system sleep/hibernation.
+
+    This has an arbitrary system-wide origin, not a UTC timestamp. Successive
+    readings may be equal (notably Windows' coarser millisecond clock). The OS
+    clock supplies monotonicity; no wall-clock offset, accumulator or fallback
+    to ``time.monotonic`` is used. Unsupported APIs, failed reads and invalid
+    values fail closed. Consumers must use this same basis for start/deadline
+    arithmetic. This provider alone does not change existing job deadlines.
+
+    Native API definitions, not platform qualification:
+    https://developer.apple.com/documentation/kernel/1646199-mach_continuous_time
+    https://man7.org/linux/man-pages/man3/clock_gettime.3.html
+    https://learn.microsoft.com/en-us/windows/win32/sysinfo/windows-time
+    Actual Windows routing/installation and physical suspend remain unqualified.
+    """
+    try:
+        read, scale = _elapsed_source()
+        value = read()
+        if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
+            raise ValueError('invalid native clock value')
+        seconds = float(value) * scale
+        if not math.isfinite(seconds):
+            raise ValueError('invalid native clock seconds')
+        return seconds
+    except (AttributeError, OSError, OverflowError, TypeError, ValueError) as exc:
+        raise RuntimeError('Suspend-inclusive elapsed clock read failed') from exc
 
 
 def _workdir_bytes(root: Path, limit: int, *, max_entries: int = 100_000,
@@ -228,7 +281,11 @@ def run(
     remains in wall time, ps CPU is returned as monitor_cpu_seconds, and the
     original cpu_seconds/max_rss_bytes meanings are unchanged.
     """
-    started = time.monotonic()
+    # Operation budgets count suspend as elapsed time. Short cleanup grace
+    # periods below deliberately use the awake clock so reaping still gets a
+    # chance after the machine resumes. A missing operation clock never runs
+    # an unbounded child or becomes a positive result.
+    started: float | None = None
     supervisor_started = time.process_time()
     result: dict[str, Any] = {
         "status": "invalid_request",
@@ -254,6 +311,7 @@ def run(
         "cleanup_complete": True,
         "resource_accounting": {
             "method": "wait4 child rusage",
+            "wall_clock": ELAPSED_CLOCK_POLICY,
             "cpu_scope": "direct child plus descendants accounted for by child wait",
             "rss_scope": "kernel peak, not simultaneous process-tree total",
             "native_rss_unit": "bytes" if sys.platform == "darwin" else "KiB" if sys.platform.startswith("linux") else "unknown",
@@ -270,7 +328,7 @@ def run(
     stopping_at: float | None = None
     killed = False
     eof = False
-    next_resource_poll = started
+    next_resource_poll = None
     checked_exit_disk = False
 
     def cancel(signum: int, _frame: Any) -> None:
@@ -327,6 +385,8 @@ def run(
             signal_group(signal.SIGTERM)
 
     try:
+        started = elapsed_time()
+        next_resource_poll = started
         if (
             not isinstance(argv, list)
             or not argv
@@ -382,7 +442,9 @@ def run(
         os.set_blocking(process.stdout.fileno(), False)
         selector.register(process.stdout, selectors.EVENT_READ)
         while True:
-            now = time.monotonic()
+            now = elapsed_time()
+            if now < started:
+                raise RuntimeError("elapsed clock regressed")
             reap()
             if cancelled:
                 result["cancel_signal"] = signal.Signals(cancelled[0]).name
@@ -404,19 +466,21 @@ def run(
                     if disk > max_workdir_bytes:
                         stop("disk_limit")
                 checked_exit_disk = reaped
-                now = time.monotonic()
+                now = elapsed_time()
+                if now < started:
+                    raise RuntimeError("elapsed clock regressed")
                 next_resource_poll = now + RESOURCE_POLL_SECONDS
                 if now - started >= timeout:
                     stop("timeout")
             if reaped and stopping_at is None and group_exists():
                 # Even a zero-exit worker may not leave a daemon behind.
                 stop("descendants_left_running")
-            if stopping_at is not None and not killed and now - stopping_at >= 0.2:
+            if stopping_at is not None and not killed and time.monotonic() - stopping_at >= 0.2:
                 signal_group(signal.SIGKILL)
                 killed = True
             if reaped and eof and (stopping_at is None or not group_exists()):
                 break
-            if stopping_at is not None and now - stopping_at > 3.0:
+            if stopping_at is not None and time.monotonic() - stopping_at > 3.0:
                 result["cleanup_complete"] = reaped and eof and not group_exists()
                 result["cleanup_error"] = "worker reap or output closure exceeded cleanup bound"
                 break
@@ -482,6 +546,16 @@ def run(
             result["cancel_signal"] = signal.Signals(cancelled[0]).name
         if not result["cleanup_complete"] and result["status"] == "success":
             result["status"] = "runner_error"
-        result["wall_seconds"] = time.monotonic() - started
+        try:
+            measured = elapsed_time() - started if started is not None else None
+            if measured is not None and measured < 0:
+                raise RuntimeError("elapsed clock regressed")
+            result["wall_seconds"] = measured
+            if result["status"] == "success" and measured >= timeout:
+                result["status"] = "timeout"
+        except RuntimeError as exc:
+            result["status"] = "runner_error"
+            result["wall_seconds"] = None
+            result["elapsed_clock_error"] = str(exc)
         result["supervisor_cpu_seconds"] = time.process_time() - supervisor_started
     return result

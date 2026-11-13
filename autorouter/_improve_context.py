@@ -14,6 +14,7 @@ import stat
 import time
 from typing import Optional
 from . import config as c, provenance as pv
+from .runner import elapsed_time
 
 POLICY = 'selected-native7-single-improve-child-v1'
 PARENT_CLASS_POLICY = 'selected-native7-single-parent-class-child-v1'
@@ -274,7 +275,7 @@ class _Budget:
         if not _number(parent) or not _number(children) or parent < 0 or children < 0:
             raise p.Rejected('invalid live Improve full CPU accounting')
         reserve = RESERVE_SECONDS if work else 0
-        return min(job.deadline - time.monotonic() - reserve,
+        return min(job.deadline - elapsed_time() - reserve,
                    job.seconds - parent - children - reserve)
 
     def _work_job(self, job):

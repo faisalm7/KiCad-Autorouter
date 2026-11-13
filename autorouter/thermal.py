@@ -7,6 +7,7 @@ from __future__ import annotations
 import copy,json,math,os,shutil,stat,time,uuid
 from pathlib import Path
 from . import config as cfg,pipeline as p,sexpr as sx,thermal_geometry as geom
+from .runner import elapsed_time
 
 
 def _owned(value,root,kind='file',new=False):
@@ -68,7 +69,7 @@ class _SharedJob(p.Job):
     def step(self,name,argv,allowed=(0,)):
         left=self.shared_remaining()
         if left<=0:raise p.Rejected('thermal shared budget exhausted')
-        self.deadline=time.monotonic()+left;before=len(self.steps)
+        self.deadline=elapsed_time()+left;before=len(self.steps)
         try:return super().step(name,['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network*)',*argv],allowed)
         finally:self.parent_job.steps.extend(self.steps[before:])
     def native(self,name,action,board,output,*extra):
@@ -284,7 +285,7 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
     proposal_geometry=geom
     if experimental_contact:
         from . import thermal_contact as proposal_geometry
-    started=time.monotonic();result={'schema':1,'status':'not_attempted','candidate':None,'candidate_sha256':None,'validation_passed':False,'routing_accepted':False,'comparison_eligible':False,'whole_body_certificate_qualified':False,'proposal_scene_qualified':False,'scope':'one sole native thermal; two layers; round PTH target; round physical drills; saved target-zone fill unchanged','trials':[],'geometry_receipt':None,'proposal_receipt':None,'unsupported_reason':None}
+    started=elapsed_time();result={'schema':1,'status':'not_attempted','candidate':None,'candidate_sha256':None,'validation_passed':False,'routing_accepted':False,'comparison_eligible':False,'whole_body_certificate_qualified':False,'proposal_scene_qualified':False,'scope':'one sole native thermal; two layers; round PTH target; round physical drills; saved target-zone fill unchanged','trials':[],'geometry_receipt':None,'proposal_receipt':None,'unsupported_reason':None}
     if experimental_contact:
         result.update(experimental_contact=True,proposal_policy=proposal_geometry.POLICY,
                       scope='experimental sole-thermal contact proposals; fresh whole Native acceptance required; no saved-body path certificate or electrical claim',
@@ -294,7 +295,7 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
     def remaining():
         value=remaining_seconds()
         if not isinstance(value,(int,float)) or isinstance(value,bool) or not math.isfinite(value):raise p.Rejected('invalid shared thermal budget')
-        return min(value,parent_job.deadline-time.monotonic())
+        return min(value,parent_job.deadline-elapsed_time())
     watched={};watched_trees={};prepared=False;directory=None
     def stable():
         if not prepared:raise p.Rejected('thermal preparation incomplete')
@@ -382,7 +383,7 @@ def attempt_repair(parent_job,original_tree,candidate,source_hashes,protected_ro
     except (p.Rejected,geom.Unsupported,ValueError,KeyError,OSError) as exc:
         result.update(status='unsupported',candidate=None,candidate_sha256=None,validation_passed=False,unsupported_reason=type(exc).__name__+': '+str(exc))
     finally:
-        result['elapsed_wall_seconds']=time.monotonic()-started
+        result['elapsed_wall_seconds']=elapsed_time()-started
         def recheck_selected():
             if not result['validation_passed']:return
             selected=_owned(result['candidate'],directory);trialdir=selected.parent.parent

@@ -236,6 +236,17 @@ class PlacementGuiTests(unittest.TestCase):
         closed(); closed()
         self.assertIsNone(window.routing); window.Destroy.assert_called_once()
 
+    def test_routing_handoff_keeps_chosen_output_and_mandatory_guard(self):
+        window = self.window(); guard = Mock(); frame = Mock(source_guard=guard)
+        window.routing_output_hint = '/chosen/candidate jobs'
+        window.qualified = dict(ticket=window.gate.ticket(), guard=guard,
+                                witness={'candidate': '/owned/candidate.kicad_pcb'})
+        with patch.object(gui, 'create_window', return_value=frame) as factory:
+            window_method('open_routing')(window, None)
+        frame.output.SetValue.assert_called_once_with('/chosen/candidate jobs')
+        self.assertIs(factory.call_args.kwargs['source_guard'], guard)
+        frame.Show.assert_called_once(); frame.Destroy.assert_not_called()
+
     def test_existing_routing_frame_is_not_duplicated_or_rebound(self):
         window = self.window(); guard = Mock(); frame = Mock(source_guard=guard); window.routing = frame
         window.qualified = dict(ticket=window.gate.ticket(), guard=guard, witness={'candidate': '/owned/candidate.kicad_pcb'})

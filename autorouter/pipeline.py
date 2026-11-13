@@ -22,7 +22,7 @@ import subprocess
 import time
 from types import FunctionType, MappingProxyType
 from . import config as c, sexpr as sx
-from .runner import run, _workdir_bytes
+from .runner import run, _workdir_bytes, elapsed_time
 
 ROUTES={'segment','via','arc'}
 NORMAL_DRC_LOCAL_SETTINGS_POLICY='job-owned-prl-immutable-v1'
@@ -230,7 +230,7 @@ def check_storage(*, active_root=None):
     preserves the separate finite 18 GiB archive audit for setup/research tools.
     This is a sampled guard, not a filesystem quota or hostile-writer sandbox.
     """
-    limit=18*1024**3; total=0; deadline=time.monotonic()+15.0
+    limit=18*1024**3; total=0; deadline=elapsed_time()+15.0
     volume=c.ROOT
     if active_root is None:
         scopes=[c.ROOT/name for name in ('.data','.tools','.runs')]
@@ -242,7 +242,7 @@ def check_storage(*, active_root=None):
         scopes=[root];volume=root
         while not volume.exists():volume=volume.parent
     for root in scopes:
-        remaining=deadline-time.monotonic()
+        remaining=deadline-elapsed_time()
         if remaining<=0:raise Rejected('project cache/data size scan exceeded time bound')
         try:
             try:os.lstat(root)
@@ -252,7 +252,7 @@ def check_storage(*, active_root=None):
         except (OSError,RuntimeError) as exc:
             raise Rejected('project cache/data size scan failed: '+str(exc)) from exc
         if total>limit:raise Rejected('18 GiB '+('project cache/data' if active_root is None else 'active job')+' ceiling exceeded')
-    if time.monotonic()>deadline:raise Rejected('project cache/data size scan exceeded time bound')
+    if elapsed_time()>deadline:raise Rejected('project cache/data size scan exceeded time bound')
     if shutil.disk_usage(c.ROOT).free<2*1024**3 or (volume!=c.ROOT and shutil.disk_usage(volume).free<2*1024**3):
         raise Rejected('less than 2 GiB disk headroom')
     return total
@@ -1076,7 +1076,7 @@ class Job:
             from . import handoff as h
             self._local_settings_owner={};h.capture_destination(self._local_settings_owner,self.out)
         from .floor_route import child_cpu
-        self.started=time.monotonic(); self.cpu_started=time.process_time()
+        self.started=elapsed_time(); self.cpu_started=time.process_time()
         self.child_cpu_started=child_cpu()
         self.deadline=self.started+seconds; self.steps=[]; self.seconds=seconds
         self._inherited_budget=None
@@ -1093,7 +1093,7 @@ class Job:
             (base/('10.0' if key=='KICAD_CONFIG_HOME' else 'kicad/10.0')).mkdir(parents=True)
             self.env[key]=str(base)
     def remaining(self):
-        remaining=self.deadline-time.monotonic()
+        remaining=self.deadline-elapsed_time()
         if self._inherited_budget is not None:
             from . import _improve_context as improve_child
             budget=self._inherited_budget
@@ -2453,7 +2453,7 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
 
 
 def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None):
-    entry_started,entry_parent=time.monotonic(),time.process_time()
+    entry_started,entry_parent=elapsed_time(),time.process_time()
     from .floor_route import child_cpu
     operation_children=child_cpu()
     if placement_origin is not None:
@@ -2504,7 +2504,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             raise Rejected('pass explicit settings overrides through preference_overrides, not mixed route arguments')
         from . import preferences as pref
         from .floor_route import child_cpu
-        request={'started':time.monotonic(),'parent_cpu':time.process_time(),'child_cpu':child_cpu(),
+        request={'started':elapsed_time(),'parent_cpu':time.process_time(),'child_cpu':child_cpu(),
                  'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
         captured=pref.load(settings_path) if settings_path is not None else None
         effective=pref.resolve(captured,preference_overrides)
@@ -2531,7 +2531,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
     if engine_profile not in {'standard','tuned','completion-only','tuned-free-angle'}: raise Rejected('unknown engine profile')
     engine_scoring_settings(scoring_variant)
-    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or comparison_context is not None or _improve_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.monotonic()
+    operation_started=_preferences['started'] if _preferences else entry_started if native_toolchain is not None or comparison_context is not None or _improve_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else elapsed_time()
     operation_started_utc=_preferences['started_utc'] if _preferences else datetime.datetime.now(datetime.timezone.utc).isoformat()
     operation_cpu=_preferences['parent_cpu'] if _preferences else entry_parent if native_toolchain is not None or comparison_context is not None or _improve_context is not None or engine_profile=='tuned-free-angle' or _fanout_enabled is False else time.process_time()
     from .local_settings import canonical
@@ -2559,7 +2559,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     if placement_origin is not None:
         from .placement import bind_routing
         origin_record=bind_routing(placement_origin,source,_preferences['effective'],method='route')
-        if (time.monotonic()-operation_started>=seconds
+        if (elapsed_time()-operation_started>=seconds
                 or time.process_time()-operation_cpu+child_cpu()-_preferences['child_cpu']>=seconds):
             raise Rejected('routing budget exhausted while checking placement origin')
     if sha(c.JAR)!=c.JAR_SHA256: raise Rejected('engine hash mismatch')
@@ -2703,7 +2703,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         config_dir=output/'engine-config'; config_dir.mkdir()
         width_guard=minimum_width_guard(source,adapter)
         if width_guard is not None:report['minimum_width_guard']=width_guard
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-time.monotonic(),strict_class_targets=policy is not None or selected is not None or width_guard is not None or default_targets,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False,global_width_policy=_engine_global_width_policy)
+        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-elapsed_time(),strict_class_targets=policy is not None or selected is not None or width_guard is not None or default_targets,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False,global_width_policy=_engine_global_width_policy)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
@@ -2763,7 +2763,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         report['status']='unsupported' if 'unsupported:' in str(exc) else 'rejected'
         report['accepted']=False
     report['steps']=job.steps
-    report['wall_seconds']=time.monotonic()-job.started
+    report['wall_seconds']=elapsed_time()-job.started
     report['parent_cpu_seconds']=time.process_time()-job.cpu_started
     report['child_cpu_seconds']=sum(s.get('cpu_seconds') or 0 for s in job.steps)
     report['monitor_cpu_seconds']=sum(s.get('monitor_cpu_seconds') or 0 for s in job.steps)
@@ -2780,7 +2780,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     def remaining():
         return min(job.remaining(),seconds-(time.process_time()-job.cpu_started+child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)))
     def account():
-        report.update(wall_seconds=time.monotonic()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)
+        report.update(wall_seconds=elapsed_time()-job.started,parent_cpu_seconds=time.process_time()-job.cpu_started)
         report['control_child_cpu_seconds']=max(0,child_cpu()-(_preferences['child_cpu'] if _preferences else operation_children)-report['child_cpu_seconds']-report['monitor_cpu_seconds'])
         report['total_cpu_seconds']=sum(report[key] for key in ('parent_cpu_seconds','child_cpu_seconds','monitor_cpu_seconds','control_child_cpu_seconds'))
         report['resource_accounting_point']='Stored totals precede guarded publication; final wall/full CPU acceptance caps include all preference intake, readback and freshness checks.'

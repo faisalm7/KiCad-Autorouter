@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 from autorouter import review_export as e,handoff as h,pipeline as p,sexpr as sx,gui
 from tests import test_review_export as base
+from tests import test_gui as gt
 
 def finding(track_uuid='22222222-2222-4222-8222-222222222222',x=1.):
     return dict(type='connection_width',severity='warning',description='Same minimum0.1500mm/actual0.0790mm (B.Cu)',items=[
@@ -162,9 +163,9 @@ class LiveWarningControls(unittest.TestCase):
         with self.assertRaises(p.Rejected): e.check_export(self.output/'export.json')
 
     def test_original_wall_deadline_includes_review_without_second_allowance(self):
-        real = time.monotonic
+        real = e.elapsed_time
         def expired(event, *_):
-            self.stack.enter_context(patch.object(e.time, 'monotonic', side_effect=lambda: real()+121))
+            self.stack.enter_context(patch.object(e, 'elapsed_time', side_effect=lambda: real()+121))
             return response(event)
         with self.assertRaises(p.Rejected): e.export(self.choice, self.output, warning_review=expired)
         self.no_positive()
@@ -240,11 +241,11 @@ class WarningWireControls(unittest.TestCase):
                 while True: os.write(write_fd, b'x'*4096)
             except BlockingIOError: pass
             os.set_blocking(write_fd, True)
-            deadline = time.monotonic()+.1
+            deadline = e.elapsed_time()+.1
             def guard():
-                if time.monotonic() >= deadline: raise p.Rejected('owned wire deadline')
+                if e.elapsed_time() >= deadline: raise p.Rejected('owned wire deadline')
             with patch.object(e.sys, 'stdout', output), self.assertRaisesRegex(p.Rejected, 'deadline|budget'):
-                e.stdio_warning_review({'kind':'owned-wire'}, lambda:max(0., deadline-time.monotonic()), guard)
+                e.stdio_warning_review({'kind':'owned-wire'}, lambda:max(0., deadline-e.elapsed_time()), guard)
             self.assertTrue(os.get_blocking(write_fd))
 
     def test_actual_GUI_child_handshake_reply_and_closed_input(self):
@@ -252,8 +253,7 @@ class WarningWireControls(unittest.TestCase):
         for answer in ('accept_updated_findings', 'reject'):
             with self.subTest(answer=answer), tempfile.TemporaryDirectory(dir=Path(__file__).parent) as temp:
                 root=Path(temp).resolve(); job=gui.CliJob()
-                event=dict(kind='autorouter.warning-review-required.v1', pending=str(root/'export/warning-review.json'),
-                    pending_sha256='a'*64, delta_sha256='b'*64, nonce='c'*32, remaining_seconds=2., warning_review={})
+                event=gt.warning_challenge(root, seconds=2.)
                 program='import json,sys; print(sys.argv[1],flush=True); a=json.loads(sys.stdin.readline()); assert a["nonce"]=="c"*32; sys.exit(0 if a["decision"]=="accept_updated_findings" else 2)'
                 result=job.run([sys.executable,'-B','-c',program,json.dumps(event),'--warning-review-stdio'], root/'export.command.log',
                     timeout=3, on_warning_review=lambda value:job.reply_warning_review(value,answer))

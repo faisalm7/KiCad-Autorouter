@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "prospective_runtime": "081",
+  "base_head": "8c7a6f6ab4fb0889c2cbec6a34ba4d4fea259ed0",
+  "status": "source-targeted-pass-skeptical-findings-resolved",
+  "qualified_product": false,
+  "scope": "Sleep-inclusive operation budgets and live warning/adoption expiry, plus observed placement-routing output and preview labelling corrections; no routing algorithm or geometry-policy change.",
+  "clock_policy": "suspend-inclusive-boot-seconds-v1",
+  "changes": [
+    "Use native continuous boot clock on Mac; LinuxBOOTTIME/WindowsGetTickCount64 API adapters remain Native-unqualified.",
+    "All runtime operation starts/deadlines share clock basis; short cleanup graces retain awake clock.",
+    "Late zero-exit/adoption refuses; silent GUI child has finite100ms watchdog, stopped/joined at run exit.",
+    "Live warning challenge/report/candidate/absolute expiry and timely completed acknowledgement are bound; old completedack does not expire merely during later readback.",
+    "Placement handoff retains chosen routing output path; plots label exact routing input."
+  ],
+  "retained_failure": {
+    "silent_GUI_watchdog": "Reviewer reproduced delayed cancellation with the first081 draft; late acceptance already refused. Reproduction retained; corrected before any081 build.",
+    "full252": "Correctness controls passed, elapsed discrepancy unqualified. Never rewritten as1200s budget pass.",
+    "watchdog_startup": "Reviewer demonstrated child/pipe cleanup omission when watchdog thread startup raises. Corrected within the same source batch; real owned-child regression passed."
+  },
+  "targeted": [
+    {
+      "receipt_sha256": "3e97e66d695f872c75b2c0ffaaaae48c7203ce162a87cc975ce88c1505bc575d",
+      "tests": 35,
+      "wall_seconds": 2.3365950829465874,
+      "full_CPU_seconds": 0.765188
+    },
+    {
+      "receipt_sha256": "2a95260b489d2e5aac9d56cb94c5392261ae632afc2a6f0ec39b16d9f16931c3",
+      "tests": 188,
+      "wall_seconds": 16.472296667052433,
+      "full_CPU_seconds": 15.468285000000002
+    },
+    {
+      "receipt_sha256": "bbbee6b8a572b956c14d4c6654488f82423688c220a066038c18fbb985f49cf8",
+      "tests": 87,
+      "wall_seconds": 10.085488375043496,
+      "full_CPU_seconds": 8.884186
+    }
+  ],
+  "files_sha256": {
+    "autorouter/_improve_context.py": "93008a9b59346a153fc1eaca9f617752a2ac48b23e2c48d65d77c77ab8230391",
+    "autorouter/floor_route.py": "5ff487dbd7c576a4c4940a9642640e363bf563e526b9b4d9834c0b6ff76cd84d",
+    "autorouter/gui.py": "44eaf0d8d4ef53c9f5039dd70b8b5fec38ead37a4729a4cb06fcfc15e896f3a4",
+    "autorouter/handoff.py": "7ff364646210093c3d4bc1e67a2a70d9c7ee349161a796bfc191da52e7ee8d18",
+    "autorouter/model_intent.py": "cfbbcda88f4c3cd52feb1489ebfd76ca38ff1d75d40b21a4292be8e2cb13ed65",
+    "autorouter/pipeline.py": "0472462276439b5b6faff3b5c09667cca055332d900145b841a54f5be64bd99a",
+    "autorouter/placement.py": "5e6f3ecd113b26ac3b1005205faa77be023b9ae70dc1e9ff5068dd4e461036eb",
+    "autorouter/placement_gui.py": "342bfa60194429094a4129cccd72cb41f677f1f372f7d6542795b9162d892149",
+    "autorouter/placement_strategy.py": "b7a89a6d447b351c78062864dafd2d6be63a67687b28e98aa32fdf1a675f12ca",
+    "autorouter/project_inspection.py": "f9f7a78a8be9928f149041e440b94a9d79dc3499d4a5d5865055154585bce00a",
+    "autorouter/recovery.py": "b26eeb2e4b4bc91673861b1ad217384751344daaec658bbb7a484a8f5397289c",
+    "autorouter/review_export.py": "4df9f27c813734c3930b7cbe70c86e1be2c94a0fefedde76e726043a2a3050b8",
+    "autorouter/review_view.py": "4b5ebdd69d33fbb5e44cd65560459c2f5cfc3d6b4915713498c3f154fdad04df",
+    "autorouter/runner.py": "12f39ae215fe33e413eeac980fa54acabe2d6d73d60836acef7a4d2aaa4e45e1",
+    "autorouter/strategy.py": "7eb6f967c0595a79745f732381421a39648a4cd4f9589c02603e11bb52ea685c",
+    "autorouter/thermal.py": "22e4abb8557134b9f2b9877fca9807a348c15a037d87a5b1a76d4f1fdd91b75f",
+    "autorouter/thermal_geometry.py": "a25276d57ed9526c3a170cf5b5f30ff60ffa801ef3893abc9361c73ca0416983",
+    "scripts/verification_scratch.py": "374aece1c3b72875c267f2f5411ed12d0b94a557ae47942a90925f957a1c57c2",
+    "tests/test_elapsed_clock.py": "5de4a1d5c986b506f19c62b4bb41ab89381a1605cdbb71184d80bb5a8cd2b600",
+    "tests/test_gui.py": "74a17444e193620efb0a738d15a487b610954bebfb0f272fefbf16e84a06160d",
+    "tests/test_gui_elapsed_deadline.py": "97610514133141cc28565ae6cc709c2d54af071120d0f25d2362aa91ba9b8bcb",
+    "tests/test_gui_export_inspection.py": "f2bc7496843c3506f6fb6a580656998fc78446af733b9e76378ca438a191df3b",
+    "tests/test_gui_placement_entry.py": "779acb40fce470e388c8268a118768778f0846e4d5abc1d48f71914ea93a28f1",
+    "tests/test_gui_request_adoption.py": "e7fd27b914ac8ffad830dbfdb8a490b6f1ffc47b612eee1cbf861d92a72eb531",
+    "tests/test_gui_warning_review.py": "7fbffae9ed8ec197699eac2552ba12acbfb896b38bccd85b7bd7e56277dbb568",
+    "tests/test_placement_gui.py": "15bff96695d4f975bc0931abb0dade558d09ccdc12d9b1e0b435e89374e0d30c",
+    "tests/test_runner.py": "7b722276647216f6000ffe70d1fd60d32d9cb08b04016b3fd1a58be885ec4a9a",
+    "tests/test_verification_activity_batch.py": "248db0b5c6f00d0ca1f878cebd99eabcb902a38b2b4f5a0c5df2e6fc3e9716ed",
+    "tests/test_warning_review_live.py": "9b8a36f509d4646002bb4922397683958dd20cc8d370b1bad7475112a414bd20"
+  },
+  "independent_review": {
+    "sha256": "d739a903aba63876a1cc6b4171491203252c0182586e98a8b7bbcfd1718d3671",
+    "status": "final-static-review-no-known-remaining-blocker-in-declared-scope",
+    "resolved_findings": [
+      {
+        "severity": "P2",
+        "finding": "Quiet CLI could remain live after elapsed-clock expiry until the old awake-clock Timer fired.",
+        "resolved": true,
+        "evidence": "silent-watchdog-result001.json",
+        "resolution": "Finite100ms Event-stoppable watcher checks the shared absolute clock while stdout is silent; stopped and joined in finally."
+      },
+      {
+        "severity": "P2",
+        "finding": "Thread/Timer startup failure afterPopen was outside managed cleanup and left the child/pipes uncontrolled.",
+        "resolved": true,
+        "evidence": "startup-cleanup-result001.json",
+        "resolution": "Watcher creation/start now inside existing try; stop/cancel on failure, join only after successful start, close pipes and reap owned child."
+      }
+    ],
+    "costs": {
+      "measured_worker_wall_seconds": 1.1003940419759601,
+      "measured_full_CPU_seconds": 0.286587,
+      "additional_costs": "Static review, pure3285-case arithmetic probe(no counterexample) and tiny startup-fault double were not separately CPU-timed; not zero."
+    },
+    "retained_observer_failure": true,
+    "human_PCB_review": false,
+    "Native_jobs": 0
+  },
+  "required_next": [
+    "Fresh same-Mac curated081 setup and actual Native delivery",
+    "Six fresh genuine-warning export controls, conditional branch absence remains unexercised",
+    "Full final-source regression and actual081GUI",
+    "Unrelated placement usefulness and platform/recovery/human/live-model gates remain open"
+  ],
+  "model_calls": 0,
+  "actual_OS_suspend_test": false,
+  "formal_release": false,
+  "separate_non_runtime_helper": {
+    "scope": "Fresh bounded batch activity query; no retirement/permission change or historical retry",
+    "tests": 24,
+    "receipt_sha256": "e1c17e311787b415d93bd7f2b075a7052425907fbbda1799da3005fdd44e7609",
+    "outside_normal_runtime": true
+  },
+  "additional_prior_targeted": [
+    {
+      "receipt_sha256": "9175c3df16bf90c7d77aec41ccdd7bf19250ec5bc4b3553ac65d2d93067f970c",
+      "tests": 86,
+      "wall_seconds": 10.377935375028756,
+      "full_CPU_seconds": 9.000674,
+      "status": "Passed before the subsequent startup-cleanup correction"
+    }
+  ]
+}

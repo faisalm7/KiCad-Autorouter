@@ -11,6 +11,7 @@ import uuid
 from . import config as c, floor_route as f, placement_clearance as pc, pipeline as p
 from .pipeline import Rejected, check_result, save_json, validation_readback_session
 from . import comparison as cmp
+from .runner import elapsed_time
 
 # Prospective fixed stage policy. A larger review allocation never changes the
 # routing budget or any enclosing complete-workflow wall/full-CPU ceiling.
@@ -227,7 +228,7 @@ def capture_destination(lifecycle,destination):
 def finish_session(record, output, start, cpu_start, name, lifecycle=None):
     """Include memo cleanup in delivery caps; retain any over-cap publication."""
     destination=owned_destination(lifecycle) if lifecycle is not None else real_path(output)
-    wall, cpu = time.monotonic() - start, cpu_seconds() - cpu_start
+    wall, cpu = elapsed_time() - start, cpu_seconds() - cpu_start
     seconds = {'review.json': REVIEW_SECONDS, 'choice.json': CHOICE_SECONDS}.get(name)
     if seconds is None:raise Rejected('explicit review or choice cleanup stage required')
     if wall <= seconds and cpu <= seconds:return record
@@ -275,7 +276,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
     if lifecycle is not None:lifecycle.update(record=record,name='review.json')
 
     def cap():
-        if time.monotonic() - start > REVIEW_SECONDS or cpu_seconds() - cpu_start > REVIEW_SECONDS:
+        if elapsed_time() - start > REVIEW_SECONDS or cpu_seconds() - cpu_start > REVIEW_SECONDS:
             raise Rejected('review copy exceeded 60-second wall or full CPU ceiling')
 
     def inventory(path, *, contents=False, evidence=False):
@@ -286,7 +287,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
         cap(); return value
 
     def account():
-        record.update(wall_seconds=time.monotonic() - start,
+        record.update(wall_seconds=elapsed_time() - start,
                       total_cpu_seconds=cpu_seconds() - cpu_start)
         record['within_budget'] = record['wall_seconds'] <= REVIEW_SECONDS and record['total_cpu_seconds'] <= REVIEW_SECONDS
 
@@ -424,7 +425,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
             before_created = True; del original_capture
             copy_material()
             from .review_view import render as render_view
-            remaining = lambda: max(0, min(REVIEW_SECONDS - (time.monotonic() - start), REVIEW_SECONDS - (cpu_seconds() - cpu_start)))
+            remaining = lambda: max(0, min(REVIEW_SECONDS - (elapsed_time() - start), REVIEW_SECONDS - (cpu_seconds() - cpu_start)))
             # Plot workers already preserve/check their own input and completed
             # output bytes. Keep every captured byte witness between plots;
             # replay the full parent/tool/worker/PRL fence immediately after.
@@ -486,7 +487,7 @@ def _review_copy(receipt, output, start, cpu_start, render=False, lifecycle=None
 
 def review_copy(receipt, output, *, render=False, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Create one new disposable project from centrally verified captured bytes."""
-    start = time.monotonic(); cpu_start = cpu_seconds()
+    start = elapsed_time(); cpu_start = cpu_seconds()
     ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     lifecycle={}
@@ -529,14 +530,14 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
     record.update(delivery_record(native_toolchain, experimental_schematic_parity, comparison_context=comparison_context))
     if lifecycle is not None:lifecycle.update(record=record,name='choice.json')
     def cap():
-        if time.monotonic() - start > CHOICE_SECONDS or cpu_seconds() - cpu_start > CHOICE_SECONDS:
+        if elapsed_time() - start > CHOICE_SECONDS or cpu_seconds() - cpu_start > CHOICE_SECONDS:
             raise Rejected('review choice exceeded 60-second wall or full CPU ceiling')
     def inventory(path, *, evidence=False):
         cap(); value = evidence_witness(path) if evidence else pc.inventory(path, max_bytes=EVIDENCE_BYTES if evidence else PROJECT_BYTES,
                 max_files=4000 if evidence else 2000, max_entries=8000 if evidence else 4000)
         cap(); return value
     def account():
-        record.update(wall_seconds=time.monotonic() - start,
+        record.update(wall_seconds=elapsed_time() - start,
                       total_cpu_seconds=cpu_seconds() - cpu_start)
         record['within_budget'] = record['wall_seconds'] <= CHOICE_SECONDS and record['total_cpu_seconds'] <= CHOICE_SECONDS
     def invalidate():
@@ -697,7 +698,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
 
 def review_choice(review, output, choice, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Persist accept/reject intent with stale checks; no PCB application/approval."""
-    start = time.monotonic(); cpu_start = cpu_seconds()
+    start = elapsed_time(); cpu_start = cpu_seconds()
     ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     lifecycle={}

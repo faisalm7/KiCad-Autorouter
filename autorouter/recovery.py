@@ -15,6 +15,7 @@ import shutil
 import time
 import uuid
 from . import config as c, pipeline as p, sexpr as sx
+from .runner import elapsed_time
 
 FINAL_RESERVE = 15.0
 RECOVERY_RESERVE = 40.0
@@ -45,7 +46,7 @@ def recover(source, output, seconds=120):
 def _recover(source, output, seconds):
     from .thermal import parent_profile
     profile=parent_profile()
-    started, parent_start, child_start = time.monotonic(), time.process_time(), child_cpu()
+    started, parent_start, child_start = elapsed_time(), time.process_time(), child_cpu()
     if isinstance(seconds, bool) or not isinstance(seconds, (int, float)) or not math.isfinite(seconds) or not 90 <= seconds <= 900:
         raise p.Rejected("thermal recovery budget must be 90–900 seconds")
     from .local_settings import canonical
@@ -72,7 +73,7 @@ def _recover(source, output, seconds):
         return time.process_time() - parent_start + child_cpu() - child_start
 
     def remaining(reserve=0):
-        return max(0.0, min(started + seconds - time.monotonic(), seconds - total_cpu()) - reserve)
+        return max(0.0, min(started + seconds - elapsed_time(), seconds - total_cpu()) - reserve)
 
     def stable():
         if not frozen:
@@ -87,7 +88,7 @@ def _recover(source, output, seconds):
 
     def account():
         steps = job.steps
-        report.update(steps=steps, wall_seconds=time.monotonic()-started,
+        report.update(steps=steps, wall_seconds=elapsed_time()-started,
                       parent_cpu_seconds=time.process_time()-parent_start,
                       child_cpu_seconds=sum(s.get("cpu_seconds") or 0 for s in steps),
                       monitor_cpu_seconds=sum(s.get("monitor_cpu_seconds") or 0 for s in steps),

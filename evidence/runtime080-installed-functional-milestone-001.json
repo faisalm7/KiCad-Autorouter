@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "tested_source_head": "8c7a6f6ab4fb0889c2cbec6a34ba4d4fea259ed0",
+  "runtime_manifest_sha256": "227a73cf8b5958be21df81acd47bb284d0746d361ff59891a58220e3d682b2d8",
+  "scope": "Owned already-complete ordinary-SMD development task: selected placement, explicit affected-net copper rebuilding, protected routing and separate delivery. No unrelated-board usefulness or completion-rate gain claimed.",
+  "installation": {
+    "prepared": true,
+    "immutable_files": 82,
+    "wall_seconds": 8.611708750002435,
+    "full_cpu_seconds": 6.438106
+  },
+  "native_installed_task": {
+    "passed": true,
+    "outer_wall_seconds": 252.44853800000055,
+    "outer_worker_cpu_seconds": 185.413048,
+    "outer_supervisor_cpu_seconds": 9.736003,
+    "outer_full_cpu_seconds": 195.14905100000001,
+    "total_budget_seconds": 420,
+    "epoch_span_corroborated": true,
+    "operations": [
+      {
+        "stage": "original_inspection",
+        "wall_seconds": 9.15312187499876,
+        "full_cpu_seconds": 3.362576,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "placement",
+        "wall_seconds": 36.92171095899903,
+        "full_cpu_seconds": 26.071768,
+        "limit_seconds": 120,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "preview",
+        "wall_seconds": 14.326508083002409,
+        "full_cpu_seconds": 10.672246999999999,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "route",
+        "wall_seconds": 59.85154416700243,
+        "full_cpu_seconds": 36.907058000000006,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "review",
+        "wall_seconds": 27.154691209001612,
+        "full_cpu_seconds": 22.03376399999999,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "choice",
+        "wall_seconds": 24.417944582997734,
+        "full_cpu_seconds": 17.509586999999996,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "export",
+        "wall_seconds": 47.84645174999969,
+        "full_cpu_seconds": 43.51227800000001,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "verify_export",
+        "wall_seconds": 20.94699879199834,
+        "full_cpu_seconds": 18.05901800000001,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      }
+    ],
+    "originals_unchanged": true,
+    "final": {
+      "final_candidate_sha256": "ffe81ca8032665575cc416de6d188ff8444d2b50d59fcaed4fe399b9e00c2c4d",
+      "original_segments": 9,
+      "rebuilt_segments": 7,
+      "retained_segments": 2,
+      "retained_locked_segments": 1,
+      "preserved_zones": 1,
+      "final_native": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 1,
+        "exclusions": 0,
+        "ignored_checks": [
+          {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+          },
+          {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+          }
+        ],
+        "findings": [
+          {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+              {
+                "description": "PCB text 'Owned ordinary geometry task' on F.Silkscreen",
+                "pos": {
+                  "x": 20.0,
+                  "y": 3.0
+                },
+                "uuid": "3bd0eb3b-4351-52b9-9d2c-c24a9ed26e78"
+              }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+          }
+        ]
+      },
+      "composed_audit_passed": true
+    }
+  },
+  "full252": {
+    "correctness_controls_passed": true,
+    "run": 3298,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_windows_firewall_diagnostics.WindowsFirewallDiagnostics.test_mocked_powershell_refusal_and_snapshot_structure",
+        "reason": "PowerShell absent; mocked script execution remains unrun"
+      }
+    ],
+    "source_unchanged": true,
+    "raw_receipt_passed": true,
+    "recorded_monotonic_wall_seconds": 502.9264351660022,
+    "full_cpu_seconds": 396.65885199999997,
+    "protocol_to_execution_timestamp_span_seconds": 2967.295257806778,
+    "1200_second_user_visible_elapsed_compliance": false,
+    "interpretation": "Retain all correctness results; the raw timer undercounts the observed calendar span. Cause of this run gap is unproved. Python on this Mac uses an awake clock; prospective081 changes shared budgets to a sleep-inclusive OS clock and adds delayed-adoption/expiry controls. No old receipt rewritten or fresh routing success inferred from test count."
+  },
+  "GUI110": {
+    "finite_core_completed": true,
+    "actual_KiCad_toolbar_launch": true,
+    "actual_protected_placement_and_routing": true,
+    "invalid_off_board_edit_refused": true,
+    "atomic_component_edits_observed": true,
+    "saved_and_reloaded_settings": true,
+    "explicit_protected_net_refused_before_search": true,
+    "Edge_front_and_back_plots_and_findings_observed": true,
+    "accept_without_acknowledgement_refused": true,
+    "explicit_software_test_acceptance": true,
+    "separate_rejection_blocks_export": true,
+    "fresh_original_rule_Native_export": true,
+    "actual_checked_PCB_opening": true,
+    "post_editor_export_stale_refused": true,
+    "export_PCB_unchanged": true,
+    "source_originals_unchanged": true,
+    "settings_preview_revoked": true,
+    "source_path_change_refused": true,
+    "active_cancellation": {
+      "attempt1": "Missed: qualification finished before Cancel click; full successful qualification retained and charged.",
+      "attempt2_status": "cancelled",
+      "attempt2_accepted": false,
+      "attempt2_cleanup_complete": true,
+      "owned_lineage_observed": true,
+      "active_executable_image_verified": false,
+      "GUI_handoff_revoked": true
+    },
+    "genuine_changed_warning_branch": "Did not occur; unexercised.",
+    "exact_queued_callback_interval": "Unexercised.",
+    "CLI_cost_review_pending": false,
+    "GUI_interaction_and_CPU": "Additional; full graphical interaction/CPU not measured.",
+    "human_PCB_approval": false,
+    "model_calls": 0,
+    "disjoint_CLI_commands": 15,
+    "disjoint_CLI_wall_seconds": 126.236646623,
+    "positive_CLI_commands": 7,
+    "positive_CLI_wall_seconds": 62.102693207,
+    "other_CLI_wall_seconds": {
+      "settings_preview": 2.885398083,
+      "reject": 31.152239333,
+      "three_placement_qualifications": 30.096316,
+      "missed_cancel_qualification_included": 11.281266875,
+      "active_cancel_qualification_included": 6.947244292
+    }
+  },
+  "qualification_boundary": "Installed080 functionality and finite GUI core tested; elapsed/expiry reliability across sleep remains a known open defect addressed prospectively in081. Current081 source is unqualified, not an in-place080 repair.",
+  "raw_receipt_sha256": {
+    ".runs/runtime-directory-080/installed-setup.json": "5b1d27e0fb5ee08fb0e7425602e2206a5e67897b8089783dc918e24c6d89d79c",
+    ".runs/placement080-installed-qualification-draft-001/outer-process.json": "bd5ba493ce622362995edac2340da23a5ec375d602681b90386c4dac737ef5a2",
+    ".runs/runtime080 fresh install 001/.runs/placement-product080-001/execution.json": "62c4b4fafbf617b04ed9b78ac6fc4efd644b8b4fedb8c96535ac4dd7c8a49b83",
+    ".runs/full-integration-252/execution.json": "b4b4d7b44b2ce7102286bbb9a1b716b3d0039959d549fb46ccd770399853b3b7",
+    ".runs/full-integration-252/test-timings.json": "d265869cae7bc932f06604b98575904fc3a5e6c81aae4231ec0c64be80a6ea91",
+    ".runs/gui110-observations-001/positive-before-open.json": "af6525aa8ebe43cebe345a570a7a908038d77f67c7bf8903de0311d2a0401f27",
+    ".runs/gui110-observations-001/checked-opening-and-stale001.json": "b5d318c2fd4d4f59d2c82627fa3bcddf75388554d0f77932ac873e717afc82f8",
+    ".runs/gui110-observations-001/preset-reject-freshness001.json": "1ed98dfcc9e2a5012c8c601b9b332253cb0311b4b5bdc206ab16f03ee8a61144",
+    ".runs/gui110-observations-001/cancellation-missed001.json": "868839d256591f9beb111297f6a6f8f9db4615de4293d4008aa40e6ea8bd4e72",
+    ".runs/gui110-observations-001/cancellation-active002.json": "4533e83e3bcc08fc5c8c0ef5690baf6ed506d4bb5a1bdd6665a915732f58561a"
+  },
+  "remaining": [
+    "Prospective081 final source/install/Native/GUI qualification",
+    "Useful unrelated placement tasks and grouping/orientation/side/keepout breadth",
+    "Actual Windows Native installation/routing/cancel/export",
+    "Configured and authorized live application model endpoint",
+    "Independent installation/human/physical review and full current recovery"
+  ],
+  "publication": "Development source/evidence checkpoint only; no formal release/tag/package.",
+  "independent_software_readback": {
+    "passed_remaining_checks": true,
+    "initial_harness_failure_retained": true,
+    "wall_seconds": 18.360353958036285,
+    "full_CPU_seconds": 6.497166999999999,
+    "additional_unmeasured": "One standalone diagnostic plus authoring/static review; no total reviewer-cost or human-review claim.",
+    "Native_jobs": 0,
+    "actual_GUI_repeated": false,
+    "completion_sha256": "970b0fcc856302e7b0683f8aaf73cf40b408a2e73bbb66d8b8be7593b52360b5",
+    "review_sha256": "bf15c677da6ae607f7db18b72c04fde99ec72a736eb4c8a50d68ccdfac14cff0"
+  }
+}

@@ -221,7 +221,7 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
                          job.out / (label + '-' + layer + '-process.json')):
                 frozen[str(path.relative_to(destination))] = p.sha(path)
             stable()
-            images.append('<figure><figcaption>' + ('Original project' if label == 'before' else 'Candidate') +
+            images.append('<figure><figcaption>' + ('Routing input' if label == 'before' else 'Candidate') +
                           '</figcaption><img alt="' + escape(label + ' ' + layer, quote=True) +
                           '" src="plot-work/plots/' + target.name + '"></figure>')
         rows.append('<section><h2>' + escape(layer) + '</h2><div class="pair">' + ''.join(images) + '</div></section>')
@@ -254,8 +254,10 @@ def render(destination, source, candidate, report, remaining, material, *, nativ
             '.saved-summary dt{font-weight:600}.saved-summary dd{margin:0}summary{cursor:pointer}'
             '@media(max-width:700px){.pair{grid-template-columns:1fr}}</style>'
             '<h1>Routing review</h1><p>' + escape(candidate.name) + '</p>'
-            '<p>These are KiCad plots of the exact original and candidate copper. Saved zone fills are shown; plotting does not refill zones or perform DRC. '
-            'The original may already contain reference routes. Compare each layer at the same board extent.</p>'
+            '<p>These are KiCad plots of the exact saved routing input and candidate copper. '
+            'For a placement task, review component moves in the placement window; these plots show the routing step. '
+            'Saved zone fills are shown; plotting does not refill zones or perform DRC. '
+            'The routing input may contain existing routes. Compare each layer at the same board extent.</p>'
             '<p>The candidate passed its recorded routing checks. All warnings still require review; this is not electrical or manufacturing approval. '
             'Open the candidate .kicad_pro in KiCad project manager, then Tools → PCB Editor. Run DRC with zone refill and every severity visible. '
             'To reject, close the disposable project and retain the original. To accept for further design work, keep this separate project; never overwrite an open source board. '

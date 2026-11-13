@@ -180,9 +180,11 @@ def bitmap_with_labels(wx, svg, size=(850, 500)):
     return bitmap
 
 
-def create_window(board='', *, on_closed=None):
+def create_window(board='', *, output_hint=None, on_closed=None):
     if on_closed is not None and not callable(on_closed):
         raise ValueError('The parent close notification must be a callable.')
+    if output_hint is not None and not isinstance(output_hint, (str, Path)):
+        raise ValueError('Use a routing output folder path or no hint.')
     import wx
     import wx.svg
     if wx.GetApp() is None or threading.current_thread() is not threading.main_thread():
@@ -200,6 +202,7 @@ def create_window(board='', *, on_closed=None):
             self.updating = False; self.workspace = None; self.owner = {}
             self.pending_coordinates = {}
             self.editing_component = None
+            self.routing_output_hint = str(output_hint) if output_hint is not None else None
             panel = self.panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
             root = wx.BoxSizer(wx.VERTICAL)
             title = wx.StaticText(panel, label='Place selected components')
@@ -693,6 +696,8 @@ def create_window(board='', *, on_closed=None):
                         else: self.refresh()
                 frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished)
                 try:
+                    if getattr(self, 'routing_output_hint', None) is not None:
+                        frame.output.SetValue(self.routing_output_hint)
                     if self.gate.review.copper_plan is not None:
                         prefill_copper_routing(frame, self.gate.review.copper_plan)
                     result['guard'].check(candidate); self.gate.check(result['ticket'])

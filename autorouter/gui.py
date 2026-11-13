@@ -21,6 +21,7 @@ from typing import Callable
 
 from . import config as c, preferences as pref
 from ._improve_context import RESERVE_SECONDS as IMPROVE_RETURN_RESERVE_SECONDS
+from .runner import elapsed_time, ELAPSED_CLOCK_POLICY
 
 LOG_LIMIT = 2 * 1024 * 1024
 GUI_IMPROVE_MIN_SECONDS = 90
@@ -691,20 +692,45 @@ def failed_preview_detail(path):
         'Start a fresh preview using the intended saved project and settings. No preview or candidate was accepted.')
 
 
-def warning_review_text(event, expected_path):
-    """Bound displayed findings to this challenge; the CLI still owns acceptance."""
+def _warning_review_packet(event, expected_path):
+    """Read the exact live proof; transport delay cannot renew its deadline."""
     from . import pipeline as p, review_export as ex
+    if (type(event) is not dict or event.get('kind') != 'autorouter.warning-review-required.v1'
+            or type(event.get('pending')) is not str
+            or type(event.get('nonce')) is not str or len(event['nonce']) != 32
+            or any(x not in '0123456789abcdef' for x in event['nonce'])
+            or any(type(event.get(key)) is not str or len(event[key]) != 64
+                   or any(x not in '0123456789abcdef' for x in event[key])
+                   for key in ('pending_sha256', 'delta_sha256', 'candidate_sha256', 'native_report_sha256'))
+            or type(event.get('warning_review')) is not dict
+            or set(event['warning_review']) != {'policy', 'delta', 'findings_equivalent', 'review_text', 'copper_witness'}
+            or not ex.finite(event.get('remaining_seconds')) or not 0 < event['remaining_seconds'] <= ex.SECONDS):
+        raise ValueError('Invalid live warning-review challenge.')
+    try: ex._warning_clock(event, current=elapsed_time())
+    except p.Rejected as exc: raise ValueError(str(exc)) from exc
     path = Path(event['pending'])
-    if path != expected_path or path.is_symlink() or path.stat().st_size > 2*1024*1024:
+    if path != expected_path or path.is_symlink() or not path.is_file() or path.stat().st_size > 2*1024*1024:
         raise ValueError('Updated-warning review path or size is unsupported.')
     if p.sha(path) != event['pending_sha256']: raise ValueError('Updated-warning review changed before display.')
     pending = read_record(path); review = pending.get('warning_review')
-    if (pending.get('export_accepted') is not False or pending.get('resumable_after_exit') is not False
+    if (type(pending.get('schema')) is not int or pending['schema'] != 1
+            or pending.get('kind') != 'live-warning-review-pending-v1' or pending.get('policy') != ex.WARNING_REVIEW_POLICY
+            or pending.get('export_accepted') is not False or pending.get('resumable_after_exit') is not False
             or pending.get('nonce') != event['nonce'] or type(review) is not dict
+            or any(pending.get(key) != event.get(key) for key in
+                   ('clock_policy', 'sent_elapsed_time', 'expires_elapsed_time', 'candidate_sha256', 'native_report_sha256'))
             or ex._warning_digest(review) != event['delta_sha256']
             or {key: review.get(key) for key in event['warning_review']} != event['warning_review']
             or p.sha(path) != event['pending_sha256']):
         raise ValueError('Displayed updated-warning findings do not match the live challenge.')
+    try: ex._warning_clock(pending, current=elapsed_time())
+    except p.Rejected as exc: raise ValueError(str(exc)) from exc
+    return review
+
+
+def warning_review_text(event, expected_path):
+    """Bound displayed findings to this challenge; the CLI still owns acceptance."""
+    review = _warning_review_packet(event, expected_path)
     lines = ['Fresh validation reports different warning members on the same PCB.',
         'Review the changed items below. Both complete finding lists follow.',
         'This accepts the updated report for export; it is not electrical approval.',
@@ -785,6 +811,12 @@ class CliJob:
         self._lock = threading.Lock()
         self._warning_pending = None
         self._warning_decision = None
+        self._action_started = None
+        self._action_deadline = None
+        self._action_process = None
+        self._warning_expected_path = None
+        self._warning_deadline = None
+        self._deadline_error = None
 
     def reply_warning_review(self, event, decision):
         """Reply once to this live child's exact challenge; never adopt a result."""
@@ -796,34 +828,65 @@ class CliJob:
                 nonce=event['nonce'], pending_sha256=event['pending_sha256'], delta_sha256=event['delta_sha256'])
             self.process.stdin.write((json.dumps(value)+'\n').encode('utf-8'))
             self.process.stdin.flush(); self._warning_pending = None; self._warning_decision = decision
+            self._warning_deadline = None  # A timely completed reply is no longer a pending challenge.
 
     def _check_warning_locked(self, event):
+        self._check_deadline_locked(require_armed=True)
         if (self.cancel_requested or self.process is None or self.process.poll() is not None
                 or self._warning_pending is None or event != self._warning_pending):
             raise ValueError('Warning review expired, changed or was cancelled; no acknowledgement sent.')
+        _warning_review_packet(event, self._warning_expected_path)
+        self._check_deadline_locked(require_armed=True)
+
+    def _cancel_locked(self):
+        if self.cancel_requested: return
+        self.cancel_requested = True
+        if self.process is not None and self.process.poll() is None:
+            try: self.process.send_signal(signal.SIGINT)
+            except ProcessLookupError: pass
+
+    def _check_deadline_locked(self, *, require_armed=False):
+        # Placement intake checks cancellation before run. An untouched job is
+        # allowed there, but an injected process has no action authority.
+        if self._action_started is None:
+            if not require_armed and self.process is None: return
+            self._cancel_locked()
+            raise ValueError('No armed CLI action deadline; no positive state adopted.')
+        try:
+            now = elapsed_time()
+            if (type(self._action_started) not in (int, float) or not math.isfinite(self._action_started)
+                    or type(self._action_deadline) not in (int, float) or not math.isfinite(self._action_deadline)
+                    or type(now) not in (int, float) or not math.isfinite(now) or now < 0
+                    or self._action_process is not self.process or self.process is None
+                    or not self._action_started <= now < self._action_deadline):
+                raise ValueError('Action elapsed deadline expired or changed; no positive state adopted.')
+            if self._warning_deadline is not None and (type(self._warning_deadline) not in (int, float)
+                    or not math.isfinite(self._warning_deadline) or now >= self._warning_deadline):
+                raise ValueError('The original warning-review elapsed deadline expired.')
+        except Exception as exc:
+            self._deadline_error = str(exc)
+            self._cancel_locked()
+            raise ValueError('CLI action deadline unavailable or expired; no positive state adopted.') from exc
 
     def check_warning_review(self, event):
         with self._lock: self._check_warning_locked(event)
 
     def cancel(self):
         with self._lock:
-            if self.cancel_requested: return
-            self.cancel_requested = True
-            if self.process is not None and self.process.poll() is None:
-                try: self.process.send_signal(signal.SIGINT)
-                except ProcessLookupError: pass
+            self._cancel_locked()
 
-    def check_live(self):
+    def check_live(self, *, require_armed=False):
         """A retained process snapshot cannot supersede a later Cancel."""
         with self._lock:
             if self.cancel_requested:
                 raise ValueError('Action was cancelled. No positive UI state adopted.')
+            self._check_deadline_locked(require_armed=require_armed)
 
     def adopt(self, flow, stage, process, log_path, *, choice=None):
-        self.check_live()
+        self.check_live(require_armed=True)
         record = flow.adopt(stage, process, log_path, choice=choice)
         try:
-            self.check_live()
+            self.check_live(require_armed=True)
         except ValueError:
             flow.ready.clear(); flow.records.clear(); flow.choice = None
             raise
@@ -832,7 +895,10 @@ class CliJob:
     def run(self, argv, log_path, *, timeout=165.0, on_warning_review=None):
         if type(timeout) not in (int, float) or not math.isfinite(timeout) or not 0 < timeout <= 1000:
             raise ValueError('Finite GUI action watchdog required.')
-        started = time.monotonic(); size = 0; truncated = False
+        started = elapsed_time(); size = 0; truncated = False
+        if (type(started) not in (int, float) or not math.isfinite(started) or started < 0
+                or not math.isfinite(started + timeout) or started + timeout <= started):
+            raise ValueError('Usable suspend-inclusive CLI action clock required.')
         live_review = on_warning_review is not None
         if live_review and (not callable(on_warning_review) or '--warning-review-stdio' not in argv):
             raise ValueError('Explicit live warning-review command and handler required.')
@@ -840,13 +906,33 @@ class CliJob:
         with log_path.open('xb') as log:
             with self._lock:
                 if self.cancel_requested: raise ValueError('Cancelled before process startup.')
+                if self.process is not None and self.process.poll() is None:
+                    raise ValueError('The previous CLI action is still running.')
                 self._warning_pending = None
                 self._warning_decision = None
+                self._action_started = started
+                self._action_deadline = started + timeout
+                self._action_process = None
+                self._warning_expected_path = log_path.parent/'export/warning-review.json'
+                self._warning_deadline = None
+                self._deadline_error = None
                 self.process = subprocess.Popen(argv, cwd=c.ROOT, stdin=subprocess.PIPE if live_review else subprocess.DEVNULL,
                     stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=child_environment())
-            deadline = threading.Timer(timeout, self.cancel)
-            deadline.daemon = True; deadline.start()
+                self._action_process = self.process
+            # An awake-clock Timer(timeout) may have most of its wait left after
+            # host sleep. Poll the absolute action clock while stdout is silent;
+            # this finite owned watchdog is stopped and joined before run exits.
+            watch_stopped = None; deadline = None; deadline_started = False
             try:
+                watch_stopped = threading.Event()
+                def watch_deadline():
+                    while not watch_stopped.wait(0.1):
+                        with self._lock:
+                            if self.cancel_requested: return
+                            try: self._check_deadline_locked(require_armed=True)
+                            except ValueError: return
+                deadline = threading.Timer(0, watch_deadline)
+                deadline.daemon = True; deadline.start(); deadline_started = True
                 while True:
                     chunk = self.process.stdout.read1(8192)
                     if not chunk: break
@@ -876,10 +962,17 @@ class CliJob:
                                 raise ValueError('Invalid or repeated live warning-review challenge.')
                             with self._lock:
                                 if self.cancel_requested: raise ValueError('Warning review was cancelled.')
+                                self._check_deadline_locked(require_armed=True)
+                                _warning_review_packet(event, expected)
+                                self._warning_deadline = event['expires_elapsed_time']
+                                self._check_deadline_locked(require_armed=True)
                                 self._warning_pending = copy.deepcopy(event)
                             warning_seen = True; on_warning_review(copy.deepcopy(event))
                         if len(lines) > 64*1024: raise ValueError('Warning-review message exceeds64KiB.')
                 code = self.process.wait()
+                with self._lock:
+                    try: self._check_deadline_locked(require_armed=True)
+                    except ValueError: pass  # Retain a refused/cancelled process receipt below.
                 if warning_seen and code == 0 and self._warning_decision != 'accept_updated_findings':
                     raise ValueError('Live export exited without explicit updated-findings acknowledgement.')
             except BaseException:
@@ -888,13 +981,22 @@ class CliJob:
                 self.process.wait()
                 raise
             finally:
-                deadline.cancel(); deadline.join()
+                if watch_stopped is not None: watch_stopped.set()
+                if deadline is not None: deadline.cancel()
+                if deadline_started: deadline.join()
                 self.process.stdout.close()
                 if live_review: self.process.stdin.close()
                 self._warning_pending = None
+        with self._lock:
+            try: self._check_deadline_locked(require_armed=True)
+            except ValueError: pass
+        wall = elapsed_time()-started
+        if not math.isfinite(wall) or wall < 0:
+            raise ValueError('CLI action elapsed accounting is unavailable; no positive state adopted.')
         result = dict(argv=argv, exit_code=code, cancel_requested=self.cancel_requested,
                       log_truncated=truncated, log_bytes=size,
-                      wall_seconds=time.monotonic()-started,
+                      wall_seconds=wall, clock_policy=ELAPSED_CLOCK_POLICY,
+                      deadline_elapsed_time=self._action_deadline, deadline_error=self._deadline_error,
                       cleanup_scope='CLI existing workers; UI does not certify descendant cleanup')
         with log_path.with_suffix('.process.json').open('x') as stream:
             json.dump(result, stream, indent=2); stream.write('\n')
@@ -1094,7 +1196,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                     self.placement_window = None
                     if self.closing: self.Close()
                     else: self.Show(); self.Raise()
-                frame = placement_gui.create_window(self.board.GetValue(), on_closed=finished)
+                frame = placement_gui.create_window(self.board.GetValue(), output_hint=self.output.GetValue(), on_closed=finished)
                 self.placement_window = frame
                 frame.Show(); self.Hide()
             except Exception as exc:

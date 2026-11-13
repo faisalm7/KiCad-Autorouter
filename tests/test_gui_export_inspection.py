@@ -34,9 +34,8 @@ class ExportInspectionTests(unittest.TestCase):
         def run(argv,log,*,timeout):
             self.assertEqual(argv[4],'review-export-check');self.assertEqual(timeout,90)
             self.assertEqual(Path(argv[5]).name,'export.json')
-            log.write_text(json.dumps(record))
-            if hook:hook(job)
-            return dict(exit_code=code,cancel_requested=job.cancel_requested,log_truncated=False)
+            return gt.run_cli_fixture(job, argv, log, record,
+                                      timeout=timeout, code=code, hook=hook)
         job.run=Mock(side_effect=run)
         return job
 

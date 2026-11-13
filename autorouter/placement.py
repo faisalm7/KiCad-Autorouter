@@ -27,6 +27,7 @@ if __package__ in (None, ''):
 from . import config as c, floor_route as f, gui, handoff as h, pipeline as p
 from . import local_settings, placement_clearance as pc, placement_intent as intent, provenance
 from . import placement_copper as copper
+from .runner import elapsed_time
 from experiments.placement_native_proposal_v1 import contract
 from experiments import placement_native_evidence as retained
 
@@ -245,7 +246,7 @@ def proof(output, binding, data, *, replay=False):
 
 
 def _worker(output, binding_sha):
-    started, cpu_start, children = time.monotonic(), time.process_time(), f.child_cpu()
+    started, cpu_start, children = elapsed_time(), time.process_time(), f.child_cpu()
     output = h.real_path(output)
     need(output.parent == c.ROOT/'.runs' and not (output/'work').exists(), 'fresh owned runtime worker directory required')
     binding = f.read_json(output / 'binding.json')
@@ -254,7 +255,7 @@ def _worker(output, binding_sha):
     work, paths = _paths(output, binding); source = Path(binding['inspection']['source'])
     need(source.parent != output and source.parent not in output.parents, 'worker output overlaps original source')
     def remaining():
-        return min(WORKER_SECONDS - (time.monotonic()-started), WORKER_SECONDS - (time.process_time()-cpu_start + f.child_cpu()-children))
+        return min(WORKER_SECONDS - (elapsed_time()-started), WORKER_SECONDS - (time.process_time()-cpu_start + f.child_cpu()-children))
     job = f.FloorJob(work, WORKER_SECONDS, remaining, protect_local_settings=True)
     record = dict(schema=1, kind=KIND, status='failed', placement_qualified=False,
         **{key: False for key in AUTHORITY}, binding_sha256=binding_sha, tools=binding['tools'],
@@ -263,7 +264,7 @@ def _worker(output, binding_sha):
         h.owned_destination(job._local_settings_owner)
         need(p.sha(output/'binding.json') == binding_sha, 'binding changed'); material(binding)
     def account():
-        record.update(wall_seconds=time.monotonic()-started,
+        record.update(wall_seconds=elapsed_time()-started,
             **p.sequential_cpu_components(time.process_time()-cpu_start, f.child_cpu()-children, job.steps))
         if record['status'] != 'pending_candidate' or remaining() <= 0:
             record['placement_qualified'] = False
@@ -334,7 +335,7 @@ def qualify(draft, draft_sha256, output, *, confirmed=False):
     """Explicit execution only; ordinary controls and CLI share this operation."""
     from .runner import run
     import shutil
-    started, cpu_start = time.monotonic(), h.cpu_seconds()
+    started, cpu_start = elapsed_time(), h.cpu_seconds()
     need(confirmed is True, 'explicit qualification action required')
     binding = _binding(draft, draft_sha256)
     output = h.real_path(output, existing=False); source = Path(binding['inspection']['source'])
@@ -346,14 +347,14 @@ def qualify(draft, draft_sha256, output, *, confirmed=False):
     output.mkdir(mode=0o700); owner = {}; h.capture_destination(owner, output)
     p.save_json(output/'binding.json', binding); digest = p.sha(output/'binding.json')
     process = run(_worker_argv(output, digest), cwd=output, env=gui.child_environment(), log=output/'command.log',
-        timeout=max(.001, min(WORKER_SECONDS, TOTAL_SECONDS-8-(time.monotonic()-started))),
+        timeout=max(.001, min(WORKER_SECONDS, TOTAL_SECONDS-8-(elapsed_time()-started))),
         max_log_bytes=512*1024, max_group_rss_bytes=RSS_BYTES, max_workdir_bytes=DISK_BYTES)
     h.owned_destination(owner); p.save_json(output/'process.json', process)
     record = dict(schema=1, kind=KIND, status='failed', placement_qualified=False,
         **{key: False for key in AUTHORITY}, binding_sha256=digest, process_sha256=p.sha(output/'process.json'),
         total_seconds=TOTAL_SECONDS, worker_seconds=WORKER_SECONDS, measured_free_bytes=free, required_free_bytes=required,
         controller_exit_not_measured=True, publication_allowance_seconds=1)
-    def remaining(): return min(TOTAL_SECONDS-(time.monotonic()-started), TOTAL_SECONDS-(h.cpu_seconds()-cpu_start))
+    def remaining(): return min(TOTAL_SECONDS-(elapsed_time()-started), TOTAL_SECONDS-(h.cpu_seconds()-cpu_start))
     def stable():
         h.owned_destination(owner); need(p.sha(output/'binding.json') == digest, 'binding changed'); material(binding)
         need(p.sha(output/'process.json') == record['process_sha256'], 'process receipt changed')
@@ -362,7 +363,7 @@ def qualify(draft, draft_sha256, output, *, confirmed=False):
             work, boards = _paths(output, binding)
             _metadata([*boards.values(), *(work/(name+'-input')/source.name for name in ('source-drc','final-drc'))], source)
     def account():
-        record.update(wall_seconds=time.monotonic()-started, full_cpu_seconds=h.cpu_seconds()-cpu_start)
+        record.update(wall_seconds=elapsed_time()-started, full_cpu_seconds=h.cpu_seconds()-cpu_start)
         if record['status'] != 'pending_candidate' or remaining() < 1:
             record['placement_qualified'] = False
             if remaining() < 1: record['status'] = 'budget_exhausted'

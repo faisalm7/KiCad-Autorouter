@@ -13,6 +13,50 @@ from unittest.mock import Mock, patch
 from autorouter import gui, preferences as pref, pipeline as p
 
 
+def run_cli_fixture(job, argv, log, record, *, timeout=90, code=0, hook=None):
+    """Run the actual controller through its Popen seam; no Native proof claimed."""
+    child = Mock(); child.returncode = None
+    child.stdout = io.BufferedReader(io.BytesIO((json.dumps(record)+'\n').encode()))
+    child.poll.side_effect = lambda: child.returncode
+    def wait():
+        child.returncode = code
+        return code
+    child.wait.side_effect = wait
+    with patch.object(gui.subprocess, 'Popen', return_value=child):
+        # A caller may wrap job.run for command assertions; never recurse into it.
+        process = gui.CliJob.run(job, argv, log, timeout=timeout)
+    if hook: hook(job)
+    return process
+
+
+def warning_challenge(workspace, *, seconds=30):
+    """Owned wire/display packet, including clock binding; not Native validation."""
+    from autorouter import review_export as ex
+    previous = dict(type='connection_width', severity='warning', description='Owned software fixture warning', items=[
+        dict(uuid='11111111-1111-4111-8111-111111111111', description='Via [SIG] on F.Cu - B.Cu', pos=dict(x=0., y=0.)),
+        dict(uuid='22222222-2222-4222-8222-222222222222', description='Track [SIG] on B.Cu, length 0.2000 mm', pos=dict(x=1., y=0.))])
+    fresh = json.loads(json.dumps(previous))
+    fresh['items'][1].update(uuid='33333333-3333-4333-8333-333333333333', pos=dict(x=2., y=0.))
+    native = lambda finding:dict(opens=0, blocking=0, warnings=1, exclusions=0, ignored_checks=[], findings=[finding])
+    review = ex.warning_review_delta(native(previous), native(fresh))
+    review['copper_witness'] = {'software_fixture_only':True}
+    sent = gui.elapsed_time()
+    pending = dict(schema=1, kind='live-warning-review-pending-v1', policy=ex.WARNING_REVIEW_POLICY,
+        export_accepted=False, resumable_after_exit=False, nonce='c'*32,
+        candidate_sha256=ex._warning_digest({'software_candidate_only':True}),
+        native_report_sha256=ex._warning_digest(native(fresh)), clock_policy=ex.ELAPSED_CLOCK_POLICY,
+        sent_elapsed_time=sent, expires_elapsed_time=sent+seconds,
+        budget_seconds=max(seconds, ex.MIN_SECONDS), sent_wall_seconds=0., warning_review=review)
+    path = Path(workspace)/'export/warning-review.json'; path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(pending))
+    event = dict(kind='autorouter.warning-review-required.v1', pending=str(path), pending_sha256=p.sha(path),
+        delta_sha256=ex._warning_digest(review), nonce=pending['nonce'], remaining_seconds=seconds,
+        warning_review={key:review[key] for key in ('policy','delta','findings_equivalent','review_text','copper_witness')})
+    event.update({key:pending[key] for key in ('clock_policy','sent_elapsed_time','expires_elapsed_time',
+                                             'candidate_sha256','native_report_sha256')})
+    return event
+
+
 def window_method(name, **overrides):
     """Execute the actual wx callback body without importing or launching wx."""
     tree = ast.parse(Path(gui.__file__).read_text())
@@ -174,10 +218,12 @@ class CliJobTests(unittest.TestCase):
             self.assertTrue(job.process.stdout.closed)
 
     def test_late_cancel_before_and_during_adoption_rejects_old_snapshot(self):
-        process = dict(cancel_requested=False, exit_code=0, log_truncated=False)
+        temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
         for when in ('before', 'during'):
             with self.subTest(when=when):
                 job = gui.CliJob()
+                process = run_cli_fixture(job, ['owned-controller-fixture'], Path(temporary.name)/(when+'.log'), {'status':'preview'})
+                job.check_live(require_armed=True)
                 flow = SimpleNamespace(ready=set(), records={}, choice=None)
                 def adopt(*args, **kw):
                     flow.ready.add('preview'); flow.records['preview'] = {'status': 'preview'}
@@ -189,9 +235,13 @@ class CliJobTests(unittest.TestCase):
                     job.adopt(flow, 'preview', process, Path('not-read'))
                 self.assertFalse(flow.ready); self.assertFalse(flow.records)
                 if when == 'before': flow.adopt.assert_not_called()
+                else: flow.adopt.assert_called_once()
 
     def test_queued_finish_checks_live_cancel_and_discards_ready_state(self):
-        job = gui.CliJob(); job.cancel()
+        temporary = tempfile.TemporaryDirectory(); self.addCleanup(temporary.cleanup)
+        job = gui.CliJob()
+        run_cli_fixture(job, ['owned-controller-fixture'], Path(temporary.name)/'finished.log', {'status':'preview'})
+        job.check_live(require_armed=True); job.cancel()
         flow = SimpleNamespace(ready={'preview'}, records={'preview': {}}, choice='accept')
         window = SimpleNamespace(job=job, busy=True, flow=flow, inspected=Mock(),
             status=Mock(), log=Mock(), refresh=Mock(), closing=False)
@@ -275,7 +325,10 @@ class CliJobTests(unittest.TestCase):
             popen.assert_not_called()
 
     def test_watchdog_log_overflow_and_cancelled_exit_zero(self):
-        process = Mock(); process.poll.return_value = None; process.wait.return_value = 0
+        process = Mock(); process.returncode = None
+        process.poll.side_effect = lambda: process.returncode
+        def wait(): process.returncode = 0; return 0
+        process.wait.side_effect = wait
         process.stdout = io.BufferedReader(io.BytesIO(b'abcdefghi'))
         timer = Mock()
         with tempfile.TemporaryDirectory() as tmp, patch.object(gui.subprocess, 'Popen', return_value=process), \
