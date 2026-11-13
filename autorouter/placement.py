@@ -116,14 +116,14 @@ def _prepared_source(binding, raw):
 def _retained_native_details(details, plan, *, scope=None, observation=None):
     """Only approved route UUIDs disappear; pad/net/zone witnesses stay exact."""
     keys = {'native_pad_netcodes', 'native_route_netcodes', 'actual_native_areas'}
-    if scope == contract.THT_SCOPE: keys.add('engineering_metadata')
+    if contract.tht_scope(scope): keys.add('engineering_metadata')
     need(type(details) is dict and set(details) == keys, 'complete Native identity witnesses required')
     need(type(details['actual_native_areas']) is dict, 'Native area witness differs')
     for key in ('native_pad_netcodes', 'native_route_netcodes'):
         need(type(details[key]) is dict and all(type(identity) is str and type(code) is int and code > 0
              for identity, code in details[key].items()), 'Native net-code witness differs')
     need(bool(details['native_pad_netcodes']), 'Native pad identity witness absent')
-    if scope == contract.THT_SCOPE:
+    if contract.tht_scope(scope):
         from experiments.placement_native_proposal_v1 import engineering_metadata as metadata
         need(type(observation) is dict and observation.get('scope') == scope
              and type(observation.get('footprints')) is list, 'exact THT metadata source observation required')

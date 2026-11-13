@@ -66,6 +66,15 @@ def component_findings(inspection, *, rebuild=False):
         for row in inspection['components'])
 
 
+def source_native_findings(inspection):
+    """Present the bound original findings, never a draft-validation claim."""
+    baseline = inspection.get('native_source_baseline')
+    if baseline is None: return ''
+    return gui.human_summary('inspect', dict(status='source_inspected_placement_pending',
+        source=inspection['source'], native=baseline['native']),
+        receipt_path=inspection['native_context']['receipt'])
+
+
 def copper_findings(plan):
     if plan is None:
         return 'Original copper and unselected/fixed components are preserved.'
@@ -326,10 +335,14 @@ def create_window(board='', *, output_hint=None, on_closed=None):
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
+            baseline_scope = (self.inspection is not None
+                and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
+            self.rigid_group.Enable(not self.busy and not baseline_scope)
             for control in (self.protected_names, self.protected_route_ids):
                 control.Enable(not self.busy and self.copper_policy.GetSelection() == 1)
             self.find.Enable(not self.busy and self.inspection is not None)
-            self.original_group.Enable(not self.busy and self.inspection is not None and self.rigid_group.GetValue())
+            self.original_group.Enable(not self.busy and self.inspection is not None
+                and not baseline_scope and self.rigid_group.GetValue())
             self.save.Enable(not self.busy and self.inspection is not None)
             for control in self.pose_controls: control.Enable(not self.busy and self.gate.review is not None)
             self.qualify.Enable(not self.busy and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty)
@@ -468,10 +481,13 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             def adopt(value):
                 # The off-thread capture has no authority; bind it again at use.
                 self.inspection = value
+                if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
+                    self.rigid_group.SetValue(False)
                 rebuild = self.rebuild_copper()
                 self.parts.Set([component_label(row, rebuild=rebuild) for row in value['components']])
                 self.findings.SetValue('\n'.join(placement_limits(value, rebuild=rebuild))
-                    + '\n\nComponents\n' + component_findings(value, rebuild=rebuild))
+                    + '\n\nComponents\n' + component_findings(value, rebuild=rebuild)
+                    + ('\n\n' + source_native_findings(value) if value.get('native_source_baseline') else ''))
                 self.message('Saved project inspected. Choose at least two movable components and an explicit movement rectangle.')
             def inspect(job, event):
                 value = intent.inspect_saved(source)

@@ -9,7 +9,7 @@ from . import contract as c
 def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
     expected = contract.inspect_board(raw, scope=scope)
     need = contract.need
-    tht = scope == contract.THT_SCOPE
+    tht = contract.tht_scope(scope)
     need(native.GetCopperLayerCount() == 2, 'Native two-copper census differs')
 
     def uid(item): return str(item.m_Uuid.AsString())

@@ -312,7 +312,7 @@ def pad_row(pad, anchor, rotation, resolve, names, *, tht=False):
 def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     c.need(type(scope) is str and c.ordinary_scope(scope), 'Unsupported ordinary placement scope')
     context = c.fixed_context_scope(scope)
-    tht = scope == c.THT_SCOPE
+    tht = c.tht_scope(scope)
     tree = c.read_board(raw)
     fields(tree, {'version', 'generator', 'generator_version', 'general', 'paper', 'title_block', 'layers',
                   'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'},

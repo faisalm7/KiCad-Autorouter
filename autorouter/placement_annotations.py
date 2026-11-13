@@ -12,6 +12,7 @@ import uuid
 POLICY = 'placement-annotation-proxies-v1'
 SCOPE = 'ordinary-fixed-context-v1'
 THT_SCOPE = 'ordinary-tht-fixed-context-v1'
+THT_BASELINE_SCOPE = 'ordinary-tht-source-baseline-v1'
 MAX_NM = 2_000_000_000
 MAX_CLEARANCE_NM = 10_000_000
 MAX_OWNERS = 16  # Match the admitted fixed-context footprint scope.
@@ -51,7 +52,7 @@ def validate(context):
     keys = {'schema', 'policy', 'scope', 'source_board_sha256', 'outline_nm', 'silk_clearance_nm',
             'footprint_anchors_nm', 'movable_owners', 'rows'}
     _need(type(context) is dict and set(context) == keys and type(context['schema']) is int
-          and context['schema'] == 1 and context['policy'] == POLICY and context['scope'] in (SCOPE, THT_SCOPE),
+          and context['schema'] == 1 and context['policy'] == POLICY and context['scope'] in (SCOPE, THT_SCOPE, THT_BASELINE_SCOPE),
           'Complete annotation context policy/schema required')
     _need(type(context['source_board_sha256']) is str
           and re.fullmatch('[0-9a-f]{64}', context['source_board_sha256']) is not None,

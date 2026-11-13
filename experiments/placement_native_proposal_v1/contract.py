@@ -23,15 +23,20 @@ MULTIPAD_SCOPE = 'multipad-preserve-v1'
 ORDINARY_SCOPE = 'ordinary-front-preserve-v1'
 CONTEXT_SCOPE = 'ordinary-fixed-context-v1'
 THT_SCOPE = 'ordinary-tht-fixed-context-v1'
+THT_BASELINE_SCOPE = 'ordinary-tht-source-baseline-v1'
 ROUTE_GAP_NM = 300_000
 
 
 def ordinary_scope(scope):
-    return scope in (ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE)
+    return scope in (ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE, THT_BASELINE_SCOPE)
 
 
 def fixed_context_scope(scope):
-    return scope in (CONTEXT_SCOPE, THT_SCOPE)
+    return scope in (CONTEXT_SCOPE, THT_SCOPE, THT_BASELINE_SCOPE)
+
+
+def tht_scope(scope):
+    return scope in (THT_SCOPE, THT_BASELINE_SCOPE)
 
 
 def inspect_fixed_context(raw):
@@ -39,7 +44,7 @@ def inspect_fixed_context(raw):
     try:
         return inspect_board(raw, scope=CONTEXT_SCOPE)
     except ValueError:
-        return inspect_board(raw, scope=THT_SCOPE)
+        return inspect_board(raw, scope=THT_BASELINE_SCOPE)
 
 
 def application_policy(value='native-save-v1'):
@@ -53,7 +58,7 @@ def need(test, message):
 
 
 def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
-    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE), 'Unsupported placement scope')
+    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE, THT_BASELINE_SCOPE), 'Unsupported placement scope')
     if scope == DEFAULT_SCOPE:
         selected = SELECTED if selected is None else selected
         region_nm = REGION_NM if region_nm is None else region_nm
@@ -287,6 +292,15 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
                  groups=[], tracks=tracks, keepouts=obstacles, clearance_mm=ROUTE_GAP_NM/1e6)
     if fixed_context_scope(scope):
         facts.update(schema=2, fixed_context_policy=constraints.FIXED_CONTEXT_POLICY)
+    if scope == THT_BASELINE_SCOPE:
+        # Explicit source-derived relation between the solver's courtyard
+        # centre and Native footprint anchor. Doubled nm preserves half-nm
+        # proxy centres without rounding any actual footprint coordinate.
+        offsets = {row['uuid']: [row['courtyard']['bounds_nm'][i]
+                   + row['courtyard']['bounds_nm'][i+2] - 2*row['position_nm'][i]
+                   for i in range(2)] for row in observation['footprints'] if row['uuid'] in selected}
+        facts.update(schema=3, selected_copper_baseline_policy=constraints.SELECTED_COPPER_BASELINE_POLICY,
+                     proxy_anchor_offsets_twice_nm=offsets)
     facts = constraints.prepare(facts)
     constraints.validate_alternative(facts, constraints.original_alternative(facts))
     return facts
@@ -299,7 +313,7 @@ def _proxy_offset(observation, identity):
 
 
 def quantized_translation(facts, candidate, *, observation=None):
-    if facts.get('groups'):
+    if facts.get('groups') or observation is not None and tht_scope(observation.get('scope')):
         with localcontext(Context(prec=50)):
             return _quantized_translation(facts, candidate, observation=observation)
     return _quantized_translation(facts, candidate, observation=observation)
@@ -363,8 +377,9 @@ def translated_tree(raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm
         else:
             need(len(at) == 3, 'Unrotated footprint required')
         for i, value in enumerate(moves[identity], 1):
-            text = format(Decimal(value) / 1000000, 'f')
-            at[i] = text.rstrip('0').rstrip('.') if '.' in text else text
+            whole, fraction = divmod(abs(value), 1_000_000)
+            text = str(whole) + ('.' + str(fraction).zfill(6).rstrip('0') if fraction else '')
+            at[i] = ('-' if value < 0 else '') + text
         known.add(identity)
     need(known == set(moves), 'Unknown translated footprint UUID')
     return tree
@@ -372,6 +387,13 @@ def translated_tree(raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm
 
 def validate_moves(observation, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
     """Independently check integer translations against captured source facts."""
+    if tht_scope(scope):
+        with localcontext(Context(prec=50)):
+            return _validate_moves(observation, moves, scope=scope, selected=selected, region_nm=region_nm)
+    return _validate_moves(observation, moves, scope=scope, selected=selected, region_nm=region_nm)
+
+
+def _validate_moves(observation, moves, *, scope, selected, region_nm):
     options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
     need(type(moves) is dict and set(moves) == set(options['selected']), 'Exact prospectively selected UUIDs required')
     facts = facts_from_observation(observation,**options)

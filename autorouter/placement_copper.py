@@ -41,7 +41,7 @@ def _uuids(value, *, maximum, empty=False):
 def _observe(raw, scope=None):
     # Reuse the same deterministic source admission order as placement_intent.
     if scope is not None:
-        if type(scope) is not str or scope not in (c.MULTIPAD_SCOPE, c.ORDINARY_SCOPE, c.CONTEXT_SCOPE, c.THT_SCOPE):
+        if type(scope) is not str or not (scope == c.MULTIPAD_SCOPE or c.ordinary_scope(scope)):
             raise ValueError('Explicit supported copper-plan placement scope required')
         return c.inspect_board(raw, scope=scope)
     try:

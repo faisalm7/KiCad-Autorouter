@@ -66,7 +66,9 @@ class THTScope(unittest.TestCase):
             with self.subTest(scope=scope), self.assertRaises(ValueError):
                 c.inspect_board(raw(self.tree), scope=scope)
         observed = self.inspect()
-        self.assertEqual(c.inspect_fixed_context(raw(self.tree)), observed)
+        current = c.inspect_fixed_context(raw(self.tree))
+        self.assertEqual(current['scope'], c.THT_BASELINE_SCOPE)
+        self.assertEqual(dict(current, scope=c.THT_SCOPE), observed)
         self.assertEqual(observed['scope'], c.THT_SCOPE)
         self.assertEqual(self.tree, before)
         for row in observed['footprints']:

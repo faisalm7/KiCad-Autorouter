@@ -14,6 +14,8 @@ from decimal import Context, Decimal, localcontext
 MIN_EXTENT_MM = 0.000001  # One nanometre; smaller proxy rectangles are unsupported.
 FIXED_CONTEXT_POLICY = 'unchanged-fixed-context-v1'
 PRESERVED_COPPER = 'preserved-copper-envelope'
+SELECTED_COPPER_BASELINE_POLICY = 'exact-original-selected-copper-v1'
+PROXY_ANCHOR_OFFSETS = 'proxy_anchor_offsets_twice_nm'
 RIGID_TRANSLATION_POLICY = 'rigid-selected-translation-v1'
 # Proposer proxy arithmetic only. Final actual integer-nm checks are independent.
 RIGID_PROXY_TOLERANCE_NM = Decimal('0.000001')
@@ -117,15 +119,20 @@ def prepare(value):
     facts = copy.deepcopy(value)
     if type(facts) is not dict:
         raise Refused('facts: explicit object required')
-    context = type(facts.get('schema')) is int and facts['schema'] == 2
+    context = type(facts.get('schema')) is int and facts['schema'] in (2, 3)
+    selected_baseline = type(facts.get('schema')) is int and facts['schema'] == 3
     annotations = context and 'annotation_context' in facts
     fields(facts, 'schema board components selected fixed_components groups tracks keepouts clearance_mm'
            + (' fixed_context_policy' if context else '')
+           + (' selected_copper_baseline_policy ' + PROXY_ANCHOR_OFFSETS if selected_baseline else '')
            + (' annotation_context' if annotations else ''), 'facts')
-    if type(facts['schema']) is not int or facts['schema'] not in (1, 2):
+    if type(facts['schema']) is not int or facts['schema'] not in (1, 2, 3):
         raise Refused('Unsupported fact schema')
     if context and facts['fixed_context_policy'] != FIXED_CONTEXT_POLICY:
         raise Refused('Unsupported fixed context policy')
+    if selected_baseline and (type(facts['selected_copper_baseline_policy']) is not str
+            or facts['selected_copper_baseline_policy'] != SELECTED_COPPER_BASELINE_POLICY):
+        raise Refused('Unsupported selected copper baseline policy')
     fields(facts['board'], 'kind bounds_mm cutouts', 'board')
     if facts['board']['kind'] != 'rectangle' or facts['board']['cutouts'] != []:
         raise Refused('Polygon outlines and cutouts are unsupported')
@@ -184,6 +191,14 @@ def prepare(value):
         distinct(values, field)
         if not set(values) <= set(ids):
             raise Refused(field + ': unknown component')
+    if selected_baseline:
+        offsets = facts[PROXY_ANCHOR_OFFSETS]
+        if type(offsets) is not dict or set(offsets) != set(facts['selected']):
+            raise Refused('Exact selected proxy anchor offsets required')
+        for value in offsets.values():
+            if (type(value) is not list or len(value) != 2
+                    or any(type(n) is not int or abs(n) > 4_000_000_000 for n in value)):
+                raise Refused('Exact bounded twice-nanometre proxy anchor offsets required')
     track_ids = []
     for track in sequence(facts['tracks'], 256, 'tracks'):
         fields(track, 'id net pad_ids', 'track')
@@ -228,7 +243,11 @@ def prepare(value):
             captured = placement_annotations.validate(facts['annotation_context'])
         except ValueError as exc:
             raise Refused('Native annotation context: ' + str(exc)) from exc
-        board = [Decimal(str(n))*1000000 for n in facts['board']['bounds_mm']]
+        if selected_baseline:
+            with localcontext(Context(prec=50)):
+                board = [Decimal(str(n))*1000000 for n in facts['board']['bounds_mm']]
+        else:
+            board = [Decimal(str(n))*1000000 for n in facts['board']['bounds_mm']]
         if board != captured['outline_nm']:
             raise Refused('Native annotation board differs')
         movable = set(facts['selected']) - immovable(facts)
@@ -236,9 +255,17 @@ def prepare(value):
             raise Refused('Native annotation movable owners differ')
         for component in facts['components']:
             if component['id'] in movable:
-                anchor = [Decimal(str(n))*1000000 for n in component['position_mm']]
-                if anchor != captured['footprint_anchors_nm'][component['id']]:
-                    raise Refused('Native annotation source anchor differs')
+                if selected_baseline:
+                    with localcontext(Context(prec=50)):
+                        proxy = [Decimal(str(n))*2000000 for n in component['position_mm']]
+                        actual = captured['footprint_anchors_nm'][component['id']]
+                        offset = facts[PROXY_ANCHOR_OFFSETS][component['id']]
+                        if proxy != [Decimal(actual[i])*2 + offset[i] for i in range(2)]:
+                            raise Refused('Native annotation source proxy/anchor differs')
+                else:
+                    anchor = [Decimal(str(n))*1000000 for n in component['position_mm']]
+                    if anchor != captured['footprint_anchors_nm'][component['id']]:
+                        raise Refused('Native annotation source anchor differs')
     return facts
 
 
@@ -304,7 +331,7 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
         # outside the outline, or an inherited fixed/fixed proxy overlap, is not
         # authority to alter a fixed part or admit a new moving conflict. Actual
         # source/candidate Native checks and original AST protection are separate.
-        preserved_fixed = facts['schema'] == 2 and cid in fixed
+        preserved_fixed = facts['schema'] in (2, 3) and cid in fixed
         if not preserved_fixed and not inside(box, facts['board']['bounds_mm'], gap):
             raise Refused('Component outside rectangular board: ' + cid)
         baseline_board_region = preserved_fixed and c['allowed_region_mm'] == facts['board']['bounds_mm']
@@ -312,6 +339,12 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
             raise Refused('Component outside allowed region: ' + cid)
         for k in facts['keepouts']:
             inherited_copper = preserved_fixed and k['kind'] == PRESERVED_COPPER
+            if (facts['schema'] == 3 and cid in facts['selected'] and t == pose(c)
+                    and k['kind'] == PRESERVED_COPPER):
+                # Only this selected component's complete exact original pose
+                # may retain its inherited typed-copper intersection. Board,
+                # region, pair, real user keepouts and annotation checks remain.
+                inherited_copper = True
             if not inherited_copper and t['side'] in k['sides'] and not separated(box, k['bounds_mm'], gap):
                 raise Refused('Component intersects rectangular keepout: ' + cid)
         for other, side, other_box in rectangles:
@@ -321,8 +354,15 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
         rectangles.append((cid, t['side'], box))
     if 'annotation_context' in facts:
         from autorouter import placement_annotations
-        moves = {t['component_id']: [int((Decimal(str(t[k]))*1000000).to_integral_value())
-                    for k in ('x_mm', 'y_mm')] for t in rows if t['component_id'] not in fixed}
+        if facts['schema'] == 3:
+            with localcontext(Context(prec=50)):
+                moves = {t['component_id']: [int((Decimal(str(t[k]))*1000000
+                    - Decimal(facts[PROXY_ANCHOR_OFFSETS][t['component_id']][i])/2).to_integral_value())
+                    for i, k in enumerate(('x_mm', 'y_mm'))]
+                    for t in rows if t['component_id'] not in fixed}
+        else:
+            moves = {t['component_id']: [int((Decimal(str(t[k]))*1000000).to_integral_value())
+                        for k in ('x_mm', 'y_mm')] for t in rows if t['component_id'] not in fixed}
         try:
             placement_annotations.check_moves(facts['annotation_context'], moves)
         except ValueError as exc:
