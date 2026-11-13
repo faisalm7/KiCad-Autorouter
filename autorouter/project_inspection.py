@@ -10,11 +10,12 @@ from pathlib import Path
 import signal
 import time
 
-from . import pipeline as p, floor_route as f, handoff as h
+from . import pipeline as p, floor_route as f, handoff as h, config as c
 from . import placement_clearance as pc
 from .runner import elapsed_time
 
 POLICY = 'saved-project-native-inspection-v1'
+PLACEMENT_POLICY = 'saved-project-native-placement-inspection-v1'
 MAX_SECONDS = 90
 
 
@@ -24,11 +25,13 @@ def _seconds(value):
     return float(value)
 
 
-def inspect(board, output, seconds=60):
+def inspect(board, output, seconds=60, *, placement_context=False):
     """Inspect a new copy with actual refill/full-schematic DRC; no source writes."""
     from .design_intent import inspect_project
     from .gui import source_inventory
     seconds = _seconds(seconds)
+    if type(placement_context) is not bool or placement_context and c.NATIVE_VERSION != '10.0.7':
+        raise ValueError('Explicit placement inspection requires pinned Native10.0.7.')
     started, parent_started, children_started = elapsed_time(), time.process_time(), f.child_cpu()
     board = h.real_path(board); output = h.real_path(output, existing=False)
     if output == board.parent or board.parent in output.parents:
@@ -43,7 +46,7 @@ def inspect(board, output, seconds=60):
     job = p.Job(output, seconds, protect_local_settings=True)
     job.deadline = started + seconds
     snapshot = output / 'snapshot' / board.name
-    record = dict(schema=1, policy=POLICY, source=str(board), source_hashes=before,
+    record = dict(schema=1, policy=PLACEMENT_POLICY if placement_context else POLICY, source=str(board), source_hashes=before,
                   static=static, tools=tools, accepted=False, status='inspection_failed',
                   native_validation_performed=False, budget_seconds=seconds,
                   cpu_budget_seconds=seconds)
@@ -63,6 +66,23 @@ def inspect(board, output, seconds=60):
             schematic_parity=True, sandboxed=False)
         if f.canonical(checked) != f.canonical(native):
             raise ValueError('Native inspection readback differs.')
+        if placement_context:
+            from . import local_settings as local
+            path = output / 'placement-context.json'
+            state = {'complete': False}; start = len(job.steps)
+            with local.preserve(snapshot.with_suffix('.kicad_prl'), output, job._local_settings_owner,
+                                cleanup_complete=lambda: state['complete']) as protection:
+                try:
+                    job.native('placement-context', 'placement-context', snapshot, path)
+                finally:
+                    steps = job.steps[start:]
+                    state['complete'] = (len(steps) == 1 and steps[0].get('name') == 'placement-context'
+                                         and steps[0].get('cleanup_complete') is True)
+            record.update(steps=job.steps,
+                          placement_context=dict(file=path.name, sha256=p.sha(path),
+                              local_settings_policy=local.JOB_POLICY, protection=protection,
+                              process_sha256=p.sha(output/'placement-context-process.json')))
+            check_placement_context(output, record, snapshot, before)
         if source_inventory(board) != before or source_inventory(snapshot) != before:
             raise ValueError('Source changed during Native inspection.')
         if p.tool_manifest() != tools:
@@ -104,8 +124,11 @@ def check(path):
         'native_validation_performed','budget_seconds','cpu_budget_seconds','native','steps',
         'wall_seconds','parent_cpu_seconds','child_cpu_seconds','control_child_cpu_seconds',
         'monitor_cpu_seconds','total_cpu_seconds','native_report_sha256','note'}
+    placement_context = type(record) is dict and record.get('policy') == PLACEMENT_POLICY
+    if placement_context:
+        fields.add('placement_context')
     if (type(record) is not dict or set(record) != fields or type(record.get('schema')) is not int
-            or record.get('schema') != 1 or record.get('policy') != POLICY
+            or record.get('schema') != 1 or record.get('policy') not in (POLICY, PLACEMENT_POLICY)
             or record.get('status') != 'inspection_ready' or record.get('accepted') is not False
             or record.get('native_validation_performed') is not True):
         raise ValueError('A completed saved-project inspection is required.')
@@ -130,6 +153,44 @@ def check(path):
     if (f.canonical(native) != f.canonical(record.get('native'))
             or p.sha(directory / 'source-drc.json') != record.get('native_report_sha256')):
         raise ValueError('Inspection findings changed.')
+    if placement_context:
+        check_placement_context(directory, record, directory / 'snapshot' / source.name, before)
     if source_inventory(source) != before or h.evidence_witness(directory) != material:
         raise ValueError('Inspection source or evidence changed during readback.')
     return record
+
+
+def check_placement_context(directory, record, snapshot, hashes):
+    """Replay a same-source Native capture through the existing process proof."""
+    from . import placement_annotations as annotations
+    from . import local_settings as local
+    from .gui import source_inventory
+    if c.NATIVE_VERSION != '10.0.7':
+        raise ValueError('Pinned Native placement context version differs.')
+    reference = record.get('placement_context')
+    expected_keys = {'file','sha256','local_settings_policy','protection','process_sha256'}
+    if (type(reference) is not dict or set(reference) != expected_keys
+            or reference['file'] != 'placement-context.json'
+            or reference['sha256'] != p.sha(directory/'placement-context.json')
+            or reference['local_settings_policy'] != local.JOB_POLICY
+            or reference['process_sha256'] != p.sha(directory/'placement-context-process.json')):
+        raise ValueError('Placement context reference changed.')
+    data = f.read_json(directory / 'placement-context.json')
+    fields = {'schema','kind','native_version','source','board_sha256','project_sha256',
+              'schematic_sha256','board_saved','context'}
+    if (type(data) is not dict or set(data) != fields or type(data['schema']) is not int
+            or data['schema'] != 1 or data['kind'] != 'autorouter.native-placement-context.v1'
+            or data['native_version'] != '10.0.7' or data['source'] != str(snapshot)
+            or data['board_saved'] is not False
+            or any(data[key] != hashes[snapshot.with_suffix(suffix).name] for key,suffix in (
+                ('board_sha256','.kicad_pcb'),('project_sha256','.kicad_pro'),('schematic_sha256','.kicad_sch')))):
+        raise ValueError('Placement context source binding differs.')
+    context = annotations.validate(data['context'])
+    if context['source_board_sha256'] != data['board_sha256']:
+        raise ValueError('Placement annotation source differs.')
+    f.process_check(directory, record, 'placement-context',
+        [str(c.PYTHON), str(c.ROOT/'autorouter/native.py'), 'placement-context', str(snapshot), str(directory/'placement-context.json')])
+    local.check_preserved(snapshot.with_suffix('.kicad_prl'), hashes, reference['protection'])
+    if source_inventory(snapshot) != hashes:
+        raise ValueError('Placement snapshot changed during geometry readback.')
+    return context

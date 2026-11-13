@@ -38,8 +38,12 @@ def _uuids(value, *, maximum, empty=False):
     return list(value)
 
 
-def _observe(raw):
+def _observe(raw, scope=None):
     # Reuse the same deterministic source admission order as placement_intent.
+    if scope is not None:
+        if type(scope) is not str or scope not in (c.MULTIPAD_SCOPE, c.ORDINARY_SCOPE, c.CONTEXT_SCOPE):
+            raise ValueError('Explicit supported copper-plan placement scope required')
+        return c.inspect_board(raw, scope=scope)
     try:
         return c.inspect_board(raw, scope=c.MULTIPAD_SCOPE)
     except ValueError:
@@ -71,7 +75,7 @@ def _record(route, mapping):
                 ast=copy.deepcopy(route))
 
 
-def propose(source_bytes, selected, *, protected_names=None, protected_route_ids=None):
+def propose(source_bytes, selected, *, protected_names=None, protected_route_ids=None, scope=None):
     """Describe affected copper without authorizing its removal or placement.
 
     Names and UUIDs are exact source identities, never inferred electrical roles.
@@ -80,7 +84,7 @@ def propose(source_bytes, selected, *, protected_names=None, protected_route_ids
     """
     selected = _uuids(selected, maximum=16)
     tree = c.read_board(source_bytes)
-    observation = _observe(source_bytes)
+    observation = _observe(source_bytes, scope)
     by_id = {row['uuid']: row for row in observation['footprints']}
     if not set(selected) <= set(by_id):
         raise ValueError('Selected stable UUID absent from source')
@@ -147,7 +151,7 @@ def _checked_plan(source_bytes, plan):
         raise ValueError('Explicit affected-copper plan required')
     captured = _encoded(plan)
     expected = propose(source_bytes, plan.get('selected'), protected_names=plan.get('protected_names'),
-                       protected_route_ids=plan.get('protected_route_ids'))
+                       protected_route_ids=plan.get('protected_route_ids'), scope=plan.get('source_scope'))
     if captured != _encoded(expected):
         raise ValueError('Affected-copper plan/source changed; create a fresh plan')
     return expected

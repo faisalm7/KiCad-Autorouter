@@ -9,6 +9,7 @@ import copy
 import hashlib
 import json
 import math
+from decimal import Decimal
 
 MIN_EXTENT_MM = 0.000001  # One nanometre; smaller proxy rectangles are unsupported.
 FIXED_CONTEXT_POLICY = 'unchanged-fixed-context-v1'
@@ -111,9 +112,13 @@ def prepare(value):
     """Validate a bounded explicit contract and detach it from caller objects."""
     encoded(value)
     facts = copy.deepcopy(value)
+    if type(facts) is not dict:
+        raise Refused('facts: explicit object required')
     context = type(facts.get('schema')) is int and facts['schema'] == 2
+    annotations = context and 'annotation_context' in facts
     fields(facts, 'schema board components selected fixed_components groups tracks keepouts clearance_mm'
-           + (' fixed_context_policy' if context else ''), 'facts')
+           + (' fixed_context_policy' if context else '')
+           + (' annotation_context' if annotations else ''), 'facts')
     if type(facts['schema']) is not int or facts['schema'] not in (1, 2):
         raise Refused('Unsupported fact schema')
     if context and facts['fixed_context_policy'] != FIXED_CONTEXT_POLICY:
@@ -202,6 +207,23 @@ def prepare(value):
     distinct(keepout_ids, 'keepouts')
     if not immovable(facts):
         raise Refused('This selected-placement scope requires a fixed/unselected anchor')
+    if annotations:
+        from autorouter import placement_annotations
+        try:
+            captured = placement_annotations.validate(facts['annotation_context'])
+        except ValueError as exc:
+            raise Refused('Native annotation context: ' + str(exc)) from exc
+        board = [Decimal(str(n))*1000000 for n in facts['board']['bounds_mm']]
+        if board != captured['outline_nm']:
+            raise Refused('Native annotation board differs')
+        movable = set(facts['selected']) - immovable(facts)
+        if not movable <= set(captured['movable_owners']):
+            raise Refused('Native annotation movable owners differ')
+        for component in facts['components']:
+            if component['id'] in movable:
+                anchor = [Decimal(str(n))*1000000 for n in component['position_mm']]
+                if anchor != captured['footprint_anchors_nm'][component['id']]:
+                    raise Refused('Native annotation source anchor differs')
     return facts
 
 
@@ -252,4 +274,12 @@ def validate_alternative(source, alternative):
             if not inherited_pair and side == t['side'] and not separated(box, other_box, gap):
                 raise Refused('Component rectangles overlap: ' + other + '/' + cid)
         rectangles.append((cid, t['side'], box))
+    if 'annotation_context' in facts:
+        from autorouter import placement_annotations
+        moves = {t['component_id']: [int((Decimal(str(t[k]))*1000000).to_integral_value())
+                    for k in ('x_mm', 'y_mm')] for t in rows if t['component_id'] not in fixed}
+        try:
+            placement_annotations.check_moves(facts['annotation_context'], moves)
+        except ValueError as exc:
+            raise Refused('Native annotation prefilter: ' + str(exc)) from exc
     return copy.deepcopy(alternative)

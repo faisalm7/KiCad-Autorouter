@@ -89,7 +89,7 @@ def main():
     action, source, output = sys.argv[1:4]
     mapping_requested = action == 'netclasses' or (action == 'export' and len(sys.argv) == 5)
     before = (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))) if mapping_requested or action in ('export','pour-audit') else None
-    field_before = tuple(file_hash(Path(source).with_suffix(suffix)) for suffix in ('.kicad_pcb','.kicad_pro','.kicad_sch')) if action=='fields' else None
+    field_before = tuple(file_hash(Path(source).with_suffix(suffix)) for suffix in ('.kicad_pcb','.kicad_pro','.kicad_sch')) if action in ('fields', 'placement-context') else None
     board = pcbnew.LoadBoard(source)
     if not board:
         raise RuntimeError('KiCad could not load board')
@@ -133,6 +133,20 @@ def main():
         result=audit(board,source,before)
         Path(output).write_text(json.dumps(result,indent=2)+'\n')
         if result['passed'] is not True:raise RuntimeError('stored copper intersects prohibited pour area')
+    elif action == 'placement-context':
+        if pcbnew.GetBuildVersion() != '10.0.7':
+            raise RuntimeError('Placement annotation context requires pinned Native10.0.7')
+        from autorouter import placement_annotations
+        from autorouter.placement_clearance import read_bytes
+        context = placement_annotations.capture(board, pcbnew, read_bytes(Path(source), 1024**2))
+        if field_before != tuple(file_hash(Path(source).with_suffix(suffix)) for suffix in ('.kicad_pcb','.kicad_pro','.kicad_sch')):
+            raise RuntimeError('Project changed during placement annotation capture')
+        result = dict(schema=1, kind='autorouter.native-placement-context.v1',
+            native_version='10.0.7', source=source, board_sha256=field_before[0],
+            project_sha256=field_before[1], schematic_sha256=field_before[2],
+            board_saved=False, context=context)
+        with Path(output).open('x') as stream:
+            stream.write(json.dumps(result, indent=2, allow_nan=False) + '\n')
     elif action == 'fields':
         footprints=[]
         for fp in board.GetFootprints():

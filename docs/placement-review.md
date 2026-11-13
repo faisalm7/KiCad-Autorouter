@@ -36,6 +36,21 @@ Only library/qualified Datasheet-placeholder warning anchors may follow exact se
 
 Bounds remain16footprints/32pads/64straight segments, two outer copper layers, rectangular board, fixed cardinal orientation and no actual rule areas/cutouts. Passive immutable artwork is bounded to256rich shapes/4096total polygon vertices/1024per polygon, checked in linear time against actual Native topology and exact point order; it never becomes movable geometry. No electrical/thermal/timing suitability is inferred. The unrelated IR development task is already routed at source; successful rearrangement would show task breadth, not a completion-rate or quality advantage.
 
+## Native annotation checks: prospective083
+
+The next source batch uses the same saved-project inspection for Native silkscreen and solder-mask bounds. The placement search and numeric edits reject new conservative label/mask conflicts before qualification. Faint blue boxes show selected silkscreen extents. These boxes are a prefilter: they do not approve placement, waive warnings or replace actual final KiCad checks.
+
+On pinned10.0.7 the graphical Inspect action requests this detail for ordinary SMD placement. Previously saved presets retain their original policy when loaded; the displayed limits change with that policy. Native capture stays outside the editor/UI thread and can be cancelled. Subsequent source/evidence checks reuse the unchanged capture rather than rerunning KiCad for every edit.
+
+The shared command is:
+
+```sh
+.venv/bin/python -B -m autorouter inspect-project /absolute/saved/board.kicad_pcb \
+  --placement-context --seconds 60 --output /absolute/fresh-inspection
+```
+
+A scripted placement caller passes the resulting `inspection.json` as `native_context` to `placement_intent.inspect_saved`. Drafts bind that exact receipt, source and geometry hashes; altered or missing evidence refuses. Core routing/placement still requires no model account. This source batch is not installed/GUI-qualified yet. The earlier082 IR attempt remains failed, including both new physical warnings.
+
 ## Historical source-run lineage
 
 The following developer commands describe the earlier075 source-run review/qualification experiment. Its then-pending statements are historical, superseded by the076 installed workflow above; the original evidence and failures remain unchanged.

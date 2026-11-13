@@ -48,6 +48,7 @@ CONTEXT_LIMITS = (
     'Ordinary copper-zone definitions are preserved and refilled by KiCad; derived fill may change. Copper pours are not placement keepouts; actual rule areas remain unsupported.',
     'Explicitly named protected nets with copper pours are refused: exact protected fill is not guaranteed. Route-UUID protection applies to those routes only.',
     'Retained segments are conservative courtyard obstacles. No grouping, side/orientation changes, physical or electrical suitability is implied.',
+    'Source-bound Native silkscreen/mask boxes prefilter new annotation conflicts; these conservative proxies do not replace final Native checks.',
     'Native checks, original design, protected copper and exact finding continuity remain required before delivery.',
 )
 
@@ -65,7 +66,8 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
     if scope == contract.CONTEXT_SCOPE:
         value.update(fixed_context_policy=constraints.FIXED_CONTEXT_POLICY,
                      zone_policy='preserve-intent-native-refill-v1',
-                     metadata_finding_policy='exact-footprint-anchor-translation-v1')
+                     metadata_finding_policy='exact-footprint-anchor-translation-v1',
+                     annotation_policy='native-silk-mask-proxy-v1')
     if copper_policy is None:
         if protected_names is not None or protected_route_ids is not None:
             raise ValueError('Explicit copper policy required for protected-net/route settings.')
@@ -104,18 +106,21 @@ def load_settings(path):
     return validate_settings(preferences._parse(pc.read_bytes(path, 64 * 1024), 64 * 1024))
 
 
-def inspect_saved(board):
+def inspect_saved(board, *, native_context=None):
     """Return bounded actual saved-file facts, never inferred electrical intent."""
     static = design_intent.inspect_project(board)
     source = Path(static['source'])
     raw = pc.read_bytes(source, contract.MAX_BYTES)
-    try:
-        observation = contract.inspect_board(raw, scope=contract.MULTIPAD_SCOPE)
-    except ValueError:
+    if native_context is not None:
+        observation = contract.inspect_board(raw, scope=contract.CONTEXT_SCOPE)
+    else:
         try:
-            observation = contract.inspect_board(raw, scope=contract.ORDINARY_SCOPE)
+            observation = contract.inspect_board(raw, scope=contract.MULTIPAD_SCOPE)
         except ValueError:
-            observation = contract.inspect_board(raw, scope=contract.CONTEXT_SCOPE)
+            try:
+                observation = contract.inspect_board(raw, scope=contract.ORDINARY_SCOPE)
+            except ValueError:
+                observation = contract.inspect_board(raw, scope=contract.CONTEXT_SCOPE)
     local_settings.check_current_metadata(source.with_suffix('.kicad_prl'))
     if gui.source_inventory(source) != static['source_hashes']:
         raise ValueError('Saved project changed during placement inspection.')
@@ -128,16 +133,54 @@ def inspect_saved(board):
             reasons.append('Shares a net with existing copper')
         components.append(dict(uuid=fp['uuid'], reference=fp['reference'],
             position_nm=fp['position_nm'], pad_count=len(fp['pads']), fixed_reasons=reasons))
-    return dict(schema=1, kind='autorouter.saved-placement-inspection.v1', source=str(source),
+    result = dict(schema=1, kind='autorouter.saved-placement-inspection.v1', source=str(source),
         source_hashes=static['source_hashes'], observation=observation, components=components,
         native_validation_performed=False, execution_authorized=False, approval_granted=False,
         limitations=list(CONTEXT_LIMITS if observation['scope'] == contract.CONTEXT_SCOPE else
                           ORDINARY_LIMITS if observation['scope'] == contract.ORDINARY_SCOPE else LIMITS))
+    if native_context is not None:
+        descriptor, annotations = _native_context(source, static['source_hashes'], native_context)
+        result.update(native_context=descriptor, annotation_context=annotations)
+    return result
+
+
+def _native_context(source, hashes, reference):
+    """Read only a source-bound, completed shared inspection; no Native launch."""
+    from . import project_inspection as inspection, handoff
+    supplied = reference if type(reference) is dict else None
+    if supplied is not None:
+        if set(supplied) != {'receipt', 'receipt_sha256', 'context_sha256'}:
+            raise ValueError('Exact Native placement context reference required.')
+        reference = supplied['receipt']
+    if type(reference) not in (str, Path) and not isinstance(reference, Path):
+        raise ValueError('Native placement inspection receipt path required.')
+    path = handoff.real_path(reference)
+    receipt_raw = pc.read_bytes(path, 512 * 1024)
+    record = inspection.check(path)
+    if constraints.encoded(record) != constraints.encoded(preferences._parse(receipt_raw, 512 * 1024)):
+        raise ValueError('Native placement receipt changed during readback.')
+    if record.get('policy') != inspection.PLACEMENT_POLICY or record['source'] != str(source) or record['source_hashes'] != hashes:
+        raise ValueError('Native placement inspection belongs to another source.')
+    raw = pc.read_bytes(path.parent / 'placement-context.json', 512 * 1024)
+    digest = hashlib.sha256(raw).hexdigest()
+    if digest != record['placement_context']['sha256']:
+        raise ValueError('Native placement context changed during inspection.')
+    data = preferences._parse(raw, 512 * 1024)
+    descriptor = dict(receipt=str(path), receipt_sha256=hashlib.sha256(receipt_raw).hexdigest(), context_sha256=digest)
+    if supplied is not None and constraints.encoded(supplied) != constraints.encoded(descriptor):
+        raise ValueError('Native placement evidence changed; inspect again.')
+    from . import placement_annotations
+    context = placement_annotations.validate(data['context'])
+    if (context['source_board_sha256'] != hashes[source.name] or gui.source_inventory(source) != hashes
+            or pc.read_bytes(path, 512 * 1024) != receipt_raw):
+        raise ValueError('Native annotation source changed.')
+    return descriptor, context
 
 
 def current(inspection):
     """Compare actual current source, including local-settings metadata."""
-    fresh = inspect_saved(inspection['source'])
+    fresh = (inspect_saved(inspection['source'], native_context=inspection['native_context'])
+             if 'native_context' in inspection else inspect_saved(inspection['source']))
     if constraints.encoded(fresh) != constraints.encoded(inspection):
         raise ValueError('Placement source changed; inspect the saved project again.')
     return fresh
@@ -156,7 +199,7 @@ def _effective_context(inspection, value):
             or hashlib.sha256(raw).hexdigest() != inspection['observation']['source_board_sha256']):
         raise ValueError('Placement source changed while capturing affected copper.')
     plan = copper.propose(raw, value['selected'], protected_names=value['protected_names'],
-                          protected_route_ids=value['protected_route_ids'])
+                          protected_route_ids=value['protected_route_ids'], scope=settings_scope(value))
     observation = contract.inspect_board(copper.prepare(raw, plan), scope=settings_scope(value))
     local_settings.check_current_metadata(source.with_suffix('.kicad_prl'))
     if gui.source_inventory(source) != inspection['source_hashes']:
@@ -183,6 +226,12 @@ def _facts(inspection, value, plan, observation):
         raise ValueError('Selected components include fixed, locked or routed-net components; deselect those components.')
     result = contract.facts_from_observation(observation, scope=settings_scope(value),
         selected=value['selected'], region_nm=value['region_nm'])
+    if settings_scope(value) == contract.CONTEXT_SCOPE:
+        if 'native_context' not in inspection or 'annotation_context' not in inspection:
+            raise ValueError('Inspect Native placement geometry before proposing this fixed-context task.')
+        result['annotation_context'] = copy.deepcopy(inspection['annotation_context'])
+        result = constraints.prepare(result)
+        constraints.validate_alternative(result, constraints.original_alternative(result))
     if set(value['selected']) & constraints.immovable(result):
         raise ValueError('Selected components include locked or routed-net components; deselect those components.')
     if len(value['selected']) < 2:
@@ -287,6 +336,7 @@ class Review:
             moves[component] = target
         pose = contract.validate_moves(self.observation, moves,
             scope=settings_scope(self.settings), selected=self.settings['selected'], region_nm=self.settings['region_nm'])
+        pose['source_sha256'] = constraints.digest(self.facts)
         self._adopt(pose)
 
     def decision(self, *, acknowledged, accepted):
@@ -315,6 +365,8 @@ class Review:
             warning_acknowledged=False, human_PCB_approval=False)
         if self.copper_plan is not None:
             value['copper_plan'] = copy.deepcopy(self.copper_plan)
+        if 'native_context' in self.inspection:
+            value['native_context'] = copy.deepcopy(self.inspection['native_context'])
         self.intent = value
         return copy.deepcopy(value)
 
@@ -328,6 +380,8 @@ def validate_draft(inspection, value):
     original = _facts(inspection, selected, plan, observation)
     pose = contract.validate_moves(observation, value.get('moves_nm'),
         scope=settings_scope(selected), selected=selected['selected'], region_nm=selected['region_nm'])
+    pose['source_sha256'] = constraints.digest(original)
+    constraints.validate_alternative(original, pose)
     expected = dict(schema=1, kind=KIND, choice='reviewed_draft', revision=value['revision'],
         source=inspection['source'], source_hashes=inspection['source_hashes'],
         inspection_sha256=constraints.digest(inspection), settings=selected,
@@ -339,6 +393,8 @@ def validate_draft(inspection, value):
         if copper._encoded(value.get('copper_plan')) != copper._encoded(plan):
             raise ValueError('Draft affected-copper plan differs from the current source and settings.')
         expected['copper_plan'] = plan
+    if 'native_context' in inspection:
+        expected['native_context'] = inspection['native_context']
     if constraints.encoded(value) != constraints.encoded(expected):
         raise ValueError('Draft authority, source, settings, geometry or review choice differs.')
     current(inspection)

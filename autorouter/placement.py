@@ -73,7 +73,8 @@ def _binding(draft_path, digest):
     need(type(digest) is str and len(digest) == 64 and hashlib.sha256(raw).hexdigest() == digest,
          'explicit unchanged draft SHA256 required')
     draft = intent.preferences._parse(raw, 64 * 1024)
-    inspection = intent.inspect_saved(draft.get('source'))
+    inspection = (intent.inspect_saved(draft.get('source'), native_context=draft['native_context'])
+                  if 'native_context' in draft else intent.inspect_saved(draft.get('source')))
     intent.validate_draft(inspection, draft)
     source = Path(inspection['source'])
     h.require_closed_review(inspection['source_hashes'])

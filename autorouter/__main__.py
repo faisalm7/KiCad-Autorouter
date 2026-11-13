@@ -123,6 +123,7 @@ def main():
     inspect_cmd=sub.add_parser('inspect-project',help='Inspect a saved project with actual Native refill/DRC on a copy; never routing acceptance')
     inspect_cmd.add_argument('board');inspect_cmd.add_argument('--output',required=True)
     inspect_cmd.add_argument('--seconds',type=float,default=60)
+    inspect_cmd.add_argument('--placement-context',action='store_true',help='Capture source-bound Native silk/mask geometry for selected placement')
     inspect_check=sub.add_parser('inspect-project-check',help='Recheck retained inspection/source evidence')
     inspect_check.add_argument('receipt')
     proposal=sub.add_parser('propose-route',help='Validate visible routing intent; never execute or approve it')
@@ -167,7 +168,8 @@ def main():
             from .handoff import real_path
             if a.command=='design-tool-schema':result=design.tool_schema()
             elif a.command=='inspect-project':
-                result=inspection.inspect(a.board,a.output,a.seconds)
+                result=(inspection.inspect(a.board,a.output,a.seconds,placement_context=True)
+                        if a.placement_context else inspection.inspect(a.board,a.output,a.seconds))
                 print(json.dumps(result,indent=2));return 0 if result['status']=='inspection_ready' else 2
             elif a.command=='inspect-project-check':result=inspection.check(a.receipt)
             else:

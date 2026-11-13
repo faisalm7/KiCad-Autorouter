@@ -454,7 +454,22 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 self.findings.SetValue('\n'.join(placement_limits(value, rebuild=rebuild))
                     + '\n\nComponents\n' + component_findings(value, rebuild=rebuild))
                 self.message('Saved project inspected. Choose at least two movable components and an explicit movement rectangle.')
-            self.start('Reading saved project geometry and fixed-component relationships…', lambda job, event: intent.inspect_saved(source), adopt)
+            def inspect(job, event):
+                value = intent.inspect_saved(source)
+                if (value['observation']['scope'] != intent.contract.CONTEXT_SCOPE
+                        and not (c.NATIVE_VERSION == '10.0.7'
+                                 and value['observation']['scope'] == intent.contract.ORDINARY_SCOPE)):
+                    return value
+                workspace = self.owned_workspace()
+                output = workspace / ('native-inspection-' + uuid.uuid4().hex)
+                process = job.run([str(c.ROOT/'.venv/bin/python'), '-B', '-m', 'autorouter',
+                    'inspect-project', source, '--seconds', '60', '--placement-context', '--output', str(output)],
+                    workspace / ('native-inspection-' + uuid.uuid4().hex + '.log'), timeout=75)
+                job.check_live()
+                if process['exit_code'] != 0 or process['log_truncated'] or process['cancel_requested']:
+                    raise ValueError('Native placement inspection refused; private findings/logs: ' + str(output))
+                return intent.inspect_saved(source, native_context=output/'inspection.json')
+            self.start('Reading saved placement geometry and fixed relationships; Native silk/mask capture when required…', inspect, adopt)
 
         def load_settings(self, _):
             try:
@@ -462,7 +477,14 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 with wx.FileDialog(self, 'Load placement settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
                     if dialog.ShowModal() != wx.ID_OK: return
                     value = intent.load_settings(dialog.GetPath())
-                intent.facts(self.inspection, value); self.revoke(discard=True); self.updating = True
+                captured = self.inspection
+                policy_changed = intent.settings_scope(value) != captured['observation']['scope']
+                if policy_changed:
+                    # Preserve an older preset's actual policy instead of
+                    # silently upgrading its meaning to zone-aware placement.
+                    captured = intent.inspect_saved(self.board.GetValue())
+                intent.facts(captured, value)
+                self.inspection = captured; self.revoke(discard=True); self.updating = True
                 try:
                     self.copper_policy.SetSelection(1 if value['schema'] == 3 else 0)
                     self.protected_names.ChangeValue('\n'.join(value.get('protected_names', [])))
@@ -471,8 +493,11 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     for i, row in enumerate(self.inspection['components']): self.parts.Check(i, row['uuid'] in value['selected'])
                     for field, coordinate in zip(self.region, value['region_nm']): field.ChangeValue(mm(coordinate))
                 finally: self.updating = False
+                self.findings.SetValue('\n'.join(placement_limits(captured, rebuild=value['schema'] == 3))
+                    + '\n\nComponents\n' + component_findings(captured, rebuild=value['schema'] == 3))
                 self.refresh()
-                self.message('Placement settings loaded. Constraints and fixed components were checked; no operation started.')
+                self.message('Placement settings loaded. Constraints and fixed components were checked; no operation started.'
+                    + (' This preset’s original placement policy is preserved; review its shown limits.' if policy_changed else ''))
             except Exception as exc: self.message('Settings refused: ' + str(exc))
 
         def save_settings(self, _):
@@ -526,7 +551,9 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 state = 'Geometry draft — Native validation required'
             svg = placement_view.render(review.observation, review.moves,
                 review.settings['selected'], review.settings['region_nm'],
-                title='Placement review' if self.qualified is not None else 'Placement draft', state=state)
+                title='Placement review' if self.qualified is not None else 'Placement draft', state=state,
+                **({'annotation_context': review.inspection['annotation_context']}
+                   if 'annotation_context' in review.inspection else {}))
             bitmap = bitmap_with_labels(wx, svg)
             self.picture.SetBitmap(bitmap); self.picture.SetMinSize(bitmap.GetSize())
             if self.qualified is not None:

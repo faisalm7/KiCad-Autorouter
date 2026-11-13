@@ -67,7 +67,7 @@ def _mm(value):
 
 
 def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement draft',
-           state='Geometry draft — Native validation required'):
+           state='Geometry draft — Native validation required', annotation_context=None):
     """Return self-contained SVG; coordinates retain KiCad's downward Y axis.
 
     Bounds: 16 footprints, 32 pads, 64 straight segments, 32 ordinary zones,
@@ -158,6 +158,20 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
         extents.append((min(p[0] for p in points), min(p[1] for p in points),
                         max(p[0] for p in points), max(p[1] for p in points)))
 
+    annotations = []
+    if annotation_context is not None:
+        from . import placement_annotations
+        captured = placement_annotations.validate(annotation_context)
+        _need(captured['outline_nm'] == list(outline), 'annotation board differs')
+        for row in captured['rows']:
+            if row['kind'] != 'silk' or row['owner'] not in moves:
+                continue
+            anchor = moves[row['owner']]
+            box = tuple(value + anchor[i % 2] for i,value in enumerate(row['bbox_nm']))
+            if box[0] == box[2] or box[1] == box[3]:
+                continue  # Empty visible text has no drawable rectangle.
+            _rect(box); annotations.append((row['uuid'], box)); extents.append(box)
+
     left, top = min(b[0] for b in extents), min(b[1] for b in extents)
     right, bottom = max(b[2] for b in extents), max(b[3] for b in extents)
     scale = min(920 / (right - left), 460 / (bottom - top))
@@ -189,9 +203,6 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
     label(30, 56, state[:110])
     label(30, 78, 'Blue: proposed selected   Gray dashed: original   Slate: fixed   Orange: preserved copper')
     label(30, 99, 'Green: zone outline   Blue dashed: allowed region   Coordinates: mm, X right / Y down')
-    if artwork:
-        label(30, 598, 'Immutable non-copper artwork retained, omitted from physical diagram: ' + ', '.join(artwork)[:60],
-              data_role='immutable-artwork-note')
     for zone in sorted(zones, key=lambda z:z['id']):
         element('polygon', dict(points=' '.join(_fmt(x(px))+','+_fmt(y(py)) for px,py in zone['points']),
             fill='#dcecdf', fill_opacity='.55', stroke='#5b8668', stroke_width=1,
@@ -248,6 +259,14 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
             element('polygon', dict(points=' '.join(_fmt(px)+','+_fmt(py) for px,py in
                 (b,(b[0]-arrow*ux+half*uy,b[1]-arrow*uy-half*ux),
                  (b[0]-arrow*ux-half*uy,b[1]-arrow*uy+half*ux))),fill='#176cba'))
+    for identity, bounds in annotations:
+        box(bounds, 'proposed-silkscreen-proxy', fill='#548ec7', fill_opacity='.08',
+            stroke='#548ec7', stroke_width='.6', stroke_dasharray='2 3', data_annotation=identity)
+    if annotation_context is not None or artwork:
+        note = 'Faint blue: Native silkscreen extents; final checks required. ' if annotation_context is not None else ''
+        if artwork:
+            note += 'Non-copper artwork retained, omitted here: ' + ', '.join(artwork)[:40]
+        label(30, 600, note, data_role='annotation-proxy-note' if annotation_context is not None else 'immutable-artwork-note')
     label(30, 618, 'Selected component / UUID', font_weight='bold')
     label(440, 618, 'Original X, Y (mm)', font_weight='bold')
     label(690, 618, 'Proposed X, Y (mm)', font_weight='bold')
