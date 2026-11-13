@@ -54,6 +54,7 @@ def native_worker():
     return c.ROOT / 'experiments/placement_native_proposal_v1/worker.py'
 
 
+@contract.sx.parsing_session()
 def material(binding):
     need(c.NATIVE_VERSION == '10.0.7' and binding['runtime'] == str(c.ROOT), 'exact selected KiCad10.0.7 runtime required')
     def local():
@@ -235,6 +236,7 @@ def _metadata(paths, source):
         need(present or not expected, 'required local settings disappeared')
 
 
+@contract.sx.parsing_session()
 def proof(output, binding, data, *, replay=False):
     """Read actual request/process/Native/immutable proofs, not success flags."""
     need(type(replay) is bool, 'explicit replay mode required')
@@ -490,6 +492,7 @@ def qualify(draft, draft_sha256, output, *, confirmed=False):
     return f.publish(output, record, stable, account, remaining, owned=lambda: h.owned_destination(owner), final_check=stable)
 
 
+@contract.sx.parsing_session()
 def check(output):
     """Full read-only proof at use; never grants approval or runs Native."""
     output = h.real_path(output)

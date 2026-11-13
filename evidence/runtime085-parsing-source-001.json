@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "utc": "2026-11-13T06:56:10.540593+00:00",
+  "status": "source_targeted_and_skeptical_review_passed",
+  "scope": "Source proof-processing efficiency and truthful timeout presentation; not installed Native/GUI qualification",
+  "source_sha256": {
+    "autorouter/placement.py": "f6e0a0ec2173b1b572bd606afb97ff46e192954b02b0790eb5880a94d46db355",
+    "autorouter/gui.py": "86d880166620dcba43a56a84e87ace13483158bb4af1347167f0f4f8cbe4a721",
+    "autorouter/sexpr.py": "54f9bd2d4d5f22e61b8a4033e665e436db135ceb910a731930ef55a3403c3f98",
+    "autorouter/floor_route.py": "5ff487dbd7c576a4c4940a9642640e363bf563e526b9b4d9834c0b6ff76cd84d",
+    "tests/test_placement_parsing_scope.py": "2d32488da341fff8945d8cdee08e6b2394ad7317895efc286f657bd5e04d8236",
+    "tests/test_gui_elapsed_deadline.py": "3640648d0ee9323abf1ad96458365b1d8c5d5cfb29d85c843371986d24d7c166"
+  },
+  "mechanism": "Reuse existing bounded exact-text syntax memo only inside material/proof/check. Fresh bytes/hashes/tool/source/metadata/semantic/process/Native checks remain mandatory. Trees remain detached; memo retires per operation and is never a result or acceptance cache.",
+  "unchanged_limits": {
+    "placement_total_seconds": 120,
+    "placement_worker_seconds": 105,
+    "whole_task_seconds": 420,
+    "whole_task_return_reserve_seconds": 15,
+    "syntax_memo_bytes": 8388608,
+    "syntax_memo_nodes": 250000,
+    "syntax_memo_entries": 64
+  },
+  "publication_lifetime": "No qualify or worker-wide decorator. Retirement from material/proof happens before existing publisher final cancellation/time guards; focused controls cover late retirement exception/cancellation/invalidation.",
+  "targeted": {
+    "tests": 288,
+    "passed": true,
+    "wall_seconds": 19.29173933295533,
+    "full_CPU_seconds": 18.645681,
+    "source_pins_stable": true,
+    "Native_benchmark_jobs": 0
+  },
+  "skeptical_review": {
+    "status": "no_known_blocking_source_defect",
+    "sha256": "56e9d05887c9587781dfac320d857171ca790335ffe98462972a6545df96e788",
+    "blocking_findings": [],
+    "Native_GUI_qualified": false
+  },
+  "bounded_diagnosis_reference": "evidence/runtime084-qualification-timeout-001.json",
+  "source_only_material_profile": {
+    "measurements": [
+      {
+        "mode": "without_parsing_session",
+        "wall_seconds": 4.373569416988175,
+        "cpu_seconds": 1.3898349999999997
+      },
+      {
+        "mode": "within_fresh_parsing_session",
+        "wall_seconds": 1.338084541959688,
+        "cpu_seconds": 0.9351190000000003
+      },
+      {
+        "mode": "separate_cProfile_without_session",
+        "wall_seconds": 1.8357790000154637,
+        "cpu_seconds": 1.791264
+      }
+    ],
+    "total_profile_worker_execution": {
+      "wall_seconds": 10.488873374008108,
+      "full_cpu_seconds": 5.390027999999999,
+      "aggregate_worker_wall_cap_seconds": 60,
+      "first_cap_seconds": 60,
+      "authorized_remaining_cap_seconds": 51,
+      "additional_unmeasured": "Static source inspection, profile reading and authoring; not part of the interrupted Native task."
+    },
+    "qualification_achieved": false,
+    "limitations": "Single fixed-order samples, retained harness error and separate cProfile attribution; no whole-worker headroom or precise speedup claim."
+  },
+  "diagnostic_change": "Recorded deadline stops now say timed out/timing unverifiable; explicit user cancellation remains distinct. No enforcement or authority change.",
+  "raw_receipt_sha256": {
+    ".runs/placement085-source-review-001/review.json": "56e9d05887c9587781dfac320d857171ca790335ffe98462972a6545df96e788",
+    ".runs/placement085-integrated-targeted-001/execution.json": "5c0168445a758a74ed0acb90702474adb6441f899eafe6d2d09749bcca657794",
+    ".runs/placement085-integrated-targeted-001/protocol.json": "fff4241b51657be61152b620af052cd47909d04a09047beb190d5a862282f780",
+    ".runs/placement085-parsing-scope-targeted-001/summary.json": "37b88be9361ba947f0aab9d7459387265ba5e1ad53fe885556a0d310258a20e5",
+    ".runs/placement084-qualification-profile-001/summary.json": "ca1185aa20b49537d68bfa5af6a2661c1bc8e0d21b72ae1ab71d27255a1961e7"
+  },
+  "limits": [
+    "084 still failed; completed Native stage diagnostics do not reconstruct missing qualification.",
+    "One coherent changed installation, actual Native delivery, full relevant regression and actual Edge GUI remain pending.",
+    "Broad placement usefulness, Windows Native, independent installation/live model/human review/full current recovery remain open."
+  ],
+  "research_authoring_AI_review_costs": "Additional and not fully measured; retained failed fixture/harness runs remain in raw evidence.",
+  "model_calls": 0,
+  "human_PCB_approval": false,
+  "formal_release_authorized": false
+}

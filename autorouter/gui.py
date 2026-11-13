@@ -879,6 +879,8 @@ class CliJob:
         """A retained process snapshot cannot supersede a later Cancel."""
         with self._lock:
             if self.cancel_requested:
+                if self._deadline_error is not None:
+                    raise ValueError('Action timed out or its timing could not be verified. No result was adopted.')
                 raise ValueError('Action was cancelled. No positive UI state adopted.')
             self._check_deadline_locked(require_armed=require_armed)
 

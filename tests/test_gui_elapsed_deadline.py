@@ -105,6 +105,19 @@ class GuiElapsedDeadline(unittest.TestCase):
         with self.assertRaises(ValueError): job.adopt(flow, 'route', result, self.root/'absent')
         flow.adopt.assert_not_called()
 
+    def test_automatic_deadline_stop_is_distinct_from_explicit_cancellation(self):
+        child = Child(finish=lambda:setattr(self.clock, 'value', 1031.0))
+        job, result, log = self.run_child(child)
+        self.assertIsNotNone(result['deadline_error'])
+        flow = Mock()
+        with self.assertRaisesRegex(ValueError, 'timed out or its timing'):
+            job.adopt(flow, 'route', result, log)
+        flow.adopt.assert_not_called()
+        explicit = gui.CliJob(); explicit.cancel()
+        self.assertIsNone(explicit._deadline_error)
+        with self.assertRaisesRegex(ValueError, 'was cancelled'):
+            explicit.check_live()
+
     def test_expiry_before_adoption_prevents_readback(self):
         job, result, log = self.run_child(Child())
         self.clock.value = 1031

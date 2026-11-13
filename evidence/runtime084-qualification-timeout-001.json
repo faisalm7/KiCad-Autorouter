@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "utc": "2026-11-13T06:47:45.117711+00:00",
+  "status": "failed_qualification_timeout_not_accepted",
+  "build_head": "633753849a19f9da963fa144d6335157c506f64a",
+  "manifest_sha256": "c332a126e318216c4b894a51146218a4f5c9a97f02b75e25df9b712fb3c60bcd",
+  "installation": {
+    "prepared": true,
+    "qualified": false,
+    "wall_seconds": 20.104557708953507,
+    "full_CPU_seconds": 7.978128,
+    "immutable_files": 83,
+    "scope": "Same Mac/account/pinned dependencies; no independent OS or standalone claim"
+  },
+  "installed_task": {
+    "wall_seconds": 166.5420712500345,
+    "full_CPU_seconds": 85.79212700000001,
+    "total_cap_seconds": 420,
+    "placement_stage_cap_seconds": 120,
+    "placement_worker_cap_seconds": 105,
+    "worker_wall_seconds": 101.34467800002312,
+    "worker_child_CPU_seconds": 51.270551999999995,
+    "cleanup_complete": true,
+    "originals_unchanged": true,
+    "search": {
+      "status": "proposals_ready",
+      "counts": {
+        "attempted_moves": 320,
+        "constraint_rejected_moves": 134,
+        "attempted_alternatives": 2
+      },
+      "sampled_wall_seconds": 1.4624483750085346,
+      "sampled_cpu_seconds": 0.8706299999999993
+    },
+    "qualification_status": "cancelled",
+    "qualification_reason": "KeyboardInterrupt: ",
+    "qualification_accepted": false,
+    "routing_started": false,
+    "export_started": false,
+    "all_limits_unchanged": true
+  },
+  "failure_classification": "Automatic placement qualification deadline, not an owner Cancel or an accepted result. Canonical cancelled status remains unchanged. All12Native subprocess records completed through final capture; no work/result.json or final whole qualification survived.",
+  "completed_stage_diagnostics": {
+    "scope": "Read-only diagnostic of completed actual Native stage files and immutable translation after whole-task timeout. Not reconstruction of missing worker result/steps, accepted placement, routing or delivery.",
+    "whole_task_still_failed": true,
+    "stages": {
+      "source-drc": {
+        "opens": 0,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0,
+        "actual_field_proof_qualified": true
+      },
+      "refill-drc": {
+        "opens": 9,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0,
+        "actual_field_proof_qualified": true
+      },
+      "final-drc": {
+        "opens": 9,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0,
+        "actual_field_proof_qualified": true
+      }
+    },
+    "exact_metadata_finding_continuity_verified": true,
+    "original_to_posed_immutable_audit_verified": true,
+    "complete_worker_process_proof_reconstructed": false,
+    "routing_or_delivery_accepted": false,
+    "expected_opens_remain_pending_routing": 9,
+    "electrical_suitability_claim": false
+  },
+  "source_only_material_profile": {
+    "measurements": [
+      {
+        "mode": "without_parsing_session",
+        "wall_seconds": 4.373569416988175,
+        "cpu_seconds": 1.3898349999999997
+      },
+      {
+        "mode": "within_fresh_parsing_session",
+        "wall_seconds": 1.338084541959688,
+        "cpu_seconds": 0.9351190000000003
+      },
+      {
+        "mode": "separate_cProfile_without_session",
+        "wall_seconds": 1.8357790000154637,
+        "cpu_seconds": 1.791264
+      }
+    ],
+    "total_profile_worker_execution": {
+      "wall_seconds": 10.488873374008108,
+      "full_cpu_seconds": 5.390027999999999,
+      "aggregate_worker_wall_cap_seconds": 60,
+      "first_cap_seconds": 60,
+      "authorized_remaining_cap_seconds": 51,
+      "additional_unmeasured": "Static source inspection, profile reading and authoring; not part of the interrupted Native task."
+    },
+    "new_Native_or_child_calls": 0,
+    "limitations": [
+      "Single fixed-order samples; OS cache/scheduling differ. No exact speedup or whole-worker headroom claim.",
+      "Cumulative cProfile elapsed attribution overlaps; it is not standalone CPU and must not be summed.",
+      "First harness shadowed stdlib profile after both timed calls. Lost first full after-inventory comparison is not retroactively proved; corrected third-call comparison is separate."
+    ]
+  },
+  "prospective_decision": "Reuse existing bounded exact-text syntax memo only in material/proof/check. Keep every fresh byte/hash/metadata/semantic/process/Native check, all105/120/420caps and publication cancellation/accounting. Exclude qualify/worker-wide decorators to keep memo retirement inside existing publication guards. Changed build needs fresh qualification.",
+  "raw_receipt_sha256": {
+    ".runs/placement084-task-failure-001/reconciliation.json": "9c21b8069f1b2ca66ab8e4700b6f92e911ed50fc5ff05fd4fc9dd708db45bf5c",
+    ".runs/runtime-directory-084/installed-setup.json": "25c7bc9a42ca24b6b8fd2f4a6787edab12fc1259bc45ae3825c013f7db857501",
+    ".runs/placement084-qualification-profile-001/summary.json": "ca1185aa20b49537d68bfa5af6a2661c1bc8e0d21b72ae1ab71d27255a1961e7",
+    ".runs/placement084-native-stages-readback-002/readback.json": "00a30e6b3707efe958f6f38630f2b8db651337a6d84cafa839b7236befc7997a"
+  },
+  "additional_costs": "Research, authoring, failed diagnostic setups and AI review are additional and not fully measured. Do not add nested stage times to outer task totals.",
+  "model_calls": 0,
+  "human_PCB_approval": false,
+  "actual_new_GUI_qualified": false,
+  "overall_product_complete": false
+}
