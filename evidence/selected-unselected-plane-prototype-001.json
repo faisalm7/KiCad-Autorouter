@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "kind": "bounded-literal-plane-prototype",
+  "status": "pure-source-review-passed-not-Native-qualified",
+  "product_runtime_changed": false,
+  "default_changed": false,
+  "actual_Native_runs": 0,
+  "actual_engine_runs": 0,
+  "routing_benefit_claim": false,
+  "mechanism": "Retain only exact literal unselected plane ASTs; explicitly selected planes remain suppressed. Source/DSN/ordered selection hashes and complete net/zone/layer census are rebound. No electrical meaning inferred from names.",
+  "defect_and_correction": "Skeptical probes reproduced context-sensitive Decimal abs() rounding above the coordinate limit and uncontrolled huge-exponent Overflow. Exact copy_abs() comparison now refuses with ValueError; original failures retained.",
+  "fixed_controls": {
+    "authored": 12,
+    "independent_probes": 18
+  },
+  "bounds": "2MiB raw inputs,256KiB context,256planes,4096vertices per polygon; no Native fill/island/thermal equivalence.",
+  "decision": "Retain isolated prototype outside curated runtime; prospective single baseline/variant comparison only after existing producer and both readback hooks independently bind actual Native lineage. No execution or default adoption from pure tests.",
+  "comparison_limit": "One fresh baseline and variant on exact retained086pose,90seconds each routing wall/fullCPU,420seconds all-inclusive; no pose search, OUT-specific tuning, restarts, fallback or retroactive budgets. Any final open remains incomplete.",
+  "limitations": [
+    "Syntax fixtures and literals are not verified Native geometry.",
+    "Degenerate polygons may parse; actual product admission and Native provenance must remain mandatory.",
+    "The independent OUT gap already exists in086SES; this policy is not a demonstrated fix."
+  ],
+  "costs": {
+    "each_timeout_seconds": 30,
+    "fixed_authored12_controls": {
+      "cleanup_complete": true,
+      "exit_code": 0,
+      "full_CPU_seconds": 0.200173,
+      "status": "success",
+      "wall_seconds": 0.22344020794844255
+    },
+    "fixed_independent18_probes": {
+      "cleanup_complete": true,
+      "exit_code": 0,
+      "full_CPU_seconds": 0.296608,
+      "status": "success",
+      "wall_seconds": 0.2973077910137363
+    },
+    "max_group_rss_bytes": 1073741824,
+    "max_workdir_bytes": 2097152,
+    "model_calls": 0,
+    "new_Native_runs": 0,
+    "new_engine_runs": 0,
+    "new_network_actions": 0,
+    "original_failed_probes": {
+      "cleanup_complete": true,
+      "exit_code": 2,
+      "full_CPU_seconds": 0.324094,
+      "status": "nonzero_exit",
+      "wall_seconds": 0.3505757499951869
+    },
+    "static_review_and_authoring": "Additional and not fully measured.",
+    "total_bounded_full_CPU_seconds": 0.820875,
+    "total_bounded_worker_wall_seconds": 0.8713237489573658
+  },
+  "review_sha256": "25cdc0a25e8b85eacb180084c7189784835f2f778a809397e3691bd8e24428b8",
+  "source_sha256": {
+    "experiments/selected_unselected_plane_v1/policy.py": "aa9bab149adad6cf53c6f1806ced20395b0970febc44da361410a61cdcedba55",
+    "experiments/selected_unselected_plane_v1/controls.py": "0238a820d0105a8558888d6d520fc50d5dd3a1af7077c9093903b1c8fe78ebb8",
+    "experiments/selected_unselected_plane_v1/README.md": "cac2aca89432a26e1f474fd4a80e323b276b86cd3664c8d4e0f34cc7c32c9137"
+  },
+  "post_review_documentation_only": "Clarified pure controls do not qualify default integration; no new approval gate or code change."
+}
