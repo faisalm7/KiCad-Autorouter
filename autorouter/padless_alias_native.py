@@ -41,15 +41,26 @@ def box(v):
     b=v.GetBoundingBox();return [int(b.GetX()),int(b.GetY()),int(b.GetRight()),int(b.GetBottom())]
 
 
-def polygons(poly):
+def polygons(poly, *, strict=False):
     rows=[];vertices=0
-    if poly.OutlineCount()>512:raise ValueError('native polygon census ceiling')
+    def count(value, *, legacy_coerce=False):
+        if strict and (type(value) is not int or value < 0):
+            raise ValueError('exact nonnegative Native polygon count required')
+        return int(value) if legacy_coerce else value
+    def point(value):
+        if not strict:return xy(value)
+        x,y=value.x,value.y
+        if type(x) is not int or type(y) is not int:
+            raise ValueError('exact integer Native polygon coordinate required')
+        return [x,y]
+    outlines=count(poly.OutlineCount())
+    if outlines>512:raise ValueError('native polygon census ceiling')
     def points(line):
         nonlocal vertices
-        n=int(line.PointCount());vertices+=n
+        n=count(line.PointCount(),legacy_coerce=True);vertices+=n
         if vertices>100000:raise ValueError('native polygon vertex ceiling')
-        return [xy(line.CPoint(i)) for i in range(n)]
-    for i in range(poly.OutlineCount()):rows.append({'outer':points(poly.COutline(i)),'holes':[points(poly.CHole(i,j)) for j in range(poly.HoleCount(i))]})
+        return [point(line.CPoint(i)) for i in range(n)]
+    for i in range(outlines):rows.append({'outer':points(poly.COutline(i)),'holes':[points(poly.CHole(i,j)) for j in range(count(poly.HoleCount(i)))]})
     return rows
 
 

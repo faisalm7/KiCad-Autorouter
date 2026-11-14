@@ -113,3 +113,11 @@ Version4settings add only `group_policy: rigid-selected-translation-v1` to the e
 The solver uses courtyard centres; Native KiCad uses footprint anchors. The explicit twice-nanometre offset maps those coordinates without dropping half-nanometre proxy centres or rounding real anchors. The offset and policy participate in the facts/settings proof and final independent checks. Grouping with this new policy is deliberately unsupported until separately qualified. Existing scopes retain their semantics. A saved089 THT preset is refused by090's new inspection scope; create and review new settings instead of silently migrating it.
 
 Source controls and skeptical review precede one fresh installed automatic licensed task and actual GUI checks. Until those pass,088 remains the finite GUI-qualified candidate. The failed089 task remains failed.
+
+## Native text and fixed-circle refinement (source091, qualification pending)
+
+The source-baseline scope can capture a version2 annotation context from pinned KiCad10.0.7. It refines overlapping boxes only for plain default-font text on an eligible movable footprint against a stationary unfilled circle on a fixed footprint. KiCad supplies outward glyph polygons; holes are filled conservatively. A bounded exact-integer predicate must prove separation before a box conflict is cleared. Other annotation pairs and known unsupported fonts/styles retain conservative boxes. Malformed or changed Native evidence fails rather than becoming a fallback.
+
+This corrects a search approximation; it changes no user keepout, courtyard, copper protection, movement region, original rule or final Native acceptance requirement. Older version1 contexts retain their original box checks. Settings still require explicit review, and source/candidate/report freshness and warning decisions remain shared with the ordinary routing workflow. No model gains an editing or approval path.
+
+The finite Native contact/translation matrix passed with all outcomes retained. Source regressions and skeptical review precede a fresh installed task; no new-build GUI, unrelated placement benefit or electrical suitability follows from the geometry controls alone.

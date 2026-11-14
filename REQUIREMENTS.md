@@ -17,6 +17,8 @@ The [master specification](MASTER_PROMPT.md) and later owner steering govern. **
 
 **090 current boundary:** [Installed/full262/no-alternative result](evidence/runtime090-installed-no-alternative-001.json) passes exact setup/doctor/regression and original Native inspection. Its one automatic licensed search returns no changed alternative after320moves and no delivery. [One owned front-SMD metadata/off-anchor changed-pose Native delivery](evidence/runtime090-owned-baseline-delivery-001.json) now passes with one protected locked trace; actual GUI, moving-THT delivery and unrelated usefulness remain open. No favorable retry or manual fallback occurred.
 
+**091source gate:** [Annotation refinement](evidence/placement091-annotation-source-001.json) passes bounded Native contact/translation and complete Native context capture, strict capture regressions and skeptical review. Fresh installed091/full263/Native delivery and actual final-build GUI remain pending; no routing/placement gain is claimed from proxy controls.
+
 **Retained version-specific records:**
 
 **Current076 addition:** [Installed placement milestone](evidence/runtime076-placement-product-milestone-001.json) closes one real saved-project selected-placement → protected-routing → review/accept-or-reject → fresh separate export → checked KiCad opening task. Full247, curated installation/doctor, Native invalid/cancel controls and actual GUI107 are recorded. Source acknowledgement reset and continuous origin guard are now installed and exercised. Scope remains narrow front/unrotated circular-PTH translations; this is not broad placement support or human PCB approval. Older rows below retain their version-specific evidence and are not a request to repeat them.
