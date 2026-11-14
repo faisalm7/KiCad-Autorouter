@@ -32,6 +32,7 @@ PLACEMENT_FILES = frozenset((
     'experiments/native_annotation_geometry_v1/__init__.py',
     'experiments/native_annotation_geometry_v1/ring.py',
     'experiments/native_annotation_geometry_v1/native.py',
+    'experiments/selected_unselected_plane_v1/policy.py',
     'experiments/constrained_placement_v1/__init__.py',
     'experiments/constrained_placement_v1/constraints.py',
     'experiments/constrained_placement_v1/prototype.py',

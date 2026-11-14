@@ -290,8 +290,12 @@ def _network_summary(tree):
             "semantic_sha256": _digest(sx.dump(network).encode("utf-8"))}
 
 
-def adapt_bytes(raw, mode, obstacles):
-    """The existing exact adapter transform, without filesystem mutation."""
+def adapt_bytes(raw, mode, obstacles, *, plane_transport=None):
+    """Exact pure edits, with optional experimental literal-plane attribution.
+
+    ``plane_transport`` never proves Native lineage or candidate acceptance.
+    Omitting it preserves the established scope-agnostic suppression contract.
+    """
     if not isinstance(raw,bytes) or len(raw)>sx.MAX_BYTES:raise ValueError("bounded DSN bytes required")
     if mode not in ("graphics","planes","both"):raise ValueError("unknown adapter mode")
     original = _parse_dsn(raw.decode("utf-8"))
@@ -343,7 +347,31 @@ def adapt_bytes(raw, mode, obstacles):
 
     transformations = []
     removed_planes = []
-    if mode in ("planes", "both"):
+    plane_record = None
+    if plane_transport is not None:
+        if (mode not in ("planes", "both") or type(plane_transport) is not dict
+                or set(plane_transport) != {"source_bytes", "selected_names", "context"}
+                or type(plane_transport["source_bytes"]) is not bytes
+                or type(plane_transport["selected_names"]) is not list
+                or any(type(name) is not str for name in plane_transport["selected_names"])
+                or type(plane_transport["context"]) is not dict):
+            raise ValueError("Explicit bounded source/selection/plane context requires planes or both mode")
+        # Pure attribution only. Actual Native export lineage must be proved by
+        # the caller and independently reconstructed by both pipeline readers.
+        from experiments.selected_unselected_plane_v1 import policy as planes
+        plane_output, plane_record = planes.apply(plane_transport["source_bytes"], raw,
+            plane_transport["selected_names"], plane_transport["context"])
+        for plane, row in zip(sx.children(structure, "plane"), plane_record["planes"]):
+            if row["action"] == "omit":
+                removed_planes.append(plane)
+                kind = "suppress_dsn_plane"
+            else:
+                kind = "experimental_retain_unselected_dsn_plane"
+            transformations.append({"kind": kind, "net": sx.unquote(plane[1]),
+                                    "semantic_sha256": _digest(sx.dump(plane).encode("utf-8"))})
+        tree = _parse_dsn(plane_output.decode("utf-8"))
+        structure = sx.one(tree, "structure")
+    elif mode in ("planes", "both"):
         for plane in sx.children(structure, "plane"):
             if (len(plane) < 3 or not isinstance(plane[1], str)
                     or not isinstance(plane[2], list) or not plane[2]):
@@ -369,7 +397,11 @@ def adapt_bytes(raw, mode, obstacles):
     # all net/pin mapping, original keepouts, unknown fields and wiring, survives.
     expected = copy.deepcopy(original)
     expected_structure = sx.one(expected, "structure")
-    if mode in ("planes", "both"):
+    if plane_record is not None:
+        actions = iter(plane_record["planes"])
+        expected_structure[:] = [node for node in expected_structure if not (
+            isinstance(node, list) and node and node[0] == "plane" and next(actions)["action"] == "omit")]
+    elif mode in ("planes", "both"):
         expected_structure[:] = [node for node in expected_structure
                                  if not (isinstance(node, list) and node and node[0] == "plane")]
     expected_structure.extend(copy.deepcopy(inserted))
@@ -380,7 +412,7 @@ def adapt_bytes(raw, mode, obstacles):
         raise ValueError("DSN semantic roundtrip failed")
     if len(encoded) > sx.MAX_BYTES:
         raise ValueError("Adapted DSN exceeds size limit")
-    return encoded, {"classification": "B1_adapter_only", "mode": mode,
+    record = {"classification": "B1_adapter_only", "mode": mode,
             "input_sha256": _digest(raw), "output_sha256": _digest(encoded),
             "input_bytes": len(raw), "output_bytes": len(encoded),
             "planes_removed": len(removed_planes), "graphics_keepouts_added": len(inserted),
@@ -388,9 +420,18 @@ def adapt_bytes(raw, mode, obstacles):
             "native_project_modified": False, "transformations": transformations,
             "limitations": ["Graphics use conservative bounding rectangles, not exact copper contours.",
                             "Plane suppression is an all-terminal over-routing surrogate; native zones must remain unchanged."]}
+    if plane_record is not None:
+        record.update(classification="experimental_selected_unselected_plane_adapter",
+            plane_transport=plane_record,
+            planes_retained=sum(row["action"] == "retain" for row in plane_record["planes"]),
+            experimental=True, native_export_verified=False, original_design_validated=False,
+            routing_accepted=False)
+        record["limitations"][1] = ("Experimental literal unselected-plane transport does not establish Native "
+            "fill, islands, thermals or acceptance; selected planes remain suppressed and Native zones unchanged.")
+    return encoded, record
 
 
-def adapt_dsn(path, mode, obstacles):
+def adapt_dsn(path, mode, obstacles, *, plane_transport=None):
     """Atomically correct an exported DSN and return auditable transformations.
 
     ``obstacles`` is a list of native ``layer`` / ``bbox_mm`` records. An optional
@@ -398,6 +439,8 @@ def adapt_dsn(path, mode, obstacles):
     exact DSN layer names and KiCad F.Cu/B.Cu outer-layer aliases are accepted.
     Bounding boxes include the native object's stroke/font extents; this module
     adds no guessed clearance. The routing engine still applies DSN clearance.
+    Optional ``plane_transport`` has the same pure contract as ``adapt_bytes``;
+    the caller remains responsible for actual Native export and final checks.
     """
     if mode not in ("graphics", "planes", "both"):
         raise ValueError("Adapter mode must be graphics, planes, or both")
@@ -408,7 +451,8 @@ def adapt_dsn(path, mode, obstacles):
     if original_stat.st_size > sx.MAX_BYTES:
         raise ValueError("DSN exceeds size limit")
     raw = path.read_bytes()
-    encoded, record = adapt_bytes(raw, mode, obstacles)
+    encoded, record = (adapt_bytes(raw, mode, obstacles) if plane_transport is None else
+                      adapt_bytes(raw, mode, obstacles, plane_transport=plane_transport))
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".adapter-", delete=False) as handle:

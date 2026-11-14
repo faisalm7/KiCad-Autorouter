@@ -42,6 +42,7 @@ DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
 NATIVE7_SELECTED_DEFAULT_POLICY='native7-selected-sole-default-v1'
 NATIVE7_SELECTED_LEGACY_POLICY='native7-selected-legacy-table-v1'
 NATIVE7_TUNED_LOW_POLICY='native7-tuned-low-sole-default-v1'
+SELECTED_PLANE_CHOICE_POLICY='native7-selected-plane-choice-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -1583,9 +1584,13 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
     from . import pour_rule_area as pour, floor_route as f
     from .placement_clearance import read_bytes
     directory=Path(directory);candidate=Path(candidate);areas=pour.qualify(original)
+    from . import selected_plane_transport as selected_planes
+    plane_mode=selected_planes.choice(directory,data)
     names=('pour-before-refill.kicad_pcb','pour-keepout-audit.json','pour-dsn-correction.json','pour-corrected.dsn')
     if not areas:
         if any((directory/n).exists() or (directory/n).is_symlink() for n in names):raise Rejected('pour evidence without qualified source intent')
+        if plane_mode==selected_planes.VARIANT:
+            selected_planes.replay(directory,data,read_bytes(directory/'default-targets.dsn'))
         return
     if sandboxed is None:sandboxed=data.get('input_policy') in {'board-floors-v1','placement-clearance-v1','placement-search-v1','placement-pruning-v1'}
     prefix=f.SANDBOX if sandboxed else []
@@ -1622,7 +1627,9 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
             or data.get('adapter_transformations',{}).get('input_sha256')!=pour.sha(corrected)):
         raise Rejected('missing/downgraded pour DSN correction lineage')
     from .adapter import adapt_bytes
-    adapted,adapter_record=adapt_bytes(corrected,data['adapter'],f.read_json(directory/'obstacles.json'))
+    plane_transport=selected_planes.replay(directory,data,corrected)
+    adapted,adapter_record=adapt_bytes(corrected,data['adapter'],f.read_json(directory/'obstacles.json'),
+        **({'plane_transport':plane_transport} if plane_transport is not None else {}))
     if 'native_edge_correction' in data:
         from . import native_edge
         adapted,_=native_edge.correct(adapted,native_edge_context(directory/'snapshot'/candidate.name,known_named=_known_named_edge))
@@ -2174,6 +2181,8 @@ def check_native_edge_transport(directory,data,*,_known_named_edge=False):
     from .placement_clearance import read_bytes
     from .floor_route import read_json,canonical
     directory=Path(directory); marker=directory/'native-edge-correction.json';prior=directory/'edge-adapter-input.dsn'
+    from . import selected_plane_transport as selected_planes
+    selected_planes.choice(directory,data)
     minimum=native_minimum_markers(directory,data)
     if ('native_edge_correction' not in data and not marker.exists() and not marker.is_symlink()
             and not prior.exists() and not prior.is_symlink()):
@@ -2204,7 +2213,9 @@ def check_native_edge_transport(directory,data,*,_known_named_edge=False):
             raise Rejected('minimum experiment proof, targets or native basis differ')
     else:
         base=read_bytes(directory/('pour-corrected.dsn' if 'pour_dsn_correction' in data else 'default-targets.dsn' if 'default_target_transport' in data else 'native.dsn'))
-    adapted,adapter_record=adapter.adapt_bytes(base,data['adapter'],read_json(directory/'obstacles.json'))
+    plane_transport=selected_planes.replay(directory,data,base)
+    adapted,adapter_record=adapter.adapt_bytes(base,data['adapter'],read_json(directory/'obstacles.json'),
+        **({'plane_transport':plane_transport} if plane_transport is not None else {}))
     corrected,record=native_edge.correct(adapted,context)
     engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
     if (read_bytes(prior)!=adapted or read_bytes(engine_input)!=corrected
@@ -2451,7 +2462,7 @@ def check_preferences_record(directory, data):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None, _selected_plane_policy=None):
     """Keep cancellation active between workers and through final publication."""
     def interrupted(*_):raise KeyboardInterrupt
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
@@ -2463,13 +2474,22 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             experimental_schematic_parity=experimental_schematic_parity,_fanout_enabled=_fanout_enabled,
             _optimizer_enabled=_optimizer_enabled,_engine_clearance_margin_nm=_engine_clearance_margin_nm,
             _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context,_improve_context=_improve_context,_improve_budget=_improve_budget,
-            **({'placement_origin':placement_origin} if placement_origin is not None else {}))
+            **({'placement_origin':placement_origin} if placement_origin is not None else {}),
+            **({'_selected_plane_policy':_selected_plane_policy} if _selected_plane_policy is not None else {}))
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
 
 
-def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None):
+def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None, _selected_plane_policy=None):
     entry_started,entry_parent=elapsed_time(),time.process_time()
+    from . import selected_plane_transport as selected_planes
+    if _selected_plane_policy is not None:
+        if (type(_selected_plane_policy) is not str or _selected_plane_policy!=selected_planes.VARIANT
+                or any(value is not None for value in (native_toolchain,comparison_context,_improve_context,
+                    _improve_budget,_fanout_enabled,_optimizer_enabled,_engine_clearance_margin_nm,
+                    _engine_global_width_policy,placement_origin))
+                or experimental_schematic_parity is not False):
+            raise Rejected('experimental selected-plane policy cannot mix authorities or overrides')
     from .floor_route import child_cpu
     operation_children=child_cpu()
     if placement_origin is not None:
@@ -2530,7 +2550,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         try:
             for sig in handlers:signal.signal(sig,interrupted)
             return route(source,output,**pref.route_arguments(effective),_preferences=request,
-                         **({'placement_origin':placement_origin} if placement_origin is not None else {}))
+                         **({'placement_origin':placement_origin} if placement_origin is not None else {}),
+            **({'_selected_plane_policy':_selected_plane_policy} if _selected_plane_policy is not None else {}))
         finally:
             for sig,handler in handlers.items():signal.signal(sig,handler)
     if engine_profile=='tuned-free-angle' and (keep_existing is not False or adapter!='both'
@@ -2541,6 +2562,11 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         require_native_scope(scope=effective.get('scope','partial_completion' if keep_existing else 'whole_board_unlocked_routing'),
             guidance=guidance_policy,layers=effective.get('layers','source_all'),
             profile=engine_profile,adapter=adapter,scoring=scoring_variant)
+    if _selected_plane_policy is not None and (c.NATIVE_VERSION!='10.0.7' or _preferences is None
+            or _preferences['effective']['scope']!='selected_nets' or guidance_policy!='native'
+            or adapter!='both' or engine_profile!='completion-only' or scoring_variant is not None
+            or _preferences['effective']['layers']!='source_all'):
+        raise Rejected('experimental selected planes require exact ordinary Native7 selected preferences')
     if guidance_policy not in {'native','board-floors-v1','placement-clearance-v1'}: raise Rejected('unknown guidance policy')
     if guidance_policy in {'board-floors-v1','placement-clearance-v1'}:
         from .floor_route import route as floor_route
@@ -2628,6 +2654,9 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             from .placement_clearance import read_bytes
             report['scope']='selected_nets'
             report['selected_net_binding']=rs.bind(read_bytes(source),selected)
+            if c.NATIVE_VERSION=='10.0.7' and adapter=='both':
+                report['selected_plane_choice']={'policy':SELECTED_PLANE_CHOICE_POLICY,
+                    'mode':selected_planes.VARIANT if _selected_plane_policy is not None else selected_planes.BASELINE}
         if _preferences is not None and _preferences['effective']['layers']!='source_all':
             from .layer_policy import _source_layers, _route_map
             _source_layers(original)
@@ -2695,7 +2724,13 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         if adapter!='none':
             from .adapter import adapt_dsn
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
-            report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()))
+            plane_transport=None
+            if _selected_plane_policy is not None:
+                selected_planes.snapshot_policy(output)
+                plane_transport,report['selected_plane_transport']=selected_planes.capture(
+                    output,dict(report,steps=job.steps),(output/'task.dsn').read_bytes())
+            report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()),
+                **({'plane_transport':plane_transport} if plane_transport is not None else {}))
             from . import native_edge
             shutil.copy2(output/'task.dsn',output/'edge-adapter-input.dsn')
             corrected,edge_record=native_edge.correct((output/'task.dsn').read_bytes(),native_edge_context(snapshot,
@@ -2857,8 +2892,10 @@ def validation_readback_session():
                    native_edge,netclass,netclass_native,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
                    provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
+    from . import selected_plane_transport
+    from experiments.selected_unselected_plane_v1 import policy as selected_plane_policy
     import sys
-    modules=(sys.modules[__name__],c,sx,_improve_context,adapter,board_floor,default_targets,engine_angle,floor_context,
+    modules=(sys.modules[__name__],c,sx,selected_plane_transport,selected_plane_policy,_improve_context,adapter,board_floor,default_targets,engine_angle,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,netclass_native,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              routing_scope,thermal,thermal_geometry,provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
@@ -2890,6 +2927,9 @@ def _readback_live_identity(modules):
         if count>20000 or depth>16:raise Rejected('readback policy identity exceeds bounds')
         kind=type(item).__name__
         if item is None or type(item) in (str,bool,int,float):return (kind,item)
+        if type(item) is Decimal:
+            exact=item.as_tuple()
+            return ('decimal',value((exact.sign,exact.digits,exact.exponent),depth+1))
         if isinstance(item,Path):return ('path',str(item))
         if isinstance(item,re.Pattern):return ('regex',item.pattern,item.flags)
         if type(item) is bytes:return ('bytes',item.hex())
