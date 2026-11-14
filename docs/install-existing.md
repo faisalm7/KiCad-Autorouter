@@ -1,8 +1,8 @@
 # Install the current artifact into another local folder
 
-The current tested runtime is `.runs/runtime092 fresh install 001`, source `95f540f8d519956f6b9d8e0ec6ba348373950c45`, manifest `0f823fa7b91ab66766f6aca09a56fc0a889a870592c39e9737acc1758ca95708`. Its [Native delivery/full264](../evidence/runtime092-licensed-placement-delivery-001.json) and [actual GUI117 workflow](../evidence/runtime092-GUI117-core-001.json) include installation/doctor, automatic selected placement, protected routing, review, acceptance/rejection, cancellation and checked export opening on this Mac. Existing users should follow [Start here](../START_HERE.md), without making another copy. Runtime093 is a separate routing experiment, not the qualified product installation.
+The current tested runtime is `.runs/runtime094 fresh install 001`, source `3113cca4c41851c54daf77b2fcb465179ff53e99`, manifest `813d42c6847fc7e78c81c45738074107209ff02fcc8c9b9e480db6e681650ea1`. Its [Native delivery/full266](../evidence/runtime094-licensed-placement-delivery-001.json) and [actual GUI118 workflow](../evidence/runtime094-GUI118-core-001.json) include installation/doctor, automatic selected placement, protected routing, review, acceptance/rejection, cancellation and checked export opening on this Mac. Existing users should follow [Start here](../START_HERE.md), without making another copy. Runtime093 is a separate routing experiment, not the qualified product installation.
 
-For a genuinely needed new installation, the existing installer copies the 87 verified immutable runtime092 files and records the new root. Old jobs, settings, environments and launchers are excluded. It downloads or relocates no external dependency. Choose one unused owned destination with an existing real parent and first check free space against peak temporary allocation plus the fixed 3 GiB reserve:
+For a genuinely needed new installation, the existing installer copies the 89 verified immutable runtime094 files and records the new root. Old jobs, settings, environments and launchers are excluded. It downloads or relocates no external dependency. Choose one unused owned destination with an existing real parent and first check free space against peak temporary allocation plus the fixed 3 GiB reserve:
 
 ```sh
 (
@@ -10,8 +10,8 @@ For a genuinely needed new installation, the existing installer copies the 87 ve
   AUTOROUTER_PROJECT="$PWD"
   AUTOROUTER_INSTALL="$AUTOROUTER_PROJECT/.runs/Autorouter user install 001"
   .venv/bin/python -B scripts/prepare_runtime.py --install-existing \
-    --source "$AUTOROUTER_PROJECT/.runs/runtime092 fresh install 001" \
-    --expected-manifest-sha256 0f823fa7b91ab66766f6aca09a56fc0a889a870592c39e9737acc1758ca95708 \
+    --source "$AUTOROUTER_PROJECT/.runs/runtime094 fresh install 001" \
+    --expected-manifest-sha256 813d42c6847fc7e78c81c45738074107209ff02fcc8c9b9e480db6e681650ea1 \
     --output "$AUTOROUTER_INSTALL"
   .venv/bin/python -B -m venv --copies --without-pip "$AUTOROUTER_INSTALL/.venv"
   cd "$AUTOROUTER_INSTALL"
