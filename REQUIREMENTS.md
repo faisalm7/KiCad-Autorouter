@@ -17,7 +17,9 @@ The [master specification](MASTER_PROMPT.md) and later owner steering govern. **
 
 **090 current boundary:** [Installed/full262/no-alternative result](evidence/runtime090-installed-no-alternative-001.json) passes exact setup/doctor/regression and original Native inspection. Its one automatic licensed search returns no changed alternative after320moves and no delivery. [One owned front-SMD metadata/off-anchor changed-pose Native delivery](evidence/runtime090-owned-baseline-delivery-001.json) now passes with one protected locked trace; actual GUI, moving-THT delivery and unrelated usefulness remain open. No favorable retry or manual fallback occurred.
 
-**091source gate:** [Annotation refinement](evidence/placement091-annotation-source-001.json) passes bounded Native contact/translation and complete Native context capture, strict capture regressions and skeptical review. Fresh installed091/full263/Native delivery and actual final-build GUI remain pending; no routing/placement gain is claimed from proxy controls.
+**091source gate:** [Annotation refinement](evidence/placement091-annotation-source-001.json) passes bounded Native contact/translation and complete Native context capture, strict capture regressions and skeptical review. Fresh installed091/full263/Native delivery now pass; actual final-build GUI remains pending. No routing/placement gain is claimed from proxy controls alone.
+
+**091installed gate:** [Licensed first-alternative delivery](evidence/runtime091-licensed-placement-delivery-001.json) passes installation/doctor/full263, Native selected-THT placement, protected routing, fresh export and independent proof. One exposed already-connected family, not a completion/cleanup advantage. Actual091GUI116, independent installation/Windows/live endpoint/current recovery remain open. Earlier pending source rows describe their historical stage; actual receipts govern.
 
 **Retained version-specific records:**
 
