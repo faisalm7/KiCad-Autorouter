@@ -15,6 +15,7 @@ import math
 import os
 from pathlib import Path
 import signal
+import stat
 import sys
 import time
 
@@ -675,6 +676,139 @@ def check_routing_record(folder, report, candidate=None):
     source_guard(output, witness).check(report['source'])
     need(f.canonical(f.read_json(marker)) == f.canonical(descriptor), 'placement marker changed during origin audit')
     return audit
+
+
+def readback_origin_witness(folder, report):
+    """Fresh bounded origin closure for a caller's invocation-local reuse key.
+
+    No origin returns None. Missing, malformed or unfamiliar closure refuses;
+    callers may then use the unchanged full reader. This immutable byte/identity
+    witness never validates placement, runs Native, or grants result authority.
+    Runtime/tool/live-checker identity and full initial validation remain the
+    caller's responsibility, with this closure sampled before and after reuse.
+    """
+    need(type(report) is dict, 'origin routing report must be an object')
+    folder = h.real_path(folder)
+    descriptor = _routing_origin_descriptor(folder, report)
+    if descriptor is None:
+        return None
+    def file(value,limit):
+        before = value.lstat(); parent = value.parent.lstat()
+        raw = pc.read_bytes(value,limit); after = value.lstat()
+        identity = lambda row:(row.st_dev,row.st_ino,row.st_mode,row.st_uid,row.st_gid,
+                              getattr(row,'st_flags',0),row.st_nlink,row.st_size,row.st_mtime_ns)
+        need(identity(before) == identity(after) and stat.S_ISREG(after.st_mode)
+             and (parent.st_dev,parent.st_ino) == (value.parent.lstat().st_dev,value.parent.lstat().st_ino),
+             'origin dependency changed during readback')
+        return (str(value),hashlib.sha256(raw).hexdigest(),identity(after),(parent.st_dev,parent.st_ino))
+
+    # External tool reads may yield to callbacks. Sample every dependent byte
+    # and metadata witness only after that fence, including the exact draft.
+    wrapper_file = file(h.real_path(c.PCBNEW.with_name('pcbnew.py')),h.PROJECT_BYTES)
+    descriptor = _routing_origin_descriptor(folder, report)
+    need(descriptor is not None, 'placement origin disappeared during external tool read')
+    descriptor = copy.deepcopy(descriptor); canonical = f.canonical(descriptor)
+    output = h.real_path(descriptor['qualification']); marker = folder/ORIGIN_FILE
+    need(output.parent == c.ROOT/'.runs', 'readback origin requires an exact runtime qualification job')
+    marker_raw = pc.read_bytes(marker, 64*1024)
+    binding_raw = pc.read_bytes(output/'binding.json', 512*1024)
+    binding = intent.preferences._parse(binding_raw, 512*1024)
+    need(type(binding) is dict and set(binding) == set(
+        'schema kind draft draft_sha256 intent inspection runtime runtime_manifest_sha256 wrapper_sha256 code_sha256 tools'.split())
+        and type(binding['schema']) is int and binding['schema'] == 1
+        and binding['kind'] == KIND and binding['runtime'] == str(c.ROOT)
+        and type(binding['tools']) is dict, 'unfamiliar readback origin binding')
+    outer = intent.preferences._parse(pc.read_bytes(output/'result.json',512*1024),512*1024)
+    need(type(outer) is dict and type(outer.get('schema')) is int and outer['schema'] == 1
+         and outer.get('kind') == KIND and outer.get('status') == 'pending_candidate'
+         and outer.get('placement_qualified') is True and all(outer.get(key) is False for key in AUTHORITY)
+         and (output/'work/result.json').is_file(), 'unfamiliar pending Native qualification closure')
+    inspection = binding['inspection']; draft = binding['intent']
+    base = set('schema kind source source_hashes observation components native_validation_performed execution_authorized approval_granted limitations'.split())
+    need(type(inspection) is dict and base <= set(inspection)
+        and set(inspection) <= base | {'native_context','annotation_context','native_source_baseline'}
+        and type(inspection['schema']) is int and inspection['schema'] == 1
+        and inspection['kind'] == 'autorouter.saved-placement-inspection.v1'
+        and type(inspection['source_hashes']) is dict and type(draft) is dict
+        and type(draft.get('settings')) is dict, 'unfamiliar placement inspection closure')
+
+    def path(value):
+        need(type(value) is str and Path(value).is_absolute(), 'canonical absolute origin dependency required')
+        result = h.real_path(value)
+        need(str(result) == value, 'noncanonical origin dependency')
+        return result
+
+    source = path(inspection['source']); reviewed = path(binding['draft'])
+    need(draft.get('source') == str(source) and draft.get('source_hashes') == inspection['source_hashes']
+        and draft.get('native_context') == inspection.get('native_context'), 'origin source/context references differ')
+    need(path(report['source']) == _paths(output,binding)[1]['candidate'], 'origin candidate path differs')
+    roots = [('qualification',output),('source',source.parent)]
+    reference = inspection.get('native_context')
+    if reference is not None:
+        need(type(reference) is dict and set(reference) == {'receipt','receipt_sha256','context_sha256'},
+             'unfamiliar Native inspection reference')
+        receipt = path(reference['receipt'])
+        need(receipt.name == 'inspection.json', 'unfamiliar Native inspection receipt')
+        roots.append(('native-inspection',receipt.parent))
+        raw = pc.read_bytes(receipt,512*1024); record = intent.preferences._parse(raw,512*1024)
+        fields = set('schema policy source source_hashes static tools accepted status native_validation_performed budget_seconds cpu_budget_seconds native steps wall_seconds parent_cpu_seconds child_cpu_seconds control_child_cpu_seconds monitor_cpu_seconds total_cpu_seconds native_report_sha256 note placement_context'.split())
+        need(type(record) is dict and set(record) == fields and record['source'] == str(source)
+            and record['source_hashes'] == inspection['source_hashes'] and record['tools'] == binding['tools'],
+            'unfamiliar Native inspection dependency graph')
+        # Shared inspection readers consume only this evidence tree, source
+        # project and caller-witnessed runtime/tools. An external proof path
+        # cannot silently become a hash-only dependency of a cached result.
+        tools = binding['tools'].get('files',{})
+        need(type(tools) is dict, 'unfamiliar origin tool map')
+        allowed = set(tools) | {str(c.ROOT/'autorouter/native.py')}
+        def references(value, depth=0):
+            need(depth <= 32, 'Native inspection reference depth ceiling')
+            if type(value) is dict:
+                for key,item in value.items():
+                    references(key,depth+1); references(item,depth+1)
+            elif type(value) is list:
+                for item in value: references(item,depth+1)
+            elif type(value) is str and value.startswith('/'):
+                item = path(value)
+                need(item.is_relative_to(receipt.parent) or item.is_relative_to(source.parent)
+                     or str(item) in allowed, 'unfamiliar external Native proof dependency')
+        references({'source':record['source'],'steps':record['steps'],
+                    'placement_context':record['placement_context']})
+    else:
+        need('annotation_context' not in inspection and 'native_source_baseline' not in inspection,
+             'Native placement context closure is missing')
+    for index,(_,root) in enumerate(roots):
+        need(root.is_dir() and not folder.is_relative_to(root) and not root.is_relative_to(folder)
+             and root != c.ROOT and not c.ROOT.is_relative_to(root), 'overlapping origin evidence closure')
+        need(all(not root.is_relative_to(other) and not other.is_relative_to(root)
+                 for _,other in roots[:index]), 'overlapping origin dependency trees')
+    need(not reviewed.is_relative_to(folder), 'reviewed draft overlaps routing evidence')
+
+    draft_file = file(reviewed,64*1024)
+    need(draft_file[1] == binding['draft_sha256'] and wrapper_file[1] == binding['wrapper_sha256']
+         and f.canonical(intent.preferences._parse(pc.read_bytes(reviewed,64*1024),64*1024)) == f.canonical(draft),
+         'exact reviewed draft/wrapper closure differs')
+    trees = []
+    for role,root in roots:
+        identity = retained.retained_tree_identity(root,root.parent)
+        if role == 'source':
+            files,directories = pc.inventory(root,with_directories=True)
+            inventory = dict(files=files,directories=list(directories))
+        else:
+            inventory = h.evidence_witness(root)
+        metadata = []
+        for name in inventory['files']:
+            if Path(name).suffix == '.kicad_prl':
+                info = (root/name).lstat()
+                metadata.append((name,info.st_dev,info.st_ino,getattr(info,'st_flags',0),
+                                 info.st_nlink,stat.S_IFMT(info.st_mode)))
+        need(identity == retained.retained_tree_identity(root,root.parent), 'origin evidence identity changed')
+        trees.append((role,str(root),f.canonical(inventory),tuple(sorted(identity.items())),tuple(sorted(metadata))))
+    need(pc.read_bytes(output/'binding.json',512*1024) == binding_raw
+         and pc.read_bytes(marker,64*1024) == marker_raw
+         and f.canonical(report.get('placement_origin')) == canonical, 'origin binding/marker changed during readback')
+    return ('placement-origin-readback-v1',canonical,hashlib.sha256(marker_raw).hexdigest(),
+            tuple(trees),draft_file,wrapper_file)
 
 
 def routing_origin_material(folder, report):

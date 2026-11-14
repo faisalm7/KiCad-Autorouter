@@ -2950,6 +2950,31 @@ def _readback_live_identity(modules):
     return tuple(rows)
 
 
+def _placement_readback_identity():
+    """Live composed-placement policy, including mutable SourceGuard methods.
+
+    File/tool hashes remain separate fresh witnesses. This identity prevents an
+    operation-local reuse from surviving replacement of a reached Python policy.
+    """
+    from types import SimpleNamespace
+    from . import (placement,placement_intent,placement_copper,placement_annotations,
+                   project_inspection,design_intent,gui)
+    from experiments.placement_native_proposal_v1 import contract,ordinary,engineering_metadata
+    from experiments.constrained_placement_v1 import constraints,prototype
+    from experiments.native_annotation_geometry_v1 import ring
+    from experiments import placement_native_evidence
+    # The reached GUI surface is source inventory/canonicalization and this
+    # guard, not window constructors or imported dataclasses.field (whose
+    # MISSING defaults cannot be frozen by the existing policy identity).
+    methods=SimpleNamespace(__name__='autorouter.gui.placement-material-readback',
+        canonical=gui.canonical,source_inventory=gui.source_inventory,SourceGuard=gui.SourceGuard,
+        **{'SourceGuard_'+name:getattr(gui.SourceGuard,name) for name in (
+            '__init__','__post_init__','check','check_task','check_task_candidates')})
+    return _readback_live_identity((placement,placement_intent,placement_copper,placement_annotations,
+        project_inspection,design_intent,contract,ordinary,engineering_metadata,
+        constraints,prototype,ring,placement_native_evidence,methods))
+
+
 def _readback_witness(path,data,state):
     from . import placement_clearance as pc,placement_strategy as ps
     source=Path(data['source'])
@@ -2961,6 +2986,21 @@ def _readback_witness(path,data,state):
     tools=tool_manifest()
     runtime=(hashlib.sha256(pc.read_bytes(c.ROOT/'toolchain.lock.json')).hexdigest(),
              tools,str(c.ROOT),str(c.CLI),str(c.PYTHON),str(c.PCBNEW),str(c.JAVA),str(c.JAR))
+    origin=None
+    marker=path.parent/'placement-origin.json'
+    if 'placement_origin' in data or marker.exists() or marker.is_symlink():
+        from . import placement
+        # This is complete retained material, never a placement validation or
+        # approval. The ordinary full checker must pass before an entry exists.
+        material=placement.readback_origin_witness(path.parent,data)
+        if type(material) is not tuple or not material or material[0]!='placement-origin-readback-v1':
+            raise Rejected('complete placement origin cache witness unavailable')
+        try:hash(material)
+        except TypeError as exc:raise Rejected('immutable placement origin cache witness required') from exc
+        origin=(material,_placement_readback_identity())
+    # The origin helper also reads an external Native wrapper. Like tool
+    # discovery, that boundary must precede the shared policy/content samples;
+    # a late callback must not change route/source data behind an old key.
     live=_readback_live_identity(state['modules'])
     evidence=pc.inventory(path.parent,max_bytes=limit,max_files=files,
                           max_entries=files*2,with_directories=True)
@@ -2972,7 +3012,7 @@ def _readback_witness(path,data,state):
         if Path(name).suffix=='.kicad_prl':
             info=(path.parent/name).lstat()
             local_metadata.append((name,getattr(info,'st_flags',0),info.st_nlink,stat.S_IFMT(info.st_mode)))
-    return (evidence,original,tuple(sorted(local_metadata)),runtime,live)
+    return (evidence,original,tuple(sorted(local_metadata)),runtime,live,origin)
 
 
 def _current_result_path(path):
@@ -3023,10 +3063,7 @@ def _check_result_scoped(path, *, native_toolchain=None, experimental_schematic_
         raw=read_bytes(target)  # Reject symlink aliases before resolving them.
         data=read_json(target)
         origin_marker=target.parent/'placement-origin.json'
-        if 'placement_origin' in data or origin_marker.exists() or origin_marker.is_symlink():
-            # The existing cache witness does not cover a placement origin.
-            # Reuse the complete ordinary reader, never a stale composed result.
-            return _check_result_uncached(path)
+        composed=('placement_origin' in data or origin_marker.exists() or origin_marker.is_symlink())
         if (target.name!='result.json' or target!=target.resolve(strict=True)
                 or type(data.get('schema')) is not int or data['schema'] not in (1,3,4,5)
                 or data.get('accepted') is not True or data.get('status')!='routing_accepted'
@@ -3038,11 +3075,24 @@ def _check_result_scoped(path, *, native_toolchain=None, experimental_schematic_
         if data['schema']==1:
             try:native=receipt_policy(data,target.parent)=='native'
             except Rejected:native=False  # The full checker retains its policy refusal.
+            except (ValueError,OSError,KeyError,TypeError):
+                if not composed:raise
+                # A malformed marker must retain the original full lineage
+                # reader's refusal/diagnostics, never become cache admission.
+                _clear_readback_entries(state)
+                return _check_result_uncached(path)
             if (not native or data.get('strategy') not in (None,'native_validated_zone_net_pruning','native_validated_thermal_bridge')):
                 return _check_result_uncached(path)
         elif data.get('input_policy') not in {'placement-clearance-v1','placement-search-v1','placement-pruning-v1'}:
             return _check_result_uncached(path)
-        before=_readback_witness(target,data,state)
+        try:
+            before=_readback_witness(target,data,state)
+        except (Rejected,ValueError,OSError,KeyError,TypeError):
+            if not composed:raise
+            # Unfamiliar or incomplete origin graphs gain no cache eligibility.
+            # Preserve the existing full reader's support/refusal semantics.
+            _clear_readback_entries(state)
+            return _check_result_uncached(path)
         if before[0][0].get(target.name)!=hashlib.sha256(raw).hexdigest():
             raise Rejected('routing receipt changed before cached readback')
         entry=state['entries'].get(target)
