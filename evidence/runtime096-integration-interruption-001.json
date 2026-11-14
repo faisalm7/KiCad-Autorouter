@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "kind": "runtime096-installation-and-incomplete-integration",
+  "created_UTC": "2026-11-14T07:33:57.897765+00:00",
+  "status": "unqualified-integration-timeout-with-error-marker",
+  "source_head": "1198fdd80b9adcb42270fab6f22e095145af3024",
+  "source_checkpoint": ".runs/placement096-source-checkpoint-001/remote-readback.json",
+  "tested_finite_candidate_unchanged": "runtime094/GUI118",
+  "runtime": ".runs/runtime096 fresh install 001",
+  "runtime_manifest_sha256": "a0d8907f0b54a01e671f3ca68de825cdab65f2b720a2b337072bc6b9e73d798c",
+  "immutable_files": 89,
+  "source_payload_files": 88,
+  "installation": {
+    "prepared": true,
+    "doctor_ready": true,
+    "scope": "Curated copied-no-pip environment, same Mac/account/pinned dependencies; no new download, standalone or independent installation claim."
+  },
+  "full268": {
+    "passed": false,
+    "discovered": 3640,
+    "completed_timing_rows": 2568,
+    "without_completed_timing": 1072,
+    "final_summary_written": false,
+    "wall_seconds": 1200.7261753329658,
+    "full_CPU_seconds": 447.53795,
+    "bounds_seconds": 1200,
+    "process_status": "timeout",
+    "exit_code": -15,
+    "cleanup_complete": true,
+    "sources_unchanged": true,
+    "log_truncated": false,
+    "error_markers": 1,
+    "error_test_positional_inference": "test_gui_installer.GuiInstallerTests.test_actual_cli_refusal_is_a_nonzero_exit",
+    "error_traceback_available": false,
+    "error_cause": "Unproved. E-marker/order mapping is an inference; timeout prevented final traceback. Do not relabel as pass-only or solely a host failure.",
+    "observed_scope": "All completed rows and the incomplete remainder are retained; no whole-suite success inferred."
+  },
+  "paired_partial_timing": {
+    "matched_existing_tests": 2540,
+    "prior267_same_wall_seconds": 211.368,
+    "current268_same_wall_seconds": 1184.253,
+    "prior267_same_CPU_seconds": 202.982,
+    "current268_same_CPU_seconds": 428.9,
+    "new_completed_tests": 28,
+    "new_test_wall_seconds": 2.96,
+    "new_test_CPU_seconds": 2.392,
+    "interpretation": "Broad matched slowdown, not a proven isolated product regression or established host cause. Partial administration timing is not routing performance."
+  },
+  "narrow_diagnostic": {
+    "same_child_deadline_seconds": 5,
+    "actual_returncode": 2,
+    "refusal_correct": true,
+    "wall_seconds": 0.32308800000464544,
+    "child_CPU_seconds": 0.250274,
+    "old_error_cause_proven": false,
+    "test_or_product_timeouts_changed": false,
+    "new_Native_or_GUI_runs": 0
+  },
+  "reporting_correction": {
+    "scope": "Minimal extension of existing private complete-discovery/timing reporter. Error/failure/subtest tracebacks flush immediately while original final summary and timing remain. Old264/268 artifacts unchanged.",
+    "small_fixture_passed": true,
+    "fixture_intentional_errors": 2,
+    "fixture_intentional_failures": 2,
+    "fixture_skip": 1,
+    "wall_seconds": 0.04835162503877655,
+    "self_CPU_seconds": 0.031132999999999994,
+    "product_or_Native_qualification": false,
+    "future_complete_suite_count_unchanged": 3640
+  },
+  "next_finite_gate": {
+    "full269": "One prospective unchanged-source/install rerun, same full population/caps, immediate error details; disabled until resource preflight. No rebuild for administration/docs.",
+    "resource_floor": "Fresh one-minute load <=8 cores, macOS dispatch memory-pressure level1(normal), peak2GiB plus fixed3GiB disk reserve, exclusive shared worker lane. Last observed pressure2(warning); vm.memory_pressure is not a normal/warning enum.",
+    "Native": "New096 same frozen owned region/selection/seed/index0 task only after full success;420total/90export plus prospective completed-export<=72wall/fullCPU, no prior095 export reuse.",
+    "GUI": "Fresh GUI120 only after successful actual096 Native and pure independent readback. Finder access observed working; access observation is not096GUI qualification."
+  },
+  "not_demonstrated": {
+    "actual096_Native_delivery": false,
+    "actual096_GUI": false,
+    "whole_workflow_speedup": false,
+    "broad_placement_or_completion_gain": false,
+    "Windows_Native": false,
+    "human_PCB_approval": false,
+    "product_complete": false
+  },
+  "prior095_failed_export_retained": true,
+  "originals_and_installed_product_unchanged": true,
+  "new_product_builds_or_Native_trials_in_this_resume": 0,
+  "model_calls": 0,
+  "external_spending_USD": 0,
+  "raw_evidence_Mac_only_beyond_prior_archive_cutoffs": true,
+  "raw_sha256": {
+    ".runs/runtime-directory-096/installed-setup.json": "bf55cdc66ba395168fa648dde120b8fa8b8a904f8ce99da727f8527793ad70ca",
+    ".runs/runtime-directory-096/outer-process.json": "71b202a0256f8caedbb9dd14a35e79194d728b4b14cae05dabbf6fc7a4d17a99",
+    ".runs/full-integration-268/execution.json": "a62f2957741d2b4dce52bbc9c04b73c3f9747f6b4e82e671fe7bbd1ca10e894b",
+    ".runs/full-integration-268/protocol.json": "7efebea63dd48be11f51d83a5879842d420c81db8b72a32f7acc1429bc9ee586",
+    ".runs/full-integration-268/test-progress.jsonl": "cbc78c3753e64463fe52b77f6b48f8f59339b15b29320a77ecd85fee863898d0",
+    ".runs/full-integration-268/command.log": "1a9765bdfcd01fa2a9df8d21610ff8545149b35a131ecc7c199b93f87ada744a",
+    ".runs/full268-timeout-review-001/review.json": "fbc769a1a38711e0f243fdf6f712330c9e1bcb67807a329ddc8d8bc50286b635",
+    ".runs/full268-cli-refusal-diagnostic-001/execution.json": "cad69d53535cd3dcc87a7bb5b883845372710ca8945d8a33f6da2b29dd332230",
+    ".runs/full269-preparation-001/reporter-fixture.json": "83db642cc7c58329e6242fd1a29f1724b71cfa310eba0f75aa2f49f5327481c7"
+  },
+  "private_storage_audits_or_personal_files_included": false
+}
