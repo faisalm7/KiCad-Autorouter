@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "utc": "2026-11-14T06:13:44.089616+00:00",
+  "status": "installed095_target_region_task_failed_export_stage_deadline",
+  "runtime_source_head": "95fa3a449024d402d0c7f1168461a4c2b86ef974",
+  "runtime_manifest_sha256": "da249799b433d95f73dc44ee9015dffd6bc7ebd6021f01254706bd2f2b42ffaf",
+  "immutable_files": 89,
+  "current_tested_candidate": "runtime094 / actualGUI118; unchanged",
+  "source_change": "evidence/placement095-target-region-source-001.json",
+  "setup": {
+    "prepared": true,
+    "doctor_passed": true,
+    "wall_seconds": 4.5797341669676825,
+    "full_CPU_seconds": 4.048059,
+    "same_Mac_account_and_dependencies_only": true
+  },
+  "full_integration": {
+    "run": 267,
+    "tests": 3612,
+    "failures": 0,
+    "errors": 0,
+    "skips": 1,
+    "skip_reason": "PowerShell unavailable",
+    "passed": true,
+    "wall_seconds": 397.2779265420395,
+    "full_CPU_seconds": 381.554059,
+    "source_and_install_unchanged": true,
+    "receipt": ".runs/full-integration-267/execution.json"
+  },
+  "task": {
+    "family": "owned ordinary placement control; exposed development, not unrelated/holdout",
+    "source_project_files": 4,
+    "original_anchors_mm": [
+      [
+        12,
+        10
+      ],
+      [
+        26,
+        10
+      ]
+    ],
+    "target_region_nm": [
+      14000000,
+      8000000,
+      22000000,
+      13000000
+    ],
+    "policy": "selected-target-region-initialization-v1",
+    "automatic_proposal_calls": 1,
+    "selected_alternative_index": 0,
+    "manual_edits": 0,
+    "initializer_candidates_checked": 1,
+    "seed_public_validator_passed": true,
+    "core_search_seconds": 2,
+    "moves_nm": {
+      "f30e22ff-3f0e-5712-979f-f83e8ee05f14": [
+        19100834,
+        11441471
+      ],
+      "fd1c85e4-2ea3-57ff-9cf8-d9c83f200abc": [
+        17172541,
+        10330136
+      ]
+    },
+    "original_native": {
+      "opens": 2,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0
+    },
+    "route_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0
+    },
+    "route_full_schematic_parity": "checked by final native DRC",
+    "protected_locked_route_count": 1,
+    "source_originals_unchanged": true,
+    "isolated_original_copy_unchanged": true,
+    "placement_qualified": true,
+    "final_delivery_passed": false,
+    "controller_final_original_to_export_audit_reached": false
+  },
+  "failure": {
+    "stage": "export",
+    "frozen_stage_seconds": 90,
+    "error": "ValueError: Action timed out or its timing could not be verified. No result was adopted.",
+    "stage_wall_seconds": 90.55135537497699,
+    "stage_full_CPU_seconds": 43.33880500000001,
+    "export_status": "cancelled",
+    "export_accepted": false,
+    "export_native": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 1,
+      "exclusions": 0
+    },
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "provisional_validated_record_retained_and_invalidated": true,
+    "not_a_current_deliverable": true,
+    "verify_export_not_run": true,
+    "outer_cleanup_complete": true,
+    "no_retry_or_limit_change": true
+  },
+  "whole_task": {
+    "frozen_total_wall_and_full_CPU_seconds": 420,
+    "whole_wrapper_elapsed_seconds": 202.64875416702125,
+    "whole_wrapper_full_CPU_seconds": 138.63498800000002,
+    "total_accounting_within420": true,
+    "whole_task_passed": false,
+    "within_total_does_not_override_failed_stage": true,
+    "operations": [
+      {
+        "stage": "original_inspection",
+        "wall_seconds": 3.49874654202722,
+        "full_cpu_seconds": 2.7624819999999994,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "placement",
+        "wall_seconds": 22.21764233300928,
+        "full_cpu_seconds": 18.960518,
+        "limit_seconds": 120,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "preview",
+        "wall_seconds": 10.765093708003405,
+        "full_cpu_seconds": 9.348850999999996,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "route",
+        "wall_seconds": 27.67460937501164,
+        "full_cpu_seconds": 24.717342000000002,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "review",
+        "wall_seconds": 18.28536904102657,
+        "full_cpu_seconds": 17.365136999999997,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "choice",
+        "wall_seconds": 21.75751291704364,
+        "full_cpu_seconds": 16.9649,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "export",
+        "wall_seconds": 90.55135537497699,
+        "full_cpu_seconds": 43.33880500000001,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      }
+    ],
+    "preparation_review_and_diagnostics_additional": true
+  },
+  "diagnosis": {
+    "receipt": ".runs/placement095-export-timeout-diagnostic-001/review.json",
+    "sha256": "4f314af30647235dd33686e3e68a22fbe38917bfcd74ec994a053f2da8ef7dee",
+    "conclusion": "Most export time occurred outside its four Native subprocesses. A provisional prepublication sample preceded56.67additional wall seconds; exact function and wall/CPU gap remain unresolved. No host/sleep/caching cause assumed.",
+    "next": "One bounded pure bind/origin profile using actual accepted routing intent; cancelled export remains unchanged. No export replay, Native rerun or removed checks."
+  },
+  "full_suite_timing": {
+    "receipt": ".runs/full267-timing-diagnostic-001/review.json",
+    "conclusion": "The increase over266 is widespread among unchanged tests, not concentrated in the33added tests. Harness unchanged; cause unestablished. No product-speedup or isolated regression claim."
+  },
+  "GUI119": {
+    "prepared_recipe_only": true,
+    "enabled": false,
+    "project_copies_created": false,
+    "actual_GUI": false,
+    "reason": "Successful095Native task and exact independent reader are mandatory prerequisites; current failed receipts cannot activate recipe."
+  },
+  "independent_export_readback_performed": false,
+  "core_region_feature_delivered": false,
+  "model_calls": 0,
+  "human_PCB_approval": false,
+  "overall_product_complete": false,
+  "private_receipts": [
+    ".runs/placement095-region-native-draft-001/outer-process.json",
+    ".runs/placement095-region-native-draft-001/outer-budget-check.json",
+    ".runs/runtime095 fresh install 001/.runs/placement-product095-owned-region-001/execution.json",
+    ".runs/placement095-gui119-preparation-001/native-prerequisite-failure.json"
+  ],
+  "raw_new_evidence": "On this Mac only beyond older archive cutoffs; source and sanitized outcomes checkpointed separately"
+}
