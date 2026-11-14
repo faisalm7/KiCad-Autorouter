@@ -142,13 +142,13 @@ class SelectedCopperBaselineTests(unittest.TestCase):
         value = facts(annotated=True); alt = c.original_alternative(value)
         self.pose(alt)['y_mm'] = 8.000001
         expected = {A: [4000000, 8000000], B: [9000001, 4000001]}
-        actual_check = annotations.check_moves
+        actual_check = annotations._check_prepared_moves
         calls = []
         def observe(context, moves):
             calls.append(copy.deepcopy(moves))
             self.assertEqual(moves, expected)
             return actual_check(context, moves)
-        with patch.object(annotations, 'check_moves', side_effect=observe), localcontext() as context:
+        with patch.object(annotations, '_check_prepared_moves', side_effect=observe), localcontext() as context:
             context.prec = 6
             self.both(value, alt)
         self.assertEqual(calls, [expected, expected])

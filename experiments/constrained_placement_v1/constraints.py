@@ -364,7 +364,7 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
             moves = {t['component_id']: [int((Decimal(str(t[k]))*1000000).to_integral_value())
                         for k in ('x_mm', 'y_mm')] for t in rows if t['component_id'] not in fixed}
         try:
-            placement_annotations.check_moves(facts['annotation_context'], moves)
+            placement_annotations._check_prepared_moves(facts['annotation_context'], moves)
         except ValueError as exc:
             raise Refused('Native annotation prefilter: ' + str(exc)) from exc
     return copy.deepcopy(alternative)

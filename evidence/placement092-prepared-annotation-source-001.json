@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "utc": "2026-11-14T01:44:56.667826+00:00",
+  "status": "source_reviewed_prepared_annotation_reuse_installed_qualification_pending",
+  "source_sha256": {
+    "autorouter/placement_annotations.py": "be94d042fb47dbd5fdf625993d5e0cbac4f47088f80e574667894310f12689a8",
+    "experiments/constrained_placement_v1/constraints.py": "1b26041e4bc854a1155f64b768c9700f1111a443a5c86db33e669f538482a00a",
+    "tests/test_placement_annotation_prepared.py": "894b9d1aeba9beb71c255c76147fbecea926318a64bafcb0a37afa494b580234",
+    "tests/test_placement_search_validator.py": "250ceed946986c84c0acbfcf96e636b6b7b7746d2260c0f722ca95964815887f",
+    "tests/test_selected_copper_baseline.py": "8e79e17783b365f84972c6c1b0440e0131c7bcbedc59e7a349683147f7266fb2",
+    "autorouter/placement_intent.py": "c492cd78c5f4dee170a80b43ae02739e61f6e66e3f70733402681593e9ac5af3",
+    "autorouter/placement.py": "cbb9ad63028994e4254db7e5e3814da3049d468e59159abfb3d62321da04db5a",
+    "experiments/native_annotation_geometry_v1/ring.py": "edbf92ab16766a7a85e2d5f60e10f91b352f20362c2756bf4f099ece959fadb3"
+  },
+  "problem": "Exact retained091 per-move validation repeatedly revalidates static detached annotation topology; profiled static context work dominates (~70%). Bundled3.9 plain sampled calls slower than3.11. ActualGUI budget failure has not been observed.",
+  "change": "Only private already-prepared detached facts call _check_prepared_moves. Public check_moves validates context; public/final validate_alternative constructs a fresh prepared snapshot. All moving checks remain unchanged; no global memo, shared cache, model flag or budget change.",
+  "proof": "Moving-check AST unchanged after extracting its initial static validation; constructor owns a deep copy. Caller mutation, source digest mismatch, actual ring contact and malformed fresh final context still refuse as applicable.",
+  "source_regressions": {
+    "controls": 256,
+    "passed": true,
+    "wall_seconds": 20.3250400829711,
+    "full_CPU_seconds": 19.759623,
+    "Native_or_search": false
+  },
+  "review": {
+    "path": ".runs/placement092-prepared-annotation-review-001/review.json",
+    "sha256": "6966322c1a92599738f12c9f78d981dbd6f92eb21602ff8e9a153406462ed4d4",
+    "blocking_findings": [],
+    "private_probe_results": "Six independent compound controls, exact moving-body AST and retained-source profile. Read compact review for complete interpretation."
+  },
+  "sampled_validation_comparison": {
+    "workload": "Same retained091 exact facts/candidate,8 plain validation calls per interpreter; another8 instrumented calls only for attribution.",
+    "facts_sha256": "27257ec710b7111cd3ff3cd2ecc57cfd527f5d5d0e437fa685f41b9951ebccbc",
+    "python311_prior8_wall_seconds": 0.05352,
+    "python311_new8_wall_seconds": 0.014576,
+    "python39_prior8_wall_seconds": 0.072151,
+    "python39_new8_wall_seconds": 0.018547,
+    "topology_calls_profiled_prior": 80,
+    "topology_calls_profiled_new": 16,
+    "dynamic_ring_calls_unchanged": 8,
+    "dynamic_parity_calls_unchanged": 16,
+    "dynamic_segment_distance_calls_unchanged": 2768,
+    "whole_search_GUI_or_routing_speedup_proven": false,
+    "CPU_profile_instrumentation_not_latency": true
+  },
+  "historical091": "Successful installed/source091/full263/Native licensed delivery and pure readback remain exact; no changes to its87immutable files.",
+  "private_receipts": [
+    ".runs/placement092-prepared-annotation-source-001/review.json",
+    ".runs/placement092-source-targeted-001/execution.json",
+    ".runs/placement092-prepared-annotation-review-001/review.json",
+    ".runs/placement091-validation-profile-001/review.json"
+  ],
+  "next": "ONEcoherent092install/doctor/full264 and freshNativefinaltask forchangedcode, then actualfinalGUI. Reuseunchangedgeometryconcordance/API evidence; no newsource/seed/step/protection/budget selection.",
+  "model_calls": 0,
+  "actual_Native092": false,
+  "actual_GUI092": false,
+  "product_complete": false,
+  "limits": [
+    "Per-move fixed-workload timings only, not whole-workflow or GUI timing; small samples and authoring costs additional.",
+    "Original/source/final Native, protection, stale refusal, cancellation and warning review criteria unchanged.",
+    "GUItoolcurrentlyMaclocked, ownerunlockaskedonce; WindowsNative/independentinstall/liveendpoint/humanphysical/currentrecovery remain separate open gates."
+  ]
+}

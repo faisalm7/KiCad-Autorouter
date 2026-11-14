@@ -78,14 +78,16 @@ class SearchValidatorControls(unittest.TestCase):
         with self.assertRaises(c.Refused):c.validate_alternative(source,original)
         self.assertEqual(validate(original),original)
 
-    def test_annotation_moves_fully_revalidate_context_each_time_and_still_refuse_new_conflicts(self):
+    def test_annotation_snapshot_prepares_once_public_final_is_fresh_and_moves_still_refuse(self):
         source=annotated_fixture();original=c.original_alternative(source)
         with patch.object(annotations,'validate',wraps=annotations.validate) as context_validate, \
-                patch.object(annotations,'check_moves',wraps=annotations.check_moves) as moves:
+                patch.object(annotations,'_check_prepared_moves',wraps=annotations._check_prepared_moves) as moves:
             validate=c._alternative_validator(source);initial_context_calls=context_validate.call_count
             self.assertEqual(initial_context_calls,1)
             self.assertEqual(validate(original),original);self.assertEqual(validate(original),original)
-            self.assertEqual(moves.call_count,2);self.assertEqual(context_validate.call_count,initial_context_calls+2)
+            self.assertEqual(moves.call_count,2);self.assertEqual(context_validate.call_count,initial_context_calls)
+            self.assertEqual(c.validate_alternative(source,original),original)
+            self.assertEqual(context_validate.call_count,initial_context_calls+1)
             changed=copy.deepcopy(original);transform(changed,source['selected'][0])['x_mm']=28
             for check in (validate,lambda value:c.validate_alternative(source,value)):
                 with self.assertRaisesRegex(c.Refused,'annotation conflict'):check(changed)

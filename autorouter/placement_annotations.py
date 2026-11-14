@@ -297,7 +297,16 @@ def capture(native, pcbnew, raw, *, scope=SCOPE):
 
 def check_moves(context, moves):
     """Refuse new conservative conflicts; this never grants design approval."""
-    validate(context); anchors = context['footprint_anchors_nm']
+    return _check_prepared_moves(validate(context), moves)
+
+
+def _check_prepared_moves(context, moves):
+    """Internal moving checks for a privately owned, already validated snapshot.
+
+    The placement validator prepares and deep-copies that snapshot before this
+    call. Public callers and every fresh final alternative still validate it.
+    """
+    anchors = context['footprint_anchors_nm']
     _need(type(moves) is dict and len(moves) <= MAX_MOVES
           and all(type(owner) is str and owner in context['movable_owners'] for owner in moves),
           'Moves must bind only captured movable annotation owners')
