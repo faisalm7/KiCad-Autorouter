@@ -31,7 +31,14 @@ Use that launcher's README for the save/close/route/review/export workflow.
 Candidates remain separate from the saved source project. Native acceptance,
 whole-project DRC, and physical/electrical review are distinct checks.
 
-Keep this directory and pinned external applications at their prepared paths.
+Keep this installed directory at its recorded path. A transported artifact is
+installation input, not a runnable relocated installation. Import it into a new
+directory with --install-existing --import-artifact and its exact manifest SHA256.
+For a compatible current build, --host-paths-json can explicitly bind all four
+known KiCad/Java roles to existing locations. Versions, architecture, hashes,
+permissions and original lock requirements remain mandatory; no tool is downloaded.
+Default installation preserves its recorded dependency locations. Run doctor and
+the applicable Native qualification after installation; import alone proves neither.
 The manifest records build-source HEAD, not a live Git checkout. Immutable
 product files are checked afresh. Only .runs and .venv are reserved mutable
 directories: their contents are not pinned by this manifest or copied from the
@@ -131,11 +138,12 @@ def prepare(source, destination, *, copy_local_engine=False, native_version=None
             'local_engine_copied': engine is not None, 'standalone': False, 'published': False}
 
 
-def install_existing(source, destination, *, expected_manifest_sha256):
-    """Install a still-bound, pinned artifact at a new root, without rebuilding.
+def install_existing(source, destination, *, expected_manifest_sha256, import_artifact=False, host_paths=None):
+    """Install a pinned artifact at a new root, without rebuilding its payload.
 
-    This does not repair a moved artifact, copy mutable state, create a venv or
-    launcher, relocate external dependencies, or perform Native qualification.
+    Default mode requires a still-bound source; explicit import accepts only an
+    externally manifest-pinned transported payload. Optional host paths bind known
+    identical tools; no mutable state/venv/launcher/tool download or Native work.
     Failure retains the exclusive partial destination, which must not be reused.
     The receipt may remain on late refusal; it is a non-authoritative record,
     not a completion marker. Only a return means this installation finished.
@@ -144,6 +152,7 @@ def install_existing(source, destination, *, expected_manifest_sha256):
     if (type(expected_manifest_sha256) is not str or
             pv._DIGEST.fullmatch(expected_manifest_sha256) is None):
         raise ValueError('Exact source runtime manifest SHA256 required.')
+    if type(import_artifact) is not bool:raise ValueError('explicit artifact import boolean required')
     source = pv._directory(Path(source).absolute())
     destination = _new_destination(destination)
     if source in destination.parents or destination in source.parents:
@@ -164,7 +173,11 @@ def install_existing(source, destination, *, expected_manifest_sha256):
     implementation = {name: value for name, value in expected.items()
                       if name.startswith('autorouter/')}
     # Deliberately no Git fallback, including if the source manifest disappears.
-    identity = pv._runtime_identity(source, implementation)
+    def source_identity():
+        if import_artifact:
+            return pv.transport_identity(source,implementation,expected_manifest_sha256=expected_manifest_sha256)
+        return pv._runtime_identity(source,implementation)
+    identity = source_identity()
     if identity['manifest_sha256'] != expected_manifest_sha256:
         raise ValueError('Source runtime manifest changed.')
     if record.get('local_engine') is None:
@@ -181,13 +194,37 @@ def install_existing(source, destination, *, expected_manifest_sha256):
 
     def source_stable():
         if (pv.read_bytes(source / pv.MANIFEST, pv.MAX_MANIFEST_BYTES) != raw_manifest
-                or pv._runtime_identity(source, implementation) != identity
+                or source_identity() != identity
                 or pv.file_digest(installer) != installer_pin):
             raise ValueError('Source runtime or installer changed during installation.')
 
     source_stable()
-    # Preserve schema, source HEAD, lock/version, maps and engine record exactly.
+    # Payload/lock/source maps remain exact. Explicit locations are local metadata.
     installed_record = {**record, 'root': str(destination)}
+    bound=None; capability_files={}
+    if host_paths is not None:
+        # Metadata cannot add schema3 support to old immutable product code.
+        for name in ('autorouter/config.py','autorouter/provenance.py','autorouter/pipeline.py'):
+            path=installer.parents[1]/name
+            raw=pv.read_bytes(path)
+            if payloads.get(name)!=raw:
+                raise ValueError('Host binding requires a compatible reviewed product build; legacy artifacts support transport only.')
+            capability_files[path]=hashlib.sha256(raw).hexdigest()
+        version=record.get('native_version','10.0.0')
+        bound=pv.bound_tool_selection(json.loads(payloads['toolchain.lock.json']),version,host_paths)
+        installed_record.update(schema=3,native_version=version,host_paths=dict(host_paths))
+
+    def bindings_stable():
+        if bound is None:return
+        if any(pv.file_digest(path)[0]!=digest for path,digest in capability_files.items()):
+            raise ValueError('installer binding implementation changed')
+        fresh=pv.bound_tool_selection(json.loads(payloads['toolchain.lock.json']),bound['version'],host_paths)
+        if fresh!=bound:raise ValueError('host tool bindings changed during installation')
+        for role,pin in {**fresh['tools'],'java':fresh['java']}.items():
+            path=Path(pin['path'])
+            if (role!='pcbnew' and not os.access(path,os.X_OK)) or pv.file_digest(path,pv.MAX_ENGINE_BYTES)!=(pin['sha256'],pin['bytes']):
+                raise ValueError('pinned host tool changed or missing')
+    bindings_stable()
     installed_identity = _write_runtime(source, destination, payloads, installed_record)
     source_stable()
     receipt = {'schema': 1, 'kind': 'existing-runtime-installation-record-v1',
@@ -198,8 +235,9 @@ def install_existing(source, destination, *, expected_manifest_sha256):
         'immutable_files': len(expected), 'local_engine': record['local_engine'],
         'record_is_authoritative': False, 'receipt_may_remain_on_refusal': True,
         'mutable_state_copied': False, 'venv_created': False, 'launcher_created': False,
-        'native_qualification_performed': False, 'same_mac_dependency_locations_required': True,
-        'standalone': False, 'published': False}
+        'native_qualification_performed': False, 'same_mac_dependency_locations_required': not bool(installed_record.get('host_paths')),
+        'standalone': False, 'published': False,
+        'artifact_import_mode':import_artifact,'explicit_host_paths':host_paths is not None}
     receipt_raw = (json.dumps(receipt, indent=2, sort_keys=True) + '\n').encode('utf-8')
     (destination / '.runs').mkdir(mode=0o700)
     receipt_path = destination / INSTALL_RECEIPT
@@ -207,6 +245,7 @@ def install_existing(source, destination, *, expected_manifest_sha256):
         stream.write(receipt_raw)
     receipt_path.chmod(0o600)
     source_stable()
+    bindings_stable()
     if (pv._runtime_identity(destination, implementation) != installed_identity
             or pv.read_bytes(receipt_path, pv.MAX_MANIFEST_BYTES) != receipt_raw):
         raise ValueError('Installed runtime or receipt changed before completion.')
@@ -226,6 +265,8 @@ def main():
         help='Explicit committed native tool profile; requires separate qualification. No app is installed or changed.')
     parser.add_argument('--install-existing', action='store_true',
         help='Install a still-bound, manifest-pinned local runtime at a new root; no rebuild.')
+    parser.add_argument('--import-artifact',action='store_true',help='Explicitly import manifest-pinned transported source; installed runtime remains root-bound.')
+    parser.add_argument('--host-paths-json',help='Explicit bounded JSON object with all four existing known tool role locations; no downloads.')
     parser.add_argument('--expected-manifest-sha256',
         help='Required source manifest SHA256 for --install-existing only.')
     args = parser.parse_args()
@@ -233,11 +274,17 @@ def main():
         if args.install_existing:
             if args.copy_local_engine or args.native_version is not None:
                 raise ValueError('Install-existing preserves engine and native selection; build flags refuse.')
+            host_paths=None
+            if args.host_paths_json is not None:
+                host_paths=json.loads(pv.read_bytes(Path(args.host_paths_json).absolute(),64*1024),
+                    object_pairs_hook=pv._strict_object,
+                    parse_constant=lambda value: (_ for _ in ()).throw(ValueError('invalid JSON constant')))
             result = install_existing(args.source, args.output,
-                expected_manifest_sha256=args.expected_manifest_sha256)
+                expected_manifest_sha256=args.expected_manifest_sha256,
+                import_artifact=args.import_artifact,host_paths=host_paths)
         else:
-            if args.expected_manifest_sha256 is not None:
-                raise ValueError('--expected-manifest-sha256 requires --install-existing.')
+            if args.expected_manifest_sha256 is not None or args.import_artifact or args.host_paths_json is not None:
+                raise ValueError('artifact pin/import/host paths require --install-existing.')
             result = prepare(args.source, args.output, copy_local_engine=args.copy_local_engine,
                              native_version=args.native_version)
         print(json.dumps(result, indent=2))

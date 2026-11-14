@@ -42,6 +42,36 @@ FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
 
 
+def open_refusal_text(kind, error):
+    """Explain known export freshness errors without changing any decision."""
+    reason = str(error)
+    freshness_errors = (
+        'composed candidate sidecars or file set differ from original',
+        'composed candidate sidecars or file set differ from the original',
+        'composed candidate changed during the final origin check',
+        'checked export changed while opening',
+        'checked export local settings disappeared while opening',
+        'export changed during final readback',
+        'export changed after final tool checks',
+        'export changed during final placement origin check',
+        'export changed during placement origin check',
+        'export project changed',
+    )
+    if kind == 'export' and any(text in reason.casefold() for text in freshness_errors):
+        return ('This export no longer matches its recorded checks, so checked opening has stopped.\n'
+            'KiCad may update project/local settings or create backups even if the PCB is unchanged. '
+            'Earlier approval does not accept those changes.\n'
+            'Start a fresh task in an ordinary assistant session. Explicitly choose the intended complete '
+            'saved project as Source, save and close its editors, then use Preview. For placement, return '
+            'to Place components and create and validate a new draft; a placement-bound window cannot '
+            'revalidate an edited export in place.\n'
+            'Review the required constraints and copper protections again. New review, explicit acceptance '
+            'and fresh Native validation are required. Prior approval does not transfer; no constraint '
+            'or check is waived. Keep earlier outputs as evidence.\n\n'
+            'Technical detail: ' + reason)
+    return reason
+
+
 def export_validation_seconds(route_seconds):
     """Allocate separate bounded Native validation without changing routing settings."""
     from . import review_export as ex
@@ -1672,8 +1702,8 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                     self.log.SetValue(_completed_summary(self.flow, stage, self.flow.records[stage]))
                     label = {'preview': 'Preview', 'review': 'Review project', 'export': 'Checked export'}[kind]
                     self.status.SetLabel(label + ' open requested. Separate workspace: ' + str(self.flow.workspace))
-                except Exception as exc: self.refused('Could not open retained project: ' + str(exc))
-            else: self.refused(error or 'Inspection was cancelled. No project was opened.')
+                except Exception as exc: self.refused(open_refusal_text(kind, 'Could not open retained project: ' + str(exc)))
+            else: self.refused(open_refusal_text(kind, error or 'Inspection was cancelled. No project was opened.'))
             self.refresh()
             if self.closing: _finish_window_close(self)
 

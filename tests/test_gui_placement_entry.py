@@ -3,6 +3,7 @@ import ast
 import copy
 from pathlib import Path
 import sys
+import threading
 from types import ModuleType, SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
@@ -11,18 +12,20 @@ from autorouter import gui, placement_gui
 from tests.test_gui import window_method
 
 
+_ACTUAL_PLACEMENT_CREATE_WINDOW = placement_gui.create_window
+
+
 def placement_factory(constructor):
-    """Keep actual factory admission; substitute only wx widget construction."""
-    tree = ast.parse(Path(placement_gui.__file__).read_text())
-    factory = copy.deepcopy(next(node for node in tree.body
-        if isinstance(node, ast.FunctionDef) and node.name == 'create_window'))
-    construct = ast.parse('def Window():\n    return _construct(board, on_closed)\n').body[0]
-    factory.body = [copy.deepcopy(construct) if isinstance(node, ast.ClassDef) and node.name == 'Window'
-                    else node for node in factory.body]
-    context = dict(vars(placement_gui), _construct=constructor)
-    exec(compile(ast.fix_missing_locations(ast.Module(body=[factory], type_ignores=[])),
-                 placement_gui.__file__, 'exec'), context)
-    return context['create_window']
+    """Use the complete real factory; replace only the native widget constructor."""
+    def create(board='', *, output_hint=None, on_closed=None):
+        def controlled_constructor():
+            return constructor(board, on_closed)
+        with patch.object(placement_gui, 'window_type', return_value=controlled_constructor) as factory:
+            result = _ACTUAL_PLACEMENT_CREATE_WINDOW(board, output_hint=output_hint, on_closed=on_closed)
+            factory.assert_called_once_with(sys.modules['wx'], board=board,
+                                           output_hint=output_hint, on_closed=on_closed)
+            return result
+    return create
 
 
 class PlacementEntry(unittest.TestCase):
@@ -81,6 +84,24 @@ class PlacementEntry(unittest.TestCase):
         wx.GetApp.assert_called_once_with(); wx.App.assert_not_called(); application.MainLoop.assert_not_called()
         construct.assert_called_once_with(self.board, self.factory.call_args.kwargs['on_closed'])
         self.child.Show.assert_called_once_with(); self.window.Hide.assert_called_once_with()
+
+    def test_actual_placement_factory_keeps_app_thread_and_input_admission(self):
+        wx = ModuleType('wx'); svg = ModuleType('wx.svg'); wx.svg = svg
+        wx.GetApp = Mock(return_value=object()); wx.App = Mock()
+        construct = Mock(return_value=self.child); create = placement_factory(construct)
+        with patch.dict(sys.modules, {'wx': wx, 'wx.svg': svg}):
+            for kwargs in ({'on_closed': False}, {'output_hint': {}}, {'board': None}):
+                with self.subTest(kwargs=kwargs), self.assertRaises(ValueError): create(**kwargs)
+            wx.GetApp.return_value = None
+            with self.assertRaisesRegex(ValueError, 'existing application main thread'): create(self.board)
+            wx.GetApp.return_value = object(); errors = []
+            def off_thread():
+                try: create(self.board)
+                except Exception as exc: errors.append(exc)
+            thread = threading.Thread(target=off_thread); thread.start(); thread.join(timeout=2)
+            self.assertFalse(thread.is_alive()); self.assertEqual(len(errors), 1)
+            self.assertIsInstance(errors[0], ValueError)
+        construct.assert_not_called(); wx.App.assert_not_called()
 
     def test_constructor_failure_keeps_parent_visible_and_allows_retry(self):
         self.factory.side_effect = ValueError('saved PCB unavailable')

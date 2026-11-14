@@ -10,7 +10,7 @@ from contextlib import contextmanager
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import stat
 import subprocess
@@ -54,6 +54,108 @@ MAX_MANIFEST_BYTES = 256 * 1024
 _DIGEST = re.compile(r'[0-9a-f]{64}')
 _HEAD = re.compile(r'[0-9a-f]{40}')
 _MODULE = re.compile(r'autorouter/[A-Za-z_][A-Za-z_0-9]*\.py')
+
+
+
+_NATIVE_SUFFIXES = {
+    'kicad_cli': 'MacOS/kicad-cli',
+    'kicad_python': 'Frameworks/Python.framework/Versions/3.9/bin/python3.9',
+    'pcbnew': 'Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so',
+}
+# Exact observed binaries, not a version range or arbitrary tool override.
+_NATIVE_HASHES = {
+    '10.0.0': ('998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1',
+               '4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813',
+               'a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219'),
+    '10.0.7': ('0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f',
+               'fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f',
+               '610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e'),
+}
+
+
+def _native_roles(tools, version):
+    if type(tools) is not dict or set(tools) != set(_NATIVE_SUFFIXES):
+        raise ValueError('exact three native roles required')
+    result = {}; bundles = set()
+    for (role, suffix), expected_hash in zip(_NATIVE_SUFFIXES.items(), _NATIVE_HASHES[version]):
+        pin = tools[role]
+        if (type(pin) is not dict or set(pin) != {'path', 'sha256', 'bytes'}
+                or type(pin['path']) is not str or type(pin['sha256']) is not str
+                or pin['sha256'] != expected_hash or type(pin['bytes']) is not int
+                or not 0 < pin['bytes'] <= 128 * 1024**2):
+            raise ValueError('known native role hash and bounded positive integer bytes required')
+        value = pin['path']; path = PurePosixPath(value); tail = PurePosixPath(suffix).parts
+        if (not path.is_absolute() or str(path) != value or value.startswith('//')
+                or '\\' in value or any(ord(char) < 32 or ord(char) == 127 for char in value)
+                or '..' in path.parts or path.parts[-len(tail):] != tail):
+            raise ValueError('canonical absolute native role path and exact suffix required')
+        bundle = path.parents[len(tail)-1]
+        if bundle.name != 'Contents' or bundle.parent.suffix != '.app':
+            raise ValueError('native role must belong to a KiCad app Contents bundle')
+        bundles.add(bundle); result[role] = dict(pin)
+    if len(bundles) != 1:
+        raise ValueError('native roles must share one app Contents bundle')
+    return result
+
+
+def native_selection(lock, version=None):
+    """Pure selection of known pins; callers still verify actual tool bytes."""
+    if type(lock) is not dict or lock.get('kicad') != '10.0.0':
+        raise ValueError('original exact10.0.0 default lock required')
+    tools = lock.get('tools')
+    if type(tools) is not dict or set(tools) != set(_NATIVE_SUFFIXES) | {'java','freerouting'}:
+        raise ValueError('known default tool roles required')
+    choices = {'10.0.0': _native_roles({role: tools[role] for role in _NATIVE_SUFFIXES}, '10.0.0')}
+    if 'native_profiles' in lock:
+        profiles = lock['native_profiles']
+        if type(profiles) is not dict or set(profiles) != {'10.0.7'}:
+            raise ValueError('only the exact optional10.0.7 native profile is supported')
+        choices['10.0.7'] = _native_roles(profiles['10.0.7'], '10.0.7')
+    selected = lock['kicad'] if version is None else version
+    if type(selected) is not str or selected not in choices:
+        raise ValueError('known explicitly pinned native version required')
+    return {'version': selected, 'tools': {role: dict(pin) for role, pin in choices[selected].items()}}
+
+
+def _binding_path(value, *, check_aliases=True):
+    if (type(value) is not str or not value or '\\' in value
+            or any(ord(char)<32 or ord(char)==127 for char in value)):
+        raise ValueError('canonical absolute host tool path required')
+    path=PurePosixPath(value)
+    if (not path.is_absolute() or str(path)!=value or value.startswith('//')
+            or any(part in ('.','..') for part in value.split('/'))):
+        raise ValueError('canonical absolute host tool path required')
+    local=Path(value)
+    if check_aliases and (local.resolve()!=local or any(p.is_symlink() for p in (local,*local.parents))):
+        raise ValueError('host tool alias refused')
+    return value
+
+
+def bound_tool_selection(lock, version, paths):
+    """Pure known profile plus explicit locations; actual bytes remain mandatory.
+
+    Empty paths preserves original role locations. Nonempty input must specify
+    all four roles, preventing partial/default location combinations.
+    """
+    return _bound_tool_selection(lock,version,paths,check_aliases=True)
+
+
+def _bound_tool_selection(lock, version, paths, *, check_aliases):
+    """Recorded transport locations are lexical provenance, never live tools."""
+    selected=native_selection(lock,version)
+    roles=set(_NATIVE_SUFFIXES)|{'java'}
+    if type(paths) is not dict or (paths and set(paths)!=roles):
+        raise ValueError('exact four host tool locations required')
+    java=lock['tools']['java']
+    if (type(java) is not dict or set(java)!={'path','sha256','bytes'}
+            or type(java['sha256']) is not str or _DIGEST.fullmatch(java['sha256']) is None
+            or type(java['bytes']) is not int or not 0<java['bytes']<=MAX_ENGINE_BYTES):
+        raise ValueError('original pinned Java role required')
+    pins={**selected['tools'],'java':dict(java)}
+    for role,pin in pins.items():
+        pin['path']=_binding_path(paths[role] if paths else pin['path'],check_aliases=check_aliases)
+    native=_native_roles({role:pins[role] for role in _NATIVE_SUFFIXES},selected['version'])
+    return {'version':selected['version'],'tools':native,'java':pins['java']}
 
 
 def canonical(path):
@@ -260,6 +362,38 @@ def _file_map(value):
 
 
 def _runtime_identity(root, implementation):
+    """Ordinary live runtime verification always enforces its exact root."""
+    return _distribution_identity(root,implementation,declared_root=str(root))
+
+
+def transport_identity(root, implementation, *, expected_manifest_sha256):
+    """Installer-only pinned payload check; old root is recorded provenance.
+
+    No Git fallback, dependency execution or mutation is authorized here. The
+    result does not authorize ordinary execution at the transported location.
+    """
+    root=_directory(root)
+    if type(expected_manifest_sha256) is not str or _DIGEST.fullmatch(expected_manifest_sha256) is None:
+        raise ValueError('exact source runtime manifest SHA256 required')
+    raw=read_bytes(root/MANIFEST,MAX_MANIFEST_BYTES)
+    if hashlib.sha256(raw).hexdigest()!=expected_manifest_sha256:
+        raise ValueError('source runtime manifest SHA256 differs')
+    try:
+        record=json.loads(raw,object_pairs_hook=_strict_object,
+            parse_constant=lambda value: (_ for _ in ()).throw(ValueError('invalid JSON constant')))
+    except RecursionError as exc:
+        raise ValueError('malformed transported manifest') from exc
+    if type(record) is not dict:
+        raise ValueError('source runtime manifest object required')
+    declared=_binding_path(record.get('root'),check_aliases=False)
+    identity=_distribution_identity(root,implementation,declared_root=declared,transport_record=True)
+    if (read_bytes(root/MANIFEST,MAX_MANIFEST_BYTES)!=raw
+            or identity['manifest_sha256']!=expected_manifest_sha256):
+        raise ValueError('transported source manifest changed')
+    return identity
+
+
+def _distribution_identity(root, implementation, *, declared_root, transport_record=False):
     raw = read_bytes(root / MANIFEST, MAX_MANIFEST_BYTES)
     try:
         record = json.loads(raw, object_pairs_hook=_strict_object,
@@ -269,9 +403,9 @@ def _runtime_identity(root, implementation):
     fields={'schema', 'kind', 'root', 'build_source',
             'immutable_files_sha256', 'mutable_directories', 'local_engine'}
     if (type(record) is not dict or type(record.get('schema')) is not int
-            or record['schema'] not in (1,2)
-            or set(record) != fields | ({'native_version'} if record['schema']==2 else set())
-            or record['kind'] != KIND or record['root'] != str(root)
+            or record['schema'] not in (1,2,3)
+            or set(record) != fields | ({'native_version'} if record['schema']>=2 else set()) | ({'host_paths'} if record['schema']==3 else set())
+            or record['kind'] != KIND or record['root'] != declared_root
             or record['mutable_directories'] != list(MUTABLE_DIRECTORIES)):
         raise ValueError('runtime distribution identity or schema differs')
     expected = _file_map(record['immutable_files_sha256'])
@@ -326,12 +460,16 @@ def _runtime_identity(root, implementation):
     actual_implementation = {relative: expected[relative] for relative in modules}
     if implementation != actual_implementation:
         raise ValueError('runtime implementation census differs')
-    if record['schema']==2:
+    if record['schema']>=2:
         # Selection is part of the manifest hash and must name a committed,
         # exact known profile. It never rewrites the copied source or lock.
-        from .config import native_selection
-        native_selection(json.loads(read_bytes(root / 'toolchain.lock.json')),
-                         record['native_version'])
+        lock=json.loads(read_bytes(root / 'toolchain.lock.json'))
+        native_selection(lock,record['native_version'])
+        if record['schema']==3:
+            # Only the installer transport reader treats old absolute locations
+            # as recorded provenance. Live runtime callers retain alias checks.
+            _bound_tool_selection(lock,record['native_version'],record['host_paths'],
+                                  check_aliases=not transport_record)
     if engine is not None:
         if file_digest(root / ENGINE_PATH, MAX_ENGINE_BYTES) != (engine['sha256'], engine['bytes']):
             raise ValueError('local runtime engine changed')
@@ -340,7 +478,7 @@ def _runtime_identity(root, implementation):
             raise ValueError('local runtime engine differs from original tool lock')
     return {'kind': KIND, 'git_head': build['git_head'], 'build_source': build,
             'manifest_sha256': hashlib.sha256(raw).hexdigest(),
-            **({'native_version':record['native_version']} if record['schema']==2 else {})}
+            **({'native_version':record['native_version']} if record['schema']>=2 else {})}
 
 
 def source_identity(root: Path, implementation: dict[str, str]) -> dict:

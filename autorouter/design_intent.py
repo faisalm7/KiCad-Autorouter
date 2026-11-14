@@ -200,3 +200,161 @@ def validate_route_proposal(inspection, proposal):
         }
     except (OSError, ValueError, UnicodeError, TypeError, IndexError, p.Rejected) as exc:
         raise IntentError(str(exc)) from exc
+
+
+def placement_tool_schema():
+    """Intent only; permission/settings come from caller-owned visible controls."""
+    properties = {
+        'action': {'type': 'string', 'enum': ['place_and_route']},
+        'selected': {'type': 'array', 'items': {'type': 'string'}, 'minItems': 2, 'maxItems': 16},
+        'fixed': {'type': 'array', 'items': {'type': 'string'}, 'maxItems': 32},
+        'region_nm': {'type': 'array', 'items': {'type': 'integer'}, 'minItems': 4, 'maxItems': 4},
+        'route_nets': {'type': 'array', 'items': {'type': 'string'}, 'minItems': 1, 'maxItems': rs.MAX_NAMES},
+        'route_seconds': {'type': 'integer', 'minimum': 5, 'maximum': 900},
+    }
+    return {'type': 'function', 'function': {
+        'name': 'propose_placement_route', 'strict': True,
+        'description': ('Propose placement then routing using only the current visible selected/fixed UUIDs, '
+            'integer-nm rectangle and approved affected nets/budget. Echo these choices exactly. '
+            'Caller controls alone supply existing-copper rebuild permission and placement policy. '
+            'Do not invent electrical requirements, permissions, warning acknowledgements or execution.'),
+        'parameters': {'type': 'object', 'additionalProperties': False,
+            'required': list(properties), 'properties': properties}}}
+
+
+CLARIFICATION_REASONS = ('ambiguous_request', 'conflicting_instructions', 'unsupported_requirement')
+
+
+def clarification_tool_schema():
+    """A question/unsupported response, with no settings, facts or authority."""
+    return {'type': 'function', 'function': {
+        'name': 'clarify_design_request', 'strict': True,
+        'description': ('Use when the request is ambiguous, conflicts with visible controls, or asks '
+            'for unsupported requirements. Ask one to three short questions; do not assert board '
+            'facts, invent requirements or supply permission, execution, warning or validation fields.'),
+        'parameters': {'type': 'object', 'additionalProperties': False,
+            'required': ['reason', 'questions'], 'properties': {
+                'reason': {'type': 'string', 'enum': list(CLARIFICATION_REASONS)},
+                'questions': {'type': 'array', 'minItems': 1, 'maxItems': 3,
+                    'items': {'type': 'string', 'minLength': 1, 'maxLength': 256}}}}}}
+
+
+def validate_design_clarification(response):
+    """Validate untrusted question text; no source fact or operation is granted.
+
+    This only checks the typed response. It cannot establish that a model has
+    understood the prose or that a question's premise is true. A client still
+    has to validate its caller-owned project/context before and after a call.
+    """
+    if type(response) is not dict or set(response) != {'reason', 'questions'}:
+        raise IntentError('Only a clarification reason and bounded questions are permitted.')
+    reason, questions = response['reason'], response['questions']
+    if type(reason) is not str or reason not in CLARIFICATION_REASONS:
+        raise IntentError('Unsupported clarification reason.')
+    if (type(questions) is not list or not 1 <= len(questions) <= 3
+            or any(type(text) is not str or not 1 <= len(text) <= 256
+                or text != text.strip() or any(ord(c) < 32 or ord(c) == 127 or 0xD800 <= ord(c) <= 0xDFFF for c in text)
+                for text in questions)):
+        raise IntentError('Clarification requires one to three nonempty questions of at most 256 characters each.')
+    return {'schema': 1, 'kind': 'autorouter.design-clarification.v1',
+        'status': 'unsupported' if reason == 'unsupported_requirement' else 'needs_clarification',
+        'reason': reason, 'questions': list(questions), 'text_is_untrusted': True,
+        'execution_authorized': False, 'approval_granted': False,
+        'next_step': 'Review these untrusted questions and answer or change ordinary visible controls. '
+            'A fresh explicitly requested proposal is required; no automatic retry or operation follows.'}
+
+
+def placement_route_context(inspection, placement_settings, *, fixed_components,
+                            rebuild_permission, approved_route_nets, route_seconds=90):
+    """Bind explicit ordinary-control choices; never take this context from AI.
+
+    The first composed scope uses the existing affected-net rebuild workflow.
+    Every unselected part remains fixed by that workflow, including explicit
+    fixed requests. No search, Native work, routing or acceptance occurs here.
+    """
+    from . import placement_intent as placement
+    try:
+        if type(rebuild_permission) is not bool:
+            raise IntentError('Clarification required: explicit caller-owned rebuild permission is required.')
+        settings = placement.validate_settings(placement_settings)
+        if not placement.rebuilds_copper(settings) or not rebuild_permission:
+            raise IntentError('Clarification required: this composed workflow needs explicit affected-net '
+                'rebuild settings and caller permission; the model cannot provide permission.')
+        placement.current(inspection)
+        fixed = placement.copper._uuids(fixed_components, maximum=32, empty=True)
+        observed = {row['uuid'] for row in inspection['components']}
+        if not set(fixed) <= observed or set(fixed) & set(settings['selected']):
+            raise IntentError('Clarification required: fixed UUIDs must be observed and cannot also be selected.')
+        if type(route_seconds) is not int or not 5 <= route_seconds <= 900:
+            raise IntentError('An explicit routing budget from 5 to 900 seconds is required.')
+        names = rs.validate_names(approved_route_nets)
+        # These are the same public plan/fact validators used by ordinary controls.
+        plan = placement.copper_plan(inspection, settings)
+        placement.facts(inspection, settings)
+        if set(names) != set(plan['incident_names']):
+            raise IntentError('Clarification required: routing approval must cover all and only the '
+                'observed nets affected by the selected placement; no net was inferred or added.')
+        placement.current(inspection)
+        return {'schema': 1, 'kind': 'autorouter.placement-route-context.v1',
+            'inspection_sha256': placement.constraints.digest(inspection),
+            'placement_settings': copy.deepcopy(settings), 'fixed_components': list(fixed),
+            'rebuild_permission': True, 'approved_route_nets': list(plan['incident_names']),
+            'route_seconds': route_seconds}
+    except (OSError, ValueError, UnicodeError, TypeError, IndexError, KeyError, p.Rejected) as exc:
+        raise IntentError(str(exc)) from exc
+
+
+def placement_request(context):
+    """Typed intent matching visible choices; includes no authority fields."""
+    try:
+        return {'action': 'place_and_route', 'selected': copy.deepcopy(context['placement_settings']['selected']),
+            'fixed': copy.deepcopy(context['fixed_components']),
+            'region_nm': copy.deepcopy(context['placement_settings']['region_nm']),
+            'route_nets': copy.deepcopy(context['approved_route_nets']), 'route_seconds': context['route_seconds']}
+    except (KeyError, TypeError) as exc:
+        raise IntentError('A complete caller-owned visible placement/routing context is required.') from exc
+
+
+def validate_placement_route_proposal(inspection, context, proposal):
+    """One shared deterministic validator for controls and optional model output.
+
+    The inspection and context must be retained by the caller, never supplied
+    by a model response. Only proposal arguments cross the model boundary.
+    """
+    from . import placement_intent as placement
+    try:
+        fields = {'schema', 'kind', 'inspection_sha256', 'placement_settings', 'fixed_components',
+                  'rebuild_permission', 'approved_route_nets', 'route_seconds'}
+        if type(context) is not dict or set(context) != fields:
+            raise IntentError('A complete caller-owned visible placement/routing context is required.')
+        fresh = placement_route_context(inspection, context['placement_settings'],
+            fixed_components=context['fixed_components'], rebuild_permission=context['rebuild_permission'],
+            approved_route_nets=context['approved_route_nets'], route_seconds=context['route_seconds'])
+        if placement.constraints.encoded(fresh) != placement.constraints.encoded(context):
+            raise IntentError('Visible placement/routing context is stale or changed; review the controls again.')
+        expected = placement_request(fresh)
+        if type(proposal) is not dict or placement.constraints.encoded(proposal) != placement.constraints.encoded(expected):
+            raise IntentError('Clarification required: proposed placement/routing intent differs from the '
+                'current visible choices or includes unsupported requirements/authority.')
+        plan = placement.copper_plan(inspection, fresh['placement_settings'])
+        routing = pref.validate(dict(pref.DEFAULTS, scope='selected_nets', nets=fresh['approved_route_nets'],
+            seconds=fresh['route_seconds'], adapter='both', profile='completion-only', guidance='native',
+            layers='source_all', scoring_preference=None))
+        placement.current(inspection)
+        return {'schema': 1, 'kind': 'autorouter.placement-route-proposal.v1', 'status': 'proposed',
+            'source': inspection['source'], 'source_hashes': copy.deepcopy(inspection['source_hashes']),
+            'inspection_sha256': fresh['inspection_sha256'], 'intent': copy.deepcopy(expected),
+            'placement_settings': copy.deepcopy(fresh['placement_settings']),
+            'fixed_components': copy.deepcopy(fresh['fixed_components']),
+            'copper_plan': plan, 'routing_preferences': routing,
+            'native_validation_performed': False, 'execution_authorized': False,
+            'approval_granted': False, 'warning_acknowledged': False, 'routing_accepted': False,
+            'next_step': 'Review these settings and the complete affected-copper plan in ordinary controls. '
+                'Then explicitly request placement alternatives, separately validate/review a draft, '
+                'and approve routing and final export through the existing guarded workflow.',
+            'limits': ['No geometry search or operation was executed by this proposal.',
+                'All unselected parts, source orientation/side, original requirements and protected copper '
+                'stay governed by the existing validators.',
+                'Native/electrical/physical suitability and placement benefit remain unproved.']}
+    except (OSError, ValueError, UnicodeError, TypeError, IndexError, KeyError, p.Rejected) as exc:
+        raise IntentError(str(exc)) from exc

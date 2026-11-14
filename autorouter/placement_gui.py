@@ -188,7 +188,7 @@ def write_new_json(path, value):
     return path
 
 
-def bitmap_with_labels(wx, svg, size=(850, 500)):
+def bitmap_with_labels(wx, svg, size=(850, 500), *, min_text_pixels=9):
     """wx's SVG rasterizer omits text; paint only our passive renderer's labels."""
     image = wx.svg.SVGimage.CreateFromBytes(svg.encode())
     scale = min(size[0] / image.width, size[1] / image.height)
@@ -196,13 +196,128 @@ def bitmap_with_labels(wx, svg, size=(850, 500)):
     dc = wx.MemoryDC(bitmap)
     for node in ET.fromstring(svg).findall('{http://www.w3.org/2000/svg}text'):
         font = wx.Font(wx.FontInfo(10).Family(wx.FONTFAMILY_SWISS))
-        font.SetPixelSize(wx.Size(0, max(9, round(float(node.get('font-size')) * scale))))
+        font.SetPixelSize(wx.Size(0, max(min_text_pixels, round(float(node.get('font-size')) * scale))))
         if node.get('font-weight') == 'bold': font = font.Bold()
         dc.SetFont(font); dc.SetTextForeground(wx.Colour(node.get('fill')))
         text = node.text or ''; _, height, descent, _ = dc.GetFullTextExtent(text)
         dc.DrawText(text, round(float(node.get('x')) * scale), round(float(node.get('y')) * scale - height + descent))
     dc.SelectObject(wx.NullBitmap)
     return bitmap
+
+
+def board_canvas(wx, parent, on_pick, on_region, on_error):
+    """Responsive display/picking only; commits use ordinary settings handlers."""
+    class Canvas(wx.Panel):
+        def __init__(self):
+            super().__init__(parent, style=wx.BORDER_SIMPLE | wx.WANTS_CHARS)
+            self.display = None; self.bitmap = None; self.draw_area = False
+            self.drag_start = None; self.drag_end = None; self.render_key = None
+            self.SetMinSize(self.FromDIP((320, 180)))
+            self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
+            self.SetToolTip('Click a component to select it. Draw area edits the movement rectangle; numeric controls remain available.')
+            self.Bind(wx.EVT_PAINT, self.paint)
+            self.Bind(wx.EVT_SIZE, self.resized)
+            self.Bind(wx.EVT_LEFT_DOWN, self.down)
+            self.Bind(wx.EVT_MOTION, self.motion)
+            self.Bind(wx.EVT_LEFT_UP, self.up)
+            self.Bind(wx.EVT_MOUSE_CAPTURE_LOST, self.capture_lost)
+            self.Bind(wx.EVT_CHAR_HOOK, self.key)
+
+        def SetScene(self, value):
+            self.display = None; self.bitmap = None; self.render_key = None
+            self.drag_start = self.drag_end = None
+            if self.HasCapture(): self.ReleaseMouse()
+            self.display = value
+            try:
+                if value is not None:
+                    self.prepare_bitmap()
+            except Exception:
+                self.display = None; self.bitmap = None; self.render_key = None
+                raise
+            self.Refresh()
+
+        def Ready(self):
+            return self.display is not None and self.bitmap is not None
+
+        def prepare_bitmap(self):
+            width, height = self.GetClientSize()
+            if width <= 0 or height <= 0:
+                return
+            factor = self.GetContentScaleFactor()
+            key = (width, height, factor)
+            if self.bitmap is None or key != self.render_key:
+                bitmap = bitmap_with_labels(wx, self.display['svg'],
+                    (max(1, round(width * factor)), max(1, round(height * factor))),
+                    min_text_pixels=max(9, round(9 * factor)))
+                bitmap.SetScaleFactor(factor)
+                self.bitmap = bitmap; self.render_key = key
+
+        def resized(self, event):
+            self.bitmap = None; self.render_key = None; self.Refresh(); event.Skip()
+
+        def paint(self, _):
+            try:
+                self.paint_scene()
+            except Exception as exc:
+                # Raster creation, device drawing and resize are one display
+                # transaction. A later paint failure cannot retain old approval.
+                self.display = None; self.bitmap = None; self.render_key = None
+                on_error(str(exc))
+
+        def paint_scene(self):
+            dc = wx.AutoBufferedPaintDC(self)
+            dc.SetBackground(wx.Brush(wx.Colour('#ffffff'))); dc.Clear()
+            width, height = self.GetClientSize()
+            if self.display is None:
+                dc.SetTextForeground(wx.Colour('#526273'))
+                dc.DrawText('Inspect a saved project to see its board and components.', 18, 22)
+                return
+            if width <= 0 or height <= 0: return
+            self.prepare_bitmap()
+            fit = min(width/self.display['size'][0], height/self.display['size'][1])
+            px = round((width-self.display['size'][0]*fit)/2)
+            py = round((height-self.display['size'][1]*fit)/2)
+            dc.DrawBitmap(self.bitmap, px, py, True)
+            if self.drag_start is not None and self.drag_end is not None:
+                a,b=self.drag_start,self.drag_end
+                dc.SetPen(wx.Pen(wx.Colour('#176cba'),2,wx.PENSTYLE_SHORT_DASH))
+                dc.SetBrush(wx.TRANSPARENT_BRUSH)
+                dc.DrawRectangle(min(a[0],b[0]),min(a[1],b[1]),abs(a[0]-b[0]),abs(a[1]-b[1]))
+
+        def down(self, event):
+            if self.display is None: return
+            self.SetFocus(); point=tuple(event.GetPosition())
+            if self.draw_area:
+                if placement_view.screen_point(self.display,point,tuple(self.GetClientSize())) is None: return
+                self.drag_start=self.drag_end=point; self.CaptureMouse()
+            else:
+                identity=placement_view.pick_component(self.display,point,tuple(self.GetClientSize()))
+                if identity is not None:on_pick(identity)
+
+        def motion(self,event):
+            if self.drag_start is not None and event.Dragging():
+                self.drag_end=tuple(event.GetPosition()); self.Refresh()
+            event.Skip()
+
+        def up(self,event):
+            if self.drag_start is None:return
+            start=self.drag_start;end=tuple(event.GetPosition());display=self.display
+            self.drag_start=self.drag_end=None
+            if self.HasCapture():self.ReleaseMouse()
+            self.Refresh()
+            try:on_region(placement_view.drawn_region(display,start,end,tuple(self.GetClientSize())))
+            except ValueError as exc:on_region(None,str(exc))
+
+        def capture_lost(self,_):
+            self.drag_start=self.drag_end=None;self.Refresh()
+
+        def key(self,event):
+            if event.GetKeyCode()==wx.WXK_ESCAPE:
+                self.capture_lost(None)
+                if self.HasCapture():self.ReleaseMouse()
+                return
+            event.Skip()
+    return Canvas()
 
 
 def create_window(board='', *, output_hint=None, on_closed=None):
@@ -217,9 +332,15 @@ def create_window(board='', *, output_hint=None, on_closed=None):
     if not isinstance(board, (str, Path)):
         raise ValueError('Use an exact saved PCB path or an empty hint.')
 
+    return window_type(wx, board=board, output_hint=output_hint, on_closed=on_closed)()
+
+
+def window_type(wx, *, board='', output_hint=None, on_closed=None):
+    """Real window methods exposed for controlled-dependency tests, no fragments."""
     class Window(wx.Frame):
         def __init__(self):
-            super().__init__(None, title='KiCad design assistant — placement', size=(1240, 900))
+            super().__init__(None, title='KiCad design assistant — placement', size=(1100, 780))
+            self.SetMinSize(self.FromDIP((900, 640)))
             self.gate = ReviewGate(); self.inspection = None; self.busy = False
             self.finalized = False
             self.job = None; self.cancel_event = None; self.routing = None
@@ -229,92 +350,107 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             self.alternative_labels = []; self.alternative_targets = []
             self.editing_component = None
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
-            panel = self.panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
+            panel = self.panel = wx.Panel(self)
             root = wx.BoxSizer(wx.VERTICAL)
-            title = wx.StaticText(panel, label='Place selected components')
-            title.SetFont(title.GetFont().Larger().Bold()); root.Add(title, 0, wx.ALL, 14)
-            root.Add(wx.StaticText(panel, label='Inspect → choose components and space → review a draft → validate → route a separate project.'), 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 14)
+            title = wx.StaticText(panel, label='Place and route')
+            title.SetFont(title.GetFont().Larger().Bold()); root.Add(title, 0, wx.LEFT | wx.RIGHT | wx.TOP, 12)
+            root.Add(wx.StaticText(panel, label='Choose components  →  Compare alternatives  →  Validate  →  Route and review'), 0, wx.ALL, 12)
             pathrow = wx.BoxSizer(wx.HORIZONTAL)
-            self.board = wx.TextCtrl(panel, value=str(board)); pathrow.Add(self.board, 1, wx.RIGHT, 8)
-            self.browse = wx.Button(panel, label='Choose PCB…'); pathrow.Add(self.browse, 0, wx.RIGHT, 8)
+            self.board = wx.TextCtrl(panel, value=str(board)); self.board.SetMinSize(self.FromDIP((160, -1)))
+            pathrow.Add(self.board, 1, wx.RIGHT, 6)
+            self.browse = wx.Button(panel, label='Choose project…'); pathrow.Add(self.browse, 0, wx.RIGHT, 6)
             self.inspect = wx.Button(panel, label='Inspect project'); pathrow.Add(self.inspect)
-            root.Add(pathrow, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 14)
-            columns = wx.BoxSizer(wx.HORIZONTAL); left = wx.BoxSizer(wx.VERTICAL); right = wx.BoxSizer(wx.VERTICAL)
-            left.Add(wx.StaticText(panel, label='Components to move'), 0, wx.BOTTOM, 6)
-            self.parts = wx.CheckListBox(panel, size=(310, 210)); left.Add(self.parts, 0, wx.EXPAND)
-            label = wx.StaticText(panel, label='Unchecked, locked and unsupported parts stay fixed. Moving a part on an already-routed net requires the explicit rebuild option below.')
-            label.Wrap(310); left.Add(label, 0, wx.TOP | wx.BOTTOM, 8)
-            left.Add(wx.StaticText(panel, label='Existing copper'), 0, wx.BOTTOM, 6)
-            self.copper_policy = wx.Choice(panel, choices=['Preserve all existing copper', 'Rebuild affected unlocked nets'])
-            self.copper_policy.SetSelection(0); left.Add(self.copper_policy, 0, wx.EXPAND | wx.BOTTOM, 8)
-            self.rigid_group = wx.CheckBox(panel, label='Keep selected parts together')
-            left.Add(self.rigid_group, 0, wx.BOTTOM, 6)
-            group_hint = wx.StaticText(panel, label='One rigid group: keep spacing, angles and sides. Requires affected-net rebuild. Edit one member to move the group.')
-            group_hint.Wrap(310); left.Add(group_hint, 0, wx.BOTTOM, 8)
-            self.protection = wx.CollapsiblePane(panel, label='Advanced copper protection')
-            protection_panel = self.protection.GetPane(); protection_layout = wx.BoxSizer(wx.VERTICAL)
-            hint = wx.StaticText(protection_panel, label='For rebuild mode. One exact net name or route UUID per line. '
-                'Any affected protected or locked copper blocks placement.')
-            hint.Wrap(290); protection_layout.Add(hint, 0, wx.BOTTOM, 6)
-            protection_layout.Add(wx.StaticText(protection_panel, label='Protected net names'), 0, wx.BOTTOM, 4)
-            self.protected_names = wx.TextCtrl(protection_panel, style=wx.TE_MULTILINE, size=(290, 55))
-            protection_layout.Add(self.protected_names, 0, wx.EXPAND | wx.BOTTOM, 6)
-            protection_layout.Add(wx.StaticText(protection_panel, label='Protected route UUIDs'), 0, wx.BOTTOM, 4)
-            self.protected_route_ids = wx.TextCtrl(protection_panel, style=wx.TE_MULTILINE, size=(290, 55))
-            protection_layout.Add(self.protected_route_ids, 0, wx.EXPAND)
-            protection_panel.SetSizer(protection_layout); left.Add(self.protection, 0, wx.EXPAND | wx.BOTTOM, 8)
-            left.Add(wx.StaticText(panel, label='Allowed movement rectangle · mm'), 0, wx.TOP | wx.BOTTOM, 6)
-            grid = wx.FlexGridSizer(cols=2, vgap=6, hgap=8); grid.AddGrowableCol(1)
+            root.Add(pathrow, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 12)
+            columns = wx.BoxSizer(wx.HORIZONTAL)
+            self.controls = wx.ScrolledWindow(panel, size=self.FromDIP((286, 250)), style=wx.VSCROLL | wx.TAB_TRAVERSAL)
+            self.controls.SetScrollRate(0, 12); self.controls.SetMinSize(self.FromDIP((280, 180)))
+            left = wx.BoxSizer(wx.VERTICAL); side = self.controls
+            left.Add(wx.StaticText(side, label='Movable components'), 0, wx.BOTTOM, 5)
+            self.parts = wx.CheckListBox(side, size=self.FromDIP((270, 150))); left.Add(self.parts, 0, wx.EXPAND)
+            hint = wx.StaticText(side, label='Click the board or use this list. Everything else stays fixed; locked parts cannot move.')
+            hint.Wrap(264); left.Add(hint, 0, wx.TOP | wx.BOTTOM, 7)
+            left.Add(wx.StaticText(side, label='Existing routing'), 0, wx.BOTTOM, 4)
+            self.copper_policy = wx.Choice(side, choices=['Preserve all existing copper', 'Rebuild affected unlocked nets'])
+            self.copper_policy.SetSelection(0); left.Add(self.copper_policy, 0, wx.EXPAND | wx.BOTTOM, 6)
+            hint = wx.StaticText(side, label='Rebuild needs your explicit choice. Locked and unrelated copper stay protected.')
+            hint.Wrap(264); left.Add(hint, 0, wx.BOTTOM, 8)
+            self.draw_area = wx.ToggleButton(side, label='Draw movement area'); left.Add(self.draw_area, 0, wx.EXPAND | wx.BOTTOM, 6)
+            self.region_summary = wx.StaticText(side, label='No movement area yet. Inspect the project first.')
+            self.region_summary.Wrap(264); left.Add(self.region_summary, 0, wx.BOTTOM, 7)
+            self.precise = wx.CollapsiblePane(side, label='Precise area · mm', style=wx.CP_NO_TLW_RESIZE)
+            area_panel = self.precise.GetPane(); grid = wx.FlexGridSizer(cols=2, vgap=5, hgap=6); grid.AddGrowableCol(1)
             self.region = []
             for label in ('Left X', 'Top Y', 'Right X', 'Bottom Y'):
-                grid.Add(wx.StaticText(panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
-                field = wx.TextCtrl(panel, size=(130, -1)); self.region.append(field); grid.Add(field, 1, wx.EXPAND)
-            left.Add(grid, 0, wx.EXPAND)
-            self.target_region = wx.CheckBox(panel, label='Place selected parts into this rectangle')
-            left.Add(self.target_region, 0, wx.TOP, 8)
-            target_hint = wx.StaticText(panel, label='Two parts may start outside it. Fixed parts, protected copper and all final checks stay enforced. No repair of an invalid source board.')
-            target_hint.Wrap(310); left.Add(target_hint, 0, wx.TOP, 4)
+                grid.Add(wx.StaticText(area_panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
+                field = wx.TextCtrl(area_panel, size=(120, -1)); self.region.append(field); grid.Add(field, 1, wx.EXPAND)
+            area_panel.SetSizer(grid); left.Add(self.precise, 0, wx.EXPAND | wx.BOTTOM, 8)
+            self.rigid_group = wx.CheckBox(side, label='Keep selected parts together'); left.Add(self.rigid_group, 0, wx.BOTTOM, 6)
+            self.target_region = wx.CheckBox(side, label='Start outside area · experimental')
+            self.target_region.SetToolTip('Optional two-part target-region initialization, tested on one owned task. Never enabled by drawing an area. Original constraints and final Native checks stay mandatory.')
+            left.Add(self.target_region, 0, wx.BOTTOM, 6)
+            self.original_group = wx.Button(side, label='Review current group arrangement'); left.Add(self.original_group, 0, wx.EXPAND | wx.BOTTOM, 6)
+            self.protection = wx.CollapsiblePane(side, label='Additional copper protection', style=wx.CP_NO_TLW_RESIZE)
+            protection_panel = self.protection.GetPane(); protection_layout = wx.BoxSizer(wx.VERTICAL)
+            hint = wx.StaticText(protection_panel, label='Optional sensitive net names, one per line. No route IDs are needed for ordinary use.')
+            hint.Wrap(254); protection_layout.Add(hint, 0, wx.BOTTOM, 4)
+            self.protected_names = wx.TextCtrl(protection_panel, style=wx.TE_MULTILINE, size=(250, 45))
+            protection_layout.Add(self.protected_names, 0, wx.EXPAND | wx.BOTTOM, 6)
+            protection_layout.Add(wx.StaticText(protection_panel, label='Exact route IDs · advanced'), 0, wx.BOTTOM, 4)
+            self.protected_route_ids = wx.TextCtrl(protection_panel, style=wx.TE_MULTILINE, size=(250, 45))
+            protection_layout.Add(self.protected_route_ids, 0, wx.EXPAND)
+            protection_panel.SetSizer(protection_layout); left.Add(self.protection, 0, wx.EXPAND | wx.BOTTOM, 8)
             presetrow = wx.BoxSizer(wx.HORIZONTAL)
-            self.load = wx.Button(panel, label='Load settings…'); self.save = wx.Button(panel, label='Save settings…')
-            presetrow.Add(self.load, 0, wx.RIGHT, 6); presetrow.Add(self.save)
-            left.Add(presetrow, 0, wx.TOP | wx.BOTTOM, 10)
-            self.find = wx.Button(panel, label='Find placement alternatives'); left.Add(self.find, 0, wx.EXPAND)
-            self.original_group = wx.Button(panel, label='Review current group arrangement')
-            left.Add(self.original_group, 0, wx.EXPAND | wx.TOP, 6)
-            limits = wx.StaticText(panel, label='Experimental selected translation: 2–16 movable parts. Source orientation and side stay fixed. Inspect the project for supported geometry and fixed-component reasons. Movement space must avoid retained copper and zones. Two alternatives; 2-second cooperative search budget.')
-            limits.Wrap(310); left.Add(limits, 0, wx.TOP, 12)
-            self.picture = wx.StaticBitmap(panel); self.picture.SetMinSize((850, 500))
-            right.Add(self.picture, 0, wx.ALIGN_CENTER_HORIZONTAL)
-            self.alternative = wx.Choice(panel); right.Add(self.alternative, 0, wx.EXPAND | wx.TOP | wx.BOTTOM, 8)
+            self.load = wx.Button(side, label='Load settings…'); self.save = wx.Button(side, label='Save settings…')
+            presetrow.Add(self.load, 0, wx.RIGHT, 6); presetrow.Add(self.save); left.Add(presetrow, 0, wx.BOTTOM, 7)
+            self.controls.SetSizer(left)
+            right = wx.BoxSizer(wx.VERTICAL)
+            self.pages = wx.Notebook(panel); self.pages.SetMinSize(self.FromDIP((340, 230)))
+            board_page = wx.Panel(self.pages); board_layout = wx.BoxSizer(wx.VERTICAL)
+            self.picture = board_canvas(wx, board_page, self.pick_on_board, self.area_on_board, self.preview_failed)
+            board_layout.Add(self.picture, 1, wx.EXPAND)
+            legend = wx.StaticText(board_page, label='Blue: selected   Slate: fixed   Orange: existing copper   Green: zones')
+            legend.Wrap(460); board_layout.Add(legend, 0, wx.TOP | wx.BOTTOM, 5)
+            self.alternative = wx.Choice(board_page); self.alternative.SetMinSize(self.FromDIP((160, -1)))
+            board_layout.Add(self.alternative, 0, wx.EXPAND | wx.BOTTOM, 6)
             editrow = wx.BoxSizer(wx.HORIZONTAL)
-            self.part = wx.Choice(panel); editrow.Add(self.part, 1, wx.RIGHT, 8)
-            self.x = wx.TextCtrl(panel, size=(95, -1)); self.y = wx.TextCtrl(panel, size=(95, -1))
+            self.part = wx.Choice(board_page); self.part.SetMinSize(self.FromDIP((100, -1)))
+            editrow.Add(self.part, 1, wx.RIGHT, 6)
+            self.x = wx.TextCtrl(board_page, size=(76, -1)); self.y = wx.TextCtrl(board_page, size=(76, -1))
             for label, field in (('X mm', self.x), ('Y mm', self.y)):
-                editrow.Add(wx.StaticText(panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 4)
-                editrow.Add(field, 0, wx.RIGHT, 8)
-            self.apply = wx.Button(panel, label='Update all edits'); editrow.Add(self.apply)
-            right.Add(editrow, 0, wx.EXPAND)
-            self.ack = wx.CheckBox(panel, label='I saved and CLOSED this exact source’s PCB and schematic editors.\n'
-                'I reviewed this draft, any copper-rebuild plan and its limits; this is not PCB approval.')
-            right.Add(self.ack, 0, wx.TOP | wx.BOTTOM, 10)
+                editrow.Add(wx.StaticText(board_page, label=label), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 4)
+                editrow.Add(field, 0, wx.RIGHT, 6)
+            self.apply = wx.Button(board_page, label='Update positions'); editrow.Add(self.apply)
+            board_layout.Add(editrow, 0, wx.EXPAND); board_page.SetSizer(board_layout)
+            self.pages.AddPage(board_page, 'Board')
+            findings_page = wx.Panel(self.pages); findings_layout = wx.BoxSizer(wx.VERTICAL)
+            self.findings = wx.TextCtrl(findings_page, style=wx.TE_MULTILINE | wx.TE_READONLY)
+            findings_layout.Add(self.findings, 1, wx.EXPAND); findings_page.SetSizer(findings_layout)
+            self.pages.AddPage(findings_page, 'Findings and constraints')
+            right.Add(self.pages, 1, wx.EXPAND)
+            columns.Add(self.controls, 0, wx.EXPAND | wx.RIGHT, 12); columns.Add(right, 1, wx.EXPAND)
+            root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
+            self.native_summary = wx.StaticText(panel, label='No current Native validation. Original files remain unchanged.')
+            root.Add(self.native_summary, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 12)
+            self.ack = wx.CheckBox(panel, label='I reviewed these moves and the copper-rebuild plan; I saved and closed the source PCB and schematic editors.')
+            root.Add(self.ack, 0, wx.ALL, 12)
             buttons = wx.BoxSizer(wx.HORIZONTAL)
-            self.reject = wx.Button(panel, label='Reject draft'); self.qualify = wx.Button(panel, label='Validate placement')
-            self.route = wx.Button(panel, label='Open routing settings')
-            for button in (self.reject, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 8)
-            right.Add(buttons, 0, wx.BOTTOM, 8)
-            columns.Add(left, 0, wx.RIGHT, 18); columns.Add(right, 1, wx.EXPAND)
-            root.Add(columns, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 14)
-            self.status = wx.StaticText(panel, label='Choose a saved PCB with matching project and schematic. Save and close its editors before validation.')
-            self.status.Wrap(1150); root.Add(self.status, 0, wx.ALL, 14)
+            self.find = wx.Button(panel, label='Find alternatives'); self.qualify = wx.Button(panel, label='Validate placement')
+            self.route = wx.Button(panel, label='Continue to routing…'); self.reject = wx.Button(panel, label='Reject draft')
+            for button in (self.find, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 6)
+            buttons.AddStretchSpacer(); buttons.Add(self.reject)
+            root.Add(buttons, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
+            self.status = wx.StaticText(panel, label='Choose a saved project. Then select movable parts on the board or in the list.')
+            self.status.Wrap(1020); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 12)
             progressrow = wx.BoxSizer(wx.HORIZONTAL)
             self.progress = wx.Gauge(panel); progressrow.Add(self.progress, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.cancel = wx.Button(panel, label='Cancel'); progressrow.Add(self.cancel)
-            root.Add(progressrow, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 14)
-            self.findings = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 150))
-            root.Add(self.findings, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 14)
+            root.Add(progressrow, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 12)
             panel.SetSizer(root)
+            frame_layout = wx.BoxSizer(wx.VERTICAL)
+            frame_layout.Add(panel, 1, wx.EXPAND)
+            self.SetSizer(frame_layout)
             self.input_controls = [self.board, self.browse, self.inspect, self.parts, self.copper_policy, self.rigid_group, self.target_region,
-                self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group]
+                self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.ack, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
@@ -322,7 +458,10 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             self.copper_policy.Bind(wx.EVT_CHOICE, self.policy_changed)
             self.rigid_group.Bind(wx.EVT_CHECKBOX, self.settings_changed)
             self.target_region.Bind(wx.EVT_CHECKBOX, self.settings_changed)
-            self.protection.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
+            for pane in (self.protection,self.precise):
+                pane.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
+            self.draw_area.Bind(wx.EVT_TOGGLEBUTTON, self.drawing_mode)
+            self.Bind(wx.EVT_SIZE, self.resized)
             for field in (self.protected_names, self.protected_route_ids): field.Bind(wx.EVT_TEXT, self.settings_changed)
             for field in self.region: field.Bind(wx.EVT_TEXT, self.settings_changed)
             self.load.Bind(wx.EVT_BUTTON, self.load_settings); self.save.Bind(wx.EVT_BUTTON, self.save_settings)
@@ -340,10 +479,125 @@ def create_window(board='', *, output_hint=None, on_closed=None):
         def layout_panel(self):
             self.Layout()
             self.panel.Layout()
-            self.panel.FitInside()
+            if hasattr(self, 'controls'):self.controls.FitInside()
 
         def message(self, text):
-            self.status.SetLabel(text); self.status.Wrap(1150); self.layout_panel()
+            self.status.SetLabel(text); self.status.Wrap(max(340,self.GetClientSize().width-30)); self.layout_panel()
+
+        def resized(self, event):
+            if hasattr(self, 'status'):
+                self.status.Wrap(max(340, self.GetClientSize().width - 30))
+            event.Skip()
+
+        def preview_failed(self, reason):
+            # Paint/resize can fail after a previous successful presentation.
+            # Revoke directly, without retrying the same broken presentation.
+            self.validation_revoked = self.qualified is not None or self.validation_revoked
+            self.gate.invalidate(dirty=self.gate.dirty)
+            self.qualified = None; self.ack.SetValue(False)
+            self.picture.SetScene(None)
+            if self.routing is not None:
+                self.routing.Close()
+            self.findings.SetValue('Placement preview refused: ' + reason
+                + '\nNo current placement validation. The draft is retained; review acknowledgement is cleared.')
+            self.refresh(); self.message('The board preview could not be drawn. Approval and routing handoff were revoked. Review the detailed findings before retrying.')
+
+        def overview(self):
+            """Passive source view before a draft exists; never validation."""
+            if self.inspection is None:
+                self.picture.SetScene(None)
+                self.region_summary.SetLabel('No movement area yet. Inspect the project first.')
+                return
+            observation = self.inspection['observation']
+            bounds = observation['outline']['bounds_nm']
+            try:
+                region = [millimetres(field.GetValue()) for field in self.region]
+                placement_view._rect(region)
+                self.region_summary.SetLabel('Area: (' + ', '.join(mm(n) for n in region[:2])
+                    + ') to (' + ', '.join(mm(n) for n in region[2:]) + ') mm')
+            except ValueError:
+                region = bounds
+                self.region_summary.SetLabel('Enter a valid movement area. The board outline is shown for reference.')
+            selected = [row['uuid'] for i, row in enumerate(self.inspection['components'])
+                if self.parts.IsChecked(i)]
+            anchors = {row['uuid']: row['position_nm'] for row in observation['footprints']}
+            display = placement_view.scene(observation,
+                {identity: anchors[identity] for identity in selected}, selected, region,
+                **({'annotation_context': self.inspection['annotation_context']}
+                    if 'annotation_context' in self.inspection else {}))
+            self.picture.SetScene(display)
+            self.region_summary.Wrap(264)
+            selected_refs = [row['reference'] for row in self.inspection['components'] if row['uuid'] in selected]
+            self.findings.SetValue('Saved project inspection — no current placement draft or validation.\n'
+                + 'Selected to move: ' + (', '.join(selected_refs) or 'none')
+                + '\nEvery unselected component stays fixed.\n'
+                + ('Affected unlocked nets may be rebuilt only after the exact draft and copper plan are reviewed. '
+                    'No copper has been changed.\n' if self.rebuild_copper() else copper_findings(None) + '\n')
+                + (source_native_findings(self.inspection) if self.inspection.get('native_source_baseline')
+                   else 'No Native connectivity or electrical suitability is established by this static view.')
+                + '\n\nComponents\n' + component_findings(self.inspection, rebuild=self.rebuild_copper())
+                + '\n\nSupported constraints and limits\n'
+                + '\n'.join(placement_limits(self.inspection, rebuild=self.rebuild_copper(),
+                    grouped=self.rigid_group.GetValue(), region_initialization=self.target_region.GetValue())))
+
+        def pick_on_board(self, identity):
+            if self.busy or self.gate.closed or self.inspection is None:
+                return
+            review = self.gate.review
+            if review is not None:
+                if identity in review.settings['selected']:
+                    self.part.SetSelection(review.settings['selected'].index(identity))
+                    self.coordinates()
+                    self.message('Edit this component numerically, then Update positions. All constraints remain enforced.')
+                else:
+                    self.message('This component stays fixed in the current draft. Change the component list to start a new draft.')
+                return
+            rows = self.inspection['components']
+            matches = [(i, row) for i, row in enumerate(rows) if row['uuid'] == identity]
+            if len(matches) != 1:
+                return
+            index, row = matches[0]
+            reasons = blocking_reasons(row, rebuild=self.rebuild_copper())
+            if reasons:
+                self.message(row['reference'] + ' stays fixed: ' + '; '.join(reasons))
+                return
+            self.parts.Check(index, not self.parts.IsChecked(index))
+            self.revoke(discard=True)
+            self.message(row['reference'] + (' selected to move.' if self.parts.IsChecked(index)
+                else ' will stay fixed.') + ' Choose the allowed area, then Find alternatives.')
+
+        def drawing_mode(self, _):
+            enabled = self.draw_area.GetValue() and self.inspection is not None and not self.busy
+            self.draw_area.SetValue(enabled); self.picture.draw_area = enabled
+            if enabled:
+                self.picture.SetFocus()
+                self.message('Drag inside the board to propose a movement area. Escape abandons the drag. Numeric controls remain available.')
+            else:
+                self.message('Component selection enabled. Click a component or use the list.')
+
+        def area_on_board(self, region, error=None):
+            if self.busy or self.gate.closed or self.inspection is None:
+                return
+            if error is not None:
+                self.message('Area unchanged: ' + error); return
+            try:
+                region = list(placement_view._rect(region))
+                bounds = self.inspection['observation']['outline']['bounds_nm']
+                if not (bounds[0] <= region[0] < region[2] <= bounds[2]
+                        and bounds[1] <= region[1] < region[3] <= bounds[3]):
+                    raise ValueError('Draw the area inside the board outline.')
+            except (TypeError, ValueError) as exc:
+                self.message('Area unchanged: ' + str(exc)); return
+            self.revoke(discard=True)
+            self.updating = True
+            try:
+                for field, coordinate in zip(self.region, region):
+                    field.ChangeValue(mm(coordinate))
+            finally:
+                self.updating = False
+            self.draw_area.SetValue(False); self.picture.draw_area = False
+            self.overview(); self.layout_panel()
+            self.message('Movement area updated. Find new alternatives and review them before validation. Original files are unchanged.')
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
@@ -358,9 +612,19 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 and not baseline_scope and self.rigid_group.GetValue())
             self.save.Enable(not self.busy and self.inspection is not None)
             for control in self.pose_controls: control.Enable(not self.busy and self.gate.review is not None)
-            self.qualify.Enable(not self.busy and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty)
-            self.route.Enable(not self.busy and self.qualified is not None)
+            self.qualify.Enable(not self.busy and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty and self.picture.Ready())
+            self.route.Enable(not self.busy and self.qualified is not None and self.picture.Ready())
             self.cancel.Enable(self.busy)
+            if hasattr(self, 'draw_area'):
+                self.draw_area.Enable(not self.busy and self.inspection is not None)
+                self.picture.Enable(not self.busy)
+                native = (self.qualified['witness']['findings'] if self.qualified is not None else
+                    self.inspection.get('native_source_baseline',{}).get('native') if self.inspection else None)
+                if native is not None:
+                    self.native_summary.SetLabel('KiCad findings: '+str(native['opens'])+' unrouted · '
+                        +str(native['blocking'])+' blocking · '+str(native['warnings'])+' warnings. '
+                        +('Placement validated; routing remains.' if self.qualified is not None else 'Original project inspection; draft still needs validation.'))
+                else:self.native_summary.SetLabel('No current Native validation. Original files remain unchanged.')
 
         def revoke(self, *, dirty=False, discard=False):
             self.validation_revoked = self.qualified is not None or self.validation_revoked
@@ -369,7 +633,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             # be redrawn. Never leave an earlier success visible during failure.
             self.refresh()
             self.findings.SetValue('No current placement validation. Review the draft and validate it before routing.')
-            self.picture.SetBitmap(wx.NullBitmap); self.picture.SetMinSize((850, 500))
+            self.picture.SetScene(None)
             if self.routing is not None: self.routing.Close()
             redraw_error = None
             if discard:
@@ -380,7 +644,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 self.alternative.Set([]); self.part.Set([])
                 self.x.ChangeValue(''); self.y.ChangeValue('')
                 self.findings.SetValue('No current placement draft or validation. Inspect the saved project and choose components to begin again.')
-                self.layout_panel()
+                self.overview(); self.layout_panel()
             else:
                 try: self.present()
                 except Exception as exc:
@@ -409,6 +673,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                         if blocking_reasons(row, rebuild=self.rebuild_copper()) and self.parts.IsChecked(index):
                             self.parts.Check(index, False)
                             self.message(row['reference'] + ' stays fixed: ' + '; '.join(row['fixed_reasons']))
+                    self.overview()
             event.Skip()
 
         def rebuild_copper(self):
@@ -424,6 +689,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             self.parts.Set([component_label(row, rebuild=rebuild) for row in self.inspection['components']])
             for index, row in enumerate(self.inspection['components']):
                 self.parts.Check(index, row['uuid'] in checked and not blocking_reasons(row, rebuild=rebuild))
+            self.overview()
 
         def policy_changed(self, event):
             if not self.updating:
@@ -507,7 +773,12 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 self.findings.SetValue('\n'.join(placement_limits(value, rebuild=rebuild))
                     + '\n\nComponents\n' + component_findings(value, rebuild=rebuild)
                     + ('\n\n' + source_native_findings(value) if value.get('native_source_baseline') else ''))
-                self.message('Saved project inspected. Choose at least two movable components and an explicit movement rectangle.')
+                self.updating = True
+                try:
+                    for field,coordinate in zip(self.region,value['observation']['outline']['bounds_nm']):field.ChangeValue(mm(coordinate))
+                finally:self.updating=False
+                self.overview()
+                self.message('Project inspected. Click the parts to move, then draw or enter their allowed area. Fixed parts and protected copper stay enforced.')
             def inspect(job, event):
                 value = intent.inspect_saved(source)
                 if (not intent.contract.fixed_context_scope(value['observation']['scope'])
@@ -621,7 +892,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
         def present(self):
             """Refresh findings and diagram state without changing the reviewed pose or controls."""
             review = self.gate.review
-            if review is None: return
+            if review is None:
+                self.overview(); return
             if self.qualified is not None:
                 try: self.gate.check(self.qualified['ticket'])
                 except ValueError:
@@ -634,13 +906,12 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 state = 'Validation revoked — review and validate again'
             else:
                 state = 'Geometry draft — Native validation required'
-            svg = placement_view.render(review.observation, review.moves,
+            display = placement_view.scene(review.observation, review.moves,
                 review.settings['selected'], review.settings['region_nm'],
                 title='Placement review' if self.qualified is not None else 'Placement draft', state=state,
                 **({'annotation_context': review.inspection['annotation_context']}
                    if 'annotation_context' in review.inspection else {}))
-            bitmap = bitmap_with_labels(wx, svg)
-            self.picture.SetBitmap(bitmap); self.picture.SetMinSize(bitmap.GetSize())
+            self.picture.SetScene(display)
             if self.qualified is not None:
                 witness = self.qualified['witness']
                 findings = state + '\n' + gui.human_summary('inspect', dict(
@@ -781,6 +1052,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
 
         def qualify_draft(self, _):
             try:
+                if not self.picture.Ready():
+                    raise ValueError('Review the current board preview before validating this draft.')
                 if self.routing is not None:
                     raise ValueError('Wait for the previous routing window and its worker to close before validating another placement.')
                 ticket = self.gate.ticket(); review = self.gate.review
@@ -822,6 +1095,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
 
         def open_routing(self, _):
             try:
+                if not self.picture.Ready():
+                    raise ValueError('The current placement preview is unavailable. Review and validate again.')
                 if self.qualified is None: raise ValueError('Validate this exact draft first.')
                 self.current_review_settings(self.gate.review)
                 result = self.qualified; self.gate.check(result['ticket'])
@@ -836,7 +1111,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     if self.routing is frame:
                         self.routing = None
                         if self.gate.closed: self.finish_close()
-                        else: self.refresh()
+                        else:
+                            self.Show(); self.Raise(); self.refresh()
                 frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished)
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
@@ -850,7 +1126,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 except Exception:
                     frame.Destroy(); raise
                 self.routing = frame
-                frame.Show()
+                frame.Show(); self.Hide()
                 self.message('Routing settings opened. Keep this placement review open; editing, rejecting or closing it revokes the handoff.')
             except Exception as exc:
                 self.revoke(dirty=self.gate.dirty); self.message('Routing handoff refused: ' + str(exc))
@@ -884,7 +1160,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 self.finalized = True; self.timer.Stop(); self.Destroy()
                 if on_closed is not None: wx.CallAfter(on_closed)
 
-    return Window()
+    return Window
 
 
 def main(argv=None):

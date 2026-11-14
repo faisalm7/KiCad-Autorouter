@@ -1,29 +1,58 @@
-# Install the current artifact into another local folder
+# Installation and advanced CLI
 
-The current tested runtime is `.runs/runtime094 fresh install 001`, source `3113cca4c41851c54daf77b2fcb465179ff53e99`, manifest `813d42c6847fc7e78c81c45738074107209ff02fcc8c9b9e480db6e681650ea1`. Its [Native delivery/full266](../evidence/runtime094-licensed-placement-delivery-001.json) and [actual GUI118 workflow](../evidence/runtime094-GUI118-core-001.json) include installation/doctor, automatic selected placement, protected routing, review, acceptance/rejection, cancellation and checked export opening on this Mac. Existing users should follow [Start here](../START_HERE.md), without making another copy. Runtime093 is a separate routing experiment, not the qualified product installation.
+**Use an existing installation and launcher when available.** [Start here](../START_HERE.md) and the [saved-project workflow](quickstart.md) use your project, not a prepared demonstration session. Reinstallation is unnecessary merely to resume.
 
-For a genuinely needed new installation, the existing installer copies the 89 verified immutable runtime094 files and records the new root. Old jobs, settings, environments and launchers are excluded. It downloads or relocates no external dependency. Choose one unused owned destination with an existing real parent and first check free space against peak temporary allocation plus the fixed 3 GiB reserve:
+The current tested finite reference is **runtime096 / GUI120**, build `1198fdd80b9adcb42270fab6f22e095145af3024`, manifest `a0d8907f0b54a01e671f3ca68de825cdab65f2b720a2b337072bc6b9e73d798c`. Its [Native delivery](../evidence/runtime096-region-delivery-001.json) and [actual GUI controls](../evidence/runtime096-GUI120-core-001.json) cover one owned target-region task with 0 opens, 0 blocking findings and 1 retained warning. The [094 licensed-task reference](../evidence/runtime094-GUI118-core-001.json) remains separate. These are experimental same-Mac results, not a release or a clean/independent installation.
+
+The tested setup uses macOS 27.0.1 arm64, isolated official KiCad 10.0.7, Java 25.0.2, Freerouting 2.5.0, a no-pip Python 3.11.9 environment and KiCad's bundled Python 3.9.13/wx for the GUI. Exact dependency bytes and locations are pinned. A new environment still depends on its base Python/standard library; `--copies` does not bundle Python. Nothing here downloads or installs dependencies, changes global KiCad, or qualifies Windows Native support.
+
+## Advanced: install a verified artifact at a fresh local root
+
+Use the reviewed source checkout's `scripts/prepare_runtime.py`; the curated runtime does not ship that installer. Choose a verified source artifact and an unused owned destination below an existing real directory. Check available space against the operation's peak allocation plus the fixed 3 GiB reserve. Do not copy an old environment, jobs, settings or launcher to simulate a new installation.
+
+The following is a command template, not a command executed or newly qualified by this guide. Replace the two artifact/destination paths deliberately. Run from the source checkout with an existing supported Python 3.11, and stop after any refusal:
 
 ```sh
 (
-  set -eu
-  AUTOROUTER_PROJECT="$PWD"
-  AUTOROUTER_INSTALL="$AUTOROUTER_PROJECT/.runs/Autorouter user install 001"
-  .venv/bin/python -B scripts/prepare_runtime.py --install-existing \
-    --source "$AUTOROUTER_PROJECT/.runs/runtime094 fresh install 001" \
-    --expected-manifest-sha256 813d42c6847fc7e78c81c45738074107209ff02fcc8c9b9e480db6e681650ea1 \
-    --output "$AUTOROUTER_INSTALL"
-  .venv/bin/python -B -m venv --copies --without-pip "$AUTOROUTER_INSTALL/.venv"
-  cd "$AUTOROUTER_INSTALL"
-  .venv/bin/python -B -m autorouter doctor
-  .venv/bin/python -B scripts/install_gui.py --output "$PWD/.runs/gui-launcher-user001"
+set -eu
+AUTOROUTER_ARTIFACT="/path/to/verified runtime096"
+AUTOROUTER_INSTALL="/path/to/new owned installation"
+python3.11 -B scripts/prepare_runtime.py --install-existing \
+  --source "$AUTOROUTER_ARTIFACT" \
+  --expected-manifest-sha256 a0d8907f0b54a01e671f3ca68de825cdab65f2b720a2b337072bc6b9e73d798c \
+  --output "$AUTOROUTER_INSTALL"
+python3.11 -B -m venv --copies --without-pip "$AUTOROUTER_INSTALL/.venv"
+cd "$AUTOROUTER_INSTALL"
+.venv/bin/python -B -m autorouter doctor
+.venv/bin/python -B scripts/install_gui.py --output "$PWD/.runs/launcher-user001"
 )
 ```
 
-Run `prepare_runtime.py` from the checkout; that installer is not shipped in the curated runtime. Enter the new runtime before `-m autorouter`. Preserve its manifest/process records. Changed/missing/extra files, unsafe links, stale pins and destination collisions refuse. Failure preserves partial output; use a fresh destination rather than overwriting it. Another root needs its own qualification. This documented command does not claim an independent clean installation or authorize automatic retirement of historical copies.
+Enter the selected runtime before every `-m autorouter` command: using its interpreter from another checkout can import the wrong code. Follow the new launcher's README. It binds the runtime, tools and isolated configuration/documents/cache/plugin area. Keep those locations intact; a moved or replaced launcher needs fresh preparation. The launcher is a cooperative boundary, not an OS sandbox.
 
-Current qualification uses the same Mac/account, copied no-pip Python3.11.9 and pinned external KiCad10.0.7/Java25.0.2/Freerouting2.5.0. GUI imports use that KiCad app's Python3.9.13/wx. Global KiCad10.0.0 is unchanged. No cleanOS, independent user, relocated dependencies, standalone package or Windows Native installation is qualified.
+Installation copies only the declared immutable payload and matching local JAR. It preserves the original lock/source provenance and writes a new root-bound manifest. Unsafe links, changed/missing/extra payload, stale pins and existing destinations refuse. Failed partial output is retained; use a fresh destination. A successful copy/doctor is preparation, not qualification of that new root or machine.
 
-New prepared launchers bind config/documents/cache and `KICAD10_3RD_PARTY` inside the owned session. They verify PCM directory identity and reject unsafe links. A replaced/restored launcher directory needs new preparation; old launchers are not silently upgraded. This cooperative launch boundary is not an operating-system sandbox. Personal plugins/settings are not disabled or changed.087's boundary and correctly sequenced command startup were observed together; the absent override alone was not isolated as the cause of the old GUI112 stall. Observe the prepared process before a GUI tool attaches, since app selection may itself launch a default process.
+## Integrated source options awaiting real relocation qualification
 
-Every final retains fresh Native refill/full-schematic/original-rule, immutable/protected, class/field and local-settings proofs. Warnings remain visible. Sources remain closed/saved, delivery is a separate project, and live apply/undo is unavailable. Genuine changed-warning GUI, exact queued timing, every cancellation phase, broader usefulness, independent installation/full recovery, Windows Native and human/physical review remain open. New raw evidence beyond the last compact archive cutoff is currently on this Mac only; old subset restoration does not prove current recovery. [Platform matrix](supported-platforms.md) · [Requirements](../REQUIREMENTS.md).
+The source batch includes two bounded options alongside `--install-existing`:
+
+- `--import-artifact` verifies a transported artifact using the exact original manifest SHA256, while treating its old root/host locations as provenance. It does not permit ordinary execution at an unbound location or bypass payload checks.
+- `--host-paths-json` supplies all four canonical locations: `kicad_cli`, `kicad_python`, `pcbnew` and `java`. It changes locations only, preserving the known profile, role hashes/sizes and common KiCad app layout. New live bindings must pass alias, executable-role and actual-byte checks.
+
+These options are integrated source capabilities with deterministic fixture tests, **not actual relocation, clean-environment or Native/GUI qualification**. Rebinding requires a new compatible product build. Immutable runtime096 cannot gain that support by changing its manifest; it retains its existing dependency locations. The newer UI/intent/install source batch has not replaced096's tested finite status. No turnkey installer, standalone package, independent-machine or Windows support is claimed.
+
+## Advanced: ordinary routing CLI
+
+Use absolute paths for your saved project, persistent settings and fresh outputs. These are the same guarded operations as ordinary controls:
+
+```sh
+.venv/bin/python -B -m autorouter settings-init --output /path/to/new-settings.json
+.venv/bin/python -B -m autorouter preview /path/to/project.kicad_pcb --settings /path/to/new-settings.json
+.venv/bin/python -B -m autorouter route /path/to/project.kicad_pcb \
+  --settings /path/to/new-settings.json --output /path/to/new-route-job
+.venv/bin/python -B -m autorouter check-result /path/to/new-route-job/result.json
+```
+
+Run each only after its predecessor succeeds. Save and close source editors first. A preview is static support; only current canonical proof can support routing acceptance. Review, explicit choice and fresh export remain separate; see [routing preferences](routing-preferences.md) and [the structured interface](structured-interface.md) for advanced settings. Ctrl-C requests cancellation and retains unaccepted work. Never edit receipts or relax original rules to obtain a pass.
+
+Same-Mac qualification, whole-project DRC cleanliness and electrical/physical review remain distinct. The opened GUI120 export is correctly stale after ordinary editor sidecar changes; save further edits as a separate complete working project, choose it as a new source task and revalidate. Full current recovery/off-Mac protection and formal release remain open. [Current requirements](../REQUIREMENTS.md).

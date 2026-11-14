@@ -1,5 +1,4 @@
 """Pure placement UI lifecycle/dispatch controls; not actual wx/Native qualification."""
-import ast
 import copy
 from decimal import localcontext
 import hashlib
@@ -18,20 +17,39 @@ from autorouter import gui, placement_gui as pg
 
 
 def window_method(name, **overrides):
-    tree = ast.parse(Path(pg.__file__).read_text())
-    factory = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'create_window')
-    window = next(node for node in factory.body if isinstance(node, ast.ClassDef) and node.name == 'Window')
-    function = next(node for node in window.body if isinstance(node, ast.FunctionDef) and node.name == name)
-    namespace = dict(vars(pg), wx=Mock(NullBitmap='empty-bitmap'), on_closed=None)
-    namespace.update(overrides)
-    exec(compile(ast.fix_missing_locations(ast.Module(body=[function], type_ignores=[])), pg.__file__, 'exec'), namespace)
-    return namespace[name]
+    """Return an actual complete Window method; no extracted source execution."""
+    wx = overrides.pop('wx', SimpleNamespace(Frame=object, NOT_FOUND=-1))
+    wx.Frame = object
+    on_closed = overrides.pop('on_closed', None)
+    if overrides:
+        raise AssertionError('Use explicit controlled dependencies, not fragment globals: ' + str(sorted(overrides)))
+    return getattr(pg.window_type(wx, on_closed=on_closed), name)
 
 
 def review():
     return SimpleNamespace(revision=1, pose={'x': 3}, settings={'selected': ['one', 'two']},
                            inspection={'source': '/owned/source.kicad_pcb'}, intent=None,
                            copper_plan=None, observation={})
+
+
+def canvas(on_error):
+    """Actual Canvas methods with a minimal passive wx surface; no real GUI."""
+    class Panel:
+        def __init__(self, *args, **kwargs):
+            self.SetMinSize=Mock();self.SetBackgroundStyle=Mock();self.SetToolTip=Mock();self.Bind=Mock()
+            self.HasCapture=Mock(return_value=False);self.ReleaseMouse=Mock();self.Refresh=Mock()
+            self.GetClientSize=Mock(return_value=(800,500));self.GetContentScaleFactor=Mock(return_value=1)
+        def FromDIP(self,value):return value
+    dc=Mock()
+    wx=SimpleNamespace(Panel=Panel,BORDER_SIMPLE=1,WANTS_CHARS=2,BG_STYLE_PAINT=0,
+        AutoBufferedPaintDC=Mock(return_value=dc),Brush=lambda x:x,Colour=lambda x:x)
+    for name in ('EVT_PAINT','EVT_SIZE','EVT_LEFT_DOWN','EVT_MOTION','EVT_LEFT_UP',
+                 'EVT_MOUSE_CAPTURE_LOST','EVT_CHAR_HOOK'):
+        setattr(wx,name,name)
+    picture=pg.board_canvas(wx,object(),Mock(),Mock(),on_error)
+    picture.SetScene=Mock(wraps=picture.SetScene)
+    picture.test_dc=dc
+    return picture
 
 
 class PlacementGuiTests(unittest.TestCase):
@@ -48,8 +66,9 @@ class PlacementGuiTests(unittest.TestCase):
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
             copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
-            current_review_settings=Mock(),
+            current_review_settings=Mock(), overview=Mock(), region_summary=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
+        window.picture.Ready.return_value = True
         window.copper_policy.GetSelection.return_value = 0
         window.rigid_group.GetValue.return_value = False
         window.target_region.GetValue.return_value = False
@@ -141,21 +160,22 @@ class PlacementGuiTests(unittest.TestCase):
         self.assertEqual(pg.component_label(row), 'J4 · fixed (routed net, locked)')
         self.assertIn('Locked in KiCad', pg.component_findings({'components': [row]}))
 
-    def test_render_reflows_scrolled_panel_after_bitmap_grows(self):
-        window = self.window(); window.Layout = Mock(); window.panel = Mock()
+    def test_render_reflows_responsive_frame_after_scene_changes(self):
+        window = self.window(); window.Layout = Mock(); window.panel = Mock(); window.controls = Mock()
         window.layout_panel = MethodType(window_method('layout_panel'), window)
         item = dict(uuid='one', reference='J1', fixed_reasons=[])
         window.gate.review = SimpleNamespace(inspection=dict(components=[item], observation={}, source='/owned/source'),
             settings=dict(selected=['one'], region_nm=[0, 0, 10, 10]), moves={'one': [1, 1]}, alternatives=[{}],
             copper_plan=None, observation={})
-        window.coordinates = Mock(); bitmap = Mock(); bitmap.GetSize.return_value = (850, 486)
+        window.coordinates = Mock(); display = {'svg':'<svg/>','size':(1000,540)}
         window.alternative.GetSelection.return_value = 0
-        window.present = MethodType(window_method('present', bitmap_with_labels=Mock(return_value=bitmap)), window)
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>'):
-            window_method('render', bitmap_with_labels=Mock(return_value=bitmap))(window, 0)
-        window.picture.SetBitmap.assert_called_once_with(bitmap)
-        window.picture.SetMinSize.assert_called_once_with((850, 486))
-        window.panel.Layout.assert_called_once(); window.panel.FitInside.assert_called_once()
+        window.present = MethodType(window_method('present'), window)
+        with patch.object(pg.placement_view, 'scene', return_value=display):
+            window_method('render')(window, 0)
+        window.picture.SetScene.assert_called_once_with(display)
+        window.Layout.assert_called_once(); window.panel.Layout.assert_called_once()
+        window.controls.FitInside.assert_called_once(); window.panel.FitInside.assert_not_called()
+        window.picture.SetMinSize.assert_not_called()
 
     def test_new_private_settings_refuse_overwrite_links_and_oversized_records(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -189,7 +209,7 @@ class PlacementGuiTests(unittest.TestCase):
         window = self.window(); ticket = window.gate.ticket(); window.routing = Mock()
         window.qualified = {'old': 'candidate'}; window.revoke(discard=True)
         window.routing.Close.assert_called_once(); self.assertIsNone(window.qualified)
-        self.assertIsNone(window.gate.review); window.picture.SetBitmap.assert_called_once_with('empty-bitmap')
+        self.assertIsNone(window.gate.review); window.picture.SetScene.assert_called_once_with(None)
         window.alternative.Set.assert_called_once_with([]); window.part.Set.assert_called_once_with([])
         with self.assertRaises(ValueError): window.gate.check(ticket)
 
@@ -258,7 +278,7 @@ class PlacementGuiTests(unittest.TestCase):
         window.alternative.SetSelection.side_effect = lambda index: setattr(window.alternative.GetSelection, 'return_value', index)
         before = copy.deepcopy((window.gate.review.pose, window.gate.review.moves,
                                 window.gate.review.revision, window.gate.acknowledged, window.gate.generation))
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>'):
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>'):
             window_method('render')(window)
         window.alternative.Set.assert_called_once_with(['Alternative 1', 'Alternative 2', 'Edited draft'])
         window.alternative.SetSelection.assert_called_once_with(2)
@@ -401,8 +421,7 @@ class PlacementGuiTests(unittest.TestCase):
         window.x.GetValue.return_value = '3'; window.y.GetValue.return_value = '4'
         window.updating = False
         bitmap = Mock(); bitmap.GetSize.return_value = (850, 486)
-        window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1),
-            bitmap_with_labels=Mock(return_value=bitmap)), window)
+        window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1)), window)
         witness = dict(candidate='/owned/separate/candidate.kicad_pcb', findings=dict(opens=2,
             blocking=0, warnings=1, exclusions=0, ignored_checks=[dict(key='retained_check', description='Retained ignored check')],
             findings=[dict(severity='warning', type='library_mismatch', description='Retained source warning')]))
@@ -413,7 +432,7 @@ class PlacementGuiTests(unittest.TestCase):
         window, result = self.presentation_window(); window.start = Mock()
         original = copy.deepcopy(window.gate.review.moves)
         window_method('qualify_draft')(window, None); adopt = window.start.call_args.args[2]
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>') as render:
             adopt(result)
         self.assertIs(window.qualified, result)
         self.assertEqual(render.call_args.kwargs['state'], 'Placement validated — routing pending')
@@ -430,7 +449,7 @@ class PlacementGuiTests(unittest.TestCase):
 
     def test_draft_and_edited_labels_use_current_selection_without_changing_it(self):
         window, _ = self.presentation_window()
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>') as render:
             window.present()
             self.assertEqual(render.call_args.kwargs['state'], 'Geometry draft — Native validation required')
             self.assertIn('Alternative 2.', window.findings.SetValue.call_args.args[0])
@@ -457,7 +476,7 @@ class PlacementGuiTests(unittest.TestCase):
         window.gate.review.inspection['limitations'] = ['Explicit scope: fixed-angle SMD translation only.']
         # Changing the inspected limitations also changes the bound ticket.
         result['ticket'] = window.gate.ticket(); window.qualified = result
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>'):
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>'):
             window.present()
         text = window.findings.SetValue.call_args.args[0]
         self.assertIn('fixed-angle SMD translation only', text)
@@ -468,7 +487,7 @@ class PlacementGuiTests(unittest.TestCase):
         window, result = self.presentation_window(); window.qualified = result
         original = copy.deepcopy(window.gate.review.moves)
         window.x.GetValue.return_value = '26.'
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>') as render:
             window_method('pending_edit')(window, Mock())
         self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
         with self.assertRaises(ValueError): window.gate.check(result['ticket'])
@@ -484,7 +503,7 @@ class PlacementGuiTests(unittest.TestCase):
         for action in ('cancel_work', 'acknowledge'):
             window, result = self.presentation_window(); window.qualified = result
             window.ack.GetValue.return_value = False
-            with self.subTest(action=action), patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+            with self.subTest(action=action), patch.object(pg.placement_view, 'scene', return_value='<svg/>') as render:
                 window_method(action)(window, None)
             self.assertIsNone(window.qualified)
             with self.assertRaises(ValueError): window.gate.check(result['ticket'])
@@ -497,7 +516,7 @@ class PlacementGuiTests(unittest.TestCase):
             window.owned_workspace = Mock(side_effect=ValueError('receipt write deliberately unavailable'))
             with self.subTest(action=action): window_method(action)(window, Mock())
             self.assertIsNone(window.qualified); self.assertIsNone(window.gate.review)
-            window.picture.SetBitmap.assert_called_once_with('empty-bitmap')
+            window.picture.SetScene.assert_called_once_with(None)
             text = window.findings.SetValue.call_args.args[0]
             self.assertIn('No current placement draft or validation', text)
             self.assertNotIn('Placement validated', text)
@@ -507,7 +526,7 @@ class PlacementGuiTests(unittest.TestCase):
         window, result = self.presentation_window(); window.qualified = result
         original = copy.deepcopy(window.gate.review.moves)
         window.gate.review.edit_many = Mock(side_effect=ValueError('outside allowed rectangle'))
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>') as render:
             window_method('edit')(window, None)
         self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
         self.assertIn('Pending edits', render.call_args.kwargs['state'])
@@ -647,7 +666,7 @@ class PlacementGuiTests(unittest.TestCase):
     def test_stale_origin_at_routing_open_removes_success_and_handoff_authority(self):
         window, result = self.presentation_window(); window.qualified = result
         result['guard'].check.side_effect = ValueError('source changed on disk')
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render, patch.object(gui, 'create_window') as factory:
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>') as render, patch.object(gui, 'create_window') as factory:
             window_method('open_routing')(window, None)
         factory.assert_not_called(); self.assertIsNone(window.qualified)
         self.assertIn('Validation revoked', render.call_args.kwargs['state'])
@@ -657,7 +676,7 @@ class PlacementGuiTests(unittest.TestCase):
     def test_presentation_cannot_keep_success_after_review_ticket_changes(self):
         window, result = self.presentation_window(); window.qualified = result
         window.gate.review.revision += 1
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
+        with patch.object(pg.placement_view, 'scene', return_value='<svg/>') as render:
             window.present()
         self.assertIsNone(window.qualified)
         self.assertIn('Validation revoked', render.call_args.kwargs['state'])
@@ -667,7 +686,7 @@ class PlacementGuiTests(unittest.TestCase):
         for action in ('present', 'cancel_work', 'open_routing', 'finish'):
             window, result = self.presentation_window(); window.qualified = result
             window.gate.invalidate(dirty=True); window.x.GetValue.return_value = '26.'
-            with self.subTest(action=action), patch.object(pg.placement_view, 'render', return_value='<svg/>'):
+            with self.subTest(action=action), patch.object(pg.placement_view, 'scene', return_value='<svg/>'):
                 if action == 'present': window.present()
                 elif action == 'finish':
                     window_method('finish')(window, window.job, window.gate.generation,
@@ -689,14 +708,18 @@ class PlacementGuiTests(unittest.TestCase):
                 self.assertTrue(window.job.cancel_requested)
                 raise RuntimeError('deliberate ' + failure + ' failure')
             if failure == 'bitmap':
-                window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1),
-                    bitmap_with_labels=fail), window)
-            with self.subTest(failure=failure), patch.object(pg.placement_view, 'render',
-                    side_effect=fail if failure == 'render' else None, return_value='<svg/>'):
+                window.picture=canvas(Mock(side_effect=AssertionError('initial raster failure is synchronous')))
+            with self.subTest(failure=failure), patch.object(pg.placement_view, 'scene',
+                    side_effect=fail if failure == 'render' else None, return_value={'svg':'<svg/>','size':(1000,540)}), \
+                    patch.object(pg,'bitmap_with_labels',side_effect=fail if failure=='bitmap'else None):
                 window_method('cancel_work')(window, None)
             self.assertIsNone(window.qualified)
             with self.assertRaises(ValueError): window.gate.check(result['ticket'])
-            window.picture.SetBitmap.assert_called_once_with('empty-bitmap')
+            self.assertEqual(window.picture.SetScene.call_args_list[0].args,(None,))
+            if failure=='bitmap':
+                self.assertFalse(window.picture.Ready());self.assertIsNone(window.picture.display)
+                self.assertEqual(window.picture.SetScene.call_count,2)
+            else:window.picture.SetScene.assert_called_once_with(None)
             text = window.findings.SetValue.call_args.args[0]
             self.assertIn('Placement preview refused: deliberate ' + failure + ' failure', text)
             self.assertIn('No current placement validation', text)
@@ -710,17 +733,21 @@ class PlacementGuiTests(unittest.TestCase):
             window, result = self.presentation_window(); window.qualified = result
             window.gate.invalidate(dirty=True); window.x.GetValue.return_value = '26.'
             original = copy.deepcopy(window.gate.review.moves)
-            bitmap = Mock(side_effect=RuntimeError('deliberate bitmap failure'))
-            window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1),
-                bitmap_with_labels=bitmap), window)
-            with self.subTest(failure=failure), patch.object(pg.placement_view, 'render',
+            window.present = MethodType(window_method('present', wx=SimpleNamespace(NOT_FOUND=-1)), window)
+            if failure=='bitmap':window.picture=canvas(Mock(side_effect=AssertionError('no asynchronous callback')))
+            with self.subTest(failure=failure), patch.object(pg.placement_view, 'scene',
                     side_effect=RuntimeError('deliberate render failure') if failure == 'render' else None,
-                    return_value='<svg/>') as render:
+                    return_value={'svg':'<svg/>','size':(1000,540)}) as render, \
+                    patch.object(pg,'bitmap_with_labels',side_effect=RuntimeError('deliberate bitmap failure')):
                 window.present()
             self.assertEqual(render.call_count, 1)  # Stale-ticket re-entry is bounded.
             self.assertIsNone(window.qualified); self.assertTrue(window.gate.dirty)
             with self.assertRaises(ValueError): window.gate.check(result['ticket'])
-            window.picture.SetBitmap.assert_called_once_with('empty-bitmap')
+            self.assertEqual(window.picture.SetScene.call_args_list[0].args,(None,))
+            if failure=='bitmap':
+                self.assertFalse(window.picture.Ready());self.assertIsNone(window.picture.display)
+                self.assertEqual(window.picture.SetScene.call_count,2)
+            else:window.picture.SetScene.assert_called_once_with(None)
             text = window.findings.SetValue.call_args.args[0]
             self.assertIn('Placement preview refused: deliberate ' + failure + ' failure', text)
             self.assertIn('pending coordinate text are retained', text)
@@ -728,6 +755,54 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertEqual(window.gate.review.moves, original)
             window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
             window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()
+
+    def test_actual_late_paint_callback_revokes_validation_without_render_retry(self):
+        window,result=self.presentation_window();window.qualified=result;window.routing=Mock()
+        self.assertIsNone(window.gate.check(result['ticket']))
+        previous=copy.deepcopy((window.gate.review.pose,window.gate.review.moves,window.pending_coordinates))
+        window.present=Mock(side_effect=AssertionError('paint failure must not retry presentation'))
+        window.picture=canvas(MethodType(window_method('preview_failed'),window))
+        display={'svg':'<svg/>','size':(1000,540)}
+        with patch.object(pg,'bitmap_with_labels',return_value=Mock()):window.picture.SetScene(display)
+        self.assertTrue(window.picture.Ready());window.picture.bitmap=None
+        with patch.object(pg,'bitmap_with_labels',side_effect=RuntimeError('late paint failure'))as raster:
+            window.picture.paint(None)
+        raster.assert_called_once();window.present.assert_not_called()
+        self.assertFalse(window.picture.Ready());self.assertIsNone(window.picture.display)
+        self.assertIsNone(window.qualified);self.assertFalse(window.gate.acknowledged)
+        self.assertIsNone(window.gate.review.intent);self.assertFalse(window.gate.dirty)
+        self.assertEqual((window.gate.review.pose,window.gate.review.moves,window.pending_coordinates),previous)
+        window.routing.Close.assert_called_once()
+        with self.assertRaises(ValueError):window.gate.check(result['ticket'])
+        self.assertIn('No current placement validation',window.findings.SetValue.call_args.args[0])
+        with patch.object(gui,'create_window')as factory:window_method('open_routing')(window,None)
+        factory.assert_not_called()
+
+    def test_unready_canvas_cannot_qualify_or_open_routing(self):
+        for name in ('qualify_draft','open_routing'):
+            window,result=self.presentation_window();window.qualified=result;window.start=Mock()
+            window.picture.Ready.return_value=False
+            with self.subTest(action=name),patch.object(gui,'create_window')as factory:
+                window_method(name)(window,None)
+            window.start.assert_not_called();factory.assert_not_called();self.assertIsNone(window.qualified)
+            with self.assertRaises(ValueError):window.gate.check(result['ticket'])
+
+    def test_actual_drawbitmap_failure_revokes_validation_and_blocks_handoff(self):
+        window,result=self.presentation_window();window.qualified=result
+        self.assertIsNone(window.gate.check(result['ticket']))
+        window.present=Mock()
+        window.picture=canvas(MethodType(window_method('preview_failed'),window))
+        with patch.object(pg,'bitmap_with_labels',return_value=Mock()):
+            window.picture.SetScene({'svg':'<svg/>','size':(1000,540)})
+        window.picture.test_dc.DrawBitmap.side_effect=RuntimeError('deliberate DrawBitmap failure')
+        escaped=None
+        try:window.picture.paint(None)
+        except Exception as exc:escaped=str(exc)
+        with patch.object(gui,'create_window',return_value=Mock(source_guard=result['guard']))as factory:
+            window_method('open_routing')(window,None)
+        self.assertFalse(factory.called,'DrawBitmap error escaped='+str(escaped)+'; failed paint must revoke before constructing a routing frame')
+        self.assertIsNone(escaped);self.assertIsNone(window.qualified);self.assertFalse(window.picture.Ready())
+        with self.assertRaises(ValueError):window.gate.check(result['ticket'])
 
     def test_actual_callback_rejects_and_records_without_inventing_acknowledgement(self):
         window = self.window(); window.gate.acknowledged = False

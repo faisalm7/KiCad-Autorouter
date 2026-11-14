@@ -4,64 +4,8 @@ import os
 from pathlib import Path, PurePosixPath
 import stat
 ROOT = Path(__file__).resolve().parents[1]
-_NATIVE_SUFFIXES = {
-    'kicad_cli': 'MacOS/kicad-cli',
-    'kicad_python': 'Frameworks/Python.framework/Versions/3.9/bin/python3.9',
-    'pcbnew': 'Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/_pcbnew.so',
-}
-# Exact observed binaries, not a version range or arbitrary tool override.
-_NATIVE_HASHES = {
-    '10.0.0': ('998aed348399000335b0e29edf747daa18819f2ac417bac066f4216fdc5d90d1',
-               '4e2b71c03ac808a6149f4ab7282b8225b3e2ea6d2b9d8710052c355fe08bb813',
-               'a7197ed790dbe2f8ab1ef71fc95774069e27eed1142c6fd5d373aec00daf5219'),
-    '10.0.7': ('0b9d96dbdac9517e7d85833f926fee07a563549ffe2c55670147bff3f562d01f',
-               'fd8c2fa5393bebb9be6789dab8583acee6c5cff90d42696e8c1dbcabe02ec39f',
-               '610ae51927809192be637d0de03c32d006332638e2272cbf11a553fe65c75f6e'),
-}
-
-
-def _native_roles(tools, version):
-    if type(tools) is not dict or set(tools) != set(_NATIVE_SUFFIXES):
-        raise ValueError('exact three native roles required')
-    result = {}; bundles = set()
-    for (role, suffix), expected_hash in zip(_NATIVE_SUFFIXES.items(), _NATIVE_HASHES[version]):
-        pin = tools[role]
-        if (type(pin) is not dict or set(pin) != {'path', 'sha256', 'bytes'}
-                or type(pin['path']) is not str or type(pin['sha256']) is not str
-                or pin['sha256'] != expected_hash or type(pin['bytes']) is not int
-                or not 0 < pin['bytes'] <= 128 * 1024**2):
-            raise ValueError('known native role hash and bounded positive integer bytes required')
-        value = pin['path']; path = PurePosixPath(value); tail = PurePosixPath(suffix).parts
-        if (not path.is_absolute() or str(path) != value or value.startswith('//')
-                or '\\' in value or any(ord(char) < 32 or ord(char) == 127 for char in value)
-                or '..' in path.parts or path.parts[-len(tail):] != tail):
-            raise ValueError('canonical absolute native role path and exact suffix required')
-        bundle = path.parents[len(tail)-1]
-        if bundle.name != 'Contents' or bundle.parent.suffix != '.app':
-            raise ValueError('native role must belong to a KiCad app Contents bundle')
-        bundles.add(bundle); result[role] = dict(pin)
-    if len(bundles) != 1:
-        raise ValueError('native roles must share one app Contents bundle')
-    return result
-
-
-def native_selection(lock, version=None):
-    """Pure selection of known pins; callers still verify actual tool bytes."""
-    if type(lock) is not dict or lock.get('kicad') != '10.0.0':
-        raise ValueError('original exact10.0.0 default lock required')
-    tools = lock.get('tools')
-    if type(tools) is not dict or set(tools) != set(_NATIVE_SUFFIXES) | {'java','freerouting'}:
-        raise ValueError('known default tool roles required')
-    choices = {'10.0.0': _native_roles({role: tools[role] for role in _NATIVE_SUFFIXES}, '10.0.0')}
-    if 'native_profiles' in lock:
-        profiles = lock['native_profiles']
-        if type(profiles) is not dict or set(profiles) != {'10.0.7'}:
-            raise ValueError('only the exact optional10.0.7 native profile is supported')
-        choices['10.0.7'] = _native_roles(profiles['10.0.7'], '10.0.7')
-    selected = lock['kicad'] if version is None else version
-    if type(selected) is not str or selected not in choices:
-        raise ValueError('known explicitly pinned native version required')
-    return {'version': selected, 'tools': {role: dict(pin) for role, pin in choices[selected].items()}}
+from autorouter.provenance import (_NATIVE_SUFFIXES, _NATIVE_HASHES,
+                                    native_selection, bound_tool_selection)
 
 
 def _strict_json(path, limit):
@@ -100,7 +44,7 @@ def _read_native_selection(root):
     if os.path.lexists(manifest):
         record = _strict_json(manifest, 256 * 1024)
         schema = record.get('schema')
-        if (type(schema) is not int or schema not in (1, 2)
+        if (type(schema) is not int or schema not in (1, 2, 3)
                 or record.get('kind') != 'runtime-directory-v1' or record.get('root') != str(root)):
             raise ValueError('runtime selection manifest identity differs')
         if schema == 1:
@@ -110,12 +54,18 @@ def _read_native_selection(root):
             if type(version) is not str or version not in _NATIVE_HASHES:
                 raise ValueError('v2 runtime requires an exact known native version')
         manifest_selection = (schema, version)
+        if schema==3:
+            paths=record.get('host_paths')
+            selected=bound_tool_selection(lock,version,paths)
+            manifest_selection=(schema,version,tuple(sorted(paths.items())))
+            return selected,manifest_selection
     return native_selection(lock, version), manifest_selection
 
 
 def _selection_signature(selection):
     return (selection['version'], tuple((role, pin['path'], pin['sha256'], pin['bytes'])
-            for role, pin in selection['tools'].items()))
+            for role, pin in selection['tools'].items()),
+            tuple(selection['java'].items()) if 'java' in selection else None)
 
 
 _INITIAL_NATIVE, _INITIAL_NATIVE_MANIFEST = _read_native_selection(ROOT)
@@ -123,7 +73,8 @@ NATIVE_VERSION = _INITIAL_NATIVE['version']
 CLI, PYTHON, PCBNEW = (Path(_INITIAL_NATIVE['tools'][role]['path']) for role in _NATIVE_SUFFIXES)
 KICAD = CLI.parent.parent
 _INITIAL_NATIVE_SIGNATURE = _selection_signature(_INITIAL_NATIVE)
-_INITIAL_NATIVE_GLOBALS = (ROOT, NATIVE_VERSION, KICAD, CLI, PYTHON, PCBNEW)
+JAVA = Path(_INITIAL_NATIVE['java']['path']) if 'java' in _INITIAL_NATIVE else Path('/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java')
+_INITIAL_NATIVE_GLOBALS = (ROOT, NATIVE_VERSION, KICAD, CLI, PYTHON, PCBNEW, JAVA)
 
 
 def current_native_selection():
@@ -131,12 +82,11 @@ def current_native_selection():
     current, manifest_selection = _read_native_selection(ROOT)
     if (_selection_signature(current) != _INITIAL_NATIVE_SIGNATURE
             or manifest_selection != _INITIAL_NATIVE_MANIFEST
-            or (ROOT, NATIVE_VERSION, KICAD, CLI, PYTHON, PCBNEW) != _INITIAL_NATIVE_GLOBALS):
+            or (ROOT, NATIVE_VERSION, KICAD, CLI, PYTHON, PCBNEW, JAVA) != _INITIAL_NATIVE_GLOBALS):
         raise ValueError('native selection or cached role globals changed')
     return current
 
 
-JAVA = Path('/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home/bin/java')
 JAR = ROOT / '.tools/freerouting-2.5.0.jar'
 JAR_SHA256 = 'f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7'
 

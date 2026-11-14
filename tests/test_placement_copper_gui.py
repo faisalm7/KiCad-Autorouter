@@ -148,12 +148,10 @@ class CopperPlacementGui(unittest.TestCase):
 
     def test_live_review_uses_prepared_copper_and_truthful_plan_findings(self):
         window = self.window(reviewed=True); review = window.gate.review
-        bitmap = Mock(); bitmap.GetSize.return_value = (850, 500)
-        with patch.object(pg.placement_view, 'render', return_value='<svg/>') as render:
-            window_method('present', bitmap_with_labels=Mock(return_value=bitmap),
-                          wx=SimpleNamespace(NOT_FOUND=-1))(window)
-        self.assertEqual(render.call_args.args[0], review.observation)
-        self.assertEqual(render.call_args.args[0]['route_count'], 2)
+        with patch.object(pg.placement_view, 'scene', wraps=pg.placement_view.scene) as scene:
+            window_method('present', wx=SimpleNamespace(NOT_FOUND=-1))(window)
+        self.assertEqual(scene.call_args.args[0], review.observation)
+        self.assertEqual(scene.call_args.args[0]['route_count'], 2)
         self.assertEqual(review.inspection['observation']['route_count'], 5)
         text = window.findings.SetValue.call_args.args[0]
         self.assertIn('3 existing routes to rebuild; 2 routes retained', text)

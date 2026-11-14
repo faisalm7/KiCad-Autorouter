@@ -1785,7 +1785,9 @@ def selected_tool_pins():
     """One fresh selected-role map for execution and retained receipt checks."""
     try:
         selection=c.current_native_selection()
-        return {**json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools'],**selection['tools']}
+        pins={**json.loads((c.ROOT/'toolchain.lock.json').read_text())['tools'],**selection['tools']}
+        if 'java' in selection:pins['java']=dict(selection['java'])
+        return pins
     except (ValueError,OSError,KeyError,TypeError) as exc:
         raise Rejected('selected native toolchain changed or invalid: '+str(exc)) from exc
 

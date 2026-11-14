@@ -68,6 +68,19 @@ def _mm(value):
 
 def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement draft',
            state='Geometry draft — Native validation required', annotation_context=None):
+    return _render(observation, moves_nm, selected_ids, region_nm, title=title,
+        state=state, annotation_context=annotation_context)
+
+
+def scene(observation, moves_nm, selected_ids, region_nm, *, title='Placement workspace',
+          state='Choose movable components; every other component stays fixed', annotation_context=None):
+    """Display and picking data from the same checked geometry; no authority."""
+    return _render(observation, moves_nm, selected_ids, region_nm, title=title,
+        state=state, annotation_context=annotation_context, interactive=True)
+
+
+def _render(observation, moves_nm, selected_ids, region_nm, *, title,
+            state, annotation_context=None, interactive=False):
     """Return self-contained SVG; coordinates retain KiCad's downward Y axis.
 
     Bounds: 16 footprints, 32 pads, 64 straight segments, 32 ordinary zones,
@@ -79,7 +92,7 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
     observation = _row(observation)
     outline = _rect(_row(observation['outline'])['bounds_nm'])
     region = _rect(region_nm)
-    selected = [_label(item) for item in _array(selected_ids, 16, 1)]
+    selected = [_label(item) for item in _array(selected_ids, 16, 0 if interactive else 1)]
     _need(all(selected) and len(selected) == len(set(selected)), 'unique selected IDs required')
     _need(type(moves_nm) is dict and len(moves_nm) == len(selected) and set(moves_nm) == set(selected),
           'exact selected translation map required')
@@ -174,12 +187,13 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
 
     left, top = min(b[0] for b in extents), min(b[1] for b in extents)
     right, bottom = max(b[2] for b in extents), max(b[3] for b in extents)
-    scale = min(920 / (right - left), 460 / (bottom - top))
-    origin_x = 40 + (920 - (right-left)*scale)/2
-    origin_y = 120 + (460 - (bottom-top)*scale)/2
+    view_width, view_height = (952, 476) if interactive else (920, 460)
+    scale = min(view_width / (right - left), view_height / (bottom - top))
+    origin_x = (24 if interactive else 40) + (view_width - (right-left)*scale)/2
+    origin_y = (32 if interactive else 120) + (view_height - (bottom-top)*scale)/2
     x = lambda value: origin_x + (value-left)*scale
     y = lambda value: origin_y + (value-top)*scale
-    height = 692 + 25 * len(selected)
+    height = 540 if interactive else 692 + 25 * len(selected)
     result = ['<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="' + str(height)
               + '" viewBox="0 0 1000 ' + str(height) + '" font-family="sans-serif">']
 
@@ -190,6 +204,8 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
                       else '>' + escape(text) + '</' + tag + '>'))
 
     def label(px, py, text, **attrs):
+        if interactive and attrs.get('data_role') != 'component-label':
+            return  # Live controls provide the legend, status and numeric edits.
         element('text', dict(x=_fmt(px), y=_fmt(py), font_size=13, fill='#202c3a', **attrs), text)
 
     def box(bounds, role, **attrs):
@@ -279,4 +295,49 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
     result.append('</svg>')
     rendered = '\n'.join(result) + '\n'
     _need(len(rendered.encode('utf-8')) <= 512*1024, 'SVG byte limit exceeded')
-    return rendered
+    if not interactive:
+        return rendered
+    return dict(svg=rendered, size=(1000, height), outline_nm=outline,
+        transform=(left, top, scale, origin_x, origin_y),
+        components=tuple(dict(uuid=fp['id'], reference=fp['reference'],
+            bounds_nm=fp['proposed'], locked=fp['locked']) for fp in ordered))
+
+
+def screen_point(display, point, size):
+    """Convert a canvas point to board nm, refusing letterbox/legend clicks."""
+    width, height = _point(size)
+    _need(width > 0 and height > 0, 'positive canvas dimensions required')
+    px, py = _point(point)
+    sw, sh = display['size']; fit = min(width / sw, height / sh)
+    ox, oy = (width-sw*fit)/2, (height-sh*fit)/2
+    vx, vy = (px-ox)/fit, (py-oy)/fit
+    left, top, scale, origin_x, origin_y = display['transform']
+    nx, ny = round((vx-origin_x)/scale+left), round((vy-origin_y)/scale+top)
+    bounds = display['outline_nm']
+    if not bounds[0] <= nx <= bounds[2] or not bounds[1] <= ny <= bounds[3]:
+        return None
+    return nx, ny
+
+
+def pick_component(display, point, size):
+    """Return one unambiguous visible identity; eligibility stays in the core."""
+    xy = screen_point(display, point, size)
+    if xy is None:
+        return None
+    hits = [row['uuid'] for row in display['components'] if
+        row['bounds_nm'][0] <= xy[0] <= row['bounds_nm'][2]
+        and row['bounds_nm'][1] <= xy[1] <= row['bounds_nm'][3]]
+    return hits[0] if len(hits) == 1 else None
+
+
+def drawn_region(display, start, end, size):
+    """A visible 0.1mm-snapped proposal; normal settings/facts still enforce it."""
+    a, b = screen_point(display, start, size), screen_point(display, end, size)
+    _need(a is not None and b is not None, 'draw the area inside the board outline')
+    snap = lambda n: ((n + 50_000) // 100_000) * 100_000
+    bounds = display['outline_nm']
+    x1, x2 = sorted((snap(a[0]), snap(b[0])))
+    y1, y2 = sorted((snap(a[1]), snap(b[1])))
+    # Snapping may not expand beyond the captured board boundary.
+    result = (max(x1,bounds[0]), max(y1,bounds[1]), min(x2,bounds[2]), min(y2,bounds[3]))
+    return list(_rect(result))
