@@ -57,7 +57,7 @@ def need(test, message):
         raise ValueError(message)
 
 
-def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
+def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_initialization=None):
     need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE, THT_BASELINE_SCOPE), 'Unsupported placement scope')
     if scope == DEFAULT_SCOPE:
         selected = SELECTED if selected is None else selected
@@ -68,7 +68,16 @@ def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
     need(type(region_nm) in (list, tuple) and len(region_nm) == 4
          and all(type(value) is int and abs(value) <= 2_000_000_000 for value in region_nm)
          and region_nm[0] < region_nm[2] and region_nm[1] < region_nm[3], 'Explicit integer-nm rectangle required')
-    return dict(scope=scope, selected=list(selected), region_nm=list(region_nm))
+    options = dict(scope=scope, selected=list(selected), region_nm=list(region_nm))
+    if region_initialization is not None:
+        from experiments.constrained_placement_v1 import prototype
+        need(type(region_initialization) is str
+             and region_initialization == prototype.REGION_INITIALIZATION_POLICY,
+             'Explicit supported selected-target region initialization required')
+        need(scope == THT_BASELINE_SCOPE and len(selected) <= 2,
+             'Region initialization requires source-baseline scope and at most two selected footprints')
+        options['region_initialization'] = region_initialization
+    return options
 
 
 def atom(node, name):
@@ -229,8 +238,8 @@ def check_ordinary_zone(expected, observed):
     return observed
 
 
-def facts_from_observation(observation, *, selected=None, region_nm=None, scope=DEFAULT_SCOPE):
-    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+def facts_from_observation(observation, *, selected=None, region_nm=None, scope=DEFAULT_SCOPE, region_initialization=None):
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm,region_initialization=region_initialization)
     selected, region_nm = options['selected'], options['region_nm']
     need((observation.get('scope',DEFAULT_SCOPE)) == scope, 'Observation placement scope differs')
     need(set(selected) <= {r['uuid'] for r in observation['footprints']}, 'Selected stable UUID absent')
@@ -302,7 +311,11 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
         facts.update(schema=3, selected_copper_baseline_policy=constraints.SELECTED_COPPER_BASELINE_POLICY,
                      proxy_anchor_offsets_twice_nm=offsets)
     facts = constraints.prepare(facts)
-    constraints.validate_alternative(facts, constraints.original_alternative(facts))
+    if region_initialization is None:
+        constraints.validate_alternative(facts, constraints.original_alternative(facts))
+    else:
+        from experiments.constrained_placement_v1 import prototype
+        prototype.source_context(facts, region_initialization=region_initialization)
     return facts
 
 
@@ -360,8 +373,8 @@ def _quantized_translation(facts, candidate, *, observation=None):
     return result, moves
 
 
-def translated_tree(raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
-    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+def translated_tree(raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_initialization=None):
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm,region_initialization=region_initialization)
     need(type(moves) is dict and set(moves) == set(options['selected']), 'Exact prospectively selected UUIDs required')
     tree = read_board(raw); known = set()
     for fp in sx.children(tree, 'footprint'):
@@ -385,16 +398,18 @@ def translated_tree(raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm
     return tree
 
 
-def validate_moves(observation, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
+def validate_moves(observation, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_initialization=None):
     """Independently check integer translations against captured source facts."""
     if tht_scope(scope):
         with localcontext(Context(prec=50)):
-            return _validate_moves(observation, moves, scope=scope, selected=selected, region_nm=region_nm)
-    return _validate_moves(observation, moves, scope=scope, selected=selected, region_nm=region_nm)
+            return _validate_moves(observation, moves, scope=scope, selected=selected, region_nm=region_nm,
+                                   region_initialization=region_initialization)
+    return _validate_moves(observation, moves, scope=scope, selected=selected, region_nm=region_nm,
+                           region_initialization=region_initialization)
 
 
-def _validate_moves(observation, moves, *, scope, selected, region_nm):
-    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+def _validate_moves(observation, moves, *, scope, selected, region_nm, region_initialization):
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm,region_initialization=region_initialization)
     need(type(moves) is dict and set(moves) == set(options['selected']), 'Exact prospectively selected UUIDs required')
     facts = facts_from_observation(observation,**options)
     alternative = constraints.original_alternative(facts)
@@ -409,8 +424,8 @@ def _validate_moves(observation, moves, *, scope, selected, region_nm):
     return alternative
 
 
-def check_translation(source_raw, candidate_raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None):
-    options = scope_options(scope=scope,selected=selected,region_nm=region_nm)
+def check_translation(source_raw, candidate_raw, moves, *, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_initialization=None):
+    options = scope_options(scope=scope,selected=selected,region_nm=region_nm,region_initialization=region_initialization)
     validate_moves(inspect_board(source_raw,scope=scope), moves,**options)
     expected = p._without_derived_fill(translated_tree(source_raw, moves,**options))
     actual = p._without_derived_fill(read_board(candidate_raw))

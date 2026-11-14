@@ -22,6 +22,7 @@ SETTINGS_KIND = 'autorouter.selected-placement-settings.v1'
 ORDINARY_SETTINGS_KIND = 'autorouter.selected-placement-settings.v2'
 COPPER_SETTINGS_KIND = 'autorouter.selected-placement-settings.v3'
 GROUP_SETTINGS_KIND = 'autorouter.selected-placement-settings.v4'
+REGION_SETTINGS_KIND = 'autorouter.selected-placement-settings.v5'
 GROUP_POLICY = constraints.RIGID_TRANSLATION_POLICY
 COPPER_POLICY = 'rebuild-affected-unlocked-v1'
 LIMITS = (
@@ -56,8 +57,9 @@ CONTEXT_LIMITS = (
 
 
 def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_policy=None,
-             protected_names=None, protected_route_ids=None, group_policy=None):
-    options = contract.scope_options(scope=scope, selected=selected, region_nm=region_nm)
+             protected_names=None, protected_route_ids=None, group_policy=None, region_initialization=None):
+    extra = {} if region_initialization is None else dict(region_initialization=region_initialization)
+    options = contract.scope_options(scope=scope, selected=selected, region_nm=region_nm, **extra)
     if not (scope == contract.MULTIPAD_SCOPE or contract.ordinary_scope(scope)):
         raise ValueError('Unsupported product placement scope.')
     value = dict(schema=1, kind=SETTINGS_KIND, selected=options['selected'], region_nm=options['region_nm'],
@@ -94,11 +96,30 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
         if copper_policy != COPPER_POLICY:
             raise ValueError('Rigid-group delivery currently requires the explicit affected-net rebuild workflow; protected copper remains fixed.')
         value.update(schema=4, kind=GROUP_SETTINGS_KIND, scope=scope, group_policy=group_policy)
+    if region_initialization is not None:
+        if (scope != contract.THT_BASELINE_SCOPE or group_policy is not None
+                or len(options['selected']) != 2
+                or type(region_initialization) is not str
+                or region_initialization != prototype.REGION_INITIALIZATION_POLICY):
+            raise ValueError('Place into a target region requires two independent selected parts in the Native source-baseline scope.')
+        value.update(schema=5, kind=REGION_SETTINGS_KIND, region_initialization=region_initialization)
     return value
 
 
 def settings_scope(value):
-    return value.get('scope') if value.get('schema') in (2, 3, 4) else contract.MULTIPAD_SCOPE
+    return value.get('scope') if value.get('schema') in (2, 3, 4, 5) else contract.MULTIPAD_SCOPE
+
+
+def region_options(value):
+    """Carry an explicit validated policy without changing legacy option shapes."""
+    return ({'region_initialization': value['region_initialization']}
+            if 'region_initialization' in value else {})
+
+
+def contract_options(value):
+    value = validate_settings(value)
+    return contract.scope_options(scope=settings_scope(value), selected=value['selected'],
+                                  region_nm=value['region_nm'], **region_options(value))
 
 
 def rebuilds_copper(value):
@@ -114,11 +135,13 @@ def validate_settings(value):
     if type(value) is not dict or type(value.get('schema')) is not int:
         raise ValueError('Explicit selected-placement settings are required.')
     kwargs = {}
-    if value['schema'] == 3 or value['schema'] == 4 and any(
+    if value['schema'] == 3 or value['schema'] in (4, 5) and any(
             key in value for key in ('copper_policy', 'protected_names', 'protected_route_ids')):
         kwargs = {key: value.get(key) for key in ('copper_policy', 'protected_names', 'protected_route_ids')}
     if value['schema'] == 4:
         kwargs['group_policy'] = value.get('group_policy')
+    if value['schema'] == 5:
+        kwargs['region_initialization'] = value.get('region_initialization')
     expected = settings(value.get('selected'), value.get('region_nm'), scope=settings_scope(value), **kwargs)
     # Canonical comparison refuses Boolean/integer substitutions and extra tools.
     if constraints.encoded(value) != constraints.encoded(expected):
@@ -295,8 +318,7 @@ def _facts_context(inspection, value, plan, observation):
                 or type(baseline['native']) is not dict
                 or type(baseline['native'].get('blocking')) is not int or baseline['native']['blocking'] != 0):
             raise ValueError('Exact same-source Native inspection with zero blocking findings is required for the selected copper baseline.')
-    result = contract.facts_from_observation(observation, scope=settings_scope(value),
-        selected=value['selected'], region_nm=value['region_nm'])
+    result = contract.facts_from_observation(observation, **contract_options(value))
     if contract.fixed_context_scope(settings_scope(value)):
         if 'native_context' not in inspection or 'annotation_context' not in inspection:
             raise ValueError('Inspect Native placement geometry before proposing this fixed-context task.')
@@ -304,7 +326,10 @@ def _facts_context(inspection, value, plan, observation):
         if result['annotation_context']['scope'] != settings_scope(value):
             raise ValueError('Native annotations differ from the exact reviewed geometry scope.')
         result = constraints.prepare(result)
-        constraints.validate_alternative(result, constraints.original_alternative(result))
+        if region_options(value):
+            prototype.source_context(result, **region_options(value))
+        else:
+            constraints.validate_alternative(result, constraints.original_alternative(result))
     if set(value['selected']) & constraints.immovable(result):
         raise ValueError('Selected components include locked or routed-net components; deselect those components.')
     if len(value['selected']) < 2:
@@ -386,7 +411,7 @@ def propose(inspection, value, *, cancel_event=None):
         current(inspection)
     plan, observation = _effective_context(inspection, value)
     original = _facts(inspection, value, plan, observation)
-    result = prototype.propose(original, **value['search'], cancel_event=cancel_event)
+    result = prototype.propose(original, **value['search'], cancel_event=cancel_event, **region_options(value))
     current(inspection)
     if cancel_event is not None and cancel_event.is_set():
         result['status'] = 'cancelled'; result['alternatives'] = []
@@ -471,10 +496,11 @@ class Review:
         self.edit_many({component: [x, y]})
 
     def edit_many(self, edits):
-        if grouped(self.settings):
-            with localcontext(Context(prec=50)):
-                return self._edit_many(edits)
-        return self._edit_many(edits)
+        # Coordinates use an explicit precision/rounding policy for every scope.
+        # The legacy independent-part API keeps its half-even nm quantization;
+        # an ambient Decimal context must not silently alter the entered intent.
+        with localcontext(Context(prec=50)):
+            return self._edit_many(edits)
 
     def _edit_many(self, edits):
         """Adopt one combined final pose; never expose intermediate moves."""
@@ -507,8 +533,7 @@ class Review:
             delta = next(iter(deltas))
             moves = {key: [anchors[key][i] + delta[i] for i in range(2)] for key in self.settings['selected']}
             group_moves(self.observation, self.settings, moves)
-        pose = contract.validate_moves(self.observation, moves,
-            scope=settings_scope(self.settings), selected=self.settings['selected'], region_nm=self.settings['region_nm'])
+        pose = contract.validate_moves(self.observation, moves, **contract_options(self.settings))
         pose['source_sha256'] = constraints.digest(self.facts)
         self._adopt(pose)
 
@@ -558,8 +583,7 @@ def validate_draft_context(inspection, value):
     selected = validate_settings(value.get('settings'))
     plan, observation = _effective_context(inspection, selected)
     original = _facts(inspection, selected, plan, observation)
-    pose = contract.validate_moves(observation, value.get('moves_nm'),
-        scope=settings_scope(selected), selected=selected['selected'], region_nm=selected['region_nm'])
+    pose = contract.validate_moves(observation, value.get('moves_nm'), **contract_options(selected))
     group_moves(observation, selected, value.get('moves_nm'))
     pose['source_sha256'] = constraints.digest(original)
     constraints.validate_alternative(original, pose)

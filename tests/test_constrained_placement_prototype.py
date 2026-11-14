@@ -29,6 +29,277 @@ def transform(alternative, cid):
     return next(t for t in alternative['transforms'] if t['component_id'] == cid)
 
 
+def region_fixture(*, joint=False):
+    source = fixture()
+    regions = ([[8, 4, 14, 8]] * 2 if joint else
+               [[8, 8, 14, 14], [23, 28, 30, 35]])
+    for component, region in zip(source['components'][1:3], regions):
+        component['allowed_region_mm'] = list(region)
+        component['allowed_rotations_deg'] = [component['rotation_deg']]
+    return source
+
+
+class RegionInitialization(unittest.TestCase):
+    """Finite synthetic initializer controls; no Native/application authority."""
+
+    def propose(self, source, **options):
+        return p.propose(source, steps=20, alternatives=1, seconds=2,
+                         region_initialization=p.REGION_INITIALIZATION_POLICY, **options)
+
+    def assert_no_authority(self, result):
+        for record in (result, result['region_initialization']):
+            for field in ('native_validation_performed', 'execution_authorized', 'approval_granted'):
+                self.assertIs(record[field], False)
+
+    def test_default_target_region_refusal_and_result_shape_are_unchanged(self):
+        source = region_fixture(); before = copy.deepcopy(source)
+        with self.assertRaisesRegex(c.Refused, 'Initially feasible.*allowed region'):
+            p.propose(source)
+        with self.assertRaisesRegex(c.Refused, 'allowed region'):
+            p.source_context(source)
+        self.assertEqual(source, before)
+        result = p.propose(fixture(), steps=1, alternatives=1, seconds=2)
+        self.assertNotIn('region_initialization', result)
+
+    def test_single_selected_source_context_is_original_bound_but_not_a_valid_target(self):
+        source = region_fixture(); source['selected'] = ['selected-b']
+        source['components'][2]['allowed_region_mm'] = [0, 0, 40, 40]
+        before = copy.deepcopy(source)
+        context = p.source_context(source, region_initialization=p.REGION_INITIALIZATION_POLICY)
+        self.assertEqual(context, c.original_alternative(source))
+        self.assertEqual(context['source_sha256'], c.digest(source))
+        with self.assertRaisesRegex(c.Refused, 'allowed region'):
+            c.validate_alternative(source, context)
+        with self.assertRaisesRegex(c.Refused, 'at least two movable'):
+            self.propose(source)
+        self.assertEqual(source, before)
+
+    def test_two_source_regions_seed_then_real_search_preserves_original_facts(self):
+        source = region_fixture(); before = copy.deepcopy(source)
+        result = self.propose(source)
+        self.assertEqual(result['status'], 'proposals_ready')
+        record = result['region_initialization']
+        self.assertEqual(record['status'], 'seed_ready')
+        self.assertEqual(record['candidates_checked'], 1)
+        self.assertIs(record['source_context_only'], True)
+        self.assertIs(record['seed_publicly_validated'], True)
+        self.assertEqual(record['original_facts_sha256'], c.digest(before))
+        self.assertEqual(result['source_sha256'], c.digest(before))
+        self.assertGreater(result['counts']['attempted_moves'], 0)
+        self.assertEqual(c.validate_alternative(source, record['seed']), record['seed'])
+        for item in result['alternatives']:
+            self.assertEqual(c.validate_alternative(source, item['candidate']), item['candidate'])
+        self.assertEqual(source, before)
+        self.assert_no_authority(result)
+
+    def test_joint_seed_resolves_clamp_conflict_deterministically_without_score_gain(self):
+        source = region_fixture(joint=True)
+        clamped = c.original_alternative(source)
+        for identity in source['selected']:
+            transform(clamped, identity).update(x_mm=13, y_mm=7)
+        with self.assertRaisesRegex(c.Refused, 'overlap'):
+            c.validate_alternative(source, clamped)
+        with patch.object(p.Annealer, 'run', return_value=None):
+            first = self.propose(source); second = self.propose(source)
+        self.assertEqual(first['status'], 'proposals_ready')
+        self.assertEqual(first['region_initialization'], second['region_initialization'])
+        self.assertEqual(first['alternatives'], second['alternatives'])
+        record = first['region_initialization']
+        self.assertGreater(record['candidates_checked'], 1)
+        self.assertLessEqual(record['candidates_checked'], 256)
+        self.assertEqual(record['candidate_limit'], p.MAX_REGION_SEED_CANDIDATES)
+        self.assertEqual(c.validate_alternative(source, record['seed']), record['seed'])
+        item = first['alternatives'][0]
+        self.assertEqual(item['candidate'], record['seed'])
+        self.assertEqual(item['before_proxy_cost'], item['after_proxy_cost'])
+        self.assertEqual(first['bounds']['wall_and_cpu_seconds'], 2)
+
+    def test_finite_seed_miss_has_no_alternative_or_application_authority(self):
+        source = region_fixture()
+        for component in source['components'][1:3]:
+            component['allowed_region_mm'] = [8, 4, 10, 6]
+        with patch.object(p.Annealer, 'run') as run:
+            result = self.propose(source)
+        run.assert_not_called()
+        self.assertEqual(result['status'], 'no_feasible_region_seed')
+        self.assertEqual(result['alternatives'], [])
+        self.assertEqual(result['counts']['attempted_alternatives'], 0)
+        record = result['region_initialization']
+        self.assertEqual(record['status'], 'no_feasible_region_seed')
+        self.assertEqual(record['candidates_checked'], 1)
+        self.assertNotIn('seed', record)
+        self.assertIs(record['seed_publicly_validated'], False)
+        self.assertTrue(any('not infeasibility proof' in line for line in result['limits']))
+        self.assert_no_authority(result)
+
+    def test_target_region_cannot_repair_physical_or_unselected_source_conflicts(self):
+        cases = []
+        source = region_fixture(); source['components'][1]['position_mm'] = [0.5, 10]
+        cases.append(('outside rectangular board', source))
+        source = region_fixture(); source['components'][1]['position_mm'] = [34, 28]
+        cases.append(('overlap', source))
+        source = region_fixture(); source['components'][1]['position_mm'] = [16, 16]
+        cases.append(('keepout', source))
+        source = region_fixture(); source['components'][0]['position_mm'] = [0.5, 4]
+        cases.append(('outside rectangular board', source))
+        source = region_fixture(); source['components'][3]['allowed_region_mm'] = [20, 20, 30, 30]
+        cases.append(('allowed region', source))
+        source = region_fixture(); source['components'][1]['allowed_rotations_deg'] = [90]
+        cases.append(('orientation', source))
+        for error, source in cases:
+            before = copy.deepcopy(source)
+            with self.subTest(error=error), patch.object(p.Annealer, 'run') as run:
+                with self.assertRaisesRegex(c.Refused, error):
+                    self.propose(source)
+                run.assert_not_called()
+                self.assertEqual(source, before)
+
+    def test_fixed_locked_tracked_selected_parts_and_larger_or_group_scope_refuse(self):
+        cases = []
+        source = region_fixture(); source['fixed_components'].append('selected-b'); cases.append(source)
+        source = region_fixture(); source['components'][1]['locked'] = True; cases.append(source)
+        source = region_fixture()
+        source['tracks'] = [dict(id='existing-track', net='signal', pad_ids=['selected-b/A7'])]
+        cases.append(source)
+        for source in cases:
+            with self.subTest(source=source):
+                with self.assertRaisesRegex(c.Refused, 'fixed/locked/tracked'):
+                    p.source_context(source, region_initialization=p.REGION_INITIALIZATION_POLICY)
+                with self.assertRaises(c.Refused):
+                    self.propose(source)
+        source = region_fixture(); source['selected'].append('track-anchor')
+        with self.assertRaisesRegex(c.Refused, 'at most two independent'):
+            self.propose(source)
+        source = region_fixture()
+        source['groups'] = [dict(policy=c.RIGID_TRANSLATION_POLICY, members=source['selected'])]
+        with self.assertRaisesRegex(c.Refused, 'at most two independent'):
+            self.propose(source)
+        for policy in (True, '', 'selected-target-region-initialization-v2'):
+            with self.subTest(policy=policy), self.assertRaisesRegex(c.Refused, 'Unsupported region initialization'):
+                p.propose(region_fixture(), region_initialization=policy)
+
+    def test_private_filter_cannot_authorize_an_invalid_chosen_seed(self):
+        source = region_fixture(joint=True)
+        # Deliberately broken private filter accepts the first overlapping clamp.
+        # The independently constructed public validator must reject it before search.
+        with patch.object(p, '_alternative_validator', return_value=copy.deepcopy) as private, \
+                patch.object(p, 'validate_alternative', wraps=c.validate_alternative) as public, \
+                patch.object(p.Annealer, 'run') as run:
+            with self.assertRaisesRegex(c.Refused, 'overlap'):
+                self.propose(source)
+        private.assert_called_once(); run.assert_not_called()
+        chosen = public.call_args.args[1]
+        self.assertEqual(chosen['source_sha256'], c.digest(source))
+        self.assertEqual(transform(chosen, 'selected-b')['x_mm'], 13)
+        self.assertEqual(transform(chosen, 'selected-c')['x_mm'], 13)
+
+    def test_seed_preserves_fixed_poses_angles_sides_and_rotated_dimensions(self):
+        source = region_fixture()
+        source['components'][1].update(size_mm=[4, 2], rotation_deg=90,
+            allowed_rotations_deg=[90], side='back', allowed_sides=['back'],
+            allowed_region_mm=[8, 4, 14, 10])
+        source['components'][2].update(size_mm=[2, 4], rotation_deg=180,
+            allowed_rotations_deg=[180], allowed_region_mm=[22, 22, 28, 28])
+        before = copy.deepcopy(source); original = c.original_alternative(source)
+        with patch.object(p.Annealer, 'run', return_value=None):
+            result = self.propose(source)
+        seed = result['region_initialization']['seed']
+        self.assertEqual((transform(seed, 'selected-b')['x_mm'], transform(seed, 'selected-b')['y_mm']), (13, 8))
+        for component in source['components']:
+            pose = transform(seed, component['id'])
+            self.assertEqual(pose['rotation_deg'], component['rotation_deg'])
+            self.assertEqual(pose['side'], component['side'])
+            if component['id'] in c.immovable(source):
+                self.assertEqual(pose, transform(original, component['id']))
+        self.assertEqual(c.validate_alternative(source, seed), seed)
+        self.assertEqual(seed['source_sha256'], c.digest(before))
+        self.assertEqual(source, before)
+
+    def test_cancellation_during_seed_discards_seed_and_alternatives(self):
+        source = region_fixture(); event = threading.Event()
+        original_factory = p._alternative_validator
+        def factory(facts):
+            validate = original_factory(facts)
+            def cancel_after_validate(candidate):
+                value = validate(candidate); event.set(); return value
+            return cancel_after_validate
+        with patch.object(p, '_alternative_validator', side_effect=factory), \
+                patch.object(p.Annealer, 'run') as run:
+            result = self.propose(source, cancel_event=event)
+        run.assert_not_called()
+        self.assertEqual(result['status'], 'cancelled')
+        self.assertEqual(result['alternatives'], [])
+        self.assertEqual(result['region_initialization']['candidates_checked'], 1)
+        self.assertNotIn('seed', result['region_initialization'])
+        self.assertIs(result['region_initialization']['seed_publicly_validated'], False)
+
+    def test_wall_and_cpu_deadline_during_seed_share_the_two_second_budget(self):
+        original_factory = p._alternative_validator
+        for exhausted_clock in ('wall', 'cpu'):
+            clock = dict(wall=0.0, cpu=0.0)
+            def factory(facts):
+                validate = original_factory(facts)
+                def exhaust_after_validate(candidate):
+                    value = validate(candidate); clock[exhausted_clock] = 2.0; return value
+                return exhaust_after_validate
+            with self.subTest(clock=exhausted_clock), \
+                    patch.object(p.time, 'monotonic', side_effect=lambda: clock['wall']), \
+                    patch.object(p.time, 'process_time', side_effect=lambda: clock['cpu']), \
+                    patch.object(p, '_alternative_validator', side_effect=factory), \
+                    patch.object(p.Annealer, 'run') as run:
+                result = self.propose(region_fixture())
+            run.assert_not_called()
+            self.assertEqual(result['status'], 'budget_exhausted')
+            self.assertEqual(result['alternatives'], [])
+            self.assertEqual(result['bounds']['wall_and_cpu_seconds'], 2)
+            self.assertEqual(result['region_initialization']['candidates_checked'], 1)
+            self.assertNotIn('seed', result['region_initialization'])
+
+    def test_cancel_and_deadlines_during_final_readback_discard_all_proposals(self):
+        for interruption in ('cancelled', 'wall', 'cpu'):
+            event = threading.Event(); clock = dict(wall=0.0, cpu=0.0)
+            state = dict(engine_finished=False, validations_after_engine=0)
+            def finish_engine(engine, **options):
+                state['engine_finished'] = True
+            def validate(facts, candidate):
+                value = c.validate_alternative(facts, candidate)
+                if state['engine_finished']:
+                    state['validations_after_engine'] += 1
+                    if state['validations_after_engine'] == 2:
+                        if interruption == 'cancelled': event.set()
+                        else: clock[interruption] = 2.0
+                return value
+            with self.subTest(interruption=interruption), \
+                    patch.object(p.time, 'monotonic', side_effect=lambda: clock['wall']), \
+                    patch.object(p.time, 'process_time', side_effect=lambda: clock['cpu']), \
+                    patch.object(p, 'validate_alternative', side_effect=validate), \
+                    patch.object(p.Annealer, 'run', finish_engine):
+                result = self.propose(region_fixture(), cancel_event=event)
+            self.assertEqual(state['validations_after_engine'], 2)
+            self.assertEqual(result['status'], 'cancelled' if interruption == 'cancelled' else 'budget_exhausted')
+            self.assertEqual(result['alternatives'], [])
+            self.assertNotIn('seed', result['region_initialization'])
+            self.assertIs(result['region_initialization']['seed_publicly_validated'], False)
+            self.assert_no_authority(result)
+
+    def test_source_mutation_during_final_region_readback_is_refused(self):
+        source = region_fixture(); state = dict(engine_finished=False, validations_after_engine=0)
+        def finish_engine(engine, **options):
+            state['engine_finished'] = True
+        def mutate_on_final_readback(facts, candidate):
+            value = c.validate_alternative(facts, candidate)
+            if state['engine_finished']:
+                state['validations_after_engine'] += 1
+                if state['validations_after_engine'] == 2:
+                    source['components'][1]['position_mm'][0] += 1
+            return value
+        with patch.object(p.Annealer, 'run', finish_engine), \
+                patch.object(p, 'validate_alternative', side_effect=mutate_on_final_readback), \
+                self.assertRaisesRegex(c.Refused, 'changed during final region readback'):
+            self.propose(source)
+        self.assertEqual(state['validations_after_engine'], 2)
+
+
 class ConstrainedPlacementPrototype(unittest.TestCase):
     def test_huge_json_integer_is_a_controlled_refusal(self):
         source = fixture(); source['components'][1]['position_mm'][0] = 10**400

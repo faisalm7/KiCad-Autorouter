@@ -1,6 +1,7 @@
 """Pure placement UI lifecycle/dispatch controls; not actual wx/Native qualification."""
 import ast
 import copy
+from decimal import localcontext
 import hashlib
 import json
 import os
@@ -46,16 +47,50 @@ class PlacementGuiTests(unittest.TestCase):
             cancel_event=threading.Event(), inspection=gate.review.inspection,
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
-            copper_policy=Mock(), rigid_group=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
+            copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
             current_review_settings=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
         window.copper_policy.GetSelection.return_value = 0
         window.rigid_group.GetValue.return_value = False
+        window.target_region.GetValue.return_value = False
         window.rebuild_copper = MethodType(window_method('rebuild_copper'), window)
         window.revoke = MethodType(window_method('revoke'), window)
         window.edit_component = MethodType(window_method('edit_component'), window)
         window.finish_close = MethodType(window_method('finish_close'), window)
         return window
+
+    def test_target_region_is_explicit_and_has_the_same_settings_and_revocation_path(self):
+        from autorouter import placement_intent as intent
+        from experiments.placement_native_proposal_v1 import ordinary_fixture
+        window = self.window()
+        selected = ordinary_fixture.selected()
+        window.inspection = dict(observation=dict(scope=intent.contract.THT_BASELINE_SCOPE),
+            components=[dict(uuid=identity) for identity in selected])
+        window.parts.IsChecked.return_value = True
+        window.region = [Mock() for _ in range(4)]
+        for field, value in zip(window.region, ['14', '8', '22', '13']): field.GetValue.return_value = value
+        plain = window_method('options')(window, validate_geometry=False)
+        self.assertNotIn('region_initialization', plain)
+        window.target_region.GetValue.return_value = True
+        target = window_method('options')(window, validate_geometry=False)
+        self.assertEqual(target['schema'], 5)
+        self.assertEqual(target['region_initialization'], intent.prototype.REGION_INITIALIZATION_POLICY)
+        self.assertEqual(target['region_nm'], plain['region_nm'])
+        self.assertEqual(target['selected'], plain['selected'])
+        # Settings changes use the existing revoke/discard path; never a special
+        # source/constraint-bypassing GUI action.
+        window.updating = False; window.inspection = None
+        window.revoke = Mock()
+        window_method('settings_changed')(window, Mock())
+        window.revoke.assert_called_once_with(discard=True)
+
+    def test_target_region_resets_on_source_change(self):
+        window = self.window(); window.updating = False
+        window.revoke = Mock()
+        window_method('source_changed')(window, Mock())
+        window.target_region.SetValue.assert_called_once_with(False)
+        self.assertIsNone(window.inspection)
+        window.revoke.assert_called_once_with(discard=True)
 
     def test_explicit_literal_ack_and_each_ticket_dependency(self):
         gate = self.gate(); ticket = gate.ticket(); self.assertIsNone(gate.check(ticket))
@@ -87,6 +122,16 @@ class PlacementGuiTests(unittest.TestCase):
         self.assertEqual(pg.mm(-12000001), '-12.000001')
         for value in ('', 'nan', 'Infinity', '1e99', '2000.000001', '0.0000001', 'x', 1, True, '0' * 33):
             with self.subTest(value=value), self.assertRaises(ValueError): pg.millimetres(value)
+
+    def test_region_input_and_saved_coordinate_display_ignore_ambient_decimal_precision(self):
+        for precision in (3, 6, 28):
+            with self.subTest(precision=precision), localcontext() as context:
+                context.prec = precision
+                self.assertEqual(pg.millimetres('16.123456'), 16123456)
+                self.assertEqual(pg.mm(16123456), '16.123456')
+                self.assertEqual(pg.mm(-16123456), '-16.123456')
+                with self.assertRaises(ValueError): pg.millimetres('16.1234561')
+                with self.assertRaises(ValueError): pg.millimetres('2000.000001')
 
     def test_compact_component_labels_keep_complete_reasons_in_findings(self):
         row = dict(reference='J4', fixed_reasons=['Shares a net with existing copper'])

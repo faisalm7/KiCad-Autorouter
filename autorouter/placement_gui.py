@@ -28,16 +28,18 @@ def millimetres(text):
         value = Decimal(text)
         if not value.is_finite() or abs(value) > 2000:
             raise ValueError('Coordinates must be finite and within ±2000 mm.')
-        scaled = value * 1000000
-        if scaled != scaled.to_integral_value():
-            raise ValueError('Use at most nanometre coordinate precision.')
-        return int(scaled)
+        # Use the shared exact decimal-tuple parser, independent of ambient
+        # arithmetic precision. Fractional nm must not disappear by rounding.
+        return intent.contract.pt.nm(text, 1000000)
     except InvalidOperation as exc:
         raise ValueError('Enter a decimal coordinate in millimetres.') from exc
 
 
 def mm(value):
-    return format(Decimal(value) / 1000000, 'f')
+    if type(value) is not int or abs(value) > 2_000_000_000:
+        raise ValueError('An exact bounded nanometre coordinate is required.')
+    whole, fraction = divmod(abs(value), 1000000)
+    return ('-' if value < 0 else '') + str(whole) + ('.' + str(fraction).zfill(6).rstrip('0') if fraction else '')
 
 
 ROUTED_REASON = 'Shares a net with existing copper'
@@ -86,7 +88,7 @@ def copper_findings(plan):
         + 'Unrelated and locked copper stays unchanged. This plan is not approval to execute or accept a board.')
 
 
-def placement_limits(inspection, *, rebuild=False, grouped=False):
+def placement_limits(inspection, *, rebuild=False, grouped=False, region_initialization=False):
     limits = inspection.get('limitations', intent.LIMITS)
     if grouped:
         limits = [row.replace('Groups, flips,', 'Flips,').replace('No grouping, side/', 'No side/')
@@ -98,6 +100,10 @@ def placement_limits(inspection, *, rebuild=False, grouped=False):
     if grouped:
         result.append('Rigid selected group: all selected parts share one exact translation; spacing, angles and sides stay fixed. '
                       'Only the explicit affected-net rebuild workflow is supported; other grouping modes remain unsupported.')
+    if region_initialization:
+        result.append('Place into the target rectangle: a bounded joint initialization may move two selected parts from outside it. '
+                      'The source must remain physically valid; every proposed final pose obeys the rectangle, fixed parts, copper and annotation constraints. '
+                      'Initialization and optimization share the same 2-second search budget; a seed is not electrical approval or a quality improvement.')
     return result
 
 
@@ -264,6 +270,10 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 grid.Add(wx.StaticText(panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
                 field = wx.TextCtrl(panel, size=(130, -1)); self.region.append(field); grid.Add(field, 1, wx.EXPAND)
             left.Add(grid, 0, wx.EXPAND)
+            self.target_region = wx.CheckBox(panel, label='Place selected parts into this rectangle')
+            left.Add(self.target_region, 0, wx.TOP, 8)
+            target_hint = wx.StaticText(panel, label='Two parts may start outside it. Fixed parts, protected copper and all final checks stay enforced. No repair of an invalid source board.')
+            target_hint.Wrap(310); left.Add(target_hint, 0, wx.TOP, 4)
             presetrow = wx.BoxSizer(wx.HORIZONTAL)
             self.load = wx.Button(panel, label='Load settings…'); self.save = wx.Button(panel, label='Save settings…')
             presetrow.Add(self.load, 0, wx.RIGHT, 6); presetrow.Add(self.save)
@@ -303,7 +313,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             self.findings = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 150))
             root.Add(self.findings, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 14)
             panel.SetSizer(root)
-            self.input_controls = [self.board, self.browse, self.inspect, self.parts, self.copper_policy, self.rigid_group,
+            self.input_controls = [self.board, self.browse, self.inspect, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.ack, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
@@ -311,6 +321,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             self.parts.Bind(wx.EVT_CHECKLISTBOX, self.settings_changed)
             self.copper_policy.Bind(wx.EVT_CHOICE, self.policy_changed)
             self.rigid_group.Bind(wx.EVT_CHECKBOX, self.settings_changed)
+            self.target_region.Bind(wx.EVT_CHECKBOX, self.settings_changed)
             self.protection.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
             for field in (self.protected_names, self.protected_route_ids): field.Bind(wx.EVT_TEXT, self.settings_changed)
             for field in self.region: field.Bind(wx.EVT_TEXT, self.settings_changed)
@@ -339,6 +350,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             baseline_scope = (self.inspection is not None
                 and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
             self.rigid_group.Enable(not self.busy and not baseline_scope)
+            self.target_region.Enable(not self.busy and baseline_scope)
             for control in (self.protected_names, self.protected_route_ids):
                 control.Enable(not self.busy and self.copper_policy.GetSelection() == 1)
             self.find.Enable(not self.busy and self.inspection is not None)
@@ -384,6 +396,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
 
         def source_changed(self, event):
             if not self.updating:
+                self.target_region.SetValue(False)
                 self.inspection = None; self.parts.Set([]); self.revoke(discard=True)
                 self.message('Source changed. Inspect this saved project before requesting placement.')
             event.Skip()
@@ -436,6 +449,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     protected_route_ids=[identity for identity in self.protected_route_ids.GetValue().splitlines() if identity])
             if self.rigid_group.GetValue():
                 protection['group_policy'] = intent.GROUP_POLICY
+            if self.target_region.GetValue():
+                protection['region_initialization'] = intent.prototype.REGION_INITIALIZATION_POLICY
             value = intent.settings(selected, [millimetres(field.GetValue()) for field in self.region],
                 scope=self.inspection['observation']['scope'], **protection)
             if validate_geometry:
@@ -485,6 +500,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 self.inspection = value
                 if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
                     self.rigid_group.SetValue(False)
+                else:
+                    self.target_region.SetValue(False)
                 rebuild = self.rebuild_copper()
                 self.parts.Set([component_label(row, rebuild=rebuild) for row in value['components']])
                 self.findings.SetValue('\n'.join(placement_limits(value, rebuild=rebuild))
@@ -525,13 +542,15 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 try:
                     self.copper_policy.SetSelection(1 if intent.rebuilds_copper(value) else 0)
                     self.rigid_group.SetValue(intent.grouped(value))
+                    self.target_region.SetValue(bool(intent.region_options(value)))
                     self.protected_names.ChangeValue('\n'.join(value.get('protected_names', [])))
                     self.protected_route_ids.ChangeValue('\n'.join(value.get('protected_route_ids', [])))
                     self.parts.Set([component_label(row, rebuild=intent.rebuilds_copper(value)) for row in self.inspection['components']])
                     for i, row in enumerate(self.inspection['components']): self.parts.Check(i, row['uuid'] in value['selected'])
                     for field, coordinate in zip(self.region, value['region_nm']): field.ChangeValue(mm(coordinate))
                 finally: self.updating = False
-                self.findings.SetValue('\n'.join(placement_limits(captured, rebuild=intent.rebuilds_copper(value), grouped=intent.grouped(value)))
+                self.findings.SetValue('\n'.join(placement_limits(captured, rebuild=intent.rebuilds_copper(value), grouped=intent.grouped(value),
+                    region_initialization=bool(intent.region_options(value))))
                     + '\n\nComponents\n' + component_findings(captured, rebuild=intent.rebuilds_copper(value)))
                 self.refresh()
                 self.message('Placement settings loaded. Constraints and fixed components were checked; no operation started.'
@@ -556,6 +575,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                             'budget_exhausted': 'The placement search reached its time limit. No draft was kept; your project is unchanged.',
                             'no_changed_alternative': 'No changed placement passed the current constraints. This does not prove that no solution exists. For a rigid group, Review current group arrangement allows explicit manual repositioning; your project is unchanged.',
                             'cancelled': 'Placement search cancelled. No draft was kept; your project is unchanged.',
+                            'no_feasible_region_seed': 'No placement inside the target rectangle passed the bounded search. Choose another rectangle or review the reported constraints. This is not proof that no solution exists. Your project is unchanged.',
                         }.get(proposal['search']['status'], 'Placement search returned an unsupported result; no draft was adopted.')
                         raise ValueError(message)
                     review = intent.Review(proposal); self.current_review_settings(review)
@@ -639,7 +659,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             rebuild = review.copper_plan is not None
             self.findings.SetValue(findings + '\n' + copper_findings(review.copper_plan)
                 + '\nNo electrical or manufacturing approval is granted.\n\n'
-                + '\n'.join(placement_limits(review.inspection, rebuild=rebuild, grouped=intent.grouped(review.settings)))
+                + '\n'.join(placement_limits(review.inspection, rebuild=rebuild, grouped=intent.grouped(review.settings),
+                    region_initialization=bool(intent.region_options(review.settings))))
                 + '\n\nComponents\n' + component_findings(review.inspection, rebuild=rebuild))
             self.refresh(); self.layout_panel()
 

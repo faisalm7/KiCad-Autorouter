@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "utc": "2026-11-14T05:49:46.935462+00:00",
+  "status": "source_implemented_reviewed_targeted_controls_passed_pending_installed_Native_GUI",
+  "stable_candidate": "runtime094 / actualGUI118; immutable and unchanged",
+  "failure": "Selected components outside a newly requested destination region were refused before search even when a valid target passed the existing public validator.",
+  "mechanism": "Opt-in finite joint target initialization, then reuse the pinned MIT KiCad-Autoplace annealer; not a new placement/routing engine.",
+  "policy": "selected-target-region-initialization-v1",
+  "settings_schema": 5,
+  "limits": {
+    "selected_components": 2,
+    "scope": "ordinary-tht-source-baseline-v1",
+    "groups": false,
+    "orientation": "preserve",
+    "side": "preserve",
+    "source_native_blocking": 0,
+    "source_physical_repair": false,
+    "unplaced_outside_board_support": false,
+    "seed_candidates_maximum": 256,
+    "search_total_seconds": 2,
+    "default_behavior_unchanged": true
+  },
+  "source_check": "Only the explicitly selected destination regions are replaced by board bounds for source-context validation. All other original checks remain. The returned source pose is not a valid target or approval.",
+  "target_check": "Every chosen joint seed passes the unchanged public final-target validator before annealing; completed alternatives and integer-nm moves are checked independently again. Fixed geometry, protected copper, annotation context and Native/original-design checks remain mandatory.",
+  "candidate_policy": "First fully valid finite joint seed, not a score-based winner; bounded search may miss feasible arrangements and does not prove infeasibility. No source writes or execution/approval authority.",
+  "bindings": "Explicit policy survives settings, proposal/draft, Native request/readback and original-to-final copper audit; missing, unknown, mixed or changed policy refuses. Ordinary GUI/structured tools share implementation.",
+  "related_correctness_fix": {
+    "finding": "Pre-existing ambient Decimal context could change typed coordinates; reproduced44nm difference at precision6.",
+    "manual_edits": "Fixed independent precision50/half-even context preserves existing nm quantization semantics.",
+    "region_input_and_display": "Reuse exact decimal-tuple nm parser and integer formatting; fractional nm cannot disappear under low precision."
+  },
+  "targeted": {
+    "controls": 238,
+    "passed": true,
+    "wall_seconds": 23.547841708001215,
+    "full_CPU_seconds": 23.225751,
+    "receipt": ".runs/placement095-product-targeted-003/execution.json",
+    "receipt_sha256": "3a8bd39f99d00b8ec2d4eada0b38d408da46a3a79af11d92059f40470ee2b771",
+    "overlap_with_prior_module_executions": true
+  },
+  "retained_iteration": {
+    "failed_controls": 73,
+    "errors": 1,
+    "reason": "Protected-copper tamper correctly raised pipeline.Rejected; new test incorrectly expected ValueError. Fixed test asserts actual protected-route rejection; no production weakening.",
+    "receipt": ".runs/placement095-product-targeted-001/execution.json",
+    "wall_seconds": 6.458782667003106,
+    "full_CPU_seconds": 6.274237,
+    "focused_correction_receipt": ".runs/placement095-product-targeted-002/execution.json"
+  },
+  "skeptical": {
+    "closure": ".runs/placement095-region-skeptical-001/closure.json",
+    "closure_sha256": "73df77e1f9da1d7158a2d9bd254527479931663b409da9af77c1707cf79b0eec",
+    "reported_findings_resolved": true,
+    "narrow_AI_review_not_human_PCB_review": true
+  },
+  "source_sha256": {
+    "experiments/constrained_placement_v1/prototype.py": "4c163f500b8cc114728208f314d090318827ff56cba482f0e633a84de066e588",
+    "experiments/placement_native_proposal_v1/contract.py": "feb343cad7a1ddc2e2850428625b2dae598cfaa1ec94b33987a52dde6af91108",
+    "experiments/placement_native_proposal_v1/worker.py": "8f347a914bf852ff0347249d0aade23c2f228728b295bc83f884cc3e3fed9ca1",
+    "autorouter/placement_intent.py": "0b7738ca74d0d9c9960b8afb9aba4fcedbf470d31685a6f372c43155f9cd065b",
+    "autorouter/placement_copper.py": "509f2aecb51e16d7817625ab78e8dc21d2efeaa52dbe560e35474ba52f736358",
+    "autorouter/placement.py": "e35431764da671171090f8c41ab933858181a1637a529c0ea0336c17430dac84",
+    "autorouter/placement_gui.py": "7ce6bbb3eb9ef6820993ec9acd52431548f510d111ad3e9bdb61aeee1729d65d",
+    "autorouter/placement_transform.py": "d8a890dc1d71cc0c9b4001edb82b5647b471803490998c4efd986e2f3e230b36"
+  },
+  "qualification": {
+    "actual_installed_task": false,
+    "actual_GUI": false,
+    "Native_calls": 0,
+    "full_regression_pending": true,
+    "source_tests_not_placement_quality": true
+  },
+  "accounting": "Preparation, failed controls, repeated overlapping controls, authoring and AI review are additional. No total-cost, runtime-speedup, electrical or human-cleanup claim. Application model calls and external spend are zero.",
+  "private_receipts": [
+    ".runs/placement095-feasible-start-assessment-001/review.json",
+    ".runs/placement095-region-initializer-001/protocol.json",
+    ".runs/placement095-region-initializer-001/prototype-tests-001.json",
+    ".runs/placement095-region-skeptical-001/review.json",
+    ".runs/placement095-region-skeptical-001/closure.json"
+  ],
+  "historical_failures_unchanged": true,
+  "current_candidate_rebuilt": false,
+  "model_calls": 0,
+  "human_PCB_approval": false,
+  "overall_product_complete": false
+}

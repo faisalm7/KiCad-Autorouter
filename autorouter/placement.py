@@ -99,7 +99,7 @@ def _paths(output, binding):
 
 def _options(binding):
     value = intent.validate_settings(binding['intent']['settings'])
-    return contract.scope_options(scope=intent.settings_scope(value), selected=value['selected'], region_nm=value['region_nm'])
+    return intent.contract_options(value)
 
 
 def _prepared_source(binding, raw):
@@ -173,7 +173,7 @@ def _request(binding, work, name, board, candidate, hashes):
         job=str(work), job_identity=[st.st_dev, st.st_ino], application_policy='source-translation-v1',
         runtime_manifest_sha256=binding['runtime_manifest_sha256'], wrapper_sha256=binding['wrapper_sha256'],
         code_sha256=binding['code_sha256'], placement_scope=options['scope'], selected_footprints=options['selected'],
-        allowed_region_nm=options['region_nm'])
+        allowed_region_nm=options['region_nm'], **intent.region_options(options))
 
 
 def _argv(work, name):
@@ -288,7 +288,8 @@ def proof(output, binding, data, *, replay=False):
     need(pc.read_bytes(prepared, contract.MAX_BYTES) == prepared_raw
          and gui.source_inventory(prepared) == prepared_hashes, 'prepared source/sidecars differ')
     immutable = (contract.check_translation(before, after, moves, **options) if plan is None else
-        copper.audit_translation(before, after, plan, moves, scope=options['scope'], region_nm=options['region_nm']))
+        copper.audit_translation(before, after, plan, moves, scope=options['scope'], region_nm=options['region_nm'],
+                                 **intent.region_options(options)))
     need(immutable == data['immutable_check'], 'immutable design differs')
     group_check = intent.group_candidate(before, after, binding['intent']['settings'], moves)
     need((data.get('group_check') == group_check if group_check is not None else 'group_check' not in data),
@@ -324,6 +325,8 @@ def proof(output, binding, data, *, replay=False):
              and observed['application_policy'] == 'source-translation-v1'
              and observed['placement_scope'] == options['scope'] and observed['selected_footprints'] == options['selected']
              and observed['allowed_region_nm'] == options['region_nm']
+             and ('region_initialization' in observed) == ('region_initialization' in options)
+             and observed.get('region_initialization') == options.get('region_initialization')
              and observed['candidate'] == (str(candidate) if translating else None)
              and observed['observation'] == contract.inspect_board(observed_raw, scope=options['scope']),
              'Native observation differs: ' + name)
@@ -427,7 +430,8 @@ def _worker(output, binding_sha):
         record['refill_transplant'] = contract.check_refill_reconstruction(before, filled, after)
         options = _options(binding); moves = binding['intent']['moves_nm']
         record['immutable_check'] = (contract.check_translation(original_raw, after, moves, **options) if plan is None else
-            copper.audit_translation(original_raw, after, plan, moves, scope=options['scope'], region_nm=options['region_nm']))
+            copper.audit_translation(original_raw, after, plan, moves, scope=options['scope'], region_nm=options['region_nm'],
+                                     **intent.region_options(options)))
         group_check = intent.group_candidate(original_raw, after, binding['intent']['settings'], moves)
         if group_check is not None:
             record['group_check'] = group_check
@@ -597,7 +601,7 @@ def _routing_task(witness, settings, method, candidate=None):
             binding['intent']['settings'], binding['intent']['moves_nm'])
         audit = copper.audit_routed(raw, pc.read_bytes(candidate, contract.MAX_BYTES), plan,
             binding['intent']['moves_nm'], scope=intent.settings_scope(binding['intent']['settings']),
-            region_nm=binding['intent']['settings']['region_nm'])
+            region_nm=binding['intent']['settings']['region_nm'], **intent.region_options(binding['intent']['settings']))
         need(gui.source_inventory(candidate) == before, 'composed candidate changed during audit')
         local_settings.check_current_metadata(candidate.with_suffix('.kicad_prl'))
         return audit

@@ -175,11 +175,12 @@ def prepare(source_bytes, plan):
     return _prepared(source_bytes, plan)[0]
 
 
-def _pose(source_bytes, plan, moves, *, scope, region_nm):
+def _pose(source_bytes, plan, moves, *, scope, region_nm, region_initialization=None):
     prepared, checked = _prepared(source_bytes, plan)
     if any(c.fixed_context_scope(value) for value in (scope, checked['source_scope'])) and scope != checked['source_scope']:
         raise ValueError('Placement scope differs from the exact reviewed copper plan')
-    options = c.scope_options(scope=scope, selected=checked['selected'], region_nm=region_nm)
+    options = c.scope_options(scope=scope, selected=checked['selected'], region_nm=region_nm,
+                              region_initialization=region_initialization)
     c.validate_moves(c.inspect_board(prepared, scope=scope), moves, **options)
     return prepared, c.translated_tree(prepared, moves, **options), options, checked
 
@@ -192,22 +193,24 @@ def _audit_record(source_bytes, candidate_bytes, plan, moves, options, stage):
         native_validation_performed=False)
 
 
-def audit_translation(source_bytes, candidate_bytes, plan, moves, *, scope, region_nm):
+def audit_translation(source_bytes, candidate_bytes, plan, moves, *, scope, region_nm, region_initialization=None):
     """Check only planned copper removal, selected XY and derived zone refill."""
     moves = copy.deepcopy(moves)
     prepared, captured = _prepared(source_bytes, plan)
     if any(c.fixed_context_scope(value) for value in (scope, captured['source_scope'])) and scope != captured['source_scope']:
         raise ValueError('Placement scope differs from the exact reviewed copper plan')
-    options = c.scope_options(scope=scope, selected=captured['selected'], region_nm=region_nm)
+    options = c.scope_options(scope=scope, selected=captured['selected'], region_nm=region_nm,
+                              region_initialization=region_initialization)
     checked = c.check_translation(prepared, candidate_bytes, moves, **options)
     return dict(_audit_record(source_bytes, candidate_bytes, captured, moves, options, 'translation'),
                 translation=checked)
 
 
-def audit_routed(source_bytes, candidate_bytes, plan, moves, *, scope, region_nm):
+def audit_routed(source_bytes, candidate_bytes, plan, moves, *, scope, region_nm, region_initialization=None):
     """Check posed task through selected-net preservation; not DRC acceptance."""
     moves = copy.deepcopy(moves)
-    _, posed, options, captured = _pose(source_bytes, plan, moves, scope=scope, region_nm=region_nm)
+    _, posed, options, captured = _pose(source_bytes, plan, moves, scope=scope, region_nm=region_nm,
+                                       region_initialization=region_initialization)
     checked = rs.audit(posed, c.read_board(candidate_bytes), captured['incident_names'])
     return dict(_audit_record(source_bytes, candidate_bytes, captured, moves, options, 'routed'),
                 routing_scope=checked)

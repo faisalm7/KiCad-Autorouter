@@ -1,11 +1,14 @@
 """Bounded candidate proposer using the pinned upstream annealer, never a writer.
 
-Only rectangular, initially feasible, explicitly selected placement is admitted.
+Rectangular selected placement normally requires a feasible start. An explicit
+bounded region-only initializer may first supply a fully checked target pose.
 The host adds constraint rejection/rollback and cooperative resource checks; the
 upstream move generation, random sequence, cooling and objective remain reused.
 No KiCad, shell, network, model, subprocess or filesystem operations occur here.
 """
+import copy
 import dataclasses
+import itertools
 from decimal import Context, Decimal, localcontext
 import threading
 import time
@@ -19,6 +22,8 @@ UPSTREAM_COMMIT = '12bb5556fc5c1db287285425aea49a1d79dc8ffa'
 MAX_STEPS = 1000
 MAX_ALTERNATIVES = 3
 MAX_SECONDS = 5.0
+REGION_INITIALIZATION_POLICY = 'selected-target-region-initialization-v1'
+MAX_REGION_SEED_CANDIDATES = 256
 
 
 class _Stopped(Exception):
@@ -28,6 +33,70 @@ class _Stopped(Exception):
 def _integer(value, low, high, name):
     if type(value) is not int or not low <= value <= high:
         raise Refused(name + ': bounded exact integer required')
+
+
+def source_context(source, *, region_initialization=None):
+    """Check source context and return its original pose, never target authority.
+
+    Only an explicit policy may treat the selected target region as distinct
+    from source legality. The returned pose still binds the ORIGINAL facts and
+    can remain outside that target region; callers must validate actual targets.
+    """
+    facts = prepare(source)
+    original = original_alternative(facts)
+    if region_initialization is None:
+        return validate_alternative(facts, original)
+    if type(region_initialization) is not str or region_initialization != REGION_INITIALIZATION_POLICY:
+        raise Refused('Unsupported region initialization policy')
+    if len(facts['selected']) > 2 or facts['groups']:
+        raise Refused('Region initialization requires at most two independent selected components')
+    if set(facts['selected']) & immovable(facts):
+        raise Refused('Region initialization cannot move fixed/locked/tracked components')
+    context = copy.deepcopy(facts)
+    for component in context['components']:
+        if component['id'] in facts['selected']:
+            component['allowed_region_mm'] = list(facts['board']['bounds_mm'])
+    # Keep every other source constraint, including schema3's existing exact
+    # selected-copper exception. This is NOT a validated final target pose.
+    validate_alternative(context, original_alternative(context))
+    return original
+
+
+def _region_seed(facts, initial, validate, check, record):
+    """First valid finite joint target; no score-based choice or source repair."""
+    components = {row['id']: row for row in facts['components']}
+    options = []
+    board = facts['board']['bounds_mm']; gap = facts['clearance_mm']
+    for identity in facts['selected']:
+        check(); row = components[identity]; width, height = row['size_mm']
+        if row['rotation_deg'] in (90, 270): width, height = height, width
+        axes = []
+        for axis, extent in enumerate((width, height)):
+            low = max(row['allowed_region_mm'][axis], board[axis] + gap) + extent/2
+            high = min(row['allowed_region_mm'][axis+2], board[axis+2] - gap) - extent/2
+            if low > high: return None
+            values = [min(high, max(low, row['position_mm'][axis])), (low+high)/2, low, high]
+            axes.append(list(dict.fromkeys(values)))
+        options.append(list(itertools.product(*axes)))
+    for positions in itertools.product(*options):
+        check(); record['candidates_checked'] += 1
+        assert record['candidates_checked'] <= MAX_REGION_SEED_CANDIDATES
+        candidate = copy.deepcopy(initial)
+        targets = dict(zip(facts['selected'], positions))
+        for row in candidate['transforms']:
+            if row['component_id'] in targets:
+                row['x_mm'], row['y_mm'] = targets[row['component_id']]
+        try:
+            validate(candidate)
+        except Refused:
+            check(); continue
+        check()
+        candidate = validate_alternative(facts, candidate)  # Independent chosen-seed fence.
+        check()
+        record['seed_publicly_validated'] = True
+        record['seed'] = copy.deepcopy(candidate)
+        return candidate
+    return None
 
 
 def _model(facts):
@@ -157,7 +226,8 @@ class _ConstrainedAnnealer(Annealer):
         return self._move(super()._try_swap)
 
 
-def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_event=None):
+def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_event=None,
+            region_initialization=None):
     """Return at most three independently valid, source-bound transform alternatives.
 
     Deadline/cancellation checks run before and after each bounded upstream move
@@ -174,6 +244,9 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
         raise Refused('seconds: finite 0.01..5 cooperative budget required')
     if cancel_event is not None and type(cancel_event) is not threading.Event:
         raise Refused('A threading.Event cancellation token is required')
+    if region_initialization is not None and (type(region_initialization) is not str
+            or region_initialization != REGION_INITIALIZATION_POLICY):
+        raise Refused('Unsupported region initialization policy')
 
     def check():
         if cancel_event is not None and cancel_event.is_set():
@@ -186,16 +259,23 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
     initial = original_alternative(facts)
     # A deliberate first-scope limit: no heuristic repair of initially illegal
     # rectangles, or moving a component through a prohibited placement region.
-    try:
-        validate_alternative(facts, initial)
-    except Refused as exc:
-        raise Refused('Initially feasible rectangular placement required: ' + str(exc)) from exc
+    if region_initialization is None:
+        try:
+            validate_alternative(facts, initial)
+        except Refused as exc:
+            raise Refused('Initially feasible rectangular placement required: ' + str(exc)) from exc
     free_count = len(facts['components']) - len(immovable(facts))
     if free_count < 2:
         raise Refused('Pinned upstream annealer requires at least two movable components')
     found, fingerprints = [], set()
     counts = dict(attempted_moves=0, constraint_rejected_moves=0, attempted_alternatives=0)
     status = 'no_changed_alternative'
+    initialization = (dict(policy=region_initialization, status='not_started',
+        source_context_only=True, original_facts_sha256=initial['source_sha256'],
+        candidates_checked=0, candidate_limit=MAX_REGION_SEED_CANDIDATES,
+        seed_publicly_validated=False, native_validation_performed=False,
+        execution_authorized=False, approval_granted=False) if region_initialization is not None else None)
+    start_pose = initial
     try:
         check()
         # Keep preparation private to this search; the independent public
@@ -203,9 +283,26 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
         validate_move = _alternative_validator(facts)
         source_sha256 = digest(facts)
         check()
-        for index in range(alternatives):
+        if region_initialization is not None:
+            initialization['status'] = 'checking_source'
+            source_context(facts, region_initialization=region_initialization)
+            check()
+            try:
+                validate_alternative(facts, initial)
+                initialization['status'] = 'already_feasible'
+            except Refused:
+                check()
+                start_pose = _region_seed(facts, initial, validate_move, check, initialization)
+                initialization['status'] = 'seed_ready' if start_pose is not None else 'no_feasible_region_seed'
+            check()
+        for index in range(alternatives if start_pose is not None else 0):
             check(); counts['attempted_alternatives'] += 1
-            board = _model(facts); static = _engine_facts(board)
+            board = _model(facts)
+            if region_initialization is not None:
+                for transform in start_pose['transforms']:
+                    component = board.components[transform['component_id']]
+                    component.x, component.y, component.rot = transform['x_mm'], transform['y_mm'], transform['rotation_deg']
+            static = _engine_facts(board)
             engine = _ConstrainedAnnealer(board, facts, seed + index, check, counts,
                                          validator=validate_move, source_sha256=source_sha256)
             before_quality = engine._quality()
@@ -220,20 +317,31 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
                 found.append(dict(candidate=candidate, seed=seed + index,
                                   before_proxy_cost=before_quality, after_proxy_cost=engine._quality()))
             check()
-        status = 'proposals_ready' if found else 'no_changed_alternative'
+        status = ('no_feasible_region_seed' if start_pose is None else
+                  'proposals_ready' if found else 'no_changed_alternative')
     except _Stopped as exc:
         status = str(exc); found = []
+        if initialization is not None:
+            initialization['status'] = status
+            initialization.pop('seed', None); initialization['seed_publicly_validated'] = False
     if encoded(source) != original_bytes:
         raise Refused('Caller source facts changed during search')
     # Validate every output again independently after the whole search.
-    for item in found:
-        validate_alternative(facts, item['candidate'])
+    try:
+        for item in found:
+            if region_initialization is not None: check()
+            validate_alternative(facts, item['candidate'])
+            if region_initialization is not None: check()
+    except _Stopped as exc:
+        status = str(exc); found = []
+    if region_initialization is not None and encoded(source) != original_bytes:
+        raise Refused('Caller source facts changed during final region readback')
     wall, cpu = time.monotonic() - started, time.process_time() - cpu_started
     if wall >= seconds or cpu >= seconds:
         status = 'budget_exhausted'; found = []
     if cancel_event is not None and cancel_event.is_set():
         status = 'cancelled'; found = []
-    return dict(schema=1, kind='constrained-placement-engine-only-prototype', status=status,
+    result = dict(schema=1, kind='constrained-placement-engine-only-prototype', status=status,
                 source_sha256=digest(facts), upstream_commit=UPSTREAM_COMMIT,
                 alternatives=found, bounds=dict(seed=seed, steps_per_alternative=steps,
                     alternatives=alternatives, wall_and_cpu_seconds=seconds),
@@ -248,3 +356,13 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
                          if facts['groups'] else 'No side flips, polygons, cutouts, rigid groups or initially infeasible placement.'),
                         'The reused objective conservatively penalizes rectangle proximity across both sides.',
                         'No changed alternative is not a proof of infeasibility; no full-board or live application.'])
+    if initialization is not None:
+        if status in ('cancelled', 'budget_exhausted'):
+            initialization.update(status=status, seed_publicly_validated=False)
+            initialization.pop('seed', None)
+        result['region_initialization'] = initialization
+        result['limits'][3] = ('Explicit region-only initialization for at most two independent selected parts; '
+            'physical source conflicts are not repaired. A finite seed miss is not infeasibility proof.')
+        result['limits'].append('Initialization and optimization share the same time budget. A region-valid '
+            'automatic seed is a proposal, not proof of Native legality or improved electrical placement.')
+    return result

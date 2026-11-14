@@ -20,10 +20,17 @@ def request_scope(spec, contract):
     keys = {'placement_scope','selected_footprints','allowed_region_nm'}
     present = set(spec) & keys
     contract.need(not present or present == keys, 'Complete explicit placement scope required')
+    contract.need('region_initialization' not in spec or present == keys,
+                  'Region initialization requires complete explicit placement scope')
     if not present:return contract.scope_options()
     contract.need(type(spec['selected_footprints']) is list and type(spec['allowed_region_nm']) is list,
                   'JSON selected UUID list and region list required')
-    return contract.scope_options(scope=spec['placement_scope'],selected=spec['selected_footprints'],region_nm=spec['allowed_region_nm'])
+    extra = {}
+    if 'region_initialization' in spec:
+        contract.need(type(spec['region_initialization']) is str, 'Explicit region initialization literal required')
+        extra['region_initialization'] = spec['region_initialization']
+    return contract.scope_options(scope=spec['placement_scope'],selected=spec['selected_footprints'],
+                                  region_nm=spec['allowed_region_nm'],**extra)
 
 
 def capture(native, pcbnew, raw, contract, fc, *, scope='single-pad-unrouted-v1'):
@@ -132,7 +139,8 @@ def main(argv=None):
     spec = f.read_json(request)
     fields = {'schema','mode','board','source_hashes','candidate','moves_nm','job','job_identity','application_policy',
               'runtime_manifest_sha256','wrapper_sha256','code_sha256'}
-    need(set(spec) in (fields, fields|{'placement_scope','selected_footprints','allowed_region_nm'}), 'Exact worker request required')
+    geometry = {'placement_scope','selected_footprints','allowed_region_nm'}
+    need(set(spec) in (fields, fields|geometry, fields|geometry|{'region_initialization'}), 'Exact worker request required')
     options = request_scope(spec,contract); scope = options['scope']
     need(type(spec['schema']) is int and spec['schema'] == 1 and spec['mode'] in ('capture', 'translate'), 'Worker mode/schema differs')
     policy = contract.application_policy(spec['application_policy'])
@@ -163,6 +171,8 @@ def main(argv=None):
                   placement_scope=scope, selected_footprints=options['selected'],allowed_region_nm=options['region_nm'],
                   candidate=str(candidate) if candidate is not None else None,
                   candidate_hashes_before=pc.inventory(candidate.parent) if candidate is not None else None)
+    if 'region_initialization' in options:
+        record['region_initialization'] = options['region_initialization']
     try:
         fresh()
         import pcbnew, _pcbnew
