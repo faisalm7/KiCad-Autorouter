@@ -1,0 +1,257 @@
+{
+  "schema": 1,
+  "utc": "2026-11-14T03:37:33.241880+00:00",
+  "status": "bounded_Native_comparison_completed_without_completion_gain",
+  "stable_product": "runtime092; source95f540f8d; CLI/full264/actualGUI117 remain unchanged",
+  "purpose": "One prospective fixed-pose comparison of literal unselected-plane transport against existing suppression on the retained exposed IR development task",
+  "experiment_completed": true,
+  "delivered_boards": 0,
+  "routing_success": false,
+  "actual_Native_runs": 2,
+  "actual_engine_runs": 2,
+  "actual_GUI": false,
+  "model_calls": 0,
+  "incremental_spending": 0,
+  "source_hashes": {
+    "IR_Sensor.kicad_pcb": "b2e9a872a4b504ebf154b60580aa44e0ef88a53bba6d20287139b153fe74d447",
+    "IR_Sensor.kicad_pro": "0393908f5263db9c95388db7d749115280350ae4b6a7dc44afba203aea3a2f8a",
+    "IR_Sensor.kicad_sch": "fb2ead949c4005eda55d7ff8e48ff39293ad096bd9f1ca12a3c623fc62915786"
+  },
+  "selected_nets": [
+    "/+5V",
+    "/OUT",
+    "Net-(D1-A)",
+    "Net-(D4-A)"
+  ],
+  "scope": "selected nets;13original protected records; exact086placement; no placement search or movement",
+  "route_wall_full_CPU_cap_seconds_each": 90,
+  "complete_arm_cap_seconds_each": 190,
+  "allinclusive_original_wall_full_CPU_cap_seconds": 420,
+  "rows": [
+    {
+      "arm": "baseline",
+      "runtime_source_head": "95f540f8d519956f6b9d8e0ec6ba348373950c45",
+      "manifest_sha256": "0f823fa7b91ab66766f6aca09a56fc0a889a870592c39e9737acc1758ca95708",
+      "status": "drc_rejected",
+      "routing_accepted": false,
+      "delivered": false,
+      "native": {
+        "opens": 2,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "source_native": {
+        "opens": 9,
+        "blocking": 0,
+        "warnings": 32,
+        "exclusions": 0
+      },
+      "ignored_checks_count": 7,
+      "warning_increase_count": 10,
+      "remaining_gap_classes": [
+        "unselected GND zone connectivity",
+        "selected OUT pad-to-track connection"
+      ],
+      "all_original_semantic_invariants_unchanged": true,
+      "source_and_runtime_fresh": true,
+      "protected_records": 13,
+      "selected_added_records": 22,
+      "both_shared_transport_hooks_replayed": true,
+      "plane_transport": {
+        "removed": 1,
+        "retained": 0
+      },
+      "candidate_sha256": "15e83567278f79637ea595f05a9daedd986e673ea8a835f6199093b7dd8d8673",
+      "actual_native_result_sha256": "3535ebb3f2c5c6909800bb5df4f2358e484a3ee97bfe48925111415a3006a502",
+      "actual_arm_receipt_sha256": "5cd20da92c0ead3e7b70e89f9cb6805c1246af90231f53951e243219859e05b6",
+      "complete_arm_wall_seconds": 10.825469083036296,
+      "complete_arm_full_CPU_seconds": 8.781542,
+      "stage_operations": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.4255541249876842,
+          "full_CPU_seconds": 0.41508899999999993,
+          "cap_seconds": 60,
+          "adopted": true,
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 9.606178916001227,
+          "full_CPU_seconds": 7.678933999999999,
+          "cap_seconds": 90,
+          "adopted": false,
+          "exit_code": 2,
+          "cancel_requested": false,
+          "log_truncated": false
+        }
+      ],
+      "whole_project_drc_clean": false,
+      "route_quality_metrics": {
+        "version": "10.0.7",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 108.41563164076263,
+        "copper_layers": 2
+      },
+      "source_warning_categories": {
+        "silk_edge_clearance": 21,
+        "lib_footprint_issues": 11
+      },
+      "final_warning_categories": {
+        "silk_edge_clearance": 21,
+        "lib_footprint_issues": 11,
+        "footprint_symbol_field_mismatch": 10
+      },
+      "additional_warning_kind": "footprint_symbol_field_mismatch:DatasheetPCB~ versus schematicempty",
+      "ignored_checks_unchanged": true,
+      "no_review_choice_export_or_positive_authority": true
+    },
+    {
+      "arm": "variant",
+      "runtime_source_head": "e0ccdc26cda3144bcc6712356aa8d789295bfe6d",
+      "manifest_sha256": "0ed53d74d04879401f7584362a4917d46d5ce3b83283588d7b45003c4fb7af21",
+      "status": "drc_rejected",
+      "routing_accepted": false,
+      "delivered": false,
+      "native": {
+        "opens": 2,
+        "blocking": 0,
+        "warnings": 42,
+        "exclusions": 0
+      },
+      "source_native": {
+        "opens": 9,
+        "blocking": 0,
+        "warnings": 32,
+        "exclusions": 0
+      },
+      "ignored_checks_count": 7,
+      "warning_increase_count": 10,
+      "remaining_gap_classes": [
+        "unselected GND zone connectivity",
+        "selected OUT pad-to-track connection"
+      ],
+      "all_original_semantic_invariants_unchanged": true,
+      "source_and_runtime_fresh": true,
+      "protected_records": 13,
+      "selected_added_records": 22,
+      "both_shared_transport_hooks_replayed": true,
+      "plane_transport": {
+        "removed": 0,
+        "retained": 1
+      },
+      "candidate_sha256": "b9316a29bce98e4a8fdbcbe540e9781b8c3ae99ca0c81545e2bd9e7c37bc84d7",
+      "actual_native_result_sha256": "3053358f2f8d0fd51fc7c8a99c413e19cb32112b0d3a1054d392ef324de65a58",
+      "actual_arm_receipt_sha256": "10f3e477f80e325f088c2f8ada643aac13e1f8f120be398a7a1fa691e371c090",
+      "complete_arm_wall_seconds": 10.714590957970358,
+      "complete_arm_full_CPU_seconds": 10.057901,
+      "stage_operations": [
+        {
+          "stage": "preview",
+          "wall_seconds": 0.4237773329950869,
+          "full_CPU_seconds": 0.418836,
+          "cap_seconds": 60,
+          "adopted": true,
+          "exit_code": 0,
+          "cancel_requested": false,
+          "log_truncated": false
+        },
+        {
+          "stage": "route",
+          "wall_seconds": 8.908186957996804,
+          "full_CPU_seconds": 8.160384,
+          "cap_seconds": 90,
+          "adopted": false,
+          "exit_code": 2,
+          "cancel_requested": false,
+          "log_truncated": false
+        }
+      ],
+      "whole_project_drc_clean": false,
+      "route_quality_metrics": {
+        "version": "10.0.7",
+        "pads": 30,
+        "footprints": 12,
+        "zones": 1,
+        "vias": 0,
+        "track_length_mm": 108.4846139711967,
+        "copper_layers": 2
+      },
+      "source_warning_categories": {
+        "silk_edge_clearance": 21,
+        "lib_footprint_issues": 11
+      },
+      "final_warning_categories": {
+        "silk_edge_clearance": 21,
+        "lib_footprint_issues": 11,
+        "footprint_symbol_field_mismatch": 10
+      },
+      "additional_warning_kind": "footprint_symbol_field_mismatch:DatasheetPCB~ versus schematicempty",
+      "ignored_checks_unchanged": true,
+      "no_review_choice_export_or_positive_authority": true
+    }
+  ],
+  "actual_outer_accounting": {
+    "budget_seconds": 420,
+    "measured_process_full_CPU_seconds": 19.250207,
+    "whole_wrapper_CPU_before_receipt": 19.301055,
+    "whole_wrapper_elapsed_before_receipt": 21.87023483304074,
+    "passed": true,
+    "prior_conservative_wall_and_CPU_debit_seconds": 2,
+    "total_including_prior_wall_seconds": 23.87023483304074,
+    "total_including_prior_full_CPU_seconds": 21.301055,
+    "CPU_includes_wrapper_interpreter_startup": true,
+    "wrapper_interpreter_wall_before_first_clock_not_measured": true,
+    "final_receipt_exit_overhead_not_measured": true
+  },
+  "earlier_startup_failure": {
+    "retained_run": ".runs/selected-unselected-plane093-native-comparison-001",
+    "cause": "Complete settings preset passed to overrides parser; both arms stopped before preview/Native/engine",
+    "actual_wrapper_wall_seconds": 0.9012312500271946,
+    "actual_wrapper_full_CPU_seconds": 0.7266050000000001,
+    "conservative_wall_and_CPU_debit_seconds": 2,
+    "included_in_original420": true,
+    "not_retroactive_pass": true
+  },
+  "source_original_unchanged": true,
+  "runtimes_immutable": true,
+  "default_changed": false,
+  "decision": "Defer literal unselected-plane transport: both arms retain the same2open classes; no deliverable or observed completion benefit. Preserve private optional implementation/evidence; no UI exposure/default adoption, new OUT tuning, pose/search retry or favorable rerun.",
+  "additional_costs": {
+    "runtime093_setup_wall_seconds": 3.6514776659896597,
+    "runtime093_setup_full_CPU_seconds": 2.718092,
+    "regression_and_research": "Source318controls plus10overlapping flag/lineage methods, prior316failure, source authoring, parser checks, checkpoint and AIreview are separate; partly unmeasured, not zero",
+    "independent_readback": {
+      "status": "independent_pure_readback_reconciled_both_rejected_no_gain",
+      "receipt_sha256": "20c60a5968d5029ba2b1a6db0754a91a8f58d89053fc008f881d12a81ebe16ed",
+      "wall_seconds": 2.0836973330006003,
+      "full_CPU_seconds": 1.9827640000000004,
+      "Native_engine_calls": 0,
+      "additional_posthoc_cost": true
+    }
+  },
+  "proof_limits": [
+    "Transport replay and selected-copper audit on a rejected result are not acceptance or electrical approval.",
+    "Original Native source has9expectedopens and0blocking findings, not an invalid source design. Finalwarnings increase32to42 in both arms and remain visible.",
+    "No review/choice/export stages ran after routing refusal; no fresh export or completedPCB.",
+    "One exposed family; no general effectiveness, full093product/GUI qualification, human cleanup or electrical claim.",
+    "Tiny wrapper startup/final receipt exit overhead is not measured; outer accounting declares those limits.",
+    "Raw evidence after older archive cutoffs remains on this Mac only.",
+    "The10additional Datasheet-field warnings are visible at final complete-schematic validation. Immutable PCB semantics pass; their source-versus-stage coverage cause was not investigated, so no claim routing changed those fields."
+  ],
+  "private_receipts": [
+    ".runs/selected-unselected-plane093-native-comparison-002/protocol-before-execution.json",
+    ".runs/selected-unselected-plane093-native-comparison-002/continuation-review.json",
+    ".runs/selected-unselected-plane093-native-comparison-002/comparison.json",
+    ".runs/selected-unselected-plane093-native-comparison-002/outer-process.json",
+    ".runs/selected-unselected-plane093-native-comparison-002/outer-budget-check.json",
+    ".runs/selected-unselected-plane093-native-pair-readback-001/review.json"
+  ],
+  "overall_product_complete": false
+}
