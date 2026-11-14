@@ -42,6 +42,7 @@ class PlacementGuiTests(unittest.TestCase):
         gate = self.gate()
         window = SimpleNamespace(gate=gate, job=gui.CliJob(), busy=False, routing=None, finalized=False,
             qualified=None, validation_revoked=False, pending_coordinates={}, editing_component=None,
+            alternative_labels=[], alternative_targets=[],
             cancel_event=threading.Event(), inspection=gate.review.inspection,
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
@@ -208,15 +209,67 @@ class PlacementGuiTests(unittest.TestCase):
         callback.assert_called_once_with()
 
     def test_rendered_edit_is_never_mislabeled_as_first_alternative(self):
-        tree = ast.parse(Path(pg.__file__).read_text())
-        factory = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'create_window')
-        cls = next(n for n in factory.body if isinstance(n, ast.ClassDef))
-        render = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == 'render')
-        self.assertIsInstance(render.args.defaults[-1], ast.Constant)
-        self.assertIsNone(render.args.defaults[-1].value)
-        self.assertIn('wx.NOT_FOUND', ast.unparse(render))
-        present = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == 'present')
-        self.assertIn('Edited draft.', ast.unparse(present))
+        window, _ = self.presentation_window(); window.coordinates = Mock()
+        window.alternative.SetSelection.side_effect = lambda index: setattr(window.alternative.GetSelection, 'return_value', index)
+        before = copy.deepcopy((window.gate.review.pose, window.gate.review.moves,
+                                window.gate.review.revision, window.gate.acknowledged, window.gate.generation))
+        with patch.object(pg.placement_view, 'render', return_value='<svg/>'):
+            window_method('render')(window)
+        window.alternative.Set.assert_called_once_with(['Alternative 1', 'Alternative 2', 'Edited draft'])
+        window.alternative.SetSelection.assert_called_once_with(2)
+        self.assertEqual(window.alternative_targets, [0, 1, None])
+        self.assertIn('Edited draft.', window.findings.SetValue.call_args.args[0])
+        self.assertNotIn('Alternative 3.', window.findings.SetValue.call_args.args[0])
+        self.assertEqual((window.gate.review.pose, window.gate.review.moves,
+                          window.gate.review.revision, window.gate.acknowledged, window.gate.generation), before)
+
+    def test_current_edited_choice_is_noop_for_pose_pending_ack_and_native_ticket(self):
+        for dirty in (False, True):
+            window, result = self.presentation_window(); window.qualified = result
+            window.alternative_targets = [0, 1, None]; window.alternative.GetSelection.return_value = 2
+            window.gate.dirty = dirty; window.gate.acknowledged = not dirty
+            window.pending_coordinates = {'two': ['20.', '10.4']} if dirty else {}
+            window.gate.review.choose = Mock(); window.revoke = Mock(); window.render = Mock()
+            before = copy.deepcopy((window.gate.review.pose, window.gate.review.moves,
+                window.gate.review.revision, window.pending_coordinates, window.gate.acknowledged,
+                window.gate.dirty, window.gate.generation))
+            window_method('choose_alternative')(window, None)
+            self.assertEqual((window.gate.review.pose, window.gate.review.moves,
+                window.gate.review.revision, window.pending_coordinates, window.gate.acknowledged,
+                window.gate.dirty, window.gate.generation), before)
+            self.assertIs(window.qualified, result)
+            window.gate.review.choose.assert_not_called(); window.revoke.assert_not_called(); window.render.assert_not_called()
+            if not dirty: self.assertIsNone(window.gate.check(result['ticket']))
+
+    def test_real_choice_removes_current_edited_item_and_revokes_previous_validation(self):
+        window, result = self.presentation_window(); window.qualified = result
+        window.alternative_targets = [0, 1, None]
+        window.alternative_labels = ['Alternative 1', 'Alternative 2', 'Edited draft']
+        window.alternative.GetSelection.return_value = 1
+        window.pending_coordinates = {'two': ['20.', '10.4']}; window.gate.dirty = True
+        window.gate.review.choose = Mock(); window.present = Mock(); window.coordinates = Mock()
+        window.render = MethodType(window_method('render'), window)
+        window_method('choose_alternative')(window, None)
+        window.gate.review.choose.assert_called_once_with(1)
+        self.assertEqual(window.alternative_targets, [0, 1])
+        window.alternative.Set.assert_called_once_with(['Alternative 1', 'Alternative 2'])
+        self.assertEqual(window.pending_coordinates, {}); self.assertFalse(window.gate.acknowledged)
+        self.assertIsNone(window.qualified)
+        with self.assertRaises(ValueError): window.gate.check(result['ticket'])
+
+    def test_invalid_display_choice_still_revokes_without_discarding_pending_edits(self):
+        for selection, targets in ((-1, [0, 1, None]), (3, [0, 1, None]),
+                                   (True, [0, 1, None]), (0, [False])):
+            window, result = self.presentation_window(); window.qualified = result
+            window.alternative_targets = targets; window.alternative.GetSelection.return_value = selection
+            window.pending_coordinates = {'two': ['20.', '10.4']}
+            window.gate.review.choose = Mock(); window.present = Mock(); window.render = Mock()
+            window_method('choose_alternative')(window, None)
+            self.assertEqual(window.pending_coordinates, {'two': ['20.', '10.4']})
+            self.assertTrue(window.gate.dirty); self.assertFalse(window.gate.acknowledged)
+            self.assertIsNone(window.qualified); window.gate.review.choose.assert_not_called()
+            window.render.assert_not_called(); self.assertIn('Alternative refused', window.message.call_args.args[0])
+            with self.assertRaises(ValueError): window.gate.check(result['ticket'])
 
     def test_late_cancel_during_guard_prevents_even_routing_frame_construction(self):
         window = self.window(); guard = Mock(); guard.check.side_effect = lambda _: window.job.cancel()
@@ -297,6 +350,7 @@ class PlacementGuiTests(unittest.TestCase):
             settings=dict(selected=['one', 'two'], region_nm=[0, 0, 10000000, 10000000]), intent=None,
             copper_plan=None, observation={})
         window.gate.attach(draft); window.gate.acknowledged = True; window.inspection = draft.inspection
+        window.alternative_labels = ['Alternative 1', 'Alternative 2']; window.alternative_targets = [0, 1]
         window.alternative.GetSelection.return_value = 1; window.part.GetSelection.return_value = 1
         window.editing_component = 'two'
         window.x.GetValue.return_value = '3'; window.y.GetValue.return_value = '4'
@@ -523,6 +577,8 @@ class PlacementGuiTests(unittest.TestCase):
             review = intent.Review(dict(kind='autorouter.placement-proposals.v1', inspection=inspected,
                 settings=settings, search=dict(status='proposals_ready', alternatives=[dict(candidate=pose)])))
             window, _ = self.presentation_window(); window.gate.attach(review)
+            window.alternative_labels = ['Alternative 1']; window.alternative_targets = [0]
+            window.alternative.GetSelection.return_value = 0
             window.editing_component = selected[1]; window.part.GetSelection.return_value = 1
             window.pending_coordinates = {selected[0]: ['20', '10']}
             window.x.GetValue.return_value = '14'; window.y.GetValue.return_value = '10'
@@ -535,6 +591,10 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertEqual(window.pending_coordinates, {selected[0]: ['20', '10'], selected[1]: ['14', '10']})
             window.x.ChangeValue.assert_called_with('14'); window.y.ChangeValue.assert_called_with('10')
             window.part.SetSelection.assert_called_with(1)
+            self.assertEqual(window.alternative_labels, ['Alternative 1'])
+            self.assertEqual(window.alternative_targets, [0])
+            window.alternative.Set.assert_called_with(['Alternative 1'])
+            window.alternative.SetSelection.assert_called_with(0)
             self.assertIsNone(review.intent); self.assertTrue(window.gate.dirty)
             self.assertFalse(window.gate.acknowledged); self.assertIsNone(window.qualified)
             self.assertIn('previous pose retained', window.message.call_args.args[0])

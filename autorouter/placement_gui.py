@@ -220,6 +220,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
             self.qualified = None; self.validation_revoked = False
             self.updating = False; self.workspace = None; self.owner = {}
             self.pending_coordinates = {}
+            self.alternative_labels = []; self.alternative_targets = []
             self.editing_component = None
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
             panel = self.panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
@@ -363,6 +364,7 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                 self.pending_coordinates.clear()
                 self.editing_component = None
                 self.gate.review = None
+                self.alternative_labels = []; self.alternative_targets = []
                 self.alternative.Set([]); self.part.Set([])
                 self.x.ChangeValue(''); self.y.ChangeValue('')
                 self.findings.SetValue('No current placement draft or validation. Inspect the saved project and choose components to begin again.')
@@ -576,12 +578,21 @@ def create_window(board='', *, output_hint=None, on_closed=None):
 
         def render(self, alternative_index=None):
             review = self.gate.review
-            self.pending_coordinates.clear()
             references = {r['uuid']: r['reference'] for r in review.inspection['components']}
             original = getattr(review, 'proposal', {}).get('search', {}).get('status') == 'original_for_review'
-            self.alternative.Set(['Original arrangement · edit to reposition'] if original else
-                                 ['Alternative ' + str(i + 1) for i in range(len(review.alternatives))])
-            self.alternative.SetSelection(wx.NOT_FOUND if alternative_index is None else alternative_index)
+            labels = (['Original arrangement · edit to reposition'] if original else
+                      ['Alternative ' + str(i + 1) for i in range(len(review.alternatives))])
+            targets = list(range(len(labels)))
+            if alternative_index is None:
+                labels.append('Edited draft'); targets.append(None)
+                selection = len(labels) - 1
+            else:
+                if type(alternative_index) is not int or not 0 <= alternative_index < len(targets):
+                    raise ValueError('Choose an available alternative.')
+                selection = alternative_index
+            self.pending_coordinates.clear()
+            self.alternative_labels = labels; self.alternative_targets = targets
+            self.alternative.Set(labels); self.alternative.SetSelection(selection)
             self.part.Set([references[key] for key in review.settings['selected']]); self.part.SetSelection(0)
             self.coordinates()
             self.validation_revoked = False
@@ -616,9 +627,11 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     status='placement validated; routing pending', native=witness['findings'],
                     candidate=witness['candidate'], source=review.inspection['source']))
             else:
-                index = self.alternative.GetSelection()
+                selection = self.alternative.GetSelection()
+                index = (self.alternative_targets[selection] if type(selection) is int
+                         and 0 <= selection < len(self.alternative_targets) else None)
                 findings = (state + '\n'
-                    + ('Edited draft.\n' if index == wx.NOT_FOUND else
+                    + ('Edited draft.\n' if index is None else
                        'Original arrangement — not optimized.\n' if getattr(review, 'proposal', {}).get('search', {}).get('status') == 'original_for_review' else
                        'Alternative ' + str(index + 1) + '.\n')
                     + 'Source: ' + review.inspection['source'] + '\n'
@@ -662,8 +675,17 @@ def create_window(board='', *, output_hint=None, on_closed=None):
 
         def choose_alternative(self, _):
             try:
-                index = self.alternative.GetSelection(); self.revoke(dirty=self.gate.dirty or bool(self.pending_coordinates))
-                self.gate.review.choose(index); self.gate.dirty = False; self.render(index)
+                index = self.alternative.GetSelection()
+                if (type(index) is int and 0 <= index < len(self.alternative_targets)
+                        and self.alternative_targets[index] is None):
+                    return  # Current edited pose is a label, not another proposal.
+                self.revoke(dirty=self.gate.dirty or bool(self.pending_coordinates))
+                if type(index) is not int or not 0 <= index < len(self.alternative_targets):
+                    raise ValueError('Choose an available alternative.')
+                target = self.alternative_targets[index]
+                if type(target) is not int or not 0 <= target < len(self.gate.review.alternatives):
+                    raise ValueError('Choose an available alternative.')
+                self.gate.review.choose(target); self.gate.dirty = False; self.render(target)
             except Exception as exc: self.message('Alternative refused: ' + str(exc))
 
         def pending_edit(self, event):
@@ -687,6 +709,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     self.pending_coordinates[identity] = list(visible_coordinates)
                 pending = copy.deepcopy(self.pending_coordinates)
                 selection = self.part.GetSelection(); alternative = self.alternative.GetSelection()
+                alternative_labels = list(self.alternative_labels)
+                alternative_targets = list(self.alternative_targets)
                 previous = (review.pose, review.moves, review.revision)
                 review.edit_many(copy.deepcopy(self.pending_coordinates))
                 rendering = True; self.gate.dirty = False; self.render()
@@ -699,6 +723,8 @@ def create_window(board='', *, output_hint=None, on_closed=None):
                     # Rendering also resets selectors/text. Restore the whole
                     # editing transaction, with approval still revoked.
                     self.pending_coordinates = pending
+                    self.alternative_labels = alternative_labels; self.alternative_targets = alternative_targets
+                    self.alternative.Set(alternative_labels)
                     self.part.SetSelection(selection); self.alternative.SetSelection(alternative)
                     self.editing_component = identity
                     self.x.ChangeValue(visible_coordinates[0]); self.y.ChangeValue(visible_coordinates[1])
