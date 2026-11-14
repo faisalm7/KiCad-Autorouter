@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "utc": "2026-11-14T21:24:42.057404+00:00",
+  "status": "actual_same_Mac_artifact_transport_import_installation_and_doctor_passed_not_Native_GUI_qualification",
+  "source_build": "7a329b29e26a3fae9b70ea981e58fe5b78467a63",
+  "runtime_manifest_sha256": "6be51b510f85407476d9b4a3fd70dc17402705677a718d0c16a50c5ca56d4860",
+  "runtime_manifest_schema": 3,
+  "immutable_files": 89,
+  "source_build_files": 88,
+  "platform": "same macOS27.0.1 arm64; existing isolated officialKiCad10.0.7,Java25.0.2,Freerouting2.5.0; fresh no-pip3.11.9 environment",
+  "actual_procedure": [
+    "Prepare one curated artifact from audited committed source, explicitly copying the existing pinned local engine",
+    "Move that newly created artifact without rewriting its recorded root/manifest; same-directory identity retained privately",
+    "Ordinary doctor at moved input refuses exact root-selection guard, exit1; this is the intended negative control",
+    "Explicit pinned import into one fresh owned root with allfour known Native/Java paths",
+    "Current89payload files and original lock/engine/source provenance remain exact",
+    "Create fresh --copies --without-pip environment; installed doctor readytrue",
+    "Prepare an ordinary isolated launcher without a GUI-session or boardpreset",
+    "Additional actual -I isolated/ignore-environment/no-user-site Python doctor, explicit installed-module root, readytrue"
+  ],
+  "original_transported_manifest_sha256": "3d1d0464107acbcb2246fc3c0ac2338b3a790a3f14bdfa0a06794e3834dff661",
+  "old_manifest_not_rewritten": true,
+  "installed_host_paths_are_current_existing_locations": true,
+  "actual_external_tool_location_change": false,
+  "new_board_Native_routing_tests": 0,
+  "new_GUI_actions": 0,
+  "downloaded_bytes": 0,
+  "old_installations_or_evidence_modified": false,
+  "operations": [
+    {
+      "stage": "prepare-artifact",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.40601804200559855,
+      "cpu_seconds": 0.34968499999999997,
+      "supervisor_cpu_seconds": 0.005083000000000004,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    {
+      "stage": "moved-input-refusal",
+      "status": "nonzero_exit",
+      "exit_code": 1,
+      "wall_seconds": 0.04108425002777949,
+      "cpu_seconds": 0.037269,
+      "supervisor_cpu_seconds": 0.003394000000000008,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    {
+      "stage": "import-artifact",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.5365664159762673,
+      "cpu_seconds": 0.438299,
+      "supervisor_cpu_seconds": 0.007911000000000001,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    {
+      "stage": "new-environment",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.03947616700315848,
+      "cpu_seconds": 0.029656,
+      "supervisor_cpu_seconds": 0.0049899999999999944,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    {
+      "stage": "installed-doctor",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 1.649931582971476,
+      "cpu_seconds": 0.926714,
+      "supervisor_cpu_seconds": 0.012775999999999982,
+      "cleanup_complete": true,
+      "log_truncated": false
+    },
+    {
+      "stage": "ordinary-launcher",
+      "status": "success",
+      "exit_code": 0,
+      "wall_seconds": 0.2599153750343248,
+      "cpu_seconds": 0.251959,
+      "supervisor_cpu_seconds": 0.004692000000000002,
+      "cleanup_complete": true,
+      "log_truncated": false
+    }
+  ],
+  "accounting": {
+    "whole_install_controller_wall_seconds": 3.3698874590336345,
+    "disjoint_process_full_CPU_seconds": 2.072428,
+    "controller_parent_CPU_unmeasured": true,
+    "isolated_doctor_additional_wall_seconds": 1.34669945796486,
+    "isolated_doctor_additional_full_CPU_seconds": 0.921133,
+    "research_authoring_review_and_preflights_additional_partly_unmeasured": true,
+    "nested_CPU_not_added_twice": true
+  },
+  "resource_plan": {
+    "peak_temporary_bytes": 268435456,
+    "fixed_reserve_bytes": 3221225472,
+    "checked_before_copy": true,
+    "runtime_and_artifact_regular_file_logical_bytes": 133357487,
+    "logical_bytes_not_allocated_space_or_reclaim_estimate": true
+  },
+  "local_evidence": {
+    ".runs/product097-install-001/execution.json": "1d48038fe801f0c7beb5fc7015c24bfa6517ea1d11f585e83cb834797a090415",
+    ".runs/product097-install-001/transport.json": "616a22573cc0ba43d0054e78532595a6727b874c7134b41348abd3352a52d948",
+    ".runs/product097-install-001/isolated-environment-doctor.process.json": "4b94b60ce0fbae0f52bf52c39c92dd7b592b3d53d4ba2a8c7469212d38130a16",
+    ".runs/product097-install-001/installed-doctor.process.json": "c9427e1cdeee6553ff37910d8f8a78cf73ee05beb2e91197a22e4dc060913165",
+    ".runs/product097-install-001/ordinary-launcher.process.json": "a482ea89cd56ec37fd855f7a34b7a312cb798792657e91bd387f2ca3a6184d69"
+  },
+  "next_gates": {
+    "full270_predeclared_tests": 3703,
+    "full270_source_test_pins": 479,
+    "full270_static_review_sha256": "f5fff4a52e966a60809842d8da1a5b9f8bb33f3e9a803ba5fffeaf2b18d36c24",
+    "full270_started": false,
+    "latest_memory_dispatch_level": 2,
+    "required_full_level": 1,
+    "full_caps_unchanged": true,
+    "Native_delivery_independent_readback_and_actual_new_GUI_required": true,
+    "prior_tested_GUI_reference": "evidence/runtime096-GUI120-core-001.json"
+  },
+  "limits": [
+    "Actual moved-artifact import and local-root binding are tested; external dependency relocation, another OS/account/machine and standalone installation remain unqualified.",
+    "Fresh isolated Python still uses this Macs existing base standard library and pinned dependencies.",
+    "Version/architecture/hash/role permissions and strict live-root protections are unchanged.",
+    "Doctor and successful installation are not board validation or product qualification. No current full270/Native/GUI pass is claimed.",
+    "Source097 product batch remains experimental and unqualified pending its coherent milestone. No live copilot inference/model quality is established; actualcalls/spend0.",
+    "The single current transported input and working installation are retained for reproduction, not a historical-copy cleanup or full recovery test. New raw evidence remains Mac-only."
+  ],
+  "formal_release_tag_or_package_publication": false,
+  "overall_product_complete": false
+}

@@ -32,14 +32,14 @@ Enter the selected runtime before every `-m autorouter` command: using its inter
 
 Installation copies only the declared immutable payload and matching local JAR. It preserves the original lock/source provenance and writes a new root-bound manifest. Unsafe links, changed/missing/extra payload, stale pins and existing destinations refuse. Failed partial output is retained; use a fresh destination. A successful copy/doctor is preparation, not qualification of that new root or machine.
 
-## Integrated source options awaiting real relocation qualification
+## Current artifact-import qualification boundary
 
 The source batch includes two bounded options alongside `--install-existing`:
 
 - `--import-artifact` verifies a transported artifact using the exact original manifest SHA256, while treating its old root/host locations as provenance. It does not permit ordinary execution at an unbound location or bypass payload checks.
 - `--host-paths-json` supplies all four canonical locations: `kicad_cli`, `kicad_python`, `pcbnew` and `java`. It changes locations only, preserving the known profile, role hashes/sizes and common KiCad app layout. New live bindings must pass alias, executable-role and actual-byte checks.
 
-These options are integrated source capabilities with deterministic fixture tests, **not actual relocation, clean-environment or Native/GUI qualification**. Rebinding requires a new compatible product build. Immutable runtime096 cannot gain that support by changing its manifest; it retains its existing dependency locations. The newer UI/intent/install source batch has not replaced096's tested finite status. No turnkey installer, standalone package, independent-machine or Windows support is claimed.
+[One actual097 moved-artifact import](../evidence/product097-artifact-installation-001.json) now passes on the same Mac, with strict root refusal before import, schema3 binding, a fresh no-pip environment and isolated-Python doctor. This tests artifact movement/new installation root with the existing dependency locations. External tool relocation, another OS/account/machine, Native board delivery and actual097GUI remain unqualified. Rebinding requires a new compatible product build. Immutable runtime096 cannot gain that support by changing its manifest; it retains its existing dependency locations. The newer UI/intent/install source batch has not replaced096's tested finite status. No turnkey installer, standalone package, independent-machine or Windows support is claimed.
 
 ## Advanced: ordinary routing CLI
 
