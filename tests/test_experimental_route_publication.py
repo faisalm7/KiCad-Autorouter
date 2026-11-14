@@ -32,7 +32,7 @@ class LateRoutePublicationMetadata(unittest.TestCase):
         def intake(*args):clock['now']=41.0;return {'controlled_intake':True}
         namespace=dict(vars(p));namespace.update(native_toolchain=object(),experimental_schematic_parity=True,
             comparison_context=None,_improve_context=None,_improve_budget=None,placement_origin=None,output=self.run,
-            settings_path=None,preference_overrides=None,_preferences=None,_fanout_enabled=None,_optimizer_enabled=None,_engine_clearance_margin_nm=None,_engine_global_width_policy=None,keep_existing=False,
+            settings_path=None,preference_overrides=None,_preferences=None,_fanout_enabled=None,_optimizer_enabled=None,_engine_clearance_margin_nm=None,_engine_global_width_policy=None,_selected_plane_policy=None,keep_existing=False,
             adapter='none',engine_profile='standard',scoring_variant=None,guidance_policy='native',
             experimental_route_record=intake,elapsed_time=lambda:clock['now'],
             time=SimpleNamespace(process_time=lambda:clock['now']))
