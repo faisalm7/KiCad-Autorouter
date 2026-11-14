@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "utc": "2026-11-14T19:38:43.386619+00:00",
+  "kind": "runtime096-prospective-region-delivery",
+  "status": "Native_and_full269_passed_GUI120_pending",
+  "installed_build_head": "1198fdd80b9adcb42270fab6f22e095145af3024",
+  "regression_checkout_head": "2b0d3aa75321b1ff69178225d5657369c96c3261",
+  "runtime_manifest_sha256": "a0d8907f0b54a01e671f3ca68de825cdab65f2b720a2b337072bc6b9e73d798c",
+  "task": {
+    "source_family": "owned constructed ordinary THT",
+    "selected_references": [
+      "J1",
+      "J2"
+    ],
+    "region_nm": [
+      14000000,
+      8000000,
+      22000000,
+      13000000
+    ],
+    "policy": "selected-target-region-initialization-v1",
+    "automatic_proposal_calls": 1,
+    "alternative_index": 0,
+    "manual_edits": 0,
+    "unattended_first_product_attempt": false
+  },
+  "full_integration": {
+    "discovered": 3640,
+    "run": 3640,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 1,
+    "wall_seconds": 245.17444345896365,
+    "full_CPU_seconds": 233.069616,
+    "passed": true,
+    "sources_unchanged": true,
+    "existing_skip": "PowerShell unavailable on this Mac"
+  },
+  "native_delivery": {
+    "passed": true,
+    "whole_wrapper_wall_seconds": 74.7381129169953,
+    "whole_wrapper_CPU_seconds": 69.367561,
+    "budget_seconds": 420,
+    "process_cleanup_complete": true,
+    "operations": [
+      {
+        "stage": "original_inspection",
+        "wall_seconds": 2.940279708011076,
+        "full_cpu_seconds": 1.731106,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "placement",
+        "wall_seconds": 11.619625332998112,
+        "full_cpu_seconds": 10.746646,
+        "limit_seconds": 120,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "preview",
+        "wall_seconds": 4.93087854096666,
+        "full_cpu_seconds": 4.8796849999999985,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "route",
+        "wall_seconds": 15.956553541996982,
+        "full_cpu_seconds": 13.621693,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "review",
+        "wall_seconds": 7.353904957999475,
+        "full_cpu_seconds": 7.259975999999995,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "choice",
+        "wall_seconds": 5.821401541994419,
+        "full_cpu_seconds": 5.7534670000000006,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "export",
+        "wall_seconds": 14.100040333985817,
+        "full_cpu_seconds": 13.306697000000007,
+        "limit_seconds": 90,
+        "included_in_controller_total": true
+      },
+      {
+        "stage": "verify_export",
+        "wall_seconds": 7.9094722919980995,
+        "full_cpu_seconds": 7.783268999999997,
+        "limit_seconds": 60,
+        "included_in_controller_total": true
+      }
+    ],
+    "export_headroom": {
+      "completed_operation_wall_seconds": 14.100040333985817,
+      "completed_operation_full_cpu_seconds": 13.306697000000007,
+      "operation_ceiling_seconds": 90,
+      "required_maximum_seconds": 72,
+      "required_reserve_seconds": 18,
+      "within_headroom": true
+    },
+    "measurement_limits": [
+      "Interpreter wall before the wrapper first clock and final receipt/exit overhead are not measured.",
+      "Source095failedtrial/research and independent proof are separate costs, not an unattended first attempt."
+    ]
+  },
+  "original_design": {
+    "source_originals_unchanged": true,
+    "isolated_original_unchanged": true,
+    "protected_locked_routes": 1,
+    "protected_routes": 1,
+    "zones": 1,
+    "original_to_final_audit": true,
+    "schema5_chain_and_strict_final_target": true
+  },
+  "final_candidate": {
+    "sha256": "1dee5218101bfa2903804f32fd33ba7924c98103cdf93642c7e3c1e7a94d7986",
+    "native": {
+      "blocking": 0,
+      "exclusions": 0,
+      "opens": 0,
+      "warnings": 1
+    },
+    "ignored_checks": [
+      {
+        "description": "Track endpoint not centered on via",
+        "key": "track_not_centered_on_via"
+      },
+      {
+        "description": "Tuning profile track geometries",
+        "key": "tuning_profile_track_geometries"
+      }
+    ],
+    "whole_project_DRC_clean": false,
+    "generated_segments": 6,
+    "moves_nm": {
+      "f30e22ff-3f0e-5712-979f-f83e8ee05f14": [
+        19100834,
+        11441471
+      ],
+      "fd1c85e4-2ea3-57ff-9cf8-d9c83f200abc": [
+        17172541,
+        10330136
+      ]
+    },
+    "fresh_before_editor_opening": true
+  },
+  "independent_readback": {
+    "passed": true,
+    "wall_seconds": 8.64258812495973,
+    "full_CPU_seconds": 6.802738,
+    "new_Native_runs": 0,
+    "new_engine_runs": 0,
+    "subprocess_attempts": []
+  },
+  "previous_failures": {
+    "full268": "retained_failed_timeout_with_one_unresolved_error;newpassdoesnotexplainoldcause",
+    "runtime095": {
+      "runtime": "095",
+      "status": "failed_export_deadline90",
+      "whole_wrapper_wall_seconds": 202.648754,
+      "whole_wrapper_full_CPU_seconds": 138.634988,
+      "measured_raw_wall_seconds": 202.64875416702125,
+      "measured_raw_full_CPU_seconds": 138.63498800000002,
+      "raw_budget_record": ".runs/placement095-region-native-draft-001/outer-budget-check.json",
+      "raw_budget_record_sha256": "eb4c58393bd73ce4d5ec5f2790eae7ac30c6c438ff893961263fa5ec32c4f6e3",
+      "raw_failed_execution": ".runs/runtime095 fresh install 001/.runs/placement-product095-owned-region-001/execution.json",
+      "raw_failed_execution_sha256": "8f5b4bcce2a7d71e1364d4980cb4623ade1151f3b2e73c38fe596b6943ecaadc",
+      "separate_prior_research_failed_trial": true,
+      "debited_from_new420_budget": false,
+      "retrospectively_relabelled": false
+    }
+  },
+  "qualification_limits": [
+    "ActualGUI120 is pending. OlderGUI118 does not qualify096.",
+    "One owned constructed task; no unrelated-board placement usefulness, general routing completion gain or human cleanup claim.",
+    "ActualNative/original/protected proofs do not establish electrical/manufacturing approval.",
+    "All new raw receipts remain on this Mac beyond older backup cutoffs; full current/off-Mac recovery remains open."
+  ],
+  "proof_sha256": {
+    ".runs/full-integration-269/execution.json": "fbdaf087aa00d1a35f39fb11aca2cd6bfba341a8ab730e180b5409d9c557677c",
+    ".runs/full-integration-269/protocol.json": "794950411a4da9b2aa30881b169c7e6cf827398feb76f88e69888008eb3609da",
+    ".runs/full-integration-269/test-timings.json": "cc7449e5bafc7356811e15ea39f4de720508e98f402add7976730cd4ff881bce",
+    ".runs/placement096-region-native-draft-001/outer-process.json": "e3b519876d1a18984fe42008bd07171e19c8e1e3603848417d53af9a176fe3bc",
+    ".runs/placement096-region-native-draft-001/outer-budget-check.json": "d37c486db70161b514703e42c91a864577402f0208c0ed22609a75f587a8481b",
+    ".runs/placement096-region-native-draft-001/resource-before-execute.json": "28b027476d148d317803e123d867b3de2b2fff768964b541595f2ae1ec6de05b",
+    ".runs/runtime096 fresh install 001/.runs/placement-product096-owned-region-001/execution.json": "018fdc5c5a476828f3ced803e181cd5337f2d779bc0dbba1e4788589c5190299",
+    ".runs/runtime096 fresh install 001/.runs/placement-product096-owned-region-001/original-to-final.json": "37c2bca624ad31f1399c4a7963b1c99407d2a41afd699ef96b4420c90debf0ac",
+    ".runs/runtime096 fresh install 001/.runs/placement-product096-owned-region-001/proposal-selection.json": "d196152828d903a6c4eeee33dbf2a08734d4ad140d22ddf949cd346bee7d2fc7",
+    ".runs/placement096-owned-independent-readback-001/execution.json": "c34022c5a4a92272c65d1104a226a4a25191754d3b78ef8165d5e69c9c389955",
+    ".runs/placement096-owned-independent-readback-001/readback.json": "85a3aedaa19f7169b08021ae2f862f9abed35566a00e1a84bdd1dc059c0f2976",
+    ".runs/placement096-owned-independent-readback-001/before-opening-project.json": "f9fa915b23adb2980062647cbe0d84997c3a7994b671c140c791a322302e43c5"
+  },
+  "formal_release": false,
+  "model_calls": 0,
+  "human_PCB_approval": false
+}
