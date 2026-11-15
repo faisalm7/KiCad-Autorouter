@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "kind": "copilot-screen-transport-stop.v1",
+  "recorded_utc": "2026-11-15T22:19:06.284152+00:00",
+  "scope": "One owner-approved synthetic hosted screen. Maintenance of private evaluation tooling only; no product runtime rebuild or new routing qualification.",
+  "product": {
+    "source_HEAD_before_administration": "1f04911c51c82b44340b9c0d223dd775354b14bf",
+    "installed_build": "7a329b29e26a3fae9b70ea981e58fe5b78467a63",
+    "installed_manifest_sha256": "6be51b510f85407476d9b4a3fd70dc17402705677a718d0c16a50c5ca56d4860",
+    "installed_immutable_files_unchanged": 89,
+    "full_source_test_pins_unchanged": 479,
+    "source_payload_pins_unchanged": 88,
+    "full270_started": false,
+    "full270_gate": {
+      "required_memory_level": 1,
+      "observed_memory_level": 2,
+      "observed_load": [
+        3.2978515625,
+        4.50732421875,
+        4.38720703125
+      ],
+      "logical_cores": 8,
+      "free_bytes": 194100686848,
+      "resource_snapshot_utc": "2026-11-15T22:17:13.102817+00:00"
+    },
+    "last_GUI_Native_reference": "runtime096/GUI120; unchanged completed qualification not repeated"
+  },
+  "authorization": {
+    "provider": "OpenAI Responses",
+    "endpoint": "https://api.openai.com/v1/responses",
+    "profiles": {
+      "gpt-6-luna": "low",
+      "gpt-6.1-sol": "medium"
+    },
+    "data": "Only predeclared owned synthetic requests and approved compact owned-test facts; no private boards or complete project files",
+    "calls_maximum_total": 36,
+    "calls_planned": 34,
+    "cost_cap_USD_total": 1,
+    "replacement_window_explicitly_approved_and_used": true,
+    "all_limits_continue_across_continuations": true
+  },
+  "screen_outcome": {
+    "status": "STOPPED_TRANSPORT_UNKNOWN; no retry or further inference",
+    "transport_attempts": 1,
+    "usable_model_responses": 0,
+    "attempted_model": "gpt-6-luna",
+    "trial": "i01",
+    "Sol_attempts": 0,
+    "http_status": null,
+    "actual_tokens": null,
+    "actual_provider_cost_USD": null,
+    "reserved_nano_USD": 1843200,
+    "reserved_USD": 0.0018432,
+    "ledger_sha256": "6c81d365eeca2f8161327151d92c32118ff3bee99327240367aef3746e8aa079",
+    "failed_attempt_wall_seconds": 0.6533017090405338,
+    "screen_whole_wall_seconds": 0.7235260410234332,
+    "screen_parent_CPU_seconds": 0.30609700000000006,
+    "screen_waited_child_CPU_seconds": 0.20196199999999997,
+    "screen_parent_peak_RSS_bytes": 151879680,
+    "screen_finished_utc": "2026-11-15T21:55:48.849977+00:00",
+    "model_constraint_correctness": "Not assessed: no usable response. Retain the transport failure; raw false score flags are not evidence of incorrect model intent.",
+    "model_latency": "No successful model latency; failed transport elapsed time only.",
+    "empirical_model_selection": null,
+    "Native_tasks": 0,
+    "PCB_or_model_self_approval": false,
+    "unknown_cost_reservation_preserved": true
+  },
+  "diagnosis": {
+    "bundled_python": "3.9.13",
+    "bundled_trusted_CAs": 0,
+    "bundled_TLS_handshake": "certificate verification failed, code20",
+    "project_python": "3.11.9",
+    "project_trusted_CAs": 191,
+    "project_TLS_handshake": "verified TLSv1.3",
+    "credential_free_TLS_handshakes": 2,
+    "diagnostic_HTTP_requests": 0,
+    "diagnostic_model_calls": 0,
+    "diagnostic_credential_or_board_data_used": false,
+    "historical_cause_limit": "This reproduces a blocking TLS configuration in the actual GUI interpreter. The original attempted request retained only generic transport metrics, so its exact cause and provider billing are not retrospectively proved.",
+    "system_security_or_trust_store_changes": false
+  },
+  "bounded_correction": {
+    "driver_before_TLS_sha256": "a23c5af1baa60ad8dfc2f7e9c437107691caa534a4f5d4d266ea852194843704",
+    "driver_after_TLS_sha256": "9ead29edcd9430a08527cefb1316a2f6ba6c9cd4fe89ccdd3966367abd39a1b2",
+    "hosted_adapter_unchanged_sha256": "80a6bd3f948dee783cd8e0de3bdaa7a8ee08446191e560b36f4325e94447bd77",
+    "behavior": "Standard TLS trust and verification preflight before credential entry and provider initialization; no HTTP work, verification downgrade, ledger reset or runtime substitution. Existing uncertain-cost evidence still blocks every start/recheck.",
+    "new_fixture_failure_preserved": "First31-control bundled3.9 run had3 old mock-flow fixture errors: new real TLS check correctly refused before mocked provider; legacy mocks now explicitly control that dependency, with unchanged assertions.",
+    "final_controls": [
+      {
+        "python": "3.11.9",
+        "run": 31,
+        "failures": 0,
+        "errors": 0,
+        "wall_seconds": 0.7970098750083707,
+        "CPU_seconds": 0.78407,
+        "real_network_or_provider_calls": 0
+      },
+      {
+        "python": "3.9.13",
+        "run": 31,
+        "failures": 0,
+        "errors": 0,
+        "wall_seconds": 0.980509042,
+        "CPU_seconds": 0.9732719999999998,
+        "real_network_or_provider_calls": 0
+      }
+    ],
+    "actual_local_only_preflight": {
+      "bundled3_9": "refused secure_transport before credential/provider",
+      "project3_11": "standard-context preflight passed; not endpoint/authentication/billing proof"
+    },
+    "skeptical_code_review_sha256": "1e24bba008f0d9865fb09ca034e58c06ab8e193edf5b54ab715015db7fef2607",
+    "active_review_must_fix": [],
+    "no_actual_new_GUI_qualification_claim": true
+  },
+  "credential_handling": {
+    "agent_read_key_or_clipboard_or_UI_dump": false,
+    "key_written_to_argv_environment_files_logs_or_Git": false,
+    "completed_credential_window_closed": true,
+    "no_extra_window_reopened": true
+  },
+  "next_gates": [
+    "No inference until unknown usage/cost and exact continuation authorization are reconciled; retain the same ledger/reservation. Do not ask for another key for the known-incompatible runtime.",
+    "Qualify a standard TLS-capable transport runtime before any future credential handoff; no new model calls or automatic substitution.",
+    "Fresh normal-memory1 and load<=cores before the existing full270 command, then same097 Native/readback/GUI gates. No rebuild for this administrative/private-helper change."
+  ],
+  "recovery": "Sanitized report and source checkpoints may be public; raw evaluation/helper records are retained only on this Mac beyond older archive cutoffs. No new full restoration or cleanup was performed.",
+  "overall_product_complete": false
+}
