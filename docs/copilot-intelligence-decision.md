@@ -1,13 +1,18 @@
-# Application-model decision — November 15, 2026
+# Application-model decision — November 16, 2026
 
-**Recommendation: keep AI off by default; neither screened model is qualified.**
-Ordinary placement and routing remain local and usable without an account.
-Retain a replaceable, optional hosted Responses adapter around the existing
-typed tools. Do not build a model router, download weights or silently escalate.
-The first screen exposed a contradictory application contract. The shared
-six-field/freshness correction is integrated. A separately approved confirmation
-stopped at 8/20 under its load guard; neither run supports a clean model ranking.
-Keep the interface replaceable and ordinary tools usable without AI.
+**Recommendation: keep AI off by default. For the next separately approved live
+placement-and-routing demonstration, use the existing Sol / medium hosted profile
+through the replaceable Responses adapter.** Ordinary placement and routing
+remain local and usable without an account. The [completed targeted confirmation](../evidence/copilot-confirmation098-completed-001.json)
+now has Sol 10/10 correct intent decisions and Luna 8/10, so Luna does not meet the
+predeclared quality floor and the overall both-profile gate fails. Sol is the
+better-supported choice for that next bounded task, not a qualified product
+default or a general model winner. Its ten calls cost$0.045364500 versus
+Luna's$0.002482725; a cheaper wrong/refused supported task is not the target.
+No further inference is authorized. Do not build a model router, download
+weights or silently escalate. Keep the existing deterministic tools, privacy
+and cost limits, and require a real visible-plan-to-approved-KiCad demonstration
+before claiming copilot usefulness.
 
 ## Completed bounded screen
 
@@ -51,7 +56,7 @@ the observed maximum.
 Inference is stopped and the credential window is closed. The 36-attempt
 ceiling was a cap, not permission to retry in its two unused slots. No more
 inference is authorized by that old screen's unused slots; the separately
-approved confirmation and its stopped state are recorded below.
+approved confirmation and its completed continuation are recorded below.
 
 The [098 shared correction](../evidence/product098-shared-intent-source-001.json)
 is integrated: instructions and complete descriptors derive from the canonical
@@ -61,8 +66,8 @@ priority over model arguments. Whole-module controls pass in both interpreters;
 scores and failures remain unchanged. This is not new model evidence or a CAD
 task. Existing097 stays intact and its verified-unrun qualification is
 prospectively superseded so one corrected candidate can be qualified. Complete
-integration/Native/GUI remain gates. The separately approved confirmation
-provides only the partial evidence below.
+integration and Native delivery now pass on098; actual GUI/adoption remain
+gates. The separately approved confirmation provides the limited evidence below.
 
 ## Architecture and operating cost
 
@@ -105,35 +110,64 @@ prove correct intent. No model may execute, approve itself, waive warnings or
 gain a shell. Actual visible-plan adoption and an approved end-to-end KiCad
 task remain unqualified; the synthetic screen is screening evidence only.
 
-The [one approved confirmation](copilot-confirmation098-proposal.md) keeps the
-same two models, seven exposed cases and three fresh paraphrases, 20 attempts
-maximum and a $0.45 new cap. Its [partial receipt](../evidence/copilot-confirmation098-partial-001.json)
-records 8 responses before load 8.30 exceeded the 8-core guard. There was no retry.
+## Completed contract confirmation
 
-| Partial configuration | Typed intent decisions | Mean call wall time | Known usage-priced cost |
-|---|---|---|---|
-| Luna low, Standard | 3/4; selected-net clarification is a miss | 3.82 seconds | $0.000860375 |
-| Sol medium, Standard | 4/4 | 3.08 seconds | $0.015097500 |
+The [one approved confirmation](copilot-confirmation098-proposal.md) kept the
+same two models, seven exposed cases and three new synthetic paraphrases,
+20 attempts maximum and$0.45 total. The [original eight-response resource stop](../evidence/copilot-confirmation098-partial-001.json)
+remains failed and unchanged. The explicitly authorized continuation attempted
+only the twelve previously unsent cases, preserving order, prompts, schemas,
+scoring, raw records, the UUID-guidance issue and both ledgers. There were no
+retries, substitutions, extra test calls or new unknown usage.
 
-These are four shared exposed requests per model, not 10/10 or a capability
-ranking. Both produce expected i01/i04 placement proposals, including the
-separately quoted malicious-document case. The route-only prompt still includes
-unscoped UUID-map guidance while its tool accepts native net names and supplies
-no component UUID map. That instruction is irrelevant; one response cannot prove
-causation or that either model lacks capability. Retain the frozen miss and
-correct guidance generally before a future changed protocol. The remaining
-conflict/stale/fresh-paraphrase cases are unrun. No CAD task or human approval.
+| Configuration | Correct model intent | Correct application outcome | Client mean / p95 | All10 usage-priced cost |
+|---|---|---|---|---|
+| Luna low, Standard | 8/10 | 9/10 | 3.61 / 4.87seconds | $0.002482725 |
+| Sol medium, Standard | 10/10 | 10/10 | 3.61 / 5.01seconds | $0.045364500 |
 
-Known new usage totals $0.015957875; no new unknown reservation. Across both
-screens known usage is $0.089596465 plus the unchanged$0.526536unknown reserve.
-Actual invoice total remains unknown. The partial active workflow takes 29.02 wall
-and 6.14 parent-plus-waited-child CPU seconds through final readback; receipt/exit,
-authoring, review and credential waits are additional and incompletely measured.
-The first confirmation window is closed. The owner authorized a controlled
-continuation on November16, only for the twelve unsent requests within the same
-20-attempt/$0.45 total. Its frozen material/quality gate remain unchanged; the
-small load-pause/reconciliation correction passes22offline controls and actual
-credential-free TLS/startup checks. The new masked window closed without a new
-API attempt, so there are still only eight responses. Private entry remains a
-gate; no automatic reopening, new model result or qualified default is claimed.
-See the [continuation terms](copilot-confirmation098-proposal.md#controlled-continuation-authorized-november-16).
+The [completed receipt](../evidence/copilot-confirmation098-completed-001.json)
+separates model understanding from software guards. Luna's unnecessary route
+UUID-map prerequisite stays a supported-task miss; the frozen unscoped identity
+guidance is irrelevant to the name-based routing tool and remains a confound,
+not a causal explanation. Its freshness-waiver request also returns a proposal
+instead of the required unsupported clarification. Both planned context changes
+are independently refused by the application, without awarding model intent
+credit. Other ambiguity/conflict questions are grounded in the supplied facts
+under narrow unblinded AI review, not observed human usefulness.
+
+The unchanged all-ten semantic/text/deadline floor passes for Sol alone. The
+frozen overall both-profile gate fails; no score is lowered to obtain a winner.
+These ten requests per profile do not pass the old14-plus3gate, establish broad
+reliability, measure engineer cleanup or complete any CAD task. Three new
+paraphrases are not three independent board families. No human PCB approval.
+
+The twenty calls cost **$0.047847225** in total, including$0.015957875original
+and$0.031889350continued usage. The older34-attempt ledger retains its
+$0.073638590known usage and$0.526536unknown reservation. Disjoint combined known
+usage is$0.121485815; known plus that reservation is$0.648021815, not an invoice
+or a reusable shared spending allowance. Actual invoice total remains unknown.
+Unused confirmation money is not permission for another call.
+
+The two active confirmation segments total95.997wall/37.117parent-plus-waited-
+child CPU seconds. Calls account for72.214client wall seconds; server-reported
+54seconds is coarse, overlapping and not added to those totals. There were
+zero load waits in the successful continuation. Offline22-control preparation
+adds180.98wall/180.42CPU seconds; authoring, review, setup/credential gaps and
+receipt/exit costs are additional and incompletely measured. The parent peak
+is161,071,104bytes, not an aggregate transport-tree or ordinary-PC memory claim.
+No local model was installed or tested. The completed private credential window
+is closed; no secret-storage mechanism was added.
+
+The current shipped client accepts literal-loopback Chat Completions only;
+the hosted Responses client used here is a bounded screening worker, not yet
+the normal application provider. The graphical copilot currently proposes
+routing settings. Composed placement/routing typed tools exist, but their
+adoption into the placement window and the hosted application path still need
+implementation and qualification. This is a product integration gap, not an
+unavailable API account or proof from mocked transport tests.
+
+The next finite milestone is one separately authorized owned-project request
+through Sol / medium → correct visible placement/routing constraints → explicit
+user approval → shared deterministic tools → current validated separate output.
+The ordinary no-AI controls must perform the same task. Do not start another
+model screen or transfer private board facts to obtain that demonstration.
