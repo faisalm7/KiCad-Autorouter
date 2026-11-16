@@ -41,7 +41,8 @@ Known usage-priced cost totals **$0.07363859**. The original transport attempt
 has unknown billable usage and retains **$0.526536**, making conservative
 committed usage **$0.60017459**, within the authorized $1 ceiling. The actual
 invoice total remains unknown. Active screen segments total 136.13 seconds
-and 23.21 parent-plus-waited-child CPU seconds. Authoring, diagnostics, review
+and 23.21 reported parent-plus-waited-child CPU seconds. Those samples precede
+final source readback and receipt writing; complete CPU is unmeasured. Authoring, diagnostics, review
 and credential waits are additional and not fully measured. Elapsed samples
 mix cold/cache states; warm-only latency is unmeasured and small-sample p95 is
 the observed maximum.
@@ -100,3 +101,8 @@ approval and delivery stay in shared deterministic tools. Valid JSON does not
 prove correct intent. No model may execute, approve itself, waive warnings or
 gain a shell. Actual visible-plan adoption and an approved end-to-end KiCad
 task remain unqualified; the synthetic screen is screening evidence only.
+
+The [one proposed confirmation](copilot-confirmation098-proposal.md) uses the same
+two models, seven exposed cases and three fresh paraphrases: 20 attempts, no
+retries and a requested $0.45 new cap. It remains disabled and unapproved; the
+old ledger/reservation and original quality gate are preserved.
