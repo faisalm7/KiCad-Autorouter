@@ -1,8 +1,15 @@
-# One bounded contract confirmation — proposal only
+# One bounded contract confirmation — frozen protocol
 
-**Disabled; no new paid calls are authorized.** This tests whether the corrected
-shared contract resolves the exposed interpretation failures. It is not a fair
-general model ranking, a replacement for the old quality gate, or a KiCad task.
+**Approved, then stopped safely after 8 of 20; no automatic continuation.** The
+[actual partial receipt](../evidence/copilot-confirmation098-partial-001.json)
+records $0.015957875 new usage. Load 8.30 exceeded the fixed 8-core guard before
+request 9. The finished credential window is closed; further inference requires
+separate authorization. Keep this frozen protocol and all failures unchanged.
+This tests the corrected shared contract, not general capability ranking, the
+old quality gate or a KiCad task. Both initial placement cases pass for both
+models. Luna's selected-net clarification remains a miss; unscoped UUID guidance
+is irrelevant to the name-based routing tool, without proving the cause of that
+response. Scope identity guidance generally before any future changed protocol.
 The [old screen and its failures](../evidence/copilot-screen097-completed-001.json)
 remain unchanged.
 
@@ -30,7 +37,7 @@ has SHA256 `f063b413dfdaf6a3c298ccd6cc40e37dcd567e2bce0f529193e443b7867ba982`.
 “New” means not previously sent by this application's evaluation; it is not a
 claim about model pretraining. No board-specific winners or answers are patched.
 
-The requested ceiling is **20 new attempts and $0.45 total new spending**,
+The approved ceiling is **20 new attempts and $0.45 total new spending**,
 including failures. Each call has a 30-second limit, at most 8,192 input and
 2,048 output/reasoning tokens; the active session has 660 seconds. Declared
 worst-case usage reservations total $0.43008 at the pinned Standard rates,

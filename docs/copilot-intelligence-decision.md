@@ -4,9 +4,10 @@
 Ordinary placement and routing remain local and usable without an account.
 Retain a replaceable, optional hosted Responses adapter around the existing
 typed tools. Do not build a model router, download weights or silently escalate.
-The completed screen exposed a contradictory application contract, so it cannot
-support a clean capability ranking. Fix that contract offline before seeking
-approval for any further live evaluation.
+The first screen exposed a contradictory application contract. The shared
+six-field/freshness correction is integrated. A separately approved confirmation
+stopped at 8/20 under its load guard; neither run supports a clean model ranking.
+Keep the interface replaceable and ordinary tools usable without AI.
 
 ## Completed bounded screen
 
@@ -49,7 +50,8 @@ the observed maximum.
 
 Inference is stopped and the credential window is closed. The 36-attempt
 ceiling was a cap, not permission to retry in its two unused slots. No more
-inference, new credential request or model substitution is authorized.
+inference is authorized by that old screen's unused slots; the separately
+approved confirmation and its stopped state are recorded below.
 
 The [098 shared correction](../evidence/product098-shared-intent-source-001.json)
 is integrated: instructions and complete descriptors derive from the canonical
@@ -59,7 +61,8 @@ priority over model arguments. Whole-module controls pass in both interpreters;
 scores and failures remain unchanged. This is not new model evidence or a CAD
 task. Existing097 stays intact and its verified-unrun qualification is
 prospectively superseded so one corrected candidate can be qualified. Complete
-integration/Native/GUI and a separately authorized confirmation remain gates.
+integration/Native/GUI remain gates. The separately approved confirmation
+provides only the partial evidence below.
 
 ## Architecture and operating cost
 
@@ -102,7 +105,29 @@ prove correct intent. No model may execute, approve itself, waive warnings or
 gain a shell. Actual visible-plan adoption and an approved end-to-end KiCad
 task remain unqualified; the synthetic screen is screening evidence only.
 
-The [one proposed confirmation](copilot-confirmation098-proposal.md) uses the same
-two models, seven exposed cases and three fresh paraphrases: 20 attempts, no
-retries and a requested $0.45 new cap. It remains disabled and unapproved; the
-old ledger/reservation and original quality gate are preserved.
+The [one approved confirmation](copilot-confirmation098-proposal.md) keeps the
+same two models, seven exposed cases and three fresh paraphrases, 20 attempts
+maximum and a $0.45 new cap. Its [partial receipt](../evidence/copilot-confirmation098-partial-001.json)
+records 8 responses before load 8.30 exceeded the 8-core guard. There was no retry.
+
+| Partial configuration | Typed intent decisions | Mean call wall time | Known usage-priced cost |
+|---|---|---|---|
+| Luna low, Standard | 3/4; selected-net clarification is a miss | 3.82 seconds | $0.000860375 |
+| Sol medium, Standard | 4/4 | 3.08 seconds | $0.015097500 |
+
+These are four shared exposed requests per model, not 10/10 or a capability
+ranking. Both produce expected i01/i04 placement proposals, including the
+separately quoted malicious-document case. The route-only prompt still includes
+unscoped UUID-map guidance while its tool accepts native net names and supplies
+no component UUID map. That instruction is irrelevant; one response cannot prove
+causation or that either model lacks capability. Retain the frozen miss and
+correct guidance generally before a future changed protocol. The remaining
+conflict/stale/fresh-paraphrase cases are unrun. No CAD task or human approval.
+
+Known new usage totals $0.015957875; no new unknown reservation. Across both
+screens known usage is $0.089596465 plus the unchanged$0.526536unknown reserve.
+Actual invoice total remains unknown. The partial active workflow takes 29.02 wall
+and 6.14 parent-plus-waited-child CPU seconds through final readback; receipt/exit,
+authoring, review and credential waits are additional and incompletely measured.
+The finished credential window is closed. Further inference needs separate
+authorization; there is no automatic continuation or qualified model default.
