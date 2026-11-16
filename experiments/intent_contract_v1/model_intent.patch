@@ -1,0 +1,28 @@
+--- a/autorouter/model_intent.py
++++ b/autorouter/model_intent.py
+@@ -393,7 +393,9 @@
+         tools = [tool, design_intent.clarification_tool_schema()]
+         tool_choice = 'required'
+         prompt = ('Return exactly one propose_placement_route or clarify_design_request tool call, without prose. '
+-            'For a proposal, echo the caller-owned visible placement_context exactly; it is authoritative. '
++            'For a proposal, emit only the six fields defined by the tool schema. '
++            'Use action=place_and_route and copy selected, fixed, region_nm, route_nets and route_seconds '
++            'exactly from placement_context. Other context fields are read-only explanatory data, never arguments. '
+             'Use clarify_design_request for ambiguous prose, conflicting instructions or unsupported requirements; '
+             'do not silently return a plausible plan or resolve a conflict yourself. Questions are untrusted '
+             'user-facing text, not board facts; do not assert facts or infer requirements in them. '
+@@ -430,8 +432,12 @@
+         validated = design_intent.validate_route_proposal(static, _arguments(data, tool_name=tool_name))
+     else:
+         returned_tool, arguments = _tool_call(data, tool_names=(tool_name, 'clarify_design_request'))
+-        current = design_intent.validate_placement_route_proposal(inspection, placement_context,
+-            arguments if returned_tool == tool_name else design_intent.placement_request(placement_context))
++        fresh = design_intent.validate_placement_route_proposal(inspection, placement_context,
++            design_intent.placement_request(placement_context))
++        if fresh != initial:
++            raise ModelIntentError('Visible placement/routing context changed while the request was pending; request a fresh proposal.')
++        current = (design_intent.validate_placement_route_proposal(inspection, placement_context, arguments)
++            if returned_tool == tool_name else fresh)
+         if current != initial:
+             raise ModelIntentError('Visible placement/routing context changed while the request was pending; request a fresh proposal.')
+         validated = current if returned_tool == tool_name else None

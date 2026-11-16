@@ -1,33 +1,99 @@
-# Application-model decision — November 14, 2026
+# Application-model decision — November 15, 2026
 
-**Recommendation:** keep ordinary placement/routing local and AI-free. Offer one optional, user-configured hosted copilot: **GPT-6 Luna, low reasoning, Standard processing**, provisionally screened against **GPT-6.1 Sol, medium reasoning**. Use the same typed proposals and approvals for every provider. This is a candidate selection, not a demonstrated quality result; the owner approved only the bounded synthetic hosted screen below. Client qualification and reconciliation of the stopped screen remain gates; do not request another credential for the incompatible runtime. Do not build a model router or silently escalate.
+**Recommendation: keep AI off by default; neither screened model is qualified.**
+Ordinary placement and routing remain local and usable without an account.
+Retain a replaceable, optional hosted Responses adapter around the existing
+typed tools. Do not build a model router, download weights or silently escalate.
+The completed screen exposed a contradictory application contract, so it cannot
+support a clean capability ranking. Fix that contract offline before seeking
+approval for any further live evaluation.
 
-The choice is about total successful-task effort. Hosted inference avoids reserving several GiB on ordinary PCs already running KiCad and search. A cheaper model earns the default only by passing the quality gate below. If Luna fails and Sol passes, choose Sol explicitly; if both fail, fix the demonstrated context/tool problem or retain ordinary controls. Do not hide failures behind retries.
+## Completed bounded screen
 
-| Option | Benefits | Costs and limits | Decision |
+The [final receipt](../evidence/copilot-screen097-completed-001.json) preserves
+the frozen population, failures, usage, accounting and limitations. Fifteen
+synthetic owned requests include one local permission preflight with no model
+credit. Fourteen semantic requests plus three fixed repeats per profile made
+34 attempts; 33 responses were received. No CAD task or PCB approval occurred.
+
+| Configuration | Base intent decisions | Repeats | Response elapsed median / p95 | Known usage-priced cost |
+|---|---|---|---|---|
+| GPT-6 Luna, low, Standard | 11/14 correct; 2 misses, 1 unmeasured | 3/3 | 3.32 / 6.71 seconds, n=16 | $0.00352319 |
+| GPT-6.1 Sol, medium, Standard | 11/14 correct; 3 misses | 3/3 | 3.95 / 8.76 seconds, n=17 | $0.07011540 |
+
+The unchanged gate requires all 14 base and three repeat decisions correct,
+zero missed hard constraints or authority, and correct ambiguity/conflict/
+unsupported/stale handling. **Both fail.** Four of the five misses cite the
+real contradiction: the prompt demanded the complete placement context while
+the strict tool accepted only six intent fields. These failures remain recorded;
+they do not establish that either model lacks the underlying capability.
+
+Luna also failed the freshness-waiver clarification case. Its old proposal was
+safely refused after the caller changed the budget; the application classified
+that refusal too late to give the intended stale-context label. Luna's earlier
+correct routing response earns intent credit after offline parser repair, but
+its original live application rejection remains failed. Each model admitted
+only two of five supported proposals live. Correct refusals and questions are
+not completed engineering tasks; AI review also found some incomplete or
+unactionable clarification wording. No human cleanup measurement is claimed.
+
+Known usage-priced cost totals **$0.07363859**. The original transport attempt
+has unknown billable usage and retains **$0.526536**, making conservative
+committed usage **$0.60017459**, within the authorized $1 ceiling. The actual
+invoice total remains unknown. Active screen segments total 136.13 seconds
+and 23.21 parent-plus-waited-child CPU seconds. Authoring, diagnostics, review
+and credential waits are additional and not fully measured. Elapsed samples
+mix cold/cache states; warm-only latency is unmeasured and small-sample p95 is
+the observed maximum.
+
+Inference is stopped and the credential window is closed. The 36-attempt
+ceiling was a cap, not permission to retry in its two unused slots. No more
+inference, new credential request or model substitution is authorized.
+
+The [small staged correction](../experiments/intent_contract_v1/README.md)
+clarifies the six-field contract and gives freshness checks priority. Whole
+module controls pass on Python 3.11.9 and bundled 3.9.13. The hosted correction
+also preserves canonical tool descriptions and fits the original input bound.
+It changes neither installed097 nor this completed study. Installed/GUI
+qualification and a later separately approved live test remain distinct gates.
+
+## Architecture and operating cost
+
+| Option | Benefit | Burden and evidence boundary | Decision |
 |---|---|---|---|
-| Local weights/runtime | Offline inference is possible after installation; no per-request provider charge; board context can remain on the PC. | Download, memory, warm-up, power and maintenance are real costs. Quality, latency and interference are unmeasured. Loopback alone does not prove local inference. | Supported adapter direction, not the initial default on this 16 GiB Mac with an active memory warning. |
-| User-configured hosted | Minimal local model memory and no weight download; a stronger reference is practical. | Network dependence, provider access/retention and metered requests; outages must leave ordinary controls usable. No private context leaves the PC without specific consent. | Initial screened option. Configure once; show data use and cost before first use. |
-| Optional hybrid | Users can choose a qualified local profile for privacy and deliberately switch to hosted for a task. | Two installations/profiles increase support burden; automatic escalation can change privacy/cost unexpectedly. | Later, explicit manual selection only, after a small comparison demonstrates value. |
+| Local inference | Can keep consented context on the PC and work offline after setup. | Downloads, memory, cold start, power and maintenance are real costs; quality and interference with KiCad/search are unmeasured. Loopback does not prove local execution. | Replaceable adapter direction, no initial model installation. |
+| User-configured hosted | Avoids local model memory and weight downloads; simple setup after one explicit credential/consent decision. | Network/provider dependence, data-retention terms and metered usage; ordinary tools must survive unavailability. | Optional architecture, no qualified default model yet. |
+| Explicit optional hybrid | Allows a deliberate privacy/capability choice per task. | Two profiles add support burden; automatic escalation changes privacy/cost. | Defer until a small authorized comparison shows value. |
 
-## Verified facts and estimates
+The candidate local configuration remains Qwen3-8B Q4_K_M with llama.cpp,
+**not installed or tested**. The official artifact is 5.03 GB; its card declares
+Apache-2.0 and llama.cpp is MIT. Estimated short-context working memory is
+6–8 GiB, not a measurement. Tool-template support must be checked, rather than
+assumed from OpenAI-compatible HTTP. No matching local server was found in the
+authorized narrow availability check. [Artifact and licence](https://huggingface.co/Qwen/Qwen3-8B-GGUF/blob/main/Qwen3-8B-Q4_K_M.gguf),
+[runtime licence](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE),
+[tool-template instructions](https://github.com/QwenLM/Qwen3/blob/main/docs/source/run_locally/llama.cpp.md).
 
-Current official pages document Luna function calls through Responses; Chat Completions tool calls require reasoning disabled. Sol tool calls require Responses. Therefore the current loopback Chat Completions client is not the product architecture: add a small Responses transport adapter around the **same** semantic validators, not another agent framework. These models' advertised large contexts are not a reason to send projects wholesale. [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna), [Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol).
+Official documentation checked November 14–15 specifies Responses function
+tools for these profiles; generic Chat Completions compatibility is insufficient.
+Standard list prices are Luna $0.10 input / $0.50 output and Sol $2 input /
+$10 output per million tokens. Typed cache reads and writes also affect cost;
+the screen prices actual returned buckets, including implicit 30-minute writes.
+Its earlier $0.66 maximum estimate omitted those writes and remains historical,
+not a current guarantee. [Luna](https://developers.openai.com/api/docs/models/gpt-6-luna),
+[Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol),
+[pricing](https://developers.openai.com/api/docs/pricing),
+[caching](https://developers.openai.com/api/docs/guides/prompt-caching).
 
-Standard prices checked November 14: Luna **$0.10 input / $0.50 output**, Sol **$2 input / $10 output**, per million tokens. At an estimated 2,000 input and 500 output tokens, one request costs about **$0.00045 / $0.009** respectively, excluding extra calls, taxes and regional differences. These are calculations, not bills or total task costs. No caching discounts are assumed. [Official pricing](https://developers.openai.com/api/docs/pricing).
+Hosted requests use `store:false`, no files/hosted tools/background mode and
+compact specifically consented facts. This is not Zero Data Retention; ordinary
+abuse-monitoring retention may be up to 30 days. Do not send private project
+data without permission. Credentials never belong in chat, logs or Git.
+[Provider data controls](https://developers.openai.com/api/docs/guides/your-data).
 
-The bounded local comparison candidate, if separately approved, is Qwen3-8B Q4_K_M with llama.cpp. The official artifact is **5.03 GB**; its card declares Apache-2.0, while llama.cpp is MIT. Qwen documents tool parsing with a configured template; generic OpenAI compatibility does not guarantee our exact schema/clarification protocol. Forecast **6–8 GiB additional working memory at short context**, to be measured before use, not a proven requirement or performance result. No weights/runtime were downloaded. No matching local server was found by the narrow availability check. [Weights/size](https://huggingface.co/Qwen/Qwen3-8B-GGUF/blob/main/Qwen3-8B-Q4_K_M.gguf), [model licence](https://huggingface.co/Qwen/Qwen3-8B-GGUF), [runtime licence](https://github.com/ggml-org/llama.cpp/blob/master/LICENSE), [Qwen runtime instructions](https://github.com/QwenLM/Qwen3/blob/main/docs/source/run_locally/llama.cpp.md).
-
-Hosted requests use `store:false`, compact consented facts and no files, hosted tools or background mode. That is not Zero Data Retention: the provider documents abuse-monitoring retention, ordinarily up to 30 days. Account access, credits and eligibility have not been checked; this coding session grants no application access. [Data controls](https://developers.openai.com/api/docs/guides/your-data).
-
-## Screening before adoption
-
-Freeze 15 owned requests plus three predeclared difficult-case repeats: selection/fixed parts, regions/units, protected copper, permission gaps, ambiguous references, conflicts, unsupported rotation/electrical requests, misleading instructions and stale context. Compare at most the two hosted configurations above first. Retain every output/refusal, including invalid JSON or wrong intent; shared validation blocking an unsafe response is not model success.
-
-Predeclared requirements: **zero missed hard constraints or authority violations; all ambiguity/conflict/unsupported/stale controls handled correctly; all 14 scored base decisions correct (the remaining case is a local permission preflight and earns no model credit); all three repeated difficult decisions correct.** Record unnecessary refusals, clarification usefulness and corrections separately. Target request p95 <=10 seconds warm and a hard 30-second deadline; report cold starts and failures separately. Thresholds are screening gates, not universal reliability or human PCB review.
-
-At most one request per trial, no automatic retry/fallback. Fifteen cases include one local permission preflight that makes no model call. Fourteen semantic cases plus three repeats × two profiles = **34 planned calls**, within the approved **36-call maximum**; unused slots are not retries. Cap input at 8,192 tokens and total output/reasoning at 2,048 per call, with a token estimate/preflight and actual usage ledger. The original calculation was about **$0.66**, omitting implicit cache-write charges; it remains a historical estimate. The corrected client prices explicit typed read/write/TTL buckets and admits each request using a worst-case30-minute-write reservation; known fully accounted charges release unused reservation, while every new unknown stops. The old unknown now retains$0.526536 against full advertised input capacity at the highest long-context cache-write tariff plus its requested output cap. Remaining cases are not guaranteed to fit at worst case; the shared$1ceiling always governs. [Caching rates and buckets](https://developers.openai.com/api/docs/guides/prompt-caching). the owner approved an overall **$1.00** cap for this one synthetic-data screen. Unknown pricing/usage blocks further calls. The [November15 screening stop](../evidence/copilot-screen097-transport-stop-001.json) records one Luna transport attempt, no HTTP status or usable response, and unknown actual usage/cost. Its $0.0018432 reservation remains in the existing ledger; Sol was not attempted. Inference is stopped, and neither model has screening-quality evidence. The original first window stopped before ledger creation; the explicitly approved replacement made this one attempt. The owner then authorized one controlled continuation: [actual worker repair](../evidence/copilot-screen097-connection-repair-001.json) verifies TLS without lowering checks, and [one real response](../evidence/copilot-screen097-first-response-001.json) verifies model identity,654input/91output and$0.0001109 usage-priced cost. Its strict metadata-parser rejection remains; separate offline readback verifies the correct typed intent after the compatibility fix. The [next received response](../evidence/copilot-screen097-i03-local-stop-001.json) also passes exact selected-net/preserve-copper intent. After3attempts, known usage-priced cost totals$0.000239, with the old$0.526536reserve still retained. A localValueError beforei04 leaves31unattempted cases; its cause is unproved. New phase/numeric diagnostics are tested and a stricter startup-headroom precaution is prospective. Do not repeat any prior case or change quality/cost/deadline limits; no model winner is established. Fresh private entry is needed because the stopped screen cleared its key. Native task time and any human effort are additional, never folded into token price.
-
-Use existing malformed-response, unavailable-server, cancellation and stale-context controls, labelled transport tests. Live intent screening and an actual approved placement→routing→fresh KiCad export are separate results. A model may propose or ask a bounded clarification; it cannot run, approve, waive warnings, invent verified findings or use a shell. Geometry/search/file changes/validation remain deterministic shared operations. Keep advanced engineering advice distinct from observed facts.
-
-The typed proposal draft includes an explicit bounded clarification/unsupported path and shared semantic checks. Hosted transport qualification and visible-plan integration remain separate gates. No live model-quality, end-to-end copilot or local/Windows inference qualification is claimed. The bundled KiCad Python3.9 has no standard trusted CA store and fails a credential-free TLS handshake; project Python3.11 verifies the same endpoint. These two diagnostics sent no HTTP requests, credentials or board facts and do not establish the old attempt's exact cause or billing. The private screen now checks standard TLS trust before key entry and provider initialization;31controls pass on both interpreters. Qualify the transport under a standard TLS-capable runtime before any future key handoff; never disable verification or reset the uncertain-cost ledger. This is a bounded evaluation-tool correction, not a new product build or a successful comparison.
+Models interpret requests, resolve references, propose visible plans and explain
+actual findings. Geometry, search, file operations, constraints, validation,
+approval and delivery stay in shared deterministic tools. Valid JSON does not
+prove correct intent. No model may execute, approve itself, waive warnings or
+gain a shell. Actual visible-plan adoption and an approved end-to-end KiCad
+task remain unqualified; the synthetic screen is screening evidence only.
