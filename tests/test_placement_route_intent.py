@@ -109,6 +109,73 @@ class PlacementRouteIntent(unittest.TestCase):
         schema['properties']['action']['enum'].append('execute')
         self.assertEqual(design.placement_tool_schema()['function']['parameters']['properties']['action']['enum'],['place_and_route'])
 
+    def test_model_contract_uses_canonical_fresh_schema_and_only_its_intent_fields(self):
+        contract = design.placement_model_contract()
+        self.assertEqual(contract['tools'], [design.placement_tool_schema(), design.clarification_tool_schema()])
+        self.assertEqual(contract['tool_choice'], 'required')
+        parameters = contract['tools'][0]['function']['parameters']
+        copied = [key for key in parameters['required'] if key != 'action']
+        self.assertEqual(set(parameters['required']), set(self.request))
+        self.assertIn('action=place_and_route', contract['instructions'])
+        self.assertIn('copy only ' + '/'.join(copied), contract['instructions'])
+        self.assertIn('read-only', contract['instructions'])
+        self.assertIn('clarify instead of guessing', contract['instructions'])
+        self.assertNotIn('echo the complete', contract['instructions'])
+        contract['tools'][0]['function']['parameters']['required'].append('approval_granted')
+        self.assertNotIn('approval_granted',
+            design.placement_model_contract()['tools'][0]['function']['parameters']['required'])
+
+    def test_actual_client_uses_shared_contract_and_only_schema_arguments(self):
+        expected_contract = design.placement_model_contract()
+        def respond(_host, _port, body, _headers, _timeout):
+            sent = json.loads(body)
+            self.assertEqual(sent['messages'][0]['content'], expected_contract['instructions'])
+            self.assertEqual(sent['tools'], expected_contract['tools'])
+            visible = json.loads(sent['messages'][1]['content'])['inspection']['placement_context']
+            fields = sent['tools'][0]['function']['parameters']['required']
+            arguments = {'action': 'place_and_route', **{
+                key: visible[key] for key in fields if key != 'action'}}
+            self.assertEqual(arguments, self.request)
+            self.assertNotIn('components', arguments)
+            self.assertNotIn('caller_rebuild_permission_present', arguments)
+            return json.dumps(response(arguments)).encode()
+        with patch.object(client, '_post', side_effect=respond) as transport:
+            result = client.propose_placement_route(
+                self.inspection, self.context, 'Use the visible choices.', self.config)
+        transport.assert_called_once()
+        self.assertEqual(result['proposal']['intent'], self.request)
+        self.assertFalse(result['proposal']['execution_authorized'])
+        self.assertFalse(result['proposal']['approval_granted'])
+
+    def test_old_arguments_after_visible_change_have_freshness_priority(self):
+        original = copy.deepcopy(self.request)
+        def changed(*_args, **_kwargs):
+            updated = self.make_context(route_seconds=120)
+            self.context.clear(); self.context.update(updated)
+            return json.dumps(response(original)).encode()
+        with patch.object(client, '_post', side_effect=changed) as transport:
+            with self.assertRaisesRegex(client.ModelIntentError, 'changed while the request was pending'):
+                client.propose_placement_route(
+                    self.inspection, self.context, 'Use the visible choices.', self.config)
+        transport.assert_called_once()
+
+    def test_shared_pending_fence_covers_clarification_permission_and_authority(self):
+        initial = self.validate()
+        self.assertEqual(design.validate_pending_placement_route_proposal(
+            self.inspection, self.context, initial), initial)
+        with self.assertRaises(design.IntentError):
+            design.validate_pending_placement_route_proposal(
+                self.inspection, self.context, initial, dict(self.request, approval_granted=True))
+        changed = self.make_context(route_seconds=120)
+        with self.assertRaises(design.PendingContextChanged):
+            design.validate_pending_placement_route_proposal(
+                self.inspection, changed, initial, self.request)
+        with self.assertRaises(design.PendingContextChanged):
+            design.validate_pending_placement_route_proposal(self.inspection, changed, initial)
+        revoked = copy.deepcopy(self.context); revoked['rebuild_permission'] = False
+        with self.assertRaises(design.IntentError):
+            design.validate_pending_placement_route_proposal(self.inspection, revoked, initial)
+
     def test_synthetic_HTTP_calls_real_shared_validator_and_sends_only_compact_context(self):
         expected=self.validate();original=gui.source_inventory(self.board)
         with local_server(json.dumps(response(self.request)).encode())as(endpoint,calls):

@@ -1,7 +1,20 @@
 # Exposed intent-contract correction
 
-This is a staged source correction, **not an installed feature or a new live
-model comparison**. The completed synthetic screen exposed a contradiction:
+**Historical staged artifact, now integrated through the shared intent layer.**
+The [098 source receipt](../../evidence/product098-shared-intent-source-001.json)
+records the schema-derived instructions and shared pending-context fence. Use
+the current regression modules:
+
+```sh
+.venv/bin/python -B -m unittest tests.test_design_intent tests.test_model_intent tests.test_placement_route_intent
+```
+
+The frozen patch/tests below describe their original `8807d4034` staging state.
+Do not apply the patch again to current source. The old standalone test correctly
+refuses a changed baseline; its original results and failed first draft remain.
+
+This records the original staged source correction, **not an installed feature
+or a new live model comparison**. The completed synthetic screen exposed a contradiction:
 the prompt asked for the complete placement context while the strict tool
 accepted only six intent fields. Both the loopback product client and private
 hosted screening draft contained it. The screen and its failures stay frozen.
@@ -15,7 +28,7 @@ the model's arguments. A changed budget must be reported as changed context
 even when the response repeats the old budget. Source, permissions, protection,
 semantic validation and explicit approval remain mandatory.
 
-The tests apply the patch to **one small temporary module**, load that whole
+The original staging tests apply the patch to **one small temporary module**, load that whole
 module, and run the existing shared intent controls plus the two reproduced
 regressions. They do not extract functions, create an installation, call an
 external model or run KiCad. Run on the current Mac checkout:
@@ -24,9 +37,9 @@ external model or run KiCad. Run on the current Mac checkout:
 .venv/bin/python -B -m unittest experiments.intent_contract_v1.test_contract
 ```
 
-The current runtime097 installation, its 479-file full270 population and the
-completed hosted screen are deliberately unchanged. Integrate the correction
-with the next coherent product batch after that qualification; do not describe
+Runtime097 and the completed hosted screen remain unchanged. The owner has
+prospectively superseded its **unrun** full270 plan so one corrected098 build
+can receive complete integration/Native/GUI qualification. Do not describe
 these source tests as installed/GUI or live-model qualification. The matching
 private hosted patch also preserves tool descriptions and fixes stale-response
 classification; it remains local with its frozen baseline and offline proof.

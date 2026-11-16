@@ -50,12 +50,15 @@ Inference is stopped and the credential window is closed. The 36-attempt
 ceiling was a cap, not permission to retry in its two unused slots. No more
 inference, new credential request or model substitution is authorized.
 
-The [small staged correction](../experiments/intent_contract_v1/README.md)
-clarifies the six-field contract and gives freshness checks priority. Whole
-module controls pass on Python 3.11.9 and bundled 3.9.13. The hosted correction
-also preserves canonical tool descriptions and fits the original input bound.
-It changes neither installed097 nor this completed study. Installed/GUI
-qualification and a later separately approved live test remain distinct gates.
+The [098 shared correction](../evidence/product098-shared-intent-source-001.json)
+is integrated: instructions and complete descriptors derive from the canonical
+schema, and one shared pending-response validator gives fresh caller choices
+priority over model arguments. Whole-module controls pass in both interpreters;
+33 saved responses also cross the current parser/shared checks offline. Original
+scores and failures remain unchanged. This is not new model evidence or a CAD
+task. Existing097 stays intact and its verified-unrun qualification is
+prospectively superseded so one corrected candidate can be qualified. Complete
+integration/Native/GUI and a separately authorized confirmation remain gates.
 
 ## Architecture and operating cost
 
