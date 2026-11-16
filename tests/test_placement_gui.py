@@ -62,9 +62,11 @@ class PlacementGuiTests(unittest.TestCase):
         window = SimpleNamespace(gate=gate, job=gui.CliJob(), busy=False, routing=None, finalized=False,
             qualified=None, validation_revoked=False, pending_coordinates={}, editing_component=None,
             alternative_labels=[], alternative_targets=[],
+            copilot_generation=0, pending_copilot=None, approved_copilot=None,
             cancel_event=threading.Event(), inspection=gate.review.inspection,
             ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
+            assistant_ack=Mock(), assistant_result=Mock(),
             copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
             current_review_settings=Mock(), overview=Mock(), region_summary=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
@@ -76,6 +78,7 @@ class PlacementGuiTests(unittest.TestCase):
         window.revoke = MethodType(window_method('revoke'), window)
         window.edit_component = MethodType(window_method('edit_component'), window)
         window.finish_close = MethodType(window_method('finish_close'), window)
+        window.invalidate_copilot = MethodType(window_method('invalidate_copilot'), window)
         return window
 
     def test_target_region_is_explicit_and_has_the_same_settings_and_revocation_path(self):

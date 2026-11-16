@@ -2,6 +2,8 @@
 
 The [master specification](MASTER_PROMPT.md), [current strategy](docs/product-strategy.md) and later owner steering govern. Historical routing superiority remains unmet/deferred research, not a product prerequisite. Current098 source `e1d9addc4` / installed manifest `0c94d34f6e01` passes full271, Native delivery and independent readback; actualGUI121 is in progress. Retain096/GUI120 as the last fully observed owned-region reference and094/GUI118 as the licensed-task reference. [Status](STATUS.md) · [Plan](PLANS.md) · [severity list](docs/experimental-rc.md). Version-specific evidence/failures below remain unchanged.
 
+**Current099source gate:** [Composed copilot/ready-state correction](evidence/product099-copilot-source-001.json) passes focused controls and skeptical source review, with real-wx readiness and actual verified3.9→3.11TLS observations. Not yet installed/full/Native/GUI/live qualified. GUI121's passed prospective admission exposed a real checked-but-disabled validation blocker; no Native attempt began. Preserve098and every earlier result. One new owned Sol/medium request needs separate approval after offline readiness; the old both-profile study failure does not block that scoped pilot or authorize more spending.
+
 **Current finite checklist:** later completed receipts govern current state; earlier versioned snapshots below retain their own support and accounting limits.
 
 | Current gate | Classification and evidence |

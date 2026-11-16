@@ -1,6 +1,6 @@
 """Selected-placement controls over the shared guarded core.
 
-No model, editor mutation or implicit routing approval. Native qualification runs
+Optional intent proposals confer no editor mutation or implicit routing approval. Native qualification runs
 in the ordinary isolated CLI; the existing routing frame owns later routing,
 warning review, acceptance and separate-project delivery.
 """
@@ -19,6 +19,89 @@ import uuid
 import xml.etree.ElementTree as ET
 
 from . import config as c, gui, handoff as h, placement_intent as intent, placement_view
+
+
+def copilot_context(inspection, settings, seconds):
+    """The same visible choices and affected-net plan as ordinary controls."""
+    from . import design_intent
+    seconds = routing_seconds(seconds)
+    plan = intent.copper_plan(inspection, settings)
+    if plan is None:
+        raise ValueError('This pilot needs your explicit affected-net rebuild choice. '
+            'Choose Rebuild affected unlocked nets and review the protection controls first. '
+            'The assistant cannot give that permission.')
+    selected = set(settings['selected'])
+    fixed = [row['uuid'] for row in inspection['components'] if row['uuid'] not in selected]
+    return design_intent.placement_route_context(inspection, settings, fixed_components=fixed,
+        rebuild_permission=intent.rebuilds_copper(settings),
+        approved_route_nets=plan['incident_names'], route_seconds=seconds)
+
+
+def routing_seconds(text):
+    if (type(text) is not str or not 1 <= len(text) <= 32 or not text.isascii()
+            or not text.isdecimal() or not 5 <= int(text) <= 900):
+        raise ValueError('Enter a whole-number routing budget from 5 to 900 seconds.')
+    return int(text)
+
+
+def copilot_plan_text(inspection, proposal):
+    """Present checked facts, not generated explanations or execution authority."""
+    refs = {row['uuid']: row['reference'] for row in inspection['components']}
+    value = proposal['intent']; area = value['region_nm']
+    return ('Proposed plan — waiting for your approval\n\nMove: '
+        + ', '.join(refs[key] for key in value['selected'])
+        + '\nKeep fixed: ' + (', '.join(refs[key] for key in value['fixed']) or 'all unselected parts')
+        + '\nMovement area: (' + mm(area[0]) + ', ' + mm(area[1]) + ') to ('
+        + mm(area[2]) + ', ' + mm(area[3]) + ') mm'
+        + '\nOrientation and board side: unchanged\n\n' + copper_findings(proposal['copper_plan'])
+        + '\n\nRoute only: ' + ', '.join(value['route_nets'])
+        + '\nRouting budget: ' + str(value['route_seconds']) + ' seconds'
+        + '\nOriginal rules and source copper layers; corrected completion routing.'
+        + '\n\nApproval here requests placement alternatives only. Review the resulting moves '
+          'before Native validation and routing. Final findings and acceptance remain separate.'
+        + '\nNo electrical, manufacturing or human PCB approval is granted.')
+
+
+def hosted_consent(wx, parent, prepared, consent):
+    """One finite private entry; no credentials in persistence or diagnostics."""
+    dialog = wx.Dialog(parent, title='Ask the assistant · review data and cost', size=(650, 550))
+    layout = wx.BoxSizer(wx.VERTICAL)
+    text = wx.StaticText(dialog, label='One request to OpenAI · Sol / medium · maximum $0.05. '
+        'Placement, routing and validation still run locally after your separate approval.')
+    text.Wrap(610); layout.Add(text, 0, wx.EXPAND | wx.ALL, 12)
+    data = wx.TextCtrl(dialog, value=json.dumps(prepared['consent_summary'], indent=2, ensure_ascii=False),
+        style=wx.TE_MULTILINE | wx.TE_READONLY)
+    layout.Add(data, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
+    allowed = wx.CheckBox(dialog, label='I allow this shown request and compact project summary to be sent once.')
+    layout.Add(allowed, 0, wx.ALL, 12)
+    layout.Add(wx.StaticText(dialog, label='Dedicated API key · held only for this request'), 0, wx.LEFT, 12)
+    field = wx.TextCtrl(dialog, style=wx.TE_PASSWORD)
+    layout.Add(field, 0, wx.EXPAND | wx.ALL, 12)
+    note = wx.StaticText(dialog, label='Entry expires after 90 seconds. No retries or saved key. Closing sends nothing.')
+    note.Wrap(610); layout.Add(note, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 12)
+    buttons = wx.BoxSizer(wx.HORIZONTAL)
+    start = wx.Button(dialog, label='Send one request'); cancel = wx.Button(dialog, wx.ID_CANCEL, label='Cancel')
+    buttons.AddStretchSpacer(); buttons.Add(cancel, 0, wx.RIGHT, 8); buttons.Add(start)
+    layout.Add(buttons, 0, wx.EXPAND | wx.ALL, 12); dialog.SetSizer(layout)
+    answer = {}; timer = wx.Timer(dialog)
+    def stop(_=None):
+        field.ChangeValue(''); answer.clear(); dialog.EndModal(wx.ID_CANCEL)
+    def send(_):
+        if not allowed.GetValue():
+            note.SetLabel('Review the shown data and explicitly allow this one request first.'); return
+        value = field.GetValue(); field.ChangeValue('')
+        if not value or len(value) > 4096 or any(not 33 <= ord(ch) <= 126 for ch in value):
+            note.SetLabel('Enter a valid dedicated key. It has not been sent or saved.'); return
+        answer['credential'] = value
+        dialog.EndModal(wx.ID_OK)
+    start.Bind(wx.EVT_BUTTON, send); cancel.Bind(wx.EVT_BUTTON, stop)
+    dialog.Bind(wx.EVT_TIMER, stop, timer); timer.StartOnce(90000)
+    try:
+        if dialog.ShowModal() != wx.ID_OK: return None
+        approved = copy.deepcopy(consent); approved['approved'] = True
+        return answer.pop('credential'), approved
+    finally:
+        timer.Stop(); field.ChangeValue(''); answer.clear(); dialog.Destroy()
 
 
 def millimetres(text):
@@ -107,19 +190,19 @@ def placement_limits(inspection, *, rebuild=False, grouped=False, region_initial
     return result
 
 
-def prefill_copper_routing(frame, plan):
+def prefill_copper_routing(frame, plan, *, seconds=90):
     """Show the shared routing contract; the source guard still enforces it."""
     settings = gui.pref.validate(dict(gui.pref.DEFAULTS, scope='selected_nets',
         profile='completion-only', guidance='native', adapter='both', layers='source_all',
-        scoring_preference=None, seconds=90, nets=list(plan['incident_names'])))
+        scoring_preference=None, seconds=seconds, nets=list(plan['incident_names'])))
     indices = {name: next(i for i, (_, value) in enumerate(frame.values[name]) if value == settings[name])
                for name in frame.choices}
     frame.method.SetSelection(0)
     for name, index in indices.items(): frame.choices[name].SetSelection(index)
-    frame.seconds.SetValue('90'); frame.nets.SetValue('\n'.join(settings['nets']))
+    frame.seconds.SetValue(str(settings['seconds'])); frame.nets.SetValue('\n'.join(settings['nets']))
     if intent.constraints.encoded(frame.config()) != intent.constraints.encoded(settings):
         raise ValueError('Visible routing settings differ from the required affected-copper task.')
-    frame.status.SetLabel('Affected nets are selected for completion routing · 90-second routing budget. '
+    frame.status.SetLabel('Affected nets are selected for completion routing · ' + str(settings['seconds']) + '-second routing budget. '
         'Preview support, then route; no route or acceptance has started.')
     frame.refresh()
 
@@ -205,7 +288,7 @@ def bitmap_with_labels(wx, svg, size=(850, 500), *, min_text_pixels=9):
     return bitmap
 
 
-def board_canvas(wx, parent, on_pick, on_region, on_error):
+def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None):
     """Responsive display/picking only; commits use ordinary settings handlers."""
     class Canvas(wx.Panel):
         def __init__(self):
@@ -251,6 +334,8 @@ def board_canvas(wx, parent, on_pick, on_region, on_error):
                     min_text_pixels=max(9, round(9 * factor)))
                 bitmap.SetScaleFactor(factor)
                 self.bitmap = bitmap; self.render_key = key
+                if on_ready is not None:
+                    wx.CallAfter(on_ready)
 
         def resized(self, event):
             self.bitmap = None; self.render_key = None; self.Refresh(); event.Skip()
@@ -349,6 +434,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.pending_coordinates = {}
             self.alternative_labels = []; self.alternative_targets = []
             self.editing_component = None
+            self.copilot_generation = 0; self.pending_copilot = None; self.approved_copilot = None
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
             panel = self.panel = wx.Panel(self)
             root = wx.BoxSizer(wx.VERTICAL)
@@ -406,7 +492,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             right = wx.BoxSizer(wx.VERTICAL)
             self.pages = wx.Notebook(panel); self.pages.SetMinSize(self.FromDIP((340, 230)))
             board_page = wx.Panel(self.pages); board_layout = wx.BoxSizer(wx.VERTICAL)
-            self.picture = board_canvas(wx, board_page, self.pick_on_board, self.area_on_board, self.preview_failed)
+            self.picture = board_canvas(wx, board_page, self.pick_on_board, self.area_on_board, self.preview_failed, self.preview_ready)
             board_layout.Add(self.picture, 1, wx.EXPAND)
             legend = wx.StaticText(board_page, label='Blue: selected   Slate: fixed   Orange: existing copper   Green: zones')
             legend.Wrap(460); board_layout.Add(legend, 0, wx.TOP | wx.BOTTOM, 5)
@@ -426,6 +512,27 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.findings = wx.TextCtrl(findings_page, style=wx.TE_MULTILINE | wx.TE_READONLY)
             findings_layout.Add(self.findings, 1, wx.EXPAND); findings_page.SetSizer(findings_layout)
             self.pages.AddPage(findings_page, 'Findings and constraints')
+            assistant_page = wx.Panel(self.pages); assistant_layout = wx.BoxSizer(wx.VERTICAL)
+            note = wx.StaticText(assistant_page, label='Optional assistant · ordinary controls work without AI. '
+                'Choose parts, area and copper permission first. The assistant proposes a plan; it cannot approve or run it.')
+            note.Wrap(570); assistant_layout.Add(note, 0, wx.EXPAND | wx.ALL, 8)
+            self.assistant_request = wx.TextCtrl(assistant_page, style=wx.TE_MULTILINE, size=(-1, 66))
+            self.assistant_request.SetHint('Keep the fixed components and protected trace unchanged, place these two components inside this region, then route their approved connections.')
+            assistant_layout.Add(self.assistant_request, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            setup = wx.BoxSizer(wx.HORIZONTAL)
+            setup.Add(wx.StaticText(assistant_page, label='OpenAI · Sol / medium · opt-in pilot'), 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            setup.Add(wx.StaticText(assistant_page, label='Routing seconds'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 6)
+            self.route_budget = wx.TextCtrl(assistant_page, value='90', size=(65, -1)); setup.Add(self.route_budget)
+            assistant_layout.Add(setup, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.assistant_ask = wx.Button(assistant_page, label='Review data and ask…')
+            assistant_layout.Add(self.assistant_ask, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.assistant_result = wx.TextCtrl(assistant_page, style=wx.TE_MULTILINE | wx.TE_READONLY)
+            assistant_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.assistant_ack = wx.CheckBox(assistant_page, label='This plan matches my request and the visible constraints.')
+            assistant_layout.Add(self.assistant_ack, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.assistant_use = wx.Button(assistant_page, label='Use plan · find alternatives')
+            assistant_layout.Add(self.assistant_use, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            assistant_page.SetSizer(assistant_layout); self.pages.AddPage(assistant_page, 'Assistant · optional')
             right.Add(self.pages, 1, wx.EXPAND)
             columns.Add(self.controls, 0, wx.EXPAND | wx.RIGHT, 12); columns.Add(right, 1, wx.EXPAND)
             root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
@@ -450,7 +557,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             frame_layout.Add(panel, 1, wx.EXPAND)
             self.SetSizer(frame_layout)
             self.input_controls = [self.board, self.browse, self.inspect, self.parts, self.copper_policy, self.rigid_group, self.target_region,
-                self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area]
+                self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
+                self.assistant_request, self.assistant_ask, self.route_budget]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.ack, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
@@ -472,6 +580,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.apply.Bind(wx.EVT_BUTTON, self.edit); self.ack.Bind(wx.EVT_CHECKBOX, self.acknowledge)
             self.reject.Bind(wx.EVT_BUTTON, self.reject_draft); self.qualify.Bind(wx.EVT_BUTTON, self.qualify_draft)
             self.route.Bind(wx.EVT_BUTTON, self.open_routing); self.cancel.Bind(wx.EVT_BUTTON, self.cancel_work)
+            self.assistant_request.Bind(wx.EVT_TEXT, self.assistant_changed)
+            self.route_budget.Bind(wx.EVT_TEXT, self.settings_changed)
+            self.assistant_ask.Bind(wx.EVT_BUTTON, self.ask_copilot)
+            self.assistant_ack.Bind(wx.EVT_CHECKBOX, lambda event: self.refresh())
+            self.assistant_use.Bind(wx.EVT_BUTTON, self.use_copilot_plan)
             self.Bind(wx.EVT_CLOSE, self.close)
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(150)
             self.refresh(); self.layout_panel()
@@ -501,6 +614,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.findings.SetValue('Placement preview refused: ' + reason
                 + '\nNo current placement validation. The draft is retained; review acknowledgement is cleared.')
             self.refresh(); self.message('The board preview could not be drawn. Approval and routing handoff were revoked. Review the detailed findings before retrying.')
+
+        def preview_ready(self):
+            # A resize/hidden notebook page may temporarily discard its bitmap.
+            # Refresh the current gates after rendering, never resurrect a ticket.
+            if not self.gate.closed:
+                self.refresh()
 
         def overview(self):
             """Passive source view before a draft exists; never validation."""
@@ -561,6 +680,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             if reasons:
                 self.message(row['reference'] + ' stays fixed: ' + '; '.join(reasons))
                 return
+            self.invalidate_copilot()
             self.parts.Check(index, not self.parts.IsChecked(index))
             self.revoke(discard=True)
             self.message(row['reference'] + (' selected to move.' if self.parts.IsChecked(index)
@@ -588,6 +708,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                     raise ValueError('Draw the area inside the board outline.')
             except (TypeError, ValueError) as exc:
                 self.message('Area unchanged: ' + str(exc)); return
+            self.invalidate_copilot()
             self.revoke(discard=True)
             self.updating = True
             try:
@@ -615,6 +736,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.qualify.Enable(not self.busy and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty and self.picture.Ready())
             self.route.Enable(not self.busy and self.qualified is not None and self.picture.Ready())
             self.cancel.Enable(self.busy)
+            if hasattr(self, 'assistant_use'):
+                self.assistant_ask.Enable(not self.busy and self.inspection is not None)
+                self.assistant_ack.Enable(not self.busy and self.pending_copilot is not None)
+                self.assistant_use.Enable(not self.busy and self.pending_copilot is not None and self.assistant_ack.GetValue())
             if hasattr(self, 'draw_area'):
                 self.draw_area.Enable(not self.busy and self.inspection is not None)
                 self.picture.Enable(not self.busy)
@@ -660,13 +785,150 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def source_changed(self, event):
             if not self.updating:
+                self.invalidate_copilot()
                 self.target_region.SetValue(False)
                 self.inspection = None; self.parts.Set([]); self.revoke(discard=True)
                 self.message('Source changed. Inspect this saved project before requesting placement.')
             event.Skip()
 
+        def invalidate_copilot(self):
+            """Changing intent cannot retain a model plan or its routing handoff."""
+            previous = getattr(self, 'approved_copilot', None)
+            self.copilot_generation = getattr(self, 'copilot_generation', 0) + 1
+            self.pending_copilot = None; self.approved_copilot = None
+            if hasattr(self, 'assistant_ack'):
+                self.assistant_ack.SetValue(False)
+                self.assistant_result.SetValue('No current assistant plan. Review the controls, then ask when needed.')
+            if previous is not None:
+                self.revoke(dirty=self.gate.dirty)
+
+        def assistant_changed(self, event):
+            self.invalidate_copilot(); self.refresh(); event.Skip()
+
+        def current_copilot_context(self):
+            if self.inspection is None:
+                raise ValueError('Inspect the saved project and choose the parts and movement area first.')
+            return copilot_context(self.inspection, self.options(), self.route_budget.GetValue().strip())
+
+        def check_copilot_plan(self, *, full=True):
+            approved = self.approved_copilot
+            if approved is None: raise ValueError('Review and explicitly approve a current assistant plan first.')
+            if (approved['generation'] != self.copilot_generation
+                    or self.assistant_request.GetValue() != approved['request']
+                    or gui.canonical(self.board.GetValue()) != Path(approved['proposal']['source'])
+                    or intent.constraints.encoded(self.options(validate_geometry=False)) !=
+                        intent.constraints.encoded(approved['proposal']['placement_settings'])
+                    or routing_seconds(self.route_budget.GetValue().strip()) != approved['context']['route_seconds']):
+                raise ValueError('The request, source or visible constraints changed. Review a new plan before continuing.')
+            if full:
+                from . import design_intent
+                design_intent.validate_pending_placement_route_proposal(self.inspection,
+                    self.current_copilot_context(), approved['proposal'], approved['proposal']['intent'])
+            return approved
+
+        def ask_copilot(self, _):
+            if self.busy or self.gate.closed: return
+            try:
+                self.invalidate_copilot()
+                context = self.current_copilot_context(); inspection = copy.deepcopy(self.inspection)
+                text = self.assistant_request.GetValue(); generation = self.copilot_generation
+                if not text.strip(): raise ValueError('Describe the placement and routing request first.')
+                from . import hosted_intent
+                ledger = self.owned_workspace() / ('assistant-spend-' + uuid.uuid4().hex + '.json')
+                def prepare(job, event):
+                    prepared = hosted_intent.prepare_request(inspection, context, text)
+                    consent = hosted_intent.make_consent(prepared, ledger_path=ledger)
+                    hosted_intent.probe_tls(cancel_event=event)
+                    job.check_live()
+                    return prepared, consent
+                def ready(value):
+                    if generation != self.copilot_generation or self.current_copilot_context() != context:
+                        raise ValueError('Inputs changed before consent. Nothing was sent.')
+                    choice = hosted_consent(wx, self, value[0], value[1])
+                    if choice is None:
+                        self.message('Assistant request cancelled before sending. Ordinary controls remain available.'); return
+                    private = {'credential': choice[0]}; consent = choice[1]
+                    def request(job, event):
+                        try:
+                            job.check_live()
+                            if generation != self.copilot_generation:
+                                raise ValueError('The request changed before sending. Nothing was sent.')
+                            return hosted_intent.propose_placement_route(inspection, context, text,
+                                credential=private['credential'], consent=consent, ledger_path=ledger, cancel_event=event)
+                        finally:
+                            private.clear()
+                    try:
+                        self.start('Waiting for one consented plan · no CAD operation or automatic approval…', request,
+                            lambda result: self.receive_copilot(result, context, generation, text))
+                    except BaseException:
+                        private.clear(); raise
+                    finally:
+                        # The worker alone retains the private holder while active.
+                        if self.gate.closed: private.clear()
+                        choice = None
+                self.start('Checking the exact HTTPS worker before private credential entry · no model request…', prepare, ready)
+            except Exception as exc:
+                self.invalidate_copilot(); self.message('Assistant unavailable: ' + str(exc)); self.refresh()
+
+        def receive_copilot(self, result, context, generation, text):
+            from . import design_intent
+            if generation != self.copilot_generation or text != self.assistant_request.GetValue():
+                raise ValueError('The request changed while the plan was pending. The response was discarded.')
+            initial = design_intent.validate_placement_route_proposal(self.inspection, context,
+                design_intent.placement_request(context))
+            current = self.current_copilot_context()
+            design_intent.validate_pending_placement_route_proposal(self.inspection, current, initial)
+            if type(result) is not dict or set(result) != {'proposal', 'clarification', 'metrics'}:
+                raise ValueError('Assistant returned an unsupported result. No plan was adopted.')
+            proposal = result['proposal']
+            checked = design_intent.validate_pending_placement_route_proposal(self.inspection, current,
+                initial, None if proposal is None else proposal['intent'])
+            if proposal is None:
+                question = design_intent.validate_design_clarification(result['clarification'])
+            elif proposal != checked or result['clarification'] is not None:
+                raise ValueError('Assistant result differs from the shared validated intent. No plan was adopted.')
+            write_new_json(self.owned_workspace() / ('assistant-response-' + uuid.uuid4().hex + '.json'),
+                dict(schema=1, kind='autorouter.assistant-proposal-receipt.v1',
+                    request_sha256=hashlib.sha256(text.encode('utf-8')).hexdigest(),
+                    context_sha256=intent.constraints.digest(current), proposal=None if proposal is None else checked,
+                    clarification=question if proposal is None else None, metrics=result['metrics'],
+                    execution_authorized=False, approval_granted=False, human_PCB_approval=False))
+            self.pending_copilot = None; self.assistant_ack.SetValue(False)
+            if proposal is None:
+                self.assistant_result.SetValue('Clarification needed — no plan or operation approved.\n\n'
+                    + '\n'.join(question['questions']))
+                self.message('Answer by clarifying the request or visible controls, then ask again when authorized. No operation started.')
+            else:
+                self.pending_copilot = dict(proposal=checked, context=copy.deepcopy(current), generation=generation,
+                    request=text, metrics=copy.deepcopy(result['metrics']))
+                self.assistant_result.SetValue(copilot_plan_text(self.inspection, checked))
+                self.message('Read the proposed plan. Approve it only if it matches your request; no component or copper changed.')
+            self.refresh()
+
+        def use_copilot_plan(self, _):
+            if self.busy: return
+            try:
+                if self.pending_copilot is None or self.assistant_ack.GetValue() is not True:
+                    raise ValueError('Read the current plan and explicitly confirm that it matches your request.')
+                self.approved_copilot = copy.deepcopy(self.pending_copilot)
+                self.check_copilot_plan()
+                write_new_json(self.owned_workspace() / ('assistant-plan-choice-' + uuid.uuid4().hex + '.json'),
+                    dict(schema=1, kind='autorouter.assistant-plan-choice.v1', choice='use_plan_for_alternatives',
+                        context_sha256=intent.constraints.digest(self.approved_copilot['context']),
+                        request_sha256=hashlib.sha256(self.approved_copilot['request'].encode('utf-8')).hexdigest(),
+                        proposal=self.approved_copilot['proposal'], geometry_execution_authorized=False,
+                        approval_granted=False, human_PCB_approval=False))
+                self.pending_copilot = None; self.assistant_ack.SetValue(False)
+                self.assistant_result.SetValue(copilot_plan_text(self.inspection, self.approved_copilot['proposal'])
+                    .replace('waiting for your approval', 'reviewed for placement alternatives only'))
+                self.pages.SetSelection(0)
+                self.find_alternatives(None)
+            except Exception as exc:
+                self.invalidate_copilot(); self.message('Plan refused: ' + str(exc)); self.refresh()
+
         def settings_changed(self, event):
             if not self.updating:
+                self.invalidate_copilot()
                 self.revoke(discard=True)
                 if self.inspection:
                     for index, row in enumerate(self.inspection['components']):
@@ -693,6 +955,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def policy_changed(self, event):
             if not self.updating:
+                self.invalidate_copilot()
                 self.revoke(discard=True)
                 def committed():
                     if self.gate.closed or self.busy: return
@@ -759,6 +1022,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.refresh()
 
         def inspect_project(self, _):
+            self.invalidate_copilot()
             self.revoke(discard=True); self.inspection = None
             source = self.board.GetValue()
             def adopt(value):
@@ -802,7 +1066,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 with wx.FileDialog(self, 'Load placement settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
                     if dialog.ShowModal() != wx.ID_OK: return
                     value = intent.load_settings(dialog.GetPath())
-                captured = self.inspection
+                self.invalidate_copilot(); captured = self.inspection
                 policy_changed = intent.settings_scope(value) != captured['observation']['scope']
                 if policy_changed:
                     # Preserve an older preset's actual policy instead of
@@ -1029,6 +1293,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.ack.SetValue(self.gate.acknowledged); self.qualified = None; self.refresh()
 
         def reject_draft(self, _):
+            self.invalidate_copilot()
             review = self.gate.review
             self.revoke(discard=True)
             self.message('Draft rejected. Earlier placement intent and routing handoff are revoked. Original files are unchanged.')
@@ -1117,8 +1382,23 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
                         frame.output.SetValue(self.routing_output_hint)
+                    seconds = (routing_seconds(self.route_budget.GetValue().strip())
+                        if hasattr(self, 'route_budget') else 90)
                     if self.gate.review.copper_plan is not None:
-                        prefill_copper_routing(frame, self.gate.review.copper_plan)
+                        prefill_copper_routing(frame, self.gate.review.copper_plan, seconds=seconds)
+                    else:
+                        frame.seconds.SetValue(str(seconds))
+                    if getattr(self, 'approved_copilot', None) is not None:
+                        approved = self.check_copilot_plan()
+                        expected = copy.deepcopy(approved['proposal']['routing_preferences'])
+                        frame.seconds.SetValue(str(expected['seconds']))
+                        if frame.config() != expected:
+                            raise ValueError('Routing controls differ from the explicitly reviewed assistant plan.')
+                        def check_settings(settings):
+                            self.check_copilot_plan(full=False)
+                            if settings != expected:
+                                raise ValueError('Routing settings changed from the reviewed plan. Return to placement and review a new plan, or start an ordinary task.')
+                        frame._settings_guard = check_settings
                     result['guard'].check(candidate); self.gate.check(result['ticket'])
                     self.current_review_settings(self.gate.review)
                     if self.job is not None: self.job.check_live()
@@ -1135,6 +1415,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             # Signal the worker before any fallible rendering or widget update.
             if self.cancel_event is not None: self.cancel_event.set()
             if self.job is not None: self.job.cancel()
+            self.invalidate_copilot()
             self.revoke(dirty=self.gate.dirty)
             self.message('Cancellation requested. Waiting for the owned worker to finish cleanup; no queued result will be adopted.')
 
@@ -1143,6 +1424,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             else: self.progress.SetValue(0)
 
         def close(self, event):
+            self.invalidate_copilot()
             self.gate.close(); self.qualified = None
             if self.cancel_event is not None: self.cancel_event.set()
             if self.job is not None: self.job.cancel()

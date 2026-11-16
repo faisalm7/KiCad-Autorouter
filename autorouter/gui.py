@@ -1505,7 +1505,10 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                 raise ValueError('Enter a whole-number routing budget from 5 to 900 seconds.')
             result['seconds'] = int(raw_seconds)
             if result['scope'] == 'selected_nets': result['nets'] = [name for name in self.nets.GetValue().splitlines() if name]
-            return pref.validate(result)
+            checked = pref.validate(result)
+            guard = getattr(self, '_settings_guard', None)
+            if guard is not None: guard(checked)
+            return checked
 
         def save_preset(self, _):
             if self.busy or getattr(self, 'chooser', None) is not None: return
