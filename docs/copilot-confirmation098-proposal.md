@@ -3,8 +3,9 @@
 **Approved, then stopped safely after 8 of 20; no automatic continuation.** The
 [actual partial receipt](../evidence/copilot-confirmation098-partial-001.json)
 records $0.015957875 new usage. Load 8.30 exceeded the fixed 8-core guard before
-request 9. The finished credential window is closed; further inference requires
-separate authorization. Keep this frozen protocol and all failures unchanged.
+request 9. That interrupted session and its closed credential window remain
+recorded. The owner subsequently authorized the remaining12-only continuation
+below; keep all frozen material and prior failures unchanged.
 This tests the corrected shared contract, not general capability ranking, the
 old quality gate or a KiCad task. Both initial placement cases pass for both
 models. Luna's selected-net clarification remains a miss; unscoped UUID guidance
@@ -70,3 +71,32 @@ must show the natural-language request, exact visible plan, explicit user
 approval, shared engineering tools and a freshly validated separate project.
 Correct JSON and this smaller confirmation cannot establish that workflow,
 retroactively pass the old gate or select a qualified default model.
+
+## Controlled continuation authorized November 16
+
+The owner authorizes only the twelve previously unattempted requests, preserving
+the eight responses and interrupted summary. This keeps the same combined
+20-attempt/$0.45 total; it grants no new allowance. Models, case order, prompts,
+schemas, scoring and quality criteria remain unchanged, including the documented
+UUID-guidance issue. No possibly billed request may be retried.
+
+The small runner extension reconciles the exact eight-row ledger/raw prefix,
+then appends only the frozen pending indices8–19 to that same ledger. It permits
+a single60-second total load-only pause allowance, at most30 cancellation-aware
+waits of at most2seconds before an unsent request. Memory/disk/lane guards stay
+mandatory; all waits and the prior29.02active seconds count toward the same
+660-second ceiling. Sustained pressure, unknown billing/access/transport or stale
+source stops the job. There is no general recovery cursor or model fallback.
+
+Twenty-two offline whole-module controls pass on the actual3.9worker interpreter;
+180.98wall/180.42CPU seconds are additional software-test cost, not model latency.
+A fresh actual-worker TLS handshake and all non-secret startup checks pass with
+zero HTTP/model requests and no credential or board transfer. One masked window
+opened, then closed normally without any new API attempt; the ledger stays8/20.
+The close cause is not proved by exit status alone. Private key entry is still
+required; no automatic reopening occurred. The key is never saved.
+
+For any stopped continuation, derive actual attempts and pending cases from the
+verified shared ledger, distinguishing unsent local diagnostic records. Final
+reporting adds prior and continuation CPU separately with their stated scopes.
+These accounting rules do not rewrite the frozen intent scores or quality gate.

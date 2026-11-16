@@ -129,5 +129,11 @@ screens known usage is $0.089596465 plus the unchanged$0.526536unknown reserve.
 Actual invoice total remains unknown. The partial active workflow takes 29.02 wall
 and 6.14 parent-plus-waited-child CPU seconds through final readback; receipt/exit,
 authoring, review and credential waits are additional and incompletely measured.
-The finished credential window is closed. Further inference needs separate
-authorization; there is no automatic continuation or qualified model default.
+The first confirmation window is closed. The owner authorized a controlled
+continuation on November16, only for the twelve unsent requests within the same
+20-attempt/$0.45 total. Its frozen material/quality gate remain unchanged; the
+small load-pause/reconciliation correction passes22offline controls and actual
+credential-free TLS/startup checks. The new masked window closed without a new
+API attempt, so there are still only eight responses. Private entry remains a
+gate; no automatic reopening, new model result or qualified default is claimed.
+See the [continuation terms](copilot-confirmation098-proposal.md#controlled-continuation-authorized-november-16).
