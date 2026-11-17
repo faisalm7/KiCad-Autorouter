@@ -1,0 +1,21 @@
+# One bounded review of the owned Copperpath workflow
+
+This prepares review; no independent engineer, cleanup timing, physical test, external contact or spending is claimed. Use the existing [human review and timing procedures](human-review-plan.md). Sharing files/contacting a reviewer or doing paid/physical work needs separate owner approval.
+
+The [actual102receipt](../evidence/copilot102-owned-live-delivery-001.json) identifies source `52d0974f9ba82aed5311690243b8b8956729e713`, runtime manifest `18b10dcf99fce0b6b208184b2a8536a3ec7030ce895ab8bb77d913a58ccbc114`, and final PCB `25feb1d50bfa70a7cd788914914f04db82006121b8a7deed0dc7ec08180fa37b`. The original complete five-file source, Native reports, proposal/approval receipts and independent-readback log remain local. The [portable example](../examples/owned-placement-routing/README.md) contains the same three primary design files; optional UI/backup omissions mean it must be captured afresh.
+
+The actual request was:
+
+> Keep the fixed components and protected trace unchanged, place these two components inside this region, then route their approved connections.
+
+Review these explicit requirements: J1/J2 movable; J3–J6 fixed; 14–22 × 8–13 mm destination rectangle; orientation/side unchanged; only explicitly approved affected unlocked nets may rebuild; KEEP and locked/unrelated copper preserved; route ROUTE_A/ROUTE_B within90 seconds. Current, return-path, impedance, timing and manufacturing suitability are unknown, not inferred from names or DRC. This constructed example is not a production electrical design.
+
+The local runtime’s task files are under `.runs/gui-session125/inspection`, `.runs/placement-review-22f7bf4ca1f646489a3d88fbecdd88f1`, `.runs/placement-qualified-67fe62acb93d4561af9d5cd40773b715`, and `.runs/gui-session125/jobs/autorouter-gui-286dfa3b943b46a99205e90beef7782a`. The final `export/export.json` binds the separate candidate, final Native report and original-to-final placement/routing evidence. A moved/missing/stale proof must refuse; never edit receipts to make a copy current.
+
+1. Check the exact source/settings/runtime/report hashes and run the existing `review-export-check EXPORT_JSON` from the installed runtime. That reader is consistency checking, not a new DRC or human approval. Independently inspect fixed positions, selected region, terminal mapping, pads, rules, outline/stackup, zones and protected KEEP copper. Record defects separately from preferences and missing requirements.
+2. Read every final finding:0opens,0blocking,1unchanged silkscreen text-height warning (0.7 mm against0.8 mm minimum),0exclusions and2original ignored checks. The project is not DRC-clean. An acceptance choice did not waive original requirements or certify the board.
+3. On fresh disposable source/output copies, reproduce the ordinary controls using the example guide, without AI or research JSON. Time setup, user actions, tool waits, corrections and failures separately. Test cancellation and one stale-source/settings/export refusal while preserving the positive originals. Use the existing defect/timing forms; leave human measurements blank until observed.
+4. Inspect the retained live proposal and explicit software-test choices. The model supplied six intent fields; deterministic tools performed geometry/routing/validation. The model neither ran commands nor approved itself. The successful request cost$0.0058445 and6.3954s client time; the earlier failed request cost the same and remains failed. Do not make another paid request under these consumed approvals.
+5. Note P3navigation friction: move acknowledgement on Findings requires returning to Board before Validate enables. Record independent clarity/usability feedback at normal laptop size and keyboard/resize behavior. Do not turn internal screenshots or AI review into human usability evidence.
+
+One task cannot establish broad completion or cleanup improvements, superiority over official Freerouting, universal model reliability, standalone installation or Windows Native support. Later comparison needs a predeclared unrelated licensed task set, fair complete budgets and observed human work; this exposed example is never holdout data. Physical/manufacturing validation belongs to a suitable specified real design and a separately approved plan.

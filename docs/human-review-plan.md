@@ -2,7 +2,11 @@
 
 **Unperformed owner-validation plan:** no independent human PCB review, cleanup timing, physical/electrical test, reviewer contact, order or spending has occurred under this plan. Contacting a reviewer or sharing a specific pack needs separate owner approval; incremental external spending remains$0 unless approved. AI review and Native checks are not human or physical observations.
 
-## Current058 entry point
+## Current scoped functionality review
+
+Use the [102owned live-task review guide](copilot102-engineer-review.md) and its exact Native/intent/source evidence. It prepares one bounded engineer check, not a human review already performed or a broad comparative study. No contact, CAD sharing, physical work or spending is authorized. Older panels below keep their own failure/version limits; they do not replace the current candidate’s checks.
+
+## Historical058 entry point
 
 Use the [current058 custodian materials](runtime058-engineer-review.md), [completed installed18-arm study](benchmark-runtime058-installed.md), [CLI](quickstart.md) and [GUI contract](gui-workflow.md). The study retains16deliveries/two stock negatives with no completion advantage overB1/B2; matched cleanup selection and actual human fields remain unperformed/null. A new High archived-invalidated-positive readback bypass and failed natural-return control block release/readback safety: hold human-pack execution until repair/new-candidate qualification. Existing canonical Native-positive results remain evidence, not blanket invalidated. No CAD pack/contact/randomization/physical work occurred. The older paragraphs/commands below are historical and confer no058 qualification. Existing defect, blinding, timing, physical-readiness and authorization procedures stay unchanged.
 
