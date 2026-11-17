@@ -1319,7 +1319,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
         def acknowledge(self, _):
             checked = self.ack.GetValue(); self.revoke(dirty=self.gate.dirty)
             self.gate.acknowledged = checked and not self.gate.dirty
-            self.ack.SetValue(self.gate.acknowledged); self.qualified = None; self.refresh()
+            self.ack.SetValue(self.gate.acknowledged); self.qualified = None
+            if self.gate.acknowledged and self.gate.review is not None:
+                # A hidden notebook page may have no drawable size. Show the
+                # reviewed board before validation instead of requiring users
+                # to discover the missing navigation step. Ready still waits
+                # for the current bitmap; paint failure revokes approval.
+                self.pages.SetSelection(0)
+            self.refresh()
 
         def reject_draft(self, _):
             self.invalidate_copilot()

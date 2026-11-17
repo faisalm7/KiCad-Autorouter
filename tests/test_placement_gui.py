@@ -32,7 +32,7 @@ def review():
                            copper_plan=None, observation={})
 
 
-def canvas(on_error):
+def canvas(on_error, on_ready=None):
     """Actual Canvas methods with a minimal passive wx surface; no real GUI."""
     class Panel:
         def __init__(self, *args, **kwargs):
@@ -42,13 +42,15 @@ def canvas(on_error):
         def FromDIP(self,value):return value
     dc=Mock()
     wx=SimpleNamespace(Panel=Panel,BORDER_SIMPLE=1,WANTS_CHARS=2,BG_STYLE_PAINT=0,
-        AutoBufferedPaintDC=Mock(return_value=dc),Brush=lambda x:x,Colour=lambda x:x)
+        AutoBufferedPaintDC=Mock(return_value=dc),Brush=lambda x:x,Colour=lambda x:x,
+        CallAfter=Mock(side_effect=lambda callback: callback()))
     for name in ('EVT_PAINT','EVT_SIZE','EVT_LEFT_DOWN','EVT_MOTION','EVT_LEFT_UP',
                  'EVT_MOUSE_CAPTURE_LOST','EVT_CHAR_HOOK'):
         setattr(wx,name,name)
-    picture=pg.board_canvas(wx,object(),Mock(),Mock(),on_error)
+    picture=pg.board_canvas(wx,object(),Mock(),Mock(),on_error,on_ready)
     picture.SetScene=Mock(wraps=picture.SetScene)
     picture.test_dc=dc
+    picture.test_call_after=wx.CallAfter
     return picture
 
 
@@ -64,7 +66,7 @@ class PlacementGuiTests(unittest.TestCase):
             alternative_labels=[], alternative_targets=[],
             copilot_generation=0, pending_copilot=None, approved_copilot=None,
             cancel_event=threading.Event(), inspection=gate.review.inspection,
-            ack=Mock(), picture=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
+            ack=Mock(), picture=Mock(), pages=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
             assistant_ack=Mock(), assistant_result=Mock(),
             copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
@@ -586,6 +588,74 @@ class PlacementGuiTests(unittest.TestCase):
             with self.assertRaises(ValueError): window.gate.check(result['ticket'])
             self.assertEqual(render.call_args.kwargs['state'], 'Validation revoked — review and validate again')
             self.assertNotIn('Placement validated', window.findings.SetValue.call_args.args[0])
+
+    def test_acknowledgement_on_hidden_findings_shows_board_but_waits_for_bitmap(self):
+        window, previous = self.presentation_window(); window.qualified = previous
+        before = copy.deepcopy((window.gate.review.pose, window.gate.review.moves))
+        window.picture = canvas(MethodType(window_method('preview_failed'), window),
+            MethodType(window_method('preview_ready'), window))
+        window.picture.GetClientSize.return_value = (0, 0)
+        window.pages.SetSelection.side_effect = lambda page: setattr(
+            window.picture.GetClientSize, 'return_value', (800, 500))
+        window.ack.GetValue.return_value = True
+        display = {'svg': '<svg/>', 'size': (1000, 540)}
+        with patch.object(pg.placement_view, 'scene', return_value=display), \
+                patch.object(pg, 'bitmap_with_labels', return_value=Mock()) as raster:
+            window_method('acknowledge')(window, None)
+            window.pages.SetSelection.assert_called_once_with(0)
+            self.assertTrue(window.gate.acknowledged)
+            self.assertFalse(window.picture.Ready()); raster.assert_not_called()
+            self.assertIsNone(window.qualified)
+            with self.assertRaises(ValueError): window.gate.check(previous['ticket'])
+            window.picture.paint(None)
+        self.assertTrue(window.picture.Ready()); raster.assert_called_once()
+        self.assertTrue(window.gate.acknowledged); self.assertIsNone(window.qualified)
+        self.assertEqual((window.gate.review.pose, window.gate.review.moves), before)
+        window.picture.test_dc.DrawBitmap.assert_called_once()
+
+    def test_findings_acknowledgement_does_not_survive_late_render_failure(self):
+        window, previous = self.presentation_window(); window.qualified = previous
+        window.picture = canvas(MethodType(window_method('preview_failed'), window))
+        window.picture.GetClientSize.return_value = (0, 0)
+        window.ack.GetValue.return_value = True
+        with patch.object(pg.placement_view, 'scene', return_value={'svg': '<svg/>', 'size': (1000, 540)}):
+            window_method('acknowledge')(window, None)
+        window.picture.GetClientSize.return_value = (800, 500)
+        with patch.object(pg, 'bitmap_with_labels', side_effect=RuntimeError('deliberate late raster failure')):
+            window.picture.paint(None)
+        self.assertFalse(window.gate.acknowledged); self.assertFalse(window.picture.Ready())
+        self.assertIsNone(window.qualified)
+        with self.assertRaises(ValueError): window.gate.check(previous['ticket'])
+        self.assertIn('No current placement validation', window.findings.SetValue.call_args.args[0])
+
+    def test_dirty_unchecked_or_missing_draft_does_not_navigate_or_validate(self):
+        for checked, dirty, missing in [(True, True, False), (False, False, False), (True, False, True)]:
+            with self.subTest(checked=checked, dirty=dirty, missing=missing):
+                window = self.window(); window.gate.dirty = dirty
+                if missing: window.gate.review = None
+                window.ack.GetValue.return_value = checked
+                window_method('acknowledge')(window, None)
+                window.pages.SetSelection.assert_not_called()
+                self.assertIsNone(window.qualified)
+                with self.assertRaises(ValueError): window.gate.ticket()
+
+    def test_late_preview_ready_after_source_change_reject_or_cancel_cannot_restore_approval(self):
+        for action in ('source_changed', 'reject_draft', 'cancel_work'):
+            with self.subTest(action=action):
+                window, previous = self.presentation_window(); window.qualified = previous
+                window.owned_workspace = Mock(side_effect=ValueError('receipt unavailable in control'))
+                window.picture = canvas(MethodType(window_method('preview_failed'), window),
+                    MethodType(window_method('preview_ready'), window))
+                queued = []; window.picture.test_call_after.side_effect = queued.append
+                window.ack.GetValue.return_value = True
+                with patch.object(pg.placement_view, 'scene', return_value={'svg': '<svg/>', 'size': (1000, 540)}), \
+                        patch.object(pg, 'bitmap_with_labels', return_value=Mock()):
+                    window_method('acknowledge')(window, None)
+                    self.assertTrue(queued)
+                    window_method(action)(window, Mock())
+                    for callback in queued: callback()
+                self.assertFalse(window.gate.acknowledged); self.assertIsNone(window.qualified)
+                with self.assertRaises(ValueError): window.gate.check(previous['ticket'])
 
     def test_source_settings_and_rejection_clear_success_findings_and_diagram(self):
         for action in ('source_changed', 'settings_changed', 'reject_draft'):
