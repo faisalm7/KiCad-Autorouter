@@ -228,6 +228,52 @@ class HostedIntent(unittest.TestCase):
         row = json.loads(self.path.read_bytes())
         self.assertEqual(row['outcome'], 'response_rejected')
         self.assertNotIn('approval_granted', row)
+        self.assertEqual(row['diagnostics']['refusal_stage'], 'post_response_context_freshness')
+        self.assertGreaterEqual(row['diagnostics']['wall_seconds'], 0)
+
+    def test_documented_effective_reasoning_defaults_use_same_guarded_proposal(self):
+        # Metadata shape reproduced from a hash-verified completed synthetic
+        # response; this remains a controlled transport test, not a new live call.
+        result = self.call(tagged(response(self.request, reasoning={
+            'effort': 'medium', 'summary': None, 'mode': 'standard', 'context': 'all_turns'})))
+        self.assertEqual(result['proposal']['intent'], self.request)
+        self.assertFalse(result['proposal']['approval_granted'])
+        self.assertFalse(result['proposal']['execution_authorized'])
+        self.assertEqual(json.loads(self.path.read_bytes())['outcome'], 'intent_proposed')
+
+    def test_effective_reasoning_metadata_cannot_change_profile_or_gain_authority(self):
+        good = dict(effort='medium', summary=None, mode='standard', context='all_turns')
+        for index, changes in enumerate((dict(mode='pro'), dict(mode=None), dict(context='auto'),
+                dict(context='unknown'), dict(effort='low'), dict(summary='auto'), dict(approval=True))):
+            with self.subTest(changes=changes):
+                path = self.path.with_name('profile-' + str(index) + '.json')
+                consent = hosted.make_consent(self.prepared, ledger_path=path); consent['approved'] = True
+                with self.assertRaises(hosted.HostedError):
+                    self.call(tagged(response(self.request, reasoning={**good, **changes})),
+                        consent=consent, ledger_path=path)
+                row = json.loads(path.read_bytes())
+                self.assertEqual(row['outcome'], 'response_rejected')
+                self.assertEqual(row['diagnostics']['refusal_stage'], 'response_contract')
+                self.assertEqual(row['diagnostics']['refusal_code'], 'reasoning_profile_mismatch')
+                self.assertEqual(row['cost_nano_usd'], 2_410_000)
+
+    def test_failure_diagnostic_projection_never_retains_untrusted_text(self):
+        metrics = dict(refusal_stage=KEY, refusal_code=KEY, http_status=KEY,
+            wall_seconds=float('inf'), worker_CPU_seconds=True, monitor_CPU_seconds=-1,
+            sampled_worker_RSS_bytes=KEY, exception=KEY, body=KEY, arguments=KEY)
+        self.assertEqual(hosted._saved_diagnostics(metrics), {})
+        for value in ([], {}, None, True):
+            self.assertEqual(hosted._saved_diagnostics(dict(refusal_stage=value, refusal_code=value)), {})
+        for value in (10**1000, float('nan'), float('-inf'), -1, True):
+            self.assertEqual(hosted._saved_diagnostics(dict(wall_seconds=value)), {})
+
+    def test_malformed_tool_arguments_save_reason_and_accounting_without_payload(self):
+        value = response(self.request); value['output'][0]['arguments'] = '{incomplete'
+        with self.assertRaises(hosted.HostedError): self.call(tagged(value))
+        row = json.loads(self.path.read_bytes())
+        self.assertEqual(row['diagnostics']['refusal_stage'], 'response_contract')
+        self.assertEqual(row['diagnostics']['refusal_code'], 'tool_arguments_malformed')
+        self.assertNotIn('incomplete', self.path.read_text())
 
     def test_changed_context_has_priority_over_bad_model_arguments(self):
         def changed(*args, **kwargs):
@@ -241,6 +287,8 @@ class HostedIntent(unittest.TestCase):
         self.assertEqual(caught.exception.metrics['refusal_stage'], 'post_response_context_changed')
         self.assertEqual(caught.exception.metrics['cost_nano_usd'], 2_410_000)
         self.assertEqual(json.loads(self.path.read_bytes())['outcome'], 'response_rejected')
+        self.assertEqual(json.loads(self.path.read_bytes())['diagnostics']['refusal_stage'],
+            'post_response_context_changed')
 
     def test_changed_source_after_response_is_refused_with_accounting_retained(self):
         def changed(*args, **kwargs):
@@ -285,6 +333,7 @@ class HostedIntent(unittest.TestCase):
         self.assertEqual(caught.exception.metrics['http_status'], 403)
         self.assertEqual(caught.exception.metrics['refusal_stage'], 'http_status')
         self.assertEqual(json.loads(self.path.read_bytes())['outcome'], 'transport_unknown')
+        self.assertEqual(json.loads(self.path.read_bytes())['diagnostics']['http_status'], 403)
 
     def test_wrong_reasoning_and_unrequested_cache_retention_refuse(self):
         wrong = response(self.request, reasoning={'effort': 'high'})

@@ -61,6 +61,36 @@ class HostedError(client.ModelIntentError):
         self.metrics = metrics or {}
 
 
+def _saved_diagnostics(metrics):
+    """Small non-secret record; never save exceptions or provider text."""
+    result = {}
+    stages = {'pre_transport', 'transport', 'response_envelope', 'response_accounting',
+              'response_contract', 'post_response_context_freshness', 'semantic_validation',
+              'post_response_context_changed', 'publication', 'http_status', 'tls_certificate',
+              'dns', 'transport_timeout', 'tls_handshake', 'credential_response', 'worker_failure'}
+    stage = metrics.get('refusal_stage')
+    if type(stage) is str and stage in stages:
+        result['refusal_stage'] = stage
+    code = metrics.get('refusal_code')
+    if type(code) is str and code in {
+            'response_envelope_unsupported', 'response_metadata_unsupported',
+            'reasoning_profile_mismatch', 'output_missing', 'output_item_invalid',
+            'reasoning_text_present', 'tool_call_invalid', 'tool_call_count',
+            'tool_arguments_malformed', 'tool_arguments_not_object'}:
+        result['refusal_code'] = code
+    for name in ('wall_seconds', 'worker_CPU_seconds', 'monitor_CPU_seconds'):
+        value = metrics.get(name)
+        if type(value) in (int, float) and 0 <= value <= 86400 and math.isfinite(value):
+            result[name] = value
+    rss = metrics.get('sampled_worker_RSS_bytes')
+    if type(rss) is int and 0 <= rss <= 2**50:
+        result['sampled_worker_RSS_bytes'] = rss
+    status = metrics.get('http_status')
+    if type(status) is int and 100 <= status <= 599:
+        result['http_status'] = status
+    return result
+
+
 def _encoded(value):
     return json.dumps(value, sort_keys=True, ensure_ascii=True, allow_nan=False,
                       separators=(',', ':')).encode('utf-8')
@@ -290,28 +320,37 @@ def _function(data):
             or data.get('status') != 'completed' or data.get('error') is not None
             or data.get('incomplete_details') is not None or data.get('service_tier') != 'default'
             or data.get('model') != MODEL):
-        raise HostedError('The provider response is incomplete or its exact model/tier is unsupported.')
+        raise HostedError('The provider response is incomplete or its exact model/tier is unsupported.',
+                          {'refusal_code': 'response_envelope_unsupported'})
     if (('billing' in data and data['billing'] != {'payer':'developer'})
             or any(type(data.get(k, 0)) not in (int, float) or data.get(k, 0) != 0
                    for k in ('frequency_penalty', 'presence_penalty'))
             or data.get('input_transformations', []) != [] or data.get('moderation') is not None
             or data.get('image') not in (None, {'context_compression':'enabled'}, {'context_compression':'disabled'})):
-        raise HostedError('The provider returned unsupported non-default metadata.')
+        raise HostedError('The provider returned unsupported non-default metadata.',
+                          {'refusal_code': 'response_metadata_unsupported'})
     reasoning = data.get('reasoning')
-    if (type(reasoning) is not dict or set(reasoning) - {'effort', 'summary'}
-            or reasoning.get('effort') != REASONING or reasoning.get('summary') is not None):
-        raise HostedError('The provider did not confirm the consented reasoning profile.')
+    # Modern Responses returns the effective default execution/context mode.
+    # These bounded metadata values confer no tool or approval authority. The
+    # old effort/summary-only envelope remains supported; unknown/pro modes do not.
+    if (type(reasoning) is not dict or set(reasoning) - {'effort', 'summary', 'mode', 'context'}
+            or reasoning.get('effort') != REASONING or reasoning.get('summary') is not None
+            or reasoning.get('mode', 'standard') != 'standard'
+            or reasoning.get('context') not in (None, 'current_turn', 'all_turns')):
+        raise HostedError('The provider did not confirm the consented reasoning profile.',
+                          {'refusal_code': 'reasoning_profile_mismatch'})
     output = data.get('output')
     if type(output) is not list or not 1 <= len(output) <= 8:
-        raise HostedError('The provider output is missing or malformed.')
+        raise HostedError('The provider output is missing or malformed.', {'refusal_code': 'output_missing'})
     calls = []
     for item in output:
         if type(item) is not dict:
-            raise HostedError('The provider output item is malformed.')
+            raise HostedError('The provider output item is malformed.', {'refusal_code': 'output_item_invalid'})
         if item.get('type') == 'reasoning':
             if (set(item) - {'type','id','summary','status','encrypted_content','content'}
                     or item.get('summary') != [] or item.get('content') not in (None, [])):
-                raise HostedError('Reasoning text is not a placement proposal.')
+                raise HostedError('Reasoning text is not a placement proposal.',
+                                  {'refusal_code': 'reasoning_text_present'})
             continue
         if (item.get('type') != 'function_call'
                 or set(item) - {'id','type','call_id','name','arguments','status'}
@@ -319,13 +358,17 @@ def _function(data):
                 or type(item.get('call_id')) is not str or not 1 <= len(item['call_id']) <= 128
                 or item.get('name') not in {'propose_placement_route', 'clarify_design_request'}
                 or type(item.get('arguments')) is not str or not 0 < len(item['arguments']) <= 16384):
-            raise HostedError('Only one bounded placement proposal or clarification is supported.')
+            raise HostedError('Only one bounded placement proposal or clarification is supported.',
+                              {'refusal_code': 'tool_call_invalid'})
         calls.append(item)
     if len(calls) != 1:
-        raise HostedError('Exactly one proposal or clarification is required.')
-    arguments = client._strict_json(calls[0]['arguments'])
+        raise HostedError('Exactly one proposal or clarification is required.', {'refusal_code': 'tool_call_count'})
+    try:
+        arguments = client._strict_json(calls[0]['arguments'])
+    except client.ModelIntentError:
+        raise HostedError('Proposal arguments must be valid JSON.', {'refusal_code': 'tool_arguments_malformed'}) from None
     if type(arguments) is not dict:
-        raise HostedError('Proposal arguments must be a JSON object.')
+        raise HostedError('Proposal arguments must be a JSON object.', {'refusal_code': 'tool_arguments_not_object'})
     return calls[0]['name'], arguments
 
 
@@ -660,6 +703,7 @@ def propose_placement_route(inspection, context, request_text, *, credential, co
         metrics.update(stats)
         stage = 'response_envelope'
         data = _decode_transport(raw)
+        stage = 'response_accounting'
         usage = _usage(data)
         priced = type(data) is dict and data.get('model') == MODEL and data.get('service_tier') == 'default'
         ledger.value['response_sha256'] = hashlib.sha256(raw[1:]).hexdigest()
@@ -680,6 +724,7 @@ def propose_placement_route(inspection, context, request_text, *, credential, co
             raise HostedError('Provider identity, usage or accounting is uncertain or outside the consented bounds.')
         if credential.encode('ascii') in _encoded(data):
             raise HostedError('Provider credential material was refused without retaining response text.')
+        stage = 'response_contract'
         name, arguments = _function(data)
         if credential.encode('ascii') in _encoded(arguments):
             raise HostedError('Provider credential material was refused without retaining response text.')
@@ -693,6 +738,7 @@ def propose_placement_route(inspection, context, request_text, *, credential, co
         ledger.value['outcome'] = 'intent_proposed' if clarification is None else 'clarification_received'
         ledger.save()
         # Receipt publication cannot revive stale or cancelled context.
+        stage = 'publication'
         _check_consent(consent, prepared, path)
         design.validate_pending_placement_route_proposal(inspection, context, prepared['initial'])
         if runner.elapsed_time() >= deadline or cancel_event is not None and cancel_event.is_set():
@@ -702,16 +748,17 @@ def propose_placement_route(inspection, context, request_text, *, credential, co
                 'clarification': clarification, 'metrics': metrics}
     except BaseException as exc:
         if isinstance(exc, HostedError):
-            metrics.update({k:v for k,v in exc.metrics.items() if k in ('refusal_stage', 'http_status')})
+            metrics.update(_saved_diagnostics(exc.metrics))
         if not metrics.get('refusal_stage'):
             metrics['refusal_stage'] = 'post_response_context_changed' if isinstance(exc, design.PendingContextChanged) else stage
         if ledger.value['outcome'] == 'reserved':
             ledger.value['outcome'] = 'transport_unknown'
         elif ledger.value['outcome'] in ('intent_proposed', 'clarification_received'):
             ledger.value['outcome'] = 'response_rejected'
+        metrics['wall_seconds'] = runner.elapsed_time() - started
+        ledger.value['diagnostics'] = _saved_diagnostics(metrics)
         try: ledger.save()
         except Exception: metrics['ledger_update_failed'] = True
-        metrics['wall_seconds'] = runner.elapsed_time() - started
         raise HostedError('Hosted plan was refused; no retry, fallback, execution or approval occurred.', metrics) from None
     finally:
         credential = None
