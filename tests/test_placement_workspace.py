@@ -63,10 +63,15 @@ class HandlerTests(TestCase):
         obs=observation();gate=gui.ReviewGate()
         gate.review=SimpleNamespace(intent={'approved':True});gate.acknowledged=True
         rows=[dict(uuid=x['uuid'],reference=x['reference'],fixed_reasons=['Locked in KiCad'] if x['locked'] else []) for x in obs['footprints']]
-        w=SimpleNamespace(busy=False,gate=gate,inspection=dict(observation=obs,components=rows),qualified={'old':True},
+        # Use the real window class so handlers call its real shared methods.
+        # Only external controls/lifecycle effects are controlled dependencies.
+        w=Window.__new__(Window)
+        vars(w).update(busy=False,gate=gate,inspection=dict(observation=obs,components=rows),qualified={'old':True},
             validation_revoked=False,ack=Mock(),picture=Mock(),routing=Mock(),findings=Mock(),refresh=Mock(),message=Mock(),
             parts=Mock(),rebuild_copper=Mock(return_value=False),revoke=Mock(),region=[Mock() for _ in range(4)],
-            draw_area=Mock(),updating=False,overview=Mock(),layout_panel=Mock(),part=Mock(),coordinates=Mock())
+            draw_area=Mock(),updating=False,overview=Mock(),layout_panel=Mock(),part=Mock(),coordinates=Mock(),
+            copilot_generation=1,pending_copilot={'old':True},approved_copilot=None,
+            assistant_ack=Mock(),assistant_result=Mock())
         w.parts.IsChecked.return_value=False
         return w
 
@@ -74,12 +79,15 @@ class HandlerTests(TestCase):
         w=self.window();w.gate.review=None
         Window.pick_on_board(w,'J3')
         w.parts.Check.assert_not_called();w.revoke.assert_not_called()
+        self.assertEqual(w.copilot_generation,1);self.assertIsNotNone(w.pending_copilot)
         self.assertIn('Locked in KiCad',w.message.call_args.args[0])
 
     def test_pick_uses_exact_identity_and_existing_revocation(self):
         w=self.window();w.gate.review=None
         Window.pick_on_board(w,'J1')
         w.parts.Check.assert_called_once_with(0,True);w.revoke.assert_called_once_with(discard=True)
+        self.assertEqual(w.copilot_generation,2);self.assertIsNone(w.pending_copilot)
+        w.assistant_ack.SetValue.assert_called_once_with(False)
         Window.pick_on_board(w,'unknown');self.assertEqual(w.parts.Check.call_count,1)
 
     def test_click_current_draft_focuses_without_silently_changing_it(self):
@@ -94,12 +102,15 @@ class HandlerTests(TestCase):
         w.revoke.assert_called_once_with(discard=True)
         self.assertEqual([f.ChangeValue.call_args.args[0] for f in w.region],['5','5','30','22'])
         w.target_region.SetValue.assert_not_called();w.overview.assert_called_once()
+        self.assertEqual(w.copilot_generation,2);self.assertIsNone(w.pending_copilot)
+        w.assistant_ack.SetValue.assert_called_once_with(False)
         self.assertFalse(w.updating);self.assertFalse(w.picture.draw_area)
 
     def test_invalid_or_cancelled_drag_has_no_input_or_authority_change(self):
         for region,error in (([1,1,1,2],None),([-1,0,10,10],None),(None,'outside outline')):
             w=self.window();Window.area_on_board(w,region,error)
             w.revoke.assert_not_called()
+            self.assertEqual(w.copilot_generation,1);self.assertIsNotNone(w.pending_copilot)
             for field in w.region:field.ChangeValue.assert_not_called()
 
     def test_busy_and_closed_ignore_visual_actions(self):
