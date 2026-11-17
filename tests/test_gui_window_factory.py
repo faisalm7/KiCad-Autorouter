@@ -13,6 +13,47 @@ from autorouter import gui
 from tests import test_gui as base
 
 
+def passive_wx():
+    """Controlled widgets for the complete real constructor, not pixel proof."""
+    class Widget:
+        def __init__(self, parent=None, *args, **kwargs):
+            self.parent = parent; self.value = kwargs.get('value', '')
+            self.label = kwargs.get('label', ''); self.selection = 0
+            self.size = kwargs.get('size'); self.minimum = None
+            self.wrap_widths = []; self.bindings = []; self.sizer = None
+            self.font = Mock()
+        def __getattr__(self, name):
+            value = Mock(); setattr(self, name, value); return value
+        def GetFont(self): return self.font
+        def FromDIP(self, value): return value
+        def SetMinSize(self, value): self.minimum = value
+        def GetEffectiveMinSize(self):
+            return SimpleNamespace(width=self.minimum[0] if self.minimum is not None else max(80, len(self.value) * 7))
+        def SetSizer(self, value): self.sizer = value
+        def SetSelection(self, value): self.selection = value
+        def GetSelection(self): return self.selection
+        def GetValue(self): return self.value
+        def SetValue(self, value): self.value = value
+        def SetLabel(self, value): self.label = value
+        def GetLabel(self): return self.label
+        def GetClientSize(self):
+            if self.parent is not None: return self.parent.GetClientSize()
+            return SimpleNamespace(width=self.size[0], height=self.size[1])
+        def SetSize(self, size): self.size = size
+        def GetPane(self): return Widget(self)
+        def Wrap(self, width): self.wrap_widths.append(width)
+        def Bind(self, event, callback, *args): self.bindings.append((event, callback))
+    class Sizer:
+        def __init__(self, *args, **kwargs): self.children = []
+        def Add(self, child, *args, **kwargs): self.children.append((child, args, kwargs))
+        def AddGrowableCol(self, *args): pass
+    class Wx(SimpleNamespace):
+        def __getattr__(self, name): return name if name.startswith('EVT_') else 0
+    return Wx(Frame=Widget, ScrolledWindow=Widget, StaticText=Widget, Button=Widget,
+        TextCtrl=Widget, CheckBox=Widget, Choice=Widget, CollapsiblePane=Widget,
+        Timer=Widget, BoxSizer=Sizer, FlexGridSizer=Sizer, GetApp=lambda: object())
+
+
 def outer_factory(constructor):
     """Exercise the real outer factory while existing tests cover Window methods.
 
@@ -126,6 +167,39 @@ class WindowFactory(unittest.TestCase):
                 self.assertRaisesRegex(ValueError, 'already exists'):
             gui.main([])
         create.assert_not_called(); wx.App.assert_not_called()
+
+    def test_real_constructor_bounds_long_path_and_choice_minima_and_expands_panel(self):
+        wx = passive_wx()
+        long_path = '/owned saved project/' + '/nested working folder' * 30 + '/board.kicad_pcb'
+        with patch.dict(sys.modules, wx=wx):
+            window = gui.create_window(long_path)
+        self.assertEqual(window.board.GetValue(), long_path)
+        self.assertEqual(window.board.GetEffectiveMinSize().width, 160)
+        self.assertEqual(window.output.GetEffectiveMinSize().width, 160)
+        self.assertEqual(window.model_config.GetEffectiveMinSize().width, 160)
+        self.assertTrue(all(control.GetEffectiveMinSize().width == 160 for control in window.choices.values()))
+        self.assertEqual(window.method.GetEffectiveMinSize().width, 160)
+        self.assertEqual(window.minimum, (720, 640))
+        self.assertIs(window.sizer.children[0][0], window.panel)
+        self.assertEqual(window.sizer.children[0][1][0], 1)
+        window.Show.assert_not_called(); window.MainLoop.assert_not_called()
+
+    def test_real_window_reflows_dynamic_labels_on_resize_show_and_refresh(self):
+        wx = passive_wx()
+        with patch.dict(sys.modules, wx=wx): window = gui.create_window('')
+        window.status.SetLabel('A current finding with details. ' * 40)
+        for size in ((820, 780), (1024, 720), (720, 640)):
+            with self.subTest(size=size):
+                window.SetSize(size); event = Mock()
+                window.layout_changed(event); event.Skip.assert_called_once_with()
+                self.assertEqual(window.status.wrap_widths[-1], size[0] - 40)
+                window.refresh()
+                self.assertEqual(window.export_note.wrap_widths[-1], size[0] - 40)
+                self.assertEqual(window.assistant_note.wrap_widths[-1], size[0] - 40)
+        events = [event for event, callback in window.bindings if callback == window.layout_changed]
+        self.assertIn('EVT_SIZE', events); self.assertIn('EVT_SHOW', events)
+        self.assertIn('File > Close Project', window.ack.GetLabel())
+        self.assertIn('\n', window.ack.GetLabel())
 
 
 if __name__ == '__main__': unittest.main()

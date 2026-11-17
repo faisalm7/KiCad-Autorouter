@@ -2,6 +2,12 @@
 
 Prepared October 9, 2026. The master prompt's mechanisms, thresholds, and workflow choices are proposed engineering requirements, not findings established by these sources. Recheck mutable documentation, versions, permissions, and APIs when executing.
 
+## Saved Default-class priority check (November16,2026)
+
+Fresh GUI123 evidence on unchanged KiCad10.0.7 shows that opening/saving an owned project with omitted Default priority produces explicit `-1`; all four exported Native nets have the same Default parameter-parent value. The actual routing job safely refuses it before engine execution. The [tagged constructor](https://gitlab.com/kicad/code/kicad/-/raw/10.0.7/common/netclass.cpp) initializes priority to `-1`; the [tagged project reader/writer](https://gitlab.com/kicad/code/kicad/-/raw/10.0.7/common/project/net_settings.cpp) preserves that constructor value when an explicit class omits priority and writes it on save. Separate initial-Default/migration paths use `2147483647`. This explains two authentic representations, not a general priority-order equivalence. No KiCad source is copied.
+
+The narrow source correction admits exact integer `-1` only in the already sole-Default target scope, retaining raw project bytes, exact explicit Native-parent agreement, complete dimensions, one class/no assignments or patterns and all original-design checks. Focused controls and actual-artifact pure replay pass; new installed/Native/GUI support is not established by replay. [Failed100 workflow](evidence/product100-GUI123-failure-001.json) remains unchanged.
+
 ## Native placement API check (November5,2026)
 
 The [KiCad10.0.7 zone serializer](https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2712) saves keepout and placement flags only for an actual rule area. The constructor in the same version's `pcbnew/zone.cpp` initializes ordinary zones as non-rule areas with placement disabled. Read these primary source sections to diagnose [probe002](evidence/placement075-native-probe-002.json), alongside retained actual Native observations showing inactive pads/tracks/vias flags on the same ordinary copper zone. No KiCad source was copied into the product. The correction preserves all observations and still rejects actual unsupported rule areas; it is not permission to remove keepouts or relax constraints.

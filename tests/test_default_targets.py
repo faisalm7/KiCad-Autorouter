@@ -228,12 +228,52 @@ class DefaultTargetsTests(unittest.TestCase):
         for row in self.native['nets']:
             for parent in row['parameter_parents'].values(): parent['priority'] = -1
         self.assertEqual(self.transform()[1]['derived_nm']['width_nm'],300000)
-        for priority in (-1,True,-2):
+        for priority in (True,-2):
             self.project['net_settings']['classes'][0]['priority'] = priority
             with self.subTest(explicit_priority=priority):self.reject()
         del self.project['net_settings']['classes'][0]['priority']
         self.native['nets'][0]['parameter_parents']['width_nm']['priority'] = -2
         self.reject()
+
+    def test_saved_Default_constructor_sentinel_preserves_source_and_exact_native_parents(self):
+        # KiCad10.0.7 saves its sole Default netclass with priority -1 when
+        # an originally omitted priority is opened and saved through the GUI.
+        self.project['net_settings']['classes'][0]['priority'] = -1
+        for row in self.native['nets']:
+            for parent in row['parameter_parents'].values(): parent['priority'] = -1
+        before = copy.deepcopy((self.raw, self.native, self.project, self.task))
+        _, receipt = self.transform()
+        self.assertEqual(receipt['derived_nm']['width_nm'], 300000)
+        self.assertEqual(m.source_dimensions(json.dumps(self.project).encode())['derived_nm'],
+                         receipt['derived_nm'])
+        self.assertEqual((self.raw, self.native, self.project, self.task), before)
+
+    def test_explicit_Default_sentinel_does_not_waive_native_priority_identity(self):
+        self.project['net_settings']['classes'][0]['priority'] = -1
+        for observed in (0, 1, 2147483647, -2, True):
+            for row in self.native['nets']:
+                for parent in row['parameter_parents'].values(): parent['priority'] = observed
+            with self.subTest(observed=observed): self.reject()
+        for row in self.native['nets']:
+            for parent in row['parameter_parents'].values(): parent['priority'] = -1
+        self.native['nets'][1]['parameter_parents']['width_nm']['priority'] = 0
+        self.reject()
+
+    def test_Default_sentinel_is_not_a_general_negative_or_multiclass_policy(self):
+        for row in self.native['nets']:
+            for parent in row['parameter_parents'].values(): parent['priority'] = -1
+        for value in (-2, True, -1.0, '-1', None, 2147483648):
+            self.project['net_settings']['classes'][0]['priority'] = value
+            with self.subTest(priority=value):
+                self.reject()
+                with self.assertRaises((ValueError, KeyError)):
+                    m.source_dimensions(json.dumps(self.project).encode())
+        self.project['net_settings']['classes'][0]['priority'] = -1
+        self.project['net_settings']['classes'].append(
+            dict(self.project['net_settings']['classes'][0], name='Other', priority=0))
+        self.reject()
+        with self.assertRaises((ValueError, KeyError)):
+            m.source_dimensions(json.dumps(self.project).encode())
 
     def test_numeric_source_floors_and_grid_refusals(self):
         for value in (True, -.1, float('nan'), float('inf'), '0.3', .3001):

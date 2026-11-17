@@ -1,6 +1,6 @@
 # One owned placement-and-routing pilot
 
-This is one application demonstration, not another model comparison. It may run only after the corrected graphical controls pass and the owner separately approves this request and is ready for private key entry.
+This is one application demonstration, not another model comparison. The owner approved the exact scope below on November16,2026, conditional on corrected graphical checks passing and private key readiness. No credential window or new inference has started. Actual100GUI123 failed before engine execution; the reviewed101 correction must be qualified first.
 
 Use OpenAI's hosted Responses endpoint, `https://api.openai.com/v1/responses`, with **gpt-6.1-sol / medium**, Standard service. Maximum **one request attempt and $0.05 total new API cost**. No automatic retry or model substitution. Earlier study allowances, ledgers and the $0.526536 unknown-cost reservation stay untouched. The client reserves $0.04096 before a possible send; uncertain transport/accounting stops the pilot. This is a client limit, not a provider billing quota.
 

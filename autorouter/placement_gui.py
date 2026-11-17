@@ -44,6 +44,33 @@ def routing_seconds(text):
     return int(text)
 
 
+def require_closed_source(board, *, inspection=None):
+    """Early UI hint using the same inventory/lock guard as qualification.
+
+    No missing-lock observation proves editor closure. Explicit acknowledgement
+    and the independent worker's complete source/design checks remain required.
+    """
+    # Match saved-project intake's file-identity boundary before inventory:
+    # an empty path resolves to cwd, and a directory would scan its parent.
+    if not isinstance(board, (str, Path)) or not str(board) or '\x00' in str(board):
+        raise ValueError('Select the exact saved .kicad_pcb file before inspection.')
+    source = gui.canonical(board)
+    if source.suffix != '.kicad_pcb' or not source.is_file():
+        raise ValueError('Select the exact saved .kicad_pcb file before inspection.')
+    hashes = gui.source_inventory(source)
+    try:
+        h.require_closed_review(hashes)
+    except h.ReviewProjectOpen:
+        raise ValueError('Save and close the source PCB and schematic editors, then choose '
+            'File > Close Project in KiCad manager. A project lock is still present. '
+            'Then click Inspect project again; closing the project may update saved files. '
+            'No new Native work was started.') from None
+    if inspection is not None and (str(source) != inspection['source'] or hashes != inspection['source_hashes']):
+        raise ValueError('Saved source files changed since inspection. Click Inspect project again, '
+            'then load your settings and review a new draft. Earlier validation was not renewed.')
+    return source
+
+
 def copilot_plan_text(inspection, proposal):
     """Present checked facts, not generated explanations or execution authority."""
     refs = {row['uuid']: row['reference'] for row in inspection['components']}
@@ -538,7 +565,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
             self.native_summary = wx.StaticText(panel, label='No current Native validation. Original files remain unchanged.')
             root.Add(self.native_summary, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 12)
-            self.ack = wx.CheckBox(panel, label='I reviewed these moves and the copper-rebuild plan; I saved and closed the source PCB and schematic editors.')
+            self.ack = wx.CheckBox(panel, label='I reviewed these moves and the copper-rebuild plan.\nSource editors AND the KiCad project are saved and closed.')
+            self.ack.SetToolTip('Close PCB and schematic editors, then use File > Close Project in KiCad manager before inspection and validation. Closing can update saved files; inspect again afterward.')
             root.Add(self.ack, 0, wx.ALL, 12)
             buttons = wx.BoxSizer(wx.HORIZONTAL)
             self.find = wx.Button(panel, label='Find alternatives'); self.qualify = wx.Button(panel, label='Validate placement')
@@ -546,7 +574,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             for button in (self.find, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 6)
             buttons.AddStretchSpacer(); buttons.Add(self.reject)
             root.Add(buttons, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
-            self.status = wx.StaticText(panel, label='Choose a saved project. Then select movable parts on the board or in the list.')
+            self.status = wx.StaticText(panel, label='Save and close source editors, then File > Close Project in KiCad manager. Choose the saved project and Inspect project.')
             self.status.Wrap(1020); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 12)
             progressrow = wx.BoxSizer(wx.HORIZONTAL)
             self.progress = wx.Gauge(panel); progressrow.Add(self.progress, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
@@ -1044,6 +1072,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 self.overview()
                 self.message('Project inspected. Click the parts to move, then draw or enter their allowed area. Fixed parts and protected copper stay enforced.')
             def inspect(job, event):
+                require_closed_source(source)
                 value = intent.inspect_saved(source)
                 if (not intent.contract.fixed_context_scope(value['observation']['scope'])
                         and not (c.NATIVE_VERSION == '10.0.7'
@@ -1325,6 +1354,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 self.current_review_settings(review)
                 def work(job, event):
                     from . import placement
+                    require_closed_source(review.inspection['source'], inspection=review.inspection)
                     self.gate.check(ticket); draft = review.decision(acknowledged=True, accepted=True)
                     self.gate.check(ticket); workspace = self.owned_workspace()
                     path = write_new_json(workspace / ('draft-' + uuid.uuid4().hex + '.json'), draft)

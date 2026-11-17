@@ -53,12 +53,16 @@ class FailureDiagnosticsTests(unittest.TestCase):
         self.assertNotIn('preserved copper/zone movement boundaries still apply',text)
 
     def test_GUI_reports_negative_reason_without_adopting_or_opening_candidate(self):
+        source_dir = self.root / 'source'; source_dir.mkdir()
+        source = source_dir / 'owned.kicad_pcb'; source.write_bytes(b'owned saved source fixture')
+        inspection = dict(source=str(source), source_hashes=pg.gui.source_inventory(source))
         for record,expected in [(dict(status='failed',placement_qualified=False,
                                      reason='Native refusal: silk_overlap'), 'silk_overlap'),
                                 (dict(status='pending_candidate',placement_qualified=True,
                                       reason='claimed positive'), 'did not complete'),
                                 ([], 'did not complete')]:
             window=gui_fixture.PlacementGuiTests().window();window.start=Mock();window.owned_workspace=Mock(return_value=self.root)
+            window.gate.review.inspection = copy.deepcopy(inspection)
             window.gate.review.decision=Mock(return_value={'choice':'reviewed_draft'})
             window_method('qualify_draft')(window,None)
             action=window.start.call_args.args[1];job=Mock()

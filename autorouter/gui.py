@@ -1098,6 +1098,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
     class Window(wx.Frame):
         def __init__(self):
             super().__init__(None, title='KiCad design assistant — routing', size=(820, 780))
+            self.SetMinSize(self.FromDIP((720, 640)))
             self.flow = None; self.job = None; self.busy = False; self.closing = False
             self._on_closed = on_closed; self._close_finalized = False
             self.source_guard = source_guard
@@ -1105,7 +1106,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             self.chooser = None; self.input_generation = 0
             self.placement_window = None
             self.edit_controls = []
-            panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
+            panel = self.panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
             layout = wx.BoxSizer(wx.VERTICAL)
             heading = wx.StaticText(panel, label='Route a saved project')
             heading.SetFont(heading.GetFont().Bold())
@@ -1115,8 +1116,8 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             self.placement_button.Bind(wx.EVT_BUTTON, self.open_placement)
             task_row.Add(self.placement_button, 0)
             layout.Add(task_row, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 12)
-            layout.Add(wx.StaticText(panel, label='Inspect your board, choose what to preserve, then review a separate candidate.'),
-                       0, wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM, 12)
+            self.intro = wx.StaticText(panel, label='Inspect your board, choose what to preserve, then review a separate candidate.')
+            layout.Add(self.intro, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM, 12)
             self.board = self.path_row(panel, layout, 'Saved PCB', board, False)
             self.output = self.path_row(panel, layout, 'Output folder', str(c.ROOT / '.runs'), True)
             self.values = {
@@ -1132,6 +1133,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             advanced_grid.Add(wx.StaticText(advanced, label='Method'), 0, wx.ALIGN_CENTER_VERTICAL)
             self.method = wx.Choice(advanced, choices=['Route', 'Improve (experimental; tuned whole-board preset)',
                 'Thermal recovery (experimental; fixed whole-board method)'])
+            self.method.SetMinSize(self.FromDIP((160, -1)))
             self.method.SetSelection(0); self.method.Bind(wx.EVT_CHOICE, self.method_changed)
             self.edit_controls.append(self.method); advanced_grid.Add(self.method, 1, wx.EXPAND)
             self.choices = {}
@@ -1139,6 +1141,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                 host, target_grid = (panel, grid) if name == 'scope' else (advanced, advanced_grid)
                 target_grid.Add(wx.StaticText(host, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
                 control = wx.Choice(host, choices=[label for label, _ in self.values[name]])
+                control.SetMinSize(self.FromDIP((160, -1)))
                 control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name])); control.Bind(wx.EVT_CHOICE, self.changed)
                 self.choices[name] = control; self.edit_controls.append(control); target_grid.Add(control, 1, wx.EXPAND)
             self.budget_label = wx.StaticText(panel, label='Routing budget (seconds)')
@@ -1156,11 +1159,11 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             self.method_note = wx.StaticText(advanced, label='')
             self.method_note.Wrap(780)
             advanced_layout.Add(self.method_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            export_note = wx.StaticText(advanced, label='Rendered review is bounded to 60 seconds; accept/reject checks to 60 seconds. '
+            self.export_note = wx.StaticText(advanced, label='Rendered review is bounded to 60 seconds; accept/reject checks to 60 seconds. '
                 'These are separate from the routing budget. Fresh export adds Native validation after acceptance: '
                 '30–120 seconds, derived from the captured routing or whole-method budget. That budget is unchanged.')
-            export_note.Wrap(780)
-            advanced_layout.Add(export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.export_note.Wrap(780)
+            advanced_layout.Add(self.export_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             advanced.SetSizer(advanced_layout); layout.Add(self.advanced, 0, wx.EXPAND | wx.ALL, 8)
             presets = wx.BoxSizer(wx.HORIZONTAL)
             for label, callback in [('Load settings…', self.load_preset), ('Save settings as…', self.save_preset),
@@ -1170,8 +1173,9 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             layout.Add(presets)
             self.assistant = wx.CollapsiblePane(panel, label='Optional local assistant')
             assistant_panel = self.assistant.GetPane(); assistant_layout = wx.BoxSizer(wx.VERTICAL)
-            assistant_layout.Add(wx.StaticText(assistant_panel, label='Inspect first. Describe a routing request, then review the proposed settings. No automatic approval.'),
-                                 0, wx.ALL, 6)
+            self.assistant_note = wx.StaticText(assistant_panel,
+                label='Inspect first. Describe a routing request, then review the proposed settings. No automatic approval.')
+            assistant_layout.Add(self.assistant_note, 0, wx.EXPAND | wx.ALL, 6)
             self.intent_text = wx.TextCtrl(assistant_panel, style=wx.TE_MULTILINE, size=(-1, 55))
             assistant_layout.Add(self.intent_text, 0, wx.EXPAND | wx.ALL, 6)
             self.model_config = self.path_row(assistant_panel, assistant_layout, 'Local model settings JSON', '', False,
@@ -1189,10 +1193,10 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             self.edit_controls.extend((self.intent_text, self.model_config, self.suggest_button))
             for control in (self.intent_text, self.model_config): control.Bind(wx.EVT_TEXT, self.proposal_inputs_changed)
             for pane in (self.advanced, self.assistant):
-                pane.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: (panel.Layout(), panel.FitInside(), event.Skip()))
-            self.ack = wx.CheckBox(panel, label='I saved and CLOSED the source PCB and schematic editors. The exact paths above are correct.')
+                pane.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, self.layout_changed)
+            self.ack = wx.CheckBox(panel, label='I saved and CLOSED source editors and project (KiCad manager: File > Close Project).\nThe exact paths above are correct.')
             layout.Add(self.ack, 0, wx.ALL, 6)
-            self.inspected = wx.CheckBox(panel, label='I inspected all findings and CLOSED the review editors/project. My choice is intent, not PCB certification.')
+            self.inspected = wx.CheckBox(panel, label='I inspected all findings and CLOSED the review editors/project.\nMy choice is intent, not PCB certification.')
             layout.Add(self.inspected, 0, wx.ALL, 6)
             self.buttons = {}
             for names in ((('Inspect project', 'inspect'), ('Preview', 'preview'), ('Route', 'route'), ('Create review', 'review'), ('Cancel', 'cancel')),
@@ -1204,15 +1208,34 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                     button.Bind(wx.EVT_BUTTON, lambda event, action=name: self.act(action))
                     self.buttons[name] = button; row.Add(button, 0, wx.ALL, 4)
                 layout.Add(row, 0, wx.ALL, 2)
-            self.status = wx.StaticText(panel, label='Select a complete saved project; preview support before routing. Source buffers cannot be inspected.')
+            self.status = wx.StaticText(panel, label='Select a complete saved project; preview support before routing. Source buffers cannot be inspected.',
+                                       style=wx.ST_NO_AUTORESIZE)
             layout.Add(self.status, 0, wx.EXPAND | wx.ALL, 6)
             self.log = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 150))
             layout.Add(self.log, 1, wx.EXPAND | wx.ALL, 6)
             panel.SetSizer(layout)
+            frame_layout = wx.BoxSizer(wx.VERTICAL)
+            frame_layout.Add(panel, 1, wx.EXPAND); self.SetSizer(frame_layout)
+            for label in (self.intro, self.method_note, self.export_note, self.assistant_note, self.status):
+                label.SetMinSize(self.FromDIP((160, -1)))
+            self.Bind(wx.EVT_SIZE, self.layout_changed)
+            self.Bind(wx.EVT_SHOW, self.layout_changed)
             for control in (self.board, self.output): control.Bind(wx.EVT_TEXT, self.path_changed)
             self.Bind(wx.EVT_CLOSE, self.close)
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(500)
             self.refresh()
+
+        def layout_panel(self):
+            """Paths may scroll inside their input; the frame stays laptop-sized."""
+            width = max(self.FromDIP(300), self.panel.GetClientSize().width - self.FromDIP(40))
+            for label in (self.intro, self.method_note, self.export_note, self.assistant_note, self.status):
+                label.Wrap(width)
+            self.Layout(); self.panel.Layout(); self.panel.FitInside()
+
+        def layout_changed(self, event):
+            if hasattr(self, 'status'):
+                self.layout_panel()
+            event.Skip()
 
         def open_placement(self, _):
             """One task window at a time; routing and placement share this app."""
@@ -1237,7 +1260,10 @@ def create_window(board='', *, source_guard=None, on_closed=None):
 
         def path_row(self, panel, layout, label, value, directory, *, wildcard=None):
             row = wx.BoxSizer(wx.HORIZONTAL); row.Add(wx.StaticText(panel, label=label), 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 6)
-            control = wx.TextCtrl(panel, value=value); row.Add(control, 1, wx.ALL, 6)
+            control = wx.TextCtrl(panel, value=value)
+            # Cocoa's initial value otherwise becomes the input's best/minimum
+            # width, pushing Browse and the whole scrolled panel off screen.
+            control.SetMinSize(self.FromDIP((160, -1))); row.Add(control, 1, wx.ALL, 6)
             button = wx.Button(panel, label='Browse…')
             def browse(_):
                 if self.busy or self.chooser is not None: return
@@ -1544,6 +1570,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             for control in (self.board, self.output, self.ack, self.inspected, *self.edit_controls): control.Enable(not self.busy and not choosing)
             if hasattr(self, 'apply_proposal_button'):
                 self.apply_proposal_button.Enable(not self.busy and not choosing and self.pending_proposal is not None)
+            self.layout_panel()
 
         def act(self, action):
             try:

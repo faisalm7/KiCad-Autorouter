@@ -54,11 +54,22 @@ def _source(source):
     return str(path)
 
 
+def _explicit_priority(cls):
+    """Validate the sole Default class, including KiCad's saved -1 sentinel.
+
+    This scope has no competing classes, assignments or patterns. A present
+    priority is still bound exactly to every observed Native parameter parent;
+    the project value is never rewritten to fit this reader.
+    """
+    explicit_priority = 'priority' in cls
+    if explicit_priority and (type(cls['priority']) is not int or not -1 <= cls['priority'] <= 2147483647):
+        raise ValueError('bounded explicit Default priority required')
+    return explicit_priority
+
+
 def _parents(native, cls):
     """Only one class exists, so an omitted priority cannot resolve another class."""
-    explicit_priority = 'priority' in cls
-    if explicit_priority and (type(cls['priority']) is not int or not 0 <= cls['priority'] <= 2147483647):
-        raise ValueError('bounded explicit Default priority required')
+    explicit_priority = _explicit_priority(cls)
     observed = set()
     for row in native['nets']:
         parents = row.get('parameter_parents')
@@ -70,7 +81,7 @@ def _parents(native, cls):
                     or parent['name'] != 'Default' or parent['specified'] is not True
                     or type(parent['value_nm']) is not int or parent['value_nm'] != row[key]
                     or type(parent['priority']) is not int
-                    or not (0 if explicit_priority else -1) <= parent['priority'] <= 2147483647):
+                    or not -1 <= parent['priority'] <= 2147483647):
                 raise ValueError('Default parameter parent differs from raw source class')
             priorities.append(parent['priority'])
         if len(set(priorities)) != 1 or (explicit_priority and priorities[0] != cls['priority']):
@@ -279,8 +290,7 @@ def source_dimensions(project_raw, native=None):
     if project.get('custom_rules') or settings.get('custom_rules') or settings.get('drc_exclusions'):
         raise ValueError('custom rules/exclusions are outside Default-target scope')
     cls = project['net_settings']['classes'][0]
-    if 'priority' in cls and (type(cls['priority']) is not int or not 0 <= cls['priority'] <= 2147483647):
-        raise ValueError('bounded explicit Default priority required')
+    _explicit_priority(cls)
     raw = {key: floors.millimetres(cls[field]) for key, field in floors.DIMENSIONS.items()}
     hard = {key: floors.millimetres(settings['rules'][key], zero=True) for key in floors.FLOORS}
     return {'raw_nm': raw, 'original_floors_nm': hard, 'derived_nm': floors.derive(raw, hard)}

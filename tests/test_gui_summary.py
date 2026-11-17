@@ -156,7 +156,7 @@ class GuiSummaryTests(unittest.TestCase):
                 request=gui.Request('/source/owned.kicad_pcb',str(workspace.parent),flow.settings_bytes,True,'improve')
                 window = SimpleNamespace(**displayed_inputs(request),flow=flow, job=job, busy=True, input_generation=7,
                     status=Mock(), log=Mock(), inspected=Mock(), closing=False,
-                    seconds=Mock(), edit_controls=[],
+                    seconds=Mock(), edit_controls=[], layout_panel=Mock(),
                     buttons={name: Mock() for name in names})
                 window.refresh = lambda: window_method('refresh')(window)
                 window_method('finished')(window, job, flow, 'export', exported, None)
@@ -258,7 +258,7 @@ class GuiSummaryTests(unittest.TestCase):
         names = ('preview','route','review','cancel','open_preview','open_review','accept','reject','export','open_export')
         ready = {'preview','route','review','choice','export','verify_export'}
         window = SimpleNamespace(flow=SimpleNamespace(ready=ready,choice='accept'),busy=False,
-            buttons={name:Mock() for name in names},board=Mock(),output=Mock(),ack=Mock(),inspected=Mock(),edit_controls=[])
+            buttons={name:Mock() for name in names},board=Mock(),output=Mock(),ack=Mock(),inspected=Mock(),edit_controls=[],layout_panel=Mock())
         window_method('refresh')(window)
         for name in ('route','review','cancel','accept','reject','export'):
             window.buttons[name].Enable.assert_called_once_with(False)

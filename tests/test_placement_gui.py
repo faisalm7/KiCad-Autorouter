@@ -114,6 +114,80 @@ class PlacementGuiTests(unittest.TestCase):
         self.assertIsNone(window.inspection)
         window.revoke.assert_called_once_with(discard=True)
 
+    def test_closed_source_preflight_retains_locks_and_requires_fresh_inspection_after_changes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve(); board = root / 'owned.kicad_pcb'
+            for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch', '.kicad_prl'):
+                board.with_suffix(suffix).write_bytes(b'owned synthetic source')
+            captured = dict(source=str(board), source_hashes=gui.source_inventory(board))
+            self.assertEqual(pg.require_closed_source(board, inspection=captured), board)
+            lock = root / '~owned.kicad_pro.lck'; lock.write_bytes(b'owned synthetic KiCad lock')
+            with self.assertRaisesRegex(ValueError, 'File > Close Project'):
+                pg.require_closed_source(board, inspection=captured)
+            self.assertEqual(lock.read_bytes(), b'owned synthetic KiCad lock')
+            lock.unlink()  # Only this test-created lock, owned by this process.
+            board.with_suffix('.kicad_prl').write_bytes(b'ordinary editor-sidecar update')
+            with self.assertRaisesRegex(ValueError, 'Inspect project again'):
+                pg.require_closed_source(board, inspection=captured)
+            fresh = dict(source=str(board), source_hashes=gui.source_inventory(board))
+            self.assertEqual(pg.require_closed_source(board, inspection=fresh), board)
+
+    def test_real_inspection_method_refuses_open_project_before_geometry_or_native_work(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve(); board = root / 'owned.kicad_pcb'; board.write_bytes(b'owned source')
+            lock = root / '~owned.kicad_pro.lck'; lock.write_bytes(b'owned test lock')
+            window = self.window(); window.board = Mock(); window.board.GetValue.return_value = str(board)
+            window.start = Mock()
+            window_method('inspect_project')(window, None)
+            inspect = window.start.call_args.args[1]; job = Mock()
+            with patch.object(pg.intent, 'inspect_saved') as geometry:
+                with self.assertRaisesRegex(ValueError, 'File > Close Project'):
+                    inspect(job, threading.Event())
+                geometry.assert_not_called(); job.run.assert_not_called()
+            self.assertTrue(lock.exists())
+            self.assertIsNone(window.inspection)
+
+    def test_real_inspection_refuses_non_PCB_identity_before_inventory_geometry_or_native(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve()
+            wrong = root / 'notes.txt'; wrong.write_bytes(b'owned fixture')
+            directory = root / 'folder.kicad_pcb'; directory.mkdir()
+            source = root / 'source.kicad_pcb'; source.write_bytes(b'owned saved source')
+            link = root / 'alias.kicad_pcb'; link.symlink_to(source)
+            for invalid in ('', root, directory, wrong, link, None, True):
+                window = self.window(); window.board = Mock()
+                window.board.GetValue.return_value = invalid; window.start = Mock()
+                window_method('inspect_project')(window, None)
+                inspect = window.start.call_args.args[1]; job = Mock()
+                with self.subTest(source=invalid), patch.object(pg.gui, 'source_inventory') as inventory, \
+                        patch.object(pg.intent, 'inspect_saved') as geometry:
+                    with self.assertRaises((ValueError, OSError, pg.h.Rejected)):
+                        inspect(job, threading.Event())
+                    inventory.assert_not_called(); geometry.assert_not_called()
+                    job.run.assert_not_called()
+                self.assertIsNone(window.inspection)
+            self.assertTrue(link.is_symlink())
+            self.assertEqual(source.read_bytes(), b'owned saved source')
+
+    def test_real_qualification_work_refuses_reopened_or_changed_source_before_draft_and_native(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve(); board = root / 'owned.kicad_pcb'; board.write_bytes(b'owned source')
+            captured = dict(source=str(board), source_hashes=gui.source_inventory(board))
+            window = self.window(); window.gate.review.inspection = captured
+            window.gate.review.decision = Mock(); window.start = Mock()
+            window_method('qualify_draft')(window, None)
+            work = window.start.call_args.args[1]; job = Mock()
+            lock = root / '~owned.kicad_pro.lck'; lock.write_bytes(b'owned test lock')
+            with patch.object(pg, 'write_new_json') as draft:
+                with self.assertRaisesRegex(ValueError, 'File > Close Project'):
+                    work(job, threading.Event())
+                lock.unlink()  # This newly created test fixture only.
+                board.write_bytes(b'changed while project closed')
+                with self.assertRaisesRegex(ValueError, 'Inspect project again'):
+                    work(job, threading.Event())
+                draft.assert_not_called(); window.gate.review.decision.assert_not_called()
+                job.run.assert_not_called()
+
     def test_explicit_literal_ack_and_each_ticket_dependency(self):
         gate = self.gate(); ticket = gate.ticket(); self.assertIsNone(gate.check(ticket))
         for ack in (False, 1, 'yes', None):
