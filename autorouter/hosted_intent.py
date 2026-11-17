@@ -70,6 +70,69 @@ def _digest(value):
     return hashlib.sha256(_encoded(value)).hexdigest()
 
 
+def _compact_context(summary):
+    """Lossless projection of the shared, already validated placement summary.
+
+    Role flags and their repeated explanations follow exactly from selected /
+    fixed membership. Keep all distinct source reasons in a small readable
+    dictionary and an explicit reference-to-UUID table. Unsupported future
+    summary changes refuse instead of silently discarding information.
+    """
+    result = copy.deepcopy(summary)
+    selected, fixed = set(summary['selected']), set(summary['fixed'])
+    reasons, rows = [], []
+    fields = {'reference', 'uuid', 'selected', 'fixed', 'explicitly_fixed',
+              'eligibility', 'reasons', 'source_fixed_reasons'}
+    for row in summary['components']:
+        chosen, pinned = row['uuid'] in selected, row['uuid'] in fixed
+        task_reasons = (['Selected by caller; shared placement facts validated these exact settings.']
+                        if chosen else ['Unselected components remain fixed in this task.'])
+        if pinned:
+            task_reasons.append('Explicit caller fixed-component request.')
+        expected = {'selected': chosen, 'fixed': not chosen, 'explicitly_fixed': pinned,
+                    'eligibility': 'selected_validated' if chosen else 'fixed_in_current_task',
+                    'reasons': task_reasons}
+        if set(row) != fields or any(row[key] != value for key, value in expected.items()):
+            raise HostedError('The component summary contains unsupported information; no request was sent.')
+        indexes = []
+        for reason in row['source_fixed_reasons']:
+            if reason not in reasons:
+                reasons.append(reason)
+            indexes.append(reasons.index(reason))
+        rows.append([row['reference'], row['uuid'], indexes])
+    result['components'] = {
+        'fields': ['reference', 'uuid', 'source_fixed_reason_ids'],
+        'source_fixed_reasons': reasons, 'rows': rows,
+    }
+    policy = result.pop('placement_settings')
+    for key in ('selected', 'region_nm', 'copper_policy'):
+        if policy[key] != result[key]:
+            raise HostedError('Duplicated placement facts disagree; no request was sent.')
+        del policy[key]
+    # The validated settings kind repeats its schema. The false preservation
+    # flag is also entailed by this composed workflow's explicit rebuild policy
+    # and caller permission. Every other policy, protection and limit stays.
+    if (type(policy['schema']) is not int
+            or policy['kind'] != 'autorouter.selected-placement-settings.v' + str(policy['schema'])
+            or policy['preserve_existing'] is not False
+            or result['copper_policy'] != 'rebuild-affected-unlocked-v1'
+            or result['caller_rebuild_permission_present'] is not True
+            or result['all_unselected_fixed'] is not True):
+        raise HostedError('Placement policy is unsupported by the compact context; no request was sent.')
+    del policy['kind']; del policy['preserve_existing']
+    result['placement_policy'] = policy
+    return result
+
+
+def _compact_nets(nets):
+    """Keep every declared name/count; use a table only when it is smaller."""
+    fields = ['name', 'terminal_count', 'existing_route_items', 'locked_route_items']
+    if any(set(row) != set(fields) for row in nets):
+        raise HostedError('The declared-net summary contains unsupported information; no request was sent.')
+    table = {'fields': fields, 'rows': [[row[key] for key in fields] for row in nets]}
+    return table if len(_encoded(table)) < len(_encoded(nets)) else copy.deepcopy(nets)
+
+
 def prepare_request(inspection, context, request_text):
     """Prepare exactly the data to show before consent; do not connect or write.
 
@@ -85,7 +148,8 @@ def prepare_request(inspection, context, request_text):
     initial = design.validate_placement_route_proposal(
         inspection, context, design.placement_request(context))
     _, compact = client._summary(design.inspect_project(inspection['source']))
-    compact['placement_context'] = client._placement_summary(inspection, initial)
+    compact['nets'] = _compact_nets(compact['nets'])
+    compact['placement_context'] = _compact_context(client._placement_summary(inspection, initial))
     contract = design.placement_model_contract()
     material = {'inspection': compact, 'request': request_text}
     payload = {

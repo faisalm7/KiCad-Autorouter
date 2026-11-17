@@ -38,6 +38,34 @@ def tagged(value):
     return b'J' + json.dumps(value).encode()
 
 
+def expanded_context(compact):
+    """Independent inverse for an exact semantic roundtrip assertion."""
+    result = copy.deepcopy(compact)
+    table = result['components']; components = []
+    for values in table['rows']:
+        row = dict(zip(table['fields'], values))
+        identity = row['uuid']; selected = identity in result['selected']
+        explicitly_fixed = identity in result['fixed']
+        reasons = (['Selected by caller; shared placement facts validated these exact settings.']
+                   if selected else ['Unselected components remain fixed in this task.'])
+        if explicitly_fixed:
+            reasons.append('Explicit caller fixed-component request.')
+        components.append({
+            'reference': row['reference'], 'uuid': identity, 'selected': selected,
+            'fixed': not selected, 'explicitly_fixed': explicitly_fixed,
+            'eligibility': 'selected_validated' if selected else 'fixed_in_current_task',
+            'reasons': reasons,
+            'source_fixed_reasons': [table['source_fixed_reasons'][n]
+                                     for n in row['source_fixed_reason_ids']],
+        })
+    result['components'] = components
+    policy = result.pop('placement_policy')
+    policy.update({key: copy.deepcopy(result[key]) for key in ('selected', 'region_nm', 'copper_policy')})
+    policy.update(kind='autorouter.selected-placement-settings.v' + str(policy['schema']), preserve_existing=False)
+    result['placement_settings'] = policy
+    return result
+
+
 class HostedIntent(unittest.TestCase):
     def setUp(self):
         self.fixture = fixtures.PlacementRouteIntent(
@@ -78,6 +106,66 @@ class HostedIntent(unittest.TestCase):
         self.assertLessEqual(prepared['conservative_input_tokens'], hosted.INPUT_TOKENS)
         draft = hosted.make_consent(prepared, ledger_path=self.path)
         self.assertIs(draft['approved'], False)
+
+    def test_compact_wire_roundtrips_all_shared_component_policy_net_and_unknown_facts(self):
+        before = design.validate_placement_route_proposal(self.inspection, self.context, self.request)
+        expected = hosted.client._placement_summary(self.inspection, before)
+        sent = json.loads(self.prepared['body'])
+        material = json.loads(sent['input'][0]['content'])
+        self.assertEqual(expanded_context(material['inspection']['placement_context']), expected)
+        _static, original = hosted.client._summary(design.inspect_project(self.inspection['source']))
+        net_data = material['inspection']['nets']
+        restored_nets = ([dict(zip(net_data['fields'], row)) for row in net_data['rows']]
+                         if type(net_data) is dict else net_data)
+        self.assertEqual(restored_nets, original['nets'])
+        self.assertEqual(material['inspection']['electrical_constraints'], 'unknown')
+        self.assertEqual(material['inspection']['routing_feasibility'], 'unknown')
+        self.assertEqual(material['inspection']['placement_context']['placement_policy']['protected_names'], ['KEEP'])
+        self.assertEqual(material['inspection']['placement_context']['placement_policy']['orientation'], 'preserve')
+        self.assertEqual(material['inspection']['placement_context']['placement_policy']['side'], 'preserve')
+        self.assertLess(len(self.prepared['body']), len(hosted._encoded({**sent,
+            'input': [{'role': 'user', 'content': hosted._encoded({
+                **material, 'inspection': {**original, 'placement_context': expected}}).decode()}]})))
+
+    def test_six_part_owned_request_with_all_unselected_parts_explicitly_fixed_fits(self):
+        fixed = [row['uuid'] for row in self.inspection['components']
+                 if row['uuid'] not in self.fixture.settings['selected']]
+        context = self.fixture.make_context(fixed_components=fixed)
+        text = ('Keep the fixed components and protected trace unchanged, place these two '
+                'components inside this region, then route their approved connections.')
+        with patch('subprocess.Popen', side_effect=AssertionError('no worker while preparing')):
+            prepared = hosted.prepare_request(self.inspection, context, text)
+        material = json.loads(json.loads(prepared['body'])['input'][0]['content'])
+        self.assertEqual(len(material['inspection']['placement_context']['components']['rows']), 6)
+        self.assertEqual(len(material['inspection']['placement_context']['fixed']), 4)
+        self.assertEqual(expanded_context(material['inspection']['placement_context']),
+                         hosted.client._placement_summary(self.inspection, prepared['initial']))
+        self.assertLessEqual(prepared['conservative_input_tokens'], hosted.INPUT_TOKENS - 256)
+
+    def test_compaction_retains_unique_constraints_and_refuses_unexplained_derived_changes(self):
+        shared = hosted.client._placement_summary
+        def unique(inspection, validated):
+            result = shared(inspection, validated)
+            result['source_scope_limits'].append('Distinct retained scope limitation.')
+            result['components'][0]['source_fixed_reasons'].append('Distinct fixed-component reason.')
+            return result
+        with patch.object(hosted.client, '_placement_summary', side_effect=unique):
+            prepared = hosted.prepare_request(self.inspection, self.context, self.text)
+        compact = json.loads(json.loads(prepared['body'])['input'][0]['content'])['inspection']['placement_context']
+        self.assertEqual(expanded_context(compact), unique(self.inspection, prepared['initial']))
+        def unsupported(inspection, validated):
+            result = shared(inspection, validated)
+            result['components'][0]['reasons'] = ['Unexpected extra user requirement.']
+            return result
+        with patch.object(hosted.client, '_placement_summary', side_effect=unsupported), \
+                patch.object(hosted, '_run_worker') as worker, self.assertRaises(hosted.HostedError):
+            hosted.prepare_request(self.inspection, self.context, self.text)
+        worker.assert_not_called(); self.assertFalse(self.path.exists())
+
+    def test_large_requests_still_refuse_before_consent_ledger_or_network(self):
+        with patch.object(hosted, '_run_worker') as worker, self.assertRaisesRegex(hosted.HostedError, 'conservative input bound'):
+            hosted.prepare_request(self.inspection, self.context, 'x' * hosted.client.MAX_REQUEST_TEXT)
+        worker.assert_not_called(); self.assertFalse(self.path.exists())
 
     def test_proposal_and_actual_cost_use_shared_validators_with_no_source_changes(self):
         original = gui.source_inventory(self.board)

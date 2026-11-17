@@ -1084,9 +1084,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                     for i, row in enumerate(self.inspection['components']): self.parts.Check(i, row['uuid'] in value['selected'])
                     for field, coordinate in zip(self.region, value['region_nm']): field.ChangeValue(mm(coordinate))
                 finally: self.updating = False
-                self.findings.SetValue('\n'.join(placement_limits(captured, rebuild=intent.rebuilds_copper(value), grouped=intent.grouped(value),
-                    region_initialization=bool(intent.region_options(value))))
-                    + '\n\nComponents\n' + component_findings(captured, rebuild=intent.rebuilds_copper(value)))
+                # Rebuild the passive view after committing every control.
+                # revoke() rendered the earlier choices before the preset loaded.
+                self.overview()
                 self.refresh()
                 self.message('Placement settings loaded. Constraints and fixed components were checked; no operation started.'
                     + (' This preset’s original placement policy is preserved; review its shown limits.' if policy_changed else ''))

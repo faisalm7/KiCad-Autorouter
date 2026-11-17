@@ -249,6 +249,56 @@ class CopperPlacementGui(unittest.TestCase):
         self.assertEqual(window.options(), old)
         self.assertEqual(window.options()['schema'], 1)
 
+    def preset_window(self, path):
+        """Actual complete Window methods with only native controls controlled."""
+        dialog = Mock(); dialog.__enter__ = Mock(return_value=dialog)
+        dialog.__exit__ = Mock(return_value=False)
+        dialog.ShowModal.return_value = 1; dialog.GetPath.return_value = str(path)
+        wx = SimpleNamespace(Frame=object, FileDialog=Mock(return_value=dialog),
+                             FD_OPEN=1, FD_FILE_MUST_EXIST=2, ID_OK=1)
+        Window = pg.window_type(wx)
+        window = Window.__new__(Window)
+        # Inherit methods instead of copying methods bound to an earlier double.
+        vars(window).update({name: value for name, value in vars(self.window()).items()
+                             if not isinstance(value, MethodType) and name != 'overview'})
+        window.rigid_group = text_control(False); window.target_region = text_control(False)
+        window.findings = text_control()
+        return window
+
+    def test_loaded_preset_immediately_repaints_its_actual_area_and_selection(self):
+        value = dict(self.settings, region_nm=[8_000_000, 7_000_000, 30_000_000, 13_000_000],
+                     protected_names=['KEEP'])
+        intent.facts(self.inspection, value)
+        path = self.root/'changed-settings.json'; path.write_text(json.dumps(value))
+        window = self.preset_window(path)
+        window.copper_policy.SetSelection(0); window.parts.Set([])
+        window.overview()
+        self.assertIn('Area: (7, 7)', window.region_summary.SetLabel.call_args.args[0])
+        window.qualified = {'old': True}; window.gate.acknowledged = True
+        window.pending_copilot = {'old': True}
+        window.load_settings(None)
+        self.assertEqual(window.options(), value)
+        self.assertEqual(window.region_summary.SetLabel.call_args.args[0], 'Area: (8, 7) to (30, 13) mm')
+        self.assertIn('Selected to move: J1, J2', window.findings.GetValue())
+        from xml.etree import ElementTree as ET
+        roles = [row.get('data-role') for row in ET.fromstring(window.picture.SetScene.call_args.args[0]['svg']).iter()]
+        self.assertEqual(roles.count('proposed-selected'), 2)
+        self.assertIsNone(window.gate.review); self.assertIsNone(window.qualified)
+        self.assertFalse(window.gate.acknowledged); self.assertIsNone(window.pending_copilot)
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+
+    def test_unknown_part_preset_cannot_replace_visible_controls_or_scene(self):
+        value = dict(self.settings, selected=['00000000-0000-4000-8000-000000000000'])
+        path = self.root/'unknown-part-settings.json'; path.write_text(json.dumps(value))
+        window = self.preset_window(path); window.overview()
+        before = window.options(); scene = copy.deepcopy(window.picture.SetScene.call_args.args[0])
+        window.load_settings(None)
+        self.assertTrue(window.message.call_args.args[0].startswith('Settings refused:'))
+        self.assertEqual(window.options(), before)
+        self.assertEqual(window.picture.SetScene.call_args.args[0], scene)
+        self.assertIsNone(window.qualified); self.assertFalse(window.gate.acknowledged)
+        self.assertEqual(gui.source_inventory(self.board), self.original)
+
     def test_routing_prefill_is_exact_visible_and_never_starts_or_accepts(self):
         frame = routing_frame(); plan = intent.copper_plan(self.inspection, self.settings)
         pg.prefill_copper_routing(frame, plan)
