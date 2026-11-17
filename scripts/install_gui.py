@@ -29,7 +29,9 @@ libraries and themes are not loaded through that search root. Bundled vendor
 plugins are unchanged. This is a cooperative launch boundary, not an OS sandbox.
 Open a saved project, open PCB Editor and click the green Autorouter toolbar
 icon. In the separate router window choose the exact saved PCB/output paths.
-Save and CLOSE source PCB/schematic editors and acknowledge before routing.
+Save and CLOSE source PCB/schematic editors. In KiCad manager choose
+File > Close Project, then inspect the saved project in the assistant.
+Acknowledge the reviewed changes before routing.
 Candidates/review/export stay separate; no automatic live-board edits.
 
 This is a bootstrap for this exact existing checkout, virtual environment and

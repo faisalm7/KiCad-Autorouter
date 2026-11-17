@@ -30,6 +30,8 @@ cd "$AUTOROUTER_INSTALL"
 
 Enter the selected runtime before every `-m autorouter` command: using its interpreter from another checkout can import the wrong code. Follow the new launcher's README. It binds the runtime, tools and isolated configuration/documents/cache/plugin area. Keep those locations intact; a moved or replaced launcher needs fresh preparation. The launcher is a cooperative boundary, not an OS sandbox.
 
+Before inspecting or routing, save and close the source PCB/schematic editors, then choose **File → Close Project** in KiCad manager. Closing only the editor windows leaves the project open. Existing launcher copies may omit this instruction; keep their bound files unchanged and follow this step here.
+
 Installation copies only the declared immutable payload and matching local JAR. It preserves the original lock/source provenance and writes a new root-bound manifest. Unsafe links, changed/missing/extra payload, stale pins and existing destinations refuse. Failed partial output is retained; use a fresh destination. A successful copy/doctor is preparation, not qualification of that new root or machine.
 
 ## Current artifact-import qualification boundary
