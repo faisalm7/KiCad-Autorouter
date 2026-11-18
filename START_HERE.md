@@ -13,4 +13,6 @@ If you need installation, use [prerequisites and advanced setup](docs/install-ex
 
 **Cancel** requests cancellation of owned work, revokes positive state and retains evidence. Wait for cleanup before closing the assistant or starting another action. Changing the source, settings, target-region policy or reviewed pose also revokes earlier validation and handoff authority. A stale or cancelled result needs a fresh explicit workflow.
 
+Keep an untouched complete copy before opening an older project in newer KiCad. Closing the editor can update project settings even without a board edit. If the original settings must be preserved byte for byte, select the untouched saved copy in the assistant. [Observed EEPROM workflow](docs/eeprom-finish-gaps-gui127.md).
+
 Routing-scope acceptance, whole-project DRC cleanliness and electrical/physical suitability are different checks. Warnings and ignored checks remain visible. Live editor application/undo, Windows Native, independent installation and human PCB review are not qualified. [Current state](STATUS.md) · [Requirements](REQUIREMENTS.md) · [Saved-project workflow](docs/quickstart.md).
