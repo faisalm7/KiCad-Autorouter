@@ -23,6 +23,8 @@ The timeline records 32 actions an operator would perform, exercised through aut
 
 Automation also had two pre-action setup mismatches and an observer comparison that treated regenerated field-proof metadata as a finding change. The actual findings and ignored checks matched. These delays are included in the full elapsed session. The assistant launch, clipboard-free dialog navigation, sole Route action and fresh export were observed in the running applications.
 
+The selected on-Mac archive reconstructed all 429 evaluation files exactly. Full environment recovery remains pending. [Backup verification](../evidence/backups/selected-product103-GUI127-001.json).
+
 ## Next bounded placement task
 
 Use the retained MIT **PushButtonLed** board from a different project and author, pinned at `29c46b7c03d2afd9fe3a58fe2070309b12f94b42`. Propose a new assembly constraint to keep R1 and R2 clear of the lower strip used to access the LED and capacitor. Inspect feasibility of confining the two resistors to the upper region from x 23–42.5 mm, y 24.5–37 mm. Keep their side and orientation, every other part and the 13 unrelated routes fixed. Explicitly review the affected-net rebuild plan, then accept at most one automatic alternative and one protected routing attempt. Measure setup actions, whether the placement proposal meets the service-area objective and any actual manual corrections. The new region is a proposed evaluation task. Its feasibility and delivery are pending. Earlier work on this family remains development evidence. [Pinned publisher licence](https://github.com/gurusaeth12/push-button-led-kicad/blob/29c46b7c03d2afd9fe3a58fe2070309b12f94b42/LICENSE) · [Earlier placement and delivery](../evidence/runtime094-licensed-placement-delivery-001.json).
