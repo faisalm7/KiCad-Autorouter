@@ -32,6 +32,20 @@ Enter the selected runtime before every `-m autorouter` command: using its inter
 
 Before inspecting or routing, save and close the source PCB/schematic editors, then choose **File → Close Project** in KiCad manager. Closing only the editor windows leaves the project open. Existing launcher copies may omit this instruction; keep their bound files unchanged and follow this step here.
 
+## Saved-project launcher and optional toolbar handoff
+
+Launchers prepared by the saved-project update include **Open Saved Project.command**. It opens Copperpath. Choose the `.kicad_pro` file while that project is closed. Keep its matching PCB, schematic and rules together. The direct launcher uses the existing runtime, with no extra Python packages.
+
+**Launch Autorouter.command** opens the isolated KiCad manager for the optional PCB toolbar. For automatic project selection, install the official KiCad Python IPC client in the runtime’s existing Python 3.11 environment. The following command pins the wheels for macOS arm64. Set the paths to the verified local runtime and the source checkout that supplied it.
+
+```sh
+python3.11 -m pip --isolated --python "/path/to/runtime/.venv" install \
+  --index-url https://pypi.org/simple --only-binary=:all: --require-hashes \
+  -r "/path/to/source/docs/kicad-toolbar-macos-arm64.txt"
+```
+
+The toolbar reads the single open PCB identity from the invoking KiCad instance over its local socket. Copperpath confirms a matching saved project and prompts you to close it before work. A missing client, unavailable connection or mismatched project leaves the picker empty with an explanation. Pick the saved project to continue. The package wheels and their notices are supplied by PyPI and are outside the curated runtime payload. The client is MIT-licensed and includes generated protocol modules carrying KiCad license notices. [KiCad IPC developer notes](https://dev-docs.kicad.org/en/apis-and-binding/ipc-api/for-addon-developers/index.html) · [Pinned client](https://pypi.org/project/kicad-python/0.8.0/) · [Wheel pins](kicad-toolbar-macos-arm64.txt).
+
 Installation copies only the declared immutable payload and matching local JAR. It preserves the original lock/source provenance and writes a new root-bound manifest. Unsafe links, changed/missing/extra payload, stale pins and existing destinations refuse. Failed partial output is retained; use a fresh destination. A successful copy/doctor is preparation, not qualification of that new root or machine.
 
 ## Current artifact-import qualification boundary

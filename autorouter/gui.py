@@ -207,6 +207,20 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                   + str(native.get('blocking', 'not reported')) + ' blocking; '
                   + str(native.get('warnings', 'not reported')) + ' warnings; '
                   + str(native.get('exclusions', 'not reported')) + ' exclusions']
+        source_native = record.get('source_drc')
+        if stage == 'inspect':
+            lines += ['Open connections are counted by KiCad after refilling zones on the saved copy.']
+        elif isinstance(source_native, dict) and type(source_native.get('opens')) is int:
+            lines += [f"KiCad open connections after zone refill: {source_native['opens']} in the saved input, "
+                      + str(native.get('opens', 'not reported')) + ' in the result.']
+        if native.get('warnings'):
+            from .review_view import finding_groups
+            groups = [(origin, title, len(rows)) for (origin, title), rows in finding_groups(native, source_native).items()
+                      if origin in ('Already in the saved input', 'Source match unconfirmed')]
+            if groups:
+                lines += ['Warning groups'] + [f'  {count} · {title} · {origin}' for origin, title, count in groups[:8]]
+                if len(groups) > 8:
+                    lines += ['  Additional groups are included in the full findings below.']
         qualification = native.get('field_parity', {}).get('qualification', {})
         if qualification.get('qualified') is True:
             lines += ['Effective schematic fields compared: ' + str(qualification.get('component_count', 'not reported'))
@@ -279,6 +293,21 @@ _REGISTERED_ACTIONS = []
 def canonical(path, *, exists=True):
     from .handoff import real_path
     return real_path(path, existing=exists)
+
+
+def saved_project_board(path):
+    """Resolve a selected project or PCB to the exact supported saved file set."""
+    if not isinstance(path, (str, Path)) or not str(path) or '\x00' in str(path):
+        raise ValueError('Choose a saved KiCad project (.kicad_pro).')
+    selected = canonical(path)
+    if selected.suffix not in ('.kicad_pro', '.kicad_pcb') or not selected.is_file():
+        raise ValueError('Choose a saved KiCad project (.kicad_pro) or its matching PCB.')
+    board = selected.with_suffix('.kicad_pcb')
+    for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
+        sibling = board.with_suffix(suffix)
+        if not sibling.exists() or not canonical(sibling).is_file():
+            raise ValueError('Keep the matching PCB, project and root schematic together. Missing ' + sibling.name)
+    return board
 
 
 def source_inventory(board):
@@ -372,7 +401,10 @@ def _window_source_guard(window, flow):
     guard = getattr(window, 'source_guard', None)
     attached = getattr(flow, 'source_guard', None)
     if guard is not None or attached is not None:
-        if attached is not guard or canonical(window.board.GetValue()) != guard.board:
+        displayed = canonical(window.board.GetValue())
+        if displayed.suffix == '.kicad_pro':
+            displayed = displayed.with_suffix('.kicad_pcb')
+        if attached is not guard or displayed != guard.board:
             raise ValueError('Displayed source guard differs from this checked session.')
     return guard
 
@@ -403,14 +435,8 @@ class Request:
         """Called off the UI thread; capture exact saved project identity."""
         if self.saved_closed is not True:
             raise ValueError('Save and close the source PCB and schematic editors, then acknowledge it.')
-        board = canonical(self.board)
+        board = saved_project_board(self.board)
         _check_source_guard(self.source_guard, board)
-        if board.suffix != '.kicad_pcb' or not board.is_file():
-            raise ValueError('Select the exact saved .kicad_pcb file.')
-        for suffix in ('.kicad_pro', '.kicad_sch'):
-            sibling = canonical(board.with_suffix(suffix))
-            if not sibling.is_file():
-                raise ValueError('A matching saved project and complete schematic are required.')
         parent = canonical(self.output_parent)
         if not parent.is_dir() or parent == board.parent or board.parent in parent.parents:
             raise ValueError('Select an existing output folder outside the source project.')
@@ -427,10 +453,14 @@ class Request:
                 raise ValueError('Saved source changed during thermal support checks; preview again.')
         else:
             files = source_inventory(board)
+        from .handoff import ReviewProjectOpen, capture_destination, require_closed_review
+        try:
+            require_closed_review(files)
+        except ReviewProjectOpen:
+            raise ValueError('This saved project still has a KiCad lock. Save and close its editors and project, then try again.') from None
         _check_source_guard(self.source_guard, board)
         workspace = parent / ('autorouter-gui-' + uuid.uuid4().hex)
         workspace.mkdir(mode=0o700)
-        from .handoff import capture_destination
         owner = {}; capture_destination(owner, workspace)
         settings_bytes = (json.dumps(settings, indent=2, sort_keys=True) + '\n').encode()
         target = workspace / 'settings.json'
@@ -519,7 +549,7 @@ class Workflow:
         return argv
 
     def check_request(self, request):
-        if (request.saved_closed is not True or canonical(request.board) != self.board
+        if (request.saved_closed is not True or saved_project_board(request.board) != self.board
                 or canonical(request.output_parent) != self.workspace.parent
                 or pref.validate(json.loads(request.settings_json)) != json.loads(self.settings_bytes)
                 or request.method != self.method or request.source_guard is not self.source_guard):
@@ -1076,7 +1106,7 @@ def _finish_window_close(window):
     return True
 
 
-def create_window(board='', *, source_guard=None, on_closed=None):
+def create_window(board='', *, source_guard=None, on_closed=None, source_note=''):
     """Create one unshown routing frame in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1116,9 +1146,10 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             self.placement_button.Bind(wx.EVT_BUTTON, self.open_placement)
             task_row.Add(self.placement_button, 0)
             layout.Add(task_row, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 12)
-            self.intro = wx.StaticText(panel, label='Inspect your board, choose what to preserve, then review a separate candidate.')
+            self.intro = wx.StaticText(panel, label=source_note or 'Choose a saved project, then inspect it or place components.')
+            self.intro.Wrap(660)
             layout.Add(self.intro, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM, 12)
-            self.board = self.path_row(panel, layout, 'Saved PCB', board, False)
+            self.board = self.path_row(panel, layout, 'Saved project', board, False, project=True)
             self.output = self.path_row(panel, layout, 'Output folder', str(c.ROOT / '.runs'), True)
             self.values = {
                 'scope': [('Reroute unlocked; keep locked copper', 'whole_board_unlocked_routing'), ('Finish gaps; keep all existing copper', 'partial_completion'), ('Selected nets; keep other copper', 'selected_nets')],
@@ -1194,7 +1225,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             for control in (self.intent_text, self.model_config): control.Bind(wx.EVT_TEXT, self.proposal_inputs_changed)
             for pane in (self.advanced, self.assistant):
                 pane.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, self.layout_changed)
-            self.ack = wx.CheckBox(panel, label='I saved and CLOSED source editors and project (KiCad manager: File > Close Project).\nThe exact paths above are correct.')
+            self.ack = wx.CheckBox(panel, label='This is the correct saved project and it is closed in KiCad.\nIf open, save and close both editors, then use File > Close Project.')
             layout.Add(self.ack, 0, wx.ALL, 6)
             self.inspected = wx.CheckBox(panel, label='I inspected all findings and CLOSED the review editors/project.\nMy choice is intent, not PCB certification.')
             layout.Add(self.inspected, 0, wx.ALL, 6)
@@ -1251,26 +1282,33 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                     self.placement_window = None
                     if self.closing: self.Close()
                     else: self.Show(); self.Raise()
-                frame = placement_gui.create_window(self.board.GetValue(), output_hint=self.output.GetValue(), on_closed=finished)
+                value = self.board.GetValue()
+                frame = placement_gui.create_window(str(saved_project_board(value)) if value else '',
+                    output_hint=self.output.GetValue(), on_closed=finished)
                 self.placement_window = frame
                 frame.Show(); self.Hide()
             except Exception as exc:
                 self.status.SetLabel('Placement controls could not open: ' + str(exc))
                 self.Show()
 
-        def path_row(self, panel, layout, label, value, directory, *, wildcard=None):
+        def path_row(self, panel, layout, label, value, directory, *, wildcard=None, project=False):
             row = wx.BoxSizer(wx.HORIZONTAL); row.Add(wx.StaticText(panel, label=label), 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 6)
             control = wx.TextCtrl(panel, value=value)
             # Cocoa's initial value otherwise becomes the input's best/minimum
             # width, pushing Browse and the whole scrolled panel off screen.
             control.SetMinSize(self.FromDIP((160, -1))); row.Add(control, 1, wx.ALL, 6)
-            button = wx.Button(panel, label='Browse…')
+            button = wx.Button(panel, label='Choose project…' if project else 'Browse…')
             def browse(_):
                 if self.busy or self.chooser is not None: return
-                dialog = wx.DirDialog(self, 'Choose output folder') if directory else wx.FileDialog(self,
-                    'Choose ' + label if wildcard else 'Choose saved PCB',
-                    wildcard=wildcard or 'KiCad PCB (*.kicad_pcb)|*.kicad_pcb', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
-                self.choose_path(dialog, control.SetValue)
+                if project:
+                    dialog = wx.FileDialog(self, 'Choose a saved KiCad project',
+                        wildcard='KiCad project (*.kicad_pro)|*.kicad_pro|KiCad PCB (*.kicad_pcb)|*.kicad_pcb',
+                        style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+                    self.choose_path(dialog, lambda path: control.SetValue(str(saved_project_board(path).with_suffix('.kicad_pro'))))
+                else:
+                    dialog = wx.DirDialog(self, 'Choose output folder') if directory else wx.FileDialog(self,
+                        'Choose ' + label, wildcard=wildcard, style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+                    self.choose_path(dialog, control.SetValue)
             button.Bind(wx.EVT_BUTTON, browse); self.edit_controls.append(button)
             row.Add(button, 0, wx.ALL, 6); layout.Add(row, 0, wx.EXPAND)
             return control
@@ -1279,6 +1317,8 @@ def create_window(board='', *, source_guard=None, on_closed=None):
             # The acknowledgement names these exact paths. Typing and Browse
             # both emit EVT_TEXT; routing-only settings keep this source intent.
             self.ack.SetValue(False)
+            if event.GetEventObject() is self.board:
+                self.intro.SetLabel('Inspect the selected saved project or place components.')
             self.changed(event)
 
         def changed(self, event):
@@ -1323,7 +1363,7 @@ def create_window(board='', *, source_guard=None, on_closed=None):
                         from . import project_inspection, model_intent
                         from .placement_clearance import read_bytes
                         inspected = project_inspection.check(inspection_path)
-                        if inspected['source'] != str(canonical(request.board)):
+                        if inspected['source'] != str(saved_project_board(request.board)):
                             raise ValueError('Inspection belongs to another project. Inspect the selected source.')
                         config = pref._parse(read_bytes(canonical(config_path), 16384), 16384)
                         model_intent._config(config)
@@ -1380,13 +1420,14 @@ def create_window(board='', *, source_guard=None, on_closed=None):
         def apply_proposal(self, _):
             if self.busy or self.chooser is not None or self.pending_proposal is None: return
             try:
-                _check_source_guard(getattr(self, 'source_guard', None), self.board.GetValue())
-                from .design_intent import validate_route_proposal
                 inspection, proposal, generation = self.pending_proposal
                 if generation != self.input_generation or method_for_index(self.method.GetSelection()) != 'route':
                     raise ValueError('Settings or method changed; request a new proposal.')
-                if canonical(self.board.GetValue()) != Path(proposal['source']):
+                board = saved_project_board(self.board.GetValue())
+                _check_source_guard(getattr(self, 'source_guard', None), board)
+                if board != Path(proposal['source']):
                     raise ValueError('Selected source changed; inspect and request a new proposal.')
+                from .design_intent import validate_route_proposal
                 checked = validate_route_proposal(inspection, proposal['intent'])
                 if checked != proposal: raise ValueError('Proposal changed before applying settings.')
                 settings = checked['effective_preferences']
@@ -1818,15 +1859,29 @@ def create_window(board='', *, source_guard=None, on_closed=None):
 
 def main(argv=None, *, source_guard=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--board', default='', help='Exact saved board hint; never an editor snapshot')
+    source = parser.add_mutually_exclusive_group()
+    source.add_argument('--board', default='', help='Exact saved board hint; never an editor snapshot')
+    source.add_argument('--toolbar-project', help=argparse.SUPPRESS)
+    source.add_argument('--toolbar-unavailable', action='store_true', help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
-    _check_source_guard(source_guard, args.board)
+    board = args.board
+    note = ''
+    if args.toolbar_project:
+        from .pipeline import Rejected
+        try:
+            board = str(saved_project_board(args.toolbar_project).with_suffix('.kicad_pro'))
+            note = 'Selected from KiCad. Save and close the project before inspecting.'
+        except (ValueError, OSError, Rejected):
+            args.toolbar_unavailable = True
+    if args.toolbar_unavailable:
+        note = 'Copperpath could not verify the KiCad project. Choose the saved project below.'
+    _check_source_guard(source_guard, board)
     try: import wx
     except ImportError as exc:
         raise SystemExit('wx is unavailable. Launch with the pinned KiCad bundled Python; no packages were installed.') from exc
     if wx.GetApp() is not None:
         raise ValueError('A wx application already exists; use create_window instead of a second application loop.')
-    app = wx.App(False); window = create_window(args.board, source_guard=source_guard); window.Show()
+    app = wx.App(False); window = create_window(board, source_guard=source_guard, source_note=note); window.Show()
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     def close_signal(*_): wx.CallAfter(window.Close)
     try:

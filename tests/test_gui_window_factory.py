@@ -144,7 +144,7 @@ class WindowFactory(unittest.TestCase):
                 patch.object(gui.signal, 'getsignal', return_value=old), patch.object(gui.signal, 'signal', side_effect=set_signal):
             self.assertEqual(gui.main(['--board', str(self.board)]), 0)
         wx.App.assert_called_once_with(False)
-        create.assert_called_once_with(str(self.board), source_guard=None)
+        create.assert_called_once_with(str(self.board), source_guard=None, source_note='')
         frame.Show.assert_called_once_with(); app.MainLoop.assert_called_once_with()
         frame.Close.assert_called_once_with(); job.cancel.assert_called_once_with()
         self.assertEqual(installed, {signal.SIGINT: old, signal.SIGTERM: old})

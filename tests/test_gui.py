@@ -130,6 +130,21 @@ class GuiWorkflowTests(unittest.TestCase):
         self.assertEqual(self.board.read_bytes(), b'owned synthetic source\n')
         flow.fresh()
 
+    def test_select_project_file_and_refuse_open_or_stale_source(self):
+        project = self.board.with_suffix('.kicad_pro')
+        request = gui.Request(str(project), str(self.output), json.dumps(self.settings), True)
+        flow = request.prepare()
+        self.assertEqual(flow.board, self.board)
+        flow.check_request(request)
+        before = set(self.output.iterdir())
+        lock = self.source / '~owned.kicad_pcb.lck'
+        lock.write_text('editor fixture')
+        with self.assertRaisesRegex(ValueError, 'still has a KiCad lock'):
+            request.prepare()
+        self.assertEqual(set(self.output.iterdir()), before)
+        with self.assertRaisesRegex(ValueError, 'Saved source project changed'):
+            flow.fresh()
+
     def test_source_settings_and_output_identity_staleness(self):
         for mutation in ('source', 'settings', 'identity'):
             with self.subTest(mutation=mutation):

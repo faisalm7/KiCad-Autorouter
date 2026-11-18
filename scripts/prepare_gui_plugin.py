@@ -1,10 +1,59 @@
 #!/usr/bin/env python3
 """Prepare a project-scoped current KiCad exec-plugin; never install globally."""
 from pathlib import Path
-import argparse,json,os,shlex,struct,sys,zlib
+import argparse,json,os,shlex,stat,struct,sys,zlib
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from autorouter import config as c
 from autorouter.local_settings import canonical
+
+
+def toolbar_board(socket_url, token):
+    """Read only the PCB identity from the KiCad instance that ran this action."""
+    # Never discover a default server or accept a TCP endpoint. The official
+    # client requires the ipc:// prefix even when KiCad supplied a bare path.
+    socket_path = Path(socket_url.removeprefix('ipc://'))
+    if not token or not socket_path.is_absolute():
+        raise ValueError('No local KiCad toolbar connection.')
+    info = socket_path.lstat()
+    if not stat.S_ISSOCK(info.st_mode) or info.st_uid != os.getuid():
+        raise ValueError('Expected the current user’s KiCad socket.')
+    from kipy import KiCad
+    from kipy.proto.common.types import DocumentType
+    from autorouter.gui import saved_project_board
+
+    editor = KiCad(socket_path='ipc://' + str(socket_path), kicad_token=token, timeout_ms=1500)
+    documents = editor.get_open_documents(DocumentType.DOCTYPE_PCB)
+    if len(documents) != 1 or documents[0].type != DocumentType.DOCTYPE_PCB:
+        raise ValueError('Expected one PCB from the invoking KiCad editor.')
+    document = documents[0]
+    folder = Path(document.project.path)
+    filename = Path(document.board_filename)
+    if (not folder.is_absolute() or not filename.name or filename.suffix != '.kicad_pcb'
+            or (not filename.is_absolute() and filename != Path(filename.name))
+            or document.project.name != filename.stem):
+        raise ValueError('The KiCad board and project identities differ.')
+    board = saved_project_board(folder / filename)
+    if board.parent != canonical(folder):
+        raise ValueError('The PCB is outside the invoking KiCad project.')
+    return board
+
+
+def launch_toolbar():
+    from autorouter.gui import child_environment
+    socket = os.environ.pop('KICAD_API_SOCKET', '')
+    token = os.environ.pop('KICAD_API_TOKEN', '')
+    argv = [str(c.PYTHON), '-B', '-m', 'autorouter.gui']
+    try:
+        board = toolbar_board(socket, token)
+    except Exception:
+        # Do not display IPC diagnostics that might include the endpoint or
+        # any session token. The blank picker grants no source authority.
+        argv += ['--toolbar-unavailable']
+    else:
+        argv += ['--toolbar-project', str(board.with_suffix('.kicad_pro'))]
+    os.chdir(c.ROOT)
+    os.execve(c.PYTHON, argv, child_environment())
+
 
 def icon_png(size):
     """Project-owned routing glyph; PNG encoded without imaging dependencies."""
@@ -31,7 +80,9 @@ def prepare(documents):
         runtime=dict(type='exec'),actions=[dict(identifier='route-separate',name='Autorouter: separate project',
             description='Configure, route, cancel and review a separate saved project.',
             entrypoint='launch-autorouter',scopes=['pcb'],**{'show-button':True,'icons-light':['route24.png','route48.png'],'icons-dark':['route24.png','route48.png']})])
-    script='#!/bin/sh\nset -eu\nunset KICAD_API_SOCKET KICAD_API_TOKEN\ncd '+shlex.quote(str(c.ROOT))+'\nexec '+shlex.quote(str(c.PYTHON))+' -B -m autorouter.gui\n'
+    script = ('#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME\nexport PYTHONNOUSERSITE=1\ncd '
+              + shlex.quote(str(c.ROOT)) + '\nexec ' + shlex.quote(str(c.ROOT / '.venv/bin/python'))
+              + ' -B ' + shlex.quote(str(c.ROOT / 'scripts/prepare_gui_plugin.py')) + ' --from-toolbar\n')
     for size in (24,48):(plugin/('route'+str(size)+'.png')).write_bytes(icon_png(size))
     (plugin/'plugin.json').write_text(json.dumps(manifest,indent=2)+'\n')
     launcher=plugin/'launch-autorouter';launcher.write_text(script);launcher.chmod(0o700)
@@ -39,7 +90,10 @@ def prepare(documents):
                 instructions='Launch an isolated KiCad session with KICAD_DOCUMENTS_HOME set to this documents_home. Enable the API only in that disposable session if needed. Use the PCB editor plugin action, then save and close the source editors before routing. No live board snapshot/application/undo is offered.')
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--documents',required=True)
+    parser=argparse.ArgumentParser(description=__doc__)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument('--documents'); mode.add_argument('--from-toolbar', action='store_true', help=argparse.SUPPRESS)
     args=parser.parse_args()
-    print(json.dumps(prepare(args.documents),indent=2))
+    if args.from_toolbar: launch_toolbar()
+    else: print(json.dumps(prepare(args.documents),indent=2))
 if __name__=='__main__':main()

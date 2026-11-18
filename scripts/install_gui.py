@@ -18,19 +18,25 @@ LIMIT = 1024 * 1024
 PLUGIN = 'documents/KiCad/10.0/plugins/org.kicad.autorouter.local/'
 PCM_ROOT = 'documents/KiCad/10.0/3rdparty'
 PCM_ISOLATION_POLICY = 'kicad10-project-pcm-root-v1'
-IMMUTABLE_FILES = frozenset(('Launch Autorouter.command', 'README.txt', 'initial-kicad_common.json',
+IMMUTABLE_FILES = frozenset(('Open Saved Project.command', 'Launch Autorouter.command', 'README.txt', 'initial-kicad_common.json',
     'initial-kicad.json', *(PLUGIN + name for name in ('plugin.json', 'launch-autorouter', 'route24.png', 'route48.png'))))
-README = '''Local KiCad Autorouter launcher
+README = '''Copperpath for saved KiCad projects
 
-Double-click Launch Autorouter.command. This starts the existing KiCad manager
-with configuration, documents/plugins, PCM content and cache in this folder.
+Double-click Open Saved Project.command. Click Choose project and select the
+saved .kicad_pro alongside its matching PCB and schematic. You can inspect,
+route or place components without opening the original project in KiCad.
+Confirm that the saved project is closed before inspection. If it is open,
+save and close both editors, then use File > Close Project in KiCad manager.
+
+For the optional PCB toolbar, double-click Launch Autorouter.command. It starts
+the existing KiCad manager with configuration, plugins, PCM content and cache
+in this folder. Open a project and its PCB Editor, then click the green trace.
+With the documented optional IPC client installed, Copperpath verifies and
+selects the saved project from that editor. If the handoff cannot be verified,
+choose the saved project in Copperpath. It never uses unsaved editor content.
 KICAD10_3RD_PARTY overrides inherited or saved PCM paths; personal PCM plugins,
 libraries and themes are not loaded through that search root. Bundled vendor
 plugins are unchanged. This is a cooperative launch boundary, not an OS sandbox.
-Open a saved project, open PCB Editor and click the green Autorouter toolbar
-icon. In the separate router window choose the exact saved PCB/output paths.
-Save and CLOSE source PCB/schematic editors. In KiCad manager choose
-File > Close Project, then inspect the saved project in the assistant.
 Acknowledge the reviewed changes before routing.
 Candidates/review/export stay separate; no automatic live-board edits.
 
@@ -51,8 +57,8 @@ reconstructed/replaced directories require a fresh launcher. Earlier launchers
 without this isolation policy are never upgraded or silently accepted.
 Keep old launcher folders; prepare a fresh one if these limits are exceeded.
 
-The launcher refuses when it observes another KiCad manager/editor for this
-user. Close those applications first; it never kills them. This sampled check
+The optional manager launcher refuses when it observes another KiCad manager
+or editor for this user. Close those applications first. This sampled check
 cannot prevent simultaneous startup or detect deliberately renamed processes.
 Closing Terminal can terminate the manager; cancel active routing in the router
 window and wait for its existing cleanup before closing applications.
@@ -99,15 +105,18 @@ def prepare(output):
         data = (json.dumps(value, indent=2) + '\n').encode()
         with (config_version / name).open('xb') as stream: stream.write(data)
         with (output / ('initial-' + name)).open('xb') as stream: stream.write(data)
-    launch = output / 'Launch Autorouter.command'
-    command = ['exec', shlex.quote(str(python)), '-B', shlex.quote(str(c.ROOT / 'scripts/install_gui.py')),
-               '--launch', shlex.quote(str(output / 'install.json'))]
-    payload = '#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME KICAD_API_SOCKET KICAD_API_TOKEN\ncd ' + shlex.quote(str(c.ROOT)) + '\n' + ' '.join(command) + '\n'
-    with launch.open('x') as stream: stream.write(payload)
-    launch.chmod(0o700)
+    launchers = []
+    for name, flag in (('Open Saved Project.command', '--open-saved'), ('Launch Autorouter.command', '--launch')):
+        launch = output / name
+        command = ['exec', shlex.quote(str(python)), '-B', shlex.quote(str(c.ROOT / 'scripts/install_gui.py')),
+                   flag, shlex.quote(str(output / 'install.json'))]
+        payload = '#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME KICAD_API_SOCKET KICAD_API_TOKEN\ncd ' + shlex.quote(str(c.ROOT)) + '\n' + ' '.join(command) + '\n'
+        with launch.open('x') as stream: stream.write(payload)
+        launch.chmod(0o700)
+        launchers.append(launch)
     (output / 'README.txt').write_text(README)
     immutable = {str(path.relative_to(output)): digest(path) for path in
-        [launch, output / 'README.txt', output / 'initial-kicad_common.json', output / 'initial-kicad.json',
+        [*launchers, output / 'README.txt', output / 'initial-kicad_common.json', output / 'initial-kicad.json',
          *sorted(Path(prepared['plugin']).iterdir())]}
     if set(immutable) != IMMUTABLE_FILES: raise ValueError('Prepared launcher file population differs.')
     record = dict(schema=1, kind='local-gui-bootstrap-v1', root=str(output), checkout=str(c.ROOT),
@@ -176,7 +185,7 @@ def require_closed_kicad():
     raise ValueError('Could not verify closed KiCad applications; launch refused.')
 
 
-def launch(manifest):
+def launch(manifest, *, direct=False):
     manifest = canonical(Path(manifest).absolute())
     if manifest.name != 'install.json': raise ValueError('Exact prepared install.json required.')
     root = manifest.parent
@@ -209,19 +218,24 @@ def launch(manifest):
     env.update(KICAD_CONFIG_HOME=record['config_home'], KICAD_DOCUMENTS_HOME=record['documents_home'],
                KICAD_CACHE_HOME=record['cache_home'], KICAD10_3RD_PARTY=third_party,
                PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1')
-    require_closed_kicad()
+    if not direct:
+        require_closed_kicad()
     check_third_party_home(record, root)
     os.chdir(c.ROOT)
-    os.execve(manager, [str(manager)], env)
+    if direct:
+        os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui'], env)
+    else:
+        os.execve(manager, [str(manager)], env)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
-    mode.add_argument('--output'); mode.add_argument('--launch')
+    mode.add_argument('--output'); mode.add_argument('--launch'); mode.add_argument('--open-saved')
     args = parser.parse_args()
     try:
         if args.launch: launch(args.launch)
+        elif args.open_saved: launch(args.open_saved, direct=True)
         else: print(json.dumps(prepare(args.output), indent=2))
     except (ValueError, p.Rejected, OSError) as exc:
         print('Launcher refused: ' + str(exc), file=sys.stderr)

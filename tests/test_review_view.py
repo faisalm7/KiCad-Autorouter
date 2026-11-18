@@ -13,6 +13,35 @@ from autorouter import handoff as h, review_view as view, pipeline as p, local_s
 
 
 class SvgControls(unittest.TestCase):
+    def test_route_record_diff_ignores_fill_and_preserves_multiplicity(self):
+        from autorouter import sexpr
+        via = '(via (at 5 5) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net 1))'
+        old = '(segment (start 1 1) (end 2 2) (width .2) (layer "F.Cu") (net 1))'
+        new = '(segment (start 2 2) (end 3 3) (width .2) (layer "B.Cu") (net 1))'
+        before = sexpr.parse(f'(kicad_pcb {via} {old} {old} (zone (filled_polygon old)))')
+        after = sexpr.parse(f'(kicad_pcb {via} {old} {new} (zone (filled_polygon different)))')
+        result = view.route_changes(before, after)
+        self.assertEqual({key:len(rows) for key, rows in result.items()}, {'retained':2,'added':1,'removed':1})
+        layers = ['F.Cu','In1.Cu','In2.Cu','B.Cu']
+        diagrams, note = view.routing_diagrams(result, layers)
+        self.assertEqual(set(diagrams), set(layers)); self.assertEqual(note, '')
+        self.assertTrue(all('<circle' in plot and 'zone' not in plot for plot in diagrams.values()))
+        self.assertIn('<g class="added"><path', diagrams['B.Cu'])
+        self.assertIn('<g class="removed"><path', diagrams['F.Cu'])
+
+    def test_inheritance_requires_each_exact_source_occurrence(self):
+        warning = {'severity':'warning','type':'lib_footprint_issues','description':'Missing library'}
+        excluded = dict(warning, excluded=True)
+        source = {'findings':[warning]}
+        final = {'findings':[warning, warning, dict(warning, description='Different'), excluded,
+                             dict(warning, severity='exclusion')]}
+        groups = view.finding_groups(final, source)
+        self.assertEqual({key:len(rows) for key, rows in groups.items()}, {
+            ('Already in the saved input','Footprint library issues'):1,
+            ('Source match unconfirmed','Footprint library issues'):2,
+            ('Excluded by project settings','Footprint library issues'):2,
+        })
+
     def test_only_observed_kicad_doctype_admitted_and_removed(self):
         header = b'<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" \n "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
         drawing = b'<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0 L1 1"/></svg>'
@@ -188,6 +217,10 @@ class PlotCopyControls(unittest.TestCase):
             self.assertLess(page.rindex('<img '), page.index('<details id="saved-details">'))
             self.assertIn('not electrical or manufacturing approval', page)
             self.assertIn('plotting does not refill zones or perform DRC', page)
+            self.assertIn('Footprint and schematic fields differ', page)
+            self.assertIn('Datasheet differs &lt;script&gt;', page)
+            self.assertIn('Source match unconfirmed', page)
+            self.assertIn('Full KiCad plots with pads and zone fill', page)
 
     def test_browser_summary_uses_recorded_metrics_and_keeps_missing_counts_explicit(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -41,11 +41,12 @@ class FileChooserTests(unittest.TestCase):
                 window.inspected=Mock();window.log=Mock()
                 window.changed=lambda event:window_method('changed')(window,event)
                 path=Mock();path.GetValue.return_value='/owned/original.kicad_pcb'
+                window.board=path;window.intro=Mock()
                 # wx.TextCtrl.SetValue emits EVT_TEXT, the path callback tested
                 # against the real constructor binding in test_gui.py.
                 def set_value(value):
                     path.GetValue.return_value=value
-                    window_method('path_changed')(window,Mock())
+                    window_method('path_changed')(window,Mock(GetEventObject=Mock(return_value=path)))
                 path.SetValue.side_effect=set_value
                 adopt.side_effect=path.SetValue
                 queued.pop()();event.GetReturnCode.return_value=5100 if accepted else 5101;closed(event)

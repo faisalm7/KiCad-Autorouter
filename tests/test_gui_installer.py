@@ -99,6 +99,23 @@ class GuiInstallerTests(unittest.TestCase):
             with self.assertRaises(ValueError): g.launch(self.output / 'install.json')
             execute.assert_not_called()
 
+    def test_direct_launcher_uses_the_same_pins_without_starting_kicad(self):
+        self.prepare()
+        launcher = self.output / 'Open Saved Project.command'
+        self.assertTrue(os.access(launcher, os.X_OK))
+        self.assertEqual(shlex.split(launcher.read_text().splitlines()[-1])[-2:],
+                         ['--open-saved', str(self.output / 'install.json')])
+        with patch.object(g, 'require_closed_kicad') as closed, patch.object(g.os, 'chdir'), patch.object(g.os, 'execve') as execute:
+            g.launch(self.output / 'install.json', direct=True)
+        closed.assert_not_called()
+        executable, argv, _ = execute.call_args.args
+        self.assertEqual(executable, g.c.PYTHON)
+        self.assertEqual(argv, [str(executable), '-B', '-m', 'autorouter.gui'])
+        launcher.write_text('changed fixture')
+        with patch.object(g.os, 'execve') as execute, self.assertRaisesRegex(ValueError, 'file changed'):
+            g.launch(self.output / 'install.json', direct=True)
+        execute.assert_not_called()
+
     def test_source_or_home_escape_refuses_before_exec(self):
         self.prepare()
         for key in ('checkout', 'config_home', 'documents_home', 'cache_home', 'third_party_home'):
