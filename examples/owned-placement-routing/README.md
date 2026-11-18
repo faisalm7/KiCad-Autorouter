@@ -5,7 +5,7 @@ This small GPL-3.0-or-later development board demonstrates the ordinary controls
 1. Open `source/owned-placement-ordinary.kicad_pro` through your installed isolated KiCad launcher, open PCB Editor and click the Autorouter toolbar icon.
 2. Save and close the PCB/schematic editors, then choose **File → Close Project** in KiCad manager. In the assistant, choose the exact saved PCB and a separate output folder.
 3. Open **Place components…**, inspect the project and use **Load settings…** to select this folder’s `settings.json`. Review J1/J2 as movable, J3–J6 fixed, the 14–22 × 8–13 mm area, and the explicit affected-net rebuild policy. KEEP and locked/unrelated copper remain protected. The outside-area initializer is explicitly experimental.
-4. Choose **Find alternatives**, inspect the diagram and findings, and acknowledge the exact moves/copper plan. Return to **Board** before **Validate placement** if that button is disabled while viewing findings. Continue to the guarded routing settings.
+4. Choose **Find alternatives**, inspect the diagram and findings, and acknowledge the exact moves and copper plan. The current build returns to **Board** and enables **Validate placement** once the preview renders. On older builds, select **Board** if needed. Validate and continue to the guarded routing settings.
 5. Preview, route, create the review and inspect every finding/layer. Explicitly accept or reject. **Fresh export** runs new checks and creates a separate project. The inherited 0.7 mm silkscreen-text warning against a 0.8 mm minimum remains; success is not whole-project DRC cleanliness or electrical approval.
 
 For the optional, separately consented copilot interface, select the same visible controls and ask:
