@@ -2,6 +2,8 @@
 
 The master specification, current strategy and owner steering govern. Historical routing superiority remains unmet and deferred. The current ordinary workflow is runtime103 GUI126. The real live proposal-to-delivery result remains on runtime102. Earlier version-specific records below preserve their own failures and scope. [Master specification](MASTER_PROMPT.md) · [Strategy](docs/product-strategy.md) · [Current plan](PLANS.md) · [Severity list](docs/experimental-rc.md).
 
+**Saved-project usability update.** The runtime104 installer, actual saved-project picker and Edge display check passed. The display check reused exact GUI127 plot and validation evidence. Actual toolbar identity, fresh installed review/acceptance, and the new licensed workflow still require Native execution after the measured memory hold. The original GUI127 and runtime103 results retain their scope. [Evidence and remaining checks](docs/saved-project-and-review104.md).
+
 **Finite current checklist:** later receipts govern; versioned historical records below retain their failures and scope.
 
 | Gate | Actual evidence and remaining limit |
