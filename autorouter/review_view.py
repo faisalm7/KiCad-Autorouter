@@ -145,7 +145,11 @@ def _route_shape(row, layers):
     return (layer,), extents, f'<path d="{path}" stroke-width="{width}"/>'
 
 
-def routing_diagrams(changes, layers):
+WORKSPACE_COLORS = {'protected': '#7354a4', 'retained': '#687b8c',
+                    'added': '#087f68', 'removed': '#b95023'}
+
+
+def routing_diagrams(changes, layers, *, workspace=False):
     """Show tracks/vias alone with a common scale. Native plots retain full copper."""
     if sum(map(len, changes.values())) > 8000:
         return {}, 'This board is too large for the route diagrams. Compare the KiCad plots below.'
@@ -164,14 +168,56 @@ def routing_diagrams(changes, layers):
         return {}, 'There are no routed tracks or vias to draw.'
     x, y = zip(*points)
     margin = max(max(x) - min(x), max(y) - min(y), 1) * .06 + 1
-    view_box = f'{min(x)-margin} {min(y)-margin} {max(x)-min(x)+2*margin} {max(y)-min(y)+2*margin}'
+    width = max(x)-min(x)+2*margin
+    height = max(y)-min(y)+2*margin
+    view_box = f'{min(x)-margin} {min(y)-margin} {width} {height}'
     diagrams = {}
     for layer in layers:
-        body = ''.join(f'<g class="{group}">{"".join(shapes[layer][group])}</g>'
-                       for group in ('removed', 'retained', 'added'))
-        diagrams[layer] = (f'<svg viewBox="{view_box}" role="img" aria-label="{escape(layer)} route changes" '
-                           f'fill="none" stroke-linejoin="round" stroke-linecap="round">{body}</svg>')
+        if workspace:
+            size = (840, max(1, round(840 * height / width))) if width >= height else (max(1, round(840 * width / height)), 840)
+            body = ''.join(f'<g stroke="{WORKSPACE_COLORS[group]}" stroke-width="0.16"'
+                           + (' stroke-dasharray="0.55 0.4"' if group == 'removed' else '')
+                           + f'>{"".join(shapes[layer][group])}</g>'
+                           for group in ('removed', 'retained', 'protected', 'added'))
+            svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{size[0]}" height="{size[1]}" '
+                   f'viewBox="{view_box}" fill="none" stroke-linecap="round">{body}</svg>')
+            diagrams[layer] = {'svg': svg, 'size': size}
+        else:
+            body = ''.join(f'<g class="{group}">{"".join(shapes[layer][group])}</g>'
+                           for group in ('removed', 'retained', 'added'))
+            diagrams[layer] = (f'<svg viewBox="{view_box}" role="img" aria-label="{escape(layer)} route changes" '
+                               f'fill="none" stroke-linejoin="round" stroke-linecap="round">{body}</svg>')
     return diagrams, ''
+
+
+def workspace_changes(directory, source_board, review, route):
+    """Draw a passive view of the same captured boards as the rendered review."""
+    board = Path(review['board'])
+    project = Path(directory) / 'project'
+    if board.parent != project or board.suffix != '.kicad_pcb':
+        raise p.Rejected('Workspace review board identity differs.')
+    before_bytes = pc.read_bytes(Path(directory) / 'before' / source_board.name, 8 * 1024 * 1024)
+    after_bytes = pc.read_bytes(board, 8 * 1024 * 1024)
+    if (hashlib.sha256(before_bytes).hexdigest() != review['source_project_hashes'][source_board.name]
+            or hashlib.sha256(after_bytes).hexdigest() != review['candidate_sha256']):
+        raise p.Rejected('Workspace review boards changed.')
+    before, after = (sx.parse(data.decode('utf-8')) for data in (before_bytes, after_bytes))
+    changes = route_changes(before, after)
+    protected = Counter(f.canonical(row) for row in p.protected_for_record(route, before))
+    changes['protected'] = []
+    keep = []
+    for row in changes['retained']:
+        key = f.canonical(row)
+        if protected[key]:
+            changes['protected'].append(row)
+            protected[key] -= 1
+        else:
+            keep.append(row)
+    if +protected:
+        raise p.Rejected('Workspace review does not show every protected track or via.')
+    changes['retained'] = keep
+    diagrams, note = routing_diagrams(changes, review['preview']['layers'], workspace=True)
+    return {'diagrams': diagrams, 'note': note, 'counts': {key: len(rows) for key, rows in changes.items()}}
 
 
 def display_svg(raw):

@@ -25,7 +25,8 @@ class GeometryTests(TestCase):
         original=copy.deepcopy(self.obs)
         scene=view.scene(self.obs,{},[],self.obs['outline']['bounds_nm'])
         self.assertEqual(self.obs,original)
-        self.assertEqual(scene['size'],(1000,540))
+        bounds = self.obs['outline']['bounds_nm']
+        self.assertEqual(scene['size'], (800, round(800 * (bounds[3] - bounds[1]) / (bounds[2] - bounds[0]))))
         self.assertEqual(len(scene['components']),3)
         with self.assertRaises(ValueError):view.render(self.obs,{},[],self.obs['outline']['bounds_nm'])
 
@@ -71,7 +72,7 @@ class HandlerTests(TestCase):
             parts=Mock(),rebuild_copper=Mock(return_value=False),revoke=Mock(),region=[Mock() for _ in range(4)],
             draw_area=Mock(),updating=False,overview=Mock(),layout_panel=Mock(),part=Mock(),coordinates=Mock(),
             copilot_generation=1,pending_copilot={'old':True},approved_copilot=None,
-            assistant_ack=Mock(),assistant_result=Mock())
+            assistant_ack=Mock(),assistant_result=Mock(),constraint_offer=None,constraint_review=None,pages=Mock())
         w.parts.IsChecked.return_value=False
         return w
 

@@ -466,7 +466,8 @@ def bitmap_with_labels(wx, svg, size=(850, 500), *, min_text_pixels=9):
     return bitmap
 
 
-def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, read_only=False):
+def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, read_only=False,
+                 empty_note='Inspect a saved project to see its board and components.'):
     """Responsive display/picking only; commits use ordinary settings handlers."""
     class Canvas(wx.Panel):
         def __init__(self):
@@ -534,7 +535,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
             width, height = self.GetClientSize()
             if self.display is None:
                 dc.SetTextForeground(wx.Colour('#526273'))
-                dc.DrawText('Inspect a saved project to see its board and components.', 18, 22)
+                dc.DrawText(empty_note, 18, 22)
                 return
             if width <= 0 or height <= 0: return
             self.prepare_bitmap()
@@ -584,7 +585,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
     return Canvas()
 
 
-def create_window(board='', *, output_hint=None, on_closed=None, conversation_reply=None):
+def create_window(board='', *, output_hint=None, on_closed=None, conversation_reply=None, source_note=''):
     if on_closed is not None and not callable(on_closed):
         raise ValueError('The parent close notification must be a callable.')
     if output_hint is not None and not isinstance(output_hint, (str, Path)):
@@ -596,8 +597,10 @@ def create_window(board='', *, output_hint=None, on_closed=None, conversation_re
     if not isinstance(board, (str, Path)):
         raise ValueError('Use an exact saved PCB path or an empty hint.')
 
-    return window_type(wx, board=board, output_hint=output_hint, on_closed=on_closed,
-                       conversation_reply=conversation_reply)()
+    window = window_type(wx, board=board, output_hint=output_hint, on_closed=on_closed,
+                         conversation_reply=conversation_reply)()
+    if source_note: window.message(source_note)
+    return window
 
 
 def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_reply=None):
@@ -630,6 +633,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             pathrow.Add(self.board, 1, wx.RIGHT, 6)
             self.browse = wx.Button(panel, label='Choose project…'); pathrow.Add(self.browse, 0, wx.RIGHT, 6)
             self.inspect = wx.Button(panel, label='Inspect project'); pathrow.Add(self.inspect)
+            self.route_saved = wx.Button(panel, label='Route saved board…'); pathrow.Add(self.route_saved, 0, wx.LEFT, 6)
             root.Add(pathrow, 0, wx.EXPAND | wx.ALL, 12)
             columns = wx.BoxSizer(wx.HORIZONTAL)
             self.pages = wx.Notebook(panel); self.pages.SetMinSize(self.FromDIP((352, 250)))
@@ -817,7 +821,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             frame_layout = wx.BoxSizer(wx.VERTICAL)
             frame_layout.Add(panel, 1, wx.EXPAND)
             self.SetSizer(frame_layout)
-            self.input_controls = [self.board, self.browse, self.inspect, self.parts, self.copper_policy, self.rigid_group, self.target_region,
+            self.input_controls = [self.board, self.browse, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
                 self.assistant_request, self.assistant_ask, self.route_budget]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.ack, self.reject, self.qualify]
@@ -843,6 +847,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.apply.Bind(wx.EVT_BUTTON, self.edit); self.ack.Bind(wx.EVT_CHECKBOX, self.acknowledge)
             self.reject.Bind(wx.EVT_BUTTON, self.reject_draft); self.qualify.Bind(wx.EVT_BUTTON, self.qualify_draft)
             self.route.Bind(wx.EVT_BUTTON, self.open_routing); self.cancel.Bind(wx.EVT_BUTTON, self.cancel_work)
+            self.route_saved.Bind(wx.EVT_BUTTON, self.begin_saved_routing)
             self.assistant_request.Bind(wx.EVT_TEXT, self.assistant_changed)
             self.route_budget.Bind(wx.EVT_TEXT, self.settings_changed)
             self.constraint_preview.Bind(wx.EVT_BUTTON, self.preview_constraints)
@@ -2030,8 +2035,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         self.routing = None
                         if self.gate.closed: self.finish_close()
                         else:
-                            self.Show(); self.Raise(); self.refresh()
-                frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished)
+                            self.panel.Show(); self.Layout(); self.refresh()
+                frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished,
+                                          parent=self, placement_scene=self.picture.display)
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
                         frame.output.SetValue(self.routing_output_hint)
@@ -2059,36 +2065,47 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 except Exception:
                     frame.Destroy(); raise
                 self.routing = frame
-                frame.Show(); self.Hide()
-                self.message('Routing settings opened. Keep this placement review open; editing, rejecting or closing it revokes the handoff.')
+                self.GetSizer().Add(frame, 1, wx.EXPAND)
+                self.panel.Hide(); frame.Show(); self.Layout()
+                self.message('Returning to placement keeps this draft. Changes revoke the routing handoff.')
             except Exception as exc:
                 self.revoke(dirty=self.gate.dirty); self.message('Routing handoff refused: ' + str(exc))
+
+        def begin_saved_routing(self, _):
+            try:
+                self.open_saved_routing(None)
+            except Exception as exc:
+                self.message('Routing could not open. ' + str(exc))
 
         def open_saved_routing(self, values):
             """Adopt checked protected settings into the ordinary routing workflow."""
             if self.busy or self.routing is not None:
                 raise ValueError('Finish the current task before adopting routing settings.')
             source = require_closed_source(str(gui.saved_project_board(self.board.GetValue())))
-            guard = conversation.routing_source_guard(values)
-            guard.check(source)
+            if values is None and getattr(self, 'constraint_offer', None) is not None:
+                raise ValueError('Use or discard proposed settings first.')
+            guard = conversation.routing_source_guard(values) if values is not None else None
+            if guard is not None: guard.check(source)
 
             def finished():
                 self.routing = None
                 if self.gate.closed:
                     self.finish_close()
                 else:
-                    self.Show(); self.Raise(); self.refresh()
+                    self.panel.Show(); self.Layout(); self.refresh()
 
-            frame = gui.create_window(source, source_guard=guard, on_closed=finished)
+            frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self)
             try:
                 if self.routing_output_hint is not None:
                     frame.output.SetValue(self.routing_output_hint)
-                prefill_routing(frame, values['effective_preferences'])
+                prefill_routing(frame, values['effective_preferences'] if values is not None
+                                else self.conversation_routing_preferences())
             except Exception:
                 frame.Destroy()
                 raise
             self.routing = frame
-            frame.Show(); self.Hide()
+            self.GetSizer().Add(frame, 1, wx.EXPAND)
+            self.panel.Hide(); frame.Show(); self.Layout()
 
         def cancel_work(self, _=None):
             # Signal the worker before any fallible rendering or widget update.

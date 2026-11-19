@@ -3,6 +3,7 @@ import ast
 import copy
 from pathlib import Path
 import sys
+import tempfile
 import threading
 from types import ModuleType, SimpleNamespace
 import unittest
@@ -23,7 +24,7 @@ def placement_factory(constructor):
         with patch.object(placement_gui, 'window_type', return_value=controlled_constructor) as factory:
             result = _ACTUAL_PLACEMENT_CREATE_WINDOW(board, output_hint=output_hint, on_closed=on_closed)
             factory.assert_called_once_with(sys.modules['wx'], board=board,
-                                           output_hint=output_hint, on_closed=on_closed)
+                                           output_hint=output_hint, on_closed=on_closed, conversation_reply=None)
             return result
     return create
 
@@ -33,7 +34,12 @@ class PlacementEntry(unittest.TestCase):
         self.window = SimpleNamespace(busy=False, closing=False, chooser=None, source_guard=None,
             placement_window=None, board=Mock(), output=Mock(), status=Mock(), Show=Mock(), Hide=Mock(), Raise=Mock(),
             Close=Mock(), Destroy=Mock(), timer=Mock(), job=Mock())
-        self.board = '/owned saved project/exact board.kicad_pcb'
+        fixture = tempfile.TemporaryDirectory(prefix='owned saved project ', dir=Path.cwd())
+        self.addCleanup(fixture.cleanup)
+        board = Path(fixture.name).resolve() / 'exact board.kicad_pcb'
+        for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
+            board.with_suffix(suffix).touch()
+        self.board = str(board)
         self.window.board.GetValue.return_value = self.board
         self.window.output.GetValue.return_value = '/chosen/candidate jobs'
         self.child = Mock()

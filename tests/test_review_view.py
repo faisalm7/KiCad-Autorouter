@@ -13,6 +13,30 @@ from autorouter import handoff as h, review_view as view, pipeline as p, local_s
 
 
 class SvgControls(unittest.TestCase):
+    def test_workspace_distinguishes_protected_copper_and_refuses_tampered_copy(self):
+        protected = '(segment (start 1 1) (end 2 2) (width .2) (layer "F.Cu") (net 1))'
+        new = '(segment (start 2 2) (end 3 3) (width .2) (layer "B.Cu") (net 1))'
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            before = root / 'before' / 'board.kicad_pcb'
+            after = root / 'project' / before.name
+            for path in (before, after): path.parent.mkdir()
+            before.write_text(f'(kicad_pcb {protected} (zone (filled_polygon original)))')
+            after.write_text(f'(kicad_pcb {protected} {new} (zone (filled_polygon final)))')
+            review = dict(board=str(after), source_project_hashes={before.name: p.sha(before)},
+                          candidate_sha256=p.sha(after), preview={'layers': ['F.Cu', 'B.Cu']})
+            route = {'scope': 'partial_completion'}
+            changes = view.workspace_changes(root, before, review, route)
+            self.assertEqual(changes['counts'], {'added': 1, 'retained': 0, 'removed': 0, 'protected': 1})
+            self.assertIn(view.WORKSPACE_COLORS['protected'], changes['diagrams']['F.Cu']['svg'])
+            self.assertNotIn('zone', changes['diagrams']['F.Cu']['svg'])
+            after.write_text(f'(kicad_pcb {new})')
+            with self.assertRaisesRegex(p.Rejected, 'boards changed'):
+                view.workspace_changes(root, before, review, route)
+            review['candidate_sha256'] = p.sha(after)
+            with self.assertRaisesRegex(p.Rejected, 'every protected'):
+                view.workspace_changes(root, before, review, route)
+
     def test_route_record_diff_ignores_fill_and_preserves_multiplicity(self):
         from autorouter import sexpr
         via = '(via (at 5 5) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net 1))'

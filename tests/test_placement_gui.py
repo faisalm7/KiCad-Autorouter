@@ -20,6 +20,7 @@ def window_method(name, **overrides):
     """Return an actual complete Window method; no extracted source execution."""
     wx = overrides.pop('wx', SimpleNamespace(Frame=object, NOT_FOUND=-1))
     wx.Frame = object
+    wx.EXPAND = 0
     on_closed = overrides.pop('on_closed', None)
     if overrides:
         raise AssertionError('Use explicit controlled dependencies, not fragment globals: ' + str(sorted(overrides)))
@@ -72,7 +73,8 @@ class PlacementGuiTests(unittest.TestCase):
             constraint_offer=None, constraint_key=Mock(), update_schematic_view=Mock(),
             copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
             current_review_settings=Mock(), overview=Mock(), region_summary=Mock(),
-            refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
+            refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock(),
+            panel=Mock(), GetSizer=Mock(), Layout=Mock())
         window.picture.Ready.return_value = True
         window.copper_policy.GetSelection.return_value = 0
         window.rigid_group.GetValue.return_value = False

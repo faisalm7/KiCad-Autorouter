@@ -110,7 +110,7 @@ class GuiInstallerTests(unittest.TestCase):
         closed.assert_not_called()
         executable, argv, _ = execute.call_args.args
         self.assertEqual(executable, g.c.PYTHON)
-        self.assertEqual(argv, [str(executable), '-B', '-m', 'autorouter.gui'])
+        self.assertEqual(argv, [str(executable), '-B', '-m', 'autorouter.gui', '--workspace'])
         launcher.write_text('changed fixture')
         with patch.object(g.os, 'execve') as execute, self.assertRaisesRegex(ValueError, 'file changed'):
             g.launch(self.output / 'install.json', direct=True)

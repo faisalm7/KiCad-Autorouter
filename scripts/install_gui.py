@@ -223,7 +223,7 @@ def launch(manifest, *, direct=False):
     check_third_party_home(record, root)
     os.chdir(c.ROOT)
     if direct:
-        os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui'], env)
+        os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui', '--workspace'], env)
     else:
         os.execve(manager, [str(manager)], env)
 

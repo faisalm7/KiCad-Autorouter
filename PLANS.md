@@ -48,6 +48,8 @@ workspace, saved schematic results and DS18B20 delivery.
 4. Qualify the installed placement-to-delivery workflow on an owned fixture,
    then run one predeclared bounded task on a different licensed design.
    Record the first proposal, corrections, blockers and exact export readback.
+   Use the owned J1/J2 task and the NUS USB-C LED R1 placement scope check.
+   [Frozen tasks and limits](docs/workspace-delivery-qualification.md)
 5. Close ready onboarding, installation and recovery checks. Keep schematic
    edits, docking, platform qualification and human review at their separate
    gates. Record the exact next action in the continuation after each result.
