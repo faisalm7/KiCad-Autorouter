@@ -114,7 +114,61 @@ time. A null field leaves its visible value alone. The review returns the
 before/after settings and the prospective copper plan. The same placement
 validator binds fixed components, original policy, protection and region limits.
 The consumer must pass the currently displayed saved project, request and
-control revision at receipt and explicit adoption. Rejection, cancellation
-and a change of project or source revoke the proposal. V2 has offline tests
-through this seam. Wiring the provider and the visual adoption remains the
-next product step. V1 and its model results retain their existing scope.
+control revision at receipt and explicit adoption. A source change is checked
+again at adoption. The placement window's **Assistant** tab uses this path for
+explicit local requests. For example, enter the following three lines through
+the ordinary interface.
+
+```text
+Select J1, J2
+Area 14, 8 to 22, 13 mm
+Routing time 75 s
+```
+
+Preview the changes against the saved board, edit the proposed values if
+needed, then choose **Preview edits** and **Use settings**. The text review
+lists the exact changes and any affected copper alongside the map. Approval
+updates the ordinary controls. Finding alternatives, validation, routing and
+delivery still require their own user actions. Discard leaves the ordinary
+settings alone. This entry point uses deterministic parsing of explicit
+settings. The hosted v1 pilot retains its consent requirements and measured
+results. Live model v2 and persistent conversation remain separate gates.
+
+## Bounded follow-up on live writes
+
+Scope was a 12-minute source and captured-board check, with no native rebuild
+or rerun. The direct IPC update and the guided native Undo have distinct
+causes. Exact comparison of the stored owned-board inputs and outputs
+preserved the footprint UUIDs, schematic symbol paths, pad identities and
+net records, protected copper and the unrelated J2 position in both cases.
+
+- **IPC replacement.** The lost node was `(units (unit (name "A") (pins "1" "2")))`,
+  a symbol-unit and pin grouping used by gate swapping. Existing connectivity
+  on this sample does not establish equivalence for that engineering content.
+  KiCad 10.0.7's protobuf omitted the field. KiCad 10.0.8 adds
+  `FootprintInstance.symbol_units` and serializes it in both directions.
+  A synthetic binary round trip through the current Python client retained the
+  unknown field. Actual editor readback and Undo still need qualification.
+  [10.0.8 release notes](https://www.kicad.org/blog/2026/10/KiCad-10.0.8-Release/#ipc-api) ·
+  [Upstream report](https://gitlab.com/kicad/code/kicad/-/work_items/25859) ·
+  [10.0.8 footprint implementation](https://gitlab.com/kicad/code/kicad/-/blob/10.0.8/pcbnew/footprint.cpp)
+- **Native Move Exactly Undo.** In the observed sample, the changed nodes
+  were the UUIDs of J1's Reference, Value, Datasheet and Description fields.
+  Their values and rendering geometry stayed equal. The native commit
+  snapshots a footprint using a copy constructor that assigns those fields
+  to newly created objects. Assignment keeps the new UUID. Development
+  source explicitly restores the originals. Four field identities changed
+  even though the parent footprint, pad identities and schematic association
+  stayed intact. Downstream consumers that refer to those field identities
+  have not been qualified.
+  [Pinned snapshot implementation](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/pcbnew/board_commit.cpp#L699) ·
+  [Development copy implementation](https://gitlab.com/kicad/code/kicad/-/blob/master/pcbnew/footprint.cpp#L285)
+
+Keep both preservation checks. The narrow follow-up candidate is the direct
+IPC transaction on an isolated official KiCad 10.0.8 instance. It stages
+removal and replacement and can retain the original object for Undo. Confirm
+exact before/after board and unit-field identity, unchanged original project
+files and unrelated unsaved work, stale refusal, Drop after partial failure,
+and exact native Undo. Only KiCad 10.0.7 is pinned in this checkout. The
+10.0.8 client/editor round trip and automatic live writes remain gated.
+[10.0.8 transaction implementation](https://gitlab.com/kicad/code/kicad/-/blob/10.0.8/pcbnew/api/api_handler_pcb.cpp#L496)

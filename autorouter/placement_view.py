@@ -73,14 +73,15 @@ def render(observation, moves_nm, selected_ids, region_nm, *, title='Placement d
 
 
 def scene(observation, moves_nm, selected_ids, region_nm, *, title='Placement workspace',
-          state='Choose movable components; every other component stays fixed', annotation_context=None):
+          state='Choose movable components; every other component stays fixed', annotation_context=None,
+          protection=None):
     """Display and picking data from the same checked geometry; no authority."""
     return _render(observation, moves_nm, selected_ids, region_nm, title=title,
-        state=state, annotation_context=annotation_context, interactive=True)
+        state=state, annotation_context=annotation_context, interactive=True, protection=protection)
 
 
 def _render(observation, moves_nm, selected_ids, region_nm, *, title,
-            state, annotation_context=None, interactive=False):
+            state, annotation_context=None, interactive=False, protection=None):
     """Return self-contained SVG; coordinates retain KiCad's downward Y axis.
 
     Bounds: 16 footprints, 32 pads, 64 straight segments, 32 ordinary zones,
@@ -148,6 +149,10 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
         extents.extend((court, proposed))
     _need(set(selected) <= seen and not seen.intersection(pad_seen), 'unknown/ambiguous selected identity')
     routes, route_seen = [], set()
+    if protection is None:
+        preserve_all, protected_nets, protected_ids = False, (), ()
+    else:
+        preserve_all, protected_nets, protected_ids = protection
     for original in _array(observation.get('routes', []), 64):
         row = _row(original); identity = _identifier(row['uuid'], route_seen)
         _need(row['kind'] == 'segment' and row['layer'] in ('F.Cu', 'B.Cu') and type(row['locked']) is bool,
@@ -155,7 +160,8 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
         start, end = _point(row['start_nm']), _point(row['end_nm']); width = _nm(row['width_nm'], positive=True)
         _need(start != end, 'nonempty copper segment required')
         routes.append(dict(id=identity, start=start, end=end, width=width, layer=row['layer'],
-                           locked=row['locked'], net=_label(row['net'])))
+                           locked=row['locked'], net=_label(row['net']), protected=(
+                               preserve_all or row['locked'] or row['net'] in protected_nets or identity in protected_ids)))
         extents.append((min(start[0],end[0])-width/2, min(start[1],end[1])-width/2,
                         max(start[0],end[0])+width/2, max(start[1],end[1])+width/2))
     _need(type(observation.get('route_count')) is int and observation['route_count'] == len(routes), 'route population differs')
@@ -226,10 +232,14 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
     box(outline, 'board-outline', fill='none', stroke='#243342', stroke_width=2)
     box(region, 'allowed-region', fill='none', stroke='#548ec7', stroke_width=1.5, stroke_dasharray='7 4')
     for route in sorted(routes, key=lambda r:r['id']):
+        color = '#a0661a' if route['protected'] else '#ba9699'
+        if protection is None:
+            color = '#bd7426'
         element('line', dict(x1=_fmt(x(route['start'][0])), y1=_fmt(y(route['start'][1])),
-            x2=_fmt(x(route['end'][0])), y2=_fmt(y(route['end'][1])), stroke='#bd7426',
+            x2=_fmt(x(route['end'][0])), y2=_fmt(y(route['end'][1])), stroke=color,
             stroke_width=_fmt(route['width']*scale), stroke_linecap='round', data_role='preserved-segment',
             data_route=route['id'], data_layer=route['layer'], data_locked=str(route['locked']).lower(),
+            **({'data_protected': str(route['protected']).lower()} if protection is not None else {}),
             data_width_nm=route['width'], data_start_nm=','.join(map(str,route['start'])), data_end_nm=','.join(map(str,route['end']))))
 
     def footprint(fp, *, ghost=False):

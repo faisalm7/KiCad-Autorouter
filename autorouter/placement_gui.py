@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import threading
 import uuid
@@ -42,6 +43,117 @@ def routing_seconds(text):
             or not text.isdecimal() or not 5 <= int(text) <= 900):
         raise ValueError('Enter a whole-number routing budget from 5 to 900 seconds.')
     return int(text)
+
+
+LOCAL_REQUEST_EXAMPLE = 'Select J1, J2\nArea 14, 8 to 22, 13 mm\nRouting time 75 s'
+
+
+def local_constraint_request(text):
+    """Read only explicit local settings, leaving other wording for clarification."""
+    number = r'-?[0-9]+(?:\.[0-9]+)?'
+    region = rf'area\s+({number})\s*,\s*({number})\s+to\s+({number})\s*,\s*({number})\s+mm'
+    fields = dict(selected_refs=None, region_nm=None, route_seconds=None)
+    if type(text) is not str or len(text) > 4096 or not text.strip():
+        raise ValueError('Enter a local request using one or more example lines.')
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if match := re.fullmatch(r'select\s+(.+)', line, re.IGNORECASE):
+            key = 'selected_refs'
+            value = constraint_references(match[1])
+        elif match := re.fullmatch(region, line, re.IGNORECASE):
+            key = 'region_nm'
+            value = [millimetres(token) for token in match.groups()]
+        elif match := re.fullmatch(r'routing\s+time\s+([0-9]+)\s+(?:s|seconds?)', line, re.IGNORECASE):
+            key = 'route_seconds'
+            value = routing_seconds(match[1])
+        else:
+            raise ValueError('Use the example lines for component references, an area in mm or routing time. '
+                             'Use the ordinary controls for copper protection and other policies.')
+        if fields[key] is not None:
+            raise ValueError('Enter each requested setting on just one line.')
+        fields[key] = value
+    return fields
+
+
+def constraint_references(text):
+    refs = [ref.strip() for ref in re.split(r',|\s+and\s+', text, flags=re.IGNORECASE)]
+    if (not 2 <= len(refs) <= 16 or len(set(refs)) != len(refs)
+            or any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_+.-]{0,63}', ref) for ref in refs)):
+        raise ValueError('Enter two to sixteen distinct component references, separated by commas.')
+    return refs
+
+
+def constraint_change_text(offer):
+    def area(bounds):
+        if bounds is None:
+            return 'unset'
+        x1, y1, x2, y2 = map(mm, bounds)
+        return f'({x1}, {y1}) to ({x2}, {y2}) mm'
+
+    displays = (
+        ('Components', 'selected_refs', lambda refs: ', '.join(refs) or 'none'),
+        ('Movement area', 'region_nm', area),
+        ('Routing time', 'route_seconds', lambda seconds: f'{seconds} s'),
+    )
+    before, after = offer['before'], offer['after']
+    lines = ['Local suggestion · saved project']
+    for label, key, show in displays:
+        if before[key] != after[key]:
+            lines.append(f'{label}  {show(before[key])} → {show(after[key])}')
+    if offer['placement_settings'] is not None:
+        lines.append('Every other component stays fixed.')
+    plan = offer['copper_plan']
+    if plan:
+        lines.append(f"{len(plan['protected_routes'])} existing routes stay protected. "
+                     f"{len(plan['removed_routes'])} may be rebuilt after review.")
+        lines.append('Affected nets for later review  ' + ', '.join(plan['incident_names']))
+        if plan['protected_names']:
+            lines.append('Protected nets  ' + ', '.join(plan['protected_names']))
+    return '\n'.join(lines)
+
+
+def constraint_entry_values(offer):
+    after = offer['after']
+    return (', '.join(after['selected_refs']), ', '.join(map(mm, after['region_nm'] or [])),
+            str(after['route_seconds']))
+
+
+def constraint_scene(inspection, controls, offer=None):
+    observation = inspection['observation']
+    if offer is None:
+        selected = controls['selected']
+        region = controls['region_nm']
+    else:
+        after = offer['after']
+        refs = set(after['selected_refs'])
+        selected = [row['uuid'] for row in inspection['components'] if row['reference'] in refs]
+        region = after['region_nm']
+    anchors = {row['uuid']: row['position_nm'] for row in observation['footprints']}
+    policy = controls['policy']
+    plan = None if offer is None else offer['copper_plan']
+    protected_ids = ([row['uuid'] for row in plan['protected_routes']] if plan is not None
+                     else policy.get('protected_route_ids', []))
+    protection = (policy.get('copper_policy') is None,
+                  policy.get('protected_names', []), protected_ids)
+    return placement_view.scene(observation, {uid: anchors[uid] for uid in selected}, selected,
+        region or observation['outline']['bounds_nm'], title='Saved board and placement constraints',
+        annotation_context=inspection.get('annotation_context'), protection=protection)
+
+
+def placement_policy(window):
+    """Read the ordinary control choices shared by proposals and execution."""
+    policy = dict(scope=window.inspection['observation']['scope'])
+    if window.rebuild_copper():
+        policy.update(copper_policy=intent.COPPER_POLICY,
+            protected_names=[name for name in window.protected_names.GetValue().splitlines() if name],
+            protected_route_ids=[identity for identity in window.protected_route_ids.GetValue().splitlines() if identity])
+    if window.rigid_group.GetValue():
+        policy['group_policy'] = intent.GROUP_POLICY
+    if window.target_region.GetValue():
+        policy['region_initialization'] = intent.prototype.REGION_INITIALIZATION_POLICY
+    return policy
 
 
 def require_closed_source(board, *, inspection=None):
@@ -342,23 +454,24 @@ def bitmap_with_labels(wx, svg, size=(850, 500), *, min_text_pixels=9):
     return bitmap
 
 
-def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None):
+def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, read_only=False):
     """Responsive display/picking only; commits use ordinary settings handlers."""
     class Canvas(wx.Panel):
         def __init__(self):
             super().__init__(parent, style=wx.BORDER_SIMPLE | wx.WANTS_CHARS)
             self.display = None; self.bitmap = None; self.draw_area = False
             self.drag_start = None; self.drag_end = None; self.render_key = None
-            self.SetMinSize(self.FromDIP((320, 180)))
+            self.SetMinSize(self.FromDIP((210, 150) if read_only else (320, 180)))
             self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
-            self.SetToolTip('Click a component to select it. Draw area edits the movement rectangle; numeric controls remain available.')
             self.Bind(wx.EVT_PAINT, self.paint)
             self.Bind(wx.EVT_SIZE, self.resized)
-            self.Bind(wx.EVT_LEFT_DOWN, self.down)
-            self.Bind(wx.EVT_MOTION, self.motion)
-            self.Bind(wx.EVT_LEFT_UP, self.up)
-            self.Bind(wx.EVT_MOUSE_CAPTURE_LOST, self.capture_lost)
-            self.Bind(wx.EVT_CHAR_HOOK, self.key)
+            if not read_only:
+                self.SetToolTip('Click a component to select it. Draw area edits the movement rectangle; numeric controls remain available.')
+                self.Bind(wx.EVT_LEFT_DOWN, self.down)
+                self.Bind(wx.EVT_MOTION, self.motion)
+                self.Bind(wx.EVT_LEFT_UP, self.up)
+                self.Bind(wx.EVT_MOUSE_CAPTURE_LOST, self.capture_lost)
+                self.Bind(wx.EVT_CHAR_HOOK, self.key)
 
         def SetScene(self, value):
             self.display = None; self.bitmap = None; self.render_key = None
@@ -489,6 +602,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.alternative_labels = []; self.alternative_targets = []
             self.editing_component = None
             self.copilot_generation = 0; self.pending_copilot = None; self.approved_copilot = None
+            self.constraint_review = None; self.constraint_offer = None; self.constraint_edited = False
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
             panel = self.panel = wx.Panel(self)
             root = wx.BoxSizer(wx.VERTICAL)
@@ -517,6 +631,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.draw_area = wx.ToggleButton(side, label='Draw movement area'); left.Add(self.draw_area, 0, wx.EXPAND | wx.BOTTOM, 6)
             self.region_summary = wx.StaticText(side, label='No movement area yet. Inspect the project first.')
             self.region_summary.Wrap(264); left.Add(self.region_summary, 0, wx.BOTTOM, 7)
+            budget_row = wx.BoxSizer(wx.HORIZONTAL)
+            budget_row.Add(wx.StaticText(side, label='Routing time (s)'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            self.route_budget = wx.TextCtrl(side, value='90', size=(62, -1), name='Routing time in seconds')
+            budget_row.Add(self.route_budget, 0)
+            left.Add(budget_row, 0, wx.BOTTOM, 8)
             self.precise = wx.CollapsiblePane(side, label='Precise area · mm', style=wx.CP_NO_TLW_RESIZE)
             area_panel = self.precise.GetPane(); grid = wx.FlexGridSizer(cols=2, vgap=5, hgap=6); grid.AddGrowableCol(1)
             self.region = []
@@ -566,27 +685,66 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.findings = wx.TextCtrl(findings_page, style=wx.TE_MULTILINE | wx.TE_READONLY)
             findings_layout.Add(self.findings, 1, wx.EXPAND); findings_page.SetSizer(findings_layout)
             self.pages.AddPage(findings_page, 'Findings and constraints')
-            assistant_page = wx.Panel(self.pages); assistant_layout = wx.BoxSizer(wx.VERTICAL)
-            note = wx.StaticText(assistant_page, label='Optional assistant · ordinary controls work without AI. '
-                'Choose parts, area and copper permission first. The assistant proposes a plan; it cannot approve or run it.')
-            note.Wrap(570); assistant_layout.Add(note, 0, wx.EXPAND | wx.ALL, 8)
-            self.assistant_request = wx.TextCtrl(assistant_page, style=wx.TE_MULTILINE, size=(-1, 66))
-            self.assistant_request.SetHint('Keep the fixed components and protected trace unchanged, place these two components inside this region, then route their approved connections.')
+            assistant_page = wx.Panel(self.pages)
+            assistant_inputs = wx.Panel(assistant_page)
+            assistant_layout = wx.BoxSizer(wx.VERTICAL)
+            note = wx.StaticText(assistant_inputs, label='Enter one or more lines from the example.')
+            assistant_layout.Add(note, 0, wx.EXPAND | wx.ALL, 8)
+            self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 72),
+                                               name='Placement request')
+            self.assistant_request.SetHint(LOCAL_REQUEST_EXAMPLE)
             assistant_layout.Add(self.assistant_request, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            setup = wx.BoxSizer(wx.HORIZONTAL)
-            setup.Add(wx.StaticText(assistant_page, label='OpenAI · Sol / medium · opt-in pilot'), 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
-            setup.Add(wx.StaticText(assistant_page, label='Routing seconds'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 6)
-            self.route_budget = wx.TextCtrl(assistant_page, value='90', size=(65, -1)); setup.Add(self.route_budget)
-            assistant_layout.Add(setup, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            self.assistant_ask = wx.Button(assistant_page, label='Review data and ask…')
-            assistant_layout.Add(self.assistant_ask, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            self.assistant_result = wx.TextCtrl(assistant_page, style=wx.TE_MULTILINE | wx.TE_READONLY)
-            assistant_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            self.assistant_ack = wx.CheckBox(assistant_page, label='This plan matches my request and the visible constraints.')
-            assistant_layout.Add(self.assistant_ack, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            self.assistant_use = wx.Button(assistant_page, label='Use plan · find alternatives')
-            assistant_layout.Add(self.assistant_use, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            assistant_page.SetSizer(assistant_layout); self.pages.AddPage(assistant_page, 'Assistant · optional')
+            actions = wx.BoxSizer(wx.HORIZONTAL)
+            self.constraint_preview = wx.Button(assistant_inputs, label='Preview constraints')
+            self.constraint_use = wx.Button(assistant_inputs, label='Use settings')
+            self.constraint_reject = wx.Button(assistant_inputs, label='Discard')
+            for button in (self.constraint_preview, self.constraint_use, self.constraint_reject):
+                actions.Add(button, 0, wx.RIGHT, 5)
+            assistant_layout.Add(actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.constraint_edit = wx.Panel(assistant_inputs)
+            draft_layout = wx.FlexGridSizer(cols=2, vgap=4, hgap=6); draft_layout.AddGrowableCol(1)
+            self.constraint_fields = []
+            for label in ('Components', 'Area (mm)', 'Routing time (s)'):
+                draft_layout.Add(wx.StaticText(self.constraint_edit, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
+                entry = wx.TextCtrl(self.constraint_edit, name='Proposed ' + label.lower())
+                self.constraint_fields.append(entry)
+                draft_layout.Add(entry, 1, wx.EXPAND)
+                entry.Bind(wx.EVT_TEXT, self.constraint_draft_changed)
+            self.constraint_fields[1].SetHint('Left X, top Y, right X, bottom Y')
+            self.constraint_edit.SetSizer(draft_layout)
+            assistant_layout.Add(self.constraint_edit, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.constraint_edit.Hide()
+            self.constraint_summary = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
+                                                 size=(-1, 74), name='Constraint changes')
+            self.constraint_summary.ChangeValue('Local preview reads the saved project. Apply settings to the ordinary controls, then choose how to proceed.')
+            assistant_layout.Add(self.constraint_summary, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            map_layout = wx.BoxSizer(wx.VERTICAL)
+            self.constraint_map = board_canvas(wx, assistant_page, None, None,
+                self.constraint_preview_error, read_only=True)
+            map_layout.Add(self.constraint_map, 1, wx.EXPAND)
+            self.constraint_key = wx.StaticText(assistant_page)
+            map_layout.Add(self.constraint_key, 0, wx.TOP, 4)
+            self.assistant_advanced = wx.CollapsiblePane(assistant_inputs, label='Hosted pilot · opt-in',
+                                                        style=wx.CP_NO_TLW_RESIZE)
+            hosted = self.assistant_advanced.GetPane()
+            hosted_layout = wx.BoxSizer(wx.VERTICAL)
+            self.assistant_ask = wx.Button(hosted, label='Review data and ask…')
+            hosted_layout.Add(self.assistant_ask, 0, wx.BOTTOM, 4)
+            self.assistant_result = wx.TextCtrl(hosted, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 86))
+            hosted_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.BOTTOM, 4)
+            self.assistant_ack = wx.CheckBox(hosted, label='This plan matches my request and the visible constraints.')
+            hosted_layout.Add(self.assistant_ack, 0, wx.BOTTOM, 4)
+            self.assistant_use = wx.Button(hosted, label='Use plan · find alternatives')
+            hosted_layout.Add(self.assistant_use)
+            hosted.SetSizer(hosted_layout)
+            assistant_layout.Add(self.assistant_advanced, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.assistant_advanced.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
+            assistant_inputs.SetSizer(assistant_layout)
+            assistant_split = wx.BoxSizer(wx.HORIZONTAL)
+            assistant_split.Add(assistant_inputs, 1, wx.EXPAND)
+            assistant_split.Add(map_layout, 1, wx.EXPAND | wx.TOP | wx.RIGHT | wx.BOTTOM, 8)
+            assistant_page.SetSizer(assistant_split)
+            self.pages.AddPage(assistant_page, 'Assistant · optional')
             right.Add(self.pages, 1, wx.EXPAND)
             columns.Add(self.controls, 0, wx.EXPAND | wx.RIGHT, 12); columns.Add(right, 1, wx.EXPAND)
             root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
@@ -637,6 +795,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.route.Bind(wx.EVT_BUTTON, self.open_routing); self.cancel.Bind(wx.EVT_BUTTON, self.cancel_work)
             self.assistant_request.Bind(wx.EVT_TEXT, self.assistant_changed)
             self.route_budget.Bind(wx.EVT_TEXT, self.settings_changed)
+            self.constraint_preview.Bind(wx.EVT_BUTTON, self.preview_constraints)
+            self.constraint_use.Bind(wx.EVT_BUTTON, self.use_constraints)
+            self.constraint_reject.Bind(wx.EVT_BUTTON, self.discard_constraints)
             self.assistant_ask.Bind(wx.EVT_BUTTON, self.ask_copilot)
             self.assistant_ack.Bind(wx.EVT_CHECKBOX, lambda event: self.refresh())
             self.assistant_use.Bind(wx.EVT_BUTTON, self.use_copilot_plan)
@@ -680,6 +841,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             """Passive source view before a draft exists; never validation."""
             if self.inspection is None:
                 self.picture.SetScene(None)
+                if hasattr(self, 'constraint_map'):
+                    self.constraint_map.SetScene(None)
                 self.region_summary.SetLabel('No movement area yet. Inspect the project first.')
                 return
             observation = self.inspection['observation']
@@ -700,6 +863,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 **({'annotation_context': self.inspection['annotation_context']}
                     if 'annotation_context' in self.inspection else {}))
             self.picture.SetScene(display)
+            if hasattr(self, 'constraint_map') and self.constraint_offer is None:
+                self.update_constraint_map()
             self.region_summary.Wrap(264)
             selected_refs = [row['reference'] for row in self.inspection['components'] if row['uuid'] in selected]
             self.findings.SetValue('Saved project inspection — no current placement draft or validation.\n'
@@ -777,24 +942,33 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
+            constraint_pending = getattr(self, 'constraint_offer', None) is not None
             baseline_scope = (self.inspection is not None
                 and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
             self.rigid_group.Enable(not self.busy and not baseline_scope)
             self.target_region.Enable(not self.busy and baseline_scope)
             for control in (self.protected_names, self.protected_route_ids):
                 control.Enable(not self.busy and self.copper_policy.GetSelection() == 1)
-            self.find.Enable(not self.busy and self.inspection is not None)
+            self.find.Enable(not self.busy and not constraint_pending and self.inspection is not None)
             self.original_group.Enable(not self.busy and self.inspection is not None
                 and not baseline_scope and self.rigid_group.GetValue())
             self.save.Enable(not self.busy and self.inspection is not None)
             for control in self.pose_controls: control.Enable(not self.busy and self.gate.review is not None)
-            self.qualify.Enable(not self.busy and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty and self.picture.Ready())
-            self.route.Enable(not self.busy and self.qualified is not None and self.picture.Ready())
+            self.qualify.Enable(not self.busy and not constraint_pending and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty and self.picture.Ready())
+            self.route.Enable(not self.busy and not constraint_pending and self.qualified is not None and self.picture.Ready())
             self.cancel.Enable(self.busy)
             if hasattr(self, 'assistant_use'):
                 self.assistant_ask.Enable(not self.busy and self.inspection is not None)
                 self.assistant_ack.Enable(not self.busy and self.pending_copilot is not None)
                 self.assistant_use.Enable(not self.busy and self.pending_copilot is not None and self.assistant_ack.GetValue())
+            if hasattr(self, 'constraint_preview'):
+                self.constraint_preview.SetLabel('Preview edits' if constraint_pending else 'Preview constraints')
+                self.constraint_preview.Enable(not self.busy and self.inspection is not None
+                    and (not constraint_pending or self.constraint_edited))
+                self.constraint_use.Enable(not self.busy and constraint_pending and not self.constraint_edited)
+                self.constraint_reject.Enable(not self.busy and constraint_pending)
+                for entry in self.constraint_fields:
+                    entry.Enable(not self.busy)
             if hasattr(self, 'draw_area'):
                 self.draw_area.Enable(not self.busy and self.inspection is not None)
                 self.picture.Enable(not self.busy)
@@ -851,6 +1025,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             previous = getattr(self, 'approved_copilot', None)
             self.copilot_generation = getattr(self, 'copilot_generation', 0) + 1
             self.pending_copilot = None; self.approved_copilot = None
+            if getattr(self, 'constraint_review', None) is not None:
+                self.clear_constraint_offer('The request or project controls changed. Preview again.')
             if hasattr(self, 'assistant_ack'):
                 self.assistant_ack.SetValue(False)
                 self.assistant_result.SetValue('No current assistant plan. Review the controls, then ask when needed.')
@@ -859,6 +1035,157 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def assistant_changed(self, event):
             self.invalidate_copilot(); self.refresh(); event.Skip()
+
+        def constraint_inputs(self):
+            if self.inspection is None:
+                raise ValueError('Inspect the saved project first.')
+            area = [field.GetValue() for field in self.region]
+            return dict(selected=[row['uuid'] for i, row in enumerate(self.inspection['components'])
+                                  if self.parts.IsChecked(i)],
+                fixed=[], region_nm=[millimetres(value) for value in area] if any(area) else None,
+                region_limit_nm=self.inspection['observation']['outline']['bounds_nm'],
+                route_seconds=routing_seconds(self.route_budget.GetValue().strip()),
+                policy=placement_policy(self))
+
+        def constraint_binding(self):
+            return dict(request=self.assistant_request.GetValue(), revision=self.copilot_generation,
+                        source=self.board.GetValue())
+
+        def constraint_draft_terms(self):
+            refs, area, seconds = (field.GetValue().strip() for field in self.constraint_fields)
+            before = self.constraint_offer['before']
+            selected_refs = None if not refs or refs == ', '.join(before['selected_refs']) else constraint_references(refs)
+            return dict(selected_refs=selected_refs,
+                region_nm=[millimetres(value.strip()) for value in area.split(',')] if area else None,
+                route_seconds=routing_seconds(seconds) if seconds else None)
+
+        def preview_constraints(self, _):
+            if self.busy or self.gate.closed:
+                return
+            try:
+                previous = self.constraint_offer
+                if previous is None:
+                    self.invalidate_copilot()
+                inputs = self.constraint_inputs()
+                binding = self.constraint_binding()
+                inspection = self.inspection
+                review = self.constraint_review
+                arguments = local_constraint_request(binding['request']) if previous is None else self.constraint_draft_terms()
+
+                def prepare(job, event):
+                    from . import design_intent as design
+
+                    job.check_live()
+                    try:
+                        current = review if previous is not None else design.PlacementConstraintReview(
+                            inspection, inputs, request=binding['request'], revision=binding['revision'])
+                        if previous is None:
+                            offer = current.receive('propose_placement_constraints_v2', arguments, inputs, **binding)
+                        else:
+                            offer = current.revise(previous, arguments, inputs, **binding)
+                    except design.PendingContextChanged as exc:
+                        return None, str(exc)
+                    return current, offer
+
+                def show(result):
+                    current, offer = result
+                    if current is None:
+                        self.clear_constraint_offer('The suggestion expired. ' + offer)
+                        return
+                    if binding != self.constraint_binding() or inputs != self.constraint_inputs():
+                        current.cancel()
+                        self.clear_constraint_offer('The request or project controls changed. Preview again.')
+                        raise ValueError('The request or project controls changed. Preview again.')
+                    self.show_constraint_offer(current, offer)
+
+                self.start('Checking the requested constraints against the saved project…', prepare, show)
+            except (OSError, ValueError) as exc:
+                self.message('Constraint suggestion refused. ' + str(exc))
+
+        def show_constraint_offer(self, review, offer):
+            self.constraint_review, self.constraint_offer = review, offer
+            self.constraint_edited = False
+            for field, value in zip(self.constraint_fields, constraint_entry_values(offer)):
+                field.ChangeValue(value)
+            self.constraint_edit.Show()
+            self.constraint_summary.ChangeValue(constraint_change_text(offer))
+            self.update_constraint_map(offer)
+            self.layout_panel()
+            self.refresh()
+            self.message('Review or edit the suggestion. Use settings updates the ordinary controls.')
+
+        def constraint_draft_changed(self, event):
+            if self.constraint_offer is not None:
+                if not self.constraint_edited:
+                    self.update_constraint_map()
+                self.constraint_edited = True
+                self.constraint_summary.ChangeValue('Preview your edits before using these settings.')
+                self.refresh()
+            event.Skip()
+
+        def clear_constraint_offer(self, message):
+            if self.constraint_review is not None:
+                self.constraint_review.cancel()
+            self.constraint_review = self.constraint_offer = None
+            self.constraint_edited = False
+            self.constraint_edit.Hide()
+            self.constraint_summary.ChangeValue(message)
+            self.update_constraint_map()
+            self.layout_panel()
+
+        def update_constraint_map(self, offer=None):
+            try:
+                value = None if self.inspection is None else constraint_scene(
+                    self.inspection, self.constraint_inputs(), offer)
+                self.constraint_map.SetScene(value)
+                pending_copper = offer is not None and offer['copper_plan'] is not None
+                self.constraint_key.SetLabel('Blue selected · Slate fixed · Green zones\n'
+                    + ('Amber retained · Rose may be rebuilt' if pending_copper
+                       else 'Amber protected · Rose other existing copper'))
+            except (KeyError, TypeError, ValueError, OSError) as exc:
+                self.constraint_map.SetScene(None)
+                self.constraint_preview_error(str(exc))
+
+        def constraint_preview_error(self, reason):
+            self.constraint_key.SetLabel('Board preview unavailable')
+            if self.constraint_offer is not None and not self.constraint_edited:
+                self.constraint_summary.ChangeValue(constraint_change_text(self.constraint_offer)
+                    + '\n\nBoard preview unavailable. ' + reason)
+            self.message('Constraint board preview unavailable. ' + reason)
+
+        def discard_constraints(self, _):
+            self.clear_constraint_offer('Suggestion discarded. Your ordinary settings are unchanged.')
+            self.refresh()
+
+        def use_constraints(self, _):
+            if self.busy or self.gate.closed or self.constraint_offer is None or self.constraint_edited:
+                return
+            try:
+                if tuple(field.GetValue() for field in self.constraint_fields) != constraint_entry_values(self.constraint_offer):
+                    raise ValueError('Preview the edited suggestion before using it.')
+                # Recheck even when the files changed outside the application's controls.
+                values = self.constraint_review.adopt(self.constraint_offer, self.constraint_inputs(),
+                                                      **self.constraint_binding())
+            except (OSError, ValueError) as exc:
+                self.clear_constraint_offer('Suggestion unavailable. ' + str(exc))
+                self.message('Preview the current project and request again.')
+                self.refresh()
+                return
+            self.clear_constraint_offer('Settings applied. Review the board and choose Find alternatives.')
+            self.updating = True
+            try:
+                selected = set(values['selected'])
+                for i, row in enumerate(self.inspection['components']):
+                    self.parts.Check(i, row['uuid'] in selected)
+                area = values['region_nm']
+                for i, field in enumerate(self.region):
+                    field.ChangeValue(mm(area[i]) if area is not None else '')
+                self.route_budget.ChangeValue(str(values['route_seconds']))
+            finally:
+                self.updating = False
+            self.revoke(discard=True)
+            self.pages.SetSelection(0)
+            self.message('Settings applied. Review the board, then choose Find alternatives.')
 
         def current_copilot_context(self):
             if self.inspection is None:
@@ -1026,17 +1353,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
         def options(self, *, validate_geometry=True):
             if self.inspection is None: raise ValueError('Inspect the saved project first.')
             selected = [row['uuid'] for i, row in enumerate(self.inspection['components']) if self.parts.IsChecked(i)]
-            protection = {}
-            if self.rebuild_copper():
-                protection = dict(copper_policy=intent.COPPER_POLICY,
-                    protected_names=[name for name in self.protected_names.GetValue().splitlines() if name],
-                    protected_route_ids=[identity for identity in self.protected_route_ids.GetValue().splitlines() if identity])
-            if self.rigid_group.GetValue():
-                protection['group_policy'] = intent.GROUP_POLICY
-            if self.target_region.GetValue():
-                protection['region_initialization'] = intent.prototype.REGION_INITIALIZATION_POLICY
             value = intent.settings(selected, [millimetres(field.GetValue()) for field in self.region],
-                scope=self.inspection['observation']['scope'], **protection)
+                                    **placement_policy(self))
             if validate_geometry:
                 intent.facts(self.inspection, value)
             return value

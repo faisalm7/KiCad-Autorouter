@@ -529,54 +529,80 @@ class PlacementConstraintReview:
             raise PendingContextChanged('Saved project changed. Inspect it before asking again.') from exc
 
     def receive(self, tool, arguments, controls, *, request, revision, source):
-        from . import placement_intent as placement
-
         self._fresh(controls, request, revision, source)
         if self._offer is not None:
             raise IntentError('Review the existing proposal or discard it.')
         if tool == 'clarify_design_request':
             self.cancel()
             return validate_design_clarification(arguments)
-        if (tool != self._TOOL or type(arguments) is not dict
-                or set(arguments) != {'selected_refs', 'region_nm', 'route_seconds'}):
+        if tool != self._TOOL:
+            raise IntentError('Only placement selection, region and routing time may be proposed.')
+        return self._propose(arguments, controls, request=request, revision=revision, source=source)
+
+    def revise(self, reviewed_offer, arguments, controls, *, request, revision, source):
+        """Validate edited suggestions against the same current ordinary controls."""
+        self._fresh(controls, request, revision, source)
+        self._check_offer(reviewed_offer)
+        return self._propose(arguments, controls, request=request, revision=revision, source=source)
+
+    @sx.parsing_session()
+    def _propose(self, arguments, controls, *, request, revision, source):
+        from . import placement_intent as placement
+
+        if type(arguments) is not dict or set(arguments) != {'selected_refs', 'region_nm', 'route_seconds'}:
             raise IntentError('Only placement selection, region and routing time may be proposed.')
         before = self.model_context()['current']
         refs = before['selected_refs'] if arguments['selected_refs'] is None else arguments['selected_refs']
-        if (type(refs) is not list or not 2 <= len(refs) <= 16
+        min_parts = 0 if arguments['selected_refs'] is None else 2
+        if (type(refs) is not list or not min_parts <= len(refs) <= 16
                 or any(type(ref) is not str or ref not in self._by_reference for ref in refs)
                 or len(set(refs)) != len(refs)):
             raise IntentError('Clarification required. Choose two to sixteen distinct, observed references.')
-        selected = [self._by_reference[ref] for ref in sorted(refs)]
+        named = set(refs)
+        selected = [row['uuid'] for row in self._inspection['components'] if row['reference'] in named]
         if set(selected) & set(self._controls['fixed']):
             raise IntentError('The proposal selects a component the user fixed.')
         region = before['region_nm'] if arguments['region_nm'] is None else arguments['region_nm']
         seconds = self._seconds(before['route_seconds'] if arguments['route_seconds'] is None
                                 else arguments['route_seconds'])
-        settings = placement.settings(selected, region, **self._controls['policy'])
-        for allowed in (self._inspection['observation']['outline']['bounds_nm'], controls['region_limit_nm']):
-            if allowed is not None and not (allowed[0] <= region[0] < region[2] <= allowed[2]
-                                           and allowed[1] <= region[1] < region[3] <= allowed[3]):
-                raise IntentError('The proposed rectangle exceeds the allowed movement area.')
+        if region is not None:
+            if (type(region) is not list or len(region) != 4
+                    or any(type(value) is not int or abs(value) > 2_000_000_000 for value in region)):
+                raise IntentError('Enter an ordered movement rectangle.')
+            for allowed in (self._inspection['observation']['outline']['bounds_nm'], controls['region_limit_nm']):
+                if allowed is not None and not (allowed[0] <= region[0] < region[2] <= allowed[2]
+                                               and allowed[1] <= region[1] < region[3] <= allowed[3]):
+                    raise IntentError('The proposed rectangle exceeds the allowed movement area.')
         after = self._visible(selected, region, seconds)
         if before == after:
             raise IntentError('The proposal would leave every visible setting unchanged.')
-        placement.facts(self._inspection, settings)
-        copper = placement.copper_plan(self._inspection, settings)
+        settings = copper = None
+        if len(selected) >= 2 and region is not None:
+            settings = placement.settings(selected, region, **self._controls['policy'])
+            placement.facts(self._inspection, settings)
+            copper = placement.copper_plan(self._inspection, settings)
+        elif arguments['selected_refs'] is not None:
+            raise IntentError('Set a movement area before suggesting a component selection.')
         self._fresh(controls, request, revision, source)
         self._offer = dict(schema=2, kind='autorouter.placement-constraint-proposal.v2',
             before=before, after=after, placement_settings=settings, copper_plan=copper,
             execution_authorized=False, approval_granted=False)
         return copy.deepcopy(self._offer)
 
-    def adopt(self, reviewed_offer, controls, *, request, revision, source):
-        """Return ordinary control values after the caller's explicit Use settings action."""
+    def _check_offer(self, reviewed_offer):
         from . import placement_intent as placement
-
-        self._fresh(controls, request, revision, source)
         if (self._offer is None or placement.constraints.encoded(reviewed_offer)
                 != placement.constraints.encoded(self._offer)):
             raise IntentError('Review the exact visible proposal before using these settings.')
+
+    def adopt(self, reviewed_offer, controls, *, request, revision, source):
+        """Return ordinary control values after the caller's explicit Use settings action."""
+        self._fresh(controls, request, revision, source)
+        self._check_offer(reviewed_offer)
         values = self._offer
+        after = values['after']
         self.cancel()
         return copy.deepcopy({'placement_settings': values['placement_settings'],
-                              'route_seconds': values['after']['route_seconds']})
+                              'selected': [row['uuid'] for row in self._inspection['components']
+                                           if row['reference'] in after['selected_refs']],
+                              'region_nm': after['region_nm'], 'route_seconds': after['route_seconds']})
