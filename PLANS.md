@@ -46,7 +46,8 @@ workspace, saved schematic results and DS18B20 delivery.
    review. Verify local differences, findings, acceptance, cancellation and
    recovery. Keep the detailed browser report reachable.
    Installed placement, copper layers, grouped findings, review and fresh
-   delivery pass. Active cancellation and licensed scope assessment follow.
+   delivery pass. The active cancellation control left its outputs separate
+   and the earlier checked export current.
 4. Qualify the installed placement-to-delivery workflow on an owned fixture,
    then run one predeclared bounded task on a different licensed design.
    Record the first proposal, corrections, blockers and exact export readback.
@@ -54,6 +55,20 @@ workspace, saved schematic results and DS18B20 delivery.
    [Frozen tasks and limits](docs/workspace-delivery-qualification.md)
    The owned first alternative delivered with independent current readback.
    [Installed evidence](evidence/product-workspace-delivery-faf-001.json)
+   The NUS board refused its existing geometry at installed scope inspection.
+   Retain that result without changing the board or constraints.
+   [Licensed outcome](evidence/product-workspace-nus-scope-001.json)
 5. Close ready onboarding, installation and recovery checks. Keep schematic
    edits, docking, platform qualification and human review at their separate
    gates. Record the exact next action in the continuation after each result.
+   The current launcher, a minimal-environment start and selected artifact
+   restoration passed on this Mac. [Recovery](evidence/backups/selected-workspace-delivery-faf-001.json)
+
+The completed batch uses source `3684eb287`. The next product qualification
+needs an admitted unrelated licensed board under a prospectively frozen task
+and an independent installation and engineer session. Broader live-editor
+work needs preservation-safe handling beyond the checked single move.
+Native Windows needs the outstanding isolation controls before it runs KiCad
+or Freerouting. Hosted conversation needs separate approval for an owned task.
+True docking, reversible schematic editing and full/off-Mac recovery remain
+separate gates. [Requirements](REQUIREMENTS.md)
