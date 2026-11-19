@@ -323,6 +323,28 @@ class PlacementGuiTests(unittest.TestCase):
                 review.assert_not_called()
                 window.render.assert_not_called()
 
+    def test_region_refusal_opens_findings_without_adopting_a_draft(self):
+        window = self.window(); window.options = Mock(return_value={'search': {'seconds': 2}})
+        window.start = Mock(); window.render = Mock()
+        window.inspection.update(native_source_baseline={'native': {
+            'opens': 0, 'blocking': 0, 'warnings': 1, 'exclusions': 0,
+            'findings': [{'type': 'text_height', 'severity': 'warning', 'description': 'Original text warning'}],
+        }}, native_context={'receipt': '/owned/inspection.json'})
+        window_method('find_alternatives')(window, None)
+        result = {'search': {'status': 'no_feasible_region_seed', 'alternatives': [],
+            'region_initialization': {'candidates_checked': 9,
+                                      'rejected_by_constraint': {'protected_tracks': 8, 'component_spacing': 1}}}}
+        with patch.object(pg.intent, 'Review') as review:
+            window.start.call_args.args[2](result)
+        review.assert_not_called(); window.render.assert_not_called()
+        window.pages.SetSelection.assert_called_once_with(1)
+        self.assertIsNone(window.gate.review); self.assertFalse(window.gate.acknowledged)
+        self.assertIsNone(window.qualified)
+        findings = window.findings.SetValue.call_args.args[0]
+        for line in ('Checked 9 starting arrangements', '8 · Clearance from protected tracks',
+                     '1 · Spacing between component courtyards', 'Original text warning'):
+            self.assertIn(line, findings)
+
     def test_close_requests_existing_worker_and_child_cleanup_before_destroy(self):
         window = self.window(); window.busy = True; window.routing = Mock(); event = Mock()
         window_method('close')(window, event)

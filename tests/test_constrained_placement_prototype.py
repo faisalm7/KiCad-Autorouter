@@ -127,9 +127,26 @@ class RegionInitialization(unittest.TestCase):
         record = result['region_initialization']
         self.assertEqual(record['status'], 'no_feasible_region_seed')
         self.assertEqual(record['candidates_checked'], 1)
+        self.assertEqual(record['rejected_by_constraint'], {'component_spacing': 1})
         self.assertNotIn('seed', record)
         self.assertIs(record['seed_publicly_validated'], False)
         self.assertTrue(any('not infeasibility proof' in line for line in result['limits']))
+        self.assert_no_authority(result)
+
+    def test_target_search_records_protected_track_clearance_refusals(self):
+        source = region_fixture()
+        source.update(schema=2, fixed_context_policy=c.FIXED_CONTEXT_POLICY)
+        source['keepouts'].append(dict(id='retain-track', kind=c.PRESERVED_COPPER,
+                                       bounds_mm=[7, 7, 15, 15], sides=['front']))
+        before = copy.deepcopy(source)
+        with patch.object(p.Annealer, 'run') as run:
+            result = self.propose(source)
+        run.assert_not_called()
+        self.assertEqual(result['status'], 'no_feasible_region_seed')
+        record = result['region_initialization']
+        self.assertGreater(record['candidates_checked'], 0)
+        self.assertEqual(record['rejected_by_constraint'], {'protected_tracks': record['candidates_checked']})
+        self.assertEqual(source, before)
         self.assert_no_authority(result)
 
     def test_target_region_cannot_repair_physical_or_unselected_source_conflicts(self):

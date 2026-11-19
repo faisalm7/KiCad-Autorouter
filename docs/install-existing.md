@@ -2,7 +2,7 @@
 
 **Use an existing installation and launcher when available.** [Start here](../START_HERE.md) and the [saved-project workflow](quickstart.md) use your project, not a prepared demonstration session. Reinstallation is unnecessary merely to resume.
 
-The current experimental build is **runtime103** from source `a1cd26697ceb79b06dd5822108e38f0746b9c263` with manifest `7f04b0c1f354f9597e5679f48dd47ac9945ec19dce92de96ec077f53a260fbf7`. Same-Mac setup and the ordinary graphical delivery passed. The real live copilot task remains documented on the earlier 102 build. Standalone and independent-machine installation are still open. [103 ordinary workflow](../evidence/product103-GUI126-ordinary-delivery-001.json) · [102 live workflow](../evidence/copilot102-owned-live-delivery-001.json).
+The installed saved-project and review reference is **runtime104** from source `53cb267606cb7db64528c59c2e084db793234d47` with manifest `ae1a3fb439ea32c67b947d2f42a8a6311c25c6b7547adadeccd76f485e8c4123`. Same-Mac setup, direct inspection and the toolbar-to-export workflow passed. Runtime103 remains the ordinary placement-to-delivery reference. The live copilot task remains documented on runtime102. Standalone and independent-machine installation are open. [104 workflow](../evidence/product104-usability-delivery-001.json) · [103 placement](../evidence/product103-GUI126-ordinary-delivery-001.json) · [102 copilot](../evidence/copilot102-owned-live-delivery-001.json).
 
 The tested setup uses macOS 27.0.1 arm64, isolated official KiCad 10.0.7, Java 25.0.2, Freerouting 2.5.0, a no-pip Python 3.11.9 environment and KiCad's bundled Python 3.9.13/wx for the GUI. Exact dependency bytes and locations are pinned. A new environment still depends on its base Python/standard library; `--copies` does not bundle Python. Nothing here downloads or installs dependencies, changes global KiCad, or qualifies Windows Native support.
 
@@ -15,11 +15,11 @@ The following is a command template, not a command executed or newly qualified b
 ```sh
 (
 set -eu
-AUTOROUTER_ARTIFACT="/path/to/verified runtime103"
+AUTOROUTER_ARTIFACT="/path/to/verified runtime104"
 AUTOROUTER_INSTALL="/path/to/new owned installation"
 python3.11 -B scripts/prepare_runtime.py --install-existing \
   --source "$AUTOROUTER_ARTIFACT" \
-  --expected-manifest-sha256 7f04b0c1f354f9597e5679f48dd47ac9945ec19dce92de96ec077f53a260fbf7 \
+  --expected-manifest-sha256 ae1a3fb439ea32c67b947d2f42a8a6311c25c6b7547adadeccd76f485e8c4123 \
   --output "$AUTOROUTER_INSTALL"
 python3.11 -B -m venv --copies --without-pip "$AUTOROUTER_INSTALL/.venv"
 cd "$AUTOROUTER_INSTALL"

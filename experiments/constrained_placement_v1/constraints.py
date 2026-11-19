@@ -22,7 +22,9 @@ RIGID_PROXY_TOLERANCE_NM = Decimal('0.000001')
 
 
 class Refused(ValueError):
-    pass
+    def __init__(self, *args, constraint=None):
+        super().__init__(*args)
+        self.constraint = constraint
 
 
 def encoded(value):
@@ -333,10 +335,10 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
         # source/candidate Native checks and original AST protection are separate.
         preserved_fixed = facts['schema'] in (2, 3) and cid in fixed
         if not preserved_fixed and not inside(box, facts['board']['bounds_mm'], gap):
-            raise Refused('Component outside rectangular board: ' + cid)
+            raise Refused('Component outside rectangular board: ' + cid, constraint='board_edge')
         baseline_board_region = preserved_fixed and c['allowed_region_mm'] == facts['board']['bounds_mm']
         if not baseline_board_region and not inside(box, c['allowed_region_mm']):
-            raise Refused('Component outside allowed region: ' + cid)
+            raise Refused('Component outside allowed region: ' + cid, constraint='allowed_area')
         for k in facts['keepouts']:
             inherited_copper = preserved_fixed and k['kind'] == PRESERVED_COPPER
             if (facts['schema'] == 3 and cid in facts['selected'] and t == pose(c)
@@ -346,11 +348,12 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
                 # region, pair, real user keepouts and annotation checks remain.
                 inherited_copper = True
             if not inherited_copper and t['side'] in k['sides'] and not separated(box, k['bounds_mm'], gap):
-                raise Refused('Component intersects rectangular keepout: ' + cid)
+                kind = 'protected_tracks' if k['kind'] == PRESERVED_COPPER else 'keepout'
+                raise Refused('Component intersects rectangular keepout: ' + cid, constraint=kind)
         for other, side, other_box in rectangles:
             inherited_pair = preserved_fixed and other in fixed
             if not inherited_pair and side == t['side'] and not separated(box, other_box, gap):
-                raise Refused('Component rectangles overlap: ' + other + '/' + cid)
+                raise Refused('Component rectangles overlap: ' + other + '/' + cid, constraint='component_spacing')
         rectangles.append((cid, t['side'], box))
     if 'annotation_context' in facts:
         from autorouter import placement_annotations
@@ -366,5 +369,5 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
         try:
             placement_annotations._check_prepared_moves(facts['annotation_context'], moves)
         except ValueError as exc:
-            raise Refused('Native annotation prefilter: ' + str(exc)) from exc
+            raise Refused('Native annotation prefilter: ' + str(exc), constraint='annotations') from exc
     return copy.deepcopy(alternative)

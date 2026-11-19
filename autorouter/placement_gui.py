@@ -187,6 +187,33 @@ def source_native_findings(inspection):
         receipt_path=inspection['native_context']['receipt'])
 
 
+def region_search_findings(search, inspection):
+    """Explain the existing validation checks without inferring infeasibility."""
+    summary = search.get('region_initialization') or {}
+    labels = {
+        'protected_tracks': 'Clearance from protected tracks (rectangular envelopes)',
+        'component_spacing': 'Spacing between component courtyards',
+        'allowed_area': 'The full courtyard must fit inside the allowed area',
+        'board_edge': 'Clearance from the board edge',
+        'keepout': 'Clearance from a keepout',
+        'annotations': 'Silkscreen or solder mask clearance',
+        'other': 'Other placement checks',
+    }
+    lines = ['No starting placement found in the allowed area.']
+    if summary.get('courtyard_cannot_fit'):
+        lines += ['At least one selected courtyard and its required clearance cannot fit in the area.']
+    elif (count := summary.get('candidates_checked')):
+        lines += [f'Checked {count} starting arrangements. Each is counted under its first failed check.']
+        for key, count in summary.get('rejected_by_constraint', {}).items():
+            lines.append(f'  {count} · {labels.get(key, labels["other"])}')
+    lines += ['', 'Use the Board tab to review the area and protected copper. '
+              'A bounded search can miss a legal placement. Your original project is unchanged.']
+    native = source_native_findings(inspection)
+    if native:
+        lines += ['', native]
+    return '\n'.join(lines)
+
+
 def copper_findings(plan):
     if plan is None:
         return 'Original copper and unselected/fixed components are preserved.'
@@ -1134,13 +1161,18 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             try:
                 value = self.options(); inspection = copy.deepcopy(self.inspection); self.revoke(discard=True)
                 def adopt(proposal):
-                    if proposal['search']['status'] != 'proposals_ready':
+                    search = proposal['search']
+                    if search['status'] == 'no_feasible_region_seed':
+                        self.findings.SetValue(region_search_findings(search, inspection))
+                        self.pages.SetSelection(1)
+                        self.message('No placement found. See Findings and constraints.')
+                        return
+                    if search['status'] != 'proposals_ready':
                         message = {
                             'budget_exhausted': 'The placement search reached its time limit. No draft was kept; your project is unchanged.',
                             'no_changed_alternative': 'No changed placement passed the current constraints. This does not prove that no solution exists. For a rigid group, Review current group arrangement allows explicit manual repositioning; your project is unchanged.',
                             'cancelled': 'Placement search cancelled. No draft was kept; your project is unchanged.',
-                            'no_feasible_region_seed': 'No placement inside the target rectangle passed the bounded search. Choose another rectangle or review the reported constraints. This is not proof that no solution exists. Your project is unchanged.',
-                        }.get(proposal['search']['status'], 'Placement search returned an unsupported result; no draft was adopted.')
+                        }.get(search['status'], 'Placement search returned an unsupported result; no draft was adopted.')
                         raise ValueError(message)
                     review = intent.Review(proposal); self.current_review_settings(review)
                     self.gate.attach(review); self.render(0)

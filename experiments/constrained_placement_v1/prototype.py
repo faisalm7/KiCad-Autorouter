@@ -66,6 +66,7 @@ def _region_seed(facts, initial, validate, check, record):
     """First valid finite joint target; no score-based choice or source repair."""
     components = {row['id']: row for row in facts['components']}
     options = []
+    refusals = record['rejected_by_constraint']
     board = facts['board']['bounds_mm']; gap = facts['clearance_mm']
     for identity in facts['selected']:
         check(); row = components[identity]; width, height = row['size_mm']
@@ -74,7 +75,9 @@ def _region_seed(facts, initial, validate, check, record):
         for axis, extent in enumerate((width, height)):
             low = max(row['allowed_region_mm'][axis], board[axis] + gap) + extent/2
             high = min(row['allowed_region_mm'][axis+2], board[axis+2] - gap) - extent/2
-            if low > high: return None
+            if low > high:
+                record['courtyard_cannot_fit'] = True
+                return None
             values = [min(high, max(low, row['position_mm'][axis])), (low+high)/2, low, high]
             axes.append(list(dict.fromkeys(values)))
         options.append(list(itertools.product(*axes)))
@@ -88,7 +91,9 @@ def _region_seed(facts, initial, validate, check, record):
                 row['x_mm'], row['y_mm'] = targets[row['component_id']]
         try:
             validate(candidate)
-        except Refused:
+        except Refused as refusal:
+            reason = refusal.constraint or 'other'
+            refusals[reason] = refusals.get(reason, 0) + 1
             check(); continue
         check()
         candidate = validate_alternative(facts, candidate)  # Independent chosen-seed fence.
@@ -272,7 +277,7 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
     status = 'no_changed_alternative'
     initialization = (dict(policy=region_initialization, status='not_started',
         source_context_only=True, original_facts_sha256=initial['source_sha256'],
-        candidates_checked=0, candidate_limit=MAX_REGION_SEED_CANDIDATES,
+        candidates_checked=0, candidate_limit=MAX_REGION_SEED_CANDIDATES, rejected_by_constraint={},
         seed_publicly_validated=False, native_validation_performed=False,
         execution_authorized=False, approval_granted=False) if region_initialization is not None else None)
     start_pose = initial
