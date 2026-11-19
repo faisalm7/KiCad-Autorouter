@@ -9,6 +9,7 @@ from __future__ import annotations
 import copy
 import hashlib
 from pathlib import Path
+import re
 
 from . import gui, pipeline as p, preferences as pref, routing_scope as rs, sexpr as sx
 from .placement_clearance import read_bytes
@@ -405,3 +406,177 @@ def validate_pending_placement_route_proposal(inspection, context, initial, prop
     if current != initial:
         raise PendingContextChanged('Visible placement/routing context changed while the request was pending; request a fresh proposal.')
     return current
+
+
+def placement_constraints_contract_v2():
+    """Propose edits to a draft. Null leaves that visible field alone."""
+    properties = {
+        'selected_refs': {'type': ['array', 'null'], 'minItems': 2, 'maxItems': 16,
+                          'items': {'type': 'string'}},
+        'region_nm': {'type': ['array', 'null'], 'minItems': 4, 'maxItems': 4,
+                      'items': {'type': 'integer'}},
+        'route_seconds': {'type': ['integer', 'null'], 'minimum': 5, 'maximum': 900},
+    }
+    return {'tool_choice': 'required', 'tools': [
+        {'type': 'function', 'function': {
+            'name': 'propose_placement_constraints_v2', 'strict': True,
+            'description': ('Suggest changed component references, [left, top, right, bottom] in '
+                'integer nanometres, or a routing time. Use null for each unchanged field. '
+                'Locked/pinned parts, the area limit and copper permissions are read-only.'),
+            'parameters': {'type': 'object', 'additionalProperties': False,
+                           'required': list(properties), 'properties': properties}}},
+        clarification_tool_schema()],
+        'instructions': (MODEL_DATA_INSTRUCTIONS +
+            'Use exact observed reference labels such as J1. A reference or region with more than '
+            'one plausible meaning requires clarification. A request to change a pin, copper '
+            'permission, electrical constraint or execution authority needs clarification. '
+            'Describe these edits using the v2 tool fields only. No operation follows a proposal.')}
+
+
+class PlacementConstraintReview:
+    """One local proposal/review over the usual saved-project placement settings."""
+
+    _FIELDS = {'selected', 'fixed', 'region_nm', 'region_limit_nm', 'route_seconds', 'policy'}
+    _POLICY = {'scope', 'copper_policy', 'protected_names', 'protected_route_ids',
+               'group_policy', 'region_initialization'}
+    _TOOL = 'propose_placement_constraints_v2'
+
+    def __init__(self, inspection, controls, *, request, revision):
+        from . import placement_intent as placement
+
+        placement.current(inspection)
+        if (type(controls) is not dict or set(controls) != self._FIELDS
+                or type(controls['policy']) is not dict or not set(controls['policy']) <= self._POLICY
+                or controls['policy'].get('scope') != inspection['observation']['scope']):
+            raise IntentError('Read the current placement controls before asking for a proposal.')
+        if type(request) is not str or not request.strip() or len(request) > 4096:
+            raise IntentError('Enter a nonempty request of at most 4096 characters.')
+        if type(revision) is not int or revision < 0:
+            raise IntentError('A current controls revision is required.')
+        observed = {row['uuid']: row['reference'] for row in inspection['observation']['footprints']}
+        components = inspection['components']
+        self._by_reference = {row['reference']: row['uuid'] for row in components}
+        if (len(self._by_reference) != len(components) or not 1 <= len(components) <= 128
+                or {uuid: ref for ref, uuid in self._by_reference.items()} != observed
+                or any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_+.-]{0,63}', ref)
+                       for ref in self._by_reference)):
+            raise IntentError('Clarification required. The component references are incomplete or ambiguous.')
+        for key in ('selected', 'fixed'):
+            ids = controls[key]
+            if (type(ids) is not list or any(type(uid) is not str or uid not in observed for uid in ids)
+                    or len(set(ids)) != len(ids)):
+                raise IntentError('The visible selection or fixed component list differs from inspection.')
+        for key in ('region_nm', 'region_limit_nm'):
+            bounds = controls[key]
+            if bounds is not None and (type(bounds) is not list or len(bounds) != 4
+                    or any(type(value) is not int or abs(value) > 2_000_000_000 for value in bounds)
+                    or not (bounds[0] < bounds[2] and bounds[1] < bounds[3])):
+                raise IntentError('The visible area must be an ordered rectangle in integer nanometres.')
+        self._seconds(controls['route_seconds'])
+        self._inspection = copy.deepcopy(inspection)
+        self._controls = copy.deepcopy(controls)
+        self._request = request
+        self._revision = revision
+        self._pending = True
+        self._offer = None
+
+    @staticmethod
+    def _seconds(seconds):
+        if type(seconds) is not int or not 5 <= seconds <= 900:
+            raise IntentError('Routing time must be a whole number from 5 to 900 seconds.')
+        return seconds
+
+    def _visible(self, selected, region, seconds):
+        return dict(selected_refs=sorted(ref for ref, uid in self._by_reference.items() if uid in selected),
+                    region_nm=copy.deepcopy(region), route_seconds=seconds)
+
+    def model_context(self):
+        """Compact reference-grounded context without local paths or raw board text."""
+        from . import placement_intent as placement
+
+        controls = self._controls
+        preserve = controls['policy'].get('copper_policy') is None
+        locked = {row['uuid'] for row in self._inspection['components']
+                  if any(preserve or reason != placement.ROUTED_REASON for reason in row['fixed_reasons'])}
+        return {
+            'schema': 2, 'request': self._request,
+            'components': [{'ref': ref, 'fixed': uid in locked or uid in controls['fixed']}
+                           for ref, uid in self._by_reference.items()],
+            'current': self._visible(controls['selected'], controls['region_nm'], controls['route_seconds']),
+            'region_limit_nm': copy.deepcopy(controls['region_limit_nm']),
+            'preserve_existing': preserve,
+            'protected_names': copy.deepcopy(controls['policy'].get('protected_names', [])),
+        }
+
+    def cancel(self):
+        self._pending = False
+        self._offer = None
+
+    def _fresh(self, controls, request, revision, source):
+        from . import placement_intent as placement
+
+        if (not self._pending or self._request != request or type(revision) is not int
+                or self._revision != revision or placement.constraints.encoded(controls)
+                != placement.constraints.encoded(self._controls)):
+            self.cancel()
+            raise PendingContextChanged('Placement controls or request changed. Ask for a new proposal.')
+        try:
+            if gui.saved_project_board(source) != Path(self._inspection['source']):
+                raise ValueError('The displayed project differs from inspection.')
+            placement.current(self._inspection)
+        except (OSError, ValueError, p.Rejected) as exc:
+            self.cancel()
+            raise PendingContextChanged('Saved project changed. Inspect it before asking again.') from exc
+
+    def receive(self, tool, arguments, controls, *, request, revision, source):
+        from . import placement_intent as placement
+
+        self._fresh(controls, request, revision, source)
+        if self._offer is not None:
+            raise IntentError('Review the existing proposal or discard it.')
+        if tool == 'clarify_design_request':
+            self.cancel()
+            return validate_design_clarification(arguments)
+        if (tool != self._TOOL or type(arguments) is not dict
+                or set(arguments) != {'selected_refs', 'region_nm', 'route_seconds'}):
+            raise IntentError('Only placement selection, region and routing time may be proposed.')
+        before = self.model_context()['current']
+        refs = before['selected_refs'] if arguments['selected_refs'] is None else arguments['selected_refs']
+        if (type(refs) is not list or not 2 <= len(refs) <= 16
+                or any(type(ref) is not str or ref not in self._by_reference for ref in refs)
+                or len(set(refs)) != len(refs)):
+            raise IntentError('Clarification required. Choose two to sixteen distinct, observed references.')
+        selected = [self._by_reference[ref] for ref in sorted(refs)]
+        if set(selected) & set(self._controls['fixed']):
+            raise IntentError('The proposal selects a component the user fixed.')
+        region = before['region_nm'] if arguments['region_nm'] is None else arguments['region_nm']
+        seconds = self._seconds(before['route_seconds'] if arguments['route_seconds'] is None
+                                else arguments['route_seconds'])
+        settings = placement.settings(selected, region, **self._controls['policy'])
+        for allowed in (self._inspection['observation']['outline']['bounds_nm'], controls['region_limit_nm']):
+            if allowed is not None and not (allowed[0] <= region[0] < region[2] <= allowed[2]
+                                           and allowed[1] <= region[1] < region[3] <= allowed[3]):
+                raise IntentError('The proposed rectangle exceeds the allowed movement area.')
+        after = self._visible(selected, region, seconds)
+        if before == after:
+            raise IntentError('The proposal would leave every visible setting unchanged.')
+        placement.facts(self._inspection, settings)
+        copper = placement.copper_plan(self._inspection, settings)
+        self._fresh(controls, request, revision, source)
+        self._offer = dict(schema=2, kind='autorouter.placement-constraint-proposal.v2',
+            before=before, after=after, placement_settings=settings, copper_plan=copper,
+            execution_authorized=False, approval_granted=False)
+        return copy.deepcopy(self._offer)
+
+    def adopt(self, reviewed_offer, controls, *, request, revision, source):
+        """Return ordinary control values after the caller's explicit Use settings action."""
+        from . import placement_intent as placement
+
+        self._fresh(controls, request, revision, source)
+        if (self._offer is None or placement.constraints.encoded(reviewed_offer)
+                != placement.constraints.encoded(self._offer)):
+            raise IntentError('Review the exact visible proposal before using these settings.')
+        values = self._offer
+        self.cancel()
+        return copy.deepcopy({'placement_settings': values['placement_settings'],
+                              'route_seconds': values['after']['route_seconds']})

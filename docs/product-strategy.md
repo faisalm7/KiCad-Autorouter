@@ -2,6 +2,33 @@
 
 Build one local KiCad design assistant around the existing engineering core. Routing, constrained placement and an optional copilot share the same inspection, constraints, execution, validation, preview, approval, delivery, progress and cancellation operations. Ordinary graphical controls remain fully usable without AI. This owner-directed revision supersedes the old placement/copilot prohibition and algorithmic-superiority gate; the original routing research ambition is unmet/deferred, not achieved.
 
+## Editor integration — November 18 owner clarification
+
+Copperpath should feel like part of the active design. The intended workspace
+keeps a persistent assistant beside the board, offers Auto-place and Auto-route
+without a model, and keeps visual controls and conversational constraints in sync.
+Users should be able to see proposed changes and findings, approve specific
+changes, watch them appear in the editor and use KiCad Undo. Schematic assistance
+is part of the product. Start with grounded context from saved schematic files,
+then qualify reversible, sheet-aware editing with netlist and ERC checks on a
+supported KiCad version.
+
+The next milestone is one selected component on an owned disposable PCB.
+Copperpath reads its actual editor and current selection, shows a move in its
+own companion window, and tests an explicitly approved transaction and native
+Undo. Unsaved PCB bytes, unrelated edits, protected copper and the original
+project settings matter to this test. Group placement and routing reuse the
+qualified deterministic tools as live application becomes supportable. The
+runtime104 saved-project workflow remains a supported fallback. The
+[integration capability record](live-editor-milestone.md) tracks the pinned
+interface and the conditions for expanding scope.
+
+Add a versioned intent contract for changes to selection, region and preferences.
+Show those edits before adopting them in the ordinary controls. Locks, fixed
+components, copper permissions, rules and execution authority stay with the
+shared engineering workflow. Keep the earlier contracts and recorded model
+results intact. New model or data-transfer permission is a separate decision.
+
 | Existing part | Reuse decision and evidence boundary |
 |---|---|
 | Freerouting | Keep as primary search/routing dependency. It handles DSN routing and SES output; our imported result still needs actual KiCad/original-design validation. Reuse useful upstream integrations where their interfaces and licenses fit. |
@@ -9,7 +36,7 @@ Build one local KiCad design assistant around the existing engineering core. Rou
 | Tuned/restart search (B2) | Shared reusable configuration, not a proprietary rival. Finish the current fixed tuned/low-via-cost optional mode through bounded source and Native qualification. Search cost never authorizes changed dimensions or protection. Default stays corrected-standard until a prospective task-based decision. |
 | Experimental pruning/repair | Keep outside the normal completion path. Pruning can shorten admissible ground copper on exposed cases but needs a completed incumbent and has no broad completion gain. Protected-gap default/Improve lost a case that restartB2 completed. Both recent plane and empty-net pilots failed; do not retry them for a favorable result. |
 | Validation/protection/process core | Retain mandatory current candidate/report/source binding, complete project/rules, protected copper, actual Native checks, bounded execution, cancellation and stale refusal. Share existing helpers; avoid another orchestration/archival framework. |
-| GUI/CLI/structured interface | Extend the existing separate-project workflow incrementally. Present task intent and changes first, advanced search controls second. No claim of docking, live transactional apply/undo or unsaved-buffer synchronization. |
+| GUI/CLI/structured interface | Keep the separate-project workflow and develop the live PCB companion alongside it. Task intent, changes and findings come first. Scope active-state synchronization, apply, Undo, overlays and docking to observed capabilities. |
 
 The bounded source review chooses **composition around the existing guarded core**, plus an isolated reusable placement proposer. It does not adopt another whole application:
 

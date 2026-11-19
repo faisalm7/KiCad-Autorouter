@@ -16,6 +16,15 @@ After that workflow is stable, add useful selected-component/group placement alt
 
 Original-design/protected-copper checks, actual pinned Native validation, cancellation/stale refusal, no known critical correctness/data-loss defects in declared scope, privacy, zero new spending, publication boundaries and the storage-retention policy remain mandatory. Live application/undo/unsaved synchronization/docking and Windows Native support require actual capability tests. Human/physical review is required for claims about human cleanup or electrical/manufacturing suitability, not universal certification of an explicitly scoped experimental tool. Continue finite staged product work without demanding unrelated research or archival gates before every feature. Microsoft Edge is the owner's browser preference; distributed software remains configurable.
 
+The November 18 owner clarification makes editor integration the next milestone.
+Copperpath should keep a persistent assistant beside the active design, with
+ordinary Auto-place and Auto-route, conversational and visual constraints,
+editor-visible changes and eventually schematic assistance. First qualify one
+explicitly approved component move on an owned disposable PCB with active
+selection, isolated validation, fresh editor readback and native Undo.
+Preserve unrelated unsaved work and the separate-project path. Docking, live
+overlays and schematic writes have their own KiCad capability checks.
+
 ## 1. Own the outcome
 
 Act as the principal engineer, routing researcher, experimental-methods lead, and release owner for this project. Faisal is nontechnical. Own the research, architecture, coding, dependency choices, data acquisition, experiments, integration, testing, and release preparation. Investigate routine technical choices rather than asking him to pick algorithms or languages. Explain consequential decisions in plain English and provide an evidence-based recommendation.

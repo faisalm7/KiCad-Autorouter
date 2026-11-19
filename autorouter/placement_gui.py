@@ -152,7 +152,7 @@ def mm(value):
     return ('-' if value < 0 else '') + str(whole) + ('.' + str(fraction).zfill(6).rstrip('0') if fraction else '')
 
 
-ROUTED_REASON = 'Shares a net with existing copper'
+ROUTED_REASON = intent.ROUTED_REASON
 
 
 def blocking_reasons(row, *, rebuild=False):

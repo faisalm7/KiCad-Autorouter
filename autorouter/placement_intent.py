@@ -25,6 +25,7 @@ GROUP_SETTINGS_KIND = 'autorouter.selected-placement-settings.v4'
 REGION_SETTINGS_KIND = 'autorouter.selected-placement-settings.v5'
 GROUP_POLICY = constraints.RIGID_TRANSLATION_POLICY
 COPPER_POLICY = 'rebuild-affected-unlocked-v1'
+ROUTED_REASON = 'Shares a net with existing copper'
 LIMITS = (
     'Experimental translation only: unrotated front footprints, circular through-hole pads, rectangular courtyards and board.',
     'Unselected, locked and existing-routed-net components stay fixed. Every existing copper item is preserved.',
@@ -177,7 +178,7 @@ def inspect_saved(board, *, native_context=None):
         reasons = list(fp.get('fixed_reasons', []))
         if fp['locked']: reasons.append('Locked in KiCad')
         if any(pad['net'] in routed_nets for pad in fp['pads']):
-            reasons.append('Shares a net with existing copper')
+            reasons.append(ROUTED_REASON)
         components.append(dict(uuid=fp['uuid'], reference=fp['reference'],
             position_nm=fp['position_nm'], pad_count=len(fp['pads']), fixed_reasons=reasons))
     result = dict(schema=1, kind='autorouter.saved-placement-inspection.v1', source=str(source),

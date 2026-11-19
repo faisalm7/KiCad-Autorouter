@@ -1,0 +1,120 @@
+# Copperpath in an open KiCad board
+
+Keep the toolbar entry and a compact companion beside the board. Show the
+current project and selection above a before/after diagram. One primary action
+advances the task. Rejection clears the proposed change. After a verified
+application, show what changed and point to KiCad’s native Undo. Keep advanced
+constraints and full findings available below the main controls. The companion
+should need neither a browser nor a second project selection for this task.
+
+## Pinned interface
+
+The existing 10.0.7 installation already supplies the official local IPC
+client. The public PCB commands expose document identity, selection and
+in-memory board serialization. Source shows that PCB commits can be pushed
+or dropped. Commands are separate IPC requests and do not carry a board
+revision precondition. The footprint update also replaces the footprint
+through a protobuf conversion. Check exact metadata retention, partial failure,
+user edits between requests and native Undo before offering a general live
+write path. The initial experiment is restricted to a disposable owned PCB.
+[PCB handler](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/pcbnew/api/api_handler_pcb.cpp) · [Transaction handler](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/common/api/api_handler_editor.cpp)
+
+Capture the editor PCB in memory and keep the saved project/rules/schematic
+identity separately. Validate a detached candidate with the shared placement
+and Native checks before any approval permits a write. A board snapshot alone
+cannot establish the state of an unsaved schematic or unsaved project settings.
+The source project remains open during a bounded validation. Recheck the
+editor and saved inputs before beginning a short transaction, after staging
+and after commit. A failure drops only Copperpath’s uncommitted operation.
+Reloading the project would destroy unrelated unsaved work.
+
+## Preview, docking and schematic boundaries
+
+The companion has its own preview. KiCad's manifest launches a separate
+process, and the pinned API exposes selection and viewport controls. It does
+not register third-party dock panes or a general preview layer. Built-in PCB
+panes use KiCad's internal docking manager. A small upstream pane/overlay
+interface would keep deployment compatible with stock KiCad. Maintaining a
+fork would require ongoing rebases, platform builds and signing, and GPL
+source and notice obligations. Continue with the companion and evaluate an
+upstream extension before any decision to maintain a fork.
+[Pinned manifest](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/api/schemas/api.v1.schema.json) · [Native panes](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/pcbnew/pcb_edit_frame.cpp#L324) · [Licenses](https://www.kicad.org/about/licenses/)
+
+KiCad 10.0.7 includes partial schematic IPC code. Its document query lacks
+full project and sheet identity and item operations are incomplete. Start
+with saved schematics. KiCad 11 development exposes hierarchy, sheet-aware
+selection, netlist, ERC and typed writes. Revisit a narrow edit and Undo
+after an installable target can be qualified. Its development manifest still
+uses plugin actions.
+[Pinned schematic handler](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/eeschema/api/api_handler_sch.cpp) · [Schematic IPC development](https://docs.kicad.org/kicad-python/schematic.html)
+
+## What happened in the editor
+
+The experimental action opened a 486 × 455-point companion beside the
+disposable PCB. Selecting J1 in KiCad supplied its reference and position.
+Copperpath captured the unsaved PCB without saving it. The IPC serializer
+wrapped each footprint in a redundant copy of the version and generator
+headers. The detached validator removes only these exact duplicate headers.
+Its checks preserve the full footprint, original rules, protected copper and
+the rest of the source. The isolated pinned checks found two existing open
+connections, zero blocking findings, one inherited text-height warning and
+two original ignored checks, with refill and schematic parity.
+
+| Experiment | Observed result |
+|---|---|
+| Direct IPC footprint update | The commit moved J1 exactly. Readback found the missing footprint `units` node. KiCad's named Undo restored the exact prior PCB. This write is absent from the default experiment. |
+| Rejection, stale state and drop | Discard returned the same PCB hash. An unsaved J2 edit changed the snapshot and refused the old J1 plan. A staged update and a mixed update with a missing second item both dropped to the exact original state. |
+| Interactive tool handoff | The IPC call returned without an observed active move tool. A later call returned an API error. The companion uses user-controlled native **Move Exactly** for the guided check. |
+| Same-editor manual move | After review, the operator-equivalent action used KiCad **Move Exactly** to shift J1 from X 14 to 15 mm at Y 10 mm. Exact readback verified every other item, including the unsaved J2 position at X 25.5 mm. The saved PCB, project and schematic stayed unchanged. Cancelling the native properties dialog in the earlier guided check also left the PCB unchanged. |
+| Undo | The earlier footprint-properties Undo did not restore the reviewed board. The later named **Undo Move Exactly** restored J1's position and kept the unsaved J2 edit, but four J1 field UUIDs changed. Exact readback refused restoration in both cases. |
+
+The final guided attempt took 64.49 seconds and nine observed actions from
+preview to verified readback, then 72.72 seconds through the failed Undo check.
+Those observations include pauses between automated controls. The two detached
+KiCad operations took 1.61 seconds combined.
+The native move took one deliberate coordinate entry and one native
+confirmation. A keyboard attempt before the canvas regained focus did not open
+the dialog. The log distinguishes that automation issue from the loss of
+metadata. The companion and local IPC process used roughly 161 MiB combined
+resident memory in a single sample. The largest detached KiCad process peaked
+at about 202 MiB. No paid or local inference ran.
+[Structured receipt](../evidence/live-editor-capability-001.json)
+
+Automatic placement and routing in the open editor need a supported, lossless
+transaction and an exact Undo proof. A representative native test must also
+cover edits during computation, concurrency at write time, interruption and
+several editor inputs. Keep runtime104's existing separate-project path for
+ordinary delivery. The companion's actual preview remains a separate window.
+
+## Reproduce the owned-board companion
+
+Use the unchanged local runtime with KiCad 10.0.7 and the pinned
+`kicad-python` client described in [installation](install-existing.md).
+Prepare a fresh scoped launcher with that runtime's Python.
+
+```sh
+"$runtime/.venv/bin/python" -B experiments/live_editor_v1/prepare.py \
+  --runtime "$runtime" --run "$PWD/.runs/live-editor-owned-reproduction"
+```
+
+Open the prepared **Launch Autorouter.command** and the project under its
+`inspection` folder. In PCB Editor choose the **Copperpath: open board**
+toolbar action. Select a footprint such as J1 in KiCad, then use **Read
+selection**, **Preview move** and **Check move**. **Review in KiCad** explains
+the manual native operation. **Check KiCad move** only reports success if the
+reviewed result matches the open board. Use this test only on the supplied
+disposable copy. The pinned test had an Undo metadata failure. The default
+companion issues read/check requests and performs no PCB writes. The
+`--diagnostics` option adds two scoped dropped-transaction controls.
+
+## Placement constraints from a request
+
+V2 accepts exact observed reference labels, a movement rectangle and routing
+time. A null field leaves its visible value alone. The review returns the
+before/after settings and the prospective copper plan. The same placement
+validator binds fixed components, original policy, protection and region limits.
+The consumer must pass the currently displayed saved project, request and
+control revision at receipt and explicit adoption. Rejection, cancellation
+and a change of project or source revoke the proposal. V2 has offline tests
+through this seam. Wiring the provider and the visual adoption remains the
+next product step. V1 and its model results retain their existing scope.

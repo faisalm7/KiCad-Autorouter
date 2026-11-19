@@ -4,6 +4,16 @@ The master specification, current strategy and owner steering govern. Historical
 
 **Saved-project usability verified on runtime104.** Direct EEPROM inspection, actual toolbar identity and lock refusal, fresh Edge review, acceptance, export and independent readback passed. The distinct 555 source passed Native admission. Its constrained search stopped before placement validation or routing. The original GUI127 and runtime103 results retain their scope. [Installed verification](evidence/product104-usability-delivery-001.json) · [555 outcome](docs/555-constrained-placement-gui129.md).
 
+## Editor integration
+
+| Gate | Acceptance evidence |
+|---|---|
+| Active PCB context | Exact launching project, real selection and an intervening unsaved PCB edit verified on the owned board. The saved project and schematic are separately bound. Concurrent edits during the isolated Native worker and unsaved project/schematic capture remain open. |
+| One live component move | A guided native move passed isolated validation and exact same-editor readback. Preview rejection, stale refusal, native dialog cancellation and dropping full/partial staged writes were observed. The direct IPC write lost unit metadata. Guided Undo changed four field IDs after restoring the position. **Live automatic application and lossless Undo are open.** |
+| Constraint proposals | Offline v2 validates and prepares a visible selection, area and time diff through the shared deterministic controls, with active saved-project identity and one-time adoption. Actual provider and graphical adoption are open. V1 evidence and authority stay separate. |
+| Everyday editor experience | Actual 486 × 455 companion preview. Phase timing and actions observed on the owned task. Active docking, canvas overlays, general live Auto-place/Auto-route and independent laptop/high-DPI qualification remain open. [Editor receipt](evidence/live-editor-capability-001.json). |
+| Schematic assistance | Start from saved hierarchy, references and connectivity with source and freshness visible. Qualify live schematic context and then reversible edits with netlist and ERC checks on a supported editor version. |
+
 **Finite current checklist:** later receipts govern; versioned historical records below retain their failures and scope.
 
 | Gate | Actual evidence and remaining limit |
