@@ -69,6 +69,7 @@ class PlacementGuiTests(unittest.TestCase):
             ack=Mock(), picture=Mock(), pages=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
             assistant_ack=Mock(), assistant_result=Mock(),
+            constraint_offer=None, constraint_key=Mock(), update_schematic_view=Mock(),
             copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
             current_review_settings=Mock(), overview=Mock(), region_summary=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock())
@@ -81,6 +82,7 @@ class PlacementGuiTests(unittest.TestCase):
         window.edit_component = MethodType(window_method('edit_component'), window)
         window.finish_close = MethodType(window_method('finish_close'), window)
         window.invalidate_copilot = MethodType(window_method('invalidate_copilot'), window)
+        window.set_board_scene = MethodType(window_method('set_board_scene'), window)
         return window
 
     def test_target_region_is_explicit_and_has_the_same_settings_and_revocation_path(self):
@@ -611,24 +613,23 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertEqual(render.call_args.kwargs['state'], 'Validation revoked — review and validate again')
             self.assertNotIn('Placement validated', window.findings.SetValue.call_args.args[0])
 
-    def test_acknowledgement_on_hidden_findings_shows_board_but_waits_for_bitmap(self):
+    def test_acknowledgement_keeps_findings_visible_and_waits_for_board_bitmap(self):
         window, previous = self.presentation_window(); window.qualified = previous
         before = copy.deepcopy((window.gate.review.pose, window.gate.review.moves))
         window.picture = canvas(MethodType(window_method('preview_failed'), window),
             MethodType(window_method('preview_ready'), window))
         window.picture.GetClientSize.return_value = (0, 0)
-        window.pages.SetSelection.side_effect = lambda page: setattr(
-            window.picture.GetClientSize, 'return_value', (800, 500))
         window.ack.GetValue.return_value = True
         display = {'svg': '<svg/>', 'size': (1000, 540)}
         with patch.object(pg.placement_view, 'scene', return_value=display), \
                 patch.object(pg, 'bitmap_with_labels', return_value=Mock()) as raster:
             window_method('acknowledge')(window, None)
-            window.pages.SetSelection.assert_called_once_with(0)
+            window.pages.SetSelection.assert_not_called()
             self.assertTrue(window.gate.acknowledged)
             self.assertFalse(window.picture.Ready()); raster.assert_not_called()
             self.assertIsNone(window.qualified)
             with self.assertRaises(ValueError): window.gate.check(previous['ticket'])
+            window.picture.GetClientSize.return_value = (800, 500)
             window.picture.paint(None)
         self.assertTrue(window.picture.Ready()); raster.assert_called_once()
         self.assertTrue(window.gate.acknowledged); self.assertIsNone(window.qualified)

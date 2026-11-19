@@ -20,6 +20,8 @@ import uuid
 import xml.etree.ElementTree as ET
 
 from . import config as c, gui, handoff as h, placement_intent as intent, placement_view
+from .pipeline import Rejected
+from . import schematic_context
 
 
 def copilot_context(inspection, settings, seconds):
@@ -591,8 +593,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
     """Real window methods exposed for controlled-dependency tests, no fragments."""
     class Window(wx.Frame):
         def __init__(self):
-            super().__init__(None, title='KiCad design assistant — placement', size=(1100, 780))
-            self.SetMinSize(self.FromDIP((900, 640)))
+            super().__init__(None, title='Copperpath — place and route', size=(1040, 700))
+            self.SetMinSize(self.FromDIP((880, 610)))
             self.gate = ReviewGate(); self.inspection = None; self.busy = False
             self.finalized = False
             self.job = None; self.cancel_event = None; self.routing = None
@@ -603,39 +605,34 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.editing_component = None
             self.copilot_generation = 0; self.pending_copilot = None; self.approved_copilot = None
             self.constraint_review = None; self.constraint_offer = None; self.constraint_edited = False
+            self.board_scene = None; self.board_legend = ''
+            self.schematic = None; self.schematic_refusal = ''
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
             panel = self.panel = wx.Panel(self)
             root = wx.BoxSizer(wx.VERTICAL)
-            title = wx.StaticText(panel, label='Place and route')
-            title.SetFont(title.GetFont().Larger().Bold()); root.Add(title, 0, wx.LEFT | wx.RIGHT | wx.TOP, 12)
-            root.Add(wx.StaticText(panel, label='Choose components  →  Compare alternatives  →  Validate  →  Route and review'), 0, wx.ALL, 12)
             pathrow = wx.BoxSizer(wx.HORIZONTAL)
+            project_label = wx.StaticText(panel, label='Saved project')
+            pathrow.Add(project_label, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.board = wx.TextCtrl(panel, value=str(board)); self.board.SetMinSize(self.FromDIP((160, -1)))
             pathrow.Add(self.board, 1, wx.RIGHT, 6)
             self.browse = wx.Button(panel, label='Choose project…'); pathrow.Add(self.browse, 0, wx.RIGHT, 6)
             self.inspect = wx.Button(panel, label='Inspect project'); pathrow.Add(self.inspect)
-            root.Add(pathrow, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 12)
+            root.Add(pathrow, 0, wx.EXPAND | wx.ALL, 12)
             columns = wx.BoxSizer(wx.HORIZONTAL)
-            self.controls = wx.ScrolledWindow(panel, size=self.FromDIP((286, 250)), style=wx.VSCROLL | wx.TAB_TRAVERSAL)
-            self.controls.SetScrollRate(0, 12); self.controls.SetMinSize(self.FromDIP((280, 180)))
+            self.pages = wx.Notebook(panel); self.pages.SetMinSize(self.FromDIP((352, 250)))
+            self.controls = wx.ScrolledWindow(self.pages, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
+            self.controls.SetScrollRate(0, 12)
             left = wx.BoxSizer(wx.VERTICAL); side = self.controls
             left.Add(wx.StaticText(side, label='Movable components'), 0, wx.BOTTOM, 5)
-            self.parts = wx.CheckListBox(side, size=self.FromDIP((270, 150))); left.Add(self.parts, 0, wx.EXPAND)
-            hint = wx.StaticText(side, label='Click the board or use this list. Everything else stays fixed; locked parts cannot move.')
-            hint.Wrap(264); left.Add(hint, 0, wx.TOP | wx.BOTTOM, 7)
+            self.parts = wx.CheckListBox(side, size=self.FromDIP((280, 108))); left.Add(self.parts, 0, wx.EXPAND)
+            hint = wx.StaticText(side, label='Click a part on the board or check it here. Other parts stay fixed.')
+            hint.Wrap(310); left.Add(hint, 0, wx.TOP | wx.BOTTOM, 7)
             left.Add(wx.StaticText(side, label='Existing routing'), 0, wx.BOTTOM, 4)
             self.copper_policy = wx.Choice(side, choices=['Preserve all existing copper', 'Rebuild affected unlocked nets'])
             self.copper_policy.SetSelection(0); left.Add(self.copper_policy, 0, wx.EXPAND | wx.BOTTOM, 6)
-            hint = wx.StaticText(side, label='Rebuild needs your explicit choice. Locked and unrelated copper stay protected.')
-            hint.Wrap(264); left.Add(hint, 0, wx.BOTTOM, 8)
-            self.draw_area = wx.ToggleButton(side, label='Draw movement area'); left.Add(self.draw_area, 0, wx.EXPAND | wx.BOTTOM, 6)
+            self.copper_policy.SetToolTip('Locked and unrelated copper always stay protected.')
             self.region_summary = wx.StaticText(side, label='No movement area yet. Inspect the project first.')
             self.region_summary.Wrap(264); left.Add(self.region_summary, 0, wx.BOTTOM, 7)
-            budget_row = wx.BoxSizer(wx.HORIZONTAL)
-            budget_row.Add(wx.StaticText(side, label='Routing time (s)'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
-            self.route_budget = wx.TextCtrl(side, value='90', size=(62, -1), name='Routing time in seconds')
-            budget_row.Add(self.route_budget, 0)
-            left.Add(budget_row, 0, wx.BOTTOM, 8)
             self.precise = wx.CollapsiblePane(side, label='Precise area · mm', style=wx.CP_NO_TLW_RESIZE)
             area_panel = self.precise.GetPane(); grid = wx.FlexGridSizer(cols=2, vgap=5, hgap=6); grid.AddGrowableCol(1)
             self.region = []
@@ -643,12 +640,20 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 grid.Add(wx.StaticText(area_panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
                 field = wx.TextCtrl(area_panel, size=(120, -1)); self.region.append(field); grid.Add(field, 1, wx.EXPAND)
             area_panel.SetSizer(grid); left.Add(self.precise, 0, wx.EXPAND | wx.BOTTOM, 8)
-            self.rigid_group = wx.CheckBox(side, label='Keep selected parts together'); left.Add(self.rigid_group, 0, wx.BOTTOM, 6)
-            self.target_region = wx.CheckBox(side, label='Start outside area · experimental')
+            self.advanced = wx.CollapsiblePane(side, label='Advanced settings', style=wx.CP_NO_TLW_RESIZE)
+            advanced = self.advanced.GetPane(); advanced_layout = wx.BoxSizer(wx.VERTICAL)
+            budget_row = wx.BoxSizer(wx.HORIZONTAL)
+            budget_row.Add(wx.StaticText(advanced, label='Routing time (s)'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            self.route_budget = wx.TextCtrl(advanced, value='90', size=(62, -1), name='Routing time in seconds')
+            budget_row.Add(self.route_budget, 0); advanced_layout.Add(budget_row, 0, wx.BOTTOM, 8)
+            self.rigid_group = wx.CheckBox(advanced, label='Keep selected parts together')
+            advanced_layout.Add(self.rigid_group, 0, wx.BOTTOM, 6)
+            self.target_region = wx.CheckBox(advanced, label='Start outside area · experimental')
             self.target_region.SetToolTip('Optional two-part target-region initialization, tested on one owned task. Never enabled by drawing an area. Original constraints and final Native checks stay mandatory.')
-            left.Add(self.target_region, 0, wx.BOTTOM, 6)
-            self.original_group = wx.Button(side, label='Review current group arrangement'); left.Add(self.original_group, 0, wx.EXPAND | wx.BOTTOM, 6)
-            self.protection = wx.CollapsiblePane(side, label='Additional copper protection', style=wx.CP_NO_TLW_RESIZE)
+            advanced_layout.Add(self.target_region, 0, wx.BOTTOM, 6)
+            self.original_group = wx.Button(advanced, label='Review current group arrangement')
+            advanced_layout.Add(self.original_group, 0, wx.EXPAND | wx.BOTTOM, 6)
+            self.protection = wx.CollapsiblePane(advanced, label='Additional copper protection', style=wx.CP_NO_TLW_RESIZE)
             protection_panel = self.protection.GetPane(); protection_layout = wx.BoxSizer(wx.VERTICAL)
             hint = wx.StaticText(protection_panel, label='Optional sensitive net names, one per line. No route IDs are needed for ordinary use.')
             hint.Wrap(254); protection_layout.Add(hint, 0, wx.BOTTOM, 4)
@@ -657,38 +662,56 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             protection_layout.Add(wx.StaticText(protection_panel, label='Exact route IDs · advanced'), 0, wx.BOTTOM, 4)
             self.protected_route_ids = wx.TextCtrl(protection_panel, style=wx.TE_MULTILINE, size=(250, 45))
             protection_layout.Add(self.protected_route_ids, 0, wx.EXPAND)
-            protection_panel.SetSizer(protection_layout); left.Add(self.protection, 0, wx.EXPAND | wx.BOTTOM, 8)
+            protection_panel.SetSizer(protection_layout)
+            advanced_layout.Add(self.protection, 0, wx.EXPAND | wx.BOTTOM, 8)
             presetrow = wx.BoxSizer(wx.HORIZONTAL)
-            self.load = wx.Button(side, label='Load settings…'); self.save = wx.Button(side, label='Save settings…')
-            presetrow.Add(self.load, 0, wx.RIGHT, 6); presetrow.Add(self.save); left.Add(presetrow, 0, wx.BOTTOM, 7)
-            self.controls.SetSizer(left)
-            right = wx.BoxSizer(wx.VERTICAL)
-            self.pages = wx.Notebook(panel); self.pages.SetMinSize(self.FromDIP((340, 230)))
-            board_page = wx.Panel(self.pages); board_layout = wx.BoxSizer(wx.VERTICAL)
+            self.load = wx.Button(advanced, label='Load settings…'); self.save = wx.Button(advanced, label='Save settings…')
+            presetrow.Add(self.load, 0, wx.RIGHT, 6); presetrow.Add(self.save)
+            advanced_layout.Add(presetrow, 0, wx.BOTTOM, 7); advanced.SetSizer(advanced_layout)
+            left.Add(self.advanced, 0, wx.EXPAND)
+            settings_layout = wx.BoxSizer(wx.VERTICAL)
+            settings_layout.Add(left, 0, wx.EXPAND | wx.ALL, 9); self.controls.SetSizer(settings_layout)
+            self.pages.AddPage(self.controls, 'Settings')
+            board_page = self.board_page = wx.Panel(panel); board_layout = wx.BoxSizer(wx.VERTICAL)
+            board_tools = wx.BoxSizer(wx.HORIZONTAL)
+            self.draw_area = wx.ToggleButton(board_page, label='Draw movement area')
+            board_tools.Add(self.draw_area, 0)
+            board_tools.AddStretchSpacer()
+            self.native_summary = wx.StaticText(board_page)
+            board_tools.Add(self.native_summary, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT, 8)
+            board_layout.Add(board_tools, 0, wx.EXPAND | wx.BOTTOM, 6)
             self.picture = board_canvas(wx, board_page, self.pick_on_board, self.area_on_board, self.preview_failed, self.preview_ready)
             board_layout.Add(self.picture, 1, wx.EXPAND)
-            legend = wx.StaticText(board_page, label='Blue: selected   Slate: fixed   Orange: existing copper   Green: zones')
-            legend.Wrap(460); board_layout.Add(legend, 0, wx.TOP | wx.BOTTOM, 5)
-            self.alternative = wx.Choice(board_page); self.alternative.SetMinSize(self.FromDIP((160, -1)))
-            board_layout.Add(self.alternative, 0, wx.EXPAND | wx.BOTTOM, 6)
+            self.constraint_key = wx.StaticText(board_page, label='Select movable parts on the board or in Settings.')
+            board_layout.Add(self.constraint_key, 0, wx.EXPAND | wx.TOP | wx.BOTTOM, 5)
+            self.pose_pane = wx.Panel(board_page)
+            self.alternative = wx.Choice(self.pose_pane); self.alternative.SetMinSize(self.FromDIP((160, -1)))
+            pose_layout = wx.BoxSizer(wx.VERTICAL)
+            pose_layout.Add(self.alternative, 0, wx.EXPAND | wx.BOTTOM, 6)
+            coordinates = wx.CollapsiblePane(self.pose_pane, label='Edit position numerically', style=wx.CP_NO_TLW_RESIZE)
+            edit_panel = coordinates.GetPane()
             editrow = wx.BoxSizer(wx.HORIZONTAL)
-            self.part = wx.Choice(board_page); self.part.SetMinSize(self.FromDIP((100, -1)))
+            self.part = wx.Choice(edit_panel); self.part.SetMinSize(self.FromDIP((76, -1)))
             editrow.Add(self.part, 1, wx.RIGHT, 6)
-            self.x = wx.TextCtrl(board_page, size=(76, -1)); self.y = wx.TextCtrl(board_page, size=(76, -1))
+            self.x = wx.TextCtrl(edit_panel, size=(62, -1)); self.y = wx.TextCtrl(edit_panel, size=(62, -1))
             for label, field in (('X mm', self.x), ('Y mm', self.y)):
-                editrow.Add(wx.StaticText(board_page, label=label), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 4)
+                editrow.Add(wx.StaticText(edit_panel, label=label), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 4)
                 editrow.Add(field, 0, wx.RIGHT, 6)
-            self.apply = wx.Button(board_page, label='Update positions'); editrow.Add(self.apply)
-            board_layout.Add(editrow, 0, wx.EXPAND); board_page.SetSizer(board_layout)
-            self.pages.AddPage(board_page, 'Board')
+            self.apply = wx.Button(edit_panel, label='Update positions'); editrow.Add(self.apply)
+            edit_panel.SetSizer(editrow)
+            pose_layout.Add(coordinates, 0, wx.EXPAND)
+            self.pose_pane.SetSizer(pose_layout)
+            board_layout.Add(self.pose_pane, 0, wx.EXPAND); board_page.SetSizer(board_layout)
+            coordinates.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
             findings_page = wx.Panel(self.pages); findings_layout = wx.BoxSizer(wx.VERTICAL)
             self.findings = wx.TextCtrl(findings_page, style=wx.TE_MULTILINE | wx.TE_READONLY)
             findings_layout.Add(self.findings, 1, wx.EXPAND); findings_page.SetSizer(findings_layout)
-            self.pages.AddPage(findings_page, 'Findings and constraints')
+            self.pages.AddPage(findings_page, 'Findings')
             assistant_page = wx.Panel(self.pages)
-            assistant_inputs = wx.Panel(assistant_page)
+            assistant_inputs = wx.ScrolledWindow(assistant_page, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
+            assistant_inputs.SetScrollRate(0, 12); self.request_controls = assistant_inputs
             assistant_layout = wx.BoxSizer(wx.VERTICAL)
-            note = wx.StaticText(assistant_inputs, label='Enter one or more lines from the example.')
+            note = wx.StaticText(assistant_inputs, label='Local request · one or more lines like these')
             assistant_layout.Add(note, 0, wx.EXPAND | wx.ALL, 8)
             self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 72),
                                                name='Placement request')
@@ -716,15 +739,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.constraint_edit.Hide()
             self.constraint_summary = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
                                                  size=(-1, 74), name='Constraint changes')
-            self.constraint_summary.ChangeValue('Local preview reads the saved project. Apply settings to the ordinary controls, then choose how to proceed.')
+            self.constraint_summary.ChangeValue('Preview a request to see its changes on the board. Use settings to adopt them.')
             assistant_layout.Add(self.constraint_summary, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            map_layout = wx.BoxSizer(wx.VERTICAL)
-            self.constraint_map = board_canvas(wx, assistant_page, None, None,
-                self.constraint_preview_error, read_only=True)
-            map_layout.Add(self.constraint_map, 1, wx.EXPAND)
-            self.constraint_key = wx.StaticText(assistant_page)
-            map_layout.Add(self.constraint_key, 0, wx.TOP, 4)
-            self.assistant_advanced = wx.CollapsiblePane(assistant_inputs, label='Hosted pilot · opt-in',
+            self.assistant_advanced = wx.CollapsiblePane(assistant_inputs, label='AI conversation · hosted pilot',
                                                         style=wx.CP_NO_TLW_RESIZE)
             hosted = self.assistant_advanced.GetPane()
             hosted_layout = wx.BoxSizer(wx.VERTICAL)
@@ -732,7 +749,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             hosted_layout.Add(self.assistant_ask, 0, wx.BOTTOM, 4)
             self.assistant_result = wx.TextCtrl(hosted, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 86))
             hosted_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.BOTTOM, 4)
-            self.assistant_ack = wx.CheckBox(hosted, label='This plan matches my request and the visible constraints.')
+            self.assistant_ack = wx.CheckBox(hosted, label='The plan matches my request and constraints.')
             hosted_layout.Add(self.assistant_ack, 0, wx.BOTTOM, 4)
             self.assistant_use = wx.Button(hosted, label='Use plan · find alternatives')
             hosted_layout.Add(self.assistant_use)
@@ -740,27 +757,30 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             assistant_layout.Add(self.assistant_advanced, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.assistant_advanced.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
             assistant_inputs.SetSizer(assistant_layout)
-            assistant_split = wx.BoxSizer(wx.HORIZONTAL)
+            assistant_split = wx.BoxSizer(wx.VERTICAL)
             assistant_split.Add(assistant_inputs, 1, wx.EXPAND)
-            assistant_split.Add(map_layout, 1, wx.EXPAND | wx.TOP | wx.RIGHT | wx.BOTTOM, 8)
             assistant_page.SetSizer(assistant_split)
-            self.pages.AddPage(assistant_page, 'Assistant · optional')
-            right.Add(self.pages, 1, wx.EXPAND)
-            columns.Add(self.controls, 0, wx.EXPAND | wx.RIGHT, 12); columns.Add(right, 1, wx.EXPAND)
+            self.pages.AddPage(assistant_page, 'Request')
+            schematic_page = wx.Panel(self.pages); schematic_layout = wx.BoxSizer(wx.VERTICAL)
+            self.schematic_text = wx.TextCtrl(schematic_page, style=wx.TE_MULTILINE | wx.TE_READONLY,
+                                             name='Saved schematic context')
+            schematic_layout.Add(self.schematic_text, 1, wx.EXPAND)
+            schematic_page.SetSizer(schematic_layout); self.pages.AddPage(schematic_page, 'Schematic')
+            self.schematic_text.ChangeValue('Inspect a saved project to see its schematic context.')
+            columns.Add(board_page, 1, wx.EXPAND | wx.RIGHT, 10)
+            columns.Add(self.pages, 0, wx.EXPAND)
             root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
-            self.native_summary = wx.StaticText(panel, label='No current Native validation. Original files remain unchanged.')
-            root.Add(self.native_summary, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 12)
             self.ack = wx.CheckBox(panel, label='I reviewed these moves and the copper-rebuild plan.\nSource editors AND the KiCad project are saved and closed.')
             self.ack.SetToolTip('Close PCB and schematic editors, then use File > Close Project in KiCad manager before inspection and validation. Closing can update saved files; inspect again afterward.')
-            root.Add(self.ack, 0, wx.ALL, 12)
+            root.Add(self.ack, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
             buttons = wx.BoxSizer(wx.HORIZONTAL)
             self.find = wx.Button(panel, label='Find alternatives'); self.qualify = wx.Button(panel, label='Validate placement')
             self.route = wx.Button(panel, label='Continue to routing…'); self.reject = wx.Button(panel, label='Reject draft')
             for button in (self.find, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 6)
             buttons.AddStretchSpacer(); buttons.Add(self.reject)
-            root.Add(buttons, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
+            root.Add(buttons, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
             self.status = wx.StaticText(panel, label='Save and close source editors, then File > Close Project in KiCad manager. Choose the saved project and Inspect project.')
-            self.status.Wrap(1020); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 12)
+            self.status.Wrap(930); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 10)
             progressrow = wx.BoxSizer(wx.HORIZONTAL)
             self.progress = wx.Gauge(panel); progressrow.Add(self.progress, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.cancel = wx.Button(panel, label='Cancel'); progressrow.Add(self.cancel)
@@ -779,8 +799,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.copper_policy.Bind(wx.EVT_CHOICE, self.policy_changed)
             self.rigid_group.Bind(wx.EVT_CHECKBOX, self.settings_changed)
             self.target_region.Bind(wx.EVT_CHECKBOX, self.settings_changed)
-            for pane in (self.protection,self.precise):
+            for pane in (self.protection, self.precise, self.advanced):
                 pane.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
+            self.pages.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.schematic_page_changed)
+            self.Bind(wx.EVT_ACTIVATE, self.activated)
             self.draw_area.Bind(wx.EVT_TOGGLEBUTTON, self.drawing_mode)
             self.Bind(wx.EVT_SIZE, self.resized)
             for field in (self.protected_names, self.protected_route_ids): field.Bind(wx.EVT_TEXT, self.settings_changed)
@@ -809,6 +831,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.Layout()
             self.panel.Layout()
             if hasattr(self, 'controls'):self.controls.FitInside()
+            if hasattr(self, 'request_controls'):self.request_controls.FitInside()
+            if hasattr(self, 'board_page'):self.board_page.Layout()
 
         def message(self, text):
             self.status.SetLabel(text); self.status.Wrap(max(340,self.GetClientSize().width-30)); self.layout_panel()
@@ -825,6 +849,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.gate.invalidate(dirty=self.gate.dirty)
             self.qualified = None; self.ack.SetValue(False)
             self.picture.SetScene(None)
+            if getattr(self, 'constraint_offer', None) is not None:
+                self.constraint_preview_error(reason)
             if self.routing is not None:
                 self.routing.Close()
             self.findings.SetValue('Placement preview refused: ' + reason
@@ -840,9 +866,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
         def overview(self):
             """Passive source view before a draft exists; never validation."""
             if self.inspection is None:
-                self.picture.SetScene(None)
-                if hasattr(self, 'constraint_map'):
-                    self.constraint_map.SetScene(None)
+                self.set_board_scene(None)
                 self.region_summary.SetLabel('No movement area yet. Inspect the project first.')
                 return
             observation = self.inspection['observation']
@@ -860,11 +884,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             anchors = {row['uuid']: row['position_nm'] for row in observation['footprints']}
             display = placement_view.scene(observation,
                 {identity: anchors[identity] for identity in selected}, selected, region,
-                **({'annotation_context': self.inspection['annotation_context']}
-                    if 'annotation_context' in self.inspection else {}))
-            self.picture.SetScene(display)
-            if hasattr(self, 'constraint_map') and self.constraint_offer is None:
-                self.update_constraint_map()
+                annotation_context=self.inspection.get('annotation_context'),
+                protection=(True, (), ()))
+            self.set_board_scene(display)
             self.region_summary.Wrap(264)
             selected_refs = [row['reference'] for row in self.inspection['components'] if row['uuid'] in selected]
             self.findings.SetValue('Saved project inspection — no current placement draft or validation.\n'
@@ -879,8 +901,50 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 + '\n'.join(placement_limits(self.inspection, rebuild=self.rebuild_copper(),
                     grouped=self.rigid_group.GetValue(), region_initialization=self.target_region.GetValue())))
 
+        def set_board_scene(self, scene, *, rebuild=False):
+            self.board_scene = scene
+            self.board_legend = ('Blue selected · Slate fixed · Amber retained · Green zones'
+                                 if scene is not None else 'Inspect a saved project to begin.')
+            if rebuild:
+                self.board_legend = 'Blue selected · Slate fixed · Amber retained · Green zones. Rebuild plan in Findings.'
+            self.picture.SetScene(scene)
+            self.constraint_key.SetLabel(self.board_legend)
+
+        def schematic_page_changed(self, event):
+            if event.GetSelection() == 3:
+                self.update_schematic_view()
+            event.Skip()
+
+        def activated(self, event):
+            if event.GetActive() and self.pages.GetSelection() == 3:
+                self.update_schematic_view()
+            event.Skip()
+
+        def update_schematic_view(self):
+            if self.schematic is None:
+                self.schematic_text.ChangeValue(self.schematic_refusal or
+                    'Inspect a saved project to see its schematic context.')
+                return
+            try:
+                schematic_context.current(self.schematic, self.board.GetValue())
+                if self.constraint_offer is not None and not self.constraint_edited:
+                    names = self.constraint_offer['after']['selected_refs']
+                    prefix = 'Proposed selection\n\n'
+                else:
+                    names = [row['reference'] for index, row in enumerate(self.inspection['components'])
+                             if self.parts.IsChecked(index)]
+                    prefix = ''
+                self.schematic_text.ChangeValue(prefix + schematic_context.describe(self.schematic, names))
+            except (OSError, ValueError, Rejected) as exc:
+                self.schematic = None
+                self.schematic_refusal = 'Schematic context needs a fresh inspection. ' + str(exc)
+                self.schematic_text.ChangeValue(self.schematic_refusal)
+
         def pick_on_board(self, identity):
             if self.busy or self.gate.closed or self.inspection is None:
+                return
+            if self.constraint_offer is not None:
+                self.message('Use or discard the proposed settings before changing the selection.')
                 return
             review = self.gate.review
             if review is not None:
@@ -903,6 +967,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             self.invalidate_copilot()
             self.parts.Check(index, not self.parts.IsChecked(index))
             self.revoke(discard=True)
+            if self.pages.GetSelection() == 3:
+                self.update_schematic_view()
             self.message(row['reference'] + (' selected to move.' if self.parts.IsChecked(index)
                 else ' will stay fixed.') + ' Choose the allowed area, then Find alternatives.')
 
@@ -917,6 +983,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def area_on_board(self, region, error=None):
             if self.busy or self.gate.closed or self.inspection is None:
+                return
+            if self.constraint_offer is not None:
+                self.message('Use or discard the proposed settings before drawing a new movement area.')
                 return
             if error is not None:
                 self.message('Area unchanged: ' + error); return
@@ -970,15 +1039,26 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 for entry in self.constraint_fields:
                     entry.Enable(not self.busy)
             if hasattr(self, 'draw_area'):
-                self.draw_area.Enable(not self.busy and self.inspection is not None)
+                self.draw_area.Enable(not self.busy and not constraint_pending and self.inspection is not None)
                 self.picture.Enable(not self.busy)
                 native = (self.qualified['witness']['findings'] if self.qualified is not None else
                     self.inspection.get('native_source_baseline',{}).get('native') if self.inspection else None)
                 if native is not None:
-                    self.native_summary.SetLabel('KiCad findings: '+str(native['opens'])+' unrouted · '
-                        +str(native['blocking'])+' blocking · '+str(native['warnings'])+' warnings. '
-                        +('Placement validated; routing remains.' if self.qualified is not None else 'Original project inspection; draft still needs validation.'))
-                else:self.native_summary.SetLabel('No current Native validation. Original files remain unchanged.')
+                    scope = 'Validated draft' if self.qualified is not None else 'Saved source'
+                    self.native_summary.SetLabel(f"{scope} · {native['opens']} unrouted · "
+                                                 f"{native['blocking']} blocking · {native['warnings']} warnings")
+                else:
+                    self.native_summary.SetLabel('')
+            if hasattr(self, 'pose_pane'):
+                has_draft = self.gate.review is not None
+                self.pose_pane.Show(has_draft and not constraint_pending)
+                self.ack.Show(has_draft and self.qualified is None and not constraint_pending)
+                self.find.Show(not has_draft and not self.busy)
+                self.qualify.Show(has_draft and self.qualified is None and not self.busy)
+                self.route.Show(self.qualified is not None and not self.busy)
+                self.reject.Show(has_draft and not self.busy)
+                self.progress.Show(self.busy); self.cancel.Show(self.busy)
+                self.layout_panel()
 
         def revoke(self, *, dirty=False, discard=False):
             self.validation_revoked = self.qualified is not None or self.validation_revoked
@@ -1016,6 +1096,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             if not self.updating:
                 self.invalidate_copilot()
                 self.target_region.SetValue(False)
+                self.schematic = None; self.schematic_refusal = ''
+                if hasattr(self, 'schematic_text'):
+                    self.update_schematic_view()
                 self.inspection = None; self.parts.Set([]); self.revoke(discard=True)
                 self.message('Source changed. Inspect this saved project before requesting placement.')
             event.Skip()
@@ -1135,15 +1218,17 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def update_constraint_map(self, offer=None):
             try:
-                value = None if self.inspection is None else constraint_scene(
-                    self.inspection, self.constraint_inputs(), offer)
-                self.constraint_map.SetScene(value)
+                value = (self.board_scene if offer is None else
+                         constraint_scene(self.inspection, self.constraint_inputs(), offer))
+                self.picture.SetScene(value)
                 pending_copper = offer is not None and offer['copper_plan'] is not None
-                self.constraint_key.SetLabel('Blue selected · Slate fixed · Green zones\n'
-                    + ('Amber retained · Rose may be rebuilt' if pending_copper
-                       else 'Amber protected · Rose other existing copper'))
+                legend = ('Proposal · Blue selected · Slate fixed · Amber retained · Rose may be rebuilt'
+                          if pending_copper else 'Proposal · Blue selected · Slate fixed · Amber retained')
+                self.constraint_key.SetLabel(self.board_legend if offer is None else legend)
+                if hasattr(self, 'schematic_text') and self.pages.GetSelection() == 3:
+                    self.update_schematic_view()
             except (KeyError, TypeError, ValueError, OSError) as exc:
-                self.constraint_map.SetScene(None)
+                self.picture.SetScene(None)
                 self.constraint_preview_error(str(exc))
 
         def constraint_preview_error(self, reason):
@@ -1396,11 +1481,18 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def inspect_project(self, _):
             self.invalidate_copilot()
-            self.revoke(discard=True); self.inspection = None
+            self.inspection = None
+            self.revoke(discard=True)
+            self.schematic = None; self.schematic_refusal = ''
+            self.update_schematic_view()
             source = self.board.GetValue()
-            def adopt(value):
+            def adopt(result):
                 # The off-thread capture has no authority; bind it again at use.
+                value, context, refusal = result
+                require_closed_source(self.board.GetValue(), inspection=value)
                 self.inspection = value
+                self.schematic = context
+                self.schematic_refusal = ('Schematic context unavailable. ' + refusal) if refusal else ''
                 if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
                     self.rigid_group.SetValue(False)
                 else:
@@ -1415,14 +1507,15 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                     for field,coordinate in zip(self.region,value['observation']['outline']['bounds_nm']):field.ChangeValue(mm(coordinate))
                 finally:self.updating=False
                 self.overview()
-                self.message('Project inspected. Click the parts to move, then draw or enter their allowed area. Fixed parts and protected copper stay enforced.')
+                self.update_schematic_view()
+                self.message('Select the parts to move and draw their allowed area, or open Request.')
             def inspect(job, event):
                 require_closed_source(source)
                 value = intent.inspect_saved(source)
                 if (not intent.contract.fixed_context_scope(value['observation']['scope'])
                         and not (c.NATIVE_VERSION == '10.0.7'
                                  and value['observation']['scope'] == intent.contract.ORDINARY_SCOPE)):
-                    return value
+                    return (value, *schematic_context.observe(source, value['source_hashes']))
                 workspace = self.owned_workspace()
                 output = workspace / ('native-inspection-' + uuid.uuid4().hex)
                 process = job.run([str(c.ROOT/'.venv/bin/python'), '-B', '-m', 'autorouter',
@@ -1431,7 +1524,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 job.check_live()
                 if process['exit_code'] != 0 or process['log_truncated'] or process['cancel_requested']:
                     raise ValueError('Native placement inspection refused; private findings/logs: ' + str(output))
-                return intent.inspect_saved(source, native_context=output/'inspection.json')
+                value = intent.inspect_saved(source, native_context=output/'inspection.json')
+                return (value, *schematic_context.observe(source, value['source_hashes']))
             self.start('Reading saved placement geometry and fixed relationships; Native silk/mask capture when required…', inspect, adopt)
 
         def load_settings(self, _):
@@ -1554,7 +1648,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 title='Placement review' if self.qualified is not None else 'Placement draft', state=state,
                 **({'annotation_context': review.inspection['annotation_context']}
                    if 'annotation_context' in review.inspection else {}))
-            self.picture.SetScene(display)
+            self.set_board_scene(display, rebuild=review.copper_plan is not None)
             if self.qualified is not None:
                 witness = self.qualified['witness']
                 findings = state + '\n' + gui.human_summary('inspect', dict(
@@ -1670,12 +1764,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             checked = self.ack.GetValue(); self.revoke(dirty=self.gate.dirty)
             self.gate.acknowledged = checked and not self.gate.dirty
             self.ack.SetValue(self.gate.acknowledged); self.qualified = None
-            if self.gate.acknowledged and self.gate.review is not None:
-                # A hidden notebook page may have no drawable size. Show the
-                # reviewed board before validation instead of requiring users
-                # to discover the missing navigation step. Ready still waits
-                # for the current bitmap; paint failure revokes approval.
-                self.pages.SetSelection(0)
             self.refresh()
 
         def reject_draft(self, _):
@@ -1703,6 +1791,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def qualify_draft(self, _):
             try:
+                if getattr(self, 'constraint_offer', None) is not None:
+                    raise ValueError('Use or discard proposed settings before validating placement.')
                 if not self.picture.Ready():
                     raise ValueError('Review the current board preview before validating this draft.')
                 if self.routing is not None:
@@ -1747,6 +1837,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
 
         def open_routing(self, _):
             try:
+                if getattr(self, 'constraint_offer', None) is not None:
+                    raise ValueError('Use or discard proposed settings before continuing to routing.')
                 if not self.picture.Ready():
                     raise ValueError('The current placement preview is unavailable. Review and validate again.')
                 if self.qualified is None: raise ValueError('Validate this exact draft first.')

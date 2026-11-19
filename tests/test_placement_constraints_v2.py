@@ -150,7 +150,8 @@ class ConstraintProposal(unittest.TestCase):
         w.protected_names = controls.text_control('KEEP')
         w.protected_route_ids = controls.text_control('')
         w.constraint_summary = controls.text_control('')
-        w.constraint_edit, w.constraint_map = Mock(), Mock()
+        w.constraint_edit = Mock()
+        w.board_scene, w.board_legend = None, ''
         w.constraint_key = Mock()
         w.constraint_fields = [controls.text_control('') for _ in range(3)]
         w.constraint_review = w.constraint_offer = None
@@ -177,7 +178,7 @@ class ConstraintProposal(unittest.TestCase):
         self.assertEqual(w.constraint_inputs(), before)
         self.assertIn('Routing time  90 s → 60 s', w.constraint_summary.GetValue())
         self.assertIn('Protected nets  KEEP', w.constraint_summary.GetValue())
-        scene = w.constraint_map.SetScene.call_args.args[0]
+        scene = w.picture.SetScene.call_args.args[0]
         self.assertIn('data-protected="true"', scene['svg'])
         self.assertIn('data-role="allowed-region"', scene['svg'])
         w.constraint_fields[2].ChangeValue('75')
@@ -245,10 +246,20 @@ class ConstraintProposal(unittest.TestCase):
 
     def test_unavailable_picture_preserves_readable_review_and_copper_counts(self):
         w = self.window()
-        w.constraint_map.SetScene.side_effect = [ValueError('Display fixture failed.'), None]
+        w.picture.SetScene.side_effect = [ValueError('Display fixture failed.'), None]
         self.preview_in_window(w)
         self.assertIn('routes stay protected', w.constraint_summary.GetValue())
         self.assertIn('Board preview unavailable.', w.constraint_summary.GetValue())
+
+    def test_queued_draft_actions_cannot_use_the_proposal_bitmap(self):
+        w = self.window()
+        self.preview_in_window(w)
+        w.start.reset_mock()
+        ui.window_method('qualify_draft')(w, None)
+        self.assertIn('before validating placement', w.message.call_args.args[0])
+        ui.window_method('open_routing')(w, None)
+        self.assertIn('before continuing to routing', w.message.call_args.args[0])
+        w.start.assert_not_called()
 
 
 if __name__ == '__main__':

@@ -13,6 +13,7 @@ def main():
     parser.add_argument('--runtime', type=Path, required=True)
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--diagnostics', action='store_true')
+    parser.add_argument('--direct-1008-trial', action='store_true')
     args = parser.parse_args()
     runtime, run = args.runtime.absolute(), args.run.absolute()
     if runtime.resolve() != runtime or run.resolve() != run or run.parent != ROOT / '.runs' or run.exists():
@@ -50,6 +51,8 @@ def main():
                '--runtime', runtime, '--run', run]
     if args.diagnostics:
         command.append('--diagnostics')
+    if args.direct_1008_trial:
+        command.append('--direct-1008-trial')
     script = plugin / 'launch-live-check'
     script.write_text('#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME\nexport PYTHONNOUSERSITE=1\n'
         + 'cd ' + shlex.quote(str(run)) + '\nexec ' + shlex.join(map(str, command)) + '\n')

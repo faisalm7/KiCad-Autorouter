@@ -54,7 +54,7 @@ def board_file(editor_bytes):
 
 
 class Session:
-    def __init__(self, run, runtime):
+    def __init__(self, run, runtime, *, direct_trial=False):
         from autorouter import config as c, placement_clearance as pc, gui
         from kipy import KiCad
         from kipy.proto.common.types import DocumentType
@@ -81,8 +81,11 @@ class Session:
                             timeout_ms=IPC_TIMER_MS)
         self.document_type = DocumentType.DOCTYPE_PCB
         version = self.editor.get_version()
-        require((version.major, version.minor, version.patch) == (10, 0, 7),
-                'The open editor must be KiCad 10.0.7.')
+        self.direct_trial = direct_trial
+        self.direct_attempted = False
+        expected = (10, 0, 8) if direct_trial else (10, 0, 7)
+        require((version.major, version.minor, version.patch) == expected,
+                'The launching KiCad editor version differs from the owned trial.')
         self.pcb = self.editor.get_board()
         self.doc_id = self.identity()
         self.plan = None
@@ -96,7 +99,7 @@ class Session:
         if not capture.exists():
             with capture.open('xb') as output:
                 output.write(self.initial['raw'])
-        self.write('connected', original_disk=self.initial['disk'], editor_sha256=self.initial['sha256'],
+        self.write('connected', editor_version='.'.join(map(str, expected)), original_disk=self.initial['disk'], editor_sha256=self.initial['sha256'],
                    capture=capture.name)
 
     def identity(self):
@@ -338,6 +341,42 @@ class Session:
         self.apply_disabled = False
         return dict(undo_verified=True)
 
+    def apply_direct_trial(self, proposal):
+        """One guarded, approved IPC update of the exact owned 10.0.8 board."""
+        from kipy.geometry import Vector2
+
+        info = self.fresh(proposal)
+        plan = self.plan
+        require(self.direct_trial and not self.direct_attempted and not self.apply_disabled and 'native' in plan,
+                'Check the exact move on the isolated 10.0.8 test board first.')
+        item, = self.selected()
+        item.position = Vector2.from_xy(*info['to_nm'])
+        commit = self.pcb.begin_commit()
+        try:
+            self.fresh(proposal)
+            updated, = self.pcb.update_items(item)
+            require(updated.id.value == info['uid']
+                    and [updated.position.x, updated.position.y] == info['to_nm'],
+                    'KiCad staged a different component or position.')
+            self.fresh(proposal)
+        except Exception:
+            self.pcb.drop_commit(commit)
+            require(self.snapshot() == plan['snapshot'], 'The staged change did not drop exactly.')
+            raise
+        # An ambiguous push cannot authorize another write or a whole-board reload.
+        self.plan = None
+        self.apply_disabled = True
+        self.direct_attempted = True
+        self.applied = plan['snapshot']
+        self.pcb.push_commit(commit, 'Copperpath checked component move')
+        now = self.snapshot()
+        exact = unchanged_outside_move(plan, now)
+        with (self.run / 'direct-editor-readback.kicad_pcb').open('xb') as stream:
+            stream.write(now['raw'])
+        self.write('direct_readback', exact=exact, editor_sha256=now['sha256'],
+                   expected_sha256=digest(plan['candidate']), disk_unchanged=now['disk'] == plan['snapshot']['disk'])
+        return dict(applied=True, exact=exact)
+
 
 def unchanged_outside_move(plan, after):
     from autorouter import sexpr
@@ -354,14 +393,17 @@ def main():
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--runtime', type=Path, required=True)
     parser.add_argument('--diagnostics', action='store_true')
+    parser.add_argument('--direct-1008-trial', action='store_true')
     args = parser.parse_args()
     sys.path.insert(0, str(args.runtime))
     from autorouter import config as c, gui
 
-    session = Session(args.run, args.runtime)
+    session = Session(args.run, args.runtime, direct_trial=args.direct_1008_trial)
     argv = [str(c.PYTHON), '-B', str(Path(__file__).with_name('panel.py'))]
     if args.diagnostics:
         argv.append('--diagnostics')
+    if args.direct_1008_trial:
+        argv.append('--direct-1008-trial')
     view = subprocess.Popen(argv,
         cwd=args.run, env=gui.child_environment(), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
         text=True, encoding='utf-8')
@@ -372,6 +414,8 @@ def main():
     if args.diagnostics:
         operations.update(drop_test=session.cancelled_transaction,
                           partial_test=lambda proposal: session.cancelled_transaction(proposal, partial_failure=True))
+    if args.direct_1008_trial:
+        operations['apply_direct'] = session.apply_direct_trial
     state = dict(panel_pid=view.pid, ipc_pid=os.getpid(), diagnostics=args.diagnostics)
     launch = args.run / ('companion-' + str(view.pid) + '.json')
     with launch.open('x') as output:

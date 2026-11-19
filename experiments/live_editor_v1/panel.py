@@ -44,7 +44,7 @@ class Preview(wx.Panel):
 
 
 class Companion(wx.Frame):
-    def __init__(self, *, diagnostics=False):
+    def __init__(self, *, diagnostics=False, direct_trial=False):
         super().__init__(None, title='Copperpath · Open board', size=(486, 455))
         self.SetMinSize((450, 434))
         self.move = None
@@ -53,6 +53,7 @@ class Companion(wx.Frame):
         self.validated = False
         self.readback_pending = False
         self.native_move_open = False
+        self.direct_trial = direct_trial
         self.selected = []
         box = wx.Panel(self)
         stack = wx.BoxSizer(wx.VERTICAL)
@@ -117,7 +118,8 @@ class Companion(wx.Frame):
         elif self.move is None:
             self.request('preview')
         else:
-            self.request('open_move' if self.validated else 'validate', self.move['id'])
+            action = ('apply_direct' if self.direct_trial else 'open_move') if self.validated else 'validate'
+            self.request(action, self.move['id'])
 
     def on_discard(self, _event):
         if self.run == 'validate':
@@ -133,7 +135,7 @@ class Companion(wx.Frame):
                             and not self.discard_pending and self.run in (None, 'validate'))
         self.next.SetLabel('Verify KiCad Undo' if self.readback_pending else
                            'Check KiCad move' if self.native_move_open else
-                           'Review in KiCad' if self.validated else
+                           ('Apply test move' if self.direct_trial else 'Review in KiCad') if self.validated else
                            'Check move' if self.move else 'Preview move')
         self.next.Enable(self.run is None and (self.readback_pending or len(self.selected) == 1
                                                and self.selected[0] in ('J1', 'J2')))
@@ -205,6 +207,13 @@ class Companion(wx.Frame):
                                          'Move Exactly entry in KiCad, then verify here.')
                 else:
                     self.status.SetValue('The KiCad board is unchanged. Review the preview or discard it.')
+            elif command == 'apply_direct':
+                self.move = None
+                self.validated = False
+                self.readback_pending = True
+                self.status.SetValue(('The exact in-editor move passed readback.' if result['exact'] else
+                                      'The in-editor transaction differs from the checked preview.')
+                    + ' Use KiCad Undo on “Copperpath checked component move”, then verify the prior board here.')
             else:
                 self.move = None
                 self.validated = False
@@ -220,5 +229,5 @@ class Companion(wx.Frame):
 
 if __name__ == '__main__':
     app = wx.App(False)
-    Companion(diagnostics='--diagnostics' in sys.argv)
+    Companion(diagnostics='--diagnostics' in sys.argv, direct_trial='--direct-1008-trial' in sys.argv)
     app.MainLoop()

@@ -193,15 +193,23 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
 
     left, top = min(b[0] for b in extents), min(b[1] for b in extents)
     right, bottom = max(b[2] for b in extents), max(b[3] for b in extents)
-    view_width, view_height = (952, 476) if interactive else (920, 460)
+    width, height = 1000, 692 + 25 * len(selected)
+    margin_x, margin_y = 40, 120
+    view_width, view_height = 920, 460
+    if interactive:
+        # Use the actual board aspect, with room for reference labels at the edges.
+        aspect = (right - left) / (bottom - top)
+        width = 800 if aspect >= 1 else max(170, round(800 * aspect))
+        height = 800 if aspect <= 1 else max(170, round(800 / aspect))
+        margin_x, margin_y = 32, 32
+        view_width, view_height = width - 64, height - 64
     scale = min(view_width / (right - left), view_height / (bottom - top))
-    origin_x = (24 if interactive else 40) + (view_width - (right-left)*scale)/2
-    origin_y = (32 if interactive else 120) + (view_height - (bottom-top)*scale)/2
+    origin_x = margin_x + (view_width - (right-left)*scale)/2
+    origin_y = margin_y + (view_height - (bottom-top)*scale)/2
     x = lambda value: origin_x + (value-left)*scale
     y = lambda value: origin_y + (value-top)*scale
-    height = 540 if interactive else 692 + 25 * len(selected)
-    result = ['<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="' + str(height)
-              + '" viewBox="0 0 1000 ' + str(height) + '" font-family="sans-serif">']
+    result = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+              f'viewBox="0 0 {width} {height}" font-family="sans-serif">']
 
     def element(tag, attrs, text=None):
         attributes = ' '.join(str(key).replace('_','-') + '="' + escape(str(value), quote=True) + '"'
@@ -220,7 +228,7 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
 
     element('title', {}, title)
     element('desc', {}, 'KiCad coordinates: X right, Y down. Display only; no validation, approval or execution authority.')
-    element('rect', dict(width=1000, height=height, fill='#ffffff'))
+    element('rect', dict(width=width, height=height, fill='#ffffff'))
     label(30, 32, title[:100], font_weight='bold')
     label(30, 56, state[:110])
     label(30, 78, 'Blue: proposed selected   Gray dashed: original   Slate: fixed   Orange: preserved copper')
@@ -307,7 +315,7 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
     _need(len(rendered.encode('utf-8')) <= 512*1024, 'SVG byte limit exceeded')
     if not interactive:
         return rendered
-    return dict(svg=rendered, size=(1000, height), outline_nm=outline,
+    return dict(svg=rendered, size=(width, height), outline_nm=outline,
         transform=(left, top, scale, origin_x, origin_y),
         components=tuple(dict(uuid=fp['id'], reference=fp['reference'],
             bounds_nm=fp['proposed'], locked=fp['locked']) for fp in ordered))

@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import sys
 from . import config as c
-from .pipeline import route, sha, check_result
+from .pipeline import Rejected, route, sha, check_result
 
 
 def preference_arguments(parser):
@@ -126,6 +126,8 @@ def main():
     inspect_cmd.add_argument('--placement-context',action='store_true',help='Capture source-bound Native silk/mask geometry for selected placement')
     inspect_check=sub.add_parser('inspect-project-check',help='Recheck retained inspection/source evidence')
     inspect_check.add_argument('receipt')
+    schematic=sub.add_parser('inspect-schematic',help='Show saved schematic links and PCB pad assignments')
+    schematic.add_argument('project')
     proposal=sub.add_parser('propose-route',help='Validate visible routing intent; never execute or approve it')
     proposal.add_argument('board');proposal.add_argument('--inspection',help='Optional current Native inspection receipt')
     intent=proposal.add_mutually_exclusive_group(required=True)
@@ -161,6 +163,16 @@ def main():
     r=sub.add_parser('route');r.add_argument('board');r.add_argument('--output',required=True);preference_arguments(r)
     r.add_argument('--placement-origin',help='Exact reviewed placement qualification; retained through review and delivery')
     a=p.parse_args()
+    if a.command == 'inspect-schematic':
+        from . import gui, schematic_context
+        try:
+            board = gui.saved_project_board(a.project)
+            result = schematic_context.capture(board, gui.source_inventory(board))
+        except (OSError, ValueError, Rejected) as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        print(json.dumps(result, indent=2))
+        return 0
     if a.command in {'inspect-project','inspect-project-check','propose-route','design-tool-schema'}:
         try:
             from . import design_intent as design, project_inspection as inspection
