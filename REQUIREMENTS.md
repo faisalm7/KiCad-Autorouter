@@ -1,6 +1,8 @@
 # Requirements and release gates
 
-The master specification, current strategy and owner steering govern. Historical routing superiority remains unmet and deferred. The current ordinary workflow is runtime103 GUI126. The real live proposal-to-delivery result remains on runtime102. Earlier version-specific records below preserve their own failures and scope. [Master specification](MASTER_PROMPT.md) · [Strategy](docs/product-strategy.md) · [Current plan](PLANS.md) · [Severity list](docs/experimental-rc.md).
+The master specification, current strategy and owner steering govern. Historical routing superiority remains unmet and deferred. The current saved-project workspace passed the owned placement-to-delivery task on the installed `3684eb287` build. The prior live hosted proposal-to-delivery result remains on runtime102. Earlier version-specific records below preserve their failures and scope. [Master specification](MASTER_PROMPT.md) · [Strategy](docs/product-strategy.md) · [Current plan](PLANS.md) · [Severity list](docs/experimental-rc.md).
+
+**Saved workspace and optional conversation.** Ordinary controls and an explicit local request can use the same placement settings. The installed graphical review showed original placement, protected and new routing, complete findings and a freshly validated separate export. Controlled replies exercised clarification and revised proposal adoption. A new live hosted turn needs separate authorization. [Owned task](evidence/product-workspace-delivery-faf-001.json)
 
 **Live translation scope.** One owned single-footprint 10.0.8 transaction and native Undo passed exact editor readback. The saved files, protected content and unrelated unsaved edit were preserved. General open-project writes and concurrent editing during commit remain open. [Bounded continuation](evidence/live-editor-1008-direct-002.json)
 

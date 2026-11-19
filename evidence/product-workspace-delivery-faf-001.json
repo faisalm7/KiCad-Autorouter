@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "kind": "installed-saved-workspace-placement-and-routing",
+  "build_git_head": "3684eb287eda75d038ff77413128e68451fb29e3",
+  "runtime_manifest_sha256": "229a660fcf6d764d5ffd36a61e84e50f51acc19436cebf4abdc9bdeb1f57c4da",
+  "immutable_payload_count": 92,
+  "platform": "macOS 27.0.1, arm64, isolated KiCad 10.0.7, Freerouting 2.5.0",
+  "protocol": "docs/workspace-delivery-qualification.md",
+  "fixture": "examples/owned-placement-routing/source",
+  "settings": {
+    "selected": [
+      "J1",
+      "J2"
+    ],
+    "region_nm": [
+      14000000,
+      8000000,
+      22000000,
+      13000000
+    ],
+    "approved_route_nets": [
+      "ROUTE_A",
+      "ROUTE_B"
+    ],
+    "protected_nets": [
+      "KEEP"
+    ],
+    "route_seconds": 85,
+    "export_seconds": 85,
+    "search_seconds": 2
+  },
+  "installed_application": {
+    "same_window": true,
+    "actual_native_wx": true,
+    "small_window": [
+      960,
+      650
+    ],
+    "resized_window": [
+      1024,
+      680
+    ],
+    "keyboard_request_entry": true,
+    "browser_needed": false,
+    "first_alternative_used": true,
+    "manual_CAD_corrections": 0,
+    "sources_copied_from_owned_fixture": true,
+    "saved_source_files_unchanged": true,
+    "original_project_rules_and_schematic_exact": true,
+    "original_footprints_except_approved_translation": true,
+    "schematic_checks": "Native refill and schematic parity",
+    "choice_uses_review_sha256": true,
+    "checked_choice_and_current_export": true,
+    "independent_readback": true,
+    "final_project_remains_unopened": true,
+    "human_PCB_approval": false,
+    "actual_active_route_cancelled": true,
+    "cancelled_route_export_unavailable": true
+  },
+  "result": {
+    "opens_before": 2,
+    "opens_after": 0,
+    "blocking": 0,
+    "inherited_warnings": 1,
+    "ignored_checks_retained": 2,
+    "protected_original_tracks": 1,
+    "verified_total_new_tracks_and_vias": 6,
+    "final_candidate_sha256": "b0c370a05c2dfa3748ab454bc1a855b3a4d1aec9535f646be187b774e789fa05",
+    "final_native_report_sha256": "38b9c3734e230a2bcc6e9548ca9927c228a217429db99f5dc2fde03932ea7d2f",
+    "export_sha256": "c5b2b691f6ff08f3968689fd8aa6d756a06a6b301db284911b5394791452d952"
+  },
+  "timing": {
+    "workspace_ready_to_checked_export_seconds": 80.6,
+    "through_independent_readback_seconds": 113.43,
+    "recorded_operator_equivalent_actions": 30,
+    "stage_wait_seconds": {
+      "Find alternatives ready": 2.155,
+      "First placement preview visible": 0.358,
+      "Continue to routing… ready": 11.005,
+      "Start routing ready": 5.831,
+      "Review result ready": 15.368,
+      "Accept result ready": 7.45,
+      "Export checked copy ready": 6.007,
+      "Open checked export ready": 21.735,
+      "Independent checked readback and original files/protected route audit passed": 4.692
+    },
+    "scope": "Automated actions from the installed workspace, selection through confirmation and export. Independent readback includes a gap for orchestration. Installer setup, scripted preparation, negative controls and authoring are separate. No human trial or speed comparison."
+  },
+  "conversation": {
+    "tested_install": "21ad7a93fc9d29cb3b3655ba29dfc7678117bba4",
+    "mode": "installed controls with explicitly injected local replies",
+    "clarification_then_revision": true,
+    "edit_refused_stale_adoption": true,
+    "ordinary_placement_controls_updated": true,
+    "protected_route_settings_updated_without_starting_job": true,
+    "new_model_calls": 0,
+    "new_model_spending_usd": 0,
+    "live_model_connection_in_current_contract_exercised": false
+  },
+  "retained_earlier_runs": {
+    "bdecb7bcb": "One search presented the draft; acknowledgement/readiness refused before a Native placement worker.",
+    "21ad7a93f": "Separate positive installed delivery on the same owned task after correcting same-size bitmap invalidation. Exact GUI-to-choice and queued delivery checks were then strengthened."
+  },
+  "known_usability_limits": [
+    "Choosing a project displays its matching PCB path; automation originally expected the project suffix.",
+    "An initially out-of-region selection needs the existing explicit advanced initialization. The refusal can show an internal part ID.",
+    "The copper view shows tracks and vias. For pad or zone detail, open the detailed report or KiCad review."
+  ],
+  "local_evidence": {
+    "run": ".runs/workspace-delivery-faf-001",
+    "export": ".runs/workspace-delivery-faf-001/Copperpath-reviewed/.runs/autorouter-gui-50eb84bf6ff64becbe7754bd0b70f548/export/export.json",
+    "final_project": ".runs/workspace-delivery-faf-001/Copperpath-reviewed/.runs/autorouter-gui-50eb84bf6ff64becbe7754bd0b70f548/export/validation/candidate/owned-placement-ordinary.kicad_pro",
+    "captures": {
+      "reviewed-copper-1024.png": "38cc7ac9b00a792621d8c4d05482a75c1f605f66d2d7a6fa01547c26ad14e2a8",
+      "reviewed-placement-960.png": "5ade1cb4912ae8023da879eb12e69460ee4241cde737334cb04a155132756502",
+      "reviewed-findings-960.png": "5ad3a3d92ce66c019f2dc7ff8f8cbaaa6916a981aca11d0ebee865242402376f",
+      "conversation-clarification.png": "1ede8a838482497ebac1c783dd26b20b6c829beedb13e79a94872e46e98e7fef",
+      "conversation-placement-offer.png": "6193978d25a7dcbc85088ffa77a3ffbfe8f0f0dd835bd59e63c5f67a840dfddc",
+      "reviewed-active-cancellation.png": "4d64faeab4f5323f5fc3002607d16a629f296d3ef61ec4858d4db1865cc7ee8e"
+    }
+  },
+  "cancellation": {
+    "active_process_observed": true,
+    "exit_code": -2,
+    "fresh_preview_available": true,
+    "retained_previous_output_unchanged": true
+  }
+}

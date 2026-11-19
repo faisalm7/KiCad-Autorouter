@@ -40,16 +40,20 @@ workspace, saved schematic results and DS18B20 delivery.
 2. Wire bounded clarification and editable placement or routing proposals
    through the existing Request pane and ordinary controls. Require a fresh
    local check and explicit adoption. Qualify with controlled offline replies.
-   Source wiring and controlled Responses checks are complete. Verify the
-   actual Request pane together with the embedded routing review below.
+   The installed Request pane passed clarification, revision, stale refusal
+   and ordinary placement and routing adoption with controlled replies.
 3. Keep the board and task in one workspace through placement and routing
    review. Verify local differences, findings, acceptance, cancellation and
    recovery. Keep the detailed browser report reachable.
+   Installed placement, copper layers, grouped findings, review and fresh
+   delivery pass. Active cancellation and licensed scope assessment follow.
 4. Qualify the installed placement-to-delivery workflow on an owned fixture,
    then run one predeclared bounded task on a different licensed design.
    Record the first proposal, corrections, blockers and exact export readback.
    Use the owned J1/J2 task and the NUS USB-C LED R1 placement scope check.
    [Frozen tasks and limits](docs/workspace-delivery-qualification.md)
+   The owned first alternative delivered with independent current readback.
+   [Installed evidence](evidence/product-workspace-delivery-faf-001.json)
 5. Close ready onboarding, installation and recovery checks. Keep schematic
    edits, docking, platform qualification and human review at their separate
    gates. Record the exact next action in the continuation after each result.
