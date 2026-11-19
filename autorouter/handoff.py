@@ -515,7 +515,7 @@ def review_copy(receipt, output, *, render=False, native_toolchain=None, experim
             signal.signal(sig, handler)
 
 
-def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
+def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None, expected_review_sha256=None):
     """Record a design choice; it never approves/applies a PCB or invokes KiCad."""
     ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
     destination = None; created = False
@@ -549,17 +549,21 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         if type(choice) is not str or choice not in {'accept', 'reject'}:
             raise Rejected('review choice must be accept or reject')
         cmp.delivery_path(Path(review_path).absolute().parent,comparison_context,'review');cmp.delivery_path(Path(output).absolute(),comparison_context,'choice')
-        review_path = real_path(review_path); review_hash = digest(pc.read_bytes(review_path, PROJECT_BYTES))
-        review = f.read_json(review_path)
+        review_path = real_path(review_path); raw_review = pc.read_bytes(review_path, PROJECT_BYTES)
+        review_hash = digest(raw_review)
+        if expected_review_sha256 is not None and review_hash != expected_review_sha256:
+            raise Rejected('Review changed after it was shown. Create a fresh review before choosing.')
+        review = f.parse_json(raw_review)
         check_delivery_context(review, native_toolchain, experimental_schematic_parity, comparison_context=comparison_context)
         if (type(review.get('schema')) is not int or review['schema'] != 1
                 or review.get('status') != 'ready_for_manual_review'):
             raise Rejected('current ready review record required')
         check_stage_budget(review, 'review')
-        receipt = real_path(review['receipt']); receipt_hash = digest(pc.read_bytes(receipt, PROJECT_BYTES))
+        receipt = real_path(review['receipt']); raw_receipt = pc.read_bytes(receipt, PROJECT_BYTES)
+        receipt_hash = digest(raw_receipt)
         if receipt_hash != review['receipt_sha256']:
             raise Rejected('reviewed routing receipt changed')
-        report = f.read_json(receipt); report_canonical=f.canonical(report)
+        report = f.parse_json(raw_receipt); report_canonical=f.canonical(report)
         from . import strategy as pruning
         initial_native7=(native_toolchain is None and comparison_context is None and pruning.native7_marked(receipt.parent,report))
         if initial_native7:
@@ -696,7 +700,7 @@ def _review_choice(review_path, output, choice, start, cpu_start, lifecycle=None
         raise
 
 
-def review_choice(review, output, choice, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
+def review_choice(review, output, choice, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None, expected_review_sha256=None):
     """Persist accept/reject intent with stale checks; no PCB application/approval."""
     start = elapsed_time(); cpu_start = cpu_seconds()
     ctx = application_kwargs(native_toolchain, experimental_schematic_parity, comparison_context)
@@ -706,7 +710,8 @@ def review_choice(review, output, choice, *, native_toolchain=None, experimental
     try:
         for sig in previous: signal.signal(sig, interrupted)
         with validation_readback_session():
-            record = _review_choice(review, output, choice, start, cpu_start,lifecycle, **ctx)
+            record = _review_choice(review, output, choice, start, cpu_start, lifecycle,
+                                    expected_review_sha256=expected_review_sha256, **ctx)
             lifecycle['completed']=True
         return finish_session(record, output, start, cpu_start, 'choice.json',lifecycle)
     except BaseException as exc:

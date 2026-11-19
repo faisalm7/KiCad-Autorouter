@@ -33,6 +33,11 @@ def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':')
 def read_json(path):
     path=Path(path)
     if path.is_symlink() or path.stat().st_size>sx.MAX_BYTES:raise p.Rejected('invalid bounded floor evidence')
+    from .placement_clearance import read_bytes
+    return parse_json(read_bytes(path))
+
+
+def parse_json(raw):
     def pairs(items):
         result={}
         for key,value in items:
@@ -40,8 +45,7 @@ def read_json(path):
             result[key]=value
         return result
     def constant(value):raise p.Rejected('invalid resource accounting: nonfinite JSON value')
-    from .placement_clearance import read_bytes
-    return json.loads(read_bytes(path),object_pairs_hook=pairs,parse_constant=constant)
+    return json.loads(raw,object_pairs_hook=pairs,parse_constant=constant)
 
 
 def child_cpu():

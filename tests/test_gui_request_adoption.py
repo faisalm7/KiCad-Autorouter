@@ -173,6 +173,29 @@ class DisplayedRequestAdoptionTests(unittest.TestCase):
     def test_ordinary_queued_finish_refuses_changed_captured_settings_material(self):
         self.assert_finished_material_refused('settings')
 
+    def test_queued_delivery_refuses_changed_final_native_findings(self):
+        from autorouter import review_export as ex
+        flow, project, record = self.prepared()
+        report = project.parents[1] / 'final-drc.json'
+        report.write_text('{"violations": []}')
+        flow.records['export']['export_evidence'] = ex.evidence(flow.workspace / 'export')
+        (flow.workspace / 'export/export.json').write_text(json.dumps(flow.records['export']))
+        job = self.export_job(record)
+        flow.inspect_path('export', job=job)
+        window = self.window(flow, job)
+        report.write_text('{"violations": ["changed while delivery was queued"]}')
+        gt.window_method('finished')(window, job, flow, 'export', record, None)
+        self.assert_revoked(window, flow)
+        self.assertIn('export changed during delivery', window.log.SetValue.call_args.args[0])
+
+    def test_idle_cancel_preserves_current_export(self):
+        flow, _project, _record = self.prepared()
+        window = self.window(flow, None)
+        window.busy = False
+        gt.window_method('act')(window, 'cancel')
+        self.assertIs(window.flow, flow)
+        self.assertIn('verify_export', flow.ready)
+
     def test_missing_invalid_or_detached_inputs_refuse_without_production_fallback(self):
         for phase in ('missing_config', 'invalid_config', 'invalid_method', 'guard'):
             with self.subTest(phase=phase):

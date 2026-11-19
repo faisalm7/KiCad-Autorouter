@@ -149,7 +149,8 @@ class GuiSummaryTests(unittest.TestCase):
                     settings_bytes=json.dumps(dict(gui.pref.DEFAULTS, profile='tuned', seconds=90)),
                     records={'route': self.record(), 'export': exported},
                     ready={'preview', 'route', 'review', 'choice', 'export', 'verify_export'}, choice='accept', fresh=Mock(),
-                    check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
+                    check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request),
+                    check_open_export_material=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_open_export_material))
                 names = ('preview','route','review','cancel','open_preview','open_review',
                          'accept','reject','export','open_export')
                 job = gui.CliJob()
@@ -161,6 +162,7 @@ class GuiSummaryTests(unittest.TestCase):
                 window.refresh = lambda: window_method('refresh')(window)
                 window_method('finished')(window, job, flow, 'export', exported, None)
                 flow.check_request.assert_called_once_with(request)
+                flow.check_open_export_material.assert_called_once_with(phase='delivery')
                 self.assertIn('export completed', window.status.SetLabel.call_args.args[0])
                 self.assertIn('budget 90 s', window.log.SetValue.call_args.args[0])
                 for name in ('open_preview', 'open_review', 'open_export'):

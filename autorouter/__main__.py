@@ -148,6 +148,7 @@ def main():
     review.add_argument('--render',action='store_true',help='Add native before/after copper plots and a local HTML review')
     choice=sub.add_parser('review-choice',help='Record accept/reject intent within fixed 60-second wall/full-CPU caps; no PCB approval or application')
     choice.add_argument('review');choice.add_argument('--choice',required=True,choices=['accept','reject']);choice.add_argument('--output',required=True)
+    choice.add_argument('--expected-review-sha256',help='Require the exact review bytes shown to the user')
     export_cmd=sub.add_parser('review-export',help='Fresh native validation into a new separate project after accept intent; no live apply')
     export_cmd.add_argument('choice');export_cmd.add_argument('--output',required=True);export_cmd.add_argument('--seconds',type=float,default=120)
     export_cmd.add_argument('--warning-review-stdio',action='store_true',help='Allow one explicit JSON acknowledgement of narrowly changed warning details in this live job; original export deadline includes review; default remains strict')
@@ -228,7 +229,7 @@ def main():
         except Exception as exc: print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
     if a.command=='review-choice':
         from .handoff import review_choice
-        try: print(json.dumps(review_choice(a.review,a.output,a.choice),indent=2));return 0
+        try: print(json.dumps(review_choice(a.review,a.output,a.choice,expected_review_sha256=a.expected_review_sha256),indent=2));return 0
         except Exception as exc: print(json.dumps({'status':'rejected','reason':str(exc)}));return 2
     if a.command=='check-result':
         try: print(json.dumps(check_result(a.receipt),indent=2));return 0

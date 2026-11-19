@@ -49,6 +49,19 @@ class Controls(unittest.TestCase):
         self.review();result=self.choose();self.assertTrue(result['choice_recorded']);self.assertEqual(result['choice'],'accept')
         for key in ('routing_accepted','applied','native_validation_performed','human_pcb_approval_observed'):self.assertFalse(result[key])
         self.assertTrue(result['fresh_native_validation_required']);self.assertEqual(result['saved_native_findings'],self.data['native']);self.assertEqual(result['status'],'disposition_recorded')
+    def test_choice_uses_exact_displayed_review_bytes(self):
+        self.review()
+        review = self.root / 'review/review.json'
+        expected = sha(review)
+        review.write_bytes(review.read_bytes() + b'\n')
+        self.check.reset_mock()
+        with self.assertRaisesRegex(Rejected, 'changed after it was shown'):
+            h.review_choice(review, self.root / 'stale', 'accept', expected_review_sha256=expected)
+        self.check.assert_not_called()
+        self.assertFalse((self.root / 'stale').exists())
+        result = h.review_choice(review, self.root / 'choice', 'reject', expected_review_sha256=sha(review))
+        self.assertEqual(result['review_sha256'], sha(review))
+        self.assertEqual(result['validated_candidate_sha256'], self.data['candidate_sha256'])
     def test_gui_metadata_changes_are_recorded_without_becoming_rules_authority(self):
         self.review();(self.root/'review/project/board.kicad_pro').write_text('{"changed":"GUI metadata or rules"}');(self.root/'review/project/board.kicad_prl').write_text('{}')
         result=self.choose();self.assertFalse(result['review_project_matches_recorded_candidate']);self.assertEqual(result['review_project_changes']['changed'],['board.kicad_pro']);self.assertEqual(result['review_project_changes']['added'],['board.kicad_prl']);self.assertFalse(result['routing_accepted']);self.assertTrue(result['fresh_native_validation_required'])

@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import copy
 from dataclasses import dataclass, field
+import hashlib
 import json
 import math
 import os
@@ -560,7 +561,7 @@ class Workflow:
             return float(export_validation_seconds(json.loads(self.settings_bytes)['seconds'])) + 45
         return float(json.loads(self.settings_bytes)['seconds']) + 45 if stage == 'route' else 90.0
 
-    def adopt(self, stage, process, log_path, *, choice=None):
+    def adopt(self, stage, process, log_path, *, choice=None, choice_binding=None):
         self.fresh()
         if (type(process['exit_code']) is not int
                 or process['cancel_requested'] or process['log_truncated']
@@ -613,6 +614,8 @@ class Workflow:
             check_stage_budget(record, 'choice')
             if record.get('choice_recorded') is not True or record.get('choice') != choice:
                 raise ValueError('Shared review-choice checks did not complete.')
+            if choice_binding is not None and any(record.get(key) != value for key, value in choice_binding.items()):
+                raise ValueError('Recorded choice differs from the exact displayed review.')
             self.choice = choice
         elif stage == 'export':
             record = read_record(self.workspace / 'export/export.json')
@@ -661,11 +664,21 @@ class Workflow:
 
     def check_displayed_review(self):
         """The user's choice must refer to the findings and copy shown on screen."""
-        for stage, relative in (('review', 'review/review.json'), ('route', 'route/result.json')):
-            if read_record(self.workspace / relative) != self.records[stage]:
+        from .floor_route import canonical as canonical_json, parse_json
+        from .handoff import PROJECT_BYTES
+        from .placement_clearance import read_bytes
+        binding = {'validated_candidate_sha256': self.records['route']['candidate_sha256']}
+        for stage, relative, key in (('review', 'review/review.json', 'review_sha256'),
+                                     ('route', 'route/result.json', 'receipt_sha256')):
+            raw = read_bytes(self.workspace / relative, PROJECT_BYTES)
+            if canonical_json(parse_json(raw)) != canonical_json(self.records[stage]):
                 raise ValueError('Reviewed evidence changed. Create a fresh review before choosing.')
+            binding[key] = hashlib.sha256(raw).hexdigest()
+        if self.records['review']['receipt_sha256'] != binding['receipt_sha256']:
+            raise ValueError('Review does not bind the findings shown. Create a fresh review before choosing.')
+        return binding
 
-    def check_open_export_material(self):
+    def check_open_export_material(self, *, phase='opening'):
         """Recheck queued export bytes and current retained PRL metadata.
 
         This is not another Native check or an atomic editor transaction.
@@ -676,13 +689,14 @@ class Workflow:
         from .floor_route import canonical as canonical_json
         exported = self.records['export']
         root = self.workspace / 'export'
+        when = 'while opening' if phase == 'opening' else 'during delivery'
         material = ex.evidence(root)
         if (canonical_json(read_record(root / 'export.json')) != canonical_json(exported)
                 or material != exported.get('export_evidence')):
-            raise ValueError('Checked export changed while opening. Start a fresh preview; retained files were not reaccepted.')
+            raise ValueError(f'Checked export changed {when}. Start a fresh preview; retained files were not reaccepted.')
         for relative in material['files']:
             if Path(relative).suffix == '.kicad_prl' and not local.check_current_metadata(root / relative):
-                raise ValueError('Checked export local settings disappeared while opening.')
+                raise ValueError(f'Checked export local settings disappeared {when}.')
 
 
 def check_improve_settings(config):
@@ -950,9 +964,10 @@ class CliJob:
                 raise ValueError('Action was cancelled. No positive UI state adopted.')
             self._check_deadline_locked(require_armed=require_armed)
 
-    def adopt(self, flow, stage, process, log_path, *, choice=None):
+    def adopt(self, flow, stage, process, log_path, *, choice=None, choice_binding=None):
         self.check_live(require_armed=True)
-        record = flow.adopt(stage, process, log_path, choice=choice)
+        kwargs = {} if choice_binding is None else {'choice_binding': choice_binding}
+        record = flow.adopt(stage, process, log_path, choice=choice, **kwargs)
         try:
             self.check_live(require_armed=True)
         except ValueError:
@@ -1276,6 +1291,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 for label, name in names:
                     button = wx.Button(status_host, label=label)
                     button.Bind(wx.EVT_BUTTON, lambda event, action=name: self.act(action))
+                    if name == 'open_preview': button.SetToolTip('Full KiCad layer plots include pads and saved zone fill.')
                     self.buttons[name] = button; row.Add(button, 0, wx.ALL, 4)
                 actions.Add(row, 0, wx.ALL, 2)
             self.status = wx.StaticText(status_host, label=('Confirm the saved input is closed, then preview routing.' if self.in_workspace
@@ -1341,10 +1357,19 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.review_key.SetSizer(key); drawing.Add(self.review_key, 0, wx.EXPAND | wx.ALL, 6)
             copper.SetSizer(drawing)
             findings = wx.Panel(self.workspace_tabs); details = wx.BoxSizer(wx.VERTICAL)
+            self.findings_header = wx.StaticText(findings, label='Checks and findings will appear here.')
+            self.findings_header.SetFont(self.findings_header.GetFont().Bold())
+            details.Add(self.findings_header, 0, wx.EXPAND | wx.ALL, 8)
             self.log = wx.TextCtrl(findings, style=wx.TE_MULTILINE | wx.TE_READONLY, name='KiCad checks and findings')
             details.Add(self.log, 1, wx.EXPAND | wx.ALL, 6); findings.SetSizer(details)
             self.workspace_tabs.AddPage(copper, 'Board')
             self.workspace_tabs.AddPage(findings, 'Findings')
+            if placement is not None:
+                context = wx.Panel(self.workspace_tabs); context_layout = wx.BoxSizer(wx.VERTICAL)
+                picture = board_canvas(wx, context, None, None, self.review_picture_failed, read_only=True)
+                context_layout.Add(picture, 1, wx.EXPAND | wx.ALL, 6)
+                context.SetSizer(context_layout); picture.SetScene(placement)
+                self.workspace_tabs.AddPage(context, 'Placement')
             layout.Add(self.workspace_tabs, 1, wx.EXPAND); left.SetSizer(layout)
             self.show_workspace_review(None)
             return left
@@ -1357,9 +1382,10 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             if diagrams:
                 self.workspace_tabs.SetPageText(0, 'Copper changes')
                 self.review_layers.SetSelection(0)
-                self.review_caption.SetLabel('Tracks and vias · zone fill in detailed report')
+                self.review_caption.SetLabel('Tracks and vias · counts across all layers')
                 for group, (title, label) in self.key_colors.items():
                     label.SetLabel(f"{title} {render['counts'][group]}")
+                self.workspace_tabs.SetSelection(0)
                 self.display_layer()
             else:
                 self.workspace_tabs.SetPageText(0, 'Board')
@@ -1752,12 +1778,17 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.nets.Show(selected); self.nets_label.Show(selected)
                 if self.workspace_render is not None and 'review' not in ready:
                     self.show_workspace_review(None)
+                if not ready: self.findings_header.SetLabel('Current task checks and findings')
             self.layout_panel()
 
         def act(self, action):
             try:
                 if getattr(self, 'chooser', None) is not None: return
-                if action == 'cancel': self.job.cancel(); self.status.SetLabel('Cancellation requested; waiting for the CLI worker to finish cleanup.'); return
+                if action == 'cancel':
+                    if self.busy and self.job is not None:
+                        self.job.cancel()
+                        self.status.SetLabel('Cancellation requested; waiting for the CLI worker to finish cleanup.')
+                    return
                 if self.busy: return
                 if action.startswith('open_'):
                     kind = action.removeprefix('open_'); flow = self.flow
@@ -1799,16 +1830,17 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     try:
                         flow = request.prepare() if stage in ('preview', 'inspect') else self.flow
                         flow.check_request(request)
-                        if stage == 'choice' and getattr(self, 'in_workspace', False):
-                            flow.check_displayed_review()
+                        binding = flow.check_displayed_review() if stage == 'choice' else None
                         argv = flow.command(stage, choice=choice)
+                        if binding is not None: argv += ['--expected-review-sha256', binding['review_sha256']]
                         log_path = flow.workspace / (stage + '.command.log')
                         options = {}
                         if stage == 'export':
                             argv += ['--warning-review-stdio']
                             options['on_warning_review'] = lambda event: wx.CallAfter(self.review_updated_warnings, job, flow, event)
                         process = job.run(argv, log_path, timeout=flow.timeout(stage), **options)
-                        record = job.adopt(flow, stage, process, log_path, choice=choice)
+                        kwargs = {} if binding is None else {'choice_binding': binding}
+                        record = job.adopt(flow, stage, process, log_path, choice=choice, **kwargs)
                         options = {}
                         if stage == 'review' and getattr(self, 'in_workspace', False):
                             from .review_view import workspace_changes
@@ -1940,6 +1972,11 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if not error:
                     _window_source_guard(self, flow)
                     flow.fresh()
+                    if stage == 'choice':
+                        binding = flow.check_displayed_review()
+                        if any(record.get(key) != value for key, value in binding.items()):
+                            raise ValueError('Reviewed evidence changed before the choice was shown.')
+                    if stage == 'export': flow.check_open_export_material(phase='delivery')
                     flow.check_request(_window_request(self))
                 job.check_live()
                 if self.closing: raise ValueError('Window closed; no positive state adopted.')
@@ -1949,7 +1986,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if flow is not None:
                     flow.ready.clear(); flow.records.clear(); flow.choice = None
                 self.refused(error)
-                if getattr(self, 'in_workspace', False): self.workspace_tabs.SetSelection(1)
+                if getattr(self, 'in_workspace', False):
+                    self.findings_header.SetLabel('No current result'); self.workspace_tabs.SetSelection(1)
             else:
                 self.flow = flow
                 if stage == 'inspect': self.inspection_path = flow.workspace / 'inspection/inspection.json'
@@ -1962,6 +2000,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                                            else 'Rejected. Original project unchanged.'),
                                 'export': 'Fresh separate project verified. Open it in KiCad when ready.'}
                     self.status.SetLabel(messages[stage])
+                    report = (flow.records['export'] if stage == 'export' else flow.records.get('route', record))
+                    native = report.get('native') or report.get('saved_native_findings')
+                    if native is not None:
+                        self.findings_header.SetLabel(
+                            f"{native['opens']} open · {native['blocking']} blocking · {native['warnings']} warnings after refill")
+                        self.findings_header.GetParent().Layout()
                     if workspace_render is not None:
                         self.show_workspace_review(workspace_render)
                     elif stage in ('inspect', 'preview', 'export'):
