@@ -88,6 +88,26 @@ ordinary delivery. The companion's actual preview remains a separate window.
 
 ## Reproduce the owned-board companion
 
+### Checked move on 10.0.8
+
+The bounded continuation verified one approved IPC translation in the isolated
+10.0.8 editor, followed by exact native Undo. KiCad 10.0.7 ran the detached
+validation with the original rules and schematic parity. J1 moved one
+millimetre. Its unit and pin grouping, IDs and metadata survived along with
+the locked trace, zone, original files and J2's unsaved edit. The earlier
+stale-state, cancellation and mixed-update controls retain their original
+scope. [Direct move receipt](../evidence/live-editor-1008-direct-002.json)
+
+Prepare the companion with the same pinned 10.0.7 runtime and add
+`--direct-1008-trial` to the command below. Open the generated **Launch Checked
+Live Move.command**. It verifies the exact isolated 10.0.8 manager and app
+signature and opens the disposable fixture in a private KiCad profile.
+Open PCB Editor, select J1 or J2, and use the Copperpath live-check toolbar
+action. **Preview move**, **Check move** and **Apply checked move** are separate
+actions. Use KiCad **Edit → Undo Copperpath checked component move**, then
+**Verify KiCad Undo**. One application is supported per companion session
+on this exact fixture. The normal saved-project launcher still uses 10.0.7.
+
 Use the unchanged local runtime with KiCad 10.0.7 and the pinned
 `kicad-python` client described in [installation](install-existing.md).
 Prepare a fresh scoped launcher with that runtime's Python.

@@ -24,3 +24,28 @@ Next editor qualification starts with one reviewed direct move and Undo on
 the existing isolated 10.0.8 toolchain when admission passes. Reuse the
 recorded cancellation, partial update and stale controls where unchanged.
 Keep automatic live writes gated until exact apply and Undo are observed.
+
+## Active batch from fafcdfb39
+
+Continue through ready items after each checkpoint. Preserve the installed
+workspace, saved schematic results and DS18B20 delivery.
+
+1. Resume the isolated 10.0.8 trial with one approved move and native Undo.
+   Limit the continuation to 15 minutes and one initial application. Check
+   exact original files, symbol-unit and field identity, protected copper,
+   and an unrelated unsaved edit. Diagnose a discrepancy within that
+   window, and keep live writes fixture-scoped until exact restoration passes.
+   Passed on the owned fixture. The checked-move launcher also opened the
+   correct editor and discarded a preview. [Receipt](evidence/live-editor-1008-direct-002.json)
+2. Wire bounded clarification and editable placement or routing proposals
+   through the existing Request pane and ordinary controls. Require a fresh
+   local check and explicit adoption. Qualify with controlled offline replies.
+3. Keep the board and task in one workspace through placement and routing
+   review. Verify local differences, findings, acceptance, cancellation and
+   recovery. Keep the detailed browser report reachable.
+4. Qualify the installed placement-to-delivery workflow on an owned fixture,
+   then run one predeclared bounded task on a different licensed design.
+   Record the first proposal, corrections, blockers and exact export readback.
+5. Close ready onboarding, installation and recovery checks. Keep schematic
+   edits, docking, platform qualification and human review at their separate
+   gates. Record the exact next action in the continuation after each result.

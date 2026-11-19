@@ -1,11 +1,43 @@
 """Prepare an isolated launcher for the reproducible owned-board experiment."""
 import argparse
+import hashlib
 import json
+import os
 from pathlib import Path
 import shlex
+import subprocess
 import sys
 
 from probe import FIXTURE, ROOT
+
+EDITOR_1008 = ROOT / '.tools/kicad-10.0.8-isolated-live-001/KiCad.app'
+MANAGER_1008_SHA256 = '9962d3c69819eaf3da623090208c86159d50ea840bfb3ee36beb271dfabce435'
+
+
+def run_checked_launcher(launcher, runtime, run):
+    """Start the exact qualified editor with a fresh, private project home."""
+    from scripts import install_gui
+
+    manifest = json.loads((launcher / 'install.json').read_bytes())
+    homes = {name: launcher / name for name in ('config', 'cache', 'documents')}
+    if (manifest['root'] != str(launcher) or manifest['checkout'] != str(runtime)
+            or any(manifest[key + '_home'] != str(path) for key, path in homes.items())):
+        raise ValueError('The prepared live companion homes differ.')
+    install_gui.check_live_homes({name: str(path) for name, path in homes.items()})
+    third_party = install_gui.check_third_party_home(manifest, launcher)
+    manager = EDITOR_1008 / 'Contents/MacOS/kicad'
+    if manager.resolve() != manager or hashlib.sha256(manager.read_bytes()).hexdigest() != MANAGER_1008_SHA256:
+        raise ValueError('Use the verified isolated KiCad 10.0.8 installation.')
+    subprocess.run(['/usr/bin/codesign', '--verify', '--deep', '--strict', str(EDITOR_1008)],
+                   check=True, timeout=30)
+    install_gui.require_closed_kicad()
+    env = {key: value for key, value in os.environ.items() if key not in
+           ('PYTHONPATH', 'PYTHONHOME', 'KICAD_API_SOCKET', 'KICAD_API_TOKEN')}
+    env.update({f'KICAD_{key.upper()}_HOME': str(path) for key, path in homes.items()})
+    env.update(KICAD10_3RD_PARTY=third_party, PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1')
+    project = run / 'inspection' / 'owned-placement-ordinary.kicad_pro'
+    os.chdir(project.parent)
+    os.execve(manager, [str(manager), str(project)], env)
 
 
 def main():
@@ -14,9 +46,11 @@ def main():
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--diagnostics', action='store_true')
     parser.add_argument('--direct-1008-trial', action='store_true')
+    parser.add_argument('--open', action='store_true', help='Open a prepared owned checked-move project.')
     args = parser.parse_args()
     runtime, run = args.runtime.absolute(), args.run.absolute()
-    if runtime.resolve() != runtime or run.resolve() != run or run.parent != ROOT / '.runs' or run.exists():
+    if (runtime.resolve() != runtime or run.resolve() != run or run.parent != ROOT / '.runs'
+            or args.open != run.is_dir() or (not args.open and run.exists())):
         parser.error('Choose an existing canonical runtime and a fresh directory directly under .runs.')
 
     sys.path.insert(0, str(runtime))
@@ -29,6 +63,12 @@ def main():
         parser.error('Use the pinned KiCad 10.0.7 runtime with its official IPC client installed.')
     if not Path(kipy.__file__).is_relative_to(runtime):
         parser.error('Run this with the selected runtime’s .venv/bin/python.')
+
+    if args.open:
+        if not args.direct_1008_trial:
+            parser.error('Checked live moves require the exact isolated 10.0.8 editor.')
+        run_checked_launcher(run / 'launcher', runtime, run)
+        return
 
     run.mkdir(mode=0o700)
     placement_clearance.copy_project(FIXTURE, run / 'inspection')
@@ -57,7 +97,15 @@ def main():
     script.write_text('#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME\nexport PYTHONNOUSERSITE=1\n'
         + 'cd ' + shlex.quote(str(run)) + '\nexec ' + shlex.join(map(str, command)) + '\n')
     script.chmod(0o700)
-    print(launcher / 'Launch Autorouter.command')
+    if args.direct_1008_trial:
+        launch = run / 'Launch Checked Live Move.command'
+        args_open = [python, '-B', Path(__file__).resolve(), '--runtime', runtime, '--run', run,
+                     '--direct-1008-trial', '--open']
+        launch.write_text('#!/bin/sh\nset -eu\nexec ' + shlex.join(map(str, args_open)) + '\n')
+        launch.chmod(0o700)
+        print(launch)
+    else:
+        print(launcher / 'Launch Autorouter.command')
     print(run / 'inspection')
 
 

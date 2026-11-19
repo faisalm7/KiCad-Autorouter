@@ -54,6 +54,7 @@ class Companion(wx.Frame):
         self.readback_pending = False
         self.native_move_open = False
         self.direct_trial = direct_trial
+        self.checked_move_finished = False
         self.selected = []
         box = wx.Panel(self)
         stack = wx.BoxSizer(wx.VERTICAL)
@@ -135,9 +136,9 @@ class Companion(wx.Frame):
                             and not self.discard_pending and self.run in (None, 'validate'))
         self.next.SetLabel('Verify KiCad Undo' if self.readback_pending else
                            'Check KiCad move' if self.native_move_open else
-                           ('Apply test move' if self.direct_trial else 'Review in KiCad') if self.validated else
+                           ('Apply checked move' if self.direct_trial else 'Review in KiCad') if self.validated else
                            'Check move' if self.move else 'Preview move')
-        self.next.Enable(self.run is None and (self.readback_pending or len(self.selected) == 1
+        self.next.Enable(self.run is None and not self.checked_move_finished and (self.readback_pending or len(self.selected) == 1
                                                and self.selected[0] in ('J1', 'J2')))
         for button in self.test_buttons:
             button.Enable(self.run is None and self.move is not None and not self.native_move_open)
@@ -218,6 +219,8 @@ class Companion(wx.Frame):
                 self.move = None
                 self.validated = False
                 self.readback_pending = False
+                if command == 'undo' and self.direct_trial:
+                    self.checked_move_finished = True
                 self.status.SetValue({
                     'discard': 'Proposal discarded. The board is unchanged.',
                     'undo': 'KiCad Undo restored the prior board, including unrelated unsaved edits.',

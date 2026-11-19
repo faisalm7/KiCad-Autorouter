@@ -2,6 +2,8 @@
 
 The master specification, current strategy and owner steering govern. Historical routing superiority remains unmet and deferred. The current ordinary workflow is runtime103 GUI126. The real live proposal-to-delivery result remains on runtime102. Earlier version-specific records below preserve their own failures and scope. [Master specification](MASTER_PROMPT.md) · [Strategy](docs/product-strategy.md) · [Current plan](PLANS.md) · [Severity list](docs/experimental-rc.md).
 
+**Live translation scope.** One owned single-footprint 10.0.8 transaction and native Undo passed exact editor readback. The saved files, protected content and unrelated unsaved edit were preserved. General open-project writes and concurrent editing during commit remain open. [Bounded continuation](evidence/live-editor-1008-direct-002.json)
+
 **Saved-project usability verified on runtime104.** Direct EEPROM inspection, actual toolbar identity and lock refusal, fresh Edge review, acceptance, export and independent readback passed. The distinct 555 source passed Native admission. Its constrained search stopped before placement validation or routing. The original GUI127 and runtime103 results retain their scope. [Installed verification](evidence/product104-usability-delivery-001.json) · [555 outcome](docs/555-constrained-placement-gui129.md).
 
 ## Editor integration
