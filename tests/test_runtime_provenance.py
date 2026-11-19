@@ -53,6 +53,13 @@ class RuntimeProvenanceTests(unittest.TestCase):
         return build.prepare(self.source, self.output if output is None else output,
                              copy_local_engine=engine)
 
+    def test_prepare_provisions_empty_private_saved_project_job_root(self):
+        self.prepare()
+        jobs = self.output / '.runs'
+        self.assertTrue(jobs.is_dir())
+        self.assertEqual(jobs.stat().st_mode & 0o777, 0o700)
+        self.assertEqual(list(jobs.iterdir()), [])
+
     def test_committed_batch_keeps_duplicate_binary_blobs_and_fixed_call_timeout(self):
         payload=b'\x00owned\nbinary blob\n'
         for name in ('autorouter/__init__.py','autorouter/worker.py'):
@@ -424,7 +431,7 @@ print('Selected runtime imports only; no Native execution.')
     def test_only_declared_real_mutable_directories_are_unattested(self):
         self.prepare()
         for name in pv.MUTABLE_DIRECTORIES:
-            folder = self.output / name; folder.mkdir()
+            folder = self.output / name; folder.mkdir(exist_ok=True)
             (folder / 'caller-state').write_bytes(b'current user state')
         self.assertEqual(self.identity()['kind'], pv.KIND)
         state = self.output / '.runs/caller-state'; state.write_bytes(b'changed state')

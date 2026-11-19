@@ -362,7 +362,10 @@ def distribution_test(out, selected, report, command, started, cpu_started, nati
             raise RuntimeError('command did not use the fresh virtual environment')
         venv_hashes = {path: pv.file_digest(path, 128 * 1024**2) for path in (python, venv / 'pyvenv.cfg')}
         report['venv'] = environment
-        report['actions'].append(bootstrap_runs(checkout))
+        jobs = pv._directory(checkout / '.runs')
+        if jobs.stat().st_mode & 0o777 != 0o700 or next(jobs.iterdir(), None) is not None:
+            raise RuntimeError('prepared runtime needs an empty private job directory')
+        report['actions'].append({'action': 'check_prepared_private_job_directory', 'path': str(jobs)})
         report['doctor'] = json.loads(command('doctor', [python, '-B', '-m', 'autorouter', 'doctor'], checkout))
         if report['doctor'].get('ready') is not True or report['doctor']['checks']['runtime_provenance']['identity'] != identity:
             raise RuntimeError('prepared runtime doctor identity is not ready')

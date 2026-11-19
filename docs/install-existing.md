@@ -36,6 +36,18 @@ Before inspecting or routing, save and close the source PCB/schematic editors, t
 
 Launchers prepared by the saved-project update include **Open Saved Project.command**. It opens Copperpath. Choose the `.kicad_pro` file while that project is closed. Keep its matching PCB, schematic and rules together. The direct launcher uses the existing runtime, with no extra Python packages.
 
+Fresh preparation provisions an empty private job directory for inspection
+and validation. Installing an existing artifact preserves its checked program
+files and starts with a fresh private job directory. Past job contents stay
+with the original installation.
+
+For local placement suggestions, choose **Place components**, inspect the
+project and open **Assistant**. Enter one or more example lines and preview the
+selection, movement area or routing time. Edit the suggestion if needed,
+preview the edits and choose **Use settings**. Search, validation, routing and
+export remain explicit steps from the usual controls.
+[Example and tested workflow](live-editor-milestone.md#placement-constraints-from-a-request)
+
 **Launch Autorouter.command** opens the isolated KiCad manager for the optional PCB toolbar. For automatic project selection, install the official KiCad Python IPC client in the runtime’s existing Python 3.11 environment. The following command pins the wheels for macOS arm64. Set the paths to the verified local runtime and the source checkout that supplied it.
 
 ```sh

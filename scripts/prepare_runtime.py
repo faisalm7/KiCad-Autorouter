@@ -74,6 +74,8 @@ def _write_runtime(source, destination, payloads, record):
     destination = _new_destination(destination)
     engine = record['local_engine']
     destination.mkdir(mode=0o700)
+    # Saved-project inspection creates an owned job inside this private root.
+    (destination / '.runs').mkdir(mode=0o700)
     for relative, raw in sorted(payloads.items()):
         path = destination / relative
         path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
@@ -239,7 +241,6 @@ def install_existing(source, destination, *, expected_manifest_sha256, import_ar
         'standalone': False, 'published': False,
         'artifact_import_mode':import_artifact,'explicit_host_paths':host_paths is not None}
     receipt_raw = (json.dumps(receipt, indent=2, sort_keys=True) + '\n').encode('utf-8')
-    (destination / '.runs').mkdir(mode=0o700)
     receipt_path = destination / INSTALL_RECEIPT
     with receipt_path.open('xb') as stream:
         stream.write(receipt_raw)
