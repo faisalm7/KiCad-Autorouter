@@ -724,17 +724,19 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             for button in (self.constraint_preview, self.constraint_use, self.constraint_reject):
                 actions.Add(button, 0, wx.RIGHT, 5)
             assistant_layout.Add(actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            self.constraint_edit = wx.Panel(assistant_inputs)
+            self.constraint_edit = wx.CollapsiblePane(assistant_inputs, label='Edit suggestion', style=wx.CP_NO_TLW_RESIZE)
+            proposed_fields = self.constraint_edit.GetPane()
             draft_layout = wx.FlexGridSizer(cols=2, vgap=4, hgap=6); draft_layout.AddGrowableCol(1)
             self.constraint_fields = []
             for label in ('Components', 'Area (mm)', 'Routing time (s)'):
-                draft_layout.Add(wx.StaticText(self.constraint_edit, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
-                entry = wx.TextCtrl(self.constraint_edit, name='Proposed ' + label.lower())
+                draft_layout.Add(wx.StaticText(proposed_fields, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
+                entry = wx.TextCtrl(proposed_fields, name='Proposed ' + label.lower())
                 self.constraint_fields.append(entry)
                 draft_layout.Add(entry, 1, wx.EXPAND)
                 entry.Bind(wx.EVT_TEXT, self.constraint_draft_changed)
             self.constraint_fields[1].SetHint('Left X, top Y, right X, bottom Y')
-            self.constraint_edit.SetSizer(draft_layout)
+            proposed_fields.SetSizer(draft_layout)
+            self.constraint_edit.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
             assistant_layout.Add(self.constraint_edit, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.constraint_edit.Hide()
             self.constraint_summary = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
@@ -1053,7 +1055,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 has_draft = self.gate.review is not None
                 self.pose_pane.Show(has_draft and not constraint_pending)
                 self.ack.Show(has_draft and self.qualified is None and not constraint_pending)
-                self.find.Show(not has_draft and not self.busy)
+                self.find.Show(not has_draft and not constraint_pending and not self.busy)
                 self.qualify.Show(has_draft and self.qualified is None and not self.busy)
                 self.route.Show(self.qualified is not None and not self.busy)
                 self.reject.Show(has_draft and not self.busy)
@@ -1211,6 +1213,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
                 self.constraint_review.cancel()
             self.constraint_review = self.constraint_offer = None
             self.constraint_edited = False
+            self.constraint_edit.Collapse()
             self.constraint_edit.Hide()
             self.constraint_summary.ChangeValue(message)
             self.update_constraint_map()
@@ -1432,8 +1435,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None):
             event.Skip()
 
         def choose_board(self, _):
-            with wx.FileDialog(self, 'Choose the saved PCB', wildcard='KiCad PCB (*.kicad_pcb)|*.kicad_pcb', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
-                if dialog.ShowModal() == wx.ID_OK: self.board.SetValue(dialog.GetPath())
+            pattern = 'KiCad projects and boards (*.kicad_pro; *.kicad_pcb)|*.kicad_pro;*.kicad_pcb'
+            with wx.FileDialog(self, 'Choose a saved KiCad project', wildcard=pattern,
+                               style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
+                if dialog.ShowModal() != wx.ID_OK:
+                    return
+                try:
+                    board = gui.saved_project_board(dialog.GetPath())
+                    self.board.SetValue(str(board))
+                except (OSError, ValueError, Rejected) as exc:
+                    self.message(str(exc))
 
         def options(self, *, validate_geometry=True):
             if self.inspection is None: raise ValueError('Inspect the saved project first.')

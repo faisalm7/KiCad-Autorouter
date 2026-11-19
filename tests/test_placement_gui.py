@@ -151,6 +151,31 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertTrue(lock.exists())
             self.assertIsNone(window.inspection)
 
+    def test_choose_project_resolves_the_exact_coboard_and_retains_previous_on_refusal(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve()
+            board = root / 'complete.kicad_pcb'
+            for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
+                board.with_suffix(suffix).write_bytes(b'owned fixture')
+            incomplete = root / 'incomplete.kicad_pro'
+            incomplete.write_bytes(b'owned fixture')
+            selected = Mock()
+            selected.__enter__ = Mock(return_value=selected)
+            selected.__exit__ = Mock(return_value=False)
+            selected.ShowModal.return_value = 1
+            wx = SimpleNamespace(FileDialog=Mock(return_value=selected),
+                                 ID_OK=1, FD_OPEN=2, FD_FILE_MUST_EXIST=4)
+            choose = window_method('choose_board', wx=wx)
+            window = self.window()
+            window.board = Mock()
+            selected.GetPath.return_value = str(board.with_suffix('.kicad_pro'))
+            choose(window, None)
+            window.board.SetValue.assert_called_once_with(str(board))
+            selected.GetPath.return_value = str(incomplete)
+            choose(window, None)
+            window.board.SetValue.assert_called_once()
+            self.assertIn('Missing incomplete.kicad_pcb', window.message.call_args.args[0])
+
     def test_real_inspection_refuses_non_PCB_identity_before_inventory_geometry_or_native(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()
