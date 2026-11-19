@@ -12,3 +12,15 @@ Implementation, qualification, documentation, checkpoints and backups are progre
 4. Use one different licensed design within the declared workflow. Fix the task and limits before launch. Record full time, operator actions, blocks, manual corrections and actual validation or refusal. Preserve the earlier owned delivery and 555 refusal. [Installed flow](evidence/product-constraint-delivery-001.json) · [555 trial](docs/555-constrained-placement-gui129.md).
 
 Porting and independent review retain their established gates. Live docking/schematic editing, Windows Native, independent installation, human/electrical validation, and full/off-Mac recovery remain open. [Platform matrix](docs/supported-platforms.md) · [Review materials](docs/copilot102-engineer-review.md).
+
+Items 1 and 2 passed the installed 960 × 650 check, including an actual
+saved-project picker correction and refusal of stale schematic details.
+Item 4 delivered and independently checked the predeclared DS18B20 repair.
+Item 3 stopped within its time limit at the Native memory admission gate.
+The signed 10.0.8 application and transaction controls are retained.
+[Batch receipt](evidence/product-workspace-batch-f51-001.json)
+
+Next editor qualification starts with one reviewed direct move and Undo on
+the existing isolated 10.0.8 toolchain when admission passes. Reuse the
+recorded cancellation, partial update and stale controls where unchanged.
+Keep automatic live writes gated until exact apply and Undo are observed.

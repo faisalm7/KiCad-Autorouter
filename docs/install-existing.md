@@ -42,11 +42,15 @@ files and starts with a fresh private job directory. Past job contents stay
 with the original installation.
 
 For local placement suggestions, choose **Place components**, inspect the
-project and open **Assistant**. Enter one or more example lines and preview the
+project and open **Request**. Earlier versions label this pane **Assistant**.
+Enter one or more example lines and preview the
 selection, movement area or routing time. Edit the suggestion if needed,
 preview the edits and choose **Use settings**. Search, validation, routing and
 export remain explicit steps from the usual controls.
 [Example and tested workflow](live-editor-milestone.md#placement-constraints-from-a-request)
+
+Use **Schematic** to see the current saved sheet, component and pad-net
+details on the board-first build. [Board-first workspace](saved-project-workspace.md)
 
 **Launch Autorouter.command** opens the isolated KiCad manager for the optional PCB toolbar. For automatic project selection, install the official KiCad Python IPC client in the runtime’s existing Python 3.11 environment. The following command pins the wheels for macOS arm64. Set the paths to the verified local runtime and the source checkout that supplied it.
 

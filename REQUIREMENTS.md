@@ -12,7 +12,14 @@ The master specification, current strategy and owner steering govern. Historical
 | One live component move | A guided native move passed isolated validation and exact same-editor readback. Preview rejection, stale refusal, native dialog cancellation and dropping full/partial staged writes were observed. The direct IPC write lost unit metadata. Guided Undo changed four field IDs after restoring the position. **Live automatic application and lossless Undo are open.** |
 | Constraint proposals | The installed saved-project GUI shows selection, area and time beside a board map, allows edits and adopts reviewed settings into the ordinary controls. The resulting owned placement, protected route and fresh export passed independent readback. Stale request/project/settings and discard are checked. Live v2 model invocation remains separate. [Installed flow](evidence/product-constraint-delivery-001.json). |
 | Everyday editor experience | Actual 486 × 455 active-board companion and the separate integrated saved-project review were observed. The saved-project task has phase timing, operator-equivalent actions and an inherited warning. Active docking, canvas overlays, general live Auto-place/Auto-route and independent laptop/high-DPI qualification remain open. [Editor receipt](evidence/live-editor-capability-001.json) · [Installed flow](evidence/product-constraint-delivery-001.json). |
-| Schematic assistance | Start from saved hierarchy, references and connectivity with source and freshness visible. Qualify live schematic context and then reversible edits with netlist and ERC checks on a supported editor version. |
+| Schematic assistance | Verified saved sheet/instance and component links appear beside the selected board. Pin/net details are saved PCB pad assignments. The installed flow exercises a changed-source refusal. Repeated child sheets and mismatched paths have targeted controls. Empty instance project names remain unsupported. Live schematic context, reversible edits, wiring interpretation and ERC remain open. [Saved workspace](docs/saved-project-workspace.md) |
+
+The installed `a7b142216` workspace adds a 960 × 650 board-first layout,
+saved-project selection and local proposal edit/review/adoption. The separate
+DS18B20 repair passed fresh KiCad 10.0.7 export and independent readback.
+KiCad 10.0.8 passed isolated cancellation, mixed-failure and stale controls.
+Memory admission blocked the positive apply and Undo within that trial.
+[Batch receipt](evidence/product-workspace-batch-f51-001.json)
 
 **Finite current checklist:** later receipts govern; versioned historical records below retain their failures and scope.
 

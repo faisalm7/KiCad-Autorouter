@@ -164,11 +164,21 @@ net records, protected copper and the unrelated J2 position in both cases.
   [Pinned snapshot implementation](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/pcbnew/board_commit.cpp#L699) ·
   [Development copy implementation](https://gitlab.com/kicad/code/kicad/-/blob/master/pcbnew/footprint.cpp#L285)
 
-Keep both preservation checks. The narrow follow-up candidate is the direct
-IPC transaction on an isolated official KiCad 10.0.8 instance. It stages
-removal and replacement and can retain the original object for Undo. Confirm
-exact before/after board and unit-field identity, unchanged original project
-files and unrelated unsaved work, stale refusal, Drop after partial failure,
-and exact native Undo. Only KiCad 10.0.7 is pinned in this checkout. The
-10.0.8 client/editor round trip and automatic live writes remain gated.
+The official 10.0.8 Mac application was acquired and placed in an isolated
+project folder with its published image digest, Apple signature, notarization
+and arm64 command verified. The supported 10.0.7 installation stayed in place.
+The real 10.0.8 editor reported J1's unit and pin grouping and showed the
+unrelated unsaved J2 move. Cancelling a full stage and dropping a mixed update
+(statuses 1 and 4) preserved the exact board. After a second unsaved J2 edit,
+the old move failed the freshness check before Native work. The original three
+files stayed exact, and the last test edit was retained via a separate
+**Save a Copy** before closing the owned editor.
+
+The planned direct apply and Undo needed fresh isolated Native validation.
+macOS kept memory pressure at warning level during admission. The 25-minute
+trial ended with zero positive apply attempts and no Undo. Unit preservation
+after replacement and exact Undo are still open. Keep both preservation
+checks and the separate-project fallback. The lab switch in
+`experiments/live_editor_v1` is for this exact owned fixture. The product
+launcher still pins 10.0.7.
 [10.0.8 transaction implementation](https://gitlab.com/kicad/code/kicad/-/blob/10.0.8/pcbnew/api/api_handler_pcb.cpp#L496)
