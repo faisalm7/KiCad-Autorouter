@@ -500,14 +500,17 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
             self.Refresh()
 
         def Ready(self):
-            return self.display is not None and self.bitmap is not None
+            return self.display is not None and self.bitmap is not None and self.render_key == self.view_size()
+
+        def view_size(self):
+            width, height = self.GetClientSize()
+            return width, height, self.GetContentScaleFactor()
 
         def prepare_bitmap(self):
-            width, height = self.GetClientSize()
+            key = self.view_size()
+            width, height, factor = key
             if width <= 0 or height <= 0:
                 return
-            factor = self.GetContentScaleFactor()
-            key = (width, height, factor)
             if self.bitmap is None or key != self.render_key:
                 bitmap = bitmap_with_labels(wx, self.display['svg'],
                     (max(1, round(width * factor)), max(1, round(height * factor))),
@@ -518,7 +521,10 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
                     wx.CallAfter(on_ready)
 
         def resized(self, event):
-            self.bitmap = None; self.render_key = None; self.Refresh(); event.Skip()
+            # Cocoa can send a size event for an unchanged canvas whenever the
+            # acknowledgement lays out the buttons. Keep that exact raster.
+            if self.render_key != self.view_size(): self.Refresh()
+            event.Skip()
 
         def paint(self, _):
             try:

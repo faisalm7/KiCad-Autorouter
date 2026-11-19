@@ -663,6 +663,20 @@ class PlacementGuiTests(unittest.TestCase):
         self.assertEqual((window.gate.review.pose, window.gate.review.moves), before)
         window.picture.test_dc.DrawBitmap.assert_called_once()
 
+    def test_same_size_events_keep_current_bitmap_but_actual_resize_requires_render(self):
+        picture = canvas(Mock(), Mock())
+        with patch.object(pg, 'bitmap_with_labels', return_value=Mock()) as raster:
+            picture.SetScene({'svg': '<svg/>', 'size': (800, 500)})
+            for _ in range(2): picture.resized(Mock())
+            self.assertTrue(picture.Ready())
+            raster.assert_called_once()
+            picture.GetClientSize.return_value = (640, 480)
+            picture.resized(Mock())
+            self.assertFalse(picture.Ready())
+            picture.paint(None)
+            self.assertTrue(picture.Ready())
+            self.assertEqual(raster.call_count, 2)
+
     def test_findings_acknowledgement_does_not_survive_late_render_failure(self):
         window, previous = self.presentation_window(); window.qualified = previous
         window.picture = canvas(MethodType(window_method('preview_failed'), window))
