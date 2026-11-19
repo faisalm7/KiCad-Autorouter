@@ -157,7 +157,7 @@ def _proposal(value):
     return {**value, 'nets': names}
 
 
-def validate_route_proposal(inspection, proposal):
+def validate_route_proposal(inspection, proposal, *, base_preferences=None):
     """Validate untrusted arguments against a caller-retained static inspection.
 
     Do not take the inspection from the model. A valid return is reviewable
@@ -174,9 +174,11 @@ def validate_route_proposal(inspection, proposal):
         current, tree, mapping = _capture(inspection['source'])
         if inspection != current:
             raise IntentError('Inspection is stale or changed; inspect the saved project again.')
-        settings = dict(pref.DEFAULTS, seconds=requested['seconds'])
+        baseline = pref.DEFAULTS if base_preferences is None else pref.validate(base_preferences)
+        settings = dict(baseline, seconds=requested['seconds'])
         if requested['scope'] == 'all_remaining':
             settings['scope'] = 'partial_completion'
+            settings.pop('nets', None)
         elif requested['scope'] == 'selected_nets':
             names = requested['nets']
             if not set(names) <= mapping[2]:
@@ -292,6 +294,19 @@ def validate_design_clarification(response):
         'execution_authorized': False, 'approval_granted': False,
         'next_step': 'Review these untrusted questions and answer or change ordinary visible controls. '
             'A fresh explicitly requested proposal is required; no automatic retry or operation follows.'}
+
+
+def read_design_clarification(response):
+    """Accept raw tool arguments or the exact checked worker response."""
+    if type(response) is dict and set(response) == {'reason', 'questions'}:
+        return validate_design_clarification(response)
+    if type(response) is not dict or not {'reason', 'questions'} <= set(response):
+        raise IntentError('A bounded clarification response is required.')
+    checked = validate_design_clarification({key: response[key] for key in ('reason', 'questions')})
+    if (response != checked or type(response.get('schema')) is not int
+            or response.get('execution_authorized') is not False or response.get('approval_granted') is not False):
+        raise IntentError('Clarification contains changed fields or permissions.')
+    return checked
 
 
 def placement_route_context(inspection, placement_settings, *, fixed_components,

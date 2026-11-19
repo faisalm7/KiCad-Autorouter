@@ -182,6 +182,32 @@ def prepare_request(inspection, context, request_text):
     compact['placement_context'] = _compact_context(client._placement_summary(inspection, initial))
     contract = design.placement_model_contract()
     material = {'inspection': compact, 'request': request_text}
+    return _request_packet(contract, material, initial)
+
+
+def prepare_conversation(review, text, history, *, inspection, routing=False):
+    """Build the exact proposal-only data preview before any hosted consent."""
+    from . import conversation
+
+    text = conversation.request_text(text)
+    if type(history) is not list or len(history) >= conversation.MAX_TURNS:
+        raise HostedError('Use a current bounded conversation.')
+    context = review.model_context()
+    context.pop('request', None)
+    contract = conversation.routing_contract() if routing else design.placement_constraints_contract_v2()
+    material = {'current_project_facts': context, 'conversation_history': copy.deepcopy(history),
+                'request': text}
+    # This remains data in a user message. The provider has no server-side
+    # conversation handle, and neither history nor model text adds authority.
+    local_identity = {'source': inspection['source'], 'source_hashes': inspection['source_hashes'],
+                      'project_facts': context, 'routing': routing}
+    prepared = _request_packet(contract, material, local_identity)
+    prepared['consent_summary']['omitted'] = ['Paths, full CAD files and reports are not added automatically. '
+        'The displayed request and conversation history are sent as entered.']
+    return prepared
+
+
+def _request_packet(contract, material, initial):
     payload = {
         'model': MODEL, 'instructions': contract['instructions'],
         'input': [{'role': 'user', 'content': _encoded(material).decode('utf-8')}],
@@ -308,7 +334,7 @@ def _cost(usage):
             + usage['cache_write_12h_tokens'] * 5000 + usage['output_tokens'] * 10000)
 
 
-def _function(data):
+def _function(data, tools=('propose_placement_route', 'clarify_design_request')):
     allowed = {'id','object','created_at','completed_at','status','error','incomplete_details','instructions',
                'max_output_tokens','model','output','parallel_tool_calls','previous_response_id','reasoning',
                'store','temperature','text','tool_choice','tools','top_p','top_logprobs','truncation','usage',
@@ -356,7 +382,7 @@ def _function(data):
                 or set(item) - {'id','type','call_id','name','arguments','status'}
                 or item.get('status', 'completed') != 'completed'
                 or type(item.get('call_id')) is not str or not 1 <= len(item['call_id']) <= 128
-                or item.get('name') not in {'propose_placement_route', 'clarify_design_request'}
+                or item.get('name') not in tools
                 or type(item.get('arguments')) is not str or not 0 < len(item['arguments']) <= 16384):
             raise HostedError('Only one bounded placement proposal or clarification is supported.',
                               {'refusal_code': 'tool_call_invalid'})
@@ -665,12 +691,49 @@ def probe_tls(*, worker_python=None, cancel_event=None):
 def propose_placement_route(inspection, context, request_text, *, credential, consent,
                             ledger_path, cancel_event=None, worker_python=None):
     """One request; return shared proposal/clarification/metrics, never execute."""
+    prepared = prepare_request(inspection, context, request_text)
+    def check_context():
+        design.validate_pending_placement_route_proposal(inspection, context, prepared['initial'])
+    def evaluate(name, arguments):
+        current = design.validate_pending_placement_route_proposal(
+            inspection, context, prepared['initial'], arguments if name == 'propose_placement_route' else None)
+        return ((current, None) if name == 'propose_placement_route'
+                else (None, design.validate_design_clarification(arguments)))
+    return _send_proposal(prepared, inspection['source'], check_context, evaluate,
+        ('propose_placement_route', 'clarify_design_request'), credential=credential, consent=consent,
+        ledger_path=ledger_path, cancel_event=cancel_event, worker_python=worker_python)
+
+
+def propose_conversation(review, controls, binding, history, inspection, *, routing=False,
+                         credential, consent, ledger_path, cancel_event=None, worker_python=None):
+    """One freshly consented conversation turn, checked by the ordinary proposal review."""
+    from . import conversation
+
+    prepared = prepare_conversation(review, binding['request'], history, inspection=inspection, routing=routing)
+    primary = conversation.ROUTING_TOOL if routing else 'propose_placement_constraints_v2'
+
+    def check_context():
+        source = gui.saved_project_board(binding['source'])
+        if (str(source) != inspection['source'] or gui.source_inventory(source) != inspection['source_hashes']):
+            review.cancel()
+            raise design.PendingContextChanged('Saved project changed. Inspect it before asking again.')
+
+    def evaluate(name, arguments):
+        checked = review.receive(name, arguments, controls, **binding)
+        return (None, checked) if name == 'clarify_design_request' else (checked, None)
+
+    return _send_proposal(prepared, inspection['source'], check_context, evaluate,
+        (primary, 'clarify_design_request'), credential=credential, consent=consent, ledger_path=ledger_path,
+        cancel_event=cancel_event, worker_python=worker_python)
+
+
+def _send_proposal(prepared, source, check_context, evaluate, tools, *,
+                   credential, consent, ledger_path, cancel_event, worker_python):
     started = runner.elapsed_time(); deadline = started + DEADLINE_SECONDS
     if not _supported_platform():
         raise HostedError('Hosted-worker resource guards are not qualified on this platform; no request was sent.')
-    prepared = prepare_request(inspection, context, request_text)
     path = _ledger_path(ledger_path)
-    source_parent = Path(inspection['source']).parent
+    source_parent = Path(source).parent
     if path == source_parent or source_parent in path.parents:
         raise HostedError('Keep the hosted-task ledger outside the immutable source project.')
     _check_consent(consent, prepared, path)
@@ -694,7 +757,7 @@ def propose_placement_route(inspection, context, request_text, *, credential, co
     stage = 'pre_transport'
     try:
         _check_consent(consent, prepared, path)
-        design.validate_pending_placement_route_proposal(inspection, context, prepared['initial'])
+        check_context()
         if runner.elapsed_time() >= deadline - .5 or cancel_event is not None and cancel_event.is_set():
             raise HostedError('Hosted request cancelled or expired before transport.')
         stage = 'transport'; metrics['transport_invoked'] = True
@@ -725,14 +788,14 @@ def propose_placement_route(inspection, context, request_text, *, credential, co
         if credential.encode('ascii') in _encoded(data):
             raise HostedError('Provider credential material was refused without retaining response text.')
         stage = 'response_contract'
-        name, arguments = _function(data)
+        name, arguments = _function(data, tools)
         if credential.encode('ascii') in _encoded(arguments):
             raise HostedError('Provider credential material was refused without retaining response text.')
         stage = 'post_response_context_freshness'
-        current = design.validate_pending_placement_route_proposal(
-            inspection, context, prepared['initial'], arguments if name == 'propose_placement_route' else None)
-        stage = 'semantic_validation'
-        clarification = None if name == 'propose_placement_route' else design.validate_design_clarification(arguments)
+        check_context()
+        if name == 'clarify_design_request':
+            stage = 'semantic_validation'
+        current, clarification = evaluate(name, arguments)
         if runner.elapsed_time() >= deadline or cancel_event is not None and cancel_event.is_set():
             raise HostedError('Hosted result was cancelled or expired; no proposal was adopted.')
         ledger.value['outcome'] = 'intent_proposed' if clarification is None else 'clarification_received'
@@ -740,7 +803,7 @@ def propose_placement_route(inspection, context, request_text, *, credential, co
         # Receipt publication cannot revive stale or cancelled context.
         stage = 'publication'
         _check_consent(consent, prepared, path)
-        design.validate_pending_placement_route_proposal(inspection, context, prepared['initial'])
+        check_context()
         if runner.elapsed_time() >= deadline or cancel_event is not None and cancel_event.is_set():
             raise HostedError('Hosted result expired during publication; no proposal was adopted.')
         metrics['wall_seconds'] = runner.elapsed_time() - started

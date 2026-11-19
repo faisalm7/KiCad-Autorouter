@@ -40,6 +40,8 @@ workspace, saved schematic results and DS18B20 delivery.
 2. Wire bounded clarification and editable placement or routing proposals
    through the existing Request pane and ordinary controls. Require a fresh
    local check and explicit adoption. Qualify with controlled offline replies.
+   Source wiring and controlled Responses checks are complete. Verify the
+   actual Request pane together with the embedded routing review below.
 3. Keep the board and task in one workspace through placement and routing
    review. Verify local differences, findings, acceptance, cancellation and
    recovery. Keep the detailed browser report reachable.
