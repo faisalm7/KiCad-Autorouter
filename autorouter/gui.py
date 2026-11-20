@@ -1128,7 +1128,7 @@ def _finish_window_close(window):
 
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
-                  placement_scene=None):
+                  placement_scene=None, conversation_history=''):
     """Create routing controls in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1278,6 +1278,13 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.buttons = {}
             status_host = wx.Panel(self) if self.in_workspace else panel
             actions = wx.BoxSizer(wx.VERTICAL) if self.in_workspace else layout
+            if self.in_workspace and conversation_history:
+                actions.Add(wx.StaticText(status_host, label='Earlier conversation'),
+                            0, wx.LEFT | wx.RIGHT | wx.TOP, 6)
+                transcript = wx.TextCtrl(status_host, value=conversation_history, size=(-1, 86),
+                                         name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
+                transcript.SetInsertionPointEnd()
+                actions.Add(transcript, 0, wx.EXPAND | wx.ALL, 6)
             self.inspected = wx.CheckBox(status_host, label=('I reviewed the findings and closed\nany KiCad review project.' if self.in_workspace
                 else 'I inspected all findings and CLOSED the review editors/project.\nMy choice is intent, not PCB certification.'))
             actions.Add(self.inspected, 0, wx.ALL, 6)

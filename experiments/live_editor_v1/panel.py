@@ -1,4 +1,5 @@
 """Small wx view for the owned live PCB qualification."""
+import argparse
 import json
 import sys
 import threading
@@ -45,10 +46,11 @@ class Preview(wx.Panel):
 
 
 class Companion(wx.Frame):
-    def __init__(self, *, diagnostics=False, direct_trial=False, workspace=False):
+    def __init__(self, *, diagnostics=False, direct_trial=False, workspace=False, saved_project=''):
         super().__init__(None, title='Copperpath · Open board', size=(950, 610) if workspace else (486, 455))
         self.SetMinSize((720, 520) if workspace else (450, 434))
         self.workspace = workspace
+        self.saved_project = saved_project
         self.source_scene = None
         self.move = None
         self.run = None
@@ -134,7 +136,9 @@ class Companion(wx.Frame):
         if self.run is not None:
             return
         from autorouter.placement_gui import create_window
-        replacement = create_window()
+        note = ('Selected from the KiCad companion. Save and close the project in KiCad before inspecting.'
+                if self.saved_project else '')
+        replacement = create_window(board=self.saved_project, source_note=note)
         replacement.Show()
         self.Destroy()
 
@@ -290,7 +294,13 @@ class Companion(wx.Frame):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--diagnostics', action='store_true')
+    parser.add_argument('--direct-1008-trial', action='store_true')
+    parser.add_argument('--workspace', action='store_true')
+    parser.add_argument('--saved-project', default='')
+    arguments = parser.parse_args()
     app = wx.App(False)
-    Companion(diagnostics='--diagnostics' in sys.argv, direct_trial='--direct-1008-trial' in sys.argv,
-              workspace='--workspace' in sys.argv)
+    Companion(diagnostics=arguments.diagnostics, direct_trial=arguments.direct_1008_trial,
+              workspace=arguments.workspace, saved_project=arguments.saved_project)
     app.MainLoop()

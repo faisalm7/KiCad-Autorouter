@@ -88,6 +88,10 @@ separate companion window. The ordinary launcher and toolbar passed the
 move and Undo test on the isolated Mac setup.
 [Current installed result](../evidence/product-workspace-live-toolbar-2427-001.json) · [Editor scope](live-editor-milestone.md#checked-move-on-1008)
 
+**Open saved-project workspace…** carries the current example's saved path
+into the ordinary controls. Save and close the editors and then close the
+project in KiCad before inspection. Copperpath leaves that choice to you.
+
 Installation copies only the declared immutable payload and matching local JAR. It preserves the original lock/source provenance and writes a new root-bound manifest. Unsafe links, changed/missing/extra payload, stale pins and existing destinations refuse. Failed partial output is retained; use a fresh destination. A successful copy/doctor is preparation, not qualification of that new root or machine.
 
 ## Current artifact-import qualification boundary

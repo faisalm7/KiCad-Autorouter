@@ -78,6 +78,12 @@ class Conversation:
             lines.append('')
         return '\n'.join(lines)
 
+    def summary_for(self, source, source_hashes):
+        """Show earlier turns only for their exact saved project revision."""
+        if self.source is None or self.source[:2] != (str(source), source_hashes):
+            return ''
+        return self.summary()
+
 
 def routing_contract():
     properties = {

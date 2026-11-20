@@ -112,5 +112,9 @@ tested workspace, checked export and live move evidence unchanged.
 3. Admit one pinned, license-cleared new board without modifying its source.
    Freeze a protected routing task only if the original passes inspection.
    Preserve the NUS refusal and the distinction between this intake and the
-   exposed PushButtonLed task. Keep live KiCad writes within the verified
-   example and Undo scope while these workflows are checked.
+   exposed PushButtonLed task. The pinned SparkFun USB RFID reader refused
+   static admission on its existing format, net ties and design exclusion.
+   [Intake result](evidence/product-workspace-rfid-scope-001.json)
+4. Open the ordinary saved-project workspace from the checked live example
+   with its exact saved path already selected. Verify the existing open-project
+   refusal. Keep live writes within the checked example and Undo scope.

@@ -66,6 +66,7 @@ class PlacementGuiTests(unittest.TestCase):
             qualified=None, validation_revoked=False, pending_coordinates={}, editing_component=None,
             alternative_labels=[], alternative_targets=[],
             copilot_generation=0, pending_copilot=None, approved_copilot=None,
+            conversation=pg.conversation.Conversation(),
             cancel_event=threading.Event(), inspection=gate.review.inspection,
             picture=Mock(), pages=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
@@ -502,12 +503,18 @@ class PlacementGuiTests(unittest.TestCase):
     def test_routing_handoff_keeps_chosen_output_and_mandatory_guard(self):
         window = self.window(); guard = Mock(); frame = Mock(source_guard=guard)
         window.routing_output_hint = '/chosen/candidate jobs'
+        window.inspection = {'source': '/owned/source.kicad_pcb', 'source_hashes': {'board': 'exact'}}
+        origin = window.conversation.check_source(window.inspection, False)
+        question = pg.conversation.design.validate_design_clarification(
+            dict(reason='ambiguous_request', questions=['Which parts should move?']))
+        window.conversation.remember('Move the connectors.', clarification=question, source=origin)
         window.qualified = dict(ticket=window.gate.ticket(), guard=guard,
                                 witness={'candidate': '/owned/candidate.kicad_pcb'})
         with patch.object(gui, 'create_window', return_value=frame) as factory:
             window_method('open_routing')(window, None)
         frame.output.SetValue.assert_called_once_with('/chosen/candidate jobs')
         self.assertIs(factory.call_args.kwargs['source_guard'], guard)
+        self.assertIn('Which parts should move?', factory.call_args.kwargs['conversation_history'])
         frame.Show.assert_called_once(); frame.Destroy.assert_not_called()
 
     def test_existing_routing_frame_is_not_duplicated_or_rebound(self):

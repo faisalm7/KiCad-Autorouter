@@ -75,7 +75,8 @@ def workspace(session):
     operations = {'inspect': lambda: session.inspect(board_view=True),
                   'preview': lambda: session.preview(board_view=True), 'discard': session.reject,
                   'validate': session.validate, 'apply_direct': session.apply_direct_trial, 'undo': session.check_undo}
-    argv = [str(c.PYTHON), '-B', '-m', 'experiments.live_editor_v1.panel', '--workspace', '--direct-1008-trial']
+    argv = [str(c.PYTHON), '-B', '-m', 'experiments.live_editor_v1.panel', '--workspace', '--direct-1008-trial',
+            '--saved-project', str(session.path.with_suffix('.kicad_pro'))]
     view = subprocess.Popen(argv, cwd=c.ROOT, env=gui.child_environment(),
                             stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
     try:

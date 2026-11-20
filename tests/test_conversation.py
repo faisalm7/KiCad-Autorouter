@@ -109,6 +109,7 @@ class ConversationChecks(unittest.TestCase):
         offer = review.receive(conversation.ROUTING_TOOL, dict(nets=['ROUTE_A'], route_seconds=60),
                                base, **binding)
         history.remember(binding['request'], proposal=offer, source=context)
+        self.assertIn(binding['request'], history.summary_for(self.board, inspection['source_hashes']))
         values = review.adopt(offer, base, **binding)
         guard = conversation.routing_source_guard(values)
         guard.check(self.board)
@@ -117,7 +118,9 @@ class ConversationChecks(unittest.TestCase):
             guard.check_task(dict(values['effective_preferences'], seconds=61), 'route', None)
         project = self.board.with_suffix('.kicad_pro')
         project.write_bytes(project.read_bytes() + b'\n')
+        changed = design.inspect_project(self.board)
+        self.assertEqual(history.summary_for(self.board, changed['source_hashes']), '')
         with self.assertRaisesRegex(ValueError, 'source project changed'):
             guard.check(self.board)
         with self.assertRaises(design.PendingContextChanged):
-            history.check_source(design.inspect_project(self.board), True)
+            history.check_source(changed, True)

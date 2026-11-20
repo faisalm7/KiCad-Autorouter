@@ -812,15 +812,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
             options = wx.BoxSizer(wx.HORIZONTAL)
             self.conversation_kind = wx.Choice(assistant_inputs, choices=['Place components', 'Protected routing'],
-                                                name='Conversation task')
+                                                name='Hosted task')
             self.conversation_kind.SetSelection(0)
+            self.conversation_kind.SetToolTip('Choose which settings a hosted reply may suggest.')
             self.conversation_reset = wx.Button(assistant_inputs, label='New conversation')
             options.Add(self.conversation_kind, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 6)
             options.Add(self.conversation_reset, 0, wx.ALIGN_CENTER_VERTICAL)
             assistant_layout.Add(options, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
             request_actions = wx.BoxSizer(wx.HORIZONTAL)
-            self.constraint_preview = wx.Button(assistant_inputs, label='Preview constraints')
+            self.constraint_preview = wx.Button(assistant_inputs, label='Preview placement')
             self.constraint_preview.SetToolTip('Preview explicit placement commands or edit a suggestion locally.')
             self.assistant_ask = wx.Button(assistant_inputs,
                 label='Send controlled reply' if conversation_reply else 'Review data and send…')
@@ -1152,7 +1153,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.assistant_use.Enable(not self.busy and self.pending_copilot is not None and self.assistant_ack.GetValue())
             if hasattr(self, 'constraint_preview'):
                 routing_offer = constraint_pending and self.constraint_offer['kind'] == conversation.ROUTING_KIND
-                self.constraint_preview.SetLabel('Preview edits' if constraint_pending else 'Preview constraints')
+                self.constraint_preview.SetLabel('Preview edits' if constraint_pending else 'Preview placement')
                 self.constraint_preview.Enable(not self.busy and (self.inspection is not None or routing_offer)
                     and (not constraint_pending or self.constraint_edited))
                 self.constraint_use.Enable(not self.busy and constraint_pending and not self.constraint_edited)
@@ -1395,6 +1396,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def use_constraints(self, _):
             if self.busy or self.gate.closed or self.constraint_offer is None or self.constraint_edited:
                 return
+            from_conversation = getattr(self, 'conversation_offer', False)
             try:
                 if self.constraint_offer['kind'] == conversation.ROUTING_KIND:
                     terms = self.constraint_draft_terms()
@@ -1431,7 +1433,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             finally:
                 self.updating = False
             self.revoke(discard=True)
-            self.pages.SetSelection(0)
+            if not from_conversation:
+                self.pages.SetSelection(0)
             self.message('Settings applied. Review the board, then choose Find alternatives.')
 
         def reset_conversation(self, _):
@@ -2143,8 +2146,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         if self.gate.closed: self.finish_close()
                         else:
                             self.panel.Show(); self.Layout(); self.refresh()
+                history = (self.conversation.summary_for(self.inspection['source'], self.inspection['source_hashes'])
+                           if self.conversation.source else '')
                 frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished,
-                                          parent=self, placement_scene=self.picture.display)
+                                          parent=self, placement_scene=self.picture.display, conversation_history=history)
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
                         frame.output.SetValue(self.routing_output_hint)
@@ -2212,7 +2217,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 else:
                     self.panel.Show(); self.Layout(); self.refresh()
 
-            frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self)
+            history = self.conversation.summary_for(source, gui.source_inventory(source)) if self.conversation.source else ''
+            frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self,
+                                      conversation_history=history)
             try:
                 if self.routing_output_hint is not None:
                     frame.output.SetValue(self.routing_output_hint)

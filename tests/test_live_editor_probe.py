@@ -1,9 +1,9 @@
 """Exact readback controls for the owned live-editor qualification."""
 from pathlib import Path
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
-from autorouter import sexpr
+from autorouter import live_move, sexpr
 from experiments.live_editor_v1 import probe
 from experiments.placement_native_proposal_v1 import contract
 
@@ -55,6 +55,16 @@ class EditorReadback(unittest.TestCase):
         self.assertIn('svg', session.inspect(board_view=True)['scene'])
         with self.assertRaisesRegex(ValueError, 'Preview a new move'):
             session.fresh(1)
+
+    def test_owned_workspace_passes_the_bound_saved_project_to_its_panel(self):
+        session = Mock(path=Path('/owned/inspection/checked.kicad_pcb'))
+        panel = Mock()
+        panel.stdout.readline.return_value = ''
+        with patch.object(live_move.subprocess, 'Popen', return_value=panel) as start:
+            live_move.workspace(session)
+        self.assertEqual(start.call_args.args[0][-2:], ['--saved-project', '/owned/inspection/checked.kicad_pro'])
+        panel.stdin.close.assert_called_once()
+        panel.stdout.close.assert_called_once()
 
 
 if __name__ == '__main__':
