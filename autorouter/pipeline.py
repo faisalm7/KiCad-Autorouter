@@ -547,11 +547,15 @@ def preflight(board,*,task_scope=None,class_context=None):
     t=sx.read(board)
     reasons=[]
     if t[0]!='kicad_pcb': reasons.append('not a KiCad board')
-    version=sx.one(t,'version')[1]
+    versions = sx.children(t, 'version')
+    version = (versions[0][1] if len(versions) == 1 and len(versions[0]) == 2
+               and isinstance(versions[0][1], str) else '')
     legacy=(version=='20240108' and type(task_scope) is tuple
         and len(task_scope)==3 and all(type(v) is str for v in task_scope)
         and task_scope==('whole_board_unlocked_routing','native','source_all'))
-    if version not in {'20241229','20260206'} and not legacy: reasons.append('unqualified board format version')
+    if version not in {'20241229','20260206'} and not legacy:
+        shown = version if re.fullmatch(r'[0-9]{8}', version) else 'unknown'
+        reasons.append(f'unqualified board format version {shown}')
     layers=sx.one(t,'layers',[])
     if sum(isinstance(x,list) and len(x)>2 and re.fullmatch(r'(?:F|B|In[0-9]+)\.Cu',sx.unquote(x[1])) is not None for x in layers) not in (2,4): reasons.append('requires 2 or 4 copper layers')
     project=board.with_suffix('.kicad_pro')
@@ -564,7 +568,20 @@ def preflight(board,*,task_scope=None,class_context=None):
             except (ValueError,TypeError,KeyError) as exc:reasons.append('legacy 20240108 task scope: '+str(exc))
         try: netclass_policy(board)
         except Rejected as exc: reasons.append(str(exc).removeprefix('unsupported: '))
-        if settings.get('drc_exclusions'): reasons.append('DRC exclusions not qualified')
+        exclusions = settings.get('drc_exclusions')
+        if exclusions:
+            note = 'DRC exclusions not qualified'
+            if isinstance(exclusions, list):
+                checks = set()
+                for entry in exclusions:
+                    record = entry[0] if isinstance(entry, list) and entry else entry
+                    if isinstance(record, str):
+                        check = record.partition('|')[0]
+                        if check in KNOWN_CHECKS:
+                            checks.add(check.replace('_', ' '))
+                examples = f', including {", ".join(sorted(checks)[:4])}' if checks else ''
+                note += f' ({len(exclusions)} saved{examples})'
+            reasons.append(note)
         for key,val in settings.get('rule_severities',{}).items():
             if key=='zone_has_empty_net' and val=='error':
                 from .legacy_zone import qualify
@@ -583,10 +600,20 @@ def preflight(board,*,task_scope=None,class_context=None):
     except Rejected as exc: reasons.append(str(exc))
     try: check_edge_text_support(t)
     except Rejected as exc: reasons.append(str(exc))
+    tie_count = 0
+    tie_refs = set()
     for fp in sx.children(t,'footprint'):
-        if sx.children(fp,'net_tie_pad_groups'): reasons.append('net ties not qualified')
+        if sx.children(fp, 'net_tie_pad_groups'):
+            tie_count += 1
+            refs = [sx.unquote(prop[2]) for prop in sx.children(fp, 'property')
+                    if len(prop) >= 3 and prop[1] in ('Reference', '"Reference"') and isinstance(prop[2], str)]
+            if len(refs) == 1 and re.fullmatch(r'[A-Za-z0-9_.#?+\-]{1,48}', refs[0]):
+                tie_refs.add(refs[0])
         for pad in sx.children(fp,'pad'):
             if len(pad)<4 or pad[3]=='custom': reasons.append('custom pads not qualified')
+    if tie_count:
+        examples = f', including {", ".join(sorted(tie_refs)[:6])}' if tie_refs else ''
+        reasons.append(f'net ties not qualified ({tie_count} footprints{examples})')
     for via in sx.children(t,'via'):
         if any(x in via for x in ('blind','micro')): reasons.append('advanced vias not qualified')
     if reasons: raise Rejected('unsupported: '+'; '.join(sorted(set(reasons))))

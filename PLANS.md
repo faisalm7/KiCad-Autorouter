@@ -107,6 +107,9 @@ tested workspace, checked export and live move evidence unchanged.
 1. Put Conversation, its history, local preview and hosted consent entry
    beside the board. Qualify the installed layout and confirm controlled
    suggestions and no-AI settings adoption remain separate from execution.
+   The updated workspace is installed. The ordinary pre-launch gate held
+   its GUI workflow at macOS memory pressure level 2. The separate frozen
+   hosted pilot waits for readiness for private entry, with no request sent.
 2. Keep conversation context available during the move from settings to
    routing review, while protecting the exact approval and source checks.
 3. Admit one pinned, license-cleared new board without modifying its source.
@@ -114,7 +117,12 @@ tested workspace, checked export and live move evidence unchanged.
    Preserve the NUS refusal and the distinction between this intake and the
    exposed PushButtonLed task. The pinned SparkFun USB RFID reader refused
    static admission on its existing format, net ties and design exclusion.
+   The installed Finish gaps Preview reproduced the refusal. A targeted
+   correction identifies the format, jumper references and exclusion check.
+   It was checked against the unchanged source before any Native job.
    [Intake result](evidence/product-workspace-rfid-scope-001.json)
 4. Open the ordinary saved-project workspace from the checked live example
    with its exact saved path already selected. Verify the existing open-project
    refusal. Keep live writes within the checked example and Undo scope.
+   The source and launcher binding checks pass. Use an isolated editor session
+   for the actual handoff when the existing editor can be left undisturbed.

@@ -27,6 +27,37 @@ class ScopeControls(unittest.TestCase):
    self.source.write_text(BOARD.replace('20240108',version));self.reject(CONTEXT)
   for version in ('20241229','20260206'):
    self.source.write_text(BOARD.replace('20240108',version));self.assertEqual(sx.one(p.preflight(self.source),'version')[1],version)
+ def test_refusal_identifies_format_tie_footprints_and_original_check(self):
+  tree = sx.parse(BOARD)
+  tie = sx.one(tree, 'footprint')
+  tie.append(['net_tie_pad_groups', '"1,2"'])
+  second = copy.deepcopy(tie)
+  sx.one(second, 'property')[2] = '"do not print this reference\n"'
+  tree.append(second)
+  sx.write(self.source, tree)
+  project = copy.deepcopy(PROJECT)
+  project['board']['design_settings']['drc_exclusions'] = [
+      'courtyards_overlap|10|20|authored-uuid',
+      ['clearance|30|40|other-uuid', 'do not print this note'],
+  ]
+  self.project.write_text(json.dumps(project))
+  before = p.tree_hash(self.root)
+  with self.assertRaises(p.Rejected) as error:
+   p.preflight(self.source, task_scope=('partial_completion', 'native', 'source_all'))
+  reason = str(error.exception)
+  self.assertIn('unqualified board format version 20240108', reason)
+  self.assertIn('net ties not qualified (2 footprints, including J1)', reason)
+  self.assertIn('DRC exclusions not qualified (2 saved, including clearance, courtyards overlap)', reason)
+  self.assertNotIn('do not print', reason)
+  self.assertNotIn('authored-uuid', reason)
+  self.assertEqual(p.tree_hash(self.root), before)
+ def test_malformed_version_has_a_controlled_refusal(self):
+  for field in ('', '(version)', '(version (20240108))', '(version 20240108 extra)',
+                '(version 20240108) (version 20240108)'):
+   with self.subTest(field=field):
+    self.source.write_text(BOARD.replace('(version 20240108)', field))
+    with self.assertRaisesRegex(p.Rejected, 'unqualified board format version unknown'):
+     p.preflight(self.source, task_scope=CONTEXT)
  def test_actual_four_layers_classes_and_locked_source_refuse(self):
   self.source.write_text(BOARD.replace('(31 "B.Cu" signal)','(1 "In1.Cu" signal) (2 "In2.Cu" signal) (31 "B.Cu" signal)'));self.reject(CONTEXT);self.source.write_text(BOARD)
   for change in ('renamed','second','pattern','assignment'):
