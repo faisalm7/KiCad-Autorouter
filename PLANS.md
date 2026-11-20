@@ -80,10 +80,11 @@ tested workspace, checked export and live move evidence unchanged.
 
 1. Explain the exact NUS bounds. Keep the frozen refusal and qualify one
    bounded preserved-via extension on a rectangular owned board. Admit no
-   curved or keepout geometry by its enclosing rectangle. [Scope and trial](docs/current-placement-scope.md)
+   curved or keepout geometry by its enclosing rectangle. Complete through
+   independent export on the owned example. [Scope and trial](docs/current-placement-scope.md)
 2. Verify the automatic destination-area setup, one placement approval,
    checked prefilled nets and folded budget in the installed workspace.
-   Compare the workflow to the earlier recorded action sequence.
+   Complete on the same task with 22 operator-equivalent actions. [Actual workflow](evidence/product-workspace-through-via-001.json)
 3. Open the checked 10.0.8 example from the ordinary launcher and toolbar.
    Show the exact move, verify approval and readback and confirm native
    Undo. Keep other boards in the separate-project workspace.
@@ -92,4 +93,6 @@ tested workspace, checked export and live move evidence unchanged.
    credential are required for the actual request.
 5. Assess practical licensed coverage under the fixed scope, verify onboarding
    and preserve small recovery artifacts. Retain unsupported tasks and exposed
-   references without a favorable substitution.
+   references without a favorable substitution. The unchanged, previously
+   studied MIT PushButtonLed task is the bounded installed workflow check.
+   It adds no new-family or protected-via coverage.

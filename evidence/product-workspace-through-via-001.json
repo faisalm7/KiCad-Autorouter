@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "initial_build": "5f371db7b487c759e17c42142463cdae2aefc850",
+  "checked_build": "9e2372a890d1f729016fc666ee5926c71b01cf10",
+  "launcher_manifest_sha256": "22fd627a1ef056ae637981a5e59462fd902d95018a8a0db4739c95afa002126c",
+  "platform": "macOS 27.0.1 arm64; KiCad 10.0.7 validation; Freerouting 2.5.0",
+  "input_role": "Owned rectangular two-layer PCB; no licensed-board coverage claim",
+  "input_pcb_sha256": "4f67a32aea90b9aae22c633d501ac58935e9370fe2d13d76871cc7a3d2f1d222",
+  "unchanged_task": {
+    "selection": ["J1", "J2"],
+    "destination_mm": [14, 8, 22, 13],
+    "routing_nets": ["ROUTE_A", "ROUTE_B"],
+    "route_seconds": 85,
+    "fresh_export_seconds": 85,
+    "placement_validation_seconds": 120,
+    "review_seconds": 60,
+    "choice_seconds": 60,
+    "first_alternative_only": true
+  },
+  "first_attempt": {
+    "native_placement_validated": true,
+    "routing": "Refused before the engine because the export declared the fixed via's distinct size beside Default.",
+    "delivery": false,
+    "raw": ".runs/workspace-next-2427-001"
+  },
+  "corrective_attempt": {
+    "actual_graphical_launcher": true,
+    "software_test_intent": true,
+    "local_explicit_request": true,
+    "destination_start_disclosed_without_advanced_setup": true,
+    "single_placement_approval": true,
+    "approved_net_prefill": true,
+    "redundant_closed_copy_checkbox_absent": true,
+    "one_window_review": true,
+    "source_preserved": true,
+    "opens_before": 2,
+    "opens_after": 0,
+    "blocking_after": 0,
+    "inherited_warnings": 1,
+    "original_ignored_checks": 2,
+    "original_copper_exact": "One 0.60 mm / 0.30 mm standard through-via and two KEEP tracks",
+    "new_routing_via_choice_mm": [0.8, 0.4],
+    "schematic_parity": "Checked by final KiCad DRC",
+    "validated_export_sha256": "3295fdba8dec08756cd846570afe40583b4f200fc311ed8d6e9be185958d838c",
+    "independent_current_readback": true,
+    "no_manual_cad_changes_observed": true,
+    "setup_through_export_seconds": 92.062,
+    "setup_through_independent_readback_seconds": 97.199,
+    "visible_wait_through_export_seconds": 72.690,
+    "operator_equivalent_actions": 22,
+    "automation_notes": "Setup included scope checks and observer interaction. A first observation arrived before the window, and the file chooser opened despite the returned accessibility error. No action had to be repeated in the application.",
+    "evidence": ".runs/workspace-next-2427-002/via-final.json"
+  },
+  "qualification_limits": [
+    "The NUS refusal and unrelated licensed-board limitations remain in force.",
+    "This example and its earlier no-via reference had different controls; the action counts are task observations, not a comparative speedup.",
+    "Software-test acceptance with inherited warnings and original ignored findings does not establish electrical, manufacturing or physical suitability."
+  ],
+  "model_requests": 0
+}

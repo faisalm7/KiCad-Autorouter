@@ -8,6 +8,25 @@ The master specification, current strategy and owner steering govern. Historical
 
 **Saved-project usability verified on runtime104.** Direct EEPROM inspection, actual toolbar identity and lock refusal, fresh Edge review, acceptance, export and independent readback passed. The distinct 555 source passed Native admission. Its constrained search stopped before placement validation or routing. The original GUI127 and runtime103 results retain their scope. [Installed verification](evidence/product104-usability-delivery-001.json) · [555 outcome](docs/555-constrained-placement-gui129.md).
 
+## Current installed scope
+
+- The 9e2372a89 Mac installation completes one saved rectangular two-layer
+  placement-and-routing task with a protected standard through-via. The
+  checked export and independent readback preserve the original copper,
+  rules, schematic and findings. [Evidence](evidence/product-workspace-through-via-001.json)
+- The NUS task still refuses. Curved outlines, plated slots, placement rule
+  areas and routing layer types require separate support. The frozen target
+  also conflicts with fixed copper in the current geometry model.
+  [Exact limits](docs/current-placement-scope.md)
+- The ordinary 10.0.8 toolbar opens a checked preview on the supplied
+  disposable board. The dedicated 10.0.8 move and Undo receipt retains its
+  scope. The normal toolbar's positive write still needs its final Native
+  check. [Dedicated evidence](evidence/live-editor-1008-direct-002.json)
+- The installed conversation accepts the frozen owned synthetic scenario
+  through a controlled reply. One current-build hosted proposal awaits
+  owner consent. Existing general live-write, docking, Windows, independent
+  installation/review and full recovery gates remain distinct.
+
 ## Editor integration
 
 | Gate | Acceptance evidence |
