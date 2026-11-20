@@ -77,13 +77,15 @@ after installing the pinned IPC wheels above.
 ```
 
 Open **Launch Autorouter.command**, open PCB Editor for its disposable
-example, then select J1 or J2 and click the Copperpath toolbar icon. The
+example, then select J1 or J2 and click the Copperpath toolbar icon. Widen
+the editor if the green trace icon is outside the visible toolbar. The
 companion shows the current selection and lets you preview, check and
 explicitly apply one move. Use KiCad **Edit → Undo Copperpath checked
 component move**, then **Verify KiCad Undo** in Copperpath. Use **Open Saved
 Project.command** for your own boards. This checked example runs in a
-separate companion window. The supporting 10.0.8 move and Undo evidence was
-collected with the dedicated test launcher. [Editor scope and evidence](live-editor-milestone.md#checked-move-on-1008)
+separate companion window. The ordinary launcher and toolbar passed the
+move and Undo test on the isolated Mac setup.
+[Current installed result](../evidence/product-workspace-live-toolbar-2427-001.json) · [Editor scope](live-editor-milestone.md#checked-move-on-1008)
 
 Installation copies only the declared immutable payload and matching local JAR. It preserves the original lock/source provenance and writes a new root-bound manifest. Unsafe links, changed/missing/extra payload, stale pins and existing destinations refuse. Failed partial output is retained; use a fresh destination. A successful copy/doctor is preparation, not qualification of that new root or machine.
 

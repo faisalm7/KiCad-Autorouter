@@ -18,10 +18,15 @@ The master specification, current strategy and owner steering govern. Historical
   areas and routing layer types require separate support. The frozen target
   also conflicts with fixed copper in the current geometry model.
   [Exact limits](docs/current-placement-scope.md)
-- The ordinary 10.0.8 toolbar opens a checked preview on the supplied
-  disposable board. The dedicated 10.0.8 move and Undo receipt retains its
-  scope. The normal toolbar's positive write still needs its final Native
-  check. [Dedicated evidence](evidence/live-editor-1008-direct-002.json)
+- The ordinary 10.0.8 toolbar completed the checked move and exact native
+  Undo on the supplied disposable board. The earlier dedicated receipt
+  covers preservation of an unrelated unsaved edit. General live PCB
+  writes remain a separate gate.
+  [Current installed evidence](evidence/product-workspace-live-toolbar-2427-001.json) · [Earlier controls](evidence/live-editor-1008-direct-002.json)
+- The one-window licensed PushButtonLed task used its first alternative,
+  preserved 13 routes and all original files, and completed independent
+  delivery. This is exposed workflow evidence.
+  [Licensed result](evidence/product-workspace-licensed-2427-001.json)
 - The installed conversation accepts the frozen owned synthetic scenario
   through a controlled reply. One current-build hosted proposal awaits
   owner consent. Existing general live-write, docking, Windows, independent

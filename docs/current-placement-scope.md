@@ -26,6 +26,8 @@ Placement and its detached validation had already succeeded. The correction
 requires matching saved-task positions, net and shapes for the fixed vias. It
 keeps their definitions and exact wiring, and offers only the lawful Default
 choice for new routing. Multiple-size transport refuses padstack names that
-Freerouting would rewrite and fixed centers it could round or merge. Test the
-correction prospectively in one fresh installation on the same owned task and
-budgets. The first refusal remains part of the evidence.
+Freerouting would rewrite and fixed centers it could round or merge.
+The single corrective attempt used the same source, first alternative and
+budgets. It completed both routes and produced a current independently
+checked export with the via and both protected tracks exact. The first
+refusal remains part of the evidence. [Installed result](../evidence/product-workspace-through-via-001.json)

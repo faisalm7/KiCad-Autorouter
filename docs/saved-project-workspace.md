@@ -29,3 +29,11 @@ routing** opens routing in the same window. If the selected placement nets
 have no retained routing or zones, Copperpath preselects those editable nets.
 Where any of those nets has existing copper or zones, **Finish gaps** remains
 the default. [Supported geometry and exact trial scope](current-placement-scope.md)
+
+The installed check on the owned via example reached a fresh export in 92 seconds
+and 22 operator-equivalent actions. On the unchanged licensed PushButtonLed
+workflow, the first alternative and all three selected nets passed through
+independent delivery in 2 min 45 s. That observation includes a pause from the
+accessibility tool during export. The copper plan and findings still require
+switching tabs. The recorded tests made no manual CAD corrections.
+[Owned evidence](../evidence/product-workspace-through-via-001.json) · [Licensed workflow](../evidence/product-workspace-licensed-2427-001.json)

@@ -106,7 +106,11 @@ Open PCB Editor, select J1 or J2, and use the Copperpath live-check toolbar
 action. **Preview move**, **Check move** and **Apply checked move** are separate
 actions. Use KiCad **Edit → Undo Copperpath checked component move**, then
 **Verify KiCad Undo**. One application is supported per companion session
-on this exact fixture. The normal saved-project launcher still uses 10.0.7.
+on this exact fixture. The same operation is now available from the ordinary
+launcher when prepared with the pinned checked-move editor option. The
+saved-project workflow still uses the pinned 10.0.7 validation tools. KiCad
+can show a modified indicator even after Copperpath verifies that Undo
+restored the prior board. [Ordinary launch](install-existing.md#try-the-checked-move-on-the-supplied-example) · [Installed result](../evidence/product-workspace-live-toolbar-2427-001.json)
 
 Use the unchanged local runtime with KiCad 10.0.7 and the pinned
 `kicad-python` client described in [installation](install-existing.md).

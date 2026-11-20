@@ -86,13 +86,17 @@ tested workspace, checked export and live move evidence unchanged.
    checked prefilled nets and folded budget in the installed workspace.
    Complete on the same task with 22 operator-equivalent actions. [Actual workflow](evidence/product-workspace-through-via-001.json)
 3. Open the checked 10.0.8 example from the ordinary launcher and toolbar.
-   Show the exact move, verify approval and readback and confirm native
-   Undo. Keep other boards in the separate-project workspace.
+   Complete preview, approval, exact move readback and native Undo. Keep
+   other boards in the separate-project workspace. [Current installed result](evidence/product-workspace-live-toolbar-2427-001.json)
 4. Prepare one consented optional hosted request on owned data only. Check the
-   local contract and GUI first. Separate permission and a privately supplied
-   credential are required for the actual request.
+   local contract and GUI first. Controlled adoption and the installed TLS
+   worker checks passed. One proposal-only Sol/medium request is prepared.
+   Owner authorization and private credential entry are the remaining gates.
 5. Assess practical licensed coverage under the fixed scope, verify onboarding
    and preserve small recovery artifacts. Retain unsupported tasks and exposed
-   references without a favorable substitution. The unchanged, previously
-   studied MIT PushButtonLed task is the bounded installed workflow check.
-   It adds no new-family or protected-via coverage.
+   references without a favorable substitution. The unchanged, exposed MIT
+   PushButtonLed task passed independent delivery. New-family placement
+   remains open. [Licensed result](evidence/product-workspace-licensed-2427-001.json)
+   The compact local archive passed payload verification. Its restoration
+   stopped before extraction. The retained empty scratch slot needs one-time
+   owner permission before the corrected replay can use the slot.

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "build": "9e2372a890d1f729016fc666ee5926c71b01cf10",
+  "case": "MIT PushButtonLed, exposed workflow compatibility",
+  "source": {
+    "repository": "gurusaeth12/push-button-led-kicad",
+    "commit": "29c46b7c03d2afd9fe3a58fe2070309b12f94b42",
+    "pcb_sha256": "a85c5b499b7803d184ec34ef396746afcd16c0557166bd63d7675beb7b61f7a3",
+    "same_five_files_and_task_as_runtime094": true
+  },
+  "task": {
+    "selected": ["R1", "R2"],
+    "fixed": ["C1", "D1", "J1", "R3", "SW1"],
+    "allowed_area_mm": [23, 24.5, 42.5, 43.5],
+    "retained_routes": 13,
+    "approved_unlocked_rebuild_routes": 17,
+    "approved_nets": ["Net-(C1-Pad1)", "Net-(D1-A)", "Net-(SW1-B)"],
+    "first_alternative_only": true,
+    "search_seconds": 2,
+    "placement_limit_seconds": 120,
+    "route_limit_seconds": 90,
+    "fresh_export_limit_seconds": 90,
+    "overall_wall_limit_and_reserve_seconds": [420, 15]
+  },
+  "outcome": {
+    "attempts": 1,
+    "actual_installed_interface": true,
+    "placement_then_freerouting": true,
+    "opens_after_placement": 6,
+    "opens_after_routing": 0,
+    "blocking_findings": 0,
+    "inherited_footprint_library_warnings": 7,
+    "original_ignored_checks": 5,
+    "fixed_routes_exact": 13,
+    "all_original_files_unchanged": true,
+    "checked_export_pcb_sha256": "7e86f34112da25085d3dd2be69f2ea364965bbc1f12377053d235dc7b52794f8",
+    "independent_readback_current": true,
+    "operator_equivalent_actions": 22,
+    "observed_setup_to_checked_readback_seconds": 165.421,
+    "measured_stages_before_export_visible_seconds": 79.393,
+    "fresh_export_command_seconds": 11.560,
+    "independent_readback_seconds": 7.768,
+    "no_manual_cad_corrections_observed": true,
+    "model_requests": 0,
+    "software_test_intent": true
+  },
+  "friction": {
+    "product": "The copper permission and findings still sit on separate tabs. The first alternative, its protection and the review remained visible during the task.",
+    "automation": "The native file chooser opened despite an accessibility error. A transient lost accessibility window interrupted export observation. The sole export completed successfully in the same window and was checked without repeating it. The observed total includes those pauses."
+  },
+  "limits": "Already exposed design and task. This result gives no new-family, through-via, human cleanup or electrical qualification.",
+  "raw": ".runs/workspace-next-2427-002/licensed-final.json"
+}
