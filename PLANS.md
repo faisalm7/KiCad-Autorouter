@@ -91,12 +91,26 @@ tested workspace, checked export and live move evidence unchanged.
 4. Prepare one consented optional hosted request on owned data only. Check the
    local contract and GUI first. Controlled adoption and the installed TLS
    worker checks passed. One proposal-only Sol/medium request is prepared.
-   Owner authorization and private credential entry are the remaining gates.
+   The owner approved the exact attempt and $0.05 ceiling. The first masked
+   window expired with zero attempts. Private key entry remains the next action.
 5. Assess practical licensed coverage under the fixed scope, verify onboarding
    and preserve small recovery artifacts. Retain unsupported tasks and exposed
    references without a favorable substitution. The unchanged, exposed MIT
    PushButtonLed task passed independent delivery. New-family placement
    remains open. [Licensed result](evidence/product-workspace-licensed-2427-001.json)
-   The compact local archive passed payload verification. Its restoration
-   stopped before extraction. The retained empty scratch slot needs one-time
-   owner permission before the corrected replay can use the slot.
+   The compact local archive passed payload verification. After the authorized
+   empty-directory retirement, the selected restoration matched all 1,217
+   files. The verified scratch copy was retired by the existing procedure.
+
+## Active batch from 6e0bb0db6
+
+1. Put Conversation, its history, local preview and hosted consent entry
+   beside the board. Qualify the installed layout and confirm controlled
+   suggestions and no-AI settings adoption remain separate from execution.
+2. Keep conversation context available during the move from settings to
+   routing review, while protecting the exact approval and source checks.
+3. Admit one pinned, license-cleared new board without modifying its source.
+   Freeze a protected routing task only if the original passes inspection.
+   Preserve the NUS refusal and the distinction between this intake and the
+   exposed PushButtonLed task. Keep live KiCad writes within the verified
+   example and Undo scope while these workflows are checked.

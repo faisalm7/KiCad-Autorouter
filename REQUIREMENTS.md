@@ -28,8 +28,8 @@ The master specification, current strategy and owner steering govern. Historical
   delivery. This is exposed workflow evidence.
   [Licensed result](evidence/product-workspace-licensed-2427-001.json)
 - The installed conversation accepts the frozen owned synthetic scenario
-  through a controlled reply. One current-build hosted proposal awaits
-  owner consent. Existing general live-write, docking, Windows, independent
+  through a controlled reply. The owner approved one hosted attempt; private
+  key entry remains pending. Existing general live-write, docking, Windows, independent
   installation/review and full recovery gates remain distinct.
 
 ## Editor integration

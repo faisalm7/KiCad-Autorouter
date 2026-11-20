@@ -49,6 +49,7 @@ def routing_seconds(text):
 
 
 LOCAL_REQUEST_EXAMPLE = 'Select J1, J2\nArea 14, 8 to 22, 13 mm\nRouting time 75 s'
+CONVERSATION_EMPTY = 'Describe a placement or protected routing request. Review any proposed settings beside the board.'
 
 
 def local_constraint_request(text):
@@ -798,19 +799,41 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             assistant_inputs = wx.ScrolledWindow(assistant_page, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
             assistant_inputs.SetScrollRate(0, 12); self.request_controls = assistant_inputs
             assistant_layout = wx.BoxSizer(wx.VERTICAL)
-            note = wx.StaticText(assistant_inputs, label='Request or reply')
-            assistant_layout.Add(note, 0, wx.EXPAND | wx.ALL, 8)
-            self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 72),
+            self.assistant_result = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
+                                                size=(-1, 96), name='Conversation history')
+            self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
+            assistant_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.ALL, 8)
+            assistant_layout.Add(wx.StaticText(assistant_inputs, label='Your request or reply'),
+                                 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 66),
                                                name='Placement request')
             self.assistant_request.SetHint(LOCAL_REQUEST_EXAMPLE)
             assistant_layout.Add(self.assistant_request, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            actions = wx.BoxSizer(wx.HORIZONTAL)
+
+            options = wx.BoxSizer(wx.HORIZONTAL)
+            self.conversation_kind = wx.Choice(assistant_inputs, choices=['Place components', 'Protected routing'],
+                                                name='Conversation task')
+            self.conversation_kind.SetSelection(0)
+            self.conversation_reset = wx.Button(assistant_inputs, label='New conversation')
+            options.Add(self.conversation_kind, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 6)
+            options.Add(self.conversation_reset, 0, wx.ALIGN_CENTER_VERTICAL)
+            assistant_layout.Add(options, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+
+            request_actions = wx.BoxSizer(wx.HORIZONTAL)
             self.constraint_preview = wx.Button(assistant_inputs, label='Preview constraints')
+            self.constraint_preview.SetToolTip('Preview explicit placement commands or edit a suggestion locally.')
+            self.assistant_ask = wx.Button(assistant_inputs,
+                label='Send controlled reply' if conversation_reply else 'Review data and send…')
+            request_actions.Add(self.constraint_preview, 0, wx.RIGHT, 6)
+            request_actions.Add(self.assistant_ask)
+            assistant_layout.Add(request_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+
+            proposal_actions = wx.BoxSizer(wx.HORIZONTAL)
             self.constraint_use = wx.Button(assistant_inputs, label='Use settings')
             self.constraint_reject = wx.Button(assistant_inputs, label='Discard')
-            for button in (self.constraint_preview, self.constraint_use, self.constraint_reject):
-                actions.Add(button, 0, wx.RIGHT, 5)
-            assistant_layout.Add(actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            proposal_actions.Add(self.constraint_use, 0, wx.RIGHT, 6)
+            proposal_actions.Add(self.constraint_reject)
+            assistant_layout.Add(proposal_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.constraint_edit = wx.CollapsiblePane(assistant_inputs, label='Edit suggestion', style=wx.CP_NO_TLW_RESIZE)
             proposed_fields = self.constraint_edit.GetPane()
             draft_layout = wx.FlexGridSizer(cols=2, vgap=4, hgap=6); draft_layout.AddGrowableCol(1)
@@ -839,30 +862,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                                  size=(-1, 74), name='Constraint changes')
             self.constraint_summary.ChangeValue('Preview a request to see its changes on the board. Use settings to adopt them.')
             assistant_layout.Add(self.constraint_summary, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            self.assistant_advanced = wx.CollapsiblePane(assistant_inputs,
-                                                        label='Conversation · controlled replies' if conversation_reply else 'Conversation · hosted optional',
-                                                        style=wx.CP_NO_TLW_RESIZE)
-            hosted = self.assistant_advanced.GetPane()
-            hosted_layout = wx.BoxSizer(wx.VERTICAL)
-            self.conversation_kind = wx.Choice(hosted, choices=['Place components', 'Protected routing'])
-            self.conversation_kind.SetSelection(0)
-            hosted_layout.Add(self.conversation_kind, 0, wx.EXPAND | wx.BOTTOM, 4)
-            turns = wx.BoxSizer(wx.HORIZONTAL)
-            self.assistant_ask = wx.Button(hosted, label='Send request' if conversation_reply else 'Review data and send…')
-            self.conversation_reset = wx.Button(hosted, label='New conversation')
-            turns.Add(self.assistant_ask, 0, wx.RIGHT, 4); turns.Add(self.conversation_reset)
-            hosted_layout.Add(turns, 0, wx.BOTTOM, 4)
-            self.assistant_result = wx.TextCtrl(hosted, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 86))
-            hosted_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.BOTTOM, 4)
-            self.assistant_result.ChangeValue('Enter a request above. Use Preview constraints for explicit local commands.')
-            hosted.SetSizer(hosted_layout)
-            assistant_layout.Add(self.assistant_advanced, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            self.assistant_advanced.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
             assistant_inputs.SetSizer(assistant_layout)
             assistant_split = wx.BoxSizer(wx.VERTICAL)
             assistant_split.Add(assistant_inputs, 1, wx.EXPAND)
             assistant_page.SetSizer(assistant_split)
-            self.pages.AddPage(assistant_page, 'Request')
+            self.pages.AddPage(assistant_page, 'Conversation')
             schematic_page = wx.Panel(self.pages); schematic_layout = wx.BoxSizer(wx.VERTICAL)
             self.schematic_text = wx.TextCtrl(schematic_page, style=wx.TE_MULTILINE | wx.TE_READONLY,
                                              name='Saved schematic context')
@@ -1222,7 +1226,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.invalidate_copilot()
                 if hasattr(self, 'conversation'):
                     self.conversation.reset()
-                    self.assistant_result.ChangeValue('')
+                    self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
                 self.automatic_target_area = False
                 self.target_region.SetValue(False)
                 self.schematic = None; self.schematic_refusal = ''
@@ -1435,7 +1439,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 return
             self.invalidate_copilot()
             self.conversation.reset()
-            self.assistant_result.ChangeValue('Enter a new request above.')
+            self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
             self.refresh()
 
         def conversation_routing_preferences(self):
@@ -1477,6 +1481,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     identity = self.conversation.check_source(inspection, routing)
                     self.conversation.remember(binding['request'], proposal, clarification, source=identity)
                     self.assistant_result.ChangeValue(self.conversation.summary())
+                    self.assistant_result.SetInsertionPointEnd()
                     if proposal is not None:
                         # Changing the ordinary settings takes a later deliberate action.
                         self.conversation_offer = True
@@ -1485,7 +1490,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         question = design.read_design_clarification(clarification)
                         self.constraint_summary.ChangeValue('\n'.join(question['questions']))
                         self.message('This request needs a supported alternative.' if question['status'] == 'unsupported'
-                                     else 'Enter your answer above, then send it as a new turn.')
+                                     else 'Enter your answer and review the next request before sending.')
                         self.assistant_request.SetFocus(); self.assistant_request.SelectAll()
 
                 def ready(value):
@@ -1780,7 +1785,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 finally:self.updating=False
                 self.overview()
                 self.update_schematic_view()
-                self.message('Select the parts to move and draw their allowed area, or open Request.')
+                self.message('Select the parts to move and draw their allowed area, or open Conversation.')
             def inspect(job, event):
                 require_closed_source(source)
                 value = intent.inspect_saved(source)

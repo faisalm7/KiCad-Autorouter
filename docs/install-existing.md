@@ -42,8 +42,9 @@ files and starts with a fresh private job directory. Past job contents stay
 with the original installation.
 
 For local placement suggestions, inspect the project in the workspace and
-open **Request**. Earlier launchers start in routing. In those builds choose
-**Place components** to reach the placement workspace.
+open **Conversation**. Earlier workspace builds call this tab **Request**.
+If the launcher starts in routing, choose **Place components** to reach the
+placement workspace.
 Enter one or more example lines and preview the
 selection, movement area or routing time. Edit the suggestion if needed,
 preview the edits and choose **Use settings**. Search, validation, routing and
