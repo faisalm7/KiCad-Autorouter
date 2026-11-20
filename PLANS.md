@@ -112,6 +112,10 @@ tested workspace, checked export and live move evidence unchanged.
    hosted pilot waits for readiness for private entry, with no request sent.
 2. Keep conversation context available during the move from settings to
    routing review, while protecting the exact approval and source checks.
+   The installed shared tools adopted a controlled suggestion for ROUTE_A
+   and checked its three protected copper items. A changed saved revision
+   withheld the history and refused the adopted settings. Actual display
+   beside routing review remains to be seen. [Installed controls](evidence/product-workspace-conversation-install-001.json)
 3. Admit one pinned, license-cleared new board without modifying its source.
    Freeze a protected routing task only if the original passes inspection.
    Preserve the NUS refusal and the distinction between this intake and the
@@ -124,5 +128,7 @@ tested workspace, checked export and live move evidence unchanged.
 4. Open the ordinary saved-project workspace from the checked live example
    with its exact saved path already selected. Verify the existing open-project
    refusal. Keep live writes within the checked example and Undo scope.
-   The source and launcher binding checks pass. Use an isolated editor session
-   for the actual handoff when the existing editor can be left undisturbed.
+   The source and launcher binding checks pass. The installed workspace
+   checks resolved the exact older owned example and refused its real open
+   project lock. Use an isolated editor session for the graphical handoff
+   when the existing editor can be left undisturbed.
