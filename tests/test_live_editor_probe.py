@@ -1,6 +1,7 @@
 """Exact readback controls for the owned live-editor qualification."""
 from pathlib import Path
 import unittest
+from unittest.mock import Mock
 
 from autorouter import sexpr
 from experiments.live_editor_v1 import probe
@@ -43,6 +44,17 @@ class EditorReadback(unittest.TestCase):
         item.append(sexpr.one(sexpr.children(expected, 'footprint')[0], 'units'))
         sexpr.one(sexpr.children(item, 'property')[0], 'uuid')[1] = '"different"'
         self.assertFalse(probe.unchanged_outside_move(plan, dict(raw=self.dump(self.before), disk=disk)))
+
+    def test_workspace_selection_read_retires_checked_move(self):
+        session = probe.Session.__new__(probe.Session)
+        session.plan = {'info': {'id': 1}, 'native': {'blocking': 0}}
+        session.initial = {'raw': self.snapshot, 'sha256': 'fixture', 'disk': {}}
+        session.snapshot = Mock(return_value=session.initial)
+        session.selected = Mock(return_value=[])
+        session.write = Mock()
+        self.assertIn('svg', session.inspect(board_view=True)['scene'])
+        with self.assertRaisesRegex(ValueError, 'Preview a new move'):
+            session.fresh(1)
 
 
 if __name__ == '__main__':

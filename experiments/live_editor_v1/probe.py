@@ -54,7 +54,7 @@ def board_file(editor_bytes):
 
 
 class Session:
-    def __init__(self, run, runtime, *, direct_trial=False):
+    def __init__(self, run, runtime, *, direct_trial=False, source=None, connection=None):
         from autorouter import config as c, placement_clearance as pc, gui
         from kipy import KiCad
         from kipy.proto.common.types import DocumentType
@@ -64,14 +64,17 @@ class Session:
         require(c.ROOT == runtime and c.NATIVE_VERSION == '10.0.7',
                 'The selected runtime must supply pinned KiCad 10.0.7.')
         self.run = run
-        self.source = run / 'inspection'
+        self.source = run / 'inspection' if source is None else source
         self.path = gui.saved_project_board(self.source / (NAME + '.kicad_pro'))
         for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
             expected = pc.read_bytes(FIXTURE / (NAME + suffix))
             require(pc.read_bytes(self.path.with_suffix(suffix)) == expected,
                     'The open PCB must be the exact disposable owned example.')
-        endpoint = os.environ.pop('KICAD_API_SOCKET', '')
-        token = os.environ.pop('KICAD_API_TOKEN', '')
+        if connection is None:
+            endpoint = os.environ.pop('KICAD_API_SOCKET', '')
+            token = os.environ.pop('KICAD_API_TOKEN', '')
+        else:
+            endpoint, token = connection
         socket = Path(endpoint.removeprefix('ipc://'))
         require(bool(token) and socket.is_absolute(), 'Launch from the owned KiCad PCB toolbar.')
         info = socket.lstat()
@@ -142,19 +145,26 @@ class Session:
         items = self.pcb.get_selection()
         return [item for item in items if isinstance(item, FootprintInstance)]
 
-    def inspect(self):
+    def inspect(self, *, board_view=False):
         from autorouter import sexpr
 
+        if board_view: self.plan = None
         snapshot = self.snapshot()
         items = self.selected()
         selected = [item.reference_field.text.value for item in items]
         self.write('selection', refs=selected, editor_sha256=snapshot['sha256'],
                    disk_unchanged=snapshot['disk'] == self.initial['disk'])
-        return dict(project=NAME, selection=selected,
+        result = dict(project=NAME, selection=selected,
                     board_changed=sexpr.parse(snapshot['raw'].decode())
                     != sexpr.parse(self.initial['raw'].decode()))
+        if board_view:
+            from autorouter import placement_view
+            from experiments.placement_native_proposal_v1 import contract
+            observation = contract.inspect_board(board_file(snapshot['raw']), scope=contract.THT_BASELINE_SCOPE)
+            result['scene'] = placement_view.scene(observation, {}, [], REGION_NM)
+        return result
 
-    def preview(self):
+    def preview(self, *, board_view=False):
         from autorouter import sexpr
         from experiments.placement_native_proposal_v1 import contract
 
@@ -180,6 +190,9 @@ class Session:
         self.plan = dict(info=proposal, snapshot=snapshot, source=source, expected=expected, options=options,
                          candidate=(sexpr.dump(expected) + '\n').encode())
         self.write('preview', **proposal, editor_sha256=snapshot['sha256'])
+        if board_view:
+            from autorouter import placement_view
+            return dict(proposal, scene=placement_view.scene(observation, {uid: target}, [uid], REGION_NM))
         return proposal
 
     def fresh(self, proposal):

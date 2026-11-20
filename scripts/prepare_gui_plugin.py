@@ -38,7 +38,7 @@ def toolbar_board(socket_url, token):
     return board
 
 
-def launch_toolbar():
+def launch_toolbar(checked_launcher=None):
     from autorouter.gui import child_environment
     socket = os.environ.pop('KICAD_API_SOCKET', '')
     token = os.environ.pop('KICAD_API_TOKEN', '')
@@ -50,6 +50,17 @@ def launch_toolbar():
         # any session token. The blank picker grants no source authority.
         argv += ['--toolbar-unavailable']
     else:
+        if checked_launcher is not None:
+            from autorouter import live_move
+            try:
+                session, lease = live_move.start(checked_launcher, board, (socket, token))
+            except Exception:
+                # An unsupported live start retains the existing saved-project handoff.
+                pass
+            else:
+                with lease:
+                    live_move.workspace(session)
+                return
         argv += ['--toolbar-project', str(board.with_suffix('.kicad_pro'))]
     os.chdir(c.ROOT)
     os.execve(c.PYTHON, argv, child_environment())
@@ -68,7 +79,7 @@ def icon_png(size):
     def chunk(kind,data):return struct.pack('!I',len(data))+kind+data+struct.pack('!I',zlib.crc32(kind+data)&0xffffffff)
     return b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('!IIBBBBB',size,size,8,6,0,0,0))+chunk(b'IDAT',zlib.compress(raw))+chunk(b'IEND',b'')
 
-def prepare(documents):
+def prepare(documents, *, checked_launcher=None):
     documents=canonical(Path(documents).absolute())
     if documents.exists():raise ValueError('Use a fresh documents directory; existing configuration is never overwritten.')
     if not c.PYTHON.is_file() or not (c.ROOT/'autorouter/gui.py').is_file():
@@ -82,7 +93,9 @@ def prepare(documents):
             entrypoint='launch-autorouter',scopes=['pcb'],**{'show-button':True,'icons-light':['route24.png','route48.png'],'icons-dark':['route24.png','route48.png']})])
     script = ('#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME\nexport PYTHONNOUSERSITE=1\ncd '
               + shlex.quote(str(c.ROOT)) + '\nexec ' + shlex.quote(str(c.ROOT / '.venv/bin/python'))
-              + ' -B ' + shlex.quote(str(c.ROOT / 'scripts/prepare_gui_plugin.py')) + ' --from-toolbar\n')
+              + ' -B ' + shlex.quote(str(c.ROOT / 'scripts/prepare_gui_plugin.py')) + ' --from-toolbar'
+              + (' --checked-launcher ' + shlex.quote(str(checked_launcher)) if checked_launcher is not None else '')
+              + '\n')
     for size in (24,48):(plugin/('route'+str(size)+'.png')).write_bytes(icon_png(size))
     (plugin/'plugin.json').write_text(json.dumps(manifest,indent=2)+'\n')
     launcher=plugin/'launch-autorouter';launcher.write_text(script);launcher.chmod(0o700)
@@ -93,7 +106,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--documents'); mode.add_argument('--from-toolbar', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--checked-launcher', help=argparse.SUPPRESS)
     args=parser.parse_args()
-    if args.from_toolbar: launch_toolbar()
+    if args.from_toolbar: launch_toolbar(args.checked_launcher)
     else: print(json.dumps(prepare(args.documents),indent=2))
 if __name__=='__main__':main()

@@ -10,9 +10,10 @@ import xml.etree.ElementTree as ET
 
 from autorouter import design_intent as design, gui, placement_intent as placement
 from autorouter import placement_gui as pg
-from experiments.placement_native_proposal_v1 import multipad_fixture
+from experiments.placement_native_proposal_v1 import multipad_fixture, ordinary_fixture
 from tests import test_placement_copper_gui as controls, test_placement_gui as ui
 from tests import test_placement_copper as copper_fixtures
+from tests import test_placement_source_baseline as baseline
 
 
 class ConstraintProposal(unittest.TestCase):
@@ -68,6 +69,39 @@ class ConstraintProposal(unittest.TestCase):
         self.assertEqual(gui.source_inventory(self.board), before)
         with self.assertRaises(design.PendingContextChanged):
             self.adopt(review, offer)
+
+    def test_proposed_target_area_discloses_and_revalidates_the_derived_start_policy(self):
+        source = baseline.SourceCopperBaseline()
+        source.setUp()
+        board = ordinary_fixture.write_project(self.board.parent.parent / 'target-source')
+        board.write_bytes(source.source)
+        inspection = source.inspection()
+        inspection.update(source=str(board), source_hashes=gui.source_inventory(board),
+            components=[dict(uuid=row['uuid'], reference=row['reference'], fixed_reasons=[])
+                        for row in source.observation['footprints']])
+        controls = dict(selected=list(source.selected), fixed=[], region_nm=source.region,
+            region_limit_nm=source.observation['outline']['bounds_nm'], route_seconds=90,
+            policy=dict(scope=source.observation['scope'], copper_policy=placement.COPPER_POLICY,
+                        protected_names=['KEEP'], protected_route_ids=[]))
+        binding = dict(request='Place J1 and J2 inside X 14–22 and Y 8–13 mm.', revision=1, source=board)
+        target = dict(selected_refs=None, region_nm=[14_000_000, 8_000_000, 22_000_000, 13_000_000], route_seconds=None)
+        # Only the Native-context refresh is synthetic. The real placement and
+        # retained-copper checks run on the fixture's actual saved geometry.
+        with patch.object(placement, 'current', return_value=inspection):
+            review = design.PlacementConstraintReview(inspection, controls, request=binding['request'], revision=1)
+            offer = review.receive(self.tool, target, controls, **binding)
+            self.assertEqual(offer['placement_settings']['region_initialization'],
+                             placement.prototype.REGION_INITIALIZATION_POLICY)
+            self.assertIn('Selected parts may start outside the area', pg.constraint_change_text(offer))
+            self.assertNotIn('region_initialization', controls['policy'])
+            self.assertEqual(offer['copper_plan']['protected_names'], ['KEEP'])
+            edited = dict(target, region_nm=source.region, route_seconds=75)
+            revised_offer = review.revise(offer, edited, controls, **binding)
+            revised = review.adopt(revised_offer, controls, **binding)
+        self.assertNotIn('region_initialization', revised['placement_settings'])
+        self.assertEqual(revised['region_nm'], source.region)
+        self.assertEqual(revised['route_seconds'], 75)
+        self.assertEqual(inspection['source_hashes'], gui.source_inventory(board))
 
     def test_malformed_unknown_duplicate_fixed_and_boundary_edits_refuse(self):
         for edit in (dict(selected_refs=['J1', 'connector']), dict(selected_refs=['J1', 'J1']),

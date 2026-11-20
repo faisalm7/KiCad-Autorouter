@@ -42,8 +42,13 @@ PLACEMENT_FILES = frozenset((
     *('experiments/constrained_placement_v1/vendor/' + name + '.py'
       for name in ('anneal', 'blocks', 'edge', 'electrical', 'geom', 'metrics', 'model', 'nets')),
 ))
+LIVE_MOVE_FILES = frozenset((
+    'experiments/live_editor_v1/probe.py', 'experiments/live_editor_v1/panel.py',
+    *('examples/owned-placement-routing/source/owned-placement-ordinary' + suffix
+      for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch')),
+))
 FIXED_FILES = frozenset(('LICENSE', 'toolchain.lock.json',
-    'scripts/install_gui.py', 'scripts/prepare_gui_plugin.py')) | PLACEMENT_FILES
+    'scripts/install_gui.py', 'scripts/prepare_gui_plugin.py')) | PLACEMENT_FILES | LIVE_MOVE_FILES
 MUTABLE_DIRECTORIES = ('.runs', '.venv')
 ENGINE_PATH = '.tools/freerouting-2.5.0.jar'
 MAX_FILE_BYTES = 2 * 1024**2
@@ -410,7 +415,10 @@ def _distribution_identity(root, implementation, *, declared_root, transport_rec
         raise ValueError('runtime distribution identity or schema differs')
     expected = _file_map(record['immutable_files_sha256'])
     modules = module_paths(root)
-    if set(expected) != FIXED_FILES | {README} | set(modules):
+    complete = FIXED_FILES | {README} | set(modules)
+    previous = complete - LIVE_MOVE_FILES
+    if (set(expected) != complete
+            and ('autorouter/live_move.py' in modules or set(expected) != previous)):
         raise ValueError('runtime immutable file population differs')
     build = record['build_source']
     if (type(build) is not dict or set(build) != {'kind', 'git_head', 'files_sha256'}

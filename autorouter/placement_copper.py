@@ -126,6 +126,11 @@ def propose(source_bytes, selected, *, protected_names=None, protected_route_ids
     for route in routes.values():
         record = _record(route, mapping)
         if record['net_name'] in names:
+            if route[0] == 'via':
+                at = c.point(route, 'at')
+                location = ', '.join(f'{number / 1e6:g}' for number in at)
+                raise ValueError(f'The selected parts touch a via on {record["net_name"]} at {location} mm. '
+                                 'Placement can keep vias in place. Deselect the parts on that net to continue.')
             if record['locked'] or record['uuid'] in protected_route_ids:
                 raise ValueError('Incident copper is locked or explicitly protected: ' + record['uuid'])
             removed.append(record)

@@ -72,3 +72,24 @@ Native Windows needs the outstanding isolation controls before it runs KiCad
 or Freerouting. Hosted conversation needs separate approval for an owned task.
 True docking, reversible schematic editing and full/off-Mac recovery remain
 separate gates. [Requirements](REQUIREMENTS.md)
+
+## Active batch from 2427b2ebd
+
+Advance through ready work after each checked checkpoint. Keep the previous
+tested workspace, checked export and live move evidence unchanged.
+
+1. Explain the exact NUS bounds. Keep the frozen refusal and qualify one
+   bounded preserved-via extension on a rectangular owned board. Admit no
+   curved or keepout geometry by its enclosing rectangle. [Scope and trial](docs/current-placement-scope.md)
+2. Verify the automatic destination-area setup, one placement approval,
+   checked prefilled nets and folded budget in the installed workspace.
+   Compare the workflow to the earlier recorded action sequence.
+3. Open the checked 10.0.8 example from the ordinary launcher and toolbar.
+   Show the exact move, verify approval and readback and confirm native
+   Undo. Keep other boards in the separate-project workspace.
+4. Prepare one consented optional hosted request on owned data only. Check the
+   local contract and GUI first. Separate permission and a privately supplied
+   credential are required for the actual request.
+5. Assess practical licensed coverage under the fixed scope, verify onboarding
+   and preserve small recovery artifacts. Retain unsupported tasks and exposed
+   references without a favorable substitution.

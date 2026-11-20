@@ -418,7 +418,7 @@ def _window_request(window):
     This captures intent only; the existing Workflow checks remain authoritative.
     """
     return Request(window.board.GetValue(), window.output.GetValue(),
-                   json.dumps(window.config()), window.ack.GetValue(),
+                   json.dumps(window.config()), getattr(window, 'private_placement_source', False) or window.ack.GetValue(),
                    method_for_index(window.method.GetSelection()),
                    source_guard=getattr(window, 'source_guard', None))
 
@@ -1158,6 +1158,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.flow = None; self.job = None; self.busy = False; self.closing = False
             self._on_closed = on_closed; self._close_finalized = False
             self.source_guard = source_guard
+            self.private_placement_source = (self.in_workspace and source_guard is not None and
+                                             source_guard.placement_origin is not None)
             self.warning_dialog = None
             self.chooser = None; self.input_generation = 0
             self.placement_window = None
@@ -1209,13 +1211,14 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 control.SetMinSize(self.FromDIP((160, -1)))
                 control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name])); control.Bind(wx.EVT_CHOICE, self.changed)
                 self.choices[name] = control; self.edit_controls.append(control); target_grid.Add(control, 1, wx.EXPAND)
-            self.budget_label = wx.StaticText(panel, label='Routing budget (seconds)')
-            grid.Add(self.budget_label, 0, wx.ALIGN_CENTER_VERTICAL)
+            budget_panel, budget_layout = (advanced, advanced_grid) if self.in_workspace else (panel, grid)
+            self.budget_label = wx.StaticText(budget_panel, label='Routing budget (seconds)')
+            budget_layout.Add(self.budget_label, 0, wx.ALIGN_CENTER_VERTICAL)
             # Cocoa SpinCtrl clamps invalid text on focus loss before Preview
             # can validate it. Keep the exact input until explicit validation.
-            self.seconds = wx.TextCtrl(panel, value=str(int(pref.DEFAULTS['seconds'])))
+            self.seconds = wx.TextCtrl(budget_panel, value=str(int(pref.DEFAULTS['seconds'])))
             self.seconds.Bind(wx.EVT_TEXT, self.changed)
-            self.edit_controls.append(self.seconds); grid.Add(self.seconds)
+            self.edit_controls.append(self.seconds); budget_layout.Add(self.seconds)
             self.nets_label = wx.StaticText(panel, label='Selected nets (one exact name per line)')
             grid.Add(self.nets_label, 0, wx.ALIGN_CENTER_VERTICAL)
             self.nets = wx.TextCtrl(panel, style=wx.TE_MULTILINE, size=(-1, 55))
@@ -1772,7 +1775,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                         show = not self.busy and 'preview' not in ready
                     button.Show(show)
                 self.inspected.Show(reviewable)
-                self.ack.Show('preview' not in ready)
+                self.ack.Show(not self.private_placement_source and 'preview' not in ready)
                 self.workspace_progress.Show(self.busy)
                 selected = self.choices['scope'].GetSelection() == 2
                 self.nets.Show(selected); self.nets_label.Show(selected)
@@ -1822,7 +1825,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 stage = 'choice' if choice else action
                 if stage in ('preview', 'review'): self.inspected.SetValue(False)
                 request = _window_request(self)
-                if self.ack.GetValue() is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
+                if request.saved_closed is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
                 self.busy = True; self.job = CliJob(); job = self.job; self.refresh()
                 self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
                 def work():

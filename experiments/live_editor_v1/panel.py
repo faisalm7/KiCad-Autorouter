@@ -44,9 +44,11 @@ class Preview(wx.Panel):
 
 
 class Companion(wx.Frame):
-    def __init__(self, *, diagnostics=False, direct_trial=False):
-        super().__init__(None, title='Copperpath · Open board', size=(486, 455))
-        self.SetMinSize((450, 434))
+    def __init__(self, *, diagnostics=False, direct_trial=False, workspace=False):
+        super().__init__(None, title='Copperpath · Open board', size=(950, 610) if workspace else (486, 455))
+        self.SetMinSize((720, 520) if workspace else (450, 434))
+        self.workspace = workspace
+        self.source_scene = None
         self.move = None
         self.run = None
         self.discard_pending = False
@@ -56,7 +58,8 @@ class Companion(wx.Frame):
         self.direct_trial = direct_trial
         self.checked_move_finished = False
         self.selected = []
-        box = wx.Panel(self)
+        container = wx.Panel(self)
+        box = wx.Panel(container) if workspace else container
         stack = wx.BoxSizer(wx.VERTICAL)
         box.SetSizer(stack)
 
@@ -66,24 +69,41 @@ class Companion(wx.Frame):
         font.MakeBold()
         heading.SetFont(font)
         stack.Add(heading, 0, wx.LEFT | wx.RIGHT | wx.TOP, 18)
-        stack.Add(wx.StaticText(box, label='Owned test board · live PCB companion'),
+        stack.Add(wx.StaticText(box, label='Checked example · KiCad 10.0.8' if workspace else 'Owned test board · live PCB companion'),
                   0, wx.LEFT | wx.RIGHT | wx.TOP, 18)
         self.selection = wx.StaticText(box, label='Reading KiCad selection…')
         stack.Add(self.selection, 0, wx.LEFT | wx.RIGHT | wx.TOP, 18)
-        self.diagram = Preview(box)
-        stack.Add(self.diagram, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
+        if workspace:
+            import wx.svg
+            from autorouter.placement_gui import board_canvas
+            layout = wx.BoxSizer(wx.HORIZONTAL)
+            self.diagram = board_canvas(wx, container, None, None, self.image_error, self.controls, read_only=True,
+                                        empty_note='Reading the checked example from KiCad…')
+            layout.Add(self.diagram, 1, wx.EXPAND | wx.ALL, 12)
+            layout.Add(box, 0, wx.EXPAND | wx.TOP | wx.RIGHT, 12)
+            container.SetSizer(layout)
+            box.SetMinSize((316, -1))
+        else:
+            self.diagram = Preview(box)
+            stack.Add(self.diagram, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
         self.status = wx.TextCtrl(box, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.BORDER_NONE,
                                   size=(-1, 77))
         self.status.SetName('Move status and findings')
-        stack.Add(self.status, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
+        stack.Add(self.status, 1 if workspace else 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
 
         choices = wx.BoxSizer(wx.HORIZONTAL)
         self.refresh = wx.Button(box, label='Read selection')
         self.discard = wx.Button(box, label='Discard')
         self.next = wx.Button(box, label='Preview move')
-        for button in (self.refresh, self.discard, self.next):
+        if workspace:
+            stack.Add(self.next, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
+        for button in (self.refresh, self.discard) if workspace else (self.refresh, self.discard, self.next):
             choices.Add(button, 0, wx.RIGHT, 6)
         stack.Add(choices, 0, wx.ALL, 18)
+        if workspace:
+            self.saved = wx.Button(box, label='Open saved-project workspace…')
+            self.saved.Bind(wx.EVT_BUTTON, self.open_saved)
+            stack.Add(self.saved, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 18)
         self.refresh.Bind(wx.EVT_BUTTON, lambda _e: self.request('inspect'))
         self.discard.Bind(wx.EVT_BUTTON, self.on_discard)
         self.next.Bind(wx.EVT_BUTTON, self.advance)
@@ -104,6 +124,20 @@ class Companion(wx.Frame):
         self.Show()
         self.request('inspect')
 
+    def image_error(self, _reason):
+        self.move = None
+        self.validated = False
+        self.status.SetValue('The board preview could not be drawn. Read the selection to try again.')
+        self.controls()
+
+    def open_saved(self, _event):
+        if self.run is not None:
+            return
+        from autorouter.placement_gui import create_window
+        replacement = create_window()
+        replacement.Show()
+        self.Destroy()
+
     def on_close(self, event):
         if self.run is not None and event.CanVeto():
             self.status.SetValue('A check is finishing. Its response cannot approve a move.')
@@ -119,6 +153,9 @@ class Companion(wx.Frame):
         elif self.move is None:
             self.request('preview')
         else:
+            if self.workspace and not self.diagram.Ready():
+                self.status.SetValue('Wait for the board preview before checking or applying the move.')
+                return
             action = ('apply_direct' if self.direct_trial else 'open_move') if self.validated else 'validate'
             self.request(action, self.move['id'])
 
@@ -139,16 +176,23 @@ class Companion(wx.Frame):
                            ('Apply checked move' if self.direct_trial else 'Review in KiCad') if self.validated else
                            'Check move' if self.move else 'Preview move')
         self.next.Enable(self.run is None and not self.checked_move_finished and (self.readback_pending or len(self.selected) == 1
-                                               and self.selected[0] in ('J1', 'J2')))
+                                               and self.selected[0] in ('J1', 'J2')
+                                               and (not self.workspace or self.diagram.Ready())))
         for button in self.test_buttons:
             button.Enable(self.run is None and self.move is not None and not self.native_move_open)
-        self.diagram.move = self.move
-        self.diagram.Refresh()
+        if self.workspace:
+            self.saved.Enable(self.run is None)
+        else:
+            self.diagram.move = self.move
+            self.diagram.Refresh()
         self.Layout()
 
     def request(self, command, *args):
         if self.run is not None:
             return
+        if self.workspace and command == 'inspect':
+            self.move = None
+            self.validated = False
         self.run = command
         if command == 'validate':
             self.status.SetValue('KiCad is checking an isolated copy. You can discard this proposal.')
@@ -175,6 +219,8 @@ class Companion(wx.Frame):
                 self.move = None
                 self.validated = False
                 self.native_move_open = False
+            if self.workspace and command == 'apply_direct' and response.get('verify_undo') is True:
+                self.readback_pending = True
             self.status.SetValue(response['message'])
         else:
             result = response['value']
@@ -183,9 +229,14 @@ class Companion(wx.Frame):
                 self.selection.SetLabel('Selected in KiCad · ' + (', '.join(self.selected) or 'No footprint'))
                 self.status.SetValue('The editor contains unsaved board changes.' if result['board_changed']
                                      else 'Select J1 or J2 to preview a 1 mm translation.')
+                if self.workspace:
+                    self.source_scene = result['scene']
+                    self.show_scene(self.source_scene)
             elif command == 'preview':
                 self.move = result
                 self.status.SetValue(result['ref'] + ' · Preview only. Check against the original project before applying.')
+                if self.workspace:
+                    self.show_scene(result['scene'])
             elif command == 'validate':
                 self.validated = True
                 self.status.SetValue(
@@ -227,10 +278,19 @@ class Companion(wx.Frame):
                     'drop_test': 'KiCad discarded the staged move. The board is unchanged.',
                     'partial_test': 'The mixed update was refused and dropped. The board is unchanged.',
                 }[command])
+                if self.workspace and command in ('discard', 'undo'):
+                    self.show_scene(self.source_scene)
         self.controls()
+
+    def show_scene(self, scene):
+        try:
+            self.diagram.SetScene(scene)
+        except Exception as exc:
+            self.image_error(str(exc))
 
 
 if __name__ == '__main__':
     app = wx.App(False)
-    Companion(diagnostics='--diagnostics' in sys.argv, direct_trial='--direct-1008-trial' in sys.argv)
+    Companion(diagnostics='--diagnostics' in sys.argv, direct_trial='--direct-1008-trial' in sys.argv,
+              workspace='--workspace' in sys.argv)
     app.MainLoop()

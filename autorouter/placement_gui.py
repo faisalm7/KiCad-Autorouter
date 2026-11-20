@@ -19,8 +19,9 @@ import threading
 import uuid
 import xml.etree.ElementTree as ET
 
-from . import config as c, conversation, gui, handoff as h, placement_intent as intent, placement_view
-from .pipeline import Rejected
+from . import board_floor, config as c, conversation, gui, handoff as h, placement_intent as intent, placement_view
+from . import routing_scope, sexpr as sx
+from .pipeline import Rejected, routes
 from . import schematic_context
 
 
@@ -112,6 +113,8 @@ def constraint_change_text(offer, *, conversational=False):
             lines.append(f'{label}  {show(before[key])} → {show(after[key])}')
     if offer['placement_settings'] is not None:
         lines.append('Every other component stays fixed.')
+        if intent.region_options(offer['placement_settings']):
+            lines.append('Selected parts may start outside the area. Every proposed position must fit inside it.')
     plan = offer['copper_plan']
     if plan:
         lines.append(f"{len(plan['protected_routes'])} existing routes stay protected. "
@@ -164,6 +167,25 @@ def placement_policy(window):
     return policy
 
 
+def update_target_area(window):
+    """Reflect the effective start policy after an ordinary explicit area edit."""
+    if window.inspection is None or not getattr(window, 'automatic_target_area', False):
+        return
+    enabled = False
+    if window.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
+        selected = [row['uuid'] for i, row in enumerate(window.inspection['components'])
+                    if window.parts.IsChecked(i)]
+        try:
+            area = [millimetres(field.GetValue()) for field in window.region]
+        except ValueError:
+            pass  # The ordinary controls still refuse an incomplete or invalid rectangle.
+        else:
+            enabled = intent.target_area_needs_initialization(window.inspection, selected, area,
+                                                              grouped=window.rigid_group.GetValue())
+    if window.target_region.GetValue() != enabled:
+        window.target_region.SetValue(enabled)
+
+
 def require_closed_source(board, *, inspection=None):
     """Early UI hint using the same inventory/lock guard as qualification.
 
@@ -189,6 +211,46 @@ def require_closed_source(board, *, inspection=None):
         raise ValueError('Saved source files changed since inspection. Click Inspect project again, '
             'then load your settings and review a new draft. Earlier validation was not renewed.')
     return source
+
+
+def empty_copper_selection(source, inspection, selected, settings):
+    """Prefill exact selected-part nets only when no original copper can be rebuilt."""
+    if not selected or inspection is None or str(source) != inspection['source']:
+        return None
+    observation = inspection['observation']
+    chosen = [part for part in observation['footprints'] if part['uuid'] in selected]
+    nets = {pad['net'] for part in chosen for pad in part['pads']}
+    if not nets or '' in nets or len(chosen) != len(selected):
+        return None
+    try:
+        current = gui.source_inventory(source)
+        if current != inspection['source_hashes']:
+            return None
+        raw = intent.pc.read_bytes(source, intent.contract.MAX_BYTES)
+        if hashlib.sha256(raw).hexdigest() != observation['source_board_sha256']:
+            return None
+        tree = intent.contract.read_board(raw)
+        known, resolve = board_floor.source_net_identity(tree)
+        if not nets <= known:
+            return None
+        existing = {resolve(sx.one(item, 'net'), owner=item)
+                    for item in [*routes(tree), *sx.children(tree, 'zone')]}
+        if nets & existing or '' in existing:
+            return None
+        settings = gui.pref.validate(dict(settings, scope='selected_nets', profile='completion-only',
+                                          nets=routing_scope.validate_names(sorted(nets))))
+
+        def origin():
+            if gui.source_inventory(source) != current:
+                raise ValueError('The saved board changed after selecting its unrouted nets. Inspect it again.')
+
+        def retain_copper(edited, _method, _candidate):
+            if edited['scope'] == 'selected_nets' and set(edited['nets']) & existing:
+                raise ValueError('A selected net already has tracks, vias or a zone. Use Finish gaps to preserve it.')
+
+        return settings, gui.SourceGuard(source, origin, retain_copper)
+    except (OSError, ValueError, Rejected):
+        return None  # Inconclusive selection keeps the original Finish gaps settings.
 
 
 def copilot_plan_text(inspection, proposal):
@@ -620,6 +682,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.job = None; self.cancel_event = None; self.routing = None
             self.qualified = None; self.validation_revoked = False
             self.updating = False; self.workspace = None; self.owner = {}
+            self.automatic_target_area = False
             self.pending_coordinates = {}
             self.alternative_labels = []; self.alternative_targets = []
             self.editing_component = None
@@ -671,8 +734,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             budget_row.Add(self.route_budget, 0); advanced_layout.Add(budget_row, 0, wx.BOTTOM, 8)
             self.rigid_group = wx.CheckBox(advanced, label='Keep selected parts together')
             advanced_layout.Add(self.rigid_group, 0, wx.BOTTOM, 6)
-            self.target_region = wx.CheckBox(advanced, label='Start outside area · experimental')
-            self.target_region.SetToolTip('Optional two-part target-region initialization, tested on one owned task. Never enabled by drawing an area. Original constraints and final Native checks stay mandatory.')
+            self.target_region = wx.CheckBox(advanced, label='Allow parts to start outside the target area')
+            self.target_region.SetToolTip('A drawn or entered area enables this when a supported pair needs it. '
+                'Turn it off to require both current positions to fit. Every proposed position must fit inside the area.')
             advanced_layout.Add(self.target_region, 0, wx.BOTTOM, 6)
             self.original_group = wx.Button(advanced, label='Review current group arrangement')
             advanced_layout.Add(self.original_group, 0, wx.EXPAND | wx.BOTTOM, 6)
@@ -697,7 +761,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.pages.AddPage(self.controls, 'Settings')
             board_page = self.board_page = wx.Panel(panel); board_layout = wx.BoxSizer(wx.VERTICAL)
             board_tools = wx.BoxSizer(wx.HORIZONTAL)
-            self.draw_area = wx.ToggleButton(board_page, label='Draw movement area')
+            self.draw_area = wx.ToggleButton(board_page, label='Draw target area')
             board_tools.Add(self.draw_area, 0)
             board_tools.AddStretchSpacer()
             self.native_summary = wx.StaticText(board_page)
@@ -808,11 +872,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             columns.Add(board_page, 1, wx.EXPAND | wx.RIGHT, 10)
             columns.Add(self.pages, 0, wx.EXPAND)
             root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
-            self.ack = wx.CheckBox(panel, label='I reviewed these moves and the copper-rebuild plan.\nSource editors AND the KiCad project are saved and closed.')
-            self.ack.SetToolTip('Close PCB and schematic editors, then use File > Close Project in KiCad manager before inspection and validation. Closing can update saved files; inspect again afterward.')
-            root.Add(self.ack, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
+            self.approval_note = wx.StaticText(panel)
+            root.Add(self.approval_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8)
             buttons = wx.BoxSizer(wx.HORIZONTAL)
-            self.find = wx.Button(panel, label='Find alternatives'); self.qualify = wx.Button(panel, label='Validate placement')
+            self.find = wx.Button(panel, label='Find alternatives')
+            self.qualify = wx.Button(panel, label='Approve placement and validate')
             self.route = wx.Button(panel, label='Continue to routing…'); self.reject = wx.Button(panel, label='Reject draft')
             for button in (self.find, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 6)
             buttons.AddStretchSpacer(); buttons.Add(self.reject)
@@ -830,7 +894,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.input_controls = [self.board, self.browse, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
                 self.assistant_request, self.assistant_ask, self.route_budget]
-            self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.ack, self.reject, self.qualify]
+            self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
             self.parts.Bind(wx.EVT_CHECKLISTBOX, self.settings_changed)
@@ -850,7 +914,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.original_group.Bind(wx.EVT_BUTTON, self.review_original_group)
             self.part.Bind(wx.EVT_CHOICE, self.select_part)
             for field in (self.x, self.y): field.Bind(wx.EVT_TEXT, self.pending_edit)
-            self.apply.Bind(wx.EVT_BUTTON, self.edit); self.ack.Bind(wx.EVT_CHECKBOX, self.acknowledge)
+            self.apply.Bind(wx.EVT_BUTTON, self.edit)
             self.reject.Bind(wx.EVT_BUTTON, self.reject_draft); self.qualify.Bind(wx.EVT_BUTTON, self.qualify_draft)
             self.route.Bind(wx.EVT_BUTTON, self.open_routing); self.cancel.Bind(wx.EVT_BUTTON, self.cancel_work)
             self.route_saved.Bind(wx.EVT_BUTTON, self.begin_saved_routing)
@@ -886,7 +950,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             # Revoke directly, without retrying the same broken presentation.
             self.validation_revoked = self.qualified is not None or self.validation_revoked
             self.gate.invalidate(dirty=self.gate.dirty)
-            self.qualified = None; self.ack.SetValue(False)
+            self.qualified = None
             self.picture.SetScene(None)
             if getattr(self, 'constraint_offer', None) is not None:
                 self.constraint_preview_error(reason)
@@ -913,8 +977,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             try:
                 region = [millimetres(field.GetValue()) for field in self.region]
                 placement_view._rect(region)
-                self.region_summary.SetLabel('Area: (' + ', '.join(mm(n) for n in region[:2])
+                area_text = ('Area: (' + ', '.join(mm(n) for n in region[:2])
                     + ') to (' + ', '.join(mm(n) for n in region[2:]) + ') mm')
+                if self.target_region.GetValue():
+                    area_text += '\nStart outside; place inside this area.'
+                self.region_summary.SetLabel(area_text)
             except ValueError:
                 region = bounds
                 self.region_summary.SetLabel('Enter a valid movement area. The board outline is shown for reference.')
@@ -1006,6 +1073,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 return
             self.invalidate_copilot()
             self.parts.Check(index, not self.parts.IsChecked(index))
+            update_target_area(self)
             self.revoke(discard=True)
             if self.pages.GetSelection() == 3:
                 self.update_schematic_view()
@@ -1038,16 +1106,18 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             except (TypeError, ValueError) as exc:
                 self.message('Area unchanged: ' + str(exc)); return
             self.invalidate_copilot()
-            self.revoke(discard=True)
             self.updating = True
             try:
                 for field, coordinate in zip(self.region, region):
                     field.ChangeValue(mm(coordinate))
             finally:
                 self.updating = False
+            self.automatic_target_area = True
+            update_target_area(self)
             self.draw_area.SetValue(False); self.picture.draw_area = False
-            self.overview(); self.layout_panel()
-            self.message('Movement area updated. Find new alternatives and review them before validation. Original files are unchanged.')
+            self.revoke(discard=True)
+            self.message(('Target area set. Search will look for valid positions inside it.'
+                          if self.target_region.GetValue() else 'Target area set. Choose Find alternatives when ready.'))
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
@@ -1063,7 +1133,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 and not baseline_scope and self.rigid_group.GetValue())
             self.save.Enable(not self.busy and self.inspection is not None)
             for control in self.pose_controls: control.Enable(not self.busy and self.gate.review is not None)
-            self.qualify.Enable(not self.busy and not constraint_pending and self.routing is None and self.gate.review is not None and self.gate.acknowledged and not self.gate.dirty and self.picture.Ready())
+            self.qualify.Enable(not self.busy and not constraint_pending and self.routing is None
+                and self.gate.review is not None and not self.gate.dirty and self.picture.Ready())
             self.route.Enable(not self.busy and not constraint_pending and self.qualified is not None and self.picture.Ready())
             self.cancel.Enable(self.busy)
             if hasattr(self, 'conversation_kind'):
@@ -1099,18 +1170,24 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.native_summary.SetLabel('')
             if hasattr(self, 'pose_pane'):
                 has_draft = self.gate.review is not None
+                reviewable = has_draft and self.qualified is None and not constraint_pending and not self.busy
                 self.pose_pane.Show(has_draft and not constraint_pending)
-                self.ack.Show(has_draft and self.qualified is None and not constraint_pending)
-                self.find.Show(not has_draft and not constraint_pending and not self.busy)
-                self.qualify.Show(has_draft and self.qualified is None and not self.busy)
-                self.route.Show(self.qualified is not None and not self.busy)
+                self.approval_note.Show(reviewable)
+                if reviewable:
+                    copper = self.gate.review.copper_plan
+                    instruction = ('Approval includes the copper changes listed in Findings.' if copper is not None
+                                   else 'Review the component moves.')
+                    self.approval_note.SetLabel(instruction + '\nConfirm both editors and the saved project are closed in KiCad.')
+                self.find.Show(self.inspection is not None and not has_draft and not constraint_pending and not self.busy)
+                self.qualify.Show(reviewable)
+                self.route.Show(self.qualified is not None and not constraint_pending and not self.busy)
                 self.reject.Show(has_draft and not self.busy)
                 self.progress.Show(self.busy); self.cancel.Show(self.busy)
                 self.layout_panel()
 
         def revoke(self, *, dirty=False, discard=False):
             self.validation_revoked = self.qualified is not None or self.validation_revoked
-            self.gate.invalidate(dirty=dirty); self.ack.SetValue(False); self.qualified = None
+            self.gate.invalidate(dirty=dirty); self.qualified = None
             # Revocation is authoritative even when the passive preview cannot
             # be redrawn. Never leave an earlier success visible during failure.
             self.refresh()
@@ -1146,6 +1223,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if hasattr(self, 'conversation'):
                     self.conversation.reset()
                     self.assistant_result.ChangeValue('')
+                self.automatic_target_area = False
                 self.target_region.SetValue(False)
                 self.schematic = None; self.schematic_refusal = ''
                 if hasattr(self, 'schematic_text'):
@@ -1343,6 +1421,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 for i, field in enumerate(self.region):
                     field.ChangeValue(mm(area[i]) if area is not None else '')
                 self.route_budget.ChangeValue(str(values['route_seconds']))
+                if values['placement_settings'] is not None:
+                    self.automatic_target_area = False
+                    self.target_region.SetValue(bool(intent.region_options(values['placement_settings'])))
             finally:
                 self.updating = False
             self.revoke(discard=True)
@@ -1573,13 +1654,18 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def settings_changed(self, event):
             if not self.updating:
                 self.invalidate_copilot()
-                self.revoke(discard=True)
+                changed = event.GetEventObject()
+                if changed is self.target_region:
+                    self.automatic_target_area = False
+                elif any(changed is field for field in getattr(self, 'region', ())):
+                    self.automatic_target_area = True
                 if self.inspection:
                     for index, row in enumerate(self.inspection['components']):
                         if blocking_reasons(row, rebuild=self.rebuild_copper()) and self.parts.IsChecked(index):
                             self.parts.Check(index, False)
                             self.message(row['reference'] + ' stays fixed: ' + '; '.join(row['fixed_reasons']))
-                    self.overview()
+                    update_target_area(self)
+                self.revoke(discard=True)
             event.Skip()
 
         def rebuild_copper(self):
@@ -1595,6 +1681,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.parts.Set([component_label(row, rebuild=rebuild) for row in self.inspection['components']])
             for index, row in enumerate(self.inspection['components']):
                 self.parts.Check(index, row['uuid'] in checked and not blocking_reasons(row, rebuild=rebuild))
+            update_target_area(self)
             self.overview()
 
         def policy_changed(self, event):
@@ -1680,8 +1767,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.schematic_refusal = ('Schematic context unavailable. ' + refusal) if refusal else ''
                 if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
                     self.rigid_group.SetValue(False)
-                else:
-                    self.target_region.SetValue(False)
+                self.automatic_target_area = False
+                self.target_region.SetValue(False)
                 rebuild = self.rebuild_copper()
                 self.parts.Set([component_label(row, rebuild=rebuild) for row in value['components']])
                 self.findings.SetValue('\n'.join(placement_limits(value, rebuild=rebuild))
@@ -1730,6 +1817,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 try:
                     self.copper_policy.SetSelection(1 if intent.rebuilds_copper(value) else 0)
                     self.rigid_group.SetValue(intent.grouped(value))
+                    self.automatic_target_area = False
                     self.target_region.SetValue(bool(intent.region_options(value)))
                     self.protected_names.ChangeValue('\n'.join(value.get('protected_names', [])))
                     self.protected_route_ids.ChangeValue('\n'.join(value.get('protected_route_ids', [])))
@@ -1755,8 +1843,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             except Exception as exc: self.message('Settings not saved: ' + str(exc))
 
         def find_alternatives(self, _):
+            if self.busy or self.gate.closed:
+                return
             try:
-                value = self.options(); inspection = copy.deepcopy(self.inspection); self.revoke(discard=True)
+                if getattr(self, 'constraint_offer', None) is not None:
+                    raise ValueError('Use or discard proposed settings before finding alternatives.')
+                value = self.options(validate_geometry=False)
+                inspection = copy.deepcopy(self.inspection); self.revoke(discard=True)
                 def adopt(proposal):
                     search = proposal['search']
                     if search['status'] == 'no_feasible_region_seed':
@@ -1945,12 +2038,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.revoke(dirty=True)
                 self.message('Edit refused; previous pose retained: ' + str(exc))
 
-        def acknowledge(self, _):
-            checked = self.ack.GetValue(); self.revoke(dirty=self.gate.dirty)
-            self.gate.acknowledged = checked and not self.gate.dirty
-            self.ack.SetValue(self.gate.acknowledged); self.qualified = None
-            self.refresh()
-
         def reject_draft(self, _):
             self.invalidate_copilot()
             review = self.gate.review
@@ -1975,15 +2062,24 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             return self.workspace
 
         def qualify_draft(self, _):
+            if self.busy or self.gate.closed:
+                return
             try:
                 if getattr(self, 'constraint_offer', None) is not None:
                     raise ValueError('Use or discard proposed settings before validating placement.')
                 if not self.picture.Ready():
                     raise ValueError('Review the current board preview before validating this draft.')
+                if self.qualified is not None:
+                    return
                 if self.routing is not None:
                     raise ValueError('Wait for the previous routing window and its worker to close before validating another placement.')
-                ticket = self.gate.ticket(); review = self.gate.review
+                review = self.gate.review
+                if review is None or self.gate.dirty:
+                    raise ValueError('Review the current placement and apply any position edits first.')
                 self.current_review_settings(review)
+                # This primary action approves the displayed moves and exact copper plan.
+                self.gate.acknowledged = True
+                ticket = self.gate.ticket()
                 def work(job, event):
                     from . import placement
                     require_closed_source(review.inspection['source'], inspection=review.inspection)
@@ -2090,7 +2186,18 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             source = require_closed_source(str(gui.saved_project_board(self.board.GetValue())))
             if values is None and getattr(self, 'constraint_offer', None) is not None:
                 raise ValueError('Use or discard proposed settings first.')
-            guard = conversation.routing_source_guard(values) if values is not None else None
+            selected_prefill = False
+            if values is not None:
+                settings, guard = values['effective_preferences'], conversation.routing_source_guard(values)
+            else:
+                settings, guard = self.conversation_routing_preferences(), None
+                if self.inspection is not None:
+                    selected = [row['uuid'] for i, row in enumerate(self.inspection['components'])
+                                if self.parts.IsChecked(i)]
+                    selection = empty_copper_selection(source, self.inspection, selected, settings)
+                    if selection is not None:
+                        settings, guard = selection
+                        selected_prefill = True
             if guard is not None: guard.check(source)
 
             def finished():
@@ -2104,8 +2211,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             try:
                 if self.routing_output_hint is not None:
                     frame.output.SetValue(self.routing_output_hint)
-                prefill_routing(frame, values['effective_preferences'] if values is not None
-                                else self.conversation_routing_preferences())
+                prefill_routing(frame, settings)
+                if selected_prefill:
+                    frame.status.SetLabel('Selected-part nets have no tracks, vias or zones. Edit the nets or preview routing.')
             except Exception:
                 frame.Destroy()
                 raise

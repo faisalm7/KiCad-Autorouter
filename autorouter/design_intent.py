@@ -589,11 +589,21 @@ class PlacementConstraintReview:
                                                and allowed[1] <= region[1] < region[3] <= allowed[3]):
                     raise IntentError('The proposed rectangle exceeds the allowed movement area.')
         after = self._visible(selected, region, seconds)
-        if before == after:
-            raise IntentError('The proposal would leave every visible setting unchanged.')
         settings = copper = None
+        policy = dict(self._controls['policy'])
+        original_region_policy = policy.get('region_initialization')
         if len(selected) >= 2 and region is not None:
-            settings = placement.settings(selected, region, **self._controls['policy'])
+            explicit_area = arguments['region_nm'] is not None or (
+                arguments['selected_refs'] is not None
+                and region != self._inspection['observation']['outline']['bounds_nm'])
+            if (explicit_area and original_region_policy is None
+                    and placement.target_area_needs_initialization(self._inspection, selected, region,
+                                                                    grouped='group_policy' in policy)):
+                policy['region_initialization'] = placement.prototype.REGION_INITIALIZATION_POLICY
+        if before == after and original_region_policy == policy.get('region_initialization'):
+            raise IntentError('The proposal would leave every visible setting unchanged.')
+        if len(selected) >= 2 and region is not None:
+            settings = placement.settings(selected, region, **policy)
             placement.facts(self._inspection, settings)
             copper = placement.copper_plan(self._inspection, settings)
         elif arguments['selected_refs'] is not None:

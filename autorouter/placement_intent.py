@@ -117,6 +117,39 @@ def region_options(value):
             if 'region_initialization' in value else {})
 
 
+def target_area_needs_initialization(inspection, selected, area, *, grouped=False):
+    """Choose the existing start policy for an explicit destination rectangle."""
+    observation = inspection['observation']
+    if observation['scope'] != contract.THT_BASELINE_SCOPE or len(selected) != 2 or grouped:
+        return False
+    baseline = inspection.get('native_source_baseline', {})
+    native = inspection.get('native_context', {})
+    annotations = inspection.get('annotation_context', {})
+    blocking = baseline.get('native', {}).get('blocking')
+    if (baseline.get('policy') != constraints.SELECTED_COPPER_BASELINE_POLICY
+            or baseline.get('native_validation_performed') is not True
+            or not native.get('receipt_sha256') or baseline.get('receipt_sha256') != native['receipt_sha256']
+            or baseline.get('source_board_sha256') != observation.get('source_board_sha256')
+            or type(blocking) is not int or blocking != 0 or annotations.get('scope') != observation['scope']):
+        return False
+    left, top, right, bottom = area
+    board_left, board_top, board_right, board_bottom = observation['outline']['bounds_nm']
+    if not (board_left <= left < right <= board_right and board_top <= top < bottom <= board_bottom):
+        return False
+    parts = [part for part in observation['footprints'] if part['uuid'] in selected]
+    if len(parts) != 2 or any(part['locked'] or not part['placement_eligible'] for part in parts):
+        return False
+    for part in parts:
+        courtyard = part['courtyard']
+        x0, y0, x1, y1 = courtyard['bounds_nm']
+        stroke = courtyard['stroke_nm']
+        # The placement proxy includes half the courtyard stroke on every edge.
+        if not (2 * left <= 2 * x0 - stroke and 2 * top <= 2 * y0 - stroke
+                and 2 * x1 + stroke <= 2 * right and 2 * y1 + stroke <= 2 * bottom):
+            return True
+    return False
+
+
 def contract_options(value):
     value = validate_settings(value)
     return contract.scope_options(scope=settings_scope(value), selected=value['selected'],

@@ -74,13 +74,21 @@ def installer_pins():
             (c.ROOT / 'scripts/install_gui.py', c.ROOT / 'scripts/prepare_gui_plugin.py')}
 
 
-def prepare(output):
+def prepare(output, *, checked_move_editor=None):
     output = canonical(Path(output).absolute())
     if output.exists() or not output.parent.is_dir():
         raise ValueError('Choose a fresh output folder beneath an existing real directory.')
     tools = p.tool_manifest()
     scripts = installer_pins()
     manager = c.CLI.with_name('kicad')
+    example_files = []
+    if checked_move_editor is not None:
+        from autorouter import live_move
+        checked_move_editor = canonical(Path(checked_move_editor).absolute())
+        manager = live_move.editor_manager(checked_move_editor, verify_signature=True)
+        import kipy  # The optional installation uses the existing pinned IPC client.
+        if not Path(kipy.__file__).is_relative_to(c.ROOT / '.venv'):
+            raise ValueError('Install the pinned local KiCad IPC client in this runtime first.')
     if not manager.is_file() or not os.access(manager, os.X_OK):
         raise ValueError('Existing KiCad manager executable required.')
     python = c.ROOT / '.venv/bin/python'
@@ -89,7 +97,7 @@ def prepare(output):
     manager_sha256 = p.sha(manager)
     output.mkdir(mode=0o700)
     documents, config, cache = (output / name for name in ('documents', 'config', 'cache'))
-    prepared = plugin.prepare(documents)
+    prepared = plugin.prepare(documents, checked_launcher=output) if checked_move_editor else plugin.prepare(documents)
     third_party = output / PCM_ROOT
     third_party.mkdir(mode=0o700)
     (third_party / 'plugins').mkdir(mode=0o700)
@@ -114,11 +122,24 @@ def prepare(output):
         with launch.open('x') as stream: stream.write(payload)
         launch.chmod(0o700)
         launchers.append(launch)
-    (output / 'README.txt').write_text(README)
+    description = README
+    if checked_move_editor:
+        source = live_move.example_source()
+        inspection = output / 'inspection'; inspection.mkdir(mode=0o700)
+        for name in live_move.EXAMPLE_FILES:
+            path = inspection / name
+            with path.open('xb') as stream: stream.write(pc.read_bytes(source / name, LIMIT))
+            example_files.append(path)
+        description += ('\nLaunch Autorouter also opens an owned disposable example in the checked 10.0.8 editor. '
+            'Open its PCB Editor, select J1 or J2 and use the green trace toolbar action. '
+            'The workspace offers one previewed, approved move and verifies native Undo. '
+            'Other boards open the saved-project workspace.\n')
+    (output / 'README.txt').write_text(description)
     immutable = {str(path.relative_to(output)): digest(path) for path in
-        [*launchers, output / 'README.txt', output / 'initial-kicad_common.json', output / 'initial-kicad.json',
+        [*launchers, *example_files, output / 'README.txt', output / 'initial-kicad_common.json', output / 'initial-kicad.json',
          *sorted(Path(prepared['plugin']).iterdir())]}
-    if set(immutable) != IMMUTABLE_FILES: raise ValueError('Prepared launcher file population differs.')
+    if set(immutable) != IMMUTABLE_FILES | {'inspection/' + path.name for path in example_files}:
+        raise ValueError('Prepared launcher file population differs.')
     record = dict(schema=1, kind='local-gui-bootstrap-v1', root=str(output), checkout=str(c.ROOT),
                   manager=str(manager), manager_sha256=manager_sha256,
                   config_home=str(config), documents_home=str(documents), cache_home=str(cache),
@@ -127,6 +148,7 @@ def prepare(output):
                   tools=tools, installer_sha256=scripts, immutable_files=immutable,
                   installed_globally=False, standalone=False,
                   qualification='Prepared only; actual double-click/IPC/GUI behavior requires qualification.')
+    if checked_move_editor: record['checked_move_editor'] = str(checked_move_editor)
     with (output / 'install.json').open('x') as stream:
         json.dump(record, stream, indent=2); stream.write('\n')
     return record
@@ -185,13 +207,23 @@ def require_closed_kicad():
     raise ValueError('Could not verify closed KiCad applications; launch refused.')
 
 
-def launch(manifest, *, direct=False):
+def read_manifest(manifest):
+    """Check the launcher and pinned inputs without starting any process."""
     manifest = canonical(Path(manifest).absolute())
     if manifest.name != 'install.json': raise ValueError('Exact prepared install.json required.')
     root = manifest.parent
     record = json.loads(pc.read_bytes(manifest, LIMIT))
+    if type(record) is not dict: raise ValueError('Prepared launcher identity differs.')
     manager = c.CLI.with_name('kicad')
-    if (type(record) is not dict or type(record.get('schema')) is not int or record.get('schema') != 1 or record.get('kind') != 'local-gui-bootstrap-v1'
+    immutable = IMMUTABLE_FILES
+    if 'checked_move_editor' in record:
+        from autorouter import live_move
+        editor = record['checked_move_editor']
+        if type(editor) is not str or not Path(editor).is_absolute():
+            raise ValueError('Prepared checked editor path differs.')
+        manager = live_move.editor_manager(editor)
+        immutable = immutable | {'inspection/' + name for name in live_move.EXAMPLE_FILES}
+    if (type(record.get('schema')) is not int or record.get('schema') != 1 or record.get('kind') != 'local-gui-bootstrap-v1'
             or record.get('root') != str(root) or record.get('checkout') != str(c.ROOT)
             or record.get('manager') != str(manager) or record.get('installed_globally') is not False
             or record.get('standalone') is not False):
@@ -201,18 +233,26 @@ def launch(manifest, *, direct=False):
         raise ValueError('Isolated KiCad homes escaped launcher directory.')
     for value in expected_homes.values():
         if not canonical(Path(value)).is_dir(): raise ValueError('Isolated KiCad home missing.')
-    third_party = check_third_party_home(record, root)
+    check_third_party_home(record, root)
     check_live_homes(expected_homes)
     if record.get('tools') != p.tool_manifest() or record.get('installer_sha256') != installer_pins():
         raise ValueError('Checkout or pinned tools changed; prepare a fresh launcher.')
     files = record.get('immutable_files')
-    if type(files) is not dict or set(files) != IMMUTABLE_FILES: raise ValueError('Exact prepared launcher files required.')
+    if type(files) is not dict or set(files) != immutable: raise ValueError('Exact prepared launcher files required.')
     for relative, expected in files.items():
         path = canonical(root / relative)
         if root not in path.parents or not path.is_file() or digest(path) != expected:
             raise ValueError('Prepared launcher/plugin file changed.')
     if p.sha(manager) != record.get('manager_sha256') or not os.access(manager, os.X_OK):
         raise ValueError('Prepared KiCad manager changed.')
+    return record
+
+
+def launch(manifest, *, direct=False):
+    record = read_manifest(manifest)
+    root = Path(record['root'])
+    manager = Path(record['manager'])
+    third_party = check_third_party_home(record, root)
     env = {key: value for key, value in os.environ.items()
            if key not in ('PYTHONPATH', 'PYTHONHOME', 'KICAD_API_SOCKET', 'KICAD_API_TOKEN')}
     env.update(KICAD_CONFIG_HOME=record['config_home'], KICAD_DOCUMENTS_HOME=record['documents_home'],
@@ -225,19 +265,27 @@ def launch(manifest, *, direct=False):
     if direct:
         os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui', '--workspace'], env)
     else:
-        os.execve(manager, [str(manager)], env)
+        argv = [str(manager)]
+        if 'checked_move_editor' in record:
+            from autorouter import live_move
+            live_move.editor_manager(record['checked_move_editor'], verify_signature=True)
+            argv.append(str(root / 'inspection' / (live_move.EXAMPLE_NAME + '.kicad_pro')))
+        os.execve(manager, argv, env)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--output'); mode.add_argument('--launch'); mode.add_argument('--open-saved')
+    parser.add_argument('--checked-move-editor', help='Existing signed KiCad 10.0.8 app for the isolated example')
     args = parser.parse_args()
+    if args.checked_move_editor is not None and args.output is None:
+        parser.error('Use --checked-move-editor only when preparing a new output folder.')
     try:
         if args.launch: launch(args.launch)
         elif args.open_saved: launch(args.open_saved, direct=True)
-        else: print(json.dumps(prepare(args.output), indent=2))
-    except (ValueError, p.Rejected, OSError) as exc:
+        else: print(json.dumps(prepare(args.output, checked_move_editor=args.checked_move_editor), indent=2))
+    except (ValueError, p.Rejected, OSError, ImportError) as exc:
         print('Launcher refused: ' + str(exc), file=sys.stderr)
         return 2
     return 0

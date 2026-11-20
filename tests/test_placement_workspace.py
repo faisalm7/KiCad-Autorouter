@@ -6,6 +6,8 @@ from types import SimpleNamespace
 from unittest import TestCase, main
 from unittest.mock import Mock
 from autorouter import placement_view as view, placement_gui as gui
+from tests.test_placement_copper_gui import parts_control, text_control
+from tests import test_placement_source_baseline as baseline
 from tests.test_placement_view import observation
 
 Window = gui.window_type(SimpleNamespace(Frame=object))
@@ -62,6 +64,7 @@ class GeometryTests(TestCase):
 class HandlerTests(TestCase):
     def window(self):
         obs=observation();gate=gui.ReviewGate()
+        obs['scope'] = gui.intent.contract.ORDINARY_SCOPE
         gate.review=SimpleNamespace(intent={'approved':True});gate.acknowledged=True
         rows=[dict(uuid=x['uuid'],reference=x['reference'],fixed_reasons=['Locked in KiCad'] if x['locked'] else []) for x in obs['footprints']]
         # Use the real window class so handlers call its real shared methods.
@@ -72,7 +75,8 @@ class HandlerTests(TestCase):
             parts=Mock(),rebuild_copper=Mock(return_value=False),revoke=Mock(),region=[Mock() for _ in range(4)],
             draw_area=Mock(),updating=False,overview=Mock(),layout_panel=Mock(),part=Mock(),coordinates=Mock(),
             copilot_generation=1,pending_copilot={'old':True},approved_copilot=None,
-            assistant_ack=Mock(),assistant_result=Mock(),constraint_offer=None,constraint_review=None,pages=Mock())
+            assistant_ack=Mock(),assistant_result=Mock(),constraint_offer=None,constraint_review=None,pages=Mock(),
+            target_region=text_control(False), rigid_group=text_control(False))
         w.parts.IsChecked.return_value=False
         return w
 
@@ -97,15 +101,54 @@ class HandlerTests(TestCase):
         w.part.SetSelection.assert_called_once_with(1);w.coordinates.assert_called_once()
         w.parts.Check.assert_not_called();w.revoke.assert_not_called()
 
-    def test_draw_uses_settings_and_never_enables_experimental_extension(self):
-        w=self.window();w.target_region=Mock()
+    def test_draw_on_other_scopes_keeps_the_existing_region_policy(self):
+        w=self.window()
         Window.area_on_board(w,[5_000_000,5_000_000,30_000_000,22_000_000])
         w.revoke.assert_called_once_with(discard=True)
         self.assertEqual([f.ChangeValue.call_args.args[0] for f in w.region],['5','5','30','22'])
-        w.target_region.SetValue.assert_not_called();w.overview.assert_called_once()
+        w.target_region.SetValue.assert_not_called()
         self.assertEqual(w.copilot_generation,2);self.assertIsNone(w.pending_copilot)
         w.assistant_ack.SetValue.assert_called_once_with(False)
         self.assertFalse(w.updating);self.assertFalse(w.picture.draw_area)
+
+    def target_window(self):
+        w = self.window()
+        source = baseline.SourceCopperBaseline()
+        source.setUp()  # Deliberately synthetic Native context over owned geometry.
+        w.inspection = source.inspection()
+        w.inspection['components'] = [dict(uuid=part['uuid'], reference=part['reference'], fixed_reasons=[])
+                                      for part in source.observation['footprints']]
+        w.region = [text_control(gui.mm(value)) for value in source.region]
+        w.parts = parts_control(w.inspection['components'], [i for i, part in enumerate(w.inspection['components'])
+                                                            if part['uuid'] in source.selected])
+        return w, source
+
+    def test_target_draw_derives_start_policy_only_when_an_eligible_pair_needs_it(self):
+        w, source = self.target_window()
+        area = [14_000_000, 8_000_000, 22_000_000, 13_000_000]
+        Window.area_on_board(w, area)
+        value = Window.options(w, validate_geometry=False)
+        self.assertTrue(w.target_region.GetValue())
+        self.assertEqual(value['region_initialization'], gui.intent.prototype.REGION_INITIALIZATION_POLICY)
+        self.assertEqual(value['region_nm'], area)
+        self.assertTrue(value['preserve_existing'])
+        Window.area_on_board(w, source.region)
+        self.assertFalse(w.target_region.GetValue())
+        w.inspection.pop('annotation_context')
+        Window.area_on_board(w, area)
+        self.assertFalse(w.target_region.GetValue())
+
+    def test_target_numeric_edit_derives_mode_and_advanced_choice_can_override(self):
+        w, _ = self.target_window()
+        w.region[0].ChangeValue('14')
+        event = Mock(); event.GetEventObject.return_value = w.region[0]
+        Window.settings_changed(w, event)
+        self.assertTrue(w.target_region.GetValue())
+        w.target_region.SetValue(False)
+        event.GetEventObject.return_value = w.target_region
+        Window.settings_changed(w, event)
+        self.assertFalse(w.automatic_target_area)
+        self.assertNotIn('region_initialization', Window.options(w, validate_geometry=False))
 
     def test_invalid_or_cancelled_drag_has_no_input_or_authority_change(self):
         for region,error in (([1,1,1,2],None),([-1,0,10,10],None),(None,'outside outline')):

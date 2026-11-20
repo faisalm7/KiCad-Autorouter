@@ -211,10 +211,21 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
     need(len(list(native.GetPads())) == len(pad_ids), 'Native board pad census differs')
     routes, route_netcodes = [], {}
     for item in native.GetTracks():
-        need(isinstance(item, pcbnew.PCB_TRACK) and not isinstance(item, (pcbnew.PCB_VIA, pcbnew.PCB_ARC))
-             and item.GetLayer() in (pcbnew.F_Cu, pcbnew.B_Cu), 'Native straight outer copper required')
         identity = uid(item); need(identity not in route_netcodes, 'Duplicate Native route identity')
         code = integer(item.GetNetCode()); need(code > 0, 'Named Native route net required'); route_netcodes[identity] = code
+        if isinstance(item, pcbnew.PCB_VIA):
+            need(scope == c.THT_BASELINE_SCOPE and item.GetViaType() == pcbnew.VIATYPE_THROUGH
+                 and item.TopLayer() == pcbnew.F_Cu and item.BottomLayer() == pcbnew.B_Cu,
+                 'Native via must be a preserved front-to-back through-via.')
+            width = integer(fc.route_width(item, pcbnew))
+            need(all(integer(item.GetWidth(value)) == width for value in (pcbnew.F_Cu, pcbnew.B_Cu)),
+                 'Native via diameter differs across copper layers.')
+            routes.append(dict(uuid=identity, kind='via', net=str(item.GetNetname()), at_nm=xy(item.GetPosition()),
+                width_nm=width, drill_nm=integer(item.GetDrillValue()), layers=['F.Cu', 'B.Cu'],
+                free=boolean(item.GetIsFree()), locked=boolean(item.IsLocked())))
+            continue
+        need(isinstance(item, pcbnew.PCB_TRACK) and not isinstance(item, pcbnew.PCB_ARC)
+             and item.GetLayer() in (pcbnew.F_Cu, pcbnew.B_Cu), 'Native straight outer copper required')
         routes.append(dict(uuid=identity, kind='segment', net=str(item.GetNetname()), start_nm=xy(item.GetStart()),
             end_nm=xy(item.GetEnd()), width_nm=integer(fc.route_width(item, pcbnew)),
             layer='F.Cu' if item.GetLayer() == pcbnew.F_Cu else 'B.Cu', locked=boolean(item.IsLocked())))

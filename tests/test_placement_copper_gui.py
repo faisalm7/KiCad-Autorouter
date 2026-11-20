@@ -123,6 +123,39 @@ class CopperPlacementGui(unittest.TestCase):
             window.copper_policy.GetSelection.return_value = selection
             with self.subTest(selection=selection), self.assertRaises(ValueError): window.options()
 
+    def test_saved_routing_prefills_only_copper_free_selected_nets_and_allows_safe_edits(self):
+        board = ordinary_fixture.write_project(self.root / 'empty-selected')
+        inspection = intent.inspect_saved(board)
+        ids = {row['reference']: row['uuid'] for row in inspection['components']}
+        settings = gui.pref.validate(dict(gui.pref.DEFAULTS, scope='partial_completion', seconds=85))
+        for reference in ('J3', 'J5'):  # Existing trace and existing zone, respectively.
+            with self.subTest(reference=reference):
+                self.assertIsNone(pg.empty_copper_selection(board, inspection, [ids[reference]], settings))
+        self.assertIsNone(pg.empty_copper_selection(self.board, self.inspection, self.selected, settings))
+
+        window = self.window()
+        window.board.ChangeValue(str(board)); window.inspection = inspection
+        window.parts = parts_control(inspection['components'], [i for i, row in enumerate(inspection['components'])
+                                                               if row['uuid'] in self.selected])
+        window.conversation_routing_preferences = Mock(return_value=settings)
+        window.routing_output_hint = None
+        frame = routing_frame()
+        with patch.object(gui, 'create_window', return_value=frame) as factory:
+            window_method('open_saved_routing')(window, None)
+        guard = factory.call_args.kwargs['source_guard']
+        selected = frame.config()
+        self.assertEqual(selected['scope'], 'selected_nets')
+        self.assertEqual(selected['nets'], ['ROUTE_A', 'ROUTE_B'])
+        self.assertEqual(selected['seconds'], 85)
+        guard.check_task(dict(selected, nets=['ROUTE_B'], seconds=105), 'route')
+        for net in ('KEEP', 'GND'):
+            with self.subTest(net=net), self.assertRaisesRegex(ValueError, 'Use Finish gaps'):
+                guard.check_task(dict(selected, nets=[net]), 'route')
+        board.with_suffix('.kicad_pro').write_bytes(board.with_suffix('.kicad_pro').read_bytes() + b'\n')
+        with self.assertRaisesRegex(ValueError, 'changed'):
+            guard.check(board)
+        self.assertIsNone(pg.empty_copper_selection(board, inspection, self.selected, settings))
+
     def test_policy_change_revokes_immediately_then_reads_committed_popup(self):
         window = self.window(reviewed=True)
         window.qualified = dict(ticket=window.gate.ticket())

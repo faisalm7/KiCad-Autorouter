@@ -5,6 +5,7 @@ courtyards. The explicit THT scope adds exact two-pad THT translations with
 rectangular off-anchor proxies and independently witnessed passive curves.
 Other admitted geometry stays fixed. Source admission is not Native validation.
 """
+from collections import Counter
 from decimal import Decimal, InvalidOperation
 import hashlib
 from math import isqrt
@@ -17,9 +18,22 @@ PASSIVE_LAYERS = {'F.SilkS', 'B.SilkS', 'F.Fab', 'B.Fab', 'Dwgs.User',
                   'Cmts.User', 'Eco1.User', 'Eco2.User'} | {'User.' + str(i) for i in range(1, 10)}
 
 
-def fields(node, allowed, *, start=1, repeated=()):
-    c.need(all(type(n) is list and n and n[0] in allowed for n in node[start:]),
-           'Unsupported ' + str(node[0]) + ' geometry/field')
+def fields(node, allowed, *, start=1, repeated=(), object_name=None):
+    unexpected = []
+    for entry in node[start:]:
+        if type(entry) is list and entry and type(entry[0]) is str:
+            if entry[0] in allowed:
+                continue
+            name = entry[0][:48]
+            if name == 'gr_arc' and ['layer', '"Edge.Cuts"'] in entry[1:]:
+                name = 'curved board edge (gr_arc on Edge.Cuts)'
+        else:
+            name = 'unexpected item flag' if type(entry) is not str else repr(entry[:48])
+        unexpected.append(name)
+    if unexpected:
+        items = ', '.join(f'{count} × {name}' for name, count in sorted(Counter(unexpected).items())[:8])
+        subject = object_name or ('the board' if node[0] == 'kicad_pcb' else str(node[0]))
+        raise ValueError(f'Unsupported placement geometry or setting in {subject}: {items}.')
     for name in allowed - set(repeated):
         sx.one(node, name)
 
@@ -309,14 +323,30 @@ def pad_row(pad, anchor, rotation, resolve, names, *, tht=False):
                 size_nm=size, drill_nm=drill, layers=layers, **flags)
 
 
+def preserved_via(node, net):
+    """An exact standard through-via that placement may protect, never move."""
+    position = c.point(node, 'at')
+    label = 'via at ' + ', '.join(f'{number / 1e6:g}' for number in position) + ' mm'
+    fields(node, {'at', 'size', 'drill', 'layers', 'net', 'uuid', 'locked', 'free'}, object_name=label)
+    width, drill = (pt.nm(c.atom(node, name), 1000000) for name in ('size', 'drill'))
+    c.need(0 < drill < width <= 10000000, 'A positive circular drill and larger diameter are required for the ' + label)
+    c.need(sx.one(node, 'layers') == ['layers', '"F.Cu"', '"B.Cu"'],
+           'Placement can protect only standard front-to-back vias. Check the ' + label)
+    free = sx.one(node, 'free')
+    c.need(free is None or free in (['free', 'yes'], ['free', 'no']), 'Unsupported free status for the ' + label)
+    return dict(uuid=c.uid(node), kind='via', net=net, at_nm=position, width_nm=width, drill_nm=drill,
+                layers=['F.Cu', 'B.Cu'], free=free == ['free', 'yes'], locked=locked(node))
+
+
 def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     c.need(type(scope) is str and c.ordinary_scope(scope), 'Unsupported ordinary placement scope')
     context = c.fixed_context_scope(scope)
     tht = c.tht_scope(scope)
     tree = c.read_board(raw)
+    via_items = {'via'} if scope == c.THT_BASELINE_SCOPE else set()
     fields(tree, {'version', 'generator', 'generator_version', 'general', 'paper', 'title_block', 'layers',
-                  'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'},
-           repeated={'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone'})
+                  'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'} | via_items,
+           repeated={'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone'} | via_items)
     layer_table = sx.one(tree, 'layers')
     c.need(layer_table is not None, 'Layer table required')
     layers = [sx.unquote(n[1]) for n in layer_table[1:] if type(n) is list and len(n) > 1 and sx.unquote(n[1]).endswith('.Cu')]
@@ -347,17 +377,19 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
         c.need(len(rows) < 16, 'Footprint population exceeded')
         extra = {'fp_circle', 'fp_arc', 'fp_poly'} if context else set()
         engineering = {'units', 'duplicate_pad_numbers_are_jumpers', 'point'} if tht else set()
+        refs = [n for n in sx.children(fp, 'property') if len(n) >= 3 and sx.unquote(n[1]) == 'Reference']
+        c.need(len(refs) == 1, 'One reference property required')
+        reference = sx.unquote(refs[0][2])
         fields(fp, {'layer', 'uuid', 'at', 'property', 'path', 'attr', 'fp_rect', 'fp_line', 'fp_text',
                     'pad', 'embedded_fonts', 'locked', 'descr', 'tags', 'sheetname', 'sheetfile', 'model'} | extra | engineering,
-               start=2, repeated={'property', 'fp_rect', 'fp_line', 'fp_text', 'pad', 'model'} | extra | ({'point'} if tht else set()))
+               start=2, repeated={'property', 'fp_rect', 'fp_line', 'fp_text', 'pad', 'model'} | extra | ({'point'} if tht else set()),
+               object_name='component ' + reference)
         identity = c.uid(fp); claim(identity)
         side = c.atom(fp, 'layer')
         c.need(side == 'F.Cu' or context and side == 'B.Cu', 'Front unflipped footprints only')
         anchor, rotation = at(fp)
         attr = sx.one(fp, 'attr')
         c.need(attr is None or all(v in ('smd', 'through_hole', 'board_only', 'exclude_from_pos_files', 'exclude_from_bom') for v in attr[1:]), 'Unsupported footprint attribute')
-        refs = [n for n in sx.children(fp, 'property') if len(n) >= 3 and sx.unquote(n[1]) == 'Reference']
-        c.need(len(refs) == 1, 'One reference property required')
         graphics, courts, metadata_properties = [], [], []
         for node in fp[2:]:
             if node[0] not in {'fp_rect', 'fp_line', 'fp_text', 'property'} | extra: continue
@@ -388,10 +420,16 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
                and any(row['kind'] != 'property' for row in graphics)),
                'Back artwork requires board-only, zero pads, no physical courtyard/model and passive graphics')
         court = None if artwork else courtyard(courts, circular=tht)
-        pads = [pad_row(n, anchor, rotation, resolve, names, tht=tht) for n in sx.children(fp, 'pad')]
+        pads = []
+        for node in sx.children(fp, 'pad'):
+            try:
+                pads.append(pad_row(node, anchor, rotation, resolve, names, tht=tht))
+            except ValueError as exc:
+                number = sx.unquote(node[1]) if len(node) > 1 and type(node[1]) is str else '?'
+                raise ValueError(f'Component {reference}, pad {number}: {exc}') from exc
         duplicate_numbers = len({row['number'] for row in pads}) != len(pads)
         c.need(len(pads) <= 8 and (tht or not duplicate_numbers)
-               and all(row['number'] for row in pads), 'Bounded unique nonempty pad numbers required')
+               and all(row['number'] for row in pads), f'Component {reference} is outside the supported pad count or numbering.')
         if tht:
             # A repeated number never merges physical terminals. Every UUID,
             # position and net remains in the source and Native pad census.
@@ -420,7 +458,7 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
         if artwork: reasons.append('immutable board-only back artwork')
         fixed_shapes = {'fp_poly'} if tht else extra
         if fixed_shapes and any(row['kind'] in fixed_shapes for row in graphics): reasons.append('richer passive geometry is fixed context only')
-        row = dict(uuid=identity, reference=sx.unquote(refs[0][2]), position_nm=anchor, angle=rotation,
+        row = dict(uuid=identity, reference=reference, position_nm=anchor, angle=rotation,
                    side='back' if artwork else 'front', locked=locked(fp), placement_eligible=not reasons, fixed_reasons=reasons,
                    courtyard=court, graphics=graphics, metadata_properties=metadata_properties, models=models(fp), pads=sorted(pads, key=lambda row: row['uuid']))
         if artwork: row['artwork_only'] = True
@@ -436,10 +474,19 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     zones = pt.source_zones(tree)
     for zone in zones:
         claim(zone['uuid'])
-        c.need(zone['is_rule_area'] is False and zone['holes'] == [0] and zone['arc_count'] == 0, 'Keepouts/cutouts/arcs unsupported')
+        if zone['is_rule_area']:
+            name = zone['name'] or 'unnamed area'
+            raise ValueError(f'Placement cannot account for rule area “{name}” on {", ".join(zone["layers"])}.')
+        c.need(zone['holes'] == [0] and zone['arc_count'] == 0, 'Copper zones with holes or arcs are outside this placement scope.')
     routes = []
-    c.need(len(p.routes(tree)) <= 64, 'Preserved segment population exceeded')
+    c.need(len(p.routes(tree)) <= 64, 'Placement can currently protect at most 64 tracks and vias.')
     for route in rs._route_map(tree).values():
+        if route[0] == 'via' and via_items:
+            net = resolve(sx.one(route, 'net'))
+            c.need(net and any(pad['net'] == net for row in rows for pad in row['pads']), 'Every preserved via needs a named net with a matching pad.')
+            row = preserved_via(route, net)
+            claim(row['uuid']); routes.append(row)
+            continue
         c.need(route[0] == 'segment', 'Vias and arcs unsupported')
         fields(route, {'start', 'end', 'width', 'layer', 'net', 'uuid', 'locked'})
         identity = c.uid(route); claim(identity)

@@ -282,17 +282,22 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
     else:
         need(observation['route_count'] == len(observation['routes']), 'Preserved route census differs')
         for route in observation['routes']:
-            radius = (route['width_nm'] + 1) // 2 + ROUTE_GAP_NM
-            box = [min(route['start_nm'][i],route['end_nm'][i])-radius for i in range(2)] + [max(route['start_nm'][i],route['end_nm'][i])+radius for i in range(2)]
+            if route['kind'] == 'via':
+                need(scope == THT_BASELINE_SCOPE, 'Preserved vias require Native source-baseline placement.')
+                start = end = route['at_nm']
+            else:
+                need(route['kind'] == 'segment', 'Unsupported preserved-copper geometry.')
+                start, end = route['start_nm'], route['end_nm']
+            radius = (route['width_nm'] + 1) // 2
+            copper_box = [min(a, b) - radius for a, b in zip(start, end)] + [max(a, b) + radius for a, b in zip(start, end)]
             if fixed_context_scope(scope):
                 # Check actual proposed courtyard envelopes, not every point in
-                # the user's search region. Segment AABBs remain conservative,
-                # including back-layer copper; Native checks are still required.
-                radius = (route['width_nm'] + 1) // 2
-                segment_box = [min(route['start_nm'][i],route['end_nm'][i])-radius for i in range(2)] + [max(route['start_nm'][i],route['end_nm'][i])+radius for i in range(2)]
+                # the user's search region. The boxes include the full annulus
+                # (both copper layers) or track width. Native checks still run.
                 obstacles.append(dict(id=route['uuid'], kind=constraints.PRESERVED_COPPER,
-                    bounds_mm=[n/1e6 for n in segment_box], sides=['front']))
+                    bounds_mm=[n/1e6 for n in copper_box], sides=['front']))
             else:
+                box = [n - ROUTE_GAP_NM for n in copper_box[:2]] + [n + ROUTE_GAP_NM for n in copper_box[2:]]
                 need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
                      'Selected region intersects clearance-expanded preserved segment bounds')
             tracks.append(dict(id=route['uuid'],net=route['net'],pad_ids=sorted(pad['uuid'] for row in observation['footprints'] for pad in row['pads'] if pad['net']==route['net'])))

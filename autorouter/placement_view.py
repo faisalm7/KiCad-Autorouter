@@ -155,6 +155,16 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
         preserve_all, protected_nets, protected_ids = protection
     for original in _array(observation.get('routes', []), 64):
         row = _row(original); identity = _identifier(row['uuid'], route_seen)
+        if row['kind'] == 'via':
+            centre, width = _point(row['at_nm']), _nm(row['width_nm'], positive=True)
+            drill = _nm(row['drill_nm'], positive=True)
+            _need(drill < width and row['layers'] == ['F.Cu', 'B.Cu'] and type(row['locked']) is bool,
+                  'standard preserved through-via required')
+            routes.append(dict(id=identity, centre=centre, width=width, drill=drill,
+                               locked=row['locked'], net=_label(row['net']), protected=True))
+            x, y = centre; radius = width / 2
+            extents.append((x - radius, y - radius, x + radius, y + radius))
+            continue
         _need(row['kind'] == 'segment' and row['layer'] in ('F.Cu', 'B.Cu') and type(row['locked']) is bool,
               'straight copper segments required')
         start, end = _point(row['start_nm']), _point(row['end_nm']); width = _nm(row['width_nm'], positive=True)
@@ -240,6 +250,13 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
     box(outline, 'board-outline', fill='none', stroke='#243342', stroke_width=2)
     box(region, 'allowed-region', fill='none', stroke='#548ec7', stroke_width=1.5, stroke_dasharray='7 4')
     for route in sorted(routes, key=lambda r:r['id']):
+        if 'centre' in route:
+            px, py = route['centre']
+            location = dict(cx=_fmt(x(px)), cy=_fmt(y(py)), data_route=route['id'])
+            element('circle', dict(**location, r=_fmt(route['width'] * scale / 2), fill='#a0661a',
+                                   data_role='preserved-via', data_protected='true'))
+            element('circle', dict(**location, r=_fmt(route['drill'] * scale / 2), fill='white', data_role='via-drill'))
+            continue
         color = '#a0661a' if route['protected'] else '#ba9699'
         if protection is None:
             color = '#bd7426'
