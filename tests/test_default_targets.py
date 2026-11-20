@@ -140,6 +140,51 @@ class DefaultTargetsTests(unittest.TestCase):
                                  sx.children(sx.one(new, 'library'), 'padstack')[:-1])
                 self.assertTrue(receipt['protected_via_stack_preserved'])
 
+    def test_distinct_fixed_via_stack_remains_available_only_to_original_wiring(self):
+        self.raw, self.native, self.project, self.task = fixtures(fixed=True)
+        source = sx.children(self.task, 'via')[0]
+        source.append(['uuid', '"41dde572-0b23-4b39-811f-cdf4676a2bc0"'])
+        sx.one(source, 'size')[1] = '.7'
+        sx.one(source, 'drill')[1] = '.35'
+        via = '"Via[0-1]_700:350_um"'
+
+        def fixed_stack(tree):
+            sx.one(sx.one(tree, 'structure'), 'via').append(via)
+            sx.children(sx.one(tree, 'wiring'), 'via')[0][1] = via
+            sx.one(tree, 'library').append(['padstack', via, ['shape', ['circle', 'F.Cu', '700']],
+                                           ['shape', ['circle', 'B.Cu', '700']], ['attach', 'off']])
+
+        self.edit(fixed_stack)
+        raw = self.raw
+        for unchanged_target in (False, True):
+            if unchanged_target:
+                self.project['board']['design_settings']['rules'] = dict.fromkeys(m.floors.FLOORS, 0)
+                self.native['effective_floors_nm'] = dict.fromkeys(m.floors.FLOORS, 0)
+            guided, receipt = self.transform()
+            tree = _parse_dsn(guided.decode())
+            self.assertEqual(sx.one(sx.one(tree, 'structure'), 'via'), ['via', '"' + receipt['derived_via_id'] + '"'])
+            self.assertEqual(sx.one(tree, 'wiring'), sx.one(_parse_dsn(raw.decode()), 'wiring'))
+            self.assertIn(via, [stack[1] for stack in sx.children(sx.one(tree, 'library'), 'padstack')])
+            self.assertEqual(receipt['fixed_only_via_stacks'], [sx.unquote(via)])
+            self.assertEqual(m.check(raw, guided, receipt, *self.args()[1:], source=SOURCE), receipt)
+        for change in [lambda t: sx.children(sx.one(t, 'wiring'), 'via')[0].__setitem__(2, '100.05'),
+                       lambda t: sx.one(sx.children(sx.one(t, 'wiring'), 'via')[0], 'net').__setitem__(1, 'RETURN'),
+                       lambda t: sx.one(t, 'wiring').pop(),
+                       lambda t: sx.one(t, 'library').append(['padstack', '"Via[0-1]_700.5:350_um"']),
+                       lambda t: sx.children(sx.one(t, 'library'), 'padstack')[-1][2][1].__setitem__(2, '701')]:
+            self.raw = raw
+            self.edit(change)
+            self.reject()
+        self.raw = raw
+
+        def omit_exported_fixed_via(tree):
+            sx.one(sx.one(tree, 'structure'), 'via').remove(via)
+            sx.one(tree, 'wiring').pop()
+            sx.one(tree, 'library').pop()
+
+        self.edit(omit_exported_fixed_via)
+        self.reject()
+
     def test_image_pin_referencing_original_via_stack_keeps_its_definition(self):
         self.edit(lambda tree: sx.children(sx.children(sx.one(tree, 'library'), 'image')[0], 'pin')[0].__setitem__(1, '"Via[0-1]_600:300_um"'))
         guided, receipt = self.transform()

@@ -4,6 +4,7 @@ import sys
 import threading
 
 import wx
+import wx.svg
 
 
 class Preview(wx.Panel):
@@ -74,7 +75,6 @@ class Companion(wx.Frame):
         self.selection = wx.StaticText(box, label='Reading KiCad selection…')
         stack.Add(self.selection, 0, wx.LEFT | wx.RIGHT | wx.TOP, 18)
         if workspace:
-            import wx.svg
             from autorouter.placement_gui import board_canvas
             layout = wx.BoxSizer(wx.HORIZONTAL)
             self.diagram = board_canvas(wx, container, None, None, self.image_error, self.controls, read_only=True,

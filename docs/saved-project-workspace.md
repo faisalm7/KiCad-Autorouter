@@ -16,3 +16,16 @@ Schematic context checks the exact saved project when you open the pane, return 
 The installed window was observed at 960 × 650 using its normal macOS controls. The project picker resolved the matching PCB. J1 and J2 appeared together on the board and the proposed region was visible. A typed 75-to-85-second edit required a fresh preview before adoption. The Schematic pane showed that J1 pin 1 shares ROUTE_A with J2 pin 1 and J1 pin 2 shares ROUTE_B with J2 pin 2. Deselecting J1 updated the open pane. Changing the disposable schematic caused the pane to withhold the earlier details. The hierarchy tests also cover repeated child sheets, changed or missing files and swapped instance paths. This check used an owned board and zero model calls.
 
 The saved-project workspace is a separate window. A distinct isolated KiCad 10.0.8 companion test passed one checked footprint move and native Undo on its owned fixture. [Editor results and scope](live-editor-milestone.md)
+
+## Moving parts into a destination area
+
+On builds with **Approve placement and validate**, choose the destination on
+the board or under **Precise area · mm**. When the supported pair starts
+outside the destination and its courtyard needs to start there directly,
+Copperpath selects that start policy and shows it in the plan. See **Advanced
+settings** for the policy and routing time. Review the first alternative and
+its copper plan, then choose **Approve placement and validate**. **Continue to
+routing** opens routing in the same window. If the selected placement nets
+have no retained routing or zones, Copperpath preselects those editable nets.
+Where any of those nets has existing copper or zones, **Finish gaps** remains
+the default. [Supported geometry and exact trial scope](current-placement-scope.md)

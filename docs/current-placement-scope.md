@@ -19,3 +19,13 @@ This is a limit of the original task and current placement contract. Physical fi
 Keep the existing actual rectangular outline gate. Admit standard two-layer, front-to-back through-vias only in placement with the exact source-baseline and Native witness. Preserve the via UUID, net, position, drill, diameter, layer span, lock and free flag. The full annulus and clearance bound every proposed courtyard. Vias on any requested rebuild net refuse before preparation. Other via types or manufacturing attributes and placement rule areas still refuse. KiCad checks final rules and refill after the original-copper check.
 
 Use one generated owned fixture. Copy the saved owned-placement project into a new directory. Add a 0.60 mm diameter, 0.30 mm drill through-via on the existing KEEP trace at X 19, Y 16 mm, and a 0.30 mm KEEP back segment between that via and the existing pad at X 12, Y 16 mm. Keep every original object. The prepared fixture keeps the prior task of translating J1/J2 into X 14–22, Y 8–13 mm and rebuilding only ROUTE_A and ROUTE_B. Preserve the three KEEP objects. Run the first 2-second search only, placement validation within 120 seconds, routing and fresh export within 85 seconds each, and existing 60-second review and choice limits. A separate check deliberately puts a selected courtyard over a via and must refuse. Stop at the first unsupported or failed stage. No licensed-board delivery or coverage expansion follows from this owned control alone.
+
+The first installed route stopped before Freerouting. KiCad exported the
+0.60/0.30 mm locked-for-transport via beside the default 0.80/0.40 mm via.
+Placement and its detached validation had already succeeded. The correction
+requires matching saved-task positions, net and shapes for the fixed vias. It
+keeps their definitions and exact wiring, and offers only the lawful Default
+choice for new routing. Multiple-size transport refuses padstack names that
+Freerouting would rewrite and fixed centers it could round or merge. Test the
+correction prospectively in one fresh installation on the same owned task and
+budgets. The first refusal remains part of the evidence.

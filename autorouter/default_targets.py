@@ -7,10 +7,12 @@ acceptance, electrical suitability or support for a project.
 from __future__ import annotations
 
 import copy
+from collections import Counter
 from decimal import Context, Decimal, DecimalException, Inexact, InvalidOperation, Overflow, localcontext
 import hashlib
 import json
 from pathlib import Path
+import re
 
 from . import board_floor as floors, netclass as nc, sexpr as sx
 from .adapter import _parse_dsn, _dump_dsn, _check_units
@@ -189,8 +191,8 @@ def _number(atom, *, positive=False):
         raise ValueError('exact bounded wiring nanometres required')
 
 
-def _wiring(tree, names, native, via):
-    referenced = False
+def _wiring(tree, names, native, declared_vias):
+    vias = []
     nets = {row['name'] for row in native['nets']}
     for node in sx.one(tree, 'wiring')[1:]:
         if type(node) is not list or not node or node[0] not in {'wire', 'via'}:
@@ -209,10 +211,69 @@ def _wiring(tree, names, native, via):
             for i, atom in enumerate(path[2:]):
                 _number(atom, positive=i == 0)
         else:
-            if len(node) != 6 or node[1] != via:
-                raise ValueError('only the raw Default through-via is supported in wiring')
-            _number(node[2]); _number(node[3]); referenced = True
-    return referenced
+            if len(node) != 6 or node[1] not in declared_vias:
+                raise ValueError('protected wiring uses an undeclared through-via')
+            _number(node[2]); _number(node[3]); vias.append(node)
+    return vias
+
+
+def _fixed_only_vias(task, vias, default, derived, extra, stacks, layers):
+    """Bind every extra Native via choice to unchanged two-layer task copper."""
+    if len(layers) != 2:
+        if extra:
+            raise ValueError('Additional fixed via sizes require two copper layers.')
+        return
+    source = sx.children(task, 'via')
+    if not source and not extra:
+        return
+    from .placement_transform import atom, nm
+
+    saved = []
+    for node in source:
+        diameter, drill = (nm(atom(node, key), 1000000) for key in ('size', 'drill'))
+        name = '"Via[0-1]_' + floors.atom_um(diameter) + ':' + floors.atom_um(drill) + '_um"'
+        saved.append((node, name))
+    if {name for _, name in saved if name != default} != extra:
+        raise ValueError('Exported fixed via sizes differ from the saved task.')
+    if not extra:
+        return
+
+    def engine_name(name):
+        # Freerouting 2.5.0 strips decimal suffixes in padstack lookup.
+        return re.sub(r'\.[0-9]+', '', name)
+
+    used = {sx.unquote(default), derived, *map(sx.unquote, extra)}
+    if any(engine_name(name) != name for name in used) or any(
+            name not in used and engine_name(name) in used for name in stacks):
+        raise ValueError('Fixed or routing via padstack names would change or collide in Freerouting.')
+
+    from experiments.placement_native_proposal_v1.ordinary import preserved_via
+
+    _, net_name = floors.source_net_identity(task, allow_pour_only_areas=True)
+    expected = Counter()
+    shapes = {}
+    centers = set()
+    for node, name in saved:
+        row = preserved_via(node, net_name(sx.one(node, 'net')))
+        center = tuple(row['at_nm'])
+        if center in centers or any(value % 100 for value in center):
+            raise ValueError('Fixed vias need distinct centers on the Native 0.1 µm grid.')
+        centers.add(center)
+        expected[(name, row['net'], *center)] += 1
+        if name in extra:
+            shapes[name] = row['width_nm']
+    actual = Counter((node[1], sx.unquote(sx.one(node, 'net')[1]), nm(node[2], 1000), -nm(node[3], 1000))
+                     for node in vias)
+    if expected != actual:
+        raise ValueError('Additional via sizes must match exact fixed vias in the saved task.')
+    for name, diameter in shapes.items():
+        stack = stacks.get(sx.unquote(name), [])
+        circles = sx.children(stack, 'shape')
+        if (len(stack) != 5 or sx.one(stack, 'attach') != ['attach', 'off'] or len(circles) != 2
+                or any(len(shape) != 2 or shape[1][0] != 'circle' or len(shape[1]) != 3
+                       or nm(shape[1][2], 1000) != diameter for shape in circles)
+                or {sx.unquote(shape[1][1]) for shape in circles} != set(layers)):
+            raise ValueError('Fixed via padstack differs from saved copper: ' + sx.unquote(name))
 
 
 def resolved_project(project, native):
@@ -348,12 +409,14 @@ def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
         raise ValueError('raw Default rule order/values differ')
     old = 'Via[0-' + str(len(names) - 1) + ']_' + floors.atom_um(raw['via_diameter_nm']) + ':' + floors.atom_um(raw['via_drill_nm']) + '_um'
     new = 'Via[0-' + str(len(names) - 1) + ']_' + floors.atom_um(target['via_diameter_nm']) + ':' + floors.atom_um(target['via_drill_nm']) + '_um'
-    if sx.one(structure, 'via') != ['via', '"' + old + '"']:
-        raise ValueError('one explicit Default routing via required')
-    fixed_via = _wiring(tree, [row[1] for row in sx.children(structure,'layer')], native, '"' + old + '"')
-    stacks = sx.children(library, 'padstack')
-    old_stack = next(stack for stack in stacks if sx.unquote(stack[1]) == old)
-    if new != old and any(sx.unquote(stack[1]) == new for stack in stacks):
+    declared = sx.one(structure, 'via')[1:]
+    if not declared or declared[0] != '"' + old + '"':
+        raise ValueError('The first exported via must match the project’s Default routing via.')
+    extra = set(declared[1:])
+    fixed_vias = _wiring(tree, [row[1] for row in sx.children(structure,'layer')], native, set(declared))
+    stacks = {sx.unquote(stack[1]): stack for stack in sx.children(library, 'padstack')}
+    _fixed_only_vias(task, fixed_vias, declared[0], new, extra, stacks, names)
+    if new != old and new in stacks:
         raise ValueError('derived via ID collides with existing padstack')
     guided = copy.deepcopy(tree)
     gs, gn, gl = (sx.one(guided, name) for name in ('structure', 'network', 'library'))
@@ -363,12 +426,14 @@ def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
     class_rule = sx.one(sx.children(gn, 'class')[0], 'rule')
     class_rule[1][1] = floors.atom_um(target['width_nm'])
     class_rule[2][1] = floors.atom_um(target['clearance_nm'])
+    # A retained padstack remains available to its fixed wiring. Only the
+    # Default (or its lawful derived size) is offered for new routing.
+    sx.one(gs, 'via')[1:] = ['"' + new + '"']
     if new != old:
-        sx.one(gs, 'via')[1] = '"' + new + '"'
         sx.one(sx.one(sx.children(gn, 'class')[0], 'circuit'), 'use_via')[1] = '"' + new + '"'
         # A via stack can also be a library pin's shape, even with no wiring.
         # Never rename/remove/mutate it: add a distinct planning choice only.
-        stack = copy.deepcopy(old_stack); gl.append(stack)
+        stack = copy.deepcopy(stacks[old]); gl.append(stack)
         stack[1] = '"' + new + '"'
         for shape in sx.children(stack, 'shape'):
             sx.one(shape, 'circle')[2] = floors.atom_um(target['via_diameter_nm'])
@@ -383,11 +448,13 @@ def transform(raw_dsn_bytes, native_map, project_raw, task_raw, *, source):
                'dimension_resolution': resolution_fields(project_raw),
                'copper_layers': names, 'original_via_id': old, 'derived_via_id': new,
                'original_via_stack_preserved': True, 'derived_via_stack_added': old != new,
-               'protected_via_stack_preserved': bool(fixed_via and old != new),
+               'protected_via_stack_preserved': bool(extra or (fixed_vias and old != new)),
                'wiring_sha256': _sha(sx.dump(sx.one(tree, 'wiring')).encode()),
                'engine_requirements': dict(floors.ENGINE_REQUIREMENTS),
                'routing_accepted': False, 'production_support_qualified': False,
                'native_execution_proven': False}
+    if extra:
+        receipt['fixed_only_via_stacks'] = sorted(map(sx.unquote, extra))
     from .netclass_native import SOURCE_ALL_LAYER_KEY
     if SOURCE_ALL_LAYER_KEY in native:
         receipt[SOURCE_ALL_LAYER_KEY]=native[SOURCE_ALL_LAYER_KEY]

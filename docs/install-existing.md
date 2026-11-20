@@ -63,6 +63,28 @@ python3.11 -m pip --isolated --python "/path/to/runtime/.venv" install \
 
 The toolbar reads the single open PCB identity from the invoking KiCad instance over its local socket. Copperpath confirms a matching saved project and prompts you to close it before work. A missing client, unavailable connection or mismatched project leaves the picker empty with an explanation. Pick the saved project to continue. The package wheels and their notices are supplied by PyPI and are outside the curated runtime payload. The client is MIT-licensed and includes generated protocol modules carrying KiCad license notices. [KiCad IPC developer notes](https://dev-docs.kicad.org/en/apis-and-binding/ipc-api/for-addon-developers/index.html) · [Pinned client](https://pypi.org/project/kicad-python/0.8.0/) · [Wheel pins](kicad-toolbar-macos-arm64.txt).
 
+### Try the checked move on the supplied example
+
+For a build that includes `--checked-move-editor`, use a fresh launcher and
+the already verified, isolated KiCad 10.0.8 application. Keep the existing
+KiCad 10.0.7 Native dependencies for detached checks. Run from the runtime
+after installing the pinned IPC wheels above.
+
+```sh
+.venv/bin/python -B scripts/install_gui.py \
+  --output "$PWD/.runs/launcher-checked-move" \
+  --checked-move-editor "/absolute/path/to/isolated/KiCad.app"
+```
+
+Open **Launch Autorouter.command**, open PCB Editor for its disposable
+example, then select J1 or J2 and click the Copperpath toolbar icon. The
+companion shows the current selection and lets you preview, check and
+explicitly apply one move. Use KiCad **Edit → Undo Copperpath checked
+component move**, then **Verify KiCad Undo** in Copperpath. Use **Open Saved
+Project.command** for your own boards. This checked example runs in a
+separate companion window. The supporting 10.0.8 move and Undo evidence was
+collected with the dedicated test launcher. [Editor scope and evidence](live-editor-milestone.md#checked-move-on-1008)
+
 Installation copies only the declared immutable payload and matching local JAR. It preserves the original lock/source provenance and writes a new root-bound manifest. Unsafe links, changed/missing/extra payload, stale pins and existing destinations refuse. Failed partial output is retained; use a fresh destination. A successful copy/doctor is preparation, not qualification of that new root or machine.
 
 ## Current artifact-import qualification boundary
