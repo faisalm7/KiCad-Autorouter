@@ -113,7 +113,7 @@ def constraint_change_text(offer, *, conversational=False):
         if before[key] != after[key]:
             lines.append(f'{label}  {show(before[key])} → {show(after[key])}')
     if offer['placement_settings'] is not None:
-        lines.append('Every other component stays fixed.')
+        lines.append('Other parts stay in place. KiCad locks stay as saved.')
         if intent.region_options(offer['placement_settings']):
             lines.append('Selected parts may start outside the area. Every proposed position must fit inside it.')
     plan = offer['copper_plan']
@@ -123,6 +123,8 @@ def constraint_change_text(offer, *, conversational=False):
         lines.append('Affected nets for later review  ' + ', '.join(plan['incident_names']))
         if plan['protected_names']:
             lines.append('Protected nets  ' + ', '.join(plan['protected_names']))
+    elif offer['placement_settings'] is not None:
+        lines.append('Existing copper stays protected.')
     return '\n'.join(lines)
 
 
@@ -212,6 +214,19 @@ def require_closed_source(board, *, inspection=None):
         raise ValueError('Saved source files changed since inspection. Click Inspect project again, '
             'then load your settings and review a new draft. Earlier validation was not renewed.')
     return source
+
+
+def saved_routing_scene(inspection, placement):
+    """Build optional saved context using the existing bounded board renderer."""
+    try:
+        if placement is None or placement['source_hashes'] != inspection['source_hashes']:
+            placement = intent.inspect_saved(inspection['source'])
+        if (placement['source'] != inspection['source']
+                or placement['source_hashes'] != inspection['source_hashes']):
+            return None
+        return placement_view.saved_scene(placement['observation'])
+    except (OSError, ValueError, KeyError, TypeError, IndexError, Rejected):
+        return None  # Drawing limits do not change routing eligibility.
 
 
 def empty_copper_selection(source, inspection, selected, settings):
@@ -693,6 +708,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.schematic = None; self.schematic_refusal = ''
             self.conversation = conversation.Conversation()
             self.conversation_offer = False
+            self.routing_source_scene = None
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
             panel = self.panel = wx.Panel(self)
             root = wx.BoxSizer(wx.VERTICAL)
@@ -802,6 +818,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.assistant_result = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
                                                 size=(-1, 96), name='Conversation history')
             self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
+            self.assistant_result.Hide()
             assistant_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.ALL, 8)
             assistant_layout.Add(wx.StaticText(assistant_inputs, label='Your request or reply'),
                                  0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
@@ -834,7 +851,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.constraint_reject = wx.Button(assistant_inputs, label='Discard')
             proposal_actions.Add(self.constraint_use, 0, wx.RIGHT, 6)
             proposal_actions.Add(self.constraint_reject)
-            assistant_layout.Add(proposal_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.constraint_edit = wx.CollapsiblePane(assistant_inputs, label='Edit suggestion', style=wx.CP_NO_TLW_RESIZE)
             proposed_fields = self.constraint_edit.GetPane()
             draft_layout = wx.FlexGridSizer(cols=2, vgap=4, hgap=6); draft_layout.AddGrowableCol(1)
@@ -857,12 +873,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.routing_names_label.Hide(); self.routing_names.Hide()
             proposed_fields.SetSizer(draft_layout)
             self.constraint_edit.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
-            assistant_layout.Add(self.constraint_edit, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.constraint_edit.Hide()
             self.constraint_summary = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
                                                  size=(-1, 74), name='Constraint changes')
             self.constraint_summary.ChangeValue('Preview a request to see its changes on the board. Use settings to adopt them.')
             assistant_layout.Add(self.constraint_summary, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            assistant_layout.Add(proposal_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            assistant_layout.Add(self.constraint_edit, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             assistant_inputs.SetSizer(assistant_layout)
             assistant_split = wx.BoxSizer(wx.VERTICAL)
             assistant_split.Add(assistant_inputs, 1, wx.EXPAND)
@@ -1147,6 +1164,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.assistant_ask.Enable(not self.busy and (bool(self.board.GetValue()) if routing else self.inspection is not None))
                 self.conversation_reset.Enable(not self.busy)
                 self.conversation_kind.Enable(not self.busy)
+                self.assistant_result.Show(bool(self.conversation.turns))
             if hasattr(self, 'assistant_use'):
                 self.assistant_ask.Enable(not self.busy and self.inspection is not None)
                 self.assistant_ack.Enable(not self.busy and self.pending_copilot is not None)
@@ -1158,6 +1176,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     and (not constraint_pending or self.constraint_edited))
                 self.constraint_use.Enable(not self.busy and constraint_pending and not self.constraint_edited)
                 self.constraint_reject.Enable(not self.busy and constraint_pending)
+                self.constraint_use.Show(constraint_pending)
+                self.constraint_reject.Show(constraint_pending)
                 for entry in self.constraint_fields:
                     entry.Enable(not self.busy)
                 if hasattr(self, 'routing_names'):
@@ -1228,6 +1248,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if hasattr(self, 'conversation'):
                     self.conversation.reset()
                     self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
+                    self.routing_source_scene = None
                 self.automatic_target_area = False
                 self.target_region.SetValue(False)
                 self.schematic = None; self.schematic_refusal = ''
@@ -1242,6 +1263,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             previous = getattr(self, 'approved_copilot', None)
             self.copilot_generation = getattr(self, 'copilot_generation', 0) + 1
             self.pending_copilot = None; self.approved_copilot = None
+            self.routing_source_scene = None
             if getattr(self, 'constraint_review', None) is not None:
                 self.clear_constraint_offer('The request or project controls changed. Preview again.')
             if hasattr(self, 'assistant_ack'):
@@ -1369,13 +1391,19 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def update_constraint_map(self, offer=None):
             try:
                 routing = offer is not None and offer['kind'] == conversation.ROUTING_KIND
-                value = (self.board_scene if offer is None or routing else
-                         constraint_scene(self.inspection, self.constraint_inputs(), offer))
+                if routing:
+                    captured = getattr(self, 'routing_source_scene', None)
+                    value = captured[2] if captured is not None else None
+                else:
+                    value = self.board_scene if offer is None else constraint_scene(self.inspection, self.constraint_inputs(), offer)
                 self.picture.SetScene(value)
                 pending_copper = offer is not None and offer.get('copper_plan') is not None
                 legend = ('Proposal · Blue selected · Slate fixed · Amber retained · Rose may be rebuilt'
                           if pending_copper else 'Proposal · Blue selected · Slate fixed · Amber retained')
-                self.constraint_key.SetLabel(self.board_legend if offer is None or routing else legend)
+                if routing:
+                    legend = ('Saved board · Review routing changes after the run.' if value is not None else
+                              'Saved board drawing unavailable. You can still preview routing.')
+                self.constraint_key.SetLabel(self.board_legend if offer is None else legend)
                 if hasattr(self, 'schematic_text') and self.pages.GetSelection() == 3:
                     self.update_schematic_view()
             except (KeyError, TypeError, ValueError, OSError) as exc:
@@ -1470,14 +1498,15 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         inspection, controls, request=binding['request'], revision=binding['revision'])
                     prepared = hosted.prepare_conversation(review, binding['request'], transcript,
                                                             inspection=inspection, routing=routing)
-                    return review, inspection, prepared
+                    scene = saved_routing_scene(inspection, placement) if routing else None
+                    return review, inspection, prepared, scene
 
                 def current():
                     inputs = self.conversation_routing_preferences() if routing else self.constraint_inputs()
                     if binding != self.constraint_binding() or controls != inputs or routing != (self.conversation_kind.GetSelection() == 1):
                         raise ValueError('The request or ordinary settings changed. Send a new request.')
 
-                def show(result, review, inspection):
+                def show(result, review, inspection, scene):
                     current()
                     require_closed_source(binding['source'], inspection=inspection)
                     proposal, clarification = result['proposal'], result['clarification']
@@ -1487,6 +1516,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.assistant_result.SetInsertionPointEnd()
                     if proposal is not None:
                         # Changing the ordinary settings takes a later deliberate action.
+                        self.routing_source_scene = ((inspection['source'], inspection['source_hashes'], scene)
+                                                     if scene is not None else None)
                         self.conversation_offer = True
                         self.show_constraint_offer(review, proposal)
                     else:
@@ -1497,14 +1528,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         self.assistant_request.SetFocus(); self.assistant_request.SelectAll()
 
                 def ready(value):
-                    review, inspection, prepared = value
+                    review, inspection, prepared, scene = value
                     current()
                     if conversation_reply is not None:
                         tool, arguments = conversation_reply(copy.deepcopy(prepared['consent_summary']['data']))
                         answer = review.receive(tool, arguments, controls, **binding)
                         show({'proposal': None if tool == 'clarify_design_request' else answer,
                               'clarification': answer if tool == 'clarify_design_request' else None},
-                             review, inspection)
+                             review, inspection, scene)
                         return
                     path = self.owned_workspace() / ('assistant-spend-' + uuid.uuid4().hex + '.json')
                     consent = hosted.make_consent(prepared, ledger_path=path)
@@ -1526,7 +1557,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                             private.clear()
                     try:
                         self.start('Waiting for one consented conversation turn…', send,
-                                   lambda result: show(result, review, inspection))
+                                   lambda result: show(result, review, inspection, scene))
                     except BaseException:
                         private.clear()
                         raise
@@ -2217,9 +2248,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 else:
                     self.panel.Show(); self.Layout(); self.refresh()
 
-            history = self.conversation.summary_for(source, gui.source_inventory(source)) if self.conversation.source else ''
+            view = getattr(self, 'routing_source_scene', None) if values is not None else None
+            current = gui.source_inventory(source) if self.conversation.source or view is not None else None
+            history = self.conversation.summary_for(source, current)
+            scene = view[2] if view is not None and view[:2] == (str(source), current) else None
             frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self,
-                                      conversation_history=history)
+                                      conversation_history=history, saved_scene=scene)
             try:
                 if self.routing_output_hint is not None:
                     frame.output.SetValue(self.routing_output_hint)

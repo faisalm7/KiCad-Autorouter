@@ -2,7 +2,33 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
-## Active batch from f51d84b6
+## Current queue from 6ea132471
+
+1. Install the placement conversation wording that explains the general
+   rule for parts left in place and reserves KiCad lock changes for a clear
+   unsupported response. Verify the outgoing contract and explicit adoption
+   offline. Preserve the live clarification and its consumed authorization.
+2. Verify the current Conversation layout at 960 × 650. The earlier
+   installed build passed local preview, edit, adoption and changed-request
+   refusal. History stayed through the routing handoff and refusal. Qualify
+   readable history through a successful controlled routing review.
+   [Baseline](evidence/product-workspace-conversation-ui-baseline-001.json)
+3. Verify the saved board view, explicit preserve-all summary and useful
+   explanation of the unconnected net. The Native one-net trial left
+   ROUTE_B open and correctly refused, but displayed only a generic error.
+   Exercise that refusal on the corrected build and one explicit two-net
+   review. Keep earlier placement-to-export evidence for unchanged stages.
+4. Close bounded new-family admission. Held AS7343 and MY1690X sources proved
+   previously exposed. Keep the SparkFun RFID and NUS refusals unchanged.
+   Test the direct Native per-pad membership path for fixed intentional
+   net ties once on the retained owned fixture. Exact group identity and
+   separate DSN net terminals are prerequisites. Bridge fidelity and fresh
+   original-rule checked delivery are required before admitting any such
+   board to product routing. Defer with the exact boundary if the witness
+   cannot be established. A new-family result still needs a pinned licensed
+   project and a task frozen before routing.
+
+## Earlier batch from f51d84b6
 
 Implementation, qualification, documentation, checkpoints and backups are progress milestones. After each, start the next ready item. Finish this batch when every item is completed and checkpointed or has a concrete blocker beyond the authorized scope. Work through independent items when one is blocked. Keep the current results and next action in the local continuation.
 
@@ -25,7 +51,7 @@ the existing isolated 10.0.8 toolchain when admission passes. Reuse the
 recorded cancellation, partial update and stale controls where unchanged.
 Keep automatic live writes gated until exact apply and Undo are observed.
 
-## Active batch from fafcdfb39
+## Earlier batch from fafcdfb39
 
 Continue through ready items after each checkpoint. Preserve the installed
 workspace, saved schematic results and DS18B20 delivery.
@@ -73,7 +99,7 @@ or Freerouting. Hosted conversation needs separate approval for an owned task.
 True docking, reversible schematic editing and full/off-Mac recovery remain
 separate gates. [Requirements](REQUIREMENTS.md)
 
-## Active batch from 2427b2ebd
+## Earlier batch from 2427b2ebd
 
 Advance through ready work after each checked checkpoint. Keep the previous
 tested workspace, checked export and live move evidence unchanged.
@@ -105,7 +131,7 @@ tested workspace, checked export and live move evidence unchanged.
    empty-directory retirement, the selected restoration matched all 1,217
    files. The verified scratch copy was retired by the existing procedure.
 
-## Active batch from 6e0bb0db6
+## Earlier batch from 6e0bb0db6
 
 1. Put Conversation, its history, local preview and hosted consent entry
    beside the board. Qualify the installed layout and confirm controlled

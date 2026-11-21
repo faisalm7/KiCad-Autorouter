@@ -116,6 +116,27 @@ class GuiBudgetTests(unittest.TestCase):
             with patch.object(gui, 'read_record', side_effect=error):
                 self.assertIsNone(gui.failed_route_detail(flow.workspace/'route/result.json'))
 
+    def test_native_rejection_explains_the_open_net_and_keeps_acceptance_disabled(self):
+        flow = self.flow()
+        failure = dict(status='drc_rejected', accepted=False, source=str(flow.board),
+            source_hashes=json.loads(flow.files_json), scope='selected_nets',
+            native=dict(opens=1, blocking=0, findings=[dict(severity='error',
+                description='Missing connection between items',
+                items=[{'description': 'Pad 2 [ROUTE_B] of J1'}, {'description': 'Pad 2 [ROUTE_B] of J2'}])]),
+            native_rejection_reasons=['policy-critical native finding: unconnected_items (error)'])
+        process = dict(cancel_requested=False, exit_code=2, log_truncated=False)
+        with patch.object(gui, 'read_record', return_value=failure):
+            with self.assertRaisesRegex(ValueError, 'KiCad found 1 open connection') as error:
+                flow.adopt('route', process, flow.workspace/'route.command.log')
+            self.assertIn('Pad 2 [ROUTE_B] of J1', str(error.exception))
+            self.assertIn('Finish gaps', str(error.exception))
+            self.assertIn('No candidate accepted', str(error.exception))
+        self.assertFalse(flow.ready)
+        self.assertFalse(flow.records)
+        with patch.object(gui, 'read_record', return_value=dict(failure, source_hashes={})):
+            with self.assertRaisesRegex(ValueError, 'failed or was cancelled'):
+                flow.adopt('route', process, flow.workspace/'route.command.log')
+
     def test_actual_load_callback_enforces_floor_without_rewriting_budget(self):
         for seconds in (60, 90):
             with self.subTest(seconds=seconds):

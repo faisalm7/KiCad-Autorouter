@@ -9,6 +9,7 @@ import argparse
 import copy
 from dataclasses import dataclass, field
 import hashlib
+from itertools import islice
 import json
 import math
 import os
@@ -569,7 +570,8 @@ class Workflow:
                 or type(process['exit_code']) is int and process['exit_code'] < 0):
             raise ValueError('Action failed or was cancelled. Evidence was retained; no positive state adopted.')
         if process['exit_code'] != 0:
-            detail = failed_route_detail(self.workspace / 'route/result.json') if stage == 'route' else None
+            detail = (failed_route_detail(self.workspace / 'route/result.json', board=self.board,
+                                          source_hashes=json.loads(self.files_json)) if stage == 'route' else None)
             if stage == 'preview' and type(process['exit_code']) is int and process['exit_code'] == 2:
                 detail = failed_preview_detail(log_path)
             if stage == 'export' and type(process['exit_code']) is int and process['exit_code'] == 2:
@@ -852,7 +854,7 @@ def failed_export_check_detail(path):
         return None
 
 
-def failed_route_detail(path):
+def failed_route_detail(path, *, board=None, source_hashes=None):
     """Bounded diagnostic text only; never adopts a failed receipt as evidence."""
     try:
         record = read_record(path)
@@ -862,6 +864,32 @@ def failed_route_detail(path):
             return None
         reason = record.get('reason') or record.get('error')
         text = short_failure_reason(reason)
+        if text is None and record['status'] == 'drc_rejected':
+            if board is None or record.get('source') != str(board) or record.get('source_hashes') != source_hashes:
+                return None
+            native = record.get('native')
+            if type(native) is not dict or any(type(native.get(key)) is not int or native[key] < 0
+                                                for key in ('opens', 'blocking')):
+                return None
+            opens, blocking = native['opens'], native['blocking']
+            connections = 'open connection' if opens == 1 else 'open connections'
+            problems = 'other blocking finding' if blocking == 1 else 'other blocking findings'
+            lines = [f'KiCad found {opens} {connections} and {blocking} {problems}.']
+            findings = native.get('findings', [])
+            if isinstance(findings, list):
+                errors = (row for row in findings if isinstance(row, dict) and row.get('severity') == 'error')
+                for finding in islice(errors, 3):
+                    details = finding.get('items')
+                    names = [short_failure_reason(row.get('description')) for row in details[:2]
+                             if isinstance(row, dict)] if isinstance(details, list) else []
+                    label = short_failure_reason(finding.get('description')) or 'KiCad error'
+                    lines.append(label + ('. ' + ' ↔ '.join(name for name in names if name) if any(names) else ''))
+            reasons = record.get('native_rejection_reasons')
+            if isinstance(reasons, list):
+                lines.extend(reason for item in reasons[:3] if (reason := short_failure_reason(item)))
+            if opens and record.get('scope') == 'selected_nets':
+                lines.append('Check the remaining nets before starting again. Include them in the selection or choose Finish gaps if you want to protect the saved routing.')
+            text = '\n'.join(lines)
         if text is None: return None
         return 'Routing refused: ' + text + '\nNo candidate accepted. Full failure receipt: ' + str(path)
     except Exception:
@@ -1128,7 +1156,7 @@ def _finish_window_close(window):
 
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
-                  placement_scene=None, conversation_history=''):
+                  placement_scene=None, conversation_history='', saved_scene=None):
     """Create routing controls in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1319,7 +1347,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 side.Add(panel, 1, wx.EXPAND)
                 side.Add(status_host, 0, wx.EXPAND | wx.TOP, 6)
                 frame_layout = wx.BoxSizer(wx.HORIZONTAL)
-                frame_layout.Add(self.workspace_view(placement_scene), 1, wx.EXPAND | wx.ALL, 10)
+                frame_layout.Add(self.workspace_view(placement_scene, saved_scene), 1, wx.EXPAND | wx.ALL, 10)
                 frame_layout.Add(side, 0, wx.EXPAND | wx.RIGHT | wx.TOP | wx.BOTTOM, 10)
             else:
                 self.log = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 150))
@@ -1336,7 +1364,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(500)
             self.refresh()
 
-        def workspace_view(self, placement):
+        def workspace_view(self, placement, saved):
             from .placement_gui import board_canvas
             from .review_view import WORKSPACE_COLORS
             left = wx.Panel(self)
@@ -1347,6 +1375,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.workspace_tabs = wx.Notebook(left)
             copper = wx.Panel(self.workspace_tabs); drawing = wx.BoxSizer(wx.VERTICAL)
             self.placement_scene = placement
+            self.saved_scene = saved
             self.workspace_render = None
             self.review_layers = wx.Choice(copper)
             self.review_layers.Bind(wx.EVT_CHOICE, self.display_layer)
@@ -1399,8 +1428,17 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.display_layer()
             else:
                 self.workspace_tabs.SetPageText(0, 'Board')
-                self.review_caption.SetLabel('Original placement review' if self.placement_scene else '')
-                self.review_picture.SetScene(self.placement_scene)
+                self.review_caption.SetLabel('Original placement review' if self.placement_scene else
+                                             'Saved board before routing' if self.saved_scene else '')
+                if self.placement_scene is not None:
+                    self.review_picture.SetScene(self.placement_scene)
+                else:
+                    try:
+                        self.review_picture.SetScene(self.saved_scene)
+                    except Exception:
+                        self.saved_scene = None
+                        self.review_picture.SetScene(None)
+                        self.review_caption.SetLabel('Saved board drawing unavailable')
                 if render:
                     self.log.AppendText('\n' + render['note'] + '\nUse Detailed report or Open review in KiCad for copper changes.')
                     self.workspace_tabs.SetSelection(1)
@@ -1414,6 +1452,10 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.review_picture_failed(str(exc))
 
         def review_picture_failed(self, error):
+            if self.workspace_render is None and self.placement_scene is None and self.saved_scene is not None:
+                self.saved_scene = None
+                self.review_caption.SetLabel('Saved board drawing unavailable')
+                return
             self.inspected.SetValue(False)
             self.log.AppendText('\nCopper image unavailable. Use Detailed report or Open review in KiCad.\n' + error)
             self.workspace_tabs.SetSelection(1)
@@ -1650,7 +1692,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             if self.flow is not None:
                 self.flow.ready.clear(); self.flow.records.clear(); self.flow.choice = None
             self.flow = None; self.inspected.SetValue(False)
-            self.status.SetLabel('Action refused or cancelled. Read the findings below; start a fresh preview.')
+            self.status.SetLabel('Routing stopped. See Findings for the cause and next action.'
+                                 if error.startswith('Routing refused:') else
+                                 'Action refused or cancelled. See Findings for details and start a fresh preview.')
             self.log.SetValue(str(error) + '\nNo positive state adopted. Retained files were not deleted.')
             self.refresh()
 

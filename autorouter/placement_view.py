@@ -80,8 +80,15 @@ def scene(observation, moves_nm, selected_ids, region_nm, *, title='Placement wo
         state=state, annotation_context=annotation_context, interactive=True, protection=protection)
 
 
+def saved_scene(observation):
+    """Render saved positions and copper without any proposed movement area."""
+    return _render(observation, {}, [], observation['outline']['bounds_nm'],
+        title='Saved board', state='Saved positions and copper', interactive=True,
+        protection=(True, (), ()), show_region=False)
+
+
 def _render(observation, moves_nm, selected_ids, region_nm, *, title,
-            state, annotation_context=None, interactive=False, protection=None):
+            state, annotation_context=None, interactive=False, protection=None, show_region=True):
     """Return self-contained SVG; coordinates retain KiCad's downward Y axis.
 
     Bounds: 16 footprints, 32 pads, 64 straight segments, 32 ordinary zones,
@@ -248,7 +255,8 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
             fill='#dcecdf', fill_opacity='.55', stroke='#5b8668', stroke_width=1,
             data_role='zone', data_zone=zone['id']))
     box(outline, 'board-outline', fill='none', stroke='#243342', stroke_width=2)
-    box(region, 'allowed-region', fill='none', stroke='#548ec7', stroke_width=1.5, stroke_dasharray='7 4')
+    if show_region:
+        box(region, 'allowed-region', fill='none', stroke='#548ec7', stroke_width=1.5, stroke_dasharray='7 4')
     for route in sorted(routes, key=lambda r:r['id']):
         if 'centre' in route:
             px, py = route['centre']

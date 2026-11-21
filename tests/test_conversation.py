@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 from autorouter import conversation, design_intent as design, gui, hosted_intent as hosted
-from autorouter import placement_intent
+from autorouter import placement_gui, placement_intent
 from experiments.placement_native_proposal_v1 import multipad_fixture
 from tests.test_hosted_intent import KEY, response, tagged
 
@@ -93,7 +93,8 @@ class ConversationChecks(unittest.TestCase):
         review = design.PlacementConstraintReview(self.inspection, self.controls, request=text, revision=1)
         prepared = hosted.prepare_conversation(review, text, [], inspection=self.inspection)
         packet = json.loads(prepared['body'])
-        self.assertIn('leave their positions unchanged for this task', packet['instructions'])
+        self.assertIn('requests to keep, leave or hold the remaining parts in place concern their positions',
+                      packet['instructions'])
         self.assertIn('change a KiCad lock or a pinned setting, use clarify_design_request with '
                       'unsupported_requirement', packet['instructions'])
         fields = packet['tools'][0]['parameters']['properties']
@@ -108,7 +109,19 @@ class ConversationChecks(unittest.TestCase):
         self.assertEqual(offer['after'], proposal)
         self.assertIs(offer['approval_granted'], False)
         self.assertIs(offer['execution_authorized'], False)
+        summary = placement_gui.constraint_change_text(offer)
+        self.assertIn('Other parts stay in place. KiCad locks stay as saved.', summary)
+        self.assertIn('Existing copper stays protected.', summary)
         self.assertEqual(gui.source_inventory(self.board), before)
+
+    def test_routing_context_can_draw_the_exact_saved_board_without_placement(self):
+        captured = design.inspect_project(self.board)
+        view = placement_gui.saved_routing_scene(captured, None)
+        self.assertIn('preserved-segment', view['svg'])
+        self.assertNotIn('allowed-region', view['svg'])
+        project = self.board.with_suffix('.kicad_pro')
+        project.write_bytes(project.read_bytes() + b'\n')
+        self.assertIsNone(placement_gui.saved_routing_scene(captured, None))
 
     def test_history_has_a_finite_size_and_cannot_retain_a_forged_clarification(self):
         history = conversation.Conversation()

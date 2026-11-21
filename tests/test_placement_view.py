@@ -3,7 +3,7 @@ import copy
 import unittest
 import xml.etree.ElementTree as ET
 
-from autorouter.placement_view import render
+from autorouter.placement_view import render, saved_scene
 
 
 def observation():
@@ -42,6 +42,15 @@ class PlacementViewTests(unittest.TestCase):
         self.assertEqual(first,self.svg())
         self.assertIn('Geometry draft — Native validation required',first)
         self.assertIn('no validation, approval or execution authority',first)
+
+    def test_saved_board_shows_components_and_copper_without_a_proposed_area(self):
+        original = copy.deepcopy(self.observation)
+        svg = saved_scene(self.observation)['svg']
+        self.assertEqual(len(self.rows(svg, 'fixed-pad')), 6)
+        self.assertEqual(len(self.rows(svg, 'preserved-segment')), 1)
+        self.assertFalse(self.rows(svg, 'allowed-region'))
+        self.assertFalse(self.rows(svg, 'proposed-selected-pad'))
+        self.assertEqual(self.observation, original)
 
     def test_actual_pad_offsets_translate_with_selected_anchor_and_ghost_stays(self):
         svg=self.svg()

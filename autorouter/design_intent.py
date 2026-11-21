@@ -445,9 +445,10 @@ def placement_constraints_contract_v2():
         clarification_tool_schema()],
         'instructions': (MODEL_DATA_INSTRUCTIONS +
             'Use exact observed reference labels such as J1. A reference or region with more than '
-            'one plausible meaning requires clarification. With a clear list of parts to move, '
-            '“keep the other components fixed” means leave their positions unchanged for this task. '
-            'Use the selected_refs field for the parts to move. If the user explicitly asks to '
+            'one plausible meaning requires clarification. With a clear set of parts to move, '
+            'requests to keep, leave or hold the remaining parts in place concern their positions '
+            'for this task. Name only the movable parts in selected_refs. Their selection does '
+            'not edit saved lock or pin flags. If the user explicitly asks to '
             'change a KiCad lock or a pinned setting, use clarify_design_request with '
             'unsupported_requirement and explain the limit. '
             'A request to change copper permissions, electrical constraints or execution authority '
