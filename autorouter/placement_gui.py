@@ -199,7 +199,7 @@ def require_closed_source(board, *, inspection=None):
     # an empty path resolves to cwd, and a directory would scan its parent.
     if not isinstance(board, (str, Path)) or not str(board) or '\x00' in str(board):
         raise ValueError('Select the exact saved .kicad_pcb file before inspection.')
-    source = gui.canonical(board)
+    source = (gui.saved_project_board(board) if Path(board).suffix == '.kicad_pro' else gui.canonical(board))
     if source.suffix != '.kicad_pcb' or not source.is_file():
         raise ValueError('Select the exact saved .kicad_pcb file before inspection.')
     hashes = gui.source_inventory(source)
@@ -1370,7 +1370,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def constraint_draft_changed(self, event):
             if self.constraint_offer is not None:
                 if not self.constraint_edited:
-                    self.update_constraint_map()
+                    routing = self.constraint_offer['kind'] == conversation.ROUTING_KIND
+                    self.update_constraint_map(self.constraint_offer if routing else None)
                 self.constraint_edited = True
                 self.constraint_summary.ChangeValue('Preview your edits before using these settings.')
                 self.refresh()
@@ -1796,11 +1797,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.revoke(discard=True)
             self.schematic = None; self.schematic_refusal = ''
             self.update_schematic_view()
-            source = self.board.GetValue()
+            source_hint = self.board.GetValue()
             def adopt(result):
                 # The off-thread capture has no authority; bind it again at use.
                 value, context, refusal = result
-                require_closed_source(self.board.GetValue(), inspection=value)
+                source = require_closed_source(self.board.GetValue(), inspection=value)
+                self.board.ChangeValue(str(source))
                 self.inspection = value
                 self.schematic = context
                 self.schematic_refusal = ('Schematic context unavailable. ' + refusal) if refusal else ''
@@ -1821,7 +1823,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.update_schematic_view()
                 self.message('Select the parts to move and draw their allowed area, or open Conversation.')
             def inspect(job, event):
-                require_closed_source(source)
+                source = str(require_closed_source(source_hint))
                 value = intent.inspect_saved(source)
                 if (not intent.contract.fixed_context_scope(value['observation']['scope'])
                         and not (c.NATIVE_VERSION == '10.0.7'

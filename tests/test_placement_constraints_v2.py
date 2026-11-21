@@ -8,7 +8,7 @@ import unittest
 from unittest.mock import Mock, patch
 import xml.etree.ElementTree as ET
 
-from autorouter import design_intent as design, gui, placement_intent as placement
+from autorouter import conversation, design_intent as design, gui, placement_intent as placement
 from autorouter import placement_gui as pg
 from experiments.placement_native_proposal_v1 import multipad_fixture, ordinary_fixture
 from tests import test_placement_copper_gui as controls, test_placement_gui as ui
@@ -204,6 +204,16 @@ class ConstraintProposal(unittest.TestCase):
         w.preview_constraints(None)
         prepare, show = w.start.call_args.args[1:]
         show(prepare(Mock(), None))
+
+    def test_routing_edits_keep_the_saved_board_visible_and_revoke_adoption(self):
+        w = self.window()
+        w.constraint_offer = {'kind': conversation.ROUTING_KIND}
+        w.update_constraint_map = Mock()
+        w.refresh = Mock()
+        w.constraint_draft_changed(Mock())
+        w.update_constraint_map.assert_called_once_with(w.constraint_offer)
+        self.assertTrue(w.constraint_edited)
+        self.assertIn('Preview your edits', w.constraint_summary.GetValue())
 
     def test_window_reviews_in_context_edits_and_uses_only_ordinary_settings(self):
         w = self.window()

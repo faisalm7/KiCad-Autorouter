@@ -32,10 +32,20 @@ The master specification, current strategy and owner steering govern. Historical
   fixed-component clarification and kept adoption disabled. Usage-based
   cost was $0.00275. Live editable proposal adoption remains open.
   [Hosted pilot](evidence/product-workspace-hosted-conversation-001.json)
+- The revised installed workspace shows the saved board and history beside
+  editable proposals. Corrected refusal, explicit adoption, controlled
+  two-net review and stale saved-source refusal were observed. The two-net
+  review kept all three protected route items and made no live edit.
+  [Actual application](evidence/product-workspace-conversation-ui-001.json)
 - The pinned SparkFun RFID reader is a separate licensed family with a static
   refusal in the installed Finish gaps path. Its original format, net ties and
   saved courtyard exclusion remain intact. This is new refusal coverage.
   [Intake evidence](evidence/product-workspace-rfid-scope-001.json)
+- The owned fixed-net-tie observation covers Native group readback, exact
+  DSN net terminals and conservative copper keepouts. General net-tie
+  routing still requires a validated unrelated-net delivery and a protection
+  negative. No licensed-board coverage follows from the transport result.
+  [Scope](evidence/fixed-net-tie-native7-transport-001.json)
 
 ## Editor integration
 

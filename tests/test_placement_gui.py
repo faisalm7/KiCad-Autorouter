@@ -128,9 +128,10 @@ class PlacementGuiTests(unittest.TestCase):
                 board.with_suffix(suffix).write_bytes(b'owned synthetic source')
             captured = dict(source=str(board), source_hashes=gui.source_inventory(board))
             self.assertEqual(pg.require_closed_source(board, inspection=captured), board)
+            self.assertEqual(pg.require_closed_source(board.with_suffix('.kicad_pro'), inspection=captured), board)
             lock = root / '~owned.kicad_pro.lck'; lock.write_bytes(b'owned synthetic KiCad lock')
             with self.assertRaisesRegex(ValueError, 'File > Close Project'):
-                pg.require_closed_source(board, inspection=captured)
+                pg.require_closed_source(board.with_suffix('.kicad_pro'), inspection=captured)
             self.assertEqual(lock.read_bytes(), b'owned synthetic KiCad lock')
             lock.unlink()  # Only this test-created lock, owned by this process.
             board.with_suffix('.kicad_prl').write_bytes(b'ordinary editor-sidecar update')

@@ -6,27 +6,32 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 
 1. Install the placement conversation wording that explains the general
    rule for parts left in place and reserves KiCad lock changes for a clear
-   unsupported response. Verify the outgoing contract and explicit adoption
-   offline. Preserve the live clarification and its consumed authorization.
-2. Verify the current Conversation layout at 960 × 650. The earlier
-   installed build passed local preview, edit, adoption and changed-request
-   refusal. History stayed through the routing handoff and refusal. Qualify
-   readable history through a successful controlled routing review.
-   [Baseline](evidence/product-workspace-conversation-ui-baseline-001.json)
-3. Verify the saved board view, explicit preserve-all summary and useful
-   explanation of the unconnected net. The Native one-net trial left
-   ROUTE_B open and correctly refused, but displayed only a generic error.
-   Exercise that refusal on the corrected build and one explicit two-net
-   review. Keep earlier placement-to-export evidence for unchanged stages.
-4. Close bounded new-family admission. Held AS7343 and MY1690X sources proved
-   previously exposed. Keep the SparkFun RFID and NUS refusals unchanged.
-   Test the direct Native per-pad membership path for fixed intentional
-   net ties once on the retained owned fixture. Exact group identity and
-   separate DSN net terminals are prerequisites. Bridge fidelity and fresh
-   original-rule checked delivery are required before admitting any such
-   board to product routing. Defer with the exact boundary if the witness
-   cannot be established. A new-family result still needs a pinned licensed
-   project and a task frozen before routing.
+   unsupported response. The installed wire packet and guarded proposal
+   passed offline with alternate wording. An exact optional follow-up is
+   prepared on the same owned source. Live behavior awaits new authorization.
+   [Installed contract](evidence/product-workspace-conversation-ui-001.json)
+2. The current Conversation layout passed at 960 × 650. Editable proposals
+   needed a fresh preview and an explicit adoption. The one-net refusal and
+   successful two-net review kept both turns accessible. An actual edit of
+   a separate disposable source refused the stale proposal. The earlier
+   placement-to-export evidence covers the unchanged stages.
+3. The corrected native refusal names the open net and gives a useful next
+   action. The saved board appears during routing proposals, and the local
+   placement proposal shows retained copper and unchanged lock settings.
+   Verify the small follow-up on the installed interface. A pasted saved
+   project path should resolve to its exact PCB; editing the routing time
+   should keep the passive board visible while adoption is disabled.
+   [Observed review](evidence/product-workspace-conversation-ui-001.json)
+4. The bounded licensed admission review closed with two previously exposed
+   leads. The SparkFun RFID and NUS refusals retain their original scope.
+   KiCad 10.0.7 read back the owned fixed ties directly, exported their
+   distinct net terminals and preserved all five group memberships. The
+   existing graphics adapter covered the three fixed bridge rectangles.
+   The next production gate is one owned two-layer task with a two-pad tie
+   outside the requested nets. Require a checked route, exact original
+   protection and a genuine changed-tie or outside-contact negative. A new
+   licensed validation result still needs a pinned project and frozen task.
+   [Transport result and acceptance conditions](evidence/fixed-net-tie-native7-transport-001.json)
 
 ## Earlier batch from f51d84b6
 
