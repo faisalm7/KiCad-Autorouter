@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "installed_build": "9e2372a890d1f729016fc666ee5926c71b01cf10",
+  "date": "2026-11-21",
+  "scope": "One proposal-only live turn on an owned synthetic KiCad example in the installed Request pane.",
+  "provider": "OpenAI",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "request": "Select J1 and J2 for placement inside the area from (8, 8) to (30, 12) mm. Keep the other components fixed and existing copper protected. Set routing time to 85 seconds. Suggest settings only.",
+  "response_question": "By “keep the other components fixed,” do you mean leave them unselected and unchanged, or change their fixed/pinned status?",
+  "request_sha256": "621ce21a88fd4c10eb2ed64ee06fe506cbb47e1004d3848b99b810d2a7058ab3",
+  "response_sha256": "a00d54fbbf665107cc37f8d480d1924e619d7c9387e7247719bfb7938f64a3a6",
+  "ledger_sha256": "0f183eab2b0aa21bcc8214ddf27e74da72acab3fee6202fb80e09cbf6a800bbf",
+  "actual_attempts": 1,
+  "retries": 0,
+  "usage": {
+    "input_tokens": 640,
+    "output_tokens": 147,
+    "reasoning_tokens_in_output": 93,
+    "cached_or_cache_write_tokens": 0
+  },
+  "usage_priced_cost_nano_usd": 2750000,
+  "reserved_nano_usd": 40960000,
+  "maximum_authorized_new_nano_usd": 50000000,
+  "cost_basis": "Provider-reported usage at the frozen rates for the approved turn.",
+  "outcome": "clarification_received",
+  "goal_met": false,
+  "installed_ui": {
+    "viewport": [960, 650],
+    "question_visible": true,
+    "editable_proposal_offered": false,
+    "use_settings_enabled": false,
+    "original_area_and_protection_remained_visible_in_settings": true
+  },
+  "source_files_exact": true,
+  "engineering_jobs_started": 0,
+  "manual_board_edits": 0,
+  "diagnosis": "The placement prompt required clarification for pin changes but omitted the ordinary task meaning of leaving unselected components fixed. The visible reply focuses on that distinction. The result demonstrates an unnecessary clarification on this case.",
+  "source_followup": "The placement tool now defines the selected components as the only movable parts. Its instructions distinguish keeping all other positions from changing KiCad locks or pinned settings. The wire packet and local rejection of extra fixed fields have offline coverage.",
+  "source_followup_live_retested": false,
+  "additional_inference_authorized": false,
+  "raw_evidence": "Original ledger, UI receipt and post-entry screenshot retained locally."
+}

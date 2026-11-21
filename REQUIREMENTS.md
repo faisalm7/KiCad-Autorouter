@@ -27,10 +27,11 @@ The master specification, current strategy and owner steering govern. Historical
   preserved 13 routes and all original files, and completed independent
   delivery. This is exposed workflow evidence.
   [Licensed result](evidence/product-workspace-licensed-2427-001.json)
-- The installed conversation accepts the frozen owned synthetic scenario
-  through a controlled reply. The owner approved one hosted attempt; private
-  key entry remains pending. Existing general live-write, docking, Windows, independent
-  installation/review and full recovery gates remain distinct.
+- The installed conversation adopts the frozen owned scenario through a
+  controlled reply. The single approved live call displayed an unnecessary
+  fixed-component clarification and kept adoption disabled. Usage-based
+  cost was $0.00275. Live editable proposal adoption remains open.
+  [Hosted pilot](evidence/product-workspace-hosted-conversation-001.json)
 - The pinned SparkFun RFID reader is a separate licensed family with a static
   refusal in the installed Finish gaps path. Its original format, net ties and
   saved courtyard exclusion remain intact. This is new refusal coverage.
@@ -42,7 +43,7 @@ The master specification, current strategy and owner steering govern. Historical
 |---|---|
 | Active PCB context | Exact launching project, real selection and an intervening unsaved PCB edit verified on the owned board. The saved project and schematic are separately bound. Concurrent edits during the isolated Native worker and unsaved project/schematic capture remain open. |
 | One live component move | The owned 10.0.8 fixture passed one checked IPC move and exact native Undo. The 10.0.7 trial retains its unit metadata loss on direct IPC and changed field IDs after guided Undo. Preview rejection, stale refusal, native dialog cancellation and dropping full/partial staged writes were observed in the bounded trials. General live application remains open. [10.0.8 evidence](evidence/live-editor-1008-direct-002.json) · [10.0.7 evidence](evidence/live-editor-capability-001.json) |
-| Constraint proposals | The installed saved-project GUI shows selection, area and time beside a board map, allows edits and adopts reviewed settings into the ordinary controls. The resulting owned placement, protected route and fresh export passed independent readback. Stale request/project/settings and discard are checked. Live v2 model invocation remains separate. [Installed flow](evidence/product-constraint-delivery-001.json). |
+| Constraint proposals | The installed saved-project GUI shows selection, area and time beside a board map, allows edits and adopts reviewed settings into the ordinary controls. The resulting owned placement, protected route and fresh export passed independent readback. Stale request/project/settings and discard are checked. The live v2 call displayed a clarification and left editable adoption unverified. [Installed flow](evidence/product-constraint-delivery-001.json) · [Live outcome](evidence/product-workspace-hosted-conversation-001.json) |
 | Everyday editor experience | Actual 486 × 455 active-board companion and the separate integrated saved-project review were observed. The saved-project task has phase timing, operator-equivalent actions and an inherited warning. Active docking, canvas overlays, general live Auto-place/Auto-route and independent laptop/high-DPI qualification remain open. [Editor receipt](evidence/live-editor-capability-001.json) · [Installed flow](evidence/product-constraint-delivery-001.json). |
 | Schematic assistance | Verified saved sheet/instance and component links appear beside the selected board. Pin/net details are saved PCB pad assignments. The installed flow exercises a changed-source refusal. Repeated child sheets and mismatched paths have targeted controls. Empty instance project names remain unsupported. Live schematic context, reversible edits, wiring interpretation and ERC remain open. [Saved workspace](docs/saved-project-workspace.md) |
 

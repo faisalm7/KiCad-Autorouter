@@ -86,6 +86,30 @@ class ConversationChecks(unittest.TestCase):
         with self.assertRaises(design.PendingContextChanged):
             review.adopt(offer, base, **binding)
 
+    def test_placement_packet_distinguishes_retained_positions_and_lock_changes(self):
+        text = ('Select J1 and J2 for placement inside the area from (8, 8) to (30, 12) mm. '
+                'Keep the other components fixed and existing copper protected. '
+                'Set routing time to 85 seconds. Suggest settings only.')
+        review = design.PlacementConstraintReview(self.inspection, self.controls, request=text, revision=1)
+        prepared = hosted.prepare_conversation(review, text, [], inspection=self.inspection)
+        packet = json.loads(prepared['body'])
+        self.assertIn('leave their positions unchanged for this task', packet['instructions'])
+        self.assertIn('change a KiCad lock or a pinned setting, use clarify_design_request with '
+                      'unsupported_requirement', packet['instructions'])
+        fields = packet['tools'][0]['parameters']['properties']
+        self.assertEqual(set(fields), {'selected_refs', 'region_nm', 'route_seconds'})
+        self.assertIn('All other components keep their current poses', fields['selected_refs']['description'])
+        binding = dict(request=text, revision=1, source=self.board)
+        proposal = dict(self.settings, route_seconds=85)
+        with self.assertRaises(design.IntentError):
+            review.receive('propose_placement_constraints_v2', dict(proposal, fixed=[]), self.controls, **binding)
+        before = gui.source_inventory(self.board)
+        offer = review.receive('propose_placement_constraints_v2', proposal, self.controls, **binding)
+        self.assertEqual(offer['after'], proposal)
+        self.assertIs(offer['approval_granted'], False)
+        self.assertIs(offer['execution_authorized'], False)
+        self.assertEqual(gui.source_inventory(self.board), before)
+
     def test_history_has_a_finite_size_and_cannot_retain_a_forged_clarification(self):
         history = conversation.Conversation()
         checked = design.validate_design_clarification(

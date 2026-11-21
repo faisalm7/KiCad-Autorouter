@@ -90,9 +90,12 @@ tested workspace, checked export and live move evidence unchanged.
    other boards in the separate-project workspace. [Current installed result](evidence/product-workspace-live-toolbar-2427-001.json)
 4. Prepare one consented optional hosted request on owned data only. Check the
    local contract and GUI first. Controlled adoption and the installed TLS
-   worker checks passed. One proposal-only Sol/medium request is prepared.
-   The owner approved the exact attempt and $0.05 ceiling. The first masked
-   window expired with zero attempts. Private key entry remains the next action.
+   worker checks passed. One approved proposal-only Sol/medium request ran.
+   It asked an unnecessary question about changing component pin status.
+   The controls withheld adoption and the source remained exact. The cost
+   was $0.00275 at recorded usage rates. The narrow prompt correction has
+   offline coverage. The authorized single attempt is consumed.
+   [Live outcome](evidence/product-workspace-hosted-conversation-001.json)
 5. Assess practical licensed coverage under the fixed scope, verify onboarding
    and preserve small recovery artifacts. Retain unsupported tasks and exposed
    references without a favorable substitution. The unchanged, exposed MIT
@@ -108,8 +111,8 @@ tested workspace, checked export and live move evidence unchanged.
    beside the board. Qualify the installed layout and confirm controlled
    suggestions and no-AI settings adoption remain separate from execution.
    The updated workspace is installed. The ordinary pre-launch gate held
-   its GUI workflow at macOS memory pressure level 2. The separate frozen
-   hosted pilot waits for readiness for private entry, with no request sent.
+   its GUI workflow at macOS memory pressure level 2. The frozen hosted
+   pilot separately reached the observed clarification on the earlier build.
 2. Keep conversation context available during the move from settings to
    routing review, while protecting the exact approval and source checks.
    The installed shared tools adopted a controlled suggestion for ROUTE_A

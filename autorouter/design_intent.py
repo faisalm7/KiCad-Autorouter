@@ -427,7 +427,9 @@ def placement_constraints_contract_v2():
     """Propose edits to a draft. Null leaves that visible field alone."""
     properties = {
         'selected_refs': {'type': ['array', 'null'], 'minItems': 2, 'maxItems': 16,
-                          'items': {'type': 'string'}},
+                          'items': {'type': 'string'},
+                          'description': ('Only these components may move in this task. '
+                                          'All other components keep their current poses.')},
         'region_nm': {'type': ['array', 'null'], 'minItems': 4, 'maxItems': 4,
                       'items': {'type': 'integer'}},
         'route_seconds': {'type': ['integer', 'null'], 'minimum': 5, 'maximum': 900},
@@ -443,8 +445,13 @@ def placement_constraints_contract_v2():
         clarification_tool_schema()],
         'instructions': (MODEL_DATA_INSTRUCTIONS +
             'Use exact observed reference labels such as J1. A reference or region with more than '
-            'one plausible meaning requires clarification. A request to change a pin, copper '
-            'permission, electrical constraint or execution authority needs clarification. '
+            'one plausible meaning requires clarification. With a clear list of parts to move, '
+            '“keep the other components fixed” means leave their positions unchanged for this task. '
+            'Use the selected_refs field for the parts to move. If the user explicitly asks to '
+            'change a KiCad lock or a pinned setting, use clarify_design_request with '
+            'unsupported_requirement and explain the limit. '
+            'A request to change copper permissions, electrical constraints or execution authority '
+            'needs clarification. '
             'Describe these edits using the v2 tool fields only. No operation follows a proposal.')}
 
 
