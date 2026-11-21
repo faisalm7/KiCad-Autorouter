@@ -18,9 +18,9 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 3. The corrected native refusal names the open net and gives a useful next
    action. The saved board appears during routing proposals, and the local
    placement proposal shows retained copper and unchanged lock settings.
-   Verify the small follow-up on the installed interface. A pasted saved
-   project path should resolve to its exact PCB; editing the routing time
-   should keep the passive board visible while adoption is disabled.
+   The final installed check accepted a typed saved project path, resolved
+   the exact PCB for placement inspection, and kept the board visible while
+   the routing time was edited. Adoption stayed disabled pending preview.
    [Observed review](evidence/product-workspace-conversation-ui-001.json)
 4. The bounded licensed admission review closed with two previously exposed
    leads. The SparkFun RFID and NUS refusals retain their original scope.

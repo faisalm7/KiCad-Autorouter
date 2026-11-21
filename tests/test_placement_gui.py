@@ -155,6 +155,30 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertTrue(lock.exists())
             self.assertIsNone(window.inspection)
 
+    def test_typed_project_rebinds_the_exact_pcb_after_fresh_inspection(self):
+        from experiments.placement_native_proposal_v1 import multipad_fixture
+        with tempfile.TemporaryDirectory() as temp:
+            board = multipad_fixture.write_project(Path(temp).resolve() / 'source')
+            project = board.with_suffix('.kicad_pro')
+            window = self.window()
+            window.board = Mock()
+            window.board.GetValue.return_value = str(project)
+            window.start = Mock()
+            window.region = [Mock() for _ in range(4)]
+            window_method('inspect_project')(window, None)
+            inspect, adopt = window.start.call_args.args[1:]
+            job = Mock()
+            captured = inspect(job, threading.Event())
+            with project.open('ab') as stream:
+                stream.write(b'\n')
+            with self.assertRaisesRegex(ValueError, 'Inspect project again'):
+                adopt(captured)
+            window.board.ChangeValue.assert_not_called()
+            adopt(inspect(job, threading.Event()))
+            window.board.ChangeValue.assert_called_once_with(str(board))
+            self.assertEqual(window.inspection['source'], str(board))
+            job.run.assert_not_called()
+
     def test_choose_project_resolves_the_exact_coboard_and_retains_previous_on_refusal(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()
