@@ -659,7 +659,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
                 dc.DrawRectangle(min(a[0],b[0]),min(a[1],b[1]),abs(a[0]-b[0]),abs(a[1]-b[1]))
 
         def down(self, event):
-            if self.display is None: return
+            if self.display is None or 'transform' not in self.display: return
             self.SetFocus(); point=tuple(event.GetPosition())
             if self.draw_area:
                 if placement_view.screen_point(self.display,point,tuple(self.GetClientSize())) is None: return
@@ -722,6 +722,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.SetMinSize(self.FromDIP((880, 610)))
             self.gate = ReviewGate(); self.inspection = None; self.busy = False
             self.saved_native = None
+            self.saved_route_context = None
             self.finalized = False
             self.job = None; self.cancel_event = None; self.routing = None
             self.qualified = None; self.validation_revoked = False
@@ -1034,8 +1035,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def overview(self):
             """Passive source view before a draft exists; never validation."""
             if self.inspection is None:
-                self.set_board_scene(None)
-                self.region_summary.SetLabel('Movement area becomes available after inspection.')
+                context = getattr(self, 'saved_route_context', None)
+                self.set_board_scene(context['scene'] if context is not None else None)
+                if context is not None:
+                    self.board_legend = 'Saved front copper · Read-only view'
+                    self.constraint_key.SetLabel(self.board_legend)
+                    self.region_summary.SetLabel('Placement unavailable for this project.')
+                else:
+                    self.region_summary.SetLabel('Movement area becomes available after inspection.')
                 return
             observation = self.inspection['observation']
             bounds = observation['outline']['bounds_nm']
@@ -1102,10 +1109,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         and self.constraint_offer['kind'] != conversation.ROUTING_KIND):
                     names = self.constraint_offer['after']['selected_refs']
                     prefix = 'Proposed selection\n\n'
-                else:
+                elif self.inspection is not None:
                     names = [row['reference'] for index, row in enumerate(self.inspection['components'])
                              if self.parts.IsChecked(index)]
                     prefix = ''
+                else:
+                    names, prefix = [], ''
                 self.schematic_text.ChangeValue(prefix + schematic_context.describe(self.schematic, names))
             except (OSError, ValueError, Rejected) as exc:
                 self.schematic = None
@@ -1318,6 +1327,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.rebuild_routing_notice = ''
                 if hasattr(self, 'schematic_text'):
                     self.update_schematic_view()
+                self.saved_route_context = None
                 self.inspection = None; self.saved_native = None; self.parts.Set([]); self.revoke(discard=True)
                 self.message('Choose a saved project or enter its full path and press Return.')
             if event is not None: event.Skip()
@@ -1911,7 +1921,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def inspect_project(self, _):
             if self.busy or self.gate.closed: return
             self.invalidate_copilot()
-            self.inspection = None; self.saved_native = None; self.parts.Set([])
+            self.inspection = None; self.saved_native = None; self.saved_route_context = None; self.parts.Set([])
             self.revoke(discard=True)
             self.schematic = None; self.schematic_refusal = ''
             self.rebuild_routing_notice = ''
@@ -1919,14 +1929,29 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             source_hint = self.board.GetValue()
             def adopt(result):
                 # The off-thread capture has no authority; bind it again at use.
-                value, context, refusal, rebuild_notice, native = result
-                source = require_closed_source(self.board.GetValue(), inspection=value)
+                value, context, refusal, rebuild_notice, native, read_only = result
+                findings = value if read_only is None else read_only['static']
+                source = require_closed_source(self.board.GetValue(), inspection=findings)
                 self.board.ChangeValue(str(source))
                 self.inspection = value
                 self.saved_native = native
                 self.schematic = context
                 self.schematic_refusal = ('Schematic context unavailable. ' + refusal) if refusal else ''
                 self.rebuild_routing_notice = rebuild_notice
+                if read_only is not None:
+                    self.saved_route_context = read_only
+                    self.overview()
+                    details = ['Placement is unavailable for this saved project.', read_only['reason'],
+                               'Choose Route saved board and preview your intended routing scope.']
+                    tie = findings.get('fixed_net_tie')
+                    if tie is not None:
+                        details.append(f"Keep fixed tie {tie['reference']} and its bridge. Choose Selected nets and leave "
+                                       + ', '.join(tie['nets']) + ' unselected.')
+                    self.findings.SetValue('\n\n'.join(details))
+                    self.pages.SetSelection(1)
+                    self.update_schematic_view()
+                    self.message('Saved board ready for routing preview. See Findings for placement limits.')
+                    return
                 if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
                     self.rigid_group.SetValue(False)
                 self.automatic_target_area = False
@@ -1947,7 +1972,19 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
             def inspect(job, event):
                 source = str(require_closed_source(gui.saved_project_board(source_hint)))
-                value = intent.inspect_saved(source)
+                try:
+                    value = intent.inspect_saved(source)
+                except (ValueError, Rejected) as exc:
+                    if not str(exc).startswith('Unsupported placement geometry or setting in '):
+                        raise
+                    from . import design_intent, review_view
+                    static = design_intent.inspect_project(source)
+                    scene = review_view.saved_board_front(static)
+                    if scene is None:
+                        raise
+                    require_closed_source(source, inspection=static)
+                    read_only = dict(static=static, scene=scene, reason=gui.short_failure_reason(str(exc)))
+                    return (None, *schematic_context.observe(source, static['source_hashes']), '', None, read_only)
                 scope = value['observation']['scope']
                 if intent.contract.fixed_context_scope(scope) or c.NATIVE_VERSION == '10.0.7' and scope == intent.contract.ORDINARY_SCOPE:
                     require_closed_source(source, inspection=value)
@@ -1961,7 +1998,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         raise ValueError('Native placement inspection refused; private findings/logs: ' + str(output))
                     value = intent.inspect_saved(source, native_context=output/'inspection.json')
                 return (value, *schematic_context.observe(source, value['source_hashes']), affected_routing_notice(source),
-                        inspected_native_findings(value))
+                        inspected_native_findings(value), None)
             self.start('Opening the saved project… Checking components, copper and schematic context.', inspect, adopt)
 
         def load_settings(self, _):
@@ -2394,6 +2431,17 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             history = self.conversation.summary_for(source, current)
             scene = view[2] if view is not None and view[:2] == (str(source), current) else None
             net_context = None
+            read_only = getattr(self, 'saved_route_context', None)
+            if read_only is not None:
+                static = read_only['static']
+                require_closed_source(source, inspection=static)
+                scene = read_only['scene']
+                try:
+                    names = routing_scope.validate_names([row['name'] for row in static['nets']])
+                except ValueError:
+                    pass
+                else:
+                    net_context = dict(source=str(source), source_hashes=static['source_hashes'], names=names)
             if scene is None and self.inspection is not None and self.inspection['source'] == str(source):
                 scene = saved_routing_scene({'source': str(source), 'source_hashes': current or gui.source_inventory(source)}, self.inspection)
                 if guard is None:

@@ -1,5 +1,7 @@
 """Whole draft GUI import, pure text helper only; no wx/process/Native/model."""
 from pathlib import Path
+import json
+from tempfile import TemporaryDirectory
 import unittest
 from autorouter import gui
 TARGET=Path(__file__).resolve().parents[1]/'autorouter/gui.py'
@@ -46,6 +48,11 @@ class OpenRefusalText(unittest.TestCase):
    for advice in ('Save and close','Start from this copy','fresh inspection','Review and approve'):
     self.assertIn(advice,text)
    self.assertTrue(text.endswith(reason))
+  with TemporaryDirectory() as folder:
+   log=Path(folder).resolve()/'check.log'
+   log.write_text(json.dumps({'current': False, 'reason': gui.EXPORT_EVIDENCE_CHANGED}))
+   detail=gui.failed_export_check_detail(log)
+   self.assertIn('Start from this copy',gui.open_refusal_text('export',detail,restart_copy=True))
  def test_whole_module_is_the_product_source(self):
   self.assertEqual(Path(gui.__file__).resolve(),TARGET)
 

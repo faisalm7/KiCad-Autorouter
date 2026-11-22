@@ -59,6 +59,20 @@ class SvgControls(unittest.TestCase):
             with self.assertRaisesRegex(p.Rejected, 'every protected'):
                 view.workspace_changes(root, before, review, route)
 
+    def test_saved_routing_context_bounds_the_copy_and_grants_no_picking(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            board = Path(tmp).resolve() / 'board.kicad_pcb'
+            board.write_text('''(kicad_pcb (layers (0 "F.Cu" signal) (2 "B.Cu" signal))
+                (gr_rect (start 4 5) (end 14 17) (layer "Edge.Cuts"))
+                (footprint "part" (at 7 8) (property "Reference" "J1")))''')
+            inspection = dict(source=str(board), source_sha256=p.sha(board))
+            scene = view.saved_board_front(inspection)
+            self.assertIn('>J1</text>', scene['svg'])
+            self.assertNotIn('transform', scene)  # Picking geometry belongs to validated placement.
+            board.write_text('(kicad_pcb)')
+            with self.assertRaisesRegex(p.Rejected, 'changed before drawing'):
+                view.saved_board_front(inspection)
+
     def test_route_record_diff_ignores_fill_and_preserves_multiplicity(self):
         from autorouter import sexpr
         via = '(via (at 5 5) (size 0.6) (drill 0.3) (layers "F.Cu" "B.Cu") (net 1))'

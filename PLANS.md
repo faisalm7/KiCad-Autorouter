@@ -61,9 +61,15 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     app. Launch Services opened the workspace without starting Terminal.
     The pinned command launcher supplies diagnostics.
     [Launch evidence](evidence/product-workspace-context-finder-001.json)
-13. Make an edited checked export easy to use for a new task. Keep the stale
-    opening refusal. Offer a fresh inspection of the exact separate copy
-    through the ordinary workspace with the previous approval revoked.
+13. **Verified.** The previous checked opening refuses an edited copy.
+    Start from this copy runs fresh inspection in the same workspace and
+    retains no prior approval. The first observed refusal used generic
+    guidance. Verify the corrected advice at the next installed check.
+    [Edited-copy workflow](evidence/product-edited-export-recovery-001.json)
+14. Open a read-only board view when placement cannot handle the saved
+    geometry and the board outline can be drawn exactly. Verify the protected
+    routing preview on the existing owned fixed-tie fixture. Keep the named
+    placement refusal visible and reuse the verified routing result.
 
 ## Verified Finish gaps batch from 2dabd0799
 

@@ -193,11 +193,11 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
                     shapes[layer][group].append(drawing)
     except (ValueError, TypeError, KeyError, IndexError):
         return {}, 'Some route geometry cannot be drawn here. Compare the exact KiCad plots below.'
-    if not points:
-        return {}, 'There are no routed tracks or vias to draw.'
     if board_context is not None:
         bounds, anchors = board_context
         points.extend((bounds[:2], bounds[2:]))
+    if not points:
+        return {}, 'There are no routed tracks or vias to draw.'
     x, y = zip(*points)
     margin = max(max(x) - min(x), max(y) - min(y), 1) * .06 + 1
     width = max(x)-min(x)+2*margin
@@ -237,6 +237,23 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
             diagrams[layer] = (f'<svg viewBox="{view_box}" role="img" aria-label="{escape(layer)} route changes" '
                                f'fill="none" stroke-linejoin="round" stroke-linecap="round">{body}</svg>')
     return diagrams, ''
+
+
+def saved_board_front(inspection):
+    """Passive context from the exact statically inspected saved board."""
+    raw = pc.read_bytes(Path(inspection['source']), 8 * 1024 * 1024)
+    if hashlib.sha256(raw).hexdigest() != inspection['source_sha256']:
+        raise p.Rejected('Saved board changed before drawing. Refresh the inspection.')
+    tree = sx.parse(raw.decode('utf-8'))
+    context = _workspace_context(tree)
+    if context is None:
+        return None
+    layers = [sx.unquote(row[1]) for row in sx.one(tree, 'layers', [])[1:]
+              if isinstance(row, list) and len(row) >= 3 and sx.unquote(row[1]).endswith('.Cu')]
+    if len(layers) not in (2, 4) or len(layers) != len(set(layers)) or 'F.Cu' not in layers:
+        return None
+    drawings, _ = routing_diagrams({'retained': p.routes(tree)}, layers, workspace=True, board_context=context)
+    return drawings.get('F.Cu')
 
 
 def workspace_changes(directory, source_board, review, route):

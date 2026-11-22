@@ -43,6 +43,8 @@ IMPROVE_HELP = ('Experimental Improve uses a tuned incumbent, bounded pruning tr
 FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
 TOOLBAR_SELECTION_LIMIT = 64
+EXPORT_EVIDENCE_CHANGED = 'export inputs/runtime/evidence changed'
+EXPORT_EVIDENCE_CHANGED_TEXT = 'The export, its inputs, runtime or saved evidence changed after validation.'
 
 
 def open_refusal_text(kind, error, *, restart_copy=False):
@@ -61,7 +63,8 @@ def open_refusal_text(kind, error, *, restart_copy=False):
         'export project changed',
     )
     changed_export = kind == 'export' and any(text in reason.casefold() for text in freshness_errors)
-    if kind == 'export' and restart_copy and (changed_export or 'export inputs/runtime/evidence changed' in reason.casefold()):
+    stale_check = any(text.casefold() in reason.casefold() for text in (EXPORT_EVIDENCE_CHANGED, EXPORT_EVIDENCE_CHANGED_TEXT))
+    if kind == 'export' and restart_copy and (changed_export or stale_check):
         return ('The export no longer passes its recorded checks. Save and close its KiCad project, then choose '
                 'Start from this copy for a fresh inspection. Review and approve any new result.\n\n'
                 'Details: ' + reason)
@@ -914,8 +917,8 @@ def failed_export_check_detail(path):
         if type(record) is not dict or record.get('current') is not False: return None
         text = short_failure_reason(record.get('reason'))
         if text is None: return None
-        if record['reason'] == 'export inputs/runtime/evidence changed':
-            text = 'The export, its inputs, runtime or saved evidence changed after validation.'
+        if record['reason'] == EXPORT_EVIDENCE_CHANGED:
+            text = EXPORT_EVIDENCE_CHANGED_TEXT
         return ('Checked export refused: ' + text +
                 '\nStart a fresh preview using the intended saved project. Retained files were not reaccepted.' +
                 '\nFull failure log: ' + str(path))
