@@ -148,12 +148,15 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     the original fields and protected copper. Independent readback passed.
     The old refusal and older presets keep their meaning.
     [Installed delivery](evidence/product-fixed-context-region-delivery-001.json)
-32. Check a bounded compatibility slice for the already installed isolated
-    KiCad 10.0.8 toolchain in the saved-project path. Compare exact original
-    rules, one owned source's DSN transport and DRC against the pinned
-    10.0.7 workflow using separate job files. Keep 10.0.7 available and the
-    current unsaved editor untouched. Extend product admission only if
-    the stage contracts can be kept and verified prospectively.
+32. **Bounded compatibility check verified.** The signed 10.0.8 tools matched
+    source and completed DRC, plain DSN geometry and a separately saved
+    refill on one owned task. Continue to pin 10.0.7 for delivery. A new
+    version needs explicit task-copper, SES import, placement observation
+    and installed workflow qualification. [Comparison](evidence/product-kicad1008-saved-parity-001.json)
+33. Make Preview and other routing actions reflect the current saved-project
+    acknowledgement. Retain exact source locks, original-design checks and
+    the existing verified private-placement exception. Verify the ordinary
+    checkbox, stale source refusal and available Cancel at the changed boundary.
 
 ## Verified Finish gaps batch from 2dabd0799
 

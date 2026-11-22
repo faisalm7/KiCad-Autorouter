@@ -2,6 +2,8 @@
 
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 
+**The first saved-board checks agree on KiCad 10.0.7 and 10.0.8.** On the same owned input and completed copy, complete DRC findings agreed. Plain DSN differed only in output name and writer version. In a separate 10.0.8 saved refill, the existing fill-only reconciliation recovered the checked board exactly. Protected SES import, placement observation and installed delivery on 10.0.8 still need qualification. [Compatibility evidence](evidence/product-kicad1008-saved-parity-001.json)
+
 **The previously refused J1 task now completes on its unchanged input.** The installed app placed J1 in the same requested area, finished both approved connections and delivered a fresh checked copy. Five other parts, the original unlocked KEEP trace and the project files stayed exact. Independent readback found zero opens or blockers and the inherited warning. This uses the existing conservative clearance policy on one owned fixed-context board. [Installed delivery](evidence/product-fixed-context-region-delivery-001.json)
 
 **Finder startup explains how to recover.** A verified artifact installed into a fresh folder with spaces and opened the workspace in Finder. An isolated bad launcher identity showed the reason and advised fresh setup if the installation moved. An absent local Python environment showed the recovery fallback. These checks used the same Mac and pinned tools. [Installed startup test](evidence/product-finder-startup-recovery-001.json)
