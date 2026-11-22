@@ -35,7 +35,7 @@ def native_census(board,pcbnew):
     return rows
 
 
-def invoke(board,source,pcbnew,operation,*,importing=False):
+def invoke(board,source,pcbnew,operation,*,importing=False,native_toolchain=None):
     """Fix task routes only while the supplied Native operation runs.
 
     Restore only original false→true locks, by unique surviving UUID. Never
@@ -45,8 +45,14 @@ def invoke(board,source,pcbnew,operation,*,importing=False):
     from pathlib import Path
     from .placement_clearance import read_bytes
     from .routing_scope import _route_map,_locked
-    if pcbnew.GetBuildVersion()!=c.NATIVE_VERSION or type(importing) is not bool:
-        raise ValueError('task copper requires qualified Native'+c.NATIVE_VERSION+' operation')
+    expected = c.NATIVE_VERSION
+    if native_toolchain is not None:
+        from .pipeline import experimental_native_version
+        expected = experimental_native_version(native_toolchain)
+        if expected != '10.0.8':
+            raise ValueError('Protected diagnostic transport requires explicit pinned Native 10.0.8 tools.')
+    if pcbnew.GetBuildVersion()!=expected or type(importing) is not bool:
+        raise ValueError('task copper requires qualified Native'+expected+' operation')
     source=Path(source);project=source.with_suffix('.kicad_pro')
     raw,pro=read_bytes(source),read_bytes(project)
     source_routes=_route_map(sx.parse(raw.decode('utf-8')))

@@ -62,7 +62,8 @@ def netclasses(board, source, before, *, source_all_layers=False):
 
 def main():
     experimental = len(sys.argv)>1 and sys.argv[1]=='--experimental-native'
-    if len(sys.argv)>1 and sys.argv[1]=='--experimental-native':
+    toolchain = None
+    if experimental:
         if len(sys.argv)<6 or len(sys.argv[2])>16*1024:raise RuntimeError('bounded explicit experimental record required')
         from autorouter.pipeline import ExperimentalNativeToolchain
         toolchain=ExperimentalNativeToolchain.from_record(json.loads(sys.argv[2]))
@@ -80,9 +81,12 @@ def main():
             raise RuntimeError('production native worker version or selected Python/pcbnew path differs')
     from autorouter import task_copper
     fixed=task_copper.FLAG in sys.argv[1:]
+    transport_check = toolchain is not None and toolchain.expected_version == '10.0.8'
+    if transport_check and not fixed:
+        raise RuntimeError('Native 10.0.8 worker requires the explicit protected transport diagnostic flag')
     if fixed:
-        if (experimental or sys.argv.count(task_copper.FLAG)!=1 or sys.argv[-1]!=task_copper.FLAG
-                or sys.argv[1] not in ('export','import') or pcbnew.GetBuildVersion()!=c.NATIVE_VERSION
+        if ((experimental and not transport_check) or sys.argv.count(task_copper.FLAG)!=1 or sys.argv[-1]!=task_copper.FLAG
+                or sys.argv[1] not in ('export','import')
                 or task_copper.POLICY!=TASK_COPPER_FIXED_POLICY):
             raise RuntimeError('unqualified Native task copper flag')
         sys.argv=sys.argv[:-1]
@@ -94,11 +98,12 @@ def main():
     if not board:
         raise RuntimeError('KiCad could not load board')
     if action == 'export':
-        mapping = netclasses(board, source, before, source_all_layers=not experimental and c.NATIVE_VERSION=='10.0.7') if mapping_requested else None
+        selected_layers = transport_check or not experimental and c.NATIVE_VERSION=='10.0.7'
+        mapping = netclasses(board, source, before, source_all_layers=selected_layers) if mapping_requested else None
         from autorouter.padless_alias import export_board,POLICY
         if POLICY!=EXPORT_ALIAS_POLICY:raise RuntimeError('Native export alias policy differs')
         exporter=(lambda native,path:task_copper.invoke(native,source,pcbnew,
-            lambda:pcbnew.ExportSpecctraDSN(native,path))) if fixed else None
+            lambda:pcbnew.ExportSpecctraDSN(native,path),native_toolchain=toolchain)) if fixed else None
         export_board(board,source,output,pcbnew,mapping=mapping,before=before,exporter=exporter)
         if mapping_requested:
             if before != (file_hash(source), file_hash(Path(source).with_suffix('.kicad_pro'))):
@@ -117,7 +122,7 @@ def main():
         with session_path.open('xb') as stream:stream.write(filtered)
         session_record.update(source_session=str(Path(sys.argv[4])),import_session=str(session_path))
         imported=(task_copper.invoke(board,source,pcbnew,
-            lambda:pcbnew.ImportSpecctraSES(board,str(session_path)),importing=True)
+            lambda:pcbnew.ImportSpecctraSES(board,str(session_path)),importing=True,native_toolchain=toolchain)
             if fixed else pcbnew.ImportSpecctraSES(board,str(session_path)))
         if not imported:
             raise RuntimeError('SES import failed')

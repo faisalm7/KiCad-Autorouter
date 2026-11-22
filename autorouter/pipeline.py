@@ -58,7 +58,7 @@ class Rejected(Exception):
 
 @dataclass(frozen=True)
 class ExperimentalNativeToolchain:
-    """Explicit 10.0.7 diagnostic tools; not production admission or signing proof."""
+    """Explicit diagnostic tool paths and hashes, separate from product admission."""
     cli: Path
     python: Path
     pcbnew: Path
@@ -68,7 +68,8 @@ class ExperimentalNativeToolchain:
     pcbnew_sha256: str
 
     def __post_init__(self):
-        if self.expected_version!='10.0.7':raise Rejected('unsupported experimental native version')
+        if self.expected_version not in ('10.0.7', '10.0.8'):
+            raise Rejected('unsupported experimental native version')
         self.check()
 
     def check(self):
@@ -168,6 +169,8 @@ def native_prefix(native_toolchain=None):
 def experimental_route_record(native_toolchain, enabled):
     policy=experimental_parity_policy(native_toolchain,enabled)
     if native_toolchain is None:return {}
+    if native_toolchain.expected_version != '10.0.7':
+        raise Rejected('Experimental 10.0.8 tools are available for diagnostic stages only. Routing and delivery require a qualified toolchain.')
     if policy is None:raise Rejected('experimental routing requires explicit full schematic parity')
     return {'experimental_route_policy':EXPERIMENTAL_ROUTE_POLICY,
             'experimental_native_toolchain':native_toolchain.record(),

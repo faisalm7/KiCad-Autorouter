@@ -153,10 +153,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     refill on one owned task. Continue to pin 10.0.7 for delivery. A new
     version needs explicit task-copper, SES import, placement observation
     and installed workflow qualification. [Comparison](evidence/product-kicad1008-saved-parity-001.json)
-33. Make Preview and other routing actions reflect the current saved-project
-    acknowledgement. Retain exact source locks, original-design checks and
-    the existing verified private-placement exception. Verify the ordinary
-    checkbox, stale source refusal and available Cancel at the changed boundary.
+33. **Source controls pass.** Preview and related routing actions reflect
+    the current saved-project acknowledgement. The first installed check
+    paused before setup on a macOS memory warning with 2.67 GiB available.
+    Verify the prepared ordinary checkbox, late lock refusal and Cancel when
+    the unchanged admission requirements pass.
+34. Use the same temporary-copper protection for explicit pinned 10.0.8
+    export and import diagnostics. Compare the already checked owned case's
+    transport, protected track and reconstructed geometry with the current
+    10.0.7 result. Keep experimental routing admission and normal delivery
+    locked to their established versions. Run a single protected comparison
+    under the existing resource gate before considering any product version change.
 
 ## Verified Finish gaps batch from 2dabd0799
 

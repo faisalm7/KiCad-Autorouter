@@ -1,5 +1,5 @@
 """Explicit tool/version binding controls only; never native qualification."""
-import ast,hashlib,json,sys,tempfile,unittest
+import hashlib,importlib.util,json,sys,tempfile,unittest
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -30,11 +30,24 @@ class NativeToolchainControls(unittest.TestCase):
         with self.assertRaises(p.Rejected):p.parse_report(self.report('10.0.0'),'fixture.kicad_pcb',native_toolchain=self.toolchain)
         with self.assertRaises(p.Rejected):p.parse_report(self.report('10.0.7'),'fixture.kicad_pcb',native_toolchain={'expected_version':'10.0.7'})
     def test_changed_tool_symlink_and_unknown_version_reject(self):
-        with self.assertRaises(p.Rejected):p.ExperimentalNativeToolchain(**{**self.args,'expected_version':'10.0.8'})
+        with self.assertRaises(p.Rejected):p.ExperimentalNativeToolchain(**{**self.args,'expected_version':'10.0.9'})
         self.paths['cli'].write_bytes(b'changed')
         with self.assertRaisesRegex(p.Rejected,'tool changed'):p.parse_report(self.report('10.0.7'),'fixture.kicad_pcb',native_toolchain=self.toolchain)
         self.paths['cli'].unlink();self.paths['cli'].symlink_to(self.paths['python'])
         with self.assertRaises(p.Rejected):p.ExperimentalNativeToolchain(**self.args)
+
+    def test_explicit1008_diagnostics_do_not_admit_routing_or_delivery(self):
+        tools = p.ExperimentalNativeToolchain(**dict(self.args, expected_version='10.0.8'))
+        report = self.report('10.0.8')
+        self.assertEqual(p.parse_report(report, 'fixture.kicad_pcb', native_toolchain=tools)['blocking'], 0)
+        with self.assertRaisesRegex(p.Rejected, 'version mismatch'):
+            p.parse_report(report, 'fixture.kicad_pcb')
+        with self.assertRaisesRegex(p.Rejected, 'diagnostic stages only'):
+            p.experimental_route_record(tools, True)
+        with self.assertRaisesRegex(RuntimeError, 'explicit protected transport'):
+            self.worker(actual='10.0.8', experimental=True, tools=tools)
+        with self.assertRaisesRegex(RuntimeError, 'synthetic board-load boundary'):
+            self.worker(actual='10.0.8', experimental=True, fixed=True, tools=tools)
     def test_default_and_explicit_job_argv_do_not_mutate_config(self):
         original=(c.CLI,c.PYTHON,c.PCBNEW)
         default=p.Job(self.root/'default',30)
@@ -66,23 +79,29 @@ class NativeToolchainControls(unittest.TestCase):
             job.drc('blocked',self.root/'absent.kicad_pcb',schematic_parity=True)
         self.assertFalse((job.out/'blocked-input').exists())
 
-    def worker(self, *, selected='10.0.0', actual='10.0.0', wrong=None, experimental=False, fixed=False):
+    def worker(self, *, selected='10.0.0', actual='10.0.0', wrong=None, experimental=False, fixed=False, tools=None):
         """Execute the real entry guard with fake modules, stopping at board load."""
-        tree=ast.parse((c.ROOT/'autorouter/native.py').read_text())
-        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='main')
-        argv=['native.py','roundtrip','source','output']
-        if experimental:argv=['native.py','--experimental-native',json.dumps(self.toolchain.record()),'export','source','output']
+        source = self.root / 'source.kicad_pcb'
+        source.write_bytes(b'owned guard fixture')
+        source.with_suffix('.kicad_pro').write_bytes(b'{}')
+        argv=['native.py','roundtrip',str(source),'output']
+        if experimental:
+            argv=['native.py','--experimental-native',json.dumps((tools or self.toolchain).record()),
+                  'export',str(source),'output']
         if fixed:argv.append('--task-copper-fixed')
         paths=dict(self.paths)
         if wrong is not None:paths[wrong]=self.root/'different'
         api=SimpleNamespace(GetBuildVersion=lambda:actual,
             LoadBoard=lambda source:(_ for _ in ()).throw(RuntimeError('synthetic board-load boundary')))
         fake_sys=SimpleNamespace(argv=argv,executable=str(paths['python']))
-        scope=dict(sys=fake_sys,Path=Path,json=json,pcbnew=api,c=c,
-                   TASK_COPPER_FIXED_POLICY='native-task-copper-fixed-v1')
-        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),'owned-native-entry','exec'),scope)
-        with patch.object(c,'NATIVE_VERSION',selected),patch.object(c,'PYTHON',self.paths['python']),patch.object(c,'PCBNEW',self.paths['pcbnew']),patch.dict(sys.modules,{'_pcbnew':SimpleNamespace(__file__=str(paths['pcbnew']))}):
-            scope['main']()
+        spec=importlib.util.spec_from_file_location('owned_native_entry', c.ROOT/'autorouter/native.py')
+        worker=importlib.util.module_from_spec(spec)
+        modules={'pcbnew':api, '_pcbnew':SimpleNamespace(__file__=str(paths['pcbnew']))}
+        with patch.dict(sys.modules,modules),patch.object(sys,'path',list(sys.path)):
+            spec.loader.exec_module(worker)
+            with patch.object(worker,'sys',fake_sys),patch.object(c,'NATIVE_VERSION',selected), \
+                    patch.object(c,'PYTHON',self.paths['python']),patch.object(c,'PCBNEW',self.paths['pcbnew']):
+                worker.main()
 
     def test_normal_worker_binds_selected_version_and_both_loaded_paths(self):
         for selected in ('10.0.0','10.0.7'):
