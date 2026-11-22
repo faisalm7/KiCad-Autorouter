@@ -70,7 +70,7 @@ def _new_destination(destination):
     return destination
 
 
-def _write_runtime(source, destination, payloads, record):
+def _write_runtime(engine_source, destination, payloads, record):
     # Both entry points use the same exclusive, bounded writer and engine copy.
     destination = _new_destination(destination)
     engine = record['local_engine']
@@ -86,7 +86,7 @@ def _write_runtime(source, destination, payloads, record):
     if engine is not None:
         target = destination / pv.ENGINE_PATH; target.parent.mkdir(mode=0o700)
         # Descriptor-bounded source checks before/after copying, then target hash.
-        with pv._regular(source / pv.ENGINE_PATH, pv.MAX_ENGINE_BYTES) as (incoming, size):
+        with pv._regular(engine_source, pv.MAX_ENGINE_BYTES) as (incoming, size):
             with target.open('xb') as outgoing:
                 count = 0
                 while True:
@@ -108,24 +108,44 @@ def _write_runtime(source, destination, payloads, record):
         record['immutable_files_sha256'].items() if key.startswith('autorouter/')})
 
 
-def prepare(source, destination, *, copy_local_engine=False, native_version=None):
+def verified_host_tools(lock, version, host_paths, *, payloads):
+    """Bind explicit locations to the same pinned binaries and permissions."""
+    implementation = pv.canonical(Path(__file__).absolute()).parents[1]
+    for name in ('autorouter/config.py', 'autorouter/provenance.py', 'autorouter/pipeline.py'):
+        if payloads.get(name) != pv.read_bytes(implementation / name):
+            raise ValueError('Host binding requires a compatible reviewed product build.')
+    bound = pv.bound_tool_selection(lock, version, host_paths)
+    for role, pin in {**bound['tools'], 'java': bound['java']}.items():
+        path = Path(pin['path'])
+        if (role != 'pcbnew' and not os.access(path, os.X_OK)
+                or pv.file_digest(path, pv.MAX_ENGINE_BYTES) != (pin['sha256'], pin['bytes'])):
+            raise ValueError(f'The pinned host tool changed or is unavailable: {role}.')
+    return bound
+
+
+def prepare(source, destination, *, copy_local_engine=False, native_version=None,
+            freerouting_jar=None, host_paths=None):
     source = pv.canonical(Path(source).absolute())
     destination = _new_destination(destination)
+    if copy_local_engine and freerouting_jar is not None:
+        raise ValueError('Choose the project-local engine or one explicit Freerouting JAR.')
     head, snapshot = pv.committed_snapshot(source)
     source_hashes = {name: hashlib.sha256(raw).hexdigest() for name, raw in snapshot.items()}
+    lock = json.loads(snapshot['toolchain.lock.json'])
     if native_version is not None:
-        from autorouter.config import native_selection
-        native_selection(json.loads(snapshot['toolchain.lock.json']),native_version)
+        pv.native_selection(lock, native_version)
     engine = None
-    if copy_local_engine:
-        lock = json.loads(snapshot['toolchain.lock.json'])
+    engine_source = None
+    if copy_local_engine or freerouting_jar is not None:
+        engine_source = (source / pv.ENGINE_PATH if freerouting_jar is None else
+                         pv.canonical(Path(freerouting_jar).absolute()))
         pin = lock.get('tools', {}).get('freerouting')
         if (type(pin) is not dict or set(pin) != {'path', 'sha256', 'bytes'}
                 or pin['path'] != pv.ENGINE_PATH or type(pin['bytes']) is not int
                 or not 0 < pin['bytes'] <= pv.MAX_ENGINE_BYTES
                 or type(pin['sha256']) is not str or pv._DIGEST.fullmatch(pin['sha256']) is None):
             raise ValueError('Existing project-local engine pin required.')
-        digest, size = pv.file_digest(source / pv.ENGINE_PATH, pv.MAX_ENGINE_BYTES)
+        digest, size = pv.file_digest(engine_source, pv.MAX_ENGINE_BYTES)
         if pin != {'path': pv.ENGINE_PATH, 'sha256': digest, 'bytes': size}:
             raise ValueError('Existing local engine does not match original lock.')
         engine = {**pin, 'publication_authorized': False}
@@ -136,7 +156,14 @@ def prepare(source, destination, *, copy_local_engine=False, native_version=None
         'mutable_directories': list(pv.MUTABLE_DIRECTORIES), 'local_engine': engine}
     if native_version is not None:
         record.update(schema=2,native_version=native_version)
-    identity = _write_runtime(source, destination, payloads, record)
+    if host_paths is not None:
+        native_version = native_version or '10.0.0'
+        bound = verified_host_tools(lock, native_version, host_paths, payloads=payloads)
+        host_paths = dict(host_paths)
+        record.update(schema=3, native_version=native_version, host_paths=host_paths)
+    identity = _write_runtime(engine_source, destination, payloads, record)
+    if host_paths is not None and verified_host_tools(lock, native_version, host_paths, payloads=payloads) != bound:
+        raise ValueError('Host tool bindings changed during setup.')
     return {'root': str(destination), 'source_provenance': identity,
             'local_engine_copied': engine is not None, 'standalone': False, 'published': False}
 
@@ -216,31 +243,18 @@ def install_existing(source, destination, *, expected_manifest_sha256, import_ar
     source_stable()
     # Payload/lock/source maps remain exact. Explicit locations are local metadata.
     installed_record = {**record, 'root': str(destination)}
-    bound=None; capability_files={}
+    bound=None
     if host_paths is not None:
-        # Metadata cannot add schema3 support to old immutable product code.
-        for name in ('autorouter/config.py','autorouter/provenance.py','autorouter/pipeline.py'):
-            path=installer.parents[1]/name
-            raw=pv.read_bytes(path)
-            if payloads.get(name)!=raw:
-                raise ValueError('Host binding requires a compatible reviewed product build; legacy artifacts support transport only.')
-            capability_files[path]=hashlib.sha256(raw).hexdigest()
         version=record.get('native_version','10.0.0')
-        bound=pv.bound_tool_selection(json.loads(payloads['toolchain.lock.json']),version,host_paths)
+        bound=verified_host_tools(json.loads(payloads['toolchain.lock.json']),version,host_paths,payloads=payloads)
         installed_record.update(schema=3,native_version=version,host_paths=dict(host_paths))
 
     def bindings_stable():
         if bound is None:return
-        if any(pv.file_digest(path)[0]!=digest for path,digest in capability_files.items()):
-            raise ValueError('installer binding implementation changed')
-        fresh=pv.bound_tool_selection(json.loads(payloads['toolchain.lock.json']),bound['version'],host_paths)
+        fresh=verified_host_tools(json.loads(payloads['toolchain.lock.json']),bound['version'],host_paths,payloads=payloads)
         if fresh!=bound:raise ValueError('host tool bindings changed during installation')
-        for role,pin in {**fresh['tools'],'java':fresh['java']}.items():
-            path=Path(pin['path'])
-            if (role!='pcbnew' and not os.access(path,os.X_OK)) or pv.file_digest(path,pv.MAX_ENGINE_BYTES)!=(pin['sha256'],pin['bytes']):
-                raise ValueError('pinned host tool changed or missing')
-    bindings_stable()
-    installed_identity = _write_runtime(source, destination, payloads, installed_record)
+
+    installed_identity = _write_runtime(source / pv.ENGINE_PATH, destination, payloads, installed_record)
     source_stable()
     receipt = {'schema': 1, 'kind': 'existing-runtime-installation-record-v1',
         'source_root': str(source), 'source_manifest_sha256': expected_manifest_sha256,
@@ -322,6 +336,8 @@ def main():
     parser.add_argument('--output', required=True)
     parser.add_argument('--copy-local-engine', action='store_true',
         help='Copy only the existing lock-matching project JAR, as a local artifact; never download.')
+    parser.add_argument('--freerouting-jar',
+        help='Use an existing lock-matching Freerouting JAR at the supplied path for first setup; never download.')
     parser.add_argument('--native-version',choices=['10.0.0','10.0.7'],
         help='Explicit committed native tool profile; requires separate qualification. No app is installed or changed.')
     parser.add_argument('--install-existing', action='store_true',
@@ -339,35 +355,35 @@ def main():
         direct_paths = args.kicad_app is not None or args.java_executable is not None
         if direct_paths and args.host_paths_json is not None:
             raise ValueError('Choose either the KiCad and Java paths or --host-paths-json.')
+        if args.install_existing and (args.copy_local_engine or args.freerouting_jar is not None
+                                      or args.native_version is not None):
+            raise ValueError('Install-existing preserves engine and native selection; build flags refuse.')
+        host_paths = installed_tool_paths(args.kicad_app, args.java_executable) if direct_paths else None
         if args.with_launcher:
             from scripts.backup import BackupError, require_headroom
 
             if sys.platform != 'darwin' or sys.version_info[:2] != (3, 11):
                 raise ValueError('Launcher preparation requires macOS and the existing Python 3.11.')
-            if not args.install_existing and not args.copy_local_engine:
-                raise ValueError('Launcher preparation requires the existing pinned engine. Use --copy-local-engine.')
+            if not args.install_existing and not (args.copy_local_engine or args.freerouting_jar is not None):
+                raise ValueError('Launcher preparation requires the existing pinned engine. Give its location with --freerouting-jar.')
             try:
                 require_headroom(_new_destination(args.output).parent, SETUP_PEAK_BYTES, 'fresh local workspace setup')
             except BackupError as exc:
                 raise ValueError(str(exc)) from exc
         if args.install_existing:
-            if args.copy_local_engine or args.native_version is not None:
-                raise ValueError('Install-existing preserves engine and native selection; build flags refuse.')
-            host_paths=None
             if args.host_paths_json is not None:
                 host_paths=json.loads(pv.read_bytes(Path(args.host_paths_json).absolute(),64*1024),
                     object_pairs_hook=pv._strict_object,
                     parse_constant=lambda value: (_ for _ in ()).throw(ValueError('invalid JSON constant')))
-            elif direct_paths:
-                host_paths = installed_tool_paths(args.kicad_app, args.java_executable)
             result = install_existing(args.source, args.output,
                 expected_manifest_sha256=args.expected_manifest_sha256,
                 import_artifact=args.import_artifact,host_paths=host_paths)
         else:
-            if args.expected_manifest_sha256 is not None or args.import_artifact or args.host_paths_json is not None or direct_paths:
-                raise ValueError('artifact pin/import/host paths require --install-existing.')
+            if args.expected_manifest_sha256 is not None or args.import_artifact or args.host_paths_json is not None:
+                raise ValueError('Artifact pin/import/JSON host paths require --install-existing.')
             result = prepare(args.source, args.output, copy_local_engine=args.copy_local_engine,
-                             native_version=args.native_version)
+                             native_version=args.native_version, freerouting_jar=args.freerouting_jar,
+                             host_paths=host_paths)
         if args.with_launcher:
             result.update(prepare_workspace_launcher(result['root']))
         print(json.dumps(result, indent=2))

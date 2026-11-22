@@ -966,6 +966,21 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             proposal_actions.Add(self.constraint_use, 0, wx.RIGHT, 6)
             proposal_actions.Add(self.constraint_reject)
             assistant_layout.Add(proposal_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+
+            conversation_menu = wx.Menu()
+            for button, handler, shortcut in (
+                (self.constraint_edit, self.toggle_constraint_editor, 'Ctrl+Shift+E'),
+                (self.constraint_preview_edits, self.preview_constraints, 'Ctrl+Shift+P'),
+                (self.constraint_use, self.use_constraints, 'Ctrl+Shift+U'),
+            ):
+                item = conversation_menu.Append(wx.ID_ANY, f'{button.GetLabel()}\t{shortcut}')
+                self.Bind(wx.EVT_MENU, handler, item)
+                self.Bind(wx.EVT_UPDATE_UI,
+                          lambda event, control=button: event.Enable(control.IsShownOnScreen() and control.IsEnabled()),
+                          item)
+            menu_bar = wx.MenuBar()
+            menu_bar.Append(conversation_menu, 'Conversation')
+            self.SetMenuBar(menu_bar)
             assistant_inputs.SetSizer(assistant_layout)
             assistant_split = wx.BoxSizer(wx.VERTICAL)
             assistant_split.Add(assistant_inputs, 1, wx.EXPAND)

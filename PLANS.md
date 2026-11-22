@@ -166,7 +166,14 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     version gates remain. [Comparison](evidence/product-kicad1008-saved-parity-001.json)
 35. Make proposal editing reachable from the keyboard in Conversation.
     Verify an actual focus, expand, edit, re-preview and adoption sequence at
-    laptop size. Keep edits provisional until the user chooses Use settings.
+    laptop size. The native button fits and focuses the fields. On the
+    current Mac, Tab alone did not focus it. Verify the Conversation menu
+    shortcuts with the same proposal and no changes to system settings.
+36. Let an initial Mac setup use the owner's existing pinned KiCad, Java
+    and Freerouting locations directly. Use the existing artifact writer,
+    strict bindings and doctor. Verify a clean first setup in a new folder,
+    an incorrect-pinned-input refusal and first use through Finder.
+    Keep standalone distribution and independent-machine testing open.
 
 ## Verified Finish gaps batch from 2dabd0799
 

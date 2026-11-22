@@ -161,6 +161,43 @@ class RuntimeTransportControls(unittest.TestCase):
         self.assertEqual(self.config(dest).JAVA,Path(self.paths['java']))
         self.pv._runtime_identity(dest,self.implementation(dest))
 
+    def test_first_setup_uses_explicit_engine_and_unmodified_tool_lock(self):
+        root, _ = self.artifact()
+        record = json.loads((root / self.pv.MANIFEST).read_bytes())
+        payload = {name: (root / name).read_bytes() for name in record['build_source']['files_sha256']}
+        source = self.base / 'reviewed source without local tools'
+        source.mkdir()
+        engine = self.base / 'pinned engine.jar'
+        engine.write_bytes(self.engine)
+        destination = self.base / 'first install'
+        args = dict(native_version='10.0.7', freerouting_jar=engine, host_paths=self.paths)
+        previous_payload = {**payload, 'autorouter/config.py': b'# Older binding reader'}
+        with patch.object(self.pv, 'committed_snapshot', return_value=('a' * 40, previous_payload)):
+            with self.assertRaisesRegex(ValueError, 'requires a compatible reviewed product build'):
+                self.build.prepare(source, destination, **args)
+        self.assertFalse(destination.exists())
+        with patch.object(self.pv, 'committed_snapshot', return_value=('a' * 40, payload)):
+            engine.write_bytes(b'wrong engine')
+            with self.assertRaisesRegex(ValueError, 'does not match original lock'):
+                self.build.prepare(source, destination, **args)
+            self.assertFalse(destination.exists())
+            engine.write_bytes(self.engine)
+            java = Path(self.paths['java'])
+            java.chmod(0o600)
+            with self.assertRaisesRegex(ValueError, 'unavailable: java'):
+                self.build.prepare(source, destination, **args)
+            self.assertFalse(destination.exists())
+            java.chmod(0o700)
+            result = self.build.prepare(source, destination, **args)
+        self.assertTrue(result['local_engine_copied'])
+        self.assertEqual((destination / self.pv.ENGINE_PATH).read_bytes(), self.engine)
+        self.assertEqual(engine.read_bytes(), self.engine)
+        self.assertFalse((source / self.pv.ENGINE_PATH).exists())
+        self.assertEqual((destination / 'toolchain.lock.json').read_bytes(), payload['toolchain.lock.json'])
+        installed = json.loads((destination / self.pv.MANIFEST).read_bytes())
+        self.assertEqual((installed['schema'], installed['host_paths']), (3, self.paths))
+        self.assertEqual(self.config(destination).JAVA, java)
+
     def test_changed_missing_hardlinked_dependencies_refuse_before_output(self):
         root,pin=self.artifact();target=Path(self.paths['java']);original=target.read_bytes()
         for label in ('changed','missing','hardlink'):

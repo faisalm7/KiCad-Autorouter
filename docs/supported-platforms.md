@@ -14,9 +14,11 @@ Support is limited to exact tested scope. [STATUS](../STATUS.md) identifies the 
 An owned saved-project comparison on this same Mac found matching full DRC
 results on 10.0.7 and 10.0.8. Plain DSN transport matched apart from its output
 name and writer version. The existing fill-only reconciliation reconstructed
-the checked board from a separate 10.0.8 saved refill. Product delivery
-still uses 10.0.7 while protected import and placement observation on
-10.0.8 await their own qualification. [Saved-board comparison](../evidence/product-kicad1008-saved-parity-001.json)
+the checked board from a separate 10.0.8 saved refill. Protected export
+and retained-session import also matched on the exact pre-route board,
+including the protected trace and all seven new segments. Product delivery
+still uses 10.0.7. Placement observation and installed delivery on 10.0.8
+remain open. [Saved-board comparison](../evidence/product-kicad1008-saved-parity-001.json)
 
 The ordinary graphical workflow on runtime103 passes on this same pinned Mac. It includes the corrected move acknowledgement, actual placement and protected routing, Edge review and separately validated export with independent readback. The real copilot task is recorded on runtime102. Runtime101 supplies the unchanged-core safety and checked-opening evidence. The 103 export remains unopened. Standalone or independent-machine installation, Native Windows and wider usability still require their own tests. [103 ordinary workflow](../evidence/product103-GUI126-ordinary-delivery-001.json) · [102 live task](../evidence/copilot102-owned-live-delivery-001.json) · [101 safety controls](../evidence/product101-GUI124-core-001.json).
 

@@ -6,6 +6,26 @@ The installed saved-project and review reference is **runtime104** from source `
 
 The tested setup uses macOS 27.0.1 arm64, isolated official KiCad 10.0.7, Java 25.0.2, Freerouting 2.5.0, a no-pip Python 3.11.9 environment and KiCad's bundled Python 3.9.13/wx for the GUI. Exact dependency bytes and locations are pinned. A new environment still depends on its base Python/standard library; `--copies` does not bundle Python. Nothing here downloads or installs dependencies, changes global KiCad, or qualifies Windows Native support.
 
+## First setup with existing Mac tools
+
+From the reviewed committed source checkout, provide your locations for the
+pinned KiCad 10.0.7 app, Java executable and Freerouting JAR. Choose a new
+installation folder inside an existing directory you own.
+
+```sh
+python3.11 -B scripts/prepare_runtime.py --native-version 10.0.7 \
+  --kicad-app "/path/to/KiCad.app" \
+  --java-executable "/path/to/jdk/Contents/Home/bin/java" \
+  --freerouting-jar "/path/to/freerouting-2.5.0.jar" \
+  --output "/path/to/new/Copperpath" --with-launcher
+```
+
+Setup checks the existing dependencies against `toolchain.lock.json`, then
+prepares and checks the local workspace. It leaves the original lock and
+dependency files intact. Open the **Copperpath.app** at the printed
+`workspace_launcher` location in Finder. A checked artifact and a research
+archive are unnecessary for this setup.
+
 ## Advanced: install a verified artifact at a fresh local root
 
 Use the reviewed source checkout's `scripts/prepare_runtime.py`; the curated runtime does not ship that installer. Choose a verified source artifact and an unused owned destination below an existing real directory. Check available space against the operation's peak allocation plus the fixed 3 GiB reserve. Do not copy an old environment, jobs, settings or launcher to simulate a new installation.
