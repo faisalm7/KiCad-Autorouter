@@ -17,6 +17,11 @@ The master specification, current strategy and owner steering govern. Historical
   Cancel, typed Return, refusal and recovery with an owned lock fixture, and a
   prefilled path on first show. Original files were exact at every check.
   [Installed opening](evidence/product-saved-project-opening-001.json)
+- The new two-part destination policy checks actual straight protected tracks.
+  Installed 555 placement and protected-content readback pass. The saved
+  parent net class blocks selected-net routing before engine dispatch. This
+  case has current placement evidence and an explicit delivery refusal.
+  [Practical coverage](evidence/product-straight-track-placement-555-001.json)
 - Finish gaps uses saved-project KiCad 10.0.7 refill and full-schematic checks
   to verify the active nets, then preserves all existing tracks and vias.
   The scoped two-layer engine input retains other nets, original obstacles

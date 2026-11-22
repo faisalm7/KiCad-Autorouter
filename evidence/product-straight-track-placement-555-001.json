@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "date": "2026-11-21",
+  "reference": "13bbec2d718d52347559c0cd95cc2e398879193e",
+  "installed_build": "505a4580b256e43e300a153fd481931da02a8719",
+  "prior_refusal": "evidence/product104-GUI129-555-001.json",
+  "licensed_board_revision": "856b0daf1d358504cd035724f5ec9d1e6bfe3ad7",
+  "family_already_exposed": true,
+  "declared_utc": "2026-11-22T06:26:40.302744+00:00",
+  "source_hashes": {
+    "02_555_blinker.kicad_pcb": "b5ceacde3247dd40a43ab13cb71157e9f03aa14c42806863ae8ee76f96c18763",
+    "02_555_blinker.kicad_pro": "757a0fa131392ef5748e5266432ad57723cb2fb4f57649d08be9aaee9f6e01eb",
+    "02_555_blinker.kicad_sch": "e082a866b440437150740a766f4ae35b437e770147c09120c759f766bcf7ad1f",
+    "LICENSE": "9092e24d697eebd19e3e3ac48286429bf01f3474b18b8235981960cc4e58ec35",
+    "README.md": "c87599316db9c933a9cf808fafe51cf954b90426d60d8275ae36b94691b004e3"
+  },
+  "task": {
+    "region_nm": [
+      104350000,
+      81300000,
+      106650000,
+      90450000
+    ],
+    "selected": [
+      "R1",
+      "R2"
+    ],
+    "protected_tracks": 24,
+    "approved_rebuild_tracks": 28,
+    "affected_nets": [
+      "+5V",
+      "/DISCH",
+      "/TIMING"
+    ],
+    "budgets_seconds": {
+      "choice": 60,
+      "first_placement_search": 2,
+      "fresh_export": 120,
+      "native_placement_validation": 120,
+      "review": 60,
+      "route": 120,
+      "source_inspection": 60
+    },
+    "routing_settings_seen": {
+      "adapter": "both",
+      "guidance": "native",
+      "layers": "source_all",
+      "nets": [
+        "+5V",
+        "/DISCH",
+        "/TIMING"
+      ],
+      "profile": "completion-only",
+      "schema": 1,
+      "scope": "selected_nets",
+      "scoring_preference": null,
+      "seconds": 120
+    }
+  },
+  "geometry": {
+    "policy": "selected-target-region-exact-tracks-v2",
+    "method": "Source-endpoint/width and stroked-courtyard distance, retaining existing clearance and via bounds.",
+    "owned_pure_controls": "Diagonal safe case, crossing, containment, tangency, incomplete protected census, older-policy mismatch and exact original-geometry readback."
+  },
+  "installed": {
+    "source_admitted": true,
+    "only_one_search": true,
+    "first_alternative_reviewed": true,
+    "native_placement_validated": true,
+    "source_original_exact": true,
+    "native_result_sha256": "96edf07e0772de603b430be821aaae244c7ed8861bef4d5dd1010e6e6c66a482",
+    "proposed_positions_nm": {
+      "R1": [
+        105443689,
+        83534868
+      ],
+      "R2": [
+        105662898,
+        87265121
+      ]
+    },
+    "exact_protected_copper_readback": true,
+    "all_seven_other_components_fixed": true,
+    "sides_and_orientations_exact": true,
+    "after_placement_findings": {
+      "opens": 10,
+      "blocking": 0,
+      "warnings": 9,
+      "exclusions": 0
+    },
+    "native_placement_wall_seconds": 25.644139,
+    "native_placement_cpu_seconds": 24.489148,
+    "routing_preview": "rejected",
+    "routing_preview_reason": "unsupported: Native7 selected source: selected Native7 requires sole Default without assignments or patterns",
+    "engine_attempts": 0,
+    "export_delivered": false,
+    "manual_cad_edits": 0,
+    "paid_model_requests": 0,
+    "workflow_operator_equivalent_actions": [
+      "Enter request or refine setting",
+      "Return",
+      "Show advanced settings",
+      "Load settings…",
+      "Load settings…",
+      "Navigate to saved project",
+      "Open",
+      "Enter request or refine setting",
+      "Find alternatives",
+      "Findings",
+      "Approve placement and validate",
+      "Continue to routing…",
+      "Continue to routing…",
+      "Show advanced routing settings",
+      "Enter request or refine setting",
+      "Scroll to routing budget",
+      "Enter request or refine setting",
+      "Preview routing"
+    ],
+    "seconds_start_to_preview_click": 292.408995,
+    "measured_visible_stage_wait_seconds": 40.197266
+  },
+  "boundary": "The board uses Default and Power with literal +5V and GND patterns. Current code resolves it as a Native parent-class case. Selected-net routing requires a distinct proof for its class transport in production. Keep that gate. Earlier warnings and both refusals are retained.",
+  "user_experience": "The app opened the board automatically and waited for a sufficient selection. Routing time was hidden below the fold and the actual handoff showed 90 seconds. The operator set and verified the declared 120 seconds before dispatch. The control tool also timed out on modal opening and handoff actions that took effect; states were inspected without repeating the work.",
+  "decision": "Retain the validated placement behavior. Surface the selected-net class boundary earlier and make the routing time visible. Keep the failed full task and defer expansion of named-class selected routing until its distinct transport and validation can be qualified."
+}

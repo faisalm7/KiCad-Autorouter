@@ -42,8 +42,10 @@ existing conservative clearance bound. Copper permissions, fixed geometry,
 actual KiCad checks and final readback still apply. A loaded earlier preset
 retains its original geometry policy. [KiCad track geometry](https://docs.kicad.org/doxygen/pcb__track_8cpp_source.html)
 
-The prospective licensed follow-up uses the exact saved MIT 555 project and
-the same R1/R2 task, destination, 24 protected routes, 28-track rebuild plan
-and stage budgets. A source-level check found a valid starting pose under the
-new geometry model. Native placement and delivery are separate checks.
-The earlier refusal stays in the record. [Frozen original trial](555-constrained-placement-gui129.md)
+The installed follow-up used the exact saved MIT 555 project and the same
+R1/R2 task, destination, 24 protected routes, 28-track rebuild plan and stage
+budgets. One search and the first placement passed KiCad and exact geometry
+readback. The placed copy has ten expected opens, zero blockers and nine
+warnings. Routing preview refused the saved parent `Power` class in
+selected-net mode. No routing ran and the trial stopped before delivery.
+The earlier refusal stays in the record. [New placement and refusal](../evidence/product-straight-track-placement-555-001.json) · [Frozen original trial](555-constrained-placement-gui129.md)

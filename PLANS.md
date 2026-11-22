@@ -12,14 +12,15 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
 1. **Verified.** A selected saved project opens its board automatically.
    Installed picker, typed Return, cancellation, test-lock recovery and the
    prefilled entry point passed. [Opening evidence](evidence/product-saved-project-opening-001.json)
-2. **In progress.** Check actual straight protected tracks against moved
-   courtyards in the two-part destination workflow. Preserve the original
-   555 refusal. Test collision, tangency, stale facts and exact readback on
-   owned inputs. Attempt one licensed follow-up under its original region,
-   copper permissions and stage budgets after those controls pass.
-3. Make the transition from ordinary placement and conversation to routing
-   easier to follow. Carry visible, current context and scope into preview and
-   show the next action without changing the approval or recovery guards.
+2. **Placement verified.** The exact-track destination workflow preserves the
+   stated constraints and passes KiCad placement validation on the one frozen
+   555 follow-up. The selected-net preview refuses the board's Native parent
+   class. Preserve this refusal and the earlier no-placement result. Wider
+   selected-net class transport still requires its own proof.
+   [Observed outcome](evidence/product-straight-track-placement-555-001.json)
+3. **In progress.** Expose routing time directly on the routing page and explain
+   the selected-net class limit earlier in the affected-copper workflow. Verify
+   the normal transition, exact settings, current context and unchanged guards.
 4. Continue the supported open-editor path and first-use setup in priority
    order. Test each actual changed interaction. Retain separate-project
    delivery and scope any live operation to the tested KiCad capability.
