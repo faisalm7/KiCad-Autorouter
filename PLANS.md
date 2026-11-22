@@ -18,12 +18,15 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    class. Preserve this refusal and the earlier no-placement result. Wider
    selected-net class transport still requires its own proof.
    [Observed outcome](evidence/product-straight-track-placement-555-001.json)
-3. **In progress.** Expose routing time directly on the routing page and explain
-   the selected-net class limit earlier in the affected-copper workflow. Verify
-   the normal transition, exact settings, current context and unchanged guards.
-4. Continue the supported open-editor path and first-use setup in priority
-   order. Test each actual changed interaction. Retain separate-project
-   delivery and scope any live operation to the tested KiCad capability.
+3. **Verified.** The installed routing page shows the editable time beside the
+   board, and the affected-copper workflow shows the actual class gate before
+   placement. A time edit revokes the previous start. [Installed transition](evidence/product-workspace-visible-time-001.json)
+4. **In progress.** Combine fresh local setup and launcher preparation for
+   verified artifacts. Test one same-Mac clean installation at a different
+   path and ordinary launch from a different working directory.
+5. Continue the supported open-editor path with one actual interaction.
+   Retain separate-project delivery. Scope live application and Undo to the
+   demonstrated editor capability and preserve all unrelated unsaved edits.
 
 ## Verified Finish gaps batch from 2dabd0799
 
