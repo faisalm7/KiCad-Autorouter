@@ -94,3 +94,22 @@ outside placement support. A separate Freerouting `.rules` file is preserved
 and its application to a future task is unresolved. The unchanged originals
 remain the reference. The trial ended without routing or adopting the copy.
 [Pinned intake and measured result](../evidence/product-licensed-legacy-intake-001.json)
+
+## One front three-pad part
+
+Advanced placement offers an explicit profile for one eligible three-pad
+front SMD part. It retains the fixed side and angle, verifies the rectangular
+courtyard and exact pad records, and keeps the current board and protected
+copper constraints. The default two-pad profile and the earlier geometry
+refusals keep their scope. This profile requires retaining all existing
+copper during placement.
+
+On a generated owned two-layer board, J1 moved from (12, 10) to (19.925, 10)
+mm inside the approved area. The five other parts and all three pin identities
+stayed exact. The installed handoff used 85 seconds for completion on
+`ROUTE_A`, `ROUTE_B` and `ROUTE_C`. Native validation reported no opens or
+blockers after routing. Independent readback confirmed the three nets' eleven
+new segments, the exact KEEP trace and the current separate export. One
+inherited warning and two ignored checks remained. This establishes one
+owned task. Additional pad geometry and licensed breadth still need evidence.
+[Installed evidence](../evidence/product-three-pad-placement-delivery-001.json)

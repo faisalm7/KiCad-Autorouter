@@ -110,13 +110,18 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     still refused the knockout text. The source and additional router rules
     are retained. Automatic upgrade stays out of the product path.
     [Intake and upgrade evidence](evidence/product-licensed-legacy-intake-001.json)
-24. Qualify one fixed-angle, front three-pad SMD move and route on an owned
-    complete modern two-layer project. Preserve the current two-pad scope
-    and its receipts. The first slice uses a separate scope, exact original
-    pad identities and nets, a rectangular courtyard, one selected part and
-    all existing copper retained. Check the third terminal, protected
-    copper, unchanged pad geometry and current source through Native delivery.
-    Keep licensed placement coverage open until a separate task is admitted.
+24. **Verified on one owned design.** The explicit fixed-angle three-pad
+    profile placed J1 and completed all three scoped connections. Native
+    validation and independent export readback checked the source, third
+    terminal, protected copper and unchanged geometry. Keep broader and
+    licensed three-pad coverage open. [Installed delivery](evidence/product-three-pad-placement-delivery-001.json)
+25. Make Accept result reflect the visible review acknowledgement. Verify
+    check/uncheck, unchanged Reject and no available acceptance for stale
+    review. Preserve the independent checks at actual dispatch.
+26. Check that the placement promise to preserve copper survives editing
+    routing settings in the same workspace. If Preview can enable a rebuild
+    of existing copper, bind the protection before dispatch and verify both
+    an allowed continuation and the refusal in the installed controls.
 
 ## Verified Finish gaps batch from 2dabd0799
 

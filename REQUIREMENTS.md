@@ -58,6 +58,12 @@ The master specification, current strategy and owner steering govern. Historical
   editable settings and an ordinary draft, with separate approval required.
   Hosted transport and contract controls passed offline on this change.
   [Installed draft](evidence/product-conversation-single-part-001.json)
+- The explicit three-pad profile delivered one fixed-angle front SMD move on
+  an owned rectangular two-layer project. Independent readback confirmed all
+  three terminal identities, five fixed parts and the original protected
+  trace. Selected routing added eleven segments on only the three approved
+  nets and closed all three opens. The inherited warning and originally
+  ignored checks remain visible. [Installed delivery](evidence/product-three-pad-placement-delivery-001.json)
 - Finish gaps uses saved-project KiCad 10.0.7 refill and full-schematic checks
   to verify the active nets, then preserves all existing tracks and vias.
   The scoped two-layer engine input retains other nets, original obstacles

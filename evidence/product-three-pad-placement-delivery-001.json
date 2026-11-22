@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "date": "2026-11-22",
+  "build": "9e2a9e7a9e56532503b789eacc2ee04c231d9afb",
+  "runtime_manifest_sha256": "b1b86bdd753cfd366aa68672e828a5b5bacdc8e6093ac1a1c9223459f276e9ab",
+  "status": "one owned installed three-pad placement task completed through separate checked export",
+  "toolchain": {
+    "kicad": "10.0.7",
+    "window_points": [
+      960,
+      650
+    ]
+  },
+  "scope": "ordinary-front-three-pad-source-baseline-v1",
+  "fixture": "experiments/placement_native_proposal_v1/three_pad_fixture.py",
+  "source_sha256": "46b8b9ae0920dd43290193a1e23863cef01a37cc076a94b774e08acdcfe19598",
+  "source_check": {
+    "opens": 3,
+    "blocking": 0,
+    "warnings": 1,
+    "wall_seconds": 3.4947950409259647
+  },
+  "placement": {
+    "explicit_variant": true,
+    "default_kept_J1_fixed": true,
+    "request": "Select J1 / Area 14,8 to 22,13 mm / Routing time 85 s",
+    "initial_mm": [
+      12,
+      10
+    ],
+    "first_checked_mm": [
+      19.925,
+      10
+    ],
+    "five_fixed_exact": true,
+    "three_original_pads_exact": true,
+    "original_copper_rebuild_allowed": false,
+    "source_rules_and_schematic_exact": true,
+    "total_seconds": 120,
+    "wall_seconds": 15.790289291879162,
+    "full_cpu_seconds": 14.426278000000002
+  },
+  "routing": {
+    "target_nets": [
+      "ROUTE_A",
+      "ROUTE_B",
+      "ROUTE_C"
+    ],
+    "new_segments_by_net": {
+      "ROUTE_A": 5,
+      "ROUTE_B": 5,
+      "ROUTE_C": 1
+    },
+    "existing_protected_routes_exact": 1,
+    "all_other_copper_unchanged": true,
+    "budget_seconds": 85,
+    "cpu_budget_seconds": 85,
+    "wall_seconds": 10.258729292079806,
+    "total_cpu_seconds": 8.871984999999999
+  },
+  "review": {
+    "checked_result": true,
+    "accept_enabled_before_checkbox": true,
+    "accept_attempted_before_checkbox": false,
+    "explicit_software_test_intent": true,
+    "human_PCB_approval": false,
+    "budget_seconds": 60,
+    "cpu_budget_seconds": 60,
+    "wall_seconds": 5.69567095907405,
+    "total_cpu_seconds": 5.409936999999999
+  },
+  "choice": {
+    "budget_seconds": 60,
+    "cpu_budget_seconds": 60,
+    "wall_seconds": 2.6787574170157313,
+    "total_cpu_seconds": 2.644323
+  },
+  "export": {
+    "candidate_sha256": "ab2339b974c5b4053210d805d31621804affeea13338d4f56237d3f5c4e3b51e",
+    "native_report_sha256": "ced3f69f2be7502737c93301051714d7600e31a87afa0425c062d28aef713641",
+    "opens": 0,
+    "blocking": 0,
+    "inherited_warnings": 1,
+    "ignored_checks": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "all_four_originals_exact": true,
+    "independent_current": true,
+    "independent_wall_seconds": 3.296861292095855,
+    "checked_open_action_available": true,
+    "final_project_opened": false,
+    "budget_seconds": 85.0,
+    "cpu_budget_seconds": 85.0,
+    "total_cpu_seconds": 7.140359,
+    "wall_seconds": 8.188486916944385
+  },
+  "elapsed": {
+    "pre_task_installation_seconds": 3.875910917064175,
+    "open_admission_to_checked_export_receipt_and_verifier_seconds": 385.63,
+    "open_admission_to_independent_readback_receipt_seconds": 572.465,
+    "includes_observer_and_tool_pauses": true
+  },
+  "operator_equivalent_actions": [
+    "Enter request or refine setting",
+    "Move one three-pad SMD part",
+    "Conversation",
+    "Enter request or refine setting",
+    "Preview placement",
+    "Use settings",
+    "Find alternatives",
+    "Findings",
+    "Approve placement and validate",
+    "Continue to routing…",
+    "This saved project is closed in KiCad.",
+    "Preview routing",
+    "Start routing",
+    "Review result",
+    "Findings",
+    "I reviewed the findings",
+    "Accept result",
+    "Export checked copy"
+  ],
+  "manual_CAD_corrections": 0,
+  "model_requests": 0,
+  "automation_limitations": [
+    "Initial label readiness assertion preceded full display refresh.",
+    "After placement the bound exact selected-net field was already filled; observer expected an ordinary Choose nets button.",
+    "Observer expected Accept disabled before acknowledgement and paused. The enabled button was a UI defect; no unchecked Accept was attempted.",
+    "Export succeeded before a receipt key assertion. The exact same export and independent readback were reused after correcting the observer."
+  ],
+  "limits": "One newly generated owned task at fixed angles on a modern two-layer rectangular design. Separate saved project, not live editing or licensed breadth. KiCad acceptance does not establish electrical or physical approval.",
+  "local_evidence": ".runs/three-pad-placement-001",
+  "backup": "Raw evidence on this Mac; earlier selected archive predates this task."
+}
