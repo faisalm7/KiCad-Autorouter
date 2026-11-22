@@ -28,6 +28,11 @@ The master specification, current strategy and owner steering govern. Historical
   passed. The real review widget also placed the retained copper count,
   original warning and ignored checks ahead of settings on a 960 × 650 window.
   [Installed evidence](evidence/product-findings-host-intake-001.json)
+- The installed saved-project launcher opens the bundled example through
+  normal inspection in one action. The 960 × 650 empty view hides unavailable
+  operation controls. Switching projects at 880 × 610 clears the old
+  selection and context. Independent installation remains a separate gate.
+  [First-use evidence](evidence/product-workspace-example-onboarding-001.json)
 - Placement Findings shows exact original and displayed component positions.
   Pending text edits withhold approval and leave those displayed positions
   unchanged until checked. The explicit four-edge display also opens the

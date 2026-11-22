@@ -94,10 +94,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     exact rectangular outline and front copper visible. Placement and the
     selected-net preview still refuse their respective unsupported scopes.
     [Licensed scope check](evidence/product-placement-and-board-findings-001.json)
-21. Offer one-click first use with the exact already supplied example from
-    the installed launcher. Verify it opens as a normal saved task and
-    switching to another project clears its state. No extra tool download,
-    PCB write or model call.
+21. **Verified.** The empty installed workspace offers Choose project and
+    Open example. One click on the included example runs ordinary inspection.
+    Switching to a different saved board clears the prior selection and
+    context. [Installed first use](evidence/product-workspace-example-onboarding-001.json)
+22. Improve the first view of the component list. Keep the small example's
+    eligible choices visible and withhold board-specific guidance on the
+    empty screen. Recheck the actual layout at 880 × 610.
+23. Keep the three new licensed intake refusals in view. The closest case
+    has an older saved format. Bound an investigation to one supported KiCad
+    upgrade path with exact original-design comparison on a separate copy.
+    Do not route an upgraded board unless the existing preservation gates pass.
 
 ## Verified Finish gaps batch from 2dabd0799
 
