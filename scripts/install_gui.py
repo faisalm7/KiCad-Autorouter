@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Prepare a source-bound local .command launcher; no global installation."""
+"""Prepare a source-bound Finder launcher and isolated KiCad controls."""
 import argparse
 import hashlib
 import json
 import os
 from pathlib import Path
+import plistlib
 import shlex
 import subprocess
 import sys
@@ -18,15 +19,21 @@ LIMIT = 1024 * 1024
 PLUGIN = 'documents/KiCad/10.0/plugins/org.kicad.autorouter.local/'
 PCM_ROOT = 'documents/KiCad/10.0/3rdparty'
 PCM_ISOLATION_POLICY = 'kicad10-project-pcm-root-v1'
+SAVED_APP = 'Copperpath.app'
+APP_EXECUTABLE = f'{SAVED_APP}/Contents/MacOS/Copperpath'
+APP_INFO = f'{SAVED_APP}/Contents/Info.plist'
+APP_ICON = f'{SAVED_APP}/Contents/Resources/Route.icns'
 IMMUTABLE_FILES = frozenset(('Open Saved Project.command', 'Launch Autorouter.command', 'README.txt', 'initial-kicad_common.json',
-    'initial-kicad.json', *(PLUGIN + name for name in ('plugin.json', 'launch-autorouter', 'route24.png', 'route48.png'))))
+    'initial-kicad.json', APP_EXECUTABLE, APP_INFO, APP_ICON,
+    *(PLUGIN + name for name in ('plugin.json', 'launch-autorouter', 'route24.png', 'route48.png'))))
 README = '''Copperpath for saved KiCad projects
 
-Double-click Open Saved Project.command. Click Choose project and select the
+Double-click Copperpath in Finder. Click Choose project and select the
 saved .kicad_pro alongside its matching PCB and schematic. Copperpath inspects
 the saved project and displays its board. If it is open in KiCad, save and
 close both editors, then choose File > Close Project in KiCad manager. Back in
 Copperpath, click Refresh inspection. You can also enter the path and press Return.
+Open Saved Project.command shows Terminal diagnostics if Copperpath cannot open.
 
 For the optional PCB toolbar, double-click Launch Autorouter.command. It starts
 the existing KiCad manager with configuration, plugins, PCM content and cache
@@ -76,6 +83,35 @@ def installer_pins():
             (c.ROOT / 'scripts/install_gui.py', c.ROOT / 'scripts/prepare_gui_plugin.py')}
 
 
+def launch_command(python, flag, manifest):
+    return shlex.join((str(python), '-B', str(c.ROOT / 'scripts/install_gui.py'), flag, str(manifest)))
+
+
+def prepare_saved_app(output, python):
+    """Create a small local app around the same pinned saved-project entry."""
+    executable, info, icon = (output / name for name in (APP_EXECUTABLE, APP_INFO, APP_ICON))
+    executable.parent.mkdir(parents=True, mode=0o700)
+    icon.parent.mkdir(mode=0o700)
+    properties = dict(CFBundleExecutable='Copperpath', CFBundleIdentifier='org.copperpath.saved-project',
+                      CFBundleName='Copperpath', CFBundlePackageType='APPL', CFBundleVersion='1',
+                      CFBundleIconFile=icon.name, NSHighResolutionCapable=True, LSUIElement=True)
+    with info.open('xb') as stream:
+        plistlib.dump(properties, stream)
+    png = plugin.icon_png(128)
+    image = b'ic07' + (len(png) + 8).to_bytes(4, 'big') + png
+    with icon.open('xb') as stream:
+        stream.write(b'icns' + (len(image) + 8).to_bytes(4, 'big') + image)
+    command = launch_command(python, '--open-saved', output / 'install.json')
+    alert = ('display alert "Copperpath could not open" message '
+             '"For details, double-click Open Saved Project.command in this launcher folder." as warning')
+    with executable.open('x') as stream:
+        stream.write('#!/bin/sh\nunset PYTHONPATH PYTHONHOME KICAD_API_SOCKET KICAD_API_TOKEN\n'
+                     + f'if {command}; then exit 0; fi\n'
+                     + '/usr/bin/osascript -e ' + shlex.quote(alert) + '\nexit 2\n')
+    executable.chmod(0o700)
+    return executable, info, icon
+
+
 def prepare(output, *, checked_move_editor=None):
     output = canonical(Path(output).absolute())
     if output.exists() or not output.parent.is_dir():
@@ -118,12 +154,13 @@ def prepare(output, *, checked_move_editor=None):
     launchers = []
     for name, flag in (('Open Saved Project.command', '--open-saved'), ('Launch Autorouter.command', '--launch')):
         launch = output / name
-        command = ['exec', shlex.quote(str(python)), '-B', shlex.quote(str(c.ROOT / 'scripts/install_gui.py')),
-                   flag, shlex.quote(str(output / 'install.json'))]
-        payload = '#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME KICAD_API_SOCKET KICAD_API_TOKEN\ncd ' + shlex.quote(str(c.ROOT)) + '\n' + ' '.join(command) + '\n'
+        command = launch_command(python, flag, output / 'install.json')
+        payload = ('#!/bin/sh\nset -eu\nunset PYTHONPATH PYTHONHOME KICAD_API_SOCKET KICAD_API_TOKEN\ncd '
+                   + shlex.quote(str(c.ROOT)) + '\nexec ' + command + '\n')
         with launch.open('x') as stream: stream.write(payload)
         launch.chmod(0o700)
         launchers.append(launch)
+    launchers.extend(prepare_saved_app(output, python))
     description = README
     if checked_move_editor:
         source = live_move.example_source()

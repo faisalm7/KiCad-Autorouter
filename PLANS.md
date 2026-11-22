@@ -55,6 +55,9 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
 11. Show known delivery blockers as the saved board opens. Keep actual board
     context behind the copper changes in review. Verify both on screen in one
     installed build using the existing route proof for the display check.
+12. Make one-step local setup prepare a Finder app for opening a saved
+    project. Launch it from Finder and check the actual workspace without a
+    Terminal window. Retain the pinned launcher and diagnostic fallback.
 
 ## Verified Finish gaps batch from 2dabd0799
 

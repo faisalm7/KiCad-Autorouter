@@ -20,7 +20,7 @@ import uuid
 import xml.etree.ElementTree as ET
 
 from . import board_floor, config as c, conversation, gui, handoff as h, placement_intent as intent, placement_view
-from . import routing_scope, sexpr as sx
+from . import finish_gaps, routing_scope, sexpr as sx
 from .pipeline import Rejected, routes
 from . import schematic_context
 
@@ -388,12 +388,26 @@ def component_findings(inspection, *, rebuild=False):
         for row in inspection['components'])
 
 
-def source_native_findings(inspection):
+def inspected_native_findings(inspection):
+    """Reuse the exact receipt which placement inspection already checked."""
+    context = inspection.get('native_context')
+    if context is None:
+        return None
+    raw = intent.pc.read_bytes(Path(context['receipt']), 512 * 1024)
+    if hashlib.sha256(raw).hexdigest() != context['receipt_sha256']:
+        raise ValueError('Saved KiCad findings changed during inspection. Refresh the saved project.')
+    return json.loads(raw)['native']
+
+
+def source_native_findings(inspection, native=None):
     """Present the bound original findings, never a draft-validation claim."""
-    baseline = inspection.get('native_source_baseline')
-    if baseline is None: return ''
+    if native is None:
+        native = inspection.get('native_source_baseline', {}).get('native')
+    if native is None:
+        return ''
     return gui.human_summary('inspect', dict(status='source_inspected_placement_pending',
-        source=inspection['source'], native=baseline['native']),
+        source=inspection['source'], native=native,
+        source_delivery=finish_gaps.source_delivery(native, field_mismatches_only=True)),
         receipt_path=inspection['native_context']['receipt'])
 
 
@@ -707,6 +721,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             super().__init__(None, title='Copperpath — place and route', size=(1040, 700))
             self.SetMinSize(self.FromDIP((880, 610)))
             self.gate = ReviewGate(); self.inspection = None; self.busy = False
+            self.saved_native = None
             self.finalized = False
             self.job = None; self.cancel_event = None; self.routing = None
             self.qualified = None; self.validation_revoked = False
@@ -1050,7 +1065,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 + '\nEvery unselected component stays fixed.\n'
                 + ('Affected unlocked nets may be rebuilt only after the exact draft and copper plan are reviewed. '
                     'No copper has been changed.\n' if self.rebuild_copper() else copper_findings(None) + '\n')
-                + (source_native_findings(self.inspection) if self.inspection.get('native_source_baseline')
+                + (source_native_findings(self.inspection, self.saved_native) if self.saved_native is not None
                    else 'No Native connectivity or electrical suitability is established by this static view.')
                 + '\n\nComponents\n' + component_findings(self.inspection, rebuild=self.rebuild_copper())
                 + '\n\nSupported constraints and limits\n'
@@ -1221,11 +1236,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.draw_area.Enable(not self.busy and not constraint_pending and self.inspection is not None)
                 self.picture.Enable(not self.busy)
                 native = (self.qualified['witness']['findings'] if self.qualified is not None else
-                    self.inspection.get('native_source_baseline',{}).get('native') if self.inspection else None)
+                          self.saved_native)
                 if native is not None:
                     scope = 'Validated draft' if self.qualified is not None else 'Saved source'
-                    self.native_summary.SetLabel(f"{scope} · {native['opens']} unrouted · "
-                                                 f"{native['blocking']} blocking · {native['warnings']} warnings")
+                    summary = (f"{scope} · {native['opens']} unrouted · "
+                               f"{native['blocking']} blocking · {native['warnings']} warnings")
+                    if self.qualified is None and finish_gaps.source_delivery(native, field_mismatches_only=True)['reasons']:
+                        summary = 'Saved source · Delivery blocked · See Findings'
+                    self.native_summary.SetLabel(summary)
                 else:
                     self.native_summary.SetLabel('')
             if hasattr(self, 'pose_pane'):
@@ -1300,7 +1318,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.rebuild_routing_notice = ''
                 if hasattr(self, 'schematic_text'):
                     self.update_schematic_view()
-                self.inspection = None; self.parts.Set([]); self.revoke(discard=True)
+                self.inspection = None; self.saved_native = None; self.parts.Set([]); self.revoke(discard=True)
                 self.message('Choose a saved project or enter its full path and press Return.')
             if event is not None: event.Skip()
 
@@ -1888,7 +1906,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def inspect_project(self, _):
             if self.busy or self.gate.closed: return
             self.invalidate_copilot()
-            self.inspection = None; self.parts.Set([])
+            self.inspection = None; self.saved_native = None; self.parts.Set([])
             self.revoke(discard=True)
             self.schematic = None; self.schematic_refusal = ''
             self.rebuild_routing_notice = ''
@@ -1896,10 +1914,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             source_hint = self.board.GetValue()
             def adopt(result):
                 # The off-thread capture has no authority; bind it again at use.
-                value, context, refusal, rebuild_notice = result
+                value, context, refusal, rebuild_notice, native = result
                 source = require_closed_source(self.board.GetValue(), inspection=value)
                 self.board.ChangeValue(str(source))
                 self.inspection = value
+                self.saved_native = native
                 self.schematic = context
                 self.schematic_refusal = ('Schematic context unavailable. ' + refusal) if refusal else ''
                 self.rebuild_routing_notice = rebuild_notice
@@ -1910,16 +1929,17 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.target_region.SetValue(False)
                 rebuild = self.rebuild_copper()
                 self.parts.Set([component_label(row, rebuild=rebuild) for row in value['components']])
-                self.findings.SetValue('\n'.join(placement_limits(value, rebuild=rebuild))
-                    + '\n\nComponents\n' + component_findings(value, rebuild=rebuild)
-                    + ('\n\n' + source_native_findings(value) if value.get('native_source_baseline') else ''))
                 self.updating = True
                 try:
                     for field,coordinate in zip(self.region,value['observation']['outline']['bounds_nm']):field.ChangeValue(mm(coordinate))
                 finally:self.updating=False
                 self.overview()
                 self.update_schematic_view()
-                self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
+                if native is not None and finish_gaps.source_delivery(native, field_mismatches_only=True)['reasons']:
+                    self.pages.SetSelection(1)
+                    self.message('The saved source blocks checked delivery. Review Findings before continuing.')
+                else:
+                    self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
             def inspect(job, event):
                 source = str(require_closed_source(gui.saved_project_board(source_hint)))
                 value = intent.inspect_saved(source)
@@ -1935,7 +1955,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     if process['exit_code'] != 0 or process['log_truncated'] or process['cancel_requested']:
                         raise ValueError('Native placement inspection refused; private findings/logs: ' + str(output))
                     value = intent.inspect_saved(source, native_context=output/'inspection.json')
-                return (value, *schematic_context.observe(source, value['source_hashes']), affected_routing_notice(source))
+                return (value, *schematic_context.observe(source, value['source_hashes']), affected_routing_notice(source),
+                        inspected_native_findings(value))
             self.start('Opening the saved project… Checking components, copper and schematic context.', inspect, adopt)
 
         def load_settings(self, _):
@@ -1951,6 +1972,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     # silently upgrading its meaning to zone-aware placement.
                     captured = intent.inspect_saved(self.board.GetValue())
                 intent.facts(captured, value)
+                if policy_changed:
+                    self.saved_native = None
                 self.inspection = captured; self.revoke(discard=True); self.updating = True
                 try:
                     self.copper_policy.SetSelection(1 if intent.rebuilds_copper(value) else 0)

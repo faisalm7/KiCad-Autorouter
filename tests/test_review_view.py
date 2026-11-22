@@ -13,6 +13,28 @@ from autorouter import handoff as h, review_view as view, pipeline as p, local_s
 
 
 class SvgControls(unittest.TestCase):
+    def test_workspace_shows_rectangular_board_context_and_real_part_anchor(self):
+        from autorouter import sexpr
+        from xml.etree import ElementTree
+
+        board = sexpr.parse('''(kicad_pcb
+            (gr_rect (start 4 5) (end 14 17) (layer "Edge.Cuts"))
+            (footprint "part" (at 7 8 90) (property "Reference" "J&1"))
+            (segment (start 7 8) (end 8 9) (width 0.3) (layer "F.Cu")))''')
+        context = view._workspace_context(board)
+        self.assertEqual(context, ((4, 5, 14, 17), [(7, 8, 'J&1')]))
+        changes = {'protected': p.routes(board)}
+        diagrams, note = view.routing_diagrams(changes, ['F.Cu', 'B.Cu'], workspace=True, board_context=context)
+        svg = ElementTree.fromstring(diagrams['F.Cu']['svg'])
+        ns = {'svg': 'http://www.w3.org/2000/svg'}
+        self.assertEqual(note, '')
+        self.assertEqual(svg.find('svg:g/svg:rect', ns).get('width'), '10.0')
+        self.assertEqual(svg.find('svg:text', ns).text, 'J&1')
+        self.assertIn(view.WORKSPACE_COLORS['protected'], diagrams['F.Cu']['svg'])
+        self.assertNotIn('<path', diagrams['B.Cu']['svg'])
+        board.append(['gr_circle', ['layer', '"Edge.Cuts"']])
+        self.assertIsNone(view._workspace_context(board))  # A cutout cannot be omitted.
+
     def test_workspace_distinguishes_protected_copper_and_refuses_tampered_copy(self):
         protected = '(segment (start 1 1) (end 2 2) (width .2) (layer "F.Cu") (net 1))'
         new = '(segment (start 2 2) (end 3 3) (width .2) (layer "B.Cu") (net 1))'

@@ -1485,6 +1485,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 empty_note='Create a checked review to see routing changes.')
             drawing.Add(self.review_picture, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 6)
             self.review_key = wx.Panel(copper); key = wx.BoxSizer(wx.HORIZONTAL)
+            key.Add(wx.StaticText(self.review_key, label='All layers'), 0, wx.RIGHT, 10)
             self.key_colors = {}
             for group, title in [('added', 'New'), ('retained', 'Retained'), ('protected', 'Protected'), ('removed', 'Removed')]:
                 text = wx.StaticText(self.review_key, label=title)
@@ -1518,7 +1519,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             if diagrams:
                 self.workspace_tabs.SetPageText(0, 'Copper changes')
                 self.review_layers.SetSelection(0)
-                self.review_caption.SetLabel('Tracks and vias · counts across all layers')
+                self.review_caption.SetLabel(render['caption'])
+                self.review_key.SetToolTip('Counts include tracks and vias across all layers. See Detailed report for zone fill.')
                 for group, (title, label) in self.key_colors.items():
                     label.SetLabel(f"{title} {render['counts'][group]}")
                 self.workspace_tabs.SetSelection(0)

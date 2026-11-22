@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import plistlib
 import shlex
 import tempfile
 import subprocess
@@ -112,6 +113,22 @@ class GuiInstallerTests(unittest.TestCase):
         self.assertEqual(executable, g.c.PYTHON)
         self.assertEqual(argv, [str(executable), '-B', '-m', 'autorouter.gui', '--workspace'])
         launcher.write_text('changed fixture')
+        with patch.object(g.os, 'execve') as execute, self.assertRaisesRegex(ValueError, 'file changed'):
+            g.launch(self.output / 'install.json', direct=True)
+        execute.assert_not_called()
+
+    def test_finder_launcher_reuses_pinned_entry_and_binds_bundle_files(self):
+        record = self.prepare()
+        executable = self.output / g.APP_EXECUTABLE
+        info = self.output / g.APP_INFO
+        self.assertTrue(os.access(executable, os.X_OK))
+        self.assertEqual(plistlib.loads(info.read_bytes())['CFBundleExecutable'], executable.name)
+        invocation = shlex.split(executable.read_text().splitlines()[2])
+        self.assertEqual(invocation[:7], ['if', str(self.checkout / '.venv/bin/python'), '-B',
+            str(self.checkout / 'scripts/install_gui.py'), '--open-saved', str(self.output / 'install.json') + ';', 'then'])
+        for name in (g.APP_EXECUTABLE, g.APP_INFO, g.APP_ICON):
+            self.assertEqual(record['immutable_files'][name], g.digest(self.output / name))
+        info.write_bytes(b'changed')
         with patch.object(g.os, 'execve') as execute, self.assertRaisesRegex(ValueError, 'file changed'):
             g.launch(self.output / 'install.json', direct=True)
         execute.assert_not_called()

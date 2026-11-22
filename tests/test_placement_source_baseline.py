@@ -3,6 +3,8 @@ import copy
 from decimal import localcontext
 import hashlib
 import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
 import unittest
 
 from autorouter import placement_annotations as annotations, placement_intent as intent
@@ -126,6 +128,27 @@ class SourceCopperBaseline(unittest.TestCase):
         self.assertIn('0 blocking',text);self.assertIn('1 warnings',text)
         self.assertIn('source inspected placement pending',text)
         self.assertIn('does not approve a route',text)
+
+    def test_reuse_checked_source_findings_without_another_native_check(self):
+        inspection = self.inspection()
+        native = copy.deepcopy(inspection['native_source_baseline']['native'])
+        native['findings'].append({'type': 'footprint_symbol_field_mismatch', 'severity': 'warning',
+            'items': [{'description': 'Footprint J2'}],
+            'description': "Field 'Datasheet' differs (PCB: 'Old', Schematic: 'New')"})
+        native['warnings'] += 1
+        with TemporaryDirectory() as folder:
+            path = Path(folder).resolve() / 'inspection.json'
+            raw = json.dumps({'native': native}).encode()
+            path.write_bytes(raw)
+            inspection['native_context'].update(receipt=str(path), receipt_sha256=hashlib.sha256(raw).hexdigest())
+            observed = pg.inspected_native_findings(inspection)
+            self.assertEqual(observed, native)
+            visible = pg.source_native_findings(inspection, observed)
+            self.assertIn('Checked delivery is blocked', visible)
+            self.assertIn("Footprint J2 · Field 'Datasheet' differs (PCB: 'Old', Schematic: 'New')", visible)
+            path.write_bytes(b'{}')
+            with self.assertRaisesRegex(ValueError, 'findings changed'):
+                pg.inspected_native_findings(inspection)
 
     def test_source_translation_and_quantization_ignore_low_Decimal_precision(self):
         facts=self.facts();pose=constraints.original_alternative(facts)

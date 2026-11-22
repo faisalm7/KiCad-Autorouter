@@ -260,6 +260,7 @@ def install_existing(source, destination, *, expected_manifest_sha256, import_ar
 def prepare_workspace_launcher(root):
     """Finish a fresh local install using its own files and existing pinned tools."""
     from autorouter.runner import run
+    from scripts.install_gui import APP_EXECUTABLE, SAVED_APP
 
     root = pv._directory(Path(root))
     jobs = pv._directory(root / '.runs')
@@ -290,8 +291,15 @@ def prepare_workspace_launcher(root):
             checked = json.loads(pv.read_bytes(log, 256 * 1024))
             if type(checked) is not dict or checked.get('ready') is not True:
                 raise ValueError('Installed dependencies did not pass doctor. Details are in ' + str(log))
-    app = pv.canonical(launcher / 'Open Saved Project.command')
-    if not app.is_file() or not os.access(app, os.X_OK):
+    prepared = json.loads(pv.read_bytes(launcher / 'install.json', 1024 * 1024))
+    if APP_EXECUTABLE in prepared['immutable_files']:
+        app = pv.canonical(launcher / SAVED_APP)
+        executable = pv.canonical(launcher / APP_EXECUTABLE)
+        if not app.is_dir():
+            raise ValueError('Saved-project application is missing.')
+    else:  # An older verified artifact prepares its original command launcher.
+        app = executable = pv.canonical(launcher / 'Open Saved Project.command')
+    if not executable.is_file() or not os.access(executable, os.X_OK):
         raise ValueError('Saved-project launcher is missing or unavailable.')
     return {'workspace_launcher': str(app), 'setup_records': str(setup)}
 

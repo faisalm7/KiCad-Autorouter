@@ -149,7 +149,36 @@ WORKSPACE_COLORS = {'protected': '#7354a4', 'retained': '#687b8c',
                     'added': '#087f68', 'removed': '#b95023'}
 
 
-def routing_diagrams(changes, layers, *, workspace=False):
+def _workspace_context(board):
+    """Show a verified rectangular outline and optional footprint anchors."""
+    from experiments.placement_native_proposal_v1.contract import rectangle
+
+    def on_outline(row):
+        layer = sx.one(row, 'layer')
+        return layer is not None and len(layer) == 2 and sx.unquote(layer[1]) == 'Edge.Cuts'
+
+    try:
+        edges = [row for row in board if isinstance(row, list) and row and on_outline(row)]
+        parts = sx.children(board, 'footprint')
+        if (len(edges) != 1 or edges[0][0] != 'gr_rect'
+                or any(on_outline(row) for part in parts for row in part[2:] if isinstance(row, list) and row)):
+            return None
+        bounds = tuple(value / 1_000_000 for value in rectangle(edges[0]))
+        anchors = []
+        if len(parts) <= 24:
+            for part in parts:
+                ref = next((sx.unquote(row[2]) for row in sx.children(part, 'property')
+                            if len(row) >= 3 and sx.unquote(row[1]) == 'Reference'), '')
+                xy = tuple(float(value) for value in sx.one(part, 'at', [])[1:3])
+                if (0 < len(ref) <= 16 and ref.isprintable() and len(xy) == 2
+                        and all(bounds[i] <= xy[i] <= bounds[i + 2] for i in range(2))):
+                    anchors.append((*xy, ref))
+        return bounds, anchors
+    except (ValueError, TypeError, KeyError, IndexError):
+        return None
+
+
+def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
     """Show tracks/vias alone with a common scale. Native plots retain full copper."""
     if sum(map(len, changes.values())) > 8000:
         return {}, 'This board is too large for the route diagrams. Compare the KiCad plots below.'
@@ -166,11 +195,15 @@ def routing_diagrams(changes, layers, *, workspace=False):
         return {}, 'Some route geometry cannot be drawn here. Compare the exact KiCad plots below.'
     if not points:
         return {}, 'There are no routed tracks or vias to draw.'
+    if board_context is not None:
+        bounds, anchors = board_context
+        points.extend((bounds[:2], bounds[2:]))
     x, y = zip(*points)
     margin = max(max(x) - min(x), max(y) - min(y), 1) * .06 + 1
     width = max(x)-min(x)+2*margin
     height = max(y)-min(y)+2*margin
-    view_box = f'{min(x)-margin} {min(y)-margin} {width} {height}'
+    left, top = min(x) - margin, min(y) - margin
+    view_box = f'{left} {top} {width} {height}'
     diagrams = {}
     for layer in layers:
         if workspace:
@@ -179,8 +212,24 @@ def routing_diagrams(changes, layers, *, workspace=False):
                            + (' stroke-dasharray="0.55 0.4"' if group == 'removed' else '')
                            + f'>{"".join(shapes[layer][group])}</g>'
                            for group in ('removed', 'retained', 'protected', 'added'))
+            workspace_box = view_box
+            if board_context is not None:
+                # The tracks still use saved coordinates. Rendering labels in
+                # pixel space lets the same wx board canvas keep them legible.
+                scale = min(size[0] / width, size[1] / height)
+                tx = (size[0] - width * scale) / 2 - left * scale
+                ty = (size[1] - height * scale) / 2 - top * scale
+                x0, y0, x1, y1 = bounds
+                outline = (f'<rect x="{x0}" y="{y0}" width="{x1-x0}" height="{y1-y0}" '
+                           f'fill="#edf2f6" stroke="#7c8d9e" stroke-width="{1.8/scale}"/>')
+                body = f'<g transform="matrix({scale} 0 0 {scale} {tx} {ty})">{outline}{body}</g>'
+                for px, py, ref in anchors:
+                    cx, cy = px * scale + tx, py * scale + ty
+                    body += (f'<circle cx="{cx}" cy="{cy}" r="2.7" fill="#435568"/>'
+                             f'<text x="{cx+5}" y="{cy-5}" font-size="15" fill="#36495c">{escape(ref)}</text>')
+                workspace_box = f'0 0 {size[0]} {size[1]}'
             svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{size[0]}" height="{size[1]}" '
-                   f'viewBox="{view_box}" fill="none" stroke-linecap="round">{body}</svg>')
+                   f'viewBox="{workspace_box}" fill="none" stroke-linecap="round">{body}</svg>')
             diagrams[layer] = {'svg': svg, 'size': size}
         else:
             body = ''.join(f'<g class="{group}">{"".join(shapes[layer][group])}</g>'
@@ -216,8 +265,12 @@ def workspace_changes(directory, source_board, review, route):
     if +protected:
         raise p.Rejected('Workspace review does not show every protected track or via.')
     changes['retained'] = keep
-    diagrams, note = routing_diagrams(changes, review['preview']['layers'], workspace=True)
-    return {'diagrams': diagrams, 'note': note, 'counts': {key: len(rows) for key, rows in changes.items()}}
+    context = _workspace_context(after)
+    diagrams, note = routing_diagrams(changes, review['preview']['layers'], workspace=True, board_context=context)
+    caption = 'Board outline, part locations and route changes' if context and context[1] else (
+        'Board outline and route changes' if context else 'Tracks and vias only · board detail in report')
+    return {'diagrams': diagrams, 'note': note, 'caption': caption,
+            'counts': {key: len(rows) for key, rows in changes.items()}}
 
 
 def display_svg(raw):
