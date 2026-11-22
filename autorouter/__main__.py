@@ -55,7 +55,11 @@ def preview(board,settings=None,overrides=None,*,purpose='route',placement_origi
     if tuned_low:p.native7_tuned_low_source_record(source,effective['scope'])
     class_context=('native-route-flat-classes-v1' if not tuned_low and purpose=='route' and effective['guidance']=='native'
         and effective['scope'] in {'whole_board_unlocked_routing','partial_completion'} and effective['layers']=='source_all' else None)
-    original=p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']),class_context=class_context)
+    tie_selection = p.fixed_tie_selection(effective) if purpose == 'route' else None
+    original=p.preflight(source,task_scope=(effective['scope'],effective['guidance'],effective['layers']),
+                         class_context=class_context,fixed_tie_nets=tie_selection)
+    from . import fixed_net_tie
+    tie = fixed_net_tie.describe(original) if tie_selection is not None else None
     pending_classes=p.check_schematic_class_support(source,class_context=class_context)
     if purpose=='route' and c.NATIVE_VERSION=='10.0.7' and effective['scope']=='selected_nets':
         p.check_native7_selected_source(source,effective['nets'])
@@ -90,6 +94,7 @@ def preview(board,settings=None,overrides=None,*,purpose='route',placement_origi
             'protected_route_items':len(protected),'rerouted_route_items':len(p.routes(original))-len(protected),
             'layer_restriction':layer_preview,
             'schematic_class_check':pending_classes,
+            **({'fixed_net_tie':tie} if tie is not None else {}),
             'scope_description':{'partial_completion':'Complete remaining connections while preserving every existing route',
                 'selected_nets':'Reroute only selected unlocked nets; preserve all other original copper. Full native DRC remains mandatory.',
                 'whole_board_unlocked_routing':'Reroute unlocked copper while preserving locked routes'}[effective['scope']],

@@ -233,12 +233,12 @@ def empty_copper_selection(source, inspection, selected, settings):
     """Prefill exact selected-part nets only when no original copper can be rebuilt."""
     if not selected or inspection is None or str(source) != inspection['source']:
         return None
-    observation = inspection['observation']
-    chosen = [part for part in observation['footprints'] if part['uuid'] in selected]
-    nets = {pad['net'] for part in chosen for pad in part['pads']}
-    if not nets or '' in nets or len(chosen) != len(selected):
-        return None
     try:
+        observation = inspection['observation']
+        chosen = [part for part in observation['footprints'] if part['uuid'] in selected]
+        nets = {pad['net'] for part in chosen for pad in part['pads']}
+        if not nets or '' in nets or len(chosen) != len(selected):
+            return None
         current = gui.source_inventory(source)
         if current != inspection['source_hashes']:
             return None
@@ -265,7 +265,7 @@ def empty_copper_selection(source, inspection, selected, settings):
                 raise ValueError('A selected net already has tracks, vias or a zone. Use Finish gaps to preserve it.')
 
         return settings, gui.SourceGuard(source, origin, retain_copper)
-    except (OSError, ValueError, Rejected):
+    except (KeyError, OSError, TypeError, ValueError, Rejected):
         return None  # Inconclusive selection keeps the original Finish gaps settings.
 
 
@@ -1446,7 +1446,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.message('Preview the current project and request again.')
                 self.refresh()
                 return
-            self.clear_constraint_offer('Settings applied. Review the board and choose Find alternatives.')
+            self.clear_constraint_offer('Settings applied to this placement task. Follow the current action beside the board.')
             self.updating = True
             try:
                 selected = set(values['selected'])
@@ -2191,7 +2191,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     if self.gate.review.copper_plan is not None:
                         prefill_copper_routing(frame, self.gate.review.copper_plan, seconds=seconds)
                     else:
-                        frame.seconds.SetValue(str(seconds))
+                        settings = gui.pref.validate(dict(gui.pref.DEFAULTS, scope='partial_completion', seconds=seconds))
+                        if self.inspection is not None:
+                            selected = self.gate.review.settings['selected']
+                            narrow = empty_copper_selection(Path(self.inspection['source']), self.inspection, selected, settings)
+                            if narrow is not None:
+                                settings, _ = narrow
+                        frame.prefill_placement_completion(settings)
                     if getattr(self, 'approved_copilot', None) is not None:
                         approved = self.check_copilot_plan()
                         expected = copy.deepcopy(approved['proposal']['routing_preferences'])

@@ -540,6 +540,7 @@ class PlacementGuiTests(unittest.TestCase):
         frame.output.SetValue.assert_called_once_with('/chosen/candidate jobs')
         self.assertIs(factory.call_args.kwargs['source_guard'], guard)
         self.assertIn('Which parts should move?', factory.call_args.kwargs['conversation_history'])
+        frame.prefill_placement_completion.assert_called_once_with(dict(gui.pref.DEFAULTS, scope='partial_completion', seconds=90))
         frame.Show.assert_called_once(); frame.Destroy.assert_not_called()
 
     def test_existing_routing_frame_is_not_duplicated_or_rebound(self):

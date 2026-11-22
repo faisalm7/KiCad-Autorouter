@@ -275,3 +275,43 @@ def files(case):
                                                   'hidden_netclasses': []}},
                                        sort_keys=True, indent=2) + '\n').encode('ascii'),
     }
+
+
+def single_fixed_routing_files():
+    """The owned JP1 scope proof. Tie nets are routed, with one unrelated gap."""
+    from autorouter import pipeline, sexpr
+
+    packet = files('positive')
+    pcb_path, sch_path = STEM + '.kicad_pcb', STEM + '.kicad_sch'
+    pcb = sexpr.parse(packet[pcb_path].decode('ascii'))
+    sch = sexpr.parse(packet[sch_path].decode('ascii'))
+    removed = {'JP2', 'J4'}
+    footprints = {FOOTPRINT_UUIDS[ref] for ref in removed}
+    symbols = {uid(ref + '-symbol') for ref in removed}
+    labels = {uid(f'{ref}-label-{pin}') for ref, _, _, count, *_ in COMPONENTS
+              if ref in removed for pin in range(1, count + 1)}
+    tracks = {TRACK_UUIDS[label] for label, *_, net in TRACKS if net.startswith('N3_')}
+
+    def ident(node):
+        return sexpr.unquote(sexpr.one(node, 'uuid')[1])
+
+    for fp in sexpr.children(pcb, 'footprint'):
+        if ident(fp) in footprints:
+            pcb.remove(fp)
+        elif ident(fp) == FOOTPRINT_UUIDS['J5']:
+            pad, = sexpr.children(fp, 'pad')
+            sexpr.one(pad, 'net')[1] = q('N3_A')
+    for route in pipeline.routes(pcb):
+        if ident(route) in tracks:
+            pcb.remove(route)
+    for symbol in sexpr.children(sch, 'symbol'):
+        if ident(symbol) in symbols:
+            sch.remove(symbol)
+    for label in sexpr.children(sch, 'global_label'):
+        if ident(label) in labels:
+            sch.remove(label)
+        elif ident(label) == uid('J5-label-1'):
+            label[1] = q('N3_A')
+    packet[pcb_path] = (sexpr.dump(pcb) + '\n').encode('ascii')
+    packet[sch_path] = (sexpr.dump(sch) + '\n').encode('ascii')
+    return packet

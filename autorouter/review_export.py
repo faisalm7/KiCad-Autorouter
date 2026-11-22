@@ -506,7 +506,7 @@ def _check_stage_proof(folder,data,binding,report,basis,contract,layers, *, nati
     if data.get('schematic_parity')!=p.parity_declaration(binding['source'],binding['source_hashes']):
         raise p.Rejected('export schematic parity declaration differs from original source')
     class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'],native_toolchain=native_toolchain)
-    original=p.preflight(Path(binding['source']),task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']),class_context=class_context);candidate=folder/'candidate'/Path(binding['source']).name
+    original=p.preflight_record(Path(binding['source']),Path(binding['receipt']).parent,report,input_policy=binding['input_policy'],class_context=class_context);candidate=folder/'candidate'/Path(binding['source']).name
     class_requirement=p.check_schematic_class_support(Path(binding['source']),class_context=class_context)
     before=sx.read(Path(binding['validated_candidate']));protected=p.protected_for_record(report,original)
     if candidate!=Path(data['candidate']):raise p.Rejected('export candidate escaped validation directory')
@@ -715,7 +715,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
             for protected in [Path(x).parent for x in (binding['source'],binding['receipt'],binding['review'],binding['choice'])]:
                 if out==protected or protected in out.parents:raise p.Rejected('export must be outside source/routing/review/choice trees')
             source=Path(binding['source']);class_context=p.class_context_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy'],native_toolchain=native_toolchain)
-            original=p.preflight(source,task_scope=p.task_scope_for_record(report,Path(binding['receipt']).parent,input_policy=binding['input_policy']),class_context=class_context);basis,contract,layers=lineage(binding,report,**ctx)
+            original=p.preflight_record(source,Path(binding['receipt']).parent,report,input_policy=binding['input_policy'],class_context=class_context);basis,contract,layers=lineage(binding,report,**ctx)
             class_requirement=p.check_schematic_class_support(source,class_context=class_context)
             candidate_capture=pc.inventory(Path(binding['validated_candidate']).parent,contents=True);source_capture=pc.inventory(source.parent,contents=True)
             if {name:h.digest(raw) for name,raw in candidate_capture.items()}!=binding['candidate_hashes'] or {name:h.digest(raw) for name,raw in source_capture.items()}!=binding['source_hashes']:

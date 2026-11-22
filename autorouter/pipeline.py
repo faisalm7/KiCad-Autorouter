@@ -543,7 +543,35 @@ def check_route_class_evidence(directory,data,original,candidate,*,class_context
     return True
 
 
-def preflight(board,*,task_scope=None,class_context=None):
+def fixed_tie_selection(effective):
+    """Only the qualified ordinary selected-net settings admit a fixed tie."""
+    if c.NATIVE_VERSION == '10.0.7' and effective and (
+            effective['scope'], effective['guidance'], effective['layers'], effective['profile'],
+            effective['adapter'], effective['scoring_preference']) == (
+                'selected_nets', 'native', 'source_all', 'completion-only', 'both', None):
+        from .routing_scope import validate_names
+        return validate_names(effective['nets'])
+    return None
+
+
+def preflight_record(board, directory, data, *, input_policy=None, class_context=None):
+    """Apply intake checks again from retained choices during review and delivery."""
+    from .selected_plane_transport import BASELINE
+
+    selection = None
+    if (data.get('scope') == 'selected_nets' and input_policy in (None, 'native')
+            and data.get('strategy') is None and data.get('selected_plane_choice') == {
+                'policy': SELECTED_PLANE_CHOICE_POLICY, 'mode': BASELINE}):
+        from .preferences import validate
+        names = selected_scope_names(data)
+        selection = fixed_tie_selection(validate(data['routing_preferences']['effective']))
+        if selection is not None and selection != names:
+            raise Rejected('fixed tie selection differs from the captured routing settings')
+    return preflight(board, task_scope=task_scope_for_record(data, directory, input_policy=input_policy),
+                     class_context=class_context, fixed_tie_nets=selection)
+
+
+def preflight(board,*,task_scope=None,class_context=None,fixed_tie_nets=None):
     t=sx.read(board)
     reasons=[]
     if t[0]!='kicad_pcb': reasons.append('not a KiCad board')
@@ -611,9 +639,25 @@ def preflight(board,*,task_scope=None,class_context=None):
                 tie_refs.add(refs[0])
         for pad in sx.children(fp,'pad'):
             if len(pad)<4 or pad[3]=='custom': reasons.append('custom pads not qualified')
-    if tie_count:
+    if tie_count and fixed_tie_nets is not None and c.NATIVE_VERSION == '10.0.7':
+        from . import fixed_net_tie
+        try:
+            tie = fixed_net_tie.describe(t)
+            forbidden = sorted(set(fixed_tie_nets) & set(tie['nets']))
+            if forbidden:
+                reasons.append(f"net tie {tie['reference']} is protected; remove tied nets from the selection: "
+                               + ', '.join(forbidden))
+            else:
+                from .native_connected import _index
+                _index(t)
+        except (Rejected, ValueError) as exc:
+            reasons.append(str(exc))
+    elif tie_count:
         examples = f', including {", ".join(sorted(tie_refs)[:6])}' if tie_refs else ''
-        reasons.append(f'net ties not qualified ({tie_count} footprints{examples})')
+        text = f'net ties not qualified ({tie_count} footprints{examples})'
+        if c.NATIVE_VERSION == '10.0.7':
+            text += '. Use Selected nets with Completion only for a supported fixed tie, and leave its nets unselected'
+        reasons.append(text)
     for via in sx.children(t,'via'):
         if any(x in via for x in ('blind','micro')): reasons.append('advanced vias not qualified')
     if reasons: raise Rejected('unsupported: '+'; '.join(sorted(set(reasons))))
@@ -2465,7 +2509,7 @@ def check_preferences_record(directory, data):
         source=Path(data['source']);candidate=Path(data['candidate'])
         if (canonical(rs.bind(read_bytes(source),names))!=canonical(data['selected_net_binding'])
                 or data.get('task_sha256')!=data['selected_net_binding'].get('task_sha256')
-                or canonical(rs.audit(preflight(source),sx.read(candidate),names))!=canonical(data['selected_net_audit'])):
+                or canonical(rs.audit(preflight_record(source,directory,data),sx.read(candidate),names))!=canonical(data['selected_net_audit'])):
             raise Rejected('selected-net source binding or final copper audit differs')
         emitted,dsn_binding=rs.partition_dsn(read_bytes(Path(directory)/'routing-scope-input.dsn',20*1024**2),names)
         if (canonical(dsn_binding)!=canonical(data['selected_dsn_binding'])
@@ -2668,7 +2712,11 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             and engine_profile in {'standard','tuned','completion-only'} and _fanout_enabled is None
             and _optimizer_enabled is None and scope in {'whole_board_unlocked_routing','partial_completion'}
             and guidance_policy=='native' and layers=='source_all' else None)
-        original=preflight(source,task_scope=(scope,guidance_policy,layers),class_context=class_context)
+        tie_selection = fixed_tie_selection(_preferences['effective']) if _preferences and _selected_plane_policy is None else None
+        original=preflight(source,task_scope=(scope,guidance_policy,layers),class_context=class_context,
+                           fixed_tie_nets=tie_selection)
+        from . import fixed_net_tie
+        tie = fixed_net_tie.describe(original) if tie_selection is not None else None
         class_requirement=check_schematic_class_support(source,class_context=class_context)
         if class_requirement is not None and _preferences is None:
             job.started=entry_started;job.deadline=entry_started+seconds;job.cpu_started=entry_parent
@@ -2753,6 +2801,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         if adapter!='none':
             from .adapter import adapt_dsn
             job.native('obstacles','obstacles',candidate,output/'obstacles.json')
+            if tie is not None:
+                report['fixed_net_tie'] = fixed_net_tie.transport(output, task, tie)
             plane_transport=None
             if _selected_plane_policy is not None:
                 selected_planes.snapshot_policy(output)
@@ -2921,10 +2971,10 @@ def validation_readback_session():
                    native_edge,netclass,netclass_native,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
                    provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
-    from . import selected_plane_transport
+    from . import fixed_net_tie,native_connected,selected_plane_transport
     from experiments.selected_unselected_plane_v1 import policy as selected_plane_policy
     import sys
-    modules=(sys.modules[__name__],c,sx,selected_plane_transport,selected_plane_policy,_improve_context,adapter,board_floor,default_targets,engine_angle,floor_context,
+    modules=(sys.modules[__name__],c,sx,selected_plane_transport,selected_plane_policy,_improve_context,adapter,board_floor,default_targets,engine_angle,fixed_net_tie,native_connected,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,netclass_native,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              routing_scope,thermal,thermal_geometry,provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
@@ -3376,7 +3426,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     else:verify_candidate_files(candidate,data['source_hashes'],data['candidate_sha256'])
     class_context=(None if tuned_low_contract is not None else
         class_context_for_record(data,path.parent,input_policy=input_policy,native_toolchain=native_toolchain))
-    original=preflight(source,task_scope=task_scope_for_record(data,path.parent,input_policy=input_policy),class_context=class_context)
+    original=preflight_record(source,path.parent,data,input_policy=input_policy,class_context=class_context)
     current=sx.read(candidate)
     check_hole_machining_support(current)
     if immutable(current)!=immutable(original): raise Rejected('immutable geometry changed')
@@ -3502,7 +3552,20 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     check_route_class_evidence(path.parent,data,original,candidate,class_context=class_context)
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_pour_evidence(path.parent,data,original,candidate,_known_named_edge=known_named_edge)
-    check_native_edge_transport(path.parent,data,_known_named_edge=known_named_edge)
+    edge_transport = check_native_edge_transport(path.parent,data,_known_named_edge=known_named_edge)
+    from . import fixed_net_tie
+    tie = fixed_net_tie.describe(original)
+    if tie is not None:
+        from .floor_route import process_check
+        directory = path.parent
+        if edge_transport is None or 'autorouter/fixed_net_tie.py' not in data['tools']['implementation_sha256']:
+            raise Rejected('fixed net tie requires the captured bridge keepout transport chain')
+        task = routing_task(original, data['scope'], selected_scope_names(data))
+        process_check(directory, data, 'obstacles', [*native_prefix(), 'obstacles', str(candidate), str(directory/'obstacles.json')])
+        if data.get('fixed_net_tie') != fixed_net_tie.transport(directory, task, tie):
+            raise Rejected('missing or changed fixed net tie transport evidence')
+    elif 'fixed_net_tie' in data:
+        raise Rejected('unexpected fixed net tie evidence on a source without ties')
     check_preferences_record(path.parent,data)
 
     if 'engine_budget' in data:

@@ -179,6 +179,14 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         lines += ['Actual Native refill and complete-schematic checks ran on a separate copy.',
                   'Unrouted connections are routing demand; they do not by themselves make the source invalid.',
                   'This inspection does not approve a route or waive any finding.']
+    tie_info = record.get('static', {}) if stage == 'inspect' else record
+    tie = tie_info.get('fixed_net_tie')
+    if tie is not None:
+        lines += [f"Fixed tie {tie['reference']} and its bridge are protected. Leave " + ', '.join(tie['nets']) + ' unselected.']
+        if stage == 'inspect':
+            lines += ['On KiCad 10.0.7, use Selected nets and Completion only to route other nets.']
+    if tie_info.get('fixed_net_tie_refusal'):
+        lines += ['Routing scope unavailable. ' + tie_info['fixed_net_tie_refusal'] + '.']
     if record.get('invariants_unchanged') is True:
         lines += ['Original-design checks passed; source geometry and protected routing retained.']
     matches = record.get('protected_route_import', {}).get('matches')
@@ -1770,6 +1778,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.log.SetValue('Settings loaded. Preview the saved project to start a new job.')
                 self.refresh()
             self.choose_path(wx.FileDialog(self, 'Load explicit settings', wildcard='JSON (*.json)|*.json', style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST), loaded)
+
+        def prefill_placement_completion(self, settings):
+            from .placement_gui import prefill_routing
+            prefill_routing(self, settings)
+            self.status.SetLabel('Existing copper stays protected. Preview the routing settings before starting.')
+            self.refresh()
 
         def config(self):
             result = dict(pref.DEFAULTS)

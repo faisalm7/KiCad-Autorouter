@@ -116,6 +116,14 @@ def _capture(board):
             'Routing support is checked against the exact proposal by the shared static preview.',
             'Native refill, connectivity, original-rule checks and review remain required.'],
     }
+    from . import fixed_net_tie
+    try:
+        tie = fixed_net_tie.describe(tree)
+    except (ValueError, p.Rejected) as exc:
+        result['fixed_net_tie_refusal'] = str(exc)
+    else:
+        if tie is not None:
+            result['fixed_net_tie'] = tie
     if gui.source_inventory(source) != before:
         raise IntentError('Saved source changed during inspection; inspect again.')
     return result, tree, mapping

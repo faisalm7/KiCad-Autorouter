@@ -37,3 +37,21 @@ independent delivery in 2 min 45 s. That observation includes a pause from the
 accessibility tool during export. The copper plan and findings still require
 switching tabs. The recorded tests made no manual CAD corrections.
 [Owned evidence](../evidence/product-workspace-through-via-001.json) · [Licensed workflow](../evidence/product-workspace-licensed-2427-001.json)
+
+## Routing around a fixed net tie
+
+Open **Route saved board**, then choose **Selected nets; keep other copper**.
+Under **Advanced routing and experiments**, choose **Completion only** and keep
+**Both corrections**, **All source copper** and the default via preference.
+Enter only the nets you want to route. Preview identifies the fixed tie and the
+two names to leave out. Read the Native findings and export the checked copy
+through the usual review controls.
+
+This scope uses pinned KiCad 10.0.7 and requires a complete saved 20260206
+two-layer PCB with one stationary, unrotated front-side tie. It needs two plain
+rectangular SMD pads on distinct nets and one filled rectangular front-copper
+bridge touching both pad interiors. The board cannot have zones on the tied
+nets. Those nets, the bridge and all other unselected copper stay protected.
+Requests to route either tied net, other tie shapes, multiple ties and other
+routing modes are refused. This scope leaves tie placement and electrical
+verification separate.
