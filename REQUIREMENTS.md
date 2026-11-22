@@ -21,6 +21,11 @@ The master specification, current strategy and owner steering govern. Historical
   Installed controls stopped a running Preview before the engine started and
   refused dispatch when a test lock appeared after acknowledgement.
   [Installed source controls](evidence/product-routing-source-acknowledgement-001.json)
+- First setup on this Mac can take existing pinned KiCad, Java and
+  Freerouting locations and open the new workspace through Finder. Its
+  installed Conversation shortcuts support reviewable keyboard edits with
+  the board visible. Independent installation and wider keyboard use remain
+  open. [Installed checks](evidence/product-direct-first-setup-and-keyboard-002.json)
 - Pinned 10.0.8 diagnostics matched saved DRC, refill, protected raw export,
   net classes and retained-session geometry on one owned task. The supported
   saved-board workflow still uses 10.0.7. Placement observation and installed

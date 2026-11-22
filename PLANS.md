@@ -164,16 +164,23 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     identity. Import kept the protected trace and reproduced the seven new
     segments. The 10.0.7 delivery pin and independent placement and installed
     version gates remain. [Comparison](evidence/product-kicad1008-saved-parity-001.json)
-35. Make proposal editing reachable from the keyboard in Conversation.
-    Verify an actual focus, expand, edit, re-preview and adoption sequence at
-    laptop size. The native button fits and focuses the fields. On the
-    current Mac, Tab alone did not focus it. Verify the Conversation menu
-    shortcuts with the same proposal and no changes to system settings.
-36. Let an initial Mac setup use the owner's existing pinned KiCad, Java
-    and Freerouting locations directly. Use the existing artifact writer,
-    strict bindings and doctor. Verify a clean first setup in a new folder,
-    an incorrect-pinned-input refusal and first use through Finder.
-    Keep standalone distribution and independent-machine testing open.
+35. **Installed keyboard editing verified.** Conversation menu shortcuts
+    reached the actual fields, previewed edits and adopted the revised time
+    beside the board. A dirty edit could not bypass preview. Tab alone skipped
+    the disclosure in the previous build. [Installed checks](evidence/product-direct-first-setup-and-keyboard-002.json)
+36. **Same-Mac first setup verified.** Existing pinned KiCad, Java and
+    Freerouting locations worked directly. A wrong JAR refused before output
+    creation. The new artifact passed doctor, opened through Finder and
+    inspected the exact selected source. Independent installation remains open.
+    [First setup](evidence/product-direct-first-setup-and-keyboard-002.json)
+37. In one bounded intake, check the pinned unrelated TankSync receiver for
+    a supported placement task. Preserve a refusal and its exact reason
+    before dispatch. Keep the IR trial deferred because the current projected
+    task is identical and two zone endpoints still cannot be distinguished.
+38. Give the adopted plan prominence in the existing Conversation history.
+    On the 880 × 610 view the earlier request appears above the actual budget.
+    Show the adopted values immediately and keep the original wording
+    accessible. Verify that changing the source still hides earlier history.
 
 ## Verified Finish gaps batch from 2dabd0799
 
