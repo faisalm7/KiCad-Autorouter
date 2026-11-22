@@ -2,6 +2,18 @@
 
 Prepared October 9, 2026. The master prompt's mechanisms, thresholds, and workflow choices are proposed engineering requirements, not findings established by these sources. Recheck mutable documentation, versions, permissions, and APIs when executing.
 
+## Robotont battery adapter development repair (November 21, 2026)
+
+The pinned two-layer adapter supplies a complete board, project, schematic,
+local libraries and notices under CERN-OHL-P-2.0. Ten Git blobs totaling
+73,541 bytes matched the upstream tree and blob IDs. The task copy removed only
+five segments on the first connector's specified net under a frozen protocol.
+No earlier matching family appeared in the bounded project-history check.
+The installed software preserved the other 27 existing tracks and closed the
+gap. An original field mismatch stopped delivery. The result also gained
+copper on five completed nets. The inputs and rejected result stay local.
+[Pinned design](https://github.com/robotont/robotont-electronics-battery-adapter/tree/918274f3801e3d287c135e0bdaff32c0bffdb55b) · [License](https://github.com/robotont/robotont-electronics-battery-adapter/blob/918274f3801e3d287c135e0bdaff32c0bffdb55b/LICENSE) · [Installed outcome](evidence/robotont-finish-gaps-installed-001.json)
+
 ## Saved Default-class priority check (November16,2026)
 
 Fresh GUI123 evidence on unchanged KiCad10.0.7 shows that opening/saving an owned project with omitted Default priority produces explicit `-1`; all four exported Native nets have the same Default parameter-parent value. The actual routing job safely refuses it before engine execution. The [tagged constructor](https://gitlab.com/kicad/code/kicad/-/raw/10.0.7/common/netclass.cpp) initializes priority to `-1`; the [tagged project reader/writer](https://gitlab.com/kicad/code/kicad/-/raw/10.0.7/common/project/net_settings.cpp) preserves that constructor value when an explicit class omits priority and writes it on save. Separate initial-Default/migration paths use `2147483647`. This explains two authentic representations, not a general priority-order equivalence. No KiCad source is copied.

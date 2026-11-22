@@ -5,16 +5,21 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 ## Current delivery batch from 42eeeda72
 
 1. The saved live proposal passed freshness, adoption, placement, protected
-   routing and checked delivery through ordinary controls. The original
-   proposal-only pilot stays closed. Complete the demonstrated handoff fix so
-   preserve-copper placement selects only eligible affected nets or offers
-   Finish gaps. [Engineering continuation](evidence/product-workspace-hosted-engineering-001.json)
+   routing and checked delivery. The corrected installed handoff prefilled
+   the affected nets while keeping the same budget and copper protection.
+   [Engineering continuation](evidence/product-workspace-hosted-engineering-001.json) · [Installed regression](evidence/product-placement-routing-handoff-001.json)
 2. The strict single fixed two-pad tie passed ordinary installed inspection,
    selected preview, routing, findings and fresh export. The tied-net and
    triangular-bridge requests refused. [Installed evidence](evidence/fixed-net-tie-product-native7-001.json)
-3. Freeze one genuinely new licensed source and useful supported task before
-   its run. Observe complete elapsed time, operator actions and corrections,
-   including any refusal. Preserve the pinned original and rights evidence.
+3. The sole new licensed Robotont task was frozen and exercised in the
+   installed workflow. Keep the refusal and original rights evidence.
+   Its critical inherited field warning and extra routes on completed nets
+   remain concrete limits on broader Finish gaps usefulness.
+   [Installed outcome](evidence/robotont-finish-gaps-installed-001.json)
+
+The next Finish gaps investigation should validate the source-aware active-net
+selection with inherited parity checks before dispatch. Keep the pinned
+Robotont case and its failed result as development evidence. [Selected recovery](evidence/backups/selected-board-flow-42ee-001.json)
 
 ## Current queue from 6ea132471
 
