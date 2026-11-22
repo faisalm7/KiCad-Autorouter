@@ -925,13 +925,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             request_actions.Add(self.assistant_ask)
             assistant_layout.Add(request_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
-            proposal_actions = wx.BoxSizer(wx.HORIZONTAL)
-            self.constraint_use = wx.Button(assistant_inputs, label='Use settings')
-            self.constraint_reject = wx.Button(assistant_inputs, label='Discard')
-            proposal_actions.Add(self.constraint_use, 0, wx.RIGHT, 6)
-            proposal_actions.Add(self.constraint_reject)
-            self.constraint_edit = wx.CollapsiblePane(assistant_inputs, label='Edit suggestion', style=wx.CP_NO_TLW_RESIZE)
-            proposed_fields = self.constraint_edit.GetPane()
+            self.constraint_summary = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
+                                                 size=(-1, 74), name='Constraint changes')
+            self.constraint_summary.ChangeValue('Preview a request to see its changes on the board. Use settings to adopt them.')
+            assistant_layout.Add(self.constraint_summary, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+
+            self.constraint_edit = wx.Button(assistant_inputs, label='Edit suggestion')
+            self.constraint_editor = wx.Panel(assistant_inputs)
+            proposed_fields = self.constraint_editor
             draft_layout = wx.FlexGridSizer(cols=2, vgap=4, hgap=6); draft_layout.AddGrowableCol(1)
             self.constraint_fields = []
             self.constraint_labels = []
@@ -951,14 +952,20 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             draft_layout.Add(self.routing_names, 1, wx.EXPAND)
             self.routing_names_label.Hide(); self.routing_names.Hide()
             proposed_fields.SetSizer(draft_layout)
-            self.constraint_edit.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda event: self.layout_panel())
+            self.constraint_edit.Bind(wx.EVT_BUTTON, self.toggle_constraint_editor)
             self.constraint_edit.Hide()
-            self.constraint_summary = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
-                                                 size=(-1, 74), name='Constraint changes')
-            self.constraint_summary.ChangeValue('Preview a request to see its changes on the board. Use settings to adopt them.')
-            assistant_layout.Add(self.constraint_summary, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.constraint_editor.Hide()
+            assistant_layout.Add(self.constraint_edit, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            assistant_layout.Add(proposed_fields, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+
+            proposal_actions = wx.BoxSizer(wx.HORIZONTAL)
+            self.constraint_preview_edits = wx.Button(assistant_inputs, label='Preview edits')
+            self.constraint_use = wx.Button(assistant_inputs, label='Use settings')
+            self.constraint_reject = wx.Button(assistant_inputs, label='Discard')
+            proposal_actions.Add(self.constraint_preview_edits, 0, wx.RIGHT, 6)
+            proposal_actions.Add(self.constraint_use, 0, wx.RIGHT, 6)
+            proposal_actions.Add(self.constraint_reject)
             assistant_layout.Add(proposal_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            assistant_layout.Add(self.constraint_edit, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             assistant_inputs.SetSizer(assistant_layout)
             assistant_split = wx.BoxSizer(wx.VERTICAL)
             assistant_split.Add(assistant_inputs, 1, wx.EXPAND)
@@ -1026,6 +1033,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.assistant_request.Bind(wx.EVT_TEXT, self.assistant_changed)
             self.route_budget.Bind(wx.EVT_TEXT, self.settings_changed)
             self.constraint_preview.Bind(wx.EVT_BUTTON, self.preview_constraints)
+            self.constraint_preview_edits.Bind(wx.EVT_BUTTON, self.preview_constraints)
             self.constraint_use.Bind(wx.EVT_BUTTON, self.use_constraints)
             self.constraint_reject.Bind(wx.EVT_BUTTON, self.discard_constraints)
             self.assistant_ask.Bind(wx.EVT_BUTTON, self.ask_conversation)
@@ -1294,13 +1302,15 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.assistant_ack.Enable(not self.busy and self.pending_copilot is not None)
                 self.assistant_use.Enable(not self.busy and self.pending_copilot is not None and self.assistant_ack.GetValue())
             if hasattr(self, 'constraint_preview'):
-                routing_offer = constraint_pending and self.constraint_offer['kind'] == conversation.ROUTING_KIND
-                self.constraint_preview.SetLabel('Preview edits' if constraint_pending else 'Preview placement')
-                self.constraint_preview.Enable(not self.busy and (self.inspection is not None or routing_offer)
-                    and (not constraint_pending or self.constraint_edited))
-                self.constraint_use.Enable(not self.busy and constraint_pending and not self.constraint_edited)
+                edited = constraint_pending and self.constraint_edited
+                self.constraint_preview.Show(not constraint_pending)
+                self.constraint_preview.Enable(not self.busy and self.inspection is not None and not constraint_pending)
+                self.constraint_edit.Enable(not self.busy and constraint_pending)
+                self.constraint_preview_edits.Show(edited)
+                self.constraint_preview_edits.Enable(not self.busy and edited)
+                self.constraint_use.Enable(not self.busy and constraint_pending and not edited)
                 self.constraint_reject.Enable(not self.busy and constraint_pending)
-                self.constraint_use.Show(constraint_pending)
+                self.constraint_use.Show(constraint_pending and not edited)
                 self.constraint_reject.Show(constraint_pending)
                 for entry in self.constraint_fields:
                     entry.Enable(not self.busy)
@@ -1519,6 +1529,18 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.refresh()
             self.message('Review or edit the suggestion. Use settings updates the ordinary controls.')
 
+        def toggle_constraint_editor(self, _):
+            if self.busy or self.constraint_offer is None:
+                return
+            expanded = not self.constraint_editor.IsShown()
+            self.constraint_editor.Show(expanded)
+            self.constraint_edit.SetLabel('Hide editable settings' if expanded else 'Edit suggestion')
+            self.layout_panel()
+            if expanded:
+                first_field = (self.routing_names if self.constraint_offer['kind'] == conversation.ROUTING_KIND
+                               else self.constraint_fields[0])
+                first_field.SetFocus()
+
         def constraint_draft_changed(self, event):
             if self.constraint_offer is not None:
                 if not self.constraint_edited:
@@ -1535,7 +1557,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.constraint_review = self.constraint_offer = None
             self.constraint_edited = False
             self.conversation_offer = False
-            self.constraint_edit.Collapse()
+            self.constraint_editor.Hide()
+            self.constraint_edit.SetLabel('Edit suggestion')
             self.constraint_edit.Hide()
             self.constraint_summary.ChangeValue(message)
             self.update_constraint_map()

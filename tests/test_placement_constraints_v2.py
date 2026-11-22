@@ -205,6 +205,7 @@ class ConstraintProposal(unittest.TestCase):
         w.protected_route_ids = controls.text_control('')
         w.constraint_summary = controls.text_control('')
         w.constraint_edit = Mock()
+        w.constraint_editor = Mock()
         w.board_scene, w.board_legend = None, ''
         w.constraint_key = Mock()
         w.constraint_fields = [controls.text_control('') for _ in range(3)]
@@ -214,7 +215,7 @@ class ConstraintProposal(unittest.TestCase):
         w.find_alternatives = Mock()
         w.start = Mock()
         for method in ('constraint_inputs', 'constraint_binding', 'constraint_draft_terms',
-                'preview_constraints', 'show_constraint_offer', 'constraint_draft_changed',
+                'preview_constraints', 'show_constraint_offer', 'toggle_constraint_editor', 'constraint_draft_changed',
                 'clear_constraint_offer', 'discard_constraints', 'use_constraints',
                 'update_constraint_map', 'constraint_preview_error'):
             setattr(w, method, MethodType(ui.window_method(method), w))
@@ -235,6 +236,24 @@ class ConstraintProposal(unittest.TestCase):
         w.update_constraint_map.assert_called_once_with(w.constraint_offer)
         self.assertTrue(w.constraint_edited)
         self.assertIn('Preview your edits', w.constraint_summary.GetValue())
+
+    def test_opening_the_proposal_editor_focuses_the_first_editable_field(self):
+        w = self.window()
+        w.constraint_editor.IsShown.return_value = False
+        w.toggle_constraint_editor(None)
+        w.constraint_editor.Show.assert_not_called()
+        self.preview_in_window(w)
+        w.toggle_constraint_editor(None)
+        w.constraint_editor.Show.assert_called_once_with(True)
+        w.constraint_fields[0].SetFocus.assert_called_once_with()
+        w.constraint_edit.SetLabel.assert_called_once_with('Hide editable settings')
+        w.constraint_editor.IsShown.return_value = True
+        w.toggle_constraint_editor(None)
+        w.constraint_editor.Show.assert_called_with(False)
+        w.constraint_edit.SetLabel.assert_called_with('Edit suggestion')
+        w.discard_constraints(None)
+        self.assertIsNone(w.constraint_offer)
+        w.constraint_editor.Hide.assert_called_once_with()
 
     def test_window_reviews_in_context_edits_and_uses_only_ordinary_settings(self):
         w = self.window()
