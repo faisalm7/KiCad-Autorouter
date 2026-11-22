@@ -12,6 +12,11 @@ The master specification, current strategy and owner steering govern. Historical
 
 ## Current installed scope
 
+- Choosing a closed saved project opens the board and checks its saved context.
+  The installed opening test verified the picker, current-board retention on
+  Cancel, typed Return, refusal and recovery with an owned lock fixture, and a
+  prefilled path on first show. Original files were exact at every check.
+  [Installed opening](evidence/product-saved-project-opening-001.json)
 - Finish gaps uses saved-project KiCad 10.0.7 refill and full-schematic checks
   to verify the active nets, then preserves all existing tracks and vias.
   The scoped two-layer engine input retains other nets, original obstacles

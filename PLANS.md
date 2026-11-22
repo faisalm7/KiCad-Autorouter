@@ -9,15 +9,17 @@ valuable unblocked item. Replenish this queue from the outstanding product
 requirements. These rules supersede earlier batch-completion stopping clauses.
 The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENTS.md).
 
-1. Open a selected saved project into its board workspace. Qualify the
-   automatic inspection on a closed project, keyboard entry, cancellation or
-   refusal, and recovery from the saved-project lock without altering KiCad.
-2. Make the transition from ordinary placement and conversation to routing
+1. **Verified.** A selected saved project opens its board automatically.
+   Installed picker, typed Return, cancellation, test-lock recovery and the
+   prefilled entry point passed. [Opening evidence](evidence/product-saved-project-opening-001.json)
+2. **In progress.** Check actual straight protected tracks against moved
+   courtyards in the two-part destination workflow. Preserve the original
+   555 refusal. Test collision, tangency, stale facts and exact readback on
+   owned inputs. Attempt one licensed follow-up under its original region,
+   copper permissions and stage budgets after those controls pass.
+3. Make the transition from ordinary placement and conversation to routing
    easier to follow. Carry visible, current context and scope into preview and
    show the next action without changing the approval or recovery guards.
-3. Use one consequential placement support gap from retained licensed-board
-   evidence. Qualify the smallest coherent extension with its native
-   preservation controls and a predeclared useful task.
 4. Continue the supported open-editor path and first-use setup in priority
    order. Test each actual changed interaction. Retain separate-project
    delivery and scope any live operation to the tested KiCad capability.
