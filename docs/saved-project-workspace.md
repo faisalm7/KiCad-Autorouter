@@ -2,6 +2,11 @@
 
 Open **Copperpath.app** from the launcher and choose a saved `.kicad_pro`. Older launchers offer **Open Saved Project.command**. Copperpath checks the saved files and displays the board when inspection succeeds. An already-checked PCB and schematic field difference that blocks delivery appears in **Findings** beside the board. You can also enter the project path and press **Return**. Keep the PCB, schematic and rules together. If KiCad has the project open, save and close both editors, choose **File → Close Project** in KiCad manager, then choose **Refresh inspection** in Copperpath. Start protected routing with **Route saved board**.
 
+On builds that show a saved snapshot beside the lock finding, the snapshot
+reflects the saved PCB captured by inspection. It omits unsaved editor
+changes. Close the project, then refresh inspection or choose the saved
+project again. Working controls always check the closed saved files afresh.
+
 - Click parts on the board or check them in Settings. Draw the allowed area on the board. Other components stay fixed. Choose how to handle affected copper before finding alternatives.
 - With the optional KiCad IPC client, the PCB toolbar can carry the parts selected when Copperpath opens. Save and close the same project, refresh its inspection, then choose **Use KiCad selection**. The saved board supplies geometry and locks. If a part has disappeared or is fixed under the chosen copper policy, select eligible parts in Copperpath. Review the parts and choose an area before requesting alternatives.
 - **Preview placement** reads explicit local lines such as `Select J1` or `Select J1, J2`, `Area 8, 8 to 30, 12 mm` and `Routing time 75 s`. Preview shows the selection and area on the board. **Edit suggestion** opens the fields and focuses the first one. After editing, choose **Preview edits** below the fields, then **Use settings**. On macOS the Conversation menu shows keyboard shortcuts for these actions. Choose **Find alternatives** to start placement. A rigid group still needs at least two eligible parts.

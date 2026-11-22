@@ -200,8 +200,8 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     and passed fresh export and independent readback. The first refusal
     remains. Named-class cutouts are still unqualified.
     [Checked delivery](evidence/product-round-cutout-checked-delivery-002.json)
-42. **Installed check pending.** Open the licensed receiver on the board tab
-    with the exact U2 placement refusal visible. Verify all four cutouts,
+42. **Installed check pending.** Open the licensed receiver with its board
+    and the exact U2 placement refusal visible together. Verify all four cutouts,
     full Findings, unchanged source and no engineering dispatch. The first
     build refused before drawing. Memory admission held the next install.
     Routing remains subject to its independent preview and Native checks.
@@ -214,6 +214,12 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     actual open connections and whether all existing copper can be retained.
     Continue only if the resulting task is within the Native delivery policy.
     Keep any refusal or connected-source result and reuse the saved capture.
+45. **Source check passed.** Show a last-saved snapshot when the project has
+    a KiCad lock. Verify the snapshot and Findings together, with engineering
+    and conversation proposals unavailable. Test that closing the project
+    alone cannot revive or authorize a task. Refresh or reselect the saved
+    files. Discarding the snapshot can only reach the ordinary closed-source
+    checks. Qualify alongside items 42 and 43.
 
 ## Verified Finish gaps batch from 2dabd0799
 

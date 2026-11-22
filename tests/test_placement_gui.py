@@ -195,14 +195,45 @@ class PlacementGuiTests(unittest.TestCase):
             adopt(captured)
             self.assertIs(window.saved_route_context, read_only)
             self.assertIsNone(window.inspection)
-            window.pages.SetSelection.assert_called_with(0)
-            self.assertIn(reason, window.message.call_args.args[0])
+            window.pages.SetSelection.assert_called_with(1)
+            self.assertIn('Read-only saved board', window.message.call_args.args[0])
             self.assertIn(reason, window.findings.SetValue.call_args.args[0])
             job.run.assert_not_called()
             with patch.object(pg.intent, 'inspect_saved', side_effect=ValueError('Saved project changed.')):
                 with self.assertRaisesRegex(ValueError, 'Saved project changed'):
                     inspect(job, threading.Event())
             job.run.assert_not_called()
+
+    def test_locked_project_shows_only_a_saved_snapshot_until_closed_and_refreshed(self):
+        from experiments.placement_native_proposal_v1 import ordinary_fixture
+
+        with tempfile.TemporaryDirectory() as temp:
+            board = ordinary_fixture.write_project(Path(temp).resolve() / 'source')
+            lock = board.with_name('~' + board.with_suffix('.kicad_pro').name + '.lck')
+            lock.write_bytes(b'owned test lock')
+            original = gui.source_inventory(board)
+            window = self.window(); window.board = Mock(); window.start = Mock()
+            window.board.GetValue.return_value = str(board)
+            window_method('inspect_project')(window, None)
+            inspect, adopt = window.start.call_args.args[1:]
+            job = Mock()
+            with patch.object(pg.intent, 'inspect_saved') as placement, \
+                    patch.object(pg.schematic_context, 'observe') as schematic:
+                captured = inspect(job, threading.Event())
+                placement.assert_not_called(); schematic.assert_not_called(); job.run.assert_not_called()
+            adopt(captured)
+            self.assertIsNone(window.inspection)
+            self.assertTrue(window.saved_route_context['open_in_kicad'])
+            self.assertIn('>J1</text>', window.saved_route_context['scene']['svg'])
+            self.assertIn('Unsaved changes', window.findings.SetValue.call_args.args[0])
+            self.assertEqual(gui.source_inventory(board), original)
+            lock.unlink()  # This fixture created the lock deliberately.
+            with self.assertRaisesRegex(ValueError, 'refresh inspection before routing'):
+                window_method('open_saved_routing')(window, None)
+            window_method('ask_conversation')(window, None)
+            self.assertIn('refresh inspection before making a proposal', window.message.call_args.args[0])
+            with self.assertRaisesRegex(ValueError, 'changed before display'):
+                adopt(captured)
 
     def test_lock_that_appears_during_geometry_capture_stops_native_dispatch(self):
         from experiments.placement_native_proposal_v1 import multipad_fixture

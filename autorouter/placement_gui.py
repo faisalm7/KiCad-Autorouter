@@ -197,6 +197,10 @@ def update_target_area(window):
         window.target_region.SetValue(enabled)
 
 
+class SavedProjectOpen(ValueError):
+    """The saved-project inventory contains a KiCad lock."""
+
+
 def require_closed_source(board, *, inspection=None):
     """Early UI hint using the same inventory/lock guard as qualification.
 
@@ -214,7 +218,7 @@ def require_closed_source(board, *, inspection=None):
     try:
         h.require_closed_review(hashes)
     except h.ReviewProjectOpen:
-        raise ValueError('Save and close the source PCB and schematic editors, then choose '
+        raise SavedProjectOpen('Save and close the source PCB and schematic editors, then choose '
             'File > Close Project in KiCad manager. A project lock is still present. '
             'Then click Refresh inspection. Closing the project may update saved files.') from None
     if inspection is not None and (str(source) != inspection['source'] or hashes != inspection['source_hashes']):
@@ -1100,7 +1104,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 context = getattr(self, 'saved_route_context', None)
                 self.set_board_scene(context['scene'] if context is not None else None)
                 if context is not None:
-                    self.board_legend = 'Saved front copper · Read-only view'
+                    self.board_legend = ('Saved snapshot · Read-only view' if context.get('open_in_kicad')
+                                         else 'Saved front copper · Read-only view')
                     self.constraint_key.SetLabel(self.board_legend)
                     self.region_summary.SetLabel('Placement unavailable for this project.')
                 else:
@@ -1271,11 +1276,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
+            open_snapshot = (getattr(self, 'saved_route_context', None) or {}).get('open_in_kicad', False)
             if hasattr(self, 'example'):
                 source_entered = bool(self.board.GetValue().strip())
                 self.example.Show(not source_entered and self.example_project.is_file())
                 self.inspect.Show(source_entered)
-                self.route_saved.Show(source_entered)
+                self.route_saved.Show(source_entered and not open_snapshot)
                 self.pages.Show(source_entered)
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
             scope = self.inspection['observation']['scope'] if self.inspection is not None else None
@@ -1308,7 +1314,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.cancel.Enable(self.busy)
             if hasattr(self, 'conversation_kind'):
                 routing = self.conversation_kind.GetSelection() == 1
-                self.assistant_ask.Enable(not self.busy and (bool(self.board.GetValue()) if routing else self.inspection is not None))
+                self.assistant_ask.Enable(not self.busy and not open_snapshot
+                    and (bool(self.board.GetValue()) if routing else self.inspection is not None))
                 self.conversation_reset.Enable(not self.busy)
                 self.conversation_kind.Enable(not self.busy)
                 self.assistant_result.Show(self.conversation.has_display_history)
@@ -1680,6 +1687,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def ask_conversation(self, _):
             if self.busy or self.gate.closed or self.routing is not None:
+                return
+            if (getattr(self, 'saved_route_context', None) or {}).get('open_in_kicad'):
+                self.message('Close the project in KiCad and refresh inspection before making a proposal.')
                 return
             from . import design_intent as design, hosted_intent as hosted
 
@@ -2070,7 +2080,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 # The off-thread capture has no authority; bind it again at use.
                 value, context, refusal, rebuild_notice, native, read_only = result
                 findings = value if read_only is None else read_only['static']
-                source = require_closed_source(self.board.GetValue(), inspection=findings)
+                open_snapshot = read_only is not None and read_only.get('open_in_kicad', False)
+                if open_snapshot:
+                    source = gui.saved_project_board(self.board.GetValue())
+                    if str(source) != findings['source'] or gui.source_inventory(source) != findings['source_hashes']:
+                        raise ValueError('The last saved board changed before display. Click Refresh inspection.')
+                else:
+                    source = require_closed_source(self.board.GetValue(), inspection=findings)
                 self.board.ChangeValue(str(source))
                 if self.conversation.has_display_history:
                     prior = self.conversation.summary_for(source, findings['source_hashes'])
@@ -2083,16 +2099,21 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if read_only is not None:
                     self.saved_route_context = read_only
                     self.overview()
-                    details = ['Placement is unavailable for this saved project.', read_only['reason'],
-                               'Choose Route saved board and preview your intended routing scope.']
-                    tie = findings.get('fixed_net_tie')
-                    if tie is not None:
-                        details.append(f"Keep fixed tie {tie['reference']} and its bridge. Choose Selected nets and leave "
-                                       + ', '.join(tie['nets']) + ' unselected.')
+                    if open_snapshot:
+                        details = ['Last saved board. Unsaved changes in KiCad are unavailable here.', read_only['reason']]
+                        status = 'Showing the last saved board. Close the project in KiCad, then refresh inspection.'
+                    else:
+                        details = ['Placement is unavailable for this saved project.', read_only['reason'],
+                                   'Choose Route saved board and preview your intended routing scope.']
+                        tie = findings.get('fixed_net_tie')
+                        if tie is not None:
+                            details.append(f"Keep fixed tie {tie['reference']} and its bridge. Choose Selected nets and leave "
+                                           + ', '.join(tie['nets']) + ' unselected.')
+                        status = 'Read-only saved board. See Findings before previewing routing.'
                     self.findings.SetValue('\n\n'.join(details))
-                    self.pages.SetSelection(0)
+                    self.pages.SetSelection(1)
                     self.update_schematic_view()
-                    self.message(read_only['reason'] + ' See Findings before previewing routing.')
+                    self.message(status)
                     return
                 if intent.contract.source_baseline_scope(value['observation']['scope']):
                     self.rigid_group.SetValue(False)
@@ -2115,8 +2136,34 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         self.message('Three-pad placement ready. Select one eligible part. All existing copper stays in place.')
                     else:
                         self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
+            def read_only_capture(source, reason, *, open_in_kicad=False):
+                from . import design_intent, review_view
+                static = design_intent.inspect_project(source)
+                scene = review_view.saved_board_front(static)
+                if scene is None:
+                    return None
+                if open_in_kicad:
+                    # Avoid mixing context from files an editor may be saving.
+                    schematic = (None, 'Close the project in KiCad and refresh to inspect the saved schematic.')
+                else:
+                    require_closed_source(source, inspection=static)
+                    schematic = schematic_context.observe(source, static['source_hashes'])
+                reason = gui.short_failure_reason(reason) or 'The saved board exceeds the current placement scope.'
+                context = dict(static=static, scene=scene, reason=reason, open_in_kicad=open_in_kicad)
+                return (None, *schematic, '', None, context)
+
             def inspect(job, event):
-                source = str(require_closed_source(gui.saved_project_board(source_hint)))
+                source = str(gui.saved_project_board(source_hint))
+                try:
+                    require_closed_source(source)
+                except SavedProjectOpen as lock:
+                    try:
+                        captured = read_only_capture(source, str(lock), open_in_kicad=True)
+                    except (OSError, ValueError, Rejected):
+                        raise lock from None
+                    if captured is None:
+                        raise
+                    return captured
                 try:
                     value = intent.inspect_saved(source)
                 except (ValueError, Rejected) as exc:
@@ -2126,15 +2173,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     elif (not isinstance(exc, intent.contract.UnsupportedPlacement)
                           and not reason.startswith('Unsupported placement geometry or setting in ')):
                         raise
-                    from . import design_intent, review_view
-                    static = design_intent.inspect_project(source)
-                    scene = review_view.saved_board_front(static)
-                    if scene is None:
+                    captured = read_only_capture(source, reason)
+                    if captured is None:
                         raise
-                    require_closed_source(source, inspection=static)
-                    reason = gui.short_failure_reason(reason) or 'The saved board exceeds the current placement scope.'
-                    read_only = dict(static=static, scene=scene, reason=reason)
-                    return (None, *schematic_context.observe(source, static['source_hashes']), '', None, read_only)
+                    return captured
                 scope = value['observation']['scope']
                 if three_pad or intent.contract.fixed_context_scope(scope) or c.NATIVE_VERSION == '10.0.7' and scope == intent.contract.ORDINARY_SCOPE:
                     require_closed_source(source, inspection=value)
@@ -2561,6 +2603,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             """Adopt checked protected settings into the ordinary routing workflow."""
             if self.busy or self.routing is not None:
                 raise ValueError('Finish the current task before adopting routing settings.')
+            if (getattr(self, 'saved_route_context', None) or {}).get('open_in_kicad'):
+                raise ValueError('Close the project in KiCad and refresh inspection before routing.')
             source = require_closed_source(str(gui.saved_project_board(self.board.GetValue())))
             if values is None and getattr(self, 'constraint_offer', None) is not None:
                 raise ValueError('Use or discard proposed settings first.')

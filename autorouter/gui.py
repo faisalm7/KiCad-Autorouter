@@ -2435,7 +2435,7 @@ def main(argv=None, *, source_guard=None):
         except (ValueError, OSError, Rejected):
             args.toolbar_unavailable = True
         else:
-            note = 'Selected from KiCad. Save and close the project before inspecting.'
+            note = 'Selected from KiCad. Save and close the project before placing or routing.'
             try:
                 selection = toolbar_footprint_ids(args.toolbar_selection or '')
             except ValueError:
