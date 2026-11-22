@@ -83,9 +83,9 @@ def local_constraint_request(text):
 
 def constraint_references(text):
     refs = [ref.strip() for ref in re.split(r',|\s+and\s+', text, flags=re.IGNORECASE)]
-    if (not 2 <= len(refs) <= 16 or len(set(refs)) != len(refs)
+    if (not 1 <= len(refs) <= 16 or len(set(refs)) != len(refs)
             or any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_+.-]{0,63}', ref) for ref in refs)):
-        raise ValueError('Enter two to sixteen distinct component references, separated by commas.')
+        raise ValueError('Enter one to sixteen distinct component references, separated by commas.')
     return refs
 
 
@@ -1515,7 +1515,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def use_constraints(self, _):
             if self.busy or self.gate.closed or self.constraint_offer is None or self.constraint_edited:
                 return
-            from_conversation = getattr(self, 'conversation_offer', False)
             try:
                 if self.constraint_offer['kind'] == conversation.ROUTING_KIND:
                     terms = self.constraint_draft_terms()
@@ -1554,9 +1553,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             finally:
                 self.updating = False
             self.revoke(discard=True)
-            if not from_conversation:
-                self.pages.SetSelection(0)
-            elif self.pages.GetSelection() in (2, 3):
+            if self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
             self.message('Settings applied. Review the board, then choose Find alternatives.')
 

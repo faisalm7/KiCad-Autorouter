@@ -434,7 +434,7 @@ def validate_pending_placement_route_proposal(inspection, context, initial, prop
 def placement_constraints_contract_v2():
     """Propose edits to a draft. Null leaves that visible field alone."""
     properties = {
-        'selected_refs': {'type': ['array', 'null'], 'minItems': 2, 'maxItems': 16,
+        'selected_refs': {'type': ['array', 'null'], 'minItems': 1, 'maxItems': 16,
                           'items': {'type': 'string'},
                           'description': ('Only these components may move in this task. '
                                           'All other components keep their current poses.')},
@@ -584,11 +584,11 @@ class PlacementConstraintReview:
             raise IntentError('Only placement selection, region and routing time may be proposed.')
         before = self.model_context()['current']
         refs = before['selected_refs'] if arguments['selected_refs'] is None else arguments['selected_refs']
-        min_parts = 0 if arguments['selected_refs'] is None else 2
+        min_parts = 0 if arguments['selected_refs'] is None else 1
         if (type(refs) is not list or not min_parts <= len(refs) <= 16
                 or any(type(ref) is not str or ref not in self._by_reference for ref in refs)
                 or len(set(refs)) != len(refs)):
-            raise IntentError('Clarification required. Choose two to sixteen distinct, observed references.')
+            raise IntentError('Clarification required. Choose one to sixteen distinct, observed references.')
         named = set(refs)
         selected = [row['uuid'] for row in self._inspection['components'] if row['reference'] in named]
         if set(selected) & set(self._controls['fixed']):
@@ -608,7 +608,7 @@ class PlacementConstraintReview:
         settings = copper = None
         policy = dict(self._controls['policy'])
         original_region_policy = policy.get('region_initialization')
-        if len(selected) >= 2 and region is not None:
+        if selected and region is not None:
             explicit_area = arguments['region_nm'] is not None or (
                 arguments['selected_refs'] is not None
                 and region != self._inspection['observation']['outline']['bounds_nm'])
@@ -618,7 +618,7 @@ class PlacementConstraintReview:
                 policy['region_initialization'] = placement.prototype.EXACT_TRACK_REGION_POLICY
         if before == after and original_region_policy == policy.get('region_initialization'):
             raise IntentError('The proposal would leave every visible setting unchanged.')
-        if len(selected) >= 2 and region is not None:
+        if selected and region is not None:
             settings = placement.settings(selected, region, **policy)
             placement.facts(self._inspection, settings)
             copper = placement.copper_plan(self._inspection, settings)

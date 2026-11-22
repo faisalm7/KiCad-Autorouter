@@ -103,6 +103,24 @@ class ConstraintProposal(unittest.TestCase):
         self.assertEqual(revised['route_seconds'], 75)
         self.assertEqual(inspection['source_hashes'], gui.source_inventory(board))
 
+    def test_single_component_proposal_uses_the_ordinary_copper_and_group_checks(self):
+        single = self.args | dict(selected_refs=['J1'])
+        before = gui.source_inventory(self.board)
+        review = self.review()
+        offer = self.receive(review, single)
+        self.assertEqual(offer['placement_settings']['selected'], [self.ids['J1']])
+        self.assertEqual(offer['copper_plan']['protected_names'], ['KEEP'])
+        self.assertFalse(offer['execution_authorized'])
+        self.assertEqual(self.adopt(review, offer)['selected'], [self.ids['J1']])
+
+        self.controls['fixed'] = []
+        with self.assertRaises(ValueError):
+            self.receive(self.review(), self.args | dict(selected_refs=['J3']))
+        self.controls['policy']['group_policy'] = placement.GROUP_POLICY
+        with self.assertRaisesRegex(ValueError, 'A rigid group requires two or more'):
+            self.receive(self.review(), single)
+        self.assertEqual(gui.source_inventory(self.board), before)
+
     def test_malformed_unknown_duplicate_fixed_and_boundary_edits_refuse(self):
         for edit in (dict(selected_refs=['J1', 'connector']), dict(selected_refs=['J1', 'J1']),
                      dict(selected_refs=['J1', 'J3']), dict(region_nm=[0, 0, 1, 1]),
@@ -163,6 +181,7 @@ class ConstraintProposal(unittest.TestCase):
         v2 = design.placement_constraints_contract_v2()['tools'][0]['function']
         self.assertEqual(v2['name'], self.tool)
         self.assertEqual(set(v2['parameters']['required']), set(self.args))
+        self.assertEqual(v2['parameters']['properties']['selected_refs']['minItems'], 1)
 
     def test_budget_only_is_reviewable_before_parts_or_area_are_set(self):
         review = self.review()
@@ -217,6 +236,8 @@ class ConstraintProposal(unittest.TestCase):
 
     def test_window_reviews_in_context_edits_and_uses_only_ordinary_settings(self):
         w = self.window()
+        w.pages.GetSelection.return_value = 2
+        w.update_schematic_view = Mock()
         before = w.constraint_inputs()
         self.preview_in_window(w)
         self.assertEqual(w.constraint_inputs(), before)
@@ -240,6 +261,8 @@ class ConstraintProposal(unittest.TestCase):
         self.assertIsNone(w.constraint_offer)
         self.assertFalse(w.gate.acknowledged)
         w.find_alternatives.assert_not_called()
+        w.pages.SetSelection.assert_not_called()
+        w.update_schematic_view.assert_called_once_with()
 
     def test_window_discard_and_late_state_changes_do_not_adopt(self):
         w = self.window()
@@ -264,6 +287,8 @@ class ConstraintProposal(unittest.TestCase):
         self.assertEqual(pg.local_constraint_request(pg.LOCAL_REQUEST_EXAMPLE),
             dict(selected_refs=['J1', 'J2'], region_nm=[14_000_000,8_000_000,22_000_000,13_000_000],
                  route_seconds=75))
+        self.assertEqual(pg.local_constraint_request('Select J1'),
+            dict(selected_refs=['J1'], region_nm=None, route_seconds=None))
         for text in ('Select J1, J2 and unlock copper', 'Select J1, J1',
                      'Routing time 60 s\nRouting time 80 s', 'Area 1, 2 to 3, 4 cm'):
             with self.subTest(text=text), self.assertRaises(ValueError):
