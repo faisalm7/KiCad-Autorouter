@@ -13,7 +13,7 @@ from decimal import Context, Decimal, localcontext
 import threading
 import time
 
-from .constraints import (Refused, digest, encoded, immovable, original_alternative,
+from .constraints import (Refused, TRACK_CLEARANCE_POLICY, digest, encoded, immovable, original_alternative,
                           prepare, validate_alternative, _alternative_validator)
 from .vendor.anneal import Annealer
 from .vendor.model import Board, Component, Pad
@@ -23,6 +23,8 @@ MAX_STEPS = 1000
 MAX_ALTERNATIVES = 3
 MAX_SECONDS = 5.0
 REGION_INITIALIZATION_POLICY = 'selected-target-region-initialization-v1'
+EXACT_TRACK_REGION_POLICY = 'selected-target-region-exact-tracks-v2'
+REGION_INITIALIZATION_POLICIES = (REGION_INITIALIZATION_POLICY, EXACT_TRACK_REGION_POLICY)
 MAX_REGION_SEED_CANDIDATES = 256
 
 
@@ -46,8 +48,10 @@ def source_context(source, *, region_initialization=None):
     original = original_alternative(facts)
     if region_initialization is None:
         return validate_alternative(facts, original)
-    if type(region_initialization) is not str or region_initialization != REGION_INITIALIZATION_POLICY:
+    if type(region_initialization) is not str or region_initialization not in REGION_INITIALIZATION_POLICIES:
         raise Refused('Unsupported region initialization policy')
+    if (region_initialization == EXACT_TRACK_REGION_POLICY) != (facts.get('track_clearance_policy') == TRACK_CLEARANCE_POLICY):
+        raise Refused('Target-region policy differs from the captured protected track geometry')
     if len(facts['selected']) > 2 or facts['groups']:
         raise Refused('Region initialization requires at most two independent selected components')
     if set(facts['selected']) & immovable(facts):
@@ -250,7 +254,7 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
     if cancel_event is not None and type(cancel_event) is not threading.Event:
         raise Refused('A threading.Event cancellation token is required')
     if region_initialization is not None and (type(region_initialization) is not str
-            or region_initialization != REGION_INITIALIZATION_POLICY):
+            or region_initialization not in REGION_INITIALIZATION_POLICIES):
         raise Refused('Unsupported region initialization policy')
 
     def check():

@@ -31,3 +31,19 @@ The single corrective attempt used the same source, first alternative and
 budgets. It completed both routes and produced a current independently
 checked export with the via and both protected tracks exact. The first
 refusal remains part of the evidence. [Installed result](../evidence/product-workspace-through-via-001.json)
+
+## Straight protected tracks in a two-part destination
+
+The new destination policy measures clearance to the saved straight track
+itself. It uses the complete stroked courtyard, source endpoints and width,
+and the same 0.30 mm placement clearance. The earlier rectangle still serves
+as a quick check before the exact distance check. Protected vias keep their
+existing conservative clearance bound. Copper permissions, fixed geometry,
+actual KiCad checks and final readback still apply. A loaded earlier preset
+retains its original geometry policy. [KiCad track geometry](https://docs.kicad.org/doxygen/pcb__track_8cpp_source.html)
+
+The prospective licensed follow-up uses the exact saved MIT 555 project and
+the same R1/R2 task, destination, 24 protected routes, 28-track rebuild plan
+and stage budgets. A source-level check found a valid starting pose under the
+new geometry model. Native placement and delivery are separate checks.
+The earlier refusal stays in the record. [Frozen original trial](555-constrained-placement-gui129.md)

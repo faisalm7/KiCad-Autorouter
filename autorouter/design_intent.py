@@ -615,7 +615,7 @@ class PlacementConstraintReview:
             if (explicit_area and original_region_policy is None
                     and placement.target_area_needs_initialization(self._inspection, selected, region,
                                                                     grouped='group_policy' in policy)):
-                policy['region_initialization'] = placement.prototype.REGION_INITIALIZATION_POLICY
+                policy['region_initialization'] = placement.prototype.EXACT_TRACK_REGION_POLICY
         if before == after and original_region_policy == policy.get('region_initialization'):
             raise IntentError('The proposal would leave every visible setting unchanged.')
         if len(selected) >= 2 and region is not None:

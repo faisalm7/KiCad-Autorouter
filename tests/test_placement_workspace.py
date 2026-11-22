@@ -129,7 +129,7 @@ class HandlerTests(TestCase):
         Window.area_on_board(w, area)
         value = Window.options(w, validate_geometry=False)
         self.assertTrue(w.target_region.GetValue())
-        self.assertEqual(value['region_initialization'], gui.intent.prototype.REGION_INITIALIZATION_POLICY)
+        self.assertEqual(value['region_initialization'], gui.intent.prototype.EXACT_TRACK_REGION_POLICY)
         self.assertEqual(value['region_nm'], area)
         self.assertTrue(value['preserve_existing'])
         Window.area_on_board(w, source.region)

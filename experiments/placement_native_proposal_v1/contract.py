@@ -72,7 +72,7 @@ def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_
     if region_initialization is not None:
         from experiments.constrained_placement_v1 import prototype
         need(type(region_initialization) is str
-             and region_initialization == prototype.REGION_INITIALIZATION_POLICY,
+             and region_initialization in prototype.REGION_INITIALIZATION_POLICIES,
              'Explicit supported selected-target region initialization required')
         need(scope == THT_BASELINE_SCOPE and len(selected) <= 2,
              'Region initialization requires source-baseline scope and at most two selected footprints')
@@ -239,7 +239,10 @@ def check_ordinary_zone(expected, observed):
 
 
 def facts_from_observation(observation, *, selected=None, region_nm=None, scope=DEFAULT_SCOPE, region_initialization=None):
+    from experiments.constrained_placement_v1 import prototype
+
     options = scope_options(scope=scope,selected=selected,region_nm=region_nm,region_initialization=region_initialization)
+    exact_tracks = region_initialization == prototype.EXACT_TRACK_REGION_POLICY
     selected, region_nm = options['selected'], options['region_nm']
     need((observation.get('scope',DEFAULT_SCOPE)) == scope, 'Observation placement scope differs')
     need(set(selected) <= {r['uuid'] for r in observation['footprints']}, 'Selected stable UUID absent')
@@ -294,8 +297,12 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
                 # Check actual proposed courtyard envelopes, not every point in
                 # the user's search region. The boxes include the full annulus
                 # (both copper layers) or track width. Native checks still run.
-                obstacles.append(dict(id=route['uuid'], kind=constraints.PRESERVED_COPPER,
-                    bounds_mm=[n/1e6 for n in copper_box], sides=['front']))
+                obstacle = dict(id=route['uuid'], kind=constraints.PRESERVED_COPPER,
+                                bounds_mm=[n/1e6 for n in copper_box], sides=['front'])
+                if exact_tracks and route['kind'] == 'segment':
+                    obstacle.update(kind=constraints.PRESERVED_TRACK, start_nm=list(start), end_nm=list(end),
+                                    width_nm=route['width_nm'])
+                obstacles.append(obstacle)
             else:
                 box = [n - ROUTE_GAP_NM for n in copper_box[:2]] + [n + ROUTE_GAP_NM for n in copper_box[2:]]
                 need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
@@ -315,11 +322,12 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
                    for i in range(2)] for row in observation['footprints'] if row['uuid'] in selected}
         facts.update(schema=3, selected_copper_baseline_policy=constraints.SELECTED_COPPER_BASELINE_POLICY,
                      proxy_anchor_offsets_twice_nm=offsets)
+    if exact_tracks:
+        facts['track_clearance_policy'] = constraints.TRACK_CLEARANCE_POLICY
     facts = constraints.prepare(facts)
     if region_initialization is None:
         constraints.validate_alternative(facts, constraints.original_alternative(facts))
     else:
-        from experiments.constrained_placement_v1 import prototype
         prototype.source_context(facts, region_initialization=region_initialization)
     return facts
 

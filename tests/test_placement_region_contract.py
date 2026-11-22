@@ -102,6 +102,42 @@ class PlacementRegionContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'keepout'):
             c.validate_moves(self.observed, target, **options)
 
+    def test_exact_target_region_distinguishes_a_diagonal_track_from_its_box(self):
+        tree = copy.deepcopy(self.tree)
+        segment, = pipeline.routes(tree)
+        c.sx.one(segment, 'end')[1:] = ['22', '9']
+        source = raw(tree)
+        observed = c.inspect_board(source, scope=c.THT_BASELINE_SCOPE)
+        exact = dict(self.options, region_initialization=prototype.EXACT_TRACK_REGION_POLICY)
+        with self.assertRaisesRegex(ValueError, 'rectangular keepout'):
+            c.validate_moves(observed, self.target, **self.opted)
+        c.validate_moves(observed, self.target, **exact)
+        candidate = raw(c.translated_tree(source, self.target, **exact))
+        self.assertTrue(c.check_translation(source, candidate, self.target, **exact)['exact_immutable_AST'])
+
+        collision = dict(self.target)
+        collision[self.selected[0]] = [20_000_000, 10_000_000]
+        with self.assertRaisesRegex(ValueError, 'protected track clearance'):
+            c.validate_moves(observed, collision, **exact)
+        facts = c.facts_from_observation(observed, **exact)
+        with self.assertRaisesRegex(ValueError, 'policy differs'):
+            prototype.source_context(facts, region_initialization=prototype.REGION_INITIALIZATION_POLICY)
+        stale = constraints.original_alternative(c.facts_from_observation(observed, **self.opted))
+        with self.assertRaisesRegex(ValueError, 'source binding differs'):
+            constraints.validate_alternative(facts, stale)
+        with self.assertRaisesRegex(ValueError, 'complete track and via census'):
+            constraints.prepare(dict(facts, keepouts=[]))
+
+    def test_track_clearance_refuses_crossing_containment_and_tangency(self):
+        bounds = (4., 4., 6., 6.)
+        for start, end in (([3_000_000, 5_000_000], [7_000_000, 5_000_000]),
+                           ([4_500_000, 5_000_000], [5_000_000, 5_000_000]),
+                           ([3_000_000, 6_500_000], [7_000_000, 6_500_000])):
+            with self.subTest(start=start, end=end):
+                self.assertFalse(constraints._clears_track(bounds, dict(start_nm=start, end_nm=end, width_nm=400_000), .3))
+        clear = dict(start_nm=[3_000_000, 6_500_002], end_nm=[7_000_000, 6_500_002], width_nm=400_000)
+        self.assertTrue(constraints._clears_track(bounds, clear, .3))
+
     def test_copper_audits_bind_option_and_keep_protection_and_final_regions(self):
         plan = copper.propose(self.source, self.selected, scope=c.THT_BASELINE_SCOPE,
                               protected_route_ids=[row['uuid'] for row in self.observed['routes']])

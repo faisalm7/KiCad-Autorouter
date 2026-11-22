@@ -91,7 +91,7 @@ class ConstraintProposal(unittest.TestCase):
             review = design.PlacementConstraintReview(inspection, controls, request=binding['request'], revision=1)
             offer = review.receive(self.tool, target, controls, **binding)
             self.assertEqual(offer['placement_settings']['region_initialization'],
-                             placement.prototype.REGION_INITIALIZATION_POLICY)
+                             placement.prototype.EXACT_TRACK_REGION_POLICY)
             self.assertIn('Selected parts may start outside the area', pg.constraint_change_text(offer))
             self.assertNotIn('region_initialization', controls['policy'])
             self.assertEqual(offer['copper_plan']['protected_names'], ['KEEP'])

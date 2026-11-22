@@ -103,7 +103,10 @@ class PlacementGuiTests(unittest.TestCase):
         window.target_region.GetValue.return_value = True
         target = window_method('options')(window, validate_geometry=False)
         self.assertEqual(target['schema'], 5)
-        self.assertEqual(target['region_initialization'], intent.prototype.REGION_INITIALIZATION_POLICY)
+        self.assertEqual(target['region_initialization'], intent.prototype.EXACT_TRACK_REGION_POLICY)
+        window.target_start_policy = intent.prototype.REGION_INITIALIZATION_POLICY
+        self.assertEqual(window_method('options')(window, validate_geometry=False)['region_initialization'],
+                         intent.prototype.REGION_INITIALIZATION_POLICY)
         self.assertEqual(target['region_nm'], plain['region_nm'])
         self.assertEqual(target['selected'], plain['selected'])
         # Settings changes use the existing revoke/discard path; never a special

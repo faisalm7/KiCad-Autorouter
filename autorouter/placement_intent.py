@@ -101,7 +101,7 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
         if (scope != contract.THT_BASELINE_SCOPE or group_policy is not None
                 or len(options['selected']) != 2
                 or type(region_initialization) is not str
-                or region_initialization != prototype.REGION_INITIALIZATION_POLICY):
+                or region_initialization not in prototype.REGION_INITIALIZATION_POLICIES):
             raise ValueError('Place into a target region requires two independent selected parts in the Native source-baseline scope.')
         value.update(schema=5, kind=REGION_SETTINGS_KIND, region_initialization=region_initialization)
     return value

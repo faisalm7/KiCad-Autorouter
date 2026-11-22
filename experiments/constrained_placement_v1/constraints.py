@@ -14,6 +14,8 @@ from decimal import Context, Decimal, localcontext
 MIN_EXTENT_MM = 0.000001  # One nanometre; smaller proxy rectangles are unsupported.
 FIXED_CONTEXT_POLICY = 'unchanged-fixed-context-v1'
 PRESERVED_COPPER = 'preserved-copper-envelope'
+PRESERVED_TRACK = 'preserved-straight-track'
+TRACK_CLEARANCE_POLICY = 'exact-straight-protected-tracks-v1'
 SELECTED_COPPER_BASELINE_POLICY = 'exact-original-selected-copper-v1'
 PROXY_ANCHOR_OFFSETS = 'proxy_anchor_offsets_twice_nm'
 RIGID_TRANSLATION_POLICY = 'rigid-selected-translation-v1'
@@ -106,6 +108,22 @@ def separated(a, b, gap):
             or a[3] + gap <= b[1] or b[3] + gap <= a[1])
 
 
+def _clears_track(box, track, gap):
+    from autorouter.thermal_geometry import edges, farther_segments
+
+    # Work in doubled nm. Expand the floating-point courtyard bounds by one
+    # half-nanometre after outward rounding to cover the proxy arithmetic.
+    left, top = [math.floor(value * 2_000_000) - 1 for value in box[:2]]
+    right, bottom = [math.ceil(value * 2_000_000) + 1 for value in box[2:]]
+    start = tuple(value * 2 for value in track['start_nm'])
+    end = tuple(value * 2 for value in track['end_nm'])
+    if any(left <= x <= right and top <= y <= bottom for x, y in (start, end)):
+        return False
+    rectangle = ((left, top), (right, top), (right, bottom), (left, bottom))
+    radius = 2 * ((track['width_nm'] + 1) // 2) + math.ceil(gap * 2_000_000)
+    return all(farther_segments(start, end, a, b, radius) for a, b in edges(rectangle))
+
+
 def immovable(facts):
     # Deliberately conservative: every component on a tracked net is fixed,
     # including terminals beyond the track's explicitly supplied pad witnesses.
@@ -123,10 +141,12 @@ def prepare(value):
         raise Refused('facts: explicit object required')
     context = type(facts.get('schema')) is int and facts['schema'] in (2, 3)
     selected_baseline = type(facts.get('schema')) is int and facts['schema'] == 3
+    track_clearance = selected_baseline and 'track_clearance_policy' in facts
     annotations = context and 'annotation_context' in facts
     fields(facts, 'schema board components selected fixed_components groups tracks keepouts clearance_mm'
            + (' fixed_context_policy' if context else '')
            + (' selected_copper_baseline_policy ' + PROXY_ANCHOR_OFFSETS if selected_baseline else '')
+           + (' track_clearance_policy' if track_clearance else '')
            + (' annotation_context' if annotations else ''), 'facts')
     if type(facts['schema']) is not int or facts['schema'] not in (1, 2, 3):
         raise Refused('Unsupported fact schema')
@@ -135,6 +155,8 @@ def prepare(value):
     if selected_baseline and (type(facts['selected_copper_baseline_policy']) is not str
             or facts['selected_copper_baseline_policy'] != SELECTED_COPPER_BASELINE_POLICY):
         raise Refused('Unsupported selected copper baseline policy')
+    if track_clearance and facts['track_clearance_policy'] != TRACK_CLEARANCE_POLICY:
+        raise Refused('Unsupported protected track clearance policy')
     fields(facts['board'], 'kind bounds_mm cutouts', 'board')
     if facts['board']['kind'] != 'rectangle' or facts['board']['cutouts'] != []:
         raise Refused('Polygon outlines and cutouts are unsupported')
@@ -214,16 +236,33 @@ def prepare(value):
     distinct(track_ids, 'tracks')
     keepout_ids = []
     for keepout in sequence(facts['keepouts'], 96 if context else 32, 'keepouts'):
-        fields(keepout, 'id kind bounds_mm sides', 'keepout')
+        straight = track_clearance and type(keepout) is dict and keepout.get('kind') == PRESERVED_TRACK
+        fields(keepout, 'id kind bounds_mm sides' + (' start_nm end_nm width_nm' if straight else ''), 'keepout')
         keepout_ids.append(identifier(keepout['id'], 'keepout id'))
-        if keepout['kind'] != 'rectangle' and not (context and keepout['kind'] == PRESERVED_COPPER):
-            raise Refused('Only rectangular keepouts are supported')
+        if not straight and keepout['kind'] != 'rectangle' and not (context and keepout['kind'] == PRESERVED_COPPER):
+            raise Refused('Unsupported keepout geometry')
         rect(keepout['bounds_mm'], 'keepout rectangle')
         sides = sequence(keepout['sides'], 2, 'keepout sides', 1)
         if any(type(s) is not str or s not in ('front', 'back') for s in sides):
             raise Refused('Unknown keepout side')
         distinct(sides, 'keepout sides')
+        if straight:
+            start = sequence(keepout['start_nm'], 2, 'protected track start', 2)
+            end = sequence(keepout['end_nm'], 2, 'protected track end', 2)
+            width = keepout['width_nm']
+            if (any(type(value) is not int or abs(value) > 2_000_000_000 for value in (*start, *end))
+                    or start == end or type(width) is not int or not 1 <= width <= 2_000_000_000
+                    or keepout['id'] not in track_ids or sides != ['front']):
+                raise Refused('Exact saved straight-track geometry required')
+            radius = (width + 1) // 2
+            extent = [min(a, b) - radius for a, b in zip(start, end)] + [max(a, b) + radius for a, b in zip(start, end)]
+            if keepout['bounds_mm'] != [value / 1_000_000 for value in extent]:
+                raise Refused('Protected straight-track envelope differs from its endpoints and width')
     distinct(keepout_ids, 'keepouts')
+    if track_clearance:
+        protected = {row['id'] for row in facts['keepouts'] if row['kind'] in (PRESERVED_COPPER, PRESERVED_TRACK)}
+        if protected != set(track_ids):
+            raise Refused('Protected obstacle identities differ from the complete track and via census')
     if groups:
         group = groups[0]
         fields(group, 'policy members', 'rigid group')
@@ -340,15 +379,22 @@ def _validate_prepared_alternative(facts, source_sha256, components, fixed, alte
         if not baseline_board_region and not inside(box, c['allowed_region_mm']):
             raise Refused('Component outside allowed region: ' + cid, constraint='allowed_area')
         for k in facts['keepouts']:
-            inherited_copper = preserved_fixed and k['kind'] == PRESERVED_COPPER
-            if (facts['schema'] == 3 and cid in facts['selected'] and t == pose(c)
-                    and k['kind'] == PRESERVED_COPPER):
+            protected = k['kind'] in (PRESERVED_COPPER, PRESERVED_TRACK)
+            inherited_copper = preserved_fixed and protected
+            if facts['schema'] == 3 and cid in facts['selected'] and t == pose(c) and protected:
                 # Only this selected component's complete exact original pose
                 # may retain its inherited typed-copper intersection. Board,
                 # region, pair, real user keepouts and annotation checks remain.
                 inherited_copper = True
-            if not inherited_copper and t['side'] in k['sides'] and not separated(box, k['bounds_mm'], gap):
-                kind = 'protected_tracks' if k['kind'] == PRESERVED_COPPER else 'keepout'
+            if inherited_copper or t['side'] not in k['sides']:
+                continue
+            if k['kind'] == PRESERVED_TRACK:
+                # The two-nanometre margin covers outward rounding before the
+                # exact check. Most placements clear this broad-phase test.
+                if not separated(box, k['bounds_mm'], gap + 0.000002) and not _clears_track(box, k, gap):
+                    raise Refused('Component violates protected track clearance: ' + cid, constraint='protected_tracks')
+            elif not separated(box, k['bounds_mm'], gap):
+                kind = 'protected_tracks' if protected else 'keepout'
                 raise Refused('Component intersects rectangular keepout: ' + cid, constraint=kind)
         for other, side, other_box in rectangles:
             inherited_pair = preserved_fixed and other in fixed

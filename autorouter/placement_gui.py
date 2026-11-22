@@ -166,7 +166,7 @@ def placement_policy(window):
     if window.rigid_group.GetValue():
         policy['group_policy'] = intent.GROUP_POLICY
     if window.target_region.GetValue():
-        policy['region_initialization'] = intent.prototype.REGION_INITIALIZATION_POLICY
+        policy['region_initialization'] = getattr(window, 'target_start_policy', intent.prototype.EXACT_TRACK_REGION_POLICY)
     return policy
 
 
@@ -698,6 +698,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.qualified = None; self.validation_revoked = False
             self.updating = False; self.workspace = None; self.owner = {}
             self.automatic_target_area = False
+            self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
             self.pending_coordinates = {}
             self.alternative_labels = []; self.alternative_targets = []
             self.editing_component = None
@@ -1139,6 +1140,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             finally:
                 self.updating = False
             self.automatic_target_area = True
+            self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
             update_target_area(self)
             self.draw_area.SetValue(False); self.picture.draw_area = False
             self.revoke(discard=True)
@@ -1150,11 +1152,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
             baseline_scope = (self.inspection is not None
                 and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
+            selection_ready = self.inspection is not None and len(self.parts.GetCheckedItems()) >= 2
             self.rigid_group.Enable(not self.busy and not baseline_scope)
             self.target_region.Enable(not self.busy and baseline_scope)
             for control in (self.protected_names, self.protected_route_ids):
                 control.Enable(not self.busy and self.copper_policy.GetSelection() == 1)
-            self.find.Enable(not self.busy and not constraint_pending and self.inspection is not None)
+            self.find.Enable(not self.busy and not constraint_pending and selection_ready)
             self.original_group.Enable(not self.busy and self.inspection is not None
                 and not baseline_scope and self.rigid_group.GetValue())
             self.save.Enable(not self.busy and self.inspection is not None)
@@ -1200,13 +1203,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if hasattr(self, 'pose_pane'):
                 has_draft = self.gate.review is not None
                 reviewable = has_draft and self.qualified is None and not constraint_pending and not self.busy
+                needs_selection = self.inspection is not None and not (selection_ready or has_draft or constraint_pending or self.busy)
                 self.pose_pane.Show(has_draft and not constraint_pending)
-                self.approval_note.Show(reviewable)
+                self.approval_note.Show(reviewable or needs_selection)
                 if reviewable:
                     copper = self.gate.review.copper_plan
                     instruction = ('Approval includes the copper changes listed in Findings.' if copper is not None
                                    else 'Review the component moves.')
                     self.approval_note.SetLabel(instruction + '\nConfirm both editors and the saved project are closed in KiCad.')
+                elif needs_selection:
+                    self.approval_note.SetLabel('Select at least two movable parts to find alternatives. Route saved board keeps their positions.')
                 self.find.Show(self.inspection is not None and not has_draft and not constraint_pending and not self.busy)
                 self.qualify.Show(reviewable)
                 self.route.Show(self.qualified is not None and not constraint_pending and not self.busy)
@@ -1254,6 +1260,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
                     self.routing_source_scene = None
                 self.automatic_target_area = False
+                self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 self.target_region.SetValue(False)
                 self.schematic = None; self.schematic_refusal = ''
                 if hasattr(self, 'schematic_text'):
@@ -1462,7 +1469,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.route_budget.ChangeValue(str(values['route_seconds']))
                 if values['placement_settings'] is not None:
                     self.automatic_target_area = False
-                    self.target_region.SetValue(bool(intent.region_options(values['placement_settings'])))
+                    start = values['placement_settings'].get('region_initialization')
+                    self.target_start_policy = start or intent.prototype.EXACT_TRACK_REGION_POLICY
+                    self.target_region.SetValue(start is not None)
             finally:
                 self.updating = False
             self.revoke(discard=True)
@@ -1701,8 +1710,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 changed = event.GetEventObject()
                 if changed is self.target_region:
                     self.automatic_target_area = False
+                    self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 elif any(changed is field for field in getattr(self, 'region', ())):
                     self.automatic_target_area = True
+                    self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 if self.inspection:
                     for index, row in enumerate(self.inspection['components']):
                         if blocking_reasons(row, rebuild=self.rebuild_copper()) and self.parts.IsChecked(index):
@@ -1826,6 +1837,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
                     self.rigid_group.SetValue(False)
                 self.automatic_target_area = False
+                self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 self.target_region.SetValue(False)
                 rebuild = self.rebuild_copper()
                 self.parts.Set([component_label(row, rebuild=rebuild) for row in value['components']])
@@ -1877,7 +1889,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.copper_policy.SetSelection(1 if intent.rebuilds_copper(value) else 0)
                     self.rigid_group.SetValue(intent.grouped(value))
                     self.automatic_target_area = False
-                    self.target_region.SetValue(bool(intent.region_options(value)))
+                    start = value.get('region_initialization')
+                    self.target_start_policy = start or intent.prototype.EXACT_TRACK_REGION_POLICY
+                    self.target_region.SetValue(start is not None)
                     self.protected_names.ChangeValue('\n'.join(value.get('protected_names', [])))
                     self.protected_route_ids.ChangeValue('\n'.join(value.get('protected_route_ids', [])))
                     self.parts.Set([component_label(row, rebuild=intent.rebuilds_copper(value)) for row in self.inspection['components']])
