@@ -1508,13 +1508,19 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.buttons = {'inspect': inspect} if self.in_workspace else {}
             status_host = wx.Panel(self) if self.in_workspace else panel
             actions = wx.BoxSizer(wx.VERTICAL) if self.in_workspace else layout
+            self.workspace_transcript = None
+            if self.in_workspace:
+                self.review_settings = wx.ToggleButton(status_host, label='Show routing settings')
+                self.review_settings.SetToolTip('Changing routing settings requires a fresh preview.')
+                self.review_settings.Bind(wx.EVT_TOGGLEBUTTON, lambda _: self.refresh())
+                actions.Add(self.review_settings, 0, wx.ALL, 6)
             if self.in_workspace and conversation_history:
-                actions.Add(wx.StaticText(status_host, label='Earlier conversation'),
+                actions.Add(wx.StaticText(status_host, label='Conversation'),
                             0, wx.LEFT | wx.RIGHT | wx.TOP, 6)
-                transcript = wx.TextCtrl(status_host, value=conversation_history, size=(-1, 86),
-                                         name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
-                transcript.SetInsertionPoint(0)
-                actions.Add(transcript, 0, wx.EXPAND | wx.ALL, 6)
+                self.workspace_transcript = wx.TextCtrl(status_host, value=conversation_history, size=(-1, 86),
+                    name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
+                self.workspace_transcript.SetInsertionPoint(0)
+                actions.Add(self.workspace_transcript, 0, wx.EXPAND | wx.ALL, 6)
             self.inspected = wx.CheckBox(status_host, label=('I reviewed the findings and closed\nany KiCad review project.' if self.in_workspace
                 else 'I inspected all findings and CLOSED the review editors/project.\nMy choice is intent, not PCB certification.'))
             self.inspected.Bind(wx.EVT_CHECKBOX, lambda _: self.refresh())
@@ -1548,6 +1554,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             panel.SetSizer(layout)
             if self.in_workspace:
                 status_host.SetSizer(actions)
+                status_host.SetMinSize(self.FromDIP((352, -1)))
                 side = wx.BoxSizer(wx.VERTICAL)
                 panel.SetMinSize(self.FromDIP((352, 230)))
                 side.Add(panel, 1, wx.EXPAND)
@@ -2102,6 +2109,17 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.apply_proposal_button.Enable(not self.busy and not choosing and self.pending_proposal is not None)
             if getattr(self, 'in_workspace', False):
                 reviewable = allowed['accept'] and not self.busy
+                if hasattr(self, 'review_settings'):
+                    has_review = 'review' in ready
+                    if not has_review:
+                        self.review_settings.SetValue(False)
+                    expanded = self.review_settings.GetValue()
+                    self.review_settings.Show(has_review)
+                    self.review_settings.Enable(not self.busy)
+                    self.review_settings.SetLabel('Hide routing settings' if expanded else 'Show routing settings')
+                    self.panel.Show(not has_review or expanded)
+                    if self.workspace_transcript is not None:
+                        self.workspace_transcript.SetMinSize(self.FromDIP((-1, 148 if has_review and not expanded else 86)))
                 for name, button in self.buttons.items():
                     show = (self.busy if name == 'cancel' else allowed.get(name, False) and not self.busy)
                     if name == 'preview':

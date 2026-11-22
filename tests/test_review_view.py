@@ -22,7 +22,7 @@ class SvgControls(unittest.TestCase):
             (footprint "part" (at 7 8 90) (property "Reference" "J&1"))
             (segment (start 7 8) (end 8 9) (width 0.3) (layer "F.Cu")))''')
         context = view._workspace_context(board)
-        self.assertEqual(context, ((4, 5, 14, 17), [(7, 8, 'J&1')]))
+        self.assertEqual(context, view.BoardDrawing((4, 5, 14, 17), ((7, 8, 'J&1'),)))
         changes = {'protected': p.routes(board)}
         diagrams, note = view.routing_diagrams(changes, ['F.Cu', 'B.Cu'], workspace=True, board_context=context)
         svg = ElementTree.fromstring(diagrams['F.Cu']['svg'])
@@ -44,7 +44,7 @@ class SvgControls(unittest.TestCase):
             (gr_line (start 14 5) (end 4 5) (layer "Edge.Cuts"))
             (gr_line (start 14 17) (end 14 5) (layer "Edge.Cuts"))
             (gr_line (start 4 5) (end 4 17) (layer "Edge.Cuts")))''')
-        self.assertEqual(view._workspace_context(board), ((4, 5, 14, 17), []))
+        self.assertEqual(view._workspace_context(board), view.BoardDrawing((4, 5, 14, 17), ()))
         with self.assertRaisesRegex(ValueError, 'two canonical copper layers'):
             placement_transform.rectangle(board)
         missing_edge = board[:-1]
@@ -52,6 +52,30 @@ class SvgControls(unittest.TestCase):
         self.assertIsNone(view._workspace_context(missing_edge + [substitute]))
         cut = sexpr.parse('(footprint "cutout" (fp_line (layer "Edge.Cuts")))')
         self.assertIsNone(view._workspace_context(board + [cut]))
+
+    def test_curved_saved_outline_renders_the_chain_without_a_filled_area(self):
+        from autorouter import sexpr
+        from xml.etree import ElementTree
+
+        board = sexpr.parse('''(kicad_pcb
+            (gr_line (start 2 3) (end 10 3) (layer "Edge.Cuts"))
+            (gr_arc (start 10 3) (mid 13 4) (end 14 7) (layer "Edge.Cuts"))
+            (gr_line (start 14 7) (end 14 12) (layer "Edge.Cuts"))
+            (gr_line (start 14 12) (end 2 12) (layer "Edge.Cuts"))
+            (gr_line (start 2 12) (end 2 3) (layer "Edge.Cuts")))''')
+        context = view._workspace_context(board)
+        # The arc reaches beyond both endpoints. Keep those extrema in view.
+        expected_bounds = (2, 6.5 - 12.5 ** 0.5, 10.5 + 12.5 ** 0.5, 12)
+        for observed, expected in zip(context.bounds, expected_bounds):
+            self.assertAlmostEqual(observed, expected)
+        diagrams, _ = view.routing_diagrams({}, ['F.Cu'], workspace=True, board_context=context)
+        svg = ElementTree.fromstring(diagrams['F.Cu']['svg'])
+        paths = svg.findall('.//{*}path[@data-role="board-edge"]')
+        self.assertEqual(len(paths), 5)
+        self.assertEqual(sum(' A ' in item.get('d') for item in paths), 1)
+        self.assertIsNone(svg.find('.//{*}rect'))
+        self.assertIsNone(view._workspace_context(board[:-1]))
+        self.assertIsNone(view._workspace_context(board + [board[-1]]))
 
     def test_workspace_distinguishes_protected_copper_and_refuses_tampered_copy(self):
         protected = '(segment (start 1 1) (end 2 2) (width .2) (layer "F.Cu") (net 1))'

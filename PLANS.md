@@ -208,18 +208,25 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
 43. **Installed check pending.** Routing reports the phase reached using its
     existing logs. Verify the visible change from Freerouting to KiCad
     checks, then verify that an old route log cannot overwrite export,
-    cancellation or a review refusal. Reuse the same install for item 42.
-44. Use that workspace for one bounded routing admission on the unchanged
-    licensed receiver. Read the saved issues and determine whether there are
-    actual open connections and whether all existing copper can be retained.
-    Continue only if the resulting task is within the Native delivery policy.
-    Keep any refusal or connected-source result and reuse the saved capture.
+    cancellation or a review refusal. At laptop size verify that review
+    gives Conversation and findings room, with routing settings available
+    through the disclosure. Reuse the same install for item 42.
+44. **Saved-file preflight passed.** In that workspace, use one bounded
+    KiCad inspection on the unchanged receiver with the declared 90-second
+    Finish gaps settings and 437 preserved tracks and vias. Continue only
+    with verified open connections, admissible original requirements and a
+    clearly authorized engineering task. Retain a connected-source result
+    or refusal. Never create artificial gaps or infer electrical permission.
 45. **Source check passed.** Show a last-saved snapshot when the project has
     a KiCad lock. Verify the snapshot and Findings together, with engineering
     and conversation proposals unavailable. Test that closing the project
     alone cannot revive or authorize a task. Refresh or reselect the saved
     files. Discarding the snapshot can only reach the ordinary closed-source
     checks. Qualify alongside items 42 and 43.
+46. **Saved drawing verified.** The retained licensed MiniPic now draws all
+    six straight and five curved Edge.Cuts primitives. Placement still
+    refuses those curves. In the same installed check, confirm the board and
+    refusal are legible at laptop size without live editing or Native work.
 
 ## Verified Finish gaps batch from 2dabd0799
 

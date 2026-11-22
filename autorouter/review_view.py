@@ -1,5 +1,6 @@
 """Copper changes, findings and Native plots for disposable review projects."""
 from collections import Counter, defaultdict
+from dataclasses import dataclass
 from html import escape
 from pathlib import Path
 import hashlib
@@ -103,28 +104,17 @@ def _coordinates(row, key, size):
     return numbers
 
 
-def _route_shape(row, layers):
-    if row[0] == 'via':
-        x, y = _coordinates(row, 'at', 2)
-        size, = _coordinates(row, 'size', 1)
-        radius = size / 2
-        # Via spans follow the stack order, including inner layers.
-        first, last = (layers.index(sx.unquote(name)) for name in sx.one(row, 'layers', [])[1:])
-        span = layers[min(first, last):max(first, last) + 1]
-        return span, [(x - radius, y - radius), (x + radius, y + radius)], f'<circle cx="{x}" cy="{y}" r="{radius}"/>'
-    layer, = sx.one(row, 'layer', [])[1:]
-    layer = sx.unquote(layer)
+def _line_or_arc(row):
     start, end = (_coordinates(row, key, 2) for key in ('start', 'end'))
-    width, = _coordinates(row, 'width', 1)
     points = [start, end]
-    if row[0] == 'arc':
+    if row[0] in ('arc', 'gr_arc'):
         # Compute the circumcircle through the saved start, midpoint and end.
         mid = _coordinates(row, 'mid', 2)
         bx, by = mid[0] - start[0], mid[1] - start[1]
         cx, cy = end[0] - start[0], end[1] - start[1]
         cross = bx * cy - by * cx
         if abs(cross) < 1e-12:
-            raise ValueError('Degenerate routing arc')
+            raise ValueError('Degenerate drawing arc')
         b2, c2 = bx * bx + by * by, cx * cx + cy * cy
         offset_x, offset_y = (cy * b2 - by * c2) / (2 * cross), (bx * c2 - cx * b2) / (2 * cross)
         radius = math.hypot(offset_x, offset_y)
@@ -140,6 +130,22 @@ def _route_shape(row, layers):
         path = f'M {start[0]} {start[1]} A {radius} {radius} 0 {int(large)} {int(sweep)} {end[0]} {end[1]}'
     else:
         path = f'M {start[0]} {start[1]} L {end[0]} {end[1]}'
+    return points, path
+
+
+def _route_shape(row, layers):
+    if row[0] == 'via':
+        x, y = _coordinates(row, 'at', 2)
+        size, = _coordinates(row, 'size', 1)
+        radius = size / 2
+        # Via spans follow the stack order, including inner layers.
+        first, last = (layers.index(sx.unquote(name)) for name in sx.one(row, 'layers', [])[1:])
+        span = layers[min(first, last):max(first, last) + 1]
+        return span, [(x - radius, y - radius), (x + radius, y + radius)], f'<circle cx="{x}" cy="{y}" r="{radius}"/>'
+    layer, = sx.one(row, 'layer', [])[1:]
+    layer = sx.unquote(layer)
+    width, = _coordinates(row, 'width', 1)
+    points, path = _line_or_arc(row)
     half = width / 2
     extents = [(x + side * half, y + side * half) for x, y in points for side in (-1, 1)]
     return (layer,), extents, f'<path d="{path}" stroke-width="{width}"/>'
@@ -149,8 +155,49 @@ WORKSPACE_COLORS = {'protected': '#7354a4', 'retained': '#687b8c',
                     'added': '#087f68', 'removed': '#b95023'}
 
 
+@dataclass(frozen=True)
+class BoardDrawing:
+    bounds: tuple
+    anchors: tuple
+    cutouts: tuple = ()
+    edge_paths: tuple = ()
+
+
+def _edge_chain_drawing(edges):
+    """Draw a closed line/arc chain as strokes, without inferring a board area."""
+    from .placement_transform import bbox, nm
+
+    if not 3 <= len(edges) <= 32 or any(row[0] not in ('gr_line', 'gr_arc') for row in edges):
+        raise ValueError('Unsupported saved edge drawing')
+    adjacency = defaultdict(set)
+    extents, paths = [], []
+    for row in edges:
+        start, end = (tuple(nm(value, 1_000_000) for value in sx.one(row, key, [])[1:])
+                      for key in ('start', 'end'))
+        if start == end or end in adjacency[start]:
+            raise ValueError('Repeated or degenerate edge')
+        adjacency[start].add(end)
+        adjacency[end].add(start)
+        points, path = _line_or_arc(row)
+        if any(abs(value) > 2000 for point in points for value in point):
+            raise ValueError('Out-of-range edge drawing')
+        extents.extend(points)
+        paths.append(path)
+    if any(len(neighbours) != 2 for neighbours in adjacency.values()):
+        raise ValueError('Edge chain is not closed')
+    pending, seen = [next(iter(adjacency))], set()
+    while pending:
+        point = pending.pop()
+        if point not in seen:
+            seen.add(point)
+            pending.extend(adjacency[point] - seen)
+    if seen != set(adjacency):
+        raise ValueError('Separate contours need a qualified drawing')
+    return tuple(bbox(extents)), tuple(paths)
+
+
 def _workspace_context(board):
-    """Show a verified rectangular outline, bounded cutouts and part anchors."""
+    """Show saved edge geometry and part anchors in the passive view."""
     from . import placement_transform
     from experiments.placement_native_proposal_v1.contract import rectangle
 
@@ -163,23 +210,26 @@ def _workspace_context(board):
         cuts = [row for row in edges if row[0] == 'gr_circle']
         outer = [row for row in edges if row[0] != 'gr_circle']
         parts = sx.children(board, 'footprint')
-        cutouts = []
+        if any(on_outline(row) for part in parts for row in part[2:] if isinstance(row, list) and row):
+            return None
+        cutouts, paths = (), ()
         if len(outer) == 1 and outer[0][0] == 'gr_rect':
-            if any(on_outline(row) for part in parts for row in part[2:] if isinstance(row, list) and row):
-                return None
             exact_bounds = rectangle(outer[0])
             if cuts:
                 from experiments.placement_native_proposal_v1 import ordinary
 
                 holes = ordinary.circular_cutout_rows(cuts, exact_bounds, ordinary.stroke(outer[0]))
-                cutouts = [tuple(value / 1_000_000 for value in (*row['center_nm'], row['radius_nm']))
-                           for row in holes]
+                cutouts = tuple(tuple(value / 1_000_000 for value in (*row['center_nm'], row['radius_nm']))
+                                for row in holes)
         elif not cuts and len(edges) == 4 and all(row[0] == 'gr_line' for row in edges):
             chain = placement_transform.rectangular_edge_chain(board)
             exact_bounds = placement_transform.bbox([point for edge in chain for point in edge])
+        elif not cuts and any(row[0] == 'gr_arc' for row in outer):
+            bounds, paths = _edge_chain_drawing(outer)
         else:
             return None
-        bounds = tuple(value / 1_000_000 for value in exact_bounds)
+        if not paths:
+            bounds = tuple(value / 1_000_000 for value in exact_bounds)
         anchors = []
         if len(parts) <= 24:
             for part in parts:
@@ -189,7 +239,7 @@ def _workspace_context(board):
                 if (0 < len(ref) <= 16 and ref.isprintable() and len(xy) == 2
                         and all(bounds[i] <= xy[i] <= bounds[i + 2] for i in range(2))):
                     anchors.append((*xy, ref))
-        return (bounds, anchors, cutouts) if cutouts else (bounds, anchors)
+        return BoardDrawing(bounds, tuple(anchors), cutouts, paths)
     except (ValueError, TypeError, KeyError, IndexError):
         return None
 
@@ -210,8 +260,7 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
     except (ValueError, TypeError, KeyError, IndexError):
         return {}, 'Some route geometry cannot be drawn here. Compare the exact KiCad plots below.'
     if board_context is not None:
-        bounds, anchors = board_context[:2]
-        cutouts = board_context[2] if len(board_context) == 3 else ()
+        bounds = board_context.bounds
         points.extend((bounds[:2], bounds[2:]))
     if not points:
         return {}, 'There are no routed tracks or vias to draw.'
@@ -236,14 +285,18 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
                 scale = min(size[0] / width, size[1] / height)
                 tx = (size[0] - width * scale) / 2 - left * scale
                 ty = (size[1] - height * scale) / 2 - top * scale
-                x0, y0, x1, y1 = bounds
-                outline = (f'<rect x="{x0}" y="{y0}" width="{x1-x0}" height="{y1-y0}" '
-                           f'fill="#edf2f6" stroke="#7c8d9e" stroke-width="{1.8/scale}"/>')
-                outline += ''.join(f'<circle cx="{x}" cy="{y}" r="{radius}" fill="#fff" stroke="#7c8d9e" '
-                                   f'stroke-width="{1.4/scale}" data-role="board-cutout"/>'
-                                   for x, y, radius in cutouts)
+                if board_context.edge_paths:
+                    outline = ''.join(f'<path d="{path}" stroke="#7c8d9e" stroke-width="{1.8/scale}" '
+                                      'data-role="board-edge"/>' for path in board_context.edge_paths)
+                else:
+                    x0, y0, x1, y1 = bounds
+                    outline = (f'<rect x="{x0}" y="{y0}" width="{x1-x0}" height="{y1-y0}" '
+                               f'fill="#edf2f6" stroke="#7c8d9e" stroke-width="{1.8/scale}"/>')
+                    outline += ''.join(f'<circle cx="{x}" cy="{y}" r="{radius}" fill="#fff" stroke="#7c8d9e" '
+                                       f'stroke-width="{1.4/scale}" data-role="board-cutout"/>'
+                                       for x, y, radius in board_context.cutouts)
                 body = f'<g transform="matrix({scale} 0 0 {scale} {tx} {ty})">{outline}{body}</g>'
-                for px, py, ref in anchors:
+                for px, py, ref in board_context.anchors:
                     cx, cy = px * scale + tx, py * scale + ty
                     body += (f'<circle cx="{cx}" cy="{cy}" r="2.7" fill="#435568"/>'
                              f'<text x="{cx+5}" y="{cy-5}" font-size="15" fill="#36495c">{escape(ref)}</text>')
@@ -304,7 +357,7 @@ def workspace_changes(directory, source_board, review, route):
     changes['retained'] = keep
     context = _workspace_context(after)
     diagrams, note = routing_diagrams(changes, review['preview']['layers'], workspace=True, board_context=context)
-    caption = 'Board outline, part locations and route changes' if context and context[1] else (
+    caption = 'Board outline, part locations and route changes' if context and context.anchors else (
         'Board outline and route changes' if context else 'Tracks and vias only · board detail in report')
     return {'diagrams': diagrams, 'note': note, 'caption': caption,
             'counts': {key: len(rows) for key, rows in changes.items()}}

@@ -243,7 +243,7 @@ class GuiSummaryTests(unittest.TestCase):
                 flow.inspect_path.assert_not_called()
                 window.refused.assert_not_called()
 
-    def test_successful_open_restores_findings_after_inspection_progress_tick(self):
+    def test_opening_keeps_completed_findings_during_checks_and_after_open(self):
         with tempfile.TemporaryDirectory() as tmp:
             workspace = Path(tmp).resolve()
             route_dir = workspace / 'route'; route_dir.mkdir()
@@ -264,8 +264,9 @@ class GuiSummaryTests(unittest.TestCase):
                     completed = window.log.SetValue.call_args.args[0]
                     self.assertIn('First warning', completed)
                     window.busy = True; window.job = gui.CliJob()
+                    display_calls = window.log.SetValue.call_count
                     window_method('tick')(window, None)
-                    self.assertIn('final-drc.log\nFound 2 schematic parity issues', window.log.SetValue.call_args.args[0])
+                    self.assertEqual(window.log.SetValue.call_count, display_calls)
                     target = workspace / 'review/preview.html' if kind == 'preview' else Path(flow.records[stage]['project_file'])
                     with patch('webbrowser.open'), patch.object(gui.subprocess, 'Popen'):
                         window_method('opened')(window, kind, target, None)
@@ -280,6 +281,36 @@ class GuiSummaryTests(unittest.TestCase):
                     count = window.log.SetValue.call_count
                     window_method('tick')(window, None)
                     self.assertEqual(window.log.SetValue.call_count, count)
+
+    def test_workspace_review_collapses_settings_without_changing_approval(self):
+        ready = {'preview', 'route', 'review'}
+        flow = SimpleNamespace(ready=ready, choice=None)
+        window = SimpleNamespace(flow=flow, busy=False, in_workspace=True,
+            private_placement_source=True, board=Mock(), output=Mock(), ack=Mock(), inspected=Mock(),
+            edit_controls=[], buttons={'accept': Mock(), 'reject': Mock()}, review_settings=Mock(),
+            panel=Mock(), workspace_transcript=Mock(), workspace_progress=Mock(), FromDIP=lambda size: size,
+            choices={'scope': Mock(), 'profile': Mock()}, values={'profile': [('Standard', 'standard')]},
+            nets=Mock(), nets_label=Mock(), net_picker=None, workspace_render=None, findings_header=Mock(),
+            layout_panel=Mock())
+        window.inspected.GetValue.return_value = False
+        window.review_settings.GetValue.return_value = False
+        window.choices['profile'].GetSelection.return_value = 0
+        refresh = window_method('refresh')
+        refresh(window)
+        window.panel.Show.assert_called_with(False)
+        window.review_settings.Show.assert_called_with(True)
+        window.workspace_transcript.SetMinSize.assert_called_with((-1, 148))
+        window.buttons['accept'].Enable.assert_called_with(False)
+        window.review_settings.GetValue.return_value = True
+        refresh(window)
+        window.panel.Show.assert_called_with(True)
+        self.assertEqual(flow.ready, {'preview', 'route', 'review'})
+        self.assertIsNone(flow.choice)
+        ready.clear()
+        refresh(window)
+        window.review_settings.SetValue.assert_called_with(False)
+        window.review_settings.Show.assert_called_with(False)
+        window.panel.Show.assert_called_with(True)
 
     def test_completed_stages_disabled_but_retained_review_and_export_openers_work(self):
         names = ('preview','route','review','cancel','open_preview','open_review','accept','reject','export','open_export')
