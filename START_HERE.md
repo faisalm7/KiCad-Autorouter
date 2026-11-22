@@ -1,6 +1,6 @@
 # Start with your saved KiCad project
 
-Use your existing installation and launcher. The ordinary controls have completed placement, protected routing and fresh delivery on the owned example, which includes a reusable preset. The live copilot and safety checks have their own results. [Ordinary workflow](evidence/product103-GUI126-ordinary-delivery-001.json) · [Owned walkthrough](examples/owned-placement-routing/README.md) · [Live copilot](evidence/copilot102-owned-live-delivery-001.json) · [Safety controls](evidence/product101-GUI124-core-001.json).
+Use your existing installation and launcher. The ordinary controls have completed placement, protected routing and checked delivery on the owned example, which includes a reusable preset. A later installed check also delivered a board with a round cutout. [Owned walkthrough](examples/owned-placement-routing/README.md) · [Checked cutout delivery](evidence/product-round-cutout-checked-delivery-002.json) · [Current state](STATUS.md).
 
 For a first installation on the tested Mac, use the existing pinned tools and
 follow [first setup](docs/install-existing.md#first-setup-with-existing-mac-tools).

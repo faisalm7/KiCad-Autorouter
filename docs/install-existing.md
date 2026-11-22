@@ -2,7 +2,7 @@
 
 **Use an existing installation and launcher when available.** [Start here](../START_HERE.md) and the [saved-project workflow](quickstart.md) use your project, not a prepared demonstration session. Reinstallation is unnecessary merely to resume.
 
-The installed saved-project and review reference is **runtime104** from source `53cb267606cb7db64528c59c2e084db793234d47` with manifest `ae1a3fb439ea32c67b947d2f42a8a6311c25c6b7547adadeccd76f485e8c4123`. Same-Mac setup, direct inspection and the toolbar-to-export workflow passed. Runtime103 remains the ordinary placement-to-delivery reference. The live copilot task remains documented on runtime102. Standalone and independent-machine installation are open. [104 workflow](../evidence/product104-usability-delivery-001.json) · [103 placement](../evidence/product103-GUI126-ordinary-delivery-001.json) · [102 copilot](../evidence/copilot102-owned-live-delivery-001.json).
+The latest checked delivery on this Mac uses source `30d914259dbd230aa1ebde9c4375a7da2321fecc` and manifest `4db1f1f6cdfdbf48e1455f418d395c67819f765585fc52205f5bf743d84f8e63`. The same-Mac first setup and the earlier actual toolbar check have separate receipts. Recent opening and review changes still need installed checks. Standalone and independent-machine installation are open. [Checked delivery](../evidence/product-round-cutout-checked-delivery-002.json) · [First setup](../evidence/product-direct-first-setup-and-keyboard-002.json) · [Toolbar check](../evidence/product104-usability-delivery-001.json).
 
 The tested setup uses macOS 27.0.1 arm64, isolated official KiCad 10.0.7, Java 25.0.2, Freerouting 2.5.0, a no-pip Python 3.11.9 environment and KiCad's bundled Python 3.9.13/wx for the GUI. Exact dependency bytes and locations are pinned. A new environment still depends on its base Python/standard library; `--copies` does not bundle Python. Nothing here downloads or installs dependencies, changes global KiCad, or qualifies Windows Native support.
 
@@ -35,11 +35,11 @@ For one-step setup on the supported Mac, add `--with-launcher`. This creates a f
 ```sh
 (
 set -eu
-AUTOROUTER_ARTIFACT="/path/to/verified runtime104"
+AUTOROUTER_ARTIFACT="/path/to/verified Copperpath artifact"
 AUTOROUTER_INSTALL="/path/to/new owned installation"
 python3.11 -B scripts/prepare_runtime.py --install-existing \
   --source "$AUTOROUTER_ARTIFACT" \
-  --expected-manifest-sha256 ae1a3fb439ea32c67b947d2f42a8a6311c25c6b7547adadeccd76f485e8c4123 \
+  --expected-manifest-sha256 4db1f1f6cdfdbf48e1455f418d395c67819f765585fc52205f5bf743d84f8e63 \
   --output "$AUTOROUTER_INSTALL" --with-launcher
 )
 ```
