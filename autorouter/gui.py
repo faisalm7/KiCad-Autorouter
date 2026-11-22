@@ -42,6 +42,7 @@ IMPROVE_HELP = ('Experimental Improve uses a tuned incumbent, bounded pruning tr
     'unsupported inputs refuse. No live-board application or electrical approval is implied.')
 FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
+TOOLBAR_SELECTION_LIMIT = 64
 
 
 def open_refusal_text(kind, error):
@@ -339,6 +340,17 @@ def saved_project_board(path):
         if not sibling.exists() or not canonical(sibling).is_file():
             raise ValueError('Keep the matching PCB, project and root schematic together. Missing ' + sibling.name)
     return board
+
+
+def toolbar_footprint_ids(payload):
+    """Bound the one-shot selection handoff to exact footprint identities."""
+    if len(payload) > TOOLBAR_SELECTION_LIMIT * 37 - 1:
+        raise ValueError('Too many selected KiCad components to carry into this workspace.')
+    identities = tuple(payload.split(',')) if payload else ()
+    if (len(set(identities)) != len(identities)
+            or any(str(uuid.UUID(value)) != value for value in identities)):
+        raise ValueError('Expected unique KiCad footprint identities.')
+    return identities
 
 
 def source_inventory(board):
@@ -2209,17 +2221,26 @@ def main(argv=None, *, source_guard=None):
     source.add_argument('--board', default='', help='Exact saved board hint; never an editor snapshot')
     source.add_argument('--toolbar-project', help=argparse.SUPPRESS)
     source.add_argument('--toolbar-unavailable', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--toolbar-selection', help=argparse.SUPPRESS)
     parser.add_argument('--workspace', action='store_true', help='Open the board-first saved-project workspace')
     args = parser.parse_args(argv)
     board = args.board
     note = ''
+    selection = ()
+    if args.toolbar_selection is not None and not args.toolbar_project:
+        parser.error('A KiCad selection requires its launching project.')
     if args.toolbar_project:
         from .pipeline import Rejected
         try:
             board = str(saved_project_board(args.toolbar_project).with_suffix('.kicad_pro'))
-            note = 'Selected from KiCad. Save and close the project before inspecting.'
         except (ValueError, OSError, Rejected):
             args.toolbar_unavailable = True
+        else:
+            note = 'Selected from KiCad. Save and close the project before inspecting.'
+            try:
+                selection = toolbar_footprint_ids(args.toolbar_selection or '')
+            except ValueError:
+                note = 'The project came from KiCad. Choose parts in Copperpath after inspecting the saved board.'
     if args.toolbar_unavailable:
         note = 'Copperpath could not verify the KiCad project. Choose the saved project below.'
     _check_source_guard(source_guard, board)
@@ -2231,7 +2252,7 @@ def main(argv=None, *, source_guard=None):
     app = wx.App(False)
     if source_guard is None and (args.workspace or args.toolbar_project or args.toolbar_unavailable):
         from . import placement_gui
-        window = placement_gui.create_window(board, source_note=note)
+        window = placement_gui.create_window(board, source_note=note, toolbar_selection=selection)
     else:
         window = create_window(board, source_guard=source_guard, source_note=note)
     window.Show()

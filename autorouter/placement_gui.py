@@ -681,7 +681,8 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
     return Canvas()
 
 
-def create_window(board='', *, output_hint=None, on_closed=None, conversation_reply=None, source_note=''):
+def create_window(board='', *, output_hint=None, on_closed=None, conversation_reply=None, source_note='',
+                  toolbar_selection=()):
     if on_closed is not None and not callable(on_closed):
         raise ValueError('The parent close notification must be a callable.')
     if output_hint is not None and not isinstance(output_hint, (str, Path)):
@@ -694,12 +695,13 @@ def create_window(board='', *, output_hint=None, on_closed=None, conversation_re
         raise ValueError('Use an exact saved PCB path or an empty hint.')
 
     window = window_type(wx, board=board, output_hint=output_hint, on_closed=on_closed,
-                         conversation_reply=conversation_reply)()
+                         conversation_reply=conversation_reply, toolbar_selection=toolbar_selection)()
     if source_note: window.message(source_note)
     return window
 
 
-def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_reply=None):
+def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_reply=None,
+                toolbar_selection=()):
     """Real window methods exposed for controlled-dependency tests, no fragments."""
     class Window(wx.Frame):
         def __init__(self):
@@ -724,6 +726,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.conversation_offer = False
             self.routing_source_scene = None
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
+            self.toolbar_selection = toolbar_selection
+            self.toolbar_source = Path(board).with_suffix('.kicad_pcb') if toolbar_selection else None
             panel = self.panel = wx.Panel(self)
             root = wx.BoxSizer(wx.VERTICAL)
             pathrow = wx.BoxSizer(wx.HORIZONTAL)
@@ -745,6 +749,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             left = wx.BoxSizer(wx.VERTICAL); side = self.controls
             left.Add(wx.StaticText(side, label='Movable components'), 0, wx.BOTTOM, 5)
             self.parts = wx.CheckListBox(side, size=self.FromDIP((280, 108))); left.Add(self.parts, 0, wx.EXPAND)
+            self.toolbar_pick = wx.Button(side, label='Use KiCad selection' +
+                                          (f' ({len(toolbar_selection)})' if toolbar_selection else ''))
+            self.toolbar_pick.SetToolTip('Use the component selection captured when this workspace opened. '
+                                         'Save, close and inspect the same project first.')
+            self.toolbar_pick.Bind(wx.EVT_BUTTON, self.use_toolbar_selection)
+            left.Add(self.toolbar_pick, 0, wx.TOP, 6)
             hint = wx.StaticText(side, label='Click a part on the board or check it here. Other parts stay fixed.')
             hint.Wrap(310); left.Add(hint, 0, wx.TOP | wx.BOTTOM, 7)
             left.Add(wx.StaticText(side, label='Existing routing'), 0, wx.BOTTOM, 4)
@@ -1167,6 +1177,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             baseline_scope = (self.inspection is not None
                 and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
             selection_ready = self.inspection is not None and len(self.parts.GetCheckedItems()) >= 2
+            if hasattr(self, 'toolbar_pick'):
+                self.toolbar_pick.Show(bool(self.toolbar_selection))
+                self.toolbar_pick.Enable(bool(self.toolbar_selection) and self.inspection is not None
+                                         and not self.busy and not constraint_pending)
             self.rigid_group.Enable(not self.busy and not baseline_scope)
             self.target_region.Enable(not self.busy and baseline_scope)
             for control in (self.protected_names, self.protected_route_ids):
@@ -1273,6 +1287,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def source_changed(self, event):
             if not self.updating:
+                self.toolbar_selection = ()
                 self.invalidate_copilot()
                 if hasattr(self, 'conversation'):
                     self.conversation.reset()
@@ -1793,6 +1808,38 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.Unbind(wx.EVT_SHOW, handler=self.inspect_initial_project)
                 if self.board.GetValue() == str(board):
                     self.inspect_project(None)
+
+        def use_toolbar_selection(self, _):
+            if (self.busy or self.gate.closed or not self.toolbar_selection
+                    or self.inspection is None or self.constraint_offer is not None):
+                return
+            try:
+                source = require_closed_source(self.board.GetValue(), inspection=self.inspection)
+                if source != self.toolbar_source:
+                    raise ValueError('The KiCad selection came from a different project. Select components here.')
+                rows = self.inspection['components']
+                chosen = set(self.toolbar_selection)
+                matches = [row for row in rows if row['uuid'] in chosen]
+                if len(matches) != len(chosen) or {row['uuid'] for row in matches} != chosen:
+                    raise ValueError('The KiCad selection changed or is missing from the saved board. Select components here.')
+                rebuild = self.rebuild_copper()
+                for row in matches:
+                    reasons = blocking_reasons(row, rebuild=rebuild)
+                    if reasons:
+                        raise ValueError(row['reference'] + ' stays fixed: ' + ', '.join(reasons)
+                                         + '. Select movable components here.')
+            except (OSError, ValueError, Rejected) as exc:
+                self.message(str(exc)); return
+            self.invalidate_copilot()
+            for index, row in enumerate(rows):
+                self.parts.Check(index, row['uuid'] in chosen)
+            self.toolbar_selection = ()
+            update_target_area(self)
+            self.revoke(discard=True)
+            if len(chosen) == 1:
+                self.message('One component selected from KiCad. Choose at least two movable components.')
+            else:
+                self.message(f'{len(chosen)} components selected from KiCad. Review them and choose the allowed area.')
 
         def options(self, *, validate_geometry=True):
             if self.inspection is None: raise ValueError('Inspect the saved project first.')

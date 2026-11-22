@@ -270,6 +270,43 @@ class PlacementGuiTests(unittest.TestCase):
                 if current == source: window.inspect_project.assert_called_once_with(None)
                 else: window.inspect_project.assert_not_called()
 
+    def test_toolbar_selection_changes_only_current_eligible_saved_component_controls(self):
+        use = window_method('use_toolbar_selection')
+        for mode in ('eligible', 'stale', 'locked', 'other project', 'missing'):
+            with self.subTest(mode=mode):
+                window = self.window()
+                window.toolbar_source = Path('/owned/test.kicad_pcb')
+                window.toolbar_selection = ('j1', 'j2')
+                window.constraint_offer = None
+                window.board = Mock(); window.board.GetValue.return_value = str(window.toolbar_source)
+                window.parts = Mock()
+                window.rebuild_copper = Mock(return_value=False)
+                before = window.gate.review, window.gate.generation, window.copilot_generation
+                window.inspection = {'components': [
+                    {'uuid': 'j1', 'reference': 'J1', 'fixed_reasons': []},
+                    {'uuid': 'other' if mode == 'missing' else 'j2', 'reference': 'J2',
+                     'fixed_reasons': ['Locked in KiCad'] if mode == 'locked' else []},
+                    {'uuid': 'j3', 'reference': 'J3', 'fixed_reasons': []}]}
+                expected = Path('/owned/other.kicad_pcb') if mode == 'other project' else window.toolbar_source
+                fault = ValueError('Saved source files changed since inspection.') if mode == 'stale' else None
+                with patch.object(pg, 'require_closed_source', return_value=expected, side_effect=fault) as verify, \
+                        patch.object(pg, 'update_target_area'):
+                    use(window, None)
+                verify.assert_called_once_with(str(window.toolbar_source), inspection=window.inspection)
+                if mode == 'eligible':
+                    self.assertEqual([call.args for call in window.parts.Check.call_args_list],
+                                     [(0, True), (1, True), (2, False)])
+                    self.assertEqual(window.toolbar_selection, ())
+                    self.assertIsNone(window.gate.review)
+                    self.assertGreater(window.gate.generation, before[1])
+                    self.assertGreater(window.copilot_generation, before[2])
+                else:
+                    window.parts.Check.assert_not_called()
+                    self.assertEqual((window.gate.review, window.gate.generation, window.copilot_generation), before)
+                    self.assertIn({'locked': 'J2 stays fixed', 'stale': 'changed since inspection',
+                                   'other project': 'different project', 'missing': 'missing from the saved board'}[mode],
+                                  window.message.call_args.args[0])
+
     def test_real_inspection_refuses_non_PCB_identity_before_inventory_geometry_or_native(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()

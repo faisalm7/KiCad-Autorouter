@@ -32,8 +32,10 @@ For the optional PCB toolbar, double-click Launch Autorouter.command. It starts
 the existing KiCad manager with configuration, plugins, PCM content and cache
 in this folder. Open a project and its PCB Editor, then click the green trace.
 With the documented optional IPC client installed, Copperpath verifies and
-selects the saved project from that editor. If the handoff cannot be verified,
-choose the saved project in Copperpath. It never uses unsaved editor content.
+selects the saved project from that editor. It can also carry the component
+selection from launch. Use KiCad selection after closing and inspecting the
+saved project. If the handoff cannot be verified, choose the saved project
+in Copperpath. Geometry and constraints always come from the inspected files.
 KICAD10_3RD_PARTY overrides inherited or saved PCM paths; personal PCM plugins,
 libraries and themes are not loaded through that search root. Bundled vendor
 plugins are unchanged. This is a cooperative launch boundary, not an OS sandbox.

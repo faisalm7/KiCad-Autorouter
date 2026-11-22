@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Prepare a project-scoped current KiCad exec-plugin; never install globally."""
 from pathlib import Path
+from itertools import islice
 import argparse,json,os,shlex,stat,struct,sys,zlib
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from autorouter import config as c
 from autorouter.local_settings import canonical
 
 
-def toolbar_board(socket_url, token):
-    """Read only the PCB identity from the KiCad instance that ran this action."""
+def toolbar_context(socket_url, token):
+    """Read a saved-project hint and one component selection from the invoking editor."""
     # Never discover a default server or accept a TCP endpoint. The official
     # client requires the ipc:// prefix even when KiCad supplied a bare path.
     socket_path = Path(socket_url.removeprefix('ipc://'))
@@ -19,7 +20,7 @@ def toolbar_board(socket_url, token):
         raise ValueError('Expected the current user’s KiCad socket.')
     from kipy import KiCad
     from kipy.proto.common.types import DocumentType
-    from autorouter.gui import saved_project_board
+    from autorouter.gui import saved_project_board, toolbar_footprint_ids, TOOLBAR_SELECTION_LIMIT
 
     editor = KiCad(socket_path='ipc://' + str(socket_path), kicad_token=token, timeout_ms=1500)
     documents = editor.get_open_documents(DocumentType.DOCTYPE_PCB)
@@ -35,7 +36,25 @@ def toolbar_board(socket_url, token):
     board = saved_project_board(folder / filename)
     if board.parent != canonical(folder):
         raise ValueError('The PCB is outside the invoking KiCad project.')
-    return board
+    identity = document.SerializeToString(deterministic=True)
+    selected = ()
+    try:
+        from kipy.board_types import FootprintInstance
+        from kipy.proto.common.types import KiCadObjectType
+
+        pcb = editor.get_board()
+        if pcb.document.SerializeToString(deterministic=True) == identity:
+            items = pcb.get_selection(types=KiCadObjectType.KOT_PCB_FOOTPRINT)
+            ids = (item.id.value for item in items if isinstance(item, FootprintInstance))
+            selected = toolbar_footprint_ids(','.join(islice(ids, TOOLBAR_SELECTION_LIMIT + 1)))
+    except Exception:
+        # Keep the saved-project handoff on clients without a usable selection.
+        # Do not expose IPC connection details or take a partial selection.
+        pass
+    current = editor.get_open_documents(DocumentType.DOCTYPE_PCB)
+    if len(current) != 1 or current[0].SerializeToString(deterministic=True) != identity:
+        raise ValueError('The active PCB changed while reading the toolbar context.')
+    return board, selected
 
 
 def launch_toolbar(checked_launcher=None):
@@ -44,7 +63,7 @@ def launch_toolbar(checked_launcher=None):
     token = os.environ.pop('KICAD_API_TOKEN', '')
     argv = [str(c.PYTHON), '-B', '-m', 'autorouter.gui']
     try:
-        board = toolbar_board(socket, token)
+        board, selected = toolbar_context(socket, token)
     except Exception:
         # Do not display IPC diagnostics that might include the endpoint or
         # any session token. The blank picker grants no source authority.
@@ -62,6 +81,8 @@ def launch_toolbar(checked_launcher=None):
                     live_move.workspace(session)
                 return
         argv += ['--toolbar-project', str(board.with_suffix('.kicad_pro'))]
+        if selected:
+            argv += ['--toolbar-selection', ','.join(selected)]
     os.chdir(c.ROOT)
     os.execve(c.PYTHON, argv, child_environment())
 
