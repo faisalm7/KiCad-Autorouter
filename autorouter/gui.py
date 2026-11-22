@@ -1411,7 +1411,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             if self.in_workspace:
                 inspect = wx.Button(advanced, label='Inspect saved input')
                 inspect.Bind(wx.EVT_BUTTON, lambda _: self.act('inspect'))
-                presets.Add(inspect, 0, wx.ALL, 4); self.edit_controls.append(inspect)
+                presets.Add(inspect, 0, wx.ALL, 4)
                 advanced_layout.Add(presets)
             else:
                 layout.Add(presets)
@@ -1442,8 +1442,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.ack = wx.CheckBox(panel, label=('This saved project is closed in KiCad.' if self.in_workspace
                 else 'This is the correct saved project and it is closed in KiCad.\nIf open, save and close both editors, then use File > Close Project.'))
             self.ack.SetToolTip('Save and close both editors, then use File > Close Project in KiCad manager.')
+            self.ack.Bind(wx.EVT_CHECKBOX, lambda _: self.refresh())
             layout.Add(self.ack, 0, wx.ALL, 6)
-            self.buttons = {}
+            self.buttons = {'inspect': inspect} if self.in_workspace else {}
             status_host = wx.Panel(self) if self.in_workspace else panel
             actions = wx.BoxSizer(wx.VERTICAL) if self.in_workspace else layout
             if self.in_workspace and conversation_history:
@@ -2024,8 +2025,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 'restart_export': getattr(self, 'exported_project', None) is not None}
             if gaps is not None and gaps['status'] != 'ready':
                 allowed['route'] = False
+            source_closed = (getattr(self, 'private_placement_source', False)
+                             or self.ack.GetValue() is True)
             for name, button in self.buttons.items():
                 enabled = self.busy if name == 'cancel' else not self.busy and allowed.get(name, False)
+                if name not in ('cancel', 'restart_export'):
+                    enabled = enabled and source_closed
                 if name == 'accept':
                     enabled = enabled and self.inspected.GetValue()
                 button.Enable(not choosing and enabled)

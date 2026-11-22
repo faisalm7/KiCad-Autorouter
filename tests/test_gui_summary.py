@@ -286,6 +286,7 @@ class GuiSummaryTests(unittest.TestCase):
         ready = {'preview','route','review','choice','export','verify_export'}
         window = SimpleNamespace(flow=SimpleNamespace(ready=ready,choice='accept'),busy=False,
             buttons={name:Mock() for name in names},board=Mock(),output=Mock(),ack=Mock(),inspected=Mock(),edit_controls=[],layout_panel=Mock())
+        window.ack.GetValue.return_value = True
         window_method('refresh')(window)
         for name in ('route','review','cancel','accept','reject','export'):
             window.buttons[name].Enable.assert_called_once_with(False)

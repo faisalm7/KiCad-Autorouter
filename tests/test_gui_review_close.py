@@ -48,6 +48,7 @@ class ReviewCloseTests(unittest.TestCase):
         window = SimpleNamespace(flow=ready, busy=False, inspected=Mock(), board=Mock(),
             output=Mock(), ack=Mock(), edit_controls=[], layout_panel=Mock(),
             buttons={name: Mock() for name in ('accept', 'reject')})
+        window.ack.GetValue.return_value = True
         refresh = window_method('refresh')
         for checked in (False, True, False):
             window.inspected.GetValue.return_value = checked
@@ -59,6 +60,26 @@ class ReviewCloseTests(unittest.TestCase):
         refresh(window)
         for button in window.buttons.values():
             button.Enable.assert_called_with(False)
+
+    def test_saved_source_actions_follow_acknowledgement_without_disabling_cancel(self):
+        window = SimpleNamespace(flow=None, busy=False, inspected=Mock(), board=Mock(),
+            output=Mock(), ack=Mock(), edit_controls=[], layout_panel=Mock(),
+            buttons={name: Mock() for name in ('preview', 'inspect', 'cancel')})
+        refresh = window_method('refresh')
+        for closed in (False, True, False):
+            window.ack.GetValue.return_value = closed
+            refresh(window)
+            for name in ('preview', 'inspect'):
+                window.buttons[name].Enable.assert_called_with(closed)
+            window.buttons['cancel'].Enable.assert_called_with(False)
+        window.busy = True
+        refresh(window)
+        window.buttons['preview'].Enable.assert_called_with(False)
+        window.buttons['cancel'].Enable.assert_called_with(True)
+        window.busy = False
+        window.private_placement_source = True
+        refresh(window)
+        window.buttons['preview'].Enable.assert_called_with(True)
 
     def test_uppercase_nested_marker_is_also_a_refusal(self):
         with self.assertRaises(h.ReviewProjectOpen):h.require_closed_review({'nested/~board.kicad_sch.LCK':'owned'})

@@ -35,16 +35,26 @@ class RecoveryBudgetDisplayTests(unittest.TestCase):
             self.receipt_bytes[path] = raw
 
     def findings(self, stage, record, *, method='recover'):
+        # Display controls supply the same finished-stage fences as Workflow.
+        # Native readback itself is exercised by the dedicated guard tests.
+        binding = {'review_sha256': 'a' * 64}
         flow = SimpleNamespace(records=self.records, settings_bytes=self.settings_bytes,
-                               workspace=self.workspace, method=method, fresh=Mock(), check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request))
+            workspace=self.workspace, method=method, ready=set(self.records), choice=self.choice['choice'],
+            fresh=Mock(), check_request=Mock(spec=gui.Workflow.__new__(gui.Workflow).check_request),
+            check_displayed_review=Mock(return_value=binding), check_open_export_material=Mock())
         job = Mock()
         request=gui.Request('/owned/board.kicad_pcb',str(self.workspace.parent),self.settings_bytes.decode(),True,method)
         window = SimpleNamespace(**displayed_inputs(request),job=job, busy=True, flow=None, log=Mock(), status=Mock(),
                                  refresh=Mock(), closing=False, refused=Mock())
         before = copy.deepcopy(self.records)
         original_record = copy.deepcopy(record)
-        window_method('finished')(window, job, flow, stage, record, None)
+        completed = dict(record, **binding) if stage == 'choice' else record
+        window_method('finished')(window, job, flow, stage, completed, None)
         window.refused.assert_not_called()
+        if stage == 'choice':
+            flow.check_displayed_review.assert_called_once_with()
+        if stage == 'export':
+            flow.check_open_export_material.assert_called_once_with(phase='delivery')
         flow.check_request.assert_called_once_with(request)
         self.assertEqual(self.records, before)
         self.assertEqual(record, original_record)
