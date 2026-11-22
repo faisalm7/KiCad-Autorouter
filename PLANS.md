@@ -158,12 +158,12 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     stopped before Freerouting, and a late test lock prevented dispatch without
     any original design change. The first setup's memory refusal is retained.
     [Installed controls](evidence/product-routing-source-acknowledgement-001.json)
-34. Use the same temporary-copper protection for explicit pinned 10.0.8
-    export and import diagnostics. Compare the already checked owned case's
-    transport, protected track and reconstructed geometry with the current
-    10.0.7 result. Keep experimental routing admission and normal delivery
-    locked to their established versions. Run a single protected comparison
-    under the existing resource gate before considering any product version change.
+34. **Protected 10.0.8 transport verified on the exact owned task.** The
+    first comparison stopped on mismatched input stages. The corrected raw
+    export and class map matched after verification of version and source
+    identity. Import kept the protected trace and reproduced the seven new
+    segments. The 10.0.7 delivery pin and independent placement and installed
+    version gates remain. [Comparison](evidence/product-kicad1008-saved-parity-001.json)
 35. Make proposal editing reachable from the keyboard in Conversation.
     Verify an actual focus, expand, edit, re-preview and adoption sequence at
     laptop size. Keep edits provisional until the user chooses Use settings.

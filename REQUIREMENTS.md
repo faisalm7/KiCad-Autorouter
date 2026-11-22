@@ -17,6 +17,15 @@ The master specification, current strategy and owner steering govern. Historical
   Cancel, typed Return, refusal and recovery with an owned lock fixture, and a
   prefilled path on first show. Original files were exact at every check.
   [Installed opening](evidence/product-saved-project-opening-001.json)
+- Ordinary saved-board Preview follows the project-closed acknowledgement.
+  Installed controls stopped a running Preview before the engine started and
+  refused dispatch when a test lock appeared after acknowledgement.
+  [Installed source controls](evidence/product-routing-source-acknowledgement-001.json)
+- Pinned 10.0.8 diagnostics matched saved DRC, refill, protected raw export,
+  net classes and retained-session geometry on one owned task. The supported
+  saved-board workflow still uses 10.0.7. Placement observation and installed
+  10.0.8 delivery need separate checks.
+  [Saved-board comparison](evidence/product-kicad1008-saved-parity-001.json)
 - On this Mac, one-step setup prepares an application that opens the saved
   workspace through Launch Services without starting Terminal. Existing
   pinned dependencies and independent installation remain separate gates.

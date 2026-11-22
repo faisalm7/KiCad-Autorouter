@@ -72,5 +72,26 @@
     "seconds": 1.305667582899332,
     "normal_product_qualification": false
   },
-  "remaining_native_boundary": "Current product task-copper worker, staged SES import, placement observations and readers explicitly bind their approved version. Matching these diagnostics does not authorize substitution."
+  "protected_transport_observations": {
+    "diagnostic_code": "89b4cc8c91be5adfcf889289fcafeba81af8940e",
+    "first_attempt": {
+      "outcome": "failed_comparison_before_import",
+      "seconds": 2.680554334074259,
+      "reason": "Completed PCB and transformed task DSN were compared to an untransformed Native export. The bound raw input and output record proved the stage mismatch."
+    },
+    "corrected_attempt": {
+      "outcome": "matched",
+      "seconds": 3.42530008405447,
+      "cpu_seconds": 3.1898940000000002,
+      "comparison_basis": "Exact pre-route PCB verified by the prior class map and alias-export receipt, plus the bound untransformed Native DSN.",
+      "raw_dsn_equal_after_checking_path_and_writer_version": true,
+      "native_classmap_equal_after_checking_path_and_version": true,
+      "preserved_track_records_exact": 1,
+      "matching_new_segments": 7,
+      "generated_uuids_compared": false,
+      "sidecar_and_session_bytes_exact": true,
+      "freerouting_started": false
+    }
+  },
+  "remaining_native_boundary": "The explicit 10.0.8 diagnostic matched transport on one case. Production routing, placement observations and readers retain their pinned acceptance requirements. A full installed 10.0.8 delivery has not been qualified."
 }
