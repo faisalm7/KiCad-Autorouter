@@ -24,19 +24,24 @@ ORDINARY_SCOPE = 'ordinary-front-preserve-v1'
 CONTEXT_SCOPE = 'ordinary-fixed-context-v1'
 THT_SCOPE = 'ordinary-tht-fixed-context-v1'
 THT_BASELINE_SCOPE = 'ordinary-tht-source-baseline-v1'
+THREE_PAD_SCOPE = 'ordinary-front-three-pad-source-baseline-v1'
 ROUTE_GAP_NM = 300_000
 
 
 def ordinary_scope(scope):
-    return scope in (ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE, THT_BASELINE_SCOPE)
+    return scope == ORDINARY_SCOPE or fixed_context_scope(scope)
 
 
 def fixed_context_scope(scope):
-    return scope in (CONTEXT_SCOPE, THT_SCOPE, THT_BASELINE_SCOPE)
+    return scope == CONTEXT_SCOPE or tht_scope(scope)
 
 
 def tht_scope(scope):
-    return scope in (THT_SCOPE, THT_BASELINE_SCOPE)
+    return scope == THT_SCOPE or source_baseline_scope(scope)
+
+
+def source_baseline_scope(scope):
+    return scope in (THT_BASELINE_SCOPE, THREE_PAD_SCOPE)
 
 
 def inspect_fixed_context(raw):
@@ -58,11 +63,14 @@ def need(test, message):
 
 
 def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_initialization=None):
-    need(type(scope) is str and scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE, ORDINARY_SCOPE, CONTEXT_SCOPE, THT_SCOPE, THT_BASELINE_SCOPE), 'Unsupported placement scope')
+    need(type(scope) is str and (scope in (DEFAULT_SCOPE, MULTIPAD_SCOPE) or ordinary_scope(scope)),
+         'Unsupported placement scope')
     if scope == DEFAULT_SCOPE:
         selected = SELECTED if selected is None else selected
         region_nm = REGION_NM if region_nm is None else region_nm
     need(type(selected) in (list, tuple) and 1 <= len(selected) <= 16, 'Explicit bounded selected UUIDs required')
+    if scope == THREE_PAD_SCOPE:
+        need(len(selected) == 1, 'Choose one eligible front three-pad SMD component.')
     need(all(type(value) is str and str(uuid.UUID(value)) == value for value in selected)
          and len(set(selected)) == len(selected), 'Unique canonical selected UUIDs required')
     need(type(region_nm) in (list, tuple) and len(region_nm) == 4
@@ -74,7 +82,7 @@ def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_
         need(type(region_initialization) is str
              and region_initialization in prototype.REGION_INITIALIZATION_POLICIES,
              'Explicit supported selected-target region initialization required')
-        need(scope == THT_BASELINE_SCOPE and len(selected) <= 2,
+        need(source_baseline_scope(scope) and len(selected) <= 2,
              'Region initialization requires source-baseline scope and at most two selected footprints')
         options['region_initialization'] = region_initialization
     return options
@@ -286,7 +294,7 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
         need(observation['route_count'] == len(observation['routes']), 'Preserved route census differs')
         for route in observation['routes']:
             if route['kind'] == 'via':
-                need(scope == THT_BASELINE_SCOPE, 'Preserved vias require Native source-baseline placement.')
+                need(source_baseline_scope(scope), 'Preserved vias require Native source-baseline placement.')
                 start = end = route['at_nm']
             else:
                 need(route['kind'] == 'segment', 'Unsupported preserved-copper geometry.')
@@ -313,7 +321,7 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
                  groups=[], tracks=tracks, keepouts=obstacles, clearance_mm=ROUTE_GAP_NM/1e6)
     if fixed_context_scope(scope):
         facts.update(schema=2, fixed_context_policy=constraints.FIXED_CONTEXT_POLICY)
-    if scope == THT_BASELINE_SCOPE:
+    if source_baseline_scope(scope):
         # Explicit source-derived relation between the solver's courtyard
         # centre and Native footprint anchor. Doubled nm preserves half-nm
         # proxy centres without rounding any actual footprint coordinate.

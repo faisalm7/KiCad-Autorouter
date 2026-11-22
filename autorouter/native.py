@@ -140,7 +140,10 @@ def main():
         from autorouter.placement_clearance import read_bytes
         from experiments.placement_native_proposal_v1 import contract as placement_contract
         raw = read_bytes(Path(source), 1024**2)
-        scope = placement_contract.inspect_fixed_context(raw)['scope']
+        args = sys.argv[4:]
+        if args and args != [placement_contract.THREE_PAD_SCOPE]:
+            raise RuntimeError('Unrecognized Native placement context arguments.')
+        scope = args[0] if args else placement_contract.inspect_fixed_context(raw)['scope']
         context = placement_annotations.capture(board, pcbnew, raw, scope=scope)
         if field_before != tuple(file_hash(Path(source).with_suffix(suffix)) for suffix in ('.kicad_pcb','.kicad_pro','.kicad_sch')):
             raise RuntimeError('Project changed during placement annotation capture')

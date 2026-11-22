@@ -118,13 +118,15 @@ def _separated_geometry(a, b, context, deltas):
 
 def validate(context):
     """Reject incomplete/ambiguous wire records without trusting their origin."""
+    from experiments.placement_native_proposal_v1.contract import source_baseline_scope
+
     keys = {'schema', 'policy', 'scope', 'source_board_sha256', 'outline_nm', 'silk_clearance_nm',
             'footprint_anchors_nm', 'movable_owners', 'rows'}
     _need(type(context) is dict and set(context) == keys and type(context['schema']) is int
           and ((context['schema'] == 1 and context['policy'] == POLICY
                 and context['scope'] in (SCOPE, THT_SCOPE, THT_BASELINE_SCOPE))
                or (context['schema'] == 2 and context['policy'] == GEOMETRY_POLICY
-                   and context['scope'] == THT_BASELINE_SCOPE)),
+                   and source_baseline_scope(context['scope']))),
           'Complete annotation context policy/schema required')
     _need(type(context['source_board_sha256']) is str
           and re.fullmatch('[0-9a-f]{64}', context['source_board_sha256']) is not None,
@@ -183,7 +185,7 @@ def capture(native, pcbnew, raw, *, scope=SCOPE):
           'Annotation source witness differs')
     anchors = {row['uuid']: list(row['position_nm']) for row in observed['footprints']}
     movable = sorted(row['uuid'] for row in observed['footprints'] if row['placement_eligible'] is True)
-    refined = scope == THT_BASELINE_SCOPE
+    refined = contract.source_baseline_scope(scope)
     context = dict(schema=2 if refined else 1, policy=GEOMETRY_POLICY if refined else POLICY,
                    scope=scope, source_board_sha256=observed['source_board_sha256'],
                    outline_nm=list(observed['outline']['bounds_nm']),

@@ -47,6 +47,7 @@ class AnnotationWorkflowTests(unittest.TestCase):
         protection=dict(policy=local_settings.POLICY,present=True,path=str(prl),sha256=self.hashes[prl.name],
                         flags_before=0,flags_during=getattr(stat,'UF_IMMUTABLE',2),flags_restored=True,bytes_unchanged=True)
         self.record=dict(policy=inspection.PLACEMENT_POLICY,source=str(self.board),source_hashes=self.hashes,
+                         native=dict(opens=2,blocking=0,warnings=0,exclusions=0,findings=[],ignored_checks=[]),
                          placement_context=dict(file='placement-context.json',sha256=p.sha(self.geometry_path),
                              local_settings_policy=local_settings.JOB_POLICY,process_sha256=p.sha(process),protection=protection))
         self.receipt=self.directory/'inspection.json';p.save_json(self.receipt,self.record)
@@ -144,10 +145,14 @@ class AnnotationWorkflowTests(unittest.TestCase):
         gui_fixture.window_method('inspect_project')(window,None)
         work=window.start.call_args.args[1];job=Mock()
         job.run.return_value=dict(exit_code=0,log_truncated=False,cancel_requested=False)
-        legacy=dict(observation=dict(scope=contract.ORDINARY_SCOPE));captured=dict(native_context='owned receipt')
+        legacy=intent.inspect_saved(self.board)
+        with patch.object(inspection,'check',return_value=self.record):
+            captured=intent.inspect_saved(self.board,native_context=self.receipt)
         with patch.object(pg.c,'NATIVE_VERSION','10.0.7'), \
                 patch.object(intent,'inspect_saved',side_effect=[legacy,captured]) as inspect:
-            self.assertEqual(work(job,None),captured)
+            value, _, _, _, native, read_only=work(job,None)
+        self.assertEqual(value,captured)
+        self.assertEqual(native,self.record['native']);self.assertIsNone(read_only)
         argv=job.run.call_args.args[0];self.assertIn('--placement-context',argv)
         self.assertEqual(inspect.call_args.kwargs['native_context'].name,'inspection.json')
         self.assertIsNone(window.qualified)
@@ -159,7 +164,8 @@ class AnnotationWorkflowTests(unittest.TestCase):
         gui_fixture.window_method('inspect_project')(window,None)
         work=window.start.call_args.args[1];job=Mock()
         job.run.return_value=dict(exit_code=2,log_truncated=False,cancel_requested=False)
-        with patch.object(intent,'inspect_saved',return_value=dict(observation=dict(scope=contract.CONTEXT_SCOPE))) as inspect, \
+        legacy=intent.inspect_saved(self.board)
+        with patch.object(pg.c,'NATIVE_VERSION','10.0.7'),patch.object(intent,'inspect_saved',return_value=legacy) as inspect, \
                 self.assertRaisesRegex(ValueError,'inspection refused'):
             work(job,None)
         self.assertEqual(inspect.call_count,1);self.assertIsNone(window.qualified)

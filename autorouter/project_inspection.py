@@ -25,14 +25,17 @@ def _seconds(value):
     return float(value)
 
 
-def inspect(board, output, seconds=60, *, placement_context=False):
+def inspect(board, output, seconds=60, *, placement_context=False, three_pad=False):
     """Inspect a new copy with actual refill/full-schematic DRC; no source writes."""
     from .design_intent import inspect_project
     from .gui import source_inventory
     from .finish_gaps import source_delivery
+    from experiments.placement_native_proposal_v1 import contract
     seconds = _seconds(seconds)
     if type(placement_context) is not bool or placement_context and c.NATIVE_VERSION != '10.0.7':
         raise ValueError('Explicit placement inspection requires pinned Native10.0.7.')
+    if type(three_pad) is not bool or three_pad and not placement_context:
+        raise ValueError('Three-pad placement requires a Native placement context.')
     started, parent_started, children_started = elapsed_time(), time.process_time(), f.child_cpu()
     board = h.real_path(board); output = h.real_path(output, existing=False)
     if output == board.parent or board.parent in output.parents:
@@ -74,7 +77,8 @@ def inspect(board, output, seconds=60, *, placement_context=False):
             with local.preserve(snapshot.with_suffix('.kicad_prl'), output, job._local_settings_owner,
                                 cleanup_complete=lambda: state['complete']) as protection:
                 try:
-                    job.native('placement-context', 'placement-context', snapshot, path)
+                    args = [contract.THREE_PAD_SCOPE] if three_pad else []
+                    job.native('placement-context', 'placement-context', snapshot, path, *args)
                 finally:
                     steps = job.steps[start:]
                     state['complete'] = (len(steps) == 1 and steps[0].get('name') == 'placement-context'
@@ -172,6 +176,7 @@ def check_placement_context(directory, record, snapshot, hashes):
     from . import placement_annotations as annotations
     from . import local_settings as local
     from .gui import source_inventory
+    from experiments.placement_native_proposal_v1 import contract
     if c.NATIVE_VERSION != '10.0.7':
         raise ValueError('Pinned Native placement context version differs.')
     reference = record.get('placement_context')
@@ -195,8 +200,11 @@ def check_placement_context(directory, record, snapshot, hashes):
     context = annotations.validate(data['context'])
     if context['source_board_sha256'] != data['board_sha256']:
         raise ValueError('Placement annotation source differs.')
-    f.process_check(directory, record, 'placement-context',
-        [str(c.PYTHON), str(c.ROOT/'autorouter/native.py'), 'placement-context', str(snapshot), str(directory/'placement-context.json')])
+    argv = [str(c.PYTHON), str(c.ROOT/'autorouter/native.py'), 'placement-context',
+            str(snapshot), str(directory/'placement-context.json')]
+    if context['scope'] == contract.THREE_PAD_SCOPE:
+        argv.append(contract.THREE_PAD_SCOPE)
+    f.process_check(directory, record, 'placement-context', argv)
     local.check_preserved(snapshot.with_suffix('.kicad_prl'), hashes, reference['protection'])
     if source_inventory(snapshot) != hashes:
         raise ValueError('Placement snapshot changed during geometry readback.')

@@ -343,7 +343,7 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     context = c.fixed_context_scope(scope)
     tht = c.tht_scope(scope)
     tree = c.read_board(raw)
-    via_items = {'via'} if scope == c.THT_BASELINE_SCOPE else set()
+    via_items = {'via'} if c.source_baseline_scope(scope) else set()
     fields(tree, {'version', 'generator', 'generator_version', 'general', 'paper', 'title_block', 'layers',
                   'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'} | via_items,
            repeated={'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone'} | via_items)
@@ -448,7 +448,12 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
                    and 2 * box[1] <= 2 * y - height and 2 * y + height <= 2 * box[3], 'Entire pad must fit conservative courtyard envelope')
         reasons = []
         if locked(fp): reasons.append('locked footprint')
-        if len(pads) != 2 or any(pad['kind'] not in (('smd', 'thru_hole') if tht else ('smd',)) for pad in pads):
+        if scope == c.THREE_PAD_SCOPE:
+            if (len(pads) != 3 or {pad['number'] for pad in pads} != {'1', '2', '3'}
+                    or any(pad['kind'] != 'smd' or not pad['net'] for pad in pads)
+                    or len({pad['net'] for pad in pads}) != 3):
+                reasons.append('three-pad placement needs three numbered SMD pads on distinct saved nets')
+        elif len(pads) != 2 or any(pad['kind'] not in (('smd', 'thru_hole') if tht else ('smd',)) for pad in pads):
             reasons.append('only two-pad SMD/THT footprints are movable' if tht else 'only two-pad SMD footprints are movable')
         if tht and duplicate_numbers: reasons.append('duplicate physical pad numbers remain fixed')
         if tht and metadata['points']: reasons.append('point-bearing footprint remains fixed')

@@ -145,6 +145,7 @@ def main():
     inspect_cmd.add_argument('board');inspect_cmd.add_argument('--output',required=True)
     inspect_cmd.add_argument('--seconds',type=float,default=60)
     inspect_cmd.add_argument('--placement-context',action='store_true',help='Capture source-bound Native silk/mask geometry for selected placement')
+    inspect_cmd.add_argument('--three-pad-placement',action='store_true',help='Use the explicit single three-pad scope with --placement-context')
     inspect_check=sub.add_parser('inspect-project-check',help='Recheck retained inspection/source evidence')
     inspect_check.add_argument('receipt')
     schematic=sub.add_parser('inspect-schematic',help='Show saved schematic links and PCB pad assignments')
@@ -204,7 +205,8 @@ def main():
             from .handoff import real_path
             if a.command=='design-tool-schema':result=design.tool_schema()
             elif a.command=='inspect-project':
-                result=(inspection.inspect(a.board,a.output,a.seconds,placement_context=True)
+                result=(inspection.inspect(a.board,a.output,a.seconds,placement_context=a.placement_context,three_pad=True)
+                        if a.three_pad_placement else inspection.inspect(a.board,a.output,a.seconds,placement_context=True)
                         if a.placement_context else inspection.inspect(a.board,a.output,a.seconds))
                 print(json.dumps(result,indent=2));return 0 if result['status']=='inspection_ready' else 2
             elif a.command=='inspect-project-check':result=inspection.check(a.receipt)

@@ -175,7 +175,7 @@ def update_target_area(window):
     if window.inspection is None or not getattr(window, 'automatic_target_area', False):
         return
     enabled = False
-    if window.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
+    if intent.contract.source_baseline_scope(window.inspection['observation']['scope']):
         selected = [row['uuid'] for i, row in enumerate(window.inspection['components'])
                     if window.parts.IsChecked(i)]
         try:
@@ -815,6 +815,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             budget_row.Add(wx.StaticText(advanced, label='Routing time (s)'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.route_budget = wx.TextCtrl(advanced, value='90', size=(62, -1), name='Routing time in seconds')
             budget_row.Add(self.route_budget, 0); advanced_layout.Add(budget_row, 0, wx.BOTTOM, 8)
+            self.three_pad = wx.CheckBox(advanced, label='Move one three-pad SMD part')
+            self.three_pad.SetToolTip('Refresh the saved board to check this placement scope. All existing copper stays in place.')
+            self.three_pad.Show(c.NATIVE_VERSION == '10.0.7')
+            advanced_layout.Add(self.three_pad, 0, wx.BOTTOM, 6)
             self.rigid_group = wx.CheckBox(advanced, label='Keep selected parts together')
             advanced_layout.Add(self.rigid_group, 0, wx.BOTTOM, 6)
             self.target_region = wx.CheckBox(advanced, label='Allow parts to start outside the target area')
@@ -984,7 +988,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.SetSizer(frame_layout)
             self.input_controls = [self.board, self.browse, self.example, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
-                self.assistant_request, self.assistant_ask, self.route_budget]
+                self.assistant_request, self.assistant_ask, self.route_budget, self.three_pad]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.board.Bind(wx.EVT_TEXT_ENTER, self.inspect_project)
@@ -993,6 +997,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if board: self.Bind(wx.EVT_SHOW, self.inspect_initial_project)
             self.parts.Bind(wx.EVT_CHECKLISTBOX, self.settings_changed)
             self.copper_policy.Bind(wx.EVT_CHOICE, self.policy_changed)
+            self.three_pad.Bind(wx.EVT_CHECKBOX, self.three_pad_changed)
             self.rigid_group.Bind(wx.EVT_CHECKBOX, self.settings_changed)
             self.target_region.Bind(wx.EVT_CHECKBOX, self.settings_changed)
             for pane in (self.protection, self.precise, self.advanced):
@@ -1244,10 +1249,15 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.route_saved.Show(source_entered)
                 self.pages.Show(source_entered)
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
-            baseline_scope = (self.inspection is not None
-                and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
+            scope = self.inspection['observation']['scope'] if self.inspection is not None else None
+            baseline_scope = intent.contract.source_baseline_scope(scope)
+            three_pad = scope == intent.contract.THREE_PAD_SCOPE
             minimum_parts = 2 if self.rigid_group.GetValue() else 1
-            selection_ready = self.inspection is not None and len(self.parts.GetCheckedItems()) >= minimum_parts
+            selected_count = len(self.parts.GetCheckedItems()) if self.inspection is not None else 0
+            selection_ready = selected_count == 1 if three_pad else selected_count >= minimum_parts
+            if hasattr(self, 'three_pad'):
+                self.three_pad.Enable(not self.busy and bool(self.board.GetValue().strip()))
+                self.copper_policy.Enable(not self.busy and not self.three_pad.GetValue())
             if hasattr(self, 'toolbar_pick'):
                 self.toolbar_pick.Show(bool(self.toolbar_selection))
                 self.toolbar_pick.Enable(bool(self.toolbar_selection) and self.inspection is not None
@@ -1317,7 +1327,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                    else 'Review the component moves.')
                     notes.append(instruction + '\nConfirm both editors and the saved project are closed in KiCad.')
                 elif needs_selection:
-                    notes.append('Select movable parts to find alternatives. A group needs at least two parts.')
+                    notes.append('Select one eligible three-pad SMD part.' if three_pad else
+                                 'Select movable parts to find alternatives. A group needs at least two parts.')
                 self.approval_note.SetLabel('\n'.join(notes))
                 self.approval_note.Wrap(max(340, self.GetClientSize().width - 30))
                 self.approval_note.Show(bool(notes))
@@ -1371,6 +1382,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.automatic_target_area = False
                 self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 self.target_region.SetValue(False)
+                if hasattr(self, 'three_pad'): self.three_pad.SetValue(False)
                 self.schematic = None; self.schematic_refusal = ''
                 self.rebuild_routing_notice = ''
                 if hasattr(self, 'schematic_text'):
@@ -1860,6 +1872,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 wx.CallAfter(committed)
             event.Skip()
 
+        def three_pad_changed(self, _):
+            if self.three_pad.GetValue() and self.rebuild_copper():
+                self.three_pad.SetValue(False)
+                self.message('Choose Preserve all existing copper before enabling three-pad placement.')
+                return
+            self.inspect_project(None)
+
         def choose_board(self, _):
             if self.busy or self.gate.closed: return
             pattern = 'KiCad projects and boards (*.kicad_pro; *.kicad_pcb)|*.kicad_pro;*.kicad_pcb'
@@ -1971,6 +1990,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def inspect_project(self, _):
             if self.busy or self.gate.closed: return
+            three_pad = hasattr(self, 'three_pad') and self.three_pad.GetValue()
             self.invalidate_copilot()
             self.inspection = None; self.saved_native = None; self.saved_route_context = None; self.parts.Set([])
             self.revoke(discard=True)
@@ -2003,7 +2023,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.update_schematic_view()
                     self.message('Saved board ready for routing preview. See Findings for placement limits.')
                     return
-                if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
+                if intent.contract.source_baseline_scope(value['observation']['scope']):
                     self.rigid_group.SetValue(False)
                 self.automatic_target_area = False
                 self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
@@ -2020,7 +2040,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.pages.SetSelection(1)
                     self.message('The saved source blocks checked delivery. Review Findings before continuing.')
                 else:
-                    self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
+                    if three_pad:
+                        self.message('Three-pad placement ready. Select one eligible part. All existing copper stays in place.')
+                    else:
+                        self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
             def inspect(job, event):
                 source = str(require_closed_source(gui.saved_project_board(source_hint)))
                 try:
@@ -2040,12 +2063,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     read_only = dict(static=static, scene=scene, reason=gui.short_failure_reason(reason))
                     return (None, *schematic_context.observe(source, static['source_hashes']), '', None, read_only)
                 scope = value['observation']['scope']
-                if intent.contract.fixed_context_scope(scope) or c.NATIVE_VERSION == '10.0.7' and scope == intent.contract.ORDINARY_SCOPE:
+                if three_pad or intent.contract.fixed_context_scope(scope) or c.NATIVE_VERSION == '10.0.7' and scope == intent.contract.ORDINARY_SCOPE:
                     require_closed_source(source, inspection=value)
                     workspace = self.owned_workspace()
                     output = workspace / ('native-inspection-' + uuid.uuid4().hex)
-                    process = job.run([str(c.ROOT/'.venv/bin/python'), '-B', '-m', 'autorouter',
-                        'inspect-project', source, '--seconds', '60', '--placement-context', '--output', str(output)],
+                    argv = [str(c.ROOT/'.venv/bin/python'), '-B', '-m', 'autorouter',
+                            'inspect-project', source, '--seconds', '60', '--placement-context', '--output', str(output)]
+                    if three_pad: argv.append('--three-pad-placement')
+                    process = job.run(argv,
                         workspace / ('native-inspection-' + uuid.uuid4().hex + '.log'), timeout=75)
                     job.check_live()
                     if process['exit_code'] != 0 or process['log_truncated'] or process['cancel_requested']:
@@ -2064,6 +2089,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.invalidate_copilot(); captured = self.inspection
                 policy_changed = intent.settings_scope(value) != captured['observation']['scope']
                 if policy_changed:
+                    if intent.contract.THREE_PAD_SCOPE in (intent.settings_scope(value), captured['observation']['scope']):
+                        raise ValueError('Set Move one three-pad SMD part to match the preset, then load it again.')
                     # Preserve an older preset's actual policy instead of
                     # silently upgrading its meaning to zone-aware placement.
                     captured = intent.inspect_saved(self.board.GetValue())

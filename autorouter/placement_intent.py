@@ -73,12 +73,14 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
                      zone_policy='preserve-intent-native-refill-v1',
                      metadata_finding_policy='exact-footprint-anchor-translation-v1',
                      annotation_policy='native-silk-mask-proxy-v1')
-    if scope == contract.THT_BASELINE_SCOPE:
+    if contract.source_baseline_scope(scope):
         value['selected_copper_baseline_policy'] = constraints.SELECTED_COPPER_BASELINE_POLICY
     if copper_policy is None:
         if protected_names is not None or protected_route_ids is not None:
             raise ValueError('Explicit copper policy required for protected-net/route settings.')
     else:
+        if scope == contract.THREE_PAD_SCOPE:
+            raise ValueError('Three-pad placement requires all existing copper to stay in place.')
         if type(copper_policy) is not str or copper_policy != COPPER_POLICY:
             raise ValueError('Unsupported placement copper policy.')
         names = [] if protected_names is None else protected_names
@@ -90,7 +92,7 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
         value.update(schema=3, kind=COPPER_SETTINGS_KIND, scope=scope, preserve_existing=False,
                      copper_policy=copper_policy, protected_names=names, protected_route_ids=ids)
     if group_policy is not None:
-        if scope == contract.THT_BASELINE_SCOPE:
+        if contract.source_baseline_scope(scope):
             raise ValueError('Rigid groups with the selected-source copper baseline are not qualified; use independent selected placement.')
         if type(group_policy) is not str or group_policy != GROUP_POLICY or len(options['selected']) < 2:
             raise ValueError('A rigid group requires two or more explicitly selected eligible components.')
@@ -98,7 +100,7 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
             raise ValueError('Rigid-group delivery currently requires the explicit affected-net rebuild workflow; protected copper remains fixed.')
         value.update(schema=4, kind=GROUP_SETTINGS_KIND, scope=scope, group_policy=group_policy)
     if region_initialization is not None:
-        if (scope != contract.THT_BASELINE_SCOPE or group_policy is not None
+        if (not contract.source_baseline_scope(scope) or group_policy is not None
                 or len(options['selected']) > 2
                 or type(region_initialization) is not str
                 or region_initialization not in prototype.REGION_INITIALIZATION_POLICIES):
@@ -120,7 +122,7 @@ def region_options(value):
 def target_area_needs_initialization(inspection, selected, area, *, grouped=False):
     """Choose the existing start policy for an explicit destination rectangle."""
     observation = inspection['observation']
-    if observation['scope'] != contract.THT_BASELINE_SCOPE or not 1 <= len(selected) <= 2 or grouped:
+    if not contract.source_baseline_scope(observation['scope']) or not 1 <= len(selected) <= 2 or grouped:
         return False
     baseline = inspection.get('native_source_baseline', {})
     native = inspection.get('native_context', {})
@@ -193,7 +195,16 @@ def inspect_saved(board, *, native_context=None):
     source = Path(static['source'])
     raw = pc.read_bytes(source, contract.MAX_BYTES)
     if native_context is not None:
-        observation = contract.inspect_fixed_context(raw)
+        descriptor, annotations, original_native = _native_context(source, static['source_hashes'], native_context)
+        if annotations['scope'] == contract.THREE_PAD_SCOPE:
+            observation = contract.inspect_board(raw, scope=contract.THREE_PAD_SCOPE)
+            movable = sorted(row['uuid'] for row in observation['footprints'] if row['placement_eligible'])
+            if movable != annotations['movable_owners']:
+                raise ValueError('Native three-pad component eligibility differs from the saved board.')
+        else:
+            observation = contract.inspect_fixed_context(raw)
+            if annotations['scope'] != observation['scope']:
+                raise ValueError('Native annotation geometry scope differs from this exact source inspection.')
     else:
         try:
             observation = contract.inspect_board(raw, scope=contract.MULTIPAD_SCOPE)
@@ -220,14 +231,8 @@ def inspect_saved(board, *, native_context=None):
         limitations=list(CONTEXT_LIMITS if contract.fixed_context_scope(observation['scope']) else
                           ORDINARY_LIMITS if observation['scope'] == contract.ORDINARY_SCOPE else LIMITS))
     if native_context is not None:
-        baseline = observation['scope'] == contract.THT_BASELINE_SCOPE
-        captured = _native_context(source, static['source_hashes'], native_context, with_native=baseline)
-        descriptor, annotations = captured[:2]
-        if annotations['scope'] != observation['scope']:
-            raise ValueError('Native annotation geometry scope differs from this exact source inspection.')
         result.update(native_context=descriptor, annotation_context=annotations)
-        if baseline:
-            original_native = captured[2]
+        if contract.source_baseline_scope(observation['scope']):
             if type(original_native.get('blocking')) is not int or original_native['blocking'] != 0:
                 raise ValueError('Original Native blocking findings prevent the selected-source copper baseline.')
             result['native_source_baseline'] = dict(
@@ -235,11 +240,14 @@ def inspect_saved(board, *, native_context=None):
                 receipt_sha256=descriptor['receipt_sha256'],
                 source_board_sha256=static['source_hashes'][source.name],
                 native=copy.deepcopy(original_native), native_validation_performed=True)
-    if contract.tht_scope(observation['scope']):
+    if observation['scope'] == contract.THREE_PAD_SCOPE:
+        result['limitations'][0] = ('Experimental translation of one front-side SMD component with three distinct pins and nets. '
+            'The orientation, other components and all existing copper stay fixed.')
+    elif contract.tht_scope(observation['scope']):
         result['limitations'][0] = ('Experimental fixed-context translation: eligible front two-pad SMD/THT parts only; '
             'point-bearing, duplicate-terminal and circular-courtyard parts stay fixed. '
             'Only unchanged orientation/side and source-witnessed passive arc/circle translations are supported.')
-    if observation['scope'] == contract.THT_BASELINE_SCOPE:
+    if contract.source_baseline_scope(observation['scope']):
         result['limitations'].append('Explicit selected-source copper baseline: an exact unchanged selected pose may retain '
             'its original courtyard/copper proximity after source Native checks. Every changed position must clear '
             'preserved copper; board, region, component, user-keepout, warning and final Native checks still apply. '
@@ -247,7 +255,7 @@ def inspect_saved(board, *, native_context=None):
     return result
 
 
-def _native_context(source, hashes, reference, *, with_native=False):
+def _native_context(source, hashes, reference):
     """Read only a source-bound, completed shared inspection; no Native launch."""
     from . import project_inspection as inspection, handoff
     supplied = reference if type(reference) is dict else None
@@ -277,7 +285,8 @@ def _native_context(source, hashes, reference, *, with_native=False):
     if (context['source_board_sha256'] != hashes[source.name] or gui.source_inventory(source) != hashes
             or pc.read_bytes(path, 512 * 1024) != receipt_raw):
         raise ValueError('Native annotation source changed.')
-    return (descriptor, context, copy.deepcopy(record['native'])) if with_native else (descriptor, context)
+    baseline = contract.source_baseline_scope(context['scope'])
+    return descriptor, context, copy.deepcopy(record['native']) if baseline else None
 
 
 def current(inspection):
@@ -341,7 +350,7 @@ def _facts_context(inspection, value, plan, observation):
     fixed = {row['uuid'] for row in inspection['components'] if row['fixed_reasons']} if plan is None else set()
     if set(value['selected']) & fixed:
         raise ValueError('Selected components include fixed, locked or routed-net components; deselect those components.')
-    if settings_scope(value) == contract.THT_BASELINE_SCOPE:
+    if contract.source_baseline_scope(settings_scope(value)):
         baseline = inspection.get('native_source_baseline')
         if (type(baseline) is not dict or set(baseline) != {'policy','receipt_sha256','source_board_sha256',
                 'native','native_validation_performed'}

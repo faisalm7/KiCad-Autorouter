@@ -214,7 +214,7 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
         identity = uid(item); need(identity not in route_netcodes, 'Duplicate Native route identity')
         code = integer(item.GetNetCode()); need(code > 0, 'Named Native route net required'); route_netcodes[identity] = code
         if isinstance(item, pcbnew.PCB_VIA):
-            need(scope == c.THT_BASELINE_SCOPE and item.GetViaType() == pcbnew.VIATYPE_THROUGH
+            need(c.source_baseline_scope(scope) and item.GetViaType() == pcbnew.VIATYPE_THROUGH
                  and item.TopLayer() == pcbnew.F_Cu and item.BottomLayer() == pcbnew.B_Cu,
                  'Native via must be a preserved front-to-back through-via.')
             width = integer(fc.route_width(item, pcbnew))
