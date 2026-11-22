@@ -71,12 +71,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     protects three existing tracks, refuses a tied net and rejects a changed
     schematic. The earlier verified routing delivery is reused.
     [Installed opening](evidence/product-routing-only-opening-001.json)
-15. Put actual findings and protection ahead of technical settings and file
-    paths. Verify the resulting review on a retained checked result at laptop
-    size, preserving all details and existing approvals.
-16. Make setup accept an existing KiCad app and Java executable directly.
-    Verify exact role/version hashes, fresh setup and launch from another
-    folder without preparing a tool-path JSON file.
+15. **Verified.** At 960 × 650, the installed review lists retained copper,
+    KiCad findings and both ignored checks before settings and file paths.
+    This check displayed the retained checked result.
+    [Installed display](evidence/product-findings-host-intake-001.json)
+16. **Verified on this Mac.** Setup accepts the existing pinned KiCad app and
+    Java executable directly. A wrong executable refused before creating an
+    installation. The correct setup passed doctor and launched from another
+    folder. [Installed setup](evidence/product-findings-host-intake-001.json)
+17. Show saved schematic links and net names for the selected or suggested
+    parts beside Conversation. Verify selection changes and a stale source
+    in the installed workspace using local controls.
 
 ## Verified Finish gaps batch from 2dabd0799
 

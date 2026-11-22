@@ -23,6 +23,11 @@ The master specification, current strategy and owner steering govern. Historical
   With matching geometry, the review shows a true rectangular outline and
   part locations. Front and back drawings repainted on a retained result.
   [Installed display and launch](evidence/product-workspace-context-finder-001.json)
+- A compatible artifact accepts direct locations for the pinned KiCad app
+  and Java executable. A fresh same-Mac setup and wrong-executable refusal
+  passed. The real review widget also placed the retained copper count,
+  original warning and ignored checks ahead of settings on a 960 × 650 window.
+  [Installed evidence](evidence/product-findings-host-intake-001.json)
 - A separate export edited after delivery fails its previous checked opening.
   The installed restart control reopens its exact saved files for fresh
   inspection with the earlier approval revoked. [Recovery](evidence/product-edited-export-recovery-001.json)

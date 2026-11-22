@@ -2,6 +2,8 @@
 
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 
+**Review puts findings first and setup accepts direct tool locations.** The installed review showed the protected track, the result of both connection repairs, the inherited warning and both ignored checks above settings and paths. This view reused the checked result. On the same Mac, setup verified the selected KiCad app and Java executable, prepared the app in a fresh folder in 3.30 seconds, and refused a wrong executable before creating an installation. [Installed setup and review](evidence/product-findings-host-intake-001.json)
+
 **A routing-only saved board stays visible when placement is unavailable.** The installed workspace opened the owned fixed-tie board and showed the JP1 placement limitation. The ordinary preview kept three existing tracks protected for N3_A, refused the tied N2_A net and rejected later changes to the test schematic. The original source stayed exact. The previous routing delivery remains the engine evidence. [Installed opening](evidence/product-routing-only-opening-001.json)
 
 **An edited separate export can become a fresh task in the same workspace.** Copperpath refused checked opening after the controlled silkscreen edit. Start from this copy inspected the exact edited project in 3.51 seconds. The original files stayed exact, and the old opening and acceptance actions remained revoked. The initial refusal showed generic guidance. [Installed recovery](evidence/product-edited-export-recovery-001.json)

@@ -98,6 +98,13 @@ The source batch includes two bounded options alongside `--install-existing`:
 
 - `--import-artifact` verifies a transported artifact using the exact original manifest SHA256, while treating its old root/host locations as provenance. It does not permit ordinary execution at an unbound location or bypass payload checks.
 - `--host-paths-json` supplies all four canonical locations: `kicad_cli`, `kicad_python`, `pcbnew` and `java`. It changes locations only, preserving the known profile, role hashes/sizes and common KiCad app layout. New live bindings must pass alias, executable-role and actual-byte checks.
+- For a compatible artifact, use `--kicad-app "/absolute/path/to/KiCad.app"`
+  and `--java-executable "/absolute/path/to/bin/java"` in place of
+  `--host-paths-json`. Supply both flags together with `--install-existing`
+  and `--import-artifact`. Setup resolves the canonical KiCad roles within
+  that app and checks the exact pinned bytes. The same-Mac trial passed fresh
+  setup and Finder app launch. A wrong executable refused before the new
+  installation was created. [Observed setup](../evidence/product-findings-host-intake-001.json)
 
 [One actual097 moved-artifact import](../evidence/product097-artifact-installation-001.json) now passes on the same Mac, with strict root refusal before import, schema3 binding, a fresh no-pip environment and isolated-Python doctor. This tests artifact movement/new installation root with the existing dependency locations. External tool relocation, another OS/account/machine, Native board delivery and actual097GUI remain unqualified. Rebinding requires a new compatible product build. Immutable runtime096 cannot gain that support by changing its manifest; it retains its existing dependency locations. The newer102candidate has its own installed/live-task evidence; this does not relabel097relocation evidence as a current independent installation. No turnkey installer, standalone package, independent-machine or Windows support is claimed.
 
