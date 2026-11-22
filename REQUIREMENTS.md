@@ -17,6 +17,12 @@ The master specification, current strategy and owner steering govern. Historical
   Cancel, typed Return, refusal and recovery with an owned lock fixture, and a
   prefilled path on first show. Original files were exact at every check.
   [Installed opening](evidence/product-saved-project-opening-001.json)
+- On this Mac, one-step setup prepares an application that opens the saved
+  workspace through Launch Services without starting Terminal. Existing
+  pinned dependencies and independent installation remain separate gates.
+  With matching geometry, the review shows a true rectangular outline and
+  part locations. Front and back drawings repainted on a retained result.
+  [Installed display and launch](evidence/product-workspace-context-finder-001.json)
 - The new two-part destination policy checks actual straight protected tracks.
   Installed 555 placement and protected-content readback pass. The first
   build refuses the saved parent net class before engine dispatch. The later

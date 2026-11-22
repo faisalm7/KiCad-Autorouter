@@ -24,7 +24,7 @@ python3.11 -B scripts/prepare_runtime.py --install-existing \
 )
 ```
 
-Open the `workspace_launcher` shown when setup completes. You can launch that file from Finder. A refusal leaves the completed stages and logs under `.runs/launcher-setup` in the new folder. Fix the stated dependency or input and use a fresh destination.
+Open the `workspace_launcher` shown when setup completes. The current build prepares **Copperpath.app** in its launcher folder. Open it through Finder. Earlier artifacts prepare **Open Saved Project.command**. A refusal leaves the completed stages and logs under `.runs/launcher-setup` in the new folder. Fix the stated dependency or input and use a fresh destination. [Observed app launch](../evidence/product-workspace-context-finder-001.json)
 
 Enter the selected runtime before every `-m autorouter` command: using its interpreter from another checkout can import the wrong code. Follow the new launcher's README. It binds the runtime, tools and isolated configuration/documents/cache/plugin area. Keep those locations intact; a moved or replaced launcher needs fresh preparation. The launcher is a cooperative boundary, not an OS sandbox.
 
@@ -32,7 +32,7 @@ Before inspecting or routing, save and close the source PCB/schematic editors, t
 
 ## Saved-project launcher and optional toolbar handoff
 
-Double-click **Open Saved Project.command** to open Copperpath. Choose the `.kicad_pro` file while that project is closed, and its inspection starts automatically. Keep its matching PCB, schematic and rules together. If you edit and save the project afterward, choose **Refresh inspection** before continuing. The direct launcher uses the existing runtime, with no extra Python packages.
+Double-click **Copperpath.app** to open the workspace. Use **Open Saved Project.command** from the same folder when you need startup diagnostics. Choose the `.kicad_pro` file while the project is closed. Inspection starts automatically. Keep its matching PCB, schematic and rules together. After edits, save and choose **Refresh inspection** before continuing. Both launchers use the same checked local runtime.
 
 Fresh preparation provisions an empty private job directory for inspection
 and validation. Installing an existing artifact preserves its checked program

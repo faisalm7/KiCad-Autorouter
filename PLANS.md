@@ -52,12 +52,18 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     Freerouting. The installed J2 mismatch refused and the matched two-gap
     source passed fresh export without changing any protected copper.
     [Installed pair](evidence/product-early-source-fields-001.json)
-11. Show known delivery blockers as the saved board opens. Keep actual board
-    context behind the copper changes in review. Verify both on screen in one
-    installed build using the existing route proof for the display check.
-12. Make one-step local setup prepare a Finder app for opening a saved
-    project. Launch it from Finder and check the actual workspace without a
-    Terminal window. Retain the pinned launcher and diagnostic fallback.
+11. **Verified.** The saved board opens beside an actionable field refusal.
+    Switching to the matched copy clears the finding. The installed review
+    shows the rectangular outline and part locations on both layers. The
+    copper canvas actually repainted from front to back at laptop size.
+    [Display evidence](evidence/product-workspace-context-finder-001.json)
+12. **Verified on this Mac.** One-step setup prepares a Copperpath Finder
+    app. Launch Services opened the workspace without starting Terminal.
+    The pinned command launcher supplies diagnostics.
+    [Launch evidence](evidence/product-workspace-context-finder-001.json)
+13. Make an edited checked export easy to use for a new task. Keep the stale
+    opening refusal. Offer a fresh inspection of the exact separate copy
+    through the ordinary workspace with the previous approval revoked.
 
 ## Verified Finish gaps batch from 2dabd0799
 

@@ -1,6 +1,6 @@
 # Saved-project workspace
 
-Open **Open Saved Project.command** from the Copperpath launcher and choose a saved `.kicad_pro`. Copperpath checks the saved files and displays the board when inspection succeeds. You can also enter the project path and press **Return**. Keep the PCB, schematic and rules together. If KiCad has the project open, save and close both editors, choose **File → Close Project** in KiCad manager, then choose **Refresh inspection** in Copperpath. Start protected routing with **Route saved board**.
+Open **Copperpath.app** from the launcher and choose a saved `.kicad_pro`. Older launchers offer **Open Saved Project.command**. Copperpath checks the saved files and displays the board when inspection succeeds. An already-checked PCB and schematic field difference that blocks delivery appears in **Findings** beside the board. You can also enter the project path and press **Return**. Keep the PCB, schematic and rules together. If KiCad has the project open, save and close both editors, choose **File → Close Project** in KiCad manager, then choose **Refresh inspection** in Copperpath. Start protected routing with **Route saved board**.
 
 - Click parts on the board or check them in Settings. Draw the allowed area on the board. Other components stay fixed. Choose how to handle affected copper before finding alternatives.
 - With the optional KiCad IPC client, the PCB toolbar can carry the parts selected when Copperpath opens. Save and close the same project, refresh its inspection, then choose **Use KiCad selection**. The saved board supplies geometry and locks. If a part has disappeared or is fixed under the chosen copper policy, select eligible parts in Copperpath. Review the parts and choose an area before requesting alternatives.
@@ -42,9 +42,9 @@ switching tabs. The recorded tests made no manual CAD corrections.
 ## Routing around a fixed net tie
 
 Open **Route saved board**, then choose **Selected nets; keep other copper**.
-Under **Advanced routing and experiments**, choose **Completion only** and keep
-**Both corrections**, **All source copper** and the default via preference.
-Enter only the nets you want to route. Preview identifies the fixed tie and the
+Copperpath shows **Completion only**. Keep **Both corrections**, **All source
+copper** and the default via preference. Choose only the nets you want to
+route. Preview identifies the fixed tie and the
 two names to leave out. Read the Native findings and export the checked copy
 through the usual review controls.
 
