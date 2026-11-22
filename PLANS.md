@@ -2,24 +2,27 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
-## Current Finish gaps batch from 2dabd0799
+## Verified Finish gaps batch from 2dabd0799
 
-1. The source-derived scope and early delivery checks are integrated. Native
-   Preview must show the missing-connection nets, the retained routing and
-   any source blockers. The actual engine and final readback must use that
-   same scope. Older route results retain their original policy.
-2. Qualify the installed flow on the owned two-gap board. Preserve its KEEP
-   track and ground plane, and check that only ROUTE_A and ROUTE_B receive
-   copper. Verify the unchanged Robotont repair project stops in Preview and
-   identifies the J2 Datasheet and J1 footprint issues. Run no Robotont solver.
-3. After the above checks, evaluate the MIT DS18B20 project. This is a new
-   single-segment repair on an exposed family. Freeze the exact source edit,
-   one 85-second attempt and 26 retained routes before running it. Check the
-   pristine source and actual task eligibility. Record operator actions,
-   elapsed time, findings, changes and any refusal through independent readback.
+1. Native Preview verifies the missing nets, shows the scope beside the
+   saved board and checks for inherited delivery blockers. The actual engine
+   receives the same scope while retaining its complete board context. Final
+   checks enforce the scope and all-copper preservation. A budget edit clears
+   the preview. Older route receipts retain their original policy.
+2. The installed owned two-gap test preserves KEEP and the ground plane and
+   generates copper only on ROUTE_A and ROUTE_B. Robotont stops in Preview
+   with its J2 Datasheet and J1 footprint differences in view. No new Robotont
+   routing ran. The old workflow refusal remains development evidence.
+3. The licensed DS18B20 task was frozen before admission. A connected pristine
+   source offered no Start action. The single-gap copy delivered with one new
+   `/SIG` segment, 26 original tracks, original constraints and checked export.
+   The installed task took 46.20 seconds through export and 49.49 seconds
+   through independent readback. [Evidence and reproduction](docs/scoped-finish-gaps-evaluation.md)
 
-Continue to the next ready item after each verified checkpoint. Preserve the old
-Robotont trial, the previous scoped delivery and the existing recovery receipt.
+Relative usefulness on a new family and wider geometry remain open, along
+with the existing platform and release gates. Further board evaluations need
+a prospectively declared task and source eligibility under the delivery policy.
+Preserve the original failures and compare complete workflows.
 
 ## Completed delivery batch from 42eeeda72
 

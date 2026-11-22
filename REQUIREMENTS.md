@@ -12,6 +12,14 @@ The master specification, current strategy and owner steering govern. Historical
 
 ## Current installed scope
 
+- Finish gaps uses saved-project KiCad 10.0.7 refill and full-schematic checks
+  to verify the active nets, then preserves all existing tracks and vias.
+  The scoped two-layer engine input retains other nets, original obstacles
+  and plane definitions. Owned and licensed tasks pass final native checks
+  and independent delivery readback. The installed UI refuses the unchanged
+  Robotont parity blocker early, withholds Start for a connected source, and
+  revokes the preview after a budget edit. Broader geometry and ambiguous
+  net identities remain outside this scope. [Results](docs/scoped-finish-gaps-evaluation.md)
 - The 9e2372a89 Mac installation completes one saved rectangular two-layer
   placement-and-routing task with a protected standard through-via. The
   checked export and independent readback preserve the original copper,

@@ -1,0 +1,208 @@
+{
+  "schema": 1,
+  "date": "2026-11-21",
+  "reference_commit": "2dabd07996b1982467abc10bfbfa9e0dc4299b99",
+  "scope_implementation": "02604b8b93b0345cf1cccd2407f8460d28694acd",
+  "installed_build": "735174c94064354a2d3b51c11cadc5986586c3cb",
+  "platform": "Apple Silicon macOS",
+  "kicad_cli": "10.0.7",
+  "engine": "Freerouting 2.5.0",
+  "paid_model_requests": 0,
+  "mechanism": "Native full-schematic source DRC/refill, exact endpoint-to-net mapping, selected DSN class activity with original network and obstacles, completion-only Freerouting, preserve-all source and final route audit, binding rechecked before engine; final Native/refill/parity and separate checked export.",
+  "owned_control": {
+    "installed_build": "02604b8b93b0345cf1cccd2407f8460d28694acd",
+    "target_nets": [
+      "ROUTE_A",
+      "ROUTE_B"
+    ],
+    "native_initial_opens": 2,
+    "original_routes_exact": 1,
+    "added_by_net": {
+      "ROUTE_A": 3,
+      "ROUTE_B": 3
+    },
+    "added_on_other_nets": 0,
+    "removed_plane_count_in_engine_input": 0,
+    "wall_routing_seconds": 10.150829,
+    "cpu_routing_seconds": 8.169884,
+    "fresh_export_findings": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 0,
+      "exclusions": 0,
+      "ignored_checks": 2
+    },
+    "export_current": true,
+    "source_exact": true,
+    "final_ui_preserved_board_with_targets": true,
+    "budget_change_revoked_preview_without_dispatch": true
+  },
+  "robotont_unchanged_control": {
+    "earlier_trial": "evidence/robotont-finish-gaps-installed-001.json",
+    "status": "blocked",
+    "source_exact": true,
+    "route_launched": false,
+    "native_findings": {
+      "opens": 1,
+      "blocking": 0,
+      "warnings": 3,
+      "exclusions": 0,
+      "ignored_checks": 6
+    },
+    "copperpath_reasons": [
+      "policy-critical native finding: footprint_symbol_field_mismatch (warning)"
+    ],
+    "affected_findings": [
+      {
+        "kind": "footprint_symbol_field_mismatch",
+        "severity": "warning",
+        "description": "Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+        "items": [
+          "Footprint J2"
+        ]
+      },
+      {
+        "kind": "footprint_symbol_mismatch",
+        "severity": "warning",
+        "description": "GT-BTP25006-0240A-010A:GT-BTP25006-0240A-010A doesn't match footprint given by symbol (GT-BTP25006-0240A-010A)",
+        "items": [
+          "Footprint J1"
+        ]
+      }
+    ],
+    "visible_remedy": "Reconcile the shown fields and footprint assignments in KiCad. Save the PCB and schematic, then preview again."
+  },
+  "licensed_task": {
+    "repository": "https://github.com/ampnics/DS18B20",
+    "revision": "c5420f538a77e0af03974031a5ee1c36a5b5e0a1",
+    "license": "MIT",
+    "coverage": "New single-gap task on exposed MIT family. Earlier installed task removed all nine /SIG traces.",
+    "declared_utc": "2026-11-22T05:26:29.655028+00:00",
+    "original_source_sha256": {
+      "D18BS20.kicad_pcb": "2ce74b0cfa4863e15ff282ed6e77d628bd3f13756886fdd133cd20c5e7404f13",
+      "D18BS20.kicad_pro": "e6343efeaf6ee42a2d6f6a78b06780d6d1855271be9b4eaed0121bdc70a53924",
+      "D18BS20.kicad_sch": "f846b9dfdebd175031214cb40169ae4c3f7f8c70b1b9158b172cad1bca87ea2a",
+      "D18BS20.kicad_prl": "4c5470c0b19738593564947670c111aca22badbc28229ba0e38ceb5262fb8dbe"
+    },
+    "task_source_sha256": {
+      "D18BS20.kicad_pcb": "22791d9b97ac80eeca9fee57a2a8e04d85821ee68e70fcb532f72ab606bfb776",
+      "D18BS20.kicad_pro": "e6343efeaf6ee42a2d6f6a78b06780d6d1855271be9b4eaed0121bdc70a53924",
+      "D18BS20.kicad_sch": "f846b9dfdebd175031214cb40169ae4c3f7f8c70b1b9158b172cad1bca87ea2a",
+      "D18BS20.kicad_prl": "4c5470c0b19738593564947670c111aca22badbc28229ba0e38ceb5262fb8dbe"
+    },
+    "removed_segment": {
+      "uuid": "4f6b2837-5834-489f-83ba-b5996a179ba2",
+      "net": "/SIG",
+      "layer": "F.Cu",
+      "start_mm": [
+        148.3,
+        97.4
+      ],
+      "end_mm": [
+        148.3,
+        95.2
+      ]
+    },
+    "scope": "/SIG only",
+    "routing_budget_seconds": 85,
+    "routing_attempts": 1,
+    "pristine_findings": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 11,
+      "exclusions": 0,
+      "ignored_checks": 7
+    },
+    "pristine_source_delivery_blockers": [],
+    "admitted_task_findings": {
+      "opens": 1,
+      "blocking": 0,
+      "warnings": 13,
+      "exclusions": 0,
+      "ignored_checks": 7
+    },
+    "task_removed_gap_dangling_track_warnings_after_repair": 2,
+    "fresh_export_findings": {
+      "opens": 0,
+      "blocking": 0,
+      "warnings": 11,
+      "exclusions": 0,
+      "ignored_checks": 7
+    },
+    "result_sha256": "910ea6f8d544de1eabfdb4b1405da61f671e6b49f0affe3738e0f7a19fea0ad1",
+    "input_routes_exact": 26,
+    "exact_retained_same_net_routes": 8,
+    "new_routes": 1,
+    "other_net_copper_changes": 0,
+    "new_route_geometry": {
+      "uuid": "bc6306d5-b1b8-4690-ba3a-4530911a2b07",
+      "net": "/SIG",
+      "layer": "F.Cu",
+      "start_mm": [
+        148.3,
+        97.4
+      ],
+      "end_mm": [
+        148.3,
+        95.2
+      ],
+      "width_mm": 0.2,
+      "removed_reference_width_mm": 0.3,
+      "new_width_matches_saved_default": true
+    },
+    "project_rules_and_both_source_trees_exact": true,
+    "export_current": true,
+    "whole_project_drc_clean": false,
+    "manual_cad_corrections": 0,
+    "native_flow_retries": 0,
+    "wall_route_seconds": 10.184588,
+    "cpu_route_seconds": 8.686169,
+    "wall_fresh_export_seconds": 8.13651,
+    "cpu_fresh_export_seconds": 7.123035,
+    "independent_check_wall_seconds": 3.206028,
+    "pristine_native_inspection_seconds": 1.542977,
+    "timed_selection_through_export_seconds": 46.202385,
+    "timed_selection_through_readback_seconds": 49.493805,
+    "visible_wait_through_export_seconds": 41.463584,
+    "operator_equivalent_actions": [
+      "Back to workspace",
+      "Enter request or refine setting",
+      "Inspect project",
+      "Route saved board…",
+      "Show advanced settings",
+      "Enter request or refine setting",
+      "Hide advanced settings",
+      "This saved project is closed",
+      "Preview routing",
+      "Start routing",
+      "Review result",
+      "Findings",
+      "I reviewed the findings",
+      "Accept result",
+      "Export checked copy"
+    ],
+    "timing_scope": "Actual installed controls driven by automation. Includes setup from saved project selection, screen checks, configured runs and export. Local fixture staging, pristine eligibility and one-time installation are separate. No instruction to expect the same timing from an engineer.",
+    "product_friction": "Inspect was a distinct step to show the saved board. Changing the fixed test budget required opening Advanced. Raw findings remain lengthy. No engineering settings or source geometry needed correction.",
+    "automation_friction": "Owned checks initially read accessibility before keyboard settlement and asserted against a line-wrapped label. Continued after reading real state, with no extra routing attempt. The timed licensed task needed no repeated action."
+  },
+  "focused_regressions": {
+    "passed": 214,
+    "seconds": 12.979
+  },
+  "local_increment": {
+    "files": 898,
+    "bytes": 16721832,
+    "archive_bytes": 5931228,
+    "archives_sha256": {
+      "manifest.json": "aa9e7c7215fb65f87472ceaa14c315ecbdd9b30598c357aa5d792ce8374cf898",
+      "selected-artifacts.tar.gz": "837050cb10340ebd1d8be3134f66998ae7c75841f21312e773f8ff98fa7a5661"
+    },
+    "contents_verified_against_manifest": true,
+    "expanded_restoration_performed": false
+  },
+  "remaining_limits": [
+    "Two-layer saved-project scope with exact Native connection/terminal mapping and supported geometry and rules.",
+    "Licensed evidence is a new single-gap task on a previously studied family.",
+    "No independent human electrical review, manufacturing evidence, general comparative gain, native Windows qualification or full current external recovery established by this batch."
+  ]
+}
