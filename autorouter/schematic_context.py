@@ -59,6 +59,33 @@ def current(context, board):
         raise ValueError('Saved project changed. Inspect the project again to refresh schematic context.')
 
 
+def selection_summary(context, references, *, proposed=False):
+    """Show the verified saved facts relevant to the visible selection."""
+    if not references:
+        return ''
+    parts = [context['components'][ref] for ref in references if ref in context['components']]
+    if not parts:
+        return 'The selected components have no verified schematic link.'
+    labels = ', '.join(ref if len(ref) <= 20 else ref[:19] + '…' for ref in references[:3])
+    if len(references) > 3:
+        labels += f' +{len(references) - 3}'
+    sheets = {' / '.join(part['sheet']) or 'Root sheet' for part in parts}
+    if len(parts) < len(references):
+        linked = f'{len(parts)} of {len(references)} linked'
+    elif len(sheets) == 1:
+        linked, = sheets
+    else:
+        linked = f'{len(sheets)} schematic sheets'
+    if len(linked) > 46:
+        linked = linked[:45] + '…'
+    nets = sorted({net for part in parts for net in part['pin_nets'].values()})
+    names = ', '.join(net if len(net) <= 24 else net[:23] + '…' for net in nets[:3])
+    if len(nets) > 3:
+        names += f' +{len(nets) - 3}'
+    prefix = 'Suggested' if proposed else 'Selected'
+    return f'{prefix} {labels} · {linked}\nSaved PCB nets · ' + (names or 'none assigned')
+
+
 def describe(context, references):
     """Present linked source facts and bounded peers for the components in view."""
     if context is None:

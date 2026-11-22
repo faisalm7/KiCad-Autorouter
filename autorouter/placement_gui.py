@@ -862,6 +862,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
             self.assistant_result.Hide()
             assistant_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.ALL, 8)
+            self.assistant_context = wx.StaticText(assistant_inputs)
+            self.assistant_context.Hide()
+            assistant_layout.Add(self.assistant_context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             assistant_layout.Add(wx.StaticText(assistant_inputs, label='Your request or reply'),
                                  0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 66),
@@ -1089,20 +1092,32 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.constraint_key.SetLabel(self.board_legend)
 
         def schematic_page_changed(self, event):
-            if event.GetSelection() == 3:
+            if event.GetSelection() in (2, 3):
                 self.update_schematic_view()
             event.Skip()
 
         def activated(self, event):
-            if event.GetActive() and self.pages.GetSelection() == 3:
+            if event.GetActive() and self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
             event.Skip()
 
         def update_schematic_view(self):
+            note = ''
             if self.schematic is None:
-                self.schematic_text.ChangeValue(self.schematic_refusal or
-                    'Choose a saved project to see its schematic context.')
-                return
+                text = self.schematic_refusal or 'Choose a saved project to see its schematic context.'
+                if self.schematic_refusal.startswith('Schematic context needs a fresh inspection.'):
+                    note = 'Refresh inspection to update saved schematic context.'
+            else:
+                text, note = self.current_schematic_readout()
+            self.schematic_text.ChangeValue(text)
+            if hasattr(self, 'assistant_context'):
+                self.assistant_context.SetLabel(note)
+                self.assistant_context.Show(bool(note))
+                if note:
+                    self.assistant_context.Wrap(self.FromDIP(306))
+                self.request_controls.Layout(); self.request_controls.FitInside()
+
+        def current_schematic_readout(self):
             try:
                 schematic_context.current(self.schematic, self.board.GetValue())
                 if (self.constraint_offer is not None and not self.constraint_edited
@@ -1115,11 +1130,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     prefix = ''
                 else:
                     names, prefix = [], ''
-                self.schematic_text.ChangeValue(prefix + schematic_context.describe(self.schematic, names))
+                return (prefix + schematic_context.describe(self.schematic, names),
+                        schematic_context.selection_summary(self.schematic, names, proposed=bool(prefix)))
             except (OSError, ValueError, Rejected) as exc:
                 self.schematic = None
                 self.schematic_refusal = 'Schematic context needs a fresh inspection. ' + str(exc)
-                self.schematic_text.ChangeValue(self.schematic_refusal)
+                return self.schematic_refusal, 'Refresh inspection to update saved schematic context.'
 
         def pick_on_board(self, identity):
             if self.busy or self.gate.closed or self.inspection is None:
@@ -1149,7 +1165,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.parts.Check(index, not self.parts.IsChecked(index))
             update_target_area(self)
             self.revoke(discard=True)
-            if self.pages.GetSelection() == 3:
+            if self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
             self.message(row['reference'] + (' selected to move.' if self.parts.IsChecked(index)
                 else ' will stay fixed.') + ' Choose the allowed area, then Find alternatives.')
@@ -1444,9 +1460,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def constraint_draft_changed(self, event):
             if self.constraint_offer is not None:
                 if not self.constraint_edited:
+                    self.constraint_edited = True
                     routing = self.constraint_offer['kind'] == conversation.ROUTING_KIND
                     self.update_constraint_map(self.constraint_offer if routing else None)
-                self.constraint_edited = True
                 self.constraint_summary.ChangeValue('Preview your edits before using these settings.')
                 self.refresh()
             event.Skip()
@@ -1479,7 +1495,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     legend = ('Saved board · Review routing changes after the run.' if value is not None else
                               'Saved board drawing unavailable. You can still preview routing.')
                 self.constraint_key.SetLabel(self.board_legend if offer is None else legend)
-                if hasattr(self, 'schematic_text') and self.pages.GetSelection() == 3:
+                if hasattr(self, 'schematic_text') and self.pages.GetSelection() in (2, 3):
                     self.update_schematic_view()
             except (KeyError, TypeError, ValueError, OSError) as exc:
                 self.picture.SetScene(None)
@@ -1540,6 +1556,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.revoke(discard=True)
             if not from_conversation:
                 self.pages.SetSelection(0)
+            elif self.pages.GetSelection() in (2, 3):
+                self.update_schematic_view()
             self.message('Settings applied. Review the board, then choose Find alternatives.')
 
         def reset_conversation(self, _):

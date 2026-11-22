@@ -35,6 +35,18 @@ class SavedSchematicContextTests(unittest.TestCase):
         self.assertIn('saved PCB pad assignments', description)
         self.assertFalse(context['electrical_validation_performed'])
 
+    def test_conversation_context_names_only_the_verified_selected_parts_and_nets(self):
+        context = schematic_context.capture(self.board, self.hashes)
+        first = context['components']['J1']
+        summary = schematic_context.selection_summary(context, ['J1'])
+        self.assertIn('Selected J1', summary)
+        self.assertIn(first['sheet'][0], summary)
+        self.assertTrue(all(net in summary for net in first['pin_nets'].values()))
+        self.assertNotIn('J2', summary)
+        self.assertIn('Suggested J1, J2', schematic_context.selection_summary(context, ['J1', 'J2'], proposed=True))
+        self.assertEqual(schematic_context.selection_summary(context, []), '')
+        self.assertIn('no verified schematic link', schematic_context.selection_summary(context, ['UNKNOWN']))
+
     def test_changed_or_missing_child_cannot_reuse_earlier_context(self):
         context = schematic_context.capture(self.board, self.hashes)
         child = self.root / fixture.CHILD_SCH
