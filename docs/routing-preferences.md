@@ -41,6 +41,15 @@ For higher via cost, change only the final value to `"via_high"` in a fresh pres
 
 When you preview Finish gaps, KiCad refills zones and checks the saved project on a copy. Copperpath lists the nets it will route and any source findings that would block a checked export. Resolve a reported PCB/schematic difference in KiCad, save the project, and preview again. Use the scope shown in Preview before starting. See [the CLI equivalent](install-existing.md#advanced-ordinary-routing-cli).
 
+Selected routing can also retain a saved Default class and one additional
+fully specified class with exact net-name assignments. This checks KiCad
+10.0.7 saved 20260206 two-layer boards within the original edge and geometry
+rules. It uses Completion only, both interchange corrections, all source
+copper layers and the engine’s default via preference. Wildcard assignments,
+custom rules and a net tie combined with named classes remain outside this
+scope. Original dimensions, protected copper and the complete project are
+checked at delivery. [Observed source and delivery](../evidence/product-native-named-class-delivery-001.json)
+
 Improve is a separate experimental canonical2Cu/flat/whole/native/tuned/both/source_all/default-score method using the single-proposal policy. Its source guard accepts sole explicit/implicit Default or the narrowly checked Native parent-class policy. The [074 matched-class control](../evidence/runtime074-installed-native-milestone-001.json) preserves the original `Default`, `SIGNAL` and `POWER` classes, exercises one actual trial and retains protected copper, own export proof and wrong-width/source-PRO negatives. This does not qualify arbitrary class assignments, selected Improve, explicit layer subsets or advanced constraints.
 
 The whole Improve budget includes tuned incumbent, pruning trials, final checks and40s internal return reserve; the reserve does not enlarge wall/fullCPU caps or guarantee completion. [073 GUI104's addendum](../evidence/gui-runtime073-104-addendum-002.json) records class fresh export and checked opening; it does not qualify runtime074. Historical [GUI103](../evidence/gui-runtime070-103-qualification-001.json) retains its original cancellation outcomes and reporting defect. GUI105 finite core passes its recorded gates. The genuine changed-warning dialog and exact queued callback interval remain unexercised. Cancellation, staleness or invalid constraints never authorize fallback. Thermal Recover is distinct and not current GUI-qualified. [Method requirements](gui-workflow.md).

@@ -30,12 +30,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    changes. The new IPC capture still needs an actual toolbar check after the
    existing editor session can be closed safely.
    [Selection evidence](evidence/product-toolbar-selection-001.json)
-6. **In progress.** The retained 555 task passed a bounded Native export and
-   preserved both class rule sets through partitioning. Qualify the new
-   composition on one frozen owned two-class task through fresh checked
-   delivery. Then try the unchanged 555 routing task under its existing
-   budgets. Reuse the earlier placement evidence and keep its original
-   routing refusal. [Transport observation](evidence/product-native-named-class-probe-001.json)
+6. **Verified.** One owned two-class board and the retained placed 555
+   completed selected routing and fresh checked delivery. The 555 completed
+   ten opens and kept 24 original tracks, both classes and its warnings.
+   [Installed delivery](evidence/product-native-named-class-delivery-001.json)
+7. **In progress.** Make the required Completion only profile follow a
+   deliberate selection of Selected nets in the ordinary workspace. Verify
+   the visible profile and exact captured settings without reopening the
+   finished route or editing a saved preset.
+8. Extend the next useful workflow on a licensed design. Qualify an exact
+   task and capability before routing, or record the precise geometry or
+   installation dependency and move to the next ready product item.
 
 ## Verified Finish gaps batch from 2dabd0799
 

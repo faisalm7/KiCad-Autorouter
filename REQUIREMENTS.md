@@ -34,6 +34,12 @@ The master specification, current strategy and owner steering govern. Historical
   placement-and-routing task with a protected standard through-via. The
   checked export and independent readback preserve the original copper,
   rules, schematic and findings. [Evidence](evidence/product-workspace-through-via-001.json)
+- Selected routing on pinned 10.0.7 supports Default and one additional
+  fully specified class assigned by exact net names. The owned control and
+  installed 555 workflow passed the original class, copper, Native and fresh
+  export checks. Pattern wildcards, custom rules, net ties combined with
+  named classes and other geometry are separate capabilities.
+  [Installed evidence](evidence/product-native-named-class-delivery-001.json)
 - The NUS task still refuses. Curved outlines, plated slots, placement rule
   areas and routing layer types require separate support. The frozen target
   also conflicts with fixed copper in the current geometry model.

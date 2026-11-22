@@ -49,3 +49,14 @@ readback. The placed copy has ten expected opens, zero blockers and nine
 warnings. Routing preview refused the saved parent `Power` class in
 selected-net mode. No routing ran and the trial stopped before delivery.
 The earlier refusal stays in the record. [New placement and refusal](../evidence/product-straight-track-placement-555-001.json) · [Frozen original trial](555-constrained-placement-gui129.md)
+
+The checked named-class continuation used that exact validated placed copy as
+a saved source. R1/R2 positions, the seven fixed components, the original
+files and all 24 protected tracks stayed unchanged. Selected routing closed
+the ten opens with 23 new segments across `+5V`, `/DISCH` and `/TIMING`.
+KiCad checked the complete project and retained nine inherited warnings and
+five ignored checks. Fresh separate export and independent readback verified
+the same original Default and Power assignments and dimensions. The full
+installed sequence includes automation pauses and took 5 min 36 s to export.
+The observed application waits through export total 47.56 s. No manual CAD
+correction or model request occurred. [Installed delivery and limits](../evidence/product-native-named-class-delivery-001.json)
