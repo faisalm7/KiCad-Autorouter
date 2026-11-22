@@ -25,15 +25,16 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    prepares the saved-project launcher. A clean same-Mac install at a new
    path passed first use from a different working directory.
    [Setup evidence](evidence/product-local-workspace-setup-001.json)
-5. **In progress.** Carry the initial KiCad component selection into the
-   saved-project workspace. Match it against the freshly inspected saved
-   board and require explicit adoption. Reject changed or ineligible
-   selections and retain all existing checks. Test from an isolated editor
-   when the launcher admission check permits it.
-6. Keep improving placement delivery on licensed boards. Bound the selected
-   named-class transport investigation to the documented 555 blocker and
-   keep the original class rules, tied-net scope and outside-scope copper
-   checks mandatory.
+5. **Installed saved-side controls verified.** The ordinary workspace adopts
+   only eligible carried components and revokes the hint when the project
+   changes. The new IPC capture still needs an actual toolbar check after the
+   existing editor session can be closed safely.
+   [Selection evidence](evidence/product-toolbar-selection-001.json)
+6. **In progress.** Test whether the retained 555 placement task can export
+   and partition its two original class populations without changing their
+   rules. Use one bounded Native export plus the existing adapter and reader.
+   A pass permits a separate selected-native integration with original-class,
+   protected-copper, final and delivery checks. Keep the earlier refusal.
 
 ## Verified Finish gaps batch from 2dabd0799
 
