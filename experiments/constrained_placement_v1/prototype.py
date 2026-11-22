@@ -66,8 +66,8 @@ def source_context(source, *, region_initialization=None):
     return original
 
 
-def _region_seed(facts, initial, validate, check, record):
-    """First valid finite joint target; no score-based choice or source repair."""
+def _region_candidates(facts, initial, validate, check, record):
+    """Enumerate the bounded target grid with the same clearance checks."""
     components = {row['id']: row for row in facts['components']}
     options = []
     refusals = record['rejected_by_constraint']
@@ -81,11 +81,11 @@ def _region_seed(facts, initial, validate, check, record):
             high = min(row['allowed_region_mm'][axis+2], board[axis+2] - gap) - extent/2
             if low > high:
                 record['courtyard_cannot_fit'] = True
-                return None
+                return
             values = [min(high, max(low, row['position_mm'][axis])), (low+high)/2, low, high]
             axes.append(list(dict.fromkeys(values)))
         options.append(list(itertools.product(*axes)))
-    for positions in itertools.product(*options):
+    for positions in itertools.islice(itertools.product(*options), record['candidate_limit']):
         check(); record['candidates_checked'] += 1
         assert record['candidates_checked'] <= MAX_REGION_SEED_CANDIDATES
         candidate = copy.deepcopy(initial)
@@ -100,6 +100,12 @@ def _region_seed(facts, initial, validate, check, record):
             refusals[reason] = refusals.get(reason, 0) + 1
             check(); continue
         check()
+        yield candidate
+
+
+def _region_seed(facts, initial, validate, check, record):
+    """First valid finite joint target; no score-based choice or source repair."""
+    for candidate in _region_candidates(facts, initial, validate, check, record):
         candidate = validate_alternative(facts, candidate)  # Independent chosen-seed fence.
         check()
         record['seed_publicly_validated'] = True
@@ -235,6 +241,32 @@ class _ConstrainedAnnealer(Annealer):
         return self._move(super()._try_swap)
 
 
+def _single_component_alternatives(facts, initial, validate, check, counts, *, seed, steps, alternatives):
+    """Score checked translations with the existing objective and leave every other pose fixed."""
+    identity, = facts['selected']
+    board = _model(facts)
+    part = board.components[identity]
+    old_x, old_y = part.x, part.y
+    engine = _ConstrainedAnnealer(board, facts, seed, check, counts, validator=validate)
+    before = engine._quality()
+    record = dict(candidates_checked=0, candidate_limit=min(16, steps), rejected_by_constraint={})
+    ranked = []
+    for candidate in _region_candidates(facts, initial, validate, check, record):
+        if candidate == initial:
+            continue
+        target = next(row for row in candidate['transforms'] if row['component_id'] == identity)
+        part.x, part.y = target['x_mm'], target['y_mm']
+        quality = engine._quality()
+        distance = (old_x - part.x)**2 + (old_y - part.y)**2
+        rank = (quality, distance, part.x, part.y)
+        ranked.append((rank, dict(candidate=candidate, seed=seed, before_proxy_cost=before, after_proxy_cost=quality)))
+    counts['attempted_moves'] = record['candidates_checked']
+    counts['constraint_rejected_moves'] = sum(record['rejected_by_constraint'].values())
+    counts['attempted_alternatives'] = len(ranked)
+    ranked.sort(key=lambda row: row[0])
+    return [row[1] for row in ranked[:alternatives]]
+
+
 def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_event=None,
             region_initialization=None):
     """Return at most three independently valid, source-bound transform alternatives.
@@ -274,8 +306,9 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
         except Refused as exc:
             raise Refused('Initially feasible rectangular placement required: ' + str(exc)) from exc
     free_count = len(facts['components']) - len(immovable(facts))
-    if free_count < 2:
-        raise Refused('Pinned upstream annealer requires at least two movable components')
+    single = len(facts['selected']) == free_count == 1
+    if free_count < 2 and not single:
+        raise Refused('Select one eligible component or at least two movable parts for a multi-part task')
     found, fingerprints = [], set()
     counts = dict(attempted_moves=0, constraint_rejected_moves=0, attempted_alternatives=0)
     status = 'no_changed_alternative'
@@ -304,7 +337,10 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
                 start_pose = _region_seed(facts, initial, validate_move, check, initialization)
                 initialization['status'] = 'seed_ready' if start_pose is not None else 'no_feasible_region_seed'
             check()
-        for index in range(alternatives if start_pose is not None else 0):
+        if single and start_pose is not None:
+            found = _single_component_alternatives(facts, initial, validate_move, check, counts,
+                seed=seed, steps=steps, alternatives=alternatives)
+        for index in range(alternatives if start_pose is not None and not single else 0):
             check(); counts['attempted_alternatives'] += 1
             board = _model(facts)
             if region_initialization is not None:
@@ -374,4 +410,6 @@ def propose(source, *, seed=0, steps=200, alternatives=2, seconds=2.0, cancel_ev
             'physical source conflicts are not repaired. A finite seed miss is not infeasibility proof.')
         result['limits'].append('Initialization and optimization share the same time budget. A region-valid '
             'automatic seed is a proposal, not proof of Native legality or improved electrical placement.')
+    if single:
+        result['search_method'] = 'single-component-translation-grid-v1'
     return result

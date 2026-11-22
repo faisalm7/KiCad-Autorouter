@@ -70,8 +70,19 @@ class RegionInitialization(unittest.TestCase):
         self.assertEqual(context['source_sha256'], c.digest(source))
         with self.assertRaisesRegex(c.Refused, 'allowed region'):
             c.validate_alternative(source, context)
-        with self.assertRaisesRegex(c.Refused, 'at least two movable'):
-            self.propose(source)
+        result = self.propose(source)
+        self.assertEqual(result['status'], 'proposals_ready')
+        self.assertEqual(result['search_method'], 'single-component-translation-grid-v1')
+        self.assertLessEqual(result['counts']['attempted_moves'], 16)
+        actual = result['alternatives'][0]['candidate']
+        self.assertEqual(c.validate_alternative(source, actual), actual)
+        self.assertNotEqual(transform(actual, 'selected-b'), transform(context, 'selected-b'))
+        for fixed in set(result['fixed_components']):
+            self.assertEqual(transform(actual, fixed), transform(context, fixed))
+        self.assert_no_authority(result)
+        cancelled = threading.Event(); cancelled.set()
+        stopped = self.propose(source, cancel_event=cancelled)
+        self.assertEqual((stopped['status'], stopped['alternatives']), ('cancelled', []))
         self.assertEqual(source, before)
 
     def test_two_source_regions_seed_then_real_search_preserves_original_facts(self):

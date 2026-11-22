@@ -778,8 +778,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.rigid_group = wx.CheckBox(advanced, label='Keep selected parts together')
             advanced_layout.Add(self.rigid_group, 0, wx.BOTTOM, 6)
             self.target_region = wx.CheckBox(advanced, label='Allow parts to start outside the target area')
-            self.target_region.SetToolTip('A drawn or entered area enables this when a supported pair needs it. '
-                'Turn it off to require both current positions to fit. Every proposed position must fit inside the area.')
+            self.target_region.SetToolTip('A drawn or entered area enables this when a supported placement needs it. '
+                'Turn it off to require the current positions to fit. Every proposed position must fit inside the area.')
             advanced_layout.Add(self.target_region, 0, wx.BOTTOM, 6)
             self.original_group = wx.Button(advanced, label='Review current group arrangement')
             advanced_layout.Add(self.original_group, 0, wx.EXPAND | wx.BOTTOM, 6)
@@ -1175,7 +1175,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
             baseline_scope = (self.inspection is not None
                 and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
-            selection_ready = self.inspection is not None and len(self.parts.GetCheckedItems()) >= 2
+            minimum_parts = 2 if self.rigid_group.GetValue() else 1
+            selection_ready = self.inspection is not None and len(self.parts.GetCheckedItems()) >= minimum_parts
             if hasattr(self, 'toolbar_pick'):
                 self.toolbar_pick.Show(bool(self.toolbar_selection))
                 self.toolbar_pick.Enable(bool(self.toolbar_selection) and self.inspection is not None
@@ -1241,7 +1242,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                    else 'Review the component moves.')
                     notes.append(instruction + '\nConfirm both editors and the saved project are closed in KiCad.')
                 elif needs_selection:
-                    notes.append('Select at least two movable parts to find alternatives. Route saved board keeps their positions.')
+                    notes.append('Select movable parts to find alternatives. A group needs at least two parts.')
                 self.approval_note.SetLabel('\n'.join(notes))
                 self.approval_note.Wrap(max(340, self.GetClientSize().width - 30))
                 self.approval_note.Show(bool(notes))
@@ -1836,7 +1837,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             update_target_area(self)
             self.revoke(discard=True)
             if len(chosen) == 1:
-                self.message('One component selected from KiCad. Choose at least two movable components.')
+                self.message('One component selected from KiCad. Choose the allowed area and review alternatives.')
             else:
                 self.message(f'{len(chosen)} components selected from KiCad. Review them and choose the allowed area.')
 

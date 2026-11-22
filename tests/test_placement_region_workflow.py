@@ -70,8 +70,9 @@ class RegionPlacementWorkflow(unittest.TestCase):
             if fault == 'authority': changed['approval_granted'] = True
             if fault == 'baseline': changed.pop('selected_copper_baseline_policy')
             with self.subTest(fault=fault), self.assertRaises(ValueError): intent.validate_settings(changed)
+        extra = next(row['uuid'] for row in self.observation['footprints'] if row['uuid'] not in self.selected)
         with self.assertRaises(ValueError):
-            intent.settings(self.selected[:1], self.region, scope=contract.THT_BASELINE_SCOPE,
+            intent.settings([*self.selected, extra], self.region, scope=contract.THT_BASELINE_SCOPE,
                             region_initialization=prototype.REGION_INITIALIZATION_POLICY)
 
     def test_native_source_baseline_and_annotations_still_required(self):

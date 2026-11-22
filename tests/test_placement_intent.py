@@ -92,12 +92,34 @@ class PlacementIntentTests(unittest.TestCase):
             intent.facts(inspection, intent.settings(tracked, [7_000_000, 17_000_000, 31_000_000, 23_000_000]))
         self.assertEqual(gui.source_inventory(self.board), before)
 
-    def test_missing_component_single_selection_and_copper_intersecting_region_refuse(self):
-        for selected, region in (([self.selected[0]], self.region),
+    def test_empty_or_missing_selection_and_copper_intersecting_region_refuse(self):
+        for selected, region in (([], self.region),
                                  ([self.selected[0], str(uuid.uuid4())], self.region),
                                  (self.selected, [7_000_000, 7_000_000, 31_000_000, 29_000_000])):
             with self.subTest(selected=selected, region=region), self.assertRaises(ValueError):
                 intent.facts(self.inspection, intent.settings(selected, region))
+
+    def test_single_placement_filters_rounded_unchanged_and_duplicate_poses(self):
+        identity = self.selected[0]
+        options = intent.settings([identity], self.region)
+        start = constraints.original_alternative(intent.facts(self.inspection, options))
+        source = next(row['position_nm'] for row in self.inspection['observation']['footprints']
+                      if row['uuid'] == identity)
+        for shifts, expected in (((0.0000004, 0.0000011), 1),
+                                 ((0.0000011, 0.0000014), 1), ((0.0000004,), 0)):
+            rows = []
+            for shift in shifts:
+                candidate = copy.deepcopy(start)
+                next(row for row in candidate['transforms'] if row['component_id'] == identity)['x_mm'] += shift
+                rows.append(dict(candidate=candidate))
+            with self.subTest(shifts=shifts), patch.object(intent.prototype, 'propose',
+                    return_value=dict(status='proposals_ready', alternatives=rows)):
+                result = intent.propose(self.inspection, options)['search']
+            self.assertEqual(len(result['alternatives']), expected)
+            if expected:
+                self.assertEqual(result['alternatives'][0]['moves_nm'][identity], [source[0] + 1, source[1]])
+            else:
+                self.assertEqual(result['status'], 'no_changed_alternative')
 
     def test_unsupported_geometry_is_not_normalized_or_removed(self):
         pristine = self.board.read_bytes()

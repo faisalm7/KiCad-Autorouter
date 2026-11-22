@@ -99,10 +99,10 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
         value.update(schema=4, kind=GROUP_SETTINGS_KIND, scope=scope, group_policy=group_policy)
     if region_initialization is not None:
         if (scope != contract.THT_BASELINE_SCOPE or group_policy is not None
-                or len(options['selected']) != 2
+                or len(options['selected']) > 2
                 or type(region_initialization) is not str
                 or region_initialization not in prototype.REGION_INITIALIZATION_POLICIES):
-            raise ValueError('Place into a target region requires two independent selected parts in the Native source-baseline scope.')
+            raise ValueError('Place into a target region requires one or two independent selected parts in the Native source-baseline scope.')
         value.update(schema=5, kind=REGION_SETTINGS_KIND, region_initialization=region_initialization)
     return value
 
@@ -120,7 +120,7 @@ def region_options(value):
 def target_area_needs_initialization(inspection, selected, area, *, grouped=False):
     """Choose the existing start policy for an explicit destination rectangle."""
     observation = inspection['observation']
-    if observation['scope'] != contract.THT_BASELINE_SCOPE or len(selected) != 2 or grouped:
+    if observation['scope'] != contract.THT_BASELINE_SCOPE or not 1 <= len(selected) <= 2 or grouped:
         return False
     baseline = inspection.get('native_source_baseline', {})
     native = inspection.get('native_context', {})
@@ -137,7 +137,7 @@ def target_area_needs_initialization(inspection, selected, area, *, grouped=Fals
     if not (board_left <= left < right <= board_right and board_top <= top < bottom <= board_bottom):
         return False
     parts = [part for part in observation['footprints'] if part['uuid'] in selected]
-    if len(parts) != 2 or any(part['locked'] or not part['placement_eligible'] for part in parts):
+    if len(parts) != len(selected) or any(part['locked'] or not part['placement_eligible'] for part in parts):
         return False
     for part in parts:
         courtyard = part['courtyard']
@@ -366,8 +366,6 @@ def _facts_context(inspection, value, plan, observation):
             constraints.validate_alternative(result, constraints.original_alternative(result))
     if set(value['selected']) & constraints.immovable(result):
         raise ValueError('Selected components include locked or routed-net components; deselect those components.')
-    if len(value['selected']) < 2:
-        raise ValueError('This search requires at least two movable components; nothing was moved.')
     if grouped(value):
         result['groups'] = [dict(policy=GROUP_POLICY, members=list(value['selected']))]
         result = constraints.prepare(result)
@@ -450,9 +448,29 @@ def propose(inspection, value, *, cancel_event=None):
     if cancel_event is not None and cancel_event.is_set():
         result['status'] = 'cancelled'; result['alternatives'] = []
     # Quantization is part of the draft contract, not deferred to the writer.
+    single = len(value['selected']) == 1
+    retained = []
+    if single:
+        identity = value['selected'][0]
+        source_anchor = next(part['position_nm'] for part in observation['footprints'] if part['uuid'] == identity)
+        seen = {tuple(source_anchor)}
     for row in result['alternatives']:
-        row['candidate'], row['moves_nm'] = contract.quantized_translation(original, row['candidate'], observation=observation)
+        try:
+            row['candidate'], row['moves_nm'] = contract.quantized_translation(original, row['candidate'], observation=observation)
+        except constraints.Refused:
+            if not single:
+                raise
+            continue
         group_moves(observation, value, row['moves_nm'])
+        if single:
+            anchor = tuple(row['moves_nm'][identity])
+            if anchor not in seen:
+                seen.add(anchor)
+                retained.append(row)
+    if single:
+        result['alternatives'] = retained
+        if result['status'] == 'proposals_ready' and not retained:
+            result['status'] = 'no_changed_alternative'
     proposal = dict(schema=1, kind='autorouter.placement-proposals.v1', inspection=copy.deepcopy(inspection),
         settings=value, search=result, native_validation_performed=False,
         execution_authorized=False, approval_granted=False)
