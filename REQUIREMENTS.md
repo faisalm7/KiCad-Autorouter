@@ -28,6 +28,11 @@ The master specification, current strategy and owner steering govern. Historical
   passed. The real review widget also placed the retained copper count,
   original warning and ignored checks ahead of settings on a 960 × 650 window.
   [Installed evidence](evidence/product-findings-host-intake-001.json)
+- Placement Findings shows exact original and displayed component positions.
+  Pending text edits withhold approval and leave those displayed positions
+  unchanged until checked. The explicit four-edge display also opens the
+  exposed Analog Filter read-only. Two-layer placement and selected-routing
+  scope limits remain. [Installed evidence](evidence/product-placement-and-board-findings-001.json)
 - A separate export edited after delivery fails its previous checked opening.
   The installed restart control reopens its exact saved files for fresh
   inspection with the earlier approval revoked. [Recovery](evidence/product-edited-export-recovery-001.json)

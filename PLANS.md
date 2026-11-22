@@ -87,13 +87,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     Adopting the exact suggestion keeps Conversation and the board visible.
     The installed app generated a single-part draft that still required
     explicit approval. [Installed draft](evidence/product-conversation-single-part-001.json)
-19. Show the exact proposed positions and unchanged component count at the
-    top of Findings. Verify the numbers match the drawn alternative and that
-    pending coordinate edits do not appear as reviewed changes.
-20. Keep the exact board outline visible on read-only boards made from four
-    straight edges. Confirm the exposed four-layer Analog Filter can be
-    inspected visually while its placement and selected-routing scope limits
-    remain enforced. Preserve its original files, stack and copper.
+19. **Verified.** Findings shows the displayed move and unchanged component
+    count before technical details. A typed coordinate edit retained the
+    displayed position and disabled approval. [Installed checks](evidence/product-placement-and-board-findings-001.json)
+20. **Verified read-only.** The exposed four-layer Analog Filter keeps its
+    exact rectangular outline and front copper visible. Placement and the
+    selected-net preview still refuse their respective unsupported scopes.
+    [Licensed scope check](evidence/product-placement-and-board-findings-001.json)
+21. Offer one-click first use with the exact already supplied example from
+    the installed launcher. Verify it opens as a normal saved task and
+    switching to another project clears its state. No extra tool download,
+    PCB write or model call.
 
 ## Verified Finish gaps batch from 2dabd0799
 

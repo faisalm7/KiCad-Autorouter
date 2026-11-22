@@ -76,3 +76,11 @@ router and fetched no new inputs.
 
 Keep these inputs and refusals intact. Use the findings to test early source
 diagnosis. A new geometry extension alone cannot make the UV design eligible.
+
+The retained MIT Analog Filter now opens with its exact four-edge rectangle
+and front copper in the read-only view. The installed app refuses placement
+and selected-net routing on the unchanged four-layer stack. The original
+source, vias, zone and earlier Native findings are preserved. A future
+four-layer placement-to-routing task needs both placement and selected-route
+transport to preserve the full stack and via spans. This is an exposed board
+and a read-only improvement. [Installed intake](../evidence/product-placement-and-board-findings-001.json)
