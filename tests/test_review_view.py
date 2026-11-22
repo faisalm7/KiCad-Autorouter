@@ -35,6 +35,24 @@ class SvgControls(unittest.TestCase):
         board.append(['gr_circle', ['layer', '"Edge.Cuts"']])
         self.assertIsNone(view._workspace_context(board))  # A cutout cannot be omitted.
 
+    def test_four_straight_edges_give_exact_read_only_context_at_any_copper_count(self):
+        from autorouter import placement_transform, sexpr
+
+        board = sexpr.parse('''(kicad_pcb
+            (layers (0 "F.Cu" signal) (2 "B.Cu" signal) (4 "In1.Cu" signal) (6 "In2.Cu" signal))
+            (gr_line (start 4 17) (end 14 17) (layer "Edge.Cuts"))
+            (gr_line (start 14 5) (end 4 5) (layer "Edge.Cuts"))
+            (gr_line (start 14 17) (end 14 5) (layer "Edge.Cuts"))
+            (gr_line (start 4 5) (end 4 17) (layer "Edge.Cuts")))''')
+        self.assertEqual(view._workspace_context(board), ((4, 5, 14, 17), []))
+        with self.assertRaisesRegex(ValueError, 'two canonical copper layers'):
+            placement_transform.rectangle(board)
+        missing_edge = board[:-1]
+        substitute = sexpr.parse('(gr_line (start 4 5) (end 4 18) (layer "Edge.Cuts"))')
+        self.assertIsNone(view._workspace_context(missing_edge + [substitute]))
+        cut = sexpr.parse('(footprint "cutout" (fp_line (layer "Edge.Cuts")))')
+        self.assertIsNone(view._workspace_context(board + [cut]))
+
     def test_workspace_distinguishes_protected_copper_and_refuses_tampered_copy(self):
         protected = '(segment (start 1 1) (end 2 2) (width .2) (layer "F.Cu") (net 1))'
         new = '(segment (start 2 2) (end 3 3) (width .2) (layer "B.Cu") (net 1))'

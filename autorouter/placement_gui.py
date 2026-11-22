@@ -388,6 +388,25 @@ def component_findings(inspection, *, rebuild=False):
         for row in inspection['components'])
 
 
+def placement_move_findings(observation, moves):
+    """Describe the same positions used by the current board drawing."""
+    def location(xy):
+        return f'({mm(xy[0])}, {mm(xy[1])})'
+
+    parts = observation['footprints']
+    rows = []
+    for part in parts:
+        origin = tuple(part['position_nm'])
+        target = tuple(moves.get(part['uuid'], origin))
+        if target != origin:
+            rows.append(f"{part['reference']} · {location(origin)} → {location(target)} mm")
+    count = len(rows)
+    heading = f'Displayed placement · {count} move' + ('' if count == 1 else 's')
+    unchanged = len(parts) - count
+    stays = 'stays' if unchanged == 1 else 'stay'
+    return '\n'.join([f'{heading} · {unchanged} {stays} in place', *rows])
+
+
 def inspected_native_findings(inspection):
     """Reuse the exact receipt which placement inspection already checked."""
     context = inspection.get('native_context')
@@ -462,7 +481,7 @@ def placement_limits(inspection, *, rebuild=False, grouped=False, region_initial
         result.append('Rigid selected group: all selected parts share one exact translation; spacing, angles and sides stay fixed. '
                       'Only the explicit affected-net rebuild workflow is supported; other grouping modes remain unsupported.')
     if region_initialization:
-        result.append('Place into the target rectangle: a bounded joint initialization may move two selected parts from outside it. '
+        result.append('Place into the target rectangle: a bounded search may start one or two selected parts outside it. '
                       'The source must remain physically valid; every proposed final pose obeys the rectangle, fixed parts, copper and annotation constraints. '
                       'Initialization and optimization share the same 2-second search budget; a seed is not electrical approval or a quality improvement.')
     return result
@@ -1990,7 +2009,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 try:
                     value = intent.inspect_saved(source)
                 except (ValueError, Rejected) as exc:
-                    if not str(exc).startswith('Unsupported placement geometry or setting in '):
+                    reason = str(exc)
+                    if reason == 'Exact two outer copper layers required':
+                        reason = 'Placement currently requires a board with front and back copper layers only.'
+                    elif not reason.startswith('Unsupported placement geometry or setting in '):
                         raise
                     from . import design_intent, review_view
                     static = design_intent.inspect_project(source)
@@ -1998,7 +2020,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     if scene is None:
                         raise
                     require_closed_source(source, inspection=static)
-                    read_only = dict(static=static, scene=scene, reason=gui.short_failure_reason(str(exc)))
+                    read_only = dict(static=static, scene=scene, reason=gui.short_failure_reason(reason))
                     return (None, *schematic_context.observe(source, static['source_hashes']), '', None, read_only)
                 scope = value['observation']['scope']
                 if intent.contract.fixed_context_scope(scope) or c.NATIVE_VERSION == '10.0.7' and scope == intent.contract.ORDINARY_SCOPE:
@@ -2147,24 +2169,27 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 **({'annotation_context': review.inspection['annotation_context']}
                    if 'annotation_context' in review.inspection else {}))
             self.set_board_scene(display, rebuild=review.copper_plan is not None)
+            moves = placement_move_findings(review.observation, review.moves)
+            findings = f'{state}\n\n{moves}\n\n{copper_findings(review.copper_plan)}\n\n'
             if self.qualified is not None:
                 witness = self.qualified['witness']
-                findings = state + '\n' + gui.human_summary('inspect', dict(
+                findings += gui.human_summary('inspect', dict(
                     status='placement validated; routing pending', native=witness['findings'],
                     candidate=witness['candidate'], source=review.inspection['source']))
             else:
                 selection = self.alternative.GetSelection()
                 index = (self.alternative_targets[selection] if type(selection) is int
                          and 0 <= selection < len(self.alternative_targets) else None)
-                findings = (state + '\n'
-                    + ('Edited draft.\n' if index is None else
-                       'Original arrangement — not optimized.\n' if getattr(review, 'proposal', {}).get('search', {}).get('status') == 'original_for_review' else
-                       'Alternative ' + str(index + 1) + '.\n')
-                    + 'Source: ' + review.inspection['source'] + '\n'
+                if index is None:
+                    label = 'Edited draft.'
+                elif getattr(review, 'proposal', {}).get('search', {}).get('status') == 'original_for_review':
+                    label = 'Original arrangement — not optimized.'
+                else:
+                    label = f'Alternative {index + 1}.'
+                findings += (f"{label}\nSource: {review.inspection['source']}\n"
                     + 'No current Native placement validation. A reviewed draft is not route acceptance.')
             rebuild = review.copper_plan is not None
-            self.findings.SetValue(findings + '\n' + copper_findings(review.copper_plan)
-                + '\nNo electrical or manufacturing approval is granted.\n\n'
+            self.findings.SetValue(findings + '\nNo electrical or manufacturing approval is granted.\n\n'
                 + '\n'.join(placement_limits(review.inspection, rebuild=rebuild, grouped=intent.grouped(review.settings),
                     region_initialization=bool(intent.region_options(review.settings))))
                 + '\n\nComponents\n' + component_findings(review.inspection, rebuild=rebuild))

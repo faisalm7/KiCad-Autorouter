@@ -404,7 +404,7 @@ class PlacementGuiTests(unittest.TestCase):
         item = dict(uuid='one', reference='J1', fixed_reasons=[])
         window.gate.review = SimpleNamespace(inspection=dict(components=[item], observation={}, source='/owned/source'),
             settings=dict(selected=['one'], region_nm=[0, 0, 10, 10]), moves={'one': [1, 1]}, alternatives=[{}],
-            copper_plan=None, observation={})
+            copper_plan=None, observation={'footprints': [dict(item, position_nm=[0, 1])]})
         window.coordinates = Mock(); display = {'svg':'<svg/>','size':(1000,540)}
         window.alternative.GetSelection.return_value = 0
         window.present = MethodType(window_method('present'), window)
@@ -697,7 +697,8 @@ class PlacementGuiTests(unittest.TestCase):
             moves={'one': [1000000, 2000000], 'two': [3000000, 4000000]}, alternatives=[{}, {}],
             inspection=dict(components=[item, second], observation={}, source='/owned/source.kicad_pcb'),
             settings=dict(selected=['one', 'two'], region_nm=[0, 0, 10000000, 10000000]), intent=None,
-            copper_plan=None, observation={})
+            copper_plan=None, observation={'footprints': [dict(item, position_nm=[2000000, 2000000]),
+                                                        dict(second, position_nm=[3000000, 4000000])]})
         window.gate.attach(draft); window.gate.acknowledged = True; window.inspection = draft.inspection
         window.alternative_labels = ['Alternative 1', 'Alternative 2']; window.alternative_targets = [0, 1]
         window.alternative.GetSelection.return_value = 1; window.part.GetSelection.return_value = 1
@@ -740,6 +741,8 @@ class PlacementGuiTests(unittest.TestCase):
             window.alternative.GetSelection.return_value = -1; window.present()
         self.assertIn('Edited draft.', window.findings.SetValue.call_args.args[0])
         self.assertNotIn('Alternative 1.', window.findings.SetValue.call_args.args[0])
+        self.assertIn('Displayed placement · 1 move · 1 stays in place', window.findings.SetValue.call_args.args[0])
+        self.assertIn('J1 · (2, 2) → (1, 2) mm', window.findings.SetValue.call_args.args[0])
         window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
 
     def test_options_preserve_explicit_inspected_scope(self):
@@ -779,6 +782,8 @@ class PlacementGuiTests(unittest.TestCase):
         text = window.findings.SetValue.call_args.args[0]
         self.assertNotIn('Placement validated', text); self.assertNotIn('Native findings:', text)
         self.assertIn('No current Native placement validation', text)
+        self.assertIn('J1 · (2, 2) → (1, 2) mm', text)
+        self.assertNotIn('26.', text)
         self.assertEqual(window.gate.review.moves, original)
         window.part.SetSelection.assert_not_called(); window.alternative.SetSelection.assert_not_called()
         window.x.ChangeValue.assert_not_called(); window.y.ChangeValue.assert_not_called()

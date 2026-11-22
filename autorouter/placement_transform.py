@@ -99,6 +99,11 @@ def rectangle(board):
     if layers is None:fail('source layer table required')
     copper=[sx.unquote(n[1]) for n in layers[1:] if isinstance(n,list) and len(n)>1 and sx.unquote(n[1]).endswith('.Cu')]
     if len(copper)!=2 or set(copper)!=LAYERS:fail('two canonical copper layers required')
+    return rectangular_edge_chain(board)
+
+
+def rectangular_edge_chain(board):
+    """Prove one four-line rectangular outline, independent of layer count."""
     def has_edge(node):
         return isinstance(node,list) and ((len(node)==2 and node[0]=='layer' and isinstance(node[1],str) and sx.unquote(node[1])=='Edge.Cuts') or any(has_edge(n) for n in node))
     if any(has_edge(fp) for fp in sx.children(board,'footprint')):fail('footprint board-edge geometry unsupported')

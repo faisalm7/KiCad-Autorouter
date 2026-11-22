@@ -151,6 +151,7 @@ WORKSPACE_COLORS = {'protected': '#7354a4', 'retained': '#687b8c',
 
 def _workspace_context(board):
     """Show a verified rectangular outline and optional footprint anchors."""
+    from . import placement_transform
     from experiments.placement_native_proposal_v1.contract import rectangle
 
     def on_outline(row):
@@ -160,10 +161,16 @@ def _workspace_context(board):
     try:
         edges = [row for row in board if isinstance(row, list) and row and on_outline(row)]
         parts = sx.children(board, 'footprint')
-        if (len(edges) != 1 or edges[0][0] != 'gr_rect'
-                or any(on_outline(row) for part in parts for row in part[2:] if isinstance(row, list) and row)):
+        if len(edges) == 1 and edges[0][0] == 'gr_rect':
+            if any(on_outline(row) for part in parts for row in part[2:] if isinstance(row, list) and row):
+                return None
+            exact_bounds = rectangle(edges[0])
+        elif len(edges) == 4 and all(row[0] == 'gr_line' for row in edges):
+            chain = placement_transform.rectangular_edge_chain(board)
+            exact_bounds = placement_transform.bbox([point for edge in chain for point in edge])
+        else:
             return None
-        bounds = tuple(value / 1_000_000 for value in rectangle(edges[0]))
+        bounds = tuple(value / 1_000_000 for value in exact_bounds)
         anchors = []
         if len(parts) <= 24:
             for part in parts:
