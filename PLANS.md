@@ -115,14 +115,20 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     validation and independent export readback checked the source, third
     terminal, protected copper and unchanged geometry. Keep broader and
     licensed three-pad coverage open. [Installed delivery](evidence/product-three-pad-placement-delivery-001.json)
-25. **Source checks pass.** Accept result reflects the review acknowledgement.
-    Verify check/uncheck and available Reject in the current installed review.
-    Preserve the independent checks at actual dispatch.
-26. **Source checks pass.** An old selected-net preview of a disposable placed
-    copy would rebuild its unlocked KEEP trace. The correction binds the
-    preserve-all choice and exact settings through preview and adoption.
-    Verify the corrected installed refusal before dispatch, then complete a
-    safe handoff with fresh export and independent readback.
+25. **Verified.** Accept followed check and uncheck on the installed current
+    review. Reject remained available and no choice was recorded by the
+    checkbox alone. The same review passed explicit choice and checked export.
+    [Installed review](evidence/product-placement-preserve-review-001.json)
+26. **Verified.** After a protected placement, Preview refused the unlocked
+    KEEP net before creating a routing job. The restored two-net scope kept
+    KEEP exact through same-window review, fresh export and independent
+    readback. The earlier permissive preview and the first source's
+    outside-area refusal remain recorded. [Installed protection](evidence/product-placement-preserve-review-001.json)
+27. Keep the adopted local placement request and its actual settings visible
+    beside routing. Verify the installed display uses the current source,
+    retains setting edits and keeps local history out of hosted requests.
+    Explain the observed outside-area refusal with the component's reference
+    and the next available action.
 
 ## Verified Finish gaps batch from 2dabd0799
 

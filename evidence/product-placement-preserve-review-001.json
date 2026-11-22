@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "date": "2026-11-22",
+  "build": "60e7f3307f9de2952bab13da3586fd670f8ed28b",
+  "runtime_manifest_sha256": "208093fec09ac95999b2287f490d7fee075d7a170c38c45a0429652354edee17",
+  "kicad": "10.0.7",
+  "window_points": [
+    960,
+    650
+  ],
+  "old_scope_defect": {
+    "old_build": "9e2a9e7a9e56532503b789eacc2ee04c231d9afb",
+    "selected_unlocked_trace_admitted_by_static_preview_on_a_disposable_placed_copy": true,
+    "route_started": false,
+    "selected_task_would_remove_original_trace": true,
+    "protected_when_locked_preflight_also_refused": true
+  },
+  "first_source_refused": {
+    "refusal": "Component outside allowed region",
+    "source_scope": "ordinary-fixed-context-v1",
+    "why_no_region_initialization": "One explicit no duplicate-pad jumper marker required",
+    "source_never_changed": true,
+    "search_launched": false
+  },
+  "corrected_control": {
+    "same_frozen_destination_and_budget": true,
+    "metadata_from_previously_qualified_owned_source": true,
+    "only_keep_lock_differs_from_input_of_prior_qualified_control": true,
+    "scope": "ordinary-tht-source-baseline-v1",
+    "source_sha256": "3711e23805f42588bc1f22208f60a95f73ea00627e18bfbf3ea2600c59834ac1",
+    "placement_nm": [
+      21245000,
+      10000000
+    ],
+    "wall_seconds": 15.474062541965395,
+    "visible_wait_seconds": 18.640555000049062,
+    "cpu_seconds": 14.29999
+  },
+  "installed_protection": {
+    "protected_unlocked_net": "KEEP",
+    "workspace_created": false,
+    "start_available": false
+  },
+  "safe_preview": {
+    "seconds": 2.2535855839960277,
+    "route_not_started": true,
+    "protected_routes": 1,
+    "effective": {
+      "adapter": "both",
+      "guidance": "native",
+      "layers": "source_all",
+      "nets": [
+        "ROUTE_A",
+        "ROUTE_B"
+      ],
+      "profile": "completion-only",
+      "schema": 1,
+      "scope": "selected_nets",
+      "scoring_preference": null,
+      "seconds": 85
+    }
+  },
+  "routing": {
+    "protected_unlocked_track_exact": true,
+    "new_routes_by_net": {
+      "ROUTE_A": 5,
+      "ROUTE_B": 2
+    },
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 1,
+    "actual_task_in_effect": {
+      "adapter": "both",
+      "guidance": "native",
+      "layers": "source_all",
+      "nets": [
+        "ROUTE_A",
+        "ROUTE_B"
+      ],
+      "profile": "completion-only",
+      "schema": 1,
+      "scope": "selected_nets",
+      "scoring_preference": null,
+      "seconds": 85
+    },
+    "wall_seconds": 9.973702209070325,
+    "total_cpu_seconds": 8.068169000000001
+  },
+  "review_interlock": {
+    "real_review": true,
+    "initial_accept": false,
+    "checked_accept": true,
+    "unchecked_accept": false,
+    "reject_available_all_states": true,
+    "choice_created_by_checkbox": false,
+    "visible_wait_seconds": 7.40473175002262
+  },
+  "acceptance": {
+    "seconds": 5.518841124954633,
+    "explicit_test_choice": true,
+    "human_PCB_approval": false
+  },
+  "delivery": {
+    "opens": 0,
+    "blocking": 0,
+    "warning_count": 1,
+    "ignored_checks": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "original_sources_exact": true,
+    "export_candidate_sha256": "74ca1d1cd5ee684fd3e6a980385a116fb366f3f10ad213168f19592e188b3f3a",
+    "independent_current": true,
+    "independent_seconds": 3.2013854591641575,
+    "checked_export_open_available": true,
+    "export_opened": false,
+    "budget_seconds": 85.0,
+    "cpu_budget_seconds": 85.0,
+    "total_cpu_seconds": 7.039527,
+    "wall_seconds": 8.016250415937975
+  },
+  "observed_actions": [
+    "Enter request or refine setting",
+    "Press Return in saved project",
+    "Conversation",
+    "Enter request or refine setting",
+    "Preview placement",
+    "Enter request or refine setting",
+    "Press Return in saved project",
+    "Preview placement",
+    "Use settings",
+    "Find alternatives",
+    "Findings",
+    "Approve placement and validate",
+    "Continue to routing…",
+    "This saved project is closed in KiCad.",
+    "Enter request or refine setting",
+    "Preview routing",
+    "Enter request or refine setting",
+    "Preview routing",
+    "Start routing",
+    "Review result",
+    "Findings",
+    "I reviewed the findings",
+    "I reviewed the findings",
+    "I reviewed the findings",
+    "Accept result",
+    "Export checked copy"
+  ],
+  "elapsed": {
+    "installation_seconds": 3.275003916118294,
+    "through_installed_checked_export_from_first_intake": 353.52,
+    "through_installed_checked_export_from_second_control_intake": 238.886,
+    "through_independent_readback_from_second_control_intake": 243.271,
+    "includes_analysis_and_automation_waits": true
+  },
+  "automated_operator_qualification": true,
+  "manual_CAD_corrections": 0,
+  "model_requests": 0,
+  "human_PCB_approval": false,
+  "notes": "The first source lacked explicit jumper metadata used by the required outside-area scope; no search ran. The second control preserved the same area and routing task. A line-wrapped status assertion paused the observer after handoff; the app was already on the correct screen and the handoff was not repeated.",
+  "local_evidence": ".runs/placement-preserve-handoff-001"
+}
