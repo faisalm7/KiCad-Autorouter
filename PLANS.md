@@ -79,9 +79,14 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     Java executable directly. A wrong executable refused before creating an
     installation. The correct setup passed doctor and launched from another
     folder. [Installed setup](evidence/product-findings-host-intake-001.json)
-17. Show saved schematic links and net names for the selected or suggested
-    parts beside Conversation. Verify selection changes and a stale source
-    in the installed workspace using local controls.
+17. **Verified.** Conversation shows the current selected or suggested parts,
+    saved sheet and PCB net names beside the board. Editing revokes the
+    displayed suggestion until preview. Changing the saved schematic replaces
+    the details with a refresh prompt. [Installed control](evidence/product-conversation-schematic-001.json)
+18. Make a single eligible component available through the same proposal
+    checks as ordinary placement. Keep Conversation visible after adopting
+    local settings. Verify the ordinary controls receive the exact settings
+    while group, fixed-part, copper and freshness rules still apply.
 
 ## Verified Finish gaps batch from 2dabd0799
 
