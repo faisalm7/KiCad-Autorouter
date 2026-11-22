@@ -61,14 +61,20 @@ The master specification, current strategy and owner steering govern. Historical
 - The explicit three-pad profile delivered one fixed-angle front SMD move on
   an owned rectangular two-layer project. Independent readback confirmed all
   three terminal identities, five fixed parts and the original protected
-  trace. Selected routing added eleven segments on only the three approved
-  nets and closed all three opens. The inherited warning and originally
+  trace. Selected routing added nine segments and two vias on only the three
+  approved nets and closed all three opens. The inherited warning and originally
   ignored checks remain visible. [Installed delivery](evidence/product-three-pad-placement-delivery-001.json)
 - A checked preserve-copper placement keeps its protection through routing.
   An installed preview refused selection of its unlocked KEEP trace before
   creating a job. The permitted nets completed and independent readback
   preserved KEEP and the original project. The review acknowledgement controls
   Accept while Reject remains available. [Installed protection](evidence/product-placement-preserve-review-001.json)
+- The fixed-context profile can place one or two eligible independent
+  components into a selected area while keeping existing copper. The
+  unchanged owned J1 task previously refused this region. It now passes
+  actual Native placement, protected routing and separate export. This
+  evidence covers one component with unchanged orientation and side.
+  [Installed destination check](evidence/product-fixed-context-region-delivery-001.json)
 - The installed Conversation preserves the explicit local request and the
   adopted settings in the routing pane. Freshness refuses execution and
   replaces the old display after a saved-input change. Verified finding

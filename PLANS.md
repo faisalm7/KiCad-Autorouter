@@ -142,13 +142,18 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     owned PCB as modified. The fresh toolbar launcher requires the existing
     editor to close. Preserve its current changes and the earlier move/Undo
     evidence. Advance the saved workflow while this test waits.
-31. Test whether the admitted fixed-context placement profile can use the
-    existing source-checked target-area initialization without requiring
-    unrelated footprint metadata. Use the unchanged previously refused
-    owned J1 request. Retain the original geometry, saved fields and protected
-    copper. Limit the work to the existing placement checks and one installed
-    delivery if a compatible proof is available. Keep unsupported gates
-    explicit if the required change extends beyond that scope.
+31. **Verified on the unchanged owned board.** The existing conservative
+    target-area initialization placed J1 in the same requested rectangle.
+    Actual KiCad validation, scoped routing and fresh separate export kept
+    the original fields and protected copper. Independent readback passed.
+    The old refusal and older presets keep their meaning.
+    [Installed delivery](evidence/product-fixed-context-region-delivery-001.json)
+32. Check a bounded compatibility slice for the already installed isolated
+    KiCad 10.0.8 toolchain in the saved-project path. Compare exact original
+    rules, one owned source's DSN transport and DRC against the pinned
+    10.0.7 workflow using separate job files. Keep 10.0.7 available and the
+    current unsaved editor untouched. Extend product admission only if
+    the stage contracts can be kept and verified prospectively.
 
 ## Verified Finish gaps batch from 2dabd0799
 

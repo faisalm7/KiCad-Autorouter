@@ -108,8 +108,23 @@ On a generated owned two-layer board, J1 moved from (12, 10) to (19.925, 10)
 mm inside the approved area. The five other parts and all three pin identities
 stayed exact. The installed handoff used 85 seconds for completion on
 `ROUTE_A`, `ROUTE_B` and `ROUTE_C`. Native validation reported no opens or
-blockers after routing. Independent readback confirmed the three nets' eleven
-new segments, the exact KEEP trace and the current separate export. One
+blockers after routing. Independent readback confirmed the three nets' nine
+new segments and two new vias, the exact KEEP trace and the current separate export. One
 inherited warning and two ignored checks remained. This establishes one
 owned task. Additional pad geometry and licensed breadth still need evidence.
 [Installed evidence](../evidence/product-three-pad-placement-delivery-001.json)
+
+## A destination outside the current position
+
+The fixed-context profile can use the existing conservative destination
+search for one or two independent parts while keeping every original
+track and zone. The original pose is still checked against the board and
+protected copper. The final pose must also fit the requested area. This
+path retains conservative clearance envelopes and the current KiCad checks.
+
+The unchanged owned J1 task now moves from (12, 10) to (21.245, 10) mm within
+its original destination of X 14–22 mm and Y 8–13 mm. Both scoped nets
+completed, with seven new segments, the original unlocked KEEP trace and
+all other components exact. The checked separate export retains the
+inherited warning and two ignored checks. Earlier refusals keep their
+original scope. [Installed delivery](../evidence/product-fixed-context-region-delivery-001.json)
