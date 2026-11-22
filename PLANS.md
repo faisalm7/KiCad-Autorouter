@@ -35,9 +35,9 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    ten opens and kept 24 original tracks, both classes and its warnings.
    [Installed delivery](evidence/product-native-named-class-delivery-001.json)
 7. **In progress.** Make the required Completion only profile follow a
-   deliberate selection of Selected nets in the ordinary workspace. Verify
-   the visible profile and exact captured settings without reopening the
-   finished route or editing a saved preset.
+   deliberate selection of Selected nets. Choose names from the inspected
+   board where available. Verify the displayed choices, cancellation and
+   exact captured settings without reopening the finished route.
 8. Extend the next useful workflow on a licensed design. Qualify an exact
    task and capability before routing, or record the precise geometry or
    installation dependency and move to the next ready product item.

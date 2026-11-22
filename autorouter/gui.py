@@ -1220,7 +1220,7 @@ def _finish_window_close(window):
 
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
-                  placement_scene=None, conversation_history='', saved_scene=None):
+                  placement_scene=None, conversation_history='', saved_scene=None, saved_net_context=None):
     """Create routing controls in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1283,6 +1283,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 'adapter': [('Both corrections', 'both'), ('Stock interchange', 'none'), ('Graphics correction', 'graphics'), ('Plane correction', 'planes')],
                 'layers': [('All source copper', 'source_all'), ('Front only', ['F.Cu']), ('Back only', ['B.Cu']), ('Front and back', ['F.Cu', 'B.Cu'])],
                 'scoring_preference': [('Engine default', None), ('Default via cost', 'via_default'), ('Lower via cost', 'via_low'), ('Higher via cost', 'via_high')]}
+            self.profile_before_selected = None
             grid = wx.FlexGridSizer(cols=1 if self.in_workspace else 2, vgap=5, hgap=10)
             grid.AddGrowableCol(0 if self.in_workspace else 1)
             self.advanced = wx.CollapsiblePane(panel, label='Advanced routing and experiments', style=wx.CP_NO_TLW_RESIZE)
@@ -1301,11 +1302,24 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 target_grid.Add(wx.StaticText(host, label=label), 0, wx.ALIGN_CENTER_VERTICAL)
                 control = wx.Choice(host, choices=[label for label, _ in self.values[name]])
                 control.SetMinSize(self.FromDIP((160, -1)))
-                control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name])); control.Bind(wx.EVT_CHOICE, self.changed)
+                control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name]))
+                control.Bind(wx.EVT_CHOICE, self.scope_changed if name == 'scope' else self.changed)
                 self.choices[name] = control; self.edit_controls.append(control); target_grid.Add(control, 1, wx.EXPAND)
             self.nets_label = wx.StaticText(panel, label='Selected nets (one exact name per line)')
-            grid.Add(self.nets_label, 0, wx.ALIGN_CENTER_VERTICAL)
+            self.net_picker = None
+            if saved_net_context is not None and self.in_workspace and source_guard is None:
+                net_tools = wx.BoxSizer(wx.HORIZONTAL)
+                net_tools.Add(self.nets_label, 0, wx.ALIGN_CENTER_VERTICAL)
+                net_tools.AddStretchSpacer()
+                self.net_picker = wx.Button(panel, label='Choose nets…')
+                self.net_picker.Bind(wx.EVT_BUTTON, self.choose_nets)
+                self.edit_controls.append(self.net_picker)
+                net_tools.Add(self.net_picker, 0, wx.LEFT, 6)
+                grid.Add(net_tools, 0, wx.EXPAND)
+            else:
+                grid.Add(self.nets_label, 0, wx.ALIGN_CENTER_VERTICAL)
             self.nets = wx.TextCtrl(panel, style=wx.TE_MULTILINE, size=(-1, 55))
+            self.nets.SetToolTip('Enter one exact saved net name per line.')
             self.nets.Bind(wx.EVT_TEXT, self.changed); self.edit_controls.append(self.nets); grid.Add(self.nets, 1, wx.EXPAND)
             budget_layout = wx.BoxSizer(wx.HORIZONTAL) if self.in_workspace else grid
             self.budget_label = wx.StaticText(panel, label='Routing time limit (s)')
@@ -1592,6 +1606,23 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.intro.SetLabel('Inspect the selected saved project or place components.')
             self.changed(event)
 
+        def scope_changed(self, event):
+            # Choosing a scope sets its ordinary Route profile on Native 10.0.7.
+            # Explicit preset/adoption paths still show their captured choices.
+            if not self.busy and c.NATIVE_VERSION == '10.0.7' and method_for_index(self.method.GetSelection()) == 'route':
+                control = self.choices['profile']
+                choices = [value for _, value in self.values['profile']]
+                current = choices[control.GetSelection()]
+                scope = self.values['scope'][self.choices['scope'].GetSelection()][1]
+                if scope == 'selected_nets' and current != 'completion-only':
+                    self.profile_before_selected = current
+                    control.SetSelection(choices.index('completion-only'))
+                elif scope != 'selected_nets':
+                    if current == 'completion-only':
+                        control.SetSelection(choices.index(self.profile_before_selected or pref.DEFAULTS['profile']))
+                    self.profile_before_selected = None
+            self.changed(event)
+
         def changed(self, event):
             self.input_generation = getattr(self, 'input_generation', 0) + 1
             self.pending_proposal = None
@@ -1715,7 +1746,34 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.refresh()
             except Exception as exc: self.refused(str(exc))
 
-        def choose_path(self, dialog, on_path):
+        def choose_nets(self, _):
+            if self.busy or self.chooser is not None or self.closing:
+                return
+            from .placement_gui import require_closed_source
+            from .pipeline import Rejected
+
+            def check_source():
+                require_closed_source(self.board.GetValue(), inspection=saved_net_context)
+
+            try:
+                check_source()
+                names = saved_net_context['names']
+                previously_selected = set(self.nets.GetValue().splitlines())
+                dialog = wx.MultiChoiceDialog(self, 'Choose the nets to route. Other copper stays protected.',
+                                              'Choose routing nets', list(names))
+                dialog.SetSelections([i for i, name in enumerate(names) if name in previously_selected])
+
+                def adopt(indices):
+                    check_source()
+                    if any(type(i) is not int or not 0 <= i < len(names) for i in indices):
+                        raise ValueError('The chosen nets do not match the displayed list. Choose again.')
+                    self.nets.SetValue('\n'.join(names[i] for i in indices))
+
+                self.choose_path(dialog, adopt, read_value=dialog.GetSelections)
+            except (OSError, ValueError, Rejected) as exc:
+                self.refused(str(exc))
+
+        def choose_path(self, dialog, on_path, *, read_value=None):
             """Retain an asynchronous native sheet until its completion event.
 
             A nested Cocoa ShowModal loop can still dispatch input while starving
@@ -1738,7 +1796,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 try:
                     if not self.closing and event.GetReturnCode() == wx.ID_OK:
                         if self.input_generation != lease[1]: raise ValueError('Inputs changed while choosing a path; choose again.')
-                        on_path(dialog.GetPath())
+                        on_path(dialog.GetPath() if read_value is None else read_value())
                 except Exception as exc: self.refused(str(exc))
                 finally: dispose()
 
@@ -1828,6 +1886,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 method = method_for_index(self.method.GetSelection())
                 if method == 'improve': check_improve_settings(config)
                 if method == 'recover': check_thermal_settings(config)
+                self.profile_before_selected = None
                 indices = {name: next(i for i, (_, value) in enumerate(self.values[name]) if value == config[name]) for name in self.choices}
                 for name, control in self.choices.items(): control.SetSelection(indices[name])
                 self.seconds.SetValue(str(int(config['seconds']))); self.nets.SetValue('\n'.join(config.get('nets', [])))
@@ -1904,7 +1963,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.ack.Show(not self.private_placement_source and 'preview' not in ready)
                 self.workspace_progress.Show(self.busy)
                 selected = self.choices['scope'].GetSelection() == 2
+                profile = self.values['profile'][self.choices['profile'].GetSelection()][1]
+                self.nets_label.SetLabel('Selected nets · Completion only' if selected and profile == 'completion-only'
+                                         else 'Selected nets (one exact name per line)')
                 self.nets.Show(selected); self.nets_label.Show(selected)
+                if self.net_picker is not None:
+                    self.net_picker.Show(selected)
                 if self.workspace_render is not None and 'review' not in ready:
                     self.show_workspace_review(None)
                 if not ready: self.findings_header.SetLabel('Current task checks and findings')

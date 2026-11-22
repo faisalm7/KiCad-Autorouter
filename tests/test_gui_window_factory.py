@@ -201,5 +201,29 @@ class WindowFactory(unittest.TestCase):
         self.assertIn('File > Close Project', window.ack.GetLabel())
         self.assertIn('\n', window.ack.GetLabel())
 
+    def test_manual_selected_scope_sets_completion_profile_and_revokes_preview(self):
+        wx = passive_wx()
+        with patch.dict(sys.modules, wx=wx), patch.object(gui.c, 'NATIVE_VERSION', '10.0.7'):
+            window = gui.create_window(str(self.board))
+            window.choices['profile'].SetSelection(1)  # Earlier explicit More search choice.
+            window.nets.SetValue('ROUTE_A\nROUTE_B')
+            window.seconds.SetValue('85')
+            window.flow = SimpleNamespace(workspace=self.root)
+            window.inspected.SetValue(True)
+            scope = window.choices['scope']
+            callback, = [call for name, call in scope.bindings if name == 'EVT_CHOICE']
+            scope.SetSelection(2)
+            callback(Mock())
+            config = window.config()
+            self.assertEqual(config['profile'], 'completion-only')
+            self.assertEqual(config['nets'], ['ROUTE_A', 'ROUTE_B'])
+            self.assertEqual(config['seconds'], 85)
+            self.assertIsNone(window.flow)
+            self.assertFalse(window.inspected.GetValue())
+            scope.SetSelection(0)
+            callback(Mock())
+            self.assertEqual(window.config()['profile'], 'tuned')
+            self.assertEqual(window.config()['seconds'], 85)
+
 
 if __name__ == '__main__': unittest.main()

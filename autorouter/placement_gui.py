@@ -2359,10 +2359,21 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             current = gui.source_inventory(source) if self.conversation.source or view is not None else None
             history = self.conversation.summary_for(source, current)
             scene = view[2] if view is not None and view[:2] == (str(source), current) else None
+            net_context = None
             if scene is None and self.inspection is not None and self.inspection['source'] == str(source):
                 scene = saved_routing_scene({'source': str(source), 'source_hashes': current or gui.source_inventory(source)}, self.inspection)
+                if guard is None:
+                    footprints = self.inspection.get('observation', {}).get('footprints', ())
+                    names = sorted({pad['net'] for part in footprints
+                                    for pad in part.get('pads', ()) if pad['net']})
+                    try:
+                        names = routing_scope.validate_names(names)
+                    except ValueError:
+                        pass  # Keep exact manual entry for boards without a usable list.
+                    else:
+                        net_context = dict(source=str(source), source_hashes=self.inspection['source_hashes'], names=names)
             frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self,
-                                      conversation_history=history, saved_scene=scene)
+                                      conversation_history=history, saved_scene=scene, saved_net_context=net_context)
             try:
                 if self.routing_output_hint is not None:
                     frame.output.SetValue(self.routing_output_hint)
