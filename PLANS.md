@@ -4,12 +4,11 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 
 ## Current queue from 6ea132471
 
-1. Install the placement conversation wording that explains the general
-   rule for parts left in place and reserves KiCad lock changes for a clear
-   unsupported response. The installed wire packet and guarded proposal
-   passed offline with alternate wording. An exact optional follow-up is
-   prepared on the same owned source. Live behavior awaits new authorization.
-   [Installed contract](evidence/product-workspace-conversation-ui-001.json)
+1. Keep the corrected contract that distinguishes parts left in place from
+   saved KiCad lock changes. The installed alternate request produced the
+   correct live editable proposal on the owned source. The approved single
+   attempt cost $0.002734 and ended at review. Further inference needs a
+   separate authorization. [Live follow-up](evidence/product-workspace-hosted-conversation-followup-001.json)
 2. The current Conversation layout passed at 960 × 650. Editable proposals
    needed a fresh preview and an explicit adoption. The one-net refusal and
    successful two-net review kept both turns accessible. An actual edit of
