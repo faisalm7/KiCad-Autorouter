@@ -33,6 +33,9 @@ The master specification, current strategy and owner steering govern. Historical
   operation controls. Switching projects at 880 × 610 clears the old
   selection and context. Independent installation remains a separate gate.
   [First-use evidence](evidence/product-workspace-example-onboarding-001.json)
+- The six-component example fits without scrolling the list at 880 × 610.
+  The four-layer refusal explains the selected-net limit while Findings and
+  the read-only board remain accessible. [Laptop check](evidence/product-laptop-selection-and-refusal-001.json)
 - Placement Findings shows exact original and displayed component positions.
   Pending text edits withhold approval and leave those displayed positions
   unchanged until checked. The explicit four-edge display also opens the

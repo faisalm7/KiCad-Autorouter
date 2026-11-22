@@ -98,10 +98,11 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     Open example. One click on the included example runs ordinary inspection.
     Switching to a different saved board clears the prior selection and
     context. [Installed first use](evidence/product-workspace-example-onboarding-001.json)
-22. Improve the first view of the component list. Keep the small example's
-    eligible choices visible and withhold board-specific guidance on the
-    empty screen. Show the exact Preview refusal beside the saved drawing.
-    Recheck the actual layout at 880 × 610.
+22. **Verified.** The six example rows fit at 880 × 610, and the empty screen
+    withholds a placement legend. The refused selected-net preview explains
+    its layer limit in the status area. Findings opens automatically and the
+    same reason stays visible after returning to Board.
+    [Installed laptop check](evidence/product-laptop-selection-and-refusal-001.json)
 23. **Bounded refusal.** The closest of three new licensed intake leads used
     the KiCad 7 format. One official upgrade on a separate copy preserved
     the 24 track identities and geometry in a diagnostic comparison. It
@@ -109,6 +110,13 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     still refused the knockout text. The source and additional router rules
     are retained. Automatic upgrade stays out of the product path.
     [Intake and upgrade evidence](evidence/product-licensed-legacy-intake-001.json)
+24. Qualify one fixed-angle, front three-pad SMD move and route on an owned
+    complete modern two-layer project. Preserve the current two-pad scope
+    and its receipts. The first slice uses a separate scope, exact original
+    pad identities and nets, a rectangular courtyard, one selected part and
+    all existing copper retained. Check the third terminal, protected
+    copper, unchanged pad geometry and current source through Native delivery.
+    Keep licensed placement coverage open until a separate task is admitted.
 
 ## Verified Finish gaps batch from 2dabd0799
 
