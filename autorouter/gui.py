@@ -1291,18 +1291,20 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 control.SetMinSize(self.FromDIP((160, -1)))
                 control.SetSelection(next(i for i, (_, value) in enumerate(self.values[name]) if value == pref.DEFAULTS[name])); control.Bind(wx.EVT_CHOICE, self.changed)
                 self.choices[name] = control; self.edit_controls.append(control); target_grid.Add(control, 1, wx.EXPAND)
-            budget_panel, budget_layout = (advanced, advanced_grid) if self.in_workspace else (panel, grid)
-            self.budget_label = wx.StaticText(budget_panel, label='Routing budget (seconds)')
-            budget_layout.Add(self.budget_label, 0, wx.ALIGN_CENTER_VERTICAL)
-            # Cocoa SpinCtrl clamps invalid text on focus loss before Preview
-            # can validate it. Keep the exact input until explicit validation.
-            self.seconds = wx.TextCtrl(budget_panel, value=str(int(pref.DEFAULTS['seconds'])))
-            self.seconds.Bind(wx.EVT_TEXT, self.changed)
-            self.edit_controls.append(self.seconds); budget_layout.Add(self.seconds)
             self.nets_label = wx.StaticText(panel, label='Selected nets (one exact name per line)')
             grid.Add(self.nets_label, 0, wx.ALIGN_CENTER_VERTICAL)
             self.nets = wx.TextCtrl(panel, style=wx.TE_MULTILINE, size=(-1, 55))
             self.nets.Bind(wx.EVT_TEXT, self.changed); self.edit_controls.append(self.nets); grid.Add(self.nets, 1, wx.EXPAND)
+            budget_layout = wx.BoxSizer(wx.HORIZONTAL) if self.in_workspace else grid
+            self.budget_label = wx.StaticText(panel, label='Routing time limit (s)')
+            budget_layout.Add(self.budget_label, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            # Cocoa SpinCtrl clamps invalid text on focus loss before Preview
+            # can validate it. Keep the exact input until explicit validation.
+            self.seconds = wx.TextCtrl(panel, value=str(int(pref.DEFAULTS['seconds'])),
+                                       size=(64, -1), name='Routing time limit in seconds')
+            self.seconds.Bind(wx.EVT_TEXT, self.changed)
+            self.edit_controls.append(self.seconds); budget_layout.Add(self.seconds)
+            if self.in_workspace: grid.Add(budget_layout, 0, wx.EXPAND)
             layout.Add(grid, 0, wx.EXPAND | wx.ALL, 8)
             advanced_layout.Add(advanced_grid, 0, wx.EXPAND | wx.ALL, 8)
             self.method_note = wx.StaticText(advanced, label='')
@@ -1826,7 +1828,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
         def prefill_placement_completion(self, settings):
             from .placement_gui import prefill_routing
             prefill_routing(self, settings)
-            self.status.SetLabel('Existing copper stays protected. Preview the routing settings before starting.')
+            self.status.SetLabel('Review the scope and time limit, then preview routing.')
             self.refresh()
 
         def config(self):

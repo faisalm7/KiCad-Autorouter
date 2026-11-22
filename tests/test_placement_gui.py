@@ -180,6 +180,21 @@ class PlacementGuiTests(unittest.TestCase):
                     inspect(job, threading.Event())
             window.owned_workspace.assert_not_called(); job.run.assert_not_called()
 
+    def test_affected_routing_notice_reuses_actual_saved_netclass_gate(self):
+        from autorouter import pipeline
+        with tempfile.TemporaryDirectory() as temp, patch.object(pg.c, 'NATIVE_VERSION', '10.0.7'):
+            board = Path(temp).resolve() / 'owned.kicad_pcb'
+            pro = board.with_suffix('.kicad_pro')
+            settings = {'classes': [{'name': 'Default'}]}
+            pro.write_text(json.dumps({'net_settings': settings}))
+            self.assertEqual(pg.affected_routing_notice(board), '')
+            for changed in (dict(settings, classes=[*settings['classes'], {'name': 'Power'}]),
+                            dict(settings, netclass_patterns=[{'netclass': 'Default', 'pattern': 'GND'}])):
+                pro.write_text(json.dumps({'net_settings': changed}))
+                with self.assertRaisesRegex(ValueError, 'sole Default'):
+                    pipeline.check_native7_selected_netclasses(board)
+                self.assertIn('block routing after copper rebuild', pg.affected_routing_notice(board))
+
     def test_typed_project_rebinds_the_exact_pcb_after_fresh_inspection(self):
         from experiments.placement_native_proposal_v1 import multipad_fixture
         with tempfile.TemporaryDirectory() as temp:

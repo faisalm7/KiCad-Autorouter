@@ -334,6 +334,7 @@ class CopperPlacementGui(unittest.TestCase):
 
     def test_routing_prefill_is_exact_visible_and_never_starts_or_accepts(self):
         frame = routing_frame(); plan = intent.copper_plan(self.inspection, self.settings)
+        frame.act = Mock()
         pg.prefill_copper_routing(frame, plan)
         actual = frame.config()
         self.assertEqual(actual, dict(gui.pref.DEFAULTS, scope='selected_nets', profile='completion-only',
@@ -341,7 +342,8 @@ class CopperPlacementGui(unittest.TestCase):
         self.assertEqual(frame.method.GetSelection(), 0)
         self.assertEqual(frame.seconds.GetValue(), '90')
         self.assertEqual(frame.nets.GetValue(), 'ROUTE_A\nROUTE_B')
-        self.assertIn('no route or acceptance has started', frame.status.SetLabel.call_args.args[0])
+        self.assertIn('time limit, then preview routing', frame.status.SetLabel.call_args.args[0])
+        frame.act.assert_not_called()
         frame.Show.assert_not_called()
         frame.nets.SetValue.side_effect = None
         frame.nets.GetValue.return_value = 'WRONG'

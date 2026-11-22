@@ -1370,9 +1370,27 @@ def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain
     return result
 
 
+def check_native7_selected_netclasses(board):
+    """One saved-project class rule shared by admission and placement guidance."""
+    from . import default_targets as targets
+    from .placement_clearance import read_bytes
+    board = Path(board)
+    project = targets._json(read_bytes(board.with_suffix('.kicad_pro')))
+    if type(project) is not dict:
+        raise ValueError('selected Native7 project object required')
+    settings = project.get('net_settings', {})
+    if type(settings) is not dict:
+        raise ValueError('selected Native7 net_settings object required')
+    classes = settings.get('classes', [{'name': 'Default'}])
+    if (type(classes) is not list or len(classes) != 1
+            or type(classes[0]) is not dict or classes[0].get('name') != 'Default'
+            or settings.get('netclass_assignments') not in (None, {})
+            or settings.get('netclass_patterns') not in (None, []) or netclass_policy(board) is not None):
+        raise ValueError('selected Native7 requires sole Default without assignments or patterns')
+
+
 def check_native7_selected_source(board,names):
     """Static initial selected slice; never Native or routing acceptance."""
-    from . import default_targets as targets
     from .placement_clearance import read_bytes
     from .layer_policy import _two_copper_table
     board=Path(board);original=sx.parse(read_bytes(board).decode('utf-8'))
@@ -1391,16 +1409,7 @@ def check_native7_selected_source(board,names):
                         or sx.unquote(name[1])!=resolve(sx.one(zone,'net'))):
                     raise ValueError('selected20241229 zone name differs from its legacy net code')
         _two_copper_table(original)
-        project=targets._json(read_bytes(board.with_suffix('.kicad_pro')))
-        if type(project) is not dict:raise ValueError('selected Native7 project object required')
-        settings=project.get('net_settings',{})
-        if type(settings) is not dict:raise ValueError('selected Native7 net_settings object required')
-        classes=settings.get('classes',[{'name':'Default'}])
-        if (type(classes) is not list or len(classes)!=1
-                or type(classes[0]) is not dict or classes[0].get('name')!='Default'
-                or settings.get('netclass_assignments') not in (None,{})
-                or settings.get('netclass_patterns') not in (None,[]) or netclass_policy(board) is not None):
-            raise ValueError('selected Native7 requires sole Default without assignments or patterns')
+        check_native7_selected_netclasses(board)
         selected_proposal_protection(original,names)  # No new selected-lock fallback admission.
         read_bytes(board.with_suffix('.kicad_sch'))  # Actual fullSCH validation is still mandatory.
     except (OSError,ValueError,TypeError,KeyError,Rejected) as exc:

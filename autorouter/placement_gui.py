@@ -215,6 +215,20 @@ def require_closed_source(board, *, inspection=None):
     return source
 
 
+def affected_routing_notice(source):
+    """Advise about the selected-net class gate without blocking placement review."""
+    if c.NATIVE_VERSION != '10.0.7':
+        return ''
+    from .pipeline import check_native7_selected_netclasses
+
+    try:
+        check_native7_selected_netclasses(source)
+    except (OSError, ValueError, Rejected):
+        return ('These net-class settings block routing after copper rebuild. '
+                'Selected-net routing here requires Default alone, with no assignments or patterns.')
+    return ''
+
+
 def saved_routing_scene(inspection, placement):
     """Build optional saved context using the existing bounded board renderer."""
     try:
@@ -447,8 +461,7 @@ def prefill_copper_routing(frame, plan, *, seconds=90):
         profile='completion-only', guidance='native', adapter='both', layers='source_all',
         scoring_preference=None, seconds=seconds, nets=list(plan['incident_names'])))
     prefill_routing(frame, settings)
-    frame.status.SetLabel('Affected nets are selected for completion routing · ' + str(settings['seconds']) + '-second routing budget. '
-        'Preview support, then route; no route or acceptance has started.')
+    frame.status.SetLabel('Review the affected nets and time limit, then preview routing.')
     frame.refresh()
 
 
@@ -706,6 +719,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.constraint_review = None; self.constraint_offer = None; self.constraint_edited = False
             self.board_scene = None; self.board_legend = ''
             self.schematic = None; self.schematic_refusal = ''
+            self.rebuild_routing_notice = ''
             self.conversation = conversation.Conversation()
             self.conversation_offer = False
             self.routing_source_scene = None
@@ -1205,14 +1219,19 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 reviewable = has_draft and self.qualified is None and not constraint_pending and not self.busy
                 needs_selection = self.inspection is not None and not (selection_ready or has_draft or constraint_pending or self.busy)
                 self.pose_pane.Show(has_draft and not constraint_pending)
-                self.approval_note.Show(reviewable or needs_selection)
+                notes = []
+                if self.inspection is not None and not self.busy and self.rebuild_copper() and self.rebuild_routing_notice:
+                    notes.append(self.rebuild_routing_notice)
                 if reviewable:
                     copper = self.gate.review.copper_plan
                     instruction = ('Approval includes the copper changes listed in Findings.' if copper is not None
                                    else 'Review the component moves.')
-                    self.approval_note.SetLabel(instruction + '\nConfirm both editors and the saved project are closed in KiCad.')
+                    notes.append(instruction + '\nConfirm both editors and the saved project are closed in KiCad.')
                 elif needs_selection:
-                    self.approval_note.SetLabel('Select at least two movable parts to find alternatives. Route saved board keeps their positions.')
+                    notes.append('Select at least two movable parts to find alternatives. Route saved board keeps their positions.')
+                self.approval_note.SetLabel('\n'.join(notes))
+                self.approval_note.Wrap(max(340, self.GetClientSize().width - 30))
+                self.approval_note.Show(bool(notes))
                 self.find.Show(self.inspection is not None and not has_draft and not constraint_pending and not self.busy)
                 self.qualify.Show(reviewable)
                 self.route.Show(self.qualified is not None and not constraint_pending and not self.busy)
@@ -1263,6 +1282,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 self.target_region.SetValue(False)
                 self.schematic = None; self.schematic_refusal = ''
+                self.rebuild_routing_notice = ''
                 if hasattr(self, 'schematic_text'):
                     self.update_schematic_view()
                 self.inspection = None; self.parts.Set([]); self.revoke(discard=True)
@@ -1824,16 +1844,18 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.inspection = None; self.parts.Set([])
             self.revoke(discard=True)
             self.schematic = None; self.schematic_refusal = ''
+            self.rebuild_routing_notice = ''
             self.update_schematic_view()
             source_hint = self.board.GetValue()
             def adopt(result):
                 # The off-thread capture has no authority; bind it again at use.
-                value, context, refusal = result
+                value, context, refusal, rebuild_notice = result
                 source = require_closed_source(self.board.GetValue(), inspection=value)
                 self.board.ChangeValue(str(source))
                 self.inspection = value
                 self.schematic = context
                 self.schematic_refusal = ('Schematic context unavailable. ' + refusal) if refusal else ''
+                self.rebuild_routing_notice = rebuild_notice
                 if value['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE:
                     self.rigid_group.SetValue(False)
                 self.automatic_target_area = False
@@ -1854,21 +1876,19 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             def inspect(job, event):
                 source = str(require_closed_source(gui.saved_project_board(source_hint)))
                 value = intent.inspect_saved(source)
-                if (not intent.contract.fixed_context_scope(value['observation']['scope'])
-                        and not (c.NATIVE_VERSION == '10.0.7'
-                                 and value['observation']['scope'] == intent.contract.ORDINARY_SCOPE)):
-                    return (value, *schematic_context.observe(source, value['source_hashes']))
-                require_closed_source(source, inspection=value)
-                workspace = self.owned_workspace()
-                output = workspace / ('native-inspection-' + uuid.uuid4().hex)
-                process = job.run([str(c.ROOT/'.venv/bin/python'), '-B', '-m', 'autorouter',
-                    'inspect-project', source, '--seconds', '60', '--placement-context', '--output', str(output)],
-                    workspace / ('native-inspection-' + uuid.uuid4().hex + '.log'), timeout=75)
-                job.check_live()
-                if process['exit_code'] != 0 or process['log_truncated'] or process['cancel_requested']:
-                    raise ValueError('Native placement inspection refused; private findings/logs: ' + str(output))
-                value = intent.inspect_saved(source, native_context=output/'inspection.json')
-                return (value, *schematic_context.observe(source, value['source_hashes']))
+                scope = value['observation']['scope']
+                if intent.contract.fixed_context_scope(scope) or c.NATIVE_VERSION == '10.0.7' and scope == intent.contract.ORDINARY_SCOPE:
+                    require_closed_source(source, inspection=value)
+                    workspace = self.owned_workspace()
+                    output = workspace / ('native-inspection-' + uuid.uuid4().hex)
+                    process = job.run([str(c.ROOT/'.venv/bin/python'), '-B', '-m', 'autorouter',
+                        'inspect-project', source, '--seconds', '60', '--placement-context', '--output', str(output)],
+                        workspace / ('native-inspection-' + uuid.uuid4().hex + '.log'), timeout=75)
+                    job.check_live()
+                    if process['exit_code'] != 0 or process['log_truncated'] or process['cancel_requested']:
+                        raise ValueError('Native placement inspection refused; private findings/logs: ' + str(output))
+                    value = intent.inspect_saved(source, native_context=output/'inspection.json')
+                return (value, *schematic_context.observe(source, value['source_hashes']), affected_routing_notice(source))
             self.start('Opening the saved project… Checking components, copper and schematic context.', inspect, adopt)
 
         def load_settings(self, _):
@@ -2214,7 +2234,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 history = (self.conversation.summary_for(self.inspection['source'], self.inspection['source_hashes'])
                            if self.conversation.source else '')
                 frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished,
-                                          parent=self, placement_scene=self.picture.display, conversation_history=history)
+                    parent=self, placement_scene=self.picture.display, conversation_history=history,
+                    source_note='Placement checked. Routing uses a separate project copy.')
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
                         frame.output.SetValue(self.routing_output_hint)
@@ -2301,7 +2322,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     frame.output.SetValue(self.routing_output_hint)
                 prefill_routing(frame, settings)
                 if selected_prefill:
-                    frame.status.SetLabel('Selected-part nets have no tracks, vias or zones. Edit the nets or preview routing.')
+                    frame.status.SetLabel('Review the selected nets and time limit, then preview routing.')
+                else:
+                    frame.status.SetLabel('Choose the routing scope and time limit, then preview.')
             except Exception:
                 frame.Destroy()
                 raise
