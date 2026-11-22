@@ -4,6 +4,8 @@ The master specification, current strategy and owner steering govern. Historical
 
 **Saved workspace and optional conversation.** Ordinary controls and an explicit local request can use the same placement settings. The installed graphical review showed original placement, protected and new routing, complete findings and a freshly validated separate export. Controlled replies exercised clarification and revised proposal adoption. A new live hosted turn needs separate authorization. [Owned task](evidence/product-workspace-delivery-faf-001.json)
 
+**Existing hosted proposal delivered through ordinary controls.** Freshness, exact proposed constraints, visible review, original copper and fresh separate export passed with no new model request. The out-of-scope ground addition in the first route was explicitly rejected and retained. [Engineering continuation](evidence/product-workspace-hosted-engineering-001.json)
+
 **Live translation scope.** One owned single-footprint 10.0.8 transaction and native Undo passed exact editor readback. The saved files, protected content and unrelated unsaved edit were preserved. General open-project writes and concurrent editing during commit remain open. [Bounded continuation](evidence/live-editor-1008-direct-002.json)
 
 **Saved-project usability verified on runtime104.** Direct EEPROM inspection, actual toolbar identity and lock refusal, fresh Edge review, acceptance, export and independent readback passed. The distinct 555 source passed Native admission. Its constrained search stopped before placement validation or routing. The original GUI127 and runtime103 results retain their scope. [Installed verification](evidence/product104-usability-delivery-001.json) · [555 outcome](docs/555-constrained-placement-gui129.md).

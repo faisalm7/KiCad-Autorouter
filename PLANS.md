@@ -2,6 +2,20 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## Current delivery batch from 42eeeda72
+
+1. The saved live proposal passed freshness, adoption, placement, protected
+   routing and checked delivery through ordinary controls. The original
+   proposal-only pilot stays closed. Complete the demonstrated handoff fix so
+   preserve-copper placement selects only eligible affected nets or offers
+   Finish gaps. [Engineering continuation](evidence/product-workspace-hosted-engineering-001.json)
+2. Qualify the strict single fixed two-pad tie in the installed ordinary
+   Selected nets workflow. Confirm helpful intake and preview, exact copper,
+   Native delivery, and refusal of tied-net requests and unsupported shapes.
+3. Freeze one genuinely new licensed source and useful supported task before
+   its run. Observe complete elapsed time, operator actions and corrections,
+   including any refusal. Preserve the pinned original and rights evidence.
+
 ## Current queue from 6ea132471
 
 1. Keep the corrected contract that distinguishes parts left in place from
