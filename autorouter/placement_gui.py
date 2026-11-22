@@ -772,6 +772,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.board.SetToolTip('Choose a saved KiCad project or enter its full path and press Return.')
             pathrow.Add(self.board, 1, wx.RIGHT, 6)
             self.browse = wx.Button(panel, label='Choose project…'); pathrow.Add(self.browse, 0, wx.RIGHT, 6)
+            from . import live_move
+            self.example_project = live_move.example_source() / (live_move.EXAMPLE_NAME + '.kicad_pro')
+            self.example = wx.Button(panel, label='Open example')
+            self.example.SetToolTip('Try the included saved project. Any changes go into a separate project.')
+            pathrow.Add(self.example, 0)
             self.inspect = wx.Button(panel, label='Refresh inspection'); pathrow.Add(self.inspect)
             self.inspect.SetToolTip('Check the saved project again after edits or after closing it in KiCad.')
             self.route_saved = wx.Button(panel, label='Route saved board…'); pathrow.Add(self.route_saved, 0, wx.LEFT, 6)
@@ -977,13 +982,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             frame_layout = wx.BoxSizer(wx.VERTICAL)
             frame_layout.Add(panel, 1, wx.EXPAND)
             self.SetSizer(frame_layout)
-            self.input_controls = [self.board, self.browse, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
+            self.input_controls = [self.board, self.browse, self.example, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
                 self.assistant_request, self.assistant_ask, self.route_budget]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.board.Bind(wx.EVT_TEXT_ENTER, self.inspect_project)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
+            self.example.Bind(wx.EVT_BUTTON, self.open_example)
             if board: self.Bind(wx.EVT_SHOW, self.inspect_initial_project)
             self.parts.Bind(wx.EVT_CHECKLISTBOX, self.settings_changed)
             self.copper_policy.Bind(wx.EVT_CHOICE, self.policy_changed)
@@ -1231,6 +1237,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
+            if hasattr(self, 'example'):
+                source_entered = bool(self.board.GetValue().strip())
+                self.example.Show(not source_entered and self.example_project.is_file())
+                self.inspect.Show(source_entered)
+                self.route_saved.Show(source_entered)
+                self.pages.Show(source_entered)
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
             baseline_scope = (self.inspection is not None
                 and self.inspection['observation']['scope'] == intent.contract.THT_BASELINE_SCOPE)
@@ -1277,6 +1289,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if hasattr(self, 'routing_names'):
                     self.routing_names.Enable(not self.busy)
             if hasattr(self, 'draw_area'):
+                self.draw_area.Show(self.inspection is not None)
                 self.draw_area.Enable(not self.busy and not constraint_pending and self.inspection is not None)
                 self.picture.Enable(not self.busy)
                 native = (self.qualified['witness']['findings'] if self.qualified is not None else
@@ -1856,6 +1869,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     return
                 selected = dialog.GetPath()
             self.open_saved_source(selected)
+
+        def open_example(self, _):
+            if not self.board.GetValue().strip():
+                self.open_saved_source(self.example_project)
 
         def open_saved_source(self, selected):
             if self.busy or self.gate.closed or self.routing is not None:

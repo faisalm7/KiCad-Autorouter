@@ -56,6 +56,16 @@ def canvas(on_error, on_ready=None):
 
 
 class PlacementGuiTests(unittest.TestCase):
+    def test_open_example_uses_the_shared_intake_only_in_an_empty_workspace(self):
+        window = SimpleNamespace(board=Mock(), example_project=Path('/owned/example.kicad_pro'),
+                                 open_saved_source=Mock())
+        window.board.GetValue.return_value = ''
+        window_method('open_example')(window, None)
+        window.open_saved_source.assert_called_once_with(window.example_project)
+        window.board.GetValue.return_value = '/owned/current.kicad_pcb'
+        window_method('open_example')(window, None)
+        window.open_saved_source.assert_called_once_with(window.example_project)
+
     def gate(self):
         gate = pg.ReviewGate(); gate.attach(review()); gate.acknowledged = True
         return gate
