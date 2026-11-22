@@ -42,11 +42,11 @@ The master specification, current strategy and owner steering govern. Historical
   refusal in the installed Finish gaps path. Its original format, net ties and
   saved courtyard exclusion remain intact. This is new refusal coverage.
   [Intake evidence](evidence/product-workspace-rfid-scope-001.json)
-- The owned fixed-net-tie observation covers Native group readback, exact
-  DSN net terminals and conservative copper keepouts. General net-tie
-  routing still requires a validated unrelated-net delivery and a protection
-  negative. No licensed-board coverage follows from the transport result.
-  [Scope](evidence/fixed-net-tie-native7-transport-001.json)
+- An owned fixed two-pad tie passed an isolated verified route on one
+  unrelated net. The candidate kept the complete geometry and three
+  protected routes. The bridge-change and outside-short controls refused.
+  Ordinary intake and checked delivery for this scope remain open.
+  [Qualification](evidence/fixed-net-tie-selected-native7-001.json)
 
 ## Editor integration
 

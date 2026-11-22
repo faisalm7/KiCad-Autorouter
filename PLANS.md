@@ -23,14 +23,12 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    [Observed review](evidence/product-workspace-conversation-ui-001.json)
 4. The bounded licensed admission review closed with two previously exposed
    leads. The SparkFun RFID and NUS refusals retain their original scope.
-   KiCad 10.0.7 read back the owned fixed ties directly, exported their
-   distinct net terminals and preserved all five group memberships. The
-   existing graphics adapter covered the three fixed bridge rectangles.
-   The next production gate is one owned two-layer task with a two-pad tie
-   outside the requested nets. Require a checked route, exact original
-   protection and a genuine changed-tie or outside-contact negative. A new
-   licensed validation result still needs a pinned project and frozen task.
-   [Transport result and acceptance conditions](evidence/fixed-net-tie-native7-transport-001.json)
+   The owned single fixed tie passed the isolated checked routing and
+   protection trial. Next qualify the narrow scope in ordinary selected-net
+   intake, transport, validation and delivery, with explicit rejection of
+   selected tied nets and unsupported geometry. New licensed coverage still
+   needs a pinned project and declared task.
+   [Qualification and next gate](evidence/fixed-net-tie-selected-native7-001.json)
 
 ## Earlier batch from f51d84b6
 

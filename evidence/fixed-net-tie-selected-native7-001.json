@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "scope": "Qualification of one owned fixed-placement two-layer board with one two-pad rectangular net tie on untouched nets. Selected routing was limited to one unrelated gap. The product's ordinary admission gate remains unchanged.",
+  "installed_build": "2c6e4bbe58b061eafbff75260345defacadbe599",
+  "native_version": "10.0.7",
+  "engine_version": "2.5.0",
+  "engine_profile": "completion-only",
+  "predecessor": "evidence/fixed-net-tie-native7-transport-001.json",
+  "fixture": "Owned derivative of experiments/net_tie_contact_v1/fixture.py. JP1 and its bridge retain their original identities. The result adds no licensed-board coverage.",
+  "source_sha256": "357031d0c613464e8bde392e37092920bd3d2969921edd75bca65d3908fdce6b",
+  "protocol_sha256": "e5b400afbafc92e39e9200bc7fbd7ab371a01c00d77bcface43b16793c949810",
+  "engine_attempts": 1,
+  "earlier_dispatch_held_before_native": true,
+  "qualification_budget_wall_and_cpu_seconds": 90,
+  "work_wall_seconds": 7.6064466669922695,
+  "work_cpu_seconds": 4.913995,
+  "independent_readback_seconds": 0.31049287505447865,
+  "timing_scope": "Work covers pinned-tool and input verification, source DRC, conversion, one engine attempt, import, refill, final DRC and both negative controls. Fixture preparation and independent readback are separate. This is a correctness check, not a runtime comparison or a shipped-workflow measure.",
+  "source_opens": 1,
+  "candidate_sha256": "ec8b6cb94ac0799d99c06ad4363cebce791165728e29cc5e00a304d22fc16d66",
+  "raw_dsn_terminals_preserved": 6,
+  "adapter_bridge_keepouts_added": 1,
+  "candidate": {
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 0,
+    "exclusions": 0,
+    "ignored_checks": ["track_not_centered_on_via", "tuning_profile_track_geometries"],
+    "protected_routes_exact": 3,
+    "new_routes_on_selected_net": 1,
+    "new_routes_on_tied_nets": 0,
+    "original_files_exact": true,
+    "original_project_and_schematic_exact": true,
+    "final_drc_sha256": "fb466a330fb367cd447a107de06c8cb95ba904c10f6ed5ef9e735462bf5e3fc3"
+  },
+  "negative_controls": {
+    "removed_bridge": "Shared candidate validation refused immutable geometry changed before Native work.",
+    "outside_short": {
+      "added_one_segment_between_tied_nets_outside_footprint": true,
+      "accepted": false,
+      "blocking_types": ["tracks_crossing", "shorting_items", "hole_clearance", "solder_mask_bridge"],
+      "shorting_items_exact_witness": ["15b567c4-2ebc-5183-b5ae-1881379bec55", "d8227c2a-a118-59e4-b9f9-7ebce208a444"],
+      "drc_sha256": "2a0b36d1546ee39035065645620f8531051efd66f5186fd977e0f88f985a21da"
+    }
+  },
+  "readback": {
+    "candidate_byte_exact_reconstruction": true,
+    "retained_original_rule_drc_bound": true,
+    "receipt_sha256": "1946e4e767a401489e78bbfbaf2d3fbd072ca57b6f2c206abd6c17481b93b738"
+  },
+  "raw_result_sha256": "63405dc2a428513807364022741f704a7d9df1691aae9558f5298fe1ee681f25",
+  "qualification_passed": true,
+  "product_admission_changed": false,
+  "next_gate": "Enforce the narrow tie-geometry and selected-net scope through ordinary intake, candidate checking and delivery. Bind the export terminal check and keepout rule to saved evidence. Require explicit refusals for a selected tied net or unsupported geometry before a new licensed workflow trial.",
+  "raw_evidence": "The authored fixture, frozen protocol, first dispatch hold, Native reports and independent readback remain in the local fixed-net-tie-scope-001 run."
+}
