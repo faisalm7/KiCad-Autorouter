@@ -2,6 +2,8 @@
 
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 
+**Finder startup explains how to recover.** A verified artifact installed into a fresh folder with spaces and opened the workspace in Finder. An isolated bad launcher identity showed the reason and advised fresh setup if the installation moved. An absent local Python environment showed the recovery fallback. These checks used the same Mac and pinned tools. [Installed startup test](evidence/product-finder-startup-recovery-001.json)
+
 **The adopted local request stays beside the board.** The installed app retained the 85-second request and separately showed the edited 81-second plan through routing preview. Changing a disposable schematic blocked Start before dispatch. Refresh hid the earlier plan. Native counts stayed above the board and Findings at 880 × 610, including both layers of a retained checked review. [Installed display](evidence/product-local-plan-and-review-layout-001.json)
 
 **Placement's keep-copper choice survives routing edits.** The installed preview refused selecting the existing unlocked KEEP trace and suggested Finish gaps. The approved two-net task then closed both connections and delivered with KEEP exact, zero blockers and the inherited warning. Accept followed the review checkbox and Reject remained available. Independent readback passed. The first owned control's outside-area refusal remains recorded. [Installed protection and review](evidence/product-placement-preserve-review-001.json)

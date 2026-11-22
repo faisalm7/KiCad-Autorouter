@@ -32,6 +32,13 @@ Before inspecting or routing, save and close the source PCB/schematic editors, t
 
 ## Saved-project launcher and optional toolbar handoff
 
+The Finder app shows the failed startup check if the launcher or its pinned
+tools change. Open Copperpath from the launcher folder created during setup.
+For an installation you moved, prepare a fresh copy from the verified artifact
+using the same dependency checks. The local Python fallback also points to
+**Open Saved Project.command** for diagnostics.
+[Observed startup and fault controls](../evidence/product-finder-startup-recovery-001.json)
+
 Double-click **Copperpath.app** to open the workspace. Use **Open Saved Project.command** from the same folder when you need startup diagnostics. Choose the `.kicad_pro` file while the project is closed. Inspection starts automatically. Keep its matching PCB, schematic and rules together. After edits, save and choose **Refresh inspection** before continuing. Both launchers use the same checked local runtime.
 
 Fresh preparation provisions an empty private job directory for inspection

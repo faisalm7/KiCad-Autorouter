@@ -151,6 +151,9 @@ The master specification, current strategy and owner steering govern. Historical
 The local setup command was verified on macOS with an existing checked
 artifact and pinned tools, a fresh directory and a minimal launch environment.
 Independent-machine setup remains open. [Setup evidence](evidence/product-local-workspace-setup-001.json)
+The current Finder launcher shows the verified startup reason and recovery
+guidance. Wrong identity and absent local Python were exercised on disposable
+launchers after a setup at a new root. [Startup checks](evidence/product-finder-startup-recovery-001.json)
 
 The installed `a7b142216` workspace adds a 960 × 650 board-first layout,
 saved-project selection and local proposal edit/review/adoption. The separate

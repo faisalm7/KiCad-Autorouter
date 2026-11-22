@@ -134,9 +134,14 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     and cleared on settings edit. The installed retained-review display kept
     its verified counts visible on both copper layers.
     [Installed display](evidence/product-local-plan-and-review-layout-001.json)
-29. Surface the concrete Finder startup refusal and a safe recovery action in
-    the launcher dialog. Verify a clean relocated install and a disposable
-    identity fault. Preserve pinned host checks and the diagnostic command.
+29. **Verified on this Mac.** A fresh relocated artifact opened through Finder.
+    A separate wrong launcher identity and a missing local Python both
+    displayed their recovery guidance. The diagnostic command still exits
+    with its exact refusal. [Installed startup](evidence/product-finder-startup-recovery-001.json)
+30. Check whether the existing isolated KiCad session can safely qualify the
+    new saved-mode toolbar selection handoff. Verify its exact active project
+    and existing work first. Advance independent placement coverage or
+    onboarding if a separate editor session is required.
 
 ## Verified Finish gaps batch from 2dabd0799
 
