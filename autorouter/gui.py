@@ -152,6 +152,7 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     if blocked_source:
         from .finish_gaps import source_delivery_lines
         lines += ['Checked delivery is blocked by the saved source.', *source_delivery_lines(delivery), '']
+    heading, lines = lines, []
     pruning = record.get('pruning_preferences', {})
     # Review/export have their own budgets. Display the actual parent capture
     # rather than the merged stage budget or mutable current widgets.
@@ -214,7 +215,7 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     if tie_info.get('fixed_net_tie_refusal'):
         lines += ['Routing scope unavailable. ' + tie_info['fixed_net_tie_refusal'] + '.']
     if record.get('invariants_unchanged') is True:
-        lines += ['Original-design checks passed; source geometry and protected routing retained.']
+        heading += ['Original-design checks passed; source geometry and protected routing retained.']
     matches = record.get('protected_route_import', {}).get('matches')
     audit = record.get('selected_net_audit')
     if record.get('scope') == 'selected_nets':
@@ -222,11 +223,11 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                 and type(audit.get('schema')) is int and audit['schema'] == 1
                 and audit.get('policy') == 'selected-nets-v1' and audit.get('scope_passed') is True
                 and type(audit.get('protected_count')) is int and audit['protected_count'] >= 0):
-            lines += ['Protected route items retained: ' + str(audit['protected_count'])]
-    elif isinstance(matches, list): lines += ['Protected route items retained: ' + str(len(matches))]
+            heading += ['Protected route items retained: ' + str(audit['protected_count'])]
+    elif isinstance(matches, list): heading += ['Protected route items retained: ' + str(len(matches))]
     elif (improve and record.get('invariants_unchanged') is True
             and type(record.get('protected_routes')) is int and record['protected_routes'] >= 0):
-        lines += ['Protected route items retained: ' + str(record['protected_routes'])]
+        heading += ['Protected route items retained: ' + str(record['protected_routes'])]
     if record.get('schematic_parity'): lines += ['Schematic: ' + str(record['schematic_parity'])]
     metrics = record.get('metrics') or record.get('saved_metrics')
     if isinstance(metrics, dict):
@@ -240,34 +241,34 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     native = record.get('native') or record.get('saved_native_findings')
     if isinstance(native, dict):
         if blocked_source:
-            lines += [f"KiCad source findings · Open connections {native['opens']} · Other errors {native['blocking']}"
+            heading += [f"KiCad source findings · Open connections {native['opens']} · Other errors {native['blocking']}"
                       f" · Warnings {native['warnings']} · Exclusions {native['exclusions']}"]
         else:
-            lines += ['Native findings: ' + str(native.get('opens', 'not reported')) + ' opens; '
+            heading += ['Native findings: ' + str(native.get('opens', 'not reported')) + ' opens; '
                       + str(native.get('blocking', 'not reported')) + ' blocking; '
                       + str(native.get('warnings', 'not reported')) + ' warnings; '
                       + str(native.get('exclusions', 'not reported')) + ' exclusions']
         source_native = record.get('source_drc')
         if stage == 'inspect':
-            lines += ['Open connections are counted by KiCad after refilling zones on the saved copy.']
+            heading += ['Open connections are counted by KiCad after refilling zones on the saved copy.']
         elif isinstance(source_native, dict) and type(source_native.get('opens')) is int:
-            lines += [f"KiCad open connections after zone refill: {source_native['opens']} in the saved input, "
+            heading += [f"KiCad open connections after zone refill: {source_native['opens']} in the saved input, "
                       + str(native.get('opens', 'not reported')) + ' in the result.']
         if native.get('warnings'):
             from .review_view import finding_groups
             groups = [(origin, title, len(rows)) for (origin, title), rows in finding_groups(native, source_native).items()
                       if origin in ('Already in the saved input', 'Source match unconfirmed')]
             if groups:
-                lines += ['Warning groups'] + [f'  {count} · {title} · {origin}' for origin, title, count in groups[:8]]
+                heading += ['Warning groups'] + [f'  {count} · {title} · {origin}' for origin, title, count in groups[:8]]
                 if len(groups) > 8:
-                    lines += ['  Additional groups are included in the full findings below.']
+                    heading += ['  Additional groups are included in the full findings below.']
         qualification = native.get('field_parity', {}).get('qualification', {})
         if qualification.get('qualified') is True:
             lines += ['Effective schematic fields compared: ' + str(qualification.get('component_count', 'not reported'))
                       + ' components / ' + str(qualification.get('compared_field_count', 'not reported'))
                       + ' fields. Listed Native warnings remain visible.']
         if record.get('whole_project_drc_clean') is False:
-            lines += ['The whole project is not DRC-clean; inspect every finding below.']
+            heading += ['The whole project is not DRC-clean; inspect every finding below.']
     if stage in ('review', 'choice', 'export', 'verify_export'):
         lines += ['Separate-project workflow only; no live-board application or physical/electrical approval.']
     if stage == 'review': lines += ['Inspect the separate project and every finding. Before Accept intent, close its PCB/schematic editors and use File > Close Project in KiCad project manager. Creating this copy does not run a fresh Native check.']
@@ -287,12 +288,12 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     if record.get('error'): lines += ['Action error: ' + str(record['error'])]
     lines += ['Physical/electrical and manufacturing validation remains separate.']
     if isinstance(native, dict):
-        groups = [('Ignored checks', native.get('ignored_checks', [])), ('Findings', native.get('findings', []))]
-        size = sum(len(line) + 1 for line in lines)
+        groups = [('Findings', native.get('findings', [])), ('Ignored checks', native.get('ignored_checks', []))]
+        size = sum(len(line) + 1 for line in (*heading, *lines))
         omitted = 0
         for label, rows in groups:
-            lines += ['', label + ' (' + str(len(rows)) + ' retained):']
-            if not rows: lines += ['None.']
+            heading += ['', label + ' (' + str(len(rows)) + ' retained):']
+            if not rows: heading += ['None.']
             for index, item in enumerate(rows, 1):
                 if label == 'Ignored checks':
                     text = str(index) + '. ' + str(item.get('description', 'No description')) + ' [' + str(item.get('key', 'unknown')) + ']'
@@ -303,14 +304,15 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                         position = detail.get('pos')
                         if isinstance(position, dict): text += ' at ' + str(position.get('x', '?')) + ', ' + str(position.get('y', '?')) + ' mm'
                 if size + len(text) + 1 <= SUMMARY_LIMIT:
-                    lines.append(text); size += len(text) + 1
+                    heading.append(text); size += len(text) + 1
                 else: omitted += 1
         if omitted:
-            lines += ['', str(omitted) + ' further finding/ignored-check entries are not displayed because of the UI text bound.',
+            heading += ['', str(omitted) + ' further finding/ignored-check entries are not displayed because of the UI text bound.',
                       'ALL entries remain in the full findings receipt. Open it before completing review: ' + str(findings_receipt_path or receipt_path or 'retained workflow receipt')]
+        heading += ['', 'Routing and review details' if stage != 'inspect' else 'Inspection details']
     if locations:
         lines += ['', 'Files and full reports', *locations]
-    return '\n'.join(lines)
+    return '\n'.join(heading + lines)
 
 def _completed_summary(flow, stage, record):
     """Render retained completed findings for stage completion and inspection."""

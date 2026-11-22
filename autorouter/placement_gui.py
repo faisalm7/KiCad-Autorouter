@@ -1067,13 +1067,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.set_board_scene(display)
             self.region_summary.Wrap(264)
             selected_refs = [row['reference'] for row in self.inspection['components'] if row['uuid'] in selected]
-            self.findings.SetValue('Saved project inspection — no current placement draft or validation.\n'
+            source_readout = (source_native_findings(self.inspection, self.saved_native) if self.saved_native is not None
+                              else 'Saved project inspection. KiCad connectivity has yet to be checked.')
+            self.findings.SetValue(source_readout + '\n\nPlacement settings\n'
                 + 'Selected to move: ' + (', '.join(selected_refs) or 'none')
                 + '\nEvery unselected component stays fixed.\n'
                 + ('Affected unlocked nets may be rebuilt only after the exact draft and copper plan are reviewed. '
                     'No copper has been changed.\n' if self.rebuild_copper() else copper_findings(None) + '\n')
-                + (source_native_findings(self.inspection, self.saved_native) if self.saved_native is not None
-                   else 'No Native connectivity or electrical suitability is established by this static view.')
                 + '\n\nComponents\n' + component_findings(self.inspection, rebuild=self.rebuild_copper())
                 + '\n\nSupported constraints and limits\n'
                 + '\n'.join(placement_limits(self.inspection, rebuild=self.rebuild_copper(),

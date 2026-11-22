@@ -92,6 +92,9 @@ The master specification, current strategy and owner steering govern. Historical
   geometry and three protected routes stayed exact. The normal previews
   refused a tied-net selection and a triangular bridge. Earlier isolated
   controls refused a changed bridge and an outside short. [Installed delivery](evidence/fixed-net-tie-product-native7-001.json)
+  The updated workspace opens the same board for read-only routing preview
+  while keeping the JP1 placement refusal visible. The tied net and a changed
+  schematic both refused in the installed interface. [Opening](evidence/product-routing-only-opening-001.json)
 - One new licensed Robotont task reached final routing validation in the
   installed UI. Its existing schematic/PCB field warning blocked delivery,
   and five completed nets gained unnecessary copper. The frozen workflow

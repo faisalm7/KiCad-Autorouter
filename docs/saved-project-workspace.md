@@ -41,6 +41,10 @@ switching tabs. The recorded tests made no manual CAD corrections.
 
 ## Routing around a fixed net tie
 
+The fixed-tie example opens with its saved front copper and the relevant
+placement limitation. The read-only drawing gives routing context while
+Preview checks whether the requested routing scope is supported.
+
 Open **Route saved board**, then choose **Selected nets; keep other copper**.
 Copperpath shows **Completion only**. Keep **Both corrections**, **All source
 copper** and the default via preference. Choose only the nets you want to

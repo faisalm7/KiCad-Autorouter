@@ -141,6 +141,18 @@ def prepare(source, destination, *, copy_local_engine=False, native_version=None
             'local_engine_copied': engine is not None, 'standalone': False, 'published': False}
 
 
+def installed_tool_paths(kicad_app, java_executable):
+    """Resolve two supplied tool locations into the existing four pinned roles."""
+    if kicad_app is None or java_executable is None:
+        raise ValueError('Supply both --kicad-app and --java-executable to use different tool locations.')
+    app = pv._directory(Path(kicad_app).absolute())
+    if app.suffix != '.app':
+        raise ValueError('Select the installed KiCad .app bundle.')
+    java = pv.canonical(Path(java_executable).absolute())
+    return {'java': str(java), **{role: str(app / 'Contents' / suffix)
+                                 for role, suffix in pv._NATIVE_SUFFIXES.items()}}
+
+
 def install_existing(source, destination, *, expected_manifest_sha256, import_artifact=False, host_paths=None):
     """Install a pinned artifact at a new root, without rebuilding its payload.
 
@@ -316,12 +328,17 @@ def main():
         help='Install a still-bound, manifest-pinned local runtime at a new root; no rebuild.')
     parser.add_argument('--import-artifact',action='store_true',help='Explicitly import manifest-pinned transported source; installed runtime remains root-bound.')
     parser.add_argument('--host-paths-json',help='Explicit bounded JSON object with all four existing known tool role locations; no downloads.')
+    parser.add_argument('--kicad-app', help='Existing pinned KiCad .app bundle at this Mac’s location. Pair with --java-executable.')
+    parser.add_argument('--java-executable', help='Existing pinned Java executable. Pair with --kicad-app.')
     parser.add_argument('--expected-manifest-sha256',
         help='Required source manifest SHA256 for --install-existing only.')
     parser.add_argument('--with-launcher', action='store_true',
-        help='Create a fresh local Python environment, check dependencies and prepare Open Saved Project.command on macOS.')
+        help='Create a fresh local Python environment, check dependencies and prepare the saved-project launcher on macOS.')
     args = parser.parse_args()
     try:
+        direct_paths = args.kicad_app is not None or args.java_executable is not None
+        if direct_paths and args.host_paths_json is not None:
+            raise ValueError('Choose either the KiCad and Java paths or --host-paths-json.')
         if args.with_launcher:
             from scripts.backup import BackupError, require_headroom
 
@@ -341,11 +358,13 @@ def main():
                 host_paths=json.loads(pv.read_bytes(Path(args.host_paths_json).absolute(),64*1024),
                     object_pairs_hook=pv._strict_object,
                     parse_constant=lambda value: (_ for _ in ()).throw(ValueError('invalid JSON constant')))
+            elif direct_paths:
+                host_paths = installed_tool_paths(args.kicad_app, args.java_executable)
             result = install_existing(args.source, args.output,
                 expected_manifest_sha256=args.expected_manifest_sha256,
                 import_artifact=args.import_artifact,host_paths=host_paths)
         else:
-            if args.expected_manifest_sha256 is not None or args.import_artifact or args.host_paths_json is not None:
+            if args.expected_manifest_sha256 is not None or args.import_artifact or args.host_paths_json is not None or direct_paths:
                 raise ValueError('artifact pin/import/host paths require --install-existing.')
             result = prepare(args.source, args.output, copy_local_engine=args.copy_local_engine,
                              native_version=args.native_version)

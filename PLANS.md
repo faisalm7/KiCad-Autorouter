@@ -66,10 +66,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     retains no prior approval. The first observed refusal used generic
     guidance. Verify the corrected advice at the next installed check.
     [Edited-copy workflow](evidence/product-edited-export-recovery-001.json)
-14. Open a read-only board view when placement cannot handle the saved
-    geometry and the board outline can be drawn exactly. Verify the protected
-    routing preview on the existing owned fixed-tie fixture. Keep the named
-    placement refusal visible and reuse the verified routing result.
+14. **Verified.** The fixed-tie example opens as a read-only board while
+    placement names its JP1 limitation. Its installed routing preview
+    protects three existing tracks, refuses a tied net and rejects a changed
+    schematic. The earlier verified routing delivery is reused.
+    [Installed opening](evidence/product-routing-only-opening-001.json)
+15. Put actual findings and protection ahead of technical settings and file
+    paths. Verify the resulting review on a retained checked result at laptop
+    size, preserving all details and existing approvals.
+16. Make setup accept an existing KiCad app and Java executable directly.
+    Verify exact role/version hashes, fresh setup and launch from another
+    folder without preparing a tool-path JSON file.
 
 ## Verified Finish gaps batch from 2dabd0799
 

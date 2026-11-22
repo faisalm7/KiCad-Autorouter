@@ -144,6 +144,17 @@ class GuiSummaryTests(unittest.TestCase):
             self.assertGreater(text.index(path), text.index('Last warning'))
         self.assertLess(text.index('0 opens; 0 blocking'), text.index('Files and full reports'))
 
+    def test_warning_and_protection_are_visible_before_technical_routing_details(self):
+        record = self.record()
+        record['effective_preferences'] = dict(gui.pref.DEFAULTS)
+        text = gui.human_summary('review', record, receipt_path='/separate/review.json')
+        checked = text.index('Protected route items retained: 1')
+        warning = text.index('First warning')
+        ignored = text.index('Ignored check description')
+        technical = text.index('Routing and review details')
+        settings = text.index('Settings:')
+        self.assertEqual(sorted((checked, warning, ignored, technical, settings)), [checked, warning, ignored, technical, settings])
+
     def test_choice_discloses_unchanged_board_and_review_metadata_changes(self):
         record = dict(status='disposition_recorded', choice='accept',
             candidate_board_unchanged=True, review_project_matches_recorded_candidate=False,

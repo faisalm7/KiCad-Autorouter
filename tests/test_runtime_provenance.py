@@ -60,6 +60,23 @@ class RuntimeProvenanceTests(unittest.TestCase):
         self.assertEqual(jobs.stat().st_mode & 0o777, 0o700)
         self.assertEqual(list(jobs.iterdir()), [])
 
+    def test_direct_tool_locations_generate_the_same_pinned_roles(self):
+        app = self.source.parent / 'Owned KiCad.app'
+        java = self.source.parent / 'JDK/bin/java'
+        app.mkdir()
+        java.parent.mkdir(parents=True)
+        java.write_bytes(b'owned path fixture')
+        paths = build.installed_tool_paths(app, java)
+        self.assertEqual(paths, {'java': str(java), **{
+            name: str(app / 'Contents' / suffix) for name, suffix in pv._NATIVE_SUFFIXES.items()}})
+        for wrong_app, wrong_java in ((None, java), (app, None)):
+            with self.subTest(app=wrong_app, java=wrong_java), self.assertRaisesRegex(ValueError, 'Supply both'):
+                build.installed_tool_paths(wrong_app, wrong_java)
+        alias = app.with_name('Alias.app')
+        alias.symlink_to(app)
+        with self.assertRaisesRegex(ValueError, 'without symlinks'):
+            build.installed_tool_paths(alias, java)
+
     def test_combined_setup_withholds_launcher_after_doctor_refusal(self):
         self.prepare()
         seen = []
