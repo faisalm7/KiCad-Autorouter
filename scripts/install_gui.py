@@ -23,10 +23,10 @@ IMMUTABLE_FILES = frozenset(('Open Saved Project.command', 'Launch Autorouter.co
 README = '''Copperpath for saved KiCad projects
 
 Double-click Open Saved Project.command. Click Choose project and select the
-saved .kicad_pro alongside its matching PCB and schematic. You can inspect,
-route or place components without opening the original project in KiCad.
-Confirm that the saved project is closed before inspection. If it is open,
-save and close both editors, then use File > Close Project in KiCad manager.
+saved .kicad_pro alongside its matching PCB and schematic. Copperpath inspects
+the saved project and displays its board. If it is open in KiCad, save and
+close both editors, then choose File > Close Project in KiCad manager. Back in
+Copperpath, click Refresh inspection. You can also enter the path and press Return.
 
 For the optional PCB toolbar, double-click Launch Autorouter.command. It starts
 the existing KiCad manager with configuration, plugins, PCM content and cache

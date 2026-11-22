@@ -208,10 +208,9 @@ def require_closed_source(board, *, inspection=None):
     except h.ReviewProjectOpen:
         raise ValueError('Save and close the source PCB and schematic editors, then choose '
             'File > Close Project in KiCad manager. A project lock is still present. '
-            'Then click Inspect project again; closing the project may update saved files. '
-            'No new Native work was started.') from None
+            'Then click Refresh inspection. Closing the project may update saved files.') from None
     if inspection is not None and (str(source) != inspection['source'] or hashes != inspection['source_hashes']):
-        raise ValueError('Saved source files changed since inspection. Click Inspect project again, '
+        raise ValueError('Saved source files changed since inspection. Click Refresh inspection, '
             'then load your settings and review a new draft. Earlier validation was not renewed.')
     return source
 
@@ -545,7 +544,7 @@ def bitmap_with_labels(wx, svg, size=(850, 500), *, min_text_pixels=9):
 
 
 def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, read_only=False,
-                 empty_note='Inspect a saved project to see its board and components.'):
+                 empty_note='Choose a saved project to see its board and components.'):
     """Responsive display/picking only; commits use ordinary settings handlers."""
     class Canvas(wx.Panel):
         def __init__(self):
@@ -715,10 +714,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             pathrow = wx.BoxSizer(wx.HORIZONTAL)
             project_label = wx.StaticText(panel, label='Saved project')
             pathrow.Add(project_label, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
-            self.board = wx.TextCtrl(panel, value=str(board)); self.board.SetMinSize(self.FromDIP((160, -1)))
+            self.board = wx.TextCtrl(panel, value=str(board), style=wx.TE_PROCESS_ENTER)
+            self.board.SetMinSize(self.FromDIP((160, -1)))
+            self.board.SetToolTip('Choose a saved KiCad project or enter its full path and press Return.')
             pathrow.Add(self.board, 1, wx.RIGHT, 6)
             self.browse = wx.Button(panel, label='Choose project…'); pathrow.Add(self.browse, 0, wx.RIGHT, 6)
-            self.inspect = wx.Button(panel, label='Inspect project'); pathrow.Add(self.inspect)
+            self.inspect = wx.Button(panel, label='Refresh inspection'); pathrow.Add(self.inspect)
+            self.inspect.SetToolTip('Check the saved project again after edits or after closing it in KiCad.')
             self.route_saved = wx.Button(panel, label='Route saved board…'); pathrow.Add(self.route_saved, 0, wx.LEFT, 6)
             root.Add(pathrow, 0, wx.EXPAND | wx.ALL, 12)
             columns = wx.BoxSizer(wx.HORIZONTAL)
@@ -734,7 +736,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.copper_policy = wx.Choice(side, choices=['Preserve all existing copper', 'Rebuild affected unlocked nets'])
             self.copper_policy.SetSelection(0); left.Add(self.copper_policy, 0, wx.EXPAND | wx.BOTTOM, 6)
             self.copper_policy.SetToolTip('Locked and unrelated copper always stay protected.')
-            self.region_summary = wx.StaticText(side, label='No movement area yet. Inspect the project first.')
+            self.region_summary = wx.StaticText(side, label='Movement area becomes available after inspection.')
             self.region_summary.Wrap(264); left.Add(self.region_summary, 0, wx.BOTTOM, 7)
             self.precise = wx.CollapsiblePane(side, label='Precise area · mm', style=wx.CP_NO_TLW_RESIZE)
             area_panel = self.precise.GetPane(); grid = wx.FlexGridSizer(cols=2, vgap=5, hgap=6); grid.AddGrowableCol(1)
@@ -890,7 +892,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                              name='Saved schematic context')
             schematic_layout.Add(self.schematic_text, 1, wx.EXPAND)
             schematic_page.SetSizer(schematic_layout); self.pages.AddPage(schematic_page, 'Schematic')
-            self.schematic_text.ChangeValue('Inspect a saved project to see its schematic context.')
+            self.schematic_text.ChangeValue('Choose a saved project to see its schematic context.')
             columns.Add(board_page, 1, wx.EXPAND | wx.RIGHT, 10)
             columns.Add(self.pages, 0, wx.EXPAND)
             root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
@@ -903,7 +905,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             for button in (self.find, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 6)
             buttons.AddStretchSpacer(); buttons.Add(self.reject)
             root.Add(buttons, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
-            self.status = wx.StaticText(panel, label='Save and close source editors, then File > Close Project in KiCad manager. Choose the saved project and Inspect project.')
+            self.status = wx.StaticText(panel, label='Choose a saved project to open its board. If it is open in KiCad, save and close it first.')
             self.status.Wrap(930); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 10)
             progressrow = wx.BoxSizer(wx.HORIZONTAL)
             self.progress = wx.Gauge(panel); progressrow.Add(self.progress, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
@@ -918,7 +920,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.assistant_request, self.assistant_ask, self.route_budget]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
+            self.board.Bind(wx.EVT_TEXT_ENTER, self.inspect_project)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
+            if board: self.Bind(wx.EVT_SHOW, self.inspect_initial_project)
             self.parts.Bind(wx.EVT_CHECKLISTBOX, self.settings_changed)
             self.copper_policy.Bind(wx.EVT_CHOICE, self.policy_changed)
             self.rigid_group.Bind(wx.EVT_CHECKBOX, self.settings_changed)
@@ -992,7 +996,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             """Passive source view before a draft exists; never validation."""
             if self.inspection is None:
                 self.set_board_scene(None)
-                self.region_summary.SetLabel('No movement area yet. Inspect the project first.')
+                self.region_summary.SetLabel('Movement area becomes available after inspection.')
                 return
             observation = self.inspection['observation']
             bounds = observation['outline']['bounds_nm']
@@ -1032,7 +1036,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def set_board_scene(self, scene, *, rebuild=False):
             self.board_scene = scene
             self.board_legend = ('Blue selected · Slate fixed · Amber retained · Green zones'
-                                 if scene is not None else 'Inspect a saved project to begin.')
+                                 if scene is not None else 'Choose a saved project to begin.')
             if rebuild:
                 self.board_legend = 'Blue selected · Slate fixed · Amber retained · Green zones. Rebuild plan in Findings.'
             self.picture.SetScene(scene)
@@ -1051,7 +1055,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def update_schematic_view(self):
             if self.schematic is None:
                 self.schematic_text.ChangeValue(self.schematic_refusal or
-                    'Inspect a saved project to see its schematic context.')
+                    'Choose a saved project to see its schematic context.')
                 return
             try:
                 schematic_context.current(self.schematic, self.board.GetValue())
@@ -1255,8 +1259,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if hasattr(self, 'schematic_text'):
                     self.update_schematic_view()
                 self.inspection = None; self.parts.Set([]); self.revoke(discard=True)
-                self.message('Source changed. Inspect this saved project before requesting placement.')
-            event.Skip()
+                self.message('Choose a saved project or enter its full path and press Return.')
+            if event is not None: event.Skip()
 
         def invalidate_copilot(self):
             """Changing intent cannot retain a model plan or its routing handoff."""
@@ -1736,16 +1740,28 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             event.Skip()
 
         def choose_board(self, _):
+            if self.busy or self.gate.closed: return
             pattern = 'KiCad projects and boards (*.kicad_pro; *.kicad_pcb)|*.kicad_pro;*.kicad_pcb'
             with wx.FileDialog(self, 'Choose a saved KiCad project', wildcard=pattern,
                                style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
                 if dialog.ShowModal() != wx.ID_OK:
                     return
-                try:
-                    board = gui.saved_project_board(dialog.GetPath())
-                    self.board.SetValue(str(board))
-                except (OSError, ValueError, Rejected) as exc:
-                    self.message(str(exc))
+                selected = dialog.GetPath()
+            try:
+                selected_board = str(gui.saved_project_board(selected))
+            except (OSError, ValueError, Rejected) as exc:
+                self.message(str(exc)); return
+            if selected_board != self.board.GetValue():
+                self.board.ChangeValue(selected_board)
+                self.source_changed(None)
+            self.inspect_project(None)
+
+        def inspect_initial_project(self, event):
+            event.Skip()
+            if event.IsShown():
+                self.Unbind(wx.EVT_SHOW, handler=self.inspect_initial_project)
+                if self.board.GetValue() == str(board):
+                    self.inspect_project(None)
 
         def options(self, *, validate_geometry=True):
             if self.inspection is None: raise ValueError('Inspect the saved project first.')
@@ -1792,8 +1808,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.refresh()
 
         def inspect_project(self, _):
+            if self.busy or self.gate.closed: return
             self.invalidate_copilot()
-            self.inspection = None
+            self.inspection = None; self.parts.Set([])
             self.revoke(discard=True)
             self.schematic = None; self.schematic_refusal = ''
             self.update_schematic_view()
@@ -1821,14 +1838,15 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 finally:self.updating=False
                 self.overview()
                 self.update_schematic_view()
-                self.message('Select the parts to move and draw their allowed area, or open Conversation.')
+                self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
             def inspect(job, event):
-                source = str(require_closed_source(source_hint))
+                source = str(require_closed_source(gui.saved_project_board(source_hint)))
                 value = intent.inspect_saved(source)
                 if (not intent.contract.fixed_context_scope(value['observation']['scope'])
                         and not (c.NATIVE_VERSION == '10.0.7'
                                  and value['observation']['scope'] == intent.contract.ORDINARY_SCOPE)):
                     return (value, *schematic_context.observe(source, value['source_hashes']))
+                require_closed_source(source, inspection=value)
                 workspace = self.owned_workspace()
                 output = workspace / ('native-inspection-' + uuid.uuid4().hex)
                 process = job.run([str(c.ROOT/'.venv/bin/python'), '-B', '-m', 'autorouter',
@@ -1839,7 +1857,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     raise ValueError('Native placement inspection refused; private findings/logs: ' + str(output))
                 value = intent.inspect_saved(source, native_context=output/'inspection.json')
                 return (value, *schematic_context.observe(source, value['source_hashes']))
-            self.start('Reading saved placement geometry and fixed relationships; Native silk/mask capture when required…', inspect, adopt)
+            self.start('Opening the saved project… Checking components, copper and schematic context.', inspect, adopt)
 
         def load_settings(self, _):
             try:

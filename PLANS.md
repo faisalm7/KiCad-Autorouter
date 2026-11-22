@@ -2,6 +2,26 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## Active work from e638c5e9
+
+Update the current state at each checkpoint and immediately begin the next
+valuable unblocked item. Replenish this queue from the outstanding product
+requirements. These rules supersede earlier batch-completion stopping clauses.
+The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENTS.md).
+
+1. Open a selected saved project into its board workspace. Qualify the
+   automatic inspection on a closed project, keyboard entry, cancellation or
+   refusal, and recovery from the saved-project lock without altering KiCad.
+2. Make the transition from ordinary placement and conversation to routing
+   easier to follow. Carry visible, current context and scope into preview and
+   show the next action without changing the approval or recovery guards.
+3. Use one consequential placement support gap from retained licensed-board
+   evidence. Qualify the smallest coherent extension with its native
+   preservation controls and a predeclared useful task.
+4. Continue the supported open-editor path and first-use setup in priority
+   order. Test each actual changed interaction. Retain separate-project
+   delivery and scope any live operation to the tested KiCad capability.
+
 ## Verified Finish gaps batch from 2dabd0799
 
 1. Native Preview verifies the missing nets, shows the scope beside the
@@ -69,7 +89,7 @@ evidence. [Selected recovery](evidence/backups/selected-board-flow-42ee-001.json
 
 ## Earlier batch from f51d84b6
 
-Implementation, qualification, documentation, checkpoints and backups are progress milestones. After each, start the next ready item. Finish this batch when every item is completed and checkpointed or has a concrete blocker beyond the authorized scope. Work through independent items when one is blocked. Keep the current results and next action in the local continuation.
+These delivery items are retained with their outcomes. The active plan above governs continuing execution.
 
 1. Show saved schematic hierarchy, exact component references and relevant connectivity beside board inspection and assistant requests. Check the captured sources and refuse outdated context. Demonstrate what selection can explain and mark the limits on electrical interpretation.
 2. Give the installed board workspace more room. Keep the request, proposal and next action in view, use the ordinary settings for both paths, and disclose advanced settings and inherited findings. Verify at laptop size and distinguish local explicit requests from model conversation.

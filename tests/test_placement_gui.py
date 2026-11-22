@@ -135,14 +135,16 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertEqual(lock.read_bytes(), b'owned synthetic KiCad lock')
             lock.unlink()  # Only this test-created lock, owned by this process.
             board.with_suffix('.kicad_prl').write_bytes(b'ordinary editor-sidecar update')
-            with self.assertRaisesRegex(ValueError, 'Inspect project again'):
+            with self.assertRaisesRegex(ValueError, 'Refresh inspection'):
                 pg.require_closed_source(board, inspection=captured)
             fresh = dict(source=str(board), source_hashes=gui.source_inventory(board))
             self.assertEqual(pg.require_closed_source(board, inspection=fresh), board)
 
     def test_real_inspection_method_refuses_open_project_before_geometry_or_native_work(self):
         with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp).resolve(); board = root / 'owned.kicad_pcb'; board.write_bytes(b'owned source')
+            root = Path(temp).resolve(); board = root / 'owned.kicad_pcb'
+            for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch'):
+                board.with_suffix(suffix).write_bytes(b'owned source')
             lock = root / '~owned.kicad_pro.lck'; lock.write_bytes(b'owned test lock')
             window = self.window(); window.board = Mock(); window.board.GetValue.return_value = str(board)
             window.start = Mock()
@@ -154,6 +156,26 @@ class PlacementGuiTests(unittest.TestCase):
                 geometry.assert_not_called(); job.run.assert_not_called()
             self.assertTrue(lock.exists())
             self.assertIsNone(window.inspection)
+
+    def test_lock_that_appears_during_geometry_capture_stops_native_dispatch(self):
+        from experiments.placement_native_proposal_v1 import multipad_fixture
+        with tempfile.TemporaryDirectory() as temp:
+            board = multipad_fixture.write_project(Path(temp).resolve() / 'source')
+            lock = board.parent / '~owned.kicad_pro.lck'
+            window = self.window(); window.board = Mock(); window.board.GetValue.return_value = str(board)
+            window.start = Mock(); window.owned_workspace = Mock()
+            window_method('inspect_project')(window, None)
+            inspect = window.start.call_args.args[1]; job = Mock()
+
+            def capture(source):
+                lock.write_bytes(b'KiCad opened during inspection')
+                return dict(source=source, source_hashes=gui.source_inventory(board),
+                    observation=dict(scope=pg.intent.contract.ORDINARY_SCOPE))
+
+            with patch.object(pg.c, 'NATIVE_VERSION', '10.0.7'), patch.object(pg.intent, 'inspect_saved', side_effect=capture):
+                with self.assertRaisesRegex(ValueError, 'project lock is still present'):
+                    inspect(job, threading.Event())
+            window.owned_workspace.assert_not_called(); job.run.assert_not_called()
 
     def test_typed_project_rebinds_the_exact_pcb_after_fresh_inspection(self):
         from experiments.placement_native_proposal_v1 import multipad_fixture
@@ -171,7 +193,7 @@ class PlacementGuiTests(unittest.TestCase):
             captured = inspect(job, threading.Event())
             with project.open('ab') as stream:
                 stream.write(b'\n')
-            with self.assertRaisesRegex(ValueError, 'Inspect project again'):
+            with self.assertRaisesRegex(ValueError, 'Refresh inspection'):
                 adopt(captured)
             window.board.ChangeValue.assert_not_called()
             adopt(inspect(job, threading.Event()))
@@ -195,14 +217,40 @@ class PlacementGuiTests(unittest.TestCase):
                                  ID_OK=1, FD_OPEN=2, FD_FILE_MUST_EXIST=4)
             choose = window_method('choose_board', wx=wx)
             window = self.window()
-            window.board = Mock()
+            window.board = Mock(); window.source_changed = Mock()
+            window.inspect_project = Mock(side_effect=lambda _: selected.__exit__.assert_called_once())
             selected.GetPath.return_value = str(board.with_suffix('.kicad_pro'))
             choose(window, None)
-            window.board.SetValue.assert_called_once_with(str(board))
+            window.board.ChangeValue.assert_called_once_with(str(board))
+            window.source_changed.assert_called_once_with(None)
+            window.inspect_project.assert_called_once_with(None)
             selected.GetPath.return_value = str(incomplete)
             choose(window, None)
-            window.board.SetValue.assert_called_once()
+            window.board.ChangeValue.assert_called_once()
             self.assertIn('Missing incomplete.kicad_pcb', window.message.call_args.args[0])
+            selected.ShowModal.return_value = 0
+            choose(window, None)
+            window.board.ChangeValue.assert_called_once()
+            window.inspect_project.assert_called_once()
+
+    def test_prefilled_source_inspects_once_on_show_and_never_replaces_new_selection(self):
+        source = '/saved/known.kicad_pro'
+        wx = SimpleNamespace(Frame=object, EVT_SHOW=object())
+        window_type = pg.window_type(wx, board=source)
+        for current in (source, '/other/chosen.kicad_pro'):
+            with self.subTest(current=current):
+                window = self.window(); window.board = Mock(); window.board.GetValue.return_value = current
+                window.Unbind = Mock(); window.inspect_project = Mock()
+                shown = MethodType(window_type.inspect_initial_project, window)
+                window.inspect_initial_project = shown
+                event = Mock(); event.IsShown.return_value = False
+                shown(event)
+                window.Unbind.assert_not_called(); window.inspect_project.assert_not_called()
+                event.IsShown.return_value = True
+                shown(event)
+                window.Unbind.assert_called_once_with(wx.EVT_SHOW, handler=shown)
+                if current == source: window.inspect_project.assert_called_once_with(None)
+                else: window.inspect_project.assert_not_called()
 
     def test_real_inspection_refuses_non_PCB_identity_before_inventory_geometry_or_native(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -240,7 +288,7 @@ class PlacementGuiTests(unittest.TestCase):
                     work(job, threading.Event())
                 lock.unlink()  # This newly created test fixture only.
                 board.write_bytes(b'changed while project closed')
-                with self.assertRaisesRegex(ValueError, 'Inspect project again'):
+                with self.assertRaisesRegex(ValueError, 'Refresh inspection'):
                     work(job, threading.Event())
                 draft.assert_not_called(); window.gate.review.decision.assert_not_called()
                 job.run.assert_not_called()

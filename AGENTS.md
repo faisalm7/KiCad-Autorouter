@@ -6,6 +6,8 @@ Read `MASTER_PROMPT.md` completely before substantive work; it is the current sp
 
 Own research, architectural decisions, implementation, data, experiments, integration, tests, and release preparation. The owner is nontechnical. Make routine engineering choices; ask only for unavoidable access, spending, privacy/publication, or physical-review decisions. Continue feasible milestones in the active session rather than stopping after a plan.
 
+After each verified milestone, update the active plan and start the highest-value unblocked work. Replenish a finished queue from the agreed product requirements. This supersedes earlier batch-completion stopping rules. Stop only after the product outcome is demonstrated, at the owner's request, at a real execution limit, or when every useful remaining item needs unavailable access, resources or an owner decision. Preserve all resource, privacy, spending and engineering boundaries.
+
 The owner's November 5, 2026 strategy makes this a modular local KiCad design assistant: dependable Freerouting-based routing, constrained automatic placement as a core feature, project understanding and an optional conversational copilot. An excellent minimal, responsive KiCad-consistent interface and measured engineer usefulness are product priorities. Follow `docs/product-strategy.md`. Earlier prohibitions on placement/copilot and requirements to beat B1/B2 before other product work are superseded. Historical superiority objectives remain unmet/deferred research, never retroactively achieved.
 
 The November 18 clarification prioritizes a persistent Copperpath companion for

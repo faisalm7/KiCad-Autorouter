@@ -1,6 +1,6 @@
 # Saved-project workspace
 
-Open **Open Saved Project.command** from the Copperpath launcher. Pick a saved `.kicad_pro` and click **Inspect project** for placement and schematic context, or **Route saved board** to go directly to protected routing. Save and close the KiCad project first. Keep its PCB, schematic and rules together.
+Open **Open Saved Project.command** from the Copperpath launcher and choose a saved `.kicad_pro`. Copperpath checks the saved files and displays the board when inspection succeeds. You can also enter the project path and press **Return**. Keep the PCB, schematic and rules together. If KiCad has the project open, save and close both editors, choose **File → Close Project** in KiCad manager, then choose **Refresh inspection** in Copperpath. Start protected routing with **Route saved board**.
 
 - Click parts on the board or check them in Settings. Draw the allowed area on the board. Other components stay fixed. Choose how to handle affected copper before finding alternatives.
 - **Preview placement** reads explicit local lines such as `Select J1, J2`, `Area 8, 8 to 30, 12 mm` and `Routing time 75 s`. Preview shows the selection and area on the board. **Edit suggestion** reveals the proposed values. Preview any edits and choose **Use settings** to adopt them. It starts no placement or routing job.

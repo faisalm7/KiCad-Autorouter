@@ -34,14 +34,14 @@ Before inspecting or routing, save and close the source PCB/schematic editors, t
 
 ## Saved-project launcher and optional toolbar handoff
 
-Launchers prepared by the saved-project update include **Open Saved Project.command**. It opens Copperpath. Choose the `.kicad_pro` file while that project is closed. Keep its matching PCB, schematic and rules together. The direct launcher uses the existing runtime, with no extra Python packages.
+Double-click **Open Saved Project.command** to open Copperpath. Choose the `.kicad_pro` file while that project is closed, and its inspection starts automatically. Keep its matching PCB, schematic and rules together. If you edit and save the project afterward, choose **Refresh inspection** before continuing. The direct launcher uses the existing runtime, with no extra Python packages.
 
 Fresh preparation provisions an empty private job directory for inspection
 and validation. Installing an existing artifact preserves its checked program
 files and starts with a fresh private job directory. Past job contents stay
 with the original installation.
 
-For local placement suggestions, inspect the project in the workspace and
+For local placement suggestions, open a saved project, wait for its board, then
 open **Conversation**. Earlier workspace builds call this tab **Request**.
 If the launcher starts in routing, choose **Place components** to reach the
 placement workspace.

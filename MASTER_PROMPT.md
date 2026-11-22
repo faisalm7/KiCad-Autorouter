@@ -35,7 +35,7 @@ The ambition is a substantive contribution, not a generic wrapper, one cherry-pi
 
 Pursue the strongest supportable result; do not promise perfection, universal electrical correctness, or a particular completion percentage in advance. A failed hypothesis is a reason to diagnose and try the next justified experiment, not to manufacture evidence or abandon the entire task. A bounded, honest negative finding is preferable to a false success, but do not stop at the first unsuccessful approach while productive, authorized alternatives remain.
 
-This is one continuous assignment. Proceed through successive milestones without requiring a new "continue" instruction after each one. A milestone is a checkpoint, not a reason to end execution. Session, usage, hardware, permission, and external-review limits still exist. Do not bypass them or claim work continues after your actual execution stops. Durable checkpoints must make interruption recoverable.
+This is one continuous assignment. After each verified milestone, update the current state and start the most useful ready task. Replenish an exhausted queue from the agreed product requirements. This supersedes earlier batch-completion stopping rules. Stop only when the product outcome is demonstrated, the owner asks to stop, an actual platform or usage limit intervenes, or every useful remaining task requires unavailable access, resources or an owner decision. Keep durable checkpoints and the exact continuation within the existing engineering, privacy, spending and resource boundaries.
 
 ## 2. Preserve the old work; do not pretend to recover it
 
