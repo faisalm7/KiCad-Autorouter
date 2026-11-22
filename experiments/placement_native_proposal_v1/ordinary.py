@@ -105,13 +105,15 @@ def context_primitive(node, anchor, rotation, *, fixed_courtyard=False):
     geometry; applying a second reflection would change the stored design.
     """
     kind = node[0]
-    keys = {'fp_circle': {'center', 'end'}, 'fp_arc': {'start', 'mid', 'end'},
+    keys = {'fp_circle': {'center', 'end'}, 'gr_circle': {'center', 'end'},
+            'fp_arc': {'start', 'mid', 'end'},
             'fp_poly': {'pts'}}
     c.need(kind in keys, 'Unsupported fixed-context graphic kind')
     fields(node, keys[kind] | {'stroke', 'fill', 'layer', 'uuid', 'locked'})
     layer = c.atom(node, 'layer')
-    c.need(layer in PASSIVE_LAYERS if not fixed_courtyard else
-           kind == 'fp_circle' and layer == 'F.CrtYd',
+    c.need(not fixed_courtyard or kind == 'fp_circle', 'Only a circular fixed courtyard is supported')
+    allowed_layer = ('Edge.Cuts' if kind == 'gr_circle' else 'F.CrtYd' if fixed_courtyard else None)
+    c.need(layer == allowed_layer if allowed_layer else layer in PASSIVE_LAYERS,
            'Fixed-context graphic on unsupported layer')
     # PCB_SHAPE's unfilled arc has no serialized fill in ordinary KiCad files.
     # Its independently observed Native fill must still be NO_FILL.
@@ -138,7 +140,7 @@ def context_primitive(node, anchor, rotation, *, fixed_courtyard=False):
         result.update(local_points_nm=local, points_nm=[world(point, anchor, rotation) for point in local])
     else:
         points = {key: c.point(node, key) for key in keys[kind]}
-        if kind == 'fp_circle':
+        if kind in ('fp_circle', 'gr_circle'):
             c.need(points['center'] != points['end'], 'Nonzero fixed-context circle required')
             squared = sum((points['end'][i] - points['center'][i]) ** 2 for i in range(2))
             c.need(squared <= 1_000_000_000 ** 2, 'Fixed-context circle radius exceeds bounded Native geometry')
@@ -158,6 +160,19 @@ def context_primitive(node, anchor, rotation, *, fixed_courtyard=False):
             result['local_' + key + '_nm'] = point
             result[key + '_nm'] = world(point, anchor, rotation)
     return result
+
+
+def circular_cutout(node, outline):
+    row = context_primitive(node, (0, 0), 0)
+    center, end = row['center_nm'], row['end_nm']
+    c.need(row['fill'] == 'none' and (center[0] == end[0] or center[1] == end[1]),
+           'A cutout needs an unfilled Edge.Cuts circle with an exact axial radius.')
+    radius = row['radius_nm'] + (row['stroke_nm'] + 1) // 2
+    bounds = [center[0] - radius, center[1] - radius, center[0] + radius, center[1] + radius]
+    c.need(outline[0] < bounds[0] < bounds[2] < outline[2]
+           and outline[1] < bounds[1] < bounds[3] < outline[3],
+           'A circular cutout and its edge stroke must fit inside the outer rectangle.')
+    return dict(row, bounds_nm=bounds)
 
 
 def text(node, anchor=(0, 0), rotation=0):
@@ -344,9 +359,10 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     tht = c.tht_scope(scope)
     tree = c.read_board(raw)
     via_items = {'via'} if c.source_baseline_scope(scope) else set()
+    circular_items = {'gr_circle'} if context else set()
     fields(tree, {'version', 'generator', 'generator_version', 'general', 'paper', 'title_block', 'layers',
-                  'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'} | via_items,
-           repeated={'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone'} | via_items)
+                  'setup', 'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone', 'embedded_fonts'} | via_items | circular_items,
+           repeated={'net', 'footprint', 'gr_line', 'gr_rect', 'gr_text', 'segment', 'zone'} | via_items | circular_items)
     layer_table = sx.one(tree, 'layers')
     c.need(layer_table is not None, 'Layer table required')
     layers = [sx.unquote(n[1]) for n in layer_table[1:] if type(n) is list and len(n) > 1 and sx.unquote(n[1]).endswith('.Cu')]
@@ -356,16 +372,31 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     def claim(identity):
         c.need(identity not in identities, 'Duplicate native item UUID'); identities.add(identity)
     edge_nodes = [n for n in tree[1:] if type(n) is list and sx.one(n, 'layer') is not None and c.atom(n, 'layer') == 'Edge.Cuts']
-    if len(edge_nodes) == 1 and edge_nodes[0][0] == 'gr_rect':
-        bounds = c.rectangle(edge_nodes[0])
+    cuts = sx.children(tree, 'gr_circle')
+    outer_edges = [node for node in edge_nodes if node[0] != 'gr_circle']
+    if cuts:
+        c.need(len(cuts) <= 4 and len(outer_edges) == 1 and outer_edges[0][0] == 'gr_rect',
+               'Circular cutouts require one outer rectangle and at most four inner circles.')
+    if len(outer_edges) == 1 and outer_edges[0][0] == 'gr_rect':
+        bounds = c.rectangle(outer_edges[0])
     else:
         segments = pt.rectangle(tree)
         bounds = pt.bbox([list(point) for edge in segments for point in edge])
-    outline_rows = [primitive(n) for n in edge_nodes]
+    outline_rows = [primitive(n) for n in outer_edges]
+    outer_stroke = max(row['stroke_nm'] for row in outline_rows)
+    inset = (outer_stroke + 1) // 2
+    inner_edge = [bounds[0] + inset, bounds[1] + inset, bounds[2] - inset, bounds[3] - inset]
+    cutout_rows = [circular_cutout(node, inner_edge) for node in cuts]
+    for index, first in enumerate(cutout_rows):
+        left, top, right, bottom = first['bounds_nm']
+        for second in cutout_rows[index + 1:]:
+            other_left, other_top, other_right, other_bottom = second['bounds_nm']
+            c.need(right < other_left or other_right < left or bottom < other_top or other_bottom < top,
+                   'Circular cutout envelopes overlap.')
     c.need(all(row['fill'] in (None, 'none') for row in outline_rows), 'Unfilled board outline required')
-    for row in outline_rows: claim(row['uuid'])
-    outline = dict(kind='rectangle', bounds_nm=bounds, stroke_nm=max(row['stroke_nm'] for row in outline_rows),
-                   primitives=sorted(outline_rows, key=lambda row: row['uuid']))
+    for row in outline_rows + cutout_rows: claim(row['uuid'])
+    outline = dict(kind='rectangle', bounds_nm=bounds, stroke_nm=outer_stroke,
+                   primitives=sorted(outline_rows + cutout_rows, key=lambda row: row['uuid']))
     board_graphics = []
     for node in tree[1:]:
         if type(node) is not list or not str(node[0]).startswith('gr_') or node in edge_nodes: continue

@@ -30,22 +30,23 @@ class Conversation:
     def __init__(self):
         self.turns = []
         self.source = None
-        self._local_placement = None
+        self._placement_adoption = None
 
     def reset(self):
         self.turns.clear()
         self.source = None
-        self._local_placement = None
+        self._placement_adoption = None
 
     @property
     def has_display_history(self):
-        return self.source is not None or self._local_placement is not None
+        return self.source is not None or self._placement_adoption is not None
 
-    def remember_local_placement(self, request, summary, *, inspection):
-        """Keep one adopted plan for display, outside the hosted transcript."""
-        self._local_placement = (
-            inspection['source'], copy.deepcopy(inspection['source_hashes']),
-            'Local placement request\n' + request_text(request) + '\n\n' + summary,
+    def remember_placement_adoption(self, summary, *, inspection, local_request=None):
+        """Keep the latest adopted settings for display without extending model history."""
+        if local_request is not None:
+            summary += '\n\nLocal placement request\n' + request_text(local_request)
+        self._placement_adoption = (
+            inspection['source'], copy.deepcopy(inspection['source_hashes']), summary,
         )
 
     def check_source(self, inspection, routing):
@@ -95,10 +96,10 @@ class Conversation:
         """Show earlier turns only for their exact saved project revision."""
         current = (str(source), source_hashes)
         parts = []
+        if self._placement_adoption is not None and self._placement_adoption[:2] == current:
+            parts.append(self._placement_adoption[2])
         if self.source is not None and self.source[:2] == current:
             parts.append(self.summary())
-        if self._local_placement is not None and self._local_placement[:2] == current:
-            parts.append(self._local_placement[2])
         return '\n\n'.join(parts)
 
 

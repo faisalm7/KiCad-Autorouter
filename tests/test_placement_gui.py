@@ -664,8 +664,8 @@ class PlacementGuiTests(unittest.TestCase):
         question = pg.conversation.design.validate_design_clarification(
             dict(reason='ambiguous_request', questions=['Which parts should move?']))
         window.conversation.remember('Move the connectors.', clarification=question, source=origin)
-        window.conversation.remember_local_placement('Select J1', 'Adopted placement settings',
-                                                     inspection=window.inspection)
+        window.conversation.remember_placement_adoption('Last adopted placement settings',
+                                                        inspection=window.inspection, local_request='Select J1')
         window.qualified = dict(ticket=window.gate.ticket(), guard=guard,
                                 witness={'candidate': '/owned/candidate.kicad_pcb'})
         with patch.object(gui, 'create_window', return_value=frame) as factory:

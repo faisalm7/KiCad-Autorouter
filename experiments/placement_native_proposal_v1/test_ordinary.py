@@ -124,6 +124,33 @@ class OrdinarySourceContract(unittest.TestCase):
         self.tree.append(copy.deepcopy(self.tree[-1]))
         with self.assertRaises(ValueError):self.inspect(self.tree)
 
+    def test_inner_circle_is_drawn_and_blocks_translation_without_editing_the_edge(self):
+        from autorouter import placement_view
+
+        hole = ['gr_circle', ['center', '19', '10'], ['end', '20.2', '10'],
+                ['stroke', ['width', '0.05'], ['type', 'default']], ['fill', 'none'],
+                ['layer', '"Edge.Cuts"'], ['uuid', '"' + identity('inner cutout') + '"']]
+        self.tree.append(hole)
+        source = raw(self.tree)
+        scope = c.CONTEXT_SCOPE
+        observed = c.inspect_board(source, scope=scope)
+        options = dict(scope=scope, selected=[fixture.selected()[0]],
+                       region_nm=[8_000_000, 8_000_000, 23_000_000, 13_000_000])
+        facts = c.facts_from_observation(observed, **options)
+        cutout, = [item for item in facts['keepouts'] if item['id'] == c.uid(hole)]
+        self.assertEqual(cutout['bounds_mm'], [17.775, 8.775, 20.225, 11.225])
+        self.assertIn('data-role="board-cutout"', placement_view.saved_scene(observed)['svg'])
+        with self.assertRaisesRegex(ValueError, 'intersects rectangular keepout'):
+            c.validate_moves(observed, {options['selected'][0]: [19_000_000, 10_000_000]}, **options)
+        moves = {options['selected'][0]: [15_000_000, 10_000_000]}
+        c.validate_moves(observed, moves, **options)
+        changed = c.translated_tree(source, moves, **options)
+        self.assertEqual(c.sx.one(changed, 'gr_circle'), hole)
+        self.assertTrue(c.check_translation(source, raw(changed), moves, **options)['exact_immutable_AST'])
+        c.sx.one(hole, 'end')[1] = '40'
+        with self.assertRaisesRegex(ValueError, 'must fit inside the outer rectangle'):
+            c.inspect_board(raw(self.tree), scope=scope)
+
     def test_locked_tracked_and_fixed_parts_cannot_be_moved(self):
         fp=self.fp(self.tree);fp.append(['locked','yes'])
         with self.assertRaisesRegex(ValueError,'fixed in ordinary'):

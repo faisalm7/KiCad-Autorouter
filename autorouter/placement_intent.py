@@ -261,6 +261,8 @@ def inspect_saved(board, *, native_context=None):
             'its original courtyard/copper proximity after source Native checks. Every changed position must clear '
             'preserved copper; board, region, component, user-keepout, warning and final Native checks still apply. '
             'This is not electrical approval. Rigid groups in this scope remain unsupported.')
+    if any(row['kind'] == 'gr_circle' for row in observation['outline'].get('primitives', [])):
+        result['limitations'].append('Placement keeps the original round cutouts and avoids their full clearance envelopes.')
     return result
 
 

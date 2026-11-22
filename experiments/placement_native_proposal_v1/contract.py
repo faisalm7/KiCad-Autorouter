@@ -290,6 +290,14 @@ def facts_from_observation(observation, *, selected=None, region_nm=None, scope=
         need(region_nm[2] < box[0] or box[2] < region_nm[0] or region_nm[3] < box[1] or box[3] < region_nm[1],
              'Selected movement region intersects preserved zone envelope')
     tracks, obstacles = [], []
+    if fixed_context_scope(scope):
+        for edge in observation['outline']['primitives']:
+            if edge['kind'] == 'gr_circle':
+                # A rectangle covers the entire circle and its stroke. The
+                # solver applies its ordinary clearance to this envelope.
+                obstacles.append(dict(id=edge['uuid'], kind='rectangle',
+                                      bounds_mm=[n / 1e6 for n in edge['bounds_nm']],
+                                      sides=['front']))
     if scope == DEFAULT_SCOPE:
         need(observation['route_count'] == 0, 'No existing route items in derived task')
     else:

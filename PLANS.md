@@ -173,14 +173,27 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     creation. The new artifact passed doctor, opened through Finder and
     inspected the exact selected source. Independent installation remains open.
     [First setup](evidence/product-direct-first-setup-and-keyboard-002.json)
-37. In one bounded intake, check the pinned unrelated TankSync receiver for
-    a supported placement task. Preserve a refusal and its exact reason
-    before dispatch. Keep the IR trial deferred because the current projected
-    task is identical and two zone endpoints still cannot be distinguished.
+37. **Bounded intake complete.** TankSync is an unrelated, licensed two-layer
+    design. Four round Edge.Cuts holes cause the first placement refusal.
+    Twenty footprints, 103 pads and 437 route objects also exceed scope.
+    Keep that source and refusal. The IR trial remains deferred because
+    the current projected task is identical and Native reports two zone
+    endpoints with the same UUID and position.
 38. Give the adopted plan prominence in the existing Conversation history.
     On the 880 × 610 view the earlier request appears above the actual budget.
     Show the adopted values immediately and keep the original wording
     accessible. Verify that changing the source still hides earlier history.
+39. **Owned circular-cutout export observed.** Full schematic source DRC
+    kept the usual two opens, warning and ignored checks. Protected export
+    produced a polygon keepout for the hole. The rectangular clearance
+    correction correctly skipped this geometry.
+    [Native transport](evidence/product-owned-round-cutout-transport-001.json)
+40. Qualify the bounded circular-cutout placement extension on that same
+    owned source. Verify actual on-screen shape, refused move into the hole,
+    accepted placement outside its envelope, selected routing and fresh
+    readback. Keep all Native checks and unchanged rules. Named-class routing
+    with cutouts still needs separate transport. The licensed receiver still
+    exceeds the population limits.
 
 ## Verified Finish gaps batch from 2dabd0799
 

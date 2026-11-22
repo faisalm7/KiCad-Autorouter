@@ -67,17 +67,18 @@ def capture(native, pcbnew, raw, contract, fc, *, scope=c.ORDINARY_SCOPE):
                      else pcbnew.FILL_T_NO_FILL), 'Native graphic fill differs')
                 if 'stroke_type' in row:
                     stroke_style(item, row)
-            elif row['kind'] in ('fp_circle', 'fp_arc', 'fp_poly'):
+            elif row['kind'] in ('fp_circle', 'fp_arc', 'fp_poly', 'gr_circle'):
                 need(contract.fixed_context_scope(scope) and isinstance(item, pcbnew.PCB_SHAPE),
                      'Native fixed-context shape outside explicit scope')
-                shape = {'fp_circle': pcbnew.SHAPE_T_CIRCLE, 'fp_arc': pcbnew.SHAPE_T_ARC,
+                shape = {'fp_circle': pcbnew.SHAPE_T_CIRCLE, 'gr_circle': pcbnew.SHAPE_T_CIRCLE,
+                         'fp_arc': pcbnew.SHAPE_T_ARC,
                          'fp_poly': pcbnew.SHAPE_T_POLY}[row['kind']]
                 need(item.GetShape() == shape and integer(item.GetWidth()) == row['stroke_nm']
                      and boolean(item.IsLocked()) == row['locked'], 'Native fixed-context shape/stroke/lock differs')
                 stroke_style(item, row)
                 need(item.GetFillMode() == (pcbnew.FILL_T_FILLED_SHAPE if row['fill'] == 'solid'
                      else pcbnew.FILL_T_NO_FILL), 'Native fixed-context fill differs')
-                if row['kind'] == 'fp_circle':
+                if row['kind'] in ('fp_circle', 'gr_circle'):
                     # Native CIRCLE start is its centre (parsePCB_SHAPE), not
                     # a perimeter endpoint or a footprint-local coordinate.
                     need(xy(item.GetStart()) == row['center_nm'] and xy(item.GetEnd()) == row['end_nm']

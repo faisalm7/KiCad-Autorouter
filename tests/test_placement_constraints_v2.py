@@ -281,6 +281,8 @@ class ConstraintProposal(unittest.TestCase):
         self.assertEqual(result['policy'], before['policy'])
         visible = w.assistant_result.GetValue()
         self.assertIn('Local placement request', visible)
+        self.assertTrue(visible.startswith('Last adopted placement settings'))
+        w.assistant_result.ShowPosition.assert_called_once_with(0)
         self.assertIn('Routing time  75 s', visible)
         self.assertEqual(w.conversation.history('One later hosted request.'), [])
         self.assertIsNone(w.constraint_offer)

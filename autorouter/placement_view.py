@@ -98,7 +98,12 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
     """
     title, state = _label(title, 160), _label(state, 180)
     observation = _row(observation)
-    outline = _rect(_row(observation['outline'])['bounds_nm'])
+    outline_record = _row(observation['outline'])
+    outline = _rect(outline_record['bounds_nm'])
+    cuts = []
+    for graphic in _array(outline_record.get('primitives', []), 5):
+        if _row(graphic)['kind'] == 'gr_circle':
+            cuts.append((_point(graphic['center_nm']), _nm(graphic['radius_nm'], positive=True)))
     region = _rect(region_nm)
     selected = [_label(item) for item in _array(selected_ids, 16, 0 if interactive else 1)]
     _need(all(selected) and len(selected) == len(set(selected)), 'unique selected IDs required')
@@ -255,6 +260,9 @@ def _render(observation, moves_nm, selected_ids, region_nm, *, title,
             fill='#dcecdf', fill_opacity='.55', stroke='#5b8668', stroke_width=1,
             data_role='zone', data_zone=zone['id']))
     box(outline, 'board-outline', fill='none', stroke='#243342', stroke_width=2)
+    for (px, py), radius in cuts:
+        element('circle', dict(cx=_fmt(x(px)), cy=_fmt(y(py)), r=_fmt(radius * scale),
+                              fill='white', stroke='#243342', stroke_width=1.4, data_role='board-cutout'))
     if show_region:
         box(region, 'allowed-region', fill='none', stroke='#548ec7', stroke_width=1.5, stroke_dasharray='7 4')
     for route in sorted(routes, key=lambda r:r['id']):

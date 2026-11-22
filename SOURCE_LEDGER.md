@@ -677,3 +677,13 @@ The official [Responses Reasoning schema](https://developers.openai.com/api/refe
 ## November 18 — saved-project toolbar handoff
 
 KiCad's supported IPC plugin contract supplies an instance-specific local socket and session token. The pinned 10.0.7 PCB handler returns the open board name, project name and project directory. The optional official `kicad-python` 0.8.0 client uses that query to select the saved files. The project records the exact macOS arm64 wheel hashes. The upstream client is MIT and includes KiCad protocol sources with their own notices. The package dependencies retain the license files in their wheels. The source checkout and curated runtime carry the integration code and dependency instructions. [KiCad plugin contract](https://dev-docs.kicad.org/en/apis-and-binding/ipc-api/for-addon-developers/index.html) · [10.0.7 handler](https://gitlab.com/kicad/code/kicad/-/blob/10.0.7/pcbnew/api/api_handler_pcb.cpp) · [Official client release](https://pypi.org/project/kicad-python/0.8.0/) · [Exact wheel pins](docs/kicad-toolbar-macos-arm64.txt).
+## November 22 — TankSync receiver placement intake
+
+The exact publisher snapshot is commit `11ca70b93509c3802f741c999d5f27fcdc40c441`.
+The file license covers Srishti Garg's hardware design and associated
+documentation under CERN-OHL-P-2.0. The installed static preflight refused
+placement on four circular Edge.Cuts features. This design also exceeds the
+current component, pin and preserved-copper limits. Static routing inspection
+did not prove Native admission. No external component library, script or
+fabrication output was imported or executed. The four verified small files
+are retained locally with the refusal. [Pinned publisher design](https://github.com/gargsrishtii/TankSync-RX/tree/11ca70b93509c3802f741c999d5f27fcdc40c441/kicad) · [Pinned license](https://github.com/gargsrishtii/TankSync-RX/blob/11ca70b93509c3802f741c999d5f27fcdc40c441/LICENSE).

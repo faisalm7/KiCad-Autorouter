@@ -140,16 +140,18 @@ class ConversationChecks(unittest.TestCase):
         inspection = design.inspect_project(self.board)
         history = conversation.Conversation()
         context = history.check_source(inspection, True)
-        history.remember_local_placement('Local-only placement request', 'Adopted placement settings',
-                                         inspection=inspection)
+        history.remember_placement_adoption('Last adopted placement settings\nRouting time  81 s',
+                                            inspection=inspection, local_request='Local-only placement request')
         base = dict(gui.pref.DEFAULTS, scope='partial_completion')
         binding = dict(request='Finish ROUTE_A.', revision=1, source=self.board)
         review = conversation.RoutingReview(inspection, base, request=binding['request'], revision=1)
         offer = review.receive(conversation.ROUTING_TOOL, dict(nets=['ROUTE_A'], route_seconds=60),
                                base, **binding)
         history.remember(binding['request'], proposal=offer, source=context)
-        self.assertIn(binding['request'], history.summary_for(self.board, inspection['source_hashes']))
-        self.assertIn('Local-only placement request', history.summary_for(self.board, inspection['source_hashes']))
+        summary = history.summary_for(self.board, inspection['source_hashes'])
+        self.assertTrue(summary.startswith('Last adopted placement settings\nRouting time  81 s'))
+        self.assertIn(binding['request'], summary)
+        self.assertIn('Local-only placement request', summary)
         self.assertNotIn('Local-only placement request', repr(history.history('Finish routing.')))
         values = review.adopt(offer, base, **binding)
         guard = conversation.routing_source_guard(values)

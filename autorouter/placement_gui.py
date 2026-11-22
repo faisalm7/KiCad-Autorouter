@@ -108,7 +108,7 @@ def constraint_change_text(offer, *, conversational=False, adopted=False):
         ('Movement area', 'region_nm', area),
         ('Routing time', 'route_seconds', lambda seconds: f'{seconds} s'),
     )
-    title = ('Adopted placement settings' if adopted else
+    title = ('Last adopted placement settings' if adopted else
              'Conversation suggestion' if conversational else 'Local suggestion · saved project')
     lines = [title]
     for label, key, show in displays:
@@ -895,7 +895,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                                 size=(-1, 96), name='Conversation history')
             self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
             self.assistant_result.Hide()
-            assistant_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.ALL, 8)
+            assistant_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.ALL, 8)
             self.assistant_context = wx.StaticText(assistant_inputs)
             self.assistant_context.Hide()
             assistant_layout.Add(self.assistant_context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
@@ -1537,6 +1537,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             for field, value in zip(self.constraint_fields, entries):
                 field.ChangeValue(value)
             self.constraint_edit.Show()
+            self.constraint_summary.Show()
             self.constraint_summary.ChangeValue(constraint_change_text(offer,
                 conversational=getattr(self, 'conversation_offer', False)))
             self.update_constraint_map(offer)
@@ -1576,6 +1577,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.constraint_edit.SetLabel('Edit suggestion')
             self.constraint_edit.Hide()
             self.constraint_summary.ChangeValue(message)
+            self.constraint_summary.Show(bool(message))
             self.update_constraint_map()
             self.layout_panel()
 
@@ -1635,9 +1637,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.message('Preview the current project and request again.')
                 self.refresh()
                 return
-            local_plan = None if self.conversation_offer else constraint_change_text(self.constraint_offer, adopted=True)
-            request = self.assistant_request.GetValue()
-            self.clear_constraint_offer('Settings applied to this placement task. Follow the current action beside the board.')
+            adopted_summary = constraint_change_text(self.constraint_offer, adopted=True)
+            local_request = None if self.conversation_offer else self.assistant_request.GetValue()
+            self.clear_constraint_offer('')
             self.updating = True
             try:
                 selected = set(values['selected'])
@@ -1654,10 +1656,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.target_region.SetValue(start is not None)
             finally:
                 self.updating = False
-            if local_plan is not None:
-                self.conversation.remember_local_placement(request, local_plan, inspection=self.inspection)
-                self.assistant_result.ChangeValue(self.conversation.summary_for(
-                    self.inspection['source'], self.inspection['source_hashes']))
+            self.conversation.remember_placement_adoption(adopted_summary, inspection=self.inspection,
+                                                         local_request=local_request)
+            self.assistant_result.ChangeValue(self.conversation.summary_for(
+                self.inspection['source'], self.inspection['source_hashes']))
+            self.assistant_result.ShowPosition(0)
             self.revoke(discard=True)
             if self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
