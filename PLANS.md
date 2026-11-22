@@ -21,12 +21,19 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
 3. **Verified.** The installed routing page shows the editable time beside the
    board, and the affected-copper workflow shows the actual class gate before
    placement. A time edit revokes the previous start. [Installed transition](evidence/product-workspace-visible-time-001.json)
-4. **In progress.** Combine fresh local setup and launcher preparation for
-   verified artifacts. Test one same-Mac clean installation at a different
-   path and ordinary launch from a different working directory.
-5. Continue the supported open-editor path with one actual interaction.
-   Retain separate-project delivery. Scope live application and Undo to the
-   demonstrated editor capability and preserve all unrelated unsaved edits.
+4. **Verified.** One setup command creates and checks the new environment and
+   prepares the saved-project launcher. A clean same-Mac install at a new
+   path passed first use from a different working directory.
+   [Setup evidence](evidence/product-local-workspace-setup-001.json)
+5. **In progress.** Carry the initial KiCad component selection into the
+   saved-project workspace. Match it against the freshly inspected saved
+   board and require explicit adoption. Reject changed or ineligible
+   selections and retain all existing checks. Test from an isolated editor
+   when the launcher admission check permits it.
+6. Keep improving placement delivery on licensed boards. Bound the selected
+   named-class transport investigation to the documented 555 blocker and
+   keep the original class rules, tied-net scope and outside-scope copper
+   checks mandatory.
 
 ## Verified Finish gaps batch from 2dabd0799
 

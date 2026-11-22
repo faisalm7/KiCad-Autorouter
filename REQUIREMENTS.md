@@ -82,6 +82,10 @@ The master specification, current strategy and owner steering govern. Historical
 | Everyday editor experience | Actual 486 × 455 active-board companion and the separate integrated saved-project review were observed. The saved-project task has phase timing, operator-equivalent actions and an inherited warning. Active docking, canvas overlays, general live Auto-place/Auto-route and independent laptop/high-DPI qualification remain open. [Editor receipt](evidence/live-editor-capability-001.json) · [Installed flow](evidence/product-constraint-delivery-001.json). |
 | Schematic assistance | Verified saved sheet/instance and component links appear beside the selected board. Pin/net details are saved PCB pad assignments. The installed flow exercises a changed-source refusal. Repeated child sheets and mismatched paths have targeted controls. Empty instance project names remain unsupported. Live schematic context, reversible edits, wiring interpretation and ERC remain open. [Saved workspace](docs/saved-project-workspace.md) |
 
+The local setup command was verified on macOS with an existing checked
+artifact and pinned tools, a fresh directory and a minimal launch environment.
+Independent-machine setup remains open. [Setup evidence](evidence/product-local-workspace-setup-001.json)
+
 The installed `a7b142216` workspace adds a 960 × 650 board-first layout,
 saved-project selection and local proposal edit/review/adoption. The separate
 DS18B20 repair passed fresh KiCad 10.0.7 export and independent readback.
