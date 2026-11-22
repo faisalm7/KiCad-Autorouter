@@ -171,6 +171,32 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertTrue(lock.exists())
             self.assertIsNone(window.inspection)
 
+    def test_placement_scope_refusal_preserves_passive_board_without_dispatch(self):
+        from experiments.placement_native_proposal_v1 import ordinary_fixture
+
+        with tempfile.TemporaryDirectory() as temp:
+            board = ordinary_fixture.write_project(Path(temp).resolve() / 'source')
+            window = self.window()
+            window.board = Mock()
+            window.board.GetValue.return_value = str(board)
+            window.start = Mock()
+            window_method('inspect_project')(window, None)
+            inspect, _ = window.start.call_args.args[1:]
+            job = Mock()
+            reason = 'J1 has 9 pads. This placement profile supports up to eight per component.'
+            with patch.object(pg.intent, 'inspect_saved', side_effect=pg.intent.contract.UnsupportedPlacement(reason)):
+                inspected, _, _, _, native, read_only = inspect(job, threading.Event())
+            self.assertIsNone(inspected)
+            self.assertIsNone(native)
+            self.assertEqual(read_only['reason'], reason)
+            self.assertIn('>J1</text>', read_only['scene']['svg'])
+            self.assertEqual(read_only['static']['source_hashes'], gui.source_inventory(board))
+            job.run.assert_not_called()
+            with patch.object(pg.intent, 'inspect_saved', side_effect=ValueError('Saved project changed.')):
+                with self.assertRaisesRegex(ValueError, 'Saved project changed'):
+                    inspect(job, threading.Event())
+            job.run.assert_not_called()
+
     def test_lock_that_appears_during_geometry_capture_stops_native_dispatch(self):
         from experiments.placement_native_proposal_v1 import multipad_fixture
         with tempfile.TemporaryDirectory() as temp:

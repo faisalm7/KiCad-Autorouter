@@ -32,7 +32,7 @@ class GuiBudgetTests(unittest.TestCase):
         flow = SimpleNamespace(ready={'route'}, records={'route':{'accepted':True}}, choice='accept')
         job = Mock()
         window = SimpleNamespace(job=job, flow=flow, busy=True, inspected=Mock(), status=Mock(),
-                                 log=Mock(), refresh=Mock(), closing=False)
+                                 log=Mock(), refresh=Mock(), closing=False, workspace_tabs=Mock())
         reason = 'Routing refused: insufficient remaining budget\nFull failure receipt: /owned/result.json'
         window.refused = lambda error: gt.window_method('refused')(window, error)
         gt.window_method('finished')(window, job, flow, 'route', None, reason)
@@ -40,6 +40,7 @@ class GuiBudgetTests(unittest.TestCase):
         self.assertIsNone(flow.choice)
         displayed = window.log.SetValue.call_args.args[0]
         self.assertIn(reason, displayed); self.assertIn('No positive state adopted', displayed)
+        window.workspace_tabs.SetSelection.assert_called_once_with(1)
 
     def test_cancelled_inspection_does_not_open_or_retain_positive_ui(self):
         flow = SimpleNamespace(ready={'route', 'export'}, records={'export':{}}, choice='accept')

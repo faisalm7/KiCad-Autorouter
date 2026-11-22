@@ -1452,7 +1452,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                             0, wx.LEFT | wx.RIGHT | wx.TOP, 6)
                 transcript = wx.TextCtrl(status_host, value=conversation_history, size=(-1, 86),
                                          name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
-                transcript.SetInsertionPointEnd()
+                transcript.SetInsertionPoint(0)
                 actions.Add(transcript, 0, wx.EXPAND | wx.ALL, 6)
             self.inspected = wx.CheckBox(status_host, label=('I reviewed the findings and closed\nany KiCad review project.' if self.in_workspace
                 else 'I inspected all findings and CLOSED the review editors/project.\nMy choice is intent, not PCB certification.'))
@@ -1897,6 +1897,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.status.SetLabel('Action refused or cancelled. See Findings for details and start a fresh preview.')
             self.log.SetValue(str(error) + '\nNo positive state adopted. Retained files were not deleted.')
             self.refresh()
+            if error.startswith('Routing refused:') and hasattr(self, 'workspace_tabs'):
+                self.workspace_tabs.SetSelection(1)
 
         def method_changed(self, event):
             self.input_generation = getattr(self, 'input_generation', 0) + 1

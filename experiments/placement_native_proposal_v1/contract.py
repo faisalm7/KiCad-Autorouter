@@ -28,6 +28,10 @@ THREE_PAD_SCOPE = 'ordinary-front-three-pad-source-baseline-v1'
 ROUTE_GAP_NM = 300_000
 
 
+class UnsupportedPlacement(ValueError):
+    """A specific supported-placement limit, separate from source validity."""
+
+
 def ordinary_scope(scope):
     return scope == ORDINARY_SCOPE or fixed_context_scope(scope)
 

@@ -2123,7 +2123,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     reason = str(exc)
                     if reason == 'Exact two outer copper layers required':
                         reason = 'Placement currently requires a board with front and back copper layers only.'
-                    elif not reason.startswith('Unsupported placement geometry or setting in '):
+                    elif (not isinstance(exc, intent.contract.UnsupportedPlacement)
+                          and not reason.startswith('Unsupported placement geometry or setting in ')):
                         raise
                     from . import design_intent, review_view
                     static = design_intent.inspect_project(source)

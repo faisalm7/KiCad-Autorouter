@@ -411,7 +411,8 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
         c.need(row['uuid'] is not None, 'Board graphic UUID required'); claim(row['uuid']); board_graphics.append(row)
     rows = []
     for fp in sx.children(tree, 'footprint'):
-        c.need(len(rows) < 16, 'Footprint population exceeded')
+        if len(rows) == 16:
+            raise c.UnsupportedPlacement('This placement profile supports up to 16 components.')
         extra = {'fp_circle', 'fp_arc', 'fp_poly'} if context else set()
         engineering = {'units', 'duplicate_pad_numbers_are_jumpers', 'point'} if tht else set()
         refs = [n for n in sx.children(fp, 'property') if len(n) >= 3 and sx.unquote(n[1]) == 'Reference']
@@ -465,8 +466,10 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
                 number = sx.unquote(node[1]) if len(node) > 1 and type(node[1]) is str else '?'
                 raise ValueError(f'Component {reference}, pad {number}: {exc}') from exc
         duplicate_numbers = len({row['number'] for row in pads}) != len(pads)
-        c.need(len(pads) <= 8 and (tht or not duplicate_numbers)
-               and all(row['number'] for row in pads), f'Component {reference} is outside the supported pad count or numbering.')
+        if len(pads) > 8:
+            raise c.UnsupportedPlacement(f'{reference} has {len(pads)} pads. This placement profile supports up to eight per component.')
+        if (duplicate_numbers and not tht) or not all(row['number'] for row in pads):
+            raise c.UnsupportedPlacement(f'{reference} uses pad numbering outside the supported placement profile.')
         if tht:
             # A repeated number never merges physical terminals. Every UUID,
             # position and net remains in the source and Native pad census.
@@ -507,7 +510,9 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
         if artwork: row['attributes'] = sorted(attr[1:])
         if tht: row['engineering_metadata'] = metadata
         rows.append(row)
-    c.need(1 <= len(rows) <= 16 and sum(len(row['pads']) for row in rows) <= 32, 'Bounded footprint/pad population required')
+    c.need(bool(rows), 'At least one component is required.')
+    if sum(len(row['pads']) for row in rows) > 32:
+        raise c.UnsupportedPlacement('This placement profile supports up to 32 pads across the board.')
     if context:
         passive = [graphic for row in rows for graphic in row['graphics']
                    if graphic['kind'] in ('fp_circle', 'fp_arc', 'fp_poly')]
