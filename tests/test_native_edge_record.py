@@ -30,6 +30,22 @@ class EdgeRecord(unittest.TestCase):
         self.assertTrue(p.check_native_edge_transport(self.folder,self.data)['applied'])
         self.assertIsNone(p.check_native_edge_transport(self.folder/'missing',{'adapter':'both','engine_budget':{},'tools':{'implementation_sha256':{}}}))
 
+    def test_round_cutout_replay_uses_exact_new_selected_producer(self):
+        self.data['scope'] = 'selected_nets'
+        path = self.folder / 'code' / 'pipeline.py'
+        path.parent.mkdir()
+        files = self.data['tools']['implementation_sha256']
+        with patch.object(p.c, 'NATIVE_VERSION', '10.0.7'):
+            path.write_text('LEGACY = True\n')
+            files['autorouter/pipeline.py'] = p.sha(path)
+            self.assertFalse(p.recorded_round_cutouts(self.folder, self.data))
+            path.write_text(f'ROUND_CUTOUT_POLICY = {p.ROUND_CUTOUT_POLICY!r}\n')
+            with self.assertRaisesRegex(p.Rejected, 'source pin differs'):
+                p.recorded_round_cutouts(self.folder, self.data)
+            files['autorouter/pipeline.py'] = p.sha(path)
+            self.assertTrue(p.recorded_round_cutouts(self.folder, self.data))
+            self.assertFalse(p.recorded_round_cutouts(self.folder, dict(self.data, scope='partial_completion')))
+
     def test_missing_or_lowered_marker_input_and_source_reject(self):
         for name in ('metadata','marker','prior','engine','project','adapter'):
             with self.subTest(name=name):

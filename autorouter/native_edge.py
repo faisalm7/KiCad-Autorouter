@@ -142,10 +142,10 @@ def _named_rules(classes, scope):
     return rules, sorted(names)
 
 
-def derive_context(boardbytes, projectbytes, *, experimental_named_classes=False):
+def derive_context(boardbytes, projectbytes, *, experimental_named_classes=False, round_cutouts=False):
     """Return eligible original scope or an explicit unchanged-path reason."""
-    if type(experimental_named_classes) is not bool:
-        raise ValueError('explicit experimental named edge Boolean required')
+    if type(experimental_named_classes) is not bool or type(round_cutouts) is not bool:
+        raise ValueError('explicit edge-scope Booleans required')
     board = sx.parse(_bytes(boardbytes))
     project = json.loads(_bytes(projectbytes), object_pairs_hook=_pairs, parse_float=Decimal,
                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError('nonfinite project value')))
@@ -197,9 +197,14 @@ def derive_context(boardbytes, projectbytes, *, experimental_named_classes=False
     stackup=sx.one(sx.one(board,'setup',[]),'stackup')
     edges = [node for node in _walk(board) if node is not stackup
              and sx.one(node,'layer') == ['layer','"Edge.Cuts"']]
-    if len(edges) != 1 or edges[0] not in board or edges[0][0] != 'gr_rect':
+    cuts = [node for node in edges if node[0] == 'gr_circle']
+    outer = [node for node in edges if node[0] != 'gr_circle']
+    if (cuts and not round_cutouts or len(edges) > 5 or len(outer) != 1 or outer[0][0] != 'gr_rect'
+            or any(not any(node is root for root in board) for node in edges)):
         return skip('requires one root Edge.Cuts rectangle and no other edge geometry')
-    rectangle = edges[0]
+    if cuts and named_scope is not None:
+        return skip('round cutout routing requires the Default-only class scope')
+    rectangle = outer[0]
     for key in {'start','end','stroke','fill','layer','uuid','tstamp','locked'}: sx.one(rectangle,key)
     if any(not node or node[0] not in {'start','end','stroke','fill','layer','uuid','tstamp','locked'} for node in rectangle[1:] if isinstance(node,list)):
         return skip('unsupported or rotated rectangle metadata')
@@ -208,9 +213,33 @@ def derive_context(boardbytes, projectbytes, *, experimental_named_classes=False
     x1,y1,x2,y2 = map(_number, [*start[1:],*end[1:]])
     if x1 == x2 or y1 == y2: raise ValueError('original rectangle has no area')
     bounds = [min(x1,x2),-max(y1,y2),max(x1,x2),-min(y1,y2)]
+    rect_um = [value * 1000 for value in bounds]
+    if cuts:
+        from experiments.placement_native_proposal_v1 import contract, ordinary
+        layer_table = sx.one(board, 'layers', [])[1:]
+        copper = [(sx.unquote(row[1]), row[2]) for row in layer_table
+                  if isinstance(row, list) and len(row) >= 3 and sx.unquote(row[1]).endswith('.Cu')]
+        if copper != [('F.Cu', 'signal'), ('B.Cu', 'signal')]:
+            return skip('round cutout routing requires two outer signal layers')
+        try:
+            holes = ordinary.circular_cutout_rows(cuts, contract.rectangle(rectangle), ordinary.stroke(rectangle))
+            if len({row['uuid'] for row in holes}) != len(holes):
+                raise ValueError('Duplicate circular cutout identity')
+        except ValueError as exc:
+            return skip(str(exc))
+        cutout_rects = []
+        for hole in holes:
+            left, top, right, bottom = map(Decimal, hole['bounds_nm'])
+            rect = [left/1000-edge*1000, -bottom/1000-edge*1000,
+                    right/1000+edge*1000, -top/1000+edge*1000]
+            if not (rect_um[0] < rect[0] < rect[2] < rect_um[2]
+                    and rect_um[1] < rect[1] < rect[3] < rect_um[3]):
+                return skip('round cutout and its edge clearance must fit inside the outer rectangle')
+            cutout_rects.append([a._atom_number(value) for value in rect])
+        context['cutout_rects_um'] = cutout_rects
     context.update(applicable=True, reason='original Default-only root rectangular edge scope',
-        rect_um=[a._atom_number(value*1000) for value in bounds],
-        source_edge_sha256=a._digest(sx.dump(rectangle).encode()),
+        rect_um=[a._atom_number(value) for value in rect_um],
+        source_edge_sha256=a._digest(sx.dump(['edges', rectangle, *cuts] if cuts else rectangle).encode()),
         requested_clearance_um=a._atom_number(edge*1000))
     if named_scope is not None:
         context.update(named_class_scope=named_scope,
@@ -223,7 +252,7 @@ def correct(dsnbytes, context):
     text = _bytes(dsnbytes)
     keys={'schema','policy','applicable','reason','source_sha256','requires_no_custom_rule_companion'}
     geometry={'rect_um','source_edge_sha256','requested_clearance_um','original_min_copper_edge_clearance_mm'}
-    optional=geometry|{'named_class_scope'}
+    optional=geometry|{'named_class_scope', 'cutout_rects_um'}
     digest=lambda value:isinstance(value,str) and len(value)==64 and set(value)<=set('0123456789abcdef')
     if (not isinstance(context,dict) or not keys<=context.keys() or context.keys()-keys-optional
             or type(context['schema']) is not int or context['schema'] != 1 or context['policy'] != POLICY
@@ -346,12 +375,44 @@ def correct(dsnbytes, context):
     value = context['requested_clearance_um']
     if _number(value) != _number(context['original_min_copper_edge_clearance_mm'])*1000 or _number(value) <= 0:
         raise ValueError('edge context changes original minimum')
-    changed = copy.deepcopy(tree); target = sx.one(sx.one(changed,'structure'),'boundary')
+    cutout_obstacles = []
+    if 'cutout_rects_um' in context:
+        rects = context['cutout_rects_um']
+        prefix = '__copperpath_edge_cutout_'
+        layers = sx.children(structure, 'layer')
+        if (named_scope is not None or type(rects) is not list or not 1 <= len(rects) <= 4
+                or [(layer[1], sx.one(layer, 'type')) for layer in layers if len(layer) >= 2]
+                   != [('F.Cu', ['type', 'signal']), ('B.Cu', ['type', 'signal'])]
+                or any(isinstance(atom, str) and sx.unquote(atom).startswith(prefix)
+                       for node in nodes for atom in node)):
+            raise ValueError('round cutout DSN layer, naming or class scope differs')
+        for index, rect in enumerate(rects):
+            if type(rect) is not list or len(rect) != 4:
+                raise ValueError('round cutout needs a bounded source clearance envelope')
+            coordinates = list(map(_number, rect))
+            if coordinates[0] >= coordinates[2] or coordinates[1] >= coordinates[3]:
+                raise ValueError('round cutout clearance envelope has no area')
+            expanded = [(coordinate * precision).to_integral_value(
+                rounding=ROUND_FLOOR if axis < 2 else ROUND_CEILING) / precision
+                for axis, coordinate in enumerate(coordinates)]
+            if not (expected[0] < expanded[0] < expanded[2] < expected[2]
+                    and expected[1] < expanded[1] < expanded[3] < expected[3]):
+                raise ValueError('rounded cutout clearance envelope falls outside the board')
+            for layer in ('F.Cu', 'B.Cu'):
+                for kind in ('keepout', 'via_keepout'):
+                    name = f'{prefix}{index}_{layer}_{kind}'
+                    cutout_obstacles.append([kind, name, ['rect', layer, *map(a._atom_number, expanded)]])
+    changed = copy.deepcopy(tree); revised_structure = sx.one(changed,'structure')
+    target = sx.one(revised_structure,'boundary')
     if replacement is not None:target[1]=replacement
     target.append(['clearance_class',CLASS]); added = ['rule',*[['clearance',value,['type',pair]] for pair in
         ('default_'+CLASS,'smd_'+CLASS,CLASS+'_'+CLASS)]]
-    sx.one(changed,'structure').append(added)
-    restored = copy.deepcopy(changed); restored_boundary=sx.one(sx.one(restored,'structure'),'boundary');restored_boundary.pop();sx.one(restored,'structure').pop()
+    revised_structure.extend([added, *cutout_obstacles])
+    restored = copy.deepcopy(changed)
+    restored_structure = sx.one(restored, 'structure')
+    restored_boundary = sx.one(restored_structure, 'boundary')
+    restored_boundary.pop()
+    del restored_structure[-1 - len(cutout_obstacles):]
     if replacement is not None:restored_boundary[1]=copy.deepcopy(shape)
     encoded = a._dump_dsn(changed).encode()
     if restored != tree or len(encoded)>sx.MAX_BYTES or a._parse_dsn(encoded.decode()) != changed:
@@ -366,4 +427,7 @@ def correct(dsnbytes, context):
     if inward is not None:
         record['inward_boundary']=inward
         record['reason']='original edge minimum encoded on source-contained inward grid rectangle'
+    if cutout_obstacles:
+        record['reason'] = 'original edge minimum encoded at the outline and around round cutouts'
+        record['cutout_obstacles_added'] = len(cutout_obstacles)
     return encoded, record

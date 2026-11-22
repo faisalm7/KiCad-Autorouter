@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "date": "2026-11-22",
+  "build": "a386478d7a75d0b19c1d9f2187eeb301bd9e5b70",
+  "manifest_sha256": "df09aaefd97a291a2d666a856e14bd9d66c95a96d2294202d94757e79b6c135b",
+  "reference": "evidence/product-owned-round-cutout-transport-001.json",
+  "actual_workspace": {
+    "viewport_points": [880, 610],
+    "round_cutout_visible": true,
+    "adopted_plan_above_original_request": true,
+    "requested_seconds": 85,
+    "adopted_seconds": 81,
+    "negative_move_into_hole_refused_mm": [19, 10],
+    "restored_same_draft_mm": [15, 10],
+    "ordinary_native_placement_validation_passed": true,
+    "no_written_source": true
+  },
+  "one_routing_attempt": {
+    "budget_seconds": 81,
+    "nets": ["ROUTE_A", "ROUTE_B"],
+    "native_opens": 0,
+    "native_blocking": 1,
+    "native_warnings": 1,
+    "native_ignored": 2,
+    "edge_clearance_mm": {"required": 0.3, "observed": 0.241},
+    "finding": "Circle on Edge.Cuts and new front ROUTE_B track",
+    "selected_route_items": 8,
+    "invariants_unchanged": true,
+    "accepted": false,
+    "review_or_export_available": false,
+    "command_wall_seconds": 10.216681624995545,
+    "route_record_total_cpu_seconds": 8.143493,
+    "observer_outcome": "Timed out waiting for a successful review. Actual application displayed the Native refusal and retained the failed result."
+  },
+  "root_cause": "The retained native polygon marked the hole. The old rectangular correction skipped the cutout geometry so the engine did not receive the saved edge minimum for it.",
+  "local_evidence": ".runs/placement-round-cutout-001"
+}

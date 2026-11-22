@@ -37,6 +37,7 @@ COMPARISON_ROUTE_POLICY='selected-native7-fixed-comparison-v2'
 NATIVE7_IMPROVE_CHILD_POLICY='selected-native7-single-improve-child-v1'
 NATIVE7_IMPROVE_PARENT_CLASS_CHILD_POLICY='selected-native7-single-parent-class-child-v1'
 NAMED_EDGE_ADMISSION_POLICY='known-named-whole-native-edge-v1'
+ROUND_CUTOUT_POLICY='selected-native-round-cutout-envelope-v1'
 ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
 NATIVE7_SELECTED_DEFAULT_POLICY='native7-selected-sole-default-v1'
@@ -1763,7 +1764,8 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
         **({'plane_transport':plane_transport} if plane_transport is not None else {}))
     if 'native_edge_correction' in data:
         from . import native_edge
-        adapted,_=native_edge.correct(adapted,native_edge_context(directory/'snapshot'/candidate.name,known_named=_known_named_edge))
+        adapted,_=native_edge.correct(adapted,native_edge_context(directory/'snapshot'/candidate.name,
+            known_named=_known_named_edge, round_cutouts=recorded_round_cutouts(directory, data)))
     engine_input=directory/partition_input(data)
     if read_bytes(engine_input)!=adapted or f.canonical(data.get('adapter_transformations'))!=f.canonical(adapter_record):
         raise Rejected('pour corrected-to-adapter engine input differs')
@@ -2190,17 +2192,34 @@ def engine_baseline(profile,adapter):
     raise Rejected('unknown engine profile')
 
 
-def native_edge_context(board,*,known_named=False):
+def native_edge_context(board,*,known_named=False,round_cutouts=False):
     """Use exact original files and the existing custom-rule support boundary."""
     from . import native_edge
     from .placement_clearance import read_bytes
     board=Path(board)
     context=native_edge.derive_context(read_bytes(board),read_bytes(board.with_suffix('.kicad_pro')),
-        experimental_named_classes=known_named)
+        experimental_named_classes=known_named,round_cutouts=round_cutouts)
     rules=board.with_suffix('.kicad_dru')
     if rules.exists() or rules.is_symlink():
         context.update(applicable=False,reason='edge transport with custom-rule companion is unqualified')
     return context
+
+
+def recorded_round_cutouts(directory, data):
+    """Require the captured selected-routing producer for the new edge scope."""
+    if (data.get('scope') != 'selected_nets' or c.NATIVE_VERSION != '10.0.7'
+            or 'experimental_native_toolchain' in data):
+        return False
+    from .local_settings import policy_declaration
+    from .placement_clearance import read_bytes
+
+    pin = data.get('tools', {}).get('implementation_sha256', {}).get('autorouter/pipeline.py')
+    if pin is None:
+        return False
+    raw = read_bytes(Path(directory) / 'code/pipeline.py', 1024**2)
+    if hashlib.sha256(raw).hexdigest() != pin:
+        raise Rejected('Round cutout producer source pin differs')
+    return policy_declaration(raw, name='ROUND_CUTOUT_POLICY', expected=ROUND_CUTOUT_POLICY) is not None
 
 
 def named_edge_scope(directory,data,*,qualified_selected=False):
@@ -2345,7 +2364,8 @@ def check_native_edge_transport(directory,data,*,_known_named_edge=False):
     board=directory/'snapshot'/Path(data['source']).name
     if tree_hash(board.parent)!=data['source_hashes']:
         raise Rejected('edge correction original snapshot differs')
-    context=native_edge_context(board,known_named=_known_named_edge)
+    context=native_edge_context(board,known_named=_known_named_edge,
+                               round_cutouts=recorded_round_cutouts(directory,data))
     if minimum:
         from . import board_floor as g
         base,contract=native_minimum_contract(directory,data)
@@ -2969,7 +2989,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             from . import native_edge
             shutil.copy2(output/'task.dsn',output/'edge-adapter-input.dsn')
             edge_context = native_edge_context(snapshot, known_named=native_toolchain is None
-                and named_edge_scope(output, report, qualified_selected=named_selected))
+                and named_edge_scope(output, report, qualified_selected=named_selected),
+                round_cutouts=native_toolchain is None and c.NATIVE_VERSION == '10.0.7' and scope == 'selected_nets')
             if named_selected and edge_context['applicable'] is not True:
                 raise Rejected('The original board edge rules cannot be verified for selected named classes.')
             corrected,edge_record=native_edge.correct((output/'task.dsn').read_bytes(),edge_context)

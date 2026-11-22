@@ -188,12 +188,18 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     produced a polygon keepout for the hole. The rectangular clearance
     correction correctly skipped this geometry.
     [Native transport](evidence/product-owned-round-cutout-transport-001.json)
-40. Qualify the bounded circular-cutout placement extension on that same
-    owned source. Verify actual on-screen shape, refused move into the hole,
-    accepted placement outside its envelope, selected routing and fresh
-    readback. Keep all Native checks and unchanged rules. Named-class routing
-    with cutouts still needs separate transport. The licensed receiver still
-    exceeds the population limits.
+40. **Placement and visibility verified; first routing attempt refused.**
+    The actual installed app drew the hole, refused a move into it, showed
+    the adopted time above the request, and validated the restored draft.
+    KiCad withheld delivery at 0.241 mm against the saved 0.300 mm edge
+    clearance. No review or export was accepted.
+    [First attempt](evidence/product-round-cutout-first-route-001.json)
+41. Carry the original clearance through the selected Default-only engine
+    input using source-bound outward-rounded track and via obstacles. Keep
+    the Native hole polygon, original board and final acceptance unchanged.
+    Use the same frozen 81-second task for one prospective correction.
+    Show the exact hole in the read-only and routing review views. Named
+    classes and the larger licensed receiver remain outside this scope.
 
 ## Verified Finish gaps batch from 2dabd0799
 

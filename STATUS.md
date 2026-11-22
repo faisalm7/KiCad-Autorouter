@@ -2,6 +2,8 @@
 
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 
+**The installed round-cutout placement is visible and guarded.** One owned task refused placing J1 in the hole and validated the same earlier draft outside it. The adopted 81-second setting appeared above the original request. The subsequent route closed both connections but failed the original copper-edge minimum, so Copperpath withheld review and export. [Installed trial](evidence/product-round-cutout-first-route-001.json)
+
 **First setup uses existing pinned tools and opens through Finder.** On this Mac, a wrong Freerouting file refused before creating an installation. The verified file and explicit KiCad and Java locations passed setup and doctor in a new folder. The installed Conversation shortcuts edited, re-previewed and adopted an 81-second local plan at 880 × 610. The app withheld adoption of the unreviewed edit. The adopted value still needs better prominence in the transcript. [Installed checks](evidence/product-direct-first-setup-and-keyboard-002.json)
 
 **Routing Preview shows when the saved board is ready.** At 880 × 610, the installed button followed the acknowledgement that the project was closed. Cancelling a running Preview stopped its check before Freerouting. A test lock that appeared after acknowledgement blocked a new Preview, and all original design files stayed exact. [Installed controls](evidence/product-routing-source-acknowledgement-001.json)

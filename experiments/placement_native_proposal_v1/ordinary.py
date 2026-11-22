@@ -175,6 +175,20 @@ def circular_cutout(node, outline):
     return dict(row, bounds_nm=bounds)
 
 
+def circular_cutout_rows(cuts, outline, outer_stroke):
+    c.need(len(cuts) <= 4, 'At most four circular cutouts are supported.')
+    inset = (outer_stroke + 1) // 2
+    inner = [outline[0] + inset, outline[1] + inset, outline[2] - inset, outline[3] - inset]
+    rows = [circular_cutout(node, inner) for node in cuts]
+    for index, first in enumerate(rows):
+        left, top, right, bottom = first['bounds_nm']
+        for second in rows[index + 1:]:
+            other_left, other_top, other_right, other_bottom = second['bounds_nm']
+            c.need(right < other_left or other_right < left or bottom < other_top or other_bottom < top,
+                   'Circular cutout envelopes overlap.')
+    return rows
+
+
 def text(node, anchor=(0, 0), rotation=0):
     start = 3 if node[0] in ('property', 'fp_text') else 2
     fields(node, {'at', 'layer', 'uuid', 'effects', 'hide', 'unlocked', 'render_cache', 'locked'}, start=start)
@@ -375,8 +389,8 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     cuts = sx.children(tree, 'gr_circle')
     outer_edges = [node for node in edge_nodes if node[0] != 'gr_circle']
     if cuts:
-        c.need(len(cuts) <= 4 and len(outer_edges) == 1 and outer_edges[0][0] == 'gr_rect',
-               'Circular cutouts require one outer rectangle and at most four inner circles.')
+        c.need(len(outer_edges) == 1 and outer_edges[0][0] == 'gr_rect',
+               'Circular cutouts require one outer rectangle.')
     if len(outer_edges) == 1 and outer_edges[0][0] == 'gr_rect':
         bounds = c.rectangle(outer_edges[0])
     else:
@@ -384,15 +398,7 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
         bounds = pt.bbox([list(point) for edge in segments for point in edge])
     outline_rows = [primitive(n) for n in outer_edges]
     outer_stroke = max(row['stroke_nm'] for row in outline_rows)
-    inset = (outer_stroke + 1) // 2
-    inner_edge = [bounds[0] + inset, bounds[1] + inset, bounds[2] - inset, bounds[3] - inset]
-    cutout_rows = [circular_cutout(node, inner_edge) for node in cuts]
-    for index, first in enumerate(cutout_rows):
-        left, top, right, bottom = first['bounds_nm']
-        for second in cutout_rows[index + 1:]:
-            other_left, other_top, other_right, other_bottom = second['bounds_nm']
-            c.need(right < other_left or other_right < left or bottom < other_top or other_bottom < top,
-                   'Circular cutout envelopes overlap.')
+    cutout_rows = circular_cutout_rows(cuts, bounds, outer_stroke)
     c.need(all(row['fill'] in (None, 'none') for row in outline_rows), 'Unfilled board outline required')
     for row in outline_rows + cutout_rows: claim(row['uuid'])
     outline = dict(kind='rectangle', bounds_nm=bounds, stroke_nm=outer_stroke,

@@ -687,3 +687,9 @@ current component, pin and preserved-copper limits. Static routing inspection
 did not prove Native admission. No external component library, script or
 fabrication output was imported or executed. The four verified small files
 are retained locally with the refusal. [Pinned publisher design](https://github.com/gargsrishtii/TankSync-RX/tree/11ca70b93509c3802f741c999d5f27fcdc40c441/kicad) · [Pinned license](https://github.com/gargsrishtii/TankSync-RX/blob/11ca70b93509c3802f741c999d5f27fcdc40c441/LICENSE).
+
+The pinned Freerouting 2.5.0 parser has distinct structure scopes for track
+and via keepouts. Copperpath's new correction projects both from the saved
+cutout and original clearance while keeping the original Native polygon.
+Source checks do not establish actual routing behavior or acceptance.
+[Freerouting 2.5.0 structure parser](https://github.com/freerouting/freerouting/blob/v2.5.0/src/main/java/app/freerouting/io/specctra/parser/Structure.java).

@@ -150,7 +150,7 @@ WORKSPACE_COLORS = {'protected': '#7354a4', 'retained': '#687b8c',
 
 
 def _workspace_context(board):
-    """Show a verified rectangular outline and optional footprint anchors."""
+    """Show a verified rectangular outline, bounded cutouts and part anchors."""
     from . import placement_transform
     from experiments.placement_native_proposal_v1.contract import rectangle
 
@@ -160,12 +160,21 @@ def _workspace_context(board):
 
     try:
         edges = [row for row in board if isinstance(row, list) and row and on_outline(row)]
+        cuts = [row for row in edges if row[0] == 'gr_circle']
+        outer = [row for row in edges if row[0] != 'gr_circle']
         parts = sx.children(board, 'footprint')
-        if len(edges) == 1 and edges[0][0] == 'gr_rect':
+        cutouts = []
+        if len(outer) == 1 and outer[0][0] == 'gr_rect':
             if any(on_outline(row) for part in parts for row in part[2:] if isinstance(row, list) and row):
                 return None
-            exact_bounds = rectangle(edges[0])
-        elif len(edges) == 4 and all(row[0] == 'gr_line' for row in edges):
+            exact_bounds = rectangle(outer[0])
+            if cuts:
+                from experiments.placement_native_proposal_v1 import ordinary
+
+                holes = ordinary.circular_cutout_rows(cuts, exact_bounds, ordinary.stroke(outer[0]))
+                cutouts = [tuple(value / 1_000_000 for value in (*row['center_nm'], row['radius_nm']))
+                           for row in holes]
+        elif not cuts and len(edges) == 4 and all(row[0] == 'gr_line' for row in edges):
             chain = placement_transform.rectangular_edge_chain(board)
             exact_bounds = placement_transform.bbox([point for edge in chain for point in edge])
         else:
@@ -180,7 +189,7 @@ def _workspace_context(board):
                 if (0 < len(ref) <= 16 and ref.isprintable() and len(xy) == 2
                         and all(bounds[i] <= xy[i] <= bounds[i + 2] for i in range(2))):
                     anchors.append((*xy, ref))
-        return bounds, anchors
+        return (bounds, anchors, cutouts) if cutouts else (bounds, anchors)
     except (ValueError, TypeError, KeyError, IndexError):
         return None
 
@@ -201,7 +210,8 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
     except (ValueError, TypeError, KeyError, IndexError):
         return {}, 'Some route geometry cannot be drawn here. Compare the exact KiCad plots below.'
     if board_context is not None:
-        bounds, anchors = board_context
+        bounds, anchors = board_context[:2]
+        cutouts = board_context[2] if len(board_context) == 3 else ()
         points.extend((bounds[:2], bounds[2:]))
     if not points:
         return {}, 'There are no routed tracks or vias to draw.'
@@ -229,6 +239,9 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
                 x0, y0, x1, y1 = bounds
                 outline = (f'<rect x="{x0}" y="{y0}" width="{x1-x0}" height="{y1-y0}" '
                            f'fill="#edf2f6" stroke="#7c8d9e" stroke-width="{1.8/scale}"/>')
+                outline += ''.join(f'<circle cx="{x}" cy="{y}" r="{radius}" fill="#fff" stroke="#7c8d9e" '
+                                   f'stroke-width="{1.4/scale}" data-role="board-cutout"/>'
+                                   for x, y, radius in cutouts)
                 body = f'<g transform="matrix({scale} 0 0 {scale} {tx} {ty})">{outline}{body}</g>'
                 for px, py, ref in anchors:
                     cx, cy = px * scale + tx, py * scale + ty

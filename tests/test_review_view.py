@@ -81,11 +81,15 @@ class SvgControls(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             board = Path(tmp).resolve() / 'board.kicad_pcb'
             board.write_text('''(kicad_pcb (layers (0 "F.Cu" signal) (2 "B.Cu" signal))
-                (gr_rect (start 4 5) (end 14 17) (layer "Edge.Cuts"))
+                (gr_rect (start 4 5) (end 14 17) (stroke (width 0.05) (type default)) (layer "Edge.Cuts"))
+                (gr_circle (center 11 12) (end 12 12) (stroke (width 0.05) (type default))
+                    (fill none) (layer "Edge.Cuts") (uuid "44ce912b-673a-42d4-913f-06fded0df9df"))
                 (footprint "part" (at 7 8) (property "Reference" "J1")))''')
             inspection = dict(source=str(board), source_sha256=p.sha(board))
             scene = view.saved_board_front(inspection)
             self.assertIn('>J1</text>', scene['svg'])
+            self.assertIn('cx="11.0" cy="12.0" r="1.0"', scene['svg'])
+            self.assertIn('data-role="board-cutout"', scene['svg'])
             self.assertNotIn('transform', scene)  # Picking geometry belongs to validated placement.
             board.write_text('(kicad_pcb)')
             with self.assertRaisesRegex(p.Rejected, 'changed before drawing'):

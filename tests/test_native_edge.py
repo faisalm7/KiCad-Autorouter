@@ -61,6 +61,26 @@ class NativeEdgeTests(unittest.TestCase):
             self.assertEqual(sx.one(sx.one(a._parse_dsn(result.decode()),'structure'),'boundary')[1],
                 ['path','pcb','0',*path.split()])
 
+    def test_cutout_expands_saved_edge_clearance_for_tracks_and_vias(self):
+        board = BOARD.replace(b'(version 20241229)', b'''(version 20260206)
+            (layers (0 "F.Cu" signal) (2 "B.Cu" signal))
+            (gr_circle (center 10 10) (end 11 10) (stroke (width 0.050002) (type default))
+             (fill none) (layer "Edge.Cuts") (uuid "44ce912b-673a-42d4-913f-06fded0df9df"))''')
+        self.assertFalse(self.context(board)['applicable'])  # Historical producer.
+        context = edge.derive_context(board, json.dumps(PROJECT).encode(), round_cutouts=True)
+        self.assertEqual(context['cutout_rects_um'], ['8674.999 -11325.001 11325.001 -8674.999'.split()])
+        dsn = DSN.replace('top', 'F.Cu').replace('bottom', 'B.Cu')
+        corrected, proof = self.correct(dsn=dsn, context=context)
+        structure = sx.one(a._parse_dsn(corrected.decode()), 'structure')
+        expected = ['8674.9', '-11325.1', '11325.1', '-8674.9']
+        self.assertEqual(proof['cutout_obstacles_added'], 4)
+        self.assertEqual(sx.children(structure, 'keepout')[0], ['keepout', 'original', ['rect', 'B.Cu', '0', '1', '2', '3']])
+        for kind in ('keepout', 'via_keepout'):
+            shapes = [row[2] for row in sx.children(structure, kind) if row[1] != 'original']
+            self.assertEqual(shapes, [['rect', layer, *expected] for layer in ('F.Cu', 'B.Cu')])
+        with self.assertRaisesRegex(ValueError, 'scope differs'):
+            self.correct(context=context)
+
     def test_reversed_native_rectangle_corners_and_project_companion_hashes(self):
         reversed_board=BOARD.replace(b'(start 0 0) (end 20 20)',b'(start 20 20) (end 0 0)')
         context=self.context(reversed_board)
