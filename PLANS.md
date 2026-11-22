@@ -9,9 +9,9 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    proposal-only pilot stays closed. Complete the demonstrated handoff fix so
    preserve-copper placement selects only eligible affected nets or offers
    Finish gaps. [Engineering continuation](evidence/product-workspace-hosted-engineering-001.json)
-2. Qualify the strict single fixed two-pad tie in the installed ordinary
-   Selected nets workflow. Confirm helpful intake and preview, exact copper,
-   Native delivery, and refusal of tied-net requests and unsupported shapes.
+2. The strict single fixed two-pad tie passed ordinary installed inspection,
+   selected preview, routing, findings and fresh export. The tied-net and
+   triangular-bridge requests refused. [Installed evidence](evidence/fixed-net-tie-product-native7-001.json)
 3. Freeze one genuinely new licensed source and useful supported task before
    its run. Observe complete elapsed time, operator actions and corrections,
    including any refusal. Preserve the pinned original and rights evidence.
@@ -37,12 +37,9 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    [Observed review](evidence/product-workspace-conversation-ui-001.json)
 4. The bounded licensed admission review closed with two previously exposed
    leads. The SparkFun RFID and NUS refusals retain their original scope.
-   The owned single fixed tie passed the isolated checked routing and
-   protection trial. Next qualify the narrow scope in ordinary selected-net
-   intake, transport, validation and delivery, with explicit rejection of
-   selected tied nets and unsupported geometry. New licensed coverage still
-   needs a pinned project and declared task.
-   [Qualification and next gate](evidence/fixed-net-tie-selected-native7-001.json)
+   The owned single fixed tie has isolated and ordinary installed evidence.
+   New licensed coverage needs a pinned project and declared task.
+   [Installed qualification](evidence/fixed-net-tie-product-native7-001.json)
 
 ## Earlier batch from f51d84b6
 
