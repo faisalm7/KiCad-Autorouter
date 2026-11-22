@@ -137,6 +137,12 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     project = record.get('project_file') or record.get('review_project')
     if project: locations += ['Separate project: ' + str(project)]
     if record.get('candidate'): locations += ['Candidate PCB: ' + str(record['candidate'])]
+    gaps = record.get('gap_plan') or record.get('finish_gaps', {}).get('plan')
+    delivery = gaps['source_delivery'] if gaps is not None else record.get('source_delivery')
+    blocked_source = delivery is not None and bool(delivery['reasons'])
+    if blocked_source:
+        from .finish_gaps import source_delivery_lines
+        lines += ['Checked delivery is blocked by the saved source.', *source_delivery_lines(delivery), '']
     pruning = record.get('pruning_preferences', {})
     # Review/export have their own budgets. Display the actual parent capture
     # rather than the merged stage budget or mutable current widgets.
@@ -150,7 +156,7 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     if settings:
         layers = settings.get('layers', 'not reported')
         if isinstance(layers, list): layers = ', '.join(layers)
-        if 'gap_plan' in record or 'finish_gaps' in record:
+        if gaps is not None:
             lines += ['Routing budget · ' + str(settings.get('seconds', 'not reported')) + ' s. Finish gaps keeps surrounding copper and skips extra optimization.']
         else:
             lines += ['Settings: profile ' + str(settings.get('profile', 'not reported'))
@@ -183,19 +189,13 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         lines += ['Actual Native refill and complete-schematic checks ran on a separate copy.',
                   'Unrouted connections are routing demand; they do not by themselves make the source invalid.',
                   'This inspection does not approve a route or waive any finding.']
-    gaps = record.get('gap_plan') or record.get('finish_gaps', {}).get('plan')
-    delivery = record.get('source_delivery')
     if gaps is not None:
-        delivery = gaps['source_delivery']
         if gaps['status'] == 'ready':
             lines += ['Finish gaps targets · ' + ', '.join(gaps['nets']),
                       f"KiCad found {gaps['opens']} missing connections. All {gaps['protected_routes']} existing routes are protected.",
                       'Finish gaps keeps the surrounding copper and zone definitions. KiCad refills the zones during validation.']
         elif gaps['status'] == 'already_connected':
             lines += ['KiCad found no missing connections. There is nothing to route.']
-    if delivery is not None and delivery['reasons']:
-        from .finish_gaps import source_delivery_lines
-        lines += ['Checked delivery is blocked by the saved source.', *source_delivery_lines(delivery)]
     tie_info = record.get('static', {}) if stage == 'inspect' else record
     tie = tie_info.get('fixed_net_tie')
     if tie is not None:
@@ -230,10 +230,14 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                   + str(metrics.get('copper_layers', 'not reported')) + ' copper layers']
     native = record.get('native') or record.get('saved_native_findings')
     if isinstance(native, dict):
-        lines += ['Native findings: ' + str(native.get('opens', 'not reported')) + ' opens; '
-                  + str(native.get('blocking', 'not reported')) + ' blocking; '
-                  + str(native.get('warnings', 'not reported')) + ' warnings; '
-                  + str(native.get('exclusions', 'not reported')) + ' exclusions']
+        if blocked_source:
+            lines += [f"KiCad source findings · Open connections {native['opens']} · Other errors {native['blocking']}"
+                      f" · Warnings {native['warnings']} · Exclusions {native['exclusions']}"]
+        else:
+            lines += ['Native findings: ' + str(native.get('opens', 'not reported')) + ' opens; '
+                      + str(native.get('blocking', 'not reported')) + ' blocking; '
+                      + str(native.get('warnings', 'not reported')) + ' warnings; '
+                      + str(native.get('exclusions', 'not reported')) + ' exclusions']
         source_native = record.get('source_drc')
         if stage == 'inspect':
             lines += ['Open connections are counted by KiCad after refilling zones on the saved copy.']
@@ -2116,27 +2120,28 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                                            else 'Rejected. Original project unchanged.'),
                                 'export': 'Fresh separate project verified. Open it in KiCad when ready.'}
                     self.status.SetLabel(messages[stage])
-                    if stage == 'preview' and 'gap_plan' in record:
-                        gaps = record['gap_plan']
+                    gaps = record.get('gap_plan') if stage == 'preview' else None
+                    if gaps is not None:
                         if gaps['status'] == 'ready':
                             targets = ', '.join(gaps['nets'])
                             if len(targets) > 90:
-                                targets = str(len(gaps['nets'])) + ' nets listed in Findings'
-                            self.status.SetLabel('Finish gaps will route ' + targets + '. Review the targets before starting.')
+                                targets = str(len(gaps['nets'])) + ' nets (see Findings)'
+                            self.status.SetLabel(f"Route {targets}. Protect all existing copper ({gaps['protected_routes']} tracks or vias).")
                         elif gaps['status'] == 'already_connected':
                             self.status.SetLabel('KiCad found no missing connections. There is nothing to route.')
                         else:
                             self.status.SetLabel('Finish gaps is blocked. See the source findings for the next action.')
-                            self.workspace_tabs.SetSelection(1)
                     report = (flow.records['export'] if stage == 'export' else flow.records.get('route', record))
                     native = report.get('native') or report.get('saved_native_findings')
                     if native is not None:
-                        self.findings_header.SetLabel(
+                        source_blocked = (gaps is not None and gaps['status'] in {'blocked', 'unsupported'}
+                                          or stage == 'inspect' and bool(report.get('source_delivery', {}).get('reasons')))
+                        self.findings_header.SetLabel('Saved source blocks delivery' if source_blocked else
                             f"{native['opens']} open · {native['blocking']} blocking · {native['warnings']} warnings after refill")
                         self.findings_header.GetParent().Layout()
                     if workspace_render is not None:
                         self.show_workspace_review(workspace_render)
-                    elif stage in ('inspect', 'preview', 'export'):
+                    elif stage in ('inspect', 'export') or stage == 'preview' and (gaps is None or gaps['status'] in {'blocked', 'unsupported'}):
                         self.workspace_tabs.SetSelection(1)
                 else:
                     self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))

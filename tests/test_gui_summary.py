@@ -38,6 +38,20 @@ class GuiSummaryTests(unittest.TestCase):
                          'protected: 3', 'to reroute: 7', 'Native routing validation has not run'):
             self.assertIn(expected, text)
 
+    def test_finish_gaps_source_blocker_precedes_settings_and_native_counts(self):
+        issue = dict(severity='warning', type='footprint_symbol_field_mismatch',
+                     description="Field 'Datasheet' differs (PCB: '~', Schematic: '')",
+                     items=[dict(description='Footprint J2')])
+        source = dict(reasons=['policy-critical warning'], blocking_findings=[issue], related_findings=[])
+        record = dict(gap_plan=dict(status='blocked', source_delivery=source),
+                      effective_preferences=dict(scope='partial_completion', seconds=85),
+                      native=dict(opens=1, blocking=0, warnings=1, exclusions=0, findings=[issue]))
+        text = gui.human_summary('preview', record)
+        self.assertLess(text.index('Footprint J2'), text.index('Routing budget'))
+        self.assertIn("PCB: '~', Schematic: ''", text)
+        self.assertIn('KiCad source findings · Open connections 1 · Other errors 0 · Warnings 1', text)
+        self.assertIn('Save the PCB and schematic, then preview again.', text)
+
     def test_improve_displays_its_checked_protection_count(self):
         for count in (0, 1, 4):
             record = self.record(); record.pop('protected_route_import')
