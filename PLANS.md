@@ -83,10 +83,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     saved sheet and PCB net names beside the board. Editing revokes the
     displayed suggestion until preview. Changing the saved schematic replaces
     the details with a refresh prompt. [Installed control](evidence/product-conversation-schematic-001.json)
-18. Make a single eligible component available through the same proposal
-    checks as ordinary placement. Keep Conversation visible after adopting
-    local settings. Verify the ordinary controls receive the exact settings
-    while group, fixed-part, copper and freshness rules still apply.
+18. **Verified.** One eligible part can be selected by a local request.
+    Adopting the exact suggestion keeps Conversation and the board visible.
+    The installed app generated a single-part draft that still required
+    explicit approval. [Installed draft](evidence/product-conversation-single-part-001.json)
+19. Show the exact proposed positions and unchanged component count at the
+    top of Findings. Verify the numbers match the drawn alternative and that
+    pending coordinate edits do not appear as reviewed changes.
+20. Keep the exact board outline visible on read-only boards made from four
+    straight edges. Confirm the exposed four-layer Analog Filter can be
+    inspected visually while its placement and selected-routing scope limits
+    remain enforced. Preserve its original files, stack and copper.
 
 ## Verified Finish gaps batch from 2dabd0799
 

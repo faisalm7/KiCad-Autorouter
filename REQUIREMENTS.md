@@ -41,6 +41,10 @@ The master specification, current strategy and owner steering govern. Historical
   closed both selected connections and delivered a fresh checked copy.
   Independent readback confirmed all other components and protected copper.
   [One-part delivery](evidence/product-single-placement-delivery-002.json)
+  The installed Conversation can also take a local one-part request through
+  editable settings and an ordinary draft, with separate approval required.
+  Hosted transport and contract controls passed offline on this change.
+  [Installed draft](evidence/product-conversation-single-part-001.json)
 - Finish gaps uses saved-project KiCad 10.0.7 refill and full-schematic checks
   to verify the active nets, then preserves all existing tracks and vias.
   The scoped two-layer engine input retains other nets, original obstacles

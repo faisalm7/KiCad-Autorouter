@@ -133,13 +133,13 @@ companion issues read/check requests and performs no PCB writes. The
 
 ## Placement constraints from a request
 
-V2 accepts exact observed reference labels, a movement rectangle and routing
+V2 accepts one or more exact observed reference labels, a movement rectangle and routing
 time. A null field leaves its visible value alone. The review returns the
 before/after settings and the prospective copper plan. The same placement
 validator binds fixed components, original policy, protection and region limits.
 The consumer must pass the currently displayed saved project, request and
 control revision at receipt and explicit adoption. A source change is checked
-again at adoption. The placement window's **Assistant** tab uses this path for
+again at adoption. The placement window's **Conversation** tab uses this path for
 explicit local requests. For example, enter the following three lines through
 the ordinary interface.
 
@@ -155,8 +155,10 @@ lists the exact changes and any affected copper alongside the map. Approval
 updates the ordinary controls. Finding alternatives, validation, routing and
 delivery still require their own user actions. Discard leaves the ordinary
 settings alone. This entry point uses deterministic parsing of explicit
-settings. The hosted v1 pilot retains its consent requirements and measured
-results. Live model v2 and persistent conversation remain separate gates.
+settings. The saved-project companion and optional hosted workflow use the same
+guarded settings. The earlier hosted pilot retains its measured result and scope.
+The single-part extension was verified with local controls and controlled data.
+[Installed single-part request](../evidence/product-conversation-single-part-001.json)
 
 ## Bounded follow-up on live writes
 
