@@ -1,7 +1,7 @@
 """Source-derived routing scope for ordinary preserve-all-copper jobs."""
 import hashlib
 
-from . import native_connected, pipeline as p, routing_scope, sexpr
+from . import native_connected, pipeline as p, routing_scope, schematic_field_evidence as fields, sexpr
 from .floor_route import canonical, check_drc_stage
 from .placement_clearance import read_bytes
 
@@ -13,8 +13,8 @@ def enabled(scope, guidance='native'):
     return p.c.NATIVE_VERSION == '10.0.7' and scope == 'partial_completion' and guidance == 'native'
 
 
-def source_delivery(native):
-    """Apply final delivery policy, allowing only ordinary unexcluded opens."""
+def source_delivery(native, *, field_mismatches_only=False):
+    """Use delivery policy for source findings that the requested task cannot fix."""
     reasons = p.native_rejection_reasons(native)
     if (type(native) is not dict or any(reason.startswith(('malformed', 'missing')) for reason in reasons)):
         return {'reasons': reasons, 'blocking_findings': [], 'related_findings': [], 'field_qualification': None}
@@ -31,9 +31,14 @@ def source_delivery(native):
                 or 'native error finding: ' + check in reasons or 'excluded native finding: ' + check in reasons
                 or 'unknown native finding semantics: ' + check in reasons):
             blocked.append(row)
+    if field_mismatches_only:
+        # A reroute may repair ordinary opens or copper errors. Footprint
+        # fields and the saved schematic are immutable in a routing job.
+        blocked = [row for row in blocked if row['type'] == fields.TYPE]
+        reasons = [reason for reason in reasons if fields.TYPE in reason]
     parity = native.get('field_parity', {}).get('qualification')
     related = [row for row in findings if row['type'] == 'footprint_symbol_mismatch'] if any(
-        row['type'] == 'footprint_symbol_field_mismatch' for row in blocked) else []
+        row['type'] == fields.TYPE for row in blocked) else []
     return {'reasons': reasons, 'blocking_findings': blocked, 'related_findings': related,
             'field_qualification': parity}
 
@@ -46,14 +51,16 @@ def source_delivery_lines(delivery):
     for finding in (*delivery['blocking_findings'], *delivery['related_findings'])[:6]:
         refs = ', '.join(str(item.get('description', ''))[:150] for item in finding['items'][:2])
         lines.append(f"KiCad {finding['severity']} · {refs} · " + str(finding.get('description', finding['type']))[:550])
-    if any(row['type'] == 'footprint_symbol_field_mismatch' for row in delivery['blocking_findings']):
+    if any(row['type'] == fields.TYPE for row in delivery['blocking_findings']):
         lines.append('Copperpath blocks delivery when it cannot verify a PCB and schematic field difference as harmless.')
         lines.append('Reconcile the shown fields and footprint assignments in KiCad. Save the PCB and schematic, then preview again.')
     elif lines:
         lines.append('Copperpath requires these source issues to be resolved before adding copper. Review the findings in KiCad and preview again.')
+    elif 'disabled policy-critical native check: ' + fields.TYPE in delivery['reasons']:
+        lines.append('Enable the schematic and PCB field comparison in KiCad Board Setup. Save the project and preview again.')
     else:
         lines.extend(delivery['reasons'][:6])
-        lines.append('Finish gaps requires verified source checks and exact net identities. Review the saved project in KiCad.')
+        lines.append('Copperpath requires verified source checks. Review the saved project in KiCad.')
     return lines
 
 

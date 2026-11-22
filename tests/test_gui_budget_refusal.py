@@ -137,6 +137,25 @@ class GuiBudgetTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'failed or was cancelled'):
                 flow.adopt('route', process, flow.workspace/'route.command.log')
 
+    def test_source_field_refusal_names_both_values_only_for_this_source(self):
+        from autorouter.finish_gaps import source_delivery
+
+        flow = self.flow()
+        path = flow.workspace / 'route/result.json'
+        fields = dict(type='footprint_symbol_field_mismatch', severity='warning',
+                      description="Field 'Datasheet' differs (PCB: 'Old', Schematic: 'New')",
+                      items=[{'description': 'Footprint J2'}])
+        native = dict(opens=1, blocking=0, warnings=1, exclusions=0, ignored_checks=[], findings=[fields])
+        hashes = json.loads(flow.files_json)
+        failed = dict(status='rejected', accepted=False, source=str(flow.board), source_hashes=hashes,
+                      source_drc=native, source_field_delivery=source_delivery(native, field_mismatches_only=True))
+        with patch.object(gui, 'read_record', return_value=failed):
+            detail = gui.failed_route_detail(path, board=flow.board, source_hashes=hashes)
+            for label in ('before routing', 'KiCad warning', 'Footprint J2', "PCB: 'Old'", "Schematic: 'New'",
+                          'Copperpath blocks delivery', 'Save the PCB and schematic', 'No candidate accepted'):
+                self.assertIn(label, detail)
+            self.assertIsNone(gui.failed_route_detail(path, board=flow.board, source_hashes={}))
+
     def test_actual_load_callback_enforces_floor_without_rewriting_budget(self):
         for seconds in (60, 90):
             with self.subTest(seconds=seconds):

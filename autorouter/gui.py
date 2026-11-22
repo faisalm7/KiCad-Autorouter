@@ -928,6 +928,15 @@ def failed_route_detail(path, *, board=None, source_hashes=None):
             return None
         reason = record.get('reason') or record.get('error')
         text = short_failure_reason(reason)
+        if 'source_field_delivery' in record:
+            if board is None or record.get('source') != str(board) or record.get('source_hashes') != source_hashes:
+                return None
+            from .finish_gaps import source_delivery, source_delivery_lines
+            delivery = source_delivery(record.get('source_drc'), field_mismatches_only=True)
+            if not delivery['reasons'] or delivery != record['source_field_delivery']:
+                return None
+            text = '\n'.join(['Saved PCB and schematic checks block delivery before routing.',
+                              *(line for raw in source_delivery_lines(delivery) if (line := short_failure_reason(raw)))])
         if text is None and record['status'] == 'drc_rejected':
             if board is None or record.get('source') != str(board) or record.get('source_hashes') != source_hashes:
                 return None
@@ -2030,6 +2039,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 from .finish_gaps import enabled
                 if stage == 'preview' and request.method == 'route' and enabled(settings['scope'], settings['guidance']):
                     self.status.SetLabel('Checking missing connections and source findings in KiCad…')
+                elif stage == 'route' and request.method == 'route':
+                    self.status.SetLabel('Checking the saved source, then routing and validating a separate copy…')
                 else:
                     self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
                 def work():

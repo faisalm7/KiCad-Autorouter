@@ -20,6 +20,25 @@ class FieldEvidenceControls(unittest.TestCase):
     def test_unrelated_error_is_never_waived(self):
         native=self.summary();native['findings'].append({'type':'clearance','severity':'error','items':[]})
         self.assertFalse(p.native_accepted(native))
+
+    def test_early_field_check_leaves_repairable_copper_to_routing(self):
+        from autorouter.finish_gaps import source_delivery
+        native = self.summary()
+        native['findings'].extend([
+            dict(type='clearance', severity='error', items=[]),
+            dict(type='unconnected_items', severity='error', items=[]),
+        ])
+        native.update(blocking=1, opens=1)
+        self.assertFalse(p.native_accepted(native))
+        self.assertEqual(source_delivery(native, field_mismatches_only=True)['reasons'], [])
+        del native['field_parity']
+        delivery = source_delivery(native, field_mismatches_only=True)
+        self.assertEqual(delivery['reasons'], ['policy-critical native finding: ' + evidence.TYPE + ' (warning)'])
+        self.assertEqual([row['type'] for row in delivery['blocking_findings']], [evidence.TYPE])
+        native['findings'].pop(0)
+        native['ignored_checks'] = [{'key': evidence.TYPE}]
+        delivery = source_delivery(native, field_mismatches_only=True)
+        self.assertEqual(delivery['reasons'], ['disabled policy-critical native check: ' + evidence.TYPE])
     def test_native_mandatory_case_alias_cannot_hide_raw_source_value(self):
         from autorouter import sexpr as sx
         good=sx.parse('(kicad_sch (symbol (property "Datasheet" "~")))')

@@ -45,6 +45,7 @@ NATIVE7_SELECTED_NAMED_POLICY='native7-selected-named-class-v1'
 NATIVE7_TUNED_LOW_POLICY='native7-tuned-low-sole-default-v1'
 SELECTED_PLANE_CHOICE_POLICY='native7-selected-plane-choice-v1'
 FINISH_GAPS_POLICY='native-missing-connections-v1'
+ROUTE_SOURCE_FIELDS_POLICY = 'native7-saved-source-fields-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -2550,6 +2551,28 @@ def selected_parity_required(data,directory=None):
     return required
 
 
+def source_field_preflight(scope, source, files):
+    return (c.NATIVE_VERSION == '10.0.7' and scope in {'selected_nets', 'whole_board_unlocked_routing'}
+            and source.with_suffix('.kicad_sch').name in files)
+
+
+def check_source_field_preflight(directory, data, source):
+    from .floor_route import check_drc_stage
+    from .finish_gaps import source_delivery
+    from .local_settings import policy_declaration
+    from .placement_clearance import read_bytes
+
+    producer = read_bytes(directory / 'code/pipeline.py', 1024**2)
+    if policy_declaration(producer, name='ROUTE_SOURCE_FIELDS_POLICY', expected=ROUTE_SOURCE_FIELDS_POLICY) is None:
+        return  # Earlier producers ran a PCB-only source check.
+    before = data['source_hashes']
+    native = check_drc_stage(directory, data, 'source-drc', directory / 'snapshot' / source.name,
+                            directory / 'source-drc-input' / source.name, False, before,
+                            schematic_parity=True, sandboxed=False)
+    if native != data.get('source_drc') or source_delivery(native, field_mismatches_only=True)['reasons']:
+        raise Rejected('The original saved PCB and schematic field checks differ or block delivery.')
+
+
 def check_preferences_record(directory, data, *, gap_partition=None):
     """Recompute the captured choice and bind it to the actual engine invocation."""
     path=Path(directory)/'routing-preferences.json'
@@ -2857,12 +2880,21 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
                 raise Rejected('Native7 tuned/low source changed during task capture')
             proof=output/'native7-tuned-low-source.json';save_json(proof,record)
             report['native7_tuned_low_source']=dict(policy=NATIVE7_TUNED_LOW_POLICY,file=proof.name,sha256=sha(proof))
-        report['source_drc']=job.drc('source-drc',snapshot,schematic_parity=True) if finish else job.drc('source-drc',snapshot)
+        check_fields = (_preferences is not None and native_toolchain is None and comparison_context is None
+                        and _improve_context is None and _selected_plane_policy is None
+                        and source_field_preflight(scope, source, before))
+        report['source_drc'] = (job.drc('source-drc', snapshot, schematic_parity=True)
+                                if finish or check_fields else job.drc('source-drc', snapshot))
         if finish:
             planned = finish_gaps.plan(original, before, report['source_drc'])
             report['finish_gaps'] = {'plan': planned}
             finish_gaps.require_ready(planned, expected_gap_plan)
             report['baseline'] = 'native_scoped_finish_gaps'
+        if check_fields:
+            delivery = finish_gaps.source_delivery(report['source_drc'], field_mismatches_only=True)
+            if delivery['reasons']:
+                report['source_field_delivery'] = delivery
+                raise Rejected('\n'.join(finish_gaps.source_delivery_lines(delivery)))
         policy=netclass_policy(candidate)
         parent_classes=policy is not None and policy['mode']==PARENT_POLICY
         if selected is not None and parent_classes and not named_selected:
@@ -3701,6 +3733,12 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         if edge_transport is None or data.get('baseline') != 'native_scoped_finish_gaps' or 'engine_budget' not in data:
             raise Rejected('Finish gaps requires the complete corrected engine scope proof')
         gap_partition = finish_gaps.check(path.parent, data, original, candidate)
+    from .selected_plane_transport import VARIANT as SELECTED_PLANE_VARIANT
+    if (native_toolchain is None and not (is_comparison or is_improve_child or is_improve_parent)
+            and data.get('strategy') is None and input_policy == 'native' and 'routing_preferences' in data
+            and data.get('selected_plane_choice', {}).get('mode') != SELECTED_PLANE_VARIANT
+            and source_field_preflight(data['scope'], source, data['source_hashes'])):
+        check_source_field_preflight(path.parent, data, source)
     from . import fixed_net_tie
     tie = fixed_net_tie.describe(original)
     if tie is not None:
