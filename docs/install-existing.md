@@ -10,7 +10,7 @@ The tested setup uses macOS 27.0.1 arm64, isolated official KiCad 10.0.7, Java 2
 
 Use the reviewed source checkout's `scripts/prepare_runtime.py`; the curated runtime does not ship that installer. Choose a verified source artifact and an unused owned destination below an existing real directory. Check available space against the operation's peak allocation plus the fixed 3 GiB reserve. Do not copy an old environment, jobs, settings or launcher to simulate a new installation.
 
-The following is a command template, not a command executed or newly qualified by this guide. Replace the two artifact/destination paths deliberately. Run from the source checkout with an existing supported Python 3.11, and stop after any refusal:
+For one-step setup on the supported Mac, add `--with-launcher`. This creates a fresh local Python environment, checks dependencies and prepares the launcher. It uses the existing pinned tools and local engine. Replace the artifact and destination paths with your own verified source and new folder, and use the exact artifact manifest hash. Run from the source checkout with Python 3.11.
 
 ```sh
 (
@@ -20,13 +20,11 @@ AUTOROUTER_INSTALL="/path/to/new owned installation"
 python3.11 -B scripts/prepare_runtime.py --install-existing \
   --source "$AUTOROUTER_ARTIFACT" \
   --expected-manifest-sha256 ae1a3fb439ea32c67b947d2f42a8a6311c25c6b7547adadeccd76f485e8c4123 \
-  --output "$AUTOROUTER_INSTALL"
-python3.11 -B -m venv --copies --without-pip "$AUTOROUTER_INSTALL/.venv"
-cd "$AUTOROUTER_INSTALL"
-.venv/bin/python -B -m autorouter doctor
-.venv/bin/python -B scripts/install_gui.py --output "$PWD/.runs/launcher-user001"
+  --output "$AUTOROUTER_INSTALL" --with-launcher
 )
 ```
+
+Open the `workspace_launcher` shown when setup completes. You can launch that file from Finder. A refusal leaves the completed stages and logs under `.runs/launcher-setup` in the new folder. Fix the stated dependency or input and use a fresh destination.
 
 Enter the selected runtime before every `-m autorouter` command: using its interpreter from another checkout can import the wrong code. Follow the new launcher's README. It binds the runtime, tools and isolated configuration/documents/cache/plugin area. Keep those locations intact; a moved or replaced launcher needs fresh preparation. The launcher is a cooperative boundary, not an OS sandbox.
 

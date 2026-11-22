@@ -57,6 +57,7 @@ Qualification and source history stay in the original source repository.
 
 
 INSTALL_RECEIPT = '.runs/install-existing-runtime-001.json'
+SETUP_PEAK_BYTES = 512 * 1024**2
 
 
 def _new_destination(destination):
@@ -256,6 +257,45 @@ def install_existing(source, destination, *, expected_manifest_sha256, import_ar
         'local_engine_copied': True, 'standalone': False, 'published': False}
 
 
+def prepare_workspace_launcher(root):
+    """Finish a fresh local install using its own files and existing pinned tools."""
+    from autorouter.runner import run
+
+    root = pv._directory(Path(root))
+    jobs = pv._directory(root / '.runs')
+    launcher = jobs / 'Copperpath Launcher'
+    if os.path.lexists(root / '.venv') or os.path.lexists(launcher):
+        raise ValueError('Launcher setup requires a fresh runtime without an existing environment or launcher.')
+    setup = jobs / 'launcher-setup'
+    setup.mkdir(mode=0o700)
+    python = root / '.venv' / 'bin' / 'python'
+    env = {name: value for name, value in os.environ.items()
+           if name not in ('PYTHONPATH', 'PYTHONHOME', 'KICAD_API_SOCKET', 'KICAD_API_TOKEN')}
+    env.update(PYTHONDONTWRITEBYTECODE='1', PYTHONNOUSERSITE='1')
+    commands = (
+        ('environment', [sys.executable, '-B', '-m', 'venv', '--copies', '--without-pip', str(root / '.venv')]),
+        ('doctor', [str(python), '-B', '-m', 'autorouter', 'doctor']),
+        ('launcher', [str(python), '-B', 'scripts/install_gui.py', '--output', str(launcher)]),
+    )
+    for stage, argv in commands:
+        log = setup / (stage + '.log')
+        outcome = run(argv, cwd=root, log=log, timeout=55, env=env,
+                      max_log_bytes=256 * 1024, max_group_rss_bytes=1024**3, max_workdir_bytes=SETUP_PEAK_BYTES)
+        with (setup / (stage + '.json')).open('x') as stream:
+            json.dump(outcome, stream, indent=2); stream.write('\n')
+        if (outcome['status'] != 'success' or outcome['exit_code'] != 0
+                or outcome['log_truncated'] or not outcome['cleanup_complete']):
+            raise ValueError('Local setup stopped at ' + stage + '. Details are in ' + str(log))
+        if stage == 'doctor':
+            checked = json.loads(pv.read_bytes(log, 256 * 1024))
+            if type(checked) is not dict or checked.get('ready') is not True:
+                raise ValueError('Installed dependencies did not pass doctor. Details are in ' + str(log))
+    app = pv.canonical(launcher / 'Open Saved Project.command')
+    if not app.is_file() or not os.access(app, os.X_OK):
+        raise ValueError('Saved-project launcher is missing or unavailable.')
+    return {'workspace_launcher': str(app), 'setup_records': str(setup)}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', default=str(Path(__file__).resolve().parents[1]))
@@ -270,8 +310,21 @@ def main():
     parser.add_argument('--host-paths-json',help='Explicit bounded JSON object with all four existing known tool role locations; no downloads.')
     parser.add_argument('--expected-manifest-sha256',
         help='Required source manifest SHA256 for --install-existing only.')
+    parser.add_argument('--with-launcher', action='store_true',
+        help='Create a fresh local Python environment, check dependencies and prepare Open Saved Project.command on macOS.')
     args = parser.parse_args()
     try:
+        if args.with_launcher:
+            from scripts.backup import BackupError, require_headroom
+
+            if sys.platform != 'darwin' or sys.version_info[:2] != (3, 11):
+                raise ValueError('Launcher preparation requires macOS and the existing Python 3.11.')
+            if not args.install_existing and not args.copy_local_engine:
+                raise ValueError('Launcher preparation requires the existing pinned engine. Use --copy-local-engine.')
+            try:
+                require_headroom(_new_destination(args.output).parent, SETUP_PEAK_BYTES, 'fresh local workspace setup')
+            except BackupError as exc:
+                raise ValueError(str(exc)) from exc
         if args.install_existing:
             if args.copy_local_engine or args.native_version is not None:
                 raise ValueError('Install-existing preserves engine and native selection; build flags refuse.')
@@ -288,6 +341,8 @@ def main():
                 raise ValueError('artifact pin/import/host paths require --install-existing.')
             result = prepare(args.source, args.output, copy_local_engine=args.copy_local_engine,
                              native_version=args.native_version)
+        if args.with_launcher:
+            result.update(prepare_workspace_launcher(result['root']))
         print(json.dumps(result, indent=2))
     except (ValueError, OSError) as exc:
         print('Runtime preparation refused: ' + str(exc), file=sys.stderr)

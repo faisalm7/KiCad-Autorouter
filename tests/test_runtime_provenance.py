@@ -60,6 +60,34 @@ class RuntimeProvenanceTests(unittest.TestCase):
         self.assertEqual(jobs.stat().st_mode & 0o777, 0o700)
         self.assertEqual(list(jobs.iterdir()), [])
 
+    def test_combined_setup_withholds_launcher_after_doctor_refusal(self):
+        self.prepare()
+        seen = []
+
+        def run(argv, *, cwd, log, **_):
+            self.assertEqual(cwd, self.output)
+            seen.append(log.stem)
+            log.write_text('{"ready": false}\n' if log.stem == 'doctor' else '')
+            return dict(status='success', exit_code=0, log_truncated=False, cleanup_complete=True)
+
+        with mock.patch('autorouter.runner.run', side_effect=run):
+            with self.assertRaisesRegex(ValueError, 'did not pass doctor'):
+                build.prepare_workspace_launcher(self.output)
+        self.assertEqual(seen, ['environment', 'doctor'])
+        self.assertFalse((self.output / '.runs' / 'Copperpath Launcher').exists())
+        self.assertTrue((self.output / '.runs' / 'launcher-setup' / 'doctor.json').is_file())
+
+    def test_combined_setup_does_not_modify_an_existing_environment(self):
+        self.prepare()
+        environment = self.output / '.venv'; environment.mkdir()
+        evidence = environment / 'keep'; evidence.write_text('owned environment')
+        with mock.patch('autorouter.runner.run') as run:
+            with self.assertRaisesRegex(ValueError, 'requires a fresh runtime'):
+                build.prepare_workspace_launcher(self.output)
+            run.assert_not_called()
+        self.assertEqual(evidence.read_text(), 'owned environment')
+        self.assertEqual(list((self.output / '.runs').iterdir()), [])
+
     def test_committed_batch_keeps_duplicate_binary_blobs_and_fixed_call_timeout(self):
         payload=b'\x00owned\nbinary blob\n'
         for name in ('autorouter/__init__.py','autorouter/worker.py'):
