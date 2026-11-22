@@ -100,11 +100,15 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     context. [Installed first use](evidence/product-workspace-example-onboarding-001.json)
 22. Improve the first view of the component list. Keep the small example's
     eligible choices visible and withhold board-specific guidance on the
-    empty screen. Recheck the actual layout at 880 × 610.
-23. Keep the three new licensed intake refusals in view. The closest case
-    has an older saved format. Bound an investigation to one supported KiCad
-    upgrade path with exact original-design comparison on a separate copy.
-    Do not route an upgraded board unless the existing preservation gates pass.
+    empty screen. Show the exact Preview refusal beside the saved drawing.
+    Recheck the actual layout at 880 × 610.
+23. **Bounded refusal.** The closest of three new licensed intake leads used
+    the KiCad 7 format. One official upgrade on a separate copy preserved
+    the 24 track identities and geometry in a diagnostic comparison. It
+    added a local settings file and rewrote board structures. Placement
+    still refused the knockout text. The source and additional router rules
+    are retained. Automatic upgrade stays out of the product path.
+    [Intake and upgrade evidence](evidence/product-licensed-legacy-intake-001.json)
 
 ## Verified Finish gaps batch from 2dabd0799
 

@@ -99,6 +99,15 @@ class PreviewRefusalTests(unittest.TestCase):
         log = self.rejection_log(flow, '\n\x1b\t')
         self.assertIsNone(gui.failed_preview_detail(log))
 
+    def test_selected_layer_refusal_uses_plain_language_and_retains_the_full_log(self):
+        flow = self.flow()
+        reason = 'unsupported: Native7 selected source: requires exact two-layer physical F.Cu/B.Cu source order'
+        log = self.rejection_log(flow, reason)
+        text = gui.failed_preview_detail(log)
+        self.assertIn('Selected nets requires front and back copper layers only.', text)
+        self.assertIn(str(log), text)
+        self.assertEqual(json.loads(log.read_bytes())['reason'], reason)
+
     def test_stale_saved_source_takes_precedence_over_diagnostic(self):
         flow = self.flow(); log = self.rejection_log(flow)
         self.board.with_suffix('.kicad_pro').write_bytes(b'changed saved project\n')
@@ -124,6 +133,8 @@ class PreviewRefusalTests(unittest.TestCase):
         self.assertIsNone(window.flow); self.assertIsNone(window.job)
         self.assertFalse(flow.ready); self.assertFalse(flow.records)
         self.assertIsNone(flow.choice)
+        self.assertIn('Saved-project preview refused:', window.status.SetLabel.call_args.args[0])
+        self.assertIn('See Findings for details.', window.status.SetLabel.call_args.args[0])
         text = window.log.SetValue.call_args.args[0]
         self.assertIn(self.reason, text)
         self.assertIn('fresh preview', text)

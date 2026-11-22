@@ -844,8 +844,14 @@ def failed_command_detail(path, label, next_action):
 
 
 def failed_preview_detail(path):
-    return failed_command_detail(path, 'Saved-project preview',
+    detail = failed_command_detail(path, 'Saved-project preview',
         'Start a fresh preview using the intended saved project and settings. No preview or candidate was accepted.')
+    layer_refusal = ('Saved-project preview refused: unsupported: Native7 selected source: '
+                     'requires exact two-layer physical F.Cu/B.Cu source order')
+    if detail is not None and detail.startswith(layer_refusal + '\n'):
+        return ('Saved-project preview refused: Selected nets requires front and back copper layers only.'
+                + detail[len(layer_refusal):])
+    return detail
 
 
 def _warning_review_packet(event, expected_path):
@@ -1865,9 +1871,14 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             if self.flow is not None:
                 self.flow.ready.clear(); self.flow.records.clear(); self.flow.choice = None
             self.flow = None; self.inspected.SetValue(False)
-            self.status.SetLabel('Routing stopped. See Findings for the cause and next action.'
-                                 if error.startswith('Routing refused:') else
-                                 'Action refused or cancelled. See Findings for details and start a fresh preview.')
+            if error.startswith('Saved-project preview refused:'):
+                headline = error.split('\n', 1)[0]
+                status = headline if len(headline) <= 160 else headline[:159] + '…'
+                self.status.SetLabel(status + '\nSee Findings for details.')
+            elif error.startswith('Routing refused:'):
+                self.status.SetLabel('Routing stopped. See Findings for the cause and next action.')
+            else:
+                self.status.SetLabel('Action refused or cancelled. See Findings for details and start a fresh preview.')
             self.log.SetValue(str(error) + '\nNo positive state adopted. Retained files were not deleted.')
             self.refresh()
 

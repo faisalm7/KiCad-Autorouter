@@ -786,8 +786,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.controls = wx.ScrolledWindow(self.pages, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
             self.controls.SetScrollRate(0, 12)
             left = wx.BoxSizer(wx.VERTICAL); side = self.controls
-            left.Add(wx.StaticText(side, label='Movable components'), 0, wx.BOTTOM, 5)
-            self.parts = wx.CheckListBox(side, size=self.FromDIP((280, 108))); left.Add(self.parts, 0, wx.EXPAND)
+            left.Add(wx.StaticText(side, label='Components'), 0, wx.BOTTOM, 5)
+            self.parts = wx.CheckListBox(side, size=self.FromDIP((280, 150))); left.Add(self.parts, 0, wx.EXPAND)
             self.toolbar_pick = wx.Button(side, label='Use KiCad selection' +
                                           (f' ({len(toolbar_selection)})' if toolbar_selection else ''))
             self.toolbar_pick.SetToolTip('Use the component selection captured when this workspace opened. '
@@ -852,7 +852,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             board_layout.Add(board_tools, 0, wx.EXPAND | wx.BOTTOM, 6)
             self.picture = board_canvas(wx, board_page, self.pick_on_board, self.area_on_board, self.preview_failed, self.preview_ready)
             board_layout.Add(self.picture, 1, wx.EXPAND)
-            self.constraint_key = wx.StaticText(board_page, label='Select movable parts on the board or in Settings.')
+            self.constraint_key = wx.StaticText(board_page)
             board_layout.Add(self.constraint_key, 0, wx.EXPAND | wx.TOP | wx.BOTTOM, 5)
             self.pose_pane = wx.Panel(board_page)
             self.alternative = wx.Choice(self.pose_pane); self.alternative.SetMinSize(self.FromDIP((160, -1)))
@@ -1110,7 +1110,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def set_board_scene(self, scene, *, rebuild=False):
             self.board_scene = scene
             self.board_legend = ('Blue selected · Slate fixed · Amber retained · Green zones'
-                                 if scene is not None else 'Choose a saved project to begin.')
+                                 if scene is not None else '')
             if rebuild:
                 self.board_legend = 'Blue selected · Slate fixed · Amber retained · Green zones. Rebuild plan in Findings.'
             self.picture.SetScene(scene)

@@ -84,3 +84,13 @@ source, vias, zone and earlier Native findings are preserved. A future
 four-layer placement-to-routing task needs both placement and selected-route
 transport to preserve the full stack and via spans. This is an exposed board
 and a read-only improvement. [Installed intake](../evidence/product-placement-and-board-findings-001.json)
+
+Three new pinned public designs had separate admission limits. The narrow
+Pi RGB sync mixer trial used official KiCad 10.0.7 once on a separate working
+copy. The upgrade kept the track IDs, geometry, layers, nets and locks in
+the diagnostic readback. Full immutable comparison still differed, KiCad
+added a `.kicad_prl`, and one back-silkscreen knockout text record remained
+outside placement support. A separate Freerouting `.rules` file is preserved
+and its application to a future task is unresolved. The unchanged originals
+remain the reference. The trial ended without routing or adopting the copy.
+[Pinned intake and measured result](../evidence/product-licensed-legacy-intake-001.json)
