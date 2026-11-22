@@ -23,6 +23,7 @@ SAVED_APP = 'Copperpath.app'
 APP_EXECUTABLE = f'{SAVED_APP}/Contents/MacOS/Copperpath'
 APP_INFO = f'{SAVED_APP}/Contents/Info.plist'
 APP_ICON = f'{SAVED_APP}/Contents/Resources/Route.icns'
+FINDER_REFUSAL_SHOWN = 20
 IMMUTABLE_FILES = frozenset(('Open Saved Project.command', 'Launch Autorouter.command', 'README.txt', 'initial-kicad_common.json',
     'initial-kicad.json', APP_EXECUTABLE, APP_INFO, APP_ICON,
     *(PLUGIN + name for name in ('plugin.json', 'launch-autorouter', 'route24.png', 'route48.png'))))
@@ -33,7 +34,8 @@ saved .kicad_pro alongside its matching PCB and schematic. Copperpath inspects
 the saved project and displays its board. If it is open in KiCad, save and
 close both editors, then choose File > Close Project in KiCad manager. Back in
 Copperpath, click Refresh inspection. You can also enter the path and press Return.
-Open Saved Project.command shows Terminal diagnostics if Copperpath cannot open.
+If startup checks refuse, the Finder dialog shows the reason. Open Saved
+Project.command remains available for Terminal diagnostics.
 
 For the optional PCB toolbar, double-click Launch Autorouter.command. It starts
 the existing KiCad manager with configuration, plugins, PCM content and cache
@@ -87,6 +89,22 @@ def launch_command(python, flag, manifest):
     return shlex.join((str(python), '-B', str(c.ROOT / 'scripts/install_gui.py'), flag, str(manifest)))
 
 
+def finder_refusal(error):
+    """Display the checked startup reason as literal text."""
+    script = ('on run arguments\n'
+              'display alert "Copperpath could not open" message (item 1 of arguments) as warning giving up after 45\n'
+              'end run')
+    detail = ' '.join(str(error).split())[:500]
+    message = (detail + '\n\nOpen Copperpath from its original launcher folder. '
+               'If you moved the installation, set up a fresh copy from the verified artifact.')
+    try:
+        result = subprocess.run(['/usr/bin/osascript', '-e', script, '--', message],
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+        return result.returncode == 0
+    except (OSError, subprocess.SubprocessError):
+        return False
+
+
 def prepare_saved_app(output, python):
     """Create a small local app around the same pinned saved-project entry."""
     executable, info, icon = (output / name for name in (APP_EXECUTABLE, APP_INFO, APP_ICON))
@@ -101,12 +119,14 @@ def prepare_saved_app(output, python):
     image = b'ic07' + (len(png) + 8).to_bytes(4, 'big') + png
     with icon.open('xb') as stream:
         stream.write(b'icns' + (len(image) + 8).to_bytes(4, 'big') + image)
-    command = launch_command(python, '--open-saved', output / 'install.json')
+    command = launch_command(python, '--open-saved-finder', output / 'install.json')
     alert = ('display alert "Copperpath could not open" message '
-             '"For details, double-click Open Saved Project.command in this launcher folder." as warning')
+             '"Check that the original installation and its local Python environment are present. '
+             'Open Saved Project.command in the launcher folder can show startup diagnostics." as warning giving up after 45')
     with executable.open('x') as stream:
         stream.write('#!/bin/sh\nunset PYTHONPATH PYTHONHOME KICAD_API_SOCKET KICAD_API_TOKEN\n'
-                     + f'if {command}; then exit 0; fi\n'
+                     + command + '\nlauncher_exit=$?\n'
+                     + f'case "$launcher_exit" in 0) exit 0;; {FINDER_REFUSAL_SHOWN}) exit 2;; esac\n'
                      + '/usr/bin/osascript -e ' + shlex.quote(alert) + '\nexit 2\n')
     executable.chmod(0o700)
     return executable, info, icon
@@ -316,16 +336,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--output'); mode.add_argument('--launch'); mode.add_argument('--open-saved')
+    mode.add_argument('--open-saved-finder', help=argparse.SUPPRESS)
     parser.add_argument('--checked-move-editor', help='Existing signed KiCad 10.0.8 app for the isolated example')
     args = parser.parse_args()
     if args.checked_move_editor is not None and args.output is None:
         parser.error('Use --checked-move-editor only when preparing a new output folder.')
     try:
         if args.launch: launch(args.launch)
-        elif args.open_saved: launch(args.open_saved, direct=True)
+        elif args.open_saved or args.open_saved_finder:
+            launch(args.open_saved or args.open_saved_finder, direct=True)
         else: print(json.dumps(prepare(args.output, checked_move_editor=args.checked_move_editor), indent=2))
     except (ValueError, p.Rejected, OSError, ImportError) as exc:
         print('Launcher refused: ' + str(exc), file=sys.stderr)
+        if args.open_saved_finder and finder_refusal(exc):
+            return FINDER_REFUSAL_SHOWN
         return 2
     return 0
 

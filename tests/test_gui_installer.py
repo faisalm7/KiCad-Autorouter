@@ -1,5 +1,7 @@
 """Portable preparation/launch seams; no real KiCad/GUI is launched here."""
 import json
+from contextlib import redirect_stderr
+import io
 import os
 from pathlib import Path
 import plistlib
@@ -8,7 +10,7 @@ import tempfile
 import subprocess
 import sys
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from scripts import install_gui as g
 
@@ -19,6 +21,22 @@ class GuiInstallerTests(unittest.TestCase):
                                 capture_output=True, timeout=5)
         self.assertEqual(result.returncode, 2)
         self.assertIn(b'Launcher refused:', result.stderr)
+
+    def test_finder_refusal_displays_only_literal_startup_details(self):
+        details = 'Prepared launcher identity differs. "Invalid" \\ sample'
+        with patch.object(g.subprocess, 'run', return_value=Mock(returncode=0)) as alert, \
+                patch.object(g, 'launch', side_effect=ValueError(details)) as launch, \
+                patch.object(g.sys, 'argv', ['install_gui', '--open-saved-finder', 'test-install.json']), \
+                redirect_stderr(io.StringIO()) as diagnostic:
+            self.assertEqual(g.main(), g.FINDER_REFUSAL_SHOWN)
+        launch.assert_called_once_with('test-install.json', direct=True)
+        args = alert.call_args.args[0]
+        self.assertEqual(args[:2], ['/usr/bin/osascript', '-e'])
+        self.assertEqual(args[3], '--')
+        self.assertNotIn(details, args[2])
+        self.assertIn(details, args[4])
+        self.assertIn('fresh copy from the verified artifact', args[4])
+        self.assertIn(details, diagnostic.getvalue())
 
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
@@ -124,8 +142,8 @@ class GuiInstallerTests(unittest.TestCase):
         self.assertTrue(os.access(executable, os.X_OK))
         self.assertEqual(plistlib.loads(info.read_bytes())['CFBundleExecutable'], executable.name)
         invocation = shlex.split(executable.read_text().splitlines()[2])
-        self.assertEqual(invocation[:7], ['if', str(self.checkout / '.venv/bin/python'), '-B',
-            str(self.checkout / 'scripts/install_gui.py'), '--open-saved', str(self.output / 'install.json') + ';', 'then'])
+        self.assertEqual(invocation, [str(self.checkout / '.venv/bin/python'), '-B',
+            str(self.checkout / 'scripts/install_gui.py'), '--open-saved-finder', str(self.output / 'install.json')])
         for name in (g.APP_EXECUTABLE, g.APP_INFO, g.APP_ICON):
             self.assertEqual(record['immutable_files'][name], g.digest(self.output / name))
         info.write_bytes(b'changed')
