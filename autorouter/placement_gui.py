@@ -1282,7 +1282,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.assistant_ask.Enable(not self.busy and (bool(self.board.GetValue()) if routing else self.inspection is not None))
                 self.conversation_reset.Enable(not self.busy)
                 self.conversation_kind.Enable(not self.busy)
-                self.assistant_result.Show(bool(self.conversation.turns))
+                self.assistant_result.Show(self.conversation.has_display_history)
             if hasattr(self, 'assistant_use'):
                 self.assistant_ask.Enable(not self.busy and self.inspection is not None)
                 self.assistant_ack.Enable(not self.busy and self.pending_copilot is not None)

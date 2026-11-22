@@ -129,6 +129,9 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     retains setting edits and keeps local history out of hosted requests.
     Explain the observed outside-area refusal with the component's reference
     and the next available action.
+28. Keep verified open-connection and finding counts above the board during
+    review. Check that they remain visible when switching layers or reading
+    details at laptop size, and clear when the current review is invalidated.
 
 ## Verified Finish gaps batch from 2dabd0799
 

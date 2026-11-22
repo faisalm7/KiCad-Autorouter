@@ -1515,7 +1515,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             layout = wx.BoxSizer(wx.VERTICAL)
             back = wx.Button(left, label='Back to workspace')
             back.Bind(wx.EVT_BUTTON, lambda _: self.Close())
-            layout.Add(back, 0, wx.BOTTOM, 8)
+            overview = wx.BoxSizer(wx.HORIZONTAL)
+            overview.Add(back, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 10)
+            self.findings_header = wx.StaticText(left)
+            self.findings_header.SetFont(self.findings_header.GetFont().Bold())
+            overview.Add(self.findings_header, 0, wx.ALIGN_CENTER_VERTICAL)
+            layout.Add(overview, 0, wx.EXPAND | wx.BOTTOM, 8)
             self.workspace_tabs = wx.Notebook(left)
             copper = wx.Panel(self.workspace_tabs); drawing = wx.BoxSizer(wx.VERTICAL)
             self.placement_scene = placement
@@ -1541,9 +1546,6 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.review_key.SetSizer(key); drawing.Add(self.review_key, 0, wx.EXPAND | wx.ALL, 6)
             copper.SetSizer(drawing)
             findings = wx.Panel(self.workspace_tabs); details = wx.BoxSizer(wx.VERTICAL)
-            self.findings_header = wx.StaticText(findings, label='Checks and findings will appear here.')
-            self.findings_header.SetFont(self.findings_header.GetFont().Bold())
-            details.Add(self.findings_header, 0, wx.EXPAND | wx.ALL, 8)
             self.log = wx.TextCtrl(findings, style=wx.TE_MULTILINE | wx.TE_READONLY, name='KiCad checks and findings')
             details.Add(self.log, 1, wx.EXPAND | wx.ALL, 6); findings.SetSizer(details)
             self.workspace_tabs.AddPage(copper, 'Board')
@@ -2049,7 +2051,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     self.net_picker.Show(selected)
                 if self.workspace_render is not None and 'review' not in ready:
                     self.show_workspace_review(None)
-                if not ready: self.findings_header.SetLabel('Current task checks and findings')
+                if not ready: self.findings_header.SetLabel('')
             self.layout_panel()
 
         def act(self, action):
@@ -2304,8 +2306,10 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     if native is not None:
                         source_blocked = (gaps is not None and gaps['status'] in {'blocked', 'unsupported'}
                                           or stage == 'inspect' and bool(report.get('source_delivery', {}).get('reasons')))
+                        count = native['warnings']
+                        warnings = 'warning' if count == 1 else 'warnings'
                         self.findings_header.SetLabel('Saved source blocks delivery' if source_blocked else
-                            f"{native['opens']} open · {native['blocking']} blocking · {native['warnings']} warnings after refill")
+                            f"{native['opens']} open · {native['blocking']} blocking · {count} {warnings}")
                         self.findings_header.GetParent().Layout()
                     if workspace_render is not None:
                         self.show_workspace_review(workspace_render)
