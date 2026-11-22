@@ -124,14 +124,19 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     KEEP exact through same-window review, fresh export and independent
     readback. The earlier permissive preview and the first source's
     outside-area refusal remain recorded. [Installed protection](evidence/product-placement-preserve-review-001.json)
-27. Keep the adopted local placement request and its actual settings visible
-    beside routing. Verify the installed display uses the current source,
-    retains setting edits and keeps local history out of hosted requests.
-    Explain the observed outside-area refusal with the component's reference
-    and the next available action.
-28. Keep verified open-connection and finding counts above the board during
-    review. Check that they remain visible when switching layers or reading
-    details at laptop size, and clear when the current review is invalidated.
+27. **Verified.** The installed app displayed the local request and edited
+    settings beside the board and in the routing handoff. Source edits
+    refused dispatch and cleared the visible history on refresh. The
+    outside-area refusal named J1 and gave the next action. Local history
+    stays outside the hosted request transcript.
+    [Installed checks](evidence/product-local-plan-and-review-layout-001.json)
+28. **Verified.** Native counts stayed above Board and Findings at 880 × 610
+    and cleared on settings edit. The installed retained-review display kept
+    its verified counts visible on both copper layers.
+    [Installed display](evidence/product-local-plan-and-review-layout-001.json)
+29. Surface the concrete Finder startup refusal and a safe recovery action in
+    the launcher dialog. Verify a clean relocated install and a disposable
+    identity fault. Preserve pinned host checks and the diagnostic command.
 
 ## Verified Finish gaps batch from 2dabd0799
 
