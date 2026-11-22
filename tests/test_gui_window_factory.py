@@ -168,6 +168,24 @@ class WindowFactory(unittest.TestCase):
             gui.main([])
         create.assert_not_called(); wx.App.assert_not_called()
 
+    def test_saved_copy_restart_waits_for_closed_routing_view(self):
+        notes = []
+        target = self.root / 'exported.kicad_pcb'
+        wx = self.wx(object())
+        window = SimpleNamespace(closing=True, busy=True, timer=Mock(), Destroy=lambda: notes.append('destroy'),
+            _next_saved_source=target, _on_closed=lambda: notes.append('return'),
+            _on_saved_source=lambda board: notes.append(board))
+        with patch.dict(sys.modules, wx=wx):
+            self.assertFalse(gui._finish_window_close(window))
+            wx.CallAfter.assert_not_called()
+            window.busy = False
+            self.assertTrue(gui._finish_window_close(window))
+            callback, = wx.CallAfter.call_args.args
+            self.assertEqual(notes, ['destroy'])
+            callback()
+            self.assertFalse(gui._finish_window_close(window))
+        self.assertEqual(notes, ['destroy', 'return', target])
+
     def test_real_constructor_bounds_long_path_and_choice_minima_and_expands_panel(self):
         wx = passive_wx()
         long_path = '/owned saved project/' + '/nested working folder' * 30 + '/board.kicad_pcb'

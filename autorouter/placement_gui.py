@@ -1811,6 +1811,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if dialog.ShowModal() != wx.ID_OK:
                     return
                 selected = dialog.GetPath()
+            self.open_saved_source(selected)
+
+        def open_saved_source(self, selected):
+            if self.busy or self.gate.closed or self.routing is not None:
+                return
             try:
                 selected_board = str(gui.saved_project_board(selected))
             except (OSError, ValueError, Rejected) as exc:
@@ -2309,6 +2314,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                            if self.conversation.source else '')
                 frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished,
                     parent=self, placement_scene=self.picture.display, conversation_history=history,
+                    on_saved_source=self.open_saved_source,
                     source_note='Placement checked. Routing uses a separate project copy.')
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
@@ -2401,7 +2407,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     else:
                         net_context = dict(source=str(source), source_hashes=self.inspection['source_hashes'], names=names)
             frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self,
-                                      conversation_history=history, saved_scene=scene, saved_net_context=net_context)
+                                      conversation_history=history, saved_scene=scene, saved_net_context=net_context,
+                                      on_saved_source=self.open_saved_source)
             try:
                 if self.routing_output_hint is not None:
                     frame.output.SetValue(self.routing_output_hint)

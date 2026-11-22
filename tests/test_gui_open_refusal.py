@@ -40,6 +40,12 @@ class OpenRefusalText(unittest.TestCase):
   self.assertIn('Earlier approval does not accept those changes.',text)
   self.assertNotIn('Your PCB is unchanged',text)
   self.assertEqual(gui.open_refusal_text('export',None),'None')
+ def test_workspace_restarts_with_fresh_inspection_and_review(self):
+  for reason in ('export project changed','export inputs/runtime/evidence changed'):
+   text=gui.open_refusal_text('export',reason,restart_copy=True)
+   for advice in ('Save and close','Start from this copy','fresh inspection','Review and approve'):
+    self.assertIn(advice,text)
+   self.assertTrue(text.endswith(reason))
  def test_whole_module_is_the_product_source(self):
   self.assertEqual(Path(gui.__file__).resolve(),TARGET)
 

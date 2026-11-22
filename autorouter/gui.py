@@ -45,7 +45,7 @@ SUMMARY_LIMIT = 128 * 1024
 TOOLBAR_SELECTION_LIMIT = 64
 
 
-def open_refusal_text(kind, error):
+def open_refusal_text(kind, error, *, restart_copy=False):
     """Explain known export freshness errors without changing any decision."""
     reason = str(error)
     freshness_errors = (
@@ -60,7 +60,12 @@ def open_refusal_text(kind, error):
         'export changed during placement origin check',
         'export project changed',
     )
-    if kind == 'export' and any(text in reason.casefold() for text in freshness_errors):
+    changed_export = kind == 'export' and any(text in reason.casefold() for text in freshness_errors)
+    if kind == 'export' and restart_copy and (changed_export or 'export inputs/runtime/evidence changed' in reason.casefold()):
+        return ('The export no longer passes its recorded checks. Save and close its KiCad project, then choose '
+                'Start from this copy for a fresh inspection. Review and approve any new result.\n\n'
+                'Details: ' + reason)
+    if changed_export:
         return ('This export no longer matches its recorded checks, so checked opening has stopped.\n'
             'KiCad may update project/local settings or create backups even if the PCB is unchanged. '
             'Earlier approval does not accept those changes.\n'
@@ -1227,17 +1232,27 @@ def _finish_window_close(window):
                    for name in ('chooser', 'warning_dialog', 'placement_window'))
             or getattr(window, '_close_finalized', False)):
         return False
+    callback = getattr(window, '_on_closed', None)
+    next_source = getattr(window, '_next_saved_source', None)
+    open_source = getattr(window, '_on_saved_source', None)
     window._close_finalized = True
     window.timer.Stop(); window.Destroy()
-    callback = getattr(window, '_on_closed', None)
-    if callback is not None:
+    if next_source is not None and open_source is not None:
+        import wx
+        def restart():
+            if callback is not None:
+                callback()
+            open_source(next_source)
+        wx.CallAfter(restart)
+    elif callback is not None:
         import wx
         wx.CallAfter(callback)
     return True
 
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
-                  placement_scene=None, conversation_history='', saved_scene=None, saved_net_context=None):
+                  placement_scene=None, conversation_history='', saved_scene=None, saved_net_context=None,
+                  on_saved_source=None):
     """Create routing controls in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1245,6 +1260,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
     """
     if on_closed is not None and not callable(on_closed):
         raise ValueError('The parent close notification must be a callable.')
+    if on_saved_source is not None and (parent is None or not callable(on_saved_source)):
+        raise ValueError('Starting from an exported copy needs the saved-project workspace.')
     try: import wx
     except ImportError as exc:
         raise SystemExit('wx is unavailable. Launch with the pinned KiCad bundled Python; no packages were installed.') from exc
@@ -1266,6 +1283,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.SetMinSize(self.FromDIP((720, 640)))
             self.flow = None; self.job = None; self.busy = False; self.closing = False
             self._on_closed = on_closed; self._close_finalized = False
+            self._on_saved_source = on_saved_source
+            self._next_saved_source = None
+            self.exported_project = None
             self.source_guard = source_guard
             self.private_placement_source = (self.in_workspace and source_guard is not None and
                                              source_guard.placement_origin is not None)
@@ -1421,12 +1441,15 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                                  ('Accept result', 'accept'), ('Reject', 'reject'), ('Export checked copy', 'export'),
                                  ('Open checked export', 'open_export'), ('Cancel job', 'cancel')),
                                 (('Detailed report', 'open_preview'), ('Open review in KiCad', 'open_review')))
+                if on_saved_source is not None:
+                    names_by_row += ((('Start from this copy…', 'restart_export'),),)
             for names in names_by_row:
                 row = wx.BoxSizer(wx.HORIZONTAL)
                 for label, name in names:
                     button = wx.Button(status_host, label=label)
                     button.Bind(wx.EVT_BUTTON, lambda event, action=name: self.act(action))
                     if name == 'open_preview': button.SetToolTip('Full KiCad layer plots include pads and saved zone fill.')
+                    if name == 'restart_export': button.SetToolTip('Inspect the exported project as a fresh saved source.')
                     self.buttons[name] = button; row.Add(button, 0, wx.ALL, 4)
                 actions.Add(row, 0, wx.ALL, 2)
             self.status = wx.StaticText(status_host, label=('Confirm the saved input is closed, then preview routing.' if self.in_workspace
@@ -1621,6 +1644,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             # The acknowledgement names these exact paths. Typing and Browse
             # both emit EVT_TEXT; routing-only settings keep this source intent.
             self.ack.SetValue(False)
+            self.exported_project = None
             if event.GetEventObject() is self.board:
                 self.intro.SetLabel('Inspect the selected saved project or place components.')
             self.changed(event)
@@ -1965,7 +1989,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 'accept': 'review' in ready and 'choice' not in ready,
                 'reject': 'review' in ready and 'choice' not in ready,
                 'export': 'choice' in ready and 'export' not in ready and self.flow.choice == 'accept' if self.flow else False,
-                'open_export': 'verify_export' in ready}
+                'open_export': 'verify_export' in ready,
+                'restart_export': getattr(self, 'exported_project', None) is not None}
             if gaps is not None and gaps['status'] != 'ready':
                 allowed['route'] = False
             for name, button in self.buttons.items(): button.Enable(not choosing and (self.busy if name == 'cancel' else not self.busy and allowed.get(name, False)))
@@ -2003,6 +2028,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                         self.status.SetLabel('Cancellation requested; waiting for the CLI worker to finish cleanup.')
                     return
                 if self.busy: return
+                if action == 'restart_export':
+                    if self._on_saved_source is None or self.exported_project is None or self.closing:
+                        raise ValueError('Export a checked project before starting a fresh task from it.')
+                    self._next_saved_source = saved_project_board(self.exported_project)
+                    self.Close()
+                    return
                 if action.startswith('open_'):
                     kind = action.removeprefix('open_'); flow = self.flow
                     self.busy = True; self.job = CliJob(); self.refresh()
@@ -2177,8 +2208,10 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     self.log.SetValue(_completed_summary(self.flow, stage, self.flow.records[stage]))
                     label = {'preview': 'Preview', 'review': 'Review project', 'export': 'Checked export'}[kind]
                     self.status.SetLabel(label + ' open requested. Separate workspace: ' + str(self.flow.workspace))
-                except Exception as exc: self.refused(open_refusal_text(kind, 'Could not open retained project: ' + str(exc)))
-            else: self.refused(open_refusal_text(kind, error or 'Inspection was cancelled. No project was opened.'))
+                except Exception as exc: self.refused(open_refusal_text(kind, 'Could not open retained project: ' + str(exc),
+                    restart_copy=getattr(self, 'exported_project', None) is not None))
+            else: self.refused(open_refusal_text(kind, error or 'Inspection was cancelled. No project was opened.',
+                restart_copy=getattr(self, 'exported_project', None) is not None))
             self.refresh()
             if self.closing: _finish_window_close(self)
 
@@ -2210,6 +2243,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     self.findings_header.SetLabel('No current result'); self.workspace_tabs.SetSelection(1)
             else:
                 self.flow = flow
+                if stage == 'export' and getattr(self, '_on_saved_source', None) is not None:
+                    self.exported_project = Path(flow.records['export']['project_file'])
                 if stage == 'inspect': self.inspection_path = flow.workspace / 'inspection/inspection.json'
                 self.log.SetValue(_completed_summary(flow, stage, record))
                 if getattr(self, 'in_workspace', False):

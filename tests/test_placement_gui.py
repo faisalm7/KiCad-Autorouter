@@ -76,6 +76,7 @@ class PlacementGuiTests(unittest.TestCase):
             current_review_settings=Mock(), overview=Mock(), region_summary=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock(),
             panel=Mock(), GetSizer=Mock(), Layout=Mock())
+        window.open_saved_source = MethodType(window_method('open_saved_source'), window)
         window.picture.Ready.return_value = True
         window.copper_policy.GetSelection.return_value = 0
         window.rigid_group.GetValue.return_value = False
