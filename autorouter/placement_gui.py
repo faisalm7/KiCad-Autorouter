@@ -223,9 +223,8 @@ def affected_routing_notice(source):
 
     try:
         check_native7_selected_netclasses(source)
-    except (OSError, ValueError, Rejected):
-        return ('These net-class settings block routing after copper rebuild. '
-                'Selected-net routing here requires Default alone, with no assignments or patterns.')
+    except (OSError, ValueError, Rejected) as exc:
+        return 'These net-class settings block routing after copper rebuild. ' + str(exc)
     return ''
 
 

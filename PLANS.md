@@ -30,11 +30,12 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    changes. The new IPC capture still needs an actual toolbar check after the
    existing editor session can be closed safely.
    [Selection evidence](evidence/product-toolbar-selection-001.json)
-6. **In progress.** Test whether the retained 555 placement task can export
-   and partition its two original class populations without changing their
-   rules. Use one bounded Native export plus the existing adapter and reader.
-   A pass permits a separate selected-native integration with original-class,
-   protected-copper, final and delivery checks. Keep the earlier refusal.
+6. **In progress.** The retained 555 task passed a bounded Native export and
+   preserved both class rule sets through partitioning. Qualify the new
+   composition on one frozen owned two-class task through fresh checked
+   delivery. Then try the unchanged 555 routing task under its existing
+   budgets. Reuse the earlier placement evidence and keep its original
+   routing refusal. [Transport observation](evidence/product-native-named-class-probe-001.json)
 
 ## Verified Finish gaps batch from 2dabd0799
 

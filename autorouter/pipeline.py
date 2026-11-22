@@ -41,6 +41,7 @@ ENGINE_GLOBAL_WIDTH_POLICY='original-global-minimum-width-v1'
 DEFAULT_TARGET_ADMISSION_POLICY='single-default-global-floor-targets-v2'
 NATIVE7_SELECTED_DEFAULT_POLICY='native7-selected-sole-default-v1'
 NATIVE7_SELECTED_LEGACY_POLICY='native7-selected-legacy-table-v1'
+NATIVE7_SELECTED_NAMED_POLICY='native7-selected-named-class-v1'
 NATIVE7_TUNED_LOW_POLICY='native7-tuned-low-sole-default-v1'
 SELECTED_PLANE_CHOICE_POLICY='native7-selected-plane-choice-v1'
 FINISH_GAPS_POLICY='native-missing-connections-v1'
@@ -1370,7 +1371,7 @@ def audit_candidate_netclasses(candidate, protected, native, *, native_toolchain
     return result
 
 
-def check_native7_selected_netclasses(board):
+def check_native7_selected_netclasses(board, *, original=None):
     """One saved-project class rule shared by admission and placement guidance."""
     from . import default_targets as targets
     from .placement_clearance import read_bytes
@@ -1382,11 +1383,31 @@ def check_native7_selected_netclasses(board):
     if type(settings) is not dict:
         raise ValueError('selected Native7 net_settings object required')
     classes = settings.get('classes', [{'name': 'Default'}])
-    if (type(classes) is not list or len(classes) != 1
-            or type(classes[0]) is not dict or classes[0].get('name') != 'Default'
-            or settings.get('netclass_assignments') not in (None, {})
-            or settings.get('netclass_patterns') not in (None, []) or netclass_policy(board) is not None):
-        raise ValueError('selected Native7 requires sole Default without assignments or patterns')
+    if (type(classes) is list and len(classes) == 1
+            and type(classes[0]) is dict and classes[0].get('name') == 'Default'
+            and settings.get('netclass_assignments') in (None, {})
+            and settings.get('netclass_patterns') in (None, []) and netclass_policy(board) is None):
+        return None
+    from .board_floor import source_net_identity
+    from .layer_policy import _two_copper_table
+    from .netclass import selected_class_assignments
+    try:
+        assignments = selected_class_assignments(project)
+        if original is None:
+            original = sx.parse(read_bytes(board).decode('utf-8'))
+        if sx.one(original, 'version') != ['version', '20260206']:
+            raise ValueError('Named classes need the supported current PCB format.')
+        _two_copper_table(original)
+        if any(sx.one(part, 'net_tie_pad_groups') is not None for part in sx.children(original, 'footprint')):
+            raise ValueError('Selected routing with both named classes and a net tie is not supported.')
+        declared, _ = source_net_identity(original)
+        if not assignments.keys() <= declared:
+            raise ValueError('A named class refers to a net missing from this board.')
+        if not native_edge_context(board, known_named=True)['applicable']:
+            raise ValueError('The board edge or custom rules cannot be preserved in this class workflow.')
+    except (OSError, TypeError, KeyError, ValueError) as exc:
+        raise ValueError('Selected routing needs sole Default or one supported named class. ' + str(exc)) from exc
+    return NATIVE7_SELECTED_NAMED_POLICY
 
 
 def check_native7_selected_source(board,names):
@@ -1409,11 +1430,12 @@ def check_native7_selected_source(board,names):
                         or sx.unquote(name[1])!=resolve(sx.one(zone,'net'))):
                     raise ValueError('selected20241229 zone name differs from its legacy net code')
         _two_copper_table(original)
-        check_native7_selected_netclasses(board)
+        class_policy = check_native7_selected_netclasses(board, original=original)
         selected_proposal_protection(original,names)  # No new selected-lock fallback admission.
         read_bytes(board.with_suffix('.kicad_sch'))  # Actual fullSCH validation is still mandatory.
     except (OSError,ValueError,TypeError,KeyError,Rejected) as exc:
         raise Rejected('unsupported: Native7 selected source: '+str(exc)) from exc
+    return class_policy
 
 
 def native7_tuned_low_request(profile,scoring):
@@ -1523,6 +1545,9 @@ def check_default_target_transport(directory,data,original,candidate,*,input_pol
     names=('default-targets.json','default-targets.dsn')
     marked=('default_target_transport' in data or any((directory/name).exists()
         or (directory/name).is_symlink() for name in names))
+    named_marked = 'native7_selected_class_policy' in data
+    if named_marked and not selected:
+        raise Rejected('Named-class evidence outside selected Native7 routing')
     if not selected and not marked and (native_toolchain is not None or c.NATIVE_VERSION!='10.0.7'
             or input_policy!='native' or data.get('adapter')!='both' or data.get('strategy') is not None
             or data.get('scope') not in scopes):
@@ -1535,7 +1560,31 @@ def check_default_target_transport(directory,data,original,candidate,*,input_pol
     if hashlib.sha256(raw_code).hexdigest()!=data.get('tools',{}).get('implementation_sha256',{}).get('autorouter/pipeline.py'):
         raise Rejected('Default target captured producer differs')
     declared=policy_declaration(raw_code,name='DEFAULT_TARGET_ADMISSION_POLICY',expected=DEFAULT_TARGET_ADMISSION_POLICY)
+    selected_names = None
     if selected:
+        snapshot = directory/'snapshot'/candidate.name
+        if tree_hash(snapshot.parent) != data['source_hashes']:
+            raise Rejected('Original selected routing snapshot changed')
+        try:
+            selected_names = selected_scope_names(data)
+        except (ValueError, TypeError, KeyError) as exc:
+            raise Rejected('Native7 selected captured choice required') from exc
+        effective = data['routing_preferences']['effective']
+        require_native_scope(scope='selected_nets', guidance=input_policy, layers=effective['layers'],
+            profile=data['engine_profile'], adapter=data['adapter'], scoring=data.get('scoring_variant'))
+        class_policy = check_native7_selected_source(snapshot, selected_names)
+        if class_policy == NATIVE7_SELECTED_NAMED_POLICY:
+            named = policy_declaration(raw_code, name='NATIVE7_SELECTED_NAMED_POLICY', expected=class_policy)
+            from . import selected_plane_transport as selected_planes
+            if (named != class_policy or data.get('native7_selected_class_policy') != class_policy
+                    or marked or data.get('strategy') is not None or layer_markers(directory, data)
+                    or selected_planes.choice(directory, data) != selected_planes.BASELINE):
+                raise Rejected('Missing or conflicting selected named-class transport evidence')
+            f.process_check(directory, data, 'export', [*native_prefix(), 'export', str(candidate),
+                str(directory/'task.dsn'), str(directory/'export-netclasses.json'), '--task-copper-fixed'])
+            return None  # The ordinary class audit below verifies raw DSN and prepartition rules.
+        if named_marked:
+            raise Rejected('Named-class evidence does not match the saved project')
         capability=policy_declaration(raw_code,name='NATIVE7_SELECTED_DEFAULT_POLICY',expected=NATIVE7_SELECTED_DEFAULT_POLICY)
         if capability!=NATIVE7_SELECTED_DEFAULT_POLICY:
             raise Rejected('Native7 selected requires its captured producer capability')
@@ -1551,19 +1600,11 @@ def check_default_target_transport(directory,data,original,candidate,*,input_pol
     snapshot=directory/'snapshot'/candidate.name
     if tree_hash(snapshot.parent)!=data['source_hashes']:
         raise Rejected('Default target original snapshot changed')
-    selected_names=None
     if selected:
-        try:selected_names=selected_scope_names(data)
-        except (ValueError,TypeError,KeyError) as exc:
-            raise Rejected('Native7 selected captured choice required') from exc
-        effective=data['routing_preferences']['effective']
-        require_native_scope(scope='selected_nets',guidance=input_policy,layers=effective['layers'],
-            profile=data['engine_profile'],adapter=data['adapter'],scoring=data.get('scoring_variant'))
         if sx.one(sx.parse(read_bytes(snapshot).decode('utf-8')),'version')==['version','20241229']:
             legacy=policy_declaration(raw_code,name='NATIVE7_SELECTED_LEGACY_POLICY',expected=NATIVE7_SELECTED_LEGACY_POLICY)
             if legacy!=NATIVE7_SELECTED_LEGACY_POLICY:
                 raise Rejected('Native7 selected20241229 requires its captured legacy producer capability')
-        check_native7_selected_source(snapshot,selected_names)
     task_raw=(sx.dump(routing_task(original,data['scope'],selected_names))+'\n').encode()
     if hashlib.sha256(task_raw).hexdigest()!=data.get('task_sha256'):
         raise Rejected('Default target original task differs')
@@ -1582,7 +1623,8 @@ def check_default_target_transport(directory,data,original,candidate,*,input_pol
 
 
 def check_final_netclass_evidence(directory,data,candidate,protected,*,native_toolchain=None,
-                                  default_target_policy=False,sandboxed=False,default_target_basis=None):
+                                  default_target_policy=False,sandboxed=False,default_target_basis=None,
+                                  named_class_basis=None):
     """One final raw-class/generated-target/process audit for Route and export."""
     from . import floor_route as f
     directory=Path(directory);candidate=Path(candidate)
@@ -1592,6 +1634,10 @@ def check_final_netclass_evidence(directory,data,candidate,protected,*,native_to
     audited['native_map_file_sha256']=sha(mapping)
     if f.read_json(directory/'final-netclass-audit.json')!=audited:
         raise Rejected('retained native netclass audit differs from candidate')
+    if named_class_basis is not None:
+        from .netclass import check_selected_class_rows
+        check_selected_class_rows(f.read_json(candidate.with_suffix('.kicad_pro')),
+                                  audited['native']['nets'], basis=named_class_basis)
     if default_target_policy:
         basis=f.read_json(directory/'default-targets.json') if default_target_basis is None else default_target_basis
         for key in ('policy','raw_nm','original_floors_nm','derived_nm'):
@@ -1794,8 +1840,11 @@ def check_legacy_zone_evidence(directory,original,candidate,*,implementation=Non
         if canonical(actual)!=canonical(expected):raise Rejected('missing or changed legacy zone witness')
 
 
-def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False, class_context=None, default_target_policy=False):
+def validate_candidate(job, original, candidate, source_hashes, protected, *, guidance_contract=None, guidance_basis=None, layer_contract=None, selected_names=None, schematic_parity=False, class_context=None, default_target_policy=False, named_class_basis=None):
     if type(default_target_policy) is not bool:raise Rejected('explicit Default target validation flag required')
+    if named_class_basis is not None and (not selected_names or default_target_policy or guidance_contract is not None
+            or layer_contract is not None or getattr(job, 'native_toolchain', None) is not None):
+        raise Rejected('Named-class basis requires ordinary selected Native validation.')
     # A complete captured native schematic must participate in final acceptance
     # for every routing scope, including optimizer trials and fresh exports.
     schematic_parity=schematic_parity or Path(candidate).with_suffix('.kicad_sch').name in source_hashes
@@ -1849,6 +1898,10 @@ def validate_candidate(job, original, candidate, source_hashes, protected, *, gu
         job.native('final-netclasses','netclasses',candidate,mapping)
         if netclass_policy(candidate) is not None or getattr(job,"native_toolchain",None) is not None or default_target_policy:
             audited=audit_candidate_netclasses(candidate,protected,json.loads(mapping.read_text()),native_toolchain=getattr(job,"native_toolchain",None),default_target_policy=default_target_policy)
+            if named_class_basis is not None:
+                from .netclass import check_selected_class_rows
+                check_selected_class_rows(json.loads(candidate.with_suffix('.kicad_pro').read_text()),
+                                          audited['native']['nets'], basis=named_class_basis)
             audited['native_map_file_sha256']=sha(mapping)
             save_json(job.out/'final-netclass-audit.json',audited)
     if selected_names is not None:rs.audit(original,sx.read(candidate),selected_names)
@@ -2146,29 +2199,30 @@ def native_edge_context(board,*,known_named=False):
     return context
 
 
-def named_edge_scope(directory,data):
-    """Initial admission covers ordinary whole-board/source-all routing only.
+def named_edge_scope(directory,data,*,qualified_selected=False):
+    """Admit ordinary whole-board or already checked selected named-class routing.
 
     Captured preferences and retained scope/layer process markers must agree.
     This is shared by the producer and the centrally qualified receipt reader.
     """
-    if (data.get('scope')!='whole_board_unlocked_routing'
+    scope = 'selected_nets' if qualified_selected else 'whole_board_unlocked_routing'
+    if (data.get('scope')!=scope
             or data.get('engine_profile') not in {'standard','tuned','completion-only'}
             or any(key in data for key in ('engine_fanout_override','engine_optimizer_override',
                 'engine_angle_binding','experimental_route_policy'))
-            or selected_scope_markers(directory,data) or layer_markers(directory,data)
+            or (not qualified_selected and selected_scope_markers(directory,data)) or layer_markers(directory,data)
             or native_minimum_markers(directory,data)):
         return False
     from . import preferences as pref
     for key in ('routing_preferences','pruning_preferences'):
         if key in data:
             effective=pref.validate(data[key]['effective'])
-            if (effective['scope'],effective['guidance'],effective['layers'])!=('whole_board_unlocked_routing','native','source_all'):
+            if (effective['scope'],effective['guidance'],effective['layers'])!=(scope,'native','source_all'):
                 return False
     return True
 
 
-def check_named_edge_policy(directory,data,*,input_policy,direct_import,native_toolchain=None):
+def check_named_edge_policy(directory,data,*,input_policy,direct_import,native_toolchain=None,qualified_selected=False):
     """Derive authority from pinned captured code and the checked import census.
 
     A marker alone, a stock run, or a parent strategy cannot enable named scope.
@@ -2189,7 +2243,7 @@ def check_named_edge_policy(directory,data,*,input_policy,direct_import,native_t
         if marker in data:raise Rejected('named edge policy without qualified direct producer')
         return False
     if data.get(marker)!=policy:raise Rejected('missing or changed named edge admission policy')
-    return named_edge_scope(directory,data)
+    return named_edge_scope(directory,data,qualified_selected=qualified_selected)
 
 
 def native_minimum_markers(directory,data):
@@ -2693,9 +2747,13 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
     canonical(Path(source).absolute());canonical(Path(output).absolute())
     source=Path(source).resolve(strict=True); output=Path(output).resolve()
     if source.parent==output or source.parent in output.parents: raise Rejected('output must be outside source project')
+    selected_class_policy = None
     if (native_toolchain is None and c.NATIVE_VERSION=='10.0.7' and _preferences is not None
             and _preferences['effective']['scope']=='selected_nets'):
-        check_native7_selected_source(source,_preferences['effective']['nets'])
+        selected_class_policy = check_native7_selected_source(source,_preferences['effective']['nets'])
+    named_selected = selected_class_policy == NATIVE7_SELECTED_NAMED_POLICY
+    if named_selected and _selected_plane_policy is not None:
+        raise Rejected('Selected named classes require the ordinary plane handling.')
     tuned_low=(native_toolchain is None and comparison_context is None and _improve_context is None
         and native7_tuned_low_request(engine_profile,scoring_variant))
     if tuned_low:
@@ -2762,8 +2820,10 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             job.started=entry_started;job.deadline=entry_started+seconds;job.cpu_started=entry_parent
         from .netclass import PARENT_POLICY
         source_policy=netclass_policy(source)
-        if selected is not None and source_policy is not None and source_policy['mode']==PARENT_POLICY:
+        if selected is not None and source_policy is not None and source_policy['mode'] == PARENT_POLICY and not named_selected:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
+        if named_selected:
+            report['native7_selected_class_policy'] = selected_class_policy
         parity=source.with_suffix('.kicad_sch').name in before
         if finish and not parity:
             raise Rejected('Finish gaps needs the matching saved schematic to check the design before routing.')
@@ -2784,6 +2844,9 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         shutil.copytree(source.parent,output/'snapshot'); copy_project(source.parent,output/'candidate')
         snapshot=output/'snapshot'/source.name; candidate=output/'candidate'/source.name
         if tree_hash(output/'snapshot')!=before: raise Rejected('source changed during snapshot')
+        if named_selected and (tree_hash(candidate.parent) != before or sx.read(snapshot) != original
+                or check_native7_selected_source(snapshot, selected) != selected_class_policy):
+            raise Rejected('The saved design or named classes changed during routing preparation.')
         task=routing_task(original,report['scope'],selected)
         protected=copy.deepcopy(routes(task))
         sx.write(candidate,task)
@@ -2801,10 +2864,12 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             finish_gaps.require_ready(planned, expected_gap_plan)
             report['baseline'] = 'native_scoped_finish_gaps'
         policy=netclass_policy(candidate)
-        from .netclass import PARENT_POLICY
         parent_classes=policy is not None and policy['mode']==PARENT_POLICY
-        if selected is not None and parent_classes:
+        if selected is not None and parent_classes and not named_selected:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
+        if named_selected and (policy is None or policy != source_policy):
+            raise Rejected('Named-class settings changed during routing preparation.')
+        named_class_basis = None
         if policy is None and native_toolchain is None:
             # Keep raw class identity, then derive lawful routing targets from
             # unchanged Default values and hard original board minima.
@@ -2812,16 +2877,20 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             job.native('export','export',candidate,output/'task.dsn',*mapping_args,'--task-copper-fixed')
             shutil.copy2(output/'task.dsn',output/'native.dsn')
         else:
-            from .netclass import audit_dsn
+            from .netclass import audit_dsn, check_selected_class_rows
             mapping=output/'export-netclasses.json'
             job.native('export','export',candidate,output/'task.dsn',mapping,
                 *(['--task-copper-fixed'] if native_toolchain is None else []))
             native_classes=json.loads(mapping.read_text())
             # The task contains only protected routes, and its original rules.
-            audit_candidate_netclasses(candidate,protected,native_classes,native_toolchain=native_toolchain)
+            audited = audit_candidate_netclasses(candidate,protected,native_classes,native_toolchain=native_toolchain)
             shutil.copy2(output/'task.dsn',output/'native.dsn')
             report['netclass_policy']=policy
-            report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,json.loads(candidate.with_suffix('.kicad_pro').read_text()),parent_policy=parent_classes,native_toolchain=native_toolchain)
+            class_project = json.loads(candidate.with_suffix('.kicad_pro').read_text())
+            if named_selected:
+                named_class_basis = audited['native']['nets']
+                check_selected_class_rows(class_project, named_class_basis)
+            report['netclass_export_audit']=audit_dsn(output/'native.dsn',native_classes,class_project,parent_policy=parent_classes,native_toolchain=native_toolchain)
         if class_requirement is not None:
             from . import schematic_class_evidence as classes
             report['schematic_class_task']=classes.collect(job,'task',candidate,output/'export-netclasses.json')
@@ -2859,8 +2928,13 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
                 **({'plane_transport':plane_transport} if plane_transport is not None else {}))
             from . import native_edge
             shutil.copy2(output/'task.dsn',output/'edge-adapter-input.dsn')
-            corrected,edge_record=native_edge.correct((output/'task.dsn').read_bytes(),native_edge_context(snapshot,
-                known_named=native_toolchain is None and named_edge_scope(output,report)))
+            edge_context = native_edge_context(snapshot, known_named=native_toolchain is None
+                and named_edge_scope(output, report, qualified_selected=named_selected))
+            if named_selected and edge_context['applicable'] is not True:
+                raise Rejected('The original board edge rules cannot be verified for selected named classes.')
+            corrected,edge_record=native_edge.correct((output/'task.dsn').read_bytes(),edge_context)
+            if named_selected and edge_record['applied'] is not True:
+                raise Rejected('The original board edge correction did not apply.')
             (output/'task.dsn').write_bytes(corrected)
             save_json(output/'native-edge-correction.json',edge_record)
             report['native_edge_correction']=edge_record
@@ -2918,6 +2992,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             from . import routing_scope as rs
             rs.audit(original,sx.read(candidate),planned['nets'],preserve_all=True)
         extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
+        if named_selected:
+            extra['named_class_basis'] = named_class_basis
         final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,class_context=class_context,default_target_policy=default_targets,**extra)
         report['schematic_parity']=parity_declaration(source,before)
         if class_requirement is not None:
@@ -3505,9 +3581,6 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     imports=check_normal_policy(path.parent,data,native_toolchain=native_toolchain)
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
-    known_named_edge=check_named_edge_policy(path.parent,data,input_policy=input_policy,
-        direct_import=import_contract is not None,native_toolchain=native_toolchain)
-
     def evidence(name):
         file=path.parent/name
         if file.is_symlink(): raise Rejected('symlink in run evidence: '+name)
@@ -3527,13 +3600,19 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     elif input_policy==ps.POLICY:
         ps.check_pruning_result(path.parent,data,original,candidate,protected)
     default_target_contract=check_default_target_transport(path.parent,data,original,candidate,input_policy=input_policy,native_toolchain=native_toolchain)
+    named_selected = data.get('native7_selected_class_policy') == NATIVE7_SELECTED_NAMED_POLICY
+    known_named_edge = check_named_edge_policy(path.parent, data, input_policy=input_policy,
+        direct_import=import_contract is not None, native_toolchain=native_toolchain, qualified_selected=named_selected)
+    if named_selected and not known_named_edge:
+        raise Rejected('Selected named classes require the original named-edge proof.')
     if netclass_policy(candidate) is not None or native_toolchain is not None or default_target_contract is not None:
         from .netclass import audit_dsn, audit_native, PARENT_POLICY
         parent_classes=netclass_policy(candidate) is not None and netclass_policy(candidate)['mode']==PARENT_POLICY
-        if data['scope']=='selected_nets' and parent_classes:
+        if data['scope']=='selected_nets' and parent_classes and not named_selected:
             raise Rejected('selected-net composite class transport not qualified')
         check_final_netclass_evidence(path.parent,data,candidate,protected,native_toolchain=native_toolchain,
-            default_target_policy=default_target_contract is not None)
+            default_target_policy=default_target_contract is not None,
+            **({'named_class_basis': evidence('export-netclasses.json')['nets']} if named_selected else {}))
         if data.get('baseline')=='C-prototype' and parent_classes:
             if is_improve_parent:
                 context = pruning.native7_incumbent_context(path.parent,data)
@@ -3615,6 +3694,8 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_pour_evidence(path.parent,data,original,candidate,_known_named_edge=known_named_edge)
     edge_transport = check_native_edge_transport(path.parent,data,_known_named_edge=known_named_edge)
+    if named_selected and (edge_transport is None or edge_transport['applied'] is not True):
+        raise Rejected('Selected named classes require an applied original board edge correction.')
     gap_partition = None
     if scoped_finish:
         if edge_transport is None or data.get('baseline') != 'native_scoped_finish_gaps' or 'engine_budget' not in data:
@@ -3675,7 +3756,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     import_contract=normal_import_contract(path.parent,data,imports,input_policy=input_policy,original=original,native_toolchain=native_toolchain)
     check_protected_import(path.parent,data,original,candidate,protected,**(import_contract or {}))
     if known_named_edge!=check_named_edge_policy(path.parent,data,input_policy=input_policy,
-            direct_import=import_contract is not None,native_toolchain=native_toolchain):
+            direct_import=import_contract is not None,native_toolchain=native_toolchain,qualified_selected=named_selected):
         raise Rejected('named edge admission changed during readback')
     check_event(path.parent,binding,process)  # Flags/link counts are outside byte witnesses.
     check_route_class_evidence(path.parent,data,original,candidate,class_context=class_context)

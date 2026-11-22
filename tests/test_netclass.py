@@ -47,6 +47,27 @@ class NetclassControls(unittest.TestCase):
         self.assertTrue(self.audit()['passed'])
     def test_single_default(self):
         self.assertTrue(m.audit_mapping(*fixtures(True))['passed'])
+
+    def test_selected_named_class_preserves_each_native_row_through_delivery(self):
+        default, named = self.project['net_settings']['classes']
+        default['priority'], named['priority'] = 2147483647, 0
+        settings = self.project['net_settings']
+        settings['netclass_patterns'] = [{'pattern': '+SUPPLY', 'netclass': 'Power'}]
+        self.native['nets'][1]['name'] = '+SUPPLY'
+        self.native['nets'][1]['class'] = 'Power,Default'
+        rows = self.native['nets']
+        m.check_selected_class_rows(self.project, rows, basis=list(reversed(rows)))
+        wrong_member = copy.deepcopy(rows)
+        wrong_member[1]['class'] = 'Default'
+        with self.assertRaisesRegex(ValueError, 'membership'):
+            m.check_selected_class_rows(self.project, wrong_member)
+        wrong_width = copy.deepcopy(rows)
+        wrong_width[1]['width_nm'] = 400000
+        with self.assertRaisesRegex(ValueError, 'original routing export'):
+            m.check_selected_class_rows(self.project, wrong_width, basis=rows)
+        settings['netclass_patterns'][0]['pattern'] = '+SUPPLY*'
+        with self.assertRaisesRegex(ValueError, 'exact net names'):
+            m.selected_class_assignments(self.project)
     def test_renaming_invariance(self):
         # No filename or GND/VCC heuristic: two renamed nets bind to a renamed class.
         self.project['net_settings']['classes'][1]['name']='Supply'

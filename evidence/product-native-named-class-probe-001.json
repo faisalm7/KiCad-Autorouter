@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "date": "2026-11-21",
+  "question": "Can the existing adapter and selected partition preserve both original 555 class rule sets?",
+  "installed_reference": "2d384e6ba571d38af4722e8318be74f56df351ca",
+  "native": "10.0.7",
+  "placed_source_sha256": "96edf07e0772de603b430be821aaae244c7ed8861bef4d5dd1010e6e6c66a482",
+  "original_placement_evidence": "product-straight-track-placement-555-001.json",
+  "selected": ["+5V", "/DISCH", "/TIMING"],
+  "protected_tracks": 24,
+  "edge_clearance_nm": 500000,
+  "observed_classes_nm": {
+    "Default": {"tracks": 250000, "clearance": 200000, "via_copper": 600000, "via_drill": 300000, "net_count": 5},
+    "Power,Default": {"tracks": 500000, "clearance": 200000, "via_copper": 800000, "via_drill": 400000, "net_count": 2}
+  },
+  "original_power_assignments_verified": ["+5V", "GND"],
+  "existing_adapter_and_edge_correction_kept_class_rules": true,
+  "existing_partition_retained_all_nets_pins_and_rules": true,
+  "ignored_class_partitions": 2,
+  "source_files_exact": true,
+  "actual_native_steps": ["Specctra task and class export", "Obstacle export"],
+  "outer_seconds": 2.061,
+  "routing_attempts": 0,
+  "routing_or_delivery_acceptance": false,
+  "decision": "Proceed with bounded qualification of the separate class scope. This transport probe cannot establish completion or delivery.",
+  "locally_retained_run": ".runs/selected-named-class-study-001"
+}

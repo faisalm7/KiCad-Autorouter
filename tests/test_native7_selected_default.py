@@ -48,6 +48,27 @@ class Native7SelectedDefaultTests(unittest.TestCase):
         (self.root/'default-targets.json').unlink();(self.root/'default-targets.dsn').unlink()
         with self.assertRaises((p.Rejected,OSError)):self.check()
 
+    def test_resolved_named_scope_requires_exclusive_marked_producer_evidence(self):
+        from autorouter import floor_route, selected_plane_transport
+        self.selected()
+        saved_default = self.data.pop('default_target_transport')
+        for name in ('default-targets.json', 'default-targets.dsn'):
+            (self.root/name).unlink()
+        field = 'native7_selected_class_policy'
+        policy = p.NATIVE7_SELECTED_NAMED_POLICY
+        self.data[field] = policy
+        with patch.object(p, 'check_native7_selected_source', return_value=policy), \
+                patch.object(selected_plane_transport, 'choice', return_value=selected_plane_transport.BASELINE), \
+                patch.object(floor_route, 'process_check') as export:
+            self.assertIsNone(self.check())
+            self.assertEqual(export.call_args.args[2], 'export')
+            self.data.pop(field)
+            with self.assertRaisesRegex(p.Rejected, 'selected named-class transport'):
+                self.check()
+            self.data[field], self.data['default_target_transport'] = policy, saved_default
+            with self.assertRaisesRegex(p.Rejected, 'selected named-class transport'):
+                self.check()
+
     def test_selected_source_and_choice_refusals_stay_closed(self):
         self.selected()
         for mutation in ('missing_selection','unknown_name','score','profile','subset'):

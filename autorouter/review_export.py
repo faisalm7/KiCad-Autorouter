@@ -488,6 +488,12 @@ def default_target_basis(binding,report):
     return native7_default_target_basis(root,report)
 
 
+def selected_named_classes(binding, report):
+    if report.get('native7_selected_class_policy') == p.NATIVE7_SELECTED_NAMED_POLICY:
+        return {'named_class_basis': f.read_json(Path(binding['receipt']).parent/'export-netclasses.json')['nets']}
+    return {}
+
+
 def _check_stage_proof(folder,data,binding,report,basis,contract,layers, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
     """Reuse original-rule refill/final/process/native-context validators."""
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
@@ -527,7 +533,8 @@ def _check_stage_proof(folder,data,binding,report,basis,contract,layers, *, nati
         target_basis=default_target_basis(binding,report)
         if p.netclass_policy(candidate) is not None or native_toolchain is not None or target_basis is not None:
             p.check_final_netclass_evidence(folder,data,candidate,protected,native_toolchain=native_toolchain,
-                default_target_policy=target_basis is not None,sandboxed=True,default_target_basis=target_basis)
+                default_target_policy=target_basis is not None,sandboxed=True,default_target_basis=target_basis,
+                **selected_named_classes(binding, report))
         f.process_check(folder,data,'metrics',[*f.SANDBOX,*p.native_prefix(native_toolchain),'metrics',str(candidate),str(folder/'metrics.json')])
     if any(r not in p.routes(sx.read(candidate)) for r in protected):raise p.Rejected('export protected copper changed')
     from .pour_rule_area import qualify
@@ -776,6 +783,7 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
             protected=p.protected_for_record(report,original)
             names=p.selected_scope_names(report)
             extra={'selected_names':names,'schematic_parity':p.selected_parity_required(report)} if names is not None else {}
+            extra.update(selected_named_classes(binding, report))
             digest,native=p.validate_candidate(job,original,candidate,binding['source_hashes'],protected,
                 default_target_policy=default_target_basis(binding,report) is not None,
                 guidance_contract=contract,guidance_basis=basis,layer_contract=layers,class_context=class_context,**extra)

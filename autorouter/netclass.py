@@ -173,6 +173,29 @@ def qualify_parent_project(project):
             'source_class_names': names, 'pattern_evaluation_in_python': False}
 
 
+def selected_class_assignments(project):
+    """Limit selected routing to one explicitly assigned class beside Default."""
+    policy = qualify_parent_project(project)
+    if len(policy['source_class_names']) != 2:
+        raise ValueError('Selected routing supports Default and one additional class.')
+    assignments = {row['pattern']: row['netclass'] for row in project['net_settings']['netclass_patterns']}
+    if any(re.fullmatch(r'[A-Za-z0-9_+./-]{1,128}', name) is None for name in assignments):
+        raise ValueError('Selected routing needs exact net names in the class assignments.')
+    return assignments
+
+
+def check_selected_class_rows(project, rows, *, basis=None):
+    """Check Native-resolved identities and, if supplied, the original export rows."""
+    assignments = selected_class_assignments(project)
+    observed = {row['name']: row for row in rows}
+    if (not assignments.keys() <= observed.keys()
+            or any(row['class'].split(',')[0] != assignments.get(name, 'Default')
+                   for name, row in observed.items())):
+        raise ValueError('Native class membership differs from the saved literal assignments.')
+    if basis is not None and observed != {row['name']: row for row in basis}:
+        raise ValueError('Native net classes differ from the original routing export.')
+
+
 def _parent_class(row, configured):
     """Decode pinned GetName only in the qualified comma-free namespace."""
     encoded = row['class']
