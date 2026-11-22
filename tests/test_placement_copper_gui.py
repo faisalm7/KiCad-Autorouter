@@ -296,6 +296,7 @@ class CopperPlacementGui(unittest.TestCase):
                              if not isinstance(value, MethodType) and name != 'overview'})
         window.rigid_group = text_control(False); window.target_region = text_control(False)
         window.findings = text_control()
+        window.saved_native = None
         return window
 
     def test_loaded_preset_immediately_repaints_its_actual_area_and_selection(self):

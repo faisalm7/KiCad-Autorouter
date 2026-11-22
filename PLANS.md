@@ -115,13 +115,14 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     validation and independent export readback checked the source, third
     terminal, protected copper and unchanged geometry. Keep broader and
     licensed three-pad coverage open. [Installed delivery](evidence/product-three-pad-placement-delivery-001.json)
-25. Make Accept result reflect the visible review acknowledgement. Verify
-    check/uncheck, unchanged Reject and no available acceptance for stale
-    review. Preserve the independent checks at actual dispatch.
-26. Check that the placement promise to preserve copper survives editing
-    routing settings in the same workspace. If Preview can enable a rebuild
-    of existing copper, bind the protection before dispatch and verify both
-    an allowed continuation and the refusal in the installed controls.
+25. **Source checks pass.** Accept result reflects the review acknowledgement.
+    Verify check/uncheck and available Reject in the current installed review.
+    Preserve the independent checks at actual dispatch.
+26. **Source checks pass.** An old selected-net preview of a disposable placed
+    copy would rebuild its unlocked KEEP trace. The correction binds the
+    preserve-all choice and exact settings through preview and adoption.
+    Verify the corrected installed refusal before dispatch, then complete a
+    safe handoff with fresh export and independent readback.
 
 ## Verified Finish gaps batch from 2dabd0799
 

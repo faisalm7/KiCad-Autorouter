@@ -19,9 +19,9 @@ import threading
 import uuid
 import xml.etree.ElementTree as ET
 
-from . import board_floor, config as c, conversation, gui, handoff as h, placement_intent as intent, placement_view
-from . import finish_gaps, routing_scope, sexpr as sx
-from .pipeline import Rejected, routes
+from . import config as c, conversation, gui, handoff as h, placement_intent as intent, placement_view
+from . import finish_gaps, routing_scope
+from .pipeline import Rejected
 from . import schematic_context
 
 
@@ -258,11 +258,9 @@ def empty_copper_selection(source, inspection, selected, settings):
         if hashlib.sha256(raw).hexdigest() != observation['source_board_sha256']:
             return None
         tree = intent.contract.read_board(raw)
-        known, resolve = board_floor.source_net_identity(tree)
+        known, existing = routing_scope.copper_net_context(tree)
         if not nets <= known:
             return None
-        existing = {resolve(sx.one(item, 'net'), owner=item)
-                    for item in [*routes(tree), *sx.children(tree, 'zone')]}
         if nets & existing or '' in existing:
             return None
         settings = gui.pref.validate(dict(settings, scope='selected_nets', profile='completion-only',
@@ -2433,10 +2431,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                             self.panel.Show(); self.Layout(); self.refresh()
                 history = (self.conversation.summary_for(self.inspection['source'], self.inspection['source_hashes'])
                            if self.conversation.source else '')
+                note = ('Placement checked. Routing keeps all existing copper.'
+                        if self.gate.review.copper_plan is None else
+                        'Placement checked. Routing uses a separate project copy.')
                 frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished,
                     parent=self, placement_scene=self.picture.display, conversation_history=history,
-                    on_saved_source=self.open_saved_source,
-                    source_note='Placement checked. Routing uses a separate project copy.')
+                    on_saved_source=self.open_saved_source, source_note=note)
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
                         frame.output.SetValue(self.routing_output_hint)

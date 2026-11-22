@@ -16,6 +16,7 @@ from unittest.mock import Mock, patch
 
 from autorouter import placement as placement
 from autorouter import floor_route, pipeline
+from experiments.placement_native_proposal_v1 import ordinary_fixture
 
 
 class QualificationAdmission(unittest.TestCase):
@@ -238,11 +239,14 @@ class SourceGuardControls(unittest.TestCase):
         self.root = Path(self.temporary.name).resolve()
         self.runtime = self.root / 'runtime'; self.output = self.runtime / '.runs' / 'qualified'
         self.output.mkdir(parents=True)
-        self.source = self.root / 'original' / 'owned.kicad_pcb'; self.source.parent.mkdir()
-        self.source.write_text('original fixture')
-        self.source.with_suffix('.kicad_prl').write_text('{}')
-        self.binding = {'inspection': {'source': str(self.source)},
-                        'intent': {'settings': {'schema': 1}}}  # Synthetic legacy preserve-all witness.
+        self.source = ordinary_fixture.write_project(self.root / 'original')
+        tree = placement.contract.read_board(self.source.read_bytes())
+        track, = pipeline.routes(tree)
+        track.remove(placement.contract.sx.one(track, 'locked'))
+        self.source.write_text(placement.contract.sx.dump(tree) + '\n')
+        self.binding = {'inspection': {'source': str(self.source),
+                                       'source_hashes': placement.gui.source_inventory(self.source)},
+                        'intent': {'settings': {'schema': 1}}}
         work, boards = placement._paths(self.output, self.binding)
         for board in (*boards.values(), *(work / (name + '-input') / self.source.name
                                          for name in ('source-drc', 'final-drc'))):
@@ -285,6 +289,21 @@ class SourceGuardControls(unittest.TestCase):
         with self.assertRaises(ValueError): guard.check(self.candidate)
         self.receipt.write_text('{}'); self.candidate.write_text('changed candidate')
         with self.assertRaises(ValueError): guard.check(self.candidate)
+
+    def test_preserve_choice_survives_routing_control_edits(self):
+        guard = self.guard()
+        defaults = placement.intent.preferences.DEFAULTS
+        gaps = dict(defaults, scope='partial_completion')
+        selected = dict(defaults, scope='selected_nets', profile='completion-only', nets=['ROUTE_A'])
+        for settings in (gaps, selected):
+            guard.check_task(settings, 'route')
+        for net in ('KEEP', 'GND'):
+            with self.subTest(net=net), self.assertRaisesRegex(ValueError, f'{net}.*Use Finish gaps'):
+                guard.check_task(dict(selected, nets=[net]), 'route')
+        for settings, method in ((dict(defaults, scope='whole_board_unlocked_routing'), 'route'),
+                                 (gaps, 'improve'), (gaps, 'recover')):
+            with self.subTest(method=method, scope=settings['scope']), self.assertRaisesRegex(ValueError, 'keeps all existing copper'):
+                guard.check_task(settings, method)
 
     def test_source_or_tool_changes_and_late_evidence_change_block_handoff(self):
         guard = self.guard()

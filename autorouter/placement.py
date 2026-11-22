@@ -26,7 +26,7 @@ if __package__ in (None, ''):
     __package__ = 'autorouter'
 
 from . import config as c, floor_route as f, gui, handoff as h, pipeline as p
-from . import local_settings, placement_clearance as pc, placement_intent as intent, provenance
+from . import local_settings, placement_clearance as pc, placement_intent as intent, provenance, routing_scope
 from . import placement_copper as copper
 from .runner import elapsed_time
 from experiments.placement_native_proposal_v1 import contract
@@ -871,7 +871,13 @@ def source_guard(output, witness, *, verify_review=None):
         def task(settings, method, candidate):
             _routing_task(expected, settings, method, candidate)
         return gui.SourceGuard(Path(expected['candidate']), fresh, task, placement_origin=output)
-    return gui.SourceGuard(Path(expected['candidate']), fresh)
+    raw = pc.read_bytes(source, contract.MAX_BYTES)
+    need(hashlib.sha256(raw).hexdigest() == expected['binding']['inspection']['source_hashes'][source.name],
+         'original source changed before collecting protected copper')
+    _, existing = routing_scope.copper_net_context(contract.read_board(raw))
+    def preserve_task(settings, method):
+        routing_scope.require_preserving_completion(settings, method, existing)
+    return gui.SourceGuard(Path(expected['candidate']), fresh, verify_settings=preserve_task)
 
 
 def main(argv=None):

@@ -82,6 +82,30 @@ class SourceGuardTests(unittest.TestCase):
         flow.fresh();self.assertEqual(flow.ready,set());self.assertIsNone(flow.choice)
         self.assertEqual(json.loads(flow.settings_bytes),self.settings)
 
+    def test_guarded_preview_and_route_refuse_outcomes_from_other_settings(self):
+        guard, _, _ = self.guard()
+        self.settings = dict(self.settings, scope='selected_nets', profile='completion-only', nets=['ROUTE_A'])
+        guard = dataclasses.replace(guard, verify_settings=lambda settings, method: None)
+        flow = self.request(guard).prepare()
+        other = dict(self.settings, nets=['KEEP'])
+        preview, log, process = self.preview(flow)
+        log.write_text(json.dumps(dict(preview, effective_preferences=other)))
+        with self.assertRaisesRegex(ValueError, 'settings differ'):
+            flow.adopt('preview', process, log)
+        self.assertFalse(flow.ready)
+        log.write_text(json.dumps(dict(preview, effective_preferences=self.settings)))
+        flow.adopt('preview', process, log)
+        candidate = flow.workspace / 'candidate.kicad_pcb'
+        record = dict(source=str(self.board), source_hashes=json.loads(flow.files_json), candidate=str(candidate),
+                      status='routing_accepted', accepted=True, routing_preferences={'effective': other})
+        with patch.object(gui, 'read_record', return_value=record):
+            with self.assertRaisesRegex(ValueError, 'settings differ'):
+                flow.adopt('route', process, log)
+            self.assertEqual(flow.ready, {'preview'})
+            record['routing_preferences']['effective'] = self.settings
+            flow.adopt('route', process, log)
+        self.assertEqual(flow.ready, {'preview', 'route'})
+
     def test_stale_origin_refuses_action_and_adoption(self):
         guard,origin,_=self.guard();flow=self.request(guard).prepare()
         job=gui.CliJob();record,log,process=self.preview(flow,job)

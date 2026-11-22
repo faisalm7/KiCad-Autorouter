@@ -43,6 +43,23 @@ class ReviewCloseTests(unittest.TestCase):
         hint.assert_not_called();window.refused.assert_not_called()
         self.assertIn('no acceptance',window.log.SetValue.call_args.args[0])
 
+    def test_only_acknowledged_current_review_enables_accept(self):
+        ready = SimpleNamespace(ready={'preview', 'route', 'review'}, choice=None)
+        window = SimpleNamespace(flow=ready, busy=False, inspected=Mock(), board=Mock(),
+            output=Mock(), ack=Mock(), edit_controls=[], layout_panel=Mock(),
+            buttons={name: Mock() for name in ('accept', 'reject')})
+        refresh = window_method('refresh')
+        for checked in (False, True, False):
+            window.inspected.GetValue.return_value = checked
+            refresh(window)
+            window.buttons['accept'].Enable.assert_called_with(checked)
+            window.buttons['reject'].Enable.assert_called_with(True)
+        window.inspected.GetValue.return_value = True
+        window.flow = None
+        refresh(window)
+        for button in window.buttons.values():
+            button.Enable.assert_called_with(False)
+
     def test_uppercase_nested_marker_is_also_a_refusal(self):
         with self.assertRaises(h.ReviewProjectOpen):h.require_closed_review({'nested/~board.kicad_sch.LCK':'owned'})
 

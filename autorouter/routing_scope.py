@@ -31,6 +31,28 @@ def validate_names(names):
     return list(names)
 
 
+def copper_net_context(tree):
+    """Return known net names and the subset with saved tracks, vias or zones."""
+    from .board_floor import source_net_identity
+    names, resolve = source_net_identity(tree)
+    return names, {resolve(sx.one(item, 'net'), owner=item)
+                   for item in (*p.routes(tree), *sx.children(tree, 'zone'))}
+
+
+def require_preserving_completion(settings, method, existing):
+    """Carry the no-rebuild choice through edits to routing settings."""
+    scope = settings['scope']
+    if method != 'route' or settings['guidance'] != 'native' or scope not in ('partial_completion', 'selected_nets'):
+        raise ValueError('This task keeps all existing copper. Use Route with Finish gaps or select nets without existing copper.')
+    if scope == 'selected_nets':
+        if '' in existing:
+            raise ValueError('Some existing copper has no assigned net. Use Finish gaps to preserve it.')
+        covered = sorted(set(settings['nets']) & existing)
+        if covered:
+            raise ValueError('Selected nets already have tracks, vias or a zone: ' + ', '.join(covered)
+                             + '. Use Finish gaps to preserve their existing copper.')
+
+
 def _board(tree):
     if type(tree) is not list or not tree or tree[0] != 'kicad_pcb':
         raise p.Rejected('selected scope requires a PCB AST')

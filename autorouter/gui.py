@@ -394,12 +394,15 @@ class SourceGuard:
     verify_origin: Callable[[], None]
     verify_task: Callable[[dict, str, Path | None], None] | None = None
     placement_origin: Path | None = None
+    verify_settings: Callable[[dict, str], None] | None = None
     _files_json: str = field(init=False, repr=False)
 
     def __post_init__(self):
         if not callable(self.verify_origin): raise ValueError('A trusted source verifier is required.')
         if self.verify_task is not None and not callable(self.verify_task):
             raise ValueError('A trusted task verifier is required.')
+        if self.verify_settings is not None and not callable(self.verify_settings):
+            raise ValueError('A trusted settings verifier is required.')
         if self.placement_origin is not None:
             if self.verify_task is None: raise ValueError('Placement origin requires its composed task verifier.')
             object.__setattr__(self, 'placement_origin', canonical(self.placement_origin))
@@ -427,6 +430,10 @@ class SourceGuard:
         """Fence one bounded read-only batch, rather than rereading origin per file."""
         if type(candidates) not in (tuple, list) or len(candidates) > 2:
             raise ValueError('At most the routed and exported candidate may be checked together.')
+        # Request and Workflow already check freshness for constraints captured
+        # from the exact source. A static settings check needs no new inventory.
+        if self.verify_settings is not None and self.verify_settings(copy.deepcopy(settings), method) is not None:
+            raise ValueError('Settings verifier must return no approval or result authority.')
         if self.verify_task is not None:
             from .local_settings import check_current_metadata
             self.check(self.board)
@@ -710,6 +717,11 @@ class Workflow:
         else:
             raise ValueError('Unknown outcome.')
         self.fresh()
+        if self.source_guard is not None and self.source_guard.verify_settings is not None and stage in ('preview', 'route'):
+            effective = (record.get('effective_preferences') if stage == 'preview' else
+                         record.get('routing_preferences', {}).get('effective'))
+            if effective != json.loads(self.settings_bytes):
+                raise ValueError('Routing outcome settings differ from the checked request. Preview again.')
         if self.source_guard is not None and stage in ('route', 'export', 'verify_export'):
             self.source_guard.check_task(json.loads(self.settings_bytes), self.method, record['candidate'])
         self.records[stage] = record
@@ -1443,6 +1455,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 actions.Add(transcript, 0, wx.EXPAND | wx.ALL, 6)
             self.inspected = wx.CheckBox(status_host, label=('I reviewed the findings and closed\nany KiCad review project.' if self.in_workspace
                 else 'I inspected all findings and CLOSED the review editors/project.\nMy choice is intent, not PCB certification.'))
+            self.inspected.Bind(wx.EVT_CHECKBOX, lambda _: self.refresh())
             actions.Add(self.inspected, 0, wx.ALL, 6)
             names_by_row = ((('Inspect project', 'inspect'), ('Preview', 'preview'), ('Route', 'route'), ('Create review', 'review'), ('Cancel', 'cancel')),
                           (('Open preview', 'open_preview'), ('Open review project', 'open_review')),
@@ -2009,7 +2022,11 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 'restart_export': getattr(self, 'exported_project', None) is not None}
             if gaps is not None and gaps['status'] != 'ready':
                 allowed['route'] = False
-            for name, button in self.buttons.items(): button.Enable(not choosing and (self.busy if name == 'cancel' else not self.busy and allowed.get(name, False)))
+            for name, button in self.buttons.items():
+                enabled = self.busy if name == 'cancel' else not self.busy and allowed.get(name, False)
+                if name == 'accept':
+                    enabled = enabled and self.inspected.GetValue()
+                button.Enable(not choosing and enabled)
             for control in (self.board, self.output, self.ack, self.inspected, *self.edit_controls): control.Enable(not self.busy and not choosing)
             if hasattr(self, 'apply_proposal_button'):
                 self.apply_proposal_button.Enable(not self.busy and not choosing and self.pending_proposal is not None)
