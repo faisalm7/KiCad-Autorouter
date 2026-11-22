@@ -39,14 +39,18 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    rejected a source edited while the sheet was open. The adjusted height
    displayed all four names without scrolling on the next build.
    [Installed workflow](evidence/product-selected-net-controls-001.json)
-8. **In progress.** An installed one-part draft passed actual placement
-   validation and independent preservation checks. Handoff after review
-   refused because the finished worker's deadline was reused. Correct the
-   handoff and qualify one fresh continuation with a deliberate review pause.
-   [First result and refusal](evidence/product-single-placement-handoff-001.json)
-9. Extend the next useful workflow on a licensed design. Freeze the source
-   and task before execution. Record the exact support boundary if admission
-   fails and advance the next ready installation or editor task.
+8. **Verified.** A visually selected J1 moved inside the declared area. The
+   corrected handoff retained the valid proof after a deliberate review pause.
+   Both connections closed in a fresh checked export with five fixed parts,
+   the protected track and inherited warning preserved.
+   [Corrected delivery](evidence/product-single-placement-delivery-002.json) · [First refusal](evidence/product-single-placement-handoff-001.json)
+9. **Bounded admission complete.** Four retained licensed sources refused.
+   The closest board needs independent keepout enforcement and has separate
+   schematic/PCB conflicts. Keep the inputs intact. [Candidate refusals](docs/current-placement-scope.md#bounded-review-of-retained-licensed-sources)
+10. Apply the existing field-parity rules to the initial KiCad check in
+    ordinary routing. Show unresolved PCB and schematic field differences
+    before starting Freerouting. Verify one controlled Native mismatch and
+    one admissible source with repairable opens in the installed workflow.
 
 ## Verified Finish gaps batch from 2dabd0799
 

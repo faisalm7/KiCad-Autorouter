@@ -60,3 +60,19 @@ the same original Default and Power assignments and dimensions. The full
 installed sequence includes automation pauses and took 5 min 36 s to export.
 The observed application waits through export total 47.56 s. No manual CAD
 correction or model request occurred. [Installed delivery and limits](../evidence/product-native-named-class-delivery-001.json)
+
+## Bounded review of retained licensed sources
+
+Four previously inspected families were considered for one additional task.
+The current saved design requirements prevent admission. This review ran no
+router and fetched no new inputs.
+
+| Design | Current refusal |
+|---|---|
+| UV Dosimeter | One front-copper rule area prohibits tracks, vias, pads and pours. Supporting the rectangle requires both engine obstacles and independent post-import and refill checks. The unchanged schematic and board also disagree on four U3 pins, two footprints and seven Datasheet fields. [Original Native findings](../evidence/uv-source-original-001.json) |
+| Pico Flipper | The legacy source format, 20 saved DRC exclusions and fixed tie fall outside the tested modern selected scope. [Earlier tie work](../evidence/fixed-net-tie-native7-transport-001.json) |
+| MY1690X Audio | The legacy four-layer board has three ties, unqualified layer restrictions and six original courtyard errors. [Earlier Native findings](../evidence/audio-source-native-prl-failure-001.json) |
+| UBMP430 | The 20221018 board failed immutable sidecar preservation and its prior Native analysis found 58 blocking findings. [Earlier refusal](../evidence/ubmp430-native-format-failure-001.json) |
+
+Keep these inputs and refusals intact. Use the findings to test early source
+diagnosis. A new geometry extension alone cannot make the UV design eligible.

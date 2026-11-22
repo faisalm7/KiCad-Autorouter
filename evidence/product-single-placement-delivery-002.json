@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "date": "2026-11-22",
+  "build": "62227f3a8a3301f94ee29dfecd1208f15bf3dcc9",
+  "prior_refusal": "evidence/product-single-placement-handoff-001.json",
+  "window_points": [
+    960,
+    650
+  ],
+  "example": "examples/owned-placement-routing/source",
+  "owned_example": true,
+  "placement": {
+    "component": "J1",
+    "source_nm": [
+      12000000,
+      10000000
+    ],
+    "checked_nm": [
+      21245000,
+      10000000
+    ],
+    "destination_nm": [
+      14000000,
+      8000000,
+      22000000,
+      13000000
+    ],
+    "other_components_exact": 5,
+    "native_opens": 2,
+    "native_blocking": 0,
+    "wall_seconds": 15.389599000103772,
+    "total_cpu_seconds": 14.214413
+  },
+  "handoff": {
+    "accepted_completed_proof": true,
+    "seconds_past_old_worker_deadline": 15.653834084048867,
+    "intentional_review_pause": true,
+    "safe_unconfirmed_project_closed_refusal": true
+  },
+  "routing": {
+    "approved_nets": [
+      "ROUTE_A",
+      "ROUTE_B"
+    ],
+    "new_segments_by_net": {
+      "ROUTE_A": 5,
+      "ROUTE_B": 2
+    },
+    "protected_tracks_exact": 1,
+    "native_opens": 0,
+    "native_blocking": 0,
+    "wall_budget_seconds": 85,
+    "wall_seconds": 10.2530387500301,
+    "total_cpu_seconds": 8.119414
+  },
+  "delivery": {
+    "checked_separate_project": true,
+    "candidate_sha256": "db98316ef72294f89b1e4fb1c83cd5dd4b520fa49955176ea8f35eb153416911",
+    "originals_exact": true,
+    "warnings": [
+      "text_height"
+    ],
+    "ignored_checks": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "native_opens": 0,
+    "native_blocking": 0,
+    "schematic_parity": "checked by final native DRC",
+    "wall_budget_seconds": 85.0,
+    "wall_seconds": 7.805309707997367,
+    "total_cpu_seconds": 6.877397,
+    "independent_readback_seconds": 3.1766274999827147,
+    "native_export_opening_repeated": false,
+    "human_PCB_approval": false
+  },
+  "elapsed": {
+    "open_to_checked_export_seconds": 543.342,
+    "open_to_independent_readback_seconds": 585.703,
+    "wait_seconds_by_observed_stage": {
+      "Approve placement and validate": 0.459,
+      "Continue to routing\u2026": 18.644,
+      "Start routing": 2.318,
+      "Review result": 13.6,
+      "Accept result": 7.751,
+      "Export checked copy": 4.658,
+      "Open checked export": 15.621,
+      "Saved project inspection": 4.434
+    },
+    "includes_deliberate_pause_and_operator_automation_observation": true
+  },
+  "operator_equivalent_actions": [
+    "Open saved project",
+    "Select J1 on board",
+    "Open Precise area",
+    "Enter request or refine setting",
+    "Find alternatives",
+    "Approve placement and validate",
+    "Continue to routing\u2026",
+    "Set routing time to 85 seconds",
+    "Preview routing",
+    "Findings",
+    "This saved project is closed in KiCad.",
+    "Preview routing",
+    "Start routing",
+    "Review result",
+    "Copper changes",
+    "Findings",
+    "I reviewed the findings and closed\nany KiCad review project.",
+    "Accept result",
+    "Export checked copy"
+  ],
+  "manual_CAD_corrections": 0,
+  "model_requests": 0,
+  "local_raw_evidence": ".runs/single-component-placement-002",
+  "recovery": "Earlier compact increment predates this continuation. Raw evidence is on this Mac."
+}

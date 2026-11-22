@@ -18,10 +18,15 @@ The master specification, current strategy and owner steering govern. Historical
   prefilled path on first show. Original files were exact at every check.
   [Installed opening](evidence/product-saved-project-opening-001.json)
 - The new two-part destination policy checks actual straight protected tracks.
-  Installed 555 placement and protected-content readback pass. The saved
-  parent net class blocks selected-net routing before engine dispatch. This
-  case has current placement evidence and an explicit delivery refusal.
+  Installed 555 placement and protected-content readback pass. The first
+  build refuses the saved parent net class before engine dispatch. The later
+  named-class check delivers from that exact placed copy.
   [Practical coverage](evidence/product-straight-track-placement-555-001.json)
+- One visually selected part can move to a specified area. The corrected
+  installed flow retained the verified placement through a review pause,
+  closed both selected connections and delivered a fresh checked copy.
+  Independent readback confirmed all other components and protected copper.
+  [One-part delivery](evidence/product-single-placement-delivery-002.json)
 - Finish gaps uses saved-project KiCad 10.0.7 refill and full-schematic checks
   to verify the active nets, then preserves all existing tracks and vias.
   The scoped two-layer engine input retains other nets, original obstacles
