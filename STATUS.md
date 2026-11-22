@@ -2,6 +2,8 @@
 
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 
+**Selected routing can use the inspected net list.** The installed workspace selected the supported Completion only profile directly. Two clicked names matched the verified plan, Cancel preserved them, and a changed disposable schematic refused adoption and revoked Start. A compact sheet clipped its fourth row before scrolling. The height adjustment awaits its next on-screen check. [Installed evidence](evidence/product-selected-net-controls-001.json)
+
 **The placed 555 now completes selected routing through checked delivery.** One installed attempt closed ten opens and kept 24 protected tracks, both original class dimensions and assignments, nine inherited warnings and five ignored checks. Fresh export and independent readback passed. The operator made no CAD corrections. An owned two-class control also delivered. The 555 trial used the earlier exact placed copy as its source. [Installed results](evidence/product-native-named-class-delivery-001.json)
 
 **A single local setup command now prepares the workspace launcher.** The clean installation from a verified artifact at a new path created its own Python environment, passed dependency checks and prepared the launcher in 3.32 seconds. The saved workspace launched from another directory with a minimal environment and opened the owned project on Return. This was the same Mac and the existing pinned tools. [Setup evidence](evidence/product-local-workspace-setup-001.json)

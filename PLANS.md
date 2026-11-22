@@ -34,13 +34,19 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    completed selected routing and fresh checked delivery. The 555 completed
    ten opens and kept 24 original tracks, both classes and its warnings.
    [Installed delivery](evidence/product-native-named-class-delivery-001.json)
-7. **In progress.** Make the required Completion only profile follow a
-   deliberate selection of Selected nets. Choose names from the inspected
-   board where available. Verify the displayed choices, cancellation and
-   exact captured settings without reopening the finished route.
-8. Extend the next useful workflow on a licensed design. Qualify an exact
-   task and capability before routing, or record the precise geometry or
-   installation dependency and move to the next ready product item.
+7. **Verified controls.** Selected nets sets and shows the required profile.
+   The installed picker used saved board names, kept settings on Cancel and
+   rejected a source edited while the sheet was open. Its fourth row was
+   initially clipped. Check the dialog-height correction in the next install.
+   [Installed workflow](evidence/product-selected-net-controls-001.json)
+8. **In progress.** Assess a one-component saved placement. The current
+   annealer requires two movable components. Try the existing bounded region
+   and clearance checks with one component and deterministic coordinate
+   search. Keep group and model contracts unchanged. Require a visible
+   proposal and actual Native preservation before admitting one-part work.
+9. Extend the next useful workflow on a licensed design. Freeze the source
+   and task before execution. Record the exact support boundary if admission
+   fails and advance the next ready installation or editor task.
 
 ## Verified Finish gaps batch from 2dabd0799
 

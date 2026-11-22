@@ -1761,6 +1761,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 previously_selected = set(self.nets.GetValue().splitlines())
                 dialog = wx.MultiChoiceDialog(self, 'Choose the nets to route. Other copper stays protected.',
                                               'Choose routing nets', list(names))
+                dialog.SetClientSize(self.FromDIP((440, min(410, 132 + 24 * len(names)))))
                 dialog.SetSelections([i for i, name in enumerate(names) if name in previously_selected])
 
                 def adopt(indices):
