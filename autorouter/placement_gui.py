@@ -2260,6 +2260,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             current = gui.source_inventory(source) if self.conversation.source or view is not None else None
             history = self.conversation.summary_for(source, current)
             scene = view[2] if view is not None and view[:2] == (str(source), current) else None
+            if scene is None and self.inspection is not None and self.inspection['source'] == str(source):
+                scene = saved_routing_scene({'source': str(source), 'source_hashes': current or gui.source_inventory(source)}, self.inspection)
             frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self,
                                       conversation_history=history, saved_scene=scene)
             try:

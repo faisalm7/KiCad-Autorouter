@@ -37,14 +37,19 @@ def explicit_preferences(args):
     return result
 
 
-def preview(board,settings=None,overrides=None,*,purpose='route',placement_origin=None):
-    """Read the same static guards as routing; no engine, native validation or writes."""
-    from . import preferences as pref, pipeline as p, sexpr as sx, placement_clearance as pc
+def preview(board,settings=None,overrides=None,*,purpose='route',placement_origin=None,gap_inspection_output=None):
+    """Check static support, with an optional verified Finish gaps proposal."""
+    from . import preferences as pref, pipeline as p, sexpr as sx, placement_clearance as pc, finish_gaps
     from .handoff import real_path
     captured=pref.load(settings) if settings is not None else None
     effective=pref.resolve(captured,overrides)
     p.require_native_scope(purpose=purpose,scope=effective['scope'],guidance=effective['guidance'],
         layers=effective['layers'],profile=effective['profile'],adapter=effective['adapter'],scoring=effective['scoring_preference'])
+    finish = purpose == 'route' and finish_gaps.enabled(effective['scope'], effective['guidance'])
+    if finish and effective['profile'] != 'standard':
+        raise p.Rejected('Finish gaps uses protected completion. Choose the Standard setting for this workflow.')
+    if gap_inspection_output is not None and not finish:
+        raise p.Rejected('A verified missing-connection inspection is for Finish gaps on KiCad 10.0.7.')
     source=real_path(board);before=pc.inventory(source.parent)
     origin=None
     if placement_origin is not None:
@@ -84,6 +89,15 @@ def preview(board,settings=None,overrides=None,*,purpose='route',placement_origi
         layer_preview={'allowed_new_route_layers':effective['layers'],
             'protected_items_outside_allowed_layers':sum(not set(lp._route_layers(item))<=set(effective['layers']) for item in protected),
             'description':'Exact original protected copper is preserved, including layers outside the requested new-route list. New through vias require both copper layers.'}
+    gaps = {}
+    if finish:
+        gaps['finish_gaps_needs_inspection'] = gap_inspection_output is None
+        if gap_inspection_output is not None:
+            from . import project_inspection
+            inspected = project_inspection.inspect(source, gap_inspection_output)
+            if inspected['status'] != 'inspection_ready' or inspected['source_hashes'] != before:
+                raise p.Rejected(inspected.get('reason', 'Finish gaps saved source inspection changed.'))
+            gaps.update(gap_plan=finish_gaps.plan(original, before, inspected['native']), native=inspected['native'])
     pref.check_fresh(captured)
     if origin is not None and placement.bind_routing(placement_origin,source,effective,method=purpose)!=origin:
         raise p.Rejected('placement origin changed during preview')
@@ -94,11 +108,13 @@ def preview(board,settings=None,overrides=None,*,purpose='route',placement_origi
             'protected_route_items':len(protected),'rerouted_route_items':len(p.routes(original))-len(protected),
             'layer_restriction':layer_preview,
             'schematic_class_check':pending_classes,
+            **gaps,
             **({'fixed_net_tie':tie} if tie is not None else {}),
             'scope_description':{'partial_completion':'Complete remaining connections while preserving every existing route',
                 'selected_nets':'Reroute only selected unlocked nets; preserve all other original copper. Full native DRC remains mandatory.',
                 'whole_board_unlocked_routing':'Reroute unlocked copper while preserving locked routes'}[effective['scope']],
-            'next_step':'Run route with these settings to create a separate candidate. Acceptance still requires original-design checks and native KiCad refill/DRC.'}
+            'next_step':('Review the verified missing connections before routing.' if finish else
+                         'Run route with these settings to create a separate candidate. Acceptance still requires original-design checks and native KiCad refill/DRC.')}
 
 def doctor():
     checks={}
@@ -149,6 +165,7 @@ def main():
     view.add_argument('board');preference_arguments(view)
     view.add_argument('--purpose',choices=['route','improve'],default='route',help='Preview Route or the narrower Improve capability scope')
     view.add_argument('--placement-origin',help='Exact reviewed placement qualification; inherits its protected-copper requirements')
+    view.add_argument('--gap-inspection-output',help='New folder for a verified Finish gaps source inspection and proposal')
     review=sub.add_parser('review-copy',help='Create a fresh disposable review within fixed 60-second wall/full-CPU caps');review.add_argument('receipt');review.add_argument('--output',required=True)
     review.add_argument('--render',action='store_true',help='Add native before/after copper plots and a local HTML review')
     choice=sub.add_parser('review-choice',help='Record accept/reject intent within fixed 60-second wall/full-CPU caps; no PCB approval or application')
@@ -168,6 +185,7 @@ def main():
     verify=sub.add_parser('check-result');verify.add_argument('receipt')
     r=sub.add_parser('route');r.add_argument('board');r.add_argument('--output',required=True);preference_arguments(r)
     r.add_argument('--placement-origin',help='Exact reviewed placement qualification; retained through review and delivery')
+    r.add_argument('--expected-gap-plan',help='Verified Finish gaps proposal identifier to recheck before routing')
     a=p.parse_args()
     if a.command == 'inspect-schematic':
         from . import gui, schematic_context
@@ -216,7 +234,8 @@ def main():
         result=doctor();print(json.dumps(result,indent=2));return 0 if result['ready'] else 2
     if a.command in {'settings-init','preview'}:
         try:
-            if a.command=='preview':result=preview(a.board,a.settings,explicit_preferences(a),purpose=a.purpose,placement_origin=a.placement_origin)
+            if a.command=='preview':result=preview(a.board,a.settings,explicit_preferences(a),purpose=a.purpose,placement_origin=a.placement_origin,
+                **({'gap_inspection_output':a.gap_inspection_output} if a.gap_inspection_output is not None else {}))
             else:
                 from . import preferences as pref
                 from .handoff import real_path
@@ -267,7 +286,8 @@ def main():
         elif a.command=='recover':
             from .recovery import recover
             result=recover(a.board,a.output,a.seconds)
-        else: result=route(a.board,a.output,settings_path=a.settings,preference_overrides=explicit_preferences(a),placement_origin=a.placement_origin)
+        else: result=route(a.board,a.output,settings_path=a.settings,preference_overrides=explicit_preferences(a),placement_origin=a.placement_origin,
+            **({'expected_gap_plan':a.expected_gap_plan} if a.expected_gap_plan is not None else {}))
     except Exception as exc:
         print(json.dumps({'accepted':False,'error':str(exc)}));return 2
     print(json.dumps({k:v for k,v in result.items() if k in ('status','accepted','reason','candidate','wall_seconds','total_cpu_seconds','metrics')},indent=2))

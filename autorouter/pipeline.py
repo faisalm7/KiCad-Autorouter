@@ -43,6 +43,7 @@ NATIVE7_SELECTED_DEFAULT_POLICY='native7-selected-sole-default-v1'
 NATIVE7_SELECTED_LEGACY_POLICY='native7-selected-legacy-table-v1'
 NATIVE7_TUNED_LOW_POLICY='native7-tuned-low-sole-default-v1'
 SELECTED_PLANE_CHOICE_POLICY='native7-selected-plane-choice-v1'
+FINISH_GAPS_POLICY='native-missing-connections-v1'
 DERIVED_ZONE={'filled_polygon','fill_segments'}
 CRITICAL_CHECKS={'hole_clearance','hole_to_hole','hole_near_hole','starved_thermal','zones_intersect','padstack','items_not_allowed','through_hole_pad_without_hole','unconnected_items','shorting_items','clearance','track_width','via_diameter','annular_width','drill_out_of_range','copper_edge_clearance','invalid_outline','tracks_crossing'}
 CRITICAL_CHECKS |= {'track_on_post_machined_layer'}
@@ -1687,7 +1688,7 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
         if ('pour_dsn_correction' in data or 'adapter_transformations' in data
                 or any((directory/n).exists() or (directory/n).is_symlink() for n in names[2:])):
             raise Rejected('stock workflow cannot claim pour adapter correction')
-        input_path=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
+        input_path=directory/partition_input(data)
         if read_bytes(input_path)!=read_bytes(directory/'native.dsn'):raise Rejected('stock pour workflow raw engine input differs')
         return
     source_bytes=read_bytes(directory/'snapshot'/candidate.name)
@@ -1699,12 +1700,12 @@ def check_pour_evidence(directory,data,original,candidate,*,source_hashes=None,c
         raise Rejected('missing/downgraded pour DSN correction lineage')
     from .adapter import adapt_bytes
     plane_transport=selected_planes.replay(directory,data,corrected)
-    adapted,adapter_record=adapt_bytes(corrected,data['adapter'],f.read_json(directory/'obstacles.json'),
+    adapted,adapter_record=adapt_bytes(corrected,adapter_mode(data),f.read_json(directory/'obstacles.json'),
         **({'plane_transport':plane_transport} if plane_transport is not None else {}))
     if 'native_edge_correction' in data:
         from . import native_edge
         adapted,_=native_edge.correct(adapted,native_edge_context(directory/'snapshot'/candidate.name,known_named=_known_named_edge))
-    engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
+    engine_input=directory/partition_input(data)
     if read_bytes(engine_input)!=adapted or f.canonical(data.get('adapter_transformations'))!=f.canonical(adapter_record):
         raise Rejected('pour corrected-to-adapter engine input differs')
 
@@ -2083,7 +2084,7 @@ def check_normal_engine_provenance(directory,data):
         raise Rejected('normal engine producer requires retained engine budget/journal')
 
 
-def check_engine_profile_record(data,directory):
+def check_engine_profile_record(data,directory, *, gap_partition=None):
     """Replay declared native settings against the retained actual engine argv."""
     from .floor_route import read_json
     directory=Path(directory)
@@ -2093,18 +2094,21 @@ def check_engine_profile_record(data,directory):
     optimizer=check_engine_optimizer_override(data,input_policy='native')
     captured=directory/'routing-preferences.json'
     if 'routing_preferences' in data or captured.exists() or captured.is_symlink():
-        return check_preferences_record(directory,data)
+        return check_preferences_record(directory,data,gap_partition=gap_partition)
     width=check_minimum_width_record(data,directory)
     engine=data['engine_budget']
-    expected=engine_profile_settings(data['engine_profile'],engine['remaining_outer_wall_seconds_at_assignment'],
-        strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None or 'default_target_transport' in data,
+    profile = 'completion-only' if gap_partition is not None else data['engine_profile']
+    expected=engine_profile_settings(profile,engine['remaining_outer_wall_seconds_at_assignment'],
+        strict_class_targets=data.get('netclass_policy') is not None or data.get('scope')=='selected_nets' or width is not None or 'default_target_transport' in data or gap_partition is not None,
         scoring_variant=data.get('scoring_variant'),experimental_free_angle=data['engine_profile']=='tuned-free-angle',fanout_enabled=fanout,experimental_fanout=fanout is False,optimizer_enabled=optimizer,experimental_optimizer=optimizer is False,global_width_policy=check_engine_global_width_policy(data))
+    if gap_partition is not None and gap_partition['engine_argument'] is not None:
+        expected['argv'].append(gap_partition['engine_argument'])
     workers=[step for step in data['steps'] if step.get('name')=='engine']
     if (any(engine.get(key)!=value for key,value in expected.items())
             or engine.get('outer_task_wall_budget_seconds')!=data['budget_seconds']
             or engine.get('outer_task_cpu_budget_seconds')!=data['cpu_budget_seconds']
             or len(workers)!=1
-            or workers[0].get('argv')!=engine_argv(directory,expected['argv'],profile=data['engine_profile'])
+            or workers[0].get('argv')!=engine_argv(directory,expected['argv'],profile=profile)
             or workers[0].get('cwd')!=str(directory)
             or workers[0].get('status')!='success' or workers[0].get('exit_code')!=0
             or workers[0].get('cleanup_complete') is not True
@@ -2287,10 +2291,10 @@ def check_native_edge_transport(directory,data,*,_known_named_edge=False):
     else:
         base=read_bytes(directory/('pour-corrected.dsn' if 'pour_dsn_correction' in data else 'default-targets.dsn' if 'default_target_transport' in data else 'native.dsn'))
     plane_transport=selected_planes.replay(directory,data,base)
-    adapted,adapter_record=adapter.adapt_bytes(base,data['adapter'],read_json(directory/'obstacles.json'),
+    adapted,adapter_record=adapter.adapt_bytes(base,adapter_mode(data),read_json(directory/'obstacles.json'),
         **({'plane_transport':plane_transport} if plane_transport is not None else {}))
     corrected,record=native_edge.correct(adapted,context)
-    engine_input=directory/('routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn')
+    engine_input=directory/partition_input(data)
     if (read_bytes(prior)!=adapted or read_bytes(engine_input)!=corrected
             or canonical(data.get('native_edge_correction'))!=canonical(record)
             or canonical(read_json(marker))!=canonical(record)
@@ -2393,6 +2397,8 @@ def selected_scope_markers(directory,data):
     if any(key in data for key in ('selected_net_binding','selected_net_audit','selected_dsn_binding')):return True
     path=Path(directory)/'routing-scope-input.dsn'
     if path.exists() or path.is_symlink():return True
+    if data.get('scope') == 'partial_completion' and 'finish_gaps' in data:
+        return False  # Its independent scope proof checks the reserved engine argument.
     def reserved(argv):
         return isinstance(argv,list) and any(isinstance(arg,str) and arg.startswith('--router.autorouter.ignore_net_classes') for arg in argv)
     if reserved(data.get('engine_budget',{}).get('argv')):return True
@@ -2411,6 +2417,18 @@ def protected_for_record(data,original):
     if data.get('scope') not in {'whole_board_unlocked_routing','partial_completion'}:
         raise Rejected('unknown protected routing scope')
     return [r for r in routes(original) if data['scope']=='partial_completion' or locked(r)]
+
+
+def partition_input(data):
+    if 'finish_gaps' in data:
+        from .finish_gaps import PARTITION_INPUT
+        return PARTITION_INPUT
+    return 'routing-scope-input.dsn' if data.get('scope')=='selected_nets' else 'task.dsn'
+
+
+def adapter_mode(data):
+    # Keep both active and surrounding planes represented in Finish gaps.
+    return 'graphics' if 'finish_gaps' in data else data['adapter']
 
 
 def parity_declaration(source, source_hashes):
@@ -2469,12 +2487,12 @@ def selected_parity_required(data,directory=None):
     return required
 
 
-def check_preferences_record(directory, data):
+def check_preferences_record(directory, data, *, gap_partition=None):
     """Recompute the captured choice and bind it to the actual engine invocation."""
     path=Path(directory)/'routing-preferences.json'
     if 'routing_preferences' not in data and not path.exists() and not path.is_symlink():
         if layer_markers(directory,data):raise Rejected('layer evidence requires captured routing preferences')
-        if selected_scope_markers(directory,data):raise Rejected('selected-net evidence requires captured routing preferences')
+        if gap_partition is None and selected_scope_markers(directory,data):raise Rejected('selected-net evidence requires captured routing preferences')
         return
     from . import preferences as pref
     from .placement_clearance import read_bytes
@@ -2492,8 +2510,9 @@ def check_preferences_record(directory, data):
         raise Rejected('routing result differs from captured preferences')
     assigned=data.get('engine_budget',{})
     width_guard=check_minimum_width_record(data,directory)
-    settings=engine_profile_settings(effective['profile'],assigned.get('remaining_outer_wall_seconds_at_assignment'),
-        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None or effective['scope']=='selected_nets' or width_guard is not None or 'default_target_transport' in data,scoring_variant=scoring)
+    profile = 'completion-only' if gap_partition is not None else effective['profile']
+    settings=engine_profile_settings(profile,assigned.get('remaining_outer_wall_seconds_at_assignment'),
+        strict_class_targets=effective['guidance']!='native' or data.get('netclass_policy') is not None or effective['scope']=='selected_nets' or width_guard is not None or 'default_target_transport' in data or gap_partition is not None,scoring_variant=scoring)
     settings.update(outer_task_wall_budget_seconds=effective['seconds'],outer_task_cpu_budget_seconds=effective['seconds'])
     if effective['layers']!='source_all':
         if type(data.get('layer_binding')) is not dict or type(data.get('layer_audit')) is not dict:
@@ -2503,6 +2522,8 @@ def check_preferences_record(directory, data):
         if canonical(audited)!=canonical(data['layer_audit']):raise Rejected('final layer audit differs from actual candidate')
         settings['argv'].append(contract['binding']['engine_argument'])
     elif layer_markers(directory,data):raise Rejected('unexpected layer restriction without captured explicit layers')
+    if gap_partition is not None and gap_partition['engine_argument'] is not None:
+        settings['argv'].append(gap_partition['engine_argument'])
     names=selected_scope_names(data)
     if names is not None:
         from . import routing_scope as rs
@@ -2531,11 +2552,11 @@ def check_preferences_record(directory, data):
     process=read_json(Path(directory)/'engine-process.json')
     if process!=steps[0] or process.get('status')!='success' or process.get('exit_code')!=0 or process.get('cleanup_complete') is not True:
         raise Rejected('engine preference process provenance differs')
-    if process.get('argv')!=engine_argv(directory,settings['argv']) or process.get('cwd')!=str(directory):
+    if process.get('argv')!=engine_argv(directory,settings['argv'],profile=profile if gap_partition is not None else None) or process.get('cwd')!=str(directory):
         raise Rejected('engine argv or cwd differs from captured preferences')
 
 
-def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None, _selected_plane_policy=None):
+def route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None, _selected_plane_policy=None, expected_gap_plan=None):
     """Keep cancellation active between workers and through final publication."""
     def interrupted(*_):raise KeyboardInterrupt
     previous={sig:signal.getsignal(sig) for sig in (signal.SIGINT,signal.SIGTERM)}
@@ -2548,12 +2569,13 @@ def route(source, output, seconds=120, keep_existing=False, adapter='none', engi
             _optimizer_enabled=_optimizer_enabled,_engine_clearance_margin_nm=_engine_clearance_margin_nm,
             _engine_global_width_policy=_engine_global_width_policy,comparison_context=comparison_context,_improve_context=_improve_context,_improve_budget=_improve_budget,
             **({'placement_origin':placement_origin} if placement_origin is not None else {}),
+            **({'expected_gap_plan':expected_gap_plan} if expected_gap_plan is not None else {}),
             **({'_selected_plane_policy':_selected_plane_policy} if _selected_plane_policy is not None else {}))
     finally:
         for sig,handler in previous.items():signal.signal(sig,handler)
 
 
-def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None, _selected_plane_policy=None):
+def _route(source, output, seconds=120, keep_existing=False, adapter='none', engine_profile='standard', *, scoring_variant=None, guidance_policy='native', settings_path=None, preference_overrides=None, _preferences=None, native_toolchain=None, experimental_schematic_parity=False, _fanout_enabled=None, _optimizer_enabled=None, _engine_clearance_margin_nm=None, _engine_global_width_policy=None, comparison_context=None, _improve_context=None, _improve_budget=None, placement_origin=None, _selected_plane_policy=None, expected_gap_plan=None):
     entry_started,entry_parent=elapsed_time(),time.process_time()
     from . import selected_plane_transport as selected_planes
     if _selected_plane_policy is not None:
@@ -2624,6 +2646,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             for sig in handlers:signal.signal(sig,interrupted)
             return route(source,output,**pref.route_arguments(effective),_preferences=request,
                          **({'placement_origin':placement_origin} if placement_origin is not None else {}),
+            **({'expected_gap_plan':expected_gap_plan} if expected_gap_plan is not None else {}),
             **({'_selected_plane_policy':_selected_plane_policy} if _selected_plane_policy is not None else {}))
         finally:
             for sig,handler in handlers.items():signal.signal(sig,handler)
@@ -2641,6 +2664,14 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             or _preferences['effective']['layers']!='source_all'):
         raise Rejected('experimental selected planes require exact ordinary Native7 selected preferences')
     if guidance_policy not in {'native','board-floors-v1','placement-clearance-v1'}: raise Rejected('unknown guidance policy')
+    from . import finish_gaps
+    finish = (keep_existing and native_toolchain is None and comparison_context is None and _improve_context is None
+              and finish_gaps.enabled('partial_completion', guidance_policy))
+    if expected_gap_plan is not None and (not finish or type(expected_gap_plan) is not str
+                                         or re.fullmatch('[0-9a-f]{64}', expected_gap_plan) is None):
+        raise Rejected('A verified Finish gaps preview identifier is required for this routing scope.')
+    if finish and engine_profile != 'standard':
+        raise Rejected('Finish gaps uses protected completion. Choose the Standard setting for this workflow.')
     if guidance_policy in {'board-floors-v1','placement-clearance-v1'}:
         from .floor_route import route as floor_route
         return floor_route(source,output,seconds,keep_existing,adapter,engine_profile,scoring_variant,guidance_policy=guidance_policy,preferences=_preferences)
@@ -2725,6 +2756,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         if selected is not None and source_policy is not None and source_policy['mode']==PARENT_POLICY:
             raise Rejected('unsupported: selected-net composite class transport not qualified')
         parity=source.with_suffix('.kicad_sch').name in before
+        if finish and not parity:
+            raise Rejected('Finish gaps needs the matching saved schematic to check the design before routing.')
         if native_toolchain is not None and not parity:raise Rejected('unsupported: explicit experimental route requires complete native schematic')
         if selected is not None:
             from . import routing_scope as rs
@@ -2752,7 +2785,12 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
                 raise Rejected('Native7 tuned/low source changed during task capture')
             proof=output/'native7-tuned-low-source.json';save_json(proof,record)
             report['native7_tuned_low_source']=dict(policy=NATIVE7_TUNED_LOW_POLICY,file=proof.name,sha256=sha(proof))
-        report['source_drc']=job.drc('source-drc',snapshot)
+        report['source_drc']=job.drc('source-drc',snapshot,schematic_parity=True) if finish else job.drc('source-drc',snapshot)
+        if finish:
+            planned = finish_gaps.plan(original, before, report['source_drc'])
+            report['finish_gaps'] = {'plan': planned}
+            finish_gaps.require_ready(planned, expected_gap_plan)
+            report['baseline'] = 'native_scoped_finish_gaps'
         policy=netclass_policy(candidate)
         from .netclass import PARENT_POLICY
         parent_classes=policy is not None and policy['mode']==PARENT_POLICY
@@ -2808,7 +2846,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
                 selected_planes.snapshot_policy(output)
                 plane_transport,report['selected_plane_transport']=selected_planes.capture(
                     output,dict(report,steps=job.steps),(output/'task.dsn').read_bytes())
-            report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter,json.loads((output/'obstacles.json').read_text()),
+            report['adapter_transformations']=adapt_dsn(output/'task.dsn',adapter_mode(report),json.loads((output/'obstacles.json').read_text()),
                 **({'plane_transport':plane_transport} if plane_transport is not None else {}))
             from . import native_edge
             shutil.copy2(output/'task.dsn',output/'edge-adapter-input.dsn')
@@ -2825,6 +2863,12 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             emitted,report['selected_dsn_binding']=rs.partition_dsn((output/'routing-scope-input.dsn').read_bytes(),selected)
             (output/'task.dsn').write_bytes(emitted)
             selection_argument=report['selected_dsn_binding']['engine_argument']
+        elif finish:
+            shutil.copy2(output/'task.dsn',output/finish_gaps.PARTITION_INPUT)
+            emitted, partition = finish_gaps.partition(output, task, planned['nets'], default_targets=default_targets)
+            (output/'task.dsn').write_bytes(emitted)
+            report['finish_gaps']['partition'] = partition
+            selection_argument = partition['engine_argument']
         report['task_dsn_sha256']=sha(output/'task.dsn')
         layers=None
         if _preferences is not None and _preferences['effective']['layers']!='source_all':
@@ -2833,7 +2877,8 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
         config_dir=output/'engine-config'; config_dir.mkdir()
         width_guard=minimum_width_guard(source,adapter)
         if width_guard is not None:report['minimum_width_guard']=width_guard
-        report['engine_budget']=engine_profile_settings(engine_profile,job.deadline-elapsed_time(),strict_class_targets=policy is not None or selected is not None or width_guard is not None or default_targets,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False,global_width_policy=_engine_global_width_policy)
+        profile = 'completion-only' if finish else engine_profile
+        report['engine_budget']=engine_profile_settings(profile,job.deadline-elapsed_time(),strict_class_targets=policy is not None or selected is not None or width_guard is not None or default_targets or finish,scoring_variant=scoring_variant,experimental_free_angle=engine_profile=='tuned-free-angle',fanout_enabled=_fanout_enabled,experimental_fanout=_fanout_enabled is False,optimizer_enabled=_optimizer_enabled,experimental_optimizer=_optimizer_enabled is False,global_width_policy=_engine_global_width_policy)
         report['engine_budget']['outer_task_wall_budget_seconds']=seconds
         report['engine_budget']['outer_task_cpu_budget_seconds']=seconds
         engine_settings=report['engine_budget']['argv']
@@ -2846,7 +2891,7 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
                 check_global_width_targets(output,source)
             report['engine_angle_binding']=prepare_engine_angle(output,**({'clearance_margin_nm':_engine_clearance_margin_nm} if _engine_clearance_margin_nm is not None else {}))
         preferences_fresh(output,_preferences)
-        job.step('engine',engine_argv(output,engine_settings,profile=engine_profile))
+        job.step('engine',engine_argv(output,engine_settings,profile=profile))
         if engine_profile in {'tuned','tuned-free-angle'}:
             report['optimizer_threshold_audit']=optimizer_threshold_audit(output/'engine.log',0.1)
         if not (output/'routes.ses').is_file(): raise Rejected('engine emitted no SES')
@@ -2860,12 +2905,17 @@ def _route(source, output, seconds=120, keep_existing=False, adapter='none', eng
             policy=import_policy,
             **({'selected_names':selected} if import_policy==SELECTED_PROPOSAL_IMPORT_POLICY else {})))
         report['protected_route_import']={'imported_sha256':sha(imported),**reconciliation}
+        if finish:
+            from . import routing_scope as rs
+            rs.audit(original,sx.read(candidate),planned['nets'],preserve_all=True)
         extra={'selected_names':selected,'schematic_parity':parity} if selected is not None else {}
         final_hash, native = validate_candidate(job, original, candidate, before, protected,layer_contract=layers,class_context=class_context,default_target_policy=default_targets,**extra)
         report['schematic_parity']=parity_declaration(source,before)
         if class_requirement is not None:
             report['schematic_class_final']=job.schematic_class_final
         if selected is not None:report['selected_net_audit']=rs.audit(original,sx.read(candidate),selected)
+        if finish:
+            report['finish_gaps']['audit'] = rs.audit(original,sx.read(candidate),planned['nets'],preserve_all=True)
         if layers is not None:report['layer_audit']=layers['audit']
         report['native']=native
         job.native('metrics','metrics',candidate,output/'metrics.json')
@@ -2971,10 +3021,10 @@ def validation_readback_session():
                    native_edge,netclass,netclass_native,placement_clearance,placement_strategy,routing_scope,thermal,thermal_geometry,
                    placement_transform,pour_rule_area,preferences,runner,strategy,task_copper,
                    provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy)
-    from . import fixed_net_tie,native_connected,selected_plane_transport
+    from . import finish_gaps,fixed_net_tie,native_connected,selected_plane_transport
     from experiments.selected_unselected_plane_v1 import policy as selected_plane_policy
     import sys
-    modules=(sys.modules[__name__],c,sx,selected_plane_transport,selected_plane_policy,_improve_context,adapter,board_floor,default_targets,engine_angle,fixed_net_tie,native_connected,floor_context,
+    modules=(sys.modules[__name__],c,sx,selected_plane_transport,selected_plane_policy,_improve_context,adapter,board_floor,default_targets,engine_angle,finish_gaps,fixed_net_tie,native_connected,floor_context,
              floor_route,handoff,layer_policy,legacy_zone,local_settings,padless_alias,padless_alias_native,native_edge,netclass,netclass_native,placement_clearance,
              placement_strategy,placement_transform,pour_rule_area,preferences,runner,strategy,
              routing_scope,thermal,thermal_geometry,provenance,review_export,review_view,schematic_fields,schematic_field_evidence,schematic_classes,schematic_class_evidence,schematic_hierarchy,task_copper)
@@ -3353,7 +3403,10 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         # Placement-backed pruning has its separate explicit incumbent contract.
         if data.get('input_policy')!='placement-pruning-v1':
             raise Rejected('pruning scoring marker on another routing policy')
-    if selected_scope_markers(path.parent,data) and data.get('scope')!='selected_nets':
+    from . import finish_gaps
+    scoped_finish = finish_gaps.required(path.parent, data, ordinary=(native_toolchain is None and not (
+        is_comparison or is_improve_child or is_improve_parent) and data.get('strategy') is None))
+    if selected_scope_markers(path.parent,data) and data.get('scope')!='selected_nets' and not scoped_finish:
         raise Rejected('selected-net evidence cannot downgrade routing scope')
     from . import placement_strategy as ps
     input_policy=ps.POLICY if ps.recognize(data,path.parent) else receipt_policy(data,path.parent)
@@ -3395,7 +3448,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     # including original rule copies and native evidence, before interpreting it.
     # Recheck after every late settings/process read; board-only layer checks
     # cannot detect a concurrently changed project file or native report.
-    preferences_guarded=(tuned_low_contract is not None or is_improve_child or is_comparison or _rejected_attempt or 'native_edge_admission_policy' in data
+    preferences_guarded=(scoped_finish or tuned_low_contract is not None or is_improve_child or is_comparison or _rejected_attempt or 'native_edge_admission_policy' in data
         or 'schematic_class_task' in data or 'schematic_class_final' in data
         or 'engine_optimizer_override' in data or 'engine_fanout_override' in data or data.get('engine_profile')=='tuned-free-angle' or 'engine_angle_binding' in data
         or (path.parent/'engine-angle.json').exists() or (path.parent/'engine-free-angle.dsn').exists()
@@ -3499,7 +3552,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
             audit_native(exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)
             if (data.get('netclass_policy')!=netclass_policy(candidate)
                     or data.get('netclass_export_audit')!=audit_dsn(path.parent/'native.dsn',exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)
-                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/('routing-scope-input.dsn' if data['scope']=='selected_nets' else 'task.dsn'),exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)):
+                    or data.get('netclass_task_audit')!=audit_dsn(path.parent/partition_input(data),exported,project,parent_policy=parent_classes,native_toolchain=native_toolchain)):
                 raise Rejected('retained DSN netclass audits differ from exported evidence')
 
     binding=evidence('final-drc-binding.json')
@@ -3553,6 +3606,11 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
     if any(step.get('status')=='cancelled' or step.get('cleanup_complete') is not True for step in steps): raise Rejected('cancelled or incomplete process cleanup in receipt')
     check_pour_evidence(path.parent,data,original,candidate,_known_named_edge=known_named_edge)
     edge_transport = check_native_edge_transport(path.parent,data,_known_named_edge=known_named_edge)
+    gap_partition = None
+    if scoped_finish:
+        if edge_transport is None or data.get('baseline') != 'native_scoped_finish_gaps' or 'engine_budget' not in data:
+            raise Rejected('Finish gaps requires the complete corrected engine scope proof')
+        gap_partition = finish_gaps.check(path.parent, data, original, candidate)
     from . import fixed_net_tie
     tie = fixed_net_tie.describe(original)
     if tie is not None:
@@ -3566,11 +3624,11 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
             raise Rejected('missing or changed fixed net tie transport evidence')
     elif 'fixed_net_tie' in data:
         raise Rejected('unexpected fixed net tie evidence on a source without ties')
-    check_preferences_record(path.parent,data)
+    check_preferences_record(path.parent,data,gap_partition=gap_partition)
 
     if 'engine_budget' in data:
         check_minimum_width_record(data,path.parent)
-        if input_policy=='native':check_engine_profile_record(data,path.parent)
+        if input_policy=='native':check_engine_profile_record(data,path.parent,gap_partition=gap_partition)
 
     check_resource_accounting(data)
 
@@ -3593,7 +3651,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         from .placement_clearance import final_freshness
         (ps.final_freshness if input_policy==ps.POLICY else final_freshness)(path.parent,data)
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:raise Rejected('placement receipt changed during readback')
-    check_preferences_record(path.parent,data)
+    check_preferences_record(path.parent,data,gap_partition=gap_partition)
     if preferences_guarded:
         if hashlib.sha256(bounded_bytes(path)).hexdigest()!=receipt_digest:
             raise Rejected('preference receipt changed during readback')

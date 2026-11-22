@@ -150,7 +150,10 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
     if settings:
         layers = settings.get('layers', 'not reported')
         if isinstance(layers, list): layers = ', '.join(layers)
-        lines += ['Settings: profile ' + str(settings.get('profile', 'not reported'))
+        if 'gap_plan' in record or 'finish_gaps' in record:
+            lines += ['Routing budget · ' + str(settings.get('seconds', 'not reported')) + ' s. Finish gaps keeps surrounding copper and skips extra optimization.']
+        else:
+            lines += ['Settings: profile ' + str(settings.get('profile', 'not reported'))
                   + '; corrections ' + str(settings.get('adapter', 'not reported'))
                   + ('; whole recovery-method budget ' if recovery else '; whole Improve-method budget ' if improve else '; routing budget ')
                   + str(settings.get('seconds', 'not reported')) + ' s'
@@ -169,7 +172,8 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                   'Additional Native export-validation budget: '
                   + str(export_validation_seconds(record['budget_seconds'])) + ' s after acceptance.']
     if stage == 'preview':
-        lines += ['Static preflight only; Native routing validation has not run.',
+        lines += [('KiCad checked the saved source after refilling zones.' if 'gap_plan' in record
+                   else 'Static preflight only; Native routing validation has not run.'),
                   'Existing route items: ' + str(record.get('existing_route_items', 'not reported'))
                   + '; protected: ' + str(record.get('protected_route_items', 'not reported'))
                   + '; to reroute: ' + str(record.get('rerouted_route_items', 'not reported'))]
@@ -179,6 +183,19 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
         lines += ['Actual Native refill and complete-schematic checks ran on a separate copy.',
                   'Unrouted connections are routing demand; they do not by themselves make the source invalid.',
                   'This inspection does not approve a route or waive any finding.']
+    gaps = record.get('gap_plan') or record.get('finish_gaps', {}).get('plan')
+    delivery = record.get('source_delivery')
+    if gaps is not None:
+        delivery = gaps['source_delivery']
+        if gaps['status'] == 'ready':
+            lines += ['Finish gaps targets · ' + ', '.join(gaps['nets']),
+                      f"KiCad found {gaps['opens']} missing connections. All {gaps['protected_routes']} existing routes are protected.",
+                      'Finish gaps keeps the surrounding copper and zone definitions. KiCad refills the zones during validation.']
+        elif gaps['status'] == 'already_connected':
+            lines += ['KiCad found no missing connections. There is nothing to route.']
+    if delivery is not None and delivery['reasons']:
+        from .finish_gaps import source_delivery_lines
+        lines += ['Checked delivery is blocked by the saved source.', *source_delivery_lines(delivery)]
     tie_info = record.get('static', {}) if stage == 'inspect' else record
     tie = tie_info.get('fixed_net_tie')
     if tie is not None:
@@ -496,6 +513,11 @@ class Workflow:
     @property
     def source_guard(self): return self._source_guard
 
+    def uses_gap_preview(self):
+        from .finish_gaps import enabled
+        settings = json.loads(self.settings_bytes)
+        return self.method == 'route' and enabled(settings['scope'], settings['guidance'])
+
     def fresh(self):
         from .handoff import owned_destination, runtime_inventory
         from .placement_clearance import read_bytes
@@ -536,6 +558,14 @@ class Workflow:
                 argv += [self.method if stage == 'route' else stage, str(self.board), '--settings', settings]
             if stage == 'preview' and self.method == 'improve': argv += ['--purpose', 'improve']
             if stage == 'route': argv += ['--output', str(self.workspace / 'route')]
+            if self.uses_gap_preview():
+                if stage == 'preview':
+                    argv += ['--gap-inspection-output', str(self.workspace / 'gap-inspection')]
+                else:
+                    scope = self.records.get('preview', {}).get('gap_plan')
+                    if not scope or scope['status'] != 'ready':
+                        raise ValueError('Finish gaps needs a current verified preview with connections to route.')
+                    argv += ['--expected-gap-plan', scope['binding_sha256']]
             if self.source_guard is not None and self.source_guard.placement_origin is not None:
                 argv += ['--placement-origin', str(self.source_guard.placement_origin)]
         elif stage == 'review':
@@ -598,12 +628,22 @@ class Workflow:
                     or record.get('source') != str(self.board)
                     or record.get('source_sha256') != json.loads(self.files_json)[self.board.name]):
                 raise ValueError('Preview did not bind this exact saved source.')
+            if self.uses_gap_preview():
+                from . import finish_gaps, project_inspection, sexpr
+                inspected = project_inspection.check(self.workspace / 'gap-inspection/inspection.json')
+                if (inspected['source'] != str(self.board) or inspected['source_hashes'] != json.loads(self.files_json)
+                        or record.get('effective_preferences') != json.loads(self.settings_bytes)
+                        or record.get('gap_plan') != finish_gaps.plan(sexpr.read(self.board), inspected['source_hashes'], inspected['native'])
+                        or record.get('native') != inspected['native']):
+                    raise ValueError('Finish gaps preview differs from the verified source and current controls.')
         elif stage == 'route':
             record = read_record(self.workspace / 'route/result.json')
             if (record.get('accepted') is not True or record.get('status') != 'routing_accepted'
                     or record.get('source') != str(self.board)
                     or record.get('source_hashes') != json.loads(self.files_json)):
                 raise ValueError('Routing did not produce an accepted result for this source. Inspect retained findings.')
+            if self.uses_gap_preview() and record.get('finish_gaps', {}).get('plan') != self.records['preview']['gap_plan']:
+                raise ValueError('Finish gaps result differs from the missing connections you reviewed.')
             if self.method == 'recover':
                 seconds = json.loads(self.settings_bytes)['seconds']
                 if (record.get('strategy') != 'native_validated_thermal_bridge'
@@ -1821,6 +1861,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             if hasattr(self, 'placement_button'):
                 self.placement_button.Enable(not self.busy and not choosing and self.source_guard is None)
             ready = self.flow.ready if self.flow else set()
+            gaps = getattr(self.flow, 'records', {}).get('preview', {}).get('gap_plan') if self.flow else None
             allowed = {'inspect': True, 'preview': True, 'route': 'preview' in ready and 'route' not in ready,
                 'review': 'route' in ready and 'review' not in ready,
                 'open_preview': 'review' in ready, 'open_review': 'review' in ready,
@@ -1828,6 +1869,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 'reject': 'review' in ready and 'choice' not in ready,
                 'export': 'choice' in ready and 'export' not in ready and self.flow.choice == 'accept' if self.flow else False,
                 'open_export': 'verify_export' in ready}
+            if gaps is not None and gaps['status'] != 'ready':
+                allowed['route'] = False
             for name, button in self.buttons.items(): button.Enable(not choosing and (self.busy if name == 'cancel' else not self.busy and allowed.get(name, False)))
             for control in (self.board, self.output, self.ack, self.inspected, *self.edit_controls): control.Enable(not self.busy and not choosing)
             if hasattr(self, 'apply_proposal_button'):
@@ -1837,7 +1880,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 for name, button in self.buttons.items():
                     show = (self.busy if name == 'cancel' else allowed.get(name, False) and not self.busy)
                     if name == 'preview':
-                        show = not self.busy and 'preview' not in ready
+                        show = not self.busy and ('preview' not in ready or gaps is not None and gaps['status'] != 'ready')
                     button.Show(show)
                 self.inspected.Show(reviewable)
                 self.ack.Show(not self.private_placement_source and 'preview' not in ready)
@@ -1892,7 +1935,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 request = _window_request(self)
                 if request.saved_closed is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
                 self.busy = True; self.job = CliJob(); job = self.job; self.refresh()
-                self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
+                settings = json.loads(request.settings_json)
+                from .finish_gaps import enabled
+                if stage == 'preview' and request.method == 'route' and enabled(settings['scope'], settings['guidance']):
+                    self.status.SetLabel('Checking missing connections and source findings in KiCad…')
+                else:
+                    self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
                 def work():
                     flow = None
                     try:
@@ -2068,6 +2116,18 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                                            else 'Rejected. Original project unchanged.'),
                                 'export': 'Fresh separate project verified. Open it in KiCad when ready.'}
                     self.status.SetLabel(messages[stage])
+                    if stage == 'preview' and 'gap_plan' in record:
+                        gaps = record['gap_plan']
+                        if gaps['status'] == 'ready':
+                            targets = ', '.join(gaps['nets'])
+                            if len(targets) > 90:
+                                targets = str(len(gaps['nets'])) + ' nets listed in Findings'
+                            self.status.SetLabel('Finish gaps will route ' + targets + '. Review the targets before starting.')
+                        elif gaps['status'] == 'already_connected':
+                            self.status.SetLabel('KiCad found no missing connections. There is nothing to route.')
+                        else:
+                            self.status.SetLabel('Finish gaps is blocked. See the source findings for the next action.')
+                            self.workspace_tabs.SetSelection(1)
                     report = (flow.records['export'] if stage == 'export' else flow.records.get('route', record))
                     native = report.get('native') or report.get('saved_native_findings')
                     if native is not None:

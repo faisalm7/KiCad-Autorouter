@@ -29,6 +29,7 @@ def inspect(board, output, seconds=60, *, placement_context=False):
     """Inspect a new copy with actual refill/full-schematic DRC; no source writes."""
     from .design_intent import inspect_project
     from .gui import source_inventory
+    from .finish_gaps import source_delivery
     seconds = _seconds(seconds)
     if type(placement_context) is not bool or placement_context and c.NATIVE_VERSION != '10.0.7':
         raise ValueError('Explicit placement inspection requires pinned Native10.0.7.')
@@ -94,6 +95,7 @@ def inspect(board, output, seconds=60, *, placement_context=False):
             raise ValueError('Inspection exhausted its whole wall/CPU budget.')
         record.update(status='inspection_ready', wall_seconds=elapsed, **costs,
             native_report_sha256=p.sha(output / 'source-drc.json'),
+            source_delivery=source_delivery(native),
             note='Unrouted connections are routing demand, not by themselves an invalid source design. '
                  'Warnings and other findings remain visible. This is inspection, not acceptance.')
         p.check_resource_accounting(record)
@@ -118,6 +120,7 @@ def check(path):
     """Replay shared Native/source checks; never treat this as routing acceptance."""
     from .gui import source_inventory
     from .design_intent import inspect_project
+    from .finish_gaps import source_delivery
     path = h.real_path(path); directory = path.parent
     record = f.read_json(path)
     fields = {'schema','policy','source','source_hashes','static','tools','accepted','status',
@@ -127,6 +130,8 @@ def check(path):
     placement_context = type(record) is dict and record.get('policy') == PLACEMENT_POLICY
     if placement_context:
         fields.add('placement_context')
+    if type(record) is dict and 'source_delivery' in record:
+        fields.add('source_delivery')
     if (type(record) is not dict or set(record) != fields or type(record.get('schema')) is not int
             or record.get('schema') != 1 or record.get('policy') not in (POLICY, PLACEMENT_POLICY)
             or record.get('status') != 'inspection_ready' or record.get('accepted') is not False
@@ -153,6 +158,8 @@ def check(path):
     if (f.canonical(native) != f.canonical(record.get('native'))
             or p.sha(directory / 'source-drc.json') != record.get('native_report_sha256')):
         raise ValueError('Inspection findings changed.')
+    if 'source_delivery' in record and record['source_delivery'] != source_delivery(native):
+        raise ValueError('Inspection source delivery assessment changed.')
     if placement_context:
         check_placement_context(directory, record, directory / 'snapshot' / source.name, before)
     if source_inventory(source) != before or h.evidence_witness(directory) != material:

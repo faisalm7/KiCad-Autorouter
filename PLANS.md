@@ -2,7 +2,26 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
-## Current delivery batch from 42eeeda72
+## Current Finish gaps batch from 2dabd0799
+
+1. The source-derived scope and early delivery checks are integrated. Native
+   Preview must show the missing-connection nets, the retained routing and
+   any source blockers. The actual engine and final readback must use that
+   same scope. Older route results retain their original policy.
+2. Qualify the installed flow on the owned two-gap board. Preserve its KEEP
+   track and ground plane, and check that only ROUTE_A and ROUTE_B receive
+   copper. Verify the unchanged Robotont repair project stops in Preview and
+   identifies the J2 Datasheet and J1 footprint issues. Run no Robotont solver.
+3. After the above checks, evaluate the MIT DS18B20 project. This is a new
+   single-segment repair on an exposed family. Freeze the exact source edit,
+   one 85-second attempt and 26 retained routes before running it. Check the
+   pristine source and actual task eligibility. Record operator actions,
+   elapsed time, findings, changes and any refusal through independent readback.
+
+Continue to the next ready item after each verified checkpoint. Preserve the old
+Robotont trial, the previous scoped delivery and the existing recovery receipt.
+
+## Completed delivery batch from 42eeeda72
 
 1. The saved live proposal passed freshness, adoption, placement, protected
    routing and checked delivery. The corrected installed handoff prefilled
@@ -17,9 +36,8 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    remain concrete limits on broader Finish gaps usefulness.
    [Installed outcome](evidence/robotont-finish-gaps-installed-001.json)
 
-The next Finish gaps investigation should validate the source-aware active-net
-selection with inherited parity checks before dispatch. Keep the pinned
-Robotont case and its failed result as development evidence. [Selected recovery](evidence/backups/selected-board-flow-42ee-001.json)
+The pinned Robotont case and its failed result are retained as development
+evidence. [Selected recovery](evidence/backups/selected-board-flow-42ee-001.json)
 
 ## Current queue from 6ea132471
 

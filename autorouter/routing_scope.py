@@ -215,9 +215,11 @@ def bind(source_bytes, names):
     return record
 
 
-def audit(original, candidate, names):
+def audit(original, candidate, names, *, preserve_all=False):
     """Check selected scope; success establishes no native/routing acceptance."""
-    selected, mapping, _, protected = _context(original, names)
+    selected, mapping, original_routes, protected = _context(original, names)
+    if preserve_all:
+        protected = original_routes
     _board(candidate)
     if p.immutable(candidate) != p.immutable(original):
         raise p.Rejected('selected scope changed immutable original geometry')
@@ -237,6 +239,7 @@ def audit(original, candidate, names):
         generated.append({'uuid': _uuid(_one(route, 'uuid'))[1],
                           'kind': route[0], 'net_name': name})
     return {'schema': 1, 'policy': POLICY, 'scope_passed': True,
+            **({'all_original_routes_protected':True} if preserve_all else {}),
             'routing_accepted': False, 'native_validation_performed': False,
             'requested_names': selected, 'protected_count': len(protected),
             'protected_routes': _protected_records(mapping, protected),

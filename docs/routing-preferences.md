@@ -8,9 +8,9 @@ A value accepted by the JSON schema is not automatically supported by selected K
 
 | Choice | Current ordinary Route | Limit |
 |---|---|---|
-| Scope/protection | Whole-board reroutes unlocked copper while preserving locked routes. Finish gaps (`partial_completion`, CLI `--scope partial` or `--keep-existing`) preserves every existing route. | The bounded selected path requires pinned10.0.7, canonical20260206 or exact20241229 numeric-table input, original0/F.Cu and2/B.Cu, sole Default with no assignments/patterns, complete flat schematic, completion-only/both/native/source_all/default-score.086 has an actual20241229 protected delivery control; actual086GUI remains pending. Other formats, subsets and combinations refuse. Historical10.0.0 controls do not transfer. |
+| Scope/protection | Whole-board reroutes unlocked copper while preserving locked routes. Finish gaps (`partial_completion`, CLI `--scope partial` or `--keep-existing`) preserves every existing route and adds copper only on nets with verified missing connections. | Finish gaps needs a saved PCB and matching schematic, two supported outer copper layers, and exact KiCad connection identities. The separate selected-net path uses explicitly chosen nets and may replace their unlocked copper. See [installed limits](../REQUIREMENTS.md#current-installed-scope). |
 | Budget | Finite5–900 seconds, excluding booleans; default120. Preparation/final checks consume wall and measured CPU limits. | Small budgets may refuse. GUI Improve/recovery require90+. Separate export30–120s does not enlarge routing time. |
-| Profile/corrections | Whole/partial Route uses `standard`, `both`; corrected-standard/B1 remains default. | The narrow selected path uses `completion-only`, `both`. Other ordinary combinations refuse; comparison administration is separate. |
+| Profile/corrections | Whole Route uses `standard`, `both`. Finish gaps keeps the Standard setting, skips extra optimization and retains the surrounding planes and obstacles in the engine input. | The narrow selected path uses `completion-only`, `both`. Other ordinary combinations refuse. |
 | Guidance | `native`; original rules remain authoritative. | Other guidance is not ordinary-profile admission. |
 | Allowed new layers | `source_all`, preserving original stackup, on supported2/4Cu sources. | Explicit subsets/single-layer choices remain refused. |
 | Via preference | `scoring_preference: null` default, or explicit `"via_high"`. | Higher search cost does not guarantee fewer vias or electrical suitability. Other scores refuse; Improve/recovery require `null`. |
@@ -38,6 +38,8 @@ A partial90 ordinary preset is:
 ```
 
 For higher via cost, change only the final value to `"via_high"` in a fresh preset. Load it and verify displayed choices before Preview, or pass `--settings /absolute/preset.json`. Explicit CLI options override only that run; they do not edit the file. Keep critical copper locked or use Finish gaps. Current, impedance, timing and return-path requirements need their own checks/review; DRC alone cannot establish them.
+
+When you preview Finish gaps, KiCad refills zones and checks the saved project on a copy. Copperpath lists the nets it will route and any source findings that would block a checked export. Resolve a reported PCB/schematic difference in KiCad, save the project, and preview again. Use the scope shown in Preview before starting. See [the CLI equivalent](install-existing.md#advanced-ordinary-routing-cli).
 
 Improve is a separate experimental canonical2Cu/flat/whole/native/tuned/both/source_all/default-score method using the single-proposal policy. Its source guard accepts sole explicit/implicit Default or the narrowly checked Native parent-class policy. The [074 matched-class control](../evidence/runtime074-installed-native-milestone-001.json) preserves the original `Default`, `SIGNAL` and `POWER` classes, exercises one actual trial and retains protected copper, own export proof and wrong-width/source-PRO negatives. This does not qualify arbitrary class assignments, selected Improve, explicit layer subsets or advanced constraints.
 

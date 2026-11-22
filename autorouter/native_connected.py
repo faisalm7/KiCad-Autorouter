@@ -169,6 +169,34 @@ def _dsn_members(raw, names, terminals):
     return network
 
 
+def open_names(native, endpoints):
+    """Resolve each verified Native missing connection to one exact board net."""
+    opens = [finding for finding in native['findings'] if finding['type'] == 'unconnected_items']
+    if len(opens) != native['opens'] or len(opens) > MAX_ITEMS:
+        raise p.Rejected('complete task open population differs')
+    active = set()
+    for finding in opens:
+        if finding['severity'] != 'error' or finding.get('excluded', False):
+            raise p.Rejected('task connectivity open was weakened or excluded')
+        items = finding['items']
+        if len(items) != 2:
+            raise p.Rejected('unqualified task connectivity endpoint population')
+        resolved, seen = set(), set()
+        for item in items:
+            identity = item.get('uuid') if type(item) is dict else None
+            if type(identity) is not str or identity.lower() in seen:
+                raise p.Rejected('ambiguous task connectivity endpoint')
+            seen.add(identity.lower())
+            values = endpoints.get(identity.lower(), set())
+            if len(values) != 1:
+                raise p.Rejected('unmapped, null or ambiguous task connectivity endpoint')
+            resolved.update(values)
+        if len(resolved) != 1:
+            raise p.Rejected('mixed-net task connectivity endpoints')
+        active.update(resolved)
+    return sorted(active)
+
+
 def derive(original_bytes, task_bytes, filled_bytes, native, native_dsn,
            source_hashes, *, source_name, report_sha256):
     """Pure hint derivation; native summary provenance is mandatory in readback()."""
@@ -198,29 +226,7 @@ def derive(original_bytes, task_bytes, filled_bytes, native, native_dsn,
         raise p.Rejected('task connectivity native scope unavailable: ' + '; '.join(reasons))
     names, endpoints, terminals = _index(filled)
     network = _dsn_members(native_dsn, names, terminals)
-    opens = [finding for finding in native['findings'] if finding['type'] == 'unconnected_items']
-    if len(opens) != native['opens'] or len(opens) > MAX_ITEMS:
-        raise p.Rejected('complete task open population differs')
-    active = set()
-    for finding in opens:
-        if finding['severity'] != 'error' or finding.get('excluded', False):
-            raise p.Rejected('task connectivity open was weakened or excluded')
-        items = finding['items']
-        if len(items) != 2:
-            raise p.Rejected('unqualified task connectivity endpoint population')
-        resolved, seen = set(), set()
-        for item in items:
-            identity = item.get('uuid') if type(item) is dict else None
-            if type(identity) is not str or identity.lower() in seen:
-                raise p.Rejected('ambiguous task connectivity endpoint')
-            seen.add(identity.lower())
-            values = endpoints.get(identity.lower(), set())
-            if len(values) != 1:
-                raise p.Rejected('unmapped, null or ambiguous task connectivity endpoint')
-            resolved.update(values)
-        if len(resolved) != 1:
-            raise p.Rejected('mixed-net task connectivity endpoints')
-        active.update(resolved)
+    active = set(open_names(native, endpoints))
     if not active:
         raise p.Rejected('all-connected no-engine path not qualified')
     record = {'schema': 1, 'policy': POLICY, 'routing_accepted': False,
@@ -231,7 +237,7 @@ def derive(original_bytes, task_bytes, filled_bytes, native, native_dsn,
               'inactive_names': sorted(names - active), 'complete_terminal_count': len(terminals),
               'terminal_sha256': _sha(f.canonical(terminals).encode()),
               'native_network_sha256': _sha(f.canonical(network).encode()),
-              'mapped_open_count': len(opens), 'engine_profile': 'completion-only',
+              'mapped_open_count': native['opens'], 'engine_profile': 'completion-only',
               'engine_requirements': {'fanout': False, 'optimizer': False,
                                       'automatic_neckdown': False, 'neck_width_um': 0},
               'reference_routes_used_for_selection': False,
