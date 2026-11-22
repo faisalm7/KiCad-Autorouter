@@ -2257,6 +2257,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.message('Qualification refused: ' + str(exc))
 
         def open_routing(self, _):
+            if self.busy or self.gate.closed:
+                return
             try:
                 if getattr(self, 'constraint_offer', None) is not None:
                     raise ValueError('Use or discard proposed settings before continuing to routing.')
@@ -2265,9 +2267,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if self.qualified is None: raise ValueError('Validate this exact draft first.')
                 self.current_review_settings(self.gate.review)
                 result = self.qualified; self.gate.check(result['ticket'])
-                if self.job is not None: self.job.check_live()
+                # Qualification and initial adoption already used the worker deadline.
+                # A reviewed result now depends on the ticket, material and cancellation.
+                if self.job is not None: self.job.check_not_cancelled()
                 candidate = result['witness']['candidate']; result['guard'].check(candidate)
-                if self.job is not None: self.job.check_live()
+                if self.job is not None: self.job.check_not_cancelled()
                 if self.routing is not None:
                     if self.routing.source_guard is not result['guard']:
                         raise ValueError('The previous routing window is closing. Wait before opening the new candidate.')
@@ -2311,7 +2315,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         frame._settings_guard = check_settings
                     result['guard'].check(candidate); self.gate.check(result['ticket'])
                     self.current_review_settings(self.gate.review)
-                    if self.job is not None: self.job.check_live()
+                    if self.job is not None: self.job.check_not_cancelled()
                     self.gate.check(result['ticket'])
                 except Exception:
                     frame.Destroy(); raise

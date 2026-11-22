@@ -602,6 +602,23 @@ class PlacementGuiTests(unittest.TestCase):
             window_method('open_routing')(window, None)
         factory.assert_not_called(); self.assertIsNone(window.routing)
 
+    def test_review_pause_does_not_reexpire_an_already_adopted_placement(self):
+        window = self.window(); guard = Mock(); frame = Mock(source_guard=guard)
+        window.job.process = Mock()
+        window.job._action_process = window.job.process
+        window.job._action_started = 1
+        window.job._action_deadline = 2
+        window.qualified = dict(ticket=window.gate.ticket(), guard=guard,
+                                witness={'candidate': '/owned/candidate.kicad_pcb'})
+        with patch.object(gui, 'elapsed_time', return_value=3), \
+                patch.object(gui, 'create_window', return_value=frame) as factory:
+            window_method('open_routing')(window, None)
+        factory.assert_called_once()
+        frame.Show.assert_called_once()
+        self.assertEqual(guard.check.call_count, 2)
+        self.assertFalse(window.job.cancel_requested)
+        window.gate.check(window.qualified['ticket'])
+
     def test_late_stale_guard_destroys_unshown_frame_without_routing(self):
         window = self.window(); guard = Mock(); guard.check.side_effect = [None, ValueError('source changed')]
         window.qualified = dict(ticket=window.gate.ticket(), guard=guard, witness={'candidate': '/owned/candidate.kicad_pcb'})

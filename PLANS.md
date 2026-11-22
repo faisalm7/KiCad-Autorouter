@@ -36,14 +36,14 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
    [Installed delivery](evidence/product-native-named-class-delivery-001.json)
 7. **Verified controls.** Selected nets sets and shows the required profile.
    The installed picker used saved board names, kept settings on Cancel and
-   rejected a source edited while the sheet was open. Its fourth row was
-   initially clipped. Check the dialog-height correction in the next install.
+   rejected a source edited while the sheet was open. The adjusted height
+   displayed all four names without scrolling on the next build.
    [Installed workflow](evidence/product-selected-net-controls-001.json)
-8. **In progress.** Assess a one-component saved placement. The current
-   annealer requires two movable components. Try the existing bounded region
-   and clearance checks with one component and deterministic coordinate
-   search. Keep group and model contracts unchanged. Require a visible
-   proposal and actual Native preservation before admitting one-part work.
+8. **In progress.** An installed one-part draft passed actual placement
+   validation and independent preservation checks. Handoff after review
+   refused because the finished worker's deadline was reused. Correct the
+   handoff and qualify one fresh continuation with a deliberate review pause.
+   [First result and refusal](evidence/product-single-placement-handoff-001.json)
 9. Extend the next useful workflow on a licensed design. Freeze the source
    and task before execution. Record the exact support boundary if admission
    fails and advance the next ready installation or editor task.

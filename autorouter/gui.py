@@ -1047,13 +1047,21 @@ class CliJob:
         with self._lock:
             self._cancel_locked()
 
-    def check_live(self, *, require_armed=False):
-        """A retained process snapshot cannot supersede a later Cancel."""
+    def _check_not_cancelled_locked(self):
+        if self.cancel_requested:
+            if self._deadline_error is not None:
+                raise ValueError('Action timed out or its timing could not be verified. No result was adopted.')
+            raise ValueError('Action was cancelled. No positive UI state adopted.')
+
+    def check_not_cancelled(self):
+        """Retain cancellation checks when using an already adopted result."""
         with self._lock:
-            if self.cancel_requested:
-                if self._deadline_error is not None:
-                    raise ValueError('Action timed out or its timing could not be verified. No result was adopted.')
-                raise ValueError('Action was cancelled. No positive UI state adopted.')
+            self._check_not_cancelled_locked()
+
+    def check_live(self, *, require_armed=False):
+        """Check the active action through its initial result adoption."""
+        with self._lock:
+            self._check_not_cancelled_locked()
             self._check_deadline_locked(require_armed=require_armed)
 
     def adopt(self, flow, stage, process, log_path, *, choice=None, choice_binding=None):
