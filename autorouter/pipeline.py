@@ -2557,7 +2557,7 @@ def source_field_preflight(scope, source, files):
 
 
 def check_source_field_preflight(directory, data, source):
-    from .floor_route import check_drc_stage
+    from .floor_route import check_drc_stage, read_json
     from .finish_gaps import source_delivery
     from .local_settings import policy_declaration
     from .placement_clearance import read_bytes
@@ -2565,6 +2565,11 @@ def check_source_field_preflight(directory, data, source):
     producer = read_bytes(directory / 'code/pipeline.py', 1024**2)
     if policy_declaration(producer, name='ROUTE_SOURCE_FIELDS_POLICY', expected=ROUTE_SOURCE_FIELDS_POLICY) is None:
         return  # Earlier producers ran a PCB-only source check.
+    if 'routing_preferences' not in data:
+        binding = read_json(directory / 'source-drc-binding.json')
+        if 'field_local_settings_policy' in binding:
+            raise Rejected('The saved-source field check requires the captured routing settings.')
+        return  # Direct legacy API calls keep their PCB-only source check.
     before = data['source_hashes']
     native = check_drc_stage(directory, data, 'source-drc', directory / 'snapshot' / source.name,
                             directory / 'source-drc-input' / source.name, False, before,
@@ -3735,7 +3740,7 @@ def _check_result_uncached(path, *, native_toolchain=None, experimental_schemati
         gap_partition = finish_gaps.check(path.parent, data, original, candidate)
     from .selected_plane_transport import VARIANT as SELECTED_PLANE_VARIANT
     if (native_toolchain is None and not (is_comparison or is_improve_child or is_improve_parent)
-            and data.get('strategy') is None and input_policy == 'native' and 'routing_preferences' in data
+            and data.get('strategy') is None and input_policy == 'native'
             and data.get('selected_plane_choice', {}).get('mode') != SELECTED_PLANE_VARIANT
             and source_field_preflight(data['scope'], source, data['source_hashes'])):
         check_source_field_preflight(path.parent, data, source)

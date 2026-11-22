@@ -39,6 +39,24 @@ class FieldEvidenceControls(unittest.TestCase):
         native['ignored_checks'] = [{'key': evidence.TYPE}]
         delivery = source_delivery(native, field_mismatches_only=True)
         self.assertEqual(delivery['reasons'], ['disabled policy-critical native check: ' + evidence.TYPE])
+
+    def test_source_field_readback_requires_the_stage_and_captured_settings(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name).resolve()
+            board = root / 'saved/owned.kicad_pcb'
+            (root / 'code').mkdir()
+            (root / 'code/pipeline.py').write_text(f'ROUTE_SOURCE_FIELDS_POLICY = {p.ROUTE_SOURCE_FIELDS_POLICY!r}\n')
+            p.save_json(root / 'source-drc-binding.json', {'field_local_settings_policy': p.FIELD_LOCAL_SETTINGS_POLICY})
+            data = {'source_hashes': {board.name: 'a' * 64}, 'source_drc': self.summary()}
+            with self.assertRaisesRegex(p.Rejected, 'captured routing settings'):
+                p.check_source_field_preflight(root, data, board)
+            data['routing_preferences'] = {}
+            with patch('autorouter.floor_route.check_drc_stage', return_value=self.summary()) as read:
+                p.check_source_field_preflight(root, data, board)
+                self.assertTrue(read.call_args.kwargs['schematic_parity'])
+                data['source_drc']['warnings'] = 0
+                with self.assertRaisesRegex(p.Rejected, 'checks differ'):
+                    p.check_source_field_preflight(root, data, board)
     def test_native_mandatory_case_alias_cannot_hide_raw_source_value(self):
         from autorouter import sexpr as sx
         good=sx.parse('(kicad_sch (symbol (property "Datasheet" "~")))')
