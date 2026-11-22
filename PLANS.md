@@ -47,10 +47,14 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
 9. **Bounded admission complete.** Four retained licensed sources refused.
    The closest board needs independent keepout enforcement and has separate
    schematic/PCB conflicts. Keep the inputs intact. [Candidate refusals](docs/current-placement-scope.md#bounded-review-of-retained-licensed-sources)
-10. Apply the existing field-parity rules to the initial KiCad check in
-    ordinary routing. Show unresolved PCB and schematic field differences
-    before starting Freerouting. Verify one controlled Native mismatch and
-    one admissible source with repairable opens in the installed workflow.
+10. **Verified.** Ordinary routing uses the existing initial KiCad check to
+    show unresolved saved PCB and schematic field differences before
+    Freerouting. The installed J2 mismatch refused and the matched two-gap
+    source passed fresh export without changing any protected copper.
+    [Installed pair](evidence/product-early-source-fields-001.json)
+11. Show known delivery blockers as the saved board opens. Keep actual board
+    context behind the copper changes in review. Verify both on screen in one
+    installed build using the existing route proof for the display check.
 
 ## Verified Finish gaps batch from 2dabd0799
 

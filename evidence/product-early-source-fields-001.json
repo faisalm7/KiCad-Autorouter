@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "date": "2026-11-22",
+  "build": "d515676dfc037145a8b2cd2ca75decec9ad0b711",
+  "runtime_manifest_sha256": "e651b58aa5c9de718c0d607a2fbb67407d5a82f9004e559e742c9486d8b32747",
+  "native_version": "10.0.7",
+  "window_points": [
+    960,
+    650
+  ],
+  "locally_retained_run": ".runs/source-field-admission-001",
+  "method": "Ordinary selected-net completion from two disposable copies of the same owned project.",
+  "approved_nets": [
+    "ROUTE_A",
+    "ROUTE_B"
+  ],
+  "wall_budgets": {
+    "routing_seconds": 85,
+    "fresh_export_seconds": 85
+  },
+  "refusal": {
+    "finding": {
+      "component": "J2",
+      "field": "Datasheet",
+      "PCB": "https://example.invalid/owned-j2",
+      "schematic": ""
+    },
+    "native_findings": [
+      {
+        "description": "Field 'Datasheet' differs (PCB: 'https://example.invalid/owned-j2', Schematic: '')",
+        "items": [
+          {
+            "description": "Footprint J2",
+            "pos": {
+              "x": 26.0,
+              "y": 10.0
+            },
+            "uuid": "fd1c85e4-2ea3-57ff-9cf8-d9c83f200abc"
+          }
+        ],
+        "severity": "warning",
+        "type": "footprint_symbol_field_mismatch"
+      }
+    ],
+    "native_opens": 2,
+    "native_errors_other_than_opens": 0,
+    "workers": [
+      "source-drc",
+      "source-drc-fields-netlist",
+      "source-drc-fields-audit"
+    ],
+    "routing_engine_started": false,
+    "separate_export_offered": false,
+    "wall_seconds": 2.9806110840290785,
+    "visible_wait_seconds": 3.3043133749160916,
+    "board_and_schematic_values_visible": true,
+    "repair_guidance_visible": true
+  },
+  "success": {
+    "source_native_stages": 1,
+    "source_native_verified_opens": 2,
+    "final_native_opens": 0,
+    "final_native_blocking": 0,
+    "final_native_warnings": [
+      "text_height"
+    ],
+    "original_ignored_checks": [
+      "track_not_centered_on_via",
+      "tuning_profile_track_geometries"
+    ],
+    "protected_tracks": 1,
+    "new_route_items": 7,
+    "matched_source_rules_and_geometry": true,
+    "candidate_sha256": "52a684dca2c945f7f0561b0980e91df3486bcadeb746bb39900c647206dfa818",
+    "current_independent_readback": true,
+    "routing_wall_seconds": 10.07901129196398,
+    "fresh_export_wall_seconds": 7.817945790942758,
+    "independent_reader_wall_seconds": 3.307175082853064,
+    "open_to_checked_export_seconds": 166.56700354185887,
+    "open_to_independent_check_seconds": 241.860749125015,
+    "includes_operator_automation_pauses": true
+  },
+  "untested_here": [
+    "distinct whole-board installed control",
+    "qualifying placeholder through the installed UI",
+    "fresh opening in KiCad"
+  ],
+  "previous_robotont_refusal": "evidence/robotont-finish-gaps-installed-001.json",
+  "model_requests": 0,
+  "manual_CAD_corrections": 0,
+  "both_original_projects_exact": true,
+  "human_PCB_approval": false,
+  "next_user_issue": "Opening currently shows the KiCad warning counts without explaining Copperpath delivery policy."
+}

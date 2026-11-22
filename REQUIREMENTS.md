@@ -35,6 +35,11 @@ The master specification, current strategy and owner steering govern. Historical
   Robotont parity blocker early, withholds Start for a connected source, and
   revokes the preview after a budget edit. Broader geometry and ambiguous
   net identities remain outside this scope. [Results](docs/scoped-finish-gaps-evaluation.md)
+- In ordinary pinned 10.0.7 routing, the initial KiCad source check now looks
+  for PCB and schematic footprint-field differences that block delivery.
+  The installed selected-net pair verified both early refusal and successful
+  closure of two repairable opens. Other possible source issues can still
+  appear during final validation. [Installed evidence](evidence/product-early-source-fields-001.json)
 - The 9e2372a89 Mac installation completes one saved rectangular two-layer
   placement-and-routing task with a protected standard through-via. The
   checked export and independent readback preserve the original copper,
