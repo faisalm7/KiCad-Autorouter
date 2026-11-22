@@ -82,8 +82,10 @@ def scope_options(*, scope=DEFAULT_SCOPE, selected=None, region_nm=None, region_
         need(type(region_initialization) is str
              and region_initialization in prototype.REGION_INITIALIZATION_POLICIES,
              'Explicit supported selected-target region initialization required')
-        need(source_baseline_scope(scope) and len(selected) <= 2,
-             'Region initialization requires source-baseline scope and at most two selected footprints')
+        compatible_scope = (source_baseline_scope(scope) or
+                            scope == CONTEXT_SCOPE and region_initialization == prototype.REGION_INITIALIZATION_POLICY)
+        need(compatible_scope and len(selected) <= 2,
+             'Region initialization requires compatible source geometry and at most two selected footprints')
         options['region_initialization'] = region_initialization
     return options
 

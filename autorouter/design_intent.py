@@ -612,10 +612,12 @@ class PlacementConstraintReview:
             explicit_area = arguments['region_nm'] is not None or (
                 arguments['selected_refs'] is not None
                 and region != self._inspection['observation']['outline']['bounds_nm'])
+            scope = self._inspection['observation']['scope']
             if (explicit_area and original_region_policy is None
+                    and (scope != placement.contract.CONTEXT_SCOPE or 'copper_policy' not in policy)
                     and placement.target_area_needs_initialization(self._inspection, selected, region,
                                                                     grouped='group_policy' in policy)):
-                policy['region_initialization'] = placement.prototype.EXACT_TRACK_REGION_POLICY
+                policy['region_initialization'] = placement.target_area_policy(scope)
         if before == after and original_region_policy == policy.get('region_initialization'):
             raise IntentError('The proposal would leave every visible setting unchanged.')
         if selected and region is not None:

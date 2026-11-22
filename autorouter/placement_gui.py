@@ -170,7 +170,9 @@ def placement_policy(window):
     if window.rigid_group.GetValue():
         policy['group_policy'] = intent.GROUP_POLICY
     if window.target_region.GetValue():
-        policy['region_initialization'] = getattr(window, 'target_start_policy', intent.prototype.EXACT_TRACK_REGION_POLICY)
+        preferred = intent.target_area_policy(policy['scope'])
+        policy['region_initialization'] = (preferred if policy['scope'] == intent.contract.CONTEXT_SCOPE
+                                           else getattr(window, 'target_start_policy', preferred))
     return policy
 
 
@@ -179,7 +181,9 @@ def update_target_area(window):
     if window.inspection is None or not getattr(window, 'automatic_target_area', False):
         return
     enabled = False
-    if intent.contract.source_baseline_scope(window.inspection['observation']['scope']):
+    scope = window.inspection['observation']['scope']
+    if (intent.target_area_policy(scope) is not None
+            and (scope != intent.contract.CONTEXT_SCOPE or not window.rebuild_copper())):
         selected = [row['uuid'] for i, row in enumerate(window.inspection['components'])
                     if window.parts.IsChecked(i)]
         try:
@@ -1265,7 +1269,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.toolbar_pick.Enable(bool(self.toolbar_selection) and self.inspection is not None
                                          and not self.busy and not constraint_pending)
             self.rigid_group.Enable(not self.busy and not baseline_scope)
-            self.target_region.Enable(not self.busy and baseline_scope)
+            region_supported = baseline_scope or (scope == intent.contract.CONTEXT_SCOPE
+                                                   and self.copper_policy.GetSelection() == 0)
+            self.target_region.Enable(not self.busy and region_supported and not self.rigid_group.GetValue())
             for control in (self.protected_names, self.protected_route_ids):
                 control.Enable(not self.busy and self.copper_policy.GetSelection() == 1)
             self.find.Enable(not self.busy and not constraint_pending and selection_ready)
@@ -1855,6 +1861,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.automatic_target_area = True
                     self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 if self.inspection:
+                    if (self.inspection['observation']['scope'] == intent.contract.CONTEXT_SCOPE
+                            and (self.rebuild_copper() or self.rigid_group.GetValue())):
+                        self.target_region.SetValue(False)
                     for index, row in enumerate(self.inspection['components']):
                         if blocking_reasons(row, rebuild=self.rebuild_copper()) and self.parts.IsChecked(index):
                             self.parts.Check(index, False)

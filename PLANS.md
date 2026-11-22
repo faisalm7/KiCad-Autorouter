@@ -138,10 +138,17 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     A separate wrong launcher identity and a missing local Python both
     displayed their recovery guidance. The diagnostic command still exits
     with its exact refusal. [Installed startup](evidence/product-finder-startup-recovery-001.json)
-30. Check whether the existing isolated KiCad session can safely qualify the
-    new saved-mode toolbar selection handoff. Verify its exact active project
-    and existing work first. Advance independent placement coverage or
-    onboarding if a separate editor session is required.
+30. **Editor access gate.** The isolated 10.0.8 instance still displays the
+    owned PCB as modified. The fresh toolbar launcher requires the existing
+    editor to close. Preserve its current changes and the earlier move/Undo
+    evidence. Advance the saved workflow while this test waits.
+31. Test whether the admitted fixed-context placement profile can use the
+    existing source-checked target-area initialization without requiring
+    unrelated footprint metadata. Use the unchanged previously refused
+    owned J1 request. Retain the original geometry, saved fields and protected
+    copper. Limit the work to the existing placement checks and one installed
+    delivery if a compatible proof is available. Keep unsupported gates
+    explicit if the required change extends beyond that scope.
 
 ## Verified Finish gaps batch from 2dabd0799
 

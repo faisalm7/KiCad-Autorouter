@@ -100,11 +100,8 @@ def settings(selected, region_nm, *, scope=contract.MULTIPAD_SCOPE, copper_polic
             raise ValueError('Rigid-group delivery currently requires the explicit affected-net rebuild workflow; protected copper remains fixed.')
         value.update(schema=4, kind=GROUP_SETTINGS_KIND, scope=scope, group_policy=group_policy)
     if region_initialization is not None:
-        if (not contract.source_baseline_scope(scope) or group_policy is not None
-                or len(options['selected']) > 2
-                or type(region_initialization) is not str
-                or region_initialization not in prototype.REGION_INITIALIZATION_POLICIES):
-            raise ValueError('Place into a target region requires one or two independent selected parts in the Native source-baseline scope.')
+        if group_policy is not None or scope == contract.CONTEXT_SCOPE and copper_policy is not None:
+            raise ValueError('Place into a target region requires independent parts. Preserve all existing copper on this geometry profile.')
         value.update(schema=5, kind=REGION_SETTINGS_KIND, region_initialization=region_initialization)
     return value
 
@@ -119,21 +116,33 @@ def region_options(value):
             if 'region_initialization' in value else {})
 
 
+def target_area_policy(scope):
+    if scope == contract.CONTEXT_SCOPE:
+        return prototype.REGION_INITIALIZATION_POLICY
+    if contract.source_baseline_scope(scope):
+        return prototype.EXACT_TRACK_REGION_POLICY
+    return None
+
+
 def target_area_needs_initialization(inspection, selected, area, *, grouped=False):
     """Choose the existing start policy for an explicit destination rectangle."""
     observation = inspection['observation']
-    if not contract.source_baseline_scope(observation['scope']) or not 1 <= len(selected) <= 2 or grouped:
+    scope = observation['scope']
+    if target_area_policy(scope) is None or not 1 <= len(selected) <= 2 or grouped:
         return False
-    baseline = inspection.get('native_source_baseline', {})
     native = inspection.get('native_context', {})
     annotations = inspection.get('annotation_context', {})
-    blocking = baseline.get('native', {}).get('blocking')
-    if (baseline.get('policy') != constraints.SELECTED_COPPER_BASELINE_POLICY
-            or baseline.get('native_validation_performed') is not True
-            or not native.get('receipt_sha256') or baseline.get('receipt_sha256') != native['receipt_sha256']
-            or baseline.get('source_board_sha256') != observation.get('source_board_sha256')
-            or type(blocking) is not int or blocking != 0 or annotations.get('scope') != observation['scope']):
+    if not native.get('receipt_sha256') or annotations.get('scope') != scope:
         return False
+    if contract.source_baseline_scope(scope):
+        baseline = inspection.get('native_source_baseline', {})
+        blocking = baseline.get('native', {}).get('blocking')
+        if (baseline.get('policy') != constraints.SELECTED_COPPER_BASELINE_POLICY
+                or baseline.get('native_validation_performed') is not True
+                or baseline.get('receipt_sha256') != native['receipt_sha256']
+                or baseline.get('source_board_sha256') != observation.get('source_board_sha256')
+                or type(blocking) is not int or blocking != 0):
+            return False
     left, top, right, bottom = area
     board_left, board_top, board_right, board_bottom = observation['outline']['bounds_nm']
     if not (board_left <= left < right <= board_right and board_top <= top < bottom <= board_bottom):

@@ -3,7 +3,7 @@ import copy
 import unittest
 from unittest.mock import patch
 
-from autorouter import placement_copper as copper, pipeline
+from autorouter import placement_copper as copper, placement_intent as intent, pipeline
 from experiments.constrained_placement_v1 import constraints, prototype
 from experiments.placement_native_proposal_v1 import contract as c, worker
 from experiments.placement_native_proposal_v1 import ordinary_fixture as fixture
@@ -64,16 +64,43 @@ class PlacementRegionContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'outside rectangular board'):
             c.validate_moves(self.observed, bad, **self.opted)
 
-    def test_only_exact_policy_baseline_scope_and_two_selected_are_admitted(self):
+    def test_only_compatible_policy_and_at_most_two_selected_are_admitted(self):
         for value in (True, 1, {}, [], '', 'ignore-source-regions'):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 c.scope_options(**self.options, region_initialization=value)
-        for scope in (c.DEFAULT_SCOPE, c.MULTIPAD_SCOPE, c.ORDINARY_SCOPE, c.CONTEXT_SCOPE, c.THT_SCOPE):
-            with self.subTest(scope=scope), self.assertRaisesRegex(ValueError, 'source-baseline'):
+        for scope in (c.DEFAULT_SCOPE, c.MULTIPAD_SCOPE, c.ORDINARY_SCOPE, c.THT_SCOPE):
+            with self.subTest(scope=scope), self.assertRaisesRegex(ValueError, 'compatible source geometry'):
                 c.scope_options(**dict(self.opted, scope=scope))
+        with self.assertRaisesRegex(ValueError, 'compatible source geometry'):
+            c.scope_options(**dict(self.opted, scope=c.CONTEXT_SCOPE,
+                                  region_initialization=prototype.EXACT_TRACK_REGION_POLICY))
         three = self.selected + [c.uid(fp(self.tree, 'J3'))]
         with self.assertRaisesRegex(ValueError, 'at most two'):
             c.scope_options(**dict(self.opted, selected=three))
+
+    def test_fixed_context_region_preserves_its_conservative_copper_checks_and_fields(self):
+        source = raw(fixture.board())
+        observed = c.inspect_board(source, scope=c.CONTEXT_SCOPE)
+        selected = self.selected[:1]
+        region = [14_000_000, 8_000_000, 22_000_000, 13_000_000]
+        ordinary = dict(scope=c.CONTEXT_SCOPE, selected=selected, region_nm=region)
+        with self.assertRaisesRegex(ValueError, 'allowed region'):
+            c.facts_from_observation(observed, **ordinary)
+        requested = dict(ordinary, region_initialization=prototype.REGION_INITIALIZATION_POLICY)
+        value = intent.settings(**requested)
+        self.assertEqual(intent.validate_settings(value), value)
+        self.assertNotIn('selected_copper_baseline_policy', value)
+        facts = c.facts_from_observation(observed, **requested)
+        self.assertEqual(facts['schema'], 2)
+        self.assertTrue(all(row['kind'] == constraints.PRESERVED_COPPER for row in facts['keepouts']))
+        move = {selected[0]: [20_000_000, 10_000_000]}
+        candidate = raw(c.translated_tree(source, move, **requested))
+        self.assertTrue(c.check_translation(source, candidate, move, **requested)['exact_immutable_AST'])
+        with self.assertRaisesRegex(ValueError, 'keepout'):
+            c.validate_moves(observed, {selected[0]: [20_000_000, 16_000_000]},
+                             **dict(requested, region_nm=[14_000_000, 14_000_000, 22_000_000, 19_000_000]))
+        with self.assertRaisesRegex(ValueError, 'Preserve all existing copper'):
+            intent.settings(**dict(requested, copper_policy=intent.COPPER_POLICY))
 
     def test_original_board_and_pair_conflicts_are_not_destination_waivers(self):
         for at, message in ((['4', '10', '90'], 'outside rectangular board'),

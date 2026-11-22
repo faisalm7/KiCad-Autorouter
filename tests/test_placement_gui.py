@@ -708,7 +708,8 @@ class PlacementGuiTests(unittest.TestCase):
         second = dict(uuid='two', reference='J2', fixed_reasons=[])
         draft = SimpleNamespace(revision=1, pose={'one': [1000000, 2000000], 'two': [3000000, 4000000]},
             moves={'one': [1000000, 2000000], 'two': [3000000, 4000000]}, alternatives=[{}, {}],
-            inspection=dict(components=[item, second], observation={}, source='/owned/source.kicad_pcb'),
+            inspection=dict(components=[item, second], observation={'scope': pg.intent.contract.ORDINARY_SCOPE},
+                            source='/owned/source.kicad_pcb'),
             settings=dict(selected=['one', 'two'], region_nm=[0, 0, 10000000, 10000000]), intent=None,
             copper_plan=None, observation={'footprints': [dict(item, position_nm=[2000000, 2000000]),
                                                         dict(second, position_nm=[3000000, 4000000])]})
