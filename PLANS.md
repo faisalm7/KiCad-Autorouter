@@ -179,10 +179,10 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     Keep that source and refusal. The IR trial remains deferred because
     the current projected task is identical and Native reports two zone
     endpoints with the same UUID and position.
-38. Give the adopted plan prominence in the existing Conversation history.
-    On the 880 × 610 view the earlier request appears above the actual budget.
-    Show the adopted values immediately and keep the original wording
-    accessible. Verify that changing the source still hides earlier history.
+38. **Installed display verified.** The 880 × 610 Conversation showed the
+    adopted 81-second plan above the original 85-second request. The history
+    is passive and remains bound to the saved source. Switching the source
+    removed the old history. [Installed trial](evidence/product-round-cutout-first-route-001.json)
 39. **Owned circular-cutout export observed.** Full schematic source DRC
     kept the usual two opens, warning and ignored checks. Protected export
     produced a polygon keepout for the hole. The rectangular clearance
@@ -194,12 +194,18 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     KiCad withheld delivery at 0.241 mm against the saved 0.300 mm edge
     clearance. No review or export was accepted.
     [First attempt](evidence/product-round-cutout-first-route-001.json)
-41. Carry the original clearance through the selected Default-only engine
-    input using source-bound outward-rounded track and via obstacles. Keep
-    the Native hole polygon, original board and final acceptance unchanged.
-    Use the same frozen 81-second task for one prospective correction.
-    Show the exact hole in the read-only and routing review views. Named
-    classes and the larger licensed receiver remain outside this scope.
+41. **Corrected installed delivery verified.** The fresh build routed the
+    exact validated placement under the same 81-second settings. It showed
+    the hole in the layer review, retained original findings and constraints,
+    and passed fresh export and independent readback. The first refusal
+    remains. Named-class cutouts are still unqualified.
+    [Checked delivery](evidence/product-round-cutout-checked-delivery-002.json)
+42. Make the licensed receiver's unsupported placement visible as a
+    read-only board alongside the exact component refusal. The first
+    installed attempt refused on U2's pad scope before drawing, even though
+    the current drawing reader can display all four cutouts. Keep routing
+    subject to its independent admission and final checks. Also focus
+    routing Findings when a job refuses so its actual cause is visible.
 
 ## Verified Finish gaps batch from 2dabd0799
 

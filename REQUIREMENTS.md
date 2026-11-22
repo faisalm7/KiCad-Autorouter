@@ -89,6 +89,11 @@ The master specification, current strategy and owner steering govern. Historical
   actual Native placement, protected routing and separate export. This
   evidence covers one component with unchanged orientation and side.
   [Installed destination check](evidence/product-fixed-context-region-delivery-001.json)
+- One bounded circular-cutout case passed installed fixed-context placement,
+  selected Default-only routing and independent fresh export on this Mac.
+  The correction keeps the original hole and edge rule. Named-class cutouts,
+  arbitrary outlines and broader licensed placement remain open.
+  [Checked delivery](evidence/product-round-cutout-checked-delivery-002.json)
 - The installed Conversation preserves the explicit local request and the
   adopted settings in the routing pane. Freshness refuses execution and
   replaces the old display after a saved-input change. Verified finding

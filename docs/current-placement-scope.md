@@ -128,3 +128,18 @@ completed, with seven new segments, the original unlocked KEEP trace and
 all other components exact. The checked separate export retains the
 inherited warning and two ignored checks. Earlier refusals keep their
 original scope. [Installed delivery](../evidence/product-fixed-context-region-delivery-001.json)
+
+## Internal round cutouts
+
+The fixed-context placement profile can represent an outer rectangle with
+bounded unfilled circular cutouts. The solver conservatively excludes each
+circle's full stroke envelope. A move into the hole refused in the installed
+app, and the restored J1 draft passed Native validation.
+
+On this owned two-layer Default-only project, the selected router kept the
+original Native hole geometry and projected the saved edge minimum into
+track and via obstacles. The same 81-second task as the earlier rejected run
+closed both nets and delivered with the original trace and findings intact.
+This qualification covers one round hole. Named classes with cutouts and
+the larger licensed TankSync receiver need further scope.
+[Checked delivery](../evidence/product-round-cutout-checked-delivery-002.json)
