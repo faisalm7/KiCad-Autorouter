@@ -200,12 +200,20 @@ The actual stopping conditions and unchanged boundaries are in [AGENTS.md](AGENT
     and passed fresh export and independent readback. The first refusal
     remains. Named-class cutouts are still unqualified.
     [Checked delivery](evidence/product-round-cutout-checked-delivery-002.json)
-42. Make the licensed receiver's unsupported placement visible as a
-    read-only board alongside the exact component refusal. The first
-    installed attempt refused on U2's pad scope before drawing, even though
-    the current drawing reader can display all four cutouts. Keep routing
-    subject to its independent admission and final checks. Also focus
-    routing Findings when a job refuses so its actual cause is visible.
+42. **Installed check pending.** Open the licensed receiver on the board tab
+    with the exact U2 placement refusal visible. Verify all four cutouts,
+    full Findings, unchanged source and no engineering dispatch. The first
+    build refused before drawing. Memory admission held the next install.
+    Routing remains subject to its independent preview and Native checks.
+43. **Installed check pending.** Routing reports the phase reached using its
+    existing logs. Verify the visible change from Freerouting to KiCad
+    checks, then verify that an old route log cannot overwrite export,
+    cancellation or a review refusal. Reuse the same install for item 42.
+44. Use that workspace for one bounded routing admission on the unchanged
+    licensed receiver. Read the saved issues and determine whether there are
+    actual open connections and whether all existing copper can be retained.
+    Continue only if the resulting task is within the Native delivery policy.
+    Keep any refusal or connected-source result and reuse the saved capture.
 
 ## Verified Finish gaps batch from 2dabd0799
 

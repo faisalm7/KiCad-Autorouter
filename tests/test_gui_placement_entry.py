@@ -24,7 +24,8 @@ def placement_factory(constructor):
         with patch.object(placement_gui, 'window_type', return_value=controlled_constructor) as factory:
             result = _ACTUAL_PLACEMENT_CREATE_WINDOW(board, output_hint=output_hint, on_closed=on_closed)
             factory.assert_called_once_with(sys.modules['wx'], board=board,
-                                           output_hint=output_hint, on_closed=on_closed, conversation_reply=None)
+                                           output_hint=output_hint, on_closed=on_closed,
+                                           conversation_reply=None, toolbar_selection=())
             return result
     return create
 

@@ -46,6 +46,18 @@ TOOLBAR_SELECTION_LIMIT = 64
 EXPORT_EVIDENCE_CHANGED = 'export inputs/runtime/evidence changed'
 EXPORT_EVIDENCE_CHANGED_TEXT = 'The export, its inputs, runtime or saved evidence changed after validation.'
 
+# Order matches the bounded ordinary routing stages, latest first. A log
+# means its phase started. Only the completed command can establish success.
+ROUTING_PROGRESS = {
+    'final-drc': 'Checking the routed copy against the original KiCad rules…',
+    'refill-drc': 'Refilling zones and checking the returned copper…',
+    'import': 'Reading the Freerouting result into the separate copy…',
+    'engine': 'Freerouting is searching the approved scope…',
+    'export': 'Preparing a separate copy for Freerouting…',
+    'source-drc': 'Checking the saved source in KiCad…',
+    'thermal-geometry': '',
+}
+
 
 def open_refusal_text(kind, error, *, restart_copy=False):
     """Explain known export freshness errors without changing any decision."""
@@ -1017,6 +1029,7 @@ class CliJob:
     def __init__(self):
         self.process = None
         self.cancel_requested = False
+        self.display_stage = None
         self._lock = threading.Lock()
         self._warning_pending = None
         self._warning_decision = None
@@ -1271,6 +1284,54 @@ def _finish_window_close(window):
         import wx
         wx.CallAfter(callback)
     return True
+
+
+def show_routing_progress(window):
+    """Display only the active routing job's bounded logs, without adopting state."""
+    if not window.busy or not window.flow or getattr(window, 'warning_dialog', None) is not None:
+        return
+    job = window.job
+    if job is None or job.display_stage != 'route' or job.cancel_requested:
+        return
+    root = window.flow.workspace / 'route'
+    names = tuple(name + '.log' for name in ROUTING_PROGRESS)
+    paths = [root / name for name in names]
+    method = window.flow.method
+    if method in ('recover', 'improve'):
+        roots = [root / 'incumbent']
+        if method == 'recover':
+            roots += [root / 'recovery']
+            roots += [root / 'recovery' / ('trial-%02d' % index) for index in range(1, 5)]
+        else:
+            # Match the producer's fixed MAX_TRIALS namespace.
+            roots += [root / 'trials' / ('trial-%04d' % index) for index in range(32)]
+        paths += [directory / name for directory in roots for name in names]
+        dated = []
+        for path in paths:
+            try:
+                if path.is_file() and not path.is_symlink():
+                    dated.append((path.stat().st_mtime_ns, path))
+            except OSError:
+                continue
+        paths = [path for _, path in sorted(dated, key=lambda row: row[0], reverse=True)]
+    for path in paths:
+        try:
+            if not path.is_file() or path.is_symlink():
+                continue
+            with path.open('rb') as stream:
+                stream.seek(max(0, path.stat().st_size - 2048))
+                tail = stream.read(2048).decode('utf8', errors='replace')
+        except OSError:
+            continue
+        line = str(path.relative_to(root)) + '\n' + tail
+        if window.log.GetValue() != line:
+            window.log.SetValue(line)
+        if method == 'route' and getattr(window, 'in_workspace', False):
+            label = ROUTING_PROGRESS[path.stem]
+            if label and ' '.join(window.status.GetLabel().split()) != label:
+                window.status.SetLabel(label)
+                window.layout_panel()
+        break
 
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
@@ -2109,13 +2170,17 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if stage in ('preview', 'review'): self.inspected.SetValue(False)
                 request = _window_request(self)
                 if request.saved_closed is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
-                self.busy = True; self.job = CliJob(); job = self.job; self.refresh()
+                self.busy = True; self.job = CliJob(); job = self.job
+                job.display_stage = stage
+                self.refresh()
                 settings = json.loads(request.settings_json)
                 from .finish_gaps import enabled
                 if stage == 'preview' and request.method == 'route' and enabled(settings['scope'], settings['guidance']):
                     self.status.SetLabel('Checking missing connections and source findings in KiCad…')
                 elif stage == 'route' and request.method == 'route':
                     self.status.SetLabel('Checking the saved source, then routing and validating a separate copy…')
+                elif stage == 'export' and self.in_workspace:
+                    self.status.SetLabel('Running fresh KiCad checks for a separate project…')
                 else:
                     self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
                 def work():
@@ -2329,38 +2394,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
 
         def tick(self, _):
             if self.busy and getattr(self, 'in_workspace', False): self.workspace_progress.Pulse()
-            if not self.busy or not self.flow: return
-            if getattr(self, 'warning_dialog', None) is not None: return
-            root = self.flow.workspace / 'route'
-            names = ('final-drc', 'refill-drc', 'engine', 'export', 'source-drc', 'thermal-geometry')
-            paths = [root / (name + '.log') for name in names]
-            method = getattr(self.flow, 'method', 'route')
-            if method in ('recover', 'improve'):
-                roots = [root / 'incumbent']
-                if method == 'recover':
-                    roots += [root / 'recovery']
-                    roots += [root / 'recovery' / ('trial-%02d' % index) for index in range(1, 5)]
-                else:
-                    # Match the pruning producer's fixed MAX_TRIALS=32 namespace;
-                    # never walk arbitrary job or historical directories.
-                    roots += [root / 'trials' / ('trial-%04d' % index) for index in range(32)]
-                paths += [directory / (name + '.log') for directory in roots for name in names]
-                dated = []
-                for path in paths:
-                    try:
-                        if path.is_file() and not path.is_symlink():
-                            dated.append((path.stat().st_mtime_ns, path))
-                    except OSError:
-                        continue
-                paths = [path for _, path in sorted(dated, key=lambda row: row[0], reverse=True)]
-            for path in paths:
-                if path.is_file() and not path.is_symlink():
-                    try:
-                        with path.open('rb') as stream:
-                            stream.seek(max(0, path.stat().st_size - 2048)); tail = stream.read(2048)
-                        self.log.SetValue(str(path.relative_to(root)) + '\n' + tail.decode('utf8', errors='replace'))
-                    except OSError: pass
-                    break
+            show_routing_progress(self)
 
         def close(self, event):
             self.closing = True

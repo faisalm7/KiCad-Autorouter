@@ -5,8 +5,7 @@ import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
-from tests import test_gui as gui_fixture
-from autorouter import strategy
+from autorouter import gui, strategy
 
 
 class ImproveProgressTests(unittest.TestCase):
@@ -15,7 +14,8 @@ class ImproveProgressTests(unittest.TestCase):
         self.workspace = Path(temporary.name).resolve()
         self.root = self.workspace / 'route'; self.root.mkdir()
         self.flow = SimpleNamespace(workspace=self.workspace, method='improve')
-        self.window = SimpleNamespace(busy=True, flow=self.flow, log=Mock())
+        self.window = SimpleNamespace(busy=True, flow=self.flow, log=Mock(), job=gui.CliJob())
+        self.window.job.display_stage = 'route'
 
     def log(self, relative, text, timestamp):
         path = self.root / relative; path.parent.mkdir(parents=True, exist_ok=True)
@@ -23,7 +23,7 @@ class ImproveProgressTests(unittest.TestCase):
         return path
 
     def tick(self):
-        gui_fixture.window_method('tick')(self.window, None)
+        gui.show_routing_progress(self.window)
 
     def test_incumbent_progress_updates_without_parent_logs(self):
         self.log('incumbent/source-drc.log', 'source validated', 100)
@@ -60,11 +60,45 @@ class ImproveProgressTests(unittest.TestCase):
         self.tick()
         self.window.log.SetValue.assert_called_once_with('incumbent/engine.log\n' + text[-2048:])
 
-    def test_completed_or_cancelled_window_keeps_its_terminal_message(self):
+    def test_other_actions_keep_their_findings_and_cancel_keeps_its_message(self):
+        self.log('incumbent/engine.log', 'old progress', 100)
+        for stage in ('preview', 'review', 'choice', 'export', None):
+            self.window.job.display_stage = stage
+            self.tick()
+        self.window.job.display_stage = 'route'
+        self.window.job.cancel()
+        self.tick()
+        self.window.log.SetValue.assert_not_called()
+
+    def test_completed_window_keeps_its_terminal_message(self):
         self.log('incumbent/engine.log', 'old progress', 100)
         self.window.busy = False
         self.tick()
         self.window.log.SetValue.assert_not_called()
+
+    def test_ordinary_route_reports_observed_phases_without_repeated_relayout(self):
+        self.flow.method = 'route'
+        self.window.in_workspace = True
+        self.window.status = Mock()
+        self.window.status.GetLabel.return_value = 'Starting…'
+        self.window.layout_panel = Mock()
+        self.log('engine.log', 'search', 100)
+        self.tick()
+        self.window.status.SetLabel.assert_called_once_with('Freerouting is searching the approved scope…')
+        self.window.layout_panel.assert_called_once()
+        self.window.status.GetLabel.return_value = 'Freerouting is searching\nthe approved scope…'
+        self.window.log.GetValue.return_value = 'engine.log\nsearch'
+        self.window.log.SetValue.reset_mock()
+        self.tick()
+        self.window.log.SetValue.assert_not_called()
+        self.window.layout_panel.assert_called_once()
+        self.log('final-drc.log', 'checking', 200)
+        self.tick()
+        self.window.status.SetLabel.assert_called_with('Checking the routed copy against the original KiCad rules…')
+        self.window.job.cancel()
+        self.window.status.SetLabel.reset_mock()
+        self.tick()
+        self.window.status.SetLabel.assert_not_called()
 
     def test_disappearing_nested_log_does_not_change_flow_or_raise(self):
         phase = self.log('incumbent/engine.log', 'temporary progress', 100)

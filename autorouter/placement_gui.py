@@ -2090,9 +2090,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         details.append(f"Keep fixed tie {tie['reference']} and its bridge. Choose Selected nets and leave "
                                        + ', '.join(tie['nets']) + ' unselected.')
                     self.findings.SetValue('\n\n'.join(details))
-                    self.pages.SetSelection(1)
+                    self.pages.SetSelection(0)
                     self.update_schematic_view()
-                    self.message('Saved board ready for routing preview. See Findings for placement limits.')
+                    self.message(read_only['reason'] + ' See Findings before previewing routing.')
                     return
                 if intent.contract.source_baseline_scope(value['observation']['scope']):
                     self.rigid_group.SetValue(False)
@@ -2132,7 +2132,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     if scene is None:
                         raise
                     require_closed_source(source, inspection=static)
-                    read_only = dict(static=static, scene=scene, reason=gui.short_failure_reason(reason))
+                    reason = gui.short_failure_reason(reason) or 'The saved board exceeds the current placement scope.'
+                    read_only = dict(static=static, scene=scene, reason=reason)
                     return (None, *schematic_context.observe(source, static['source_hashes']), '', None, read_only)
                 scope = value['observation']['scope']
                 if three_pad or intent.contract.fixed_context_scope(scope) or c.NATIVE_VERSION == '10.0.7' and scope == intent.contract.ORDINARY_SCOPE:

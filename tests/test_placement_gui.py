@@ -181,16 +181,23 @@ class PlacementGuiTests(unittest.TestCase):
             window.board.GetValue.return_value = str(board)
             window.start = Mock()
             window_method('inspect_project')(window, None)
-            inspect, _ = window.start.call_args.args[1:]
+            inspect, adopt = window.start.call_args.args[1:]
             job = Mock()
             reason = 'J1 has 9 pads. This placement profile supports up to eight per component.'
             with patch.object(pg.intent, 'inspect_saved', side_effect=pg.intent.contract.UnsupportedPlacement(reason)):
-                inspected, _, _, _, native, read_only = inspect(job, threading.Event())
+                captured = inspect(job, threading.Event())
+            inspected, _, _, _, native, read_only = captured
             self.assertIsNone(inspected)
             self.assertIsNone(native)
             self.assertEqual(read_only['reason'], reason)
             self.assertIn('>J1</text>', read_only['scene']['svg'])
             self.assertEqual(read_only['static']['source_hashes'], gui.source_inventory(board))
+            adopt(captured)
+            self.assertIs(window.saved_route_context, read_only)
+            self.assertIsNone(window.inspection)
+            window.pages.SetSelection.assert_called_with(0)
+            self.assertIn(reason, window.message.call_args.args[0])
+            self.assertIn(reason, window.findings.SetValue.call_args.args[0])
             job.run.assert_not_called()
             with patch.object(pg.intent, 'inspect_saved', side_effect=ValueError('Saved project changed.')):
                 with self.assertRaisesRegex(ValueError, 'Saved project changed'):

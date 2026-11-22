@@ -185,14 +185,16 @@ class ThermalMethodTests(unittest.TestCase):
         incumbent=base/'incumbent/engine.log';incumbent.parent.mkdir(parents=True);incumbent.write_text('incumbent progress')
         repair=base/'recovery/thermal-geometry.log';repair.parent.mkdir();repair.write_text('repair progress')
         os.utime(incumbent,ns=(100,100));os.utime(repair,ns=(200,200))
-        window=SimpleNamespace(busy=True,flow=flow,log=Mock())
-        gt.window_method('tick')(window,None)
+        job = gui.CliJob(); job.display_stage = 'route'
+        window=SimpleNamespace(busy=True,flow=flow,log=Mock(),job=job)
+        gui.show_routing_progress(window)
         window.log.SetValue.assert_called_once_with('recovery/thermal-geometry.log\nrepair progress')
 
     def test_progress_survives_phase_log_disappearing_after_file_check(self):
         flow=self.flow();phase=flow.workspace/'route/recovery/thermal-geometry.log'
         phase.parent.mkdir(parents=True);phase.write_text('temporary progress')
-        window=SimpleNamespace(busy=True,flow=flow,log=Mock())
+        job = gui.CliJob(); job.display_stage = 'route'
+        window=SimpleNamespace(busy=True,flow=flow,log=Mock(),job=job)
         original_stat=type(phase).stat
         def disappearing(path,*args,**kwargs):
             result=original_stat(path,*args,**kwargs)
@@ -200,7 +202,7 @@ class ThermalMethodTests(unittest.TestCase):
                 phase.unlink()
             return result
         with patch.object(type(phase),'stat',autospec=True,side_effect=disappearing):
-            gt.window_method('tick')(window,None)
+            gui.show_routing_progress(window)
         window.log.SetValue.assert_not_called()
         self.assertIs(window.flow,flow);self.assertTrue(window.busy)
 
