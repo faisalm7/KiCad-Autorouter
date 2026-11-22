@@ -140,6 +140,8 @@ class ConversationChecks(unittest.TestCase):
         inspection = design.inspect_project(self.board)
         history = conversation.Conversation()
         context = history.check_source(inspection, True)
+        history.remember_local_placement('Local-only placement request', 'Adopted placement settings',
+                                         inspection=inspection)
         base = dict(gui.pref.DEFAULTS, scope='partial_completion')
         binding = dict(request='Finish ROUTE_A.', revision=1, source=self.board)
         review = conversation.RoutingReview(inspection, base, request=binding['request'], revision=1)
@@ -147,6 +149,8 @@ class ConversationChecks(unittest.TestCase):
                                base, **binding)
         history.remember(binding['request'], proposal=offer, source=context)
         self.assertIn(binding['request'], history.summary_for(self.board, inspection['source_hashes']))
+        self.assertIn('Local-only placement request', history.summary_for(self.board, inspection['source_hashes']))
+        self.assertNotIn('Local-only placement request', repr(history.history('Finish routing.')))
         values = review.adopt(offer, base, **binding)
         guard = conversation.routing_source_guard(values)
         guard.check(self.board)

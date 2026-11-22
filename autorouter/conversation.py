@@ -30,10 +30,23 @@ class Conversation:
     def __init__(self):
         self.turns = []
         self.source = None
+        self._local_placement = None
 
     def reset(self):
         self.turns.clear()
         self.source = None
+        self._local_placement = None
+
+    @property
+    def has_display_history(self):
+        return self.source is not None or self._local_placement is not None
+
+    def remember_local_placement(self, request, summary, *, inspection):
+        """Keep one adopted plan for display, outside the hosted transcript."""
+        self._local_placement = (
+            inspection['source'], copy.deepcopy(inspection['source_hashes']),
+            'Local placement request\n' + request_text(request) + '\n\n' + summary,
+        )
 
     def check_source(self, inspection, routing):
         current = (inspection['source'], inspection['source_hashes'], routing)
@@ -80,9 +93,13 @@ class Conversation:
 
     def summary_for(self, source, source_hashes):
         """Show earlier turns only for their exact saved project revision."""
-        if self.source is None or self.source[:2] != (str(source), source_hashes):
-            return ''
-        return self.summary()
+        current = (str(source), source_hashes)
+        parts = []
+        if self.source is not None and self.source[:2] == current:
+            parts.append(self.summary())
+        if self._local_placement is not None and self._local_placement[:2] == current:
+            parts.append(self._local_placement[2])
+        return '\n\n'.join(parts)
 
 
 def routing_contract():

@@ -664,6 +664,8 @@ class PlacementGuiTests(unittest.TestCase):
         question = pg.conversation.design.validate_design_clarification(
             dict(reason='ambiguous_request', questions=['Which parts should move?']))
         window.conversation.remember('Move the connectors.', clarification=question, source=origin)
+        window.conversation.remember_local_placement('Select J1', 'Adopted placement settings',
+                                                     inspection=window.inspection)
         window.qualified = dict(ticket=window.gate.ticket(), guard=guard,
                                 witness={'candidate': '/owned/candidate.kicad_pcb'})
         with patch.object(gui, 'create_window', return_value=frame) as factory:
@@ -671,6 +673,7 @@ class PlacementGuiTests(unittest.TestCase):
         frame.output.SetValue.assert_called_once_with('/chosen/candidate jobs')
         self.assertIs(factory.call_args.kwargs['source_guard'], guard)
         self.assertIn('Which parts should move?', factory.call_args.kwargs['conversation_history'])
+        self.assertIn('Select J1', factory.call_args.kwargs['conversation_history'])
         frame.prefill_placement_completion.assert_called_once_with(dict(gui.pref.DEFAULTS, scope='partial_completion', seconds=90))
         frame.Show.assert_called_once(); frame.Destroy.assert_not_called()
 

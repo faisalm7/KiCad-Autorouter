@@ -197,6 +197,7 @@ class ConstraintProposal(unittest.TestCase):
         w.board = controls.text_control(str(self.board))
         w.route_budget = controls.text_control('90')
         w.assistant_request = controls.text_control('Select J1, J2\nArea 8, 8 to 30, 12 mm\nRouting time 60 s')
+        w.assistant_result = controls.text_control('')
         w.region = [controls.text_control(pg.mm(n)) for n in self.controls['region_limit_nm']]
         w.parts = controls.parts_control(self.inspection['components'], [])
         w.copper_policy.GetSelection.return_value = 1
@@ -208,6 +209,7 @@ class ConstraintProposal(unittest.TestCase):
         w.constraint_key = Mock()
         w.constraint_fields = [controls.text_control('') for _ in range(3)]
         w.constraint_review = w.constraint_offer = None
+        w.conversation_offer = False
         w.constraint_edited = w.updating = False
         w.find_alternatives = Mock()
         w.start = Mock()
@@ -258,11 +260,23 @@ class ConstraintProposal(unittest.TestCase):
         self.assertEqual(result['region_nm'], self.args['region_nm'])
         self.assertEqual(result['route_seconds'], 75)
         self.assertEqual(result['policy'], before['policy'])
+        visible = w.assistant_result.GetValue()
+        self.assertIn('Local placement request', visible)
+        self.assertIn('Routing time  75 s', visible)
+        self.assertEqual(w.conversation.history('One later hosted request.'), [])
         self.assertIsNone(w.constraint_offer)
         self.assertFalse(w.gate.acknowledged)
         w.find_alternatives.assert_not_called()
         w.pages.SetSelection.assert_not_called()
         w.update_schematic_view.assert_called_once_with()
+
+    def test_preview_names_the_part_outside_the_chosen_area(self):
+        w = self.window()
+        w.assistant_request.ChangeValue('Select J1\nArea 14, 8 to 22, 13 mm')
+        with self.assertRaisesRegex(ValueError, 'J1 starts outside the movement area.*Draw an area'):
+            self.preview_in_window(w)
+        self.assertIsNone(w.constraint_offer)
+        self.assertFalse(w.conversation.has_display_history)
 
     def test_window_discard_and_late_state_changes_do_not_adopt(self):
         w = self.window()

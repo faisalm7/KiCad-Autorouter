@@ -89,7 +89,7 @@ def constraint_references(text):
     return refs
 
 
-def constraint_change_text(offer, *, conversational=False):
+def constraint_change_text(offer, *, conversational=False, adopted=False):
     before, after = offer['before'], offer['after']
     if offer['kind'] == conversation.ROUTING_KIND:
         target = ', '.join(after['nets']) or 'all open connections'
@@ -108,9 +108,13 @@ def constraint_change_text(offer, *, conversational=False):
         ('Movement area', 'region_nm', area),
         ('Routing time', 'route_seconds', lambda seconds: f'{seconds} s'),
     )
-    lines = ['Conversation suggestion' if conversational else 'Local suggestion · saved project']
+    title = ('Adopted placement settings' if adopted else
+             'Conversation suggestion' if conversational else 'Local suggestion · saved project')
+    lines = [title]
     for label, key, show in displays:
-        if before[key] != after[key]:
+        if adopted:
+            lines.append(f'{label}  {show(after[key])}')
+        elif before[key] != after[key]:
             lines.append(f'{label}  {show(before[key])} → {show(after[key])}')
     if offer['placement_settings'] is not None:
         lines.append('Other parts stay in place. KiCad locks stay as saved.')
@@ -1460,6 +1464,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                             offer = current.revise(previous, arguments, inputs, **binding)
                     except design.PendingContextChanged as exc:
                         return None, str(exc)
+                    except intent.constraints.Refused as exc:
+                        if routing or exc.constraint != 'allowed_area':
+                            raise
+                        identity = str(exc).removeprefix('Component outside allowed region: ')
+                        reference = next((part['reference'] for part in inspection['components']
+                                          if part['uuid'] == identity), None)
+                        if reference is None:
+                            raise
+                        raise ValueError(f'{reference} starts outside the movement area. '
+                                         'Draw an area that includes its whole footprint, then preview again.') from exc
                     return current, offer
 
                 def show(result):
@@ -1577,6 +1591,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.message('Preview the current project and request again.')
                 self.refresh()
                 return
+            local_plan = None if self.conversation_offer else constraint_change_text(self.constraint_offer, adopted=True)
+            request = self.assistant_request.GetValue()
             self.clear_constraint_offer('Settings applied to this placement task. Follow the current action beside the board.')
             self.updating = True
             try:
@@ -1594,6 +1610,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.target_region.SetValue(start is not None)
             finally:
                 self.updating = False
+            if local_plan is not None:
+                self.conversation.remember_local_placement(request, local_plan, inspection=self.inspection)
+                self.assistant_result.ChangeValue(self.conversation.summary_for(
+                    self.inspection['source'], self.inspection['source_hashes']))
             self.revoke(discard=True)
             if self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
@@ -1646,7 +1666,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     proposal, clarification = result['proposal'], result['clarification']
                     identity = self.conversation.check_source(inspection, routing)
                     self.conversation.remember(binding['request'], proposal, clarification, source=identity)
-                    self.assistant_result.ChangeValue(self.conversation.summary())
+                    self.assistant_result.ChangeValue(self.conversation.summary_for(*identity[:2]))
                     self.assistant_result.SetInsertionPointEnd()
                     if proposal is not None:
                         # Changing the ordinary settings takes a later deliberate action.
@@ -2002,6 +2022,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 findings = value if read_only is None else read_only['static']
                 source = require_closed_source(self.board.GetValue(), inspection=findings)
                 self.board.ChangeValue(str(source))
+                if self.conversation.has_display_history:
+                    prior = self.conversation.summary_for(source, findings['source_hashes'])
+                    self.assistant_result.ChangeValue(prior or 'The saved project changed. Start a new conversation.')
                 self.inspection = value
                 self.saved_native = native
                 self.schematic = context
@@ -2430,7 +2453,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         else:
                             self.panel.Show(); self.Layout(); self.refresh()
                 history = (self.conversation.summary_for(self.inspection['source'], self.inspection['source_hashes'])
-                           if self.conversation.source else '')
+                           if self.conversation.has_display_history else '')
                 note = ('Placement checked. Routing keeps all existing copper.'
                         if self.gate.review.copper_plan is None else
                         'Placement checked. Routing uses a separate project copy.')
@@ -2511,7 +2534,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.panel.Show(); self.Layout(); self.refresh()
 
             view = getattr(self, 'routing_source_scene', None) if values is not None else None
-            current = gui.source_inventory(source) if self.conversation.source or view is not None else None
+            current = gui.source_inventory(source) if self.conversation.has_display_history or view is not None else None
             history = self.conversation.summary_for(source, current)
             scene = view[2] if view is not None and view[:2] == (str(source), current) else None
             net_context = None
