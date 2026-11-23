@@ -74,12 +74,15 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 11. **A distinct, frozen route task remains blocked.** The three-lead routing
     screen found a modern two-layer pour-only area on the STM32 Sensor Board.
     The bounded correction admits its saved unnetted form and reuses exact
-    DSN attribution and Native saved-fill proof. Qualify this change on an
-    owned two-layer control before promoting it to the installed workflow.
-    The complete STM32 project still has the separate U3 footprint keepout
-    and library checks. Keep the frozen interrupt task withheld. Do not
-    reopen the candidate search for this screen.
-    [Intake and predeclared task](evidence/product-distinct-licensed-route-intake-001.json)
+    DSN attribution and Native saved-fill proof. The installed 10.0.7
+    control verified the exact B.Cu export correction, source and layer
+    preservation, permitted F.Cu overlap, and deliberate B.Cu intrusion
+    refusal. The complete STM32 project still has the separate U3
+    footprint keepout and library checks. Keep the frozen interrupt task
+    withheld. Check the original source findings independently before
+    deciding whether footprint keepout qualification would unlock it.
+    [Intake and task](evidence/product-distinct-licensed-route-intake-001.json) ·
+    [Native control](evidence/product-modern-two-layer-pour-native-001.json)
 
 ## Active work from e638c5e9
 

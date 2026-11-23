@@ -17,7 +17,10 @@ path admits that exact form on the canonical 20260206 front/back signal
 stack, with no `net_name` and explicit island mode `0`. It retains the
 existing source geometry and exact DSN attribution. The final audit
 checks the Native layer identities, NoNet state and untouched restrictions,
-then checks the complete saved-fill matrix. Legacy two-layer and four-layer
-receipts retain their prior meanings. Restricted footprint areas still
-refuse. Actual Native verification of the new two-layer form remains open.
-[KiCad 10.0.7 zone writer](https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2632-L2640).
+then checks the complete saved-fill matrix. It refuses stored fill outside
+the declared zone layers. Legacy two-layer and four-layer receipts retain
+their prior meanings. Restricted footprint areas still refuse. The owned
+10.0.7 control passed exact export and refill, kept the allowable F.Cu
+overlap, and rejected a deliberately intruding B.Cu saved polygon.
+[KiCad 10.0.7 zone writer](https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2632-L2640) ·
+[Native control](../evidence/product-modern-two-layer-pour-native-001.json).
