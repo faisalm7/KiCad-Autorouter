@@ -96,6 +96,28 @@ class DisplayedRequestAdoptionTests(unittest.TestCase):
         self.assertIn('preview completed.', window.status.SetLabel.call_args.args[0])
         self.assertIn('Reroute unlocked copper', window.log.SetValue.call_args.args[0])
 
+    def test_ready_preview_keeps_the_captured_board_visible(self):
+        flow, job, record, window = self.completed_preview()
+        window.in_workspace = True
+        window.placement_scene = object()
+        window.workspace_tabs = Mock()
+        window.buttons = {'route': Mock()}
+        gt.window_method('finished')(window, job, flow, 'preview', record, None)
+        window.workspace_tabs.SetSelection.assert_called_once_with(0)
+        window.buttons['route'].SetFocus.assert_called_once_with()
+
+    def test_checked_export_keeps_the_reviewed_board_and_focuses_open(self):
+        flow, job, _, window = self.export_case()
+        window.in_workspace = True
+        window.workspace_render = {'diagrams': {'F.Cu': object()}}
+        window.workspace_tabs = Mock()
+        window.review_caption = Mock()
+        window.buttons = {'open_export': Mock()}
+        gt.window_method('finished')(window, job, flow, 'export', flow.records['verify_export'], None)
+        window.workspace_tabs.SetSelection.assert_called_once_with(0)
+        window.review_caption.SetLabel.assert_called_once_with('Reviewed copper · Checked copy saved')
+        window.buttons['open_export'].SetFocus.assert_called_once_with()
+
     def test_guided_route_review_requires_current_successful_job(self):
         for failure in (None, 'source', 'cancel', 'new job', 'reflow changed state'):
             with self.subTest(failure=failure):

@@ -113,9 +113,9 @@ def constraint_change_text(offer, *, conversational=False, adopted=False):
              'Conversation suggestion' if conversational else 'Local suggestion · saved project')
     lines = [title]
     for label, key, show in displays:
-        if adopted:
+        if adopted or before[key] == after[key]:
             lines.append(f'{label}  {show(after[key])}')
-        elif before[key] != after[key]:
+        else:
             lines.append(f'{label}  {show(before[key])} → {show(after[key])}')
     if offer['placement_settings'] is not None:
         lines.append('Other parts stay in place. KiCad locks stay as saved.')
@@ -998,6 +998,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                                name='Placement request')
             self.assistant_request.SetHint(LOCAL_REQUEST_EXAMPLE)
             assistant_layout.Add(self.assistant_request, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            request_example = wx.StaticText(assistant_inputs,
+                label='Local request commands: Select parts, Area in mm, Routing time in seconds.')
+            request_example.Wrap(self.FromDIP(300))
+            request_example.SetToolTip(LOCAL_REQUEST_EXAMPLE)
+            assistant_layout.Add(request_example, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
             self.constraint_preview = wx.Button(assistant_inputs, label='Preview placement request')
             self.constraint_preview.SetToolTip('Check component names and area locally. No design changes or model calls.')
@@ -1533,7 +1538,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.approval_note.SetLabel('\n'.join(notes))
                 self.approval_note.Wrap(max(340, self.GetClientSize().width - 30))
                 self.approval_note.Show(bool(notes))
-                self.find.Show(self.inspection is not None and not has_draft and not constraint_pending and not self.busy)
+                self.find.Show(selection_ready and not has_draft and not constraint_pending and not self.busy)
                 self.qualify.Show(reviewable)
                 self.route.Show(self.qualified is not None and not constraint_pending and not self.busy)
                 self.reject.Show(has_draft and not self.busy)
@@ -2480,6 +2485,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 else:
                     self.message('Saved board ready. Select parts, preview a request, or route the saved board.')
                     if first_inspection and self.pages.GetSelection() == 2:
+                        self.refresh()
                         self.assistant_request.SetFocus()
             def read_only_capture(source, reason, *, open_in_kicad=False, static=None):
                 from . import design_intent, review_view

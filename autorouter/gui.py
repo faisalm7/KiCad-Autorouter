@@ -2247,10 +2247,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     groups = finding_groups(native, route.get('source_drc'))
                     inherited = sum(len(rows) for (origin, _), rows in groups.items()
                                     if origin == 'Already in the saved input')
-                    details = chrome.counts_text(native)
                     if inherited:
-                        details += f' · {inherited} already in source'
-                    details += '\nSee Findings for every KiCad check and warning.'
+                        details = f'{inherited} source warning' + ('\n' if inherited == 1 else 's\n')
+                    details += 'See Findings for the complete KiCad report.'
             elif 'preview' in ready:
                 settings = json.loads(self.flow.settings_bytes)
                 preview = self.flow.records['preview']
@@ -2551,8 +2550,16 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                         self.findings_header.GetParent().Layout()
                     if workspace_render is not None:
                         self.show_workspace_review(workspace_render)
-                    elif stage in ('inspect', 'export') or stage == 'preview' and (gaps is None or gaps['status'] in {'blocked', 'unsupported'}):
+                    elif stage == 'inspect' or stage == 'preview' and gaps is not None and gaps['status'] in {'blocked', 'unsupported'}:
                         self.workspace_tabs.SetSelection(1)
+                    elif stage == 'preview' and (gaps is None or gaps['status'] == 'ready'):
+                        self.workspace_tabs.SetSelection(0 if self.placement_scene is not None or self.saved_scene is not None else 1)
+                    elif stage == 'export':
+                        reviewed_board = self.workspace_render and self.workspace_render['diagrams']
+                        if reviewed_board:
+                            self.review_caption.SetLabel('Reviewed copper · Checked copy saved')
+                            self.review_caption.GetParent().Layout()
+                        self.workspace_tabs.SetSelection(0 if reviewed_board else 1)
                 else:
                     self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()

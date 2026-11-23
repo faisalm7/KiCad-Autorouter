@@ -11,10 +11,15 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    beside the board. Explicit decisions advance the existing guarded checks.
    The copper review shows part references and supported pad centres. Fresh
    export requires the exact recorded acceptance and matching review lineage.
-3. **Installed verification pending.** Under current resource admission, run
-   the owned recovery controls and the frozen task through independent export
-   readback. Capture laptop-size screens, actual action counts, timings and
-   a short owner walkthrough. Keep the previous installed reference.
+3. **Installed engineering delivery observed.** `872362a5e` passed the owned
+   stale, lock, recovery and cancellation roles. The licensed timed trial
+   held before accepting. A separate continuation exported and independently
+   checked the same route after 14 normal actions across both parts.
+   [Observed run](evidence/product-guided-board-journey-001.json)
+4. **Qualify the observed layout correction.** Confirm that ready preview
+   and delivery leave the board visible. Use the approved exact-window
+   helper for one compact, timed walkthrough with the frozen task and limits.
+   Record actual focus, waits, viewport, actions and fresh readback.
 
 ## Board workspace
 
