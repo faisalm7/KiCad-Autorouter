@@ -1,6 +1,6 @@
 # Platform and version qualification
 
-The ordinary Finder workspace uses pinned KiCad 10.0.7 on Apple silicon. It has delivered a placement and protected routing task as a separate checked project. The optional isolated KiCad 10.0.8 companion has evidence for one owned single-footprint move and native Undo. Its newer handoff passed on the same Mac and still needs the current move and Undo check. [Licensed delivery](../evidence/product-integrated-rc-pushbutton-001.json) · [Installed handoff](../evidence/product-integrated-rc-handoff-001.json) · [Release gates](experimental-rc.md)
+The ordinary Finder workspace uses pinned KiCad 10.0.7 on Apple silicon. It has delivered a placement and protected routing task as a separate checked project. The optional isolated KiCad 10.0.8 companion passed a checked single-footprint move, exact native Undo and the saved-workspace round trip on the supplied owned example. Broader live writes and independent installations retain separate gates. [Licensed delivery](../evidence/product-integrated-rc-pushbutton-001.json) · [Installed qualification](../evidence/product-integrated-rc-editor-001.json) · [Release gates](experimental-rc.md)
 
 | Platform | Dependency | Actual evidence and limit |
 |---|---|---|

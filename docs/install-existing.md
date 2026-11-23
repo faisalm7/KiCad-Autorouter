@@ -115,7 +115,7 @@ component move**, then **Verify KiCad Undo** in Copperpath. Use **Open Saved
 Project.command** for your own boards. This checked example runs in a
 separate companion window. The ordinary launcher and toolbar passed the
 move and Undo test on the isolated Mac setup.
-[Current installed result](../evidence/product-workspace-live-toolbar-2427-001.json) · [Editor scope](live-editor-milestone.md#checked-move-on-1008)
+[Current installed result](../evidence/product-integrated-rc-editor-001.json) · [Editor scope](live-editor-milestone.md#checked-move-on-1008)
 
 **Open saved-project workspace…** carries the current example's saved path
 into the ordinary controls. Save and close the editors and then close the

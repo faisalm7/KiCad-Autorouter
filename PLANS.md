@@ -9,34 +9,33 @@ separate-project delivery evidence. Use the installed journeys below to
 check the boundaries that changed. The owned 90-second pour-rule repair is
 already complete. Keep it and the withheld STM32 task unchanged.
 
-1. The installed round trip kept the same saved window, notes and request
-   text and read the changed J2 selection. Focused controls verify edited
-   settings need fresh review, changed source invalidates the suggestion,
-   and unavailable editor context clears the hint. Finish the installed
-   edited-suggestion check after the owned editor closes normally.
-   [Installed handoff](evidence/product-integrated-rc-handoff-001.json)
+1. **Verified.** The installed handoff keeps the saved window, notes and
+   request text and reads the changed J2 selection. After the owned editor
+   closed, an edited 82-second suggestion survived the round trip. The old
+   selection hint cleared, and adoption required a fresh preview and choice.
+   [Installed handoff](evidence/product-integrated-rc-editor-001.json)
 2. **Verified on `ddaa97b3b`.** At 880 × 610 the full project name is visible
    and the approval row stays in view with editing fields expanded. The
    installed controls previewed and adopted the edited proposal. Reuse the
    existing routing review evidence.
-3. The fresh installation from `060c3c497` passed Finder entry and the
-   isolated 10.0.8 toolbar. The prepared J1 move and deliberate unsaved J2
-   edit are still in the owned test editor. Resume **Check move**, explicit
-   approval, native Undo and readback when macOS pressure is normal and
-   normal admission passes. The exact runner and active state are in the
-   local continuation. Earlier Native validation and cancellation apply
-   only to their unchanged controls.
+3. **Verified.** Build `060c3c497` moved J1 by 0.5 mm through the isolated
+   10.0.8 toolbar and read back exact native Undo with the unsaved J2 edit
+   intact. The separate test-only J2 cleanup restored its position and
+   regenerated four field IDs. The changed copy was retained and the three
+   original design files stayed exact. The earlier resource holds remain separate.
+   [Checked move and Undo](evidence/product-integrated-rc-editor-001.json)
 4. **Delivered.** The retained MIT PushButtonLed task ran once from the
    ordinary launcher with the frozen region and 90-second budget. Fresh
    export and independent readback preserved 13 tracks and all source
-   files. The operator edited the proposal and made no CAD corrections.
-   Recheck the affected layout and adoption only after the visual fix.
+   files. The operator edited the proposal and made no CAD corrections. A
+   later installed layout check kept adoption available at laptop size.
    [Licensed walkthrough](evidence/product-integrated-rc-pushbutton-001.json)
-5. The ordinary Finder setup and diagnostic fallback are documented.
-   Reconcile final qualification after the remaining installed controls.
+5. **Verified for the local candidate.** Finder opens the saved-project
+   workspace and **Start a new design** opens a blank pinned KiCad Manager.
+   The setup guide describes the supported Mac path and diagnostic fallback.
    Keep STM32 withheld. Broader live writes, docking, schematic edits,
-   Windows, independent installation and off-Mac recovery retain their
-   separate gates.
+   Windows, independent installation and full recovery retain separate gates.
+   [Setup](docs/install-existing.md) · [Platform scope](docs/supported-platforms.md)
 
 ## Active design journeys
 
