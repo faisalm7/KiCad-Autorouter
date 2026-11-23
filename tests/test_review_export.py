@@ -111,7 +111,10 @@ class ExportControls(unittest.TestCase):
     def no_positive(self):
         record=json.loads((self.output/'export.json').read_text());self.assertFalse(record['export_accepted']);self.assertNotEqual(record['status'],'export_validated')
     def test_actual_shared_validate_refill_and_readback_run_into_separate_copy(self):
-        result=self.export();self.assertTrue(result['export_accepted']);self.assertTrue(result['native_validation_performed'])
+        choice_sha256=p.sha(self.choice)
+        result=e.export(self.choice,self.output,expected_choice_sha256=choice_sha256)
+        self.assertTrue(result['export_accepted']);self.assertTrue(result['native_validation_performed'])
+        self.assertEqual(result['inputs']['choice_sha256'],choice_sha256)
         self.assertEqual([Path(x[0][-1]).name for x in self.calls],['board.kicad_pcb','board.kicad_pcb','metrics.json'])
         self.assertTrue(all(x[0][:3]==e.f.SANDBOX for x in self.calls));self.assertTrue(all(x[1]['max_workdir_bytes']==e.OUTPUT_BYTES for x in self.calls))
         self.assertEqual(result['native'],self.native);self.assertEqual(result['metrics'],self.metrics);self.assertTrue(e.check_export(self.output/'export.json')['current'])
@@ -139,6 +142,14 @@ class ExportControls(unittest.TestCase):
     def test_reject_or_changed_choice_never_enters_native(self):
         record=json.loads(self.choice.read_text());record['choice']='reject';self.choice.write_text(json.dumps(record))
         with self.assertRaises(p.Rejected):self.export()
+        self.assertEqual(self.calls,[]);self.assertFalse(self.output.exists())
+
+    def test_different_acceptance_bytes_refuse_before_native(self):
+        approved=self.choice.read_bytes()
+        self.choice.write_bytes(approved+b'\n')
+        self.assertEqual(f.parse_json(approved),f.read_json(self.choice))
+        with self.assertRaisesRegex(p.Rejected,'accepted choice changed since review'):
+            e.export(self.choice,self.output,expected_choice_sha256=h.digest(approved))
         self.assertEqual(self.calls,[]);self.assertFalse(self.output.exists())
     def test_open_review_lock_rejects_export_before_native(self):
         (self.root/'review/project/~board.kicad_pro.lck').write_text('owned lock control')

@@ -4,6 +4,8 @@ The master specification, current strategy and owner steering govern. Historical
 
 **Saved workspace and optional conversation.** Ordinary controls and an explicit local request can use the same placement settings. The installed graphical review showed original placement, protected and new routing, complete findings and a freshly validated separate export. Controlled replies exercised clarification and revised proposal adoption. A new live hosted turn needs separate authorization. [Owned task](evidence/product-workspace-delivery-faf-001.json)
 
+**Guided decisions and checked delivery.** The source now advances deterministic checks from an explicit decision and binds export to the exact acceptance. Verify the finished installed journey, readable copper context and fault recovery with the frozen task and owned controls before qualifying the new build. [Guided journey acceptance](docs/guided-board-journey.md)
+
 **Existing hosted proposal delivered through ordinary controls.** Freshness, exact proposed constraints, visible review, original copper and fresh separate export passed with no new model request. The out-of-scope ground addition in the first route was explicitly rejected and retained. [Engineering continuation](evidence/product-workspace-hosted-engineering-001.json)
 
 **Live translation scope.** The installed owned 10.0.8 companion demonstrated clarification, editable local preview, stale refusal, explicit approval, actual movement and native Undo at 880 × 610. Exact readback preserved the saved files, protected design content and unrelated unsaved edit. General open-project writes and concurrent editing during commit remain open. [Editable live evidence](evidence/product-revised-live-move-002.json)

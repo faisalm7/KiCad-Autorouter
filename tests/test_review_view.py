@@ -9,6 +9,7 @@ import tempfile
 import shutil
 import unittest
 from unittest.mock import patch
+from xml.etree import ElementTree
 from autorouter import handoff as h, review_view as view, pipeline as p, local_settings as ls
 
 
@@ -192,6 +193,102 @@ class SvgControls(unittest.TestCase):
             with self.assertRaises(p.Rejected): view.svg_bytes(path)
             path.write_text('<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0 L1 1"/></svg>')
             self.assertEqual(view.svg_bytes(path), path.read_bytes())
+
+
+class WorkspaceFindings(unittest.TestCase):
+    smd = 'be1bff94-c211-49d1-ab60-a0960bc4af00'
+    through = 'deae5183-4901-4fbd-b6ad-e1d01e391527'
+    footprint = '35e45d28-a006-4f09-9cdd-4f21605d1497'
+    track = '0d32f8a6-05ba-4bc7-abc0-3f3b76869646'
+    layers = ['F.Cu', 'In1.Cu', 'In2.Cu', 'B.Cu']
+
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name).resolve()
+        self.before = self.root / 'before' / 'board.kicad_pcb'
+        self.after = self.root / 'project' / self.before.name
+        for path in (self.before, self.after):
+            path.parent.mkdir()
+
+    def render(self, findings=(), *, extra='', removal='', stale=False):
+        board = f'''(gr_rect (start 4 5) (end 14 17) (layer "Edge.Cuts"))
+            (footprint "part" (layer "F.Cu") (at 7 8 90) (uuid "{self.footprint}")
+                (property "Reference" "J&1")
+                (pad "1" smd roundrect (at 1 2 90) (size 1 .8) (roundrect_rratio .2)
+                    (layers "F.Cu" "F.Paste" "F.Mask") (uuid "{self.smd}"))
+                (pad "2" thru_hole circle (at 0 0) (size 1.7 1.7) (drill 1)
+                    (layers "*.Cu" "*.Mask") (uuid "{self.through}") {removal}))
+            (segment (start 10 7) (end 10 9) (width .2) (layer "F.Cu") (net "A") (uuid "{self.track}"))
+            {extra}'''
+        self.before.write_text(f'(kicad_pcb {board})')
+        self.after.write_text(f'(kicad_pcb {board} (segment (start 7 8) (end 8 9) (width .2) (layer "B.Cu") (net "B")))')
+        candidate = p.sha(self.after)
+        review = dict(board=str(self.after), source_project_hashes={self.before.name: p.sha(self.before)},
+                      candidate_sha256=candidate, verified_candidate_sha256=candidate, preview={'layers': self.layers})
+        route = dict(scope='partial_completion', candidate_sha256='0' * 64 if stale else candidate,
+                     native={'findings': list(findings)})
+        return view.workspace_changes(self.root, self.before, review, route)
+
+    def test_passive_pad_centres_use_captured_pose_and_layer(self):
+        render = self.render()
+        for layer in self.layers:
+            with self.subTest(layer=layer):
+                scene = render['diagrams'][layer]
+                svg = ElementTree.fromstring(scene['svg'])
+                markers = svg.findall('.//{*}circle[@data-role="pad-centre"]')
+                points = [(float(row.get('cx')), float(row.get('cy'))) for row in markers]
+                self.assertEqual(points, [(9, 7), (7, 8)] if layer == 'F.Cu' else [(7, 8)])
+                self.assertEqual(svg.find('{*}text').text, 'J&1')
+                self.assertNotIn('components', scene)
+        self.assertEqual(render['counts'], {'retained': 0, 'added': 1, 'removed': 0, 'protected': 1})
+        self.assertIn('pad shapes and zone fill', render['context_note'])
+
+    def test_unique_current_finding_uses_board_coordinates_and_preserves_the_base(self):
+        render = self.render([{'description': 'Layout check', 'items': [
+            {'uuid': self.smd, 'pos': {'x': 999, 'y': float('nan')}}, {'uuid': self.track}]}])
+        finding, = render['findings']
+        self.assertEqual((finding['index'], finding['label'], finding['layers']), (0, '1. Layout check', ('F.Cu',)))
+        scene = view.finding_scene(render, 'F.Cu', 0)
+        base = render['diagrams']['F.Cu']
+        self.assertEqual(scene['size'], base['size'])
+        self.assertNotIn('finding-location', base['svg'])
+        svg = ElementTree.fromstring(scene['svg'])
+        markers = svg.findall('.//{*}circle[@data-role="finding-location"]')
+        scale, tx, ty = base['mm_to_svg']
+        self.assertEqual({(float(row.get('cx')), float(row.get('cy'))) for row in markers},
+                         {(x * scale + tx, 7 * scale + ty) for x in (9, 10)})
+        self.assertEqual(view.finding_scene(render, 'B.Cu', 0), render['diagrams']['B.Cu'])
+        self.assertEqual(view.finding_scene(render, 'F.Cu'), base)
+
+    def test_unresolved_duplicate_and_excess_findings_retain_safe_fallback(self):
+        unknown = 'c662d038-4a83-4624-951d-97dc8fe2edf2'
+        duplicate = f'(gr_text "Another object" (uuid "{self.smd}") (at 6 8) (layer "F.SilkS"))'
+        rows = [{'description': 'Ambiguous', 'items': [{'uuid': self.smd}]},
+                {'description': 'Unresolved\x00 item', 'items': [{'uuid': unknown}]},
+                {'description': 'Over selector bound', 'items': [{'uuid': self.footprint}]}]
+        with patch.object(view, 'FINDING_LIMIT', 2):
+            render = self.render(rows, extra=duplicate)
+        self.assertIn('pad-centre', render['diagrams']['F.Cu']['svg'])
+        self.assertEqual(render['findings_omitted'], 1)
+        self.assertEqual([row['layers'] for row in render['findings']], [(), ()])
+        self.assertEqual(render['findings'][1]['label'], '2. Unresolved item')
+        self.assertNotIn('finding-location', view.finding_scene(render, 'F.Cu', 0)['svg'])
+
+    def test_pad_population_or_uncertain_layer_presence_keeps_the_copper_diff(self):
+        finding = {'description': 'Through-hole item', 'items': [{'uuid': self.through}]}
+        with patch.object(view, 'PAD_MARKER_LIMIT', 1):
+            capped = self.render([finding])
+        removed = self.render([finding], removal='(remove_unused_layers yes)')
+        for render in (capped, removed):
+            self.assertIn('Some pad centres are omitted', render['context_note'])
+            self.assertNotIn('pad-centre', render['diagrams']['B.Cu']['svg'])
+            self.assertIn(view.WORKSPACE_COLORS['added'], render['diagrams']['B.Cu']['svg'])
+            self.assertEqual(render['findings'][0]['layers'], ())
+
+    def test_stale_candidate_cannot_supply_finding_anchors(self):
+        with self.assertRaisesRegex(p.Rejected, 'candidate differs from the checked routing receipt'):
+            self.render([{'items': [{'uuid': self.footprint}]}], stale=True)
 
 
 class PreviewTransaction(unittest.TestCase):

@@ -339,10 +339,15 @@ def _export_validation_guard(binding,report,identity):
     check()
     return check
 
-def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None):
+def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None,
+         expected_choice_sha256=None):
     """Shared handoff contract/current checker plus exact recorded intent identity."""
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
-    choice_path=h.real_path(choice_path);choice=f.read_json(choice_path)
+    choice_path=h.real_path(choice_path)
+    choice_bytes=pc.read_bytes(choice_path,sx.MAX_BYTES);choice_sha256=h.digest(choice_bytes)
+    if expected_choice_sha256 is not None and choice_sha256!=expected_choice_sha256:
+        raise p.Rejected('accepted choice changed since review; no export authorized')
+    choice=f.parse_json(choice_bytes)
     cmp.delivery_path(choice_path.parent,comparison_context,'choice')
     h.check_delivery_context(choice,**ctx)
     h.check_stage_budget(choice, 'choice')
@@ -400,7 +405,7 @@ def bind(choice_path, *, native_toolchain=None, experimental_schematic_parity=Fa
     # Full witnesses guard additional files and empty directories during export.
     inputs={str(path):witness(path,project=small) for path,small in ((source.parent,True),(candidate.parent,True),
         (receipt.parent,False),(review_path.parent,False),(choice_path.parent,False))}
-    binding={'choice':str(choice_path),'choice_sha256':p.sha(choice_path),'review':str(review_path),'review_sha256':p.sha(review_path),
+    binding={'choice':str(choice_path),'choice_sha256':choice_sha256,'review':str(review_path),'review_sha256':p.sha(review_path),
         'receipt':str(receipt),'receipt_sha256':p.sha(receipt),'source':str(source),'validated_candidate':str(candidate),
         'validated_candidate_sha256':report['candidate_sha256'],'input_policy':policy,'source_receipt_schema':report['schema'],
         'source_hashes':sw['files'],'candidate_hashes':cw['files'],'input_witnesses':inputs}
@@ -676,7 +681,8 @@ def invalidate(lifecycle,exc):
         try:archive()
         except BaseException as ownership:exc.add_note('No archival correction: '+str(ownership))
 
-def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False, comparison_context=None,warning_review=None):
+def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experimental_schematic_parity=False,
+           comparison_context=None,warning_review=None,expected_choice_sha256=None):
     """Validate the original bound candidate into a new project; never copy GUI rules."""
     start=elapsed_time();parent_cpu_start=time.process_time();child_cpu_start=f.child_cpu();cpu_start=parent_cpu_start+child_cpu_start
     ctx=h.application_kwargs(native_toolchain,experimental_schematic_parity,comparison_context)
@@ -709,7 +715,8 @@ def export(choice_path,output,seconds=SECONDS, *, native_toolchain=None, experim
         for sig in previous:signal.signal(sig,interrupted)
         with p.validation_readback_session():
             validation_identity=h._review_validation_identity()
-            cap();binding,report=bind(choice_path,**ctx);out=h.real_path(output,existing=False)
+            expected={} if expected_choice_sha256 is None else {'expected_choice_sha256':expected_choice_sha256}
+            cap();binding,report=bind(choice_path,**ctx,**expected);out=h.real_path(output,existing=False)
             from .strategy import native7_parent
             native7_export=(native_toolchain is None and comparison_context is None
                             and native7_parent(Path(binding['receipt']).parent,report) is not None)

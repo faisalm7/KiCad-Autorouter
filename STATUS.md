@@ -1,5 +1,13 @@
 # Current state
 
+**Guided board journey implemented at source.** Settings adoption can start
+placement search, approved moves can prepare the routing scope, and a checked
+route prepares its review. Accepting the result can save a fresh checked copy.
+Export now binds the exact acceptance bytes and checks the returned lineage.
+The review drawing shows part references, supported pad centres and highlights
+for items referenced in Findings. Installed timing, layout, recovery and
+delivery qualification are still pending. [Frozen acceptance](docs/guided-board-journey.md)
+
 **Board workspace qualified on this Mac.** The installed `ccd7a4073` Finder
 app registered as Copperpath and opened the saved board directly beside
 Request. The frozen PushButtonLed task completed three approved nets with all

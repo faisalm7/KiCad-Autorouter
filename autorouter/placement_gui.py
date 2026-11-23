@@ -776,6 +776,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.finalized = False
             self.job = None; self.cancel_event = None; self.routing = None
             self.qualified = None; self.validation_revoked = False
+            self.routing_handoff = None
             self.updating = False; self.workspace = None; self.owner = {}
             self.automatic_target_area = False
             self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
@@ -864,12 +865,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.side_panel.SetBackgroundColour(wx.Colour(surface))
             self.side_panel.SetMinSize(self.FromDIP((352, -1)))
             side_layout = wx.BoxSizer(wx.VERTICAL)
-            conversation_title = chrome.heading(wx.StaticText(self.side_panel, label='Conversation'), 15)
+            conversation_title = chrome.heading(wx.StaticText(self.side_panel, label='Design assistant'), 15)
             side_layout.Add(conversation_title, 0, wx.LEFT | wx.TOP | wx.BOTTOM, 8)
-            self.assistant_result = wx.TextCtrl(self.side_panel, style=wx.TE_MULTILINE | wx.TE_READONLY,
-                                                size=(-1, 86), name='Conversation history')
-            self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
-            side_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.copper_controls = wx.Panel(self.side_panel)
             copper_row = wx.BoxSizer(wx.HORIZONTAL)
             copper_row.Add(wx.StaticText(self.copper_controls, label='Copper'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
@@ -882,6 +879,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             side_layout.Add(self.copper_controls, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.pages = wx.Notebook(self.side_panel); self.pages.SetMinSize(self.FromDIP((352, 230)))
             side_layout.Add(self.pages, 1, wx.EXPAND)
+            self.history = wx.CollapsiblePane(self.side_panel, label='Conversation history', style=wx.CP_NO_TLW_RESIZE)
+            history_panel = self.history.GetPane()
+            self.assistant_result = wx.TextCtrl(history_panel, style=wx.TE_MULTILINE | wx.TE_READONLY,
+                                                size=(-1, 88), name='Conversation history')
+            self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
+            history_layout = wx.BoxSizer(wx.VERTICAL)
+            history_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.TOP, 4)
+            history_panel.SetSizer(history_layout)
+            self.history.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda _: self.layout_panel())
+            side_layout.Add(self.history, 0, wx.EXPAND | wx.ALL, 8)
             self.side_panel.SetSizer(side_layout)
             self.controls = wx.ScrolledWindow(self.pages, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
             self.controls.SetScrollRate(0, 12)
@@ -981,38 +988,44 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             assistant_inputs = wx.ScrolledWindow(assistant_page, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
             assistant_inputs.SetScrollRate(0, 12); self.request_controls = assistant_inputs
             assistant_layout = wx.BoxSizer(wx.VERTICAL)
+            assistant_layout.AddSpacer(8)
             self.assistant_context = wx.StaticText(assistant_inputs)
             self.assistant_context.Hide()
             assistant_layout.Add(self.assistant_context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            assistant_layout.Add(wx.StaticText(assistant_inputs, label='Your request or reply'),
+            assistant_layout.Add(wx.StaticText(assistant_inputs, label='Describe where parts should go'),
                                  0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 66),
                                                name='Placement request')
             self.assistant_request.SetHint(LOCAL_REQUEST_EXAMPLE)
             assistant_layout.Add(self.assistant_request, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
+            self.constraint_preview = wx.Button(assistant_inputs, label='Preview placement request')
+            self.constraint_preview.SetToolTip('Check component names and area locally. No design changes or model calls.')
+            assistant_layout.Add(self.constraint_preview, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+
+            self.model_options = wx.CollapsiblePane(assistant_inputs, label='Model-backed conversation',
+                                                    style=wx.CP_NO_TLW_RESIZE)
+            model_panel = self.model_options.GetPane()
+            model_layout = wx.BoxSizer(wx.VERTICAL)
             options = wx.BoxSizer(wx.HORIZONTAL)
-            self.conversation_kind = wx.Choice(assistant_inputs, choices=['Place components', 'Protected routing'],
+            self.conversation_kind = wx.Choice(model_panel, choices=['Place components', 'Protected routing'],
                                                 name='Hosted task')
             self.conversation_kind.SetSelection(0)
             self.conversation_kind.SetToolTip('Choose which settings a hosted reply may suggest.')
-            self.conversation_reset = wx.Button(assistant_inputs, label='New conversation')
+            self.conversation_reset = wx.Button(model_panel, label='New conversation')
             options.Add(self.conversation_kind, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 6)
             options.Add(self.conversation_reset, 0, wx.ALIGN_CENTER_VERTICAL)
-            assistant_layout.Add(options, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-
-            request_actions = wx.BoxSizer(wx.HORIZONTAL)
-            self.constraint_preview = wx.Button(assistant_inputs, label='Preview placement')
-            self.constraint_preview.SetToolTip('Preview explicit placement commands or edit a suggestion locally.')
-            self.assistant_ask = wx.Button(assistant_inputs,
+            model_layout.Add(options, 0, wx.EXPAND | wx.BOTTOM, 6)
+            self.assistant_ask = wx.Button(model_panel,
                 label='Send controlled reply' if conversation_reply else 'Review data and send…')
-            request_actions.Add(self.constraint_preview, 0, wx.RIGHT, 6)
-            request_actions.Add(self.assistant_ask)
-            assistant_layout.Add(request_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            model_layout.Add(self.assistant_ask)
+            model_panel.SetSizer(model_layout)
+            self.model_options.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, lambda _: self.layout_panel())
+            assistant_layout.Add(self.model_options, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
             self.constraint_summary = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
                                                  size=(-1, 74), name='Constraint changes')
-            self.constraint_summary.ChangeValue('Preview a request to see its changes on the board. Use settings to adopt them.')
+            self.constraint_summary.Hide()
             assistant_layout.Add(self.constraint_summary, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
             self.constraint_edit = wx.Button(assistant_inputs, label='Edit suggestion')
@@ -1045,7 +1058,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
             proposal_actions = wx.BoxSizer(wx.HORIZONTAL)
             self.constraint_preview_edits = wx.Button(assistant_page, label='Preview edits')
-            self.constraint_use = wx.Button(assistant_page, label='Use settings')
+            self.constraint_use = wx.Button(assistant_page, label='Use settings and find alternatives')
             self.constraint_reject = wx.Button(assistant_page, label='Discard')
             proposal_actions.Add(self.constraint_preview_edits, 0, wx.RIGHT, 6)
             proposal_actions.Add(self.constraint_use, 0, wx.RIGHT, 6)
@@ -1055,7 +1068,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             for button, handler, shortcut in (
                 (self.constraint_edit, self.toggle_constraint_editor, 'Ctrl+Shift+E'),
                 (self.constraint_preview_edits, self.preview_constraints, 'Ctrl+Shift+P'),
-                (self.constraint_use, self.use_constraints, 'Ctrl+Shift+U'),
+                (self.constraint_use, lambda event: self.use_constraints(event, search=True), 'Ctrl+Shift+U'),
             ):
                 item = conversation_menu.Append(wx.ID_ANY, f'{button.GetLabel()}\t{shortcut}')
                 self.Bind(wx.EVT_MENU, handler, item)
@@ -1093,7 +1106,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             root.Add(self.approval_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8)
             buttons = wx.BoxSizer(wx.HORIZONTAL)
             self.find = wx.Button(panel, label='Find alternatives')
-            self.qualify = wx.Button(panel, label='Approve placement and validate')
+            self.qualify = wx.Button(panel, label='Approve moves and check routing')
             self.route = wx.Button(panel, label='Continue to routing…'); self.reject = wx.Button(panel, label='Reject draft')
             for button in (self.find, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 6)
             buttons.AddStretchSpacer(); buttons.Add(self.reject)
@@ -1145,14 +1158,15 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.part.Bind(wx.EVT_CHOICE, self.select_part)
             for field in (self.x, self.y): field.Bind(wx.EVT_TEXT, self.pending_edit)
             self.apply.Bind(wx.EVT_BUTTON, self.edit)
-            self.reject.Bind(wx.EVT_BUTTON, self.reject_draft); self.qualify.Bind(wx.EVT_BUTTON, self.qualify_draft)
+            self.reject.Bind(wx.EVT_BUTTON, self.reject_draft)
+            self.qualify.Bind(wx.EVT_BUTTON, lambda event: self.qualify_draft(event, prepare_routing=True))
             self.route.Bind(wx.EVT_BUTTON, self.open_routing); self.cancel.Bind(wx.EVT_BUTTON, self.cancel_work)
             self.route_saved.Bind(wx.EVT_BUTTON, self.begin_saved_routing)
             self.assistant_request.Bind(wx.EVT_TEXT, self.assistant_changed)
             self.route_budget.Bind(wx.EVT_TEXT, self.settings_changed)
             self.constraint_preview.Bind(wx.EVT_BUTTON, self.preview_constraints)
             self.constraint_preview_edits.Bind(wx.EVT_BUTTON, self.preview_constraints)
-            self.constraint_use.Bind(wx.EVT_BUTTON, self.use_constraints)
+            self.constraint_use.Bind(wx.EVT_BUTTON, lambda event: self.use_constraints(event, search=True))
             self.constraint_reject.Bind(wx.EVT_BUTTON, self.discard_constraints)
             self.assistant_ask.Bind(wx.EVT_BUTTON, self.ask_conversation)
             self.conversation_reset.Bind(wx.EVT_BUTTON, self.reset_conversation)
@@ -1192,6 +1206,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.validation_revoked = self.qualified is not None or self.validation_revoked
             self.gate.invalidate(dirty=self.gate.dirty)
             self.qualified = None
+            self.routing_handoff = None
             self.picture.SetScene(None)
             if getattr(self, 'constraint_offer', None) is not None:
                 self.constraint_preview_error(reason)
@@ -1206,6 +1221,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             # Refresh the current gates after rendering, never resurrect a ticket.
             if not self.gate.closed:
                 self.refresh()
+                pending = self.routing_handoff
+                if pending is not None and self.picture.Ready():
+                    self.routing_handoff = None
+                    job, result = pending
+                    if (self.job is job and not job.cancel_requested and self.qualified is result
+                            and not self.busy and self.routing is None):
+                        self.open_routing(None, preview=True)
 
         def overview(self):
             """Passive source view before a draft exists; never validation."""
@@ -1452,6 +1474,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     control.Show(not constraint_pending)
                 self.conversation_reset.Enable(not self.busy)
                 self.conversation_kind.Enable(not self.busy)
+                self.model_options.Show(not constraint_pending)
+                self.history.Show(self.conversation.has_display_history or self.conversation.source is not None)
             if hasattr(self, 'assistant_use'):
                 self.assistant_ask.Enable(not self.busy and self.inspection is not None)
                 self.assistant_ack.Enable(not self.busy and self.pending_copilot is not None)
@@ -1496,9 +1520,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     notes.append(self.rebuild_routing_notice)
                 if reviewable:
                     copper = self.gate.review.copper_plan
-                    instruction = ('Approval includes the copper changes listed in Findings.' if copper is not None
-                                   else 'Review the component moves.')
-                    notes.append(instruction + '\nConfirm both editors and the saved project are closed in KiCad.')
+                    review = self.gate.review
+                    overview = placement_move_findings(review.observation, review.moves).splitlines()[0]
+                    instruction = (f"{len(copper['removed_routes'])} routes may be rebuilt · "
+                                   f"{len(copper['protected_routes'])} stay protected" if copper is not None
+                                   else 'All existing copper stays protected')
+                    notes.append(f'{overview} · {instruction}. See Findings for details.\n'
+                                 'Close the saved project in KiCad before approval.')
                 elif needs_selection:
                     notes.append('Select one eligible three-pad SMD part.' if three_pad else
                                  'Select movable parts to find alternatives. A group needs at least two parts.')
@@ -1513,6 +1541,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.layout_panel()
 
         def revoke(self, *, dirty=False, discard=False):
+            self.routing_handoff = None
             self.validation_revoked = self.qualified is not None or self.validation_revoked
             self.gate.invalidate(dirty=dirty); self.qualified = None
             # Revocation is authoritative even when the passive preview cannot
@@ -1744,6 +1773,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.constraint_review, self.constraint_offer = review, offer
             self.constraint_edited = False
             routing = offer['kind'] == conversation.ROUTING_KIND
+            self.constraint_use.SetLabel('Use routing settings' if routing else 'Use settings and find alternatives')
             entries = ('', '', str(offer['after']['route_seconds'])) if routing else constraint_entry_values(offer)
             if hasattr(self, 'routing_names'):
                 for field in (*self.constraint_labels[:2], *self.constraint_fields[:2]):
@@ -1760,7 +1790,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.update_constraint_map(offer)
             self.layout_panel()
             self.refresh()
-            self.message('Review or edit the suggestion. Use settings updates the ordinary controls.')
+            self.message('Review or edit the settings beside the board. You’ll approve any moves separately.')
+            if self.constraint_use.IsShownOnScreen() and self.constraint_use.IsEnabled():
+                self.constraint_use.SetFocus()
 
         def toggle_constraint_editor(self, _):
             if self.busy or self.constraint_offer is None:
@@ -1831,7 +1863,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.clear_constraint_offer('Suggestion discarded. Your ordinary settings are unchanged.')
             self.refresh()
 
-        def use_constraints(self, _):
+        def use_constraints(self, _, *, search=False):
             if (self.busy or self.gate.closed or self.constraint_review is None
                     or self.constraint_offer is None or self.constraint_edited):
                 return
@@ -1882,7 +1914,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.revoke(discard=True)
             if self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
-            self.message('Settings applied. Review the board, then choose Find alternatives.')
+            if search:
+                self.find_alternatives(None)
+            else:
+                self.message('Settings applied. Review the board, then choose Find alternatives.')
 
         def reset_conversation(self, _):
             if self.busy:
@@ -1951,6 +1986,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     else:
                         question = design.read_design_clarification(clarification)
                         self.constraint_summary.ChangeValue('\n'.join(question['questions']))
+                        self.constraint_summary.Show()
                         self.message('This request needs a supported alternative.' if question['status'] == 'unsupported'
                                      else 'Enter your answer and review the next request before sending.')
                         self.assistant_request.SetFocus(); self.assistant_request.SelectAll()
@@ -2339,6 +2375,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             threading.Thread(target=work, daemon=False).start()
 
         def finish(self, job, generation, result, error, adopt):
+            if self.job is not job:
+                return
             self.busy = False
             if self.gate.closed:
                 self.finish_close(); return
@@ -2441,6 +2479,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.message(gui.no_missing_connections_message(native['warnings']))
                 else:
                     self.message('Saved board ready. Select parts, preview a request, or route the saved board.')
+                    if first_inspection and self.pages.GetSelection() == 2:
+                        self.assistant_request.SetFocus()
             def read_only_capture(source, reason, *, open_in_kicad=False, static=None):
                 from . import design_intent, review_view
                 if static is None:
@@ -2590,7 +2630,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         raise ValueError(message)
                     review = intent.Review(proposal); self.current_review_settings(review)
                     self.gate.attach(review); self.render(0)
-                    self.message('Review the alternatives and their constraints. You may edit selected positions before validation.')
+                    self.message('Compare alternatives on the board. Approve the displayed moves when ready.')
+                    if hasattr(self, 'qualify') and self.qualify.IsShownOnScreen() and self.qualify.IsEnabled():
+                        self.qualify.SetFocus()
                 self.start('Searching two alternatives within the 2-second search budget…',
                            lambda job, event: intent.propose(inspection, value, cancel_event=event), adopt)
             except Exception as exc: self.message('Placement search refused: ' + str(exc))
@@ -2788,7 +2830,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             h.owned_destination(self.owner)
             return self.workspace
 
-        def qualify_draft(self, _):
+        def qualify_draft(self, _, *, prepare_routing=False):
             if self.busy or self.gate.closed:
                 return
             try:
@@ -2837,13 +2879,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.job.check_live(); self.gate.check(ticket)
                     self.qualified = result
                     self.validation_revoked = False; self.present()
-                    self.message('Placement validated on a separate project. Read every finding, then open routing settings. Routing and acceptance remain separate actions.')
+                    self.message('Placement checked. Review the routing scope before starting routing.')
+                    if prepare_routing and self.qualified is result:
+                        self.routing_handoff = (self.job, result)
+                        self.preview_ready()
                 self.start('Validating the reviewed placement on a separate copy · 120-second total qualification budget…', work, adopt)
             except Exception as exc:
                 self.revoke(dirty=self.gate.dirty)
                 self.message('Qualification refused: ' + str(exc))
 
-        def open_routing(self, _):
+        def open_routing(self, _, *, preview=False):
             if self.busy or self.gate.closed:
                 return
             try:
@@ -2876,7 +2921,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         'Placement checked. Routing uses a separate project copy.')
                 frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished,
                     parent=self, placement_scene=self.picture.display, conversation_history=history,
-                    on_saved_source=self.open_saved_source, source_note=note)
+                    on_saved_source=self.open_saved_source, source_note=note,
+                    placement_findings=self.findings.GetValue())
                 try:
                     if getattr(self, 'routing_output_hint', None) is not None:
                         frame.output.SetValue(self.routing_output_hint)
@@ -2913,6 +2959,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.GetSizer().Add(frame, 1, wx.EXPAND)
                 self.panel.Hide(); frame.Show(); self.Layout()
                 self.message('Returning to placement keeps this draft. Changes revoke the routing handoff.')
+                if preview:
+                    frame.preview_qualified_placement()
             except Exception as exc:
                 self.revoke(dirty=self.gate.dirty); self.message('Routing handoff refused: ' + str(exc))
 

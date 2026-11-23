@@ -29,10 +29,12 @@ class GuiExportBudgetTests(unittest.TestCase):
                 self.assertEqual(flow.timeout('route'), route_seconds + 45)
                 # Readiness and choice are synthetic; no accepted routing/review is claimed.
                 flow.ready.update(('route', 'review', 'choice')); flow.choice = 'accept'
+                flow.choice_sha256 = 'a' * 64
                 export = flow.command('export')
                 self.assertEqual(export[4:6], ['review-export',
                     str(flow.workspace / 'choice/choice.json')])
                 allocation = export[export.index('--seconds') + 1]
+                self.assertEqual(export[export.index('--expected-choice-sha256') + 1], flow.choice_sha256)
                 self.assertEqual(allocation, str(export_seconds))
                 self.assertEqual(export_api.validate_seconds(float(allocation)), export_seconds)
                 self.assertEqual(gui.export_validation_seconds(route_seconds), export_seconds)

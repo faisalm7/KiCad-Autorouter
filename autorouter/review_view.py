@@ -153,6 +153,18 @@ def _route_shape(row, layers):
 
 WORKSPACE_COLORS = {'protected': '#7354a4', 'retained': '#687b8c',
                     'added': '#087f68', 'removed': '#b95023'}
+REFERENCE_LIMIT = 24
+PAD_MARKER_LIMIT = 256
+FINDING_LIMIT = 128
+FINDING_ITEM_LIMIT = 8
+WORKSPACE_SVG_LIMIT = 2 * 1024**2
+
+
+@dataclass(frozen=True)
+class BoardPoint:
+    xy: tuple
+    layers: tuple
+    identity: str = ''
 
 
 @dataclass(frozen=True)
@@ -161,6 +173,9 @@ class BoardDrawing:
     anchors: tuple
     cutouts: tuple = ()
     edge_paths: tuple = ()
+    pads: tuple = ()
+    footprints: tuple = ()
+    partial_pad_context: bool = False
 
 
 def _edge_chain_drawing(edges):
@@ -196,7 +211,61 @@ def _edge_chain_drawing(edges):
     return tuple(bbox(extents)), tuple(paths)
 
 
-def _workspace_context(board):
+def _display_uuid(row):
+    from .routing_scope import _uuid
+
+    try:
+        return _uuid(row)[1].lower()
+    except p.Rejected:
+        return ''
+
+
+def _pad_layers(pad, layers):
+    row = sx.one(pad, 'layers', [])
+    selectors = [sx.unquote(value) for value in row[1:]]
+    if len(set(selectors)) != len(selectors) or sx.one(pad, 'padstack') is not None:
+        return ()
+    if pad[2:4] in (['smd', 'rect'], ['smd', 'roundrect']):
+        if set(selectors) == {'F.Cu', 'F.Mask', 'F.Paste'}:
+            return ('F.Cu',) if 'F.Cu' in layers else ()
+    if (pad[2:4] in (['thru_hole', 'circle'], ['thru_hole', 'rect'], ['thru_hole', 'roundrect'])
+            and set(selectors) == {'*.Cu', '*.Mask'}
+            and sx.one(pad, 'remove_unused_layers') in (None, ['remove_unused_layers', 'no'])):
+        return tuple(layers)
+    return ()
+
+
+def _part_points(part, xy, layers, bounds, *, show_pads):
+    from experiments.placement_native_proposal_v1.ordinary import at, world
+
+    side, = sx.one(part, 'layer', [])[1:]
+    side = sx.unquote(side)
+    uid = _display_uuid(sx.one(part, 'uuid'))
+    footprint = (BoardPoint(xy, (side,), uid) if uid and side in layers and len(xy) == 2
+                 and all(bounds[i] <= xy[i] <= bounds[i + 2] for i in range(2)) else None)
+    if not show_pads:
+        return footprint, (), False
+    pads = sx.children(part, 'pad')
+    if not pads or side != 'F.Cu':
+        return footprint, (), bool(pads)
+    try:
+        anchor, rotation = at(part)
+    except (ValueError, TypeError, IndexError):
+        return footprint, (), True
+    points = []
+    for pad in pads:
+        try:
+            visible = _pad_layers(pad, layers)
+            if visible:
+                centre = tuple(value / 1_000_000 for value in world(at(pad)[0], anchor, rotation))
+                if all(bounds[i] <= centre[i] <= bounds[i + 2] for i in range(2)):
+                    points.append(BoardPoint(centre, visible, _display_uuid(sx.one(pad, 'uuid'))))
+        except (ValueError, TypeError, IndexError):
+            continue
+    return footprint, tuple(points), len(points) != len(pads)
+
+
+def _workspace_context(board, *, layers=()):
     """Show saved edge geometry and part anchors in the passive view."""
     from . import placement_transform
     from experiments.placement_native_proposal_v1.contract import rectangle
@@ -231,7 +300,11 @@ def _workspace_context(board):
         if not paths:
             bounds = tuple(value / 1_000_000 for value in exact_bounds)
         anchors = []
-        if len(parts) <= 24:
+        pads, footprints = [], []
+        partial = bool(layers and len(parts) > REFERENCE_LIMIT)
+        if len(parts) <= REFERENCE_LIMIT:
+            show_pads = bool(layers) and sum(len(sx.children(part, 'pad')) for part in parts) <= PAD_MARKER_LIMIT
+            partial = bool(layers and not show_pads)
             for part in parts:
                 ref = next((sx.unquote(row[2]) for row in sx.children(part, 'property')
                             if len(row) >= 3 and sx.unquote(row[1]) == 'Reference'), '')
@@ -239,13 +312,23 @@ def _workspace_context(board):
                 if (0 < len(ref) <= 16 and ref.isprintable() and len(xy) == 2
                         and all(bounds[i] <= xy[i] <= bounds[i + 2] for i in range(2))):
                     anchors.append((*xy, ref))
-        return BoardDrawing(bounds, tuple(anchors), cutouts, paths)
+                if layers:
+                    try:
+                        feature, markers, omitted = _part_points(part, xy, layers, bounds, show_pads=show_pads)
+                    except (ValueError, TypeError, IndexError):
+                        partial = True
+                        continue
+                    if feature is not None:
+                        footprints.append(feature)
+                    pads.extend(markers)
+                    partial |= omitted
+        return BoardDrawing(bounds, tuple(anchors), cutouts, paths, tuple(pads), tuple(footprints), partial)
     except (ValueError, TypeError, KeyError, IndexError):
         return None
 
 
 def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
-    """Show tracks/vias alone with a common scale. Native plots retain full copper."""
+    """Show the route diff at a common scale. Native plots retain full copper."""
     if sum(map(len, changes.values())) > 8000:
         return {}, 'This board is too large for the route diagrams. Compare the KiCad plots below.'
     shapes = {layer: defaultdict(list) for layer in layers}
@@ -274,17 +357,17 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
     for layer in layers:
         if workspace:
             size = (840, max(1, round(840 * height / width))) if width >= height else (max(1, round(840 * width / height)), 840)
-            body = ''.join(f'<g stroke="{WORKSPACE_COLORS[group]}" stroke-width="0.16"'
+            routes = ''.join(f'<g stroke="{WORKSPACE_COLORS[group]}" stroke-width="0.16"'
                            + (' stroke-dasharray="0.55 0.4"' if group == 'removed' else '')
                            + f'>{"".join(shapes[layer][group])}</g>'
                            for group in ('removed', 'retained', 'protected', 'added'))
-            workspace_box = view_box
+            # A common board-to-SVG transform keeps pad and finding marks on
+            # the same geometry at every layer and canvas size.
+            scale = min(size[0] / width, size[1] / height)
+            tx = (size[0] - width * scale) / 2 - left * scale
+            ty = (size[1] - height * scale) / 2 - top * scale
+            outline, pads, labels = '', '', ''
             if board_context is not None:
-                # The tracks still use saved coordinates. Rendering labels in
-                # pixel space lets the same wx board canvas keep them legible.
-                scale = min(size[0] / width, size[1] / height)
-                tx = (size[0] - width * scale) / 2 - left * scale
-                ty = (size[1] - height * scale) / 2 - top * scale
                 if board_context.edge_paths:
                     outline = ''.join(f'<path d="{path}" stroke="#7c8d9e" stroke-width="{1.8/scale}" '
                                       'data-role="board-edge"/>' for path in board_context.edge_paths)
@@ -295,15 +378,19 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
                     outline += ''.join(f'<circle cx="{x}" cy="{y}" r="{radius}" fill="#fff" stroke="#7c8d9e" '
                                        f'stroke-width="{1.4/scale}" data-role="board-cutout"/>'
                                        for x, y, radius in board_context.cutouts)
-                body = f'<g transform="matrix({scale} 0 0 {scale} {tx} {ty})">{outline}{body}</g>'
+                pads = ''.join(f'<circle data-role="pad-centre" cx="{mark.xy[0]}" cy="{mark.xy[1]}" '
+                               f'r="{3.8/scale}" fill="#c1a16f" fill-opacity=".7"/>'
+                               for mark in board_context.pads if layer in mark.layers)
                 for px, py, ref in board_context.anchors:
                     cx, cy = px * scale + tx, py * scale + ty
-                    body += (f'<circle cx="{cx}" cy="{cy}" r="2.7" fill="#435568"/>'
-                             f'<text x="{cx+5}" y="{cy-5}" font-size="15" fill="#36495c">{escape(ref)}</text>')
-                workspace_box = f'0 0 {size[0]} {size[1]}'
+                    labels += (f'<circle cx="{cx}" cy="{cy}" r="2.7" fill="#435568"/>'
+                               f'<text x="{cx+5}" y="{cy-5}" font-size="15" fill="#36495c">{escape(ref)}</text>')
+            body = f'<g transform="matrix({scale} 0 0 {scale} {tx} {ty})">{outline}{pads}{routes}</g>{labels}'
             svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{size[0]}" height="{size[1]}" '
-                   f'viewBox="{workspace_box}" fill="none" stroke-linecap="round">{body}</svg>')
-            diagrams[layer] = {'svg': svg, 'size': size}
+                   f'viewBox="0 0 {size[0]} {size[1]}" fill="none" stroke-linecap="round">{body}</svg>')
+            if len(svg.encode('utf-8')) > WORKSPACE_SVG_LIMIT:
+                return {}, 'Route drawing exceeds the workspace size limit. Compare the KiCad plots below.'
+            diagrams[layer] = {'svg': svg, 'size': size, 'mm_to_svg': (scale, tx, ty)}
         else:
             body = ''.join(f'<g class="{group}">{"".join(shapes[layer][group])}</g>'
                            for group in ('removed', 'retained', 'added'))
@@ -329,6 +416,88 @@ def saved_board_front(inspection):
     return drawings.get('F.Cu')
 
 
+def _finding_ids(row):
+    items = row.get('items')
+    if type(items) is not list or not 1 <= len(items) <= FINDING_ITEM_LIMIT:
+        return ()
+    identities = tuple(_display_uuid(['uuid', item.get('uuid')]) if type(item) is dict else ''
+                       for item in items)
+    return identities if all(identities) and len(set(identities)) == len(identities) else ()
+
+
+def _finding_anchors(board, context, layers, wanted):
+    if not wanted:
+        return {}
+    # Count matches even in objects we cannot draw. An ambiguous UUID may
+    # never select the one drawable item that happens to share it.
+    matches, remaining = Counter(), [board]
+    while remaining:
+        node = remaining.pop()
+        if node[0] == 'uuid' and len(node) >= 2 and type(node[1]) is str and len(node[1]) in (36, 38):
+            identity = sx.unquote(node[1]).lower()
+            if identity in wanted:
+                matches[identity] += 1
+        remaining.extend(child for child in node[1:] if type(child) is list and child)
+    unique = {identity for identity in wanted if matches[identity] == 1}
+    anchors = {point.identity: point for point in (*context.footprints, *context.pads)
+               if point.identity in unique} if context is not None else {}
+    for route in p.routes(board):
+        try:
+            identity = _display_uuid(sx.one(route, 'uuid'))
+            if identity not in unique:
+                continue
+            visible, _, _ = _route_shape(route, layers)
+            point = _coordinates(route, 'at' if route[0] == 'via' else 'start', 2)
+        except (ValueError, TypeError, IndexError):
+            continue
+        anchors[identity] = BoardPoint(point, tuple(visible), identity)
+    return anchors
+
+
+def _workspace_findings(board, context, diagrams, route):
+    native = route.get('native') or route.get('saved_native_findings') or route.get('final_drc')
+    rows = native.get('findings') if type(native) is dict else None
+    if type(rows) is not list:
+        return (), 0
+    identities = [_finding_ids(row) if type(row) is dict else () for row in rows[:FINDING_LIMIT]]
+    wanted = {identity for group in identities for identity in group}
+    layers = tuple(diagrams)
+    anchors = _finding_anchors(board, context, layers, wanted) if layers else {}
+    findings = []
+    for index, group in enumerate(identities):
+        row = rows[index] if type(rows[index]) is dict else {}
+        description = row.get('description')
+        if type(description) is not str or not description.strip():
+            description = 'KiCad finding'
+        printable = ''.join(char if char.isprintable() else ' ' for char in description[:160])
+        label = f"{index + 1}. " + ' '.join(printable.split())
+        points = tuple(anchors[identity] for identity in group) if all(identity in anchors for identity in group) else ()
+        visible = tuple(layer for layer in layers if any(layer in point.layers for point in points))
+        findings.append({'index': index, 'label': label, 'layers': visible, 'points': points})
+    return tuple(findings), max(0, len(rows) - FINDING_LIMIT)
+
+
+def finding_scene(render, layer, index=None):
+    """Return the checked review layer with an optional passive board marker."""
+    scene = render['diagrams'][layer]
+    if index is None or type(index) is not int or not 0 <= index < len(render['findings']):
+        return scene
+    row = render['findings'][index]
+    if layer not in row['layers']:
+        return scene
+    scale, tx, ty = scene['mm_to_svg']
+    marks = []
+    for point in row['points']:
+        if layer in point.layers:
+            x, y = point.xy
+            marks.append(f'<circle data-role="finding-location" cx="{x * scale + tx}" cy="{y * scale + ty}" '
+                         'r="10" fill="none" stroke="#fff" stroke-width="6"/>')
+            marks.append(f'<circle cx="{x * scale + tx}" cy="{y * scale + ty}" '
+                         'r="10" fill="none" stroke="#176cba" stroke-width="2.8"/>')
+    svg = scene['svg'][:-len('</svg>')] + ''.join(marks) + '</svg>'
+    return {**scene, 'svg': svg} if len(svg.encode('utf-8')) <= WORKSPACE_SVG_LIMIT else scene
+
+
 def workspace_changes(directory, source_board, review, route):
     """Draw a passive view of the same captured boards as the rendered review."""
     board = Path(review['board'])
@@ -340,6 +509,10 @@ def workspace_changes(directory, source_board, review, route):
     if (hashlib.sha256(before_bytes).hexdigest() != review['source_project_hashes'][source_board.name]
             or hashlib.sha256(after_bytes).hexdigest() != review['candidate_sha256']):
         raise p.Rejected('Workspace review boards changed.')
+    candidate_digest = review['candidate_sha256']
+    if ('candidate_sha256' in route and route['candidate_sha256'] != candidate_digest
+            or 'verified_candidate_sha256' in review and review['verified_candidate_sha256'] != candidate_digest):
+        raise p.Rejected('Workspace review candidate differs from the checked routing receipt.')
     before, after = (sx.parse(data.decode('utf-8')) for data in (before_bytes, after_bytes))
     changes = route_changes(before, after)
     protected = Counter(f.canonical(row) for row in p.protected_for_record(route, before))
@@ -355,12 +528,22 @@ def workspace_changes(directory, source_board, review, route):
     if +protected:
         raise p.Rejected('Workspace review does not show every protected track or via.')
     changes['retained'] = keep
-    context = _workspace_context(after)
-    diagrams, note = routing_diagrams(changes, review['preview']['layers'], workspace=True, board_context=context)
-    caption = 'Board outline, part locations and route changes' if context and context.anchors else (
-        'Board outline and route changes' if context else 'Tracks and vias only · board detail in report')
+    layers = review['preview']['layers']
+    context = _workspace_context(after, layers=layers)
+    diagrams, note = routing_diagrams(changes, layers, workspace=True, board_context=context)
+    caption = 'Copper changes, parts and pad centres' if context and context.pads else (
+        'Copper changes and part locations' if context and context.anchors else (
+            'Board outline and route changes' if context else 'Tracks and vias only · board detail in report'))
+    context_note = 'See Detailed report for pad shapes and zone fill.'
+    if context is not None and context.pads:
+        context_note = 'Pad markers show centres. ' + context_note
+    if context is not None and context.partial_pad_context:
+        context_note = 'Some pad centres are omitted. ' + context_note
+    bound = route.get('candidate_sha256') == candidate_digest
+    findings, omitted = _workspace_findings(after, context, diagrams if bound else {}, route)
     return {'diagrams': diagrams, 'note': note, 'caption': caption,
-            'counts': {key: len(rows) for key, rows in changes.items()}}
+            'counts': {key: len(rows) for key, rows in changes.items()},
+            'context_note': context_note, 'findings': findings, 'findings_omitted': omitted}
 
 
 def display_svg(raw):

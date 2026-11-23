@@ -96,6 +96,104 @@ class DisplayedRequestAdoptionTests(unittest.TestCase):
         self.assertIn('preview completed.', window.status.SetLabel.call_args.args[0])
         self.assertIn('Reroute unlocked copper', window.log.SetValue.call_args.args[0])
 
+    def test_guided_route_review_requires_current_successful_job(self):
+        for failure in (None, 'source', 'cancel', 'new job', 'reflow changed state'):
+            with self.subTest(failure=failure):
+                flow = self.flow()
+                job = gui.CliJob()
+                job.follow_up = 'review'
+                record = dict(accepted=True, status='routing_accepted', source=str(self.board),
+                              source_hashes=json.loads(flow.files_json))
+                result = flow.workspace / 'route/result.json'
+                result.parent.mkdir()
+                result.write_text(json.dumps(record))
+                log = flow.workspace / 'route.command.log'
+                process = gt.run_cli_fixture(job, ['owned-route-fixture'], log, record)
+                job.adopt(flow, 'route', process, log)
+                window = self.window(flow, job)
+                window.in_workspace = True
+                window.act = Mock()
+                window.workspace_tabs = Mock()
+                window.findings_header = Mock()
+                original = self.board.read_bytes()
+                if failure == 'source':
+                    self.board.write_bytes(original + b'changed')
+                elif failure == 'cancel':
+                    job.cancel()
+                elif failure == 'new job':
+                    window.job = gui.CliJob()
+                elif failure == 'reflow changed state':
+                    window.refresh.side_effect = lambda: setattr(window, 'flow', None)
+                try:
+                    gt.window_method('finished')(window, job, flow, 'route', record, None)
+                finally:
+                    if failure == 'source':
+                        self.board.write_bytes(original)
+                if failure is None:
+                    window.act.assert_called_once_with('review')
+                else:
+                    window.act.assert_not_called()
+
+    def test_guided_export_requires_the_exact_explicit_acceptance(self):
+        from autorouter import handoff
+
+        def save(stage, record):
+            path = flow.workspace / stage / (stage if stage != 'route' else 'result')
+            path = path.with_suffix('.json')
+            path.parent.mkdir(exist_ok=True)
+            path.write_text(json.dumps(record))
+            return handoff.digest(path.read_bytes())
+
+        for choice, follow_up, changed in (('accept', 'export', False), ('reject', 'export', False),
+                                           ('accept', None, False), ('accept', 'export', True)):
+            with self.subTest(choice=choice, follow_up=follow_up, changed=changed):
+                flow = self.flow()
+                route = {'candidate_sha256': 'a' * 64}
+                review = {'receipt_sha256': save('route', route)}
+                save('review', review)
+                flow.records.update(route=route, review=review)
+                flow.ready.update(('route', 'review'))
+                binding = flow.check_displayed_review()
+                record = dict(binding, choice=choice, choice_recorded=True,
+                              review=str(flow.workspace / 'review/review.json'),
+                              receipt=str(flow.workspace / 'route/result.json'),
+                              handoff_stage_policy=handoff.STAGE_POLICY, within_budget=True,
+                              budget_seconds=handoff.CHOICE_SECONDS, cpu_budget_seconds=handoff.CHOICE_SECONDS,
+                              wall_seconds=1, total_cpu_seconds=1)
+                choice_hash = save('choice', record)
+                job = gui.CliJob()
+                job.follow_up = follow_up
+                log = flow.workspace / 'choice.command.log'
+                process = gt.run_cli_fixture(job, ['owned-choice-fixture'], log, record)
+                job.adopt(flow, 'choice', process, log, choice=choice, choice_binding=binding)
+                if changed:
+                    save('review', dict(review, modified=True))
+                window = self.window(flow, job)
+                window.in_workspace = True
+                window.act = Mock()
+                window.workspace_tabs = Mock()
+                window.findings_header = Mock()
+                gt.window_method('finished')(window, job, flow, 'choice', record, None)
+                if choice == 'accept' and follow_up == 'export' and not changed:
+                    window.act.assert_called_once_with('export')
+                    command = flow.command('export')
+                    self.assertEqual(command[command.index('--expected-choice-sha256') + 1], choice_hash)
+                    inputs = {**binding, 'choice_sha256': choice_hash,
+                              'review': record['review'], 'receipt': record['receipt']}
+                    report = {'export_accepted': True, 'inputs': inputs}
+                    save('export', {**report, 'inputs': {**inputs, 'choice_sha256': '0' * 64}})
+                    with self.assertRaisesRegex(ValueError, 'acceptance shown'):
+                        flow.adopt('export', process, log)
+                    self.assertNotIn('export', flow.ready)
+                    save('export', report)
+                    self.assertEqual(flow.adopt('export', process, log), report)
+                else:
+                    window.act.assert_not_called()
+                if choice == 'reject':
+                    window.stage_heading, window.stage_details = Mock(), Mock()
+                    gt.window_method('show_stage_summary')(window, flow.ready)
+                    window.stage_heading.SetLabel.assert_called_once_with('Result rejected')
+
     def test_queued_open_checks_displayed_values_even_without_change_event(self):
         for field in ('board', 'output', 'ack', 'method', 'scope', 'seconds'):
             with self.subTest(field=field):

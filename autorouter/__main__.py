@@ -174,6 +174,7 @@ def main():
     choice.add_argument('--expected-review-sha256',help='Require the exact review bytes shown to the user')
     export_cmd=sub.add_parser('review-export',help='Fresh native validation into a new separate project after accept intent; no live apply')
     export_cmd.add_argument('choice');export_cmd.add_argument('--output',required=True);export_cmd.add_argument('--seconds',type=float,default=120)
+    export_cmd.add_argument('--expected-choice-sha256',help='Require the exact recorded acceptance bytes captured by the caller')
     export_cmd.add_argument('--warning-review-stdio',action='store_true',help='Allow one explicit JSON acknowledgement of narrowly changed warning details in this live job; original export deadline includes review; default remains strict')
     export_check=sub.add_parser('review-export-check',help='Check stored export/source/report consistency; does not run fresh DRC')
     export_check.add_argument('receipt')
@@ -263,7 +264,9 @@ def main():
     if a.command=='review-export':
         from .review_export import export,stdio_warning_review
         try:
-            result=export(a.choice,a.output,a.seconds,**({'warning_review':stdio_warning_review} if a.warning_review_stdio else {}))
+            options={'warning_review':stdio_warning_review} if a.warning_review_stdio else {}
+            if a.expected_choice_sha256 is not None:options['expected_choice_sha256']=a.expected_choice_sha256
+            result=export(a.choice,a.output,a.seconds,**options)
             print(json.dumps({key:result.get(key) for key in ('status','export_accepted','project_file','candidate_sha256','native_report_sha256','wall_seconds','total_cpu_seconds')},indent=2))
             return 0 if result['export_accepted'] else 2
         except Exception as exc:print(json.dumps({'status':'rejected','reason':str(exc)}));return 2

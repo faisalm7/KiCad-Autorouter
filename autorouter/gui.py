@@ -564,6 +564,7 @@ class Workflow:
         self._source_guard = source_guard
         self.ready = set()
         self.choice = None
+        self.choice_sha256 = None
         self.records = {}
         self.runtime_hashes = runtime_inventory()
 
@@ -633,9 +634,11 @@ class Workflow:
             argv += ['review-choice', str(self.workspace / 'review/review.json'), '--choice', choice,
                      '--output', str(self.workspace / 'choice')]
         elif stage == 'export':
-            if self.choice != 'accept': raise ValueError('Only explicit acceptance intent can request a fresh export.')
+            if self.choice != 'accept' or self.choice_sha256 is None:
+                raise ValueError('Only current explicit acceptance can request a fresh export.')
             argv += ['review-export', str(self.workspace / 'choice/choice.json'), '--seconds',
                      str(export_validation_seconds(json.loads(self.settings_bytes)['seconds'])),
+                     '--expected-choice-sha256', self.choice_sha256,
                      '--output', str(self.workspace / 'export')]
         elif stage == 'verify_export':
             argv += ['review-export-check', str(self.workspace / 'export/export.json')]
@@ -716,18 +719,28 @@ class Workflow:
             if record.get('status') != 'ready_for_manual_review':
                 raise ValueError('Shared review validation did not complete.')
         elif stage == 'choice':
-            from .handoff import check_stage_budget
-            record = read_record(self.workspace / 'choice/choice.json')
+            from .handoff import check_stage_budget, PROJECT_BYTES
+            from .placement_clearance import read_bytes
+            from .floor_route import parse_json
+            raw = read_bytes(self.workspace / 'choice/choice.json', PROJECT_BYTES)
+            record = parse_json(raw)
             check_stage_budget(record, 'choice')
             if record.get('choice_recorded') is not True or record.get('choice') != choice:
                 raise ValueError('Shared review-choice checks did not complete.')
             if choice_binding is not None and any(record.get(key) != value for key, value in choice_binding.items()):
                 raise ValueError('Recorded choice differs from the exact displayed review.')
             self.choice = choice
+            self.choice_sha256 = hashlib.sha256(raw).hexdigest()
         elif stage == 'export':
             record = read_record(self.workspace / 'export/export.json')
             if record.get('export_accepted') is not True:
                 raise ValueError('Fresh original-rule Native export refused.')
+            inputs = record.get('inputs', {})
+            choice_record = self.records['choice']
+            if (type(inputs) is not dict or self.choice_sha256 is None or inputs.get('choice_sha256') != self.choice_sha256
+                    or any(inputs.get(key) != choice_record[key] for key in
+                           ('review', 'receipt', 'validated_candidate_sha256', 'review_sha256', 'receipt_sha256'))):
+                raise ValueError('Export does not match the acceptance shown. No checked copy adopted.')
         elif stage == 'verify_export':
             record = json.loads(log_path.read_bytes())
             exported = self.records['export']
@@ -1042,6 +1055,7 @@ class CliJob:
         self.process = None
         self.cancel_requested = False
         self.display_stage = None
+        self.follow_up = None
         self._lock = threading.Lock()
         self._warning_pending = None
         self._warning_decision = None
@@ -1348,7 +1362,7 @@ def show_routing_progress(window):
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
                   placement_scene=None, conversation_history='', saved_scene=None, saved_net_context=None,
-                  on_saved_source=None):
+                  on_saved_source=None, placement_findings=''):
     """Create routing controls in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1538,6 +1552,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.workspace_transcript.SetInsertionPoint(0)
                 history_layout.Add(self.workspace_transcript, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
                 history_host.SetSizer(history_layout)
+                history_host.Show(bool(conversation_history))
+                self.stage_heading = chrome.heading(wx.StaticText(status_host), 15)
+                actions.Add(self.stage_heading, 0, wx.LEFT | wx.RIGHT | wx.TOP, 8)
+                self.stage_details = wx.StaticText(status_host, style=wx.ST_NO_AUTORESIZE)
+                self.stage_details.SetMinSize(self.FromDIP((160, -1)))
+                actions.Add(self.stage_details, 0, wx.EXPAND | wx.ALL, 8)
                 self.review_settings = wx.ToggleButton(status_host, label='Show routing settings')
                 self.review_settings.SetToolTip('Changing routing settings requires a fresh preview.')
                 self.review_settings.Bind(wx.EVT_TOGGLEBUTTON, lambda _: self.refresh())
@@ -1551,7 +1571,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                           (('Accept intent', 'accept'), ('Reject intent', 'reject'), ('Fresh export', 'export'), ('Open checked export', 'open_export')))
             if self.in_workspace:
                 names_by_row = ((('Preview routing', 'preview'), ('Start routing', 'route'), ('Review result', 'review'),
-                                 ('Accept result', 'accept'), ('Reject', 'reject'), ('Export checked copy', 'export'),
+                                 ('Accept and save checked copy', 'accept'), ('Reject', 'reject'), ('Export checked copy', 'export'),
                                  ('Open checked export', 'open_export'), ('Cancel job', 'cancel')),
                                 (('Detailed report', 'open_preview'), ('Open review in KiCad', 'open_review')))
                 if on_saved_source is not None:
@@ -1562,6 +1582,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     button = wx.Button(status_host, label=label)
                     button.Bind(wx.EVT_BUTTON, lambda event, action=name: self.act(action))
                     if name == 'open_preview': button.SetToolTip('Full KiCad layer plots include pads and saved zone fill.')
+                    if name == 'accept' and self.in_workspace:
+                        button.SetToolTip('Accept this exact result and run fresh KiCad validation before saving a separate project.')
                     if name == 'restart_export': button.SetToolTip('Inspect the exported project as a fresh saved source.')
                     self.buttons[name] = button; row.Add(button, 0, wx.ALL, 4)
                 actions.Add(row, 0, wx.ALL, 2)
@@ -1582,7 +1604,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 side.Add(panel, 1, wx.EXPAND)
                 side.Add(status_host, 0, wx.EXPAND | wx.TOP, 6)
                 frame_layout = wx.BoxSizer(wx.HORIZONTAL)
-                frame_layout.Add(self.workspace_view(placement_scene, saved_scene), 1, wx.EXPAND | wx.ALL, 10)
+                frame_layout.Add(self.workspace_view(placement_scene, saved_scene, placement_findings), 1, wx.EXPAND | wx.ALL, 10)
                 frame_layout.Add(side, 0, wx.EXPAND | wx.RIGHT | wx.TOP | wx.BOTTOM, 10)
             else:
                 self.log = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 150))
@@ -1599,7 +1621,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(500)
             self.refresh()
 
-        def workspace_view(self, placement, saved):
+        def workspace_view(self, placement, saved, placement_findings):
             from .placement_gui import board_canvas
             from .review_view import WORKSPACE_COLORS
             left = wx.Panel(self)
@@ -1630,6 +1652,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             row.Add(self.review_layers, 0, wx.RIGHT, 8)
             row.Add(self.review_caption, 1, wx.ALIGN_CENTER_VERTICAL)
             drawing.Add(row, 0, wx.EXPAND | wx.ALL, 6)
+            self.review_locations = wx.Choice(copper, name='Highlight a board item from Findings')
+            self.review_locations.SetMinSize(self.FromDIP((230, -1)))
+            self.review_locations.SetToolTip('Highlights the referenced part, pad, via or start of a trace. '
+                                             'See Findings for the location KiCad reported.')
+            self.review_locations.Bind(wx.EVT_CHOICE, self.display_finding)
+            drawing.Add(self.review_locations, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 6)
             self.review_picture = board_canvas(wx, copper, None, None, self.review_picture_failed, read_only=True,
                 empty_note='Create a checked review to see routing changes.')
             drawing.Add(self.review_picture, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 6)
@@ -1654,6 +1682,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 context = wx.Panel(self.workspace_tabs); context_layout = wx.BoxSizer(wx.VERTICAL)
                 picture = board_canvas(wx, context, None, None, self.review_picture_failed, read_only=True)
                 context_layout.Add(picture, 1, wx.EXPAND | wx.ALL, 6)
+                checked_moves = wx.TextCtrl(context, value=placement_findings,
+                    style=wx.TE_MULTILINE | wx.TE_READONLY, size=(-1, 155), name='Validated placement findings')
+                context_layout.Add(checked_moves, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 6)
                 context.SetSizer(context_layout); picture.SetScene(placement)
                 self.workspace_tabs.AddPage(context, 'Placement')
             layout.Add(self.workspace_tabs, 1, wx.EXPAND); left.SetSizer(layout)
@@ -1663,12 +1694,21 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
         def show_workspace_review(self, render):
             self.workspace_render = render
             diagrams = render['diagrams'] if render else {}
+            locations = [('Highlight an item from Findings…', None, ())]
+            if diagrams:
+                locations += [(row['label'] if len(row['label']) <= 52 else row['label'][:51] + '…', row['index'], row['layers'])
+                              for row in render.get('findings', ()) if row['layers']]
+            self.review_location_rows = locations
+            self.review_locations.Set([label for label, _, _ in locations])
+            self.review_locations.SetSelection(0)
+            self.review_locations.Show(len(locations) > 1)
             self.review_layers.Set(list(diagrams))
             self.review_layers.Show(bool(diagrams)); self.review_key.Show(bool(diagrams))
             if diagrams:
                 self.workspace_tabs.SetPageText(0, 'Copper changes')
                 self.review_layers.SetSelection(0)
                 self.review_caption.SetLabel(render['caption'])
+                self.review_caption.SetToolTip(render.get('context_note', ''))
                 self.review_key.SetToolTip('Counts include tracks and vias across all layers. See Detailed report for zone fill.')
                 for group, (title, label) in self.key_colors.items():
                     label.SetLabel(f"{title} {render['counts'][group]}")
@@ -1676,6 +1716,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.display_layer()
             else:
                 self.workspace_tabs.SetPageText(0, 'Board')
+                self.review_caption.SetToolTip('')
                 self.review_caption.SetLabel('Original placement review' if self.placement_scene else
                                              'Saved board before routing' if self.saved_scene else '')
                 if self.placement_scene is not None:
@@ -1694,10 +1735,25 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
 
         def display_layer(self, _=None):
             try:
+                from .review_view import finding_scene
                 layer = self.review_layers.GetStringSelection()
-                self.review_picture.SetScene(self.workspace_render['diagrams'][layer])
+                selection = self.review_locations.GetSelection()
+                _, index, layers = self.review_location_rows[max(0, selection)]
+                if index is not None and layer not in layers:
+                    index = None
+                    self.review_locations.SetSelection(0)
+                self.review_picture.SetScene(finding_scene(self.workspace_render, layer, index))
             except Exception as exc:
                 self.review_picture_failed(str(exc))
+
+        def display_finding(self, _):
+            selection = self.review_locations.GetSelection()
+            if selection < 0 or self.workspace_render is None:
+                return
+            _, index, layers = self.review_location_rows[selection]
+            if index is not None and self.review_layers.GetStringSelection() not in layers:
+                self.review_layers.SetStringSelection(layers[0])
+            self.display_layer()
 
         def review_picture_failed(self, error):
             if self.workspace_render is None and self.placement_scene is None and self.saved_scene is not None:
@@ -1707,13 +1763,15 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.inspected.SetValue(False)
             self.log.AppendText('\nCopper image unavailable. Use Detailed report or Open review in KiCad.\n' + error)
             self.workspace_tabs.SetSelection(1)
-            self.review_layers.Hide(); self.review_key.Hide()
+            self.review_layers.Hide(); self.review_key.Hide(); self.review_locations.Hide()
 
         def layout_panel(self):
             """Paths may scroll inside their input; the frame stays laptop-sized."""
             width = max(self.FromDIP(300), self.panel.GetClientSize().width - self.FromDIP(40))
             for label in (self.intro, self.method_note, self.export_note, self.assistant_note, self.status):
                 label.Wrap(width)
+            if self.in_workspace:
+                self.stage_details.Wrap(width)
             self.Layout(); self.panel.Layout(); self.panel.FitInside()
 
         def layout_changed(self, event):
@@ -2143,16 +2201,15 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             if getattr(self, 'in_workspace', False):
                 reviewable = allowed['accept'] and not self.busy
                 if hasattr(self, 'review_settings'):
-                    has_review = 'review' in ready
-                    if not has_review:
+                    has_plan = 'preview' in ready
+                    if not has_plan:
                         self.review_settings.SetValue(False)
                     expanded = self.review_settings.GetValue()
-                    self.review_settings.Show(has_review)
+                    self.review_settings.Show(has_plan and not self.busy)
                     self.review_settings.Enable(not self.busy)
-                    self.review_settings.SetLabel('Hide routing settings' if expanded else 'Show routing settings')
-                    self.panel.Show(not has_review or expanded)
-                    if self.workspace_transcript is not None:
-                        self.workspace_transcript.SetMinSize(self.FromDIP((-1, 148 if has_review and not expanded else 86)))
+                    self.review_settings.SetLabel('Hide routing settings' if expanded else 'Routing settings…')
+                    self.panel.Show(not self.busy and (not has_plan or expanded))
+                    self.show_stage_summary(ready)
                 for name, button in self.buttons.items():
                     show = (self.busy if name == 'cancel' else allowed.get(name, False) and not self.busy)
                     if name == 'preview':
@@ -2173,6 +2230,54 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if not ready: self.findings_header.SetLabel('')
             self.layout_panel()
 
+        def show_stage_summary(self, ready):
+            title, details = '', ''
+            if 'verify_export' in ready:
+                title = 'Checked copy saved'
+                details = 'Open the separate KiCad project to continue. Your saved source is unchanged.'
+            elif 'choice' in ready and self.flow.choice == 'reject':
+                title = 'Result rejected'
+                details = 'Review the findings or return to the workspace. Your saved source is unchanged.'
+            elif 'review' in ready:
+                from .review_view import finding_groups
+                route = self.flow.records['route']
+                native = route.get('native')
+                title = 'Review before saving'
+                if native is not None:
+                    groups = finding_groups(native, route.get('source_drc'))
+                    inherited = sum(len(rows) for (origin, _), rows in groups.items()
+                                    if origin == 'Already in the saved input')
+                    details = chrome.counts_text(native)
+                    if inherited:
+                        details += f' · {inherited} already in source'
+                    details += '\nSee Findings for every KiCad check and warning.'
+            elif 'preview' in ready:
+                settings = json.loads(self.flow.settings_bytes)
+                preview = self.flow.records['preview']
+                gaps = preview.get('gap_plan')
+                title = 'Routing plan'
+                if gaps is not None:
+                    nets = gaps['nets']
+                    protected = gaps['protected_routes']
+                else:
+                    title = next(label for label, value in self.values['scope'] if value == settings['scope'])
+                    nets = settings['nets']
+                    protected = preview.get('protected_route_items')
+                if nets:
+                    names = ', '.join(nets)
+                    details = (names if len(names) <= 120 else f'{len(nets)} nets listed in Findings') + '\n'
+                details += f"{settings['seconds']} s routing limit"
+                if protected is not None:
+                    details += f' · {protected} existing routes protected'
+            self.stage_heading.SetLabel(title)
+            self.stage_details.SetLabel(details)
+            self.stage_heading.Show(bool(title))
+            self.stage_details.Show(bool(details))
+
+        def preview_qualified_placement(self):
+            if self.private_placement_source:
+                self.act('preview')
+
         def act(self, action):
             try:
                 if getattr(self, 'chooser', None) is not None: return
@@ -2181,7 +2286,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                         self.job.cancel()
                         self.status.SetLabel('Cancellation requested; waiting for the CLI worker to finish cleanup.')
                     return
-                if self.busy: return
+                if self.busy or getattr(self, 'closing', False): return
                 if action == 'restart_export':
                     if self._on_saved_source is None or self.exported_project is None or self.closing:
                         raise ValueError('Export a checked project before starting a fresh task from it.')
@@ -2223,6 +2328,13 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if request.saved_closed is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
                 self.busy = True; self.job = CliJob(); job = self.job
                 job.display_stage = stage
+                if getattr(self, 'in_workspace', False):
+                    job.follow_up = {'route': 'review', 'accept': 'export'}.get(action)
+                    if stage == 'export' and self.workspace_render is not None:
+                        self.review_locations.SetSelection(0)
+                        self.review_locations.Hide()
+                        if self.workspace_render['diagrams']:
+                            self.display_layer()
                 self.refresh()
                 settings = json.loads(request.settings_json)
                 from .finish_gaps import enabled
@@ -2232,6 +2344,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     self.status.SetLabel('Checking the saved source, then routing and validating a separate copy…')
                 elif stage == 'export' and self.in_workspace:
                     self.status.SetLabel('Running fresh KiCad checks for a separate project…')
+                elif stage == 'review' and self.in_workspace:
+                    self.status.SetLabel('Preparing copper changes and findings from the checked route…')
                 else:
                     self.status.SetLabel('Preparing ' + stage + ' outside KiCad; all outputs stay separate.')
                 def work():
@@ -2442,7 +2556,22 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 else:
                     self.status.SetLabel(stage + ' completed. Separate workspace: ' + str(flow.workspace))
             self.refresh()
-            if self.closing: _finish_window_close(self)
+            if self.closing:
+                _finish_window_close(self)
+            elif (not error and not job.cancel_requested and getattr(self, 'in_workspace', False)
+                  and self.flow is flow and self.job is None and not self.busy):
+                if (job.follow_up == 'review' and stage == 'route' and 'route' in flow.ready
+                        and record['status'] == 'routing_accepted'):
+                    self.act('review')
+                elif (job.follow_up == 'export' and stage == 'choice' and 'choice' in flow.ready
+                      and flow.choice == 'accept'):
+                    self.act('export')
+                elif stage == 'preview' and self.buttons['route'].IsEnabled():
+                    self.buttons['route'].SetFocus()
+                elif stage == 'review' and self.inspected.IsShownOnScreen():
+                    self.inspected.SetFocus()
+                elif stage == 'export' and self.buttons['open_export'].IsEnabled():
+                    self.buttons['open_export'].SetFocus()
 
         def tick(self, _):
             if self.busy and getattr(self, 'in_workspace', False): self.workspace_progress.Pulse()

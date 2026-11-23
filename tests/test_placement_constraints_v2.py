@@ -205,6 +205,7 @@ class ConstraintProposal(unittest.TestCase):
         w.protected_route_ids = controls.text_control('')
         w.constraint_summary = controls.text_control('')
         w.constraint_edit = Mock()
+        w.constraint_use = Mock()
         w.constraint_editor = Mock()
         w.board_scene, w.board_legend = None, ''
         w.constraint_key = Mock()
@@ -415,6 +416,24 @@ class ConstraintProposal(unittest.TestCase):
         ui.window_method('open_routing')(w, None)
         self.assertIn('before continuing to routing', w.message.call_args.args[0])
         w.start.assert_not_called()
+
+    def test_guided_adoption_searches_only_after_current_proposal(self):
+        w = self.window()
+        request = w.assistant_request.GetValue()
+        self.preview_in_window(w)
+        w.assistant_request.ChangeValue('Different request')
+        w.use_constraints(None, search=True)
+        w.find_alternatives.assert_not_called()
+        w.assistant_request.ChangeValue(request)
+        self.preview_in_window(w)
+
+        def check_committed_settings(_):
+            self.assertIsNone(w.constraint_offer)
+            self.assertEqual(w.constraint_inputs()['region_nm'], self.args['region_nm'])
+
+        w.find_alternatives.side_effect = check_committed_settings
+        w.use_constraints(None, search=True)
+        w.find_alternatives.assert_called_once_with(None)
 
 
 if __name__ == '__main__':

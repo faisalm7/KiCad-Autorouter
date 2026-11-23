@@ -2,6 +2,20 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## Guided board journey
+
+1. **Observed and specified.** The [decision and acceptance](docs/guided-board-journey.md)
+   freeze the installed reference, 19 normal actions and the same licensed
+   task before changing the workflow.
+2. **Implemented at source.** The current request, proposal or findings stay
+   beside the board. Explicit decisions advance the existing guarded checks.
+   The copper review shows part references and supported pad centres. Fresh
+   export requires the exact recorded acceptance and matching review lineage.
+3. **Installed verification pending.** Under current resource admission, run
+   the owned recovery controls and the frozen task through independent export
+   readback. Capture laptop-size screens, actual action counts, timings and
+   a short owner walkthrough. Keep the previous installed reference.
+
 ## Board workspace
 
 1. **Observed and specified.** Preserve the verified `998ad74c8` reference.

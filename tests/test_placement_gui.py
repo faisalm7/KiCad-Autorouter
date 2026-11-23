@@ -109,6 +109,33 @@ class PlacementGuiTests(unittest.TestCase):
         gate = pg.ReviewGate(); gate.attach(review()); gate.acknowledged = True
         return gate
 
+    def test_pending_routing_preparation_follows_only_the_current_ready_draft(self):
+        for failure in ('cancelled', 'different job', 'different draft', 'closed', None):
+            with self.subTest(failure=failure):
+                window = self.window()
+                window.open_routing = Mock()
+                window.qualified = object()
+                window.routing_handoff = (window.job, window.qualified)
+                window.picture.Ready.return_value = False
+                window_method('preview_ready')(window)
+                window.open_routing.assert_not_called()
+                window.picture.Ready.return_value = True
+                if failure == 'cancelled':
+                    window.job.cancel()
+                elif failure == 'different job':
+                    window.job = gui.CliJob()
+                elif failure == 'different draft':
+                    window.qualified = object()
+                elif failure == 'closed':
+                    window.gate.close()
+                window_method('preview_ready')(window)
+                if failure is None:
+                    window.open_routing.assert_called_once_with(None, preview=True)
+                    window_method('preview_ready')(window)
+                    window.open_routing.assert_called_once()
+                else:
+                    window.open_routing.assert_not_called()
+
     def window(self):
         gate = self.gate()
         window = SimpleNamespace(gate=gate, job=gui.CliJob(), busy=False, routing=None, finalized=False,
@@ -267,6 +294,7 @@ class PlacementGuiTests(unittest.TestCase):
                 schematic.write_text('(kicad_sch)')
                 job.cancel()
                 window.revoke = Mock()
+                window.job = job
                 app.finish(window, job, window.gate.generation, material, None, adopt)
                 self.assertIn(pg.gui.ACTION_CANCELLED, window.message.call_args.args[0])
                 launch.assert_not_called()

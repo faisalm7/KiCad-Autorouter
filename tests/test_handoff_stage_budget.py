@@ -181,7 +181,10 @@ class GuiStagePolicyControls(unittest.TestCase):
         for stage in ('review','choice'):
             record=dict(budget(stage),status='ready_for_manual_review' if stage=='review' else 'disposition_recorded',
                         choice_recorded=True,choice='accept')
+            path=flow.workspace/stage/(stage+'.json')
+            path.parent.mkdir()
             for change in (dict(handoff_stage_policy=None),dict(budget_seconds=999,cpu_budget_seconds=999)):
-                with self.subTest(stage=stage,change=change),patch.object(gui,'read_record',return_value=dict(record,**change)):
+                with self.subTest(stage=stage,change=change):
+                    h.save_json(path,dict(record,**change))
                     with self.assertRaises(h.Rejected):flow.adopt(stage,process,flow.workspace/'unused.log',choice='accept')
                     self.assertNotIn(stage,flow.ready);self.assertIsNone(flow.choice)
