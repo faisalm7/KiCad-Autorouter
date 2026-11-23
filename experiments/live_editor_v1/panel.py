@@ -196,7 +196,7 @@ class Companion(wx.Frame):
         if not self:
             return
         self.saved_workspace = None
-        self.remember('Copperpath · Back to the live board. Check the current selection and preview any move again.')
+        self.remember('Copperpath · Back to the companion. Checking the current KiCad selection.')
         self.request('inspect')
         self.Show()
         self.Raise()
@@ -300,7 +300,8 @@ class Companion(wx.Frame):
             self.clear_revised_move()
             return
         if not response['ok']:
-            if command != 'check_live_move' or not response['message'].startswith('Finish or cancel'):
+            detail = message = response['message']
+            if command != 'check_live_move' or not message.startswith('Finish or cancel'):
                 self.move = None
                 self.validated = False
                 self.native_move_open = False
@@ -308,11 +309,18 @@ class Companion(wx.Frame):
                 self.readback_pending = True
             if self.workspace and (response.get('read_selection') or command in ('inspect', 'validate', 'apply_direct')):
                 self.selected = []
-                self.selection.SetLabel('Read the current selection in KiCad')
-                self.diagram.SetEmptyNote('Read the current selection in KiCad.')
+                if command == 'inspect':
+                    self.selection.SetLabel('Live PCB unavailable')
+                    self.diagram.SetEmptyNote('Open this PCB in KiCad to use live moves.')
+                    message = ('Open this PCB in KiCad and launch Copperpath from its toolbar. '
+                               'For saved work, choose Open saved-project workspace.')
+                    detail += '\n' + message
+                else:
+                    self.selection.SetLabel('Read the current selection in KiCad')
+                    self.diagram.SetEmptyNote('Read the current selection in KiCad.')
                 self.show_scene(None)
-            self.status.SetValue(response['message'])
-            self.remember('Copperpath · ' + response['message'])
+            self.status.SetValue(message)
+            self.remember('Copperpath · ' + detail)
         else:
             result = response['value']
             if command == 'inspect':

@@ -98,11 +98,13 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
     the old request was refused. The live board and saved source matched.
     Source regression keeps the handoff disabled while move or Undo
     verification is pending. [Native round trip](evidence/product-live-saved-workspace-return-001.json)
-13. **Next end-to-end handoff check.** Continue the same owned project in
-    the saved workspace after closing the exact isolated KiCad project.
-    Check source identities, fresh inspection and a guarded routing
-    preview. A dead live connection must withhold active move controls.
-    Reuse prior route, export and native Undo results.
+13. **Verified native-to-saved handoff.** The same saved workspace stayed
+    open after normal project close and idle manager exit. A fresh Native
+    inspection and 90-second Finish gaps preview found two opens, zero
+    blockers, one warning and one protected trace. No approval carried
+    forward. Returning to the disconnected companion kept the history and
+    disabled moves. The revised recovery wording passed a controlled
+    rendering check in bundled wx. [Closure and recovery](evidence/product-live-saved-project-closure-001.json)
 
 ## Active work from e638c5e9
 

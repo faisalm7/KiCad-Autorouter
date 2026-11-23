@@ -53,7 +53,12 @@ saved board and withholds engineering controls. **Back to live companion**
 restores the conversation and request and reads the current live selection.
 Preview and check any move again. The installed round trip preserved the
 PCB and refused to reuse a J1 request after selection changed to J2.
-[Installed round trip](../evidence/product-live-saved-workspace-return-001.json)
+Save and close the native project, then use **Refresh inspection** in the
+same saved workspace to continue there. If the live PCB is unavailable,
+open it in KiCad and launch the toolbar companion again, or continue in
+the saved workspace. Each saved routing task starts with a fresh preview.
+[Installed round trip](../evidence/product-live-saved-workspace-return-001.json) ·
+[Closure and recovery](../evidence/product-live-saved-project-closure-001.json)
 
 ## Visual checks
 

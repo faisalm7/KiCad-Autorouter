@@ -166,6 +166,7 @@ class EditorReadback(unittest.TestCase):
         panel.saved_project = '/owned/inspection/checked.kicad_pro'
         panel.run = panel.saved_workspace = None
         panel.readback_pending = panel.native_move_open = False
+        panel.discard_pending = False
         panel.turns = ['You · Move J1 right by 0.5 mm']
         panel.previewed_request = 'Move J1 right by 0.5 mm'
         panel.move = {'id': 4}
@@ -203,6 +204,12 @@ class EditorReadback(unittest.TestCase):
             self.assertEqual(panel.turns[0], 'You · Move J1 right by 0.5 mm')
             panel.diagram.SetScene.assert_called_with(None)
             thread.return_value.start.assert_called_once()
+        panel.reply('inspect', {'ok': False, 'message': 'The prior editor closed.'})
+        panel.selection.SetLabel.assert_called_with('Live PCB unavailable')
+        self.assertTrue(panel.can_open_saved())
+        self.assertEqual(panel.selected, [])
+        self.assertIn('Open saved-project workspace', panel.status.SetValue.call_args.args[0])
+        self.assertIn('The prior editor closed.', panel.turns[-1])
 
 
 if __name__ == '__main__':
