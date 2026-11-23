@@ -135,6 +135,25 @@ class PlacementGuiTests(unittest.TestCase):
         self.assertIsNone(window.inspection)
         window.revoke.assert_called_once_with(discard=True)
 
+    def test_project_caption_uses_the_captured_board_and_clears_on_source_change(self):
+        window = self.window()
+        window.updating = False
+        window.inspection = None
+        window.project_title = Mock()
+        window.overview = MethodType(window_method('overview'), window)
+        saved = '/owned/a long parent folder/Relay & light.kicad_pcb'
+        window.saved_route_context = dict(static={'source': saved}, scene=None, open_in_kicad=True)
+
+        window.overview()
+        window.project_title.SetLabelText.assert_called_once_with('Relay & light')
+        window.project_title.SetToolTip.assert_called_once_with(saved)
+        window.project_title.Show.assert_called_once_with(True)
+
+        window_method('source_changed')(window, Mock())
+        window.project_title.SetLabelText.assert_called_with('')
+        window.project_title.SetToolTip.assert_called_with('')
+        window.project_title.Show.assert_called_with(False)
+
     def test_closed_source_preflight_retains_locks_and_requires_fresh_inspection_after_changes(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve(); board = root / 'owned.kicad_pcb'

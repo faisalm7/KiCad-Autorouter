@@ -876,9 +876,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.pages.AddPage(self.controls, 'Settings')
             board_page = self.board_page = wx.Panel(panel); board_layout = wx.BoxSizer(wx.VERTICAL)
             board_tools = wx.BoxSizer(wx.HORIZONTAL)
+            self.project_title = wx.StaticText(board_page, label='', style=wx.ST_ELLIPSIZE_END | wx.ST_NO_AUTORESIZE)
+            self.project_title.SetFont(self.project_title.GetFont().Bold())
+            board_tools.Add(self.project_title, 1, wx.ALIGN_CENTER_VERTICAL)
             self.draw_area = wx.ToggleButton(board_page, label='Draw target area')
-            board_tools.Add(self.draw_area, 0)
-            board_tools.AddStretchSpacer()
+            board_tools.Add(self.draw_area, 0, wx.LEFT, 8)
             self.native_summary = wx.StaticText(board_page)
             board_tools.Add(self.native_summary, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT, 8)
             board_layout.Add(board_tools, 0, wx.EXPAND | wx.BOTTOM, 6)
@@ -1119,8 +1121,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def overview(self):
             """Passive source view before a draft exists; never validation."""
+            context = getattr(self, 'saved_route_context', None)
+            captured = self.inspection if self.inspection is not None else (context or {}).get('static')
+            source = Path(captured['source']) if captured is not None else None
+            self.project_title.SetLabelText(source.stem if source is not None else '')
+            self.project_title.SetToolTip(str(source) if source is not None else '')
+            self.project_title.Show(source is not None)
             if self.inspection is None:
-                context = getattr(self, 'saved_route_context', None)
                 setup = (context or {}).get('pcb_setup')
                 self.picture.SetEmptyNote('PCB setup continues in KiCad.' if setup else
                     'Choose a saved project to see its board and components.')
