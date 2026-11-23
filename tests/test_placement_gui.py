@@ -266,10 +266,21 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertIsNone(window.inspection)
 
     def test_placement_scope_refusal_preserves_passive_board_without_dispatch(self):
+        from autorouter import placement_transform, sexpr
         from experiments.placement_native_proposal_v1 import ordinary_fixture
 
         with tempfile.TemporaryDirectory() as temp:
             board = ordinary_fixture.write_project(Path(temp).resolve() / 'source')
+            tree = sexpr.read(board)
+            tree.append(['zone', ['uuid', json.dumps(ordinary_fixture.uid('back-pour-rule'))],
+                         ['name', '"Back pour rule"'], ['layer', '"B.Cu"'],
+                         ['keepout', *[[flag, 'not_allowed' if flag == 'copperpour' else 'allowed']
+                                       for flag in placement_transform.FLAGS]],
+                         ['placement', ['enabled', 'no'], ['sheetname', '"/"']],
+                         ['polygon', ['pts', ['xy', '19', '8'], ['xy', '21', '8'],
+                                      ['xy', '21', '12'], ['xy', '19', '12']]]])
+            board.write_text(sexpr.dump(tree) + '\n')
+            original = gui.source_inventory(board)
             window = self.window()
             window.board = Mock()
             window.board.GetValue.return_value = str(board)
@@ -277,15 +288,14 @@ class PlacementGuiTests(unittest.TestCase):
             window_method('inspect_project')(window, None)
             inspect, adopt = window.start.call_args.args[1:]
             job = Mock()
-            reason = 'J1 has 9 pads. This placement profile supports up to eight per component.'
-            with patch.object(pg.intent, 'inspect_saved', side_effect=pg.intent.contract.UnsupportedPlacement(reason)):
-                captured = inspect(job, threading.Event())
+            reason = 'Placement cannot account for rule area “Back pour rule” on B.Cu.'
+            captured = inspect(job, threading.Event())
             inspected, _, _, _, native, read_only = captured
             self.assertIsNone(inspected)
             self.assertIsNone(native)
             self.assertEqual(read_only['reason'], reason)
             self.assertIn('>J1</text>', read_only['scene']['svg'])
-            self.assertEqual(read_only['static']['source_hashes'], gui.source_inventory(board))
+            self.assertEqual(read_only['static']['source_hashes'], original)
             adopt(captured)
             self.assertIs(window.saved_route_context, read_only)
             self.assertIsNone(window.inspection)
@@ -297,6 +307,7 @@ class PlacementGuiTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'Saved project changed'):
                     inspect(job, threading.Event())
             job.run.assert_not_called()
+            self.assertEqual(gui.source_inventory(board), original)
 
     def test_locked_project_shows_only_a_saved_snapshot_until_closed_and_refreshed(self):
         from experiments.placement_native_proposal_v1 import ordinary_fixture

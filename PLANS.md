@@ -81,9 +81,13 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
     footprint keepout. The detached KiCad report found eight USB net
     conflicts and an unresolved schematic field mismatch. Qualifying the
     footprint keepout alone would leave checked delivery blocked. Keep
-    the interrupt task withheld and the original files intact. A new
-    owned one-gap walkthrough is prepared to exercise the verified root
-    rule in the ordinary installed controls.
+    the interrupt task withheld and the original files intact. The first
+    owned walkthrough hit a placement-only refusal on project opening
+    before any routing. Source now classifies that limit explicitly and
+    shows the board for separate routing inspection. Verify the correction
+    with the same frozen one-gap project through checked export, preserving
+    the existing trace and rule area. Keep this feature walkthrough separate
+    from distinct licensed-board coverage.
     [Intake and task](evidence/product-distinct-licensed-route-intake-001.json) ·
     [Native control](evidence/product-modern-two-layer-pour-native-001.json)
 
