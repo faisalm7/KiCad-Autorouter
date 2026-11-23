@@ -1,5 +1,15 @@
 # Current state
 
+**Board workspace source ready.** The welcome screens, project heading,
+Request entry beside Conversation and the copper legend passed focused
+controls. Installed verification is pending. The first check after the
+owner’s resource update measured load 8.22 against the existing limit of 8,
+with normal memory pressure, 3.86 GiB available memory and adequate disk.
+The compiled app-identity prototype did not launch under that reading.
+The previously qualified installed candidate remains available.
+The [workspace decision](docs/board-workspace-decision.md) gives the
+acceptance criteria for the Finder and licensed-board walkthroughs.
+
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 
 **Integrated Mac candidate.** The retained MIT PushButtonLed task completed in the Finder-launched workspace with editable constraints, protected routing, reviewed findings and a separately validated export. It preserved all 13 protected tracks and all original files, closed the three selected nets, and retained seven inherited warnings. Independent readback passed. The later layout check at 880 × 610 kept the full project name and approval actions visible. [Licensed walkthrough](evidence/product-integrated-rc-pushbutton-001.json)

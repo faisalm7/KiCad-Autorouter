@@ -22,6 +22,7 @@ import uuid
 from typing import Callable
 
 from . import config as c, preferences as pref
+from . import workspace_chrome as chrome
 from ._improve_context import RESERVE_SECONDS as IMPROVE_RETURN_RESERVE_SECONDS
 from .runner import elapsed_time, ELAPSED_CLOCK_POLICY
 
@@ -1373,6 +1374,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.in_workspace = parent is not None
             if self.in_workspace:
                 super().__init__(parent, style=wx.TAB_TRAVERSAL)
+                background, surface, _ = chrome.colours(wx)
+                self.SetBackgroundColour(wx.Colour(background))
             else:
                 super().__init__(None, title='KiCad design assistant — routing', size=(820, 780))
                 self.SetMinSize(self.FromDIP((720, 640)))
@@ -1390,8 +1393,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.edit_controls = []
             panel = self.panel = wx.ScrolledWindow(self); panel.SetScrollRate(0, 12)
             layout = wx.BoxSizer(wx.VERTICAL)
-            heading = wx.StaticText(panel, label='Route · ' + Path(board).stem if self.in_workspace else 'Route a saved project')
-            heading.SetFont(heading.GetFont().Bold())
+            heading = chrome.heading(wx.StaticText(panel,
+                label='Routing settings' if self.in_workspace else 'Route a saved project'), 15)
             task_row = wx.BoxSizer(wx.HORIZONTAL)
             task_row.Add(heading, 1, wx.ALIGN_CENTER_VERTICAL)
             self.placement_button = wx.Button(panel, label='Place components…')
@@ -1523,15 +1526,17 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.workspace_transcript = None
             if self.in_workspace:
                 history_host = wx.Panel(self)
+                history_host.SetBackgroundColour(wx.Colour(surface))
+                status_host.SetBackgroundColour(wx.Colour(surface))
+                panel.SetBackgroundColour(wx.Colour(surface))
                 history_layout = wx.BoxSizer(wx.VERTICAL)
-                heading = wx.StaticText(history_host, label='Conversation')
-                heading.SetFont(heading.GetFont().Bold())
-                history_layout.Add(heading, 0, wx.LEFT | wx.BOTTOM, 4)
+                heading = chrome.heading(wx.StaticText(history_host, label='Conversation'), 15)
+                history_layout.Add(heading, 0, wx.ALL, 8)
                 self.workspace_transcript = wx.TextCtrl(history_host,
                     value=conversation_history or 'Return to the saved workspace to write a request.',
-                    size=(-1, 76), name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
+                    size=(-1, 86), name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
                 self.workspace_transcript.SetInsertionPoint(0)
-                history_layout.Add(self.workspace_transcript, 1, wx.EXPAND)
+                history_layout.Add(self.workspace_transcript, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
                 history_host.SetSizer(history_layout)
                 self.review_settings = wx.ToggleButton(status_host, label='Show routing settings')
                 self.review_settings.SetToolTip('Changing routing settings requires a fresh preview.')
@@ -1602,11 +1607,17 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             back = wx.Button(left, label='Back to workspace')
             back.Bind(wx.EVT_BUTTON, lambda _: self.Close())
             overview = wx.BoxSizer(wx.HORIZONTAL)
-            overview.Add(back, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 10)
+            identity = wx.BoxSizer(wx.VERTICAL)
+            name = chrome.heading(wx.StaticText(left, label=Path(self.board.GetValue()).stem,
+                style=wx.ST_ELLIPSIZE_END | wx.ST_NO_AUTORESIZE), 18)
+            identity.Add(name, 0, wx.EXPAND)
+            identity.Add(wx.StaticText(left, label='Routing and review'), 0, wx.TOP, 2)
+            overview.Add(identity, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 10)
+            overview.Add(back, 0, wx.ALIGN_CENTER_VERTICAL)
+            layout.Add(overview, 0, wx.EXPAND | wx.BOTTOM, 8)
             self.findings_header = wx.StaticText(left)
             self.findings_header.SetFont(self.findings_header.GetFont().Bold())
-            overview.Add(self.findings_header, 0, wx.ALIGN_CENTER_VERTICAL)
-            layout.Add(overview, 0, wx.EXPAND | wx.BOTTOM, 8)
+            layout.Add(self.findings_header, 0, wx.EXPAND | wx.BOTTOM, 5)
             self.workspace_tabs = wx.Notebook(left)
             copper = wx.Panel(self.workspace_tabs); drawing = wx.BoxSizer(wx.VERTICAL)
             self.placement_scene = placement
@@ -1626,8 +1637,11 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             key.Add(wx.StaticText(self.review_key, label='All layers'), 0, wx.RIGHT, 10)
             self.key_colors = {}
             for group, title in [('added', 'New'), ('retained', 'Retained'), ('protected', 'Protected'), ('removed', 'Removed')]:
+                swatch = wx.Panel(self.review_key, size=self.FromDIP((9, 9)))
+                swatch.SetBackgroundColour(wx.Colour(WORKSPACE_COLORS[group]))
+                key.Add(swatch, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 4)
                 text = wx.StaticText(self.review_key, label=title)
-                text.SetForegroundColour(wx.Colour(WORKSPACE_COLORS[group])); self.key_colors[group] = (title, text)
+                self.key_colors[group] = (title, text)
                 key.Add(text, 0, wx.RIGHT, 10)
             self.review_key.SetSizer(key); drawing.Add(self.review_key, 0, wx.EXPAND | wx.ALL, 6)
             copper.SetSizer(drawing)
@@ -2418,10 +2432,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     if native is not None:
                         source_blocked = (gaps is not None and gaps['status'] in {'blocked', 'unsupported'}
                                           or stage == 'inspect' and bool(report.get('source_delivery', {}).get('reasons')))
-                        count = native['warnings']
-                        warnings = 'warning' if count == 1 else 'warnings'
                         self.findings_header.SetLabel('Saved source blocks delivery' if source_blocked else
-                            f"{native['opens']} open · {native['blocking']} blocking · {count} {warnings}")
+                            chrome.counts_text(native))
                         self.findings_header.GetParent().Layout()
                     if workspace_render is not None:
                         self.show_workspace_review(workspace_render)
@@ -2492,6 +2504,7 @@ def main(argv=None, *, source_guard=None):
     if wx.GetApp() is not None:
         raise ValueError('A wx application already exists; use create_window instead of a second application loop.')
     app = wx.App(False)
+    chrome.name_application(app)
     if source_guard is None and (args.workspace or args.toolbar_project or args.toolbar_unavailable):
         from . import placement_gui
         options = {'launcher_manifest': args.workspace_launcher} if args.workspace_launcher is not None else {}

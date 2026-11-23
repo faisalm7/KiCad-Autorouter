@@ -7,13 +7,16 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 1. **Observed and specified.** Preserve the verified `998ad74c8` reference.
    The [workspace decision](docs/board-workspace-decision.md) records the
    primary-source research, current layout and frozen acceptance.
-2. Verify the bounded named-app prototype, then implement the welcome,
-   project header, persistent request surface and matching review treatment.
-   Keep the current engineering gates and optional live companion.
-3. Install the resulting Finder build. Walk the frozen PushButtonLed task
+2. **Workspace source ready.** The welcome, project header, visible copper
+   policy, Request entry and matching review passed focused controls. The
+   engineering gates and optional live companion are unchanged.
+3. Run the compiled named-app prototype under ordinary resource admission.
+   Qualify its actual macOS identity before using a native host in the install.
+   Keep the diagnostic entry and the existing installation.
+4. Install the resulting Finder build. Walk the frozen PushButtonLed task
    and the separate owned stale/refusal/recovery controls. Record actual
    renders, focus, resizing, identity, actions, waits and resource use.
-4. Verify delivery hashes and the exact support boundary, checkpoint the
+5. Verify delivery hashes and the exact support boundary, checkpoint the
    implementation, and retain compact local evidence alongside prior runs.
 
 ## Integrated release candidate

@@ -23,7 +23,7 @@ import xml.etree.ElementTree as ET
 from . import config as c, conversation, gui, handoff as h, placement_intent as intent, placement_view
 from . import finish_gaps, routing_scope
 from .pipeline import Rejected
-from . import schematic_context
+from . import schematic_context, workspace_chrome as chrome
 
 
 def copilot_context(inspection, settings, seconds):
@@ -795,40 +795,91 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.toolbar_source = Path(board).with_suffix('.kicad_pcb') if toolbar_selection else None
             self.editor_context = None
             panel = self.panel = wx.Panel(self)
+            background, surface, accent = chrome.colours(wx)
+            panel.SetBackgroundColour(wx.Colour(background))
             root = wx.BoxSizer(wx.VERTICAL)
-            pathrow = wx.BoxSizer(wx.HORIZONTAL)
-            project_label = wx.StaticText(panel, label='Saved project')
-            pathrow.Add(project_label, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
-            self.board = wx.TextCtrl(panel, value=str(board), style=wx.TE_PROCESS_ENTER)
-            self.board.SetMinSize(self.FromDIP((160, -1)))
-            self.board.SetToolTip('Choose a saved KiCad project or enter its full path and press Return.')
-            pathrow.Add(self.board, 1, wx.RIGHT, 6)
-            self.new_design = wx.Button(panel, label='Start a new design')
-            pathrow.Add(self.new_design, 0, wx.RIGHT, 6)
-            self.browse = wx.Button(panel, label='Choose project…'); pathrow.Add(self.browse, 0, wx.RIGHT, 6)
+            self.welcome = wx.Panel(panel)
+            introduction = wx.BoxSizer(wx.VERTICAL)
+            introduction.AddStretchSpacer()
+            name = chrome.heading(wx.StaticText(self.welcome, label='Copperpath'), 30)
+            name.SetForegroundColour(wx.Colour(accent))
+            introduction.Add(name, 0, wx.ALIGN_CENTER | wx.BOTTOM, 12)
+            summary = wx.StaticText(self.welcome,
+                label='Plan placement and check routing for a KiCad project.')
+            introduction.Add(summary, 0, wx.ALIGN_CENTER | wx.BOTTOM, 28)
+            self.open_design = wx.Button(self.welcome, label='Continue an existing design…', id=wx.ID_OPEN)
+            introduction.Add(self.open_design, 0, wx.ALIGN_CENTER | wx.BOTTOM, 12)
+            launch_options = wx.BoxSizer(wx.HORIZONTAL)
+            self.new_design = wx.Button(self.welcome, label='Start a new design')
+            launch_options.Add(self.new_design, 0, wx.RIGHT, 8)
             from . import live_move
             self.example_project = live_move.example_source() / (live_move.EXAMPLE_NAME + '.kicad_pro')
-            self.example = wx.Button(panel, label='Open example')
-            self.example.SetToolTip('Try the included saved project. Any changes go into a separate project.')
-            pathrow.Add(self.example, 0)
-            self.inspect = wx.Button(panel, label='Refresh inspection'); pathrow.Add(self.inspect)
+            self.example = wx.Button(self.welcome, label='Open example')
+            self.example.SetToolTip('Try the included board. Any changes go into a separate project.')
+            launch_options.Add(self.example)
+            introduction.Add(launch_options, 0, wx.ALIGN_CENTER)
+            introduction.AddStretchSpacer()
+            self.welcome.SetSizer(introduction)
+            root.Add(self.welcome, 1, wx.EXPAND)
+
+            self.project_bar = wx.Panel(panel)
+            self.project_bar.SetBackgroundColour(wx.Colour(surface))
+            heading = wx.BoxSizer(wx.HORIZONTAL)
+            identity = wx.BoxSizer(wx.VERTICAL)
+            self.project_title = chrome.heading(wx.StaticText(self.project_bar, label='Opening project',
+                style=wx.ST_ELLIPSIZE_END | wx.ST_NO_AUTORESIZE), 18)
+            identity.Add(self.project_title, 0, wx.EXPAND)
+            self.project_mode = wx.StaticText(self.project_bar, label='Saved workspace')
+            identity.Add(self.project_mode, 0, wx.TOP, 2)
+            heading.Add(identity, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 12)
+            self.browse = wx.Button(self.project_bar, label='Choose project…')
+            heading.Add(self.browse, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 6)
+            self.inspect = wx.Button(self.project_bar, label='Refresh inspection')
             self.inspect.SetToolTip('Check the saved project again after edits or after closing it in KiCad.')
-            self.kicad_setup = wx.Button(panel, label='Open in KiCad')
-            self.kicad_setup.SetToolTip('Open this saved project in the prepared KiCad Manager to finish PCB setup.')
-            pathrow.Add(self.kicad_setup, 0, wx.LEFT, 6)
-            self.route_saved = wx.Button(panel, label='Route saved board…'); pathrow.Add(self.route_saved, 0, wx.LEFT, 6)
-            root.Add(pathrow, 0, wx.EXPAND | wx.ALL, 12)
+            heading.Add(self.inspect, 0, wx.ALIGN_CENTER_VERTICAL)
+            self.kicad_setup = wx.Button(self.project_bar, label='Open in KiCad')
+            self.kicad_setup.SetToolTip('Open this saved project in KiCad Manager to finish PCB setup.')
+            heading.Add(self.kicad_setup, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT, 6)
+            self.route_saved = wx.Button(self.project_bar, label='Route saved board…')
+            heading.Add(self.route_saved, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT, 6)
+            header_layout = wx.BoxSizer(wx.VERTICAL)
+            header_layout.Add(heading, 0, wx.EXPAND | wx.ALL, 12)
+            self.project_bar.SetSizer(header_layout)
+            root.Add(self.project_bar, 0, wx.EXPAND | wx.BOTTOM, 10)
+
+            self.path_details = wx.Panel(panel)
+            pathrow = wx.BoxSizer(wx.HORIZONTAL)
+            project_label = wx.StaticText(self.path_details, label='Project path')
+            pathrow.Add(project_label, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            self.board = wx.TextCtrl(self.path_details, value=str(board), style=wx.TE_PROCESS_ENTER)
+            self.board.SetMinSize(self.FromDIP((160, -1)))
+            self.board.SetToolTip('Choose a saved KiCad project or enter its full path and press Return.')
+            pathrow.Add(self.board, 1)
+            self.path_details.SetSizer(pathrow)
+            root.Add(self.path_details, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 12)
+            self.path_details.Hide()
+            self.workspace_body = wx.Panel(panel)
             columns = wx.BoxSizer(wx.HORIZONTAL)
-            self.side_panel = wx.Panel(panel)
+            self.side_panel = wx.Panel(self.workspace_body)
+            self.side_panel.SetBackgroundColour(wx.Colour(surface))
             self.side_panel.SetMinSize(self.FromDIP((352, -1)))
             side_layout = wx.BoxSizer(wx.VERTICAL)
-            heading = wx.StaticText(self.side_panel, label='Conversation')
-            heading.SetFont(heading.GetFont().Bold())
-            side_layout.Add(heading, 0, wx.LEFT | wx.BOTTOM, 4)
+            conversation_title = chrome.heading(wx.StaticText(self.side_panel, label='Conversation'), 15)
+            side_layout.Add(conversation_title, 0, wx.LEFT | wx.TOP | wx.BOTTOM, 8)
             self.assistant_result = wx.TextCtrl(self.side_panel, style=wx.TE_MULTILINE | wx.TE_READONLY,
-                                                size=(-1, 76), name='Conversation history')
+                                                size=(-1, 86), name='Conversation history')
             self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
-            side_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.BOTTOM, 8)
+            side_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.copper_controls = wx.Panel(self.side_panel)
+            copper_row = wx.BoxSizer(wx.HORIZONTAL)
+            copper_row.Add(wx.StaticText(self.copper_controls, label='Copper'), 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            self.copper_policy = wx.Choice(self.copper_controls,
+                choices=['Preserve all existing copper', 'Rebuild affected unlocked nets'], name='Existing copper policy')
+            self.copper_policy.SetSelection(0)
+            self.copper_policy.SetToolTip('Locked and unrelated copper always stay protected.')
+            copper_row.Add(self.copper_policy, 1)
+            self.copper_controls.SetSizer(copper_row)
+            side_layout.Add(self.copper_controls, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.pages = wx.Notebook(self.side_panel); self.pages.SetMinSize(self.FromDIP((352, 230)))
             side_layout.Add(self.pages, 1, wx.EXPAND)
             self.side_panel.SetSizer(side_layout)
@@ -845,10 +896,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             left.Add(self.toolbar_pick, 0, wx.TOP, 6)
             hint = wx.StaticText(side, label='Click a part on the board or check it here. Other parts stay fixed.')
             hint.Wrap(310); left.Add(hint, 0, wx.TOP | wx.BOTTOM, 7)
-            left.Add(wx.StaticText(side, label='Existing routing'), 0, wx.BOTTOM, 4)
-            self.copper_policy = wx.Choice(side, choices=['Preserve all existing copper', 'Rebuild affected unlocked nets'])
-            self.copper_policy.SetSelection(0); left.Add(self.copper_policy, 0, wx.EXPAND | wx.BOTTOM, 6)
-            self.copper_policy.SetToolTip('Locked and unrelated copper always stay protected.')
             self.region_summary = wx.StaticText(side, label='Movement area becomes available after inspection.')
             self.region_summary.Wrap(264); left.Add(self.region_summary, 0, wx.BOTTOM, 7)
             self.precise = wx.CollapsiblePane(side, label='Precise area · mm', style=wx.CP_NO_TLW_RESIZE)
@@ -895,11 +942,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             settings_layout = wx.BoxSizer(wx.VERTICAL)
             settings_layout.Add(left, 0, wx.EXPAND | wx.ALL, 9); self.controls.SetSizer(settings_layout)
             self.pages.AddPage(self.controls, 'Settings')
-            board_page = self.board_page = wx.Panel(panel); board_layout = wx.BoxSizer(wx.VERTICAL)
+            board_page = self.board_page = wx.Panel(self.workspace_body); board_layout = wx.BoxSizer(wx.VERTICAL)
             board_tools = wx.BoxSizer(wx.HORIZONTAL)
-            self.project_title = wx.StaticText(board_page, label='', style=wx.ST_ELLIPSIZE_END | wx.ST_NO_AUTORESIZE)
-            self.project_title.SetFont(self.project_title.GetFont().Bold())
-            board_tools.Add(self.project_title, 1, wx.ALIGN_CENTER_VERTICAL)
+            board_tools.Add(chrome.heading(wx.StaticText(board_page, label='Board'), 14), 1, wx.ALIGN_CENTER_VERTICAL)
             self.draw_area = wx.ToggleButton(board_page, label='Draw target area')
             board_tools.Add(self.draw_area, 0, wx.LEFT, 8)
             board_layout.Add(board_tools, 0, wx.EXPAND | wx.BOTTOM, 6)
@@ -1018,6 +1063,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                           lambda event, control=button: event.Enable(control.IsShownOnScreen() and control.IsEnabled()),
                           item)
             menu_bar = wx.MenuBar()
+            file_menu = wx.Menu()
+            open_item = file_menu.Append(wx.ID_OPEN, 'Choose project…\tCtrl+O')
+            path_item = file_menu.Append(wx.ID_ANY, 'Project path\tCtrl+L')
+            self.Bind(wx.EVT_MENU, self.choose_board, open_item)
+            self.Bind(wx.EVT_MENU, self.toggle_path, path_item)
+            for item in (open_item, path_item):
+                self.Bind(wx.EVT_UPDATE_UI, lambda event: event.Enable(self.navigation_available()), item)
+            menu_bar.Append(file_menu, 'File')
             menu_bar.Append(conversation_menu, 'Conversation')
             self.SetMenuBar(menu_bar)
             assistant_inputs.SetSizer(assistant_layout)
@@ -1034,7 +1087,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.schematic_text.ChangeValue('Choose a saved project to see its schematic context.')
             columns.Add(board_page, 1, wx.EXPAND | wx.RIGHT, 10)
             columns.Add(self.side_panel, 0, wx.EXPAND)
-            root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
+            self.workspace_body.SetSizer(columns)
+            root.Add(self.workspace_body, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
             self.approval_note = wx.StaticText(panel)
             root.Add(self.approval_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8)
             buttons = wx.BoxSizer(wx.HORIZONTAL)
@@ -1044,7 +1098,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             for button in (self.find, self.qualify, self.route): buttons.Add(button, 0, wx.RIGHT, 6)
             buttons.AddStretchSpacer(); buttons.Add(self.reject)
             root.Add(buttons, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
-            self.status = wx.StaticText(panel, label='Choose a saved project to open its board. If it is open in KiCad, save and close it first.')
+            self.status = wx.StaticText(panel, style=wx.ST_NO_AUTORESIZE)
+            self.status.Hide()
             self.status.Wrap(930); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 10)
             progressrow = wx.BoxSizer(wx.HORIZONTAL)
             if on_return_live is not None:
@@ -1058,7 +1113,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             frame_layout = wx.BoxSizer(wx.VERTICAL)
             frame_layout.Add(panel, 1, wx.EXPAND)
             self.SetSizer(frame_layout)
-            self.input_controls = [self.board, self.browse, self.new_design, self.example, self.inspect, self.kicad_setup, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
+            self.input_controls = [self.board, self.browse, self.open_design, self.new_design, self.example, self.inspect, self.kicad_setup, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
                 self.assistant_request, self.assistant_ask, self.route_budget, self.three_pad]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.reject, self.qualify]
@@ -1066,7 +1121,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.board.Bind(wx.EVT_TEXT_ENTER, self.inspect_project)
             self.new_design.Bind(wx.EVT_BUTTON, self.start_new_design)
             self.kicad_setup.Bind(wx.EVT_BUTTON, self.open_setup_in_kicad)
-            self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
+            self.browse.Bind(wx.EVT_BUTTON, self.choose_board)
+            self.open_design.Bind(wx.EVT_BUTTON, self.choose_board)
+            self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
             self.example.Bind(wx.EVT_BUTTON, self.open_example)
             if board: self.Bind(wx.EVT_SHOW, self.inspect_initial_project)
             self.parts.Bind(wx.EVT_CHECKLISTBOX, self.settings_changed)
@@ -1103,10 +1160,15 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.Bind(wx.EVT_CLOSE, self.close)
             self.timer = wx.Timer(self); self.Bind(wx.EVT_TIMER, self.tick, self.timer); self.timer.Start(150)
             self.refresh(); self.layout_panel()
+            if not board:
+                self.open_design.SetFocus()
 
         def layout_panel(self):
             self.Layout()
             self.panel.Layout()
+            if hasattr(self, 'workspace_body'):
+                self.workspace_body.Layout()
+                self.side_panel.Layout()
             if hasattr(self, 'controls'):self.controls.FitInside()
             if hasattr(self, 'request_controls'):
                 self.request_controls.GetParent().Layout()
@@ -1114,7 +1176,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if hasattr(self, 'board_page'):self.board_page.Layout()
 
         def message(self, text):
-            self.status.SetLabel(text); self.status.Wrap(max(340,self.GetClientSize().width-30)); self.layout_panel()
+            self.status.SetLabel(text)
+            self.status.Show(bool(text))
+            self.status.Wrap(max(340, self.GetClientSize().width - 30))
+            self.layout_panel()
 
         def resized(self, event):
             if hasattr(self, 'status'):
@@ -1149,9 +1214,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             source = Path(captured['source']) if captured is not None else None
             name = source.stem if source is not None else ''
             self.SetTitle('Copperpath — ' + (name or 'Open project'))
-            self.project_title.SetLabelText(name)
+            self.project_title.SetLabelText(name or 'Saved project')
             self.project_title.SetToolTip(str(source) if source is not None else '')
-            self.project_title.Show(source is not None)
             if self.inspection is None:
                 setup = (context or {}).get('pcb_setup')
                 self.picture.SetEmptyNote('PCB setup continues in KiCad.' if setup else
@@ -1336,19 +1400,21 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             passive_only = bool(saved_context.get('open_in_kicad') or saved_context.get('pcb_setup'))
             if hasattr(self, 'example'):
                 source_entered = bool(self.board.GetValue().strip())
-                if hasattr(self, 'new_design'):
-                    self.new_design.Show(not source_entered)
-                    self.browse.SetLabel('Choose project…' if source_entered else 'Continue an existing design…')
-                self.example.Show(not source_entered and self.example_project.is_file())
-                self.inspect.Show(source_entered)
-                if hasattr(self, 'kicad_setup'):
-                    self.kicad_setup.Show(source_entered and launcher_manifest is not None
-                                          and saved_context.get('pcb_setup') in PCB_SETUP_GUIDANCE
-                                          and not saved_context.get('open_in_kicad'))
+                self.welcome.Show(not source_entered)
+                self.project_bar.Show(source_entered)
+                self.workspace_body.Show(source_entered)
+                self.example.Show(self.example_project.is_file())
+                mode = ('Last saved view · Project open in KiCad' if saved_context.get('open_in_kicad') else
+                        'Saved project · PCB setup' if saved_context.get('pcb_setup') else 'Saved workspace')
+                self.project_mode.SetLabel(mode)
+                self.copper_controls.Show(self.inspection is not None)
+                if self.inspection is None and not saved_context:
+                    self.picture.SetEmptyNote('Checking the saved KiCad project…' if self.busy else
+                                              'Choose a saved project to display its board.')
+                self.kicad_setup.Show(source_entered and launcher_manifest is not None
+                                      and saved_context.get('pcb_setup') in PCB_SETUP_GUIDANCE
+                                      and not saved_context.get('open_in_kicad'))
                 self.route_saved.Show(source_entered and not passive_only)
-                self.pages.Show(source_entered)
-                if hasattr(self, 'side_panel'):
-                    self.side_panel.Show(source_entered)
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
             scope = self.inspection['observation']['scope'] if self.inspection is not None else None
             baseline_scope = intent.contract.source_baseline_scope(scope)
@@ -1413,8 +1479,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                           self.saved_native)
                 if native is not None:
                     scope = 'Validated draft' if self.qualified is not None else 'Saved source'
-                    summary = (f"{scope} · {native['opens']} unrouted · "
-                               f"{native['blocking']} blocking · {native['warnings']} warnings")
+                    summary = scope + ' · ' + chrome.counts_text(native, 'unrouted')
                     if self.qualified is None and finish_gaps.source_delivery(native, field_mismatches_only=True)['reasons']:
                         summary = 'Saved source · Delivery blocked · See Findings'
                     self.native_summary.SetLabel(summary)
@@ -1787,7 +1852,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                                       **self.constraint_binding())
             except (OSError, ValueError) as exc:
                 self.clear_constraint_offer('Suggestion unavailable. ' + str(exc))
-                self.message('Preview the current project and request again.')
+                self.message('Refresh inspection, then preview a fresh suggestion.')
                 self.refresh()
                 return
             adopted_summary = constraint_change_text(self.constraint_offer, adopted=True)
@@ -2109,8 +2174,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 return
             self.inspect_project(None)
 
+        def navigation_available(self):
+            return not self.busy and not self.gate.closed and self.routing is None
+
         def choose_board(self, _):
-            if self.busy or self.gate.closed: return
+            if not self.navigation_available():
+                return
             pattern = 'KiCad projects and boards (*.kicad_pro; *.kicad_pcb)|*.kicad_pro;*.kicad_pcb'
             with wx.FileDialog(self, 'Choose a saved KiCad project', wildcard=pattern,
                                style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dialog:
@@ -2118,6 +2187,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     return
                 selected = dialog.GetPath()
             self.open_saved_source(selected)
+
+        def toggle_path(self, _):
+            if not self.navigation_available():
+                return
+            show = not self.path_details.IsShown()
+            self.path_details.Show(show)
+            self.layout_panel()
+            if show:
+                self.board.SetFocus()
+                self.board.SelectAll()
 
         def start_new_design(self, _):
             if self.busy or self.gate.closed or self.board.GetValue().strip():
@@ -2275,6 +2354,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def inspect_project(self, _):
             if self.busy or self.gate.closed: return
+            first_inspection = self.inspection is None and self.saved_route_context is None
             three_pad = hasattr(self, 'three_pad') and self.three_pad.GetValue()
             self.invalidate_copilot()
             self.inspection = None; self.saved_native = None; self.saved_route_context = None; self.parts.Set([])
@@ -2348,6 +2428,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 try:
                     for field,coordinate in zip(self.region,value['observation']['outline']['bounds_nm']):field.ChangeValue(mm(coordinate))
                 finally:self.updating=False
+                if first_inspection:
+                    self.pages.ChangeSelection(2)
                 self.overview()
                 self.update_schematic_view()
                 if native is not None and finish_gaps.source_delivery(native, field_mismatches_only=True)['reasons']:
@@ -2358,7 +2440,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 elif native is not None and native['opens'] == native['blocking'] == 0:
                     self.message(gui.no_missing_connections_message(native['warnings']))
                 else:
-                    self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
+                    self.message('Saved board ready. Select parts, preview a request, or route the saved board.')
             def read_only_capture(source, reason, *, open_in_kicad=False, static=None):
                 from . import design_intent, review_view
                 if static is None:
@@ -2969,7 +3051,9 @@ def main(argv=None):
     import wx
     if wx.GetApp() is not None:
         raise ValueError('Use create_window with the existing application; a nested loop is not allowed.')
-    app = wx.App(False); window = create_window(args.board); window.Show()
+    app = wx.App(False)
+    chrome.name_application(app)
+    window = create_window(args.board); window.Show()
     previous = {sig: signal.getsignal(sig) for sig in (signal.SIGINT, signal.SIGTERM)}
     try:
         for sig in previous: signal.signal(sig, lambda *_: wx.CallAfter(window.Close))

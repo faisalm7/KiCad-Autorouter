@@ -126,6 +126,7 @@ class PlacementGuiTests(unittest.TestCase):
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock(), SetTitle=Mock(),
             panel=Mock(), GetSizer=Mock(), Layout=Mock())
         window.open_saved_source = MethodType(window_method('open_saved_source'), window)
+        window.navigation_available = MethodType(window_method('navigation_available'), window)
         window.picture.Ready.return_value = True
         window.copper_policy.GetSelection.return_value = 0
         window.rigid_group.GetValue.return_value = False
@@ -187,13 +188,20 @@ class PlacementGuiTests(unittest.TestCase):
         window.project_title.SetLabelText.assert_called_once_with('Relay & light')
         window.SetTitle.assert_called_once_with('Copperpath — Relay & light')
         window.project_title.SetToolTip.assert_called_once_with(saved)
-        window.project_title.Show.assert_called_once_with(True)
 
         window_method('source_changed')(window, Mock())
-        window.project_title.SetLabelText.assert_called_with('')
+        window.project_title.SetLabelText.assert_called_with('Saved project')
         window.SetTitle.assert_called_with('Copperpath — Open project')
         window.project_title.SetToolTip.assert_called_with('')
-        window.project_title.Show.assert_called_with(False)
+
+    def test_project_shortcuts_stay_inactive_while_routing(self):
+        window = self.window()
+        window.routing = Mock()
+        window.path_details = Mock()
+        window_method('toggle_path')(window, None)
+        window_method('choose_board')(window, None)
+        window.path_details.Show.assert_not_called()
+        self.assertFalse(window.navigation_available())
 
     def test_start_new_design_launches_the_prepared_native_manager(self):
         from scripts import install_gui
