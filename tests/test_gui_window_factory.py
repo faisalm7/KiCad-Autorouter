@@ -97,6 +97,7 @@ class WindowFactory(unittest.TestCase):
             view.set_view(scene=scene)
             view.select('a')
             canvas.SetScene.assert_called_with({'marked': first}, keep_view=True)
+            view.item_detail.SetLabelText.assert_called_with('GND · Through-hole')
             view.objects.SetValue('GND')
             view.object_search(None)
             self.assertIsNone(view.selected_item())

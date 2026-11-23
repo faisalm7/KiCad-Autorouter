@@ -134,6 +134,8 @@ def board_review(wx, parent, on_error, *, empty_note):
             elif item is not None:
                 caption = item['label']
                 detail = item['detail']
+                if item['kind'] == 'pad':
+                    detail = f"{item['net'] or 'Net unavailable'} · {detail}"
                 scene = review_view.inspect_item(scene, self.identity)
             self.describe(caption, detail)
             self.canvas.SetScene(scene, keep_view=keep_view)
