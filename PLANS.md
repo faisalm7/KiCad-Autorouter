@@ -13,11 +13,11 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    selected its stock libraries, created the owned Default project and
    showed the saved setup guidance at 880 × 610. Keep that exact project for
    the native circuit task. [New design](evidence/product-native-new-design-002.json)
-3. **Source checks passed.** Deliver the checked live move from Conversation.
-   Require exact live selection, clarification, a revised preview, explicit
-   approval, readback and named native Undo. After stale-state refusal,
-   restore the original selection and verify that a fresh preview and check
-   are required. Keep the supported saved path.
+3. **Verified.** The installed 10.0.8 toolbar opened Conversation beside
+   the live board. Clarification, revision and stale-selection recovery
+   passed. Explicit approval moved J1 by 0.75 mm. Readback and native Undo
+   preserved the unsaved J2 edit and all three saved files.
+   [Editable live move](evidence/product-revised-live-move-002.json)
 4. Continue the new design with two stock connectors. Check ERC and
    connectivity, transfer the footprints into PCB Editor and save a closed
    outline. Verify that Copperpath moves from setup guidance to the scoped

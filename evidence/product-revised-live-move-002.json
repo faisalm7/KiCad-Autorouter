@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "installed_source": "6a27e1144a4e5886b4ab5475ed5c7f36ecb4f82b",
+  "runtime_manifest_sha256": "a14f627f890bb86b2418627a00165928bf76f87c08a3f869d568f8b80c889839",
+  "scope": {
+    "native_editor": "10.0.8",
+    "detached_validator": "10.0.7",
+    "owned_exact_fixture": true,
+    "actual_normal_toolbar": true,
+    "window_points": [880, 610],
+    "request_processing": "Deterministic local explicit movement"
+  },
+  "revised_proposal": {
+    "ambiguous_request_received_clarification": true,
+    "initial_preview_mm": 0.5,
+    "revised_preview_mm": 0.75,
+    "request_edit_revoked_earlier_preview": true,
+    "changed_selection_refused_before_native": true,
+    "restored_selection_needed_fresh_read_and_preview": true,
+    "new_proposal_id": 3
+  },
+  "actual_approved_edit": {
+    "reference": "J1",
+    "from_mm": [12, 10],
+    "to_mm": [12.75, 10],
+    "separate_software_test_approval": true,
+    "native_findings_unchanged": {"opens": 2, "warnings": 1, "blocking": 0, "exclusions": 0},
+    "exact_editor_readback": true,
+    "saved_pcb_project_and_schematic_exact": true,
+    "unrelated_unsaved_j2_position_mm": [26.5, 10],
+    "named_native_undo": "Copperpath checked component move",
+    "exact_undo_and_pre_move_editor_sha256": "6f2caaaefc0a76cc3ed29ff43697c63f9e4419a71a1eb18ee8df825d21aaf8f0",
+    "apply_through_undo_readback_seconds": 1.5591226250398904
+  },
+  "recovery": {
+    "read_of_editor_before_closure_matches_exact_undo": true,
+    "separate_copy_matches_the_already_native_checked_pre_move_source": true,
+    "owned_windows_closed_normally_after_confirmation": true
+  },
+  "limitations": [
+    "One single-footprint trial in the exact prepared owned project. General live editing and concurrent writes are separate gates.",
+    "An earlier detached launch ended at native setup. The foreground launcher stayed alive and used the same saved fixture.",
+    "An observer expected three earlier opens; the current detached source and moved board both have two. Actual proof and displayed findings were reused.",
+    "Raw editor captures, Native findings and screenshots are retained locally."
+  ]
+}

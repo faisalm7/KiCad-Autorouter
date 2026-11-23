@@ -133,7 +133,7 @@ companion issues read/check requests and performs no PCB writes. The
 
 ### Revised local move
 
-The next checked companion build keeps Conversation and the PCB capture in
+The installed checked companion keeps Conversation and the PCB capture in
 one view. Read a single J1 or J2 selection in the prepared 10.0.8 example.
 Enter a local instruction such as `Move J1 right by 0.5 mm`. Review its
 position on the board, edit the request if needed, then preview and check
@@ -147,9 +147,10 @@ change. A failed freshness check retires the draft and its validation.
 Restoring the earlier state still requires reading the selection and
 checking a fresh proposal. An unconfirmed opening or drop of a transaction disables another
 write in that companion. The final readback proof remains meaningful if a
-diagram cannot be drawn. Dedicated installed laptop-size checks of
-clarification, revision, stale refusal, one applied move and Undo remain
-pending. Earlier live application evidence covers the fixed-step workflow.
+diagram cannot be drawn. The installed laptop-size check verified
+clarification, revision, stale refusal, one applied 0.75 mm move and native
+Undo. The companion preserved the unrelated unsaved J2 edit and verified
+the exact saved source. [Installed evidence](../evidence/product-revised-live-move-002.json)
 
 ## Placement constraints from a request
 
