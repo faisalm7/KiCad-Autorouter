@@ -26,9 +26,20 @@
       "original_pcb_preflight": "Pour-only area requires explicit net 0.",
       "further_refusal": "U3 contains a footprint rule area on F.Cu that prohibits tracks, vias, pads and copper pours.",
       "further_checks": "The embedded USB footprint lacks a library-qualified identifier. A matching stock footprint filename exists. Native closure remains unverified.",
-      "decision": "Original and prospective task retained. No repair copy or Native run."
+      "decision": "Original and prospective task retained. No repair copy or routing dispatch."
     }
   ],
+  "stm32_native_source_diagnosis": {
+    "toolchain": "KiCad 10.0.7, detached nonsaving DRC with schematic parity",
+    "opens": 0,
+    "native_errors": 0,
+    "warnings": 44,
+    "exclusions": 0,
+    "copperpath_delivery_blockers": ["Eight USB connector pad/net conflicts", "One unresolved PCB versus schematic Datasheet field mismatch"],
+    "warning_details": {"footprint_library": 33, "footprint_symbol": 2, "net_conflict": 8, "footprint_symbol_field_mismatch": 1},
+    "original_source_bytes_exact": true,
+    "engine_runs": 0
+  },
   "prospective_task": {
     "board": "STM32 Sensor Board at the recorded commit",
     "action": "On a detached copy only, remove the sole back-layer interrupt trace between the two existing vias. Repair the resulting gap through ordinary installed Finish gaps controls.",

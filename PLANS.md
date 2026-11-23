@@ -78,9 +78,12 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
     control verified the exact B.Cu export correction, source and layer
     preservation, permitted F.Cu overlap, and deliberate B.Cu intrusion
     refusal. The complete STM32 project still has the separate U3
-    footprint keepout and library checks. Keep the frozen interrupt task
-    withheld. Check the original source findings independently before
-    deciding whether footprint keepout qualification would unlock it.
+    footprint keepout. The detached KiCad report found eight USB net
+    conflicts and an unresolved schematic field mismatch. Qualifying the
+    footprint keepout alone would leave checked delivery blocked. Keep
+    the interrupt task withheld and the original files intact. A new
+    owned one-gap walkthrough is prepared to exercise the verified root
+    rule in the ordinary installed controls.
     [Intake and task](evidence/product-distinct-licensed-route-intake-001.json) ·
     [Native control](evidence/product-modern-two-layer-pour-native-001.json)
 
