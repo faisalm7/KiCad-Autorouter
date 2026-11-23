@@ -693,3 +693,19 @@ and via keepouts. Copperpath's new correction projects both from the saved
 cutout and original clearance while keeping the original Native polygon.
 Source checks do not establish actual routing behavior or acceptance.
 [Freerouting 2.5.0 structure parser](https://github.com/freerouting/freerouting/blob/v2.5.0/src/main/java/app/freerouting/io/specctra/parser/Structure.java).
+
+## November 22 — three-lead placement intake
+
+The bounded publisher-source screen yielded no eligible new two-layer
+placement task. The motor driver was already a recorded lead, with 10 A
+power routing and different README and root license statements. Quiver's
+attachment board has Ethernet/CAN requirements outside the proposed task.
+The Protoworks USB-C regulator is four-layer, outside the selected placement
+scope. The publisher grants CERN-OHL-W-2.0 for the regulator and Quiver's
+pinned license is CERN-OHL-S-2.0. No design was added to the evaluation set.
+Library closure, open connections and Native eligibility remain unverified.
+[Motor driver snapshot](https://github.com/Kolicks/PCB_Driver_DC_Motor/tree/6df5d9f1c0fc2b6a840951c88762ce4393020451) ·
+[Quiver attachment snapshot](https://github.com/Arrow-air/project-quiver/tree/7b36f70cf047da7300f0f821584ecedf1129a14e/src/pcb/attach_pcb) ·
+[Quiver license](https://github.com/Arrow-air/project-quiver/blob/7b36f70cf047da7300f0f821584ecedf1129a14e/LICENSE) ·
+[Regulator snapshot](https://github.com/johnktaylor/protoworks-kicad-3-3v-regulator/tree/054590bb212bb47cafb39a4931217b76e9e3763b) ·
+[Regulator publisher license](https://www.jktdev.co.uk/posts/buildingblockspt8/).

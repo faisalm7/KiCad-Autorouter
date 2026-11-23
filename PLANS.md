@@ -45,9 +45,17 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    The corrected build used the first proposed J1 position and kept J2 fixed.
    Fresh review and export finished both gaps and independently checked the
    separate project. The first refusal and observer error remain recorded.
-   Verify the actual setup and review screens on this build before further
-   graphical changes. Then continue the next practical licensed-board task.
+   The Mac lock still holds the actual setup and review screens. Resume the
+   prepared `da13e5568` installation at 880 × 610 after the desktop is
+   accessible. Verify the exact project, assigned footprints, native setup
+   handoff, and board with findings before further graphical changes.
    [Placement and delivery](evidence/product-native-first-placement-delivery-001.json)
+8. **Bounded licensed intake complete.** Three leads yielded no suitable
+   two-layer development task. The motor driver was already exposed, the
+   Quiver attachment needs explicit electrical constraints, and the USB-C
+   regulator is four-layer. Preserve the source decisions. A later trial
+   needs a new eligible board with a meaningful task declared before execution.
+   [Intake scope](SOURCE_LEDGER.md#november-22--three-lead-placement-intake)
 
 ## Active work from e638c5e9
 
