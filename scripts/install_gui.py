@@ -327,7 +327,8 @@ def prepare_new_project_manager(manifest):
         from autorouter import live_move
         live_move.editor_manager(record['checked_move_editor'], verify_signature=True)
     check_third_party_home(record, root)
-    return [record['manager']], env
+    # Suppress KiCad's restore-last-project behavior for this entry point.
+    return [record['manager'], '--new'], env
 
 
 def launch(manifest, *, direct=False):

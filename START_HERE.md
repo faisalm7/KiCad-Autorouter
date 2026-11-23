@@ -1,10 +1,15 @@
-# Start with your saved KiCad project
+# Start or continue a KiCad design
 
 Use your existing installation and launcher. The ordinary controls have completed placement, protected routing and checked delivery on the owned example, which includes a reusable preset. A later installed check also delivered a board with a round cutout. [Owned walkthrough](examples/owned-placement-routing/README.md) · [Checked cutout delivery](evidence/product-round-cutout-checked-delivery-002.json) · [Current state](STATUS.md).
 
 For a first installation on the tested Mac, use the existing pinned tools and
 follow [first setup](docs/install-existing.md#first-setup-with-existing-mac-tools).
 An existing installation can keep its launcher.
+
+For a blank design, create the project in KiCad Manager with **File → New
+Project → Default**. Builds with **Start a new design** offer that handoff
+from Copperpath. Continue the schematic and footprint setup in KiCad, then
+open the complete saved project. [Design journeys](docs/design-lifecycle.md)
 
 1. **Open Copperpath.** Double-click **Copperpath.app** in your launcher folder. If the folder has **Open Saved Project.command**, that also opens the workspace and shows setup errors in Terminal. The PCB toolbar is another way to open Copperpath. Keep the installation and its dependencies in place. [Local setup and launch](docs/install-existing.md).
 2. **Choose your saved project.** Use **Choose project…** and select the `.kicad_pro` beside its matching PCB, schematic and rules. To try the bundled project, choose **Open example** on the empty workspace. Copperpath inspects and opens the board in the same window. If your project is open in KiCad, save and close the editors, use **File → Close Project** in KiCad manager, and then choose **Refresh inspection** in Copperpath.

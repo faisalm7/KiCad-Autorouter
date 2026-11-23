@@ -142,7 +142,7 @@ class GuiInstallerTests(unittest.TestCase):
         with patch.object(g, 'require_closed_kicad') as closed:
             argv, env = g.prepare_new_project_manager(manifest)
         closed.assert_called_once_with()
-        self.assertEqual(argv, [str(self.manager)])
+        self.assertEqual(argv, [str(self.manager), '--new'])
         self.assertEqual(env['KICAD_CONFIG_HOME'], str(self.output / 'config'))
         self.assertEqual(env['KICAD10_3RD_PARTY'], str(self.output / g.PCM_ROOT))
         with patch.object(g, 'require_closed_kicad', side_effect=ValueError('An editor is open')), \

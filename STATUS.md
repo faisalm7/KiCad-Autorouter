@@ -2,7 +2,7 @@
 
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 
-**The prepared workspace installed and opened the licensed receiver read-only.** Finder launch passed on `8996f85b4`. At 880 × 610 the board showed all four cutouts, its front copper and the exact U2 limit of 38 pads against the profile's eight. No engineering worker ran and the original files matched. A later memory warning held the next installed control. MiniPic's prior raster proof stays distinct from the pending window check. [Current queue](PLANS.md#active-design-journeys)
+**The prepared workspace installed and opened the licensed receiver read-only.** Finder launch passed on `8996f85b4`. At 880 × 610 the board showed all four cutouts, its front copper and the exact U2 limit of 38 pads against the profile's eight. No engineering worker ran and the original files matched. A later memory warning held the next installed control. MiniPic's prior raster proof stays distinct from the pending window check. [Installed observation](evidence/product-8996-receiver-read-only-001.json) · [Current queue](PLANS.md#active-design-journeys)
 
 **The two design journeys have source checks.** The new start action hands off to the prepared native KiCad Manager. The saved picker now guides incomplete PCB setup when footprints or an outline are missing. No placement or route is authorized from that state. Actual native project creation, the new installed controls and revised move from Conversation still need qualification. [Design journeys](docs/design-lifecycle.md)
 

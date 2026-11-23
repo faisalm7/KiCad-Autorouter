@@ -262,6 +262,18 @@ class PlacementGuiTests(unittest.TestCase):
                     self.assertIn('F8' if missing == 'footprints' else 'Edge.Cuts', window.findings.SetValue.call_args.args[0])
                     with self.assertRaisesRegex(ValueError, 'Finish PCB setup in KiCad'):
                         window_method('open_saved_routing')(window, None)
+                    window.saved_route_context = None  # The same project was typed without Return.
+                    with self.assertRaisesRegex(ValueError, 'Finish PCB setup in KiCad'):
+                        window_method('open_saved_routing')(window, None)
+                    window.constraint_binding = Mock(return_value=dict(source=str(board), request='Finish gaps', revision=1))
+                    window.conversation_kind = Mock(GetSelection=Mock(return_value=1))
+                    window.conversation_routing_preferences = Mock(return_value={})
+                    window_method('ask_conversation')(window, None)
+                    from autorouter import hosted_intent
+                    with patch.object(hosted_intent, 'prepare_conversation') as ask:
+                        with self.assertRaisesRegex(ValueError, 'Finish PCB setup in KiCad'):
+                            window.start.call_args.args[1](job, threading.Event())
+                        ask.assert_not_called()
                     job.run.assert_not_called()
                     self.assertEqual(gui.source_inventory(board), initial)
 

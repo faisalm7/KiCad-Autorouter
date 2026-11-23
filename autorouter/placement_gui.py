@@ -1734,6 +1734,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 def stage(job, cancelled):
                     source = require_closed_source(binding['source'], inspection=placement if not routing else None)
                     inspection = design.inspect_project(source) if routing else placement
+                    if inspection.get('pcb_setup'):
+                        raise ValueError('Finish PCB setup in KiCad and refresh inspection before making a proposal.')
                     self.conversation.check_source(inspection, routing)
                     review = (conversation.RoutingReview if routing else design.PlacementConstraintReview)(
                         inspection, controls, request=binding['request'], revision=binding['revision'])
@@ -2678,7 +2680,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 raise ValueError('Finish PCB setup in KiCad and refresh inspection before routing.')
             if saved_context.get('open_in_kicad'):
                 raise ValueError('Close the project in KiCad and refresh inspection before routing.')
-            source = require_closed_source(str(gui.saved_project_board(self.board.GetValue())))
+            captured = self.inspection or saved_context.get('static')
+            source = require_closed_source(self.board.GetValue(), inspection=captured)
+            if captured is None:
+                # Return and file selection normally inspect first. A typed
+                # path can reach this action without a cached inspection.
+                from . import design_intent
+                captured = design_intent.inspect_project(source)
+                if captured.get('pcb_setup'):
+                    raise ValueError('Finish PCB setup in KiCad and refresh inspection before routing.')
+                require_closed_source(source, inspection=captured)
             if values is None and getattr(self, 'constraint_offer', None) is not None:
                 raise ValueError('Use or discard proposed settings first.')
             selected_prefill = False

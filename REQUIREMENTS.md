@@ -8,6 +8,8 @@ The master specification, current strategy and owner steering govern. Historical
 
 **Live translation scope.** One owned single-footprint 10.0.8 transaction and native Undo passed exact editor readback. The saved files, protected content and unrelated unsaved edit were preserved. General open-project writes and concurrent editing during commit remain open. [Bounded continuation](evidence/live-editor-1008-direct-002.json)
 
+**Start and continue a design.** The saved picker and licensed receiver's installed read-only view passed. The start control uses the prepared native manager and guides missing footprints and outlines before routing. Its controlled checks include a retyped incomplete project and the existing-editor refusal. Native blank-project creation and the complete schematic-to-PCB journey still need observation. [Design journeys](docs/design-lifecycle.md) · [Installed receiver](evidence/product-8996-receiver-read-only-001.json)
+
 **Saved-project usability verified on runtime104.** Direct EEPROM inspection, actual toolbar identity and lock refusal, fresh Edge review, acceptance, export and independent readback passed. The distinct 555 source passed Native admission. Its constrained search stopped before placement validation or routing. The original GUI127 and runtime103 results retain their scope. [Installed verification](evidence/product104-usability-delivery-001.json) · [555 outcome](docs/555-constrained-placement-gui129.md).
 
 ## Current installed scope
