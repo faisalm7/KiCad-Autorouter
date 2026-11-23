@@ -1,22 +1,16 @@
 # Current state
 
-**Board workspace source ready.** The welcome view, project heading,
-Request entry beside Conversation and the copper legend passed focused
-controls. Installed verification is pending. The first check after the
-owner’s resource update measured load 8.22 against the existing limit of 8,
-with normal memory pressure, 3.86 GiB available memory and adequate disk.
-The compiled app-identity prototype did not launch under that reading.
-The previously qualified installed candidate remains available.
-The [workspace decision](docs/board-workspace-decision.md) gives the
-acceptance criteria for the Finder and licensed-board walkthroughs.
-
-**Named Mac host tested headlessly.** The optional installer links into the
-existing KiCad 10.0.7 Python framework and wx libraries. The exact compiled
-executable loaded both from a test path with spaces. Changed or moved
-launchers still refuse through the same manifest checks. The Finder identity,
-window activation and walkthrough remain pending. The corrected visible
-prototype’s latest check measured load 9.38 against the limit of 8. The desktop
-tool independently reported a locked Mac.
+**Board workspace qualified on this Mac.** The installed `ccd7a4073` Finder
+app registered as Copperpath and opened the saved board directly beside
+Request. The frozen PushButtonLed task completed three approved nets with all
+13 protected tracks, the ground-zone intent and the original files exact.
+The fresh separate export passed independent readback with zero opens, zero
+blocking findings and seven inherited footprint-library warnings. The
+disposable copy passed stale-proposal refusal, fresh adoption, project-lock
+recovery and active inspection cancellation. The local record retains the
+earlier resource holds and the observer interruptions.
+[Workspace decision and result](docs/board-workspace-decision.md) ·
+[Installed evidence](evidence/product-board-workspace-001.json)
 
 Copperpath combines Freerouting, constrained placement and an optional copilot over the same guarded tools. The owner’s November 18 clarification makes the active editor the next major milestone. Historical general routing superiority remains deferred. [Product strategy](docs/product-strategy.md).
 

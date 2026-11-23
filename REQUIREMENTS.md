@@ -14,6 +14,12 @@ The master specification, current strategy and owner steering govern. Historical
 
 ## Current installed scope
 
+- The optional named Finder app runs the saved workspace on the tested
+  Apple silicon Mac with pinned KiCad 10.0.7. Installed walkthroughs
+  verified Request at opening, protected checked delivery, stale proposal
+  refusal, lock recovery and inspection cancellation. Whole-project and
+  physical validation retain their separate meanings.
+  [Named workspace evidence](evidence/product-board-workspace-001.json)
 - Choosing a closed saved project opens the board and checks its saved context.
   The installed opening test verified the picker, current-board retention on
   Cancel, typed Return, refusal and recovery with an owned lock fixture, and a

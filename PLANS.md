@@ -10,15 +10,18 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 2. **Workspace source ready.** The welcome, project header, visible copper
    policy, Request entry and matching review passed focused controls. The
    engineering gates and optional live companion are unchanged.
-3. **Named-app code ready for qualification.** The optional host loaded the
-   pinned Python and wx from its own executable in the headless check. Verify
-   the corrected prototype’s visible macOS identity before qualifying the
-   named Finder build. Keep the diagnostic entry and existing installation.
-4. Install the resulting Finder build. Walk the frozen PushButtonLed task
-   and the separate owned stale/refusal/recovery controls. Record actual
-   renders, focus, resizing, identity, actions, waits and resource use.
-5. Verify delivery hashes and the exact support boundary, checkpoint the
-   implementation, and retain compact local evidence alongside prior runs.
+3. **Named Finder entry verified.** The opt-in `ccd7a4073` build registered
+   as Copperpath under Launch Services and rendered at 880 × 610 and
+   1040 × 720. The prior installation and the diagnostic entry are available.
+4. **Installed walkthrough complete.** The frozen PushButtonLed task
+   delivered a fresh checked copy. The owned controls refused stale settings
+   and a project lock, recovered after refresh and discarded a cancelled
+   inspection. The [receipt](evidence/product-board-workspace-001.json)
+   records actions, resource samples, render hashes and observer limits.
+5. **Next usability priority.** Make the Request-to-review keyboard sequence
+   predictable and return users to a clear next action after recovery. Check
+   focus on named visible controls and verify that saved-board review and
+   recoverable refusals still preserve the engineering checks.
 
 ## Integrated release candidate
 

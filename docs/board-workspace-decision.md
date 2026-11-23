@@ -31,3 +31,48 @@ Test one small Mach-O prototype against the bundled 3.9 framework. A script wrap
 2. Use the exact previously admitted MIT PushButtonLed task at the frozen source and constraints. Approve only the two selected moves, the established allowed affected copper and the three listed nets at 90 seconds. Inspect the changed constraints and copper before approval. Deliver a fresh checked separate copy with independent readback and the same protected records, original files, findings and support decisions as required by the frozen task. Retain actual outcomes. Remove at least the Request-tab detour from the ordinary path. Keep deliberate approval, warning review and fresh validation.
 3. Use a separate complete copy of the owned example. Exercise a stale settings proposal by changing only the disposable project after preview. The old proposal must refuse without dispatch. Refresh the saved capture, re-preview and adopt only fresh settings. Test the visible project-lock or unsupported-input refusal. Verify the original three design files and marker/recovery handling. Test cancellation or retain working cancellation evidence for unaffected execution and scope the changed UI controls explicitly.
 4. Record the actual interaction count, visible waits, responsiveness and RSS with the same installed observer and normal resource checks. Distinguish engineering wall/CPU time from operator and automation pauses. Report CAD corrections actually made and compare the scoped outcome, including all findings. Use new local artifacts with no hosted requests, new purchases or altered original design requirements.
+
+## Installed result
+
+The fresh `ccd7a4073` build ran on macOS 27.0.1 arm64 with pinned KiCad
+10.0.7 and Freerouting 2.5.0. The corrected probe opened with its own name,
+then the installed Finder app registered as **Copperpath** with identifier
+`org.copperpath.workspace`. Actual renders cover the welcome and loading
+views at both sizes, saved and proposal views, active review preparation,
+review before acceptance at 1040 × 720 and the delivered findings at both
+sizes. At 880 × 610, long findings wrap into a scrollable area. **Use
+settings**, **Discard** and **Open checked export** were visible in their
+respective views. Editing a suggestion can require scrolling at that size.
+[Installed evidence](../evidence/product-board-workspace-001.json)
+
+The frozen MIT task made R1 and R2 eligible within the approved region. The
+selected alternative moved R2 and left R1 and the other five footprints in
+place. One attempt with a 90-second limit closed the three approved nets. All 13
+protected tracks, the original project files and the ground-zone intent
+stayed exact. Fresh KiCad validation and independent readback reported zero
+opens, zero blocking findings, seven inherited footprint-library warnings
+and five ignored checks. The operator made zero manual CAD corrections.
+
+Both walkthroughs recorded 23 operator-equivalent actions. Direct Request
+entry removed the tab switch, and one automated keyboard re-entry used the
+saved action. Delivery and independent verification were observed by 330.4
+and 347.9 seconds, compared with 256.4 and 267.5 seconds in the reference.
+These upper bounds include admission sampling and observer pauses. The
+current routing worker took 13.09 seconds wall and 11.03 CPU seconds. App
+RSS was about 268 MiB at the proposal and 85 MiB at delivery. Those are
+samples at the named views.
+
+The disposable test refused a stale proposal, adopted a fresh one after
+refresh and showed the last saved board under a project lock. Removing the
+test marker restored the workspace with Findings selected. Choosing Request
+restored the composer. Active inspection cancellation discarded the result
+and a fresh inspection recovered. Command+O and Command+L worked. Tab
+moved focus from the request field to the window in the Accessibility
+readback. A predictable path between visible controls remains the next
+keyboard priority.
+
+Delivery here creates a separate checked project. The earlier native Undo
+test applies to one checked move in the pinned KiCad 10.0.8 companion.
+Native docking, schematic writes, independent installation and physical
+validation retain their own qualification gates.
+[Native Undo evidence](../evidence/product-integrated-rc-editor-001.json)

@@ -30,6 +30,13 @@ dependency files intact. Open the **Copperpath.app** at the printed
 `workspace_launcher` location in Finder. A checked artifact and a research
 archive are unnecessary for this setup.
 
+Add `--named-workspace` to the fresh setup command for the named Finder
+entry tested on Apple silicon with KiCad 10.0.7. It builds a small native
+host with the existing Apple compiler and uses KiCad's pinned Python and
+wx libraries. macOS identifies the application as **Copperpath**. Open the
+app from the launcher folder printed at setup and keep **Open Saved
+Project.command** for diagnostics. [Installed verification](../evidence/product-board-workspace-001.json)
+
 ## Advanced: install a verified artifact at a fresh local root
 
 Use `scripts/prepare_runtime.py` from the reviewed source checkout. Choose a verified artifact and an unused destination below a directory you own. Check available space against the peak allocation plus the fixed 3 GiB reserve. Setup creates fresh settings, a launcher and an empty jobs directory.
@@ -71,9 +78,10 @@ and validation. Installing an existing artifact preserves its checked program
 files and starts with a fresh private job directory. Past job contents stay
 with the original installation.
 
-For local placement suggestions, open a saved project, wait for its board, then
-open **Request**. Conversation stays visible alongside it. If an earlier launcher
-starts in routing, choose **Place components** to reach the placement workspace.
+For local placement suggestions, open a saved project and wait for its board.
+The current workspace opens **Request** beside the conversation. Choose the
+**Request** tab if another tab is selected. If an earlier launcher starts in
+routing, choose **Place components** to reach the placement workspace.
 Enter one or more example lines and preview the
 selection, movement area or routing time. Edit the suggestion if needed,
 preview the edits and choose **Use settings**. Search, validation, routing and

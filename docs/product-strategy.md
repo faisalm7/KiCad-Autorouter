@@ -41,7 +41,10 @@ board context together. Put next actions and recoverable refusals where the
 user is working, with implementation details available on demand. Retain the
 guarded 10.0.8 live operation while the public KiCad interface limits docking
 and schematic editing. The [workspace decision](board-workspace-decision.md)
-specifies the installed checks and the separate experiment for macOS identity.
+specifies the installed checks and records the named Finder result. The tested
+build opens Request beside a closed saved board and keeps the adopted settings
+visible through checked delivery. Improve the keyboard path and the next
+action after recovery before expanding the separate live-editor scope.
 
 | Existing part | Reuse decision and evidence boundary |
 |---|---|
