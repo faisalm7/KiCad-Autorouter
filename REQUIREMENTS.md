@@ -6,12 +6,15 @@ The master specification, current strategy and owner steering govern. Historical
 
 **Guided decisions and checked delivery.** Installed verification showed 13 normal actions, preserved copper and exact accepted-result validation on the licensed task. Laptop-size screens kept the board and review actions visible. The owned stale, lock and cancellation roles passed on the prior build. The follow-up verified the Routing menu's board and findings shortcuts and pre-review refusal. A full keyboard-only journey remains unverified. [Corrected result](evidence/product-guided-board-journey-002.json) · [Owned controls](evidence/product-guided-board-journey-001.json)
 
-**Design review and refinement.** Show supported copper geometry, components,
-pads and finding locations in the saved or checked view. Refine the request
-against the same saved source and collect fresh approval before work proceeds.
-Test the installed refinement, dense-board readability and laptop layout.
-Keep docking, broader live editing and schematic edits separate.
-[Declared checks](docs/design-review-refinement.md)
+**Design review and refinement.** The installed `79be782a6` walkthrough showed
+real supported geometry, part and net inspection, findings and request review
+at both laptop sizes. The frozen licensed output used 13 ordinary actions and
+passed fresh validation, an independent readback and exact protected copper
+checks with warnings retained. The owned controls refused an old review after
+a source change and cancelled active work. Owner visual assessment, docking,
+broader live editing and schematic edits remain separate.
+[Design and limits](docs/design-review-refinement.md) ·
+[Installed evidence](evidence/product-design-review-refinement-001.json)
 
 **Existing hosted proposal delivered through ordinary controls.** Freshness, exact proposed constraints, visible review, original copper and fresh separate export passed with no new model request. The out-of-scope ground addition in the first route was explicitly rejected and retained. [Engineering continuation](evidence/product-workspace-hosted-engineering-001.json)
 

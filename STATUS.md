@@ -1,11 +1,15 @@
 # Current state
 
-**Design review and refinement in qualification.** The saved and checked board
-views now share bounded layer navigation, shape and copper inspection, and
-finding locations. Refine returns to the original project for a fresh review.
-The declaration uses the retained 13-action task and one denser read-only
-board. Installed observation and comparable delivery remain separate checks.
-[Design and acceptance](docs/design-review-refinement.md)
+**Installed design review and refinement verified on `79be782a6`.** The
+880 × 610 PushButtonLed review showed supported pad shapes and located a KiCad
+finding beside the original request. The frozen task took 13 ordinary actions
+and two optional actions. Fresh export and readback preserved all original
+files and 13 protected tracks, with seven inherited warnings. TankSync stayed
+read-only and showed the selected net on the back layer. Refine retained D1
+context and previewed revised settings, while stale-source and cancellation
+controls withheld approval. Owner visual assessment remains open.
+[Design and results](docs/design-review-refinement.md) ·
+[Installed evidence](evidence/product-design-review-refinement-001.json)
 
 **Guided workflow verified on the installed `0b4687f85` build.** The licensed
 PushButtonLed task used 13 normal actions, down from 19, and passed independent

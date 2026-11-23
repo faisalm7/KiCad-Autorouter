@@ -12,9 +12,13 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    inspected item, net or finding back to the exact saved source, with previous
    review and consent revoked. Changed and locked sources require inspection.
    The previous installed build remains the comparison reference.
-3. **Qualify the changed workflow.** Verify the two installed views, keyboard,
-   refinement, cancellation and stale recovery. Record the comparable delivery
-   and show the actual screens. Preserve the existing native move and Undo scope.
+3. **Installed on `79be782a6`.** The frozen 13-action delivery and readback,
+   TankSync read-only navigation at both sizes, keyboard controls, refinement,
+   stale recovery and active cancellation are recorded. Owner visual assessment
+   remains open. [Installed evidence](evidence/product-design-review-refinement-001.json)
+4. **Next native integration.** Bring the checked passive inspection context to
+   the existing synchronized companion. Verify active editor selection and
+   saved schematic identity separately before proposing broader editor changes.
 
 ## Guided board journey
 
