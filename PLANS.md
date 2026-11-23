@@ -22,16 +22,14 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    the stock circuit, closed outline and two routed connections in a separate
    validated export. Microsoft Edge showed two new traces and two inherited
    warnings. Independent readback verified both nets and exact source files.
-   Observe the same-board setup and workspace review when desktop automation
-   can select the correct Copperpath window. Verify the source-tested saved
-   footprint guidance in the next installed build.
+   The same design later passed the installed setup and review roles below.
    [PCB transfer and preview](evidence/product-native-pcb-transfer-001.json) ·
    [Delivery](evidence/product-native-pass-through-delivery-001.json)
 5. **Native no-work control verified.** The unchanged TankSync receiver
    had no missing connections. Finish gaps withheld Freerouting, kept all
    437 copper items and showed 25 saved warnings. Source controls now point
-   to Findings in this case and explain isolated footprint-library checks.
-   Observe the updated wording in the next installed workspace.
+   to Findings and explain isolated footprint-library checks. The later
+   installed two-part no-work control verified those messages.
    [Receiver admission](evidence/product-tanksync-finish-gaps-admission-001.json)
 6. **Setup handoff source controls verified.** **Open in KiCad** passes
    the captured project to the prepared manager and refuses a change, open
@@ -61,13 +59,18 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    regulator is four-layer. Preserve the source decisions. A later trial
    needs a new eligible board with a meaningful task declared before execution.
    [Intake scope](SOURCE_LEDGER.md#november-22--three-lead-placement-intake)
-9. **Next usability correction.** The already-connected board opens with
-   verified Native counts but still suggests routing. Make the opening
-   guidance acknowledge the completed connections and lead directly to
-   saved warnings. Finish gaps should open Findings when its no-work
-   preview reports warnings. Keep the board and explicit other routing
-   scopes accessible. Verify the changed status and tab in the installed
-   workspace without a new route or release-wide rerun.
+9. **Verified in the corrected installation.** The already-connected board
+   opens with its verified counts and points to the saved warnings before
+   preview. Finish gaps opens Findings for an already-connected result
+   with warnings. The Board tab and other explicit scopes remain available.
+   The tested original stayed exact and no engine ran.
+   [Opening and Findings](evidence/product-connected-board-guidance-001.json)
+10. **Next practical qualification.** Admit a distinct licensed design for
+    a real, declared placement or partial-routing task. Require source
+    and library closure, Native eligibility, and explicit electrical
+    constraints before dispatch. The three screened leads remain excluded.
+    Independent installation and broader live editing retain their
+    own gates.
 
 ## Active work from e638c5e9
 

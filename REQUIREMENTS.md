@@ -25,9 +25,11 @@ The master specification, current strategy and owner steering govern. Historical
   [Installed source controls](evidence/product-routing-source-acknowledgement-001.json)
 - Native Finish gaps admission on the unchanged licensed TankSync receiver
   found no missing connections and ran no engine. All 437 existing copper
-  items and the 25 source warnings remain visible in the evidence. Updated
-  workspace guidance still needs installed observation.
-  [No-work control](evidence/product-tanksync-finish-gaps-admission-001.json)
+  items and the 25 source warnings remain visible in the evidence. The
+  corrected workspace showed verified no-work guidance at opening and
+  automatically selected Findings on the checked two-part copy.
+  [Receiver control](evidence/product-tanksync-finish-gaps-admission-001.json) ·
+  [Installed guidance](evidence/product-connected-board-guidance-001.json)
 - The installed PCB setup handoff passed command identity and saved-source
   checks. The pinned manager opened the intended project before a diagnostic
   memory stop during library loading. The later actual button at 880 × 610
