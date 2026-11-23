@@ -135,6 +135,11 @@ def check_thermal_source(board):
         raise ValueError('Experimental thermal recovery supports two source copper layers only; no layers were changed.')
 
 
+def no_missing_connections_message(warning_count):
+    action = 'Review saved warnings in Findings.' if warning_count else 'There is nothing to route.'
+    return 'KiCad found no missing connections. ' + action
+
+
 def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=None, method=None):
     """Presentation only; existing CLI validation and original receipts remain authoritative."""
     title = {'inspect': 'Saved-project Native findings', 'preview': 'Saved-project preview', 'route': 'Routing result',
@@ -2399,9 +2404,10 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                                 targets = str(len(gaps['nets'])) + ' nets (see Findings)'
                             self.status.SetLabel(f"Route {targets}. Protect all existing copper ({gaps['protected_routes']} tracks or vias).")
                         elif gaps['status'] == 'already_connected':
-                            self.status.SetLabel('KiCad found no missing connections. '
-                                + ('Review saved warnings in Findings.' if native and native['warnings']
-                                   else 'There is nothing to route.'))
+                            warning_count = native['warnings'] if native is not None else 0
+                            self.status.SetLabel(no_missing_connections_message(warning_count))
+                            if warning_count:
+                                self.workspace_tabs.SetSelection(1)
                         else:
                             self.status.SetLabel('Finish gaps is blocked. See the source findings for the next action.')
                     if native is not None:

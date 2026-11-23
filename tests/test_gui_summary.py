@@ -87,7 +87,10 @@ class GuiSummaryTests(unittest.TestCase):
             text = window.status.SetLabel.call_args.args[0]
             self.assertIn('KiCad found no missing connections.', text)
             self.assertIn('Review saved warnings in Findings.' if count else 'There is nothing to route.', text)
-            window.workspace_tabs.SetSelection.assert_not_called()
+            if count:
+                window.workspace_tabs.SetSelection.assert_called_once_with(1)
+            else:
+                window.workspace_tabs.SetSelection.assert_not_called()
 
     def test_improve_displays_its_checked_protection_count(self):
         for count in (0, 1, 4):

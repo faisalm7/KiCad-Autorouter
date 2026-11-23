@@ -438,6 +438,16 @@ class PlacementGuiTests(unittest.TestCase):
             window.board.ChangeValue.assert_called_once_with(str(board))
             self.assertEqual(window.inspection['source'], str(board))
             job.run.assert_not_called()
+            self.assertIn('Saved board ready.', window.message.call_args.args[0])
+
+            saved, schematic, refusal, rebuild, _, read_only = inspect(job, threading.Event())
+            native = dict(opens=0, blocking=0, warnings=1, exclusions=0, ignored_checks=[], findings=[
+                dict(type='lib_footprint_issues', severity='warning', description='Missing library', items=[])])
+            adopt((saved, schematic, refusal, rebuild, native, read_only))
+            self.assertEqual(window.message.call_args.args[0],
+                'KiCad found no missing connections. Review saved warnings in Findings.')
+            adopt((saved, schematic, refusal, rebuild, dict(native, opens=1), read_only))
+            self.assertIn('Saved board ready.', window.message.call_args.args[0])
 
     def test_choose_project_resolves_the_exact_coboard_and_retains_previous_on_refusal(self):
         with tempfile.TemporaryDirectory() as temp:

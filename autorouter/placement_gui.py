@@ -2245,11 +2245,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if native is not None and finish_gaps.source_delivery(native, field_mismatches_only=True)['reasons']:
                     self.pages.SetSelection(1)
                     self.message('The saved source blocks checked delivery. Review Findings before continuing.')
+                elif three_pad:
+                    self.message('Three-pad placement ready. Select one eligible part. All existing copper stays in place.')
+                elif native is not None and native['opens'] == native['blocking'] == 0:
+                    self.message(gui.no_missing_connections_message(native['warnings']))
                 else:
-                    if three_pad:
-                        self.message('Three-pad placement ready. Select one eligible part. All existing copper stays in place.')
-                    else:
-                        self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
+                    self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
             def read_only_capture(source, reason, *, open_in_kicad=False, static=None):
                 from . import design_intent, review_view
                 if static is None:
