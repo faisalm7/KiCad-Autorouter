@@ -109,11 +109,14 @@ class WindowFactory(unittest.TestCase):
             self.assertEqual(marked.count('data-role="inspected-net-item"'), 2)
             self.assertNotIn('cx="40"', marked)
             self.assertEqual(view.refinement_note(), 'Net GND · F.Cu')
+            self.assertEqual(view.request_selection(), dict(kind='net', label='GND', layer='F.Cu',
+                detail='2 displayed items on this layer.\nPad labels shown  J1 pad 1'))
             view.item_detail.SetLabelText.assert_called_with('2 displayed items marked · Choose one for details.')
             view.objects.SetValue('gNd')
             view.object_search(None)
             canvas.SetScene.assert_called_with(scene, keep_view=True)
             self.assertEqual(view.refinement_note(), '')
+            self.assertIsNone(view.request_selection())
             view.item_title.SetLabelText.assert_called_with('3 matching items')
 
     def test_refinement_preserves_the_located_finding_note(self):

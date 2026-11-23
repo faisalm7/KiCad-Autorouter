@@ -386,7 +386,9 @@ class PlacementGuiTests(unittest.TestCase):
             lock = root / '~owned.kicad_pro.lck'; lock.write_bytes(b'owned test lock')
             window = self.window(); window.board = Mock(); window.board.GetValue.return_value = str(board)
             window.start = Mock()
+            window.constraint_summary = Mock()
             window_method('inspect_project')(window, None)
+            window.constraint_summary.Hide.assert_called_once()
             inspect = window.start.call_args.args[1]; job = Mock()
             with patch.object(pg.intent, 'inspect_saved') as geometry:
                 with self.assertRaisesRegex(ValueError, 'File > Close Project'):

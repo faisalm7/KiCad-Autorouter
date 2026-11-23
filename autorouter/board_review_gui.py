@@ -162,9 +162,16 @@ def board_review(wx, parent, on_error, *, empty_note, on_selection=None):
             """Describe the exact displayed context, bounded to the selected layer."""
             item = self.selected_item()
             if self.net is not None:
-                count = len(self.net_items())
+                items = self.net_items()
+                detail = f'{len(items)} displayed items on this layer.'
+                pads = sorted({self.items[identity]['label'] for identity in items
+                               if self.items[identity]['kind'] == 'pad'})
+                if pads:
+                    detail += '\nPad labels shown  ' + ', '.join(pads[:6])
+                    if len(pads) > 6:
+                        detail += f' and {len(pads) - 6} more'
                 return dict(kind='net', label=self.net, layer=self.active_layer,
-                            detail=f'{count} displayed items on this layer.')
+                            detail=detail)
             if item is None or item['kind'] not in ('component', 'footprint', 'pad'):
                 return None
             return dict(kind='pad' if item['kind'] == 'pad' else 'part', label=item['label'],

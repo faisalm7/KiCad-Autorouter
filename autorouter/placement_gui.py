@@ -96,6 +96,13 @@ def constraint_references(text):
     return refs
 
 
+def movement_area_text(bounds):
+    if bounds is None:
+        return 'unset'
+    x1, y1, x2, y2 = map(mm, bounds)
+    return f'({x1}, {y1}) to ({x2}, {y2}) mm'
+
+
 def constraint_change_text(offer, *, conversational=False, adopted=False, direct=False):
     before, after = offer['before'], offer['after']
     if offer['kind'] == conversation.ROUTING_KIND:
@@ -104,15 +111,9 @@ def constraint_change_text(offer, *, conversational=False, adopted=False, direct
                 f"Routing time  {before['route_seconds']} s → {after['route_seconds']} s\n"
                 f"{offer['checked']['protected_route_items']} existing copper items stay protected.")
 
-    def area(bounds):
-        if bounds is None:
-            return 'unset'
-        x1, y1, x2, y2 = map(mm, bounds)
-        return f'({x1}, {y1}) to ({x2}, {y2}) mm'
-
     displays = (
         ('Components', 'selected_refs', lambda refs: ', '.join(refs) or 'none'),
-        ('Movement area', 'region_nm', area),
+        ('Movement area', 'region_nm', movement_area_text),
         ('Routing time', 'route_seconds', lambda seconds: f'{seconds} s'),
     )
     title = ('Last adopted placement settings' if adopted else
@@ -120,6 +121,8 @@ def constraint_change_text(offer, *, conversational=False, adopted=False, direct
              'Conversation suggestion' if conversational else 'Local suggestion · saved project')
     lines = [title]
     for label, key, show in displays:
+        if direct and key != 'route_seconds' and before[key] == after[key]:
+            continue  # The checked parts and area are immediately above this plan.
         if adopted or before[key] == after[key]:
             lines.append(f'{label}  {show(after[key])}')
         else:
@@ -1809,12 +1812,17 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 return
             selected = self.selected_references()
             item = self.displayed_request_item()
+            proposed = (self.constraint_offer['after']
+                if self.direct_draft and self.constraint_offer and not self.constraint_edited else None)
             if self.inspection is None:
                 label = (f"Saved selection · {item['label']} · {item['layer']}" if item else
                          'Saved selection · Choose an item on the board')
                 area_label = ''
+            elif proposed is not None:
+                label = 'Proposed parts · ' + ', '.join(proposed['selected_refs'])
+                area_label = 'Movement area · ' + movement_area_text(proposed['region_nm'])
             else:
-                label = 'Selected parts · ' + (', '.join(selected) if selected else 'Click parts on the board')
+                label = 'Selected parts · ' + (', '.join(sorted(selected)) if selected else 'Click parts on the board')
                 region = [field.GetValue().strip() for field in self.region]
                 area_label = (f'Area · ({region[0]}, {region[1]}) to ({region[2]}, {region[3]}) mm'
                               if self.request_area_set and all(region) else
@@ -2721,6 +2729,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             first_inspection = self.inspection is None and self.saved_route_context is None
             three_pad = hasattr(self, 'three_pad') and self.three_pad.GetValue()
             self.invalidate_copilot()
+            if hasattr(self, 'constraint_summary'):
+                self.constraint_summary.Hide()
             self.request_area_set = False
             if hasattr(self, 'refinement_context'):
                 self.refinement_context.Hide()

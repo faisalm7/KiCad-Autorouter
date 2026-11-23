@@ -305,6 +305,21 @@ class ConstraintProposal(unittest.TestCase):
         self.assertFalse(offer['execution_authorized'])
         self.assertEqual(offer['copper_plan']['protected_names'], ['KEEP'])
 
+    def test_reviewed_area_and_parts_replace_the_selection_hint(self):
+        w = self.direct_window()
+        self.preview_in_window(w)
+        w.request_selection, w.request_area = Mock(), Mock()
+        w.request_answer = None
+        w.displayed_request_item = Mock(return_value=None)
+        render_context = ui.window_method('update_request_context')
+        render_context(w)
+        w.request_selection.SetLabelText.assert_called_with('Proposed parts · J1, J2')
+        area = pg.movement_area_text(w.constraint_offer['after']['region_nm'])
+        w.request_area.SetLabelText.assert_called_with('Movement area · ' + area)
+        w.clear_constraint_offer('')
+        render_context(w)
+        w.request_selection.SetLabelText.assert_called_with('Selected parts · J1, J2')
+
     def test_queued_local_plan_refuses_a_later_project_lock(self):
         w = self.direct_window()
         w.preview_constraints(None)
