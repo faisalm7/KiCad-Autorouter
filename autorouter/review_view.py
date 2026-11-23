@@ -172,6 +172,7 @@ class BoardPoint:
     hit: tuple = ()
     drawing: str = ''
     drill: float = 0
+    removed: bool = False
 
 
 @dataclass(frozen=True)
@@ -453,7 +454,7 @@ def _route_point(row, layers, group, net_for, *, saved):
         role += ' · Arc midpoint marker'
     detail = f'{role} · {xy[0]:.3f}, {xy[1]:.3f} mm'
     return kind, BoardPoint(xy, tuple(layers), _display_uuid(sx.one(row, 'uuid')),
-                            detail=detail, net=net_for(row), hit=hit, drill=drill)
+                            detail=detail, net=net_for(row), hit=hit, drill=drill, removed=group == 'removed')
 
 
 def _project_items(points, scale, tx, ty):
@@ -467,7 +468,7 @@ def _project_items(points, scale, tx, ty):
         label = point.label or f'{kind.capitalize()} {order[kind]}' + (f' · {point.net}' if point.net else '')
         x, y = point.xy
         result.append({'id': identity, 'label': label, 'detail': point.detail, 'kind': kind, 'net': point.net,
-                       'point': (x * scale + tx, y * scale + ty), '_hit': point.hit})
+                       'point': (x * scale + tx, y * scale + ty), '_hit': point.hit, 'removed': point.removed})
     return tuple(result)
 
 
@@ -764,7 +765,9 @@ def inspect_net(scene, name):
             continue
         attrs = 'data-role="inspected-net-item" stroke="#176cba" stroke-width="2.4" fill="none"'
         hit = item.get('_hit', ())
-        if hit and hit[0] == 'line':
+        # Keep dashed removals visible as a comparison, without a solid line
+        # that would make the old trace look present in the candidate.
+        if hit and hit[0] == 'line' and not item.get('removed'):
             scale, tx, ty = scene['mm_to_svg']
             (x1, y1), (x2, y2) = hit[1:3]
             marks.append(f'<path {attrs} d="M {x1 * scale + tx} {y1 * scale + ty} '

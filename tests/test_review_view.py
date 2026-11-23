@@ -342,6 +342,26 @@ class WorkspaceFindings(unittest.TestCase):
         self.assertEqual(net['items'], scene['items'])
         self.assertIs(view.inspect_net(scene, 'a'), scene)
 
+    def test_net_highlight_keeps_removed_track_dashes_visible(self):
+        from autorouter import sexpr
+        from xml.etree import ElementTree
+
+        def track(y):
+            return sexpr.parse(f'(segment (start 1 {y}) (end 10 {y}) (width .2) (layer "F.Cu") (net "A"))')
+
+        diagrams, _ = view.routing_diagrams({'removed': (track(5),), 'added': (track(2),)}, ['F.Cu'],
+                                           workspace=True, net_for=lambda _: 'A')
+        scene = diagrams['F.Cu']
+        marked = view.inspect_net(scene, 'A')
+        self.assertIn('stroke-dasharray=', marked['svg'])
+        self.assertEqual(marked['items'], scene['items'])
+        marks = [node for node in ElementTree.fromstring(marked['svg'])
+                 if node.get('data-role') == 'inspected-net-item']
+        self.assertEqual([node.tag.rsplit('}', 1)[-1] for node in marks], ['circle', 'path'])
+        removed = next(item for item in marked['items'] if item['removed'])
+        self.assertEqual(tuple(float(marks[0].get(axis)) for axis in ('cx', 'cy')), removed['point'])
+        self.assertIn('Removed copper', removed['detail'])
+
     def test_coincident_pads_are_ambiguous_and_oval_pads_are_marked(self):
         oval = '6eb967ef-066c-4f4f-883c-6869113a5e8e'
         extra = f'''(footprint "overlap" (at 9 7) (layer "F.Cu") (property "Reference" "X1")
