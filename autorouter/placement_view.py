@@ -370,6 +370,21 @@ def screen_point(display, point, size):
     return nx, ny
 
 
+def view_transform(content_size, canvas_size, zoom, centre):
+    """Project SVG coordinates into logical pixels; use the inverse for picking."""
+    width, height = canvas_size
+    sw, sh = content_size
+    fit = min(width / sw, height / sh)
+    scale = fit * zoom
+    x, y = centre if centre is not None else (sw / 2, sh / 2)
+    return scale, width / 2 - x * scale, height / 2 - y * scale
+
+
+def view_point(transform, point):
+    scale, ox, oy = transform
+    return (point[0] - ox) / scale, (point[1] - oy) / scale
+
+
 def pick_component(display, point, size):
     """Return one unambiguous visible identity; eligibility stays in the core."""
     xy = screen_point(display, point, size)

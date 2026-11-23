@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 
-from autorouter import gui
+from autorouter import board_review_gui, gui, placement_gui
 from tests import test_gui as base
 
 
@@ -19,6 +19,7 @@ def passive_wx():
         def __init__(self, parent=None, *args, **kwargs):
             self.parent = parent; self.value = kwargs.get('value', '')
             self.label = kwargs.get('label', ''); self.selection = 0
+            self.items = []
             self.size = kwargs.get('size'); self.minimum = None
             self.wrap_widths = []; self.bindings = []; self.sizer = None
             self.font = Mock()
@@ -32,8 +33,12 @@ def passive_wx():
         def SetSizer(self, value): self.sizer = value
         def SetSelection(self, value): self.selection = value
         def GetSelection(self): return self.selection
+        def Set(self, items): self.items = list(items)
+        def SetStringSelection(self, item): self.selection = self.items.index(item)
+        def GetStringSelection(self): return self.items[self.selection] if 0 <= self.selection < len(self.items) else ''
         def GetValue(self): return self.value
         def SetValue(self, value): self.value = value
+        def ChangeValue(self, value): self.value = value
         def SetLabel(self, value): self.label = value
         def GetLabel(self): return self.label
         def GetClientSize(self):
@@ -47,6 +52,7 @@ def passive_wx():
         def __init__(self, *args, **kwargs): self.children = []
         def Add(self, child, *args, **kwargs): self.children.append((child, args, kwargs))
         def AddGrowableCol(self, *args): pass
+        def AddStretchSpacer(self, *args): pass
     class Wx(SimpleNamespace):
         def __getattr__(self, name): return name if name.startswith('EVT_') else 0
     return Wx(Frame=Widget, ScrolledWindow=Widget, StaticText=Widget, Button=Widget,
@@ -77,6 +83,38 @@ class WindowFactory(unittest.TestCase):
 
     def wx(self, application):
         return SimpleNamespace(GetApp=Mock(return_value=application), App=Mock(), CallAfter=Mock())
+
+    def test_board_search_restores_base_scene_and_filters_the_exact_net(self):
+        wx = passive_wx(); wx.Panel = wx.Frame; wx.ComboBox = wx.Choice; wx.Colour = str
+        canvas = Mock()
+        first = dict(id='a', label='J1 pad 1', kind='pad', net='GND', detail='Through-hole', point=(5, 5))
+        second = dict(id='b', label='Track 1', kind='track', net='GND', detail='Protected', point=(20, 5))
+        scene = dict(svg='<svg></svg>', size=(100, 100), items=(first, second))
+        with patch.object(placement_gui, 'board_canvas', return_value=canvas), \
+                patch.object(board_review_gui.chrome, 'colours', return_value=('#000000',) * 3), \
+                patch.object(board_review_gui.review_view, 'inspect_item', return_value={'marked': first}):
+            view = board_review_gui.board_review(wx, None, Mock(), empty_note='Owned board')
+            view.set_view(scene=scene)
+            view.select('a')
+            canvas.SetScene.assert_called_with({'marked': first}, keep_view=True)
+            view.objects.SetValue('GND')
+            view.object_search(None)
+            self.assertIsNone(view.selected_item())
+            self.assertEqual(view.ids, ['a', 'b'])
+            self.assertEqual(view.objects.GetValue(), 'GND')
+            canvas.SetScene.assert_called_with(scene, keep_view=True)
+            view.item_title.SetLabelText.assert_called_with('GND · 2 items')
+
+    def test_passive_inspector_reports_a_raster_failure(self):
+        wx = passive_wx(); wx.Panel = wx.Frame; wx.ComboBox = wx.Choice; wx.Colour = str
+        canvas = Mock(); failure = Mock()
+        with patch.object(placement_gui, 'board_canvas', return_value=canvas), \
+                patch.object(board_review_gui.chrome, 'colours', return_value=('#000000',) * 3):
+            view = board_review_gui.board_review(wx, None, failure, empty_note='Owned board')
+            canvas.SetScene.side_effect = [ValueError('owned raster failure'), None]
+            self.assertFalse(view.redraw())
+        failure.assert_called_once_with('owned raster failure')
+        canvas.SetScene.assert_called_with(None)
 
     def test_existing_application_gets_one_unshown_frame_and_exact_guard(self):
         origin = self.root / 'origin.json'; origin.write_bytes(b'checked origin')

@@ -57,6 +57,59 @@ def canvas(on_error, on_ready=None):
 
 
 class PlacementGuiTests(unittest.TestCase):
+    def test_refine_returns_to_current_saved_source_and_revokes_the_draft(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp).resolve() / 'owned.kicad_pcb'
+            source.write_bytes(b'exact saved source')
+            captured = dict(source=str(source), source_hashes=gui.source_inventory(source))
+            window = self.window()
+            child = object()
+            window.routing = child
+            window.board = Mock(); window.board.GetValue.return_value = str(source)
+            window.refinement_context = Mock(); window.assistant_request = Mock()
+            window.assistant_result = Mock(); window.conversation = Mock(); window.pages = Mock()
+            window.conversation.summary_for.return_value = 'Original saved request'
+            window.invalidate_copilot = Mock(); window.revoke = Mock()
+            window_method('routing_closed')(window, child, captured, refinement='R2')
+            self.assertIsNone(window.routing)
+            window.invalidate_copilot.assert_called_once_with()
+            window.revoke.assert_called_once_with(discard=True)
+            window.conversation.summary_for.assert_called_once_with(source, captured['source_hashes'])
+            window.assistant_result.ChangeValue.assert_called_once_with('Original saved request')
+            window.refinement_context.SetLabelText.assert_called_once_with('Inspected board item · R2')
+            window.pages.ChangeSelection.assert_called_once_with(2)
+            window.assistant_request.SetFocus.assert_called_once_with()
+            window.assistant_request.ChangeValue.assert_not_called()
+
+    def test_refinement_refuses_changed_or_locked_source_without_restoring_old_selection(self):
+        for mode in ('changed', 'locked'):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temp:
+                source = Path(temp).resolve() / 'owned.kicad_pcb'
+                source.write_bytes(b'exact saved source')
+                captured = dict(source=str(source), source_hashes=gui.source_inventory(source))
+                if mode == 'changed':
+                    source.write_bytes(b'new saved revision')
+                else:
+                    (source.parent / '~owned.kicad_pro.lck').write_text('owned test lock')
+                window = self.window()
+                child = object(); window.routing = child; window.inspection = captured
+                window.board = Mock(); window.board.GetValue.return_value = str(source)
+                window.refinement_context = Mock(); window.assistant_request = Mock()
+                window.assistant_result = Mock(); window.conversation = Mock(); window.inspect = Mock()
+                window.invalidate_copilot = Mock(); window.revoke = Mock(); window.update_schematic_view = Mock()
+                callback = window_method('routing_closed')
+                callback(window, object(), captured, refinement='R2')
+                self.assertIs(window.routing, child)
+                callback(window, child, captured, refinement='R2')
+                self.assertIsNone(window.inspection)
+                window.parts.Set.assert_called_with([])
+                window.refinement_context.Show.assert_not_called()
+                window.conversation.summary_for.assert_not_called()
+                window.inspect.SetFocus.assert_called_once_with()
+                window.revoke.assert_called_once_with(discard=True)
+                window.assistant_request.ChangeValue.assert_not_called()
+                self.assertIn('Refinement needs a fresh inspection', window.message.call_args.args[0])
+
     def test_idle_return_revokes_approval_and_retains_pending_pose(self):
         w = self.window()
         old = w.gate.review
@@ -146,15 +199,17 @@ class PlacementGuiTests(unittest.TestCase):
             cancel_event=threading.Event(), inspection=gate.review.inspection,
             picture=Mock(), pages=Mock(), alternative=Mock(), part=Mock(), parts=Mock(),
             x=Mock(), y=Mock(), status=Mock(), timer=Mock(), findings=Mock(),
-            assistant_ack=Mock(), assistant_result=Mock(),
+            assistant_ack=Mock(), assistant_result=Mock(), assistant_request=Mock(),
             constraint_offer=None, constraint_key=Mock(), update_schematic_view=Mock(),
             copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
             current_review_settings=Mock(), overview=Mock(), region_summary=Mock(),
             refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock(), SetTitle=Mock(),
             panel=Mock(), GetSizer=Mock(), Layout=Mock())
         window.open_saved_source = MethodType(window_method('open_saved_source'), window)
+        window.routing_closed = MethodType(window_method('routing_closed'), window)
         window.navigation_available = MethodType(window_method('navigation_available'), window)
         window.picture.Ready.return_value = True
+        window.assistant_request.GetValue.return_value = ''
         window.copper_policy.GetSelection.return_value = 0
         window.rigid_group.GetValue.return_value = False
         window.target_region.GetValue.return_value = False

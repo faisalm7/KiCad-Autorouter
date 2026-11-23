@@ -250,7 +250,7 @@ def affected_routing_notice(source):
     return ''
 
 
-def saved_routing_scene(inspection, placement):
+def saved_routing_scene(inspection, placement, *, detailed=False):
     """Build optional saved context using the existing bounded board renderer."""
     try:
         if placement is None or placement['source_hashes'] != inspection['source_hashes']:
@@ -258,6 +258,13 @@ def saved_routing_scene(inspection, placement):
         if (placement['source'] != inspection['source']
                 or placement['source_hashes'] != inspection['source_hashes']):
             return None
+        if detailed:
+            from .review_view import saved_workspace
+
+            source = Path(inspection['source'])
+            render = saved_workspace(dict(source=str(source), source_sha256=inspection['source_hashes'][source.name]))
+            if render['diagrams']:
+                return render
         return placement_view.saved_scene(placement['observation'])
     except (OSError, ValueError, KeyError, TypeError, IndexError, Rejected):
         return None  # Drawing limits do not change routing eligibility.
@@ -591,24 +598,34 @@ def write_new_json(path, value):
     return path
 
 
-def bitmap_with_labels(wx, svg, size=(850, 500), *, min_text_pixels=9):
+def bitmap_with_labels(wx, svg, size=(850, 500), *, min_text_pixels=9, viewport=None):
     """wx's SVG rasterizer omits text; paint only our passive renderer's labels."""
     image = wx.svg.SVGimage.CreateFromBytes(svg.encode())
-    scale = min(size[0] / image.width, size[1] / image.height)
-    bitmap = image.ConvertToBitmap(scale=scale, width=round(image.width * scale), height=round(image.height * scale))
+    if viewport is None:
+        scale = min(size[0] / image.width, size[1] / image.height)
+        ox = oy = 0
+        bitmap = image.ConvertToBitmap(scale=scale, width=round(image.width * scale), height=round(image.height * scale))
+    else:
+        scale, ox, oy = viewport
+        bitmap = image.ConvertToBitmap(tx=ox, ty=oy, scale=scale, width=size[0], height=size[1])
     dc = wx.MemoryDC(bitmap)
     for node in ET.fromstring(svg).findall('{http://www.w3.org/2000/svg}text'):
         font = wx.Font(wx.FontInfo(10).Family(wx.FONTFAMILY_SWISS))
-        font.SetPixelSize(wx.Size(0, max(min_text_pixels, round(float(node.get('font-size')) * scale))))
+        pixels = max(min_text_pixels, round(float(node.get('font-size')) * scale))
+        if viewport is not None:
+            pixels = min(pixels, round(min_text_pixels * 1.55))
+        font.SetPixelSize(wx.Size(0, pixels))
         if node.get('font-weight') == 'bold': font = font.Bold()
         dc.SetFont(font); dc.SetTextForeground(wx.Colour(node.get('fill')))
         text = node.text or ''; _, height, descent, _ = dc.GetFullTextExtent(text)
-        dc.DrawText(text, round(float(node.get('x')) * scale), round(float(node.get('y')) * scale - height + descent))
+        dc.DrawText(text, round(float(node.get('x')) * scale + ox),
+                    round(float(node.get('y')) * scale + oy - height + descent))
     dc.SelectObject(wx.NullBitmap)
     return bitmap
 
 
 def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, read_only=False,
+                 on_inspect=None, on_view=None,
                  empty_note='Choose a saved project to see its board and components.'):
     """Responsive display/picking only; commits use ordinary settings handlers."""
     class Canvas(wx.Panel):
@@ -617,6 +634,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
             self.display = None; self.bitmap = None; self.draw_area = False
             self.empty_note = empty_note
             self.drag_start = None; self.drag_end = None; self.render_key = None
+            self.zoom = 1.; self.centre = None; self.pan_origin = None
             self.SetMinSize(self.FromDIP((210, 150) if read_only else (320, 180)))
             self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
             self.Bind(wx.EVT_PAINT, self.paint)
@@ -628,10 +646,22 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
                 self.Bind(wx.EVT_LEFT_UP, self.up)
                 self.Bind(wx.EVT_MOUSE_CAPTURE_LOST, self.capture_lost)
                 self.Bind(wx.EVT_CHAR_HOOK, self.key)
+            elif on_inspect is not None:
+                self.SetName('Board drawing')
+                self.SetToolTip('Click to inspect. Drag to pan when zoomed. Use +, −, 0 and the arrow keys.')
+                self.Bind(wx.EVT_LEFT_DOWN, self.begin_pan)
+                self.Bind(wx.EVT_LEFT_UP, self.end_pan)
+                self.Bind(wx.EVT_MOTION, self.move_pan)
+                self.Bind(wx.EVT_MOUSE_CAPTURE_LOST, lambda _: self.clear_pan())
+                self.Bind(wx.EVT_MOUSEWHEEL, self.wheel)
+                self.Bind(wx.EVT_KEY_DOWN, self.view_key)
 
-        def SetScene(self, value):
+        def SetScene(self, value, *, keep_view=False):
             self.display = None; self.bitmap = None; self.render_key = None
             self.drag_start = self.drag_end = None
+            self.pan_origin = None
+            if not keep_view:
+                self.zoom = 1.; self.centre = None
             if self.HasCapture(): self.ReleaseMouse()
             self.display = value
             try:
@@ -641,6 +671,8 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
                 self.display = None; self.bitmap = None; self.render_key = None
                 raise
             self.Refresh()
+            if on_view is not None:
+                on_view(self.zoom)
 
         def Ready(self):
             return self.display is not None and self.bitmap is not None and self.render_key == self.view_size()
@@ -654,15 +686,97 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
             width, height = self.GetClientSize()
             return width, height, self.GetContentScaleFactor()
 
+        def transform(self):
+            return placement_view.view_transform(self.display['size'], self.GetClientSize(), self.zoom, self.centre)
+
+        def change_view(self, zoom, centre=None):
+            if self.display is None:
+                return
+            self.zoom = max(1., min(8., zoom))
+            self.centre = (None if self.zoom == 1 or centre is None else
+                           tuple(max(0., min(value, limit)) for value, limit in zip(centre, self.display['size'])))
+            self.render_key = None
+            self.Refresh()
+            if on_view is not None:
+                on_view(self.zoom)
+
+        def magnify(self, factor):
+            self.change_view(self.zoom * factor, self.centre)
+
+        def focus_item(self, point):
+            self.change_view(max(self.zoom, 2.), point)
+
+        def wheel(self, event):
+            if self.display is None or not event.GetWheelRotation():
+                event.Skip(); return
+            self.magnify(1.5 if event.GetWheelRotation() > 0 else 1 / 1.5)
+
+        def view_key(self, event):
+            key = event.GetKeyCode()
+            directions = {wx.WXK_LEFT: (-1, 0), wx.WXK_RIGHT: (1, 0),
+                          wx.WXK_UP: (0, -1), wx.WXK_DOWN: (0, 1)}
+            if key in (ord('+'), ord('='), wx.WXK_ADD): self.magnify(1.5)
+            elif key in (ord('-'), wx.WXK_SUBTRACT): self.magnify(1 / 1.5)
+            elif key == ord('0'): self.change_view(1.)
+            elif key in directions and self.display is not None and self.zoom > 1:
+                width, height = self.GetClientSize()
+                dx, dy = directions[key]
+                if min(width, height) > 0:
+                    self.change_view(self.zoom, placement_view.view_point(self.transform(),
+                        (width / 2 + dx * 38, height / 2 + dy * 38)))
+            else: event.Skip()
+
+        def begin_pan(self, event):
+            if self.display is None:
+                return
+            self.SetFocus()
+            point = tuple(event.GetPosition())
+            self.pan_origin = (point, self.transform())
+            self.CaptureMouse()
+
+        def clear_pan(self):
+            self.pan_origin = None
+            if self.HasCapture(): self.ReleaseMouse()
+
+        def move_pan(self, event):
+            if self.pan_origin is None or self.zoom == 1 or not event.Dragging():
+                event.Skip(); return
+            start, transform = self.pan_origin
+            x, y = event.GetPosition()
+            dx, dy = x - start[0], y - start[1]
+            if max(abs(dx), abs(dy)) > 3:
+                width, height = self.GetClientSize()
+                self.change_view(self.zoom, placement_view.view_point(transform, (width / 2 - dx, height / 2 - dy)))
+
+        def end_pan(self, event):
+            origin = self.pan_origin
+            self.clear_pan()
+            if origin is None or self.display is None:
+                return
+            point = tuple(event.GetPosition())
+            if max(abs(a - b) for a, b in zip(point, origin[0])) <= 3:
+                from .review_view import pick_item
+                transform = self.transform()
+                identity = pick_item(self.display, placement_view.view_point(transform, point), 5 / transform[0])
+                if identity is not None:
+                    on_inspect(identity)
+
         def prepare_bitmap(self):
             key = self.view_size()
             width, height, factor = key
             if width <= 0 or height <= 0:
                 return
             if self.bitmap is None or key != self.render_key:
-                bitmap = bitmap_with_labels(wx, self.display['svg'],
-                    (max(1, round(width * factor)), max(1, round(height * factor))),
-                    min_text_pixels=max(9, round(9 * factor)))
+                pixels = (max(1, round(width * factor)), max(1, round(height * factor)))
+                if on_inspect is not None:
+                    if pixels[0] * pixels[1] > 16 * 1024**2:
+                        raise ValueError('Reduce the window size to draw this high-DPI board.')
+                    viewport = tuple(value * factor for value in self.transform())
+                    bitmap = bitmap_with_labels(wx, self.display['svg'], pixels,
+                        min_text_pixels=max(11, round(11 * factor)), viewport=viewport)
+                else:
+                    bitmap = bitmap_with_labels(wx, self.display['svg'], pixels,
+                        min_text_pixels=max(9, round(9 * factor)))
                 bitmap.SetScaleFactor(factor)
                 self.bitmap = bitmap; self.render_key = key
                 if on_ready is not None:
@@ -671,7 +785,10 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
         def resized(self, event):
             # Cocoa can send a size event for an unchanged canvas whenever the
             # acknowledgement lays out the buttons. Keep that exact raster.
-            if self.render_key != self.view_size(): self.Refresh()
+            if self.render_key != self.view_size():
+                if on_inspect is not None:
+                    self.clear_pan()
+                self.Refresh()
             event.Skip()
 
         def paint(self, _):
@@ -685,7 +802,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
 
         def paint_scene(self):
             dc = wx.AutoBufferedPaintDC(self)
-            dc.SetBackground(wx.Brush(wx.Colour('#ffffff'))); dc.Clear()
+            dc.SetBackground(wx.Brush(wx.Colour('#f3f7f6' if on_inspect is not None else '#ffffff'))); dc.Clear()
             width, height = self.GetClientSize()
             if self.display is None:
                 dc.SetTextForeground(wx.Colour('#526273'))
@@ -693,6 +810,9 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
                 return
             if width <= 0 or height <= 0: return
             self.prepare_bitmap()
+            if on_inspect is not None:
+                dc.DrawBitmap(self.bitmap, 0, 0, True)
+                return
             fit = min(width/self.display['size'][0], height/self.display['size'][1])
             px = round((width-self.display['size'][0]*fit)/2)
             py = round((height-self.display['size'][1]*fit)/2)
@@ -959,6 +1079,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             board_layout.Add(self.native_summary, 0, wx.EXPAND | wx.BOTTOM, 5)
             self.picture = board_canvas(wx, board_page, self.pick_on_board, self.area_on_board, self.preview_failed, self.preview_ready)
             board_layout.Add(self.picture, 1, wx.EXPAND)
+            from .board_review_gui import board_review
+            self.saved_picture = board_review(wx, board_page, self.saved_picture_failed,
+                empty_note='Choose a saved project to inspect its board.')
+            board_layout.Add(self.saved_picture, 1, wx.EXPAND)
+            self.saved_picture.Hide()
             self.constraint_key = wx.StaticText(board_page)
             board_layout.Add(self.constraint_key, 0, wx.EXPAND | wx.TOP | wx.BOTTOM, 5)
             self.pose_pane = wx.Panel(board_page)
@@ -992,6 +1117,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.assistant_context = wx.StaticText(assistant_inputs)
             self.assistant_context.Hide()
             assistant_layout.Add(self.assistant_context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.refinement_context = wx.StaticText(assistant_inputs, style=wx.ST_ELLIPSIZE_END)
+            self.refinement_context.Hide()
+            assistant_layout.Add(self.refinement_context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             assistant_layout.Add(wx.StaticText(assistant_inputs, label='Describe where parts should go'),
                                  0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 66),
@@ -1094,6 +1222,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             for action, label in (
                 ('show_board', 'Show board\tCtrl+Shift+B'),
                 ('show_findings', 'Show findings\tCtrl+Shift+F'),
+                ('inspect_item', 'Find board item\tCtrl+Shift+I'),
+                ('refine', 'Refine request…'),
                 ('preview', 'Preview routing'),
                 ('route', 'Start routing\tCtrl+Shift+R'),
                 ('cancel', 'Cancel job\tCtrl+Shift+K'),
@@ -1271,10 +1401,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 setup = (context or {}).get('pcb_setup')
                 self.picture.SetEmptyNote('PCB setup continues in KiCad.' if setup else
                     'Choose a saved project to see its board and components.')
-                self.set_board_scene(context['scene'] if context is not None else None)
+                self.set_board_scene(context['scene'] if context is not None else None,
+                                     saved_review=(context or {}).get('render'))
                 if context is not None and not setup:
                     self.board_legend = ('Saved snapshot · Read-only view' if context.get('open_in_kicad')
-                                         else 'Saved front copper · Read-only view')
+                                         else 'Saved copper · Read-only view')
                     self.constraint_key.SetLabel(self.board_legend)
                     self.region_summary.SetLabel('Placement unavailable for this project.')
                 else:
@@ -1315,14 +1446,26 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 + '\n'.join(placement_limits(self.inspection, rebuild=self.rebuild_copper(),
                     grouped=self.rigid_group.GetValue(), region_initialization=self.target_region.GetValue())))
 
-        def set_board_scene(self, scene, *, rebuild=False):
+        def set_board_scene(self, scene, *, rebuild=False, saved_review=None):
             self.board_scene = scene
             self.board_legend = ('Blue selected · Slate fixed · Amber retained · Green zones'
                                  if scene is not None else '')
             if rebuild:
                 self.board_legend = 'Blue selected · Slate fixed · Amber retained · Green zones. Rebuild plan in Findings.'
-            self.picture.SetScene(scene)
+            show_saved = bool(saved_review and saved_review['diagrams'])
+            if hasattr(self, 'saved_picture'):
+                if show_saved and self.saved_picture.render is not saved_review:
+                    self.saved_picture.set_view(saved_review)
+                elif not show_saved and self.saved_picture.IsShown():
+                    self.saved_picture.set_view()
+                self.saved_picture.Show(show_saved)
+                self.picture.Show(not show_saved)
+            self.picture.SetScene(None if show_saved else scene)
             self.constraint_key.SetLabel(self.board_legend)
+
+        def saved_picture_failed(self, reason):
+            self.message('The saved board could not be drawn. Open the source in KiCad for visual inspection.')
+            self.findings.AppendText('\nSaved drawing unavailable: ' + reason)
 
         def schematic_page_changed(self, event):
             if event.GetSelection() in (2, 3):
@@ -1612,6 +1755,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.routing_source_scene = None
                 if hasattr(self, 'assistant_request'):
                     self.assistant_request.ChangeValue('')
+                if hasattr(self, 'refinement_context'):
+                    self.refinement_context.Hide()
                 self.editor_context = None
                 self.automatic_target_area = False
                 self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
@@ -1990,7 +2135,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         inspection, controls, request=binding['request'], revision=binding['revision'])
                     prepared = hosted.prepare_conversation(review, binding['request'], transcript,
                                                             inspection=inspection, routing=routing)
-                    scene = saved_routing_scene(inspection, placement) if routing else None
+                    scene = saved_routing_scene(inspection, placement, detailed=True) if routing else None
                     return review, inspection, prepared, scene
 
                 def current():
@@ -2424,6 +2569,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             first_inspection = self.inspection is None and self.saved_route_context is None
             three_pad = hasattr(self, 'three_pad') and self.three_pad.GetValue()
             self.invalidate_copilot()
+            if hasattr(self, 'refinement_context'):
+                self.refinement_context.Hide()
             self.inspection = None; self.saved_native = None; self.saved_route_context = None; self.parts.Set([])
             self.revoke(discard=True)
             self.schematic = None; self.schematic_refusal = ''
@@ -2516,7 +2663,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if static is None:
                     static = design_intent.inspect_project(source)
                 setup = static.get('pcb_setup')
-                scene = review_view.saved_board_front(static)
+                render = review_view.saved_workspace(static)
+                scene = render['diagrams'].get('F.Cu') if render is not None else None
                 if scene is None and not setup:
                     return None
                 assigned = None
@@ -2535,7 +2683,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     else:
                         schematic = schematic_context.observe(source, static['source_hashes'])
                 reason = gui.short_failure_reason(reason) or 'The saved board exceeds the current placement scope.'
-                context = dict(static=static, scene=scene, reason=reason, open_in_kicad=open_in_kicad,
+                context = dict(static=static, scene=scene, render=render, reason=reason, open_in_kicad=open_in_kicad,
                                pcb_setup=setup, assigned_footprints=assigned)
                 return (None, *schematic, '', None, context)
 
@@ -2918,6 +3066,46 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.revoke(dirty=self.gate.dirty)
                 self.message('Qualification refused: ' + str(exc))
 
+        def routing_closed(self, frame, captured, *, refinement=None):
+            if self.routing is not frame:
+                return
+            self.routing = None
+            if self.gate.closed:
+                self.finish_close(); return
+            self.panel.Show()
+            if refinement is None:
+                self.Layout(); self.refresh(); return
+            self.refinement_context.Hide()
+            try:
+                if captured is None:
+                    raise ValueError('Inspect the saved project before reviewing new settings.')
+                source = require_closed_source(self.board.GetValue(), inspection=captured)
+            except (OSError, ValueError, Rejected) as exc:
+                self.inspection = self.saved_native = self.saved_route_context = self.schematic = None
+                self.toolbar_selection = ()
+                self.parts.Set([])
+                self.invalidate_copilot()
+                self.revoke(discard=True)
+                self.assistant_result.ChangeValue('Earlier conversation is kept for its saved revision. Refresh to continue.')
+                self.schematic_refusal = 'Schematic context needs a fresh inspection.'
+                self.update_schematic_view()
+                self.message('Refinement needs a fresh inspection. ' + str(exc))
+                self.inspect.SetFocus()
+                return
+            self.invalidate_copilot()
+            self.revoke(discard=True)
+            self.assistant_result.ChangeValue(self.conversation.summary_for(source, captured['source_hashes'])
+                                              or CONVERSATION_EMPTY)
+            context = ('Inspected board item · ' + refinement if refinement else
+                       'Edit the request, then preview fresh settings.')
+            self.refinement_context.SetLabelText(context)
+            self.refinement_context.SetToolTip(context)
+            self.refinement_context.Show()
+            self.pages.ChangeSelection(2)
+            self.layout_panel()
+            self.message('Refining the saved source. Earlier reviews and approvals do not carry over.')
+            self.assistant_request.SetFocus()
+
         def open_routing(self, _, *, preview=False):
             if self.busy or self.gate.closed:
                 return
@@ -2938,19 +3126,17 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     if self.routing.source_guard is not result['guard']:
                         raise ValueError('The previous routing window is closing. Wait before opening the new candidate.')
                     self.routing.Raise(); return
-                def finished():
-                    if self.routing is frame:
-                        self.routing = None
-                        if self.gate.closed: self.finish_close()
-                        else:
-                            self.panel.Show(); self.Layout(); self.refresh()
+                captured = self.inspection
                 history = (self.conversation.summary_for(self.inspection['source'], self.inspection['source_hashes'])
                            if self.conversation.has_display_history else '')
                 note = ('Placement checked. Routing keeps all existing copper.'
                         if self.gate.review.copper_plan is None else
                         'Placement checked. Routing uses a separate project copy.')
-                frame = gui.create_window(candidate, source_guard=result['guard'], on_closed=finished,
+                frame = gui.create_window(candidate, source_guard=result['guard'],
+                    on_closed=lambda: self.routing_closed(frame, captured),
+                    on_refine=lambda item: self.routing_closed(frame, captured, refinement=item),
                     parent=self, placement_scene=self.picture.display, conversation_history=history,
+                    conversation_request=self.assistant_request.GetValue(),
                     on_saved_source=self.open_saved_source, source_note=note,
                     placement_findings=self.findings.GetValue(), launcher_manifest=launcher_manifest)
                 try:
@@ -3035,13 +3221,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         selected_prefill = True
             if guard is not None: guard.check(source)
 
-            def finished():
-                self.routing = None
-                if self.gate.closed:
-                    self.finish_close()
-                else:
-                    self.panel.Show(); self.Layout(); self.refresh()
-
             view = getattr(self, 'routing_source_scene', None) if values is not None else None
             current = gui.source_inventory(source) if self.conversation.has_display_history or view is not None else None
             history = self.conversation.summary_for(source, current)
@@ -3051,7 +3230,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if read_only is not None:
                 static = read_only['static']
                 require_closed_source(source, inspection=static)
-                scene = read_only['scene']
+                scene = read_only.get('render') or read_only['scene']
                 try:
                     names = routing_scope.validate_names([row['name'] for row in static['nets']])
                 except ValueError:
@@ -3059,7 +3238,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 else:
                     net_context = dict(source=str(source), source_hashes=static['source_hashes'], names=names)
             if scene is None and self.inspection is not None and self.inspection['source'] == str(source):
-                scene = saved_routing_scene({'source': str(source), 'source_hashes': current or gui.source_inventory(source)}, self.inspection)
+                scene = saved_routing_scene({'source': str(source), 'source_hashes': current or gui.source_inventory(source)},
+                                            self.inspection, detailed=True)
                 if guard is None:
                     footprints = self.inspection.get('observation', {}).get('footprints', ())
                     names = sorted({pad['net'] for part in footprints
@@ -3070,8 +3250,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         pass  # Keep exact manual entry for boards without a usable list.
                     else:
                         net_context = dict(source=str(source), source_hashes=self.inspection['source_hashes'], names=names)
-            frame = gui.create_window(source, source_guard=guard, on_closed=finished, parent=self,
-                                      conversation_history=history, saved_scene=scene, saved_net_context=net_context,
+            frame = gui.create_window(source, source_guard=guard, parent=self,
+                                      on_closed=lambda: self.routing_closed(frame, captured),
+                                      on_refine=lambda item: self.routing_closed(frame, captured, refinement=item),
+                                      conversation_history=history, conversation_request=self.assistant_request.GetValue(),
+                                      saved_scene=scene, saved_net_context=net_context,
                                       on_saved_source=self.open_saved_source, launcher_manifest=launcher_manifest)
             try:
                 if self.routing_output_hint is not None:

@@ -133,9 +133,13 @@ class ConversationChecks(unittest.TestCase):
         view = placement_gui.saved_routing_scene(captured, None)
         self.assertIn('preserved-segment', view['svg'])
         self.assertNotIn('allowed-region', view['svg'])
+        details = placement_gui.saved_routing_scene(captured, None, detailed=True)
+        self.assertEqual(set(details['diagrams']), {'F.Cu', 'B.Cu'})
+        self.assertIsNone(details['counts'])
+        self.assertTrue(any(item['kind'] == 'pad' for item in details['diagrams']['F.Cu']['items']))
         project = self.board.with_suffix('.kicad_pro')
         project.write_bytes(project.read_bytes() + b'\n')
-        self.assertIsNone(placement_gui.saved_routing_scene(captured, None))
+        self.assertIsNone(placement_gui.saved_routing_scene(captured, None, detailed=True))
 
     def test_history_has_a_finite_size_and_cannot_retain_a_forged_clarification(self):
         history = conversation.Conversation()

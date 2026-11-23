@@ -1,5 +1,12 @@
 # Current state
 
+**Design review and refinement in qualification.** The saved and checked board
+views now share bounded layer navigation, shape and copper inspection, and
+finding locations. Refine returns to the original project for a fresh review.
+The declaration uses the retained 13-action task and one denser read-only
+board. Installed observation and comparable delivery remain separate checks.
+[Design and acceptance](docs/design-review-refinement.md)
+
 **Guided workflow verified on the installed `0b4687f85` build.** The licensed
 PushButtonLed task used 13 normal actions, down from 19, and passed independent
 readback at 366.4 seconds under the original 420-second cap. The timer includes

@@ -1297,6 +1297,8 @@ def _finish_window_close(window):
     callback = getattr(window, '_on_closed', None)
     next_source = getattr(window, '_next_saved_source', None)
     open_source = getattr(window, '_on_saved_source', None)
+    refinement = getattr(window, '_refinement', None)
+    refine = getattr(window, '_on_refine', None)
     window._close_finalized = True
     window.timer.Stop(); window.Destroy()
     if next_source is not None and open_source is not None:
@@ -1306,6 +1308,9 @@ def _finish_window_close(window):
                 callback()
             open_source(next_source)
         wx.CallAfter(restart)
+    elif refinement is not None and refine is not None:
+        import wx
+        wx.CallAfter(refine, refinement)
     elif callback is not None:
         import wx
         wx.CallAfter(callback)
@@ -1365,7 +1370,12 @@ def routing_menu_ready(window, action):
         return False
     if action in ('show_board', 'show_findings'):
         return not window.busy
-    control = window.inspected if action == 'acknowledge' else window.buttons.get(action)
+    if action == 'inspect_item':
+        return not window.busy and bool(getattr(window, 'board_review', None) and window.board_review.items)
+    if action == 'refine':
+        control = getattr(window, 'refine_button', None)
+    else:
+        control = window.inspected if action == 'acknowledge' else window.buttons.get(action)
     return control is not None and control.IsShownOnScreen() and control.IsEnabled()
 
 
@@ -1375,6 +1385,9 @@ def routing_menu_action(window, action, *, checked=False):
         return
     if action in ('show_board', 'show_findings'):
         window.workspace_tabs.SetSelection(0 if action == 'show_board' else 1)
+    elif action == 'inspect_item':
+        window.workspace_tabs.SetSelection(0)
+        window.board_review.objects.SetFocus()
     elif action == 'acknowledge':
         window.inspected.SetValue(checked)
         window.refresh()
@@ -1384,7 +1397,8 @@ def routing_menu_action(window, action, *, checked=False):
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
                   placement_scene=None, conversation_history='', saved_scene=None, saved_net_context=None,
-                  on_saved_source=None, placement_findings='', launcher_manifest=None):
+                  on_saved_source=None, placement_findings='', launcher_manifest=None,
+                  conversation_request='', on_refine=None):
     """Create routing controls in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1394,6 +1408,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
         raise ValueError('The parent close notification must be a callable.')
     if on_saved_source is not None and (parent is None or not callable(on_saved_source)):
         raise ValueError('Starting from an exported copy needs the saved-project workspace.')
+    if on_refine is not None and (parent is None or not callable(on_refine)):
+        raise ValueError('Refining a request needs the saved-project workspace.')
     try: import wx
     except ImportError as exc:
         raise SystemExit('wx is unavailable. Launch with the pinned KiCad bundled Python; no packages were installed.') from exc
@@ -1418,6 +1434,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.flow = None; self.job = None; self.busy = False; self.closing = False
             self._on_closed = on_closed; self._close_finalized = False
             self._on_saved_source = on_saved_source
+            self._on_refine = on_refine
             self._next_saved_source = None
             self.exported_project = None
             self.source_guard = source_guard
@@ -1568,14 +1585,30 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 panel.SetBackgroundColour(wx.Colour(surface))
                 history_layout = wx.BoxSizer(wx.VERTICAL)
                 heading = chrome.heading(wx.StaticText(history_host, label='Conversation'), 15)
-                history_layout.Add(heading, 0, wx.ALL, 8)
-                self.workspace_transcript = wx.TextCtrl(history_host,
-                    value=conversation_history or 'Return to the saved workspace to write a request.',
-                    size=(-1, 86), name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
-                self.workspace_transcript.SetInsertionPoint(0)
-                history_layout.Add(self.workspace_transcript, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+                history_layout.Add(heading, 0, wx.LEFT | wx.RIGHT | wx.TOP, 9)
+                if conversation_request.strip():
+                    request = wx.TextCtrl(history_host, value=conversation_request, size=(-1, 70),
+                        name='Request from workspace', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_NOHIDESEL)
+                    request.SetInsertionPoint(0)
+                    history_layout.Add(request, 0, wx.EXPAND | wx.ALL, 8)
+                if conversation_history:
+                    history = wx.CollapsiblePane(history_host, label='Earlier turns and settings', style=wx.CP_NO_TLW_RESIZE)
+                    pane = history.GetPane(); previous = wx.BoxSizer(wx.VERTICAL)
+                    self.workspace_transcript = wx.TextCtrl(pane, value=conversation_history, size=(-1, 94),
+                        name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
+                    self.workspace_transcript.SetInsertionPoint(0)
+                    previous.Add(self.workspace_transcript, 1, wx.EXPAND)
+                    pane.SetSizer(previous)
+                    history.Bind(wx.EVT_COLLAPSIBLEPANE_CHANGED, self.layout_changed)
+                    history_layout.Add(history, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+                if on_refine is not None:
+                    refine = wx.Button(history_host, label='Refine request…', style=wx.BU_EXACTFIT)
+                    refine.SetToolTip('Return to the original saved project with your request. Review a fresh proposal before continuing.')
+                    refine.Bind(wx.EVT_BUTTON, lambda _: self.act('refine'))
+                    history_layout.Add(refine, 0, wx.ALL, 8)
+                    self.refine_button = refine
                 history_host.SetSizer(history_layout)
-                history_host.Show(bool(conversation_history))
+                history_host.Show(bool(conversation_history or conversation_request.strip() or on_refine))
                 self.stage_heading = chrome.heading(wx.StaticText(status_host), 15)
                 actions.Add(self.stage_heading, 0, wx.LEFT | wx.RIGHT | wx.TOP, 8)
                 self.stage_details = wx.StaticText(status_host, style=wx.ST_NO_AUTORESIZE)
@@ -1620,9 +1653,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             panel.SetSizer(layout)
             if self.in_workspace:
                 status_host.SetSizer(actions)
-                status_host.SetMinSize(self.FromDIP((352, -1)))
+                status_host.SetMinSize(self.FromDIP((316, -1)))
                 side = wx.BoxSizer(wx.VERTICAL)
-                panel.SetMinSize(self.FromDIP((352, 200)))
+                panel.SetMinSize(self.FromDIP((316, 148)))
                 side.Add(history_host, 0, wx.EXPAND | wx.BOTTOM, 8)
                 side.Add(panel, 1, wx.EXPAND)
                 side.Add(status_host, 0, wx.EXPAND | wx.TOP, 6)
@@ -1646,6 +1679,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
 
         def workspace_view(self, placement, saved, placement_findings):
             from .placement_gui import board_canvas
+            from .board_review_gui import board_review
             from .review_view import WORKSPACE_COLORS
             left = wx.Panel(self)
             layout = wx.BoxSizer(wx.VERTICAL)
@@ -1656,7 +1690,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             name = chrome.heading(wx.StaticText(left, label=Path(self.board.GetValue()).stem,
                 style=wx.ST_ELLIPSIZE_END | wx.ST_NO_AUTORESIZE), 18)
             identity.Add(name, 0, wx.EXPAND)
-            identity.Add(wx.StaticText(left, label='Routing and review'), 0, wx.TOP, 2)
+            self.review_caption = wx.StaticText(left, label='Saved board · routing')
+            identity.Add(self.review_caption, 0, wx.TOP, 2)
             overview.Add(identity, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 10)
             overview.Add(back, 0, wx.ALIGN_CENTER_VERTICAL)
             layout.Add(overview, 0, wx.EXPAND | wx.BOTTOM, 8)
@@ -1668,22 +1703,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.placement_scene = placement
             self.saved_scene = saved
             self.workspace_render = None
-            self.review_layers = wx.Choice(copper)
-            self.review_layers.Bind(wx.EVT_CHOICE, self.display_layer)
-            self.review_caption = wx.StaticText(copper)
-            row = wx.BoxSizer(wx.HORIZONTAL)
-            row.Add(self.review_layers, 0, wx.RIGHT, 8)
-            row.Add(self.review_caption, 1, wx.ALIGN_CENTER_VERTICAL)
-            drawing.Add(row, 0, wx.EXPAND | wx.ALL, 6)
-            self.review_locations = wx.Choice(copper, name='Highlight a board item from Findings')
-            self.review_locations.SetMinSize(self.FromDIP((230, -1)))
-            self.review_locations.SetToolTip('Highlights the referenced part, pad, via or start of a trace. '
-                                             'See Findings for the location KiCad reported.')
-            self.review_locations.Bind(wx.EVT_CHOICE, self.display_finding)
-            drawing.Add(self.review_locations, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 6)
-            self.review_picture = board_canvas(wx, copper, None, None, self.review_picture_failed, read_only=True,
-                empty_note='Create a checked review to see routing changes.')
-            drawing.Add(self.review_picture, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 6)
+            self.board_review = board_review(wx, copper, self.review_picture_failed,
+                empty_note='The checked board will appear with the routing result.')
+            drawing.Add(self.board_review, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 6)
             self.review_key = wx.Panel(copper); key = wx.BoxSizer(wx.HORIZONTAL)
             key.Add(wx.StaticText(self.review_key, label='All layers'), 0, wx.RIGHT, 10)
             self.key_colors = {}
@@ -1717,76 +1739,44 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
         def show_workspace_review(self, render):
             self.workspace_render = render
             diagrams = render['diagrams'] if render else {}
-            locations = [('Highlight an item from Findings…', None, ())]
-            if diagrams:
-                locations += [(row['label'] if len(row['label']) <= 52 else row['label'][:51] + '…', row['index'], row['layers'])
-                              for row in render.get('findings', ()) if row['layers']]
-            self.review_location_rows = locations
-            self.review_locations.Set([label for label, _, _ in locations])
-            self.review_locations.SetSelection(0)
-            self.review_locations.Show(len(locations) > 1)
-            self.review_layers.Set(list(diagrams))
-            self.review_layers.Show(bool(diagrams)); self.review_key.Show(bool(diagrams))
+            self.review_key.Show(bool(diagrams))
             if diagrams:
                 self.workspace_tabs.SetPageText(0, 'Copper changes')
-                self.review_layers.SetSelection(0)
-                self.review_caption.SetLabel(render['caption'])
+                self.review_caption.SetLabel('Checked route · separate candidate')
                 self.review_caption.SetToolTip(render.get('context_note', ''))
                 self.review_key.SetToolTip('Counts include tracks and vias across all layers. See Detailed report for zone fill.')
                 for group, (title, label) in self.key_colors.items():
                     label.SetLabel(f"{title} {render['counts'][group]}")
                 self.workspace_tabs.SetSelection(0)
-                self.display_layer()
+                try:
+                    self.board_review.set_view(render)
+                except Exception as exc:
+                    self.review_picture_failed(str(exc))
             else:
                 self.workspace_tabs.SetPageText(0, 'Board')
                 self.review_caption.SetToolTip('')
                 self.review_caption.SetLabel('Original placement review' if self.placement_scene else
                                              'Saved board before routing' if self.saved_scene else '')
-                if self.placement_scene is not None:
-                    self.review_picture.SetScene(self.placement_scene)
-                else:
-                    try:
-                        self.review_picture.SetScene(self.saved_scene)
-                    except Exception:
-                        self.saved_scene = None
-                        self.review_picture.SetScene(None)
-                        self.review_caption.SetLabel('Saved board drawing unavailable')
+                current = self.placement_scene or self.saved_scene
+                try:
+                    if current and 'diagrams' in current:
+                        self.board_review.set_view(current)
+                    else:
+                        self.board_review.set_view(scene=current)
+                except Exception:
+                    self.board_review.set_view()
+                    self.review_caption.SetLabel('Board drawing unavailable')
                 if render:
                     self.log.AppendText('\n' + render['note'] + '\nUse Detailed report or Open review in KiCad for copper changes.')
                     self.workspace_tabs.SetSelection(1)
             self.review_caption.GetParent().Layout()
 
-        def display_layer(self, _=None):
-            try:
-                from .review_view import finding_scene
-                layer = self.review_layers.GetStringSelection()
-                selection = self.review_locations.GetSelection()
-                _, index, layers = self.review_location_rows[max(0, selection)]
-                if index is not None and layer not in layers:
-                    index = None
-                    self.review_locations.SetSelection(0)
-                self.review_picture.SetScene(finding_scene(self.workspace_render, layer, index))
-            except Exception as exc:
-                self.review_picture_failed(str(exc))
-
-        def display_finding(self, _):
-            selection = self.review_locations.GetSelection()
-            if selection < 0 or self.workspace_render is None:
-                return
-            _, index, layers = self.review_location_rows[selection]
-            if index is not None and self.review_layers.GetStringSelection() not in layers:
-                self.review_layers.SetStringSelection(layers[0])
-            self.display_layer()
-
         def review_picture_failed(self, error):
-            if self.workspace_render is None and self.placement_scene is None and self.saved_scene is not None:
-                self.saved_scene = None
-                self.review_caption.SetLabel('Saved board drawing unavailable')
-                return
             self.inspected.SetValue(False)
             self.log.AppendText('\nCopper image unavailable. Use Detailed report or Open review in KiCad.\n' + error)
             self.workspace_tabs.SetSelection(1)
-            self.review_layers.Hide(); self.review_key.Hide(); self.review_locations.Hide()
+            self.review_key.Hide()
+            self.refresh()
 
         def layout_panel(self):
             """Paths may scroll inside their input; the frame stays laptop-sized."""
@@ -2251,6 +2241,9 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if self.workspace_render is not None and 'review' not in ready:
                     self.show_workspace_review(None)
                 if not ready: self.findings_header.SetLabel('')
+                if hasattr(self, 'refine_button'):
+                    self.refine_button.Enable(not self.busy and not choosing and not self.closing
+                                              and self.warning_dialog is None)
             self.layout_panel()
 
         def show_stage_summary(self, ready):
@@ -2271,8 +2264,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     inherited = sum(len(rows) for (origin, _), rows in groups.items()
                                     if origin == 'Already in the saved input')
                     if inherited:
-                        details = f'{inherited} source warning' + ('\n' if inherited == 1 else 's\n')
-                    details += 'See Findings for the complete KiCad report.'
+                        details = f'{inherited} warning' + (' was' if inherited == 1 else 's were') + ' already in the saved input. '
+                    details += 'Read Findings before deciding. You can locate reported items on the board.'
             elif 'preview' in ready:
                 settings = json.loads(self.flow.settings_bytes)
                 preview = self.flow.records['preview']
@@ -2309,6 +2302,13 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                         self.status.SetLabel('Cancellation requested; waiting for the CLI worker to finish cleanup.')
                     return
                 if self.busy or getattr(self, 'closing', False): return
+                if action == 'refine':
+                    if getattr(self, '_on_refine', None) is None or self.warning_dialog is not None:
+                        return
+                    item = self.board_review.selected_item()
+                    self._refinement = item['label'] if item is not None else ''
+                    self.Close()
+                    return
                 if action == 'restart_export':
                     if self._on_saved_source is None or self.exported_project is None or self.closing:
                         raise ValueError('Export a checked project before starting a fresh task from it.')
@@ -2348,15 +2348,16 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if stage in ('preview', 'review'): self.inspected.SetValue(False)
                 request = _window_request(self)
                 if request.saved_closed is not True: raise ValueError('Save and close source editors, then acknowledge the exact paths.')
+                if (stage == 'export' and getattr(self, 'in_workspace', False)
+                        and self.workspace_render is not None and self.workspace_render['diagrams']):
+                    self.board_review.locations.SetSelection(0)
+                    self.board_review.finding_changed(None)
+                    self.board_review.locations.Hide()
+                    self.board_review.Layout()
                 self.busy = True; self.job = CliJob(); job = self.job
                 job.display_stage = stage
                 if getattr(self, 'in_workspace', False):
                     job.follow_up = {'route': 'review', 'accept': 'export'}.get(action)
-                    if stage == 'export' and self.workspace_render is not None:
-                        self.review_locations.SetSelection(0)
-                        self.review_locations.Hide()
-                        if self.workspace_render['diagrams']:
-                            self.display_layer()
                 self.refresh()
                 settings = json.loads(request.settings_json)
                 from .finish_gaps import enabled

@@ -212,11 +212,14 @@ class WorkspaceFindings(unittest.TestCase):
             path.parent.mkdir()
 
     def render(self, findings=(), *, extra='', removal='', stale=False):
-        board = f'''(gr_rect (start 4 5) (end 14 17) (layer "Edge.Cuts"))
+        board = f'''(layers (0 "F.Cu" signal) (4 "In1.Cu" signal) (6 "In2.Cu" signal) (2 "B.Cu" signal))
+            (gr_rect (start 4 5) (end 14 17) (layer "Edge.Cuts"))
             (footprint "part" (layer "F.Cu") (at 7 8 90) (uuid "{self.footprint}")
                 (property "Reference" "J&1")
+                (fp_rect (start -1 -1) (end 1 1) (stroke (width .05) (type default)) (fill none)
+                    (layer "F.CrtYd") (uuid "1b28a367-0662-4112-a2e1-d6e76f8fcd5e"))
                 (pad "1" smd roundrect (at 1 2 90) (size 1 .8) (roundrect_rratio .2)
-                    (layers "F.Cu" "F.Paste" "F.Mask") (uuid "{self.smd}"))
+                    (layers "F.Cu" "F.Paste" "F.Mask") (uuid "{self.smd}") (net "A"))
                 (pad "2" thru_hole circle (at 0 0) (size 1.7 1.7) (drill 1)
                     (layers "*.Cu" "*.Mask") (uuid "{self.through}") {removal}))
             (segment (start 10 7) (end 10 9) (width .2) (layer "F.Cu") (net "A") (uuid "{self.track}"))
@@ -230,15 +233,26 @@ class WorkspaceFindings(unittest.TestCase):
                      native={'findings': list(findings)})
         return view.workspace_changes(self.root, self.before, review, route)
 
-    def test_passive_pad_centres_use_captured_pose_and_layer(self):
+    def test_passive_pad_shapes_use_captured_pose_and_layer(self):
         render = self.render()
         for layer in self.layers:
             with self.subTest(layer=layer):
                 scene = render['diagrams'][layer]
                 svg = ElementTree.fromstring(scene['svg'])
-                markers = svg.findall('.//{*}circle[@data-role="pad-centre"]')
-                points = [(float(row.get('cx')), float(row.get('cy'))) for row in markers]
-                self.assertEqual(points, [(9, 7), (7, 8)] if layer == 'F.Cu' else [(7, 8)])
+                outer = svg.find('.//{*}circle[@data-role="pad-shape"]')
+                hole = svg.find('.//{*}circle[@data-role="drill"]')
+                self.assertEqual((outer.get('cx'), outer.get('cy'), outer.get('r')), ('7.0', '8.0', '0.85'))
+                self.assertEqual((hole.get('cx'), hole.get('cy'), hole.get('r')), ('7.0', '8.0', '0.5'))
+                rectangular = svg.find('.//{*}rect[@data-role="pad-shape"]')
+                if layer == 'F.Cu':
+                    self.assertEqual(rectangular.get('transform'), 'rotate(-90 9.0 7.0)')
+                    self.assertAlmostEqual(float(rectangular.get('rx')), .16)
+                    self.assertIsNotNone(svg.find('.//{*}rect[@data-role="courtyard"]'))
+                    item = next(item for item in scene['items'] if item['id'] == self.smd)
+                    self.assertEqual((item['kind'], item['label'], item['net']), ('pad', 'J&1 pad 1', 'A'))
+                else:
+                    self.assertIsNone(rectangular)
+                    self.assertIsNone(svg.find('.//{*}rect[@data-role="courtyard"]'))
                 self.assertEqual(svg.find('{*}text').text, 'J&1')
                 self.assertNotIn('components', scene)
         self.assertEqual(render['counts'], {'retained': 0, 'added': 1, 'removed': 0, 'protected': 1})
@@ -252,6 +266,7 @@ class WorkspaceFindings(unittest.TestCase):
         scene = view.finding_scene(render, 'F.Cu', 0)
         base = render['diagrams']['F.Cu']
         self.assertEqual(scene['size'], base['size'])
+        self.assertEqual(scene['items'], base['items'])
         self.assertNotIn('finding-location', base['svg'])
         svg = ElementTree.fromstring(scene['svg'])
         markers = svg.findall('.//{*}circle[@data-role="finding-location"]')
@@ -269,7 +284,7 @@ class WorkspaceFindings(unittest.TestCase):
                 {'description': 'Over selector bound', 'items': [{'uuid': self.footprint}]}]
         with patch.object(view, 'FINDING_LIMIT', 2):
             render = self.render(rows, extra=duplicate)
-        self.assertIn('pad-centre', render['diagrams']['F.Cu']['svg'])
+        self.assertIn('pad-shape', render['diagrams']['F.Cu']['svg'])
         self.assertEqual(render['findings_omitted'], 1)
         self.assertEqual([row['layers'] for row in render['findings']], [(), ()])
         self.assertEqual(render['findings'][1]['label'], '2. Unresolved item')
@@ -289,6 +304,56 @@ class WorkspaceFindings(unittest.TestCase):
     def test_stale_candidate_cannot_supply_finding_anchors(self):
         with self.assertRaisesRegex(p.Rejected, 'candidate differs from the checked routing receipt'):
             self.render([{'items': [{'uuid': self.footprint}]}], stale=True)
+
+    def test_saved_layer_scene_binds_bytes_and_identifies_saved_copper(self):
+        self.render()
+        inspection = {'source': str(self.before), 'source_sha256': p.sha(self.before)}
+        saved = view.saved_workspace(inspection)
+        self.assertEqual(set(saved['diagrams']), set(self.layers))
+        self.assertIsNone(saved['counts'])
+        self.assertEqual(saved['findings'], ())
+        front = saved['diagrams']['F.Cu']
+        self.assertEqual(view.saved_board_front(inspection), front)
+        item = next(item for item in front['items'] if item['id'] == self.track)
+        self.assertEqual(item['net'], 'A')
+        self.assertIn('Saved copper', item['detail'])
+        self.before.write_text('(kicad_pcb)')
+        with self.assertRaisesRegex(p.Rejected, 'changed before drawing'):
+            view.saved_workspace(inspection)
+
+    def test_pick_pad_at_route_endpoint_and_track_away_from_pad(self):
+        track = 'e8a84ef7-7a70-48b4-b3ba-690f9ba981b9'
+        extra = (f'(segment (start 8 7) (end 9 7) (width .18) (layer "F.Cu") (net "A") (uuid "{track}"))'
+                 '(segment (start 8 7.2) (end 9 7.2) (width .15) (layer "F.Cu") (net "B"))')
+        scene = self.render(extra=extra)['diagrams']['F.Cu']
+        scale, tx, ty = scene['mm_to_svg']
+        self.assertEqual(view.pick_item(scene, (9 * scale + tx, 7 * scale + ty), 4), self.smd)
+        self.assertEqual(view.pick_item(scene, (8.25 * scale + tx, 7 * scale + ty), 8), track)
+        self.assertIsNone(view.pick_item(scene, (float('nan'), 0), 4))
+        self.assertIsNone(view.pick_item(scene, (0, 0), 4))
+        marked = view.inspect_item(scene, self.footprint)
+        self.assertIn('inspected-item', marked['svg'])
+        self.assertEqual(marked['items'], scene['items'])
+        self.assertNotIn('inspected-item', scene['svg'])
+        self.assertIs(view.inspect_item(scene, 'not-current'), scene)
+
+    def test_coincident_pads_are_ambiguous_and_oval_pads_are_marked(self):
+        oval = '6eb967ef-066c-4f4f-883c-6869113a5e8e'
+        extra = f'''(footprint "overlap" (at 9 7) (layer "F.Cu") (property "Reference" "X1")
+                     (pad "1" thru_hole circle (at 0 0) (size .75 .75) (drill .3)
+                          (layers "*.Cu" "*.Mask") (uuid "a8e16fad-c6d9-4bed-8bfc-0dc3db112091"))
+                     (pad "2" thru_hole oval (at 0 2) (size 1 .75) (drill .3)
+                          (layers "*.Cu" "*.Mask") (uuid "{oval}")))'''
+        render = self.render(extra=extra)
+        front = render['diagrams']['F.Cu']
+        centre = next(item['point'] for item in front['items'] if item['id'] == self.smd)
+        self.assertIsNone(view.pick_item(front, centre, 4))
+        for layer in self.layers:
+            scene = render['diagrams'][layer]
+            item = next(item for item in scene['items'] if item['id'] == oval)
+            self.assertIn('Shape omitted', item['detail'])
+            self.assertIn('data-role="pad-centre"', scene['svg'])
+        self.assertIn('centre marker', render['context_note'])
 
 
 class PreviewTransaction(unittest.TestCase):

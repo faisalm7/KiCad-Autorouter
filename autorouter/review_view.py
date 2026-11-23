@@ -155,6 +155,7 @@ WORKSPACE_COLORS = {'protected': '#7354a4', 'retained': '#687b8c',
                     'added': '#087f68', 'removed': '#b95023'}
 REFERENCE_LIMIT = 24
 PAD_MARKER_LIMIT = 256
+WORKSPACE_ITEM_LIMIT = 2048
 FINDING_LIMIT = 128
 FINDING_ITEM_LIMIT = 8
 WORKSPACE_SVG_LIMIT = 2 * 1024**2
@@ -165,6 +166,12 @@ class BoardPoint:
     xy: tuple
     layers: tuple
     identity: str = ''
+    label: str = ''
+    detail: str = ''
+    net: str = ''
+    hit: tuple = ()
+    drawing: str = ''
+    drill: float = 0
 
 
 @dataclass(frozen=True)
@@ -220,6 +227,30 @@ def _display_uuid(row):
         return ''
 
 
+def _display_text(value, limit=96):
+    if type(value) is not str:
+        return ''
+    clean = ''.join(char if char.isprintable() else ' ' for char in value[:limit])
+    return ' '.join(clean.split())
+
+
+def _net_reader(board):
+    from .board_floor import source_net_identity
+
+    try:
+        _, resolve = source_net_identity(board)
+    except (ValueError, TypeError, KeyError, IndexError):
+        return lambda _: ''  # Geometry remains useful without a known net.
+    def read(node):
+        try:
+            name = resolve(sx.one(node, 'net'), owner=node)
+        except (ValueError, TypeError, KeyError, IndexError):
+            return ''
+        return name if type(name) is str and len(name) <= 256 and name.isprintable() else ''
+
+    return read
+
+
 def _pad_layers(pad, layers):
     row = sx.one(pad, 'layers', [])
     selectors = [sx.unquote(value) for value in row[1:]]
@@ -228,30 +259,86 @@ def _pad_layers(pad, layers):
     if pad[2:4] in (['smd', 'rect'], ['smd', 'roundrect']):
         if set(selectors) == {'F.Cu', 'F.Mask', 'F.Paste'}:
             return ('F.Cu',) if 'F.Cu' in layers else ()
-    if (pad[2:4] in (['thru_hole', 'circle'], ['thru_hole', 'rect'], ['thru_hole', 'roundrect'])
+    if (pad[2:4] in (['thru_hole', 'circle'], ['thru_hole', 'rect'], ['thru_hole', 'roundrect'], ['thru_hole', 'oval'])
             and set(selectors) == {'*.Cu', '*.Mask'}
             and sx.one(pad, 'remove_unused_layers') in (None, ['remove_unused_layers', 'no'])):
         return tuple(layers)
     return ()
 
 
-def _part_points(part, xy, layers, bounds, *, show_pads):
+def _courtyard(part, anchor, rotation):
+    from experiments.placement_native_proposal_v1 import ordinary
+
+    shapes = [row for row in part[2:] if type(row) is list and row and sx.one(row, 'layer') == ['layer', '"F.CrtYd"']]
+    if not 1 <= len(shapes) <= 16:
+        return ''
+    try:
+        primitives = [ordinary.context_primitive(row, anchor, rotation, fixed_courtyard=True)
+                      if row[0] == 'fp_circle' else ordinary.primitive(row, anchor, rotation) for row in shapes]
+        court = ordinary.courtyard(primitives, circular=True)
+    except (ValueError, TypeError, IndexError, KeyError):
+        return ''
+    attrs = 'data-role="courtyard" stroke="#7e91a1" stroke-width="0.055" fill="none"'
+    paths = []
+    for row in court['primitives']:
+        if row['kind'] == 'fp_circle':
+            x, y = (value / 1_000_000 for value in row['center_nm'])
+            ex, ey = (value / 1_000_000 for value in row['end_nm'])
+            paths.append(f'<circle {attrs} cx="{x}" cy="{y}" r="{math.dist((x, y), (ex, ey))}"/>')
+            continue
+        x, y, ex, ey = (value / 1_000_000 for value in (*row['start_nm'], *row['end_nm']))
+        if row['kind'] == 'fp_rect':
+            paths.append(f'<rect {attrs} x="{min(x, ex)}" y="{min(y, ey)}" '
+                         f'width="{abs(ex - x)}" height="{abs(ey - y)}"/>')
+        else:
+            paths.append(f'<path {attrs} d="M {x} {y} L {ex} {ey}"/>')
+    return ''.join(paths)
+
+
+def _pad_shape(pad, centre, anchor, rotation):
+    from experiments.placement_native_proposal_v1.ordinary import pad_row
+
+    try:
+        # Copper geometry can be rendered independently of the net label.
+        shape = pad_row(pad, anchor, rotation, lambda _: '', {''}, tht=True)
+    except (ValueError, TypeError, IndexError, KeyError):
+        return (), '', 0
+    x, y = centre
+    width, height = (value / 1_000_000 for value in shape['size_nm'])
+    drill = shape['drill_nm'][0] / 2_000_000
+    attrs = 'data-role="pad-shape" fill="#d3ad69" stroke="#967745" stroke-width="0.035"'
+    if shape['shape'] == 'circle':
+        return ('circle', width / 2), f'<circle {attrs} cx="{x}" cy="{y}" r="{width / 2}"/>', drill
+    angle = -shape['angle']
+    radius = min(width, height) * (shape['roundrect_rratio'] or 0)
+    hit = ('rect', width / 2, height / 2, angle, radius)
+    drawing = (f'<rect {attrs} x="{x - width / 2}" y="{y - height / 2}" width="{width}" height="{height}" '
+               f'rx="{radius}" transform="rotate({angle} {x} {y})"/>')
+    return hit, drawing, drill
+
+
+def _part_points(part, ref, xy, layers, bounds, net_for, *, show_pads):
     from experiments.placement_native_proposal_v1.ordinary import at, world
 
     side, = sx.one(part, 'layer', [])[1:]
     side = sx.unquote(side)
+    ref = _display_text(ref, 32) or 'Component'
     uid = _display_uuid(sx.one(part, 'uuid'))
-    footprint = (BoardPoint(xy, (side,), uid) if uid and side in layers and len(xy) == 2
-                 and all(bounds[i] <= xy[i] <= bounds[i + 2] for i in range(2)) else None)
-    if not show_pads:
-        return footprint, (), False
     pads = sx.children(part, 'pad')
-    if not pads or side != 'F.Cu':
-        return footprint, (), bool(pads)
     try:
-        anchor, rotation = at(part)
+        pose = at(part) if side == 'F.Cu' else None
     except (ValueError, TypeError, IndexError):
-        return footprint, (), True
+        pose = None
+    courtyard = _courtyard(part, *pose) if pose is not None else ''
+    footprint = None
+    if side in layers and len(xy) == 2 and all(bounds[i] <= xy[i] <= bounds[i + 2] for i in range(2)):
+        detail = f'{side} · ' + ('Courtyard outline' if courtyard else 'Position marker')
+        if p.locked(part):
+            detail += ' · Locked'
+        footprint = BoardPoint(xy, (side,), uid, ref, detail, drawing=courtyard)
+    if not show_pads or pose is None:
+        return footprint, (), bool(pads)
+    anchor, rotation = pose
     points = []
     for pad in pads:
         try:
@@ -259,13 +346,17 @@ def _part_points(part, xy, layers, bounds, *, show_pads):
             if visible:
                 centre = tuple(value / 1_000_000 for value in world(at(pad)[0], anchor, rotation))
                 if all(bounds[i] <= centre[i] <= bounds[i + 2] for i in range(2)):
-                    points.append(BoardPoint(centre, visible, _display_uuid(sx.one(pad, 'uuid'))))
-        except (ValueError, TypeError, IndexError):
+                    hit, drawing, drill = _pad_shape(pad, centre, anchor, rotation)
+                    label = f'{ref} pad {_display_text(sx.unquote(pad[1]), 24)}'
+                    detail = ('Through-hole' if pad[2] == 'thru_hole' else 'Surface mount') if drawing else 'Centre marker · Shape omitted'
+                    points.append(BoardPoint(centre, visible, _display_uuid(sx.one(pad, 'uuid')),
+                                             label, detail, net_for(pad), hit, drawing, drill))
+        except (ValueError, TypeError, IndexError, KeyError):
             continue
     return footprint, tuple(points), len(points) != len(pads)
 
 
-def _workspace_context(board, *, layers=()):
+def _workspace_context(board, *, layers=(), net_for=None):
     """Show saved edge geometry and part anchors in the passive view."""
     from . import placement_transform
     from experiments.placement_native_proposal_v1.contract import rectangle
@@ -305,6 +396,8 @@ def _workspace_context(board, *, layers=()):
         if len(parts) <= REFERENCE_LIMIT:
             show_pads = bool(layers) and sum(len(sx.children(part, 'pad')) for part in parts) <= PAD_MARKER_LIMIT
             partial = bool(layers and not show_pads)
+            if layers and net_for is None:
+                net_for = _net_reader(board)
             for part in parts:
                 ref = next((sx.unquote(row[2]) for row in sx.children(part, 'property')
                             if len(row) >= 3 and sx.unquote(row[1]) == 'Reference'), '')
@@ -314,7 +407,8 @@ def _workspace_context(board, *, layers=()):
                     anchors.append((*xy, ref))
                 if layers:
                     try:
-                        feature, markers, omitted = _part_points(part, xy, layers, bounds, show_pads=show_pads)
+                        feature, markers, omitted = _part_points(part, ref, xy, layers, bounds,
+                                                                 net_for, show_pads=show_pads)
                     except (ValueError, TypeError, IndexError):
                         partial = True
                         continue
@@ -327,19 +421,74 @@ def _workspace_context(board, *, layers=()):
         return None
 
 
-def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
+def _route_point(row, layers, group, net_for, *, saved):
+    kind = 'via' if row[0] == 'via' else 'track'
+    role = 'Saved copper' if saved else {
+        'retained': 'Retained copper', 'protected': 'Protected copper', 'added': 'New copper', 'removed': 'Removed copper',
+    }[group]
+    if p.locked(row):
+        role += ' · Locked'
+    hit, drill = (), 0
+    if kind == 'via':
+        xy = _coordinates(row, 'at', 2)
+        (width,) = _coordinates(row, 'size', 1)
+        if width > 0:
+            hit = ('circle', width / 2)
+        # A missing or unsupported drill leaves the via outline visible.
+        try:
+            (hole,) = _coordinates(row, 'drill', 1)
+            if group != 'removed' and 0 < hole < width:
+                drill = hole / 2
+        except (TypeError, ValueError, IndexError):
+            pass
+        if not drill and group != 'removed':
+            role += ' · Drill not shown'
+    elif row[0] == 'segment':
+        start, end = (_coordinates(row, key, 2) for key in ('start', 'end'))
+        xy = tuple((start[i] + end[i]) / 2 for i in range(2))
+        (width,) = _coordinates(row, 'width', 1)
+        hit = ('line', start, end, max(0, width / 2))
+    else:
+        xy = _coordinates(row, 'mid', 2)
+        role += ' · Arc midpoint marker'
+    detail = f'{role} · {xy[0]:.3f}, {xy[1]:.3f} mm'
+    return kind, BoardPoint(xy, tuple(layers), _display_uuid(sx.one(row, 'uuid')),
+                            detail=detail, net=net_for(row), hit=hit, drill=drill)
+
+
+def _project_items(points, scale, tx, ty):
+    points = points[:WORKSPACE_ITEM_LIMIT]
+    identities = Counter(point.identity for _, point in points)
+    order = Counter()
+    result = []
+    for i, (kind, point) in enumerate(points, 1):
+        order[kind] += 1
+        identity = point.identity if point.identity and identities[point.identity] == 1 else f'{kind}:{i}'
+        label = point.label or f'{kind.capitalize()} {order[kind]}' + (f' · {point.net}' if point.net else '')
+        x, y = point.xy
+        result.append({'id': identity, 'label': label, 'detail': point.detail, 'kind': kind, 'net': point.net,
+                       'point': (x * scale + tx, y * scale + ty), '_hit': point.hit})
+    return tuple(result)
+
+
+def routing_diagrams(changes, layers, *, workspace=False, board_context=None, net_for=None, saved=False):
     """Show the route diff at a common scale. Native plots retain full copper."""
     if sum(map(len, changes.values())) > 8000:
         return {}, 'This board is too large for the route diagrams. Compare the KiCad plots below.'
     shapes = {layer: defaultdict(list) for layer in layers}
+    routes_by_layer = {layer: [] for layer in layers}
+    net_for = net_for or (lambda _: '')
     points = []
     try:
         for group, routes in changes.items():
             for row in routes:
                 on_layers, extents, drawing = _route_shape(row, layers)
                 points.extend(extents)
+                item = _route_point(row, on_layers, group, net_for, saved=saved) if workspace else None
                 for layer in on_layers:
                     shapes[layer][group].append(drawing)
+                    if item is not None:
+                        routes_by_layer[layer].append(item)
     except (ValueError, TypeError, KeyError, IndexError):
         return {}, 'Some route geometry cannot be drawn here. Compare the exact KiCad plots below.'
     if board_context is not None:
@@ -366,7 +515,9 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
             scale = min(size[0] / width, size[1] / height)
             tx = (size[0] - width * scale) / 2 - left * scale
             ty = (size[1] - height * scale) / 2 - top * scale
-            outline, pads, labels = '', '', ''
+            outline, courts, pads, labels = '', '', '', ''
+            items = []
+            drills = [point for _, point in routes_by_layer[layer] if point.drill]
             if board_context is not None:
                 if board_context.edge_paths:
                     outline = ''.join(f'<path d="{path}" stroke="#7c8d9e" stroke-width="{1.8/scale}" '
@@ -378,19 +529,31 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
                     outline += ''.join(f'<circle cx="{x}" cy="{y}" r="{radius}" fill="#fff" stroke="#7c8d9e" '
                                        f'stroke-width="{1.4/scale}" data-role="board-cutout"/>'
                                        for x, y, radius in board_context.cutouts)
-                pads = ''.join(f'<circle data-role="pad-centre" cx="{mark.xy[0]}" cy="{mark.xy[1]}" '
-                               f'r="{3.8/scale}" fill="#c1a16f" fill-opacity=".7"/>'
-                               for mark in board_context.pads if layer in mark.layers)
+                # The reference and its location are useful on the other side;
+                # the qualified courtyard is drawn only on its own side.
+                visible_parts = board_context.footprints
+                visible_pads = [item for item in board_context.pads if layer in item.layers]
+                courts = ''.join(item.drawing for item in visible_parts if layer in item.layers)
+                pads = ''.join(item.drawing or f'<circle data-role="pad-centre" cx="{item.xy[0]}" cy="{item.xy[1]}" '
+                               f'r="{3.8/scale}" fill="#c1a16f" fill-opacity=".7"/>' for item in visible_pads)
+                drills.extend(item for item in visible_pads if item.drill)
+                items.extend(('component', item) for item in visible_parts)
+                items.extend(('pad', item) for item in visible_pads)
                 for px, py, ref in board_context.anchors:
                     cx, cy = px * scale + tx, py * scale + ty
                     labels += (f'<circle cx="{cx}" cy="{cy}" r="2.7" fill="#435568"/>'
                                f'<text x="{cx+5}" y="{cy-5}" font-size="15" fill="#36495c">{escape(ref)}</text>')
-            body = f'<g transform="matrix({scale} 0 0 {scale} {tx} {ty})">{outline}{pads}{routes}</g>{labels}'
+            holes = ''.join(f'<circle data-role="drill" cx="{item.xy[0]}" cy="{item.xy[1]}" '
+                            f'r="{item.drill}" fill="white"/>' for item in drills)
+            items.extend(routes_by_layer[layer])
+            body = f'<g transform="matrix({scale} 0 0 {scale} {tx} {ty})">{outline}{courts}{pads}{routes}{holes}</g>{labels}'
             svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{size[0]}" height="{size[1]}" '
                    f'viewBox="0 0 {size[0]} {size[1]}" fill="none" stroke-linecap="round">{body}</svg>')
             if len(svg.encode('utf-8')) > WORKSPACE_SVG_LIMIT:
                 return {}, 'Route drawing exceeds the workspace size limit. Compare the KiCad plots below.'
-            diagrams[layer] = {'svg': svg, 'size': size, 'mm_to_svg': (scale, tx, ty)}
+            diagrams[layer] = {'svg': svg, 'size': size, 'mm_to_svg': (scale, tx, ty),
+                               'items': _project_items(items, scale, tx, ty),
+                               'items_omitted': max(0, len(items) - WORKSPACE_ITEM_LIMIT)}
         else:
             body = ''.join(f'<g class="{group}">{"".join(shapes[layer][group])}</g>'
                            for group in ('removed', 'retained', 'added'))
@@ -399,21 +562,51 @@ def routing_diagrams(changes, layers, *, workspace=False, board_context=None):
     return diagrams, ''
 
 
-def saved_board_front(inspection):
-    """Passive context from the exact statically inspected saved board."""
+def _workspace_drawing(board, changes, layers, *, saved=False):
+    net_for = _net_reader(board)
+    context = _workspace_context(board, layers=layers, net_for=net_for)
+    if saved and context is None:
+        return context, {}, 'The saved board outline cannot be drawn here.'
+    drawings, note = routing_diagrams(changes, layers, workspace=True, board_context=context,
+                                      net_for=net_for, saved=saved)
+    return context, drawings, note
+
+
+def _drawing_note(context, diagrams, *, saved=False):
+    notes = []
+    if context is None:
+        notes.append('Board outline and part geometry are unavailable in this view.')
+    else:
+        if any(not footprint.drawing for footprint in context.footprints):
+            notes.append('Parts without a supported courtyard use position markers.')
+        if context.partial_pad_context:
+            notes.append('Some pad centres are omitted.')
+        if any(not pad.drawing for pad in context.pads):
+            notes.append('Some pads show only a centre marker.')
+    if any(scene['items_omitted'] for scene in diagrams.values()):
+        notes.append(f'The item list shows up to {WORKSPACE_ITEM_LIMIT} items per layer.')
+    notes.append('View zone fill in KiCad.' if saved else 'See Detailed report for pad shapes and zone fill.')
+    return ' '.join(notes)
+
+
+def saved_workspace(inspection):
+    """Passive geometry for the exact inspected saved board, with no authority."""
     raw = pc.read_bytes(Path(inspection['source']), 8 * 1024 * 1024)
     if hashlib.sha256(raw).hexdigest() != inspection['source_sha256']:
         raise p.Rejected('Saved board changed before drawing. Refresh the inspection.')
     tree = sx.parse(raw.decode('utf-8'))
-    context = _workspace_context(tree)
-    if context is None:
-        return None
     layers = [sx.unquote(row[1]) for row in sx.one(tree, 'layers', [])[1:]
               if isinstance(row, list) and len(row) >= 3 and sx.unquote(row[1]).endswith('.Cu')]
     if len(layers) not in (2, 4) or len(layers) != len(set(layers)) or 'F.Cu' not in layers:
-        return None
-    drawings, _ = routing_diagrams({'retained': p.routes(tree)}, layers, workspace=True, board_context=context)
-    return drawings.get('F.Cu')
+        context, diagrams, note = None, {}, 'This saved layer stack cannot be drawn here.'
+    else:
+        context, diagrams, note = _workspace_drawing(tree, {'retained': p.routes(tree)}, layers, saved=True)
+    return {'diagrams': diagrams, 'note': note, 'caption': 'Saved board', 'counts': None,
+            'context_note': _drawing_note(context, diagrams, saved=True), 'findings': (), 'findings_omitted': 0}
+
+
+def saved_board_front(inspection):
+    return saved_workspace(inspection)['diagrams'].get('F.Cu')
 
 
 def _finding_ids(row):
@@ -477,6 +670,14 @@ def _workspace_findings(board, context, diagrams, route):
     return tuple(findings), max(0, len(rows) - FINDING_LIMIT)
 
 
+def _highlight(scene, points, role):
+    marks = [f'<circle data-role="{role}" cx="{x}" cy="{y}" r="10" fill="none" stroke="#fff" stroke-width="6"/>'
+             f'<circle cx="{x}" cy="{y}" r="10" fill="none" stroke="#176cba" stroke-width="2.8"/>'
+             for x, y in points]
+    svg = scene['svg'][:-len('</svg>')] + ''.join(marks) + '</svg>'
+    return {**scene, 'svg': svg} if len(svg.encode('utf-8')) <= WORKSPACE_SVG_LIMIT else scene
+
+
 def finding_scene(render, layer, index=None):
     """Return the checked review layer with an optional passive board marker."""
     scene = render['diagrams'][layer]
@@ -486,16 +687,69 @@ def finding_scene(render, layer, index=None):
     if layer not in row['layers']:
         return scene
     scale, tx, ty = scene['mm_to_svg']
-    marks = []
-    for point in row['points']:
-        if layer in point.layers:
-            x, y = point.xy
-            marks.append(f'<circle data-role="finding-location" cx="{x * scale + tx}" cy="{y * scale + ty}" '
-                         'r="10" fill="none" stroke="#fff" stroke-width="6"/>')
-            marks.append(f'<circle cx="{x * scale + tx}" cy="{y * scale + ty}" '
-                         'r="10" fill="none" stroke="#176cba" stroke-width="2.8"/>')
-    svg = scene['svg'][:-len('</svg>')] + ''.join(marks) + '</svg>'
-    return {**scene, 'svg': svg} if len(svg.encode('utf-8')) <= WORKSPACE_SVG_LIMIT else scene
+    points = [(point.xy[0] * scale + tx, point.xy[1] * scale + ty)
+              for point in row['points'] if layer in point.layers]
+    return _highlight(scene, points, 'finding-location')
+
+
+def _item_distance(item, point, transform):
+    scale, tx, ty = transform
+    cx, cy = item['point']
+    shape = item['_hit']
+    x, y = (point[0] - cx) / scale, (point[1] - cy) / scale
+    if not shape:
+        return math.hypot(x, y) * scale
+    kind = shape[0]
+    if kind == 'circle':
+        return max(0, math.hypot(x, y) - shape[1]) * scale
+    if kind == 'line':
+        start, end, half_width = shape[1:]
+        dx, dy = end[0] - start[0], end[1] - start[1]
+        px, py = (point[0] - tx) / scale - start[0], (point[1] - ty) / scale - start[1]
+        fraction = min(1, max(0, (px * dx + py * dy) / (dx * dx + dy * dy))) if dx or dy else 0
+        return max(0, math.hypot(px - fraction * dx, py - fraction * dy) - half_width) * scale
+    half_width, half_height, angle, radius = shape[1:]
+    local_x, local_y = {0: (x, y), -90: (-y, x), -180: (-x, -y), -270: (y, -x)}[angle]
+    dx, dy = abs(local_x) - half_width + radius, abs(local_y) - half_height + radius
+    outside = math.hypot(max(0, dx), max(0, dy)) + min(0, max(dx, dy)) - radius
+    return max(0, outside) * scale
+
+
+def pick_item(scene, point, tolerance):
+    """Pick one visible item in SVG units, deferring an ambiguous hit."""
+    items = scene.get('items', ())
+    if not items:
+        return None
+    width, height = scene['size']
+    if (type(point) not in (tuple, list) or len(point) != 2
+            or any(type(value) not in (int, float) or not 0 <= value <= extent
+                   for value, extent in zip(point, (width, height)))
+            or type(tolerance) not in (int, float) or not 0 <= tolerance <= max(width, height)):
+        return None
+    matches = []
+    for item in items:
+        distance = _item_distance(item, point, scene['mm_to_svg'])
+        if distance <= tolerance:
+            # Copper can terminate under a pad. Prefer a pad actually hit
+            # over the route endpoint; nearby pad markers get no preference.
+            rank = (0 if item['kind'] == 'pad' and item['_hit'] else
+                    1 if item['_hit'] else 2) if distance <= 1e-8 else 3
+            matches.append((rank, distance, item['id']))
+    if not matches:
+        return None
+    matches.sort()
+    rank, distance, identity = matches[0]
+    if len(matches) > 1 and matches[1][0] == rank and matches[1][1] - distance <= .5:
+        return None
+    return identity
+
+
+def inspect_item(scene, identity):
+    """Highlight one display identity, leaving the unselected scene intact."""
+    for item in scene.get('items', ()):
+        if item['id'] == identity:
+            return _highlight(scene, (item['point'],), 'inspected-item')
+    return scene
 
 
 def workspace_changes(directory, source_board, review, route):
@@ -529,16 +783,11 @@ def workspace_changes(directory, source_board, review, route):
         raise p.Rejected('Workspace review does not show every protected track or via.')
     changes['retained'] = keep
     layers = review['preview']['layers']
-    context = _workspace_context(after, layers=layers)
-    diagrams, note = routing_diagrams(changes, layers, workspace=True, board_context=context)
-    caption = 'Copper changes, parts and pad centres' if context and context.pads else (
+    context, diagrams, note = _workspace_drawing(after, changes, layers)
+    caption = 'Copper changes, parts and pads' if context and context.pads else (
         'Copper changes and part locations' if context and context.anchors else (
             'Board outline and route changes' if context else 'Tracks and vias only · board detail in report'))
-    context_note = 'See Detailed report for pad shapes and zone fill.'
-    if context is not None and context.pads:
-        context_note = 'Pad markers show centres. ' + context_note
-    if context is not None and context.partial_pad_context:
-        context_note = 'Some pad centres are omitted. ' + context_note
+    context_note = _drawing_note(context, diagrams)
     bound = route.get('candidate_sha256') == candidate_digest
     findings, omitted = _workspace_findings(after, context, diagrams if bound else {}, route)
     return {'diagrams': diagrams, 'note': note, 'caption': caption,
