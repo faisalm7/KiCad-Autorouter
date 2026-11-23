@@ -143,7 +143,9 @@ under the existing checks. Apply a checked move through the separate approval
 button. Use KiCad's named Undo and verify exact pre-move state in Copperpath.
 
 Controlled tests refuse a draft when the live selection or saved inputs
-change. An unconfirmed opening or drop of a transaction disables another
+change. A failed freshness check retires the draft and its validation.
+Restoring the earlier state still requires reading the selection and
+checking a fresh proposal. An unconfirmed opening or drop of a transaction disables another
 write in that companion. The final readback proof remains meaningful if a
 diagram cannot be drawn. Dedicated installed laptop-size checks of
 clarification, revision, stale refusal, one applied move and Undo remain

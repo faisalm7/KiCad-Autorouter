@@ -89,13 +89,25 @@ class EditorReadback(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Preview a new move'):
             session.fresh(first['id'])
         self.assertEqual(session.fresh(revised['id'])['to_nm'], [x + 750_000, y])
+        session.native_checks = Mock(return_value={'blocking': 0})
+        session.validate(revised['id'])
         session.snapshot.return_value = dict(session.initial, disk={'changed': True})
         with self.assertRaisesRegex(ValueError, 'KiCad changed after preview'):
             session.fresh(revised['id'])
+        session.snapshot.return_value = session.initial
+        with self.assertRaisesRegex(ValueError, 'Preview a new move'):
+            session.fresh(revised['id'])
+        self.assertIsNone(session.plan)
+        self.assertIsNone(session.displayed_selection)
+        session.snapshot.return_value = dict(session.initial, disk={'changed': True})
         with self.assertRaisesRegex(ValueError, 'Saved project files changed'):
             session.preview('Move J1 right by 0.5 mm')
         self.assertIsNone(session.plan)
         session.snapshot.return_value = session.initial
+        session.inspect(board_view=True)
+        renewed = session.preview('Move J1 right by 0.75 mm')
+        self.assertNotEqual(renewed['id'], revised['id'])
+        self.assertNotIn('native', session.plan)
         other = next(part for part in observed['footprints'] if part['reference'] == 'J2')
         session.selected.return_value = [SimpleNamespace(id=SimpleNamespace(value=other['uuid']),
             reference_field=SimpleNamespace(text=SimpleNamespace(value='J2')))]

@@ -4,11 +4,11 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 
 ## Active design journeys
 
-1. Finish the installed 8996 workspace checks. The receiver, MiniPic and
-   locked owned board showed specific inspection findings at 880 × 610.
-   The closed fixture refreshed and carries its Conversation settings into
-   routing. Preview, active cancellation and review await normal memory
-   pressure. Reuse the existing installation.
+1. **Verified.** The installed 8996 workspace showed board visibility,
+   specific read-only findings, fresh lock recovery and Conversation
+   settings at 880 × 610. Actual Freerouting cancellation cleaned up.
+   A second run showed every routing stage and a checked review beside
+   Conversation. [Installed controls](evidence/product-8996-routing-controls-001.json)
 2. Qualify the new-design handoff and readiness guidance. Use native KiCad
    creation on an owned blank project, then native library, ERC and PCB
    preparation steps. At laptop size, check the captured project name, the
@@ -16,9 +16,11 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    The prior owned editor and manager closed normally after exact saved-source
    and verified native recovery checks.
    [Recovery evidence](evidence/product-owned-editor-recovery-001.json)
-3. **Source checks passed.** Deliver the checked live move from Conversation. Require exact live
-   selection, clarification, a revised preview, explicit approval, readback,
-   stale-state refusal and named native Undo. Keep the supported saved path.
+3. **Source checks passed.** Deliver the checked live move from Conversation.
+   Require exact live selection, clarification, a revised preview, explicit
+   approval, readback and named native Undo. After stale-state refusal,
+   restore the original selection and verify that a fresh preview and check
+   are required. Keep the supported saved path.
 4. After verification, advance one applicable user journey from the lifecycle
    matrix. Keep tests scoped to actual KiCad and geometry support.
    [Design journeys](docs/design-lifecycle.md)

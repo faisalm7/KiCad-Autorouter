@@ -256,8 +256,15 @@ class Session:
         if self.plan is None or self.plan['info']['id'] != proposal:
             raise ValueError('Preview a new move before applying.')
         info = self.plan['info']
-        if self.snapshot() != self.plan['snapshot'] or [item.id.value for item in self.selected()] != [info['uid']]:
-            raise EditorContextChanged('KiCad changed after preview. Read the selection and preview again.')
+        try:
+            if (self.snapshot() != self.plan['snapshot']
+                    or [item.id.value for item in self.selected()] != [info['uid']]):
+                raise EditorContextChanged('KiCad changed after preview. Read the selection and preview again.')
+        except Exception:
+            # Once freshness fails, even restoring the old inputs needs a new check.
+            self.plan = None
+            self.displayed_selection = None
+            raise
         return info
 
     def reject(self):
