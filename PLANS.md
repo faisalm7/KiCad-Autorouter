@@ -41,11 +41,12 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    and warnings at laptop size when the correct window is accessible. New
    window titles follow the verified project and clear on source change.
    [Handoff evidence](evidence/product-native-setup-handoff-001.json)
-7. **Native placement prepared.** On the exact native stock design, move J1
+7. **Two-component placement correction.** On the exact native stock design, move J1
    inside X 11–17 and Y 18–28 mm with J2 and all design intent fixed. Static
-   placement preflight passed. The frozen Native inspection and 2-second
-   search remain unstarted. Resume after the existing 3 GiB memory check
-   passes. Review the first alternative or preserve the refusal.
+   and Native inspection passed. The first request refused before search at
+   an obsolete three-component minimum. The correction is confined to the
+   Native source-baseline facts. Qualify one corrected build on the unchanged
+   task. Review only the first alternative and preserve any refusal.
    [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9

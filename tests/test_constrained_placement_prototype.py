@@ -85,6 +85,41 @@ class RegionInitialization(unittest.TestCase):
         self.assertEqual((stopped['status'], stopped['alternatives']), ('cancelled', []))
         self.assertEqual(source, before)
 
+    def test_two_parts_admit_one_movable_in_native_source_baseline_scope(self):
+        legacy = region_fixture()
+        legacy['components'] = legacy['components'][:2]
+        legacy['selected'] = ['selected-b']
+        source = dict(legacy, schema=3, fixed_context_policy=c.FIXED_CONTEXT_POLICY,
+                      selected_copper_baseline_policy=c.SELECTED_COPPER_BASELINE_POLICY,
+                      proxy_anchor_offsets_twice_nm={'selected-b': [0, 0]},
+                      track_clearance_policy=c.TRACK_CLEARANCE_POLICY)
+        with self.assertRaisesRegex(c.Refused, 'components'):
+            c.prepare(legacy)
+        with self.assertRaisesRegex(c.Refused, 'components'):
+            c.prepare(dict(source, components=source['components'][1:]))
+        result = p.propose(source, seed=7, steps=160, alternatives=2, seconds=2,
+                           region_initialization=p.EXACT_TRACK_REGION_POLICY)
+        self.assertEqual(result['status'], 'proposals_ready')
+        self.assertEqual(result['search_method'], 'single-component-translation-grid-v1')
+        self.assert_no_authority(result)
+        alternative = result['alternatives'][0]['candidate']
+        self.assertEqual(c.validate_alternative(source, alternative), alternative)
+        original = c.original_alternative(source)
+        self.assertEqual(transform(alternative, 'anchor'), transform(original, 'anchor'))
+        self.assertNotEqual(transform(alternative, 'selected-b'), transform(original, 'selected-b'))
+
+        changed = copy.deepcopy(alternative)
+        transform(changed, 'anchor')['x_mm'] += 1
+        with self.assertRaisesRegex(c.Refused, 'Fixed/locked/unselected/tracked component moved'):
+            c.validate_alternative(source, changed)
+        no_anchor = copy.deepcopy(source)
+        no_anchor['components'][0]['locked'] = False
+        no_anchor['selected'].insert(0, 'anchor')
+        no_anchor['fixed_components'] = []
+        no_anchor[c.PROXY_ANCHOR_OFFSETS]['anchor'] = [0, 0]
+        with self.assertRaisesRegex(c.Refused, 'requires a fixed/unselected anchor'):
+            c.prepare(no_anchor)
+
     def test_two_source_regions_seed_then_real_search_preserves_original_facts(self):
         source = region_fixture(); before = copy.deepcopy(source)
         result = self.propose(source)

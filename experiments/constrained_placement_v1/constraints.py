@@ -165,7 +165,9 @@ def prepare(value):
     gap = number(facts['clearance_mm'], 'clearance')
     if not 0 <= gap <= 10:
         raise Refused('Clearance must be between zero and ten millimetres')
-    components = sequence(facts['components'], 32, 'components', 3)
+    # The Native source-baseline scope can place one part beside one fixed anchor.
+    # Keep the older fact schemas inside their existing placement population.
+    components = sequence(facts['components'], 32, 'components', 2 if selected_baseline else 3)
     ids, pads, pad_ids = [], {}, []
     for c in components:
         fields(c, 'id position_mm size_mm rotation_deg side locked pads allowed_region_mm allowed_rotations_deg allowed_sides', 'component')
