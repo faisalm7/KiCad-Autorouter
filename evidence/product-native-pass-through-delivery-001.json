@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "installed_source": "6a27e1144a4e5886b4ab5475ed5c7f36ecb4f82b",
+  "native_version": "10.0.7",
+  "engine": "Freerouting 2.5.0",
+  "input": "product-native-pcb-transfer-001.json",
+  "workflow": "Installed CLI and local Microsoft Edge rendered review",
+  "route": {
+    "settings": "Finish gaps, Standard, both corrections, all source layers, engine-default via preference",
+    "wall_cpu_budget_seconds": 90,
+    "attempts": 1,
+    "scope": ["Net-(J1-Pin_1)", "Net-(J1-Pin_2)"],
+    "original_opens": 2,
+    "opens_after_refill": 0,
+    "new_front_copper_segments": 2,
+    "new_vias": 0,
+    "previous_copper_items": 0,
+    "track_length_mm": 32.77
+  },
+  "review": {
+    "observed_rendered_copper_layers": ["F.Cu", "B.Cu"],
+    "expanded_unchanged_library_warnings": ["J1", "J2"],
+    "receipt_sha256": "429beb123bcc4ae07ec1b363a8ab04dd531a95fd8a305211bd45cf54dc2b9bc1",
+    "choice": "Explicit software-test acceptance of the exact reviewed candidate"
+  },
+  "delivery": {
+    "fresh_kicad_refill_rule_checks": true,
+    "independent_export_check_current": true,
+    "separate_project": true,
+    "source_inventory_exact": true,
+    "exact_footprints_outline_stackup_and_setup": true,
+    "schematic_and_project_settings_bytes_exact": true,
+    "blocking": 0,
+    "warnings": 2,
+    "exclusions": 0,
+    "ignored_checks": 5,
+    "candidate_sha256": "2ed095233e41fb4b6665359e1b4b3b1748929191758547138eed433569e94d94"
+  },
+  "command_wall_seconds": {
+    "preview": 1.24,
+    "route": 7.82,
+    "rendered_review": 3.38,
+    "choice": 1.93,
+    "fresh_export": 6.32,
+    "readback": 1.67,
+    "sum_before_rounding": 22.37
+  },
+  "limits": [
+    "Command times exclude native project creation, interaction, tool-control delays and the visible review pause.",
+    "The isolated validation configuration reported the stock footprint library unavailable. Both original warnings and all ignored checks remain in the checked export.",
+    "No CAD corrections were made during routing, review or export. Initial footprint positioning and the board outline were part of native project preparation.",
+    "Ordinary on-screen Copperpath review of this exact board remains unobserved because desktop automation selected an older same-identity workspace.",
+    "The demonstration covers a small owned board and one CLI delivery. It provides no human electrical approval or new licensed-board coverage."
+  ]
+}

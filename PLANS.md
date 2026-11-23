@@ -18,16 +18,21 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    passed. Explicit approval moved J1 by 0.75 mm. Readback and native Undo
    preserved the unsaved J2 edit and all three saved files.
    [Editable live move](evidence/product-revised-live-move-002.json)
-4. **PCB transfer and scoped Native preview verified.** KiCad placed both
-   stock connectors and saved a closed outline. The exact schematic still
-   matches the ERC and pin-pair receipt. The installed controller approved
-   Preview for the two missing nets with the frozen 90-second settings.
-   Finish actual routing, review and independent separate-project readback.
-   Observe the on-screen workflow once the tool can select the correct
-   Copperpath window. [PCB transfer and preview](evidence/product-native-pcb-transfer-001.json)
-   Verify the source-tested saved footprint guidance in the next workspace
-   build. Reuse the current installed build for the scoped route.
-   [Design journeys](docs/design-lifecycle.md)
+4. **Native entry to checked CLI delivery verified.** The new project has
+   the stock circuit, closed outline and two routed connections in a separate
+   validated export. Microsoft Edge showed two new traces and two inherited
+   warnings. Independent readback verified both nets and exact source files.
+   Observe the same-board setup and workspace review when desktop automation
+   can select the correct Copperpath window. Verify the source-tested saved
+   footprint guidance in the next installed build.
+   [PCB transfer and preview](evidence/product-native-pcb-transfer-001.json) ·
+   [Delivery](evidence/product-native-pass-through-delivery-001.json)
+5. Run one Native source admission for the unchanged licensed TankSync
+   receiver under its frozen 90-second Finish gaps settings. Keep all 437
+   tracks and vias. Advance only if saved source findings and the verified
+   missing-net scope permit it. Preserve any refusal. Then clarify inherited
+   validation warnings in the saved-project review using the observed stock
+   library example. [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9
 
