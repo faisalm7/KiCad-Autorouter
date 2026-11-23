@@ -4,13 +4,15 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 
 ## Active design journeys
 
-1. Resume the installed 8996 workspace. The receiver's four cutouts and
-   exact U2 limit were visible at 880 × 610. Check the remaining curved board,
-   lock and refresh, routing progress, cancellation and review controls when
-   ordinary admission passes. Reuse the existing installation.
+1. Finish the installed 8996 workspace checks. The receiver, MiniPic and
+   locked owned board showed specific inspection findings at 880 × 610.
+   Refresh the closed owned fixture, then check routing progress, active
+   cancellation and review controls. Reuse the existing installation.
 2. Qualify the new-design handoff and readiness guidance. Use native KiCad
    creation on an owned blank project, then native library, ERC and PCB
-   preparation steps. Keep the existing editor and its unsaved work safe.
+   preparation steps. The prior owned editor and manager closed normally
+   after exact saved-source and verified native recovery checks.
+   [Recovery evidence](evidence/product-owned-editor-recovery-001.json)
 3. **Source checks passed.** Deliver the checked live move from Conversation. Require exact live
    selection, clarification, a revised preview, explicit approval, readback,
    stale-state refusal and named native Undo. Keep the supported saved path.
