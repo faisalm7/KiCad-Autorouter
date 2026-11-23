@@ -33,6 +33,16 @@ The two entry points are a new project created in native KiCad and a continued
 saved or open design. Keep their steps and remaining checks current in the
 [design journeys](design-lifecycle.md).
 
+## Board workspace · November 23
+
+Make the saved-project companion feel like one workspace from choosing a
+design through checked delivery. Keep a request, the conversation and its
+board context together. Put next actions and recoverable refusals where the
+user is working, with implementation details available on demand. Retain the
+guarded 10.0.8 live operation while the public KiCad interface limits docking
+and schematic editing. The [workspace decision](board-workspace-decision.md)
+specifies the installed checks and the separate experiment for macOS identity.
+
 | Existing part | Reuse decision and evidence boundary |
 |---|---|
 | Freerouting | Keep as primary search/routing dependency. It handles DSN routing and SES output; our imported result still needs actual KiCad/original-design validation. Reuse useful upstream integrations where their interfaces and licenses fit. |

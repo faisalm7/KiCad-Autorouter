@@ -2,6 +2,20 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## Board workspace
+
+1. **Observed and specified.** Preserve the verified `998ad74c8` reference.
+   The [workspace decision](docs/board-workspace-decision.md) records the
+   primary-source research, current layout and frozen acceptance.
+2. Verify the bounded named-app prototype, then implement the welcome,
+   project header, persistent request surface and matching review treatment.
+   Keep the current engineering gates and optional live companion.
+3. Install the resulting Finder build. Walk the frozen PushButtonLed task
+   and the separate owned stale/refusal/recovery controls. Record actual
+   renders, focus, resizing, identity, actions, waits and resource use.
+4. Verify delivery hashes and the exact support boundary, checkpoint the
+   implementation, and retain compact local evidence alongside prior runs.
+
 ## Integrated release candidate
 
 This candidate builds on `30002cfe7` and the prior checked move, Undo and
