@@ -1,5 +1,15 @@
 # Requirements and release gates
 
+**Selection-aware local requests.** Installed saved-project controls bind
+local placement wording and follow-ups to the actual selection, area and
+existing-copper policy. The frozen PushButtonLed delivery preserved exact
+scope with no CAD corrections. TankSync remains placement-unsupported and
+has useful read-only item context. Separate export, stale refusal and active
+cancellation are verified. The local parser recognizes bounded phrasing.
+Broader model behavior, native docking and general live application keep
+their own verification requirements.
+[Installed evidence](evidence/product-direct-conversation-001.json)
+
 The master specification, current strategy and owner steering govern. Historical routing superiority remains deferred. The integrated Mac candidate delivered the retained licensed PushButtonLed task in the ordinary workspace. Installed follow-up verified the Finder entry, laptop layout, edited-suggestion round trip and the owned checked move with exact native Undo. General editor writes and independent platform qualification remain separate. [Master specification](MASTER_PROMPT.md) · [Strategy](docs/product-strategy.md) · [Current plan](PLANS.md) · [Licensed delivery](evidence/product-integrated-rc-pushbutton-001.json) · [Installed qualification](evidence/product-integrated-rc-editor-001.json) · [Release gates](docs/experimental-rc.md)
 
 **Saved workspace and optional conversation.** Ordinary controls and an explicit local request can use the same placement settings. The installed graphical review showed original placement, protected and new routing, complete findings and a freshly validated separate export. Controlled replies exercised clarification and revised proposal adoption. A new live hosted turn needs separate authorization. [Owned task](evidence/product-workspace-delivery-faf-001.json)

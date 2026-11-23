@@ -13,10 +13,16 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    placement request as a complete task, and revises a passive draft with
    fresh review. Manual settings, structured commands and the separate
    optional model path use the same placement checks.
-3. **Installed acceptance.** Observe proposals and findings at laptop sizes.
-   Run the frozen placement-to-delivery task with independent readback and
-   the ambiguity, unsupported, stale and cancellation controls. Record
-   operator actions, waits, geometry and usability against the prior build.
+3. **Installed acceptance complete.** The frozen task reached checked
+   separate delivery and independent readback. The same window exercised
+   explicit edits, stale refusal, refresh and active cancellation. The
+   presentation follow-up showed the checked area and saved pad labels at
+   laptop sizes. [Measured outcome](evidence/product-direct-conversation-001.json)
+4. **Next focused integration.** Qualify the saved-schematic reader's
+   explicit global power form on the two retained designs. Continue into
+   active-editor selection only with exact PCB and schematic identity.
+   Check that changing selection or saved state expires context without
+   changing unrelated unsaved work.
 
 ## Design review and refinement
 

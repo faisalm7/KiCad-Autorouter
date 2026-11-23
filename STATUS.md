@@ -1,5 +1,19 @@
 # Current state
 
+**Selection-aware requests verified in the installed workspace.** On the
+frozen licensed PushButtonLed task, two canvas selections and a same-composer
+80-to-90-second revision led to a separately validated design. Independent
+readback passed at 275.6 seconds from task start, including observer recovery.
+All 13 protected tracks remained, all 15 new tracks stayed on the three
+approved nets and the seven inherited warnings remained visible. No CAD
+corrections or model requests were needed. TankSync answered a saved-net
+question and explained its specific placement limit. The installed
+`ffcfebac1` follow-up verified proposal layout at 880 × 610 and 1040 × 720
+and removed expired review text after refresh. The full engineering delivery
+ran on `27086bcf7`; the follow-up changed presentation only.
+[Journey and limitations](docs/direct-conversation-journey.md) ·
+[Installed evidence](evidence/product-direct-conversation-001.json)
+
 **Installed design review and refinement verified on `79be782a6`.** The
 880 × 610 PushButtonLed review showed supported pad shapes and located a KiCad
 finding beside the original request. The frozen task took 13 ordinary actions
