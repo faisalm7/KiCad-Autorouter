@@ -29,6 +29,10 @@ components, copper permissions, rules and execution authority stay with the
 shared engineering workflow. Keep the earlier contracts and recorded model
 results intact. New model or data-transfer permission is a separate decision.
 
+The two entry points are a new project created in native KiCad and a continued
+saved or open design. Keep their steps and remaining checks current in the
+[design journeys](design-lifecycle.md).
+
 | Existing part | Reuse decision and evidence boundary |
 |---|---|
 | Freerouting | Keep as primary search/routing dependency. It handles DSN routing and SES output; our imported result still needs actual KiCad/original-design validation. Reuse useful upstream integrations where their interfaces and licenses fit. |

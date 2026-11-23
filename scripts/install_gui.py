@@ -307,22 +307,39 @@ def read_manifest(manifest):
     return record
 
 
-def launch(manifest, *, direct=False):
+def launch_material(manifest):
     record = read_manifest(manifest)
     root = Path(record['root'])
-    manager = Path(record['manager'])
     third_party = check_third_party_home(record, root)
     env = {key: value for key, value in os.environ.items()
            if key not in ('PYTHONPATH', 'PYTHONHOME', 'KICAD_API_SOCKET', 'KICAD_API_TOKEN')}
     env.update(KICAD_CONFIG_HOME=record['config_home'], KICAD_DOCUMENTS_HOME=record['documents_home'],
                KICAD_CACHE_HOME=record['cache_home'], KICAD10_3RD_PARTY=third_party,
                PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1')
+    return record, root, env
+
+
+def prepare_new_project_manager(manifest):
+    """Prepare the native manager without opening an example or writing CAD files."""
+    require_closed_kicad()
+    record, root, env = launch_material(manifest)
+    if 'checked_move_editor' in record:
+        from autorouter import live_move
+        live_move.editor_manager(record['checked_move_editor'], verify_signature=True)
+    check_third_party_home(record, root)
+    return [record['manager']], env
+
+
+def launch(manifest, *, direct=False):
+    record, root, env = launch_material(manifest)
+    manager = Path(record['manager'])
     if not direct:
         require_closed_kicad()
     check_third_party_home(record, root)
     os.chdir(c.ROOT)
     if direct:
-        os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui', '--workspace'], env)
+        os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui', '--workspace',
+                            '--workspace-launcher', str(root / 'install.json')], env)
     else:
         argv = [str(manager)]
         if 'checked_move_editor' in record:

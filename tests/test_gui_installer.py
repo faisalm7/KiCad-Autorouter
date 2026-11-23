@@ -129,11 +129,26 @@ class GuiInstallerTests(unittest.TestCase):
         closed.assert_not_called()
         executable, argv, _ = execute.call_args.args
         self.assertEqual(executable, g.c.PYTHON)
-        self.assertEqual(argv, [str(executable), '-B', '-m', 'autorouter.gui', '--workspace'])
+        self.assertEqual(argv, [str(executable), '-B', '-m', 'autorouter.gui', '--workspace',
+                                '--workspace-launcher', str(self.output / 'install.json')])
         launcher.write_text('changed fixture')
         with patch.object(g.os, 'execve') as execute, self.assertRaisesRegex(ValueError, 'file changed'):
             g.launch(self.output / 'install.json', direct=True)
         execute.assert_not_called()
+
+    def test_new_project_handoff_uses_native_manager_and_existing_isolation(self):
+        self.prepare()
+        manifest = self.output / 'install.json'
+        with patch.object(g, 'require_closed_kicad') as closed:
+            argv, env = g.prepare_new_project_manager(manifest)
+        closed.assert_called_once_with()
+        self.assertEqual(argv, [str(self.manager)])
+        self.assertEqual(env['KICAD_CONFIG_HOME'], str(self.output / 'config'))
+        self.assertEqual(env['KICAD10_3RD_PARTY'], str(self.output / g.PCM_ROOT))
+        with patch.object(g, 'require_closed_kicad', side_effect=ValueError('An editor is open')), \
+                patch.object(g, 'read_manifest') as read, self.assertRaisesRegex(ValueError, 'editor is open'):
+            g.prepare_new_project_manager(manifest)
+        read.assert_not_called()
 
     def test_finder_launcher_reuses_pinned_entry_and_binds_bundle_files(self):
         record = self.prepare()

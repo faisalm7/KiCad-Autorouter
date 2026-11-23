@@ -235,6 +235,36 @@ class PlacementGuiTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'changed before display'):
                 adopt(captured)
 
+    def test_native_project_stub_and_missing_outline_use_setup_guidance_without_native_worker(self):
+        from autorouter import sexpr
+        from experiments.placement_native_proposal_v1 import ordinary_fixture
+
+        with tempfile.TemporaryDirectory() as temp:
+            for missing in ('footprints', 'outline'):
+                with self.subTest(missing=missing):
+                    board = ordinary_fixture.write_project(Path(temp).resolve() / missing)
+                    tree = sexpr.parse(board.read_text())
+                    if missing == 'footprints':
+                        tree = tree[:4]  # Native 10.x Manager's board header-only stub.
+                    else:
+                        tree = [row for row in tree if not isinstance(row, list) or row[0] != 'gr_rect']
+                    board.write_text(sexpr.dump(tree) + '\n')
+                    initial = gui.source_inventory(board)
+                    window = self.window(); window.board = Mock(); window.start = Mock()
+                    window.board.GetValue.return_value = str(board)
+                    window_method('inspect_project')(window, None)
+                    inspect, adopt = window.start.call_args.args[1:]
+                    job = Mock()
+                    captured = inspect(job, threading.Event())
+                    adopt(captured)
+                    self.assertIsNone(window.inspection)
+                    self.assertEqual(window.saved_route_context['pcb_setup'], missing + '_needed')
+                    self.assertIn('F8' if missing == 'footprints' else 'Edge.Cuts', window.findings.SetValue.call_args.args[0])
+                    with self.assertRaisesRegex(ValueError, 'Finish PCB setup in KiCad'):
+                        window_method('open_saved_routing')(window, None)
+                    job.run.assert_not_called()
+                    self.assertEqual(gui.source_inventory(board), initial)
+
     def test_lock_that_appears_during_geometry_capture_stops_native_dispatch(self):
         from experiments.placement_native_proposal_v1 import multipad_fixture
         with tempfile.TemporaryDirectory() as temp:

@@ -2,6 +2,22 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## Active design journeys
+
+1. Resume the installed 8996 workspace. The receiver's four cutouts and
+   exact U2 limit were visible at 880 × 610. Check the remaining curved board,
+   lock and refresh, routing progress, cancellation and review controls when
+   ordinary admission passes. Reuse the existing installation.
+2. Qualify the new-design handoff and readiness guidance. Use native KiCad
+   creation on an owned blank project, then native library, ERC and PCB
+   preparation steps. Keep the existing editor and its unsaved work safe.
+3. Deliver the checked live move from Conversation. Require exact live
+   selection, clarification, a revised preview, explicit approval, readback,
+   stale-state refusal and named native Undo. Keep the supported saved path.
+4. After verification, advance one applicable user journey from the lifecycle
+   matrix. Keep tests scoped to actual KiCad and geometry support.
+   [Design journeys](docs/design-lifecycle.md)
+
 ## Active work from e638c5e9
 
 Update the current state at each checkpoint and immediately begin the next

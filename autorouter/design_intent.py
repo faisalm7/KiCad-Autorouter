@@ -116,6 +116,17 @@ def _capture(board):
             'Routing support is checked against the exact proposal by the shared static preview.',
             'Native refill, connectivity, original-rule checks and review remain required.'],
     }
+    # The native Manager creates a PCB stub before any library parts or
+    # outline exist. A setup hint grants no placement or routing authority.
+    if not footprints and not routes and not sx.children(tree, 'zone'):
+        result['pcb_setup'] = 'footprints_needed'
+    elif footprints:
+        graphics = [row for row in tree[1:] if isinstance(row, list) and row
+                    and isinstance(row[0], str) and row[0].startswith('gr_')]
+        graphics.extend(row for part in footprints for row in part[1:]
+                        if isinstance(row, list) and row and isinstance(row[0], str) and row[0].startswith('fp_'))
+        if not any(sx.one(row, 'layer') == ['layer', '"Edge.Cuts"'] for row in graphics):
+            result['pcb_setup'] = 'outline_needed'
     from . import fixed_net_tie
     try:
         tie = fixed_net_tie.describe(tree)

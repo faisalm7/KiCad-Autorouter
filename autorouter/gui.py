@@ -2440,12 +2440,15 @@ def main(argv=None, *, source_guard=None):
     source.add_argument('--toolbar-unavailable', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--toolbar-selection', help=argparse.SUPPRESS)
     parser.add_argument('--workspace', action='store_true', help='Open the board-first saved-project workspace')
+    parser.add_argument('--workspace-launcher', help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
     board = args.board
     note = ''
     selection = ()
     if args.toolbar_selection is not None and not args.toolbar_project:
         parser.error('A KiCad selection requires its launching project.')
+    if args.workspace_launcher is not None and not args.workspace:
+        parser.error('The prepared launcher is only for the saved-project workspace.')
     if args.toolbar_project:
         from .pipeline import Rejected
         try:
@@ -2469,7 +2472,8 @@ def main(argv=None, *, source_guard=None):
     app = wx.App(False)
     if source_guard is None and (args.workspace or args.toolbar_project or args.toolbar_unavailable):
         from . import placement_gui
-        window = placement_gui.create_window(board, source_note=note, toolbar_selection=selection)
+        options = {'launcher_manifest': args.workspace_launcher} if args.workspace_launcher is not None else {}
+        window = placement_gui.create_window(board, source_note=note, toolbar_selection=selection, **options)
     else:
         window = create_window(board, source_guard=source_guard, source_note=note)
     window.Show()

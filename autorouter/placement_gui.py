@@ -201,6 +201,15 @@ class SavedProjectOpen(ValueError):
     """The saved-project inventory contains a KiCad lock."""
 
 
+PCB_SETUP_GUIDANCE = {
+    'footprints_needed': ('The saved PCB has no footprints yet.',
+        'Add and connect symbols in KiCad, assign their footprints and review ERC. '
+        'Then use Update PCB from Schematic (F8) in PCB Editor.'),
+    'outline_needed': ('The saved PCB needs a board outline.',
+        'Draw a closed outline on Edge.Cuts in KiCad. Placement and routing still check the saved geometry.'),
+}
+
+
 def require_closed_source(board, *, inspection=None):
     """Early UI hint using the same inventory/lock guard as qualification.
 
@@ -605,6 +614,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
         def __init__(self):
             super().__init__(parent, style=wx.BORDER_SIMPLE | wx.WANTS_CHARS)
             self.display = None; self.bitmap = None; self.draw_area = False
+            self.empty_note = empty_note
             self.drag_start = None; self.drag_end = None; self.render_key = None
             self.SetMinSize(self.FromDIP((210, 150) if read_only else (320, 180)))
             self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
@@ -633,6 +643,11 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
 
         def Ready(self):
             return self.display is not None and self.bitmap is not None and self.render_key == self.view_size()
+
+        def SetEmptyNote(self, text):
+            self.empty_note = text
+            if self.display is None:
+                self.Refresh()
 
         def view_size(self):
             width, height = self.GetClientSize()
@@ -673,7 +688,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
             width, height = self.GetClientSize()
             if self.display is None:
                 dc.SetTextForeground(wx.Colour('#526273'))
-                dc.DrawText(empty_note, 18, 22)
+                dc.DrawText(self.empty_note, 18, 22)
                 return
             if width <= 0 or height <= 0: return
             self.prepare_bitmap()
@@ -724,7 +739,7 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
 
 
 def create_window(board='', *, output_hint=None, on_closed=None, conversation_reply=None, source_note='',
-                  toolbar_selection=()):
+                  toolbar_selection=(), launcher_manifest=None):
     if on_closed is not None and not callable(on_closed):
         raise ValueError('The parent close notification must be a callable.')
     if output_hint is not None and not isinstance(output_hint, (str, Path)):
@@ -736,14 +751,15 @@ def create_window(board='', *, output_hint=None, on_closed=None, conversation_re
     if not isinstance(board, (str, Path)):
         raise ValueError('Use an exact saved PCB path or an empty hint.')
 
+    options = {'launcher_manifest': launcher_manifest} if launcher_manifest is not None else {}
     window = window_type(wx, board=board, output_hint=output_hint, on_closed=on_closed,
-                         conversation_reply=conversation_reply, toolbar_selection=toolbar_selection)()
+                         conversation_reply=conversation_reply, toolbar_selection=toolbar_selection, **options)()
     if source_note: window.message(source_note)
     return window
 
 
 def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_reply=None,
-                toolbar_selection=()):
+                toolbar_selection=(), launcher_manifest=None):
     """Real window methods exposed for controlled-dependency tests, no fragments."""
     class Window(wx.Frame):
         def __init__(self):
@@ -781,6 +797,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.board.SetMinSize(self.FromDIP((160, -1)))
             self.board.SetToolTip('Choose a saved KiCad project or enter its full path and press Return.')
             pathrow.Add(self.board, 1, wx.RIGHT, 6)
+            self.new_design = wx.Button(panel, label='Start a new design')
+            pathrow.Add(self.new_design, 0, wx.RIGHT, 6)
             self.browse = wx.Button(panel, label='Choose project…'); pathrow.Add(self.browse, 0, wx.RIGHT, 6)
             from . import live_move
             self.example_project = live_move.example_source() / (live_move.EXAMPLE_NAME + '.kicad_pro')
@@ -1018,12 +1036,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             frame_layout = wx.BoxSizer(wx.VERTICAL)
             frame_layout.Add(panel, 1, wx.EXPAND)
             self.SetSizer(frame_layout)
-            self.input_controls = [self.board, self.browse, self.example, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
+            self.input_controls = [self.board, self.browse, self.new_design, self.example, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
                 self.assistant_request, self.assistant_ask, self.route_budget, self.three_pad]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.board.Bind(wx.EVT_TEXT_ENTER, self.inspect_project)
+            self.new_design.Bind(wx.EVT_BUTTON, self.start_new_design)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
             self.example.Bind(wx.EVT_BUTTON, self.open_example)
             if board: self.Bind(wx.EVT_SHOW, self.inspect_initial_project)
@@ -1102,8 +1121,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             """Passive source view before a draft exists; never validation."""
             if self.inspection is None:
                 context = getattr(self, 'saved_route_context', None)
+                setup = (context or {}).get('pcb_setup')
+                self.picture.SetEmptyNote('PCB setup continues in KiCad.' if setup else
+                    'Choose a saved project to see its board and components.')
                 self.set_board_scene(context['scene'] if context is not None else None)
-                if context is not None:
+                if context is not None and not setup:
                     self.board_legend = ('Saved snapshot · Read-only view' if context.get('open_in_kicad')
                                          else 'Saved front copper · Read-only view')
                     self.constraint_key.SetLabel(self.board_legend)
@@ -1276,12 +1298,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
-            open_snapshot = (getattr(self, 'saved_route_context', None) or {}).get('open_in_kicad', False)
+            saved_context = getattr(self, 'saved_route_context', None) or {}
+            passive_only = bool(saved_context.get('open_in_kicad') or saved_context.get('pcb_setup'))
             if hasattr(self, 'example'):
                 source_entered = bool(self.board.GetValue().strip())
+                if hasattr(self, 'new_design'):
+                    self.new_design.Show(not source_entered)
+                    self.browse.SetLabel('Choose project…' if source_entered else 'Continue an existing design…')
                 self.example.Show(not source_entered and self.example_project.is_file())
                 self.inspect.Show(source_entered)
-                self.route_saved.Show(source_entered and not open_snapshot)
+                self.route_saved.Show(source_entered and not passive_only)
                 self.pages.Show(source_entered)
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
             scope = self.inspection['observation']['scope'] if self.inspection is not None else None
@@ -1314,7 +1340,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.cancel.Enable(self.busy)
             if hasattr(self, 'conversation_kind'):
                 routing = self.conversation_kind.GetSelection() == 1
-                self.assistant_ask.Enable(not self.busy and not open_snapshot
+                self.assistant_ask.Enable(not self.busy and not passive_only
                     and (bool(self.board.GetValue()) if routing else self.inspection is not None))
                 self.conversation_reset.Enable(not self.busy)
                 self.conversation_kind.Enable(not self.busy)
@@ -1688,7 +1714,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def ask_conversation(self, _):
             if self.busy or self.gate.closed or self.routing is not None:
                 return
-            if (getattr(self, 'saved_route_context', None) or {}).get('open_in_kicad'):
+            saved_context = getattr(self, 'saved_route_context', None) or {}
+            if saved_context.get('pcb_setup'):
+                self.message('Finish PCB setup in KiCad, then refresh inspection before making a proposal.')
+                return
+            if saved_context.get('open_in_kicad'):
                 self.message('Close the project in KiCad and refresh inspection before making a proposal.')
                 return
             from . import design_intent as design, hosted_intent as hosted
@@ -1967,6 +1997,31 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 selected = dialog.GetPath()
             self.open_saved_source(selected)
 
+        def start_new_design(self, _):
+            if self.busy or self.gate.closed or self.board.GetValue().strip():
+                return
+            guide = ('In KiCad Manager, choose File > New Project > Default. '
+                     'Save the new project in its own folder, then choose Continue an existing design in Copperpath.')
+            if launcher_manifest is None:
+                self.message(guide)
+                return
+            from scripts import install_gui
+
+            def prepare(_job, _cancelled):
+                try:
+                    return install_gui.prepare_new_project_manager(launcher_manifest)
+                except (ValueError, OSError) as exc:
+                    raise ValueError(str(exc) + ' ' + guide) from exc
+
+            def open_manager(material):
+                argv, env = material
+                install_gui.require_closed_kicad()
+                subprocess.Popen(argv, cwd=c.ROOT, env=env, stdin=subprocess.DEVNULL,
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                self.message(guide)
+
+            self.start('Checking the prepared KiCad Manager… ' + guide, prepare, open_manager)
+
         def open_example(self, _):
             if not self.board.GetValue().strip():
                 self.open_saved_source(self.example_project)
@@ -2099,7 +2154,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if read_only is not None:
                     self.saved_route_context = read_only
                     self.overview()
-                    if open_snapshot:
+                    setup = read_only.get('pcb_setup')
+                    if setup:
+                        title, steps = PCB_SETUP_GUIDANCE[setup]
+                        details = [title, steps, 'Save and close the KiCad project, then choose Refresh inspection.']
+                        status = title + ' See Findings for the next step in KiCad.'
+                        if open_snapshot:
+                            details.append('The snapshot uses the saved files. Unsaved editor changes stay in KiCad.')
+                    elif open_snapshot:
                         details = ['Last saved board. Unsaved changes in KiCad are unavailable here.', read_only['reason']]
                         status = 'Showing the last saved board. Close the project in KiCad, then refresh inspection.'
                     else:
@@ -2136,11 +2198,13 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         self.message('Three-pad placement ready. Select one eligible part. All existing copper stays in place.')
                     else:
                         self.message('Saved board ready. Choose parts to place, start routing, or open Conversation.')
-            def read_only_capture(source, reason, *, open_in_kicad=False):
+            def read_only_capture(source, reason, *, open_in_kicad=False, static=None):
                 from . import design_intent, review_view
-                static = design_intent.inspect_project(source)
+                if static is None:
+                    static = design_intent.inspect_project(source)
+                setup = static.get('pcb_setup')
                 scene = review_view.saved_board_front(static)
-                if scene is None:
+                if scene is None and not setup:
                     return None
                 if open_in_kicad:
                     # Avoid mixing context from files an editor may be saving.
@@ -2149,7 +2213,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     require_closed_source(source, inspection=static)
                     schematic = schematic_context.observe(source, static['source_hashes'])
                 reason = gui.short_failure_reason(reason) or 'The saved board exceeds the current placement scope.'
-                context = dict(static=static, scene=scene, reason=reason, open_in_kicad=open_in_kicad)
+                context = dict(static=static, scene=scene, reason=reason, open_in_kicad=open_in_kicad, pcb_setup=setup)
                 return (None, *schematic, '', None, context)
 
             def inspect(job, event):
@@ -2166,14 +2230,20 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     return captured
                 try:
                     value = intent.inspect_saved(source)
-                except (ValueError, Rejected) as exc:
+                except (ValueError, Rejected, IndexError, TypeError) as exc:
+                    from . import design_intent
+                    try:
+                        static = design_intent.inspect_project(source)
+                    except design_intent.IntentError:
+                        raise exc from None
                     reason = str(exc)
-                    if reason == 'Exact two outer copper layers required':
-                        reason = 'Placement currently requires a board with front and back copper layers only.'
-                    elif (not isinstance(exc, intent.contract.UnsupportedPlacement)
-                          and not reason.startswith('Unsupported placement geometry or setting in ')):
-                        raise
-                    captured = read_only_capture(source, reason)
+                    if not static.get('pcb_setup'):
+                        if reason == 'Exact two outer copper layers required':
+                            reason = 'Placement currently requires a board with front and back copper layers only.'
+                        elif (not isinstance(exc, intent.contract.UnsupportedPlacement)
+                              and not reason.startswith('Unsupported placement geometry or setting in ')):
+                            raise
+                    captured = read_only_capture(source, reason, static=static)
                     if captured is None:
                         raise
                     return captured
@@ -2603,7 +2673,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             """Adopt checked protected settings into the ordinary routing workflow."""
             if self.busy or self.routing is not None:
                 raise ValueError('Finish the current task before adopting routing settings.')
-            if (getattr(self, 'saved_route_context', None) or {}).get('open_in_kicad'):
+            saved_context = getattr(self, 'saved_route_context', None) or {}
+            if saved_context.get('pcb_setup'):
+                raise ValueError('Finish PCB setup in KiCad and refresh inspection before routing.')
+            if saved_context.get('open_in_kicad'):
                 raise ValueError('Close the project in KiCad and refresh inspection before routing.')
             source = require_closed_source(str(gui.saved_project_board(self.board.GetValue())))
             if values is None and getattr(self, 'constraint_offer', None) is not None:
