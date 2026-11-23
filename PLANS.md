@@ -10,9 +10,10 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 2. **Workspace source ready.** The welcome, project header, visible copper
    policy, Request entry and matching review passed focused controls. The
    engineering gates and optional live companion are unchanged.
-3. Run the compiled named-app prototype under ordinary resource admission.
-   Qualify its actual macOS identity before using a native host in the install.
-   Keep the diagnostic entry and the existing installation.
+3. **Named-app code ready for qualification.** The optional host loaded the
+   pinned Python and wx from its own executable in the headless check. Verify
+   the corrected prototype’s visible macOS identity before qualifying the
+   named Finder build. Keep the diagnostic entry and existing installation.
 4. Install the resulting Finder build. Walk the frozen PushButtonLed task
    and the separate owned stale/refusal/recovery controls. Record actual
    renders, focus, resizing, identity, actions, waits and resource use.

@@ -9,6 +9,7 @@ import shlex
 import tempfile
 import subprocess
 import sys
+from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 
@@ -165,6 +166,37 @@ class GuiInstallerTests(unittest.TestCase):
         with patch.object(g.os, 'execve') as execute, self.assertRaisesRegex(ValueError, 'file changed'):
             g.launch(self.output / 'install.json', direct=True)
         execute.assert_not_called()
+
+    def test_named_app_binds_local_executable_before_opening_the_same_workspace(self):
+        from autorouter import gui
+
+        with patch.object(g, 'compile_saved_app', side_effect=lambda executable, _: executable.write_bytes(b'fixture')):
+            record = g.prepare(self.output, named_workspace=True)
+        manifest = self.output / 'install.json'
+        binary = self.output / g.APP_EXECUTABLE
+        self.assertEqual(record['saved_app_host'], g.EMBEDDED_APP_HOST)
+        self.assertEqual(record['immutable_files'][g.APP_EXECUTABLE], g.digest(binary))
+        bundle = plistlib.loads((self.output / g.APP_INFO).read_bytes())
+        self.assertEqual(bundle['CFBundleDisplayName'], 'Copperpath')
+        self.assertNotIn('LSUIElement', bundle)
+        host = SimpleNamespace(executable=str(binary), flags=SimpleNamespace(isolated=True))
+        with patch.object(g, 'sys', host), patch.object(g.os, 'chdir') as cwd, \
+                patch.object(g.os, 'execve') as execute, patch.object(gui, 'main', return_value=0) as open_workspace, \
+                patch.dict(os.environ, KICAD_API_TOKEN='fixture', PYTHONHOME='fixture'):
+            host.executable = str(self.root / 'moved app')
+            with self.assertRaisesRegex(ValueError, 'original launcher folder'):
+                g.launch(manifest, direct=True, embedded=True)
+            cwd.assert_not_called(); open_workspace.assert_not_called()
+            host.executable = str(binary)
+            self.assertEqual(g.launch(manifest, direct=True, embedded=True), 0)
+            open_workspace.assert_called_once_with(['--workspace', '--workspace-launcher', str(manifest)])
+            self.assertNotIn('KICAD_API_TOKEN', os.environ)
+            self.assertNotIn('PYTHONHOME', os.environ)
+            self.assertEqual(os.environ['KICAD10_3RD_PARTY'], record['third_party_home'])
+            execute.assert_not_called()
+            open_workspace.side_effect = SystemExit('Pinned wx is unavailable.')
+            with self.assertRaisesRegex(ValueError, 'Pinned wx is unavailable'):
+                g.launch(manifest, direct=True, embedded=True)
 
     def test_source_or_home_escape_refuses_before_exec(self):
         self.prepare()

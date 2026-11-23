@@ -23,6 +23,7 @@ SAVED_APP = 'Copperpath.app'
 APP_EXECUTABLE = f'{SAVED_APP}/Contents/MacOS/Copperpath'
 APP_INFO = f'{SAVED_APP}/Contents/Info.plist'
 APP_ICON = f'{SAVED_APP}/Contents/Resources/Route.icns'
+EMBEDDED_APP_HOST = 'pinned-kicad-python-3.9'
 FINDER_REFUSAL_SHOWN = 20
 IMMUTABLE_FILES = frozenset(('Open Saved Project.command', 'Launch Autorouter.command', 'README.txt', 'initial-kicad_common.json',
     'initial-kicad.json', APP_EXECUTABLE, APP_INFO, APP_ICON,
@@ -105,7 +106,56 @@ def finder_refusal(error):
         return False
 
 
-def prepare_saved_app(output, python):
+def compile_saved_app(executable, manifest):
+    """Keep the Finder app process while running the pinned wx application."""
+    home = c.PYTHON.parent.parent
+    if (sys.platform != 'darwin' or c.NATIVE_VERSION != '10.0.7' or home.name != '3.9'
+            or home.parents[1].name != 'Python.framework'):
+        raise ValueError('The named Finder app requires the pinned macOS KiCad 10.0.7 Python framework.')
+    framework = home.parents[1]
+    library = home / 'Python'
+    if not library.is_file() or not (home / 'Headers/Python.h').is_file():
+        raise ValueError('The pinned KiCad Python framework is incomplete.')
+    # The embedded entry has no interpreter or script arguments from Finder.
+    source = '''#include <Python.h>
+int main(int argc, char **argv)
+{
+    (void)argc;
+    char *arguments[] = {argv[0], "--open-saved-embedded", WORKSPACE_MANIFEST};
+    PyConfig config;
+    PyConfig_InitIsolatedConfig(&config);
+    config.write_bytecode = 0;
+    PyStatus status = PyConfig_SetBytesString(&config, &config.home, PYTHON_HOME);
+    if (!PyStatus_Exception(status))
+        status = PyConfig_SetBytesArgv(&config, 3, arguments);
+    if (!PyStatus_Exception(status))
+        status = PyConfig_SetBytesString(&config, &config.run_filename, WORKSPACE_SCRIPT);
+    if (!PyStatus_Exception(status))
+        status = Py_InitializeFromConfig(&config);
+    PyConfig_Clear(&config);
+    if (PyStatus_Exception(status))
+        Py_ExitStatusException(status);
+    return Py_RunMain();
+}
+'''
+    definitions = dict(PYTHON_HOME=home, WORKSPACE_MANIFEST=manifest,
+                       WORKSPACE_SCRIPT=c.ROOT / 'scripts/install_gui.py')
+    flags = ['-D' + key + '=' + json.dumps(str(path), ensure_ascii=False)
+             for key, path in definitions.items()]
+    argv = ['/usr/bin/clang', '-std=c11', *flags, '-I', str(home / 'Headers'),
+            '-x', 'c', '-', '-x', 'none', str(library),
+            '-Xlinker', '-rpath', '-Xlinker', str(framework),
+            '-Xlinker', '-rpath', '-Xlinker', str(framework.parent), '-o', str(executable)]
+    try:
+        result = subprocess.run(argv, input=source, capture_output=True, text=True, timeout=15)
+    except subprocess.TimeoutExpired as exc:
+        raise ValueError('The named Finder app compiler exceeded its setup deadline.') from exc
+    if result.returncode or not executable.is_file():
+        detail = ' '.join(result.stderr.split())[:700]
+        raise ValueError('The system compiler could not build the named Finder app. ' + detail)
+
+
+def prepare_saved_app(output, python, *, named_workspace=False):
     """Create a small local app around the same pinned saved-project entry."""
     executable, info, icon = (output / name for name in (APP_EXECUTABLE, APP_INFO, APP_ICON))
     executable.parent.mkdir(parents=True, mode=0o700)
@@ -113,12 +163,19 @@ def prepare_saved_app(output, python):
     properties = dict(CFBundleExecutable='Copperpath', CFBundleIdentifier='org.copperpath.saved-project',
                       CFBundleName='Copperpath', CFBundlePackageType='APPL', CFBundleVersion='1',
                       CFBundleIconFile=icon.name, NSHighResolutionCapable=True, LSUIElement=True)
+    if named_workspace:
+        properties.update(CFBundleIdentifier='org.copperpath.workspace', CFBundleDisplayName='Copperpath')
+        properties.pop('LSUIElement')
     with info.open('xb') as stream:
         plistlib.dump(properties, stream)
     png = plugin.icon_png(128)
     image = b'ic07' + (len(png) + 8).to_bytes(4, 'big') + png
     with icon.open('xb') as stream:
         stream.write(b'icns' + (len(image) + 8).to_bytes(4, 'big') + image)
+    if named_workspace:
+        compile_saved_app(executable, output / 'install.json')
+        executable.chmod(0o700)
+        return executable, info, icon
     command = launch_command(python, '--open-saved-finder', output / 'install.json')
     alert = ('display alert "Copperpath could not open" message '
              '"Check that the original installation and its local Python environment are present. '
@@ -132,7 +189,7 @@ def prepare_saved_app(output, python):
     return executable, info, icon
 
 
-def prepare(output, *, checked_move_editor=None):
+def prepare(output, *, checked_move_editor=None, named_workspace=False):
     output = canonical(Path(output).absolute())
     if output.exists() or not output.parent.is_dir():
         raise ValueError('Choose a fresh output folder beneath an existing real directory.')
@@ -180,7 +237,7 @@ def prepare(output, *, checked_move_editor=None):
         with launch.open('x') as stream: stream.write(payload)
         launch.chmod(0o700)
         launchers.append(launch)
-    launchers.extend(prepare_saved_app(output, python))
+    launchers.extend(prepare_saved_app(output, python, named_workspace=named_workspace))
     description = README
     if checked_move_editor:
         source = live_move.example_source()
@@ -208,6 +265,7 @@ def prepare(output, *, checked_move_editor=None):
                   installed_globally=False, standalone=False,
                   qualification='Prepared only; actual double-click/IPC/GUI behavior requires qualification.')
     if checked_move_editor: record['checked_move_editor'] = str(checked_move_editor)
+    if named_workspace: record['saved_app_host'] = EMBEDDED_APP_HOST
     with (output / 'install.json').open('x') as stream:
         json.dump(record, stream, indent=2); stream.write('\n')
     return record
@@ -331,16 +389,28 @@ def prepare_new_project_manager(manifest):
     return [record['manager'], '--new'], env
 
 
-def launch(manifest, *, direct=False):
+def launch(manifest, *, direct=False, embedded=False):
     record, root, env = launch_material(manifest)
     manager = Path(record['manager'])
+    if embedded and (not direct or record.get('saved_app_host') != EMBEDDED_APP_HOST
+                     or Path(sys.executable) != root / APP_EXECUTABLE or not sys.flags.isolated):
+        raise ValueError('Open the checked Copperpath app from its original launcher folder.')
     if not direct:
         require_closed_kicad()
     check_third_party_home(record, root)
     os.chdir(c.ROOT)
     if direct:
-        os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui', '--workspace',
-                            '--workspace-launcher', str(root / 'install.json')], env)
+        args = ['--workspace', '--workspace-launcher', str(root / 'install.json')]
+        if embedded:
+            for key in os.environ.keys() - env.keys():
+                os.environ.pop(key)
+            os.environ.update(env)
+            from autorouter import gui
+            try:
+                return gui.main(args)
+            except SystemExit as exc:
+                raise ValueError(str(exc)) from exc
+        os.execve(c.PYTHON, [str(c.PYTHON), '-B', '-m', 'autorouter.gui', *args], env)
     else:
         argv = [str(manager)]
         if 'checked_move_editor' in record:
@@ -355,18 +425,27 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--output'); mode.add_argument('--launch'); mode.add_argument('--open-saved')
     mode.add_argument('--open-saved-finder', help=argparse.SUPPRESS)
+    mode.add_argument('--open-saved-embedded', help=argparse.SUPPRESS)
     parser.add_argument('--checked-move-editor', help='Existing signed KiCad 10.0.8 app for the isolated example')
+    parser.add_argument('--named-workspace', action='store_true',
+                        help='Build the named Finder app with the system compiler and pinned macOS framework.')
     args = parser.parse_args()
     if args.checked_move_editor is not None and args.output is None:
         parser.error('Use --checked-move-editor only when preparing a new output folder.')
+    if args.named_workspace and args.output is None:
+        parser.error('Use --named-workspace only when preparing a new output folder.')
     try:
         if args.launch: launch(args.launch)
+        elif args.open_saved_embedded:
+            return launch(args.open_saved_embedded, direct=True, embedded=True)
         elif args.open_saved or args.open_saved_finder:
             launch(args.open_saved or args.open_saved_finder, direct=True)
-        else: print(json.dumps(prepare(args.output, checked_move_editor=args.checked_move_editor), indent=2))
+        else:
+            print(json.dumps(prepare(args.output, checked_move_editor=args.checked_move_editor,
+                                     named_workspace=args.named_workspace), indent=2))
     except (ValueError, p.Rejected, OSError, ImportError) as exc:
         print('Launcher refused: ' + str(exc), file=sys.stderr)
-        if args.open_saved_finder and finder_refusal(exc):
+        if (args.open_saved_finder or args.open_saved_embedded) and finder_refusal(exc):
             return FINDER_REFUSAL_SHOWN
         return 2
     return 0

@@ -283,7 +283,7 @@ def install_existing(source, destination, *, expected_manifest_sha256, import_ar
         'local_engine_copied': True, 'standalone': False, 'published': False}
 
 
-def prepare_workspace_launcher(root):
+def prepare_workspace_launcher(root, *, named_workspace=False):
     """Finish a fresh local install using its own files and existing pinned tools."""
     from autorouter.runner import run
     from scripts.install_gui import APP_EXECUTABLE, SAVED_APP
@@ -299,10 +299,13 @@ def prepare_workspace_launcher(root):
     env = {name: value for name, value in os.environ.items()
            if name not in ('PYTHONPATH', 'PYTHONHOME', 'KICAD_API_SOCKET', 'KICAD_API_TOKEN')}
     env.update(PYTHONDONTWRITEBYTECODE='1', PYTHONNOUSERSITE='1')
+    launcher_argv = [str(python), '-B', 'scripts/install_gui.py', '--output', str(launcher)]
+    if named_workspace:
+        launcher_argv.append('--named-workspace')
     commands = (
         ('environment', [sys.executable, '-B', '-m', 'venv', '--copies', '--without-pip', str(root / '.venv')]),
         ('doctor', [str(python), '-B', '-m', 'autorouter', 'doctor']),
-        ('launcher', [str(python), '-B', 'scripts/install_gui.py', '--output', str(launcher)]),
+        ('launcher', launcher_argv),
     )
     for stage, argv in commands:
         log = setup / (stage + '.log')
@@ -350,8 +353,18 @@ def main():
         help='Required source manifest SHA256 for --install-existing only.')
     parser.add_argument('--with-launcher', action='store_true',
         help='Create a fresh local Python environment, check dependencies and prepare the saved-project launcher on macOS.')
+    parser.add_argument('--named-workspace', action='store_true',
+        help='With --with-launcher, build a named Finder app from the pinned KiCad 10.0.7 Python framework.')
     args = parser.parse_args()
     try:
+        if args.named_workspace and not args.with_launcher:
+            raise ValueError('Use --named-workspace with --with-launcher.')
+        if args.named_workspace:
+            if args.install_existing or args.native_version != '10.0.7':
+                raise ValueError('Named Finder app setup requires a fresh KiCad 10.0.7 build from current source.')
+            installer = Path(__file__).resolve().with_name('install_gui.py')
+            if pv.read_bytes(Path(args.source).absolute() / 'scripts/install_gui.py') != pv.read_bytes(installer):
+                raise ValueError('This source does not supply the current named Finder app installer.')
         direct_paths = args.kicad_app is not None or args.java_executable is not None
         if direct_paths and args.host_paths_json is not None:
             raise ValueError('Choose either the KiCad and Java paths or --host-paths-json.')
@@ -385,7 +398,7 @@ def main():
                              native_version=args.native_version, freerouting_jar=args.freerouting_jar,
                              host_paths=host_paths)
         if args.with_launcher:
-            result.update(prepare_workspace_launcher(result['root']))
+            result.update(prepare_workspace_launcher(result['root'], named_workspace=args.named_workspace))
         print(json.dumps(result, indent=2))
     except (ValueError, OSError) as exc:
         print('Runtime preparation refused: ' + str(exc), file=sys.stderr)
