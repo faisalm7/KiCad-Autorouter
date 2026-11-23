@@ -48,17 +48,26 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    At 880 × 610 the same build showed both saved footprint assignments.
    **Open in KiCad** opened the exact project and completed first-use library
    setup. Refresh restored the guidance after normal close with all three
-   saved design files exact. Next, display the retained checked result in
-   the installed review and observe the current no-work guidance with its
-   board. Reuse the routing and delivery evidence.
+   saved design files exact. The installed review displayed the retained
+   checked board, both traces and every warning at laptop size. The ordinary
+   Finish gaps preview on the separate deliverable found both connections
+   complete, preserved the input, and dispatched no routing engine.
    [Installed setup](evidence/product-native-first-setup-gui-001.json) ·
-   [Placement and delivery](evidence/product-native-first-placement-delivery-001.json)
+   [Placement and delivery](evidence/product-native-first-placement-delivery-001.json) ·
+   [Installed findings](evidence/product-native-first-review-gui-001.json)
 8. **Bounded licensed intake complete.** Three leads yielded no suitable
    two-layer development task. The motor driver was already exposed, the
    Quiver attachment needs explicit electrical constraints, and the USB-C
    regulator is four-layer. Preserve the source decisions. A later trial
    needs a new eligible board with a meaningful task declared before execution.
    [Intake scope](SOURCE_LEDGER.md#november-22--three-lead-placement-intake)
+9. **Next usability correction.** The already-connected board opens with
+   verified Native counts but still suggests routing. Make the opening
+   guidance acknowledge the completed connections and lead directly to
+   saved warnings. Finish gaps should open Findings when its no-work
+   preview reports warnings. Keep the board and explicit other routing
+   scopes accessible. Verify the changed status and tab in the installed
+   workspace without a new route or release-wide rerun.
 
 ## Active work from e638c5e9
 

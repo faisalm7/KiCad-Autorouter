@@ -1,6 +1,6 @@
 # Requirements and release gates
 
-The master specification, current strategy and owner steering govern. Historical routing superiority remains unmet and deferred. The latest checked delivery uses `da13e5568` and the validated single-component placement on the new two-part design. This build's graphical setup handoff passed. Current-build review observation remains open. Prior workspace and live model results keep their build-specific scope. [Master specification](MASTER_PROMPT.md) · [Strategy](docs/product-strategy.md) · [Current plan](PLANS.md) · [Checked delivery](evidence/product-native-first-placement-delivery-001.json) · [Severity list](docs/experimental-rc.md).
+The master specification, current strategy and owner steering govern. Historical routing superiority remains unmet and deferred. The latest checked delivery uses `da13e5568` and the validated single-component placement on the new two-part design. This build passed its graphical setup handoff, retained review display and ordinary Finish gaps no-work preview. Prior workspace and live model results keep their build-specific scope. [Master specification](MASTER_PROMPT.md) · [Strategy](docs/product-strategy.md) · [Current plan](PLANS.md) · [Checked delivery](evidence/product-native-first-placement-delivery-001.json) · [Installed findings](evidence/product-native-first-review-gui-001.json) · [Severity list](docs/experimental-rc.md).
 
 **Saved workspace and optional conversation.** Ordinary controls and an explicit local request can use the same placement settings. The installed graphical review showed original placement, protected and new routing, complete findings and a freshly validated separate export. Controlled replies exercised clarification and revised proposal adoption. A new live hosted turn needs separate authorization. [Owned task](evidence/product-workspace-delivery-faf-001.json)
 
@@ -38,8 +38,10 @@ The master specification, current strategy and owner steering govern. Historical
 - The installed Native source-baseline scope placed one selected through-hole
   connector beside one fixed connector on the stock two-part project. The
   same qualified copy delivered both verified connections through the
-  ordinary controller. A finished in-workspace review on this build remains
-  open. [Placement and delivery](evidence/product-native-first-placement-delivery-001.json)
+  ordinary controller. The installed widget displayed the retained review
+  at 880 × 610. The same build's ordinary no-work preview kept the checked
+  project exact and reported both warnings. [Placement and delivery](evidence/product-native-first-placement-delivery-001.json) ·
+  [Installed findings](evidence/product-native-first-review-gui-001.json)
 - First setup on this Mac can take existing pinned KiCad, Java and
   Freerouting locations and open the new workspace through Finder. Its
   installed Conversation shortcuts support reviewable keyboard edits with
