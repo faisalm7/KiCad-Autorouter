@@ -47,6 +47,14 @@ separate transaction requests without a compare-and-swap revision. Keep the
 first journey to a single isolated PCB editor and one checked translation.
 [Pinned transactions](https://github.com/KiCad/kicad-source-mirror/blob/10.0.8/common/api/api_handler_editor.cpp#L42-L155)
 
+**Open saved-project workspace** carries the exact project from the checked
+10.0.8 companion. With the project still open in KiCad it displays the last
+saved board and withholds engineering controls. **Back to live companion**
+restores the conversation and request and reads the current live selection.
+Preview and check any move again. The installed round trip preserved the
+PCB and refused to reuse a J1 request after selection changed to J2.
+[Installed round trip](../evidence/product-live-saved-workspace-return-001.json)
+
 ## Visual checks
 
 Keep the board dominant at 880 × 610 and above. Use native system type,

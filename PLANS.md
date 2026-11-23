@@ -91,13 +91,18 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
     [Intake and task](evidence/product-distinct-licensed-route-intake-001.json) ·
     [Native control](evidence/product-modern-two-layer-pour-native-001.json) ·
     [Installed delivery](evidence/product-modern-two-layer-pour-workspace-001.json)
-12. **Next live companion improvement.** Preserve the ongoing local
-    conversation when opening and returning from the saved-project
-    workspace. Carry the exact saved project, invalidate any prior move
-    approval on return, and refresh live selection. Keep the active
-    companion available for verification after applying a move or asking
-    for native Undo. Exercise the round trip with the installed owned
-    companion and reuse the existing move-and-Undo qualification.
+12. **Verified live companion round trip.** Open the exact saved project
+    without dismissing the conversation. The installed 10.0.8 companion
+    returned from a locked, read-only saved view, preserved the request,
+    and showed the new J2 selection. The earlier J1 proposal expired and
+    the old request was refused. The live board and saved source matched.
+    Source regression keeps the handoff disabled while move or Undo
+    verification is pending. [Native round trip](evidence/product-live-saved-workspace-return-001.json)
+13. **Next end-to-end handoff check.** Continue the same owned project in
+    the saved workspace after closing the exact isolated KiCad project.
+    Check source identities, fresh inspection and a guarded routing
+    preview. A dead live connection must withhold active move controls.
+    Reuse prior route, export and native Undo results.
 
 ## Active work from e638c5e9
 
