@@ -52,6 +52,43 @@ class GuiSummaryTests(unittest.TestCase):
         self.assertIn('KiCad source findings · Open connections 1 · Other errors 0 · Warnings 1', text)
         self.assertIn('Save the PCB and schematic, then preview again.', text)
 
+    def test_library_guidance_preserves_the_native_warning_and_affected_footprint(self):
+        record = self.record()
+        warning = dict(severity='warning', type='lib_footprint_issues',
+                       description='KiCad could not find the footprint library',
+                       items=[dict(description='Footprint J2')])
+        record['native']['findings'][0] = warning
+        record['source_drc'] = {'opens': 2, 'findings': [warning.copy()]}
+        text = gui.human_summary('review', record)
+        self.assertIn('Footprint library issues · Already in the saved input', text)
+        self.assertIn('isolated KiCad configuration', text)
+        self.assertIn('against your installed libraries', text)
+        self.assertIn(warning['description'], text)
+        self.assertIn('Footprint J2', text)
+        record['native']['findings'][0] = dict(warning, excluded=True)
+        text = gui.human_summary('review', record)
+        self.assertNotIn('isolated KiCad configuration', text)
+        self.assertIn(warning['description'], text)
+
+    def test_completed_scope_points_to_saved_warnings_in_the_workspace(self):
+        settings = dict(gui.pref.DEFAULTS, scope='partial_completion', seconds=90)
+        request = gui.Request('/source/owned.kicad_pcb', '/separate', json.dumps(settings), True)
+        job = gui.CliJob()
+        for count in (0, 2):
+            record = dict(status='preview', gap_plan=dict(status='already_connected',
+                          source_delivery=dict(reasons=[])),
+                          native=dict(opens=0, blocking=0, warnings=count, exclusions=0))
+            flow = SimpleNamespace(workspace=Path('/separate/owned'), records={'preview': record},
+                                   choice=None, fresh=Mock(), check_request=Mock())
+            window = SimpleNamespace(**displayed_inputs(request), job=job, busy=True, flow=flow,
+                in_workspace=True, inspected=Mock(), status=Mock(), log=Mock(), findings_header=Mock(),
+                workspace_tabs=Mock(), refresh=Mock(), closing=False)
+            window_method('finished')(window, job, flow, 'preview', record, None)
+            text = window.status.SetLabel.call_args.args[0]
+            self.assertIn('KiCad found no missing connections.', text)
+            self.assertIn('Review saved warnings in Findings.' if count else 'There is nothing to route.', text)
+            window.workspace_tabs.SetSelection.assert_not_called()
+
     def test_improve_displays_its_checked_protection_count(self):
         for count in (0, 1, 4):
             record = self.record(); record.pop('protected_route_import')

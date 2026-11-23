@@ -275,6 +275,11 @@ def human_summary(stage, record, *, receipt_path=None, findings_receipt_path=Non
                 heading += ['Warning groups'] + [f'  {count} · {title} · {origin}' for origin, title, count in groups[:8]]
                 if len(groups) > 8:
                     heading += ['  Additional groups are included in the full findings below.']
+            if any(isinstance(row, dict) and row.get('type') == 'lib_footprint_issues'
+                   and row.get('severity') == 'warning' and not row.get('excluded')
+                   for row in native.get('findings', [])):
+                heading += ['Copperpath checks footprints in an isolated KiCad configuration. '
+                            'Open the project in KiCad to check the affected footprints against your installed libraries.']
         qualification = native.get('field_parity', {}).get('qualification', {})
         if qualification.get('qualified') is True:
             lines += ['Effective schematic fields compared: ' + str(qualification.get('component_count', 'not reported'))
@@ -2385,6 +2390,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                                 'export': 'Fresh separate project verified. Open it in KiCad when ready.'}
                     self.status.SetLabel(messages[stage])
                     gaps = record.get('gap_plan') if stage == 'preview' else None
+                    report = (flow.records['export'] if stage == 'export' else flow.records.get('route', record))
+                    native = report.get('native') or report.get('saved_native_findings')
                     if gaps is not None:
                         if gaps['status'] == 'ready':
                             targets = ', '.join(gaps['nets'])
@@ -2392,11 +2399,11 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                                 targets = str(len(gaps['nets'])) + ' nets (see Findings)'
                             self.status.SetLabel(f"Route {targets}. Protect all existing copper ({gaps['protected_routes']} tracks or vias).")
                         elif gaps['status'] == 'already_connected':
-                            self.status.SetLabel('KiCad found no missing connections. There is nothing to route.')
+                            self.status.SetLabel('KiCad found no missing connections. '
+                                + ('Review saved warnings in Findings.' if native and native['warnings']
+                                   else 'There is nothing to route.'))
                         else:
                             self.status.SetLabel('Finish gaps is blocked. See the source findings for the next action.')
-                    report = (flow.records['export'] if stage == 'export' else flow.records.get('route', record))
-                    native = report.get('native') or report.get('saved_native_findings')
                     if native is not None:
                         source_blocked = (gaps is not None and gaps['status'] in {'blocked', 'unsupported'}
                                           or stage == 'inspect' and bool(report.get('source_delivery', {}).get('reasons')))

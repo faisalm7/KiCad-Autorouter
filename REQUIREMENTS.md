@@ -23,6 +23,11 @@ The master specification, current strategy and owner steering govern. Historical
   Installed controls stopped a running Preview before the engine started and
   refused dispatch when a test lock appeared after acknowledgement.
   [Installed source controls](evidence/product-routing-source-acknowledgement-001.json)
+- Native Finish gaps admission on the unchanged licensed TankSync receiver
+  found no missing connections and ran no engine. All 437 existing copper
+  items and the 25 source warnings remain visible in the evidence. Updated
+  workspace guidance still needs installed observation.
+  [No-work control](evidence/product-tanksync-finish-gaps-admission-001.json)
 - First setup on this Mac can take existing pinned KiCad, Java and
   Freerouting locations and open the new workspace through Finder. Its
   installed Conversation shortcuts support reviewable keyboard edits with

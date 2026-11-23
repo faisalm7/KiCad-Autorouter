@@ -27,12 +27,17 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    footprint guidance in the next installed build.
    [PCB transfer and preview](evidence/product-native-pcb-transfer-001.json) ·
    [Delivery](evidence/product-native-pass-through-delivery-001.json)
-5. Run one Native source admission for the unchanged licensed TankSync
-   receiver under its frozen 90-second Finish gaps settings. Keep all 437
-   tracks and vias. Advance only if saved source findings and the verified
-   missing-net scope permit it. Preserve any refusal. Then clarify inherited
-   validation warnings in the saved-project review using the observed stock
-   library example. [Design journeys](docs/design-lifecycle.md)
+5. **Native no-work control verified.** The unchanged TankSync receiver
+   had no missing connections. Finish gaps withheld Freerouting, kept all
+   437 copper items and showed 25 saved warnings. Source controls now point
+   to Findings in this case and explain isolated footprint-library checks.
+   Observe the updated wording in the next installed workspace.
+   [Receiver admission](evidence/product-tanksync-finish-gaps-admission-001.json)
+6. Add a direct **Open in KiCad** action for the captured PCB setup project.
+   Verify the exact saved project opens through the prepared manager, and
+   that an edited source, open editor or cancelled handoff leaves it alone.
+   Keep engineering work gated until PCB setup is complete.
+   [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9
 
