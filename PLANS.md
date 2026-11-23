@@ -81,15 +81,23 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
     footprint keepout. The detached KiCad report found eight USB net
     conflicts and an unresolved schematic field mismatch. Qualifying the
     footprint keepout alone would leave checked delivery blocked. Keep
-    the interrupt task withheld and the original files intact. The first
-    owned walkthrough hit a placement-only refusal on project opening
-    before any routing. Source now classifies that limit explicitly and
-    shows the board for separate routing inspection. Verify the correction
-    with the same frozen one-gap project through checked export, preserving
-    the existing trace and rule area. Keep this feature walkthrough separate
-    from distinct licensed-board coverage.
+    the interrupt task withheld and the original files intact. The corrected
+    installed workspace showed the same owned board beside its named B.Cu
+    placement limit. The independent Finish gaps preview and one 90-second
+    routing attempt finished the requested net. The separate checked export
+    kept the rules, original trace, fill exclusion and two inherited warnings.
+    Independent readback passed. The first blank-board refusal remains
+    recorded. Distinct licensed-board coverage remains open.
     [Intake and task](evidence/product-distinct-licensed-route-intake-001.json) ·
-    [Native control](evidence/product-modern-two-layer-pour-native-001.json)
+    [Native control](evidence/product-modern-two-layer-pour-native-001.json) ·
+    [Installed delivery](evidence/product-modern-two-layer-pour-workspace-001.json)
+12. **Next live companion improvement.** Preserve the ongoing local
+    conversation when opening and returning from the saved-project
+    workspace. Carry the exact saved project, invalidate any prior move
+    approval on return, and refresh live selection. Keep the active
+    companion available for verification after applying a move or asking
+    for native Undo. Exercise the round trip with the installed owned
+    companion and reuse the existing move-and-Undo qualification.
 
 ## Active work from e638c5e9
 

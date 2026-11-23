@@ -31,3 +31,10 @@ restricted footprint rule refuses routing and identifies its saved component,
 layer and prohibitions when those labels are unambiguous. The original STM32
 source reports U3 on F.Cu with tracks, vias, pads and copper pours prohibited.
 [Intake and earlier Native findings](../evidence/product-distinct-licensed-route-intake-001.json).
+
+The installed owned walkthrough used **Finish gaps** at 90 seconds. KiCad
+confirmed one missing connection before routing and zero afterward. The
+separate checked export contains one new trace and the exact original trace.
+Fresh refill, original-rule checks and independent readback confirmed the
+B.Cu exclusion. Two inherited footprint-library warnings remain visible.
+[Installed walkthrough](../evidence/product-modern-two-layer-pour-workspace-001.json).
