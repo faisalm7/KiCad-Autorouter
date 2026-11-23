@@ -272,6 +272,8 @@ class PlacementGuiTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             board = ordinary_fixture.write_project(Path(temp).resolve() / 'source')
             tree = sexpr.read(board)
+            for component in sexpr.children(tree, 'footprint'):
+                component.append(['duplicate_pad_numbers_are_jumpers', 'no'])
             tree.append(['zone', ['uuid', json.dumps(ordinary_fixture.uid('back-pour-rule'))],
                          ['name', '"Back pour rule"'], ['layer', '"B.Cu"'],
                          ['keepout', *[[flag, 'not_allowed' if flag == 'copperpour' else 'allowed']

@@ -385,14 +385,6 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
     identities = set()
     def claim(identity):
         c.need(identity not in identities, 'Duplicate native item UUID'); identities.add(identity)
-    zones = pt.source_zones(tree)
-    for zone in zones:
-        claim(zone['uuid'])
-        if zone['is_rule_area']:
-            name = zone['name'] or 'unnamed area'
-            layers = ', '.join(zone['layers'])
-            raise c.UnsupportedPlacement(f'Placement cannot account for rule area “{name}” on {layers}.')
-        c.need(zone['holes'] == [0] and zone['arc_count'] == 0, 'Copper zones with holes or arcs are outside this placement scope.')
     edge_nodes = [n for n in tree[1:] if type(n) is list and sx.one(n, 'layer') is not None and c.atom(n, 'layer') == 'Edge.Cuts']
     cuts = sx.children(tree, 'gr_circle')
     outer_edges = [node for node in edge_nodes if node[0] != 'gr_circle']
@@ -526,6 +518,14 @@ def inspect(raw, *, scope=c.ORDINARY_SCOPE):
                    if graphic['kind'] in ('fp_circle', 'fp_arc', 'fp_poly')]
         c.need(len(passive) <= 256 and sum(len(row.get('points_nm', [])) for row in passive) <= 4096,
                'Fixed-context passive geometry population exceeded')
+    zones = pt.source_zones(tree)
+    for zone in zones:
+        claim(zone['uuid'])
+        if zone['is_rule_area']:
+            name = zone['name'] or 'unnamed area'
+            layers = ', '.join(zone['layers'])
+            raise c.UnsupportedPlacement(f'Placement cannot account for rule area “{name}” on {layers}.')
+        c.need(zone['holes'] == [0] and zone['arc_count'] == 0, 'Copper zones with holes or arcs are outside this placement scope.')
     routes = []
     c.need(len(p.routes(tree)) <= 64, 'Placement can currently protect at most 64 tracks and vias.')
     for route in rs._route_map(tree).values():

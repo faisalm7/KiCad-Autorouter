@@ -24,3 +24,10 @@ their prior meanings. Restricted footprint areas still refuse. The owned
 overlap, and rejected a deliberately intruding B.Cu saved polygon.
 [KiCad 10.0.7 zone writer](https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2632-L2640) ·
 [Native control](../evidence/product-modern-two-layer-pour-native-001.json).
+
+Saved-project inspection can show the board when placement refuses its
+root rule area. The separate routing preview still checks admission. A
+restricted footprint rule refuses routing and identifies its saved component,
+layer and prohibitions when those labels are unambiguous. The original STM32
+source reports U3 on F.Cu with tracks, vias, pads and copper pours prohibited.
+[Intake and earlier Native findings](../evidence/product-distinct-licensed-route-intake-001.json).

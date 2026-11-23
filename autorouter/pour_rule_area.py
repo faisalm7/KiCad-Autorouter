@@ -35,6 +35,27 @@ def _flags(zone):
         fail('all five explicit unique keepout flags required')
     return {n[0]:n[1] for n in ko[1:]}
 
+def _footprint_rule_reason(footprint, zone, restricted):
+    """Locate the refusal using only unambiguous saved-file labels."""
+    references = [sx.unquote(prop[2]) for prop in sx.children(footprint, 'property')
+                  if len(prop) >= 3 and all(isinstance(v, str) for v in prop[1:3])
+                  and sx.unquote(prop[1]) == 'Reference']
+    location = 'a footprint'
+    if len(references) == 1 and re.fullmatch(r'[A-Za-z0-9_.-]{1,64}', references[0]):
+        location = 'footprint ' + references[0]
+    selectors = sx.children(zone, 'layer') + sx.children(zone, 'layers')
+    if len(selectors) == 1:
+        selector = selectors[0]
+        layers = [sx.unquote(value) for value in selector[1:] if isinstance(value, str)]
+        if ((selector[0] == 'layers' or len(layers) == 1)
+                and 0 < len(layers) == len(selector) - 1 and len(set(layers)) == len(layers)
+                and all(re.fullmatch(r'(?:F|B|In[0-9]{1,2})\.Cu', layer) for layer in layers)):
+            location += ' on ' + ', '.join(layers)
+    blocked = ['copper pours' if flag == 'copperpour' else flag for flag in FLAGS if flag in restricted]
+    restrictions = ', '.join(blocked[:-1]) + ' and ' + blocked[-1] if len(blocked) > 1 else blocked[0]
+    return f'Routing cannot verify the rule area in {location}. It prohibits {restrictions}.'
+
+
 def source_layers(board):
     """Only the existing two-layer path or exact qualified modern four-copper."""
     table=sx.one(board,'layers',[])
@@ -128,7 +149,7 @@ def qualify(board):
             flags=_flags(zone)
             restricted={k for k,v in flags.items() if v=='not_allowed'}
             if not restricted:continue  # Existing unrestricted intent is unchanged.
-            if owner is not board:fail('footprint restricted rule areas unsupported')
+            if owner is not board:fail(_footprint_rule_reason(owner, zone, restricted))
             if restricted!={'copperpour'}:fail('only copper-pour prohibition is qualified')
             layers=source_layers(board);_metadata(board,zone,layers);row=_geometry(zone,layers)
             uid=row['uuid']

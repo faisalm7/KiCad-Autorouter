@@ -37,6 +37,21 @@ class RuleAreaScope(unittest.TestCase):
             with self.subTest(area=area), self.assertRaisesRegex(p.Rejected,'rule-area restrictions'):
                 p.check_rule_area_support(['kicad_pcb',area])
 
+    def test_refusal_names_the_saved_footprint_layer_and_prohibitions(self):
+        area = zone()
+        area.append(['layer', '"F.Cu"'])
+        for flag in ('tracks', 'vias', 'pads', 'copperpour'):
+            sx.one(sx.one(area, 'keepout'), flag)[1] = 'not_allowed'
+        footprint = ['footprint', '"owned"', ['property', '"Reference"', '"U3"'], area]
+        tree = ['kicad_pcb', footprint]
+        original = copy.deepcopy(tree)
+        with self.assertRaisesRegex(p.Rejected, r'footprint U3 on F\.Cu\. It prohibits tracks, vias, pads and copper pours'):
+            p.check_rule_area_support(tree)
+        self.assertEqual(tree, original)
+        area.append(['layer', '"B.Cu"'])
+        with self.assertRaisesRegex(p.Rejected, r'footprint U3\. It prohibits'):
+            p.check_rule_area_support(tree)
+
     def test_unrestricted_area_and_ordinary_copper_zone_preserved(self):
         tree=['kicad_pcb',zone(),['zone',['net','1'],['layer','"F.Cu"']],['footprint','"owned"',zone()]]
         before=copy.deepcopy(tree);p.check_rule_area_support(tree)
