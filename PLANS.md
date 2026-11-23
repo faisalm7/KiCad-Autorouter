@@ -25,10 +25,12 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    switched between findings and the board in the installed app. The menu
    withheld premature routing, acceptance and opening. Keep the full `0b4687f85`
    route and delivery evidence for the unchanged engineering path.
-6. **Next product task.** Evaluate onboarding on an ordinary saved project
-   outside the demonstration folder. Record how the operator identifies the
-   correct project, learns the applicable limits and finds the checked copy.
-   Keep full-project docking and general live writes on their separate tracks.
+6. **Checked opening follow-up.** The first open of the checked licensed copy
+   reached KiCad Setup. Direct use of the verified isolated launcher opened
+   the exact copy after first-run defaults in the private settings directory.
+   The source correction connects the installed button to that launcher.
+   Qualify the connection on one owned saved-project delivery and reuse the
+   licensed route and comparison.
 
 ## Board workspace
 

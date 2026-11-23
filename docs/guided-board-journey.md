@@ -30,6 +30,8 @@ The `0b4687f85` build delivered at 349.13 seconds and passed independent readbac
 
 The `2bab78f1b` follow-up used the native **Routing** menu for keyboard access. In the installed app, **Command–Shift–F** showed findings and **Command–Shift–B** restored the board. The menu kept **Start routing**, **Accept and save checked copy** and **Open checked export** disabled on an unreviewed source. This check reused the preceding delivery evidence. [Corrected result and keyboard follow-up](../evidence/product-guided-board-journey-002.json)
 
+The first checked opening on a fresh launcher reached KiCad Setup. Opening the same licensed copy through the existing isolated manager then succeeded after its first-run defaults. The installed opening path is being qualified with that prepared manager so the focused test uses Copperpath's config, documents and cache folders. The checked project and its rules stayed exact during the isolated opening.
+
 ## Try the workflow
 
 1. In Copperpath, choose **Continue an existing design** and select a saved KiCad project that is closed in KiCad. The board and inspection status appear together.

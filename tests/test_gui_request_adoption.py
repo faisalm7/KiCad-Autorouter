@@ -245,6 +245,26 @@ class DisplayedRequestAdoptionTests(unittest.TestCase):
                 opener.assert_not_called(); self.assert_revoked(window, flow)
                 self.assertEqual(window.input_generation, 7)
 
+    def test_named_workspace_opens_in_the_prepared_isolated_manager(self):
+        from scripts import install_gui
+
+        for late_change in (False, True):
+            with self.subTest(late_change=late_change):
+                flow, job, target, window = self.export_case()
+                window.launcher_manifest = '/owned/install.json'
+                env = {'KICAD_CONFIG_HOME': '/owned/config'}
+                with patch.object(install_gui, 'prepare_new_project_manager', return_value=(['/owned/kicad', '--new'], env)), \
+                        patch.object(install_gui, 'require_closed_kicad') as closed, patch.object(gui.subprocess, 'Popen') as launch:
+                    if late_change:
+                        closed.side_effect = lambda: self.alter(window, 'seconds')
+                    gt.window_method('opened')(window, 'export', target, None)
+                    if late_change:
+                        launch.assert_not_called()
+                        self.assert_revoked(window, flow)
+                    else:
+                        self.assertEqual(launch.call_args.args, (['/owned/kicad', str(target)],))
+                        self.assertEqual(launch.call_args.kwargs['env'], env)
+
     def test_displayed_request_is_checked_after_final_export_material_and_origin_reads(self):
         for phase in ('material', 'origin'):
             with self.subTest(phase=phase):

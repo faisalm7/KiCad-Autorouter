@@ -1384,7 +1384,7 @@ def routing_menu_action(window, action, *, checked=False):
 
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
                   placement_scene=None, conversation_history='', saved_scene=None, saved_net_context=None,
-                  on_saved_source=None, placement_findings=''):
+                  on_saved_source=None, placement_findings='', launcher_manifest=None):
     """Create routing controls in an existing wx application.
 
     The caller owns showing the frame and the application loop. This does not
@@ -1421,6 +1421,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self._next_saved_source = None
             self.exported_project = None
             self.source_guard = source_guard
+            self.launcher_manifest = launcher_manifest
             self.private_placement_source = (self.in_workspace and source_guard is not None and
                                              source_guard.placement_origin is not None)
             self.warning_dialog = None
@@ -2479,6 +2480,13 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             self.busy = False; self.job = None
             if not error and not cancelled and not self.closing:
                 try:
+                    prepared_manager = None
+                    manifest = getattr(self, 'launcher_manifest', None)
+                    if kind != 'preview' and manifest is not None:
+                        from scripts import install_gui
+                        argv, env = install_gui.prepare_new_project_manager(manifest)
+                        prepared_manager = ([argv[0], str(target)], env)
+                        install_gui.require_closed_kicad()
                     # The inspection worker can finish before this queued UI
                     # callback runs. Recheck saved inputs at the open boundary.
                     guard = _window_source_guard(self, self.flow)
@@ -2494,7 +2502,12 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                     if kind == 'preview':
                         import webbrowser
                         webbrowser.open(target.as_uri())
-                    else: subprocess.Popen(['/usr/bin/open', '-a', str(c.CLI.parents[2]), str(target)])
+                    elif prepared_manager is not None:
+                        argv, env = prepared_manager
+                        subprocess.Popen(argv, cwd=c.ROOT, env=env, stdin=subprocess.DEVNULL,
+                                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    else:
+                        subprocess.Popen(['/usr/bin/open', '-a', str(c.CLI.parents[2]), str(target)])
                     # Inspection shares the busy/progress timer. Restore the
                     # completed findings if its last tick showed an old log.
                     stage = 'export' if kind == 'export' else 'review'
