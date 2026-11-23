@@ -20,10 +20,15 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    preview and export. The frozen task took 13 normal actions with fresh
    validation and independent readback at 366.4 seconds. The stopwatch kept
    running across observer recovery. [Corrected result](evidence/product-guided-board-journey-002.json)
-5. **Keyboard follow-up.** The actual focus stayed on the tab group after a
-   Tab press at delivery. Make relevant actions reachable through the existing
-   native menus with the ordinary readiness and explicit choice checks. Verify
-   the desktop interaction proportionately and retain the qualified route.
+5. **Keyboard follow-up verified.** `2bab78f1b` exposed Routing menu actions
+   through the same readiness checks. Command–Shift–F and Command–Shift–B
+   switched between findings and the board in the installed app. The menu
+   withheld premature routing, acceptance and opening. Keep the full `0b4687f85`
+   route and delivery evidence for the unchanged engineering path.
+6. **Next product task.** Evaluate onboarding on an ordinary saved project
+   outside the demonstration folder. Record how the operator identifies the
+   correct project, learns the applicable limits and finds the checked copy.
+   Keep full-project docking and general live writes on their separate tracks.
 
 ## Board workspace
 

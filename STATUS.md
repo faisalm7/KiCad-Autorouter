@@ -8,8 +8,10 @@ protected tracks matched, and all seven inherited warnings remain. The board
 stayed visible at ready routing and checked delivery at 880 × 610 and 1040 × 720.
 The earlier build refused stale and locked copies, recovered after refresh, and
 cancelled active placement validation before routing. The earlier reserved-time
-hold remains separate. Keyboard focus stayed on the tab group after delivery
-on this Mac. [Corrected result](evidence/product-guided-board-journey-002.json) · [Earlier trial and owned controls](evidence/product-guided-board-journey-001.json)
+hold remains separate. Keyboard focus stayed on the tab group after delivery.
+The installed `2bab78f1b` follow-up verified the native Routing menu shortcuts
+and withheld routing, acceptance and opening on an unreviewed test copy.
+[Corrected result and keyboard follow-up](evidence/product-guided-board-journey-002.json) · [Earlier trial and owned controls](evidence/product-guided-board-journey-001.json)
 
 **Board workspace qualified on this Mac.** The installed `ccd7a4073` Finder
 app registered as Copperpath and opened the saved board directly beside

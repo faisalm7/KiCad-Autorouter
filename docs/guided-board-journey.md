@@ -26,7 +26,9 @@ The correction keeps the board visible at successful routing preview and after d
 
 ## Corrected installed result
 
-The `0b4687f85` build delivered at 349.13 seconds and passed independent readback at 366.40 seconds. The original stopwatch included three observer interruptions and one failed text entry. The underlying inspection, placement, routing and export ran once. Normal actions fell from 19 to 13 and no CAD corrections were made. The baseline export was observed at 330.43 seconds, so these observer-inclusive wall times do not establish a speedup. The revised board and approval controls were visible at 880 × 610 and 1040 × 720. Final focus stayed on the tab group during the Mac Tab check. [Corrected result](../evidence/product-guided-board-journey-002.json)
+The `0b4687f85` build delivered at 349.13 seconds and passed independent readback at 366.40 seconds. The original stopwatch included three observer interruptions and one failed text entry. The underlying inspection, placement, routing and export ran once. Normal actions fell from 19 to 13 and no CAD corrections were made. The baseline export was observed at 330.43 seconds, so these observer-inclusive wall times do not establish a speedup. The revised board and approval controls were visible at 880 × 610 and 1040 × 720. Final focus stayed on the tab group during the Mac Tab check.
+
+The `2bab78f1b` follow-up used the native **Routing** menu for keyboard access. In the installed app, **Command–Shift–F** showed findings and **Command–Shift–B** restored the board. The menu kept **Start routing**, **Accept and save checked copy** and **Open checked export** disabled on an unreviewed source. This check reused the preceding delivery evidence. [Corrected result and keyboard follow-up](../evidence/product-guided-board-journey-002.json)
 
 ## Try the workflow
 
