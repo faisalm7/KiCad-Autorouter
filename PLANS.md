@@ -41,13 +41,13 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    and warnings at laptop size when the correct window is accessible. New
    window titles follow the verified project and clear on source change.
    [Handoff evidence](evidence/product-native-setup-handoff-001.json)
-7. **Two-component placement correction.** On the exact native stock design, move J1
-   inside X 11–17 and Y 18–28 mm with J2 and all design intent fixed. Static
-   and Native inspection passed. The first request refused before search at
-   an obsolete three-component minimum. The correction is confined to the
-   Native source-baseline facts. Qualify one corrected build on the unchanged
-   task. Review only the first alternative and preserve any refusal.
-   [Design journeys](docs/design-lifecycle.md)
+7. **Two-part placement and delivery verified through the installed controller.**
+   The corrected build used the first proposed J1 position and kept J2 fixed.
+   Fresh review and export finished both gaps and independently checked the
+   separate project. The first refusal and observer error remain recorded.
+   Verify the actual setup and review screens on this build before further
+   graphical changes. Then continue the next practical licensed-board task.
+   [Placement and delivery](evidence/product-native-first-placement-delivery-001.json)
 
 ## Active work from e638c5e9
 

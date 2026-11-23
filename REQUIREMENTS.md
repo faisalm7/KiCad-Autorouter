@@ -32,6 +32,11 @@ The master specification, current strategy and owner steering govern. Historical
   checks. The pinned manager opened the intended project before a diagnostic
   memory stop during library loading. The normal visual handoff still needs
   observation. [Handoff evidence](evidence/product-native-setup-handoff-001.json)
+- The installed Native source-baseline scope placed one selected through-hole
+  connector beside one fixed connector on the stock two-part project. The
+  same qualified copy delivered both verified connections through the
+  ordinary controller. A finished in-workspace review on this build remains
+  open. [Placement and delivery](evidence/product-native-first-placement-delivery-001.json)
 - First setup on this Mac can take existing pinned KiCad, Java and
   Freerouting locations and open the new workspace through Finder. Its
   installed Conversation shortcuts support reviewable keyboard edits with

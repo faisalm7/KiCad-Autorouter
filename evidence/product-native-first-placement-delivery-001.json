@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "native_version": "10.0.7",
+  "installed_source": "da13e556896df3969094c7f303feacb564538ef7",
+  "runtime_manifest_sha256": "588a6d410765894ab31ee643f41bda81853694bcef25e2a590937c8bf4d11dc1",
+  "source_evidence": "product-native-pcb-transfer-001.json",
+  "source_pcb_sha256": "a60f2e87f44cde3415e35718e90776d55718d6140df1a61c51b5f79584ee2d97",
+  "task": {"select": ["J1"], "keep_fixed": ["J2"], "target_mm": [11, 18, 17, 28], "preserve_orientation_side_and_existing_copper": true},
+  "first_attempt": {
+    "initial_resource_gate": "held_before_launch",
+    "native_inspection": "passed",
+    "outcome": "refused_before_search",
+    "reason": "The shared facts validator required three components in a board with two verified through-hole connectors.",
+    "inspection_command_wall_seconds": 1.906
+  },
+  "corrected_placement": {
+    "scope": "ordinary-tht-source-baseline-v1",
+    "reviewed_alternative": 1,
+    "J1_source_mm": [8, 21.795],
+    "J1_placed_mm": [15.205, 21.795],
+    "J2_unchanged_mm": [24.385, 21.795],
+    "native_opens": 2,
+    "native_blocking": 0,
+    "native_warnings": 2,
+    "qualification_budget_seconds": 120,
+    "search_budget_seconds": 2,
+    "first_proposal_retention_error": "The observer used the bounded draft writer for an internal proposal. The completed Native inspection was retained and reused for one bounded repeat of search only.",
+    "successfully_retained_search_sample_seconds": 0.024
+  },
+  "composed_delivery": {
+    "finish_gaps_nets": ["Net-(J1-Pin_1)", "Net-(J1-Pin_2)"],
+    "routing_budget_seconds": 90,
+    "fresh_export_budget_seconds": 90,
+    "new_tracks": 2,
+    "new_vias": 0,
+    "final_track_length_mm": 18.36,
+    "opens": 0,
+    "blocking": 0,
+    "warnings": 2,
+    "exclusions": 0,
+    "ignored_checks": 5,
+    "source_exact": true,
+    "fixed_part_outline_layer_setup_rules_and_schematic_checked": true,
+    "explicit_software_test_review_choice": true,
+    "fresh_kicad_checks_and_independent_readback": true,
+    "separate_export_sha256": "b82571daddd5108c4e474c5baa02a46bcef22416f2fc5c0e008c5127a30da824"
+  },
+  "measured_command_wall_seconds": {
+    "corrected_inspection": 1.848,
+    "placement_qualification": 10.025,
+    "routing_preview": 1.217,
+    "route": 7.777,
+    "rendered_review": 3.683,
+    "choice": 1.951,
+    "fresh_export": 6.704,
+    "readback": 1.788
+  },
+  "limits": [
+    "The retained search sample and corrected command times total about 35.02 seconds. Native setup, observer pauses, independent source checks and the unretained search sample are outside that subtotal.",
+    "The installed ordinary controller and Native CLI delivered the result. The on-screen workspace was unavailable for this exact run. The actual Copperpath review, button and live-editor UI still need their scoped observations.",
+    "The owned new-design board started without tracks. The two footprint-library warnings remain in the result. The evaluation adds one native two-part supported task and establishes no broader routing superiority or physical approval."
+  ]
+}
