@@ -2305,8 +2305,7 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 if action == 'refine':
                     if getattr(self, '_on_refine', None) is None or self.warning_dialog is not None:
                         return
-                    item = self.board_review.selected_item()
-                    self._refinement = item['label'] if item is not None else ''
+                    self._refinement = self.board_review.refinement_note()
                     self.Close()
                     return
                 if action == 'restart_export':

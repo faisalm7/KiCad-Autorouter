@@ -8,9 +8,10 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    13-action PushButtonLed journey and the retained TankSync read-only case.
    [Design and acceptance](docs/design-review-refinement.md)
 2. **Implemented at source.** Saved and checked views share inspectable pads,
-   layers, zoom and finding locations. Refine returns to the exact saved source
-   with previous review and consent revoked. Changed and locked sources require
-   inspection. The previous installed build remains the comparison reference.
+   layers, zoom, net highlights and finding locations. Refine brings the
+   inspected item, net or finding back to the exact saved source, with previous
+   review and consent revoked. Changed and locked sources require inspection.
+   The previous installed build remains the comparison reference.
 3. **Qualify the changed workflow.** Verify the two installed views, keyboard,
    refinement, cancellation and stale recovery. Record the comparable delivery
    and show the actual screens. Preserve the existing native move and Undo scope.

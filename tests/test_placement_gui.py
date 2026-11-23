@@ -76,7 +76,7 @@ class PlacementGuiTests(unittest.TestCase):
             window.revoke.assert_called_once_with(discard=True)
             window.conversation.summary_for.assert_called_once_with(source, captured['source_hashes'])
             window.assistant_result.ChangeValue.assert_called_once_with('Original saved request')
-            window.refinement_context.SetLabelText.assert_called_once_with('Inspected board item · R2')
+            window.refinement_context.SetLabelText.assert_called_once_with('Board context · R2')
             window.pages.ChangeSelection.assert_called_once_with(2)
             window.assistant_request.SetFocus.assert_called_once_with()
             window.assistant_request.ChangeValue.assert_not_called()

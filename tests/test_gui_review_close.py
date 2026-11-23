@@ -15,7 +15,7 @@ class ReviewCloseTests(unittest.TestCase):
         record = object()
         window = SimpleNamespace(flow=record, busy=False, closing=False, chooser=None,
             warning_dialog=None, _on_refine=Mock(), Close=Mock(),
-            board_review=SimpleNamespace(selected_item=lambda: {'label': 'R2 pad 1'}))
+            board_review=SimpleNamespace(refinement_note=lambda: 'Finding on B.Cu · 1. Footprint changed'))
         act = window_method('act')
         for blocked in ('busy', 'closing', 'warning_dialog'):
             prior = getattr(window, blocked)
@@ -25,7 +25,7 @@ class ReviewCloseTests(unittest.TestCase):
         window.Close.assert_not_called()
         act(window, 'refine')
         window.Close.assert_called_once_with()
-        self.assertEqual(window._refinement, 'R2 pad 1')
+        self.assertEqual(window._refinement, 'Finding on B.Cu · 1. Footprint changed')
         self.assertIs(window.flow, record)
         window._on_refine.assert_not_called()
 

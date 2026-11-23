@@ -336,6 +336,11 @@ class WorkspaceFindings(unittest.TestCase):
         self.assertEqual(marked['items'], scene['items'])
         self.assertNotIn('inspected-item', scene['svg'])
         self.assertIs(view.inspect_item(scene, 'not-current'), scene)
+        net = view.inspect_net(scene, 'A')
+        self.assertIn(f'M {8 * scale + tx} {7 * scale + ty} L {9 * scale + tx} {7 * scale + ty}',
+                      net['svg'].split('data-role="inspected-net-item"', 1)[1])
+        self.assertEqual(net['items'], scene['items'])
+        self.assertIs(view.inspect_net(scene, 'a'), scene)
 
     def test_coincident_pads_are_ambiguous_and_oval_pads_are_marked(self):
         oval = '6eb967ef-066c-4f4f-883c-6869113a5e8e'

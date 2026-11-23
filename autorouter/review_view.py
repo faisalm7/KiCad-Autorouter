@@ -670,12 +670,16 @@ def _workspace_findings(board, context, diagrams, route):
     return tuple(findings), max(0, len(rows) - FINDING_LIMIT)
 
 
-def _highlight(scene, points, role):
-    marks = [f'<circle data-role="{role}" cx="{x}" cy="{y}" r="10" fill="none" stroke="#fff" stroke-width="6"/>'
-             f'<circle cx="{x}" cy="{y}" r="10" fill="none" stroke="#176cba" stroke-width="2.8"/>'
-             for x, y in points]
+def _with_overlay(scene, marks):
     svg = scene['svg'][:-len('</svg>')] + ''.join(marks) + '</svg>'
     return {**scene, 'svg': svg} if len(svg.encode('utf-8')) <= WORKSPACE_SVG_LIMIT else scene
+
+
+def _highlight(scene, points, role):
+    marks = (f'<circle data-role="{role}" cx="{x}" cy="{y}" r="10" fill="none" stroke="#fff" stroke-width="6"/>'
+             f'<circle cx="{x}" cy="{y}" r="10" fill="none" stroke="#176cba" stroke-width="2.8"/>'
+             for x, y in points)
+    return _with_overlay(scene, marks)
 
 
 def finding_scene(render, layer, index=None):
@@ -750,6 +754,25 @@ def inspect_item(scene, identity):
         if item['id'] == identity:
             return _highlight(scene, (item['point'],), 'inspected-item')
     return scene
+
+
+def inspect_net(scene, name):
+    """Trace straight copper and mark other displayed items of one exact net."""
+    marks = []
+    for item in scene.get('items', ()):
+        if not name or item['net'] != name:
+            continue
+        attrs = 'data-role="inspected-net-item" stroke="#176cba" stroke-width="2.4" fill="none"'
+        hit = item.get('_hit', ())
+        if hit and hit[0] == 'line':
+            scale, tx, ty = scene['mm_to_svg']
+            (x1, y1), (x2, y2) = hit[1:3]
+            marks.append(f'<path {attrs} d="M {x1 * scale + tx} {y1 * scale + ty} '
+                         f'L {x2 * scale + tx} {y2 * scale + ty}"/>')
+        else:
+            x, y = item['point']
+            marks.append(f'<circle {attrs} cx="{x}" cy="{y}" r="5"/>')
+    return _with_overlay(scene, marks) if marks else scene
 
 
 def workspace_changes(directory, source_board, review, route):

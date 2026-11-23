@@ -84,12 +84,13 @@ class WindowFactory(unittest.TestCase):
     def wx(self, application):
         return SimpleNamespace(GetApp=Mock(return_value=application), App=Mock(), CallAfter=Mock())
 
-    def test_board_search_restores_base_scene_and_filters_the_exact_net(self):
+    def test_board_search_marks_exact_net_and_clears_an_ambiguous_query(self):
         wx = passive_wx(); wx.Panel = wx.Frame; wx.ComboBox = wx.Choice; wx.Colour = str
         canvas = Mock()
         first = dict(id='a', label='J1 pad 1', kind='pad', net='GND', detail='Through-hole', point=(5, 5))
         second = dict(id='b', label='Track 1', kind='track', net='GND', detail='Protected', point=(20, 5))
-        scene = dict(svg='<svg></svg>', size=(100, 100), items=(first, second))
+        third = dict(second, id='c', label='Track 2', net='Gnd', point=(40, 5))
+        scene = dict(svg='<svg></svg>', size=(100, 100), items=(first, second, third))
         with patch.object(placement_gui, 'board_canvas', return_value=canvas), \
                 patch.object(board_review_gui.chrome, 'colours', return_value=('#000000',) * 3), \
                 patch.object(board_review_gui.review_view, 'inspect_item', return_value={'marked': first}):
@@ -103,8 +104,35 @@ class WindowFactory(unittest.TestCase):
             self.assertIsNone(view.selected_item())
             self.assertEqual(view.ids, ['a', 'b'])
             self.assertEqual(view.objects.GetValue(), 'GND')
+            marked = canvas.SetScene.call_args.args[0]['svg']
+            self.assertEqual(marked.count('data-role="inspected-net-item"'), 2)
+            self.assertNotIn('cx="40"', marked)
+            self.assertEqual(view.refinement_note(), 'Net GND · F.Cu')
+            view.item_detail.SetLabelText.assert_called_with('2 displayed items marked · Choose one for details.')
+            view.objects.SetValue('gNd')
+            view.object_search(None)
             canvas.SetScene.assert_called_with(scene, keep_view=True)
-            view.item_title.SetLabelText.assert_called_with('GND · 2 items')
+            self.assertEqual(view.refinement_note(), '')
+            view.item_title.SetLabelText.assert_called_with('3 matching items')
+
+    def test_refinement_preserves_the_located_finding_note(self):
+        wx = passive_wx(); wx.Panel = wx.Frame; wx.ComboBox = wx.Choice; wx.Colour = str
+        canvas = Mock()
+        front = dict(svg='<svg></svg>', size=(100, 100), mm_to_svg=(1, 0, 0))
+        back = dict(front)
+        row = dict(index=0, label='1. Library footprint changed', layers=('B.Cu',),
+                   points=(SimpleNamespace(xy=(20, 30), layers=('B.Cu',)),))
+        with patch.object(placement_gui, 'board_canvas', return_value=canvas), \
+                patch.object(board_review_gui.chrome, 'colours', return_value=('#000000',) * 3):
+            view = board_review_gui.board_review(wx, None, Mock(), empty_note='Owned board')
+            view.set_view({'diagrams': {'F.Cu': front, 'B.Cu': back}, 'findings': (row,)})
+            view.locations.SetSelection(1)
+            view.finding_changed(None)
+            canvas.focus_item.assert_called_once_with((20, 30))
+            self.assertIn('data-role="finding-location"', canvas.SetScene.call_args.args[0]['svg'])
+            self.assertEqual(view.refinement_note(), 'Finding on B.Cu · 1. Library footprint changed')
+            view.set_view(scene=front)
+            self.assertEqual(view.refinement_note(), '')
 
     def test_passive_inspector_reports_a_raster_failure(self):
         wx = passive_wx(); wx.Panel = wx.Frame; wx.ComboBox = wx.Choice; wx.Colour = str

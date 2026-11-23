@@ -3096,7 +3096,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.revoke(discard=True)
             self.assistant_result.ChangeValue(self.conversation.summary_for(source, captured['source_hashes'])
                                               or CONVERSATION_EMPTY)
-            context = ('Inspected board item · ' + refinement if refinement else
+            context = ('Board context · ' + refinement if refinement else
                        'Edit the request, then preview fresh settings.')
             self.refinement_context.SetLabelText(context)
             self.refinement_context.SetToolTip(context)

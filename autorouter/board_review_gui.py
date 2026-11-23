@@ -12,6 +12,7 @@ def board_review(wx, parent, on_error, *, empty_note):
             self.items = {}
             self.identity = None
             self.finding = None
+            self.net = None
             self.layer = wx.Choice(self, name='Copper layer')
             self.layer.Bind(wx.EVT_CHOICE, self.change_layer)
             tool_row = wx.BoxSizer(wx.HORIZONTAL)
@@ -70,7 +71,7 @@ def board_review(wx, parent, on_error, *, empty_note):
 
         def set_view(self, render=None, *, scene=None):
             self.render = render if render is not None else {'diagrams': {'F.Cu': scene} if scene else {}}
-            self.finding = None
+            self.finding = self.net = None
             layers = list(self.render['diagrams'])
             self.layer.Set(layers)
             if layers:
@@ -90,7 +91,7 @@ def board_review(wx, parent, on_error, *, empty_note):
             self.active_layer = self.layer.GetStringSelection()
             self.scene = self.render['diagrams'].get(self.active_layer)
             self.items = {item['id']: item for item in self.scene.get('items', ())} if self.scene else {}
-            self.set_item_choices(list(self.items))
+            self.set_item_choices(self.net_items() if self.net is not None else list(self.items), self.net or '')
             self.objects.Show(bool(self.items))
             self.card.Show(bool(self.scene))
             self.redraw(keep_view=not reset)
@@ -108,7 +109,7 @@ def board_review(wx, parent, on_error, *, empty_note):
             self.item_detail.SetToolTip(detail)
 
         def render_failed(self, reason):
-            self.identity = self.finding = None
+            self.identity = self.finding = self.net = None
             self.describe('Board drawing unavailable', 'Use the detailed findings to review the result.')
             on_error(reason)
 
@@ -131,6 +132,17 @@ def board_review(wx, parent, on_error, *, empty_note):
                 caption = self.finding['label']
                 detail = 'Checked item highlight · full text in Findings'
                 scene = review_view.finding_scene(self.render, self.active_layer, self.finding['index'])
+            elif self.net is not None:
+                marked = review_view.inspect_net(scene, self.net)
+                count = len(self.net_items())
+                caption = f'{self.net} · {self.active_layer}'
+                if not count:
+                    detail = 'No displayed items for this net on this layer.'
+                elif marked is scene:
+                    detail = 'This net has too many items to mark together. Choose a listed item.'
+                else:
+                    detail = f'{count} displayed item' + (' marked' if count == 1 else 's marked') + ' · Choose one for details.'
+                scene = marked
             elif item is not None:
                 caption = item['label']
                 detail = item['detail']
@@ -143,6 +155,20 @@ def board_review(wx, parent, on_error, *, empty_note):
         def selected_item(self):
             return self.items.get(self.identity)
 
+        def net_items(self):
+            return [identity for identity, item in self.items.items() if item['net'] == self.net]
+
+        def refinement_note(self):
+            if self.finding is not None:
+                return f"Finding on {self.active_layer} · {self.finding['label']}"
+            if self.net is not None:
+                layer = self.active_layer if self.net_items() else f'No displayed items on {self.active_layer}'
+                return f'Net {self.net} · {layer}'
+            item = self.selected_item()
+            if item is None:
+                return ''
+            return item['label'] + (f" · {item['net']}" if item['kind'] == 'pad' and item['net'] else '')
+
         def change_layer(self, _):
             if self.finding is not None and self.layer.GetStringSelection() not in self.finding['layers']:
                 self.finding = None
@@ -151,6 +177,7 @@ def board_review(wx, parent, on_error, *, empty_note):
 
         def finding_changed(self, _):
             index = self.locations.GetSelection() - 1
+            self.net = None
             self.finding = self.findings[index] if index >= 0 else None
             if self.finding is not None and self.active_layer not in self.finding['layers']:
                 self.layer.SetStringSelection(self.finding['layers'][0])
@@ -168,7 +195,7 @@ def board_review(wx, parent, on_error, *, empty_note):
             text = self.objects.GetValue().strip()
             query = text.casefold()
             if not query:
-                self.identity = self.finding = None
+                self.identity = self.finding = self.net = None
                 self.locations.SetSelection(0)
                 self.set_item_choices(list(self.items))
                 self.redraw()
@@ -179,24 +206,32 @@ def board_review(wx, parent, on_error, *, empty_note):
                 self.select(exact[0], focus=True)
                 return
             net_items = [identity for identity, item in self.items.items() if query == item['net'].casefold()]
+            nets = {self.items[identity]['net'] for identity in net_items}
+            name = text if text in nets else next(iter(nets)) if len(nets) == 1 else None
+            if name is not None:
+                self.identity = self.finding = None
+                self.locations.SetSelection(0)
+                self.net = name
+                self.set_item_choices(self.net_items(), name)
+                self.redraw(keep_view=False)
+                return
             matches = net_items or [identity for identity, item in self.items.items() if query in item['label'].casefold()]
             if len(matches) == 1:
                 self.select(matches[0], focus=True)
             else:
-                self.identity = self.finding = None
+                self.identity = self.finding = self.net = None
                 self.locations.SetSelection(0)
                 self.set_item_choices(matches or list(self.items), text)
                 if self.redraw():
                     detail = ('Open the item list to pick one.' if matches else 'Try another layer or a part reference.')
-                    title = (f'{self.items[net_items[0]]["net"]} · {len(net_items)} items' if net_items else
-                             f'{len(matches)} matching items' if matches else 'No matching item on this layer')
+                    title = f'{len(matches)} matching items' if matches else 'No matching item on this layer'
                     self.describe(title, detail)
 
         def select(self, identity, *, focus=False):
             item = self.items.get(identity)
             if item is None:
                 return
-            self.finding = None
+            self.finding = self.net = None
             self.locations.SetSelection(0)
             self.identity = identity
             self.objects.ChangeValue(item['label'])
