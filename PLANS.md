@@ -14,16 +14,20 @@ still needs verification.
    Preserve edits on the same saved revision, re-read live selection, and
    revoke prior approvals. Carry project-bound conversation as display only.
    Verify a changed source and pending Undo cannot bypass those boundaries.
-2. Keep the board and conversation visible beside settings, findings and
-   review. Verify editable suggestions and the next action at 880 × 610.
+2. The installed 880 × 610 board, conversation and routing review passed
+   with one layout defect. Expanded proposal fields could scroll the
+   approval buttons away, and the project caption clipped. Verify the
+   fixed action row and separate counts in the final build.
 3. Install once in a fresh root with the existing pinned Mac tools. Check
    the ordinary Finder entry and the isolated 10.0.8 toolbar from this
    runtime. Reuse unchanged Native, cancellation, and Undo proof where the
    affected controls can be checked without repeating a write.
-4. Run the retained MIT PushButtonLed task once from the ordinary launcher.
-   Keep its frozen R1/R2 region, explicit affected-copper permission, 13
-   protected tracks, 90-second routing budget, and independent export check.
-   Measure actions, waits and corrections against the earlier exposed trial.
+4. **Delivered.** The retained MIT PushButtonLed task ran once from the
+   ordinary launcher with the frozen region and 90-second budget. Fresh
+   export and independent readback preserved 13 tracks and all source
+   files. The operator edited the proposal and made no CAD corrections.
+   Recheck the affected layout and adoption only after the visual fix.
+   [Licensed walkthrough](evidence/product-integrated-rc-pushbutton-001.json)
 5. Resolve material friction, update the supported journeys and installer
    guidance, and verify the final candidate and recovery evidence. Keep
    STM32 withheld. Broader live writes, docking, schematic edits and Windows

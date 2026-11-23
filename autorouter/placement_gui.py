@@ -902,9 +902,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             board_tools.Add(self.project_title, 1, wx.ALIGN_CENTER_VERTICAL)
             self.draw_area = wx.ToggleButton(board_page, label='Draw target area')
             board_tools.Add(self.draw_area, 0, wx.LEFT, 8)
-            self.native_summary = wx.StaticText(board_page)
-            board_tools.Add(self.native_summary, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT, 8)
             board_layout.Add(board_tools, 0, wx.EXPAND | wx.BOTTOM, 6)
+            self.native_summary = wx.StaticText(board_page)
+            board_layout.Add(self.native_summary, 0, wx.EXPAND | wx.BOTTOM, 5)
             self.picture = board_canvas(wx, board_page, self.pick_on_board, self.area_on_board, self.preview_failed, self.preview_ready)
             board_layout.Add(self.picture, 1, wx.EXPAND)
             self.constraint_key = wx.StaticText(board_page)
@@ -999,13 +999,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             assistant_layout.Add(proposed_fields, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
             proposal_actions = wx.BoxSizer(wx.HORIZONTAL)
-            self.constraint_preview_edits = wx.Button(assistant_inputs, label='Preview edits')
-            self.constraint_use = wx.Button(assistant_inputs, label='Use settings')
-            self.constraint_reject = wx.Button(assistant_inputs, label='Discard')
+            self.constraint_preview_edits = wx.Button(assistant_page, label='Preview edits')
+            self.constraint_use = wx.Button(assistant_page, label='Use settings')
+            self.constraint_reject = wx.Button(assistant_page, label='Discard')
             proposal_actions.Add(self.constraint_preview_edits, 0, wx.RIGHT, 6)
             proposal_actions.Add(self.constraint_use, 0, wx.RIGHT, 6)
             proposal_actions.Add(self.constraint_reject)
-            assistant_layout.Add(proposal_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
             conversation_menu = wx.Menu()
             for button, handler, shortcut in (
@@ -1024,6 +1023,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             assistant_inputs.SetSizer(assistant_layout)
             assistant_split = wx.BoxSizer(wx.VERTICAL)
             assistant_split.Add(assistant_inputs, 1, wx.EXPAND)
+            assistant_split.Add(proposal_actions, 0, wx.ALL, 8)
             assistant_page.SetSizer(assistant_split)
             self.pages.AddPage(assistant_page, 'Request')
             schematic_page = wx.Panel(self.pages); schematic_layout = wx.BoxSizer(wx.VERTICAL)
@@ -1108,7 +1108,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.Layout()
             self.panel.Layout()
             if hasattr(self, 'controls'):self.controls.FitInside()
-            if hasattr(self, 'request_controls'):self.request_controls.FitInside()
+            if hasattr(self, 'request_controls'):
+                self.request_controls.GetParent().Layout()
+                self.request_controls.FitInside()
             if hasattr(self, 'board_page'):self.board_page.Layout()
 
         def message(self, text):
@@ -1379,7 +1381,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if hasattr(self, 'conversation_kind'):
                 routing = self.conversation_kind.GetSelection() == 1
                 self.assistant_ask.Enable(not self.busy and not passive_only
-                    and (bool(self.board.GetValue()) if routing else self.inspection is not None))
+                    and not constraint_pending and (bool(self.board.GetValue()) if routing else self.inspection is not None))
+                for control in (self.assistant_ask, self.conversation_kind, self.conversation_reset):
+                    control.Show(not constraint_pending)
                 self.conversation_reset.Enable(not self.busy)
                 self.conversation_kind.Enable(not self.busy)
             if hasattr(self, 'assistant_use'):
@@ -1416,6 +1420,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.native_summary.SetLabel(summary)
                 else:
                     self.native_summary.SetLabel('')
+                self.native_summary.Show(native is not None)
             if hasattr(self, 'pose_pane'):
                 has_draft = self.gate.review is not None
                 reviewable = has_draft and self.qualified is None and not constraint_pending and not self.busy
