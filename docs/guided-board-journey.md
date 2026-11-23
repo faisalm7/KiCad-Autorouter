@@ -23,3 +23,16 @@ Use the same exposed MIT PushButtonLed project and frozen task from the baseline
 Copperpath `872362a5e` refused stale context and a locked project, recovered after refresh and cancelled active placement validation before dispatching routing. The licensed workflow reached reviewed routing, then used its 420-second bound to withhold acceptance when 131.5 seconds remained. Observer time and stage admission checks consumed much of the interval. A separately admitted continuation accepted and freshly exported the same route. Independent readback passed. The two parts took 14 normal actions in total, including an extra **Board** tab switch before routing. The installed run showed the board, copper key, part and pad context and explicit approval at 1040 × 700. Exact compact size remained unverified when the desktop resize gesture had no effect.
 
 The correction keeps the board visible at successful routing preview and after delivery, gives the local command entry a visible hint, and removes duplicate warning counts from the review. One corrected walkthrough tests these observed defects under the original budget. [First installed result](../evidence/product-guided-board-journey-001.json)
+
+## Corrected installed result
+
+The `0b4687f85` build delivered at 349.13 seconds and passed independent readback at 366.40 seconds. The original stopwatch included three observer interruptions and one failed text entry. The underlying inspection, placement, routing and export ran once. Normal actions fell from 19 to 13 and no CAD corrections were made. The baseline export was observed at 330.43 seconds, so these observer-inclusive wall times do not establish a speedup. The revised board and approval controls were visible at 880 × 610 and 1040 × 720. Final focus stayed on the tab group during the Mac Tab check. [Corrected result](../evidence/product-guided-board-journey-002.json)
+
+## Try the workflow
+
+1. In Copperpath, choose **Continue an existing design** and select a saved KiCad project that is closed in KiCad. The board and inspection status appear together.
+2. Choose movable parts and an area in **Settings** or enter explicit commands in **Request**. **Preview placement request** checks the local request. Review or edit the suggestion beside the board, then choose **Use settings and find alternatives**.
+3. Compare the moves on the board. Review the protected and affected copper. **Approve moves and check routing** validates that placement and prepares the exact routing scope. Confirm the nets and time limit before choosing **Start routing**. **Cancel job** remains available while routing runs.
+4. Review the copper and Findings. The layer selector, copper key and item highlights help locate changes and referenced parts. **Reject** leaves the original intact. After reviewing the findings, **Accept and save checked copy** runs fresh validation and saves a separate project. **Open checked export** checks that copy again before opening it in KiCad.
+
+To assess the design, notice whether you can identify the next action and the copper that will change without leaving the board. The ordinary controls and explicit local request commands work without model access.

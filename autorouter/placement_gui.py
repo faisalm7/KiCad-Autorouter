@@ -1090,6 +1090,24 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.Bind(wx.EVT_UPDATE_UI, lambda event: event.Enable(self.navigation_available()), item)
             menu_bar.Append(file_menu, 'File')
             menu_bar.Append(conversation_menu, 'Conversation')
+            routing_menu = wx.Menu()
+            for action, label in (
+                ('show_board', 'Show board\tCtrl+Shift+B'),
+                ('show_findings', 'Show findings\tCtrl+Shift+F'),
+                ('preview', 'Preview routing'),
+                ('route', 'Start routing\tCtrl+Shift+R'),
+                ('cancel', 'Cancel job\tCtrl+Shift+K'),
+                ('acknowledge', 'I reviewed the findings and closed any KiCad review project'),
+                ('accept', 'Accept and save checked copy'),
+                ('reject', 'Reject result'),
+                ('open_export', 'Open checked export\tCtrl+Shift+O'),
+            ):
+                add = routing_menu.AppendCheckItem if action == 'acknowledge' else routing_menu.Append
+                item = add(wx.ID_ANY, label)
+                self.Bind(wx.EVT_MENU, lambda event, name=action: gui.routing_menu_action(
+                    self.routing, name, checked=event.IsChecked() if name == 'acknowledge' else False), item)
+                self.Bind(wx.EVT_UPDATE_UI, lambda event, name=action: self.update_routing_menu(event, name), item)
+            menu_bar.Append(routing_menu, 'Routing')
             self.SetMenuBar(menu_bar)
             assistant_inputs.SetSizer(assistant_layout)
             assistant_split = wx.BoxSizer(wx.VERTICAL)
@@ -1193,6 +1211,12 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.request_controls.GetParent().Layout()
                 self.request_controls.FitInside()
             if hasattr(self, 'board_page'):self.board_page.Layout()
+
+        def update_routing_menu(self, event, action):
+            available = gui.routing_menu_ready(self.routing, action)
+            event.Enable(available)
+            if action == 'acknowledge':
+                event.Check(available and self.routing.inspected.GetValue())
 
         def message(self, text):
             self.status.SetLabel(text)

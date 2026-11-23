@@ -1,15 +1,15 @@
 # Current state
 
-**Guided workflow delivered on the installed `872362a5e` build.** The licensed
-PushButtonLed run prepared a checked route, then reached the reserved-time
-cutoff before acceptance. A separate continuation saved and independently
-verified that same route. R2 moved, the five original files and all 13
-protected tracks matched, and all seven inherited warnings remain. The owned
-copy refused stale context and a project lock, recovered after refresh and
-cancelled active placement validation before routing. A source correction
-keeps the board visible at ready preview and delivery. Its compact layout and
-fresh timed walkthrough still need installed verification.
-[Observed run](evidence/product-guided-board-journey-001.json) · [Frozen acceptance](docs/guided-board-journey.md)
+**Guided workflow verified on the installed `0b4687f85` build.** The licensed
+PushButtonLed task used 13 normal actions, down from 19, and passed independent
+readback at 366.4 seconds under the original 420-second cap. The timer includes
+three observer interruptions. R2 moved, the five original files and all 13
+protected tracks matched, and all seven inherited warnings remain. The board
+stayed visible at ready routing and checked delivery at 880 × 610 and 1040 × 720.
+The earlier build refused stale and locked copies, recovered after refresh, and
+cancelled active placement validation before routing. The earlier reserved-time
+hold remains separate. Keyboard focus stayed on the tab group after delivery
+on this Mac. [Corrected result](evidence/product-guided-board-journey-002.json) · [Earlier trial and owned controls](evidence/product-guided-board-journey-001.json)
 
 **Board workspace qualified on this Mac.** The installed `ccd7a4073` Finder
 app registered as Copperpath and opened the saved board directly beside

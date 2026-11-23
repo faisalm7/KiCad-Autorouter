@@ -16,10 +16,14 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    held before accepting. A separate continuation exported and independently
    checked the same route after 14 normal actions across both parts.
    [Observed run](evidence/product-guided-board-journey-001.json)
-4. **Qualify the observed layout correction.** Confirm that ready preview
-   and delivery leave the board visible. Use the approved exact-window
-   helper for one compact, timed walkthrough with the frozen task and limits.
-   Record actual focus, waits, viewport, actions and fresh readback.
+4. **Compact delivery verified.** `0b4687f85` kept the board visible at ready
+   preview and export. The frozen task took 13 normal actions with fresh
+   validation and independent readback at 366.4 seconds. The stopwatch kept
+   running across observer recovery. [Corrected result](evidence/product-guided-board-journey-002.json)
+5. **Keyboard follow-up.** The actual focus stayed on the tab group after a
+   Tab press at delivery. Make relevant actions reachable through the existing
+   native menus with the ordinary readiness and explicit choice checks. Verify
+   the desktop interaction proportionately and retain the qualified route.
 
 ## Board workspace
 

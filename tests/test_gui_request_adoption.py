@@ -118,6 +118,26 @@ class DisplayedRequestAdoptionTests(unittest.TestCase):
         window.review_caption.SetLabel.assert_called_once_with('Reviewed copper · Checked copy saved')
         window.buttons['open_export'].SetFocus.assert_called_once_with()
 
+    def test_keyboard_menu_keeps_the_visible_routing_and_review_gates(self):
+        window = SimpleNamespace(closing=False, busy=False, chooser=None, inspected=Mock(),
+                                 refresh=Mock(), act=Mock(), workspace_tabs=Mock(),
+                                 buttons={'accept': Mock(), 'open_export': Mock()})
+        window.buttons['accept'].IsEnabled.return_value = False
+        window.buttons['open_export'].IsShownOnScreen.return_value = False
+        gui.routing_menu_action(window, 'accept')
+        gui.routing_menu_action(window, 'open_export')
+        window.act.assert_not_called()
+        gui.routing_menu_action(window, 'show_findings')
+        window.workspace_tabs.SetSelection.assert_called_once_with(1)
+        gui.routing_menu_action(window, 'acknowledge', checked=True)
+        window.inspected.SetValue.assert_called_once_with(True)
+        window.buttons['accept'].IsEnabled.return_value = True
+        gui.routing_menu_action(window, 'accept')
+        window.act.assert_called_once_with('accept')
+        window.closing = True
+        gui.routing_menu_action(window, 'accept')
+        window.act.assert_called_once()
+
     def test_guided_route_review_requires_current_successful_job(self):
         for failure in (None, 'source', 'cancel', 'new job', 'reflow changed state'):
             with self.subTest(failure=failure):

@@ -1360,6 +1360,28 @@ def show_routing_progress(window):
         break
 
 
+def routing_menu_ready(window, action):
+    if window is None or window.closing or window.chooser is not None:
+        return False
+    if action in ('show_board', 'show_findings'):
+        return not window.busy
+    control = window.inspected if action == 'acknowledge' else window.buttons.get(action)
+    return control is not None and control.IsShownOnScreen() and control.IsEnabled()
+
+
+def routing_menu_action(window, action, *, checked=False):
+    """Route keyboard/menu intent through the same visible, enabled controls."""
+    if not routing_menu_ready(window, action):
+        return
+    if action in ('show_board', 'show_findings'):
+        window.workspace_tabs.SetSelection(0 if action == 'show_board' else 1)
+    elif action == 'acknowledge':
+        window.inspected.SetValue(checked)
+        window.refresh()
+    else:
+        window.act(action)
+
+
 def create_window(board='', *, source_guard=None, on_closed=None, source_note='', parent=None,
                   placement_scene=None, conversation_history='', saved_scene=None, saved_net_context=None,
                   on_saved_source=None, placement_findings=''):
