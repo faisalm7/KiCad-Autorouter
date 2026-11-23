@@ -163,6 +163,7 @@ class PlacementGuiTests(unittest.TestCase):
         window.start = Mock()
         manifest = '/owned/launcher/install.json'
         app = pg.window_type(SimpleNamespace(Frame=object), launcher_manifest=manifest)
+        window.open_prepared_manager = MethodType(app.open_prepared_manager, window)
         app.start_new_design(window, None)
         _, prepare, open_manager = window.start.call_args.args
         material = (['/owned/kicad', '--new'], {'KICAD_CONFIG_HOME': '/owned/config'})
@@ -176,6 +177,55 @@ class PlacementGuiTests(unittest.TestCase):
             self.assertEqual(launch.call_args.args, (material[0],))
             self.assertEqual(launch.call_args.kwargs['env'], material[1])
         self.assertIn('File > New Project > Default', window.message.call_args.args[0])
+
+    def test_pcb_setup_manager_opens_the_exact_captured_project(self):
+        from scripts import install_gui
+
+        with tempfile.TemporaryDirectory() as temp:
+            board = Path(temp).resolve() / 'USB Breakout.kicad_pcb'
+            board.write_text('(kicad_pcb)')
+            project = board.with_suffix('.kicad_pro'); project.write_text('{}')
+            schematic = board.with_suffix('.kicad_sch'); schematic.write_text('(kicad_sch)')
+            static = dict(source=str(board), source_hashes=pg.gui.source_inventory(board))
+            env = {'KICAD_CONFIG_HOME': '/owned/config'}
+            manifest = '/owned/launcher/install.json'
+            app = pg.window_type(SimpleNamespace(Frame=object), launcher_manifest=manifest)
+            window = self.window()
+            window.board = Mock(); window.board.GetValue.return_value = str(board)
+            window.start = Mock()
+            window.saved_route_context = dict(static=static, pcb_setup='outline_needed')
+            window.open_prepared_manager = MethodType(app.open_prepared_manager, window)
+            app.open_setup_in_kicad(window, None)
+            _, prepare, adopt = window.start.call_args.args
+            job = pg.gui.CliJob()
+            with patch.object(install_gui, 'prepare_new_project_manager', return_value=(['/owned/kicad', '--new'], env)), \
+                    patch.object(install_gui, 'require_closed_kicad') as closed, patch('subprocess.Popen') as launch:
+                material = prepare(job, threading.Event())
+                launch.assert_not_called()
+                adopt(material)
+                launch.assert_called_once()
+                self.assertEqual(launch.call_args.args, (['/owned/kicad', str(project)],))
+                self.assertEqual(launch.call_args.kwargs['env'], env)
+                self.assertIn('Opening USB Breakout in KiCad', window.message.call_args.args[0])
+                launch.reset_mock()
+                closed.side_effect = ValueError('A KiCad editor is open')
+                with self.assertRaisesRegex(ValueError, 'existing KiCad Manager'):
+                    adopt(material)
+                closed.side_effect = None
+                schematic.write_text('(kicad_sch changed)')
+                with self.assertRaisesRegex(ValueError, 'Saved source files changed'):
+                    adopt(material)
+                schematic.write_text('(kicad_sch)')
+                job.cancel()
+                window.revoke = Mock()
+                app.finish(window, job, window.gate.generation, material, None, adopt)
+                self.assertIn(pg.gui.ACTION_CANCELLED, window.message.call_args.args[0])
+                launch.assert_not_called()
+
+            window.saved_route_context['open_in_kicad'] = True
+            window.start.reset_mock()
+            app.open_setup_in_kicad(window, None)
+            window.start.assert_not_called()
 
     def test_closed_source_preflight_retains_locks_and_requires_fresh_inspection_after_changes(self):
         with tempfile.TemporaryDirectory() as temp:

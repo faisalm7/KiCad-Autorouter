@@ -33,10 +33,11 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    to Findings in this case and explain isolated footprint-library checks.
    Observe the updated wording in the next installed workspace.
    [Receiver admission](evidence/product-tanksync-finish-gaps-admission-001.json)
-6. Add a direct **Open in KiCad** action for the captured PCB setup project.
-   Verify the exact saved project opens through the prepared manager, and
-   that an edited source, open editor or cancelled handoff leaves it alone.
-   Keep engineering work gated until PCB setup is complete.
+6. **Setup handoff source controls verified.** **Open in KiCad** passes
+   the exact captured project to the prepared manager and refuses a change,
+   open editor or cancellation. Qualify this action, the footprint setup
+   readout and saved-warning guidance together in one installed build.
+   Verify exact native manager readback and the visible recovery instructions.
    [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9

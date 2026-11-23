@@ -808,6 +808,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             pathrow.Add(self.example, 0)
             self.inspect = wx.Button(panel, label='Refresh inspection'); pathrow.Add(self.inspect)
             self.inspect.SetToolTip('Check the saved project again after edits or after closing it in KiCad.')
+            self.kicad_setup = wx.Button(panel, label='Open in KiCad')
+            self.kicad_setup.SetToolTip('Open this saved project in the prepared KiCad Manager to finish PCB setup.')
+            pathrow.Add(self.kicad_setup, 0, wx.LEFT, 6)
             self.route_saved = wx.Button(panel, label='Route saved board…'); pathrow.Add(self.route_saved, 0, wx.LEFT, 6)
             root.Add(pathrow, 0, wx.EXPAND | wx.ALL, 12)
             columns = wx.BoxSizer(wx.HORIZONTAL)
@@ -1039,13 +1042,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             frame_layout = wx.BoxSizer(wx.VERTICAL)
             frame_layout.Add(panel, 1, wx.EXPAND)
             self.SetSizer(frame_layout)
-            self.input_controls = [self.board, self.browse, self.new_design, self.example, self.inspect, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
+            self.input_controls = [self.board, self.browse, self.new_design, self.example, self.inspect, self.kicad_setup, self.route_saved, self.parts, self.copper_policy, self.rigid_group, self.target_region,
                 self.protected_names, self.protected_route_ids, *self.region, self.load, self.save, self.find, self.original_group, self.draw_area,
                 self.assistant_request, self.assistant_ask, self.route_budget, self.three_pad]
             self.pose_controls = [self.alternative, self.part, self.x, self.y, self.apply, self.reject, self.qualify]
             self.board.Bind(wx.EVT_TEXT, self.source_changed)
             self.board.Bind(wx.EVT_TEXT_ENTER, self.inspect_project)
             self.new_design.Bind(wx.EVT_BUTTON, self.start_new_design)
+            self.kicad_setup.Bind(wx.EVT_BUTTON, self.open_setup_in_kicad)
             self.browse.Bind(wx.EVT_BUTTON, self.choose_board); self.inspect.Bind(wx.EVT_BUTTON, self.inspect_project)
             self.example.Bind(wx.EVT_BUTTON, self.open_example)
             if board: self.Bind(wx.EVT_SHOW, self.inspect_initial_project)
@@ -1315,6 +1319,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.browse.SetLabel('Choose project…' if source_entered else 'Continue an existing design…')
                 self.example.Show(not source_entered and self.example_project.is_file())
                 self.inspect.Show(source_entered)
+                if hasattr(self, 'kicad_setup'):
+                    self.kicad_setup.Show(source_entered and launcher_manifest is not None
+                                          and saved_context.get('pcb_setup') in PCB_SETUP_GUIDANCE
+                                          and not saved_context.get('open_in_kicad'))
                 self.route_saved.Show(source_entered and not passive_only)
                 self.pages.Show(source_entered)
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
@@ -2012,23 +2020,49 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 return
             guide = ('In KiCad Manager, choose File > New Project > Default. '
                      'Save the new project in its own folder, then choose Continue an existing design in Copperpath.')
+            self.open_prepared_manager(guide)
+
+        def open_setup_in_kicad(self, _):
+            context = self.saved_route_context or {}
+            if (self.busy or self.gate.closed or self.routing is not None or context.get('open_in_kicad')
+                    or context.get('pcb_setup') not in PCB_SETUP_GUIDANCE):
+                return
+            self.open_prepared_manager('Finish setup in KiCad. Save and close the project, then choose Refresh inspection.',
+                                       inspection=context['static'])
+
+        def open_prepared_manager(self, guide, *, inspection=None):
             if launcher_manifest is None:
                 self.message(guide)
                 return
             from scripts import install_gui
+            source_hint = self.board.GetValue()
+            fallback = guide if inspection is None else (
+                'You can open this saved project from your existing KiCad Manager. ' + guide)
 
             def prepare(_job, _cancelled):
                 try:
-                    return install_gui.prepare_new_project_manager(launcher_manifest)
-                except (ValueError, OSError) as exc:
-                    raise ValueError(str(exc) + ' ' + guide) from exc
+                    if inspection is not None:
+                        source = require_closed_source(source_hint, inspection=inspection)
+                    argv, env = install_gui.prepare_new_project_manager(launcher_manifest)
+                    if inspection is not None:
+                        argv = [argv[0], str(source.with_suffix('.kicad_pro'))]
+                    return argv, env
+                except (ValueError, OSError, Rejected) as exc:
+                    raise ValueError(str(exc) + ' ' + fallback) from exc
 
             def open_manager(material):
                 argv, env = material
-                install_gui.require_closed_kicad()
+                if self.board.GetValue() != source_hint:
+                    raise ValueError('The displayed project changed. Choose Refresh inspection first.')
+                if inspection is not None:
+                    require_closed_source(source_hint, inspection=inspection)
+                try:
+                    install_gui.require_closed_kicad()
+                except ValueError as exc:
+                    raise ValueError(str(exc) + ' ' + fallback) from exc
                 subprocess.Popen(argv, cwd=c.ROOT, env=env, stdin=subprocess.DEVNULL,
                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                self.message(guide)
+                self.message(guide if inspection is None else f'Opening {Path(argv[1]).stem} in KiCad. ' + guide)
 
             self.start('Checking the prepared KiCad Manager… ' + guide, prepare, open_manager)
 
@@ -2173,7 +2207,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                             steps = (f'The saved schematic assigns footprints to {assigned} {parts}. '
                                 'Review ERC in KiCad, then use Update PCB from Schematic (F8).')
                         details = [title, steps, 'Save and close the KiCad project, then choose Refresh inspection.']
-                        status = title + ' See Findings for the next step in KiCad.'
+                        status = title + (' Choose Open in KiCad to continue.' if launcher_manifest is not None and not open_snapshot
+                                          else ' See Findings for the next step in KiCad.')
                         if open_snapshot:
                             details.append('The snapshot uses the saved files. Unsaved editor changes stay in KiCad.')
                     elif open_snapshot:

@@ -22,10 +22,13 @@ manager is already open, work there after saving any active design. Choose
 **File → New Project…**, select **Default** and save in a new project folder.
 **Continue an existing design** opens those saved files in Copperpath. A
 new PCB needs footprints and a closed outline before engineering work.
+The prepared workspace's **Open in KiCad** action opens the inspected
+saved project for setup. If it is already open, use that KiCad window.
 In KiCad, add a small circuit using installed symbols and footprints, review
 ERC, transfer the footprints to PCB Editor and draw the intended outline.
-Save and close the project before separate placement or routing. The bundled
-example is available as its own walkthrough. [Native project creation](https://docs.kicad.org/10.0/en/kicad/kicad.html#_creating_a_new_project) · [Schematic-to-board workflow](https://docs.kicad.org/10.0/en/getting_started_in_kicad/getting_started_in_kicad.html#_importing_changes_from_schematic)
+Save and close the project, then choose **Refresh inspection** before separate
+placement or routing. The bundled example is available as its own walkthrough.
+[Native project creation](https://docs.kicad.org/10.0/en/kicad/kicad.html#_creating_a_new_project) · [Schematic-to-board workflow](https://docs.kicad.org/10.0/en/getting_started_in_kicad/getting_started_in_kicad.html#_importing_changes_from_schematic)
 
 KiCad 10 supports native schematic editing and saved schematic inspection.
 Automatic schematic edits need an installed version with sheet-aware typed
