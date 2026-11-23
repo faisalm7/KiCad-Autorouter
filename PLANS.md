@@ -34,10 +34,18 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    Observe the updated wording in the next installed workspace.
    [Receiver admission](evidence/product-tanksync-finish-gaps-admission-001.json)
 6. **Setup handoff source controls verified.** **Open in KiCad** passes
-   the exact captured project to the prepared manager and refuses a change,
-   open editor or cancellation. Qualify this action, the footprint setup
-   readout and saved-warning guidance together in one installed build.
-   Verify exact native manager readback and the visible recovery instructions.
+   the captured project to the prepared manager and refuses a change, open
+   editor or cancellation. One build installed and its controlled callback
+   produced the exact command. The correct manager project appeared before
+   its diagnostic memory cap stopped library loading. Verify the actual button
+   and warnings at laptop size when the correct window is accessible. New
+   window titles follow the verified project and clear on source change.
+   [Handoff evidence](evidence/product-native-setup-handoff-001.json)
+7. **Native placement prepared.** On the exact native stock design, move J1
+   inside X 11–17 and Y 18–28 mm with J2 and all design intent fixed. Static
+   placement preflight passed. The frozen Native inspection and 2-second
+   search remain unstarted. Resume after the existing 3 GiB memory check
+   passes. Review the first alternative or preserve the refusal.
    [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9

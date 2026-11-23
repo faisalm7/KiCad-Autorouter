@@ -764,7 +764,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
     """Real window methods exposed for controlled-dependency tests, no fragments."""
     class Window(wx.Frame):
         def __init__(self):
-            super().__init__(None, title='Copperpath — place and route', size=(1040, 700))
+            super().__init__(None, title='Copperpath — Open project', size=(1040, 700))
             self.SetMinSize(self.FromDIP((880, 610)))
             self.gate = ReviewGate(); self.inspection = None; self.busy = False
             self.saved_native = None
@@ -1129,7 +1129,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             context = getattr(self, 'saved_route_context', None)
             captured = self.inspection if self.inspection is not None else (context or {}).get('static')
             source = Path(captured['source']) if captured is not None else None
-            self.project_title.SetLabelText(source.stem if source is not None else '')
+            name = source.stem if source is not None else ''
+            self.SetTitle('Copperpath — ' + (name or 'Open project'))
+            self.project_title.SetLabelText(name)
             self.project_title.SetToolTip(str(source) if source is not None else '')
             self.project_title.Show(source is not None)
             if self.inspection is None:

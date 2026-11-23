@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "installed_source": "ce4905a8adbefb268ce20a5749ebd7c213582217",
+  "runtime_manifest_sha256": "7635b83ec616a1dd8d91674c85a06229fc0fd0b23afe8b439fc44a67351c56d3",
+  "native_version": "10.0.7",
+  "installed_checks": {
+    "fresh_local_install_passed": true,
+    "saved_schematic_footprint_assignments": 2,
+    "exact_prepared_manager_and_project_argv_verified": true,
+    "installed_warning_summary_verified_using_retained_receiver_findings": true,
+    "active_setup_manager_opened_by_installed_button_observed": false
+  },
+  "native_handoff_attempts": [
+    {"kind": "Installed callback with controlled inputs", "outcome": "The requested process started but exited before a project window or lock was observed."},
+    {"kind": "Bounded native launch of the exact callback arguments", "observed_window": "Copperpath pass-through — KiCad 10.0", "phase": "Loading Symbol Libraries", "outcome": "diagnostic_memory_limit", "rss_bytes": 1204076544, "diagnostic_limit_bytes": 1073741824, "wall_seconds": 22.108, "process_cleanup_complete": true}
+  ],
+  "test_files": {"source_pcb_project_and_schematic_exact": true, "stopped_manager_lock_retained_on_disposable_copy": true},
+  "limits": [
+    "The exact native project was visible before the diagnostic stopped. Completing first-run library loading and the normal graphical button remain unverified.",
+    "Desktop automation selected a different already-preserved window when application identities matched. A later screen-access check explicitly reported a locked Mac.",
+    "Ordinary KiCad startup, source freshness and placement or routing acceptance are distinct checks. No routing or placement was performed in this handoff test."
+  ]
+}

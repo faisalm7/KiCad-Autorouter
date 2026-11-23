@@ -28,6 +28,10 @@ The master specification, current strategy and owner steering govern. Historical
   items and the 25 source warnings remain visible in the evidence. Updated
   workspace guidance still needs installed observation.
   [No-work control](evidence/product-tanksync-finish-gaps-admission-001.json)
+- The installed PCB setup handoff passed command identity and saved-source
+  checks. The pinned manager opened the intended project before a diagnostic
+  memory stop during library loading. The normal visual handoff still needs
+  observation. [Handoff evidence](evidence/product-native-setup-handoff-001.json)
 - First setup on this Mac can take existing pinned KiCad, Java and
   Freerouting locations and open the new workspace through Finder. Its
   installed Conversation shortcuts support reviewable keyboard edits with

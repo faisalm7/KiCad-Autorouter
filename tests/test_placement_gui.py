@@ -84,7 +84,7 @@ class PlacementGuiTests(unittest.TestCase):
             constraint_offer=None, constraint_key=Mock(), update_schematic_view=Mock(),
             copper_policy=Mock(), rigid_group=Mock(), target_region=Mock(), original_group=Mock(), protected_names=Mock(), protected_route_ids=Mock(),
             current_review_settings=Mock(), overview=Mock(), region_summary=Mock(),
-            refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock(),
+            refresh=Mock(), message=Mock(), present=Mock(), layout_panel=Mock(), Destroy=Mock(), Hide=Mock(), SetTitle=Mock(),
             panel=Mock(), GetSizer=Mock(), Layout=Mock())
         window.open_saved_source = MethodType(window_method('open_saved_source'), window)
         window.picture.Ready.return_value = True
@@ -146,11 +146,13 @@ class PlacementGuiTests(unittest.TestCase):
 
         window.overview()
         window.project_title.SetLabelText.assert_called_once_with('Relay & light')
+        window.SetTitle.assert_called_once_with('Copperpath — Relay & light')
         window.project_title.SetToolTip.assert_called_once_with(saved)
         window.project_title.Show.assert_called_once_with(True)
 
         window_method('source_changed')(window, Mock())
         window.project_title.SetLabelText.assert_called_with('')
+        window.SetTitle.assert_called_with('Copperpath — Open project')
         window.project_title.SetToolTip.assert_called_with('')
         window.project_title.Show.assert_called_with(False)
 
