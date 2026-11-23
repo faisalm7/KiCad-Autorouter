@@ -22,9 +22,10 @@ def window_method(name, **overrides):
     wx.Frame = object
     wx.EXPAND = 0
     on_closed = overrides.pop('on_closed', None)
+    on_return_live = overrides.pop('on_return_live', None)
     if overrides:
         raise AssertionError('Use explicit controlled dependencies, not fragment globals: ' + str(sorted(overrides)))
-    return getattr(pg.window_type(wx, on_closed=on_closed), name)
+    return getattr(pg.window_type(wx, on_closed=on_closed, on_return_live=on_return_live), name)
 
 
 def review():
@@ -56,6 +57,40 @@ def canvas(on_error, on_ready=None):
 
 
 class PlacementGuiTests(unittest.TestCase):
+    def test_idle_return_revokes_approval_and_retains_pending_pose(self):
+        w = self.window()
+        old = w.gate.review
+        w.pending_coordinates['one'] = ('12.5', '10')
+        w.qualified = {'old': 'acceptance'}
+        returned = Mock()
+        action = window_method('return_to_live', on_return_live=returned)
+        w.busy = True
+        action(w, None)
+        returned.assert_not_called()
+        w.busy = False
+        action(w, None)
+        self.assertIs(w.gate.review, old)
+        self.assertEqual(w.pending_coordinates['one'], ('12.5', '10'))
+        self.assertIsNone(w.qualified)
+        self.assertFalse(w.gate.acknowledged)
+        w.Hide.assert_called_once()
+        returned.assert_called_once()
+
+    def test_returning_to_a_changed_saved_source_requires_reinspection(self):
+        board = Path('/owned/checked.kicad_pcb')
+        captured = {'source': str(board), 'source_hashes': {board.name: 'old'}}
+        w = SimpleNamespace(source_capture=lambda: captured, board=Mock(), inspect_project=Mock(),
+                            show_editor_context=Mock(), refresh=Mock())
+        resume = window_method('resume_from_live')
+        with patch.object(gui, 'saved_project_board', return_value=board), \
+                patch.object(gui, 'source_inventory', side_effect=[captured['source_hashes'], {board.name: 'new'}]):
+            resume(w, None, [])
+            w.show_editor_context.assert_called_once_with(captured)
+            w.inspect_project.assert_not_called()
+            resume(w, None, [])
+        self.assertEqual(w.show_editor_context.call_count, 1)
+        w.inspect_project.assert_called_once_with(None)
+
     def test_open_example_uses_the_shared_intake_only_in_an_empty_workspace(self):
         window = SimpleNamespace(board=Mock(), example_project=Path('/owned/example.kicad_pro'),
                                  open_saved_source=Mock())

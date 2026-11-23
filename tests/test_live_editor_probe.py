@@ -13,8 +13,8 @@ from experiments.placement_native_proposal_v1 import contract
 
 class EditorReadback(unittest.TestCase):
     def setUp(self):
-        path = Path(probe.FIXTURE) / (probe.NAME + '.kicad_pcb')
-        self.before = contract.read_board(path.read_bytes())
+        self.fixture_path = Path(probe.FIXTURE) / (probe.NAME + '.kicad_pcb')
+        self.before = contract.read_board(self.fixture_path.read_bytes())
         self.headers = [sexpr.one(self.before, key) for key in ('version', 'generator', 'generator_version')]
         for footprint in sexpr.children(self.before, 'footprint'):
             footprint[2:2] = self.headers
@@ -50,6 +50,7 @@ class EditorReadback(unittest.TestCase):
 
     def test_workspace_selection_read_retires_checked_move(self):
         session = probe.Session.__new__(probe.Session)
+        session.path = self.fixture_path
         session.plan = {'info': {'id': 1}, 'native': {'blocking': 0}}
         session.initial = {'raw': self.snapshot, 'sha256': 'fixture', 'disk': {}}
         session.snapshot = Mock(return_value=session.initial)
@@ -71,7 +72,8 @@ class EditorReadback(unittest.TestCase):
 
     def test_revised_draft_replaces_approval_identity_and_checks_live_state(self):
         session = probe.Session.__new__(probe.Session)
-        session.initial = dict(raw=self.snapshot, sha256='fixture', disk={'original': 'exact'})
+        session.path = self.fixture_path
+        session.initial = dict(raw=self.snapshot, sha256='fixture', disk={'.kicad_pcb': 'original'})
         session.apply_disabled = False
         session.index = 0
         session.snapshot = Mock(return_value=session.initial)
@@ -82,7 +84,9 @@ class EditorReadback(unittest.TestCase):
         part = SimpleNamespace(id=SimpleNamespace(value=row['uuid']), position=SimpleNamespace(x=x, y=y),
             reference_field=SimpleNamespace(text=SimpleNamespace(value='J1')))
         session.selected = Mock(return_value=[part])
-        self.assertEqual(session.inspect(board_view=True)['selection'], ['J1'])
+        view = session.inspect(board_view=True)
+        self.assertEqual(view['selection'], ['J1'])
+        self.assertEqual(view['saved_context']['selection'], [row['uuid']])
         first = session.preview('Move J1 right by 0.5 mm', board_view=True)
         self.assertEqual(first['to_nm'], [x + 500_000, y])
         self.assertIn('Proposed move · J1', first['scene']['svg'])
@@ -165,6 +169,9 @@ class EditorReadback(unittest.TestCase):
         panel.workspace = True
         panel.saved_project = '/owned/inspection/checked.kicad_pro'
         panel.run = panel.saved_workspace = None
+        panel.saved_visible = panel.closing = False
+        panel.editor_context = None
+        panel.saved_history = ''
         panel.readback_pending = panel.native_move_open = False
         panel.discard_pending = False
         panel.turns = ['You · Move J1 right by 0.5 mm']
@@ -184,18 +191,20 @@ class EditorReadback(unittest.TestCase):
                 setattr(panel, pending, False)
             panel.open_saved(None)
             self.assertEqual(create.call_args.kwargs['board'], panel.saved_project)
-            self.assertTrue(create.call_args.kwargs['return_to_live'])
+            frame = create.return_value
+            frame.history_for_live.return_value = 'Saved placement draft'
             panel.Hide.assert_called_once()
-            create.return_value.Show.assert_called_once()
+            frame.Show.assert_called_once()
             panel.open_saved(None)
             panel.request('apply_direct', 4)
             self.assertEqual(create.call_count, 1)
             thread.assert_not_called()
 
-            create.call_args.kwargs['on_closed']()
+            create.call_args.kwargs['on_return_live']()
             panel.Show.assert_called_once()
             panel.Raise.assert_called_once()
-            self.assertIsNone(panel.saved_workspace)
+            self.assertIs(panel.saved_workspace, frame)
+            self.assertFalse(panel.saved_visible)
             self.assertIsNone(panel.move)
             self.assertIsNone(panel.previewed_request)
             self.assertFalse(panel.validated)
@@ -204,12 +213,16 @@ class EditorReadback(unittest.TestCase):
             self.assertEqual(panel.turns[0], 'You · Move J1 right by 0.5 mm')
             panel.diagram.SetScene.assert_called_with(None)
             thread.return_value.start.assert_called_once()
-        panel.reply('inspect', {'ok': False, 'message': 'The prior editor closed.'})
-        panel.selection.SetLabel.assert_called_with('Live PCB unavailable')
-        self.assertTrue(panel.can_open_saved())
-        self.assertEqual(panel.selected, [])
-        self.assertIn('Open saved-project workspace', panel.status.SetValue.call_args.args[0])
-        self.assertIn('The prior editor closed.', panel.turns[-1])
+            self.assertIn('Saved placement draft', panel.transcript.ChangeValue.call_args.args[0])
+            panel.reply('inspect', {'ok': False, 'message': 'The prior editor closed.'})
+            panel.selection.SetLabel.assert_called_with('Live PCB unavailable')
+            self.assertTrue(panel.can_open_saved())
+            self.assertEqual(panel.selected, [])
+            self.assertIn('Open saved-project workspace', panel.status.SetValue.call_args.args[0])
+            self.assertIn('The prior editor closed.', panel.turns[-1])
+            panel.open_saved(None)
+            self.assertEqual(create.call_count, 1)
+            self.assertEqual(frame.Show.call_count, 2)
 
 
 if __name__ == '__main__':

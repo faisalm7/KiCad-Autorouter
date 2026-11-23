@@ -10,6 +10,7 @@ MAX_TURNS = 3
 TEXT_BYTES = 4096
 ROUTING_TOOL = 'propose_protected_routing_v2'
 ROUTING_KIND = 'autorouter.protected-routing-proposal.v2'
+DESIGN_SUFFIXES = ('.kicad_pcb', '.kicad_pro', '.kicad_sch')
 
 
 def request_text(value):
@@ -24,6 +25,16 @@ def request_text(value):
     return value.strip()
 
 
+def matches_saved_design(source, inventory, context):
+    """Bind passive editor context to the same saved design across a lock change."""
+    path = Path(source)
+    files = context['files']
+    return (str(path) == context['source']
+            and set(files) == {path.with_suffix(suffix).name for suffix in DESIGN_SUFFIXES}
+            and all(name in inventory and type(digest) is str and inventory[name] == digest
+                    for name, digest in files.items()))
+
+
 class Conversation:
     """A short transcript. Prior proposals and replies carry no authority."""
 
@@ -31,15 +42,22 @@ class Conversation:
         self.turns = []
         self.source = None
         self._placement_adoption = None
+        self._editor_notes = None
 
     def reset(self):
         self.turns.clear()
         self.source = None
         self._placement_adoption = None
+        self._editor_notes = None
 
     @property
     def has_display_history(self):
-        return self.source is not None or self._placement_adoption is not None
+        return self.source is not None or self._placement_adoption is not None or self._editor_notes is not None
+
+    def remember_editor_notes(self, context, messages):
+        """Local display only. These notes never become request history or consent."""
+        text = '\n\n'.join(messages).encode('utf-8')[-TEXT_BYTES:].decode('utf-8', errors='ignore')
+        self._editor_notes = (copy.deepcopy(context), text) if text.strip() else None
 
     def remember_placement_adoption(self, summary, *, inspection, local_request=None):
         """Keep the latest adopted settings for display without extending model history."""
@@ -92,7 +110,7 @@ class Conversation:
             lines.append('')
         return '\n'.join(lines)
 
-    def summary_for(self, source, source_hashes):
+    def summary_for(self, source, source_hashes, *, include_editor=True):
         """Show earlier turns only for their exact saved project revision."""
         current = (str(source), source_hashes)
         parts = []
@@ -100,6 +118,10 @@ class Conversation:
             parts.append(self._placement_adoption[2])
         if self.source is not None and self.source[:2] == current:
             parts.append(self.summary())
+        if include_editor and self._editor_notes is not None and source_hashes is not None:
+            context, text = self._editor_notes
+            if matches_saved_design(source, source_hashes, context):
+                parts.append('Live editor notes · for reference\n\n' + text)
         return '\n\n'.join(parts)
 
 

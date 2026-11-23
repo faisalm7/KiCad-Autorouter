@@ -44,6 +44,20 @@ class ConversationChecks(unittest.TestCase):
         self.assertIs(packet['store'], False)
         return review, binding, result
 
+    def test_editor_notes_stay_local_and_follow_the_exact_saved_design(self):
+        history = conversation.Conversation()
+        files = {self.board.with_suffix(ext).name: self.inspection['source_hashes'][self.board.with_suffix(ext).name]
+                 for ext in conversation.DESIGN_SUFFIXES}
+        context = dict(source=str(self.board), files=files, selection=[])
+        history.remember_editor_notes(context, ['local editor request'])
+        after_close = dict(files, **{'~test.kicad_pro.lck': 'different auxiliary file'})
+        self.assertIn('local editor request', history.summary_for(self.board, after_close))
+        self.assertEqual(history.summary_for(self.board, after_close, include_editor=False), '')
+        self.assertEqual(history.history('Request a new placement'), [])
+        self.assertEqual(history.summary_for(self.board.with_name('other.kicad_pcb'), after_close), '')
+        after_close[self.board.name] = 'e' * 64
+        self.assertEqual(history.summary_for(self.board, after_close), '')
+
     def test_clarify_answer_revise_and_adopt_with_real_reply_envelope(self):
         history = conversation.Conversation()
         before = gui.source_inventory(self.board)

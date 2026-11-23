@@ -2,6 +2,33 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## Integrated release candidate
+
+Start at `30002cfe7`. The checked live move and Undo, constrained placement,
+protected routing, fresh export, and same-Mac Finder setup each have prior
+evidence. The live round trip currently rebuilds the saved workspace.
+Conversation is visible in different places, and an installed common journey
+still needs verification.
+
+1. Retain the same idle saved workspace on returning to the live companion.
+   Preserve edits on the same saved revision, re-read live selection, and
+   revoke prior approvals. Carry project-bound conversation as display only.
+   Verify a changed source and pending Undo cannot bypass those boundaries.
+2. Keep the board and conversation visible beside settings, findings and
+   review. Verify editable suggestions and the next action at 880 × 610.
+3. Install once in a fresh root with the existing pinned Mac tools. Check
+   the ordinary Finder entry and the isolated 10.0.8 toolbar from this
+   runtime. Reuse unchanged Native, cancellation, and Undo proof where the
+   affected controls can be checked without repeating a write.
+4. Run the retained MIT PushButtonLed task once from the ordinary launcher.
+   Keep its frozen R1/R2 region, explicit affected-copper permission, 13
+   protected tracks, 90-second routing budget, and independent export check.
+   Measure actions, waits and corrections against the earlier exposed trial.
+5. Resolve material friction, update the supported journeys and installer
+   guidance, and verify the final candidate and recovery evidence. Keep
+   STM32 withheld. Broader live writes, docking, schematic edits and Windows
+   retain their capability gates.
+
 ## Active design journeys
 
 1. **Verified.** The installed 8996 workspace showed board visibility,

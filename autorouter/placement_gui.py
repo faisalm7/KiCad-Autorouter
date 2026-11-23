@@ -740,11 +740,11 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
 
 
 def create_window(board='', *, output_hint=None, on_closed=None, conversation_reply=None, source_note='',
-                  toolbar_selection=(), launcher_manifest=None, return_to_live=False):
+                  toolbar_selection=(), launcher_manifest=None, on_return_live=None):
     if on_closed is not None and not callable(on_closed):
         raise ValueError('The parent close notification must be a callable.')
-    if return_to_live and on_closed is None:
-        raise ValueError('Returning to the live companion requires its close notification.')
+    if on_return_live is not None and (not callable(on_return_live) or on_closed is None):
+        raise ValueError('Returning to the live companion requires return and close callbacks.')
     if output_hint is not None and not isinstance(output_hint, (str, Path)):
         raise ValueError('Use a routing output folder path or no hint.')
     import wx
@@ -755,8 +755,8 @@ def create_window(board='', *, output_hint=None, on_closed=None, conversation_re
         raise ValueError('Use an exact saved PCB path or an empty hint.')
 
     options = {'launcher_manifest': launcher_manifest} if launcher_manifest is not None else {}
-    if return_to_live:
-        options['return_to_live'] = True
+    if on_return_live is not None:
+        options['on_return_live'] = on_return_live
     window = window_type(wx, board=board, output_hint=output_hint, on_closed=on_closed,
                          conversation_reply=conversation_reply, toolbar_selection=toolbar_selection, **options)()
     if source_note: window.message(source_note)
@@ -764,7 +764,7 @@ def create_window(board='', *, output_hint=None, on_closed=None, conversation_re
 
 
 def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_reply=None,
-                toolbar_selection=(), launcher_manifest=None, return_to_live=False):
+                toolbar_selection=(), launcher_manifest=None, on_return_live=None):
     """Real window methods exposed for controlled-dependency tests, no fragments."""
     class Window(wx.Frame):
         def __init__(self):
@@ -793,6 +793,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.routing_output_hint = str(output_hint) if output_hint is not None else None
             self.toolbar_selection = toolbar_selection
             self.toolbar_source = Path(board).with_suffix('.kicad_pcb') if toolbar_selection else None
+            self.editor_context = None
             panel = self.panel = wx.Panel(self)
             root = wx.BoxSizer(wx.VERTICAL)
             pathrow = wx.BoxSizer(wx.HORIZONTAL)
@@ -818,7 +819,19 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.route_saved = wx.Button(panel, label='Route saved board…'); pathrow.Add(self.route_saved, 0, wx.LEFT, 6)
             root.Add(pathrow, 0, wx.EXPAND | wx.ALL, 12)
             columns = wx.BoxSizer(wx.HORIZONTAL)
-            self.pages = wx.Notebook(panel); self.pages.SetMinSize(self.FromDIP((352, 250)))
+            self.side_panel = wx.Panel(panel)
+            self.side_panel.SetMinSize(self.FromDIP((352, -1)))
+            side_layout = wx.BoxSizer(wx.VERTICAL)
+            heading = wx.StaticText(self.side_panel, label='Conversation')
+            heading.SetFont(heading.GetFont().Bold())
+            side_layout.Add(heading, 0, wx.LEFT | wx.BOTTOM, 4)
+            self.assistant_result = wx.TextCtrl(self.side_panel, style=wx.TE_MULTILINE | wx.TE_READONLY,
+                                                size=(-1, 76), name='Conversation history')
+            self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
+            side_layout.Add(self.assistant_result, 0, wx.EXPAND | wx.BOTTOM, 8)
+            self.pages = wx.Notebook(self.side_panel); self.pages.SetMinSize(self.FromDIP((352, 230)))
+            side_layout.Add(self.pages, 1, wx.EXPAND)
+            self.side_panel.SetSizer(side_layout)
             self.controls = wx.ScrolledWindow(self.pages, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
             self.controls.SetScrollRate(0, 12)
             left = wx.BoxSizer(wx.VERTICAL); side = self.controls
@@ -923,11 +936,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             assistant_inputs = wx.ScrolledWindow(assistant_page, style=wx.VSCROLL | wx.TAB_TRAVERSAL)
             assistant_inputs.SetScrollRate(0, 12); self.request_controls = assistant_inputs
             assistant_layout = wx.BoxSizer(wx.VERTICAL)
-            self.assistant_result = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE | wx.TE_READONLY,
-                                                size=(-1, 96), name='Conversation history')
-            self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
-            self.assistant_result.Hide()
-            assistant_layout.Add(self.assistant_result, 1, wx.EXPAND | wx.ALL, 8)
             self.assistant_context = wx.StaticText(assistant_inputs)
             self.assistant_context.Hide()
             assistant_layout.Add(self.assistant_context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
@@ -1017,7 +1025,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             assistant_split = wx.BoxSizer(wx.VERTICAL)
             assistant_split.Add(assistant_inputs, 1, wx.EXPAND)
             assistant_page.SetSizer(assistant_split)
-            self.pages.AddPage(assistant_page, 'Conversation')
+            self.pages.AddPage(assistant_page, 'Request')
             schematic_page = wx.Panel(self.pages); schematic_layout = wx.BoxSizer(wx.VERTICAL)
             self.schematic_text = wx.TextCtrl(schematic_page, style=wx.TE_MULTILINE | wx.TE_READONLY,
                                              name='Saved schematic context')
@@ -1025,7 +1033,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             schematic_page.SetSizer(schematic_layout); self.pages.AddPage(schematic_page, 'Schematic')
             self.schematic_text.ChangeValue('Choose a saved project to see its schematic context.')
             columns.Add(board_page, 1, wx.EXPAND | wx.RIGHT, 10)
-            columns.Add(self.pages, 0, wx.EXPAND)
+            columns.Add(self.side_panel, 0, wx.EXPAND)
             root.Add(columns, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 12)
             self.approval_note = wx.StaticText(panel)
             root.Add(self.approval_note, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8)
@@ -1039,10 +1047,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.status = wx.StaticText(panel, label='Choose a saved project to open its board. If it is open in KiCad, save and close it first.')
             self.status.Wrap(930); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 10)
             progressrow = wx.BoxSizer(wx.HORIZONTAL)
-            if return_to_live:
-                back = wx.Button(panel, label='Back to live companion')
-                back.Bind(wx.EVT_BUTTON, lambda _: self.Close())
-                progressrow.Add(back, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            if on_return_live is not None:
+                self.back_live = wx.Button(panel, label='Back to live companion')
+                self.back_live.Bind(wx.EVT_BUTTON, self.return_to_live)
+                progressrow.Add(self.back_live, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.progress = wx.Gauge(panel); progressrow.Add(self.progress, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.cancel = wx.Button(panel, label='Cancel'); progressrow.Add(self.cancel)
             root.Add(progressrow, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 12)
@@ -1320,6 +1328,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def refresh(self):
             for control in self.input_controls: control.Enable(not self.busy)
+            if hasattr(self, 'back_live'):
+                self.back_live.Enable(not self.busy and self.routing is None and not self.gate.closed)
             saved_context = getattr(self, 'saved_route_context', None) or {}
             passive_only = bool(saved_context.get('open_in_kicad') or saved_context.get('pcb_setup'))
             if hasattr(self, 'example'):
@@ -1335,6 +1345,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                                           and not saved_context.get('open_in_kicad'))
                 self.route_saved.Show(source_entered and not passive_only)
                 self.pages.Show(source_entered)
+                if hasattr(self, 'side_panel'):
+                    self.side_panel.Show(source_entered)
             constraint_pending = getattr(self, 'constraint_offer', None) is not None
             scope = self.inspection['observation']['scope'] if self.inspection is not None else None
             baseline_scope = intent.contract.source_baseline_scope(scope)
@@ -1370,7 +1382,6 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     and (bool(self.board.GetValue()) if routing else self.inspection is not None))
                 self.conversation_reset.Enable(not self.busy)
                 self.conversation_kind.Enable(not self.busy)
-                self.assistant_result.Show(self.conversation.has_display_history)
             if hasattr(self, 'assistant_use'):
                 self.assistant_ask.Enable(not self.busy and self.inspection is not None)
                 self.assistant_ack.Enable(not self.busy and self.pending_copilot is not None)
@@ -1471,6 +1482,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.conversation.reset()
                     self.assistant_result.ChangeValue(CONVERSATION_EMPTY)
                     self.routing_source_scene = None
+                if hasattr(self, 'assistant_request'):
+                    self.assistant_request.ChangeValue('')
+                self.editor_context = None
                 self.automatic_target_area = False
                 self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 self.target_region.SetValue(False)
@@ -1483,6 +1497,62 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.inspection = None; self.saved_native = None; self.parts.Set([]); self.revoke(discard=True)
                 self.message('Choose a saved project or enter its full path and press Return.')
             if event is not None: event.Skip()
+
+        def source_capture(self):
+            return self.inspection or (self.saved_route_context or {}).get('static')
+
+        def show_editor_context(self, captured):
+            context = self.editor_context
+            source, files = captured['source'], captured['source_hashes']
+            if context is not None:
+                self.toolbar_selection = (tuple(context['selection'])
+                    if conversation.matches_saved_design(source, files, context) else ())
+                self.toolbar_source = Path(source) if self.toolbar_selection else None
+                label = 'Use KiCad selection'
+                if self.toolbar_selection:
+                    label += f' ({len(self.toolbar_selection)})'
+                self.toolbar_pick.SetLabel(label)
+            prior = self.conversation.summary_for(source, files)
+            self.assistant_result.ChangeValue(prior or ('The saved project changed. Start a new conversation.'
+                if self.conversation.source is not None else CONVERSATION_EMPTY))
+
+        def resume_from_live(self, context, notes):
+            if context is not None:
+                self.editor_context = copy.deepcopy(context)
+                self.conversation.remember_editor_notes(context, notes)
+            captured = self.source_capture()
+            if captured is None:
+                return
+            try:
+                source = gui.saved_project_board(self.board.GetValue())
+                if str(source) != captured['source'] or gui.source_inventory(source) != captured['source_hashes']:
+                    raise ValueError('The saved project changed.')
+            except (OSError, ValueError, Rejected):
+                self.inspect_project(None)
+                return
+            self.show_editor_context(captured)
+            self.refresh()
+
+        def history_for_live(self, project):
+            captured = self.source_capture()
+            if captured is None or not project:
+                return ''
+            try:
+                source = gui.saved_project_board(project)
+                if str(source) == captured['source'] and gui.source_inventory(source) == captured['source_hashes']:
+                    return self.conversation.summary_for(source, captured['source_hashes'], include_editor=False)
+            except (OSError, ValueError, Rejected):
+                pass
+            return ''
+
+        def return_to_live(self, _):
+            if on_return_live is None or self.busy or self.routing is not None or self.gate.closed:
+                return
+            self.invalidate_copilot()
+            if self.gate.review is not None:
+                self.revoke(dirty=self.gate.dirty)
+            self.Hide()
+            on_return_live()
 
         def invalidate_copilot(self):
             """Changing intent cannot retain a model plan or its routing handoff."""
@@ -2107,6 +2177,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 source = require_closed_source(self.board.GetValue(), inspection=self.inspection)
                 if source != self.toolbar_source:
                     raise ValueError('The KiCad selection came from a different project. Select components here.')
+                context = getattr(self, 'editor_context', None)
+                if context is not None and not conversation.matches_saved_design(
+                        source, self.inspection['source_hashes'], context):
+                    raise ValueError('The KiCad selection came from an earlier saved design. Select components here.')
                 rows = self.inspection['components']
                 chosen = set(self.toolbar_selection)
                 matches = [row for row in rows if row['uuid'] in chosen]
@@ -2197,7 +2271,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 else:
                     source = require_closed_source(self.board.GetValue(), inspection=findings)
                 self.board.ChangeValue(str(source))
-                if self.conversation.has_display_history:
+                if getattr(self, 'editor_context', None) is not None:
+                    self.show_editor_context(findings)
+                elif self.conversation.has_display_history:
                     prior = self.conversation.summary_for(source, findings['source_hashes'])
                     self.assistant_result.ChangeValue(prior or 'The saved project changed. Start a new conversation.')
                 self.inspection = value

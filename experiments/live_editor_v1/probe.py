@@ -208,6 +208,9 @@ class Session:
         if board_view:
             identities = tuple(item.id.value for item in items)
             result['scene'] = editor_scene(snapshot['raw'], identities)
+            result['saved_context'] = {'source': str(self.path), 'selection': list(identities),
+                                       'files': {self.path.with_suffix(ext).name: digest
+                                                 for ext, digest in snapshot['disk'].items()}}
             self.displayed_selection = (snapshot['sha256'], identities)
         return result
 

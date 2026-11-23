@@ -52,6 +52,10 @@ class Companion(wx.Frame):
         self.workspace = workspace
         self.saved_project = saved_project
         self.saved_workspace = None
+        self.saved_visible = False
+        self.closing = False
+        self.editor_context = None
+        self.saved_history = ''
         self.source_scene = None
         self.move = None
         self.run = None
@@ -146,7 +150,10 @@ class Companion(wx.Frame):
     def remember(self, message):
         if self.workspace:
             self.turns = (self.turns + [message])[-12:]
-            self.transcript.ChangeValue('\n\n'.join(self.turns))
+            history = list(self.turns)
+            if self.saved_history:
+                history.append('Saved workspace notes · for reference\n\n' + self.saved_history)
+            self.transcript.ChangeValue('\n\n'.join(history))
             self.transcript.SetInsertionPointEnd()
 
     def request_edited(self, event):
@@ -173,7 +180,7 @@ class Companion(wx.Frame):
         self.controls()
 
     def can_open_saved(self):
-        return (self.run is None and self.saved_workspace is None
+        return (self.run is None and not self.saved_visible and not self.closing
                 and not self.readback_pending and not self.native_move_open)
 
     def open_saved(self, _event):
@@ -183,29 +190,46 @@ class Companion(wx.Frame):
         note = ('Viewing saved files. To place or route, save and close the project in KiCad, then refresh.'
                 if self.saved_project else '')
         try:
-            frame = create_window(board=self.saved_project, source_note=note,
-                                  on_closed=self.return_from_saved, return_to_live=True)
+            frame = self.saved_workspace
+            if frame is None:
+                frame = create_window(board=self.saved_project, source_note=note,
+                                      on_closed=self.saved_closed, on_return_live=self.return_from_saved)
+                self.saved_workspace = frame
+            frame.resume_from_live(self.editor_context, self.turns)
         except (OSError, ValueError) as exc:
             self.status.SetValue('Could not open the saved-project workspace. ' + str(exc))
             return
-        self.saved_workspace = frame
+        self.saved_visible = True
         frame.Show()
+        frame.Raise()
         self.Hide()
 
     def return_from_saved(self):
-        if not self:
+        if not self or self.closing:
             return
-        self.saved_workspace = None
+        if self.saved_workspace is not None:
+            self.saved_history = self.saved_workspace.history_for_live(self.saved_project)
+        self.saved_visible = False
         self.remember('Copperpath · Back to the companion. Checking the current KiCad selection.')
         self.request('inspect')
         self.Show()
         self.Raise()
+
+    def saved_closed(self):
+        if not self:
+            return
+        self.saved_workspace = None
+        if self.saved_visible:
+            self.return_from_saved()
 
     def on_close(self, event):
         if self.run is not None and event.CanVeto():
             self.status.SetValue('A check is finishing. Its response cannot approve a move.')
             event.Veto()
         else:
+            self.closing = True
+            if self.saved_workspace is not None:
+                self.saved_workspace.Close()
             event.Skip()
 
     def advance(self, _event):
@@ -258,7 +282,7 @@ class Companion(wx.Frame):
         self.Layout()
 
     def request(self, command, *args):
-        if self.run is not None or self.saved_workspace is not None:
+        if self.run is not None or self.saved_visible or self.closing:
             return
         if self.workspace and command == 'inspect':
             self.move = None
@@ -266,6 +290,7 @@ class Companion(wx.Frame):
             self.previewed_request = None
             self.selected = []
             self.source_scene = None
+            self.editor_context = None
             self.selection.SetLabel('Reading KiCad selection…')
             self.diagram.SetEmptyNote('Reading the live PCB from KiCad…')
             self.show_scene(None)
@@ -329,6 +354,7 @@ class Companion(wx.Frame):
                 self.status.SetValue('KiCad has changed since Copperpath connected. Use the current selection.'
                                      if result['board_changed'] else 'Select J1 or J2 and describe a small move.')
                 if self.workspace:
+                    self.editor_context = result['saved_context']
                     self.source_scene = result['scene']
                     self.show_scene(self.source_scene)
                     if len(self.selected) == 1:

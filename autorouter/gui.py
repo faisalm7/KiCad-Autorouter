@@ -1522,17 +1522,21 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             actions = wx.BoxSizer(wx.VERTICAL) if self.in_workspace else layout
             self.workspace_transcript = None
             if self.in_workspace:
+                history_host = wx.Panel(self)
+                history_layout = wx.BoxSizer(wx.VERTICAL)
+                heading = wx.StaticText(history_host, label='Conversation')
+                heading.SetFont(heading.GetFont().Bold())
+                history_layout.Add(heading, 0, wx.LEFT | wx.BOTTOM, 4)
+                self.workspace_transcript = wx.TextCtrl(history_host,
+                    value=conversation_history or 'Return to the saved workspace to write a request.',
+                    size=(-1, 76), name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
+                self.workspace_transcript.SetInsertionPoint(0)
+                history_layout.Add(self.workspace_transcript, 1, wx.EXPAND)
+                history_host.SetSizer(history_layout)
                 self.review_settings = wx.ToggleButton(status_host, label='Show routing settings')
                 self.review_settings.SetToolTip('Changing routing settings requires a fresh preview.')
                 self.review_settings.Bind(wx.EVT_TOGGLEBUTTON, lambda _: self.refresh())
                 actions.Add(self.review_settings, 0, wx.ALL, 6)
-            if self.in_workspace and conversation_history:
-                actions.Add(wx.StaticText(status_host, label='Conversation'),
-                            0, wx.LEFT | wx.RIGHT | wx.TOP, 6)
-                self.workspace_transcript = wx.TextCtrl(status_host, value=conversation_history, size=(-1, 86),
-                    name='Conversation history', style=wx.TE_MULTILINE | wx.TE_READONLY)
-                self.workspace_transcript.SetInsertionPoint(0)
-                actions.Add(self.workspace_transcript, 0, wx.EXPAND | wx.ALL, 6)
             self.inspected = wx.CheckBox(status_host, label=('I reviewed the findings and closed\nany KiCad review project.' if self.in_workspace
                 else 'I inspected all findings and CLOSED the review editors/project.\nMy choice is intent, not PCB certification.'))
             self.inspected.Bind(wx.EVT_CHECKBOX, lambda _: self.refresh())
@@ -1568,7 +1572,8 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 status_host.SetSizer(actions)
                 status_host.SetMinSize(self.FromDIP((352, -1)))
                 side = wx.BoxSizer(wx.VERTICAL)
-                panel.SetMinSize(self.FromDIP((352, 230)))
+                panel.SetMinSize(self.FromDIP((352, 200)))
+                side.Add(history_host, 0, wx.EXPAND | wx.BOTTOM, 8)
                 side.Add(panel, 1, wx.EXPAND)
                 side.Add(status_host, 0, wx.EXPAND | wx.TOP, 6)
                 frame_layout = wx.BoxSizer(wx.HORIZONTAL)
