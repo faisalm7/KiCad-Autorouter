@@ -155,7 +155,7 @@ def _definition(node):
             'pins': set().union(*memberships.values()), 'power': power is not None}
 
 
-def _closure(schematics, root_name):
+def _closure(schematics, root_name, *, read_only_current_flat=False):
     if (type(schematics) is not dict or not 1 <= len(schematics) <= MAX_FILES
             or sum(len(flat._raw(raw, 'schematic')) for raw in schematics.values()) > 100 * 1024**2):
         _fail('bounded exact schematic bytes required')
@@ -166,7 +166,14 @@ def _closure(schematics, root_name):
             _fail('case-aliased schematic paths')
         folded.add(name.casefold())
         tree = flat._tree(raw, 'schematic', 'kicad_sch')
-        if sx.one(tree, 'version') != ['version', '20250114']:
+        version = sx.one(tree, 'version')
+        current_flat = (
+            read_only_current_flat and version == ['version', '20260306']
+            and len(schematics) == 1 and name == root_name and not sx.children(tree, 'sheet')
+            and sx.one(tree, 'generator') == ['generator', '"eeschema"']
+            and sx.one(tree, 'generator_version') == ['generator_version', '"10.0"']
+        )
+        if version != ['version', '20250114'] and not current_flat:
             _fail('schematic version unqualified')
         pending = [tree]
         while pending:

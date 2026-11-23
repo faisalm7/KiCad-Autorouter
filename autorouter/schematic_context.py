@@ -4,24 +4,39 @@ import hashlib
 from . import gui, placement_clearance as files, pipeline, schematic_hierarchy as hierarchy
 
 
-def capture(board, expected):
-    """Use the existing exact instance, symbol, unit and pad binding checks."""
-    board = gui.saved_project_board(board)
+def _read(board, expected, name):
+    raw = files.read_bytes(board.parent / name)
+    if hashlib.sha256(raw).hexdigest() != expected.get(name):
+        raise ValueError('Saved files changed during schematic inspection.')
+    return raw
+
+
+def _saved_symbols(board, expected):
     root = board.with_suffix('.kicad_sch').name
     names = [str(hierarchy._relative(name)) for name in expected if name.endswith('.kicad_sch')]
     if root not in names or not 1 <= len(names) <= hierarchy.MAX_FILES:
         raise ValueError('The saved schematic set is missing or outside the supported size.')
 
-    def read(name):
-        raw = files.read_bytes(board.parent / name)
-        if hashlib.sha256(raw).hexdigest() != expected.get(name):
-            raise ValueError('Saved files changed during schematic inspection.')
-        return raw
-
-    schematics = {name: read(name) for name in names}
-    closure = hierarchy._closure(schematics, root)
+    schematics = {name: _read(board, expected, name) for name in names}
+    closure = hierarchy._closure(schematics, root, read_only_current_flat=True)
     components, _ = hierarchy._symbols(*closure)
-    tree = hierarchy.flat._tree(read(board.name), 'board', 'kicad_pcb')
+    return root, closure[1], components
+
+
+def assigned_footprint_count(board, expected):
+    """Count saved physical symbol assignments for the PCB setup guidance."""
+    board = gui.saved_project_board(board)
+    _, _, components = _saved_symbols(board, expected)
+    if gui.source_inventory(board) != expected:
+        raise ValueError('Saved files changed during schematic inspection.')
+    return len(components)
+
+
+def capture(board, expected):
+    """Use the existing exact instance, symbol, unit and pad binding checks."""
+    board = gui.saved_project_board(board)
+    root, sheets, components = _saved_symbols(board, expected)
+    tree = hierarchy.flat._tree(_read(board, expected, board.name), 'board', 'kicad_pcb')
     nets, _, _ = hierarchy._board(tree, components)
     if gui.source_inventory(board) != expected:
         raise ValueError('Saved files changed during schematic inspection.')
@@ -38,7 +53,7 @@ def capture(board, expected):
         )
     return dict(
         schema=1, kind='autorouter.saved-schematic-context.v1', source=str(board),
-        source_hashes=dict(expected), root=root, sheets=closure[1], components=bindings,
+        source_hashes=dict(expected), root=root, sheets=sheets, components=bindings,
         pcb_nets={net: sorted(terminals) for net, terminals in sorted(nets.items())},
         connectivity_source='saved PCB pad assignments', electrical_validation_performed=False,
     )

@@ -4,8 +4,9 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from autorouter import gui, schematic_context, sexpr
+from autorouter import gui, schematic_context, schematic_hierarchy, sexpr
 from experiments import schematic_hierarchy_fixture as fixture
+from experiments.placement_native_proposal_v1 import ordinary_fixture
 
 
 class SavedSchematicContextTests(unittest.TestCase):
@@ -60,6 +61,29 @@ class SavedSchematicContextTests(unittest.TestCase):
         result, reason = schematic_context.observe(self.board, gui.source_inventory(self.board))
         self.assertIsNone(result)
         self.assertIn('hierarchy child absent', reason)
+
+    def test_current_flat_save_supplies_read_only_context_with_unchanged_proof_scope(self):
+        board = ordinary_fixture.write_project(self.root / 'flat')
+        schematic = board.with_suffix('.kicad_sch')
+        tree = sexpr.parse(schematic.read_text())
+        sexpr.one(tree, 'version')[1] = '20260306'
+        schematic.write_text(sexpr.dump(tree))
+        original = gui.source_inventory(board)
+
+        self.assertEqual(schematic_context.assigned_footprint_count(board, original), 6)
+        context = schematic_context.capture(board, original)
+        self.assertEqual(set(context['components']), {'J1', 'J2', 'J3', 'J4', 'J5', 'J6'})
+        self.assertFalse(context['electrical_validation_performed'])
+        with self.assertRaisesRegex(ValueError, 'schematic version unqualified'):
+            schematic_hierarchy._closure({schematic.name: schematic.read_bytes()}, schematic.name)
+        self.assertEqual(gui.source_inventory(board), original)
+
+        sexpr.one(tree, 'generator_version')[1] = '"11.0"'
+        schematic.write_text(sexpr.dump(tree))
+        with self.assertRaisesRegex(ValueError, 'changed during schematic inspection'):
+            schematic_context.assigned_footprint_count(board, original)
+        with self.assertRaisesRegex(ValueError, 'schematic version unqualified'):
+            schematic_context.assigned_footprint_count(board, gui.source_inventory(board))
 
     def test_swapped_hierarchical_reference_path_is_never_inferred_by_name(self):
         board = self.case['board']

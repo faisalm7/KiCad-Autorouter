@@ -24,6 +24,8 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    closed outline and verify the scoped Copperpath preview. Check the
    saved-position routing and closure explanations.
    [Native schematic](evidence/product-native-stock-schematic-001.json)
+   Verify the source-tested saved footprint guidance in the next workspace
+   build. Reuse the current installed build for the prepared native transfer.
    [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9

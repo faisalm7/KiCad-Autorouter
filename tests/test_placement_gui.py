@@ -302,6 +302,15 @@ class PlacementGuiTests(unittest.TestCase):
                     self.assertIsNone(window.inspection)
                     self.assertEqual(window.saved_route_context['pcb_setup'], missing + '_needed')
                     self.assertIn('F8' if missing == 'footprints' else 'Edge.Cuts', window.findings.SetValue.call_args.args[0])
+                    if missing == 'footprints':
+                        self.assertIn('saved schematic assigns footprints to 6 components',
+                                      window.findings.SetValue.call_args.args[0])
+                        with patch.object(pg.schematic_context, 'assigned_footprint_count',
+                                          side_effect=ValueError('Missing footprint assignment')):
+                            adopt(inspect(job, threading.Event()))
+                        self.assertIn('Add and connect symbols', window.findings.SetValue.call_args.args[0])
+                        self.assertIn('See Findings for the PCB setup steps', window.schematic_refusal)
+                        self.assertIsNone(window.saved_route_context['assigned_footprints'])
                     with self.assertRaisesRegex(ValueError, 'Finish PCB setup in KiCad'):
                         window_method('open_saved_routing')(window, None)
                     window.saved_route_context = None  # The same project was typed without Return.

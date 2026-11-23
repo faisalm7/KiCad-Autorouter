@@ -2167,6 +2167,11 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     setup = read_only.get('pcb_setup')
                     if setup:
                         title, steps = PCB_SETUP_GUIDANCE[setup]
+                        assigned = read_only.get('assigned_footprints')
+                        if assigned is not None:
+                            parts = 'component' if assigned == 1 else 'components'
+                            steps = (f'The saved schematic assigns footprints to {assigned} {parts}. '
+                                'Review ERC in KiCad, then use Update PCB from Schematic (F8).')
                         details = [title, steps, 'Save and close the KiCad project, then choose Refresh inspection.']
                         status = title + ' See Findings for the next step in KiCad.'
                         if open_snapshot:
@@ -2216,14 +2221,24 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 scene = review_view.saved_board_front(static)
                 if scene is None and not setup:
                     return None
+                assigned = None
                 if open_in_kicad:
                     # Avoid mixing context from files an editor may be saving.
                     schematic = (None, 'Close the project in KiCad and refresh to inspect the saved schematic.')
                 else:
                     require_closed_source(source, inspection=static)
-                    schematic = schematic_context.observe(source, static['source_hashes'])
+                    if setup == 'footprints_needed':
+                        try:
+                            assigned = schematic_context.assigned_footprint_count(source, static['source_hashes'])
+                        except (OSError, TypeError, ValueError, Rejected):
+                            schematic = (None, 'See Findings for the PCB setup steps.')
+                        else:
+                            schematic = (None, 'Update PCB from Schematic in KiCad to see linked PCB components.')
+                    else:
+                        schematic = schematic_context.observe(source, static['source_hashes'])
                 reason = gui.short_failure_reason(reason) or 'The saved board exceeds the current placement scope.'
-                context = dict(static=static, scene=scene, reason=reason, open_in_kicad=open_in_kicad, pcb_setup=setup)
+                context = dict(static=static, scene=scene, reason=reason, open_in_kicad=open_in_kicad,
+                               pcb_setup=setup, assigned_footprints=assigned)
                 return (None, *schematic, '', None, context)
 
             def inspect(job, event):
