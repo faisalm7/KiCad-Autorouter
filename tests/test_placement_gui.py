@@ -80,13 +80,17 @@ class PlacementGuiTests(unittest.TestCase):
         board = Path('/owned/checked.kicad_pcb')
         captured = {'source': str(board), 'source_hashes': {board.name: 'old'}}
         w = SimpleNamespace(source_capture=lambda: captured, board=Mock(), inspect_project=Mock(),
-                            show_editor_context=Mock(), refresh=Mock())
+                            show_editor_context=Mock(), refresh=Mock(), editor_context={'selection': ['old']},
+                            toolbar_selection=('old',), toolbar_source=board)
         resume = window_method('resume_from_live')
         with patch.object(gui, 'saved_project_board', return_value=board), \
                 patch.object(gui, 'source_inventory', side_effect=[captured['source_hashes'], {board.name: 'new'}]):
             resume(w, None, [])
             w.show_editor_context.assert_called_once_with(captured)
             w.inspect_project.assert_not_called()
+            self.assertIsNone(w.editor_context)
+            self.assertEqual(w.toolbar_selection, ())
+            self.assertIsNone(w.toolbar_source)
             resume(w, None, [])
         self.assertEqual(w.show_editor_context.call_count, 1)
         w.inspect_project.assert_called_once_with(None)

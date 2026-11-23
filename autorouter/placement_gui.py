@@ -1522,8 +1522,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if self.conversation.source is not None else CONVERSATION_EMPTY))
 
         def resume_from_live(self, context, notes):
+            self.editor_context = copy.deepcopy(context)
+            self.toolbar_selection = ()
+            self.toolbar_source = None
             if context is not None:
-                self.editor_context = copy.deepcopy(context)
                 self.conversation.remember_editor_notes(context, notes)
             captured = self.source_capture()
             if captured is None:
@@ -1553,20 +1555,26 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
         def return_to_live(self, _):
             if on_return_live is None or self.busy or self.routing is not None or self.gate.closed:
                 return
-            self.invalidate_copilot()
+            self.invalidate_copilot(keep_edited_suggestion=True)
             if self.gate.review is not None:
                 self.revoke(dirty=self.gate.dirty)
             self.Hide()
             on_return_live()
 
-        def invalidate_copilot(self):
+        def invalidate_copilot(self, *, keep_edited_suggestion=False):
             """Changing intent cannot retain a model plan or its routing handoff."""
             previous = getattr(self, 'approved_copilot', None)
             self.copilot_generation = getattr(self, 'copilot_generation', 0) + 1
             self.pending_copilot = None; self.approved_copilot = None
-            self.routing_source_scene = None
-            if getattr(self, 'constraint_review', None) is not None:
-                self.clear_constraint_offer('The request or project controls changed. Preview again.')
+            if keep_edited_suggestion and getattr(self, 'constraint_edited', False):
+                if self.constraint_review is not None:
+                    self.constraint_review.cancel()
+                    self.constraint_review = None
+                self.constraint_summary.ChangeValue('Your edits are still here. Preview them again before using these settings.')
+            else:
+                self.routing_source_scene = None
+                if getattr(self, 'constraint_offer', None) is not None:
+                    self.clear_constraint_offer('The request or project controls changed. Preview again.')
             if hasattr(self, 'assistant_ack'):
                 self.assistant_ack.SetValue(False)
                 self.assistant_result.SetValue('No current assistant plan. Review the controls, then ask when needed.')
@@ -1614,6 +1622,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 binding = self.constraint_binding()
                 inspection = self.inspection
                 review = self.constraint_review
+                captured = self.source_capture() if routing and review is None else None
                 arguments = local_constraint_request(binding['request']) if previous is None else self.constraint_draft_terms()
 
                 def prepare(job, event):
@@ -1621,12 +1630,21 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
                     job.check_live()
                     try:
-                        current = review if previous is not None else design.PlacementConstraintReview(
-                            inspection, inputs, request=binding['request'], revision=binding['revision'])
-                        if previous is None:
-                            offer = current.receive('propose_placement_constraints_v2', arguments, inputs, **binding)
-                        else:
+                        if review is not None:
+                            current = review
                             offer = current.revise(previous, arguments, inputs, **binding)
+                        elif routing:
+                            source = require_closed_source(binding['source'], inspection=captured)
+                            saved = design.inspect_project(source)
+                            if captured is None or saved['source_hashes'] != captured['source_hashes']:
+                                raise design.PendingContextChanged('The saved project changed. Inspect it again.')
+                            current = conversation.RoutingReview(saved, inputs,
+                                request=binding['request'], revision=binding['revision'])
+                            offer = current.receive(conversation.ROUTING_TOOL, arguments, inputs, **binding)
+                        else:
+                            current = design.PlacementConstraintReview(inspection, inputs,
+                                request=binding['request'], revision=binding['revision'])
+                            offer = current.receive('propose_placement_constraints_v2', arguments, inputs, **binding)
                     except design.PendingContextChanged as exc:
                         return None, str(exc)
                     except intent.constraints.Refused as exc:
@@ -1749,7 +1767,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.refresh()
 
         def use_constraints(self, _):
-            if self.busy or self.gate.closed or self.constraint_offer is None or self.constraint_edited:
+            if (self.busy or self.gate.closed or self.constraint_review is None
+                    or self.constraint_offer is None or self.constraint_edited):
                 return
             try:
                 if self.constraint_offer['kind'] == conversation.ROUTING_KIND:

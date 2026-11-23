@@ -291,6 +291,57 @@ class ConstraintProposal(unittest.TestCase):
         w.pages.SetSelection.assert_not_called()
         w.update_schematic_view.assert_called_once_with()
 
+    def test_back_to_live_keeps_edits_but_requires_a_new_placement_review(self):
+        w = self.window()
+        self.preview_in_window(w)
+        before = w.constraint_inputs()
+        original, binding, offer = w.constraint_review, w.constraint_binding(), w.constraint_offer
+        w.constraint_fields[2].ChangeValue('75')
+        w.constraint_draft_changed(Mock())
+        ui.window_method('return_to_live', on_return_live=Mock())(w, None)
+        self.assertIsNone(w.constraint_review)
+        self.assertIn('Preview them again', w.constraint_summary.GetValue())
+        self.assertEqual(w.constraint_fields[2].GetValue(), '75')
+        with self.assertRaises(design.PendingContextChanged):
+            original.adopt(offer, before, **binding)
+        w.use_constraints(None)
+        self.assertEqual(w.constraint_inputs(), before)
+        self.preview_in_window(w)
+        self.assertIsNot(w.constraint_review, original)
+        self.assertEqual(w.constraint_offer['after']['route_seconds'], 75)
+        w.use_constraints(None)
+        self.assertEqual(w.constraint_inputs()['route_seconds'], 75)
+
+    def test_retained_routing_edit_rechecks_the_saved_project_and_nets(self):
+        w = self.window()
+        static = design.inspect_project(self.board)
+        w.source_capture = lambda: static
+        w.conversation_routing_preferences = MethodType(ui.window_method('conversation_routing_preferences'), w)
+        w.routing_names, w.routing_names_label = controls.text_control(''), Mock()
+        w.constraint_labels = [Mock() for _ in w.constraint_fields]
+        prefs, binding = w.conversation_routing_preferences(), w.constraint_binding()
+        review = conversation.RoutingReview(static, prefs, request=binding['request'], revision=binding['revision'])
+        offer = review.receive(conversation.ROUTING_TOOL, dict(nets=['ROUTE_A'], route_seconds=60), prefs, **binding)
+        w.show_constraint_offer(review, offer)
+        w.routing_names.ChangeValue('ROUTE_B')
+        w.constraint_draft_changed(Mock())
+        ui.window_method('return_to_live', on_return_live=Mock())(w, None)
+        self.assertIsNone(w.constraint_review)
+        self.preview_in_window(w)
+        self.assertEqual(w.constraint_offer['after'], dict(nets=['ROUTE_B'], route_seconds=60))
+        self.assertIsNot(w.constraint_review, review)
+        self.assertIs(w.constraint_offer['execution_authorized'], False)
+        w.constraint_fields[2].ChangeValue('80')
+        w.constraint_draft_changed(Mock())
+        ui.window_method('return_to_live', on_return_live=Mock())(w, None)
+        project = self.board.with_suffix('.kicad_pro')
+        project.write_bytes(project.read_bytes() + b'\n')
+        with self.assertRaisesRegex(ValueError, 'Saved source files changed'):
+            self.preview_in_window(w)
+        self.assertIsNone(w.constraint_review)
+        w.invalidate_copilot()
+        self.assertIsNone(w.constraint_offer)
+
     def test_preview_names_the_part_outside_the_chosen_area(self):
         w = self.window()
         w.assistant_request.ChangeValue('Select J1\nArea 14, 8 to 22, 13 mm')

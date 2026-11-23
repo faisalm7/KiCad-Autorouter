@@ -4,24 +4,23 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 
 ## Integrated release candidate
 
-Start at `30002cfe7`. The checked live move and Undo, constrained placement,
-protected routing, fresh export, and same-Mac Finder setup each have prior
-evidence. The live round trip currently rebuilds the saved workspace.
-Conversation is visible in different places, and an installed common journey
-still needs verification.
+This candidate builds on `30002cfe7` and the prior checked move, Undo and
+separate-project delivery evidence. Use the installed journeys below to
+check the boundaries that changed. The owned 90-second pour-rule repair is
+already complete. Keep it and the withheld STM32 task unchanged.
 
-1. Retain the same idle saved workspace on returning to the live companion.
-   Preserve edits on the same saved revision, re-read live selection, and
-   revoke prior approvals. Carry project-bound conversation as display only.
-   Verify a changed source and pending Undo cannot bypass those boundaries.
-2. The installed 880 × 610 board, conversation and routing review passed
-   with one layout defect. Expanded proposal fields could scroll the
-   approval buttons away, and the project caption clipped. Verify the
-   fixed action row and separate counts in the final build.
-3. Install once in a fresh root with the existing pinned Mac tools. Check
-   the ordinary Finder entry and the isolated 10.0.8 toolbar from this
-   runtime. Reuse unchanged Native, cancellation, and Undo proof where the
-   affected controls can be checked without repeating a write.
+1. Verify the installed round trip keeps the same saved window and pending
+   text. Re-read the native selection and require fresh review of retained
+   edits. A failed editor read clears the selection hint. Check project-bound
+   conversation, changed source refusal and handoff during pending Undo.
+2. **Verified on `ddaa97b3b`.** At 880 × 610 the full project name is visible
+   and the approval row stays in view with editing fields expanded. The
+   installed controls previewed and adopted the edited proposal. Reuse the
+   existing routing review evidence.
+3. Install the corrected handoff in a fresh root with the existing pinned
+   Mac tools. Check the ordinary Finder entry and isolated 10.0.8 toolbar
+   from this runtime. Reuse unchanged Native validation and cancellation.
+   Observe the checked move and Undo through the changed companion flow.
 4. **Delivered.** The retained MIT PushButtonLed task ran once from the
    ordinary launcher with the frozen region and 90-second budget. Fresh
    export and independent readback preserved 13 tracks and all source
