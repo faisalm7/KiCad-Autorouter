@@ -37,18 +37,21 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    the captured project to the prepared manager and refuses a change, open
    editor or cancellation. One build installed and its controlled callback
    produced the exact command. The correct manager project appeared before
-   its diagnostic memory cap stopped library loading. Verify the actual button
-   and warnings at laptop size when the correct window is accessible. New
-   window titles follow the verified project and clear on source change.
+   its diagnostic memory cap stopped library loading. The later installed
+   workflow below completed normal built-in library setup. Window titles
+   follow the verified project and clear on source change.
    [Handoff evidence](evidence/product-native-setup-handoff-001.json)
 7. **Two-part placement and delivery verified through the installed controller.**
    The corrected build used the first proposed J1 position and kept J2 fixed.
    Fresh review and export finished both gaps and independently checked the
    separate project. The first refusal and observer error remain recorded.
-   The Mac lock still holds the actual setup and review screens. Resume the
-   prepared `da13e5568` installation at 880 × 610 after the desktop is
-   accessible. Verify the exact project, assigned footprints, native setup
-   handoff, and board with findings before further graphical changes.
+   At 880 × 610 the same build showed both saved footprint assignments.
+   **Open in KiCad** opened the exact project and completed first-use library
+   setup. Refresh restored the guidance after normal close with all three
+   saved design files exact. Next, display the retained checked result in
+   the installed review and observe the current no-work guidance with its
+   board. Reuse the routing and delivery evidence.
+   [Installed setup](evidence/product-native-first-setup-gui-001.json) ·
    [Placement and delivery](evidence/product-native-first-placement-delivery-001.json)
 8. **Bounded licensed intake complete.** Three leads yielded no suitable
    two-layer development task. The motor driver was already exposed, the
