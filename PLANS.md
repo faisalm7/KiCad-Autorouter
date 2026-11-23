@@ -11,9 +11,10 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    pressure. Reuse the existing installation.
 2. Qualify the new-design handoff and readiness guidance. Use native KiCad
    creation on an owned blank project, then native library, ERC and PCB
-   preparation steps. Verify the captured project's name by the board at
-   laptop size. The prior owned editor and manager closed normally after
-   exact saved-source and verified native recovery checks.
+   preparation steps. At laptop size, check the captured project name, the
+   saved-position routing note and the visible project-closed requirement.
+   The prior owned editor and manager closed normally after exact saved-source
+   and verified native recovery checks.
    [Recovery evidence](evidence/product-owned-editor-recovery-001.json)
 3. **Source checks passed.** Deliver the checked live move from Conversation. Require exact live
    selection, clarification, a revised preview, explicit approval, readback,

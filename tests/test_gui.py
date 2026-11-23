@@ -265,6 +265,7 @@ class CliJobTests(unittest.TestCase):
         self.assertIsNone(window.flow); self.assertIsNone(window.job)
         self.assertFalse(flow.ready); self.assertFalse(flow.records); self.assertIsNone(flow.choice)
         window.inspected.SetValue.assert_called_with(False)
+        window.status.SetLabel.assert_called_once_with('Cancelled. Preview the saved project to start again.')
         shown = window.log.SetValue.call_args.args[0]
         self.assertIn('No positive state adopted', shown)
         self.assertNotIn('Status: preview', shown)

@@ -2756,9 +2756,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     frame.output.SetValue(self.routing_output_hint)
                 prefill_routing(frame, settings)
                 if selected_prefill:
-                    frame.status.SetLabel('Review the selected nets and time limit, then preview routing.')
+                    frame.status.SetLabel('Confirm the project is closed, then preview the selected nets and time limit.')
                 else:
-                    frame.status.SetLabel('Choose the routing scope and time limit, then preview.')
+                    frame.status.SetLabel('Choose the scope and time limit. Confirm the project is closed to preview.')
             except Exception:
                 frame.Destroy()
                 raise

@@ -43,6 +43,7 @@ IMPROVE_HELP = ('Experimental Improve uses a tuned incumbent, bounded pruning tr
 FAILURE_REASON_LIMIT = 512
 SUMMARY_LIMIT = 128 * 1024
 TOOLBAR_SELECTION_LIMIT = 64
+ACTION_CANCELLED = 'Action was cancelled. No positive UI state adopted.'
 EXPORT_EVIDENCE_CHANGED = 'export inputs/runtime/evidence changed'
 EXPORT_EVIDENCE_CHANGED_TEXT = 'The export, its inputs, runtime or saved evidence changed after validation.'
 
@@ -1101,7 +1102,7 @@ class CliJob:
         if self.cancel_requested:
             if self._deadline_error is not None:
                 raise ValueError('Action timed out or its timing could not be verified. No result was adopted.')
-            raise ValueError('Action was cancelled. No positive UI state adopted.')
+            raise ValueError(ACTION_CANCELLED)
 
     def check_not_cancelled(self):
         """Retain cancellation checks when using an already adopted result."""
@@ -1388,9 +1389,10 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
             task_row.Add(self.placement_button, 0)
             if self.in_workspace: self.placement_button.Hide()
             layout.Add(task_row, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 12)
-            self.intro = wx.StaticText(panel, label=source_note or ('Changes go into a separate project.'
+            self.intro = wx.StaticText(panel, label=source_note or (
+                'Routing uses the saved component positions and creates a separate project.'
                 if self.in_workspace else 'Choose a saved project, then inspect it or place components.'))
-            self.intro.Wrap(660)
+            self.intro.Wrap(self.FromDIP(320) if self.in_workspace else 660)
             layout.Add(self.intro, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP | wx.BOTTOM, 12)
             if self.in_workspace:
                 self.board = wx.TextCtrl(panel, value=board); self.board.Hide()
@@ -1961,8 +1963,10 @@ def create_window(board='', *, source_guard=None, on_closed=None, source_note=''
                 self.status.SetLabel(status + '\nSee Findings for details.')
             elif error.startswith('Routing refused:'):
                 self.status.SetLabel('Routing stopped. See Findings for the cause and next action.')
+            elif error == ACTION_CANCELLED:
+                self.status.SetLabel('Cancelled. Preview the saved project to start again.')
             else:
-                self.status.SetLabel('Action refused or cancelled. See Findings for details and start a fresh preview.')
+                self.status.SetLabel('Action stopped. See Findings for the cause and next action.')
             self.log.SetValue(str(error) + '\nNo positive state adopted. Retained files were not deleted.')
             self.refresh()
             if error.startswith('Routing refused:') and hasattr(self, 'workspace_tabs'):
