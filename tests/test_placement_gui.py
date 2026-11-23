@@ -154,6 +154,29 @@ class PlacementGuiTests(unittest.TestCase):
         window.project_title.SetToolTip.assert_called_with('')
         window.project_title.Show.assert_called_with(False)
 
+    def test_start_new_design_launches_the_prepared_native_manager(self):
+        from scripts import install_gui
+
+        window = self.window()
+        window.board = Mock()
+        window.board.GetValue.return_value = ''
+        window.start = Mock()
+        manifest = '/owned/launcher/install.json'
+        app = pg.window_type(SimpleNamespace(Frame=object), launcher_manifest=manifest)
+        app.start_new_design(window, None)
+        _, prepare, open_manager = window.start.call_args.args
+        material = (['/owned/kicad', '--new'], {'KICAD_CONFIG_HOME': '/owned/config'})
+        with patch.object(install_gui, 'prepare_new_project_manager', return_value=material) as read, \
+                patch.object(install_gui, 'require_closed_kicad') as closed, patch('subprocess.Popen') as launch:
+            approved = prepare(Mock(), threading.Event())
+            read.assert_called_once_with(manifest)
+            open_manager(approved)
+            closed.assert_called_once_with()
+            launch.assert_called_once()
+            self.assertEqual(launch.call_args.args, (material[0],))
+            self.assertEqual(launch.call_args.kwargs['env'], material[1])
+        self.assertIn('File > New Project > Default', window.message.call_args.args[0])
+
     def test_closed_source_preflight_retains_locks_and_requires_fresh_inspection_after_changes(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve(); board = root / 'owned.kicad_pcb'

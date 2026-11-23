@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import re
 import signal
+import subprocess
 import threading
 import uuid
 import xml.etree.ElementTree as ET
