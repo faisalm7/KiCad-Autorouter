@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import stat
 import subprocess
 import sys
@@ -27,6 +28,10 @@ REGION_NM = [8_000_000, 7_500_000, 30_000_000, 13_500_000]
 IPC_TIMER_MS = 1800
 
 
+class EditorContextChanged(ValueError):
+    """The proposal needs a fresh inspection of the current editor state."""
+
+
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
@@ -34,6 +39,27 @@ def digest(raw):
 def require(condition, text):
     if not condition:
         raise ValueError(text)
+
+
+def requested_offset(request, reference):
+    """Interpret one explicit local instruction within the owned move scope."""
+    if request is None:
+        return STEP_NM, 0  # Preserve the earlier fixed-step experiment.
+    example = f'Try “Move {reference} right by 0.5 mm.” Choose a direction and a distance up to 1 mm.'
+    require(type(request) is str and len(request) <= 128, example)
+    move = re.fullmatch(r'move (selected(?: part| footprint)?|[a-z]+[0-9]+) (left|right|up|down) by '
+                        r'([0-9]{1,2}(?:\.[0-9]{1,6})?) *mm\.?',
+                        ' '.join(request.strip().lower().split()), flags=re.ASCII)
+    require(move is not None, example)
+    component, direction, distance = move.groups()
+    require(component.startswith('selected') or component.upper() == reference,
+            f'{reference} is selected in KiCad. Change the request or read the intended selection again.')
+    from autorouter.placement_transform import nm
+
+    length = nm(distance, 1_000_000)
+    require(0 < length <= STEP_NM, 'Choose a distance greater than zero and no more than 1 mm.')
+    return {'left': (-length, 0), 'right': (length, 0),
+            'up': (0, -length), 'down': (0, length)}[direction]
 
 
 def board_file(editor_bytes):
@@ -51,6 +77,25 @@ def board_file(editor_bytes):
         require(not any(sexpr.children(footprint, key) for key in keys),
                 'Duplicate footprint serialization headers.')
     return (sexpr.dump(tree) + '\n').encode()
+
+
+def editor_scene(raw, selected=()):
+    from autorouter import placement_view
+    from experiments.placement_native_proposal_v1 import contract
+
+    observation = contract.inspect_board(board_file(raw), scope=contract.THT_BASELINE_SCOPE)
+    anchors = {row['uuid']: row['position_nm'] for row in observation['footprints'] if row['uuid'] in selected}
+    return placement_view.scene(observation, anchors, list(anchors), REGION_NM,
+        title='Open PCB in KiCad', state='Editor snapshot · existing copper remains protected',
+        protection=(True, (), ()))
+
+
+def checked_result_scene(raw, selected=()):
+    try:
+        return editor_scene(raw, selected)
+    except Exception:
+        # Readback is already definitive. An optional drawing cannot change it.
+        return None
 
 
 class Session:
@@ -92,6 +137,7 @@ class Session:
         self.pcb = self.editor.get_board()
         self.doc_id = self.identity()
         self.plan = None
+        self.displayed_selection = None
         self.applied = None
         self.interactive = None
         self.apply_disabled = False
@@ -148,7 +194,9 @@ class Session:
     def inspect(self, *, board_view=False):
         from autorouter import sexpr
 
-        if board_view: self.plan = None
+        if board_view:
+            self.plan = None
+            self.displayed_selection = None
         snapshot = self.snapshot()
         items = self.selected()
         selected = [item.reference_field.text.value for item in items]
@@ -158,33 +206,40 @@ class Session:
                     board_changed=sexpr.parse(snapshot['raw'].decode())
                     != sexpr.parse(self.initial['raw'].decode()))
         if board_view:
-            from autorouter import placement_view
-            from experiments.placement_native_proposal_v1 import contract
-            observation = contract.inspect_board(board_file(snapshot['raw']), scope=contract.THT_BASELINE_SCOPE)
-            result['scene'] = placement_view.scene(observation, {}, [], REGION_NM)
+            identities = tuple(item.id.value for item in items)
+            result['scene'] = editor_scene(snapshot['raw'], identities)
+            self.displayed_selection = (snapshot['sha256'], identities)
         return result
 
-    def preview(self, *, board_view=False):
+    def preview(self, request=None, *, board_view=False):
         from autorouter import sexpr
         from experiments.placement_native_proposal_v1 import contract
 
         self.plan = None
         require(not self.apply_disabled, 'A write needs inspection in KiCad before any further test.')
         snapshot = self.snapshot()
+        require(snapshot['disk'] == self.initial['disk'],
+                'Saved project files changed. Keep working in KiCad or reopen the saved-project workspace.')
         selection = self.selected()
         require(len(selection) == 1, 'Select one footprint in KiCad, then preview again.')
         item = selection[0]
         reference = item.reference_field.text.value
         require(reference in SELECTION, 'Select one of the movable footprints J1 or J2 in KiCad.')
         uid = item.id.value
+        if request is not None and self.displayed_selection != (snapshot['sha256'], (uid,)):
+            raise EditorContextChanged('The board or selection changed. Read selection in KiCad before previewing.')
         start = [item.position.x, item.position.y]
-        target = [start[0] + STEP_NM, start[1]]
+        target = [coordinate + offset for coordinate, offset in zip(start, requested_offset(request, reference))]
         options = dict(scope=contract.THT_BASELINE_SCOPE, selected=[uid], region_nm=REGION_NM)
         source = board_file(snapshot['raw'])
         observation = contract.inspect_board(source, scope=options['scope'])
+        observed = next((part for part in observation['footprints'] if part['uuid'] == uid), None)
+        if observed is None or observed['reference'] != reference or observed['position_nm'] != start:
+            raise EditorContextChanged('The selected footprint differs from the live PCB. Read selection again.')
         contract.validate_moves(observation, {uid: target}, **options)
         expected = contract.translated_tree(source, {uid: target}, **options)
-        require(self.snapshot() == snapshot, 'The board changed while the move was prepared.')
+        if self.snapshot() != snapshot or [part.id.value for part in self.selected()] != [uid]:
+            raise EditorContextChanged('The board or selection changed while preparing the move. Read selection again.')
         self.index += 1
         proposal = dict(id=self.index, ref=reference, uid=uid, from_nm=start, to_nm=target)
         self.plan = dict(info=proposal, snapshot=snapshot, source=source, expected=expected, options=options,
@@ -192,16 +247,17 @@ class Session:
         self.write('preview', **proposal, editor_sha256=snapshot['sha256'])
         if board_view:
             from autorouter import placement_view
-            return dict(proposal, scene=placement_view.scene(observation, {uid: target}, [uid], REGION_NM))
+            return dict(proposal, scene=placement_view.scene(observation, {uid: target}, [uid], REGION_NM,
+                title=f'Proposed move · {reference}', state='Preview · check the exact move before applying',
+                protection=(True, (), ())))
         return proposal
 
     def fresh(self, proposal):
         if self.plan is None or self.plan['info']['id'] != proposal:
             raise ValueError('Preview a new move before applying.')
         info = self.plan['info']
-        require(self.snapshot() == self.plan['snapshot']
-                and [item.id.value for item in self.selected()] == [info['uid']],
-                'KiCad changed after preview. Read the selection and preview again.')
+        if self.snapshot() != self.plan['snapshot'] or [item.id.value for item in self.selected()] != [info['uid']]:
+            raise EditorContextChanged('KiCad changed after preview. Read the selection and preview again.')
         return info
 
     def reject(self):
@@ -344,17 +400,18 @@ class Session:
             self.apply_disabled = False
         return dict(dropped=True)
 
-    def check_undo(self):
+    def check_undo(self, *, board_view=False):
         require(self.applied is not None, 'Apply a reviewed test move before verifying Undo.')
         now = self.snapshot()
         unchanged = now == self.applied
         self.write('undo_readback', exact=unchanged, editor_sha256=now['sha256'])
         require(unchanged, 'The PCB has not returned to its state before the move.')
+        scene = checked_result_scene(now['raw']) if board_view else None
         self.applied = None
         self.apply_disabled = False
-        return dict(undo_verified=True)
+        return dict(undo_verified=True, scene=scene) if board_view else dict(undo_verified=True)
 
-    def apply_direct_trial(self, proposal):
+    def apply_direct_trial(self, proposal, *, board_view=False):
         """One guarded, approved IPC update of the exact owned 10.0.8 board."""
         from kipy.geometry import Vector2
 
@@ -364,7 +421,14 @@ class Session:
                 'Check the exact move on the isolated 10.0.8 test board first.')
         item, = self.selected()
         item.position = Vector2.from_xy(*info['to_nm'])
-        commit = self.pcb.begin_commit()
+        # A missing response does not establish whether KiCad opened a transaction.
+        self.apply_disabled = True
+        try:
+            commit = self.pcb.begin_commit()
+        except Exception:
+            self.plan = None
+            self.write('begin_commit_unconfirmed')
+            raise ValueError('KiCad did not confirm opening the transaction. Inspect KiCad before further work.') from None
         try:
             self.fresh(proposal)
             updated, = self.pcb.update_items(item)
@@ -373,12 +437,18 @@ class Session:
                     'KiCad staged a different component or position.')
             self.fresh(proposal)
         except Exception:
-            self.pcb.drop_commit(commit)
-            require(self.snapshot() == plan['snapshot'], 'The staged change did not drop exactly.')
+            self.plan = None
+            try:
+                self.pcb.drop_commit(commit)
+                require(self.snapshot() == plan['snapshot'], 'The staged change did not drop exactly.')
+            except Exception:
+                self.write('drop_commit_unconfirmed')
+                raise ValueError('KiCad could not verify discarding the staged move. Further moves are disabled.') from None
+            self.apply_disabled = False
+            self.write('staged_move_discarded', exact=True)
             raise
         # An ambiguous push cannot authorize another write or a whole-board reload.
         self.plan = None
-        self.apply_disabled = True
         self.direct_attempted = True
         self.applied = plan['snapshot']
         self.pcb.push_commit(commit, 'Copperpath checked component move')
@@ -388,7 +458,10 @@ class Session:
             stream.write(now['raw'])
         self.write('direct_readback', exact=exact, editor_sha256=now['sha256'],
                    expected_sha256=digest(plan['candidate']), disk_unchanged=now['disk'] == plan['snapshot']['disk'])
-        return dict(applied=True, exact=exact)
+        result = dict(applied=True, exact=exact)
+        if board_view and exact:
+            result['scene'] = checked_result_scene(now['raw'], [info['uid']])
+        return result
 
 
 def unchanged_outside_move(plan, after):

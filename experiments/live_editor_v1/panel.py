@@ -61,6 +61,8 @@ class Companion(wx.Frame):
         self.direct_trial = direct_trial
         self.checked_move_finished = False
         self.selected = []
+        self.turns = []
+        self.previewed_request = None
         container = wx.Panel(self)
         box = wx.Panel(container) if workspace else container
         stack = wx.BoxSizer(wx.VERTICAL)
@@ -84,28 +86,40 @@ class Companion(wx.Frame):
             layout.Add(self.diagram, 1, wx.EXPAND | wx.ALL, 12)
             layout.Add(box, 0, wx.EXPAND | wx.TOP | wx.RIGHT, 12)
             container.SetSizer(layout)
-            box.SetMinSize((316, -1))
+            box.SetMinSize(self.FromDIP((326, -1)))
+            conversation = wx.StaticText(box, label='Conversation')
+            conversation.SetFont(conversation.GetFont().Bold())
+            stack.Add(conversation, 0, wx.LEFT | wx.RIGHT | wx.TOP, 12)
+            self.transcript = wx.TextCtrl(box, style=wx.TE_MULTILINE | wx.TE_READONLY,
+                                          size=(-1, 116), name='Live move conversation')
+            stack.Add(self.transcript, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8)
+            self.move_request = wx.TextCtrl(box, style=wx.TE_PROCESS_ENTER, name='Local move request')
+            self.move_request.SetMaxLength(128)
+            self.move_request.SetHint('Move J1 right by 0.5 mm')
+            self.move_request.Bind(wx.EVT_TEXT, self.request_edited)
+            self.move_request.Bind(wx.EVT_TEXT_ENTER, self.preview_request)
+            stack.Add(self.move_request, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8)
         else:
             self.diagram = Preview(box)
             stack.Add(self.diagram, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
         self.status = wx.TextCtrl(box, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.BORDER_NONE,
                                   size=(-1, 77))
         self.status.SetName('Move status and findings')
-        stack.Add(self.status, 1 if workspace else 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
+        stack.Add(self.status, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8 if workspace else 18)
 
         choices = wx.BoxSizer(wx.HORIZONTAL)
         self.refresh = wx.Button(box, label='Read selection')
         self.discard = wx.Button(box, label='Discard')
         self.next = wx.Button(box, label='Preview move')
         if workspace:
-            stack.Add(self.next, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 18)
+            stack.Add(self.next, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 8)
         for button in (self.refresh, self.discard) if workspace else (self.refresh, self.discard, self.next):
             choices.Add(button, 0, wx.RIGHT, 6)
-        stack.Add(choices, 0, wx.ALL, 18)
+        stack.Add(choices, 0, wx.ALL, 8 if workspace else 18)
         if workspace:
             self.saved = wx.Button(box, label='Open saved-project workspace…')
             self.saved.Bind(wx.EVT_BUTTON, self.open_saved)
-            stack.Add(self.saved, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 18)
+            stack.Add(self.saved, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
         self.refresh.Bind(wx.EVT_BUTTON, lambda _e: self.request('inspect'))
         self.discard.Bind(wx.EVT_BUTTON, self.on_discard)
         self.next.Bind(wx.EVT_BUTTON, self.advance)
@@ -124,7 +138,32 @@ class Companion(wx.Frame):
 
         self.Bind(wx.EVT_CLOSE, self.on_close)
         self.Show()
+        if workspace:
+            self.remember('Use an explicit local movement request. The checked region and copper protection stay in place.')
         self.request('inspect')
+
+    def remember(self, message):
+        if self.workspace:
+            self.turns = (self.turns + [message])[-12:]
+            self.transcript.ChangeValue('\n\n'.join(self.turns))
+            self.transcript.SetInsertionPointEnd()
+
+    def request_edited(self, event):
+        if self.move is not None and self.run is None:
+            self.clear_revised_move()
+        event.Skip()
+
+    def clear_revised_move(self):
+        self.move = None
+        self.validated = False
+        self.status.SetValue('The request changed. Preview and check the revised move.')
+        self.show_scene(self.source_scene)
+        self.controls()
+
+    def preview_request(self, _event):
+        if (self.workspace and self.run is None and self.move is None and self.next.IsEnabled()
+                and not self.readback_pending and not self.native_move_open):
+            self.request('preview', self.move_request.GetValue())
 
     def image_error(self, _reason):
         self.move = None
@@ -155,8 +194,14 @@ class Companion(wx.Frame):
         elif self.native_move_open:
             self.request('check_live_move')
         elif self.move is None:
-            self.request('preview')
+            if self.workspace:
+                self.preview_request(_event)
+            else:
+                self.request('preview')
         else:
+            if self.workspace and self.move_request.GetValue() != self.previewed_request:
+                self.clear_revised_move()
+                return
             if self.workspace and not self.diagram.Ready():
                 self.status.SetValue('Wait for the board preview before checking or applying the move.')
                 return
@@ -172,7 +217,7 @@ class Companion(wx.Frame):
             self.request('discard')
 
     def controls(self):
-        self.refresh.Enable(self.run is None and not self.native_move_open)
+        self.refresh.Enable(self.run is None and not self.native_move_open and not self.readback_pending)
         self.discard.Enable(self.move is not None and not self.native_move_open
                             and not self.discard_pending and self.run in (None, 'validate'))
         self.next.SetLabel('Verify KiCad Undo' if self.readback_pending else
@@ -186,6 +231,7 @@ class Companion(wx.Frame):
             button.Enable(self.run is None and self.move is not None and not self.native_move_open)
         if self.workspace:
             self.saved.Enable(self.run is None)
+            self.move_request.Enable(self.run is None and not self.readback_pending and not self.checked_move_finished)
         else:
             self.diagram.move = self.move
             self.diagram.Refresh()
@@ -198,6 +244,11 @@ class Companion(wx.Frame):
             self.move = None
             self.validated = False
         self.run = command
+        if self.workspace and command == 'preview':
+            self.previewed_request = args[0]
+            self.remember('You · ' + (args[0].strip() or 'Request a move'))
+        if command == 'inspect':
+            self.status.SetValue('Reading the open PCB and selection from KiCad…')
         if command == 'validate':
             self.status.SetValue('KiCad is checking an isolated copy. You can discard this proposal.')
         self.controls()
@@ -218,6 +269,10 @@ class Companion(wx.Frame):
             self.discard_pending = False
             self.request('discard')
             return
+        if (self.workspace and command in ('preview', 'validate')
+                and self.move_request.GetValue() != self.previewed_request):
+            self.clear_revised_move()
+            return
         if not response['ok']:
             if command != 'check_live_move' or not response['message'].startswith('Finish or cancel'):
                 self.move = None
@@ -225,22 +280,32 @@ class Companion(wx.Frame):
                 self.native_move_open = False
             if self.workspace and command == 'apply_direct' and response.get('verify_undo') is True:
                 self.readback_pending = True
+            if self.workspace and (response.get('read_selection') or command in ('validate', 'apply_direct')):
+                self.selected = []
+                self.selection.SetLabel('Read the current selection in KiCad')
+                self.diagram.SetEmptyNote('Read the current selection in KiCad.')
+                self.show_scene(None)
             self.status.SetValue(response['message'])
+            self.remember('Copperpath · ' + response['message'])
         else:
             result = response['value']
             if command == 'inspect':
                 self.selected = result['selection']
                 self.selection.SetLabel('Selected in KiCad · ' + (', '.join(self.selected) or 'No footprint'))
-                self.status.SetValue('The editor contains unsaved board changes.' if result['board_changed']
-                                     else 'Select J1 or J2 to preview a 1 mm translation.')
+                self.status.SetValue('KiCad has changed since Copperpath connected. Use the current selection.'
+                                     if result['board_changed'] else 'Select J1 or J2 and describe a small move.')
                 if self.workspace:
                     self.source_scene = result['scene']
                     self.show_scene(self.source_scene)
+                    if len(self.selected) == 1:
+                        self.move_request.SetHint(f'Move {self.selected[0]} right by 0.5 mm')
             elif command == 'preview':
                 self.move = result
                 self.status.SetValue(result['ref'] + ' · Preview only. Check against the original project before applying.')
                 if self.workspace:
                     self.show_scene(result['scene'])
+                    start, target = (', '.join(f'{n / 1_000_000:g}' for n in result[k]) for k in ('from_nm', 'to_nm'))
+                    self.remember(f"Copperpath · {result['ref']} from ({start}) to ({target}) mm. Review or edit the request.")
             elif command == 'validate':
                 self.validated = True
                 self.status.SetValue(
@@ -267,9 +332,13 @@ class Companion(wx.Frame):
                 self.move = None
                 self.validated = False
                 self.readback_pending = True
-                self.status.SetValue(('The exact in-editor move passed readback.' if result['exact'] else
-                                      'The in-editor transaction differs from the checked preview.')
-                    + ' Use KiCad Undo on “Copperpath checked component move”, then verify the prior board here.')
+                message = (('The exact in-editor move passed readback.' if result['exact'] else
+                            'The in-editor transaction differs from the checked preview.')
+                           + ' Use KiCad Undo on “Copperpath checked component move”, then verify here.')
+                if self.workspace:
+                    self.show_scene(result.get('scene'))
+                self.status.SetValue(message)
+                self.remember('Copperpath · ' + message)
             else:
                 self.move = None
                 self.validated = False
@@ -278,12 +347,15 @@ class Companion(wx.Frame):
                     self.checked_move_finished = True
                 self.status.SetValue({
                     'discard': 'Proposal discarded. The board is unchanged.',
-                    'undo': 'KiCad Undo restored the prior board, including unrelated unsaved edits.',
+                    'undo': 'The PCB matches its exact pre-move state, including unrelated unsaved edits.',
                     'drop_test': 'KiCad discarded the staged move. The board is unchanged.',
                     'partial_test': 'The mixed update was refused and dropped. The board is unchanged.',
                 }[command])
                 if self.workspace and command in ('discard', 'undo'):
+                    if command == 'undo':
+                        self.source_scene = result['scene']
                     self.show_scene(self.source_scene)
+                    self.remember('Copperpath · ' + self.status.GetValue())
         self.controls()
 
     def show_scene(self, scene):

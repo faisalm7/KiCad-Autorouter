@@ -72,9 +72,12 @@ def start(launcher, board, connection):
 
 def workspace(session):
     """Own the private worker and its checked operations for one workspace."""
+    from experiments.live_editor_v1.probe import EditorContextChanged
+
     operations = {'inspect': lambda: session.inspect(board_view=True),
-                  'preview': lambda: session.preview(board_view=True), 'discard': session.reject,
-                  'validate': session.validate, 'apply_direct': session.apply_direct_trial, 'undo': session.check_undo}
+                  'preview': lambda request=None: session.preview(request, board_view=True), 'discard': session.reject,
+                  'validate': session.validate, 'apply_direct': lambda proposal: session.apply_direct_trial(proposal, board_view=True),
+                  'undo': lambda: session.check_undo(board_view=True)}
     argv = [str(c.PYTHON), '-B', '-m', 'experiments.live_editor_v1.panel', '--workspace', '--direct-1008-trial',
             '--saved-project', str(session.path.with_suffix('.kicad_pro'))]
     view = subprocess.Popen(argv, cwd=c.ROOT, env=gui.child_environment(),
@@ -92,8 +95,10 @@ def workspace(session):
                 result = dict(ok=True, value=operations[command](*request['args']))
             except Exception as exc:
                 # Never send an endpoint or token from transport exceptions.
-                message = str(exc) if type(exc) is ValueError else 'The KiCad operation could not be verified. Check the editor.'
+                message = str(exc) if type(exc) in (ValueError, EditorContextChanged) else 'The KiCad operation could not be verified. Check the editor.'
                 result = dict(ok=False, message=message)
+                if type(exc) is EditorContextChanged:
+                    result['read_selection'] = True
                 if command == 'apply_direct' and session.applied is not None:
                     result.update(verify_undo=True, message=(
                         'The move outcome is uncertain. In KiCad, check for the named Copperpath Undo. '

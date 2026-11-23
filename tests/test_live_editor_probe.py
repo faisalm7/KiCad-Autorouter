@@ -1,5 +1,7 @@
 """Exact readback controls for the owned live-editor qualification."""
 from pathlib import Path
+from types import SimpleNamespace
+import sys
 import unittest
 from unittest.mock import Mock, patch
 
@@ -55,6 +57,78 @@ class EditorReadback(unittest.TestCase):
         self.assertIn('svg', session.inspect(board_view=True)['scene'])
         with self.assertRaisesRegex(ValueError, 'Preview a new move'):
             session.fresh(1)
+
+    def test_local_request_clarifies_scope_and_uses_exact_nanometres(self):
+        self.assertEqual(probe.requested_offset('Move J1 right by 0.500001 mm', 'J1'), (500_001, 0))
+        self.assertEqual(probe.requested_offset('Move selected part up by 0.25 mm.', 'J1'), (0, -250_000))
+        with self.assertRaisesRegex(ValueError, 'J1 is selected'):
+            probe.requested_offset('Move J2 right by 0.75 mm', 'J1')
+        with self.assertRaisesRegex(ValueError, 'no more than 1 mm'):
+            probe.requested_offset('Move J1 right by 1.000001 mm', 'J1')
+        with self.assertRaisesRegex(ValueError, 'Choose a direction'):
+            probe.requested_offset('Move it a little', 'J1')
+
+    def test_revised_draft_replaces_approval_identity_and_checks_live_state(self):
+        session = probe.Session.__new__(probe.Session)
+        session.initial = dict(raw=self.snapshot, sha256='fixture', disk={'original': 'exact'})
+        session.apply_disabled = False
+        session.index = 0
+        session.snapshot = Mock(return_value=session.initial)
+        session.write = Mock()
+        observed = contract.inspect_board(probe.board_file(self.snapshot), scope=contract.THT_BASELINE_SCOPE)
+        row, = [part for part in observed['footprints'] if part['reference'] == 'J1']
+        x, y = row['position_nm']
+        part = SimpleNamespace(id=SimpleNamespace(value=row['uuid']), position=SimpleNamespace(x=x, y=y),
+            reference_field=SimpleNamespace(text=SimpleNamespace(value='J1')))
+        session.selected = Mock(return_value=[part])
+        self.assertEqual(session.inspect(board_view=True)['selection'], ['J1'])
+        first = session.preview('Move J1 right by 0.5 mm', board_view=True)
+        self.assertEqual(first['to_nm'], [x + 500_000, y])
+        self.assertIn('Proposed move · J1', first['scene']['svg'])
+        revised = session.preview('Move J1 right by 0.75 mm')
+        with self.assertRaisesRegex(ValueError, 'Preview a new move'):
+            session.fresh(first['id'])
+        self.assertEqual(session.fresh(revised['id'])['to_nm'], [x + 750_000, y])
+        session.snapshot.return_value = dict(session.initial, disk={'changed': True})
+        with self.assertRaisesRegex(ValueError, 'KiCad changed after preview'):
+            session.fresh(revised['id'])
+        with self.assertRaisesRegex(ValueError, 'Saved project files changed'):
+            session.preview('Move J1 right by 0.5 mm')
+        self.assertIsNone(session.plan)
+        session.snapshot.return_value = session.initial
+        other = next(part for part in observed['footprints'] if part['reference'] == 'J2')
+        session.selected.return_value = [SimpleNamespace(id=SimpleNamespace(value=other['uuid']),
+            reference_field=SimpleNamespace(text=SimpleNamespace(value='J2')))]
+        with self.assertRaisesRegex(probe.EditorContextChanged, 'Read selection'):
+            session.preview('Move selected part right by 0.5 mm')
+        self.assertIsNone(session.plan)
+
+    def test_uncertain_transaction_retires_the_plan_and_blocks_another_move(self):
+        geometry = SimpleNamespace(Vector2=SimpleNamespace(from_xy=lambda *position: position))
+        for stage in ('begin', 'drop', 'exact drop'):
+            with self.subTest(stage=stage), patch.dict(sys.modules, {'kipy.geometry': geometry}):
+                session = probe.Session.__new__(probe.Session)
+                session.direct_trial = True
+                session.direct_attempted = session.apply_disabled = False
+                session.applied = None
+                session.plan = {'snapshot': {'raw': self.snapshot}, 'native': {}}
+                session.snapshot = Mock(return_value=session.plan['snapshot'])
+                session.fresh = Mock(return_value={'uid': 'owned', 'to_nm': [15_000_000, 10_000_000]})
+                session.selected = Mock(return_value=[SimpleNamespace()])
+                session.write = Mock()
+                session.pcb = Mock()
+                session.pcb.update_items.side_effect = ValueError('Deliberate stage refusal')
+                if stage == 'begin':
+                    session.pcb.begin_commit.side_effect = OSError('Unconfirmed opening')
+                if stage == 'drop':
+                    session.pcb.drop_commit.side_effect = OSError('Unconfirmed drop')
+                reason = {'begin': 'did not confirm', 'drop': 'could not verify', 'exact drop': 'Deliberate stage refusal'}
+                with self.assertRaisesRegex(ValueError, reason[stage]):
+                    session.apply_direct_trial(1)
+                self.assertEqual(session.apply_disabled, stage != 'exact drop')
+                self.assertIsNone(session.plan)
+                self.assertIsNone(session.applied)
+                session.pcb.push_commit.assert_not_called()
 
     def test_owned_workspace_passes_the_bound_saved_project_to_its_panel(self):
         session = Mock(path=Path('/owned/inspection/checked.kicad_pcb'))

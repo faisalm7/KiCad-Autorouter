@@ -11,7 +11,7 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
 2. Qualify the new-design handoff and readiness guidance. Use native KiCad
    creation on an owned blank project, then native library, ERC and PCB
    preparation steps. Keep the existing editor and its unsaved work safe.
-3. Deliver the checked live move from Conversation. Require exact live
+3. **Source checks passed.** Deliver the checked live move from Conversation. Require exact live
    selection, clarification, a revised preview, explicit approval, readback,
    stale-state refusal and named native Undo. Keep the supported saved path.
 4. After verification, advance one applicable user journey from the lifecycle

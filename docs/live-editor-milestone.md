@@ -131,6 +131,24 @@ disposable copy. The pinned test had an Undo metadata failure. The default
 companion issues read/check requests and performs no PCB writes. The
 `--diagnostics` option adds two scoped dropped-transaction controls.
 
+### Revised local move
+
+The next checked companion build keeps Conversation and the PCB capture in
+one view. Read a single J1 or J2 selection in the prepared 10.0.8 example.
+Enter a local instruction such as `Move J1 right by 0.5 mm`. Review its
+position on the board, edit the request if needed, then preview and check
+again. An explicit direction and a distance up to 1 mm define this trial.
+The scoped region, original rules, protected copper and other footprints stay
+under the existing checks. Apply a checked move through the separate approval
+button. Use KiCad's named Undo and verify exact pre-move state in Copperpath.
+
+Controlled tests refuse a draft when the live selection or saved inputs
+change. An unconfirmed opening or drop of a transaction disables another
+write in that companion. The final readback proof remains meaningful if a
+diagram cannot be drawn. Dedicated installed laptop-size checks of
+clarification, revision, stale refusal, one applied move and Undo remain
+pending. Earlier live application evidence covers the fixed-step workflow.
+
 ## Placement constraints from a request
 
 V2 accepts one or more exact observed reference labels, a movement rectangle and routing
