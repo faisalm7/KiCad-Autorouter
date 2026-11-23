@@ -213,9 +213,11 @@ class ConstraintProposal(unittest.TestCase):
         w.constraint_review = w.constraint_offer = None
         w.conversation_offer = False
         w.constraint_edited = w.updating = False
+        w.request_area_set = False
         w.find_alternatives = Mock()
         w.start = Mock()
         for method in ('constraint_inputs', 'constraint_binding', 'constraint_draft_terms',
+                'selected_references', 'assistant_changed',
                 'preview_constraints', 'show_constraint_offer', 'toggle_constraint_editor', 'constraint_draft_changed',
                 'clear_constraint_offer', 'discard_constraints', 'use_constraints',
                 'update_constraint_map', 'constraint_preview_error'):
@@ -255,6 +257,96 @@ class ConstraintProposal(unittest.TestCase):
         w.discard_constraints(None)
         self.assertIsNone(w.constraint_offer)
         w.constraint_editor.Hide.assert_called_once_with()
+
+    def direct_window(self):
+        w = self.window()
+        for index, component in enumerate(w.inspection['components']):
+            w.parts.Check(index, component['reference'] in ('J1', 'J2'))
+        w.request_area_set = True
+        w.assistant_request.ChangeValue('Move these two parts into this area, leave the other parts in place, '
+            'keep the protected copper, and reconnect only the affected nets. Give routing 80 seconds.')
+        return w
+
+    def test_same_composer_revises_checked_plan_without_retaining_approval(self):
+        w = self.direct_window()
+        original = w.constraint_inputs()
+        self.preview_in_window(w)
+        initial, first, first_binding = w.constraint_offer, w.constraint_review, w.constraint_binding()
+        self.assertEqual(initial['after']['route_seconds'], 80)
+        w.assistant_request.ChangeValue('Give routing 90 seconds; keep the area and protections.')
+        w.assistant_changed(Mock())
+        self.assertIsNone(w.constraint_offer)
+        with self.assertRaises(design.PendingContextChanged):
+            first.adopt(initial, original, **first_binding)
+        self.preview_in_window(w)
+        self.assertEqual(w.constraint_offer['before'], w.constraint_offer['after'])
+        self.assertEqual(w.constraint_offer['after'], initial['after'] | dict(route_seconds=90))
+        self.assertEqual(w.constraint_offer['copper_plan'], initial['copper_plan'])
+        self.assertIn('80 s to 90 s', w.constraint_summary.GetValue())
+        self.assertEqual(w.constraint_inputs(), original)
+        w.use_constraints(None, search=True)
+        w.find_alternatives.assert_called_once()
+        self.assertIn('Initial local request', w.assistant_result.GetValue())
+        w.gate.review = ui.review()
+        w.assistant_changed(Mock())
+        self.assertIsNone(w.gate.review)
+        self.assertFalse(w.direct_adopted)
+
+    def test_local_task_with_already_selected_settings_keeps_shared_geometry_checks(self):
+        w = self.direct_window()
+        controls = w.constraint_inputs()
+        binding = w.constraint_binding()
+        args = dict(selected_refs=['J1', 'J2'], region_nm=controls['region_nm'], route_seconds=90)
+        review = design.PlacementConstraintReview(w.inspection, controls,
+            request=binding['request'], revision=binding['revision'])
+        with self.assertRaisesRegex(design.IntentError, 'unchanged'):
+            review.receive(self.tool, args, controls, **binding)
+        offer = review.preview_task(args, controls, **binding)
+        self.assertFalse(offer['execution_authorized'])
+        self.assertEqual(offer['copper_plan']['protected_names'], ['KEEP'])
+
+    def test_queued_local_plan_refuses_a_later_project_lock(self):
+        w = self.direct_window()
+        w.preview_constraints(None)
+        prepare, show = w.start.call_args.args[1:]
+        pending = prepare(Mock(), None)
+        self.board.with_name('~' + self.board.with_suffix('.kicad_pro').name + '.lck').write_text('owned lock')
+        with self.assertRaisesRegex(ValueError, 'project lock is still present'):
+            show(pending)
+        self.assertIsNone(w.constraint_offer)
+        self.assertIsNone(w.direct_draft)
+        w.find_alternatives.assert_not_called()
+
+    def test_queued_plan_edit_preserves_newer_field_text(self):
+        w = self.direct_window()
+        self.preview_in_window(w)
+        w.constraint_fields[2].ChangeValue('75')
+        w.constraint_draft_changed(Mock())
+        w.preview_constraints(None)
+        prepare, show = w.start.call_args.args[1:]
+        result = prepare(Mock(), None)
+        w.constraint_fields[2].ChangeValue('70')
+        w.constraint_draft_changed(Mock())
+        with self.assertRaisesRegex(ValueError, 'newer edits'):
+            show(result)
+        self.assertTrue(w.constraint_edited)
+        self.assertEqual(w.constraint_fields[2].GetValue(), '70')
+        self.assertIsNone(w.constraint_review)
+        self.preview_in_window(w)
+        self.assertEqual(w.constraint_offer['after']['route_seconds'], 70)
+
+    def test_clearing_a_direct_plan_area_requires_new_explicit_coordinates(self):
+        w = self.direct_window()
+        self.preview_in_window(w)
+        w.constraint_fields[1].ChangeValue('')
+        w.constraint_draft_changed(Mock())
+        w.start.reset_mock()
+        w.preview_constraints(None)
+        self.assertIn('Enter the parts, movement area and routing time', w.message.call_args.args[0])
+        self.assertTrue(w.constraint_edited)
+        w.start.assert_not_called()
+        w.use_constraints(None, search=True)
+        w.find_alternatives.assert_not_called()
 
     def test_window_reviews_in_context_edits_and_uses_only_ordinary_settings(self):
         w = self.window()

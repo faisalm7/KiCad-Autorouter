@@ -725,3 +725,12 @@ no licensed board was routed. [Intake and task](evidence/product-distinct-licens
 [LCD Touch license](https://github.com/Cuprum77/kicad-display-breakout-example/blob/c8b3be250ca1bca622c469cb3ab2e3f5ca091a31/LICENSE) ·
 [STM32 design](https://github.com/vishnukashikar/STM32-Sensor-Board/tree/bc3651e7199b48faead15c1ab4c42c4cac93a6b6/hardware) ·
 [STM32 license](https://github.com/vishnukashikar/STM32-Sensor-Board/blob/bc3651e7199b48faead15c1ab4c42c4cac93a6b6/LICENSE).
+
+## Direct workspace interaction references (November 23, 2026)
+
+The lead checked official documentation for contextual selection, follow-up
+and editable plans in Cursor, and object selection and task-scoped routing
+in Flux. The sources support interaction design choices. No vendor runtime
+or paid calls were exercised. The official KiCad add-on documentation
+describes the pinned generation's online PCB IPC boundary.
+[Cursor selection](https://cursor.com/docs/agent/design-mode) · [Cursor plan](https://cursor.com/docs/agent/plan-mode) · [Flux editor](https://docs.flux.ai/reference/reference-pcb-editor) · [Flux routing](https://docs.flux.ai/reference/route-with-flux) · [KiCad API](https://dev-docs.kicad.org/en/apis-and-binding/ipc-api/for-addon-developers/index.html)

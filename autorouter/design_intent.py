@@ -587,8 +587,18 @@ class PlacementConstraintReview:
         self._check_offer(reviewed_offer)
         return self._propose(arguments, controls, request=request, revision=revision, source=source)
 
+    def preview_task(self, arguments, controls, *, request, revision, source, previous=None):
+        """Review a complete local task even when it refers to the current controls."""
+        self._fresh(controls, request, revision, source)
+        if previous is not None:
+            self._check_offer(previous)
+        elif self._offer is not None:
+            raise IntentError('Review the existing proposal or discard it.')
+        return self._propose(arguments, controls, request=request, revision=revision,
+                             source=source, task=True)
+
     @sx.parsing_session()
-    def _propose(self, arguments, controls, *, request, revision, source):
+    def _propose(self, arguments, controls, *, request, revision, source, task=False):
         from . import placement_intent as placement
 
         if type(arguments) is not dict or set(arguments) != {'selected_refs', 'region_nm', 'route_seconds'}:
@@ -616,6 +626,8 @@ class PlacementConstraintReview:
                                                and allowed[1] <= region[1] < region[3] <= allowed[3]):
                     raise IntentError('The proposed rectangle exceeds the allowed movement area.')
         after = self._visible(selected, region, seconds)
+        if task and (not selected or region is None):
+            raise IntentError('Select the parts and their movement area before reviewing this task.')
         settings = copper = None
         policy = dict(self._controls['policy'])
         original_region_policy = policy.get('region_initialization')
@@ -629,7 +641,7 @@ class PlacementConstraintReview:
                     and placement.target_area_needs_initialization(self._inspection, selected, region,
                                                                     grouped='group_policy' in policy)):
                 policy['region_initialization'] = placement.target_area_policy(scope)
-        if before == after and original_region_policy == policy.get('region_initialization'):
+        if not task and before == after and original_region_policy == policy.get('region_initialization'):
             raise IntentError('The proposal would leave every visible setting unchanged.')
         if selected and region is not None:
             settings = placement.settings(selected, region, **policy)

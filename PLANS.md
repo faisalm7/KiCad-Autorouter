@@ -2,6 +2,22 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## Direct, selection-aware request
+
+1. **Reference and checks frozen.** Build on the verified `79be782a6`
+   installation. Use the same licensed PushButtonLed task and a separate
+   TankSync inspection/refusal control.
+   [Journey, capability map and acceptance](docs/direct-conversation-journey.md)
+2. **Source interaction and targeted checks complete.** The composer shows
+   the selected parts and area beside the copper policy. It treats a current
+   placement request as a complete task, and revises a passive draft with
+   fresh review. Manual settings, structured commands and the separate
+   optional model path use the same placement checks.
+3. **Installed acceptance.** Observe proposals and findings at laptop sizes.
+   Run the frozen placement-to-delivery task with independent readback and
+   the ambiguity, unsupported, stale and cancellation controls. Record
+   operator actions, waits, geometry and usability against the prior build.
+
 ## Design review and refinement
 
 1. **Reference verified and checks declared.** Measure against the installed

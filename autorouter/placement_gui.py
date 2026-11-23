@@ -21,7 +21,7 @@ import uuid
 import xml.etree.ElementTree as ET
 
 from . import config as c, conversation, gui, handoff as h, placement_intent as intent, placement_view
-from . import finish_gaps, routing_scope
+from . import direct_request, finish_gaps, routing_scope
 from .pipeline import Rejected
 from . import schematic_context, workspace_chrome as chrome
 
@@ -50,7 +50,13 @@ def routing_seconds(text):
 
 
 LOCAL_REQUEST_EXAMPLE = 'Select J1, J2\nArea 14, 8 to 22, 13 mm\nRouting time 75 s'
+DIRECT_REQUEST_EXAMPLE = 'Move these parts into this area. Leave the others in place.'
 CONVERSATION_EMPTY = 'Describe a placement or protected routing request. Review any proposed settings beside the board.'
+SELECTION_QUESTION = re.compile(
+    r'(?:what did i select|what is (?:this|the selected) (net|pad|part|component|item)'
+    r'|what net is (?:this|the selected) (pad) on'
+    r'|(?:describe|show me) (?:this|the selected) (net|pad|part|component|item))[?.]?',
+    re.IGNORECASE)
 
 
 def local_constraint_request(text):
@@ -90,7 +96,7 @@ def constraint_references(text):
     return refs
 
 
-def constraint_change_text(offer, *, conversational=False, adopted=False):
+def constraint_change_text(offer, *, conversational=False, adopted=False, direct=False):
     before, after = offer['before'], offer['after']
     if offer['kind'] == conversation.ROUTING_KIND:
         target = ', '.join(after['nets']) or 'all open connections'
@@ -110,6 +116,7 @@ def constraint_change_text(offer, *, conversational=False, adopted=False):
         ('Routing time', 'route_seconds', lambda seconds: f'{seconds} s'),
     )
     title = ('Last adopted placement settings' if adopted else
+             'Local placement plan' if direct else
              'Conversation suggestion' if conversational else 'Local suggestion · saved project')
     lines = [title]
     for label, key, show in displays:
@@ -123,9 +130,9 @@ def constraint_change_text(offer, *, conversational=False, adopted=False):
             lines.append('Selected parts may start outside the area. Every proposed position must fit inside it.')
     plan = offer['copper_plan']
     if plan:
-        lines.append(f"{len(plan['protected_routes'])} existing routes stay protected. "
+        lines.append(f"{len(plan['protected_routes'])} routes stay protected. "
                      f"{len(plan['removed_routes'])} may be rebuilt after review.")
-        lines.append('Affected nets for later review  ' + ', '.join(plan['incident_names']))
+        lines.append('Only affected nets  ' + ', '.join(plan['incident_names']))
         if plan['protected_names']:
             lines.append('Protected nets  ' + ', '.join(plan['protected_names']))
     elif offer['placement_settings'] is not None:
@@ -899,12 +906,16 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.routing_handoff = None
             self.updating = False; self.workspace = None; self.owner = {}
             self.automatic_target_area = False
+            self.request_area_set = False
             self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
             self.pending_coordinates = {}
             self.alternative_labels = []; self.alternative_targets = []
             self.editing_component = None
             self.copilot_generation = 0; self.pending_copilot = None; self.approved_copilot = None
             self.constraint_review = None; self.constraint_offer = None; self.constraint_edited = False
+            self.direct_draft = None
+            self.direct_adopted = False
+            self.request_answer = None
             self.board_scene = None; self.board_legend = ''
             self.schematic = None; self.schematic_refusal = ''
             self.rebuild_routing_notice = ''
@@ -1081,7 +1092,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             board_layout.Add(self.picture, 1, wx.EXPAND)
             from .board_review_gui import board_review
             self.saved_picture = board_review(wx, board_page, self.saved_picture_failed,
-                empty_note='Choose a saved project to inspect its board.')
+                empty_note='Choose a saved project to inspect its board.',
+                on_selection=self.update_request_context)
             board_layout.Add(self.saved_picture, 1, wx.EXPAND)
             self.saved_picture.Hide()
             self.constraint_key = wx.StaticText(board_page)
@@ -1120,21 +1132,26 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.refinement_context = wx.StaticText(assistant_inputs, style=wx.ST_ELLIPSIZE_END)
             self.refinement_context.Hide()
             assistant_layout.Add(self.refinement_context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            assistant_layout.Add(wx.StaticText(assistant_inputs, label='Describe where parts should go'),
-                                 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            self.request_selection = wx.StaticText(assistant_inputs,
+                style=wx.ST_ELLIPSIZE_END | wx.ST_NO_AUTORESIZE)
+            self.request_area = wx.StaticText(assistant_inputs,
+                style=wx.ST_ELLIPSIZE_END | wx.ST_NO_AUTORESIZE)
+            for context in (self.request_selection, self.request_area):
+                assistant_layout.Add(context, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
             self.assistant_request = wx.TextCtrl(assistant_inputs, style=wx.TE_MULTILINE, size=(-1, 66),
-                                               name='Placement request')
-            self.assistant_request.SetHint(LOCAL_REQUEST_EXAMPLE)
+                                               name='Request for the selected design')
+            self.assistant_request.SetHint(DIRECT_REQUEST_EXAMPLE)
             assistant_layout.Add(self.assistant_request, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
-            request_example = wx.StaticText(assistant_inputs,
-                label='Local request commands: Select parts, Area in mm, Routing time in seconds.')
-            request_example.Wrap(self.FromDIP(300))
-            request_example.SetToolTip(LOCAL_REQUEST_EXAMPLE)
-            assistant_layout.Add(request_example, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
-            self.constraint_preview = wx.Button(assistant_inputs, label='Preview placement request')
-            self.constraint_preview.SetToolTip('Check component names and area locally. No design changes or model calls.')
-            assistant_layout.Add(self.constraint_preview, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
+            request_actions = wx.BoxSizer(wx.HORIZONTAL)
+            self.constraint_preview = wx.Button(assistant_inputs, label='Preview request')
+            self.constraint_preview.SetToolTip('Check a phrased placement request or inspect the selected item locally.')
+            request_actions.Add(self.constraint_preview, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
+            self.request_help = wx.StaticText(assistant_inputs, label='Local · no AI')
+            self.request_help.SetToolTip('Supports selected parts, movement areas and routing time. '
+                'You can also ask “What did I select?” or enter explicit commands:\n' + LOCAL_REQUEST_EXAMPLE)
+            request_actions.Add(self.request_help, 0, wx.ALIGN_CENTER_VERTICAL)
+            assistant_layout.Add(request_actions, 0, wx.LEFT | wx.RIGHT | wx.BOTTOM, 8)
 
             self.model_options = wx.CollapsiblePane(assistant_inputs, label='Model-backed conversation',
                                                     style=wx.CP_NO_TLW_RESIZE)
@@ -1199,6 +1216,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
             conversation_menu = wx.Menu()
             for button, handler, shortcut in (
+                (self.constraint_preview, self.preview_constraints, 'Ctrl+Return'),
                 (self.constraint_edit, self.toggle_constraint_editor, 'Ctrl+Shift+E'),
                 (self.constraint_preview_edits, self.preview_constraints, 'Ctrl+Shift+P'),
                 (self.constraint_use, lambda event: self.use_constraints(event, search=True), 'Ctrl+Shift+U'),
@@ -1544,7 +1562,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
             self.message(row['reference'] + (' selected to move.' if self.parts.IsChecked(index)
-                else ' will stay fixed.') + ' Choose the allowed area, then Find alternatives.')
+                else ' will stay fixed.') + ' Draw an area or describe your request.')
 
         def drawing_mode(self, _):
             enabled = self.draw_area.GetValue() and self.inspection is not None and not self.busy
@@ -1578,6 +1596,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     field.ChangeValue(mm(coordinate))
             finally:
                 self.updating = False
+            self.request_area_set = True
             self.automatic_target_area = True
             self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
             update_target_area(self)
@@ -1655,7 +1674,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if hasattr(self, 'constraint_preview'):
                 edited = constraint_pending and self.constraint_edited
                 self.constraint_preview.Show(not constraint_pending)
-                self.constraint_preview.Enable(not self.busy and self.inspection is not None and not constraint_pending)
+                self.constraint_preview.Enable(not self.busy and self.source_capture() is not None and not constraint_pending)
+                self.constraint_preview.SetLabel('Preview revision' if self.direct_draft else 'Preview request')
+                self.update_request_context()
                 self.constraint_edit.Enable(not self.busy and constraint_pending)
                 self.constraint_preview_edits.Show(edited)
                 self.constraint_preview_edits.Enable(not self.busy and edited)
@@ -1758,6 +1779,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 if hasattr(self, 'refinement_context'):
                     self.refinement_context.Hide()
                 self.editor_context = None
+                self.request_area_set = False
                 self.automatic_target_area = False
                 self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 self.target_region.SetValue(False)
@@ -1773,6 +1795,59 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
 
         def source_capture(self):
             return self.inspection or (self.saved_route_context or {}).get('static')
+
+        def selected_references(self):
+            return [row['reference'] for i, row in enumerate(self.inspection['components'])
+                    if self.parts.IsChecked(i)] if self.inspection is not None else []
+
+        def displayed_request_item(self):
+            view = getattr(self, 'saved_picture', None)
+            return view.request_selection() if view is not None and view.IsShown() else None
+
+        def update_request_context(self):
+            if not hasattr(self, 'request_selection'):
+                return
+            selected = self.selected_references()
+            item = self.displayed_request_item()
+            if self.inspection is None:
+                label = (f"Saved selection · {item['label']} · {item['layer']}" if item else
+                         'Saved selection · Choose an item on the board')
+                area_label = ''
+            else:
+                label = 'Selected parts · ' + (', '.join(selected) if selected else 'Click parts on the board')
+                region = [field.GetValue().strip() for field in self.region]
+                area_label = (f'Area · ({region[0]}, {region[1]}) to ({region[2]}, {region[3]}) mm'
+                              if self.request_area_set and all(region) else
+                              'Area · Draw one or ask to use the board outline')
+            for field, text in ((self.request_selection, label), (self.request_area, area_label)):
+                field.SetLabelText(text); field.SetToolTip(text); field.Show(bool(text))
+            if self.request_answer is not None and self.request_answer != (item, selected):
+                self.request_answer = None
+                self.constraint_summary.ChangeValue('Selection changed. Preview the question again.')
+
+        def answer_selection(self, question):
+            captured = self.source_capture()
+            if captured is None:
+                raise ValueError('Open a saved project and select an item on the board.')
+            source = gui.saved_project_board(self.board.GetValue())
+            if str(source) != captured['source'] or gui.source_inventory(source) != captured['source_hashes']:
+                raise ValueError('The saved board changed. Refresh inspection before asking about it.')
+            item = self.displayed_request_item()
+            refs = self.selected_references()
+            kind = next((term.lower() for term in question.groups() if term), 'item')
+            if kind == 'component':
+                kind = 'part'
+            if item and kind in ('item', item['kind']):
+                net = f"\nNet  {item['net'] or 'Unavailable in this view'}" if item['kind'] == 'pad' else ''
+                answer = f"{item['label']} · {item['layer']}\n{item['detail']}{net}"
+            elif refs and kind in ('item', 'part'):
+                answer = 'Marked to move  ' + ', '.join(refs) + '\nOther components stay in place.'
+            else:
+                raise ValueError('Choose the part, pad or net on the board so I know which one you mean.')
+            self.request_answer = (item, refs)
+            self.constraint_summary.ChangeValue('Saved board selection\n' + answer)
+            self.constraint_summary.Show()
+            self.message('Selection described from the saved board. No design change proposed.')
 
         def show_editor_context(self, captured):
             context = self.editor_context
@@ -1829,9 +1904,17 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.Hide()
             on_return_live()
 
-        def invalidate_copilot(self, *, keep_edited_suggestion=False):
+        def invalidate_copilot(self, *, keep_edited_suggestion=False, keep_direct_draft=False):
             """Changing intent cannot retain a model plan or its routing handoff."""
             previous = getattr(self, 'approved_copilot', None)
+            direct_adopted = getattr(self, 'direct_adopted', False)
+            self.direct_adopted = False
+            keep_direct_draft = keep_direct_draft and not getattr(self, 'constraint_edited', False)
+            if not keep_direct_draft:
+                self.direct_draft = None
+            if getattr(self, 'request_answer', None) is not None:
+                self.request_answer = None
+                self.constraint_summary.Hide()
             self.copilot_generation = getattr(self, 'copilot_generation', 0) + 1
             self.pending_copilot = None; self.approved_copilot = None
             if keep_edited_suggestion and getattr(self, 'constraint_edited', False):
@@ -1842,15 +1925,21 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             else:
                 self.routing_source_scene = None
                 if getattr(self, 'constraint_offer', None) is not None:
-                    self.clear_constraint_offer('The request or project controls changed. Preview again.')
+                    self.clear_constraint_offer(
+                        'Preview your revision. The earlier plan is no longer current.'
+                        if keep_direct_draft and getattr(self, 'direct_draft', None) else
+                        'The request or project controls changed. Preview again.',
+                        keep_direct_draft=keep_direct_draft)
             if hasattr(self, 'assistant_ack'):
                 self.assistant_ack.SetValue(False)
                 self.assistant_result.SetValue('No current assistant plan. Review the controls, then ask when needed.')
-            if previous is not None:
+            if direct_adopted:
+                self.revoke(discard=True)
+            elif previous is not None:
                 self.revoke(dirty=self.gate.dirty)
 
         def assistant_changed(self, event):
-            self.invalidate_copilot(); self.refresh(); event.Skip()
+            self.invalidate_copilot(keep_direct_draft=True); self.refresh(); event.Skip()
 
         def constraint_inputs(self):
             if self.inspection is None:
@@ -1872,6 +1961,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             if self.constraint_offer['kind'] == conversation.ROUTING_KIND:
                 return dict(nets=self.routing_names.GetValue().splitlines(),
                             route_seconds=routing_seconds(seconds))
+            if getattr(self, 'direct_draft', None) and not (refs and area and seconds):
+                raise ValueError('Enter the parts, movement area and routing time before previewing this edit.')
             before = self.constraint_offer['before']
             selected_refs = None if not refs or refs == ', '.join(before['selected_refs']) else constraint_references(refs)
             return dict(selected_refs=selected_refs,
@@ -1884,21 +1975,49 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             try:
                 previous = self.constraint_offer
                 if previous is None:
-                    self.invalidate_copilot()
+                    self.invalidate_copilot(keep_direct_draft=True)
+                    request = conversation.request_text(self.assistant_request.GetValue())
+                    if question := SELECTION_QUESTION.fullmatch(request):
+                        self.answer_selection(question)
+                        return
+                    if self.inspection is None:
+                        reason = (self.saved_route_context or {}).get('reason', 'Choose a saved project first.')
+                        raise ValueError('Placement unavailable. ' + reason)
                 routing = previous is not None and previous['kind'] == conversation.ROUTING_KIND
                 inputs = self.conversation_routing_preferences() if routing else self.constraint_inputs()
                 binding = self.constraint_binding()
                 inspection = self.inspection
                 review = self.constraint_review
-                captured = self.source_capture() if routing and review is None else None
-                arguments = local_constraint_request(binding['request']) if previous is None else self.constraint_draft_terms()
+                captured = self.source_capture() if routing else None
+                draft = getattr(self, 'direct_draft', None)
+                if draft is not None and (draft['inspection'] is not inspection or draft['controls'] != inputs):
+                    self.direct_draft = draft = None
+                direct = draft is not None and previous is not None
+                if previous is not None:
+                    arguments = self.constraint_draft_terms()
+                    edit_fields = (*self.constraint_fields, self.routing_names) if routing else self.constraint_fields
+                    edited_text = tuple(field.GetValue() for field in edit_fields)
+                elif re.match(r'\s*(?:select|area|routing\s+time)\s', binding['request'], re.IGNORECASE):
+                    self.direct_draft = draft = None
+                    arguments = local_constraint_request(binding['request'])
+                else:
+                    direct = True
+                    arguments = direct_request.parse(binding['request'],
+                        selected_refs=self.selected_references(), region_nm=inputs['region_nm'],
+                        outline_nm=inputs['region_limit_nm'], explicit_area=self.request_area_set,
+                        rebuild_copper=inputs['policy'].get('copper_policy') == intent.COPPER_POLICY,
+                        previous=None if draft is None else draft['values'])
 
                 def prepare(job, event):
                     from . import design_intent as design
 
                     job.check_live()
                     try:
-                        if review is not None:
+                        if direct:
+                            current = review or design.PlacementConstraintReview(inspection, inputs,
+                                request=binding['request'], revision=binding['revision'])
+                            offer = current.preview_task(arguments, inputs, previous=previous if review else None, **binding)
+                        elif review is not None:
                             current = review
                             offer = current.revise(previous, arguments, inputs, **binding)
                         elif routing:
@@ -1937,11 +2056,35 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                         current.cancel()
                         self.clear_constraint_offer('The request or project controls changed. Preview again.')
                         raise ValueError('The request or project controls changed. Preview again.')
+                    try:
+                        require_closed_source(binding['source'], inspection=captured if routing else inspection)
+                    except (OSError, ValueError):
+                        current.cancel()
+                        self.clear_constraint_offer('')
+                        raise
+                    if previous is not None and edited_text != tuple(field.GetValue() for field in edit_fields):
+                        current.cancel()
+                        self.constraint_review = None
+                        self.constraint_edited = True
+                        self.constraint_summary.ChangeValue('Your edits changed while checking. Preview them again.')
+                        raise ValueError('Your newer edits are still here. Preview them again.')
+                    if direct:
+                        self.direct_draft = dict(inspection=inspection, controls=copy.deepcopy(inputs),
+                            values=copy.deepcopy(offer['after']),
+                            original_request=draft['original_request'] if draft else binding['request'])
                     self.show_constraint_offer(current, offer)
+                    if direct and draft is not None:
+                        old, new = draft['values']['route_seconds'], offer['after']['route_seconds']
+                        if old != new and all(draft['values'][key] == offer['after'][key]
+                                              for key in ('selected_refs', 'region_nm')):
+                            text = self.constraint_summary.GetValue()
+                            self.constraint_summary.ChangeValue(
+                                f'Routing time revised from {old} s to {new} s. Other constraints kept.\n\n' + text)
 
                 self.start('Checking the requested constraints against the saved project…', prepare, show)
             except (OSError, ValueError) as exc:
-                self.message('Constraint suggestion refused. ' + str(exc))
+                self.message(str(exc))
+                self.refresh()
 
         def show_constraint_offer(self, review, offer):
             self.constraint_review, self.constraint_offer = review, offer
@@ -1960,7 +2103,8 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.constraint_edit.Show()
             self.constraint_summary.Show()
             self.constraint_summary.ChangeValue(constraint_change_text(offer,
-                conversational=getattr(self, 'conversation_offer', False)))
+                conversational=getattr(self, 'conversation_offer', False),
+                direct=getattr(self, 'direct_draft', None) is not None))
             self.update_constraint_map(offer)
             self.layout_panel()
             self.refresh()
@@ -1990,12 +2134,14 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.refresh()
             event.Skip()
 
-        def clear_constraint_offer(self, message):
+        def clear_constraint_offer(self, message, *, keep_direct_draft=False):
             if self.constraint_review is not None:
                 self.constraint_review.cancel()
             self.constraint_review = self.constraint_offer = None
             self.constraint_edited = False
             self.conversation_offer = False
+            if not keep_direct_draft:
+                self.direct_draft = None
             self.constraint_editor.Hide()
             self.constraint_edit.SetLabel('Edit suggestion')
             self.constraint_edit.Hide()
@@ -2063,6 +2209,9 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 return
             adopted_summary = constraint_change_text(self.constraint_offer, adopted=True)
             local_request = None if self.conversation_offer else self.assistant_request.GetValue()
+            direct = getattr(self, 'direct_draft', None)
+            if direct and direct['original_request'] != local_request:
+                adopted_summary += '\n\nInitial local request\n' + direct['original_request']
             self.clear_constraint_offer('')
             self.updating = True
             try:
@@ -2070,6 +2219,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 for i, row in enumerate(self.inspection['components']):
                     self.parts.Check(i, row['uuid'] in selected)
                 area = values['region_nm']
+                self.request_area_set = area is not None
                 for i, field in enumerate(self.region):
                     field.ChangeValue(mm(area[i]) if area is not None else '')
                 self.route_budget.ChangeValue(str(values['route_seconds']))
@@ -2086,6 +2236,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 self.inspection['source'], self.inspection['source_hashes']))
             self.assistant_result.ShowPosition(0)
             self.revoke(discard=True)
+            self.direct_adopted = direct is not None
             if self.pages.GetSelection() in (2, 3):
                 self.update_schematic_view()
             if search:
@@ -2336,6 +2487,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                     self.automatic_target_area = False
                     self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 elif any(changed is field for field in getattr(self, 'region', ())):
+                    self.request_area_set = True
                     self.automatic_target_area = True
                     self.target_start_policy = intent.prototype.EXACT_TRACK_REGION_POLICY
                 if self.inspection:
@@ -2569,6 +2721,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             first_inspection = self.inspection is None and self.saved_route_context is None
             three_pad = hasattr(self, 'three_pad') and self.three_pad.GetValue()
             self.invalidate_copilot()
+            self.request_area_set = False
             if hasattr(self, 'refinement_context'):
                 self.refinement_context.Hide()
             self.inspection = None; self.saved_native = None; self.saved_route_context = None; self.parts.Set([])
@@ -2757,6 +2910,7 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
                 try:
                     self.copper_policy.SetSelection(1 if intent.rebuilds_copper(value) else 0)
                     self.rigid_group.SetValue(intent.grouped(value))
+                    self.request_area_set = True
                     self.automatic_target_area = False
                     start = value.get('region_initialization')
                     self.target_start_policy = start or intent.prototype.EXACT_TRACK_REGION_POLICY

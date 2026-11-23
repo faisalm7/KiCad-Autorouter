@@ -2,7 +2,7 @@
 from . import review_view, workspace_chrome as chrome
 
 
-def board_review(wx, parent, on_error, *, empty_note):
+def board_review(wx, parent, on_error, *, empty_note, on_selection=None):
     from .placement_gui import board_canvas
 
     class BoardReview(wx.Panel):
@@ -121,6 +121,8 @@ def board_review(wx, parent, on_error, *, empty_note):
                 self.canvas.SetScene(None)
                 self.render_failed(str(exc))
                 return False
+            if on_selection is not None:
+                on_selection()
             return True
 
         def draw_selection(self, keep_view):
@@ -155,6 +157,18 @@ def board_review(wx, parent, on_error, *, empty_note):
 
         def selected_item(self):
             return self.items.get(self.identity)
+
+        def request_selection(self):
+            """Describe the exact displayed context, bounded to the selected layer."""
+            item = self.selected_item()
+            if self.net is not None:
+                count = len(self.net_items())
+                return dict(kind='net', label=self.net, layer=self.active_layer,
+                            detail=f'{count} displayed items on this layer.')
+            if item is None or item['kind'] not in ('component', 'footprint', 'pad'):
+                return None
+            return dict(kind='pad' if item['kind'] == 'pad' else 'part', label=item['label'],
+                        layer=self.active_layer, detail=item['detail'], net=item['net'])
 
         def net_items(self):
             return [identity for identity, item in self.items.items() if item['net'] == self.net]
