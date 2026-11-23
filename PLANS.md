@@ -9,28 +9,34 @@ separate-project delivery evidence. Use the installed journeys below to
 check the boundaries that changed. The owned 90-second pour-rule repair is
 already complete. Keep it and the withheld STM32 task unchanged.
 
-1. Verify the installed round trip keeps the same saved window and pending
-   text. Re-read the native selection and require fresh review of retained
-   edits. A failed editor read clears the selection hint. Check project-bound
-   conversation, changed source refusal and handoff during pending Undo.
+1. The installed round trip kept the same saved window, notes and request
+   text and read the changed J2 selection. Focused controls verify edited
+   settings need fresh review, changed source invalidates the suggestion,
+   and unavailable editor context clears the hint. Finish the installed
+   edited-suggestion check after the owned editor closes normally.
+   [Installed handoff](evidence/product-integrated-rc-handoff-001.json)
 2. **Verified on `ddaa97b3b`.** At 880 × 610 the full project name is visible
    and the approval row stays in view with editing fields expanded. The
    installed controls previewed and adopted the edited proposal. Reuse the
    existing routing review evidence.
-3. Install the corrected handoff in a fresh root with the existing pinned
-   Mac tools. Check the ordinary Finder entry and isolated 10.0.8 toolbar
-   from this runtime. Reuse unchanged Native validation and cancellation.
-   Observe the checked move and Undo through the changed companion flow.
+3. The fresh installation from `060c3c497` passed Finder entry and the
+   isolated 10.0.8 toolbar. The prepared J1 move and deliberate unsaved J2
+   edit are still in the owned test editor. Resume **Check move**, explicit
+   approval, native Undo and readback when macOS pressure is normal and
+   normal admission passes. The exact runner and active state are in the
+   local continuation. Earlier Native validation and cancellation apply
+   only to their unchanged controls.
 4. **Delivered.** The retained MIT PushButtonLed task ran once from the
    ordinary launcher with the frozen region and 90-second budget. Fresh
    export and independent readback preserved 13 tracks and all source
    files. The operator edited the proposal and made no CAD corrections.
    Recheck the affected layout and adoption only after the visual fix.
    [Licensed walkthrough](evidence/product-integrated-rc-pushbutton-001.json)
-5. Resolve material friction, update the supported journeys and installer
-   guidance, and verify the final candidate and recovery evidence. Keep
-   STM32 withheld. Broader live writes, docking, schematic edits and Windows
-   retain their capability gates.
+5. The ordinary Finder setup and diagnostic fallback are documented.
+   Reconcile final qualification after the remaining installed controls.
+   Keep STM32 withheld. Broader live writes, docking, schematic edits,
+   Windows, independent installation and off-Mac recovery retain their
+   separate gates.
 
 ## Active design journeys
 

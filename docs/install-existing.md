@@ -2,7 +2,11 @@
 
 **Use an existing installation and launcher when available.** [Start here](../START_HERE.md) and the [saved-project workflow](quickstart.md) use your project, not a prepared demonstration session. Reinstallation is unnecessary merely to resume.
 
-The latest checked delivery on this Mac uses source `30d914259dbd230aa1ebde9c4375a7da2321fecc` and manifest `4db1f1f6cdfdbf48e1455f418d395c67819f765585fc52205f5bf743d84f8e63`. The same-Mac first setup and the earlier actual toolbar check have separate receipts. Recent opening and review changes still need installed checks. Standalone and independent-machine installation are open. [Checked delivery](../evidence/product-round-cutout-checked-delivery-002.json) · [First setup](../evidence/product-direct-first-setup-and-keyboard-002.json) · [Toolbar check](../evidence/product104-usability-delivery-001.json).
+The ordinary entry is **Copperpath.app**, prepared in a new local folder
+with the pinned dependencies below. The integrated Mac candidate opened
+both design choices in Finder and delivered a protected placement and
+routing task from the retained MIT PushButtonLed design. Standalone and
+independent-machine installation remain open. [Installed delivery](../evidence/product-integrated-rc-pushbutton-001.json)
 
 The tested setup uses macOS 27.0.1 arm64, isolated official KiCad 10.0.7, Java 25.0.2, Freerouting 2.5.0, a no-pip Python 3.11.9 environment and KiCad's bundled Python 3.9.13/wx for the GUI. Exact dependency bytes and locations are pinned. A new environment still depends on its base Python/standard library; `--copies` does not bundle Python. Nothing here downloads or installs dependencies, changes global KiCad, or qualifies Windows Native support.
 
@@ -28,7 +32,7 @@ archive are unnecessary for this setup.
 
 ## Advanced: install a verified artifact at a fresh local root
 
-Use the reviewed source checkout's `scripts/prepare_runtime.py`; the curated runtime does not ship that installer. Choose a verified source artifact and an unused owned destination below an existing real directory. Check available space against the operation's peak allocation plus the fixed 3 GiB reserve. Do not copy an old environment, jobs, settings or launcher to simulate a new installation.
+Use `scripts/prepare_runtime.py` from the reviewed source checkout. Choose a verified artifact and an unused destination below a directory you own. Check available space against the peak allocation plus the fixed 3 GiB reserve. Setup creates fresh settings, a launcher and an empty jobs directory.
 
 For one-step setup on the supported Mac, add `--with-launcher`. This creates a fresh local Python environment, checks dependencies and prepares the launcher. It uses the existing pinned tools and local engine. Replace the artifact and destination paths with your own verified source and new folder, and use the exact artifact manifest hash. Run from the source checkout with Python 3.11.
 
@@ -36,10 +40,11 @@ For one-step setup on the supported Mac, add `--with-launcher`. This creates a f
 (
 set -eu
 AUTOROUTER_ARTIFACT="/path/to/verified Copperpath artifact"
+AUTOROUTER_MANIFEST_DIGEST="paste-the-verified-64-character-manifest-SHA256"
 AUTOROUTER_INSTALL="/path/to/new owned installation"
 python3.11 -B scripts/prepare_runtime.py --install-existing \
   --source "$AUTOROUTER_ARTIFACT" \
-  --expected-manifest-sha256 4db1f1f6cdfdbf48e1455f418d395c67819f765585fc52205f5bf743d84f8e63 \
+  --expected-manifest-sha256 "$AUTOROUTER_MANIFEST_DIGEST" \
   --output "$AUTOROUTER_INSTALL" --with-launcher
 )
 ```
@@ -67,9 +72,8 @@ files and starts with a fresh private job directory. Past job contents stay
 with the original installation.
 
 For local placement suggestions, open a saved project, wait for its board, then
-open **Conversation**. Earlier workspace builds call this tab **Request**.
-If the launcher starts in routing, choose **Place components** to reach the
-placement workspace.
+open **Request**. Conversation stays visible alongside it. If an earlier launcher
+starts in routing, choose **Place components** to reach the placement workspace.
 Enter one or more example lines and preview the
 selection, movement area or routing time. Edit the suggestion if needed,
 preview the edits and choose **Use settings**. Search, validation, routing and
