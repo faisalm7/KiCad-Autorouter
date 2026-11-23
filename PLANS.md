@@ -18,11 +18,12 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    passed. Explicit approval moved J1 by 0.75 mm. Readback and native Undo
    preserved the unsaved J2 edit and all three saved files.
    [Editable live move](evidence/product-revised-live-move-002.json)
-4. Continue the new design with two stock connectors. Check ERC and
-   connectivity, transfer the footprints into PCB Editor and save a closed
-   outline. Verify that Copperpath moves from setup guidance to the scoped
-   preview, including the saved-position routing and closure explanations.
-   Keep tests scoped to actual KiCad and geometry support.
+4. **Schematic verified.** The native circuit uses two stock connectors,
+   matches the intended pin pairs and passes ERC. Resume the native PCB
+   transfer when resources admit it. Place the two footprints, save a
+   closed outline and verify the scoped Copperpath preview. Check the
+   saved-position routing and closure explanations.
+   [Native schematic](evidence/product-native-stock-schematic-001.json)
    [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9

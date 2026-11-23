@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "scope": "Same owned project created by the installed native Start a new design journey",
+  "native_version": "10.0.7",
+  "project_origin": "evidence/product-native-new-design-002.json",
+  "operator_path": "Stock symbols, native footprint field, native wire tool and save",
+  "schematic_sha256": "1f6f430a8e461cd277c9faf3df077b69559f0132f6c008d6446c8ddaab4ab2a9",
+  "symbols": ["J1", "J2"],
+  "symbol_library_id": "Connector_Generic:Conn_01x02",
+  "footprint_library_id": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+  "native_check": {
+    "isolated_no_network_cli": true,
+    "erc_severity_all_exit": 0,
+    "erc_findings": 0,
+    "native_exported_net_pin_pairs": [["J1.1", "J2.1"], ["J1.2", "J2.2"]],
+    "both_footprint_assignments_verified": true,
+    "original_saved_files_exact_during_checks": true
+  },
+  "next": {
+    "pcb_transfer_dispatched": false,
+    "admission": "macOS memory pressure warning level 2",
+    "owned_saved_schematic_retained": true
+  },
+  "limitations": [
+    "The check demonstrates a small Native schematic and footprint assignment. PCB transfer, outline, placement and routing are subsequent work.",
+    "The automation tool failed to hit the schematic canvas by coordinate and timed out during a key sequence. Observed keyboard actions resumed on the same editor.",
+    "An observer initially expected macro references in the library tables. It verified the actual pinned built-in table paths before invoking ERC.",
+    "This is an owned functional example. Raw design files and reports remain local."
+  ]
+}
