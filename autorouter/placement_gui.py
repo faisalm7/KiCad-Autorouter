@@ -740,9 +740,11 @@ def board_canvas(wx, parent, on_pick, on_region, on_error, on_ready=None, *, rea
 
 
 def create_window(board='', *, output_hint=None, on_closed=None, conversation_reply=None, source_note='',
-                  toolbar_selection=(), launcher_manifest=None):
+                  toolbar_selection=(), launcher_manifest=None, return_to_live=False):
     if on_closed is not None and not callable(on_closed):
         raise ValueError('The parent close notification must be a callable.')
+    if return_to_live and on_closed is None:
+        raise ValueError('Returning to the live companion requires its close notification.')
     if output_hint is not None and not isinstance(output_hint, (str, Path)):
         raise ValueError('Use a routing output folder path or no hint.')
     import wx
@@ -753,6 +755,8 @@ def create_window(board='', *, output_hint=None, on_closed=None, conversation_re
         raise ValueError('Use an exact saved PCB path or an empty hint.')
 
     options = {'launcher_manifest': launcher_manifest} if launcher_manifest is not None else {}
+    if return_to_live:
+        options['return_to_live'] = True
     window = window_type(wx, board=board, output_hint=output_hint, on_closed=on_closed,
                          conversation_reply=conversation_reply, toolbar_selection=toolbar_selection, **options)()
     if source_note: window.message(source_note)
@@ -760,7 +764,7 @@ def create_window(board='', *, output_hint=None, on_closed=None, conversation_re
 
 
 def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_reply=None,
-                toolbar_selection=(), launcher_manifest=None):
+                toolbar_selection=(), launcher_manifest=None, return_to_live=False):
     """Real window methods exposed for controlled-dependency tests, no fragments."""
     class Window(wx.Frame):
         def __init__(self):
@@ -1035,6 +1039,10 @@ def window_type(wx, *, board='', output_hint=None, on_closed=None, conversation_
             self.status = wx.StaticText(panel, label='Choose a saved project to open its board. If it is open in KiCad, save and close it first.')
             self.status.Wrap(930); root.Add(self.status, 0, wx.EXPAND | wx.ALL, 10)
             progressrow = wx.BoxSizer(wx.HORIZONTAL)
+            if return_to_live:
+                back = wx.Button(panel, label='Back to live companion')
+                back.Bind(wx.EVT_BUTTON, lambda _: self.Close())
+                progressrow.Add(back, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.progress = wx.Gauge(panel); progressrow.Add(self.progress, 1, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)
             self.cancel = wx.Button(panel, label='Cancel'); progressrow.Add(self.cancel)
             root.Add(progressrow, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 12)

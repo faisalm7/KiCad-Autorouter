@@ -51,6 +51,7 @@ class Companion(wx.Frame):
         self.SetMinSize((720, 520) if workspace else (450, 434))
         self.workspace = workspace
         self.saved_project = saved_project
+        self.saved_workspace = None
         self.source_scene = None
         self.move = None
         self.run = None
@@ -171,15 +172,34 @@ class Companion(wx.Frame):
         self.status.SetValue('The board preview could not be drawn. Read the selection to try again.')
         self.controls()
 
+    def can_open_saved(self):
+        return (self.run is None and self.saved_workspace is None
+                and not self.readback_pending and not self.native_move_open)
+
     def open_saved(self, _event):
-        if self.run is not None:
+        if not self.can_open_saved():
             return
         from autorouter.placement_gui import create_window
-        note = ('Selected from the KiCad companion. Save and close the project in KiCad before inspecting.'
+        note = ('Viewing saved files. To place or route, save and close the project in KiCad, then refresh.'
                 if self.saved_project else '')
-        replacement = create_window(board=self.saved_project, source_note=note)
-        replacement.Show()
-        self.Destroy()
+        try:
+            frame = create_window(board=self.saved_project, source_note=note,
+                                  on_closed=self.return_from_saved, return_to_live=True)
+        except (OSError, ValueError) as exc:
+            self.status.SetValue('Could not open the saved-project workspace. ' + str(exc))
+            return
+        self.saved_workspace = frame
+        frame.Show()
+        self.Hide()
+
+    def return_from_saved(self):
+        if not self:
+            return
+        self.saved_workspace = None
+        self.remember('Copperpath · Back to the live board. Check the current selection and preview any move again.')
+        self.request('inspect')
+        self.Show()
+        self.Raise()
 
     def on_close(self, event):
         if self.run is not None and event.CanVeto():
@@ -230,7 +250,7 @@ class Companion(wx.Frame):
         for button in self.test_buttons:
             button.Enable(self.run is None and self.move is not None and not self.native_move_open)
         if self.workspace:
-            self.saved.Enable(self.run is None)
+            self.saved.Enable(self.can_open_saved())
             self.move_request.Enable(self.run is None and not self.readback_pending and not self.checked_move_finished)
         else:
             self.diagram.move = self.move
@@ -238,11 +258,17 @@ class Companion(wx.Frame):
         self.Layout()
 
     def request(self, command, *args):
-        if self.run is not None:
+        if self.run is not None or self.saved_workspace is not None:
             return
         if self.workspace and command == 'inspect':
             self.move = None
             self.validated = False
+            self.previewed_request = None
+            self.selected = []
+            self.source_scene = None
+            self.selection.SetLabel('Reading KiCad selection…')
+            self.diagram.SetEmptyNote('Reading the live PCB from KiCad…')
+            self.show_scene(None)
         self.run = command
         if self.workspace and command == 'preview':
             self.previewed_request = args[0]
@@ -280,7 +306,7 @@ class Companion(wx.Frame):
                 self.native_move_open = False
             if self.workspace and command == 'apply_direct' and response.get('verify_undo') is True:
                 self.readback_pending = True
-            if self.workspace and (response.get('read_selection') or command in ('validate', 'apply_direct')):
+            if self.workspace and (response.get('read_selection') or command in ('inspect', 'validate', 'apply_direct')):
                 self.selected = []
                 self.selection.SetLabel('Read the current selection in KiCad')
                 self.diagram.SetEmptyNote('Read the current selection in KiCad.')

@@ -1,6 +1,7 @@
 """Exact readback controls for the owned live-editor qualification."""
 from pathlib import Path
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
+import runpy
 import sys
 import unittest
 from unittest.mock import Mock, patch
@@ -151,6 +152,57 @@ class EditorReadback(unittest.TestCase):
         self.assertEqual(start.call_args.args[0][-2:], ['--saved-project', '/owned/inspection/checked.kicad_pro'])
         panel.stdin.close.assert_called_once()
         panel.stdout.close.assert_called_once()
+
+    def test_saved_workspace_returns_to_live_conversation_and_requires_a_fresh_preview(self):
+        from autorouter import placement_gui
+
+        wx = ModuleType('wx')
+        wx.Frame = wx.Panel = object
+        wx.svg = ModuleType('wx.svg')
+        with patch.dict(sys.modules, {'wx': wx, 'wx.svg': wx.svg}):
+            companion = runpy.run_module('experiments.live_editor_v1.panel')['Companion']
+        panel = companion.__new__(companion)
+        panel.workspace = True
+        panel.saved_project = '/owned/inspection/checked.kicad_pro'
+        panel.run = panel.saved_workspace = None
+        panel.readback_pending = panel.native_move_open = False
+        panel.turns = ['You · Move J1 right by 0.5 mm']
+        panel.previewed_request = 'Move J1 right by 0.5 mm'
+        panel.move = {'id': 4}
+        panel.validated = True
+        panel.selected = ['J1']
+        for name in ('Hide', 'Show', 'Raise', 'controls', 'status', 'transcript', 'selection', 'diagram'):
+            setattr(panel, name, Mock())
+
+        with patch.object(placement_gui, 'create_window') as create, \
+                patch('threading.Thread') as thread:
+            for pending in ('readback_pending', 'native_move_open'):
+                setattr(panel, pending, True)
+                panel.open_saved(None)
+                create.assert_not_called()
+                setattr(panel, pending, False)
+            panel.open_saved(None)
+            self.assertEqual(create.call_args.kwargs['board'], panel.saved_project)
+            self.assertTrue(create.call_args.kwargs['return_to_live'])
+            panel.Hide.assert_called_once()
+            create.return_value.Show.assert_called_once()
+            panel.open_saved(None)
+            panel.request('apply_direct', 4)
+            self.assertEqual(create.call_count, 1)
+            thread.assert_not_called()
+
+            create.call_args.kwargs['on_closed']()
+            panel.Show.assert_called_once()
+            panel.Raise.assert_called_once()
+            self.assertIsNone(panel.saved_workspace)
+            self.assertIsNone(panel.move)
+            self.assertIsNone(panel.previewed_request)
+            self.assertFalse(panel.validated)
+            self.assertEqual(panel.selected, [])
+            self.assertEqual(panel.run, 'inspect')
+            self.assertEqual(panel.turns[0], 'You · Move J1 right by 0.5 mm')
+            panel.diagram.SetScene.assert_called_with(None)
+            thread.return_value.start.assert_called_once()
 
 
 if __name__ == '__main__':
