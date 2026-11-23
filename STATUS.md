@@ -11,6 +11,9 @@ cancelled active placement validation before routing. The earlier reserved-time
 hold remains separate. Keyboard focus stayed on the tab group after delivery.
 The installed `2bab78f1b` follow-up verified the native Routing menu shortcuts
 and withheld routing, acceptance and opening on an unreviewed test copy.
+The current `a7542e33f` install finished an owned project and opened the exact
+checked copy through the isolated KiCad launcher after first-run setup. It
+preserved all original copper and checked design files.
 [Corrected result and keyboard follow-up](evidence/product-guided-board-journey-002.json) · [Earlier trial and owned controls](evidence/product-guided-board-journey-001.json)
 
 **Board workspace qualified on this Mac.** The installed `ccd7a4073` Finder

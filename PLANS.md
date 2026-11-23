@@ -25,12 +25,15 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    switched between findings and the board in the installed app. The menu
    withheld premature routing, acceptance and opening. Keep the full `0b4687f85`
    route and delivery evidence for the unchanged engineering path.
-6. **Checked opening follow-up.** The first open of the checked licensed copy
-   reached KiCad Setup. Direct use of the verified isolated launcher opened
-   the exact copy after first-run defaults in the private settings directory.
-   The source correction connects the installed button to that launcher.
-   Qualify the connection on one owned saved-project delivery and reuse the
-   licensed route and comparison.
+6. **Checked opening verified.** `a7542e33f` used the installed button to open
+   the exact validated separate copy after first-run defaults in the isolated
+   KiCad settings directory. A single owned Finish gaps run preserved all
+   original copper, source files and project rules. The licensed comparison
+   and earlier first-run hold retain their scope.
+7. **Next product task.** Use a distinct licensed family for a predeclared
+   practical saved-project task. Qualify admission before routing and record
+   operator actions, limits, corrections and checked delivery. Keep Windows,
+   broader live application and independent review separate.
 
 ## Board workspace
 

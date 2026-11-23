@@ -30,13 +30,13 @@ The `0b4687f85` build delivered at 349.13 seconds and passed independent readbac
 
 The `2bab78f1b` follow-up used the native **Routing** menu for keyboard access. In the installed app, **Command–Shift–F** showed findings and **Command–Shift–B** restored the board. The menu kept **Start routing**, **Accept and save checked copy** and **Open checked export** disabled on an unreviewed source. This check reused the preceding delivery evidence. [Corrected result and keyboard follow-up](../evidence/product-guided-board-journey-002.json)
 
-The first checked opening on a fresh launcher reached KiCad Setup. Opening the same licensed copy through the existing isolated manager then succeeded after its first-run defaults. The installed opening path is being qualified with that prepared manager so the focused test uses Copperpath's config, documents and cache folders. The checked project and its rules stayed exact during the isolated opening.
+The first checked opening on a fresh launcher reached KiCad Setup. Opening the same licensed copy through the existing isolated manager then succeeded after first-run defaults. The `a7542e33f` installed follow-up connected the normal **Open checked export** button to that prepared manager. An owned Finish gaps test preserved all existing routes and opened the exact separate copy after setup in Copperpath's private folders. Readback and the original source checks stayed current.
 
 ## Try the workflow
 
 1. In Copperpath, choose **Continue an existing design** and select a saved KiCad project that is closed in KiCad. The board and inspection status appear together.
 2. Choose movable parts and an area in **Settings** or enter explicit commands in **Request**. **Preview placement request** checks the local request. Review or edit the suggestion beside the board, then choose **Use settings and find alternatives**.
 3. Compare the moves on the board. Review the protected and affected copper. **Approve moves and check routing** validates that placement and prepares the exact routing scope. Confirm the nets and time limit before choosing **Start routing**. **Cancel job** remains available while routing runs.
-4. Review the copper and Findings. The layer selector, copper key and item highlights help locate changes and referenced parts. **Reject** leaves the original intact. After reviewing the findings, **Accept and save checked copy** runs fresh validation and saves a separate project. **Open checked export** checks that copy again before opening it in KiCad.
+4. Review the copper and Findings. The layer selector, copper key and item highlights help locate changes and referenced parts. **Reject** leaves the original intact. After reviewing the findings, **Accept and save checked copy** runs fresh validation and saves a separate project. **Open checked export** checks that copy again before opening it in the prepared KiCad manager. First use may show KiCad Setup for the isolated profile.
 
 To assess the design, notice whether you can identify the next action and the copper that will change without leaving the board. The ordinary controls and explicit local request commands work without model access.
