@@ -14,6 +14,7 @@ def board_review(wx, parent, on_error, *, empty_note):
             self.finding = None
             self.net = None
             self.layer = wx.Choice(self, name='Copper layer')
+            self.layer.SetMinSize(self.FromDIP((92, -1)))
             self.layer.Bind(wx.EVT_CHOICE, self.change_layer)
             tool_row = wx.BoxSizer(wx.HORIZONTAL)
             tool_row.Add(self.layer, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 8)

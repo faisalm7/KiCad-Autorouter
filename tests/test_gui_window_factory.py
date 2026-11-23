@@ -96,6 +96,7 @@ class WindowFactory(unittest.TestCase):
                 patch.object(board_review_gui.review_view, 'inspect_item', return_value={'marked': first}):
             view = board_review_gui.board_review(wx, None, Mock(), empty_note='Owned board')
             view.set_view(scene=scene)
+            self.assertEqual(view.layer.minimum, (92, -1))
             view.select('a')
             canvas.SetScene.assert_called_with({'marked': first}, keep_view=True)
             view.item_detail.SetLabelText.assert_called_with('GND · Through-hole')
