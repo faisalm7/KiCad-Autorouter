@@ -9,20 +9,20 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    settings at 880 × 610. Actual Freerouting cancellation cleaned up.
    A second run showed every routing stage and a checked review beside
    Conversation. [Installed controls](evidence/product-8996-routing-controls-001.json)
-2. Qualify the new-design handoff and readiness guidance. Use native KiCad
-   creation on an owned blank project, then native library, ERC and PCB
-   preparation steps. At laptop size, check the captured project name, the
-   saved-position routing note and the visible project-closed requirement.
-   The prior owned editor and manager closed normally after exact saved-source
-   and verified native recovery checks.
-   [Recovery evidence](evidence/product-owned-editor-recovery-001.json)
+2. **Native entry verified.** The installed workspace launched KiCad,
+   selected its stock libraries, created the owned Default project and
+   showed the saved setup guidance at 880 × 610. Keep that exact project for
+   the native circuit task. [New design](evidence/product-native-new-design-002.json)
 3. **Source checks passed.** Deliver the checked live move from Conversation.
    Require exact live selection, clarification, a revised preview, explicit
    approval, readback and named native Undo. After stale-state refusal,
    restore the original selection and verify that a fresh preview and check
    are required. Keep the supported saved path.
-4. After verification, advance one applicable user journey from the lifecycle
-   matrix. Keep tests scoped to actual KiCad and geometry support.
+4. Continue the new design with two stock connectors. Check ERC and
+   connectivity, transfer the footprints into PCB Editor and save a closed
+   outline. Verify that Copperpath moves from setup guidance to the scoped
+   preview, including the saved-position routing and closure explanations.
+   Keep tests scoped to actual KiCad and geometry support.
    [Design journeys](docs/design-lifecycle.md)
 
 ## Active work from e638c5e9

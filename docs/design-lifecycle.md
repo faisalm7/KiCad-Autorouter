@@ -7,18 +7,19 @@ companion. [Product strategy](product-strategy.md)
 
 | Step | Current evidence | Next acceptance check |
 |---|---|---|
-| Start a design | The Copperpath start control and setup guidance have focused source checks. KiCad Manager creates the blank PCB, project and schematic. | Create a project through the installed manager. Open it in Copperpath and see what it needs next. |
+| Start a design | The installed start action opened KiCad 10.0.7, used its built-in libraries and created the Default PCB, project and schematic. Copperpath opened those files and showed setup guidance. [Installed check](../evidence/product-native-new-design-002.json) | Use that exact project for the stock-library circuit and PCB preparation. |
 | Prepare the schematic | Saved schematic context is read-only. Symbols, wiring, footprint assignments and ERC are native KiCad operations. | Use installed libraries and bring annotated footprints into the PCB with **Update PCB from Schematic**. |
 | Place parts | The installed workspace can place selected parts subject to reviewed boundaries, fixed parts and copper protection. [Scope](current-placement-scope.md) | Use a small supported PCB from the new-project journey. |
-| Route | Pinned KiCad 10.0.7 and Freerouting have completed selected and protected Finish gaps tasks. [Checks](routing-preferences.md) | Verify progress and cancellation in the prepared build. |
+| Route | Pinned KiCad 10.0.7 and Freerouting have completed selected and protected Finish gaps tasks. The installed 8996 workspace showed actual progress and stopped an active engine. [Checks](routing-preferences.md) · [Installed controls](../evidence/product-8996-routing-controls-001.json) | Admit the circuit created through the native entry. |
 | Modify | The installed workspace displays saved designs. One exact owned PCB passed a checked live move and Undo in 10.0.8. [Editor scope](live-editor-milestone.md) | Revise and approve a small move in Conversation, refuse stale state, and verify live application and Undo. |
 | Review and deliver | The installed separate-project flow verified original intent, protected copper, KiCad findings and fresh export. [Checked delivery](../evidence/product-round-cutout-checked-delivery-002.json) | Keep board, findings and Conversation visible through review and recovery at laptop size. |
 
 ## Start a new design
 
 Use **Start a new design** to hand off to the prepared KiCad Manager. When
-KiCad is already open, work there after saving any active design. Choose
-**File → New Project → Default** and save the project in its own folder.
+KiCad shows first-use setup, choose the built-in KiCad libraries. If a
+manager is already open, work there after saving any active design. Choose
+**File → New Project…**, select **Default** and save in a new project folder.
 **Continue an existing design** opens those saved files in Copperpath. A
 new PCB needs footprints and a closed outline before engineering work.
 In KiCad, add a small circuit using installed symbols and footprints, review
