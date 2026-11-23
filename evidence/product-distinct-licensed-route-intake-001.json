@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "role": "Bounded exposed development intake. Maximum three distinct leads, no engine execution.",
+  "reference_install": "9a8f48525c9c621ad6f6d4d83f2940fb71a56c1e",
+  "considered": [
+    {
+      "repository": "ZigEmbeddedGroup/sycl-badge",
+      "commit": "4705d92d5be81922db92a9f94ab818353d74beb1",
+      "finding": "Authentic in-progress KiCad project. The pinned source and README did not establish a hardware license.",
+      "decision": "Rights not established. No acquisition or Native run."
+    },
+    {
+      "repository": "Cuprum77/kicad-display-breakout-example",
+      "commit": "c8b3be250ca1bca622c469cb3ab2e3f5ca091a31",
+      "license": "CERN-OHL-S-2.0",
+      "finding": "Two-layer LCD touch breakout with custom DS1.S1 and DS1.S2 ground pads and external library references.",
+      "decision": "Static pad and dependency gates. No Native run."
+    },
+    {
+      "repository": "vishnukashikar/STM32-Sensor-Board",
+      "commit": "bc3651e7199b48faead15c1ab4c42c4cac93a6b6",
+      "license": "MIT",
+      "pcb_sha256": "d925f05dc70fda5a20917c4b831a50d95ef70ef4cd50510762b889f1356a59ac",
+      "project_sha256": "4e3b3661266a985d01e8cbfb8a9cb6c82fbba6087911ca680f53dc8cc9f077fb",
+      "schematic_sha256": "73165ae5a5c7a478adb81591337e106a64bc32331399277e7631d1788c1a91ba",
+      "original_pcb_preflight": "Pour-only area requires explicit net 0.",
+      "further_refusal": "U3 contains a footprint rule area on F.Cu that prohibits tracks, vias, pads and copper pours.",
+      "further_checks": "The embedded USB footprint lacks a library-qualified identifier. A matching stock footprint filename exists. Native closure remains unverified.",
+      "decision": "Original and prospective task retained. No repair copy or Native run."
+    }
+  ],
+  "prospective_task": {
+    "board": "STM32 Sensor Board at the recorded commit",
+    "action": "On a detached copy only, remove the sole back-layer interrupt trace between the two existing vias. Repair the resulting gap through ordinary installed Finish gaps controls.",
+    "exact_target_net": "/MPU_INT",
+    "pads": ["U2.33", "U3.12"],
+    "designated_segment_uuid": "e3609916-4712-4b2a-ae1f-347878c47e35",
+    "preserve": "Pristine upstream PCB, project and schematic. All 604 remaining tracks and vias, all footprints and rules, both existing interrupt vias, and both rule-area restrictions remain exact.",
+    "preview_requirement": "One Native open on /MPU_INT, zero blockers, complete library and schematic closure, correct protected count. Stop on any unsupported requirement or unexpected finding.",
+    "routing_time_seconds": 90,
+    "operator_measurements": "Count actual installed controls and visible waits from project selection to checked export. Save rendered review, source and candidate readback, and any manual correction or fallback.",
+    "state": "Declared, withheld before any change or engineering dispatch."
+  }
+}

@@ -22,6 +22,15 @@ def zone(number=1,x=10,layers=('F.Cu',),placement='disabled'):
 def board(zones=None):
     return ['kicad_pcb',['version','20241229'],['layers',['0','"F.Cu"','signal'],['2','"B.Cu"','signal']],*(zones if zones is not None else [zone()])]
 
+def modern_two_layer_board():
+    area = zone(layers=('B.Cu',))
+    area.remove(s.one(area, 'net'))
+    area.remove(s.one(area, 'net_name'))
+    area.append(['fill', ['thermal_gap', '0.5'], ['thermal_bridge_width', '0.5'], ['island_removal_mode', '0']])
+    tree = board([area])
+    s.one(tree, 'version')[1] = '20260206'
+    return tree
+
 def entry(z,layer,kind='keepout',name='""'):
     points=s.one(s.one(z,'polygon'),'pts')[1:]
     coords=[str(v) for pt in points+[points[0]] for v in (m.pt.nm(pt[1],1000),-m.pt.nm(pt[2],1000))]
@@ -34,12 +43,74 @@ def dsn(zones=None):
         for layer in (s.one(z,'layer') or s.one(z,'layers'))[1:]:st.append(entry(z,s.unquote(layer)))
     return tree
 
+def indexed_dsn(zones):
+    tree = dsn(zones)
+    for index, layer in enumerate(s.children(s.one(tree, 'structure'), 'layer')):
+        layer.append(['property', ['index', str(index)]])
+    return tree
+
 def raw(tree):return (s.dump(tree)+'\n').encode()
 def exchange(b,t):return m.correct(raw(b),m._dump_dsn(t).encode())
 
 class Controls(unittest.TestCase):
     def reject(self,b=None,t=None):
         with self.assertRaises(ValueError):exchange(board() if b is None else b,dsn() if t is None else t)
+
+    def test_modern_two_layer_omission_preserves_source_and_other_layer_obstacle(self):
+        source = modern_two_layer_board()
+        area, = s.children(source, 'zone')
+        transport = indexed_dsn([area])
+        s.one(transport, 'structure').append(entry(area, 'F.Cu', name='"independent"'))
+        before = copy.deepcopy((source, transport))
+        corrected, receipt = exchange(source, transport)
+        expected = copy.deepcopy(transport)
+        s.one(expected, 'structure').remove(entry(area, 'B.Cu'))
+        self.assertEqual(m._parse_dsn(corrected.decode()), expected)
+        self.assertEqual(receipt['removed_count'], 1)
+        self.assertEqual(receipt['source_areas'][0]['layers'], ['B.Cu'])
+        self.assertEqual((source, transport), before)
+
+    def test_two_layer_omission_does_not_admit_legacy_or_other_restrictions(self):
+        for change in ('legacy', 'bound_net', 'empty_net_name', 'missing_mode', 'other_mode', 'mixed_layer', 'keepout'):
+            source = modern_two_layer_board()
+            area, = s.children(source, 'zone')
+            mode = s.one(s.one(area, 'fill'), 'island_removal_mode')
+            if change == 'legacy':
+                s.one(source, 'version')[1] = '20241229'
+            elif change == 'bound_net':
+                area.append(['net', '"GND"'])
+            elif change == 'empty_net_name':
+                area.append(['net_name', '""'])
+            elif change == 'missing_mode':
+                s.one(area, 'fill').remove(mode)
+            elif change == 'other_mode':
+                mode[1] = '1'
+            elif change == 'mixed_layer':
+                s.one(source, 'layers')[-1][2] = 'mixed'
+            else:
+                s.one(s.one(area, 'keepout'), 'pads')[1] = 'not_allowed'
+            with self.subTest(change=change):
+                self.reject(source, indexed_dsn([area]))
+
+    def test_modern_two_layer_dsn_requires_exact_signal_layer_identity(self):
+        source = modern_two_layer_board()
+        area, = s.children(source, 'zone')
+        for change in ('reordered', 'wrong_index', 'power'):
+            transport = indexed_dsn([area])
+            structure = s.one(transport, 'structure')
+            front, back = s.children(structure, 'layer')
+            if change == 'reordered':
+                front_index, back_index = structure.index(front), structure.index(back)
+                structure[front_index], structure[back_index] = back, front
+                s.one(back, 'property')[1][1] = '0'
+                s.one(front, 'property')[1][1] = '1'
+            elif change == 'wrong_index':
+                s.one(back, 'property')[1][1] = '0'
+            else:
+                s.one(back, 'type')[1] = 'power'
+            with self.subTest(change=change):
+                self.reject(source, transport)
+
     def test_root_pour_only_both_layers_exact_delete_and_full_ast_preservation(self):
         z=zone(layers=('F.Cu','B.Cu'));b=board([z]);t=dsn([z]);other=entry(zone(2,40),'F.Cu',name='"retained"');s.one(t,'structure').append(other)
         before=copy.deepcopy((b,t));out,r=exchange(b,t);expected=copy.deepcopy(t);st=s.one(expected,'structure');st[:]=[n for n in st if n not in [entry(z,'F.Cu'),entry(z,'B.Cu')]]

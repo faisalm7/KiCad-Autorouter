@@ -709,3 +709,19 @@ Library closure, open connections and Native eligibility remain unverified.
 [Quiver license](https://github.com/Arrow-air/project-quiver/blob/7b36f70cf047da7300f0f821584ecedf1129a14e/LICENSE) ·
 [Regulator snapshot](https://github.com/johnktaylor/protoworks-kicad-3-3v-regulator/tree/054590bb212bb47cafb39a4931217b76e9e3763b) ·
 [Regulator publisher license](https://www.jktdev.co.uk/posts/buildingblockspt8/).
+
+## November 22 — distinct licensed routing intake
+
+The second bounded screen examined three leads and retained every refusal.
+The in-progress SYCL Badge did not establish hardware redistribution rights.
+The CERN-OHL-S-2.0 LCD Touch breakout has two custom ground pads at DS1 and
+external library references. The MIT STM32 Sensor Board publishes the full
+KiCad trio and defines the U2-to-U3 interrupt. Its modern two-layer B.Cu
+pour-only area omits the net field. U3 also owns a separate Front-layer area
+that prohibits tracks, vias, pads and pours. Only the root save dialect is
+addressed by the current correction. The prospective repair is frozen and
+no licensed board was routed. [Intake and task](evidence/product-distinct-licensed-route-intake-001.json) ·
+[SYCL revision](https://github.com/ZigEmbeddedGroup/sycl-badge/commit/4705d92d5be81922db92a9f94ab818353d74beb1) ·
+[LCD Touch license](https://github.com/Cuprum77/kicad-display-breakout-example/blob/c8b3be250ca1bca622c469cb3ab2e3f5ca091a31/LICENSE) ·
+[STM32 design](https://github.com/vishnukashikar/STM32-Sensor-Board/tree/bc3651e7199b48faead15c1ab4c42c4cac93a6b6/hardware) ·
+[STM32 license](https://github.com/vishnukashikar/STM32-Sensor-Board/blob/bc3651e7199b48faead15c1ab4c42c4cac93a6b6/LICENSE).

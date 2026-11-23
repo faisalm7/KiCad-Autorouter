@@ -2,7 +2,7 @@
 import copy,json,tempfile,unittest
 from pathlib import Path
 from autorouter import pour_rule_area as m,sexpr as sx,pipeline as p
-from test_pour_rule_area import board,zone
+from test_pour_rule_area import board,zone,modern_two_layer_board
 class SavedPourRecord(unittest.TestCase):
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory(dir=p.c.ROOT/'tests');self.addCleanup(self.tmp.cleanup)
@@ -47,4 +47,34 @@ class SavedPourRecord(unittest.TestCase):
   self.assertEqual(m.qualify(plain),[]);p.check_rule_area_support(plain)
   plain.append(zone())
   with self.assertRaisesRegex(ValueError,'zone population'):m.qualify(plain)
+
+ def test_modern_two_layer_proof_cannot_use_old_record_schema(self):
+  tree = modern_two_layer_board()
+  tree.extend(sx.children(self.tree, 'zone')[1:])
+  sx.write(self.path, tree)
+  areas = m.qualify(tree)
+  record = dict(self.record, board_sha256=m.sha(self.path.read_bytes()), source_areas=areas,
+   native_areas=[{k:v for k,v in a.items() if k != 'source_zone_ast_sha256'} for a in areas],
+   fill_checks=[dict(row, native_fill_outline_count=0, intersection=[], passed=True)
+                for row in m.fill_matrix(tree, areas)])
+  with self.assertRaises(ValueError):
+   m.verify_native_record(record, self.path)
+  record.update(schema=2, policy=m.TWO_LAYER_OMITTED_NET_AUDIT_POLICY,
+   copper_layers=[dict(id=0, name='F.Cu', type='signal', index=0),
+                  dict(id=2, name='B.Cu', type='signal', index=1)],
+   native_area_nets=[dict(uuid=areas[0]['uuid'], netcode=0, netname='', island_removal_mode=0)],
+   native_zone_layers={'00000000-0000-0000-0000-000000000099': ['F.Cu', 'B.Cu']})
+  self.assertTrue(m.verify_native_record(record, self.path))
+  unmatched_layers = dict(record, native_zone_layers={})
+  wrong_net = dict(record, native_area_nets=[dict(record['native_area_nets'][0], netcode=1)])
+  for changed in (unmatched_layers, wrong_net):
+   with self.assertRaises(ValueError):
+    m.verify_native_record(changed, self.path)
+
+ def test_modern_two_layer_refuses_saved_fill_outside_zone_selector(self):
+  tree = modern_two_layer_board()
+  tree.append(['zone',['net','"GND"'],['uuid','"00000000-0000-0000-0000-000000000099"'],
+               ['layer','"F.Cu"'], ['filled_polygon',['layer','"B.Cu"']]])
+  with self.assertRaisesRegex(ValueError, 'outside declared zone layers'):
+   m.fill_matrix(tree, m.qualify(tree))
 if __name__=='__main__':unittest.main()

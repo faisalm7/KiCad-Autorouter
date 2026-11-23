@@ -56,12 +56,20 @@ def _geometry(zone,layers=('F.Cu','B.Cu')):
     elif len(placement)==2 and placement[1]==['enabled','no']:placement.append(['sheetname','""'])
     return pt.source_zones(['kicad_pcb',z],**({'copper_layers':layers} if len(layers)==4 else {}))[0]
 
-def _metadata(zone,layers=('F.Cu','B.Cu')):
+def _metadata(board, zone, layers):
     if any(not isinstance(n,list) or not n or not isinstance(n[0],str) or n[0] not in AREA_FIELDS for n in zone[1:]):fail('unknown restricted-zone field')
     for key in AREA_FIELDS:sx.one(zone,key)
-    if len(layers)==4:
-        if sx.one(zone,'net') is not None:fail('four-copper pour-only area requires omitted net; numeric net 0 transport remains unsupported')
-    elif sx.one(zone,'net')!=['net','0']:fail('pour-only area requires explicit net 0')
+    net = sx.one(zone, 'net')
+    if len(layers) == 4:
+        if net is not None:
+            fail('four-copper pour-only area requires omitted net; numeric net 0 transport remains unsupported')
+    elif net is None:
+        from .layer_policy import _source_layers
+        _source_layers(board)
+        if sx.one(zone, 'net_name') is not None:
+            fail('modern two-layer pour-only area requires omitted net and net name')
+    elif net != ['net', '0']:
+        fail('pour-only area cannot bind a routing net')
     if sx.one(zone,'net_name') is not None and _atom(zone,'net_name')!='':fail('pour-only area requires empty net name')
     placement=sx.one(zone,'placement')
     if placement is not None:
@@ -93,14 +101,15 @@ def _metadata(zone,layers=('F.Cu','B.Cu')):
     fill=sx.one(zone,'fill')
     if fill is not None:
         keys={'thermal_gap','thermal_bridge_width'}
-        if len(layers)==4:keys.add('island_removal_mode')
+        if net is None:keys.add('island_removal_mode')
         for n in fill[1:]:
             if not isinstance(n,list) or len(n)!=2 or not isinstance(n[0],str) or n[0] not in keys:fail('unknown rule-area fill fields')
             if n[0]=='island_removal_mode':
                 if n!=['island_removal_mode','0']:fail('only observed island-removal mode 0 is supported')
             elif pt.nm(n[1],1000000)<0:fail('negative rule-area fill value')
         for key in keys:sx.one(fill,key)
-    if len(layers)==4 and (fill is None or sx.one(fill,'island_removal_mode')!=['island_removal_mode','0']):fail('four-copper pour-only area requires explicit island-removal mode 0')
+    if net is None and (fill is None or sx.one(fill, 'island_removal_mode') != ['island_removal_mode', '0']):
+        fail('pour-only area with omitted net requires explicit island-removal mode 0')
 
 def qualify(board):
     """Return only eligible root pour-only records; leave all-allowed intent alone.
@@ -121,7 +130,7 @@ def qualify(board):
             if not restricted:continue  # Existing unrestricted intent is unchanged.
             if owner is not board:fail('footprint restricted rule areas unsupported')
             if restricted!={'copperpour'}:fail('only copper-pour prohibition is qualified')
-            layers=source_layers(board);_metadata(zone,layers);row=_geometry(zone,layers)
+            layers=source_layers(board);_metadata(board,zone,layers);row=_geometry(zone,layers)
             uid=row['uuid']
             if UUID.fullmatch(uid) is None or sum(n==['uuid','"'+uid+'"'] or n==['uuid',uid] for n in _walk(board))!=1:fail('unique source area UUID required')
             table=sx.one(board,'layers')
@@ -160,6 +169,11 @@ def _entries(tree,layers=('F.Cu','B.Cu')):
         if node and isinstance(node[0],str) and 'keepout' in node[0] and id(node) not in root_nodes:fail('non-root keepout provenance unsupported')
     return entries
 
+def _has_omitted_net_area(board, areas):
+    area_ids = {area['uuid'] for area in areas}
+    return any(sx.one(zone, 'net') is None and _atom(zone, 'uuid') in area_ids
+               for zone in sx.children(board, 'zone'))
+
 def correct(source_board_bytes,raw_dsn_bytes):
     """Return corrected bytes and pure attribution; never alters either input."""
     if not isinstance(source_board_bytes,bytes) or not isinstance(raw_dsn_bytes,bytes):fail('immutable source/DSN bytes required')
@@ -169,7 +183,12 @@ def correct(source_board_bytes,raw_dsn_bytes):
           'native_observation_verified':False,'native_fill_verified':False,'routing_accepted':False}
     if not areas:return raw_dsn_bytes,dict(base,output_sha256=sha(raw_dsn_bytes),removed=[],removed_count=0,untargeted_ast_identical=True)
     layers=source_layers(board)
-    tree=_parse_dsn(raw_dsn_bytes.decode('utf-8'));_check_units(tree);entries=_entries(tree,layers)
+    tree = _parse_dsn(raw_dsn_bytes.decode('utf-8'))
+    _check_units(tree)
+    if len(layers) == 2 and _has_omitted_net_area(board, areas):
+        from .layer_policy import _dsn_layers
+        _dsn_layers(tree)
+    entries = _entries(tree, layers)
     structure=sx.one(tree,'structure');declared=[n[1] for n in sx.children(structure,'layer') if len(n)>1 and isinstance(n[1],str)]
     # Every root source rule area participates in collision detection, including
     # unchanged all-allowed areas. Copper zones never exported as keepouts do not.
@@ -199,29 +218,64 @@ def correct(source_board_bytes,raw_dsn_bytes):
 
 AUDIT_POLICY='root-pour-only-saved-fill-v1'
 FOUR_AUDIT_POLICY='root-four-copper-pour-only-saved-fill-v1'
+TWO_LAYER_OMITTED_NET_AUDIT_POLICY = 'root-two-copper-pour-only-omitted-net-saved-fill-v1'
+
+def _ordinary_zones(board):
+    return [zone for zone in sx.children(board, 'zone')
+            if sx.one(zone, 'keepout') is None and sx.one(zone, 'placement') is None]
+
+
+def _ordinary_zone_layers(zone, copper_layers):
+    layer, multi = sx.one(zone, 'layer'), sx.one(zone, 'layers')
+    if (layer is None) == (multi is None):
+        fail('explicit ordinary zone layer selector required')
+    selector = layer or multi
+    if ((layer is not None and len(layer) != 2)
+            or any(not isinstance(v, str) for v in selector[1:])):
+        fail('explicit ordinary zone layer atoms required')
+    names = [sx.unquote(v) for v in selector[1:]]
+    if not names or len(set(names)) != len(names) or not set(names) <= set(copper_layers):
+        fail('ordinary pour audit zone layers require explicit declared copper')
+    return [name for name in copper_layers if name in names]
+
+
+def audit_contract(board, areas):
+    """Require explicit Native layer and NoNet readback for the saved omission."""
+    layers = source_layers(board)
+    four = len(layers) == 4
+    if not four and not _has_omitted_net_area(board, areas):
+        return {'schema': 1, 'policy': AUDIT_POLICY}
+    contract = {
+        'schema': 2,
+        'policy': FOUR_AUDIT_POLICY if four else TWO_LAYER_OMITTED_NET_AUDIT_POLICY,
+        'copper_layers': [dict(id=code, name=name, type='signal', index=i)
+                          for i, (code, name) in enumerate(zip((0, 4, 6, 2) if four else (0, 2), layers))],
+        'native_area_nets': [dict(uuid=area['uuid'], netcode=0, netname='', island_removal_mode=0)
+                             for area in areas],
+    }
+    if not four:
+        contract['native_zone_layers'] = {
+            _atom(zone, 'uuid'): _ordinary_zone_layers(zone, layers) for zone in _ordinary_zones(board)
+        }
+    return contract
 
 def fill_matrix(board,areas):
     """Complete source-declared area × ordinary root zone × copper-layer matrix."""
     copper_layers=source_layers(board)
     result=[];zones=sx.children(board,'zone');ids=[_atom(z,'uuid') for z in zones]
     if len(set(ids))!=len(ids):fail('unique root zone UUIDs required for pour audit')
+    strict_fill_layers = len(copper_layers) == 4 or _has_omitted_net_area(board, areas)
+    ordinary_zones = _ordinary_zones(board)
     for area in areas:
-        for zone in zones:
-            if sx.one(zone,'keepout') is not None or sx.one(zone,'placement') is not None:continue
-            layer=sx.one(zone,'layer');layers=sx.one(zone,'layers')
-            if (layer is None)==(layers is None):fail('explicit ordinary zone layer selector required')
-            selector=layer or layers
-            if (layer is not None and len(layer)!=2) or any(not isinstance(v,str) for v in selector[1:]):fail('explicit ordinary zone layer atoms required')
-            names=[sx.unquote(v) for v in selector[1:]]
-            if not names or len(set(names))!=len(names) or not set(names)<=set(copper_layers):fail('ordinary pour audit zone layers require explicit declared copper')
+        for zone in ordinary_zones:
+            names = _ordinary_zone_layers(zone, copper_layers)
             if sx.children(zone,'fill_segments'):fail('legacy fill segments outside pour audit scope')
-            for name in copper_layers:
-                if name not in names:continue
+            for name in names:
                 filled=[]
                 for node in sx.children(zone,'filled_polygon'):
                     ln=sx.one(node,'layer')
                     if ln is None or len(ln)!=2 or not isinstance(ln[1],str):fail('explicit saved fill layer required')
-                    if len(copper_layers)==4 and sx.unquote(ln[1]) not in names:fail('saved fill outside declared zone layers')
+                    if strict_fill_layers and sx.unquote(ln[1]) not in names:fail('saved fill outside declared zone layers')
                     if sx.unquote(ln[1])==name:filled.append(node)
                 result.append({'area_uuid':area['uuid'],'zone_uuid':_atom(zone,'uuid'),'layer':name,
                     'applicable':name in area['layers'],'stored_fill_node_count':len(filled),
@@ -235,13 +289,9 @@ def verify_native_record(record,candidate):
     from autorouter.floor_route import canonical
     path=Path(candidate);raw=read_bytes(path);tree=sx.parse(raw.decode());areas=qualify(tree)
     if not areas:fail('pour audit requires original qualified areas')
-    layers=source_layers(tree);four=len(layers)==4
-    expected={'schema':2 if four else 1,'policy':FOUR_AUDIT_POLICY if four else AUDIT_POLICY,'native_version':c.NATIVE_VERSION,'source':str(path),
+    expected={**audit_contract(tree, areas), 'native_version':c.NATIVE_VERSION,'source':str(path),
         'board_sha256':sha(raw),'project_sha256':sha(read_bytes(path.with_suffix('.kicad_pro'))),
         'board_saved':False,'source_areas':areas,'passed':True}
-    if four:
-        expected['copper_layers']=[dict(id=code,name=name,type='signal',index=i) for i,(code,name) in enumerate(zip((0,4,6,2),layers))]
-        expected['native_area_nets']=[dict(uuid=row['uuid'],netcode=0,netname='',island_removal_mode=0) for row in areas]
     if set(record)!=set(expected)|{'native_areas','fill_checks','native_zone_uuids'}:fail('missing/unknown pour audit fields')
     if any(canonical(record.get(k))!=canonical(v) for k,v in expected.items()):fail('pour audit source/policy/hash differs')
     expected_native=[{k:v for k,v in row.items() if k!='source_zone_ast_sha256'} for row in areas]

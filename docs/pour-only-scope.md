@@ -9,3 +9,15 @@ Stock KiCad's DSN exporter emits a generic track/via keepout for this pour-only 
 Native probe002 proves saving-refill F.Cu exclusion and allowed B.Cu overlap, plus rejection of deliberately intruding stored F.Cu fill concealed by nonsaving refill. Current production integration and broader shape/layer native controls are still being qualified. NUS protected original via serialization remains refused; only whole unlocked routing can be evaluated if the other gates pass. No source repair or rule relaxation is permitted.
 
 Root gr_text supports exactly one knockout atom on declared F.SilkS/B.SilkS. Copper/Edge.Cuts/nested or unknown layer grammar remains blocked. Actual native front/back serialization and plots are inspected; this does not establish physical/electrical approval.
+
+## Modern two-layer saved areas
+
+KiCad 10 omits the net field when it writes a rule area. The new source
+path admits that exact form on the canonical 20260206 front/back signal
+stack, with no `net_name` and explicit island mode `0`. It retains the
+existing source geometry and exact DSN attribution. The final audit
+checks the Native layer identities, NoNet state and untouched restrictions,
+then checks the complete saved-fill matrix. Legacy two-layer and four-layer
+receipts retain their prior meanings. Restricted footprint areas still
+refuse. Actual Native verification of the new two-layer form remains open.
+[KiCad 10.0.7 zone writer](https://github.com/KiCad/kicad-source-mirror/blob/10.0.7/pcbnew/pcb_io/kicad_sexpr/pcb_io_kicad_sexpr.cpp#L2632-L2640).

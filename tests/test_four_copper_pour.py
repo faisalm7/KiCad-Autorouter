@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest import mock
 from autorouter import pour_rule_area as m,pour_rule_area_native as worker,sexpr as sx,floor_context as fc,pipeline as p
 from experiments.four_copper_class_transport_v1 import fixture
-from test_pour_rule_area import zone,entry,dsn,raw
+from test_pour_rule_area import zone,entry,dsn,raw,modern_two_layer_board
 NAMES=('F.Cu','In1.Cu','In2.Cu','B.Cu')
 IDS=(0,4,6,2)
 
@@ -108,34 +108,41 @@ class InnerPure(unittest.TestCase):
 
 class NativeAlgorithmDoubles(unittest.TestCase):
  """Run actual worker logic with scalar/polygon doubles, never pcbnew."""
- def exercise(self,*,bad_net=False,bad_layer=False,intrusion=False,bad_mode=False,version="10.0.0"):
-  tree=source();area=m.qualify(tree)[0];aid=area['uuid'];zid=m._atom(sx.children(tree,'zone')[1],'uuid')
+ def exercise(self,*,bad_net=False,bad_layer=False,intrusion=False,bad_mode=False,version="10.0.0",two_layer=False,bad_zone_layers=False):
+  layers, ids = (('F.Cu', 'B.Cu'), (0, 2)) if two_layer else (NAMES, IDS)
+  prohibited = 2 if two_layer else 6
+  tree = modern_two_layer_board() if two_layer else source()
+  if two_layer:
+   source_layers = ('F.Cu',) if bad_zone_layers else layers
+   tree.append(['zone',['net','"GND"'],['uuid','"00000000-0000-0000-0000-000000000099"'],
+                ['layers',*[json.dumps(name) for name in source_layers]]])
+  area=m.qualify(tree)[0];aid=area['uuid'];zid=m._atom(sx.children(tree,'zone')[1],'uuid')
   path=Path('/owned/four.kicad_pcb');captured=raw(tree);project=b'{}';calls=[]
   class Poly:
    def __init__(self,arg=None):self.layer=arg;self.hit=False
    def OutlineCount(self):return 1 if self.hit else 0
-   def BooleanIntersection(self,other):self.hit=intrusion and self.layer==6
+   def BooleanIntersection(self,other):self.hit=intrusion and self.layer==prohibited
    def COutline(self,i):return types.SimpleNamespace(PointCount=lambda:3,IsClosed=lambda:True,CPoint=lambda j:types.SimpleNamespace(x=j,y=j))
    def HoleCount(self,i):return 0
   class Zone:
    def __init__(self,uid):self.m_Uuid=types.SimpleNamespace(AsString=lambda:uid);self.id=uid
-   def IsOnLayer(self,l):return l==6 if self.id==aid else l in IDS
+   def IsOnLayer(self,l):return l==prohibited if self.id==aid else l in ids
    def GetFilledPolysList(self,l):calls.append(l);return l
    def Outline(self):return Poly()
    def GetNetCode(self):return 1 if bad_net else 0
    def GetNetname(self):return ''
    def GetIslandRemovalMode(self):return 1 if bad_mode else 0
-  board=types.SimpleNamespace(GetCopperLayerCount=lambda:4,GetLayerID=lambda name:dict(zip(NAMES,IDS))[name],
-    GetLayerName=lambda code:('wrong' if bad_layer else dict(zip(IDS,NAMES))[code]),
+  board=types.SimpleNamespace(GetCopperLayerCount=lambda:len(layers),GetLayerID=lambda name:dict(zip(layers,ids))[name],
+    GetLayerName=lambda code:('wrong' if bad_layer else dict(zip(ids,layers))[code]),
     IsLayerEnabled=lambda code:True,GetLayerType=lambda code:0,Zones=lambda:[Zone(aid),Zone(zid)])
   shim=types.SimpleNamespace(F_Cu=0,In1_Cu=4,In2_Cu=6,B_Cu=2,LT_SIGNAL=0,SHAPE_POLY_SET=Poly,
-    LayerName=lambda code:dict(zip(IDS,NAMES))[code],GetBuildVersion=lambda:version,ISLAND_REMOVAL_MODE_ALWAYS=0)
+    LayerName=lambda code:dict(zip(ids,layers))[code],GetBuildVersion=lambda:version,ISLAND_REMOVAL_MODE_ALWAYS=0)
   observed={k:v for k,v in area.items() if k!='source_zone_ast_sha256'}
   def observe(*args,**kwargs):
-   self.assertEqual(kwargs,{'copper_layers':NAMES});return {'footprint_zone_count':0,'zones':[copy.deepcopy(observed)]}
+   self.assertEqual(kwargs,{} if two_layer else {'copper_layers':NAMES});return {'footprint_zone_count':0,'zones':[copy.deepcopy(observed)]}
   with mock.patch.dict(sys.modules,{'pcbnew':shim}),mock.patch.object(Path,'read_bytes',lambda self:captured if self==path else project),mock.patch.object(fc,'observe_areas',observe):
    result=worker.audit(board,path,(m.sha(captured),m.sha(project)))
-  self.assertEqual(calls,list(IDS));return result
+  self.assertEqual(calls,list(ids));return result
  def test_complete_enum_matrix_and_net_zero_positive(self):
   result=self.exercise();self.assertTrue(result['passed']);self.assertEqual(len(result['fill_checks']),4)
   self.assertEqual(result['native_area_nets'][0]['netcode'],0)
@@ -144,3 +151,16 @@ class NativeAlgorithmDoubles(unittest.TestCase):
    with self.subTest(kwargs=kwargs),self.assertRaises(ValueError):self.exercise(**kwargs)
  def test_saved_inner_intrusion_fails_even_without_drc(self):
   result=self.exercise(intrusion=True);self.assertFalse(result['passed']);self.assertFalse(result['fill_checks'][2]['passed'])
+
+ def test_modern_two_layer_worker_checks_native_layer_and_no_net(self):
+  result = self.exercise(two_layer=True)
+  self.assertEqual(result['policy'], m.TWO_LAYER_OMITTED_NET_AUDIT_POLICY)
+  self.assertEqual([row['id'] for row in result['copper_layers']], [0, 2])
+  self.assertEqual(result['native_area_nets'][0]['netcode'], 0)
+  self.assertEqual(list(result['native_zone_layers'].values()), [['F.Cu', 'B.Cu']])
+  for changed in ({'bad_layer':True}, {'bad_net':True}, {'bad_mode':True}, {'bad_zone_layers':True}):
+   with self.subTest(changed=changed), self.assertRaises(ValueError):
+    self.exercise(two_layer=True, **changed)
+  intrusion = self.exercise(two_layer=True, intrusion=True)
+  self.assertFalse(intrusion['passed'])
+  self.assertFalse(intrusion['fill_checks'][1]['passed'])
