@@ -13,7 +13,9 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    shared validator and scoped transaction are prepared. KiCad generated its
    compiler commands and the shared pane passed a syntax check. Build the
    configured Cocoa wxWidgets library within measured headroom and use it
-   in a fresh KiCad build. Qualify the build on the owned PCB
+   in a fresh KiCad build. The patched launcher has a separate private
+   profile for the same owned fixture, with the validator and input hashes
+   checked before launch. Qualify the build on the owned PCB
    with a visible checked preview, explicit approval, preservation,
    Undo/Redo, changed selection/manual edits, cancellation and worker failure.
 3. **Carry the same host to Eeschema.** Qualify real selection and a checked

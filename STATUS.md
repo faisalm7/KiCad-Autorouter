@@ -9,10 +9,11 @@ the owned test. The patch applied in a dry run against the pinned files.
 The approval gate, detached worker refusal controls and shared-pane syntax
 check passed. KiCad generated its configuration header and compiler
 commands. The two complete editor source checks stopped at the compiler
-memory cap. The separate read-only PCB hosting probe is prepared. Its last
-launch check stopped at macOS memory warning level 2 and 2.58 GiB available
-RAM. Load was 3.37 against a limit of 8. The pinned wxWidgets 3.2.8 library
-build, full editor compile and both live walkthroughs remain open.
+memory cap. The stock PCB hosting probe and patched-editor trial have
+separate private profiles. The patched launcher refused the diagnostic
+build and a changed board copy before starting a process. macOS memory
+pressure still holds the editor launch. The pinned wxWidgets 3.2.8
+library build, full editor compile and both live walkthroughs remain open.
 [Architecture and acceptance](docs/native-editor-foundation.md)
 
 **Selection-aware requests verified in the installed workspace.** On the

@@ -34,21 +34,37 @@ def file_digest(path):
         return hashlib.file_digest(f, 'sha256').hexdigest()
 
 
-def prepare(run):
+def prepare_profile(run):
     checked_run(run).mkdir(mode=0o700)
-    for name in ('cache', 'documents', 'third-party'):
+    for name in ('cache', 'config', 'documents', 'third-party'):
         (run / name).mkdir(mode=0o700)
-    board, plugin = material(run)
+    board, _ = material(run)
     placement_clearance.copy_project(FIXTURE, board.parent)
-    plugin.parent.mkdir(parents=True, mode=0o700)
-    shutil.copyfile(PROBE, plugin)
     common_path = run / 'config/10.0/kicad_common.json'
+    common_path.parent.mkdir(parents=True, mode=0o700)
     common = dict(meta=dict(filename='kicad_common', version=5), api=dict(enable_server=False),
                   do_not_show_again=dict(data_collection_prompt=True, update_check_prompt=True),
                   system=dict(enable_sentry_reporting=False))
     with common_path.open('x', encoding='utf-8') as stream:
         json.dump(common, stream, indent=2)
         stream.write('\n')
+    return board, common_path
+
+
+def editor_environment(run):
+    env = {key: os.environ[key] for key in ('HOME', 'LANG', 'LC_ALL', 'TMPDIR', 'USER', 'PATH')
+           if key in os.environ}
+    env.update(KICAD_CONFIG_HOME=str(run / 'config'), KICAD_CACHE_HOME=str(run / 'cache'),
+               KICAD_DOCUMENTS_HOME=str(run / 'documents'), KICAD10_3RD_PARTY=str(run / 'third-party'),
+               PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1')
+    return env
+
+
+def prepare(run):
+    board, common_path = prepare_profile(run)
+    _, plugin = material(run)
+    plugin.parent.mkdir(parents=True, mode=0o700)
+    shutil.copyfile(PROBE, plugin)
     data = dict(schema=1, editor='10.0.8', editor_sha256=live_move.PCB_EDITOR_SHA256,
                 board_hashes=gui.source_inventory(board), probe_sha256=file_digest(plugin),
                 common_sha256=file_digest(common_path))
@@ -78,12 +94,8 @@ def open_editor(run):
         raise ValueError('The isolated PCB Editor differs from the qualified 10.0.8 binary.')
     subprocess.run(['/usr/bin/codesign', '--verify', '--deep', '--strict', str(BUNDLE)],
                    check=True, timeout=30, capture_output=True)
-    env = {key: os.environ[key] for key in ('HOME', 'LANG', 'LC_ALL', 'TMPDIR', 'USER', 'PATH')
-           if key in os.environ}
-    env.update(KICAD_CONFIG_HOME=str(run / 'config'), KICAD_CACHE_HOME=str(run / 'cache'),
-               KICAD_DOCUMENTS_HOME=str(run / 'documents'), KICAD10_3RD_PARTY=str(run / 'third-party'),
-               PYTHONNOUSERSITE='1', PYTHONDONTWRITEBYTECODE='1',
-               COPPERPATH_PCB_HOST_PROBE_SOURCE=str(board), COPPERPATH_PCB_HOST_PROBE_RECEIPT=str(receipt))
+    env = editor_environment(run)
+    env.update(COPPERPATH_PCB_HOST_PROBE_SOURCE=str(board), COPPERPATH_PCB_HOST_PROBE_RECEIPT=str(receipt))
     with launch.open('x', encoding='utf-8') as stream:
         try:
             editor = subprocess.Popen([str(EDITOR), str(board)], cwd=board.parent, env=env,

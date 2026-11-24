@@ -138,8 +138,17 @@ refused a changed selected position and an unsupported impedance request
 using the retained installed runtime. Neither request started a Native
 worker. Changes during a live transaction, native Undo/Redo, rendering
 and editor responsiveness all need actual editor runs. The stock PCB
-probe is staged in a separate private configuration. Its eight resource
-admission attempts recorded refusals before launch.
+probe is staged in its own private configuration. Its resource admission
+checks have held the launch.
+
+The patched-editor launcher prepares a separate owned project and binds
+its design files, private configuration and validation runtime. The
+launch checks both the built editor and its PCB module and records their
+hashes. KiCad's build-directory mode loads that module from the isolated
+build. Two preparation controls refused the syntax-only configuration and
+a modified board before starting a process. The actual patched editor
+launch awaits the linked build and ordinary resource admission.
+[Trial preparation](../experiments/native_editor_v1/prepare_native_trial.py)
 
 1. **PCB.** Use the exact owned placement fixture from the checked move.
    Select J1 in the PCB canvas. Bind and review one checked translation of
