@@ -61,8 +61,26 @@ versions and missing packages before a full build is dispatched.
 
 CMake 3.31.8 now runs from a verified project-local package. Its official
 78,373,419-byte archive matched the publisher's SHA-256. The archive and
-expanded tool together used 327,796 KiB. Dependency configuration and both
-editor builds still need separate qualification.
+expanded tool together used 327,796 KiB. The pinned KiCad source was checked
+against Git and staged with the pane patch in a separate developer directory.
+The local configure passed GLM, libgit2, ngspice, OpenCascade, Protobuf,
+SWIG and Python discovery. Small ARM64 programs separately checked libgit2,
+ngspice and OpenCascade loading and a generated Protobuf message round trip.
+Those checks establish only the tested interfaces. The matching wxWidgets
+development build and the two editor builds remain open.
+
+Use the mac-builder's custom wx branch at
+`0bb586c9a69cc12cd87caef874880293e55d93db`. The official recipe generates
+the Cocoa configuration and `wx-config` from that source. The pinned wx
+source and its eight submodules are present. Configuration passed and
+generated wxWidgets 3.2.8 headers for arm64 and a Makefile. The PCB job
+panel passed a syntax-only compile using those headers. The full pane
+syntax check needs KiCad's generated `config.h`. The next build step uses
+the configured directory with `make -j1 BUILD=debug`, then installs into
+its private prefix. Retain the existing resource admission and disk
+reserve. Make any project-cap change explicit before dispatch.
+[Pinned wx recipe](https://gitlab.com/kicad/packaging/kicad-mac-builder/-/blob/0977c0f44b2f37243c1ecd38ba0c2ae08c8300c6/kicad-mac-builder/wx.cmake) ·
+[Protobuf C++ compatibility](https://protobuf.dev/support/cross-version-runtime-guarantee/#cpp)
 
 ## Interaction and authority
 
@@ -110,7 +128,7 @@ refused a changed selected position and an unsupported impedance request
 using the retained installed runtime. Neither request started a Native
 worker. Changes during a live transaction, native Undo/Redo, rendering
 and editor responsiveness all need actual editor runs. The stock PCB
-probe is staged in a separate private configuration. Its four resource
+probe is staged in a separate private configuration. Its six resource
 admission attempts recorded refusals before launch.
 
 1. **PCB.** Use the exact owned placement fixture from the checked move.

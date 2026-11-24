@@ -6,11 +6,13 @@ captures actual selection and unsaved board state, reuses the detached
 checker and uses a native canvas outline for a checked proposal. The
 experimental transaction keeps writes off unless explicitly enabled for
 the owned test. The patch applied in a dry run against the pinned files.
-The approval gate and detached worker refusal controls passed. The native
-patch has yet to compile or run in an editor. The separate read-only PCB
-hosting probe is prepared. The latest admission attempt stopped before
-launch at macOS memory warning level 2 and load 19.26 against the limit of
-8. Both native editor walkthroughs remain open.
+The approval gate, detached worker refusal controls and job-panel syntax
+check passed. The native editor patch awaits a full compile and an actual
+editor run. The separate read-only PCB hosting probe is prepared. The last
+launch check stopped at macOS memory warning level 2, 2.27 GiB available
+RAM and load 37.32 against a limit of 8. The pinned wxWidgets 3.2.8
+development configuration generated the Cocoa headers and Makefile. Its
+library build and both native editor walkthroughs remain open.
 [Architecture and acceptance](docs/native-editor-foundation.md)
 
 **Selection-aware requests verified in the installed workspace.** On the
