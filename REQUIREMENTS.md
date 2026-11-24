@@ -1,5 +1,13 @@
 # Requirements and release gates
 
+**Primary native experience.** The PCB and schematic editor panes, actual
+canvas selection and view-only proposal, and exact native transactions are
+required. The earlier isolated 10.0.8 move and Undo verified the narrower
+companion path. The saved-project workflow is the fallback. Acceptance of
+the native work requires interactive PCB and schematic proofs, stale and
+recovery controls, and independent design preservation checks.
+[Native requirements and current evidence](docs/native-editor-foundation.md)
+
 **Selection-aware local requests.** Installed saved-project controls bind
 local placement wording and follow-ups to the actual selection, area and
 existing-copper policy. The frozen PushButtonLed delivery preserved exact

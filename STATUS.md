@@ -1,5 +1,18 @@
 # Current state
 
+**Native editor foundation prepared at source.** Copperpath has a shared
+pane for the pinned KiCad 10.0.8 PCB and schematic frames. The PCB path
+captures actual selection and unsaved board state, reuses the detached
+checker and uses a native canvas outline for a checked proposal. The
+experimental transaction keeps writes off unless explicitly enabled for
+the owned test. The patch applied in a dry run against the pinned files.
+The approval gate and detached worker refusal controls passed. The native
+patch has yet to compile or run in an editor. The separate read-only PCB
+hosting probe is prepared. The latest admission attempt stopped before
+launch at macOS memory warning level 2 and load 19.26 against the limit of
+8. Both native editor walkthroughs remain open.
+[Architecture and acceptance](docs/native-editor-foundation.md)
+
 **Selection-aware requests verified in the installed workspace.** On the
 frozen licensed PushButtonLed task, two canvas selections and a same-composer
 80-to-90-second revision led to a separately validated design. Independent

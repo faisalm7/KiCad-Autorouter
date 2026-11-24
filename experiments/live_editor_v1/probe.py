@@ -79,6 +79,87 @@ def board_file(editor_bytes):
     return (sexpr.dump(tree) + '\n').encode()
 
 
+def build_move_plan(snapshot, reference, uid, start, target, *, editor_format='clipboard'):
+    """Check one translation after the caller binds the owned document identity."""
+    from autorouter import sexpr
+    from experiments.placement_native_proposal_v1 import contract
+
+    require(type(reference) is str and reference in SELECTION,
+            'Select one of the movable footprints J1 or J2 in KiCad.')
+    require(type(uid) is str and bool(uid), 'Read the selected footprint identity from KiCad.')
+    for point in (start, target):
+        require(type(point) in (list, tuple) and len(point) == 2
+                and all(type(n) is int and abs(n) <= 2_000_000_000 for n in point),
+                'Integer nm footprint positions required.')
+    start, target = list(start), list(target)
+    dx, dy = (end - origin for origin, end in zip(start, target))
+    require((dx == 0) != (dy == 0) and abs(dx) + abs(dy) <= STEP_NM,
+            'Choose one direction and a distance up to 1 mm.')
+    if editor_format == 'clipboard':
+        source = board_file(snapshot['raw'])
+    elif editor_format == 'file':
+        source = snapshot['raw']
+    else:
+        raise ValueError('Unknown KiCad board snapshot format.')
+    options = dict(scope=contract.THT_BASELINE_SCOPE, selected=[uid], region_nm=REGION_NM)
+    observation = contract.inspect_board(source, scope=options['scope'])
+    observed = next((part for part in observation['footprints'] if part['uuid'] == uid), None)
+    if observed is None or observed['reference'] != reference or observed['position_nm'] != start:
+        raise EditorContextChanged('The selected footprint differs from the live PCB. Read selection again.')
+    moves = {uid: target}
+    contract.validate_moves(observation, moves, **options)
+    expected = contract.translated_tree(source, moves, **options)
+    return dict(info=dict(ref=reference, uid=uid, from_nm=start, to_nm=target),
+                snapshot=snapshot, source=source, expected=expected, options=options,
+                candidate=(sexpr.dump(expected) + '\n').encode())
+
+
+def check_move_plan(plan, source_path, run):
+    """Validate an exact plan in detached Native copies and retain its readback."""
+    from autorouter import floor_route, gui, pipeline
+    from autorouter import placement_clearance as pc
+    from autorouter.runner import elapsed_time
+    from experiments.placement_native_proposal_v1 import contract
+
+    output = run / ('native-move-' + uuid.uuid4().hex)
+    deadline = elapsed_time() + 40
+    job = floor_route.FloorJob(output, 40, lambda: deadline - elapsed_time(),
+                               protect_local_settings=True)
+    native = {}
+    for name, raw in [('source', plan['source']), ('move', plan['candidate'])]:
+        board = output / name / source_path.name
+        board.parent.mkdir(mode=0o700)
+        for suffix in ('.kicad_pro', '.kicad_sch'):
+            data = pc.read_bytes(source_path.with_suffix(suffix))
+            require(digest(data) == plan['snapshot']['disk'][suffix], 'Saved inputs changed.')
+            board.with_suffix(suffix).write_bytes(data)
+        board.write_bytes(raw)
+        before = gui.source_inventory(board)
+        result = job.drc(name + '-drc', board, save=False, schematic_parity=True)
+        native[name] = floor_route.check_drc_stage(
+            output, dict(steps=job.steps), name + '-drc', board,
+            output / (name + '-drc-input') / board.name, False, before, schematic_parity=True)
+        require(result == native[name], 'Native report readback differs.')
+    moves = {plan['info']['uid']: plan['info']['to_nm']}
+    contract.check_translation(plan['source'], plan['candidate'], moves, **plan['options'])
+    # The owned board starts with open connections. A move preserves all findings.
+    for key in ('opens', 'blocking', 'warnings', 'exclusions', 'ignored_checks'):
+        require(native['source'][key] == native['move'][key], 'A Native finding count changed.')
+    require(not native['move']['blocking'] and not native['move']['exclusions'],
+            'Native found a blocking violation or excluded finding.')
+    from autorouter import placement
+
+    scope = plan['options']['scope']
+    placement.finding_continuity(native['move'], native['source'],
+        contract.inspect_board(plan['source'], scope=scope), moves, scope)
+    pipeline.save_json(output / 'checked.json', native)
+    findings = native['move']
+    summary = dict(opens=findings['opens'], warnings=findings['warnings'],
+        ignored=len(findings['ignored_checks']),
+        findings=[f.get('description', f['type']) for f in findings['findings']])
+    return summary, output
+
+
 def editor_scene(raw, selected=()):
     from autorouter import placement_view
     from experiments.placement_native_proposal_v1 import contract
@@ -215,9 +296,6 @@ class Session:
         return result
 
     def preview(self, request=None, *, board_view=False):
-        from autorouter import sexpr
-        from experiments.placement_native_proposal_v1 import contract
-
         self.plan = None
         require(not self.apply_disabled, 'A write needs inspection in KiCad before any further test.')
         snapshot = self.snapshot()
@@ -233,23 +311,19 @@ class Session:
             raise EditorContextChanged('The board or selection changed. Read selection in KiCad before previewing.')
         start = [item.position.x, item.position.y]
         target = [coordinate + offset for coordinate, offset in zip(start, requested_offset(request, reference))]
-        options = dict(scope=contract.THT_BASELINE_SCOPE, selected=[uid], region_nm=REGION_NM)
-        source = board_file(snapshot['raw'])
-        observation = contract.inspect_board(source, scope=options['scope'])
-        observed = next((part for part in observation['footprints'] if part['uuid'] == uid), None)
-        if observed is None or observed['reference'] != reference or observed['position_nm'] != start:
-            raise EditorContextChanged('The selected footprint differs from the live PCB. Read selection again.')
-        contract.validate_moves(observation, {uid: target}, **options)
-        expected = contract.translated_tree(source, {uid: target}, **options)
+        plan = build_move_plan(snapshot, reference, uid, start, target)
         if self.snapshot() != snapshot or [part.id.value for part in self.selected()] != [uid]:
             raise EditorContextChanged('The board or selection changed while preparing the move. Read selection again.')
         self.index += 1
-        proposal = dict(id=self.index, ref=reference, uid=uid, from_nm=start, to_nm=target)
-        self.plan = dict(info=proposal, snapshot=snapshot, source=source, expected=expected, options=options,
-                         candidate=(sexpr.dump(expected) + '\n').encode())
+        proposal = plan['info']
+        proposal['id'] = self.index
+        self.plan = plan
         self.write('preview', **proposal, editor_sha256=snapshot['sha256'])
         if board_view:
             from autorouter import placement_view
+            from experiments.placement_native_proposal_v1 import contract
+
+            observation = contract.inspect_board(plan['source'], scope=plan['options']['scope'])
             return dict(proposal, scene=placement_view.scene(observation, {uid: target}, [uid], REGION_NM,
                 title=f'Proposed move · {reference}', state='Preview · check the exact move before applying',
                 protection=(True, (), ())))
@@ -276,47 +350,7 @@ class Session:
         return {}
 
     def native_checks(self, plan):
-        from autorouter import floor_route, gui, pipeline
-        from autorouter import placement_clearance as pc
-        from experiments.placement_native_proposal_v1 import contract
-
-        output = self.run / ('native-move-' + uuid.uuid4().hex)
-        from autorouter.runner import elapsed_time
-        deadline = elapsed_time() + 40
-        job = floor_route.FloorJob(output, 40, lambda: deadline - elapsed_time(),
-                                   protect_local_settings=True)
-        native = {}
-        for name, raw in [('source', plan['source']), ('move', plan['candidate'])]:
-            board = output / name / self.path.name
-            board.parent.mkdir(mode=0o700)
-            for suffix in ('.kicad_pro', '.kicad_sch'):
-                data = pc.read_bytes(self.path.with_suffix(suffix))
-                require(digest(data) == plan['snapshot']['disk'][suffix], 'Saved inputs changed.')
-                board.with_suffix(suffix).write_bytes(data)
-            board.write_bytes(raw)
-            before = gui.source_inventory(board)
-            result = job.drc(name + '-drc', board, save=False, schematic_parity=True)
-            native[name] = floor_route.check_drc_stage(
-                output, dict(steps=job.steps), name + '-drc', board,
-                output / (name + '-drc-input') / board.name, False, before, schematic_parity=True)
-            require(result == native[name], 'Native report readback differs.')
-        contract.check_translation(plan['source'], plan['candidate'],
-                                   {plan['info']['uid']: plan['info']['to_nm']}, **plan['options'])
-        # This test board starts with open connections. Translation must not
-        # create a new open, blocker, exclusion or warning. No routing claim.
-        for key in ('opens', 'blocking', 'warnings', 'exclusions', 'ignored_checks'):
-            require(native['source'][key] == native['move'][key], 'A Native finding count changed.')
-        require(not native['move']['blocking'] and not native['move']['exclusions'],
-                'Native found a blocking violation or excluded finding.')
-        from autorouter import placement
-        placement.finding_continuity(native['move'], native['source'],
-            contract.inspect_board(plan['source'], scope=plan['options']['scope']),
-            {plan['info']['uid']: plan['info']['to_nm']}, plan['options']['scope'])
-        pipeline.save_json(output / 'checked.json', native)
-        findings = native['move']
-        summary = dict(opens=findings['opens'], warnings=findings['warnings'],
-            ignored=len(findings['ignored_checks']),
-            findings=[f.get('description', f['type']) for f in findings['findings']])
+        summary, output = check_move_plan(plan, self.path, self.run)
         self.write('native_checked', **summary, output=output.name)
         return summary
 

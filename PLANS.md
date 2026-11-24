@@ -2,6 +2,25 @@
 
 The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused constrained placement and optional intent assistance share deterministic checks; ordinary controls need no AI. Historical general superiority remains unmet/deferred. One lead, at most two narrow assistants; Native/heavy jobs sequential.
 
+## In-editor foundation
+
+1. **Observe the prepared PCB pane.** The public and pinned internal surfaces
+   have been checked. Use the prepared private stock-editor profile after
+   ordinary admission passes. Confirm the pane belongs to the actual PCB
+   frame, canvas selection updates it and the source files stay exact.
+   Preserve the tested standalone fallback. [Architecture](docs/native-editor-foundation.md)
+2. **Build and qualify the native PCB move.** The pinned source patch,
+   shared validator and scoped transaction are prepared. Stage the local
+   toolchain within the current limits. Qualify the build on the owned PCB
+   with a visible checked preview, explicit approval, preservation,
+   Undo/Redo, changed selection/manual edits, cancellation and worker failure.
+3. **Carry the same host to Eeschema.** Qualify real selection and a checked
+   visible reference-field move on a connected symbol. Verify the active
+   sheet, native Undo/Redo, terminal connectivity and ERC.
+4. **Record the isolated build and walkthrough.** Retain exact source, build
+   and installation identities, real screenshots, measurements and limits.
+   The previous saved-schematic parser work remains a fallback task.
+
 ## Direct, selection-aware request
 
 1. **Reference and checks frozen.** Build on the verified `79be782a6`
@@ -18,7 +37,7 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    explicit edits, stale refusal, refresh and active cancellation. The
    presentation follow-up showed the checked area and saved pad labels at
    laptop sizes. [Measured outcome](evidence/product-direct-conversation-001.json)
-4. **Next focused integration.** Qualify the saved-schematic reader's
+4. **Fallback context follow-up.** Qualify the saved-schematic reader's
    explicit global power form on the two retained designs. Continue into
    active-editor selection only with exact PCB and schematic identity.
    Check that changing selection or saved state expires context without

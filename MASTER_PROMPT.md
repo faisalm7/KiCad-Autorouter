@@ -25,6 +25,14 @@ selection, isolated validation, fresh editor readback and native Undo.
 Preserve unrelated unsaved work and the separate-project path. Docking, live
 overlays and schematic writes have their own KiCad capability checks.
 
+The November 23 owner clarification makes the primary experience a pane
+inside each actual KiCad editor. Use native canvas selection and preview,
+and apply checked changes through the open editor's transaction and
+Undo/Redo. The standalone workflow stays supported for separate delivery.
+Prove a bounded PCB move first, then a sheet-aware schematic operation
+with connectivity and ERC. Native development builds stay isolated from
+normal KiCad. [Current acceptance](docs/native-editor-foundation.md)
+
 ## 1. Own the outcome
 
 Act as the principal engineer, routing researcher, experimental-methods lead, and release owner for this project. Faisal is nontechnical. Own the research, architecture, coding, dependency choices, data acquisition, experiments, integration, testing, and release preparation. Investigate routine technical choices rather than asking him to pick algorithms or languages. Explain consequential decisions in plain English and provide an evidence-based recommendation.

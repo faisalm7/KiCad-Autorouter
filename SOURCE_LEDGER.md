@@ -2,6 +2,20 @@
 
 Prepared October 9, 2026. The master prompt's mechanisms, thresholds, and workflow choices are proposed engineering requirements, not findings established by these sources. Recheck mutable documentation, versions, permissions, and APIs when executing.
 
+## Native editor hosting (November 23, 2026)
+
+The installed KiCad 10.0.8 pins to source commit
+`e432beac2668303194ba2040274f9e5efe773fc0`. Inspection found native wxAUI
+managers and GAL views in both editors. The installed public PCB IPC and
+external action launcher lack an in-editor pane interface. Development
+schematic IPC adds selection and sheet-aware reads. The new source patch
+targets the verified internal frames. It applied in a dry run and awaits
+compilation and real editor tests. The interaction references are documented
+product capabilities and have no direct test in this project.
+[Pinned analysis](docs/native-editor-foundation.md) ·
+[Public add-on API](https://dev-docs.kicad.org/en/apis-and-binding/ipc-api/for-addon-developers/) ·
+[Schematic IPC](https://docs.kicad.org/kicad-python/schematic.html)
+
 ## Robotont battery adapter development repair (November 21, 2026)
 
 The pinned two-layer adapter supplies a complete board, project, schematic,

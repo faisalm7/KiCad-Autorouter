@@ -10,12 +10,14 @@ After each verified milestone, update the active plan and start the highest-valu
 
 The owner's November 5, 2026 strategy makes this a modular local KiCad design assistant: dependable Freerouting-based routing, constrained automatic placement as a core feature, project understanding and an optional conversational copilot. An excellent minimal, responsive KiCad-consistent interface and measured engineer usefulness are product priorities. Follow `docs/product-strategy.md`. Earlier prohibitions on placement/copilot and requirements to beat B1/B2 before other product work are superseded. Historical superiority objectives remain unmet/deferred research, never retroactively achieved.
 
-The November 18 clarification prioritizes a persistent Copperpath companion for
-the active KiCad design, ordinary Auto-place/Auto-route, visible changes and
-schematic assistance. First qualify one scoped live PCB move with native Undo.
-Keep the separate-project workflow supported. Gate live writes, docking,
-overlays and schematic operations on the actual KiCad interfaces and preserve
-unrelated unsaved work.
+The November 23 clarification makes the actual KiCad PCB and schematic
+editors the product's primary workspace. Copperpath needs a pane inside
+each editor, real canvas selection and previews, and approved transactions
+on the current document with native Undo. Keep the tested standalone
+separate-project workflow as a fallback. Qualify a narrow PCB operation
+first, then a sheet-aware schematic operation with connectivity and ERC.
+Preserve unrelated unsaved work. Use desktop automation only to test the
+interface. See [native editor integration](docs/native-editor-foundation.md).
 
 Reuse Freerouting and useful shared B1 corrections/B2 search configurations with attribution. Keep experimental pruning optional. Make deterministic geometry, constraints, file operations and validation the shared core; models may propose intent/plans through bounded typed interfaces, never approve their own changes or gain a separate editing/shell path. Ordinary controls must support the same workflow without AI. Model endpoints, cost and data consent are explicit; no training, spending, large model download or private upload is authorized. Qualify selected/group placement with fixed/region/orientation/side/keepout/connectivity and existing-copper requirements before broader autonomy.
 

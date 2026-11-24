@@ -2,7 +2,24 @@
 
 Build one local KiCad design assistant around the existing engineering core. Routing, constrained placement and an optional copilot share the same inspection, constraints, execution, validation, preview, approval, delivery, progress and cancellation operations. Ordinary graphical controls remain fully usable without AI. This owner-directed revision supersedes the old placement/copilot prohibition and algorithmic-superiority gate; the original routing research ambition is unmet/deferred, not achieved.
 
-## Editor integration — November 18 owner clarification
+## Native editors — November 23 owner clarification
+
+Copperpath's primary workspace lives inside KiCad's PCB and schematic
+editors. A persistent native pane uses the current canvas selection and
+unsaved document. Proposed changes appear on the KiCad canvas. Explicit
+approval applies a checked change to that document through a native
+transaction with verified Undo and Redo. The separate-project workflow
+remains available as a tested fallback.
+
+Start with the bounded component move and the same preservation checks.
+Then qualify a sheet-aware reference-field move with actual connectivity
+and ERC. An isolated native extension may be needed where the public API
+lacks hosting and overlays. Keep optimization, validation and optional
+model inference off the editor thread. Document exact app and tool versions,
+worker limits and upgrade costs before broader deployment.
+[Native architecture and proof criteria](native-editor-foundation.md)
+
+## Earlier companion milestone — November 18
 
 Copperpath should feel like part of the active design. The intended workspace
 keeps a persistent assistant beside the board, offers Auto-place and Auto-route

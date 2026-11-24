@@ -1,8 +1,10 @@
 """Exact readback controls for the owned live-editor qualification."""
+import json
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
 import runpy
 import sys
+import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
@@ -69,6 +71,81 @@ class EditorReadback(unittest.TestCase):
             probe.requested_offset('Move J1 right by 1.000001 mm', 'J1')
         with self.assertRaisesRegex(ValueError, 'Choose a direction'):
             probe.requested_offset('Move it a little', 'J1')
+
+    def test_native_file_and_clipboard_snapshots_build_the_same_move(self):
+        raw = self.fixture_path.read_bytes()
+        observation = contract.inspect_board(raw, scope=contract.THT_BASELINE_SCOPE)
+        row = next(part for part in observation['footprints'] if part['reference'] == 'J1')
+        start = row['position_nm']
+        target = [start[0] + 500_000, start[1]]
+        file_snapshot = dict(raw=raw, sha256=probe.digest(raw), disk={})
+        clipboard = dict(raw=self.snapshot, sha256=probe.digest(self.snapshot), disk={})
+        args = ('J1', row['uuid'], start, target)
+        native = probe.build_move_plan(file_snapshot, *args, editor_format='file')
+        companion = probe.build_move_plan(clipboard, *args)
+        self.assertEqual(native['info'], dict(ref='J1', uid=row['uuid'], from_nm=start, to_nm=target))
+        self.assertEqual(native['options'], companion['options'])
+        self.assertEqual(native['candidate'], companion['candidate'])
+        self.assertIs(native['snapshot'], file_snapshot)
+        with self.assertRaisesRegex(ValueError, 'clipboard footprint headers'):
+            probe.build_move_plan(file_snapshot, *args)
+        with self.assertRaisesRegex(ValueError, 'snapshot format'):
+            probe.build_move_plan(file_snapshot, *args, editor_format='unknown')
+        for invalid_target in ([target[0], target[1] + 1], [start[0] + 1_000_001, start[1]], start):
+            with self.subTest(target=invalid_target), self.assertRaisesRegex(ValueError, 'one direction'):
+                probe.build_move_plan(file_snapshot, 'J1', row['uuid'], start, invalid_target,
+                                      editor_format='file')
+        with self.assertRaisesRegex(probe.EditorContextChanged, 'differs from the live PCB'):
+            probe.build_move_plan(file_snapshot, 'J2', row['uuid'], start, target, editor_format='file')
+
+        tree = contract.read_board(raw)
+        footprint = next(fp for fp in sexpr.children(tree, 'footprint')
+                         if sexpr.unquote(sexpr.one(fp, 'uuid')[1]) == row['uuid'])
+        footprint.append(['locked', 'yes'])
+        locked = self.dump(tree)
+        with self.assertRaisesRegex(ValueError, 'footprint is fixed'):
+            probe.build_move_plan(dict(raw=locked, sha256=probe.digest(locked), disk={}), *args,
+                                  editor_format='file')
+
+    def test_worker_reads_back_both_detached_native_stages(self):
+        from autorouter import floor_route
+
+        raw = self.fixture_path.read_bytes()
+        observation = contract.inspect_board(raw, scope=contract.THT_BASELINE_SCOPE)
+        row = next(part for part in observation['footprints'] if part['reference'] == 'J1')
+        start = row['position_nm']
+        disk = {suffix: probe.digest(self.fixture_path.with_suffix(suffix).read_bytes())
+                for suffix in ('.kicad_pcb', '.kicad_pro', '.kicad_sch')}
+        plan = probe.build_move_plan(dict(raw=raw, sha256=disk['.kicad_pcb'], disk=disk),
+            'J1', row['uuid'], start, [start[0] + 500_000, start[1]], editor_format='file')
+        report = dict(opens=0, blocking=0, warnings=0, exclusions=0, ignored_checks=[], findings=[])
+        job = Mock(steps=[])
+        job.drc.return_value = report
+
+        def detached_job(output, seconds, remaining, *, protect_local_settings):
+            self.assertEqual(seconds, 40)
+            self.assertTrue(protect_local_settings)
+            self.assertGreater(remaining(), 0)
+            output.mkdir(mode=0o700)
+            return job
+
+        with tempfile.TemporaryDirectory() as temp, \
+                patch.object(floor_route, 'FloorJob', side_effect=detached_job), \
+                patch.object(floor_route, 'check_drc_stage', return_value=report) as readback:
+            run = Path(temp).resolve()
+            summary, output = probe.check_move_plan(plan, self.fixture_path, run)
+            self.assertEqual(summary, dict(opens=0, warnings=0, ignored=0, findings=[]))
+            self.assertEqual(json.loads((output / 'checked.json').read_bytes()),
+                             {'source': report, 'move': report})
+            for name, expected in (('source', raw), ('move', plan['candidate'])):
+                board = output / name / self.fixture_path.name
+                self.assertEqual(board.read_bytes(), expected)
+                job.drc.assert_any_call(name + '-drc', board, save=False, schematic_parity=True)
+            self.assertEqual(readback.call_count, 2)
+            stale = dict(plan['snapshot'], disk=dict(disk, **{'.kicad_sch': 'changed'}))
+            with self.assertRaisesRegex(ValueError, 'Saved inputs changed'):
+                probe.check_move_plan(dict(plan, snapshot=stale), self.fixture_path, run)
+            self.assertEqual(job.drc.call_count, 2)
 
     def test_revised_draft_replaces_approval_identity_and_checks_live_state(self):
         session = probe.Session.__new__(probe.Session)
