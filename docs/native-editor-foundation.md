@@ -73,14 +73,24 @@ Use the mac-builder's custom wx branch at
 `0bb586c9a69cc12cd87caef874880293e55d93db`. The official recipe generates
 the Cocoa configuration and `wx-config` from that source. The pinned wx
 source and its eight submodules are present. Configuration passed and
-generated wxWidgets 3.2.8 headers for arm64 and a Makefile. The PCB job
-panel passed a syntax-only compile using those headers. The full pane
-syntax check needs KiCad's generated `config.h`. The next build step uses
-the configured directory with `make -j1 BUILD=debug`, then installs into
-its private prefix. Retain the existing resource admission and disk
-reserve. Make any project-cap change explicit before dispatch.
+generated wxWidgets 3.2.8 headers for arm64 and a Makefile. The next build
+step uses the configured directory with `make -j1 BUILD=debug`, then
+installs into its private prefix. Retain the existing resource admission
+and disk reserve. Make any project-cap change explicit before dispatch.
 [Pinned wx recipe](https://gitlab.com/kicad/packaging/kicad-mac-builder/-/blob/0977c0f44b2f37243c1ecd38ba0c2ae08c8300c6/kicad-mac-builder/wx.cmake) ·
 [Protobuf C++ compatibility](https://protobuf.dev/support/cross-version-runtime-guarantee/#cpp)
+
+The separate compiler-only configuration used the generated wx headers
+and read-only paths to signed libraries for discovery. It added matching
+NNG and unixODBC headers, pinned Abseil source and the existing Python
+framework. KiCad resolved the exact `10.0.8` source tag and generated
+`config.h` and its compiler commands. The shared pane passed a syntax
+check with those inputs. Both complete editor source checks and the
+isolated PCB capture check stopped at the 384 MiB polling guard. The
+actual editor build will use the separately built wxWidgets prefix.
+[NNG v1.11 source](https://github.com/nanomsg/nng/tree/84aa701f42968bf536141a24e826da66963b571a) ·
+[unixODBC 2.3.14 source](https://github.com/lurcher/unixODBC/tree/9a814155d60c44632b23d7b1bb47b17206e21db0) ·
+[CMake project include](https://cmake.org/cmake/help/v3.31/variable/CMAKE_PROJECT_PROJECT-NAME_INCLUDE.html)
 
 ## Interaction and authority
 
@@ -128,7 +138,7 @@ refused a changed selected position and an unsupported impedance request
 using the retained installed runtime. Neither request started a Native
 worker. Changes during a live transaction, native Undo/Redo, rendering
 and editor responsiveness all need actual editor runs. The stock PCB
-probe is staged in a separate private configuration. Its six resource
+probe is staged in a separate private configuration. Its eight resource
 admission attempts recorded refusals before launch.
 
 1. **PCB.** Use the exact owned placement fixture from the checked move.

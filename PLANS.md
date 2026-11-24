@@ -10,10 +10,10 @@ The [November5 strategy](docs/product-strategy.md) governs. Freerouting, reused 
    frame, canvas selection updates it and the source files stay exact.
    Preserve the tested standalone fallback. [Architecture](docs/native-editor-foundation.md)
 2. **Build and qualify the native PCB move.** The pinned source patch,
-   shared validator and scoped transaction are prepared. The isolated
-   configure reaches the custom wxWidgets dependency. Its Cocoa configuration
-   is ready. Build it within measured headroom and resume KiCad configuration
-   from the retained settings. Qualify the build on the owned PCB
+   shared validator and scoped transaction are prepared. KiCad generated its
+   compiler commands and the shared pane passed a syntax check. Build the
+   configured Cocoa wxWidgets library within measured headroom and use it
+   in a fresh KiCad build. Qualify the build on the owned PCB
    with a visible checked preview, explicit approval, preservation,
    Undo/Redo, changed selection/manual edits, cancellation and worker failure.
 3. **Carry the same host to Eeschema.** Qualify real selection and a checked
